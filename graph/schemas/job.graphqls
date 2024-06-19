@@ -1,0 +1,128 @@
+# JobDetail
+type JobDetail {
+  id: ID!
+  YibfNo: Int!
+  Province: String
+  Idare: String
+  Pafta: String
+  Ada: String
+  Parsel: String
+  FolderNo: String
+  Status: Int
+  ContractDate: String
+  StartDate: String
+  LicenseDate: String
+  LicenseNo: String
+  ConstructionArea: String
+  LandArea: String
+  District: String
+  Village: String
+  Street: String
+  BuildingClass: String
+  BuildingType: String
+  BuildingBlock: String
+  Floors: Int
+  Note: String
+  Started: Int
+  UsagePurpose: String
+  Deleted: Int
+  Owner: JobOwner!
+  Contractor: JobContractor!
+  Author: JobAuthor
+  Progress: JobProgress
+  Inspector: CompanyEngineer
+  Static: CompanyEngineer
+  Architect: CompanyEngineer
+  Mechanic: CompanyEngineer
+  Electric: CompanyEngineer
+  Controller: CompanyEngineer
+  MechanicController: CompanyEngineer
+  ElectricController: CompanyEngineer
+  Layer: [JobLayer]
+}
+
+input JobInput {
+  YibfNo: Int
+  Province: String
+  Idare: String
+  Pafta: String
+  Ada: String
+  Parsel: String
+  FolderNo: String
+  Status: Int
+  ContractDate: String
+  StartDate: String
+  LicenseDate: String
+  LicenseNo: String
+  ConstructionArea: String
+  LandArea: String
+  District: String
+  Village: String
+  Street: String
+  BuildingClass: String
+  BuildingType: String
+  BuildingBlock: String
+  Floors: Int
+  Note: String
+  Started: Int
+  UsagePurpose: String
+  Deleted: Int
+  Owner: [JobOwnerInput]
+  Contractor: [JobContractorInput]
+  Author: [JobAuthorInput]
+  Progress: [JobProgressInput]
+}
+
+# Job Author
+type JobAuthor {
+  id: ID!
+  Architect: String
+  Static: String
+  Mechanic: String
+  Electric: String
+  Floor: String
+  Deleted: Int
+}
+
+input JobAuthorInput {
+  Architect: String
+  Static: String
+  Mechanic: String
+  Electric: String
+  Floor: String
+  Deleted: Int
+}
+
+# Job Progress
+type JobProgress {
+  id: ID!
+  One: Int
+  Two: Int
+  Three: Int
+  Four: Int
+  Five: Int
+  Six: Int
+}
+
+input JobProgressInput {
+  One: Int
+  Two: Int
+  Three: Int
+  Four: Int
+  Five: Int
+  Six: Int
+}
+
+extend type Query {
+  job(yibfNo: Int): [JobDetail]! @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  createJob(input: JobInput!): JobDetail! @goField(forceResolver: true) @auth
+
+  updateJob(YibfNo: Int!, input: JobInput!): JobDetail!
+    @goField(forceResolver: true)
+    @auth
+
+  deleteJob(YibfNo: Int!): Boolean! @goField(forceResolver: true) @auth
+}

@@ -1,0 +1,47 @@
+type JobLayer {
+  id: ID!
+  Name: String
+  Metre: String
+  MoldDate: String
+  ConcreteDate: String
+  Samples: Int
+  ConcreteClass: String
+  WeekResult: String
+  MonthResult: String
+  Job: JobDetail
+}
+
+input JobLayerInput {
+  Name: String
+  Metre: String
+  MoldDate: String
+  ConcreteDate: String
+  Samples: Int
+  ConcreteClass: String
+  WeekResult: String
+  MonthResult: String
+  YibfNo: Int
+}
+
+input LayerFilterInput {
+  id: Int
+  yibfNo: Int
+}
+
+extend type Query {
+  layer(filter: LayerFilterInput): [JobLayer!]!
+    @goField(forceResolver: true)
+    @auth
+}
+
+extend type Mutation {
+  createLayer(input: JobLayerInput!): JobLayer!
+    @goField(forceResolver: true)
+    @auth
+
+  updateLayer(id: ID!, input: JobLayerInput!): JobLayer!
+    @goField(forceResolver: true)
+    @auth
+
+  deleteLayer(id: ID!): JobLayer! @goField(forceResolver: true) @auth
+}

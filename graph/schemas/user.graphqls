@@ -1,0 +1,22 @@
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @auth on FIELD_DEFINITION
+
+scalar Any
+
+type User {
+  id: ID!
+  username: String!
+  name: String!
+  email: String!
+  password: String!
+  createdAt: String!
+}
+
+extend type Query {
+  user(id: ID!): User! @goField(forceResolver: true) @auth
+  allUsers: [User!]! @goField(forceResolver: true) @auth
+}

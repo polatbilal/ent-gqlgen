@@ -1,0 +1,36 @@
+type CompanyEngineer {
+  id: ID!
+  Name: String!
+  Address: String
+  Email: String
+  TcNo: Int
+  Phone: String
+  RegNo: Int
+  CertNo: Int
+  Note: String
+  Status: Int
+  Deleted: Int
+  Employment: String
+  Dismissal: String
+  Career: CompanyCareer!
+  Position: CompanyPosition!
+}
+
+type CompanyCareer {
+  id: ID
+  Career: String
+}
+
+type CompanyPosition {
+  id: ID
+  Position: String
+}
+
+input EngineerFilterInput {
+  career: Int
+  position: Int
+}
+
+extend type Query {
+  engineer(filter: EngineerFilterInput): [CompanyEngineer]! @auth
+}

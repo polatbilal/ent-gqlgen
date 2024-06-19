@@ -1,0 +1,21 @@
+type AuthPayload {
+  token: String!
+  userID: ID!
+  username: String!
+  companyCode: String!
+}
+
+type Mutation {
+  register(
+    companyCode: String!
+    username: String!
+    name: String
+    email: String
+    password: String!
+  ): AuthPayload!
+  login(
+    companyCode: String!
+    username: String!
+    password: String!
+  ): AuthPayload!
+}

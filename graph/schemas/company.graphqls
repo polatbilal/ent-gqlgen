@@ -1,0 +1,71 @@
+scalar Date
+
+type CompanyDetail {
+  id: ID!
+  CompanyCode: Int!
+  Name: String!
+  Address: String
+  City: String
+  State: String
+  Phone: String
+  Fax: String
+  Mobile: String
+  Email: String
+  Website: String
+  TaxAdmin: String
+  TaxNo: Int
+  Commerce: String
+  CommerceReg: String
+  VisaDate: Date
+  Deleted: Int
+  Owner: [CompanyOwner!]
+}
+
+type CompanyOwner {
+  id: ID!
+  Name: String
+  Career: String!
+  Position: String!
+  RegisterNo: Int
+  CertNo: Int
+  Deleted: Int
+}
+
+input CompanyDetailInput {
+  Name: String!
+  Address: String
+  City: String
+  State: String
+  Phone: String
+  Fax: String
+  Mobile: String
+  Email: String
+  Website: String
+  TaxAdmin: String
+  TaxNo: Int
+  Commerce: String
+  CommerceReg: String
+  VisaDate: Date
+  Deleted: Int
+  OwnerID: Int
+}
+
+type CompanyOwnerInput {
+  id: ID
+  Name: String
+  Career: Int
+  Position: Int
+  RegisterNo: Int
+  CertNo: Int
+  Deleted: Int
+}
+
+extend type Query {
+  company: [CompanyDetail!]! @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  updateCompany(input: CompanyDetailInput!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
+}
