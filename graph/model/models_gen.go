@@ -9,6 +9,10 @@ type AuthPayload struct {
 	CompanyCode string `json:"companyCode"`
 }
 
+type CompanyCareerInput struct {
+	ID *int `json:"id,omitempty"`
+}
+
 type CompanyDetailInput struct {
 	Name        string  `json:"Name"`
 	Address     *string `json:"Address,omitempty"`
@@ -28,6 +32,23 @@ type CompanyDetailInput struct {
 	OwnerID     *int    `json:"OwnerID,omitempty"`
 }
 
+type CompanyEngineerInput struct {
+	Name       string                `json:"Name"`
+	Address    *string               `json:"Address,omitempty"`
+	Email      *string               `json:"Email,omitempty"`
+	TcNo       *int                  `json:"TcNo,omitempty"`
+	Phone      *string               `json:"Phone,omitempty"`
+	RegNo      *int                  `json:"RegNo,omitempty"`
+	CertNo     *int                  `json:"CertNo,omitempty"`
+	Note       *string               `json:"Note,omitempty"`
+	Status     *int                  `json:"Status,omitempty"`
+	Deleted    *int                  `json:"Deleted,omitempty"`
+	Employment *string               `json:"Employment,omitempty"`
+	Dismissal  *string               `json:"Dismissal,omitempty"`
+	Career     *CompanyCareerInput   `json:"Career"`
+	Position   *CompanyPositionInput `json:"Position"`
+}
+
 type CompanyOwnerInput struct {
 	ID         *string `json:"id,omitempty"`
 	Name       *string `json:"Name,omitempty"`
@@ -36,6 +57,10 @@ type CompanyOwnerInput struct {
 	RegisterNo *int    `json:"RegisterNo,omitempty"`
 	CertNo     *int    `json:"CertNo,omitempty"`
 	Deleted    *int    `json:"Deleted,omitempty"`
+}
+
+type CompanyPositionInput struct {
+	ID *int `json:"id,omitempty"`
 }
 
 type EngineerFilterInput struct {

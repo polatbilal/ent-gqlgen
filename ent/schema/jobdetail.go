@@ -41,17 +41,6 @@ func (JobDetail) Fields() []ent.Field {
 		field.Int("Started").Default(0),
 		field.String("UsagePurpose").Default("").Optional(),
 		field.Int("Deleted").Default(0),
-
-		// field.Int("owner_id"),
-		// field.Int("contractor_id"),
-		// field.Int("author_id"),
-		// field.Int("progress_id"),
-		// field.Int("inspector_id"),
-		// field.Int("architect_id"),
-		// field.Int("static_id"),
-		// field.Int("mechanic_id"),
-		// field.Int("electric_id"),
-
 		field.Time("created_at").Default(time.Now),
 		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
 	}

@@ -18,12 +18,18 @@ import (
 
 // Employment is the resolver for the Employment field.
 func (r *companyEngineerResolver) Employment(ctx context.Context, obj *ent.CompanyEngineer) (*string, error) {
+	if obj.Employment.IsZero() {
+		return nil, nil
+	}
 	employment := obj.Employment.Format("2006-01-02")
 	return &employment, nil
 }
 
 // Dismissal is the resolver for the Dismissal field.
 func (r *companyEngineerResolver) Dismissal(ctx context.Context, obj *ent.CompanyEngineer) (*string, error) {
+	if obj.Dismissal.IsZero() {
+		return nil, nil
+	}
 	dismissal := obj.Dismissal.Format("2006-01-02")
 	return &dismissal, nil
 }
