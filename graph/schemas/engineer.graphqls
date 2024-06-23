@@ -16,6 +16,23 @@ type CompanyEngineer {
   Position: CompanyPosition!
 }
 
+type CompanyEngineerInput {
+  Name: String!
+  Address: String
+  Email: String
+  TcNo: Int
+  Phone: String
+  RegNo: Int
+  CertNo: Int
+  Note: String
+  Status: Int
+  Deleted: Int
+  Employment: String
+  Dismissal: String
+  Career: Int!
+  Position: Int!
+}
+
 type CompanyCareer {
   id: ID
   Career: String

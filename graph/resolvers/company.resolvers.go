@@ -20,6 +20,9 @@ import (
 
 // VisaDate is the resolver for the VisaDate field.
 func (r *companyDetailResolver) VisaDate(ctx context.Context, obj *ent.CompanyDetail) (*string, error) {
+	if obj.VisaDate.IsZero() {
+		return nil, nil
+	}
 	visaDate := obj.VisaDate.Format("2006-01-02")
 	return &visaDate, nil
 }

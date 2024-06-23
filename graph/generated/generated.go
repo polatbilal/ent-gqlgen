@@ -66,10 +66,6 @@ type ComplexityRoot struct {
 		ID     func(childComplexity int) int
 	}
 
-	CompanyCareerInput struct {
-		ID func(childComplexity int) int
-	}
-
 	CompanyDetail struct {
 		Address     func(childComplexity int) int
 		City        func(childComplexity int) int
@@ -149,10 +145,6 @@ type ComplexityRoot struct {
 	CompanyPosition struct {
 		ID       func(childComplexity int) int
 		Position func(childComplexity int) int
-	}
-
-	CompanyPositionInput struct {
-		ID func(childComplexity int) int
 	}
 
 	JobAuthor struct {
@@ -411,13 +403,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CompanyCareer.ID(childComplexity), true
-
-	case "CompanyCareerInput.id":
-		if e.complexity.CompanyCareerInput.ID == nil {
-			break
-		}
-
-		return e.complexity.CompanyCareerInput.ID(childComplexity), true
 
 	case "CompanyDetail.Address":
 		if e.complexity.CompanyDetail.Address == nil {
@@ -859,13 +844,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CompanyPosition.Position(childComplexity), true
-
-	case "CompanyPositionInput.id":
-		if e.complexity.CompanyPositionInput.ID == nil {
-			break
-		}
-
-		return e.complexity.CompanyPositionInput.ID(childComplexity), true
 
 	case "JobAuthor.Architect":
 		if e.complexity.JobAuthor.Architect == nil {
@@ -2010,8 +1988,8 @@ type CompanyEngineerInput {
   Deleted: Int
   Employment: String
   Dismissal: String
-  Career: CompanyCareerInput!
-  Position: CompanyPositionInput!
+  Career: Int!
+  Position: Int!
 }
 
 type CompanyCareer {
@@ -2022,14 +2000,6 @@ type CompanyCareer {
 type CompanyPosition {
   id: ID
   Position: String
-}
-
-type CompanyCareerInput {
-  id: Int
-}
-
-type CompanyPositionInput {
-  id: Int
 }
 
 input EngineerFilterInput {
@@ -2114,14 +2084,14 @@ input JobInput {
   Contractor: [JobContractorInput]
   Author: [JobAuthorInput]
   Progress: [JobProgressInput]
-  # Inspector: [CompanyEngineerInput]
-  # Static: [CompanyEngineerInput]
-  # Architect: [CompanyEngineerInput]
-  # Mechanic: [CompanyEngineerInput]
-  # Electric: [CompanyEngineerInput]
-  # Controller: [CompanyEngineerInput]
-  # MechanicController: [CompanyEngineerInput]
-  # ElectricController: [CompanyEngineerInput]
+  Inspector: Int
+  Static: Int
+  Architect: Int
+  Mechanic: Int
+  Electric: Int
+  Controller: Int
+  MechanicController: Int
+  ElectricController: Int
 }
 
 # Job Author
@@ -2947,47 +2917,6 @@ func (ec *executionContext) fieldContext_CompanyCareer_Career(_ context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyCareerInput_id(ctx context.Context, field graphql.CollectedField, obj *model.CompanyCareerInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyCareerInput_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyCareerInput_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyCareerInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -4916,9 +4845,9 @@ func (ec *executionContext) _CompanyEngineerInput_Career(ctx context.Context, fi
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.CompanyCareerInput)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNCompanyCareerInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐCompanyCareerInput(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineerInput_Career(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -4928,11 +4857,7 @@ func (ec *executionContext) fieldContext_CompanyEngineerInput_Career(_ context.C
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyCareerInput_id(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyCareerInput", field.Name)
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -4964,9 +4889,9 @@ func (ec *executionContext) _CompanyEngineerInput_Position(ctx context.Context, 
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.CompanyPositionInput)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNCompanyPositionInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐCompanyPositionInput(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineerInput_Position(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -4976,11 +4901,7 @@ func (ec *executionContext) fieldContext_CompanyEngineerInput_Position(_ context
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyPositionInput_id(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyPositionInput", field.Name)
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -5646,47 +5567,6 @@ func (ec *executionContext) fieldContext_CompanyPosition_Position(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyPositionInput_id(ctx context.Context, field graphql.CollectedField, obj *model.CompanyPositionInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyPositionInput_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyPositionInput_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyPositionInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -14203,7 +14083,7 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj inte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "Province", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Deleted", "Owner", "Contractor", "Author", "Progress"}
+	fieldsInOrder := [...]string{"YibfNo", "Province", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Deleted", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14413,6 +14293,62 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj inte
 				return it, err
 			}
 			it.Progress = data
+		case "Inspector":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Inspector"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Inspector = data
+		case "Static":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Static"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Static = data
+		case "Architect":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Architect"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Architect = data
+		case "Mechanic":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Mechanic"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Mechanic = data
+		case "Electric":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Electric"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Electric = data
+		case "Controller":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Controller"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Controller = data
+		case "MechanicController":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("MechanicController"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MechanicController = data
+		case "ElectricController":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ElectricController"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ElectricController = data
 		}
 	}
 
@@ -14758,42 +14694,6 @@ func (ec *executionContext) _CompanyCareer(ctx context.Context, sel ast.Selectio
 			out.Values[i] = ec._CompanyCareer_id(ctx, field, obj)
 		case "Career":
 			out.Values[i] = ec._CompanyCareer_Career(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var companyCareerInputImplementors = []string{"CompanyCareerInput"}
-
-func (ec *executionContext) _CompanyCareerInput(ctx context.Context, sel ast.SelectionSet, obj *model.CompanyCareerInput) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, companyCareerInputImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("CompanyCareerInput")
-		case "id":
-			out.Values[i] = ec._CompanyCareerInput_id(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -15411,42 +15311,6 @@ func (ec *executionContext) _CompanyPosition(ctx context.Context, sel ast.Select
 			out.Values[i] = ec._CompanyPosition_id(ctx, field, obj)
 		case "Position":
 			out.Values[i] = ec._CompanyPosition_Position(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var companyPositionInputImplementors = []string{"CompanyPositionInput"}
-
-func (ec *executionContext) _CompanyPositionInput(ctx context.Context, sel ast.SelectionSet, obj *model.CompanyPositionInput) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, companyPositionInputImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("CompanyPositionInput")
-		case "id":
-			out.Values[i] = ec._CompanyPositionInput_id(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -17281,16 +17145,6 @@ func (ec *executionContext) marshalNCompanyCareer2ᚖgqlgenᚑentᚋentᚐCompan
 	return ec._CompanyCareer(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNCompanyCareerInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐCompanyCareerInput(ctx context.Context, sel ast.SelectionSet, v *model.CompanyCareerInput) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._CompanyCareerInput(ctx, sel, v)
-}
-
 func (ec *executionContext) marshalNCompanyDetail2gqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v ent.CompanyDetail) graphql.Marshaler {
 	return ec._CompanyDetail(ctx, sel, &v)
 }
@@ -17414,16 +17268,6 @@ func (ec *executionContext) marshalNCompanyPosition2ᚖgqlgenᚑentᚋentᚐComp
 		return graphql.Null
 	}
 	return ec._CompanyPosition(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNCompanyPositionInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐCompanyPositionInput(ctx context.Context, sel ast.SelectionSet, v *model.CompanyPositionInput) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._CompanyPositionInput(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNID2int(ctx context.Context, v interface{}) (int, error) {

@@ -20,12 +20,18 @@ import (
 
 // MoldDate is the resolver for the MoldDate field.
 func (r *jobLayerResolver) MoldDate(ctx context.Context, obj *ent.JobLayer) (*string, error) {
+	if obj.MoldDate.IsZero() {
+		return nil, nil
+	}
 	moldDate := obj.MoldDate.Format("2006-01-02")
 	return &moldDate, nil
 }
 
 // ConcreteDate is the resolver for the ConcreteDate field.
 func (r *jobLayerResolver) ConcreteDate(ctx context.Context, obj *ent.JobLayer) (*string, error) {
+	if obj.ConcreteDate.IsZero() {
+		return nil, nil
+	}
 	concreteDate := obj.ConcreteDate.Format("2006-01-02")
 	return &concreteDate, nil
 }

@@ -71,6 +71,14 @@ input JobInput {
   Contractor: [JobContractorInput]
   Author: [JobAuthorInput]
   Progress: [JobProgressInput]
+  Inspector: Int
+  Static: Int
+  Architect: Int
+  Mechanic: Int
+  Electric: Int
+  Controller: Int
+  MechanicController: Int
+  ElectricController: Int
 }
 
 # Job Author

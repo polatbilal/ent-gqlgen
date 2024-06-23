@@ -22,18 +22,27 @@ import (
 
 // ContractDate is the resolver for the ContractDate field.
 func (r *jobDetailResolver) ContractDate(ctx context.Context, obj *ent.JobDetail) (*string, error) {
+	if obj.ContractDate.IsZero() {
+		return nil, nil
+	}
 	contractDate := obj.ContractDate.Format("2006-01-02")
 	return &contractDate, nil
 }
 
 // StartDate is the resolver for the StartDate field.
 func (r *jobDetailResolver) StartDate(ctx context.Context, obj *ent.JobDetail) (*string, error) {
+	if obj.StartDate.IsZero() {
+		return nil, nil
+	}
 	startDate := obj.StartDate.Format("2006-01-02")
 	return &startDate, nil
 }
 
 // LicenseDate is the resolver for the LicenseDate field.
 func (r *jobDetailResolver) LicenseDate(ctx context.Context, obj *ent.JobDetail) (*string, error) {
+	if obj.LicenseDate.IsZero() {
+		return nil, nil
+	}
 	licenseDate := obj.LicenseDate.Format("2006-01-02")
 	return &licenseDate, nil
 }
@@ -109,6 +118,14 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableNote(input.Note).
 		SetNillableStarted(input.Started).
 		SetNillableUsagePurpose(input.UsagePurpose).
+		SetNillableInspectorID(input.Inspector).
+		SetNillableStaticID(input.Static).
+		SetNillableArchitectID(input.Architect).
+		SetNillableMechanicID(input.Mechanic).
+		SetNillableElectricID(input.Electric).
+		SetNillableControllerID(input.Controller).
+		SetNillableMechaniccontrollerID(input.MechanicController).
+		SetNillableElectriccontrollerID(input.ElectricController).
 		Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("iş ayrıntısı oluşturulamadı: %v", err)
@@ -244,6 +261,14 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		SetNillableNote(input.Note).
 		SetNillableStarted(input.Started).
 		SetNillableUsagePurpose(input.UsagePurpose).
+		SetNillableInspectorID(input.Inspector).
+		SetNillableStaticID(input.Static).
+		SetNillableArchitectID(input.Architect).
+		SetNillableMechanicID(input.Mechanic).
+		SetNillableElectricID(input.Electric).
+		SetNillableControllerID(input.Controller).
+		SetNillableMechaniccontrollerID(input.MechanicController).
+		SetNillableElectriccontrollerID(input.ElectricController).
 		Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("iş ayrıntısı güncellenemedi: %v", err)
