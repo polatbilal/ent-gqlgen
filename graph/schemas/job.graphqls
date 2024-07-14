@@ -26,8 +26,8 @@ type JobDetail {
   Started: Int
   UsagePurpose: String
   Deleted: Int
-  Owner: JobOwner!
-  Contractor: JobContractor!
+  Owner: JobOwner
+  Contractor: JobContractor
   Author: JobAuthor
   Progress: JobProgress
   Inspector: CompanyEngineer

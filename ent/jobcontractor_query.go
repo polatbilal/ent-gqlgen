@@ -19,11 +19,14 @@ import (
 // JobContractorQuery is the builder for querying JobContractor entities.
 type JobContractorQuery struct {
 	config
-	ctx             *QueryContext
-	order           []jobcontractor.OrderOption
-	inters          []Interceptor
-	predicates      []predicate.JobContractor
-	withContractors *JobDetailQuery
+	ctx                  *QueryContext
+	order                []jobcontractor.OrderOption
+	inters               []Interceptor
+	predicates           []predicate.JobContractor
+	withContractors      *JobDetailQuery
+	modifiers            []func(*sql.Selector)
+	loadTotal            []func(context.Context, []*JobContractor) error
+	withNamedContractors map[string]*JobDetailQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -383,6 +386,9 @@ func (jcq *JobContractorQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(jcq.modifiers) > 0 {
+		_spec.Modifiers = jcq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -396,6 +402,18 @@ func (jcq *JobContractorQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		if err := jcq.loadContractors(ctx, query, nodes,
 			func(n *JobContractor) { n.Edges.Contractors = []*JobDetail{} },
 			func(n *JobContractor, e *JobDetail) { n.Edges.Contractors = append(n.Edges.Contractors, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range jcq.withNamedContractors {
+		if err := jcq.loadContractors(ctx, query, nodes,
+			func(n *JobContractor) { n.appendNamedContractors(name) },
+			func(n *JobContractor, e *JobDetail) { n.appendNamedContractors(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range jcq.loadTotal {
+		if err := jcq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -436,6 +454,9 @@ func (jcq *JobContractorQuery) loadContractors(ctx context.Context, query *JobDe
 
 func (jcq *JobContractorQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jcq.querySpec()
+	if len(jcq.modifiers) > 0 {
+		_spec.Modifiers = jcq.modifiers
+	}
 	_spec.Node.Columns = jcq.ctx.Fields
 	if len(jcq.ctx.Fields) > 0 {
 		_spec.Unique = jcq.ctx.Unique != nil && *jcq.ctx.Unique
@@ -513,6 +534,20 @@ func (jcq *JobContractorQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
+}
+
+// WithNamedContractors tells the query-builder to eager-load the nodes that are connected to the "contractors"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (jcq *JobContractorQuery) WithNamedContractors(name string, opts ...func(*JobDetailQuery)) *JobContractorQuery {
+	query := (&JobDetailClient{config: jcq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if jcq.withNamedContractors == nil {
+		jcq.withNamedContractors = make(map[string]*JobDetailQuery)
+	}
+	jcq.withNamedContractors[name] = query
+	return jcq
 }
 
 // JobContractorGroupBy is the group-by builder for JobContractor entities.

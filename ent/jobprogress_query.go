@@ -19,11 +19,14 @@ import (
 // JobProgressQuery is the builder for querying JobProgress entities.
 type JobProgressQuery struct {
 	config
-	ctx          *QueryContext
-	order        []jobprogress.OrderOption
-	inters       []Interceptor
-	predicates   []predicate.JobProgress
-	withProgress *JobDetailQuery
+	ctx               *QueryContext
+	order             []jobprogress.OrderOption
+	inters            []Interceptor
+	predicates        []predicate.JobProgress
+	withProgress      *JobDetailQuery
+	modifiers         []func(*sql.Selector)
+	loadTotal         []func(context.Context, []*JobProgress) error
+	withNamedProgress map[string]*JobDetailQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -383,6 +386,9 @@ func (jpq *JobProgressQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(jpq.modifiers) > 0 {
+		_spec.Modifiers = jpq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -396,6 +402,18 @@ func (jpq *JobProgressQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		if err := jpq.loadProgress(ctx, query, nodes,
 			func(n *JobProgress) { n.Edges.Progress = []*JobDetail{} },
 			func(n *JobProgress, e *JobDetail) { n.Edges.Progress = append(n.Edges.Progress, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range jpq.withNamedProgress {
+		if err := jpq.loadProgress(ctx, query, nodes,
+			func(n *JobProgress) { n.appendNamedProgress(name) },
+			func(n *JobProgress, e *JobDetail) { n.appendNamedProgress(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range jpq.loadTotal {
+		if err := jpq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -436,6 +454,9 @@ func (jpq *JobProgressQuery) loadProgress(ctx context.Context, query *JobDetailQ
 
 func (jpq *JobProgressQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jpq.querySpec()
+	if len(jpq.modifiers) > 0 {
+		_spec.Modifiers = jpq.modifiers
+	}
 	_spec.Node.Columns = jpq.ctx.Fields
 	if len(jpq.ctx.Fields) > 0 {
 		_spec.Unique = jpq.ctx.Unique != nil && *jpq.ctx.Unique
@@ -513,6 +534,20 @@ func (jpq *JobProgressQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
+}
+
+// WithNamedProgress tells the query-builder to eager-load the nodes that are connected to the "progress"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (jpq *JobProgressQuery) WithNamedProgress(name string, opts ...func(*JobDetailQuery)) *JobProgressQuery {
+	query := (&JobDetailClient{config: jpq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if jpq.withNamedProgress == nil {
+		jpq.withNamedProgress = make(map[string]*JobDetailQuery)
+	}
+	jpq.withNamedProgress[name] = query
+	return jpq
 }
 
 // JobProgressGroupBy is the group-by builder for JobProgress entities.

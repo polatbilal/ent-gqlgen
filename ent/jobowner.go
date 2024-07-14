@@ -52,6 +52,10 @@ type JobOwnerEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
+	// totalCount holds the count of the edges above.
+	totalCount [1]map[string]int
+
+	namedOwners map[string][]*JobDetail
 }
 
 // OwnersOrErr returns the Owners value or an error if the edge
@@ -236,6 +240,30 @@ func (jo *JobOwner) String() string {
 	builder.WriteString(jo.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedOwners returns the Owners named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (jo *JobOwner) NamedOwners(name string) ([]*JobDetail, error) {
+	if jo.Edges.namedOwners == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := jo.Edges.namedOwners[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (jo *JobOwner) appendNamedOwners(name string, edges ...*JobDetail) {
+	if jo.Edges.namedOwners == nil {
+		jo.Edges.namedOwners = make(map[string][]*JobDetail)
+	}
+	if len(edges) == 0 {
+		jo.Edges.namedOwners[name] = []*JobDetail{}
+	} else {
+		jo.Edges.namedOwners[name] = append(jo.Edges.namedOwners[name], edges...)
+	}
 }
 
 // JobOwners is a parsable slice of JobOwner.

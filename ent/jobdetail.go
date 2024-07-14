@@ -125,6 +125,10 @@ type JobDetailEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [13]bool
+	// totalCount holds the count of the edges above.
+	totalCount [13]map[string]int
+
+	namedLayers map[string][]*JobLayer
 }
 
 // OwnerOrErr returns the Owner value or an error if the edge
@@ -753,6 +757,30 @@ func (jd *JobDetail) String() string {
 	builder.WriteString(jd.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedLayers returns the Layers named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (jd *JobDetail) NamedLayers(name string) ([]*JobLayer, error) {
+	if jd.Edges.namedLayers == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := jd.Edges.namedLayers[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (jd *JobDetail) appendNamedLayers(name string, edges ...*JobLayer) {
+	if jd.Edges.namedLayers == nil {
+		jd.Edges.namedLayers = make(map[string][]*JobLayer)
+	}
+	if len(edges) == 0 {
+		jd.Edges.namedLayers[name] = []*JobLayer{}
+	} else {
+		jd.Edges.namedLayers[name] = append(jd.Edges.namedLayers[name], edges...)
+	}
 }
 
 // JobDetails is a parsable slice of JobDetail.

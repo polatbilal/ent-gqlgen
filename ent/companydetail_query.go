@@ -24,6 +24,8 @@ type CompanyDetailQuery struct {
 	predicates       []predicate.CompanyDetail
 	withCompanyOwner *CompanyEngineerQuery
 	withFKs          bool
+	modifiers        []func(*sql.Selector)
+	loadTotal        []func(context.Context, []*CompanyDetail) error
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -390,6 +392,9 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(cdq.modifiers) > 0 {
+		_spec.Modifiers = cdq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -402,6 +407,11 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	if query := cdq.withCompanyOwner; query != nil {
 		if err := cdq.loadCompanyOwner(ctx, query, nodes, nil,
 			func(n *CompanyDetail, e *CompanyEngineer) { n.Edges.CompanyOwner = e }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range cdq.loadTotal {
+		if err := cdq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -443,6 +453,9 @@ func (cdq *CompanyDetailQuery) loadCompanyOwner(ctx context.Context, query *Comp
 
 func (cdq *CompanyDetailQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := cdq.querySpec()
+	if len(cdq.modifiers) > 0 {
+		_spec.Modifiers = cdq.modifiers
+	}
 	_spec.Node.Columns = cdq.ctx.Fields
 	if len(cdq.ctx.Fields) > 0 {
 		_spec.Unique = cdq.ctx.Unique != nil && *cdq.ctx.Unique

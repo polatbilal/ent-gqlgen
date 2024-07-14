@@ -19,11 +19,14 @@ import (
 // CompanyPositionQuery is the builder for querying CompanyPosition entities.
 type CompanyPositionQuery struct {
 	config
-	ctx                   *QueryContext
-	order                 []companyposition.OrderOption
-	inters                []Interceptor
-	predicates            []predicate.CompanyPosition
-	withEngineerPositions *CompanyEngineerQuery
+	ctx                        *QueryContext
+	order                      []companyposition.OrderOption
+	inters                     []Interceptor
+	predicates                 []predicate.CompanyPosition
+	withEngineerPositions      *CompanyEngineerQuery
+	modifiers                  []func(*sql.Selector)
+	loadTotal                  []func(context.Context, []*CompanyPosition) error
+	withNamedEngineerPositions map[string]*CompanyEngineerQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -383,6 +386,9 @@ func (cpq *CompanyPositionQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(cpq.modifiers) > 0 {
+		_spec.Modifiers = cpq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -398,6 +404,18 @@ func (cpq *CompanyPositionQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			func(n *CompanyPosition, e *CompanyEngineer) {
 				n.Edges.EngineerPositions = append(n.Edges.EngineerPositions, e)
 			}); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range cpq.withNamedEngineerPositions {
+		if err := cpq.loadEngineerPositions(ctx, query, nodes,
+			func(n *CompanyPosition) { n.appendNamedEngineerPositions(name) },
+			func(n *CompanyPosition, e *CompanyEngineer) { n.appendNamedEngineerPositions(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range cpq.loadTotal {
+		if err := cpq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -438,6 +456,9 @@ func (cpq *CompanyPositionQuery) loadEngineerPositions(ctx context.Context, quer
 
 func (cpq *CompanyPositionQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := cpq.querySpec()
+	if len(cpq.modifiers) > 0 {
+		_spec.Modifiers = cpq.modifiers
+	}
 	_spec.Node.Columns = cpq.ctx.Fields
 	if len(cpq.ctx.Fields) > 0 {
 		_spec.Unique = cpq.ctx.Unique != nil && *cpq.ctx.Unique
@@ -515,6 +536,20 @@ func (cpq *CompanyPositionQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
+}
+
+// WithNamedEngineerPositions tells the query-builder to eager-load the nodes that are connected to the "engineerPositions"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (cpq *CompanyPositionQuery) WithNamedEngineerPositions(name string, opts ...func(*CompanyEngineerQuery)) *CompanyPositionQuery {
+	query := (&CompanyEngineerClient{config: cpq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if cpq.withNamedEngineerPositions == nil {
+		cpq.withNamedEngineerPositions = make(map[string]*CompanyEngineerQuery)
+	}
+	cpq.withNamedEngineerPositions[name] = query
+	return cpq
 }
 
 // CompanyPositionGroupBy is the group-by builder for CompanyPosition entities.

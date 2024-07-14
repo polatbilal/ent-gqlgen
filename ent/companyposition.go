@@ -31,6 +31,10 @@ type CompanyPositionEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
+	// totalCount holds the count of the edges above.
+	totalCount [1]map[string]int
+
+	namedEngineerPositions map[string][]*CompanyEngineer
 }
 
 // EngineerPositionsOrErr returns the EngineerPositions value or an error if the edge
@@ -123,6 +127,30 @@ func (cp *CompanyPosition) String() string {
 	builder.WriteString(cp.Position)
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedEngineerPositions returns the EngineerPositions named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (cp *CompanyPosition) NamedEngineerPositions(name string) ([]*CompanyEngineer, error) {
+	if cp.Edges.namedEngineerPositions == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := cp.Edges.namedEngineerPositions[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (cp *CompanyPosition) appendNamedEngineerPositions(name string, edges ...*CompanyEngineer) {
+	if cp.Edges.namedEngineerPositions == nil {
+		cp.Edges.namedEngineerPositions = make(map[string][]*CompanyEngineer)
+	}
+	if len(edges) == 0 {
+		cp.Edges.namedEngineerPositions[name] = []*CompanyEngineer{}
+	} else {
+		cp.Edges.namedEngineerPositions[name] = append(cp.Edges.namedEngineerPositions[name], edges...)
+	}
 }
 
 // CompanyPositions is a parsable slice of CompanyPosition.

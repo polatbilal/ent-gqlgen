@@ -47,66 +47,6 @@ func (r *jobDetailResolver) LicenseDate(ctx context.Context, obj *ent.JobDetail)
 	return &licenseDate, nil
 }
 
-// Owner is the resolver for the Owner field.
-func (r *jobDetailResolver) Owner(ctx context.Context, obj *ent.JobDetail) (*ent.JobOwner, error) {
-	panic(fmt.Errorf("not implemented: Owner - Owner"))
-}
-
-// Contractor is the resolver for the Contractor field.
-func (r *jobDetailResolver) Contractor(ctx context.Context, obj *ent.JobDetail) (*ent.JobContractor, error) {
-	panic(fmt.Errorf("not implemented: Contractor - Contractor"))
-}
-
-// Author is the resolver for the Author field.
-func (r *jobDetailResolver) Author(ctx context.Context, obj *ent.JobDetail) (*ent.JobAuthor, error) {
-	panic(fmt.Errorf("not implemented: Author - Author"))
-}
-
-// Progress is the resolver for the Progress field.
-func (r *jobDetailResolver) Progress(ctx context.Context, obj *ent.JobDetail) (*ent.JobProgress, error) {
-	panic(fmt.Errorf("not implemented: Progress - Progress"))
-}
-
-// Inspector is the resolver for the Inspector field.
-func (r *jobDetailResolver) Inspector(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
-	panic(fmt.Errorf("not implemented: Inspector - Inspector"))
-}
-
-// Static is the resolver for the Static field.
-func (r *jobDetailResolver) Static(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
-	panic(fmt.Errorf("not implemented: Static - Static"))
-}
-
-// Architect is the resolver for the Architect field.
-func (r *jobDetailResolver) Architect(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
-	panic(fmt.Errorf("not implemented: Architect - Architect"))
-}
-
-// Mechanic is the resolver for the Mechanic field.
-func (r *jobDetailResolver) Mechanic(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
-	panic(fmt.Errorf("not implemented: Mechanic - Mechanic"))
-}
-
-// Electric is the resolver for the Electric field.
-func (r *jobDetailResolver) Electric(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
-	panic(fmt.Errorf("not implemented: Electric - Electric"))
-}
-
-// Controller is the resolver for the Controller field.
-func (r *jobDetailResolver) Controller(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
-	panic(fmt.Errorf("not implemented: Controller - Controller"))
-}
-
-// MechanicController is the resolver for the MechanicController field.
-func (r *jobDetailResolver) MechanicController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
-	panic(fmt.Errorf("not implemented: MechanicController - MechanicController"))
-}
-
-// ElectricController is the resolver for the ElectricController field.
-func (r *jobDetailResolver) ElectricController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
-	panic(fmt.Errorf("not implemented: ElectricController - ElectricController"))
-}
-
 // Layer is the resolver for the Layer field.
 func (r *jobDetailResolver) Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error) {
 	client := middlewares.GetClientFromContext(ctx)

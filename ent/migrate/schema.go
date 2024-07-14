@@ -67,7 +67,7 @@ var (
 		{Name: "reg_no", Type: field.TypeInt, Nullable: true},
 		{Name: "cert_no", Type: field.TypeInt, Nullable: true},
 		{Name: "note", Type: field.TypeString, Nullable: true},
-		{Name: "status", Type: field.TypeInt, Default: 0},
+		{Name: "status", Type: field.TypeInt, Default: 1},
 		{Name: "deleted", Type: field.TypeInt, Default: 0},
 		{Name: "employment", Type: field.TypeTime, Nullable: true},
 		{Name: "dismissal", Type: field.TypeTime, Nullable: true},

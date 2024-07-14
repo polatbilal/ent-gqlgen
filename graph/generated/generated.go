@@ -164,7 +164,7 @@ type ComplexityRoot struct {
 		Deleted            func(childComplexity int) int
 		District           func(childComplexity int) int
 		Electric           func(childComplexity int) int
-		ElectricController func(childComplexity int) int
+		Electriccontroller func(childComplexity int) int
 		Floors             func(childComplexity int) int
 		FolderNo           func(childComplexity int) int
 		ID                 func(childComplexity int) int
@@ -175,7 +175,7 @@ type ComplexityRoot struct {
 		LicenseDate        func(childComplexity int) int
 		LicenseNo          func(childComplexity int) int
 		Mechanic           func(childComplexity int) int
-		MechanicController func(childComplexity int) int
+		Mechaniccontroller func(childComplexity int) int
 		Note               func(childComplexity int) int
 		Owner              func(childComplexity int) int
 		Pafta              func(childComplexity int) int
@@ -281,18 +281,6 @@ type JobDetailResolver interface {
 	StartDate(ctx context.Context, obj *ent.JobDetail) (*string, error)
 	LicenseDate(ctx context.Context, obj *ent.JobDetail) (*string, error)
 
-	Owner(ctx context.Context, obj *ent.JobDetail) (*ent.JobOwner, error)
-	Contractor(ctx context.Context, obj *ent.JobDetail) (*ent.JobContractor, error)
-	Author(ctx context.Context, obj *ent.JobDetail) (*ent.JobAuthor, error)
-	Progress(ctx context.Context, obj *ent.JobDetail) (*ent.JobProgress, error)
-	Inspector(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Static(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Architect(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Mechanic(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Electric(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Controller(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	MechanicController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	ElectricController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
 	Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error)
 }
 type JobLayerResolver interface {
@@ -952,11 +940,11 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		return e.complexity.JobDetail.Electric(childComplexity), true
 
 	case "JobDetail.ElectricController":
-		if e.complexity.JobDetail.ElectricController == nil {
+		if e.complexity.JobDetail.Electriccontroller == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.ElectricController(childComplexity), true
+		return e.complexity.JobDetail.Electriccontroller(childComplexity), true
 
 	case "JobDetail.Floors":
 		if e.complexity.JobDetail.Floors == nil {
@@ -1029,11 +1017,11 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		return e.complexity.JobDetail.Mechanic(childComplexity), true
 
 	case "JobDetail.MechanicController":
-		if e.complexity.JobDetail.MechanicController == nil {
+		if e.complexity.JobDetail.Mechaniccontroller == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.MechanicController(childComplexity), true
+		return e.complexity.JobDetail.Mechaniccontroller(childComplexity), true
 
 	case "JobDetail.Note":
 		if e.complexity.JobDetail.Note == nil {
@@ -1928,8 +1916,8 @@ type JobDetail {
   Started: Int
   UsagePurpose: String
   Deleted: Int
-  Owner: JobOwner!
-  Contractor: JobContractor!
+  Owner: JobOwner
+  Contractor: JobContractor
   Author: JobAuthor
   Progress: JobProgress
   Inspector: CompanyEngineer
@@ -6724,21 +6712,18 @@ func (ec *executionContext) _JobDetail_Owner(ctx context.Context, field graphql.
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Owner(rctx, obj)
+		return obj.Owner(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
 	res := resTmp.(*ent.JobOwner)
 	fc.Result = res
-	return ec.marshalNJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
+	return ec.marshalOJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Owner(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6746,7 +6731,7 @@ func (ec *executionContext) fieldContext_JobDetail_Owner(_ context.Context, fiel
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -6790,21 +6775,18 @@ func (ec *executionContext) _JobDetail_Contractor(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Contractor(rctx, obj)
+		return obj.Contractor(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
 	res := resTmp.(*ent.JobContractor)
 	fc.Result = res
-	return ec.marshalNJobContractor2ᚖgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
+	return ec.marshalOJobContractor2ᚖgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Contractor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6812,7 +6794,7 @@ func (ec *executionContext) fieldContext_JobDetail_Contractor(_ context.Context,
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -6858,7 +6840,7 @@ func (ec *executionContext) _JobDetail_Author(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Author(rctx, obj)
+		return obj.Author(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6877,7 +6859,7 @@ func (ec *executionContext) fieldContext_JobDetail_Author(_ context.Context, fie
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -6915,7 +6897,7 @@ func (ec *executionContext) _JobDetail_Progress(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Progress(rctx, obj)
+		return obj.Progress(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6934,7 +6916,7 @@ func (ec *executionContext) fieldContext_JobDetail_Progress(_ context.Context, f
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -6972,7 +6954,7 @@ func (ec *executionContext) _JobDetail_Inspector(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Inspector(rctx, obj)
+		return obj.Inspector(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6991,7 +6973,7 @@ func (ec *executionContext) fieldContext_JobDetail_Inspector(_ context.Context, 
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7045,7 +7027,7 @@ func (ec *executionContext) _JobDetail_Static(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Static(rctx, obj)
+		return obj.Static(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7064,7 +7046,7 @@ func (ec *executionContext) fieldContext_JobDetail_Static(_ context.Context, fie
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7118,7 +7100,7 @@ func (ec *executionContext) _JobDetail_Architect(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Architect(rctx, obj)
+		return obj.Architect(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7137,7 +7119,7 @@ func (ec *executionContext) fieldContext_JobDetail_Architect(_ context.Context, 
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7191,7 +7173,7 @@ func (ec *executionContext) _JobDetail_Mechanic(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Mechanic(rctx, obj)
+		return obj.Mechanic(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7210,7 +7192,7 @@ func (ec *executionContext) fieldContext_JobDetail_Mechanic(_ context.Context, f
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7264,7 +7246,7 @@ func (ec *executionContext) _JobDetail_Electric(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Electric(rctx, obj)
+		return obj.Electric(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7283,7 +7265,7 @@ func (ec *executionContext) fieldContext_JobDetail_Electric(_ context.Context, f
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7337,7 +7319,7 @@ func (ec *executionContext) _JobDetail_Controller(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Controller(rctx, obj)
+		return obj.Controller(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7356,7 +7338,7 @@ func (ec *executionContext) fieldContext_JobDetail_Controller(_ context.Context,
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7410,7 +7392,7 @@ func (ec *executionContext) _JobDetail_MechanicController(ctx context.Context, f
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().MechanicController(rctx, obj)
+		return obj.Mechaniccontroller(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7429,7 +7411,7 @@ func (ec *executionContext) fieldContext_JobDetail_MechanicController(_ context.
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7483,7 +7465,7 @@ func (ec *executionContext) _JobDetail_ElectricController(ctx context.Context, f
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().ElectricController(rctx, obj)
+		return obj.Electriccontroller(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7502,7 +7484,7 @@ func (ec *executionContext) fieldContext_JobDetail_ElectricController(_ context.
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -14764,16 +14746,13 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 		case "Owner":
 			field := field
 
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
 				defer func() {
 					if r := recover(); r != nil {
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
 				res = ec._JobDetail_Owner(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 
@@ -14800,16 +14779,13 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 		case "Contractor":
 			field := field
 
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
 				defer func() {
 					if r := recover(); r != nil {
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
 				res = ec._JobDetail_Contractor(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 

@@ -64,5 +64,5 @@ func main() {
 		})
 	}
 
-	e.Logger.Fatal(e.Start("localhost:4000"))
+	e.Logger.Fatal(e.Start(":4000"))
 }

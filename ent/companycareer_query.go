@@ -19,11 +19,14 @@ import (
 // CompanyCareerQuery is the builder for querying CompanyCareer entities.
 type CompanyCareerQuery struct {
 	config
-	ctx                 *QueryContext
-	order               []companycareer.OrderOption
-	inters              []Interceptor
-	predicates          []predicate.CompanyCareer
-	withEngineerCareers *CompanyEngineerQuery
+	ctx                      *QueryContext
+	order                    []companycareer.OrderOption
+	inters                   []Interceptor
+	predicates               []predicate.CompanyCareer
+	withEngineerCareers      *CompanyEngineerQuery
+	modifiers                []func(*sql.Selector)
+	loadTotal                []func(context.Context, []*CompanyCareer) error
+	withNamedEngineerCareers map[string]*CompanyEngineerQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -383,6 +386,9 @@ func (ccq *CompanyCareerQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(ccq.modifiers) > 0 {
+		_spec.Modifiers = ccq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -398,6 +404,18 @@ func (ccq *CompanyCareerQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 			func(n *CompanyCareer, e *CompanyEngineer) {
 				n.Edges.EngineerCareers = append(n.Edges.EngineerCareers, e)
 			}); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ccq.withNamedEngineerCareers {
+		if err := ccq.loadEngineerCareers(ctx, query, nodes,
+			func(n *CompanyCareer) { n.appendNamedEngineerCareers(name) },
+			func(n *CompanyCareer, e *CompanyEngineer) { n.appendNamedEngineerCareers(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range ccq.loadTotal {
+		if err := ccq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -438,6 +456,9 @@ func (ccq *CompanyCareerQuery) loadEngineerCareers(ctx context.Context, query *C
 
 func (ccq *CompanyCareerQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := ccq.querySpec()
+	if len(ccq.modifiers) > 0 {
+		_spec.Modifiers = ccq.modifiers
+	}
 	_spec.Node.Columns = ccq.ctx.Fields
 	if len(ccq.ctx.Fields) > 0 {
 		_spec.Unique = ccq.ctx.Unique != nil && *ccq.ctx.Unique
@@ -515,6 +536,20 @@ func (ccq *CompanyCareerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
+}
+
+// WithNamedEngineerCareers tells the query-builder to eager-load the nodes that are connected to the "engineerCareers"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ccq *CompanyCareerQuery) WithNamedEngineerCareers(name string, opts ...func(*CompanyEngineerQuery)) *CompanyCareerQuery {
+	query := (&CompanyEngineerClient{config: ccq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ccq.withNamedEngineerCareers == nil {
+		ccq.withNamedEngineerCareers = make(map[string]*CompanyEngineerQuery)
+	}
+	ccq.withNamedEngineerCareers[name] = query
+	return ccq
 }
 
 // CompanyCareerGroupBy is the group-by builder for CompanyCareer entities.
