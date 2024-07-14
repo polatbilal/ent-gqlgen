@@ -68,9 +68,9 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 }
 
 // Company is the resolver for the company field.
-func (r *queryResolver) Company(ctx context.Context) ([]*ent.CompanyDetail, error) {
+func (r *queryResolver) Company(ctx context.Context) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	company, err := client.CompanyDetail.Query().All(ctx)
+	company, err := client.CompanyDetail.Query().Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to het owners: %v", err)
 	}

@@ -317,7 +317,7 @@ type MutationResolver interface {
 	UpdateOwner(ctx context.Context, id string, input model.JobOwnerInput) (*ent.JobOwner, error)
 }
 type QueryResolver interface {
-	Company(ctx context.Context) ([]*ent.CompanyDetail, error)
+	Company(ctx context.Context) (*ent.CompanyDetail, error)
 	AllContractor(ctx context.Context) ([]*ent.JobContractor, error)
 	Engineer(ctx context.Context, filter *model.EngineerFilterInput) ([]*ent.CompanyEngineer, error)
 	Job(ctx context.Context, yibfNo *int) ([]*ent.JobDetail, error)
@@ -1795,7 +1795,7 @@ input CompanyDetailInput {
 # }
 
 extend type Query {
-  company: [CompanyDetail!]! @goField(forceResolver: true) @auth
+  company: CompanyDetail! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
@@ -10143,10 +10143,10 @@ func (ec *executionContext) _Query_company(ctx context.Context, field graphql.Co
 		if tmp == nil {
 			return nil, nil
 		}
-		if data, ok := tmp.([]*ent.CompanyDetail); ok {
+		if data, ok := tmp.(*ent.CompanyDetail); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*gqlgen-ent/ent.CompanyDetail`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.CompanyDetail`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10158,9 +10158,9 @@ func (ec *executionContext) _Query_company(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*ent.CompanyDetail)
+	res := resTmp.(*ent.CompanyDetail)
 	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚕᚖgqlgenᚑentᚋentᚐCompanyDetailᚄ(ctx, field.Selections, res)
+	return ec.marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_company(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16302,50 +16302,6 @@ func (ec *executionContext) marshalNCompanyCareer2ᚖgqlgenᚑentᚋentᚐCompan
 
 func (ec *executionContext) marshalNCompanyDetail2gqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v ent.CompanyDetail) graphql.Marshaler {
 	return ec._CompanyDetail(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNCompanyDetail2ᚕᚖgqlgenᚑentᚋentᚐCompanyDetailᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.CompanyDetail) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
 }
 
 func (ec *executionContext) marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyDetail) graphql.Marshaler {

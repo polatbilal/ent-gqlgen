@@ -61,7 +61,7 @@ input CompanyDetailInput {
 # }
 
 extend type Query {
-  company: [CompanyDetail!]! @goField(forceResolver: true) @auth
+  company: CompanyDetail! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
