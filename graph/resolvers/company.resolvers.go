@@ -8,10 +8,8 @@ import (
 	"context"
 	"fmt"
 	"gqlgen-ent/ent"
-	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyowner"
-	"gqlgen-ent/ent/companyposition"
+	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
@@ -28,33 +26,13 @@ func (r *companyDetailResolver) VisaDate(ctx context.Context, obj *ent.CompanyDe
 }
 
 // Owner is the resolver for the Owner field.
-func (r *companyDetailResolver) Owner(ctx context.Context, obj *ent.CompanyDetail) ([]*ent.CompanyOwner, error) {
+func (r *companyDetailResolver) Owner(ctx context.Context, obj *ent.CompanyDetail) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	owner, err := client.CompanyOwner.Query().Where(companyowner.HasCompanyOwnersWith(companydetail.IDEQ(obj.ID))).All(ctx)
+	owner, err := client.CompanyEngineer.Query().Where(companyengineer.HasCompanyOwnersWith(companydetail.IDEQ(obj.ID))).Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to het owners: %v", err)
 	}
 	return owner, nil
-}
-
-// Career is the resolver for the Career field.
-func (r *companyOwnerResolver) Career(ctx context.Context, obj *ent.CompanyOwner) (string, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	career, err := client.CompanyCareer.Query().Where(companycareer.HasCompanyOwnerCareersWith(companyowner.IDEQ(obj.ID))).Only(ctx)
-	if err != nil {
-		return "", fmt.Errorf("failed to get owners: %v", err)
-	}
-	return career.Career, nil
-}
-
-// Position is the resolver for the Position field.
-func (r *companyOwnerResolver) Position(ctx context.Context, obj *ent.CompanyOwner) (string, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	position, err := client.CompanyPosition.Query().Where(companyposition.HasCompanyOwnerPositionsWith(companyowner.IDEQ(obj.ID))).Only(ctx)
-	if err != nil {
-		return "", fmt.Errorf("failed to get owners: %v", err)
-	}
-	return position.Position, nil
 }
 
 // UpdateCompany is the resolver for the updateCompany field.
@@ -80,6 +58,7 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 		SetCommerce(*input.Commerce).
 		SetCommerceReg(*input.CommerceReg).
 		SetVisaDate(visaDate).
+		SetCompanyOwnerID(*input.OwnerID).
 		Save(ctx)
 
 	if err != nil {
@@ -101,12 +80,8 @@ func (r *queryResolver) Company(ctx context.Context) ([]*ent.CompanyDetail, erro
 // CompanyDetail returns generated.CompanyDetailResolver implementation.
 func (r *Resolver) CompanyDetail() generated.CompanyDetailResolver { return &companyDetailResolver{r} }
 
-// CompanyOwner returns generated.CompanyOwnerResolver implementation.
-func (r *Resolver) CompanyOwner() generated.CompanyOwnerResolver { return &companyOwnerResolver{r} }
-
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
 type companyDetailResolver struct{ *Resolver }
-type companyOwnerResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

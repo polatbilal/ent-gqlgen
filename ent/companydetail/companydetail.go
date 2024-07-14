@@ -56,9 +56,9 @@ const (
 	Table = "company_details"
 	// CompanyOwnerTable is the table that holds the companyOwner relation/edge.
 	CompanyOwnerTable = "company_details"
-	// CompanyOwnerInverseTable is the table name for the CompanyOwner entity.
-	// It exists in this package in order to avoid circular dependency with the "companyowner" package.
-	CompanyOwnerInverseTable = "company_owners"
+	// CompanyOwnerInverseTable is the table name for the CompanyEngineer entity.
+	// It exists in this package in order to avoid circular dependency with the "companyengineer" package.
+	CompanyOwnerInverseTable = "company_engineers"
 	// CompanyOwnerColumn is the table column denoting the companyOwner relation/edge.
 	CompanyOwnerColumn = "owner_id"
 )

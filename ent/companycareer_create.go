@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyowner"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -47,21 +46,6 @@ func (ccc *CompanyCareerCreate) AddEngineerCareers(c ...*CompanyEngineer) *Compa
 		ids[i] = c[i].ID
 	}
 	return ccc.AddEngineerCareerIDs(ids...)
-}
-
-// AddCompanyOwnerCareerIDs adds the "companyOwnerCareers" edge to the CompanyOwner entity by IDs.
-func (ccc *CompanyCareerCreate) AddCompanyOwnerCareerIDs(ids ...int) *CompanyCareerCreate {
-	ccc.mutation.AddCompanyOwnerCareerIDs(ids...)
-	return ccc
-}
-
-// AddCompanyOwnerCareers adds the "companyOwnerCareers" edges to the CompanyOwner entity.
-func (ccc *CompanyCareerCreate) AddCompanyOwnerCareers(c ...*CompanyOwner) *CompanyCareerCreate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return ccc.AddCompanyOwnerCareerIDs(ids...)
 }
 
 // Mutation returns the CompanyCareerMutation object of the builder.
@@ -137,22 +121,6 @@ func (ccc *CompanyCareerCreate) createSpec() (*CompanyCareer, *sqlgraph.CreateSp
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := ccc.mutation.CompanyOwnerCareersIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companycareer.CompanyOwnerCareersTable,
-			Columns: []string{companycareer.CompanyOwnerCareersColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

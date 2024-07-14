@@ -45,16 +45,6 @@ type CompanyEngineerInput struct {
 	Position   int     `json:"Position"`
 }
 
-type CompanyOwnerInput struct {
-	ID         *string `json:"id,omitempty"`
-	Name       *string `json:"Name,omitempty"`
-	Career     *int    `json:"Career,omitempty"`
-	Position   *int    `json:"Position,omitempty"`
-	RegisterNo *int    `json:"RegisterNo,omitempty"`
-	CertNo     *int    `json:"CertNo,omitempty"`
-	Deleted    *int    `json:"Deleted,omitempty"`
-}
-
 type EngineerFilterInput struct {
 	Career   *int `json:"career,omitempty"`
 	Position *int `json:"position,omitempty"`

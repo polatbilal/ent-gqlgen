@@ -49,9 +49,9 @@ var (
 		PrimaryKey: []*schema.Column{CompanyDetailsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "company_details_company_owners_companyOwners",
+				Symbol:     "company_details_company_engineers_companyOwners",
 				Columns:    []*schema.Column{CompanyDetailsColumns[19]},
-				RefColumns: []*schema.Column{CompanyOwnersColumns[0]},
+				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -91,38 +91,6 @@ var (
 			{
 				Symbol:     "company_engineers_company_positions_engineerPositions",
 				Columns:    []*schema.Column{CompanyEngineersColumns[16]},
-				RefColumns: []*schema.Column{CompanyPositionsColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-		},
-	}
-	// CompanyOwnersColumns holds the columns for the "company_owners" table.
-	CompanyOwnersColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString, Default: ""},
-		{Name: "register_no", Type: field.TypeInt, Nullable: true},
-		{Name: "cert_no", Type: field.TypeInt, Nullable: true},
-		{Name: "deleted", Type: field.TypeInt, Default: 0},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "career_id", Type: field.TypeInt, Nullable: true},
-		{Name: "position_id", Type: field.TypeInt, Nullable: true},
-	}
-	// CompanyOwnersTable holds the schema information for the "company_owners" table.
-	CompanyOwnersTable = &schema.Table{
-		Name:       "company_owners",
-		Columns:    CompanyOwnersColumns,
-		PrimaryKey: []*schema.Column{CompanyOwnersColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "company_owners_company_careers_companyOwnerCareers",
-				Columns:    []*schema.Column{CompanyOwnersColumns[7]},
-				RefColumns: []*schema.Column{CompanyCareersColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
-				Symbol:     "company_owners_company_positions_companyOwnerPositions",
-				Columns:    []*schema.Column{CompanyOwnersColumns[8]},
 				RefColumns: []*schema.Column{CompanyPositionsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -392,7 +360,6 @@ var (
 		CompanyCareersTable,
 		CompanyDetailsTable,
 		CompanyEngineersTable,
-		CompanyOwnersTable,
 		CompanyPositionsTable,
 		JobAuthorsTable,
 		JobContractorsTable,
@@ -405,11 +372,9 @@ var (
 )
 
 func init() {
-	CompanyDetailsTable.ForeignKeys[0].RefTable = CompanyOwnersTable
+	CompanyDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
 	CompanyEngineersTable.ForeignKeys[0].RefTable = CompanyCareersTable
 	CompanyEngineersTable.ForeignKeys[1].RefTable = CompanyPositionsTable
-	CompanyOwnersTable.ForeignKeys[0].RefTable = CompanyCareersTable
-	CompanyOwnersTable.ForeignKeys[1].RefTable = CompanyPositionsTable
 	JobDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[1].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[2].RefTable = CompanyEngineersTable

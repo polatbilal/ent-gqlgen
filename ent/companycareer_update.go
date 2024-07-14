@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyowner"
 	"gqlgen-ent/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
@@ -64,21 +63,6 @@ func (ccu *CompanyCareerUpdate) AddEngineerCareers(c ...*CompanyEngineer) *Compa
 	return ccu.AddEngineerCareerIDs(ids...)
 }
 
-// AddCompanyOwnerCareerIDs adds the "companyOwnerCareers" edge to the CompanyOwner entity by IDs.
-func (ccu *CompanyCareerUpdate) AddCompanyOwnerCareerIDs(ids ...int) *CompanyCareerUpdate {
-	ccu.mutation.AddCompanyOwnerCareerIDs(ids...)
-	return ccu
-}
-
-// AddCompanyOwnerCareers adds the "companyOwnerCareers" edges to the CompanyOwner entity.
-func (ccu *CompanyCareerUpdate) AddCompanyOwnerCareers(c ...*CompanyOwner) *CompanyCareerUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return ccu.AddCompanyOwnerCareerIDs(ids...)
-}
-
 // Mutation returns the CompanyCareerMutation object of the builder.
 func (ccu *CompanyCareerUpdate) Mutation() *CompanyCareerMutation {
 	return ccu.mutation
@@ -103,27 +87,6 @@ func (ccu *CompanyCareerUpdate) RemoveEngineerCareers(c ...*CompanyEngineer) *Co
 		ids[i] = c[i].ID
 	}
 	return ccu.RemoveEngineerCareerIDs(ids...)
-}
-
-// ClearCompanyOwnerCareers clears all "companyOwnerCareers" edges to the CompanyOwner entity.
-func (ccu *CompanyCareerUpdate) ClearCompanyOwnerCareers() *CompanyCareerUpdate {
-	ccu.mutation.ClearCompanyOwnerCareers()
-	return ccu
-}
-
-// RemoveCompanyOwnerCareerIDs removes the "companyOwnerCareers" edge to CompanyOwner entities by IDs.
-func (ccu *CompanyCareerUpdate) RemoveCompanyOwnerCareerIDs(ids ...int) *CompanyCareerUpdate {
-	ccu.mutation.RemoveCompanyOwnerCareerIDs(ids...)
-	return ccu
-}
-
-// RemoveCompanyOwnerCareers removes "companyOwnerCareers" edges to CompanyOwner entities.
-func (ccu *CompanyCareerUpdate) RemoveCompanyOwnerCareers(c ...*CompanyOwner) *CompanyCareerUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return ccu.RemoveCompanyOwnerCareerIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -213,51 +176,6 @@ func (ccu *CompanyCareerUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if ccu.mutation.CompanyOwnerCareersCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companycareer.CompanyOwnerCareersTable,
-			Columns: []string{companycareer.CompanyOwnerCareersColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ccu.mutation.RemovedCompanyOwnerCareersIDs(); len(nodes) > 0 && !ccu.mutation.CompanyOwnerCareersCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companycareer.CompanyOwnerCareersTable,
-			Columns: []string{companycareer.CompanyOwnerCareersColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ccu.mutation.CompanyOwnerCareersIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companycareer.CompanyOwnerCareersTable,
-			Columns: []string{companycareer.CompanyOwnerCareersColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ccu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companycareer.Label}
@@ -313,21 +231,6 @@ func (ccuo *CompanyCareerUpdateOne) AddEngineerCareers(c ...*CompanyEngineer) *C
 	return ccuo.AddEngineerCareerIDs(ids...)
 }
 
-// AddCompanyOwnerCareerIDs adds the "companyOwnerCareers" edge to the CompanyOwner entity by IDs.
-func (ccuo *CompanyCareerUpdateOne) AddCompanyOwnerCareerIDs(ids ...int) *CompanyCareerUpdateOne {
-	ccuo.mutation.AddCompanyOwnerCareerIDs(ids...)
-	return ccuo
-}
-
-// AddCompanyOwnerCareers adds the "companyOwnerCareers" edges to the CompanyOwner entity.
-func (ccuo *CompanyCareerUpdateOne) AddCompanyOwnerCareers(c ...*CompanyOwner) *CompanyCareerUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return ccuo.AddCompanyOwnerCareerIDs(ids...)
-}
-
 // Mutation returns the CompanyCareerMutation object of the builder.
 func (ccuo *CompanyCareerUpdateOne) Mutation() *CompanyCareerMutation {
 	return ccuo.mutation
@@ -352,27 +255,6 @@ func (ccuo *CompanyCareerUpdateOne) RemoveEngineerCareers(c ...*CompanyEngineer)
 		ids[i] = c[i].ID
 	}
 	return ccuo.RemoveEngineerCareerIDs(ids...)
-}
-
-// ClearCompanyOwnerCareers clears all "companyOwnerCareers" edges to the CompanyOwner entity.
-func (ccuo *CompanyCareerUpdateOne) ClearCompanyOwnerCareers() *CompanyCareerUpdateOne {
-	ccuo.mutation.ClearCompanyOwnerCareers()
-	return ccuo
-}
-
-// RemoveCompanyOwnerCareerIDs removes the "companyOwnerCareers" edge to CompanyOwner entities by IDs.
-func (ccuo *CompanyCareerUpdateOne) RemoveCompanyOwnerCareerIDs(ids ...int) *CompanyCareerUpdateOne {
-	ccuo.mutation.RemoveCompanyOwnerCareerIDs(ids...)
-	return ccuo
-}
-
-// RemoveCompanyOwnerCareers removes "companyOwnerCareers" edges to CompanyOwner entities.
-func (ccuo *CompanyCareerUpdateOne) RemoveCompanyOwnerCareers(c ...*CompanyOwner) *CompanyCareerUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return ccuo.RemoveCompanyOwnerCareerIDs(ids...)
 }
 
 // Where appends a list predicates to the CompanyCareerUpdate builder.
@@ -485,51 +367,6 @@ func (ccuo *CompanyCareerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if ccuo.mutation.CompanyOwnerCareersCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companycareer.CompanyOwnerCareersTable,
-			Columns: []string{companycareer.CompanyOwnerCareersColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ccuo.mutation.RemovedCompanyOwnerCareersIDs(); len(nodes) > 0 && !ccuo.mutation.CompanyOwnerCareersCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companycareer.CompanyOwnerCareersTable,
-			Columns: []string{companycareer.CompanyOwnerCareersColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ccuo.mutation.CompanyOwnerCareersIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companycareer.CompanyOwnerCareersTable,
-			Columns: []string{companycareer.CompanyOwnerCareersColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

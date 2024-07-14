@@ -40,6 +40,8 @@ func (CompanyEngineer) Edges() []ent.Edge {
 		edge.From("engineerCareer", CompanyCareer.Type).Ref("engineerCareers").Unique(),
 		edge.From("engineerPosition", CompanyPosition.Type).Ref("engineerPositions").Unique(),
 
+		edge.To("companyOwners", CompanyDetail.Type).StorageKey(edge.Column("owner_id")),
+
 		edge.To("inspectors", JobDetail.Type).StorageKey(edge.Column("inspector_id")),
 		edge.To("architects", JobDetail.Type).StorageKey(edge.Column("architect_id")),
 		edge.To("statics", JobDetail.Type).StorageKey(edge.Column("static_id")),

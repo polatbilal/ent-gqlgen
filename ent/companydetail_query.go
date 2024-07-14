@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyowner"
+	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/predicate"
 	"math"
 
@@ -22,10 +22,8 @@ type CompanyDetailQuery struct {
 	order            []companydetail.OrderOption
 	inters           []Interceptor
 	predicates       []predicate.CompanyDetail
-	withCompanyOwner *CompanyOwnerQuery
+	withCompanyOwner *CompanyEngineerQuery
 	withFKs          bool
-	modifiers        []func(*sql.Selector)
-	loadTotal        []func(context.Context, []*CompanyDetail) error
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -63,8 +61,8 @@ func (cdq *CompanyDetailQuery) Order(o ...companydetail.OrderOption) *CompanyDet
 }
 
 // QueryCompanyOwner chains the current query on the "companyOwner" edge.
-func (cdq *CompanyDetailQuery) QueryCompanyOwner() *CompanyOwnerQuery {
-	query := (&CompanyOwnerClient{config: cdq.config}).Query()
+func (cdq *CompanyDetailQuery) QueryCompanyOwner() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: cdq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cdq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -75,7 +73,7 @@ func (cdq *CompanyDetailQuery) QueryCompanyOwner() *CompanyOwnerQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
-			sqlgraph.To(companyowner.Table, companyowner.FieldID),
+			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companydetail.CompanyOwnerTable, companydetail.CompanyOwnerColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cdq.driver.Dialect(), step)
@@ -285,8 +283,8 @@ func (cdq *CompanyDetailQuery) Clone() *CompanyDetailQuery {
 
 // WithCompanyOwner tells the query-builder to eager-load the nodes that are connected to
 // the "companyOwner" edge. The optional arguments are used to configure the query builder of the edge.
-func (cdq *CompanyDetailQuery) WithCompanyOwner(opts ...func(*CompanyOwnerQuery)) *CompanyDetailQuery {
-	query := (&CompanyOwnerClient{config: cdq.config}).Query()
+func (cdq *CompanyDetailQuery) WithCompanyOwner(opts ...func(*CompanyEngineerQuery)) *CompanyDetailQuery {
+	query := (&CompanyEngineerClient{config: cdq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -392,9 +390,6 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(cdq.modifiers) > 0 {
-		_spec.Modifiers = cdq.modifiers
-	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -406,19 +401,14 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	}
 	if query := cdq.withCompanyOwner; query != nil {
 		if err := cdq.loadCompanyOwner(ctx, query, nodes, nil,
-			func(n *CompanyDetail, e *CompanyOwner) { n.Edges.CompanyOwner = e }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range cdq.loadTotal {
-		if err := cdq.loadTotal[i](ctx, nodes); err != nil {
+			func(n *CompanyDetail, e *CompanyEngineer) { n.Edges.CompanyOwner = e }); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (cdq *CompanyDetailQuery) loadCompanyOwner(ctx context.Context, query *CompanyOwnerQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *CompanyOwner)) error {
+func (cdq *CompanyDetailQuery) loadCompanyOwner(ctx context.Context, query *CompanyEngineerQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*CompanyDetail)
 	for i := range nodes {
@@ -434,7 +424,7 @@ func (cdq *CompanyDetailQuery) loadCompanyOwner(ctx context.Context, query *Comp
 	if len(ids) == 0 {
 		return nil
 	}
-	query.Where(companyowner.IDIn(ids...))
+	query.Where(companyengineer.IDIn(ids...))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
@@ -453,9 +443,6 @@ func (cdq *CompanyDetailQuery) loadCompanyOwner(ctx context.Context, query *Comp
 
 func (cdq *CompanyDetailQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := cdq.querySpec()
-	if len(cdq.modifiers) > 0 {
-		_spec.Modifiers = cdq.modifiers
-	}
 	_spec.Node.Columns = cdq.ctx.Fields
 	if len(cdq.ctx.Fields) > 0 {
 		_spec.Unique = cdq.ctx.Unique != nil && *cdq.ctx.Unique

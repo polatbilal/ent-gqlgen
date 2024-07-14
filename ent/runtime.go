@@ -5,7 +5,6 @@ package ent
 import (
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyowner"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
 	"gqlgen-ent/ent/jobdetail"
@@ -69,26 +68,6 @@ func init() {
 	companyengineer.DefaultUpdatedAt = companyengineerDescUpdatedAt.Default.(func() time.Time)
 	// companyengineer.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	companyengineer.UpdateDefaultUpdatedAt = companyengineerDescUpdatedAt.UpdateDefault.(func() time.Time)
-	companyownerFields := schema.CompanyOwner{}.Fields()
-	_ = companyownerFields
-	// companyownerDescName is the schema descriptor for Name field.
-	companyownerDescName := companyownerFields[0].Descriptor()
-	// companyowner.DefaultName holds the default value on creation for the Name field.
-	companyowner.DefaultName = companyownerDescName.Default.(string)
-	// companyownerDescDeleted is the schema descriptor for Deleted field.
-	companyownerDescDeleted := companyownerFields[3].Descriptor()
-	// companyowner.DefaultDeleted holds the default value on creation for the Deleted field.
-	companyowner.DefaultDeleted = companyownerDescDeleted.Default.(int)
-	// companyownerDescCreatedAt is the schema descriptor for CreatedAt field.
-	companyownerDescCreatedAt := companyownerFields[4].Descriptor()
-	// companyowner.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
-	companyowner.DefaultCreatedAt = companyownerDescCreatedAt.Default.(func() time.Time)
-	// companyownerDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	companyownerDescUpdatedAt := companyownerFields[5].Descriptor()
-	// companyowner.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
-	companyowner.DefaultUpdatedAt = companyownerDescUpdatedAt.Default.(func() time.Time)
-	// companyowner.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
-	companyowner.UpdateDefaultUpdatedAt = companyownerDescUpdatedAt.UpdateDefault.(func() time.Time)
 	jobauthorFields := schema.JobAuthor{}.Fields()
 	_ = jobauthorFields
 	// jobauthorDescArchitect is the schema descriptor for Architect field.

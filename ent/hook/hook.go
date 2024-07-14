@@ -44,18 +44,6 @@ func (f CompanyEngineerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Va
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyEngineerMutation", m)
 }
 
-// The CompanyOwnerFunc type is an adapter to allow the use of ordinary
-// function as CompanyOwner mutator.
-type CompanyOwnerFunc func(context.Context, *ent.CompanyOwnerMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f CompanyOwnerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.CompanyOwnerMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyOwnerMutation", m)
-}
-
 // The CompanyPositionFunc type is an adapter to allow the use of ordinary
 // function as CompanyPosition mutator.
 type CompanyPositionFunc func(context.Context, *ent.CompanyPositionMutation) (ent.Value, error)

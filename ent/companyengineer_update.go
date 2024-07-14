@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"gqlgen-ent/ent/companycareer"
+	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/jobdetail"
@@ -346,6 +347,21 @@ func (ceu *CompanyEngineerUpdate) SetEngineerPosition(c *CompanyPosition) *Compa
 	return ceu.SetEngineerPositionID(c.ID)
 }
 
+// AddCompanyOwnerIDs adds the "companyOwners" edge to the CompanyDetail entity by IDs.
+func (ceu *CompanyEngineerUpdate) AddCompanyOwnerIDs(ids ...int) *CompanyEngineerUpdate {
+	ceu.mutation.AddCompanyOwnerIDs(ids...)
+	return ceu
+}
+
+// AddCompanyOwners adds the "companyOwners" edges to the CompanyDetail entity.
+func (ceu *CompanyEngineerUpdate) AddCompanyOwners(c ...*CompanyDetail) *CompanyEngineerUpdate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return ceu.AddCompanyOwnerIDs(ids...)
+}
+
 // AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
 func (ceu *CompanyEngineerUpdate) AddInspectorIDs(ids ...int) *CompanyEngineerUpdate {
 	ceu.mutation.AddInspectorIDs(ids...)
@@ -481,6 +497,27 @@ func (ceu *CompanyEngineerUpdate) ClearEngineerCareer() *CompanyEngineerUpdate {
 func (ceu *CompanyEngineerUpdate) ClearEngineerPosition() *CompanyEngineerUpdate {
 	ceu.mutation.ClearEngineerPosition()
 	return ceu
+}
+
+// ClearCompanyOwners clears all "companyOwners" edges to the CompanyDetail entity.
+func (ceu *CompanyEngineerUpdate) ClearCompanyOwners() *CompanyEngineerUpdate {
+	ceu.mutation.ClearCompanyOwners()
+	return ceu
+}
+
+// RemoveCompanyOwnerIDs removes the "companyOwners" edge to CompanyDetail entities by IDs.
+func (ceu *CompanyEngineerUpdate) RemoveCompanyOwnerIDs(ids ...int) *CompanyEngineerUpdate {
+	ceu.mutation.RemoveCompanyOwnerIDs(ids...)
+	return ceu
+}
+
+// RemoveCompanyOwners removes "companyOwners" edges to CompanyDetail entities.
+func (ceu *CompanyEngineerUpdate) RemoveCompanyOwners(c ...*CompanyDetail) *CompanyEngineerUpdate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return ceu.RemoveCompanyOwnerIDs(ids...)
 }
 
 // ClearInspectors clears all "inspectors" edges to the JobDetail entity.
@@ -831,6 +868,51 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyposition.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if ceu.mutation.CompanyOwnersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.CompanyOwnersTable,
+			Columns: []string{companyengineer.CompanyOwnersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceu.mutation.RemovedCompanyOwnersIDs(); len(nodes) > 0 && !ceu.mutation.CompanyOwnersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.CompanyOwnersTable,
+			Columns: []string{companyengineer.CompanyOwnersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceu.mutation.CompanyOwnersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.CompanyOwnersTable,
+			Columns: []string{companyengineer.CompanyOwnersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1533,6 +1615,21 @@ func (ceuo *CompanyEngineerUpdateOne) SetEngineerPosition(c *CompanyPosition) *C
 	return ceuo.SetEngineerPositionID(c.ID)
 }
 
+// AddCompanyOwnerIDs adds the "companyOwners" edge to the CompanyDetail entity by IDs.
+func (ceuo *CompanyEngineerUpdateOne) AddCompanyOwnerIDs(ids ...int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.AddCompanyOwnerIDs(ids...)
+	return ceuo
+}
+
+// AddCompanyOwners adds the "companyOwners" edges to the CompanyDetail entity.
+func (ceuo *CompanyEngineerUpdateOne) AddCompanyOwners(c ...*CompanyDetail) *CompanyEngineerUpdateOne {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return ceuo.AddCompanyOwnerIDs(ids...)
+}
+
 // AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
 func (ceuo *CompanyEngineerUpdateOne) AddInspectorIDs(ids ...int) *CompanyEngineerUpdateOne {
 	ceuo.mutation.AddInspectorIDs(ids...)
@@ -1668,6 +1765,27 @@ func (ceuo *CompanyEngineerUpdateOne) ClearEngineerCareer() *CompanyEngineerUpda
 func (ceuo *CompanyEngineerUpdateOne) ClearEngineerPosition() *CompanyEngineerUpdateOne {
 	ceuo.mutation.ClearEngineerPosition()
 	return ceuo
+}
+
+// ClearCompanyOwners clears all "companyOwners" edges to the CompanyDetail entity.
+func (ceuo *CompanyEngineerUpdateOne) ClearCompanyOwners() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearCompanyOwners()
+	return ceuo
+}
+
+// RemoveCompanyOwnerIDs removes the "companyOwners" edge to CompanyDetail entities by IDs.
+func (ceuo *CompanyEngineerUpdateOne) RemoveCompanyOwnerIDs(ids ...int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.RemoveCompanyOwnerIDs(ids...)
+	return ceuo
+}
+
+// RemoveCompanyOwners removes "companyOwners" edges to CompanyDetail entities.
+func (ceuo *CompanyEngineerUpdateOne) RemoveCompanyOwners(c ...*CompanyDetail) *CompanyEngineerUpdateOne {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return ceuo.RemoveCompanyOwnerIDs(ids...)
 }
 
 // ClearInspectors clears all "inspectors" edges to the JobDetail entity.
@@ -2048,6 +2166,51 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyposition.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if ceuo.mutation.CompanyOwnersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.CompanyOwnersTable,
+			Columns: []string{companyengineer.CompanyOwnersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceuo.mutation.RemovedCompanyOwnersIDs(); len(nodes) > 0 && !ceuo.mutation.CompanyOwnersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.CompanyOwnersTable,
+			Columns: []string{companyengineer.CompanyOwnersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceuo.mutation.CompanyOwnersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.CompanyOwnersTable,
+			Columns: []string{companyengineer.CompanyOwnersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

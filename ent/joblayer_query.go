@@ -24,8 +24,6 @@ type JobLayerQuery struct {
 	predicates []predicate.JobLayer
 	withLayer  *JobDetailQuery
 	withFKs    bool
-	modifiers  []func(*sql.Selector)
-	loadTotal  []func(context.Context, []*JobLayer) error
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -392,9 +390,6 @@ func (jlq *JobLayerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jlq.modifiers) > 0 {
-		_spec.Modifiers = jlq.modifiers
-	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -407,11 +402,6 @@ func (jlq *JobLayerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 	if query := jlq.withLayer; query != nil {
 		if err := jlq.loadLayer(ctx, query, nodes, nil,
 			func(n *JobLayer, e *JobDetail) { n.Edges.Layer = e }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range jlq.loadTotal {
-		if err := jlq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -453,9 +443,6 @@ func (jlq *JobLayerQuery) loadLayer(ctx context.Context, query *JobDetailQuery, 
 
 func (jlq *JobLayerQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jlq.querySpec()
-	if len(jlq.modifiers) > 0 {
-		_spec.Modifiers = jlq.modifiers
-	}
 	_spec.Node.Columns = jlq.ctx.Fields
 	if len(jlq.ctx.Fields) > 0 {
 		_spec.Unique = jlq.ctx.Unique != nil && *jlq.ctx.Unique

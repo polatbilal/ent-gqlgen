@@ -41,7 +41,6 @@ type Config struct {
 type ResolverRoot interface {
 	CompanyDetail() CompanyDetailResolver
 	CompanyEngineer() CompanyEngineerResolver
-	CompanyOwner() CompanyOwnerResolver
 	JobDetail() JobDetailResolver
 	JobLayer() JobLayerResolver
 	Mutation() MutationResolver
@@ -122,26 +121,6 @@ type ComplexityRoot struct {
 		TcNo       func(childComplexity int) int
 	}
 
-	CompanyOwner struct {
-		Career     func(childComplexity int) int
-		CertNo     func(childComplexity int) int
-		Deleted    func(childComplexity int) int
-		ID         func(childComplexity int) int
-		Name       func(childComplexity int) int
-		Position   func(childComplexity int) int
-		RegisterNo func(childComplexity int) int
-	}
-
-	CompanyOwnerInput struct {
-		Career     func(childComplexity int) int
-		CertNo     func(childComplexity int) int
-		Deleted    func(childComplexity int) int
-		ID         func(childComplexity int) int
-		Name       func(childComplexity int) int
-		Position   func(childComplexity int) int
-		RegisterNo func(childComplexity int) int
-	}
-
 	CompanyPosition struct {
 		ID       func(childComplexity int) int
 		Position func(childComplexity int) int
@@ -185,7 +164,7 @@ type ComplexityRoot struct {
 		Deleted            func(childComplexity int) int
 		District           func(childComplexity int) int
 		Electric           func(childComplexity int) int
-		Electriccontroller func(childComplexity int) int
+		ElectricController func(childComplexity int) int
 		Floors             func(childComplexity int) int
 		FolderNo           func(childComplexity int) int
 		ID                 func(childComplexity int) int
@@ -196,7 +175,7 @@ type ComplexityRoot struct {
 		LicenseDate        func(childComplexity int) int
 		LicenseNo          func(childComplexity int) int
 		Mechanic           func(childComplexity int) int
-		Mechaniccontroller func(childComplexity int) int
+		MechanicController func(childComplexity int) int
 		Note               func(childComplexity int) int
 		Owner              func(childComplexity int) int
 		Pafta              func(childComplexity int) int
@@ -289,7 +268,7 @@ type ComplexityRoot struct {
 type CompanyDetailResolver interface {
 	VisaDate(ctx context.Context, obj *ent.CompanyDetail) (*string, error)
 
-	Owner(ctx context.Context, obj *ent.CompanyDetail) ([]*ent.CompanyOwner, error)
+	Owner(ctx context.Context, obj *ent.CompanyDetail) (*ent.CompanyEngineer, error)
 }
 type CompanyEngineerResolver interface {
 	Employment(ctx context.Context, obj *ent.CompanyEngineer) (*string, error)
@@ -297,15 +276,23 @@ type CompanyEngineerResolver interface {
 	Career(ctx context.Context, obj *ent.CompanyEngineer) (*ent.CompanyCareer, error)
 	Position(ctx context.Context, obj *ent.CompanyEngineer) (*ent.CompanyPosition, error)
 }
-type CompanyOwnerResolver interface {
-	Career(ctx context.Context, obj *ent.CompanyOwner) (string, error)
-	Position(ctx context.Context, obj *ent.CompanyOwner) (string, error)
-}
 type JobDetailResolver interface {
 	ContractDate(ctx context.Context, obj *ent.JobDetail) (*string, error)
 	StartDate(ctx context.Context, obj *ent.JobDetail) (*string, error)
 	LicenseDate(ctx context.Context, obj *ent.JobDetail) (*string, error)
 
+	Owner(ctx context.Context, obj *ent.JobDetail) (*ent.JobOwner, error)
+	Contractor(ctx context.Context, obj *ent.JobDetail) (*ent.JobContractor, error)
+	Author(ctx context.Context, obj *ent.JobDetail) (*ent.JobAuthor, error)
+	Progress(ctx context.Context, obj *ent.JobDetail) (*ent.JobProgress, error)
+	Inspector(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
+	Static(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
+	Architect(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
+	Mechanic(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
+	Electric(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
+	Controller(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
+	MechanicController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
+	ElectricController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
 	Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error)
 }
 type JobLayerResolver interface {
@@ -733,104 +720,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CompanyEngineerInput.TcNo(childComplexity), true
 
-	case "CompanyOwner.Career":
-		if e.complexity.CompanyOwner.Career == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwner.Career(childComplexity), true
-
-	case "CompanyOwner.CertNo":
-		if e.complexity.CompanyOwner.CertNo == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwner.CertNo(childComplexity), true
-
-	case "CompanyOwner.Deleted":
-		if e.complexity.CompanyOwner.Deleted == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwner.Deleted(childComplexity), true
-
-	case "CompanyOwner.id":
-		if e.complexity.CompanyOwner.ID == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwner.ID(childComplexity), true
-
-	case "CompanyOwner.Name":
-		if e.complexity.CompanyOwner.Name == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwner.Name(childComplexity), true
-
-	case "CompanyOwner.Position":
-		if e.complexity.CompanyOwner.Position == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwner.Position(childComplexity), true
-
-	case "CompanyOwner.RegisterNo":
-		if e.complexity.CompanyOwner.RegisterNo == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwner.RegisterNo(childComplexity), true
-
-	case "CompanyOwnerInput.Career":
-		if e.complexity.CompanyOwnerInput.Career == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwnerInput.Career(childComplexity), true
-
-	case "CompanyOwnerInput.CertNo":
-		if e.complexity.CompanyOwnerInput.CertNo == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwnerInput.CertNo(childComplexity), true
-
-	case "CompanyOwnerInput.Deleted":
-		if e.complexity.CompanyOwnerInput.Deleted == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwnerInput.Deleted(childComplexity), true
-
-	case "CompanyOwnerInput.id":
-		if e.complexity.CompanyOwnerInput.ID == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwnerInput.ID(childComplexity), true
-
-	case "CompanyOwnerInput.Name":
-		if e.complexity.CompanyOwnerInput.Name == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwnerInput.Name(childComplexity), true
-
-	case "CompanyOwnerInput.Position":
-		if e.complexity.CompanyOwnerInput.Position == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwnerInput.Position(childComplexity), true
-
-	case "CompanyOwnerInput.RegisterNo":
-		if e.complexity.CompanyOwnerInput.RegisterNo == nil {
-			break
-		}
-
-		return e.complexity.CompanyOwnerInput.RegisterNo(childComplexity), true
-
 	case "CompanyPosition.id":
 		if e.complexity.CompanyPosition.ID == nil {
 			break
@@ -1063,11 +952,11 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		return e.complexity.JobDetail.Electric(childComplexity), true
 
 	case "JobDetail.ElectricController":
-		if e.complexity.JobDetail.Electriccontroller == nil {
+		if e.complexity.JobDetail.ElectricController == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Electriccontroller(childComplexity), true
+		return e.complexity.JobDetail.ElectricController(childComplexity), true
 
 	case "JobDetail.Floors":
 		if e.complexity.JobDetail.Floors == nil {
@@ -1140,11 +1029,11 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		return e.complexity.JobDetail.Mechanic(childComplexity), true
 
 	case "JobDetail.MechanicController":
-		if e.complexity.JobDetail.Mechaniccontroller == nil {
+		if e.complexity.JobDetail.MechanicController == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Mechaniccontroller(childComplexity), true
+		return e.complexity.JobDetail.MechanicController(childComplexity), true
 
 	case "JobDetail.Note":
 		if e.complexity.JobDetail.Note == nil {
@@ -1863,18 +1752,18 @@ type CompanyDetail {
   CommerceReg: String
   VisaDate: Date
   Deleted: Int
-  Owner: [CompanyOwner!]
+  Owner: CompanyEngineer
 }
 
-type CompanyOwner {
-  id: ID!
-  Name: String
-  Career: String!
-  Position: String!
-  RegisterNo: Int
-  CertNo: Int
-  Deleted: Int
-}
+# type CompanyOwner {
+#   id: ID!
+#   Name: String
+#   Career: String!
+#   Position: String!
+#   RegisterNo: Int
+#   CertNo: Int
+#   Deleted: Int
+# }
 
 input CompanyDetailInput {
   Name: String!
@@ -1895,15 +1784,15 @@ input CompanyDetailInput {
   OwnerID: Int
 }
 
-type CompanyOwnerInput {
-  id: ID
-  Name: String
-  Career: Int
-  Position: Int
-  RegisterNo: Int
-  CertNo: Int
-  Deleted: Int
-}
+# type CompanyOwnerInput {
+#   id: ID
+#   Name: String
+#   Career: Int
+#   Position: Int
+#   RegisterNo: Int
+#   CertNo: Int
+#   Deleted: Int
+# }
 
 extend type Query {
   company: [CompanyDetail!]! @goField(forceResolver: true) @auth
@@ -3651,9 +3540,9 @@ func (ec *executionContext) _CompanyDetail_Owner(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]*ent.CompanyOwner)
+	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyOwner2ᚕᚖgqlgenᚑentᚋentᚐCompanyOwnerᚄ(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Owner(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3665,21 +3554,37 @@ func (ec *executionContext) fieldContext_CompanyDetail_Owner(_ context.Context, 
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_CompanyOwner_id(ctx, field)
+				return ec.fieldContext_CompanyEngineer_id(ctx, field)
 			case "Name":
-				return ec.fieldContext_CompanyOwner_Name(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyOwner_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyOwner_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyOwner_RegisterNo(ctx, field)
+				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
+			case "Address":
+				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
+			case "Email":
+				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
+			case "Phone":
+				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
+			case "RegNo":
+				return ec.fieldContext_CompanyEngineer_RegNo(ctx, field)
 			case "CertNo":
-				return ec.fieldContext_CompanyOwner_CertNo(ctx, field)
+				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
+			case "Note":
+				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
+			case "Status":
+				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Deleted":
-				return ec.fieldContext_CompanyOwner_Deleted(ctx, field)
+				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Employment":
+				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
+			case "Dismissal":
+				return ec.fieldContext_CompanyEngineer_Dismissal(ctx, field)
+			case "Career":
+				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
+			case "Position":
+				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyOwner", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
 	}
 	return fc, nil
@@ -4897,589 +4802,6 @@ func (ec *executionContext) _CompanyEngineerInput_Position(ctx context.Context, 
 func (ec *executionContext) fieldContext_CompanyEngineerInput_Position(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "CompanyEngineerInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwner_id(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwner_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNID2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwner_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwner",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwner_Name(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwner_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwner_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwner",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwner_Career(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwner_Career(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.CompanyOwner().Career(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwner_Career(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwner",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwner_Position(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwner_Position(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.CompanyOwner().Position(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwner_Position(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwner",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwner_RegisterNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwner_RegisterNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.RegisterNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwner_RegisterNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwner",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwner_CertNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwner_CertNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CertNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwner_CertNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwner",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwner_Deleted(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwner_Deleted(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Deleted, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwner_Deleted(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwner",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwnerInput_id(ctx context.Context, field graphql.CollectedField, obj *model.CompanyOwnerInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwnerInput_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwnerInput_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwnerInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwnerInput_Name(ctx context.Context, field graphql.CollectedField, obj *model.CompanyOwnerInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwnerInput_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwnerInput_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwnerInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwnerInput_Career(ctx context.Context, field graphql.CollectedField, obj *model.CompanyOwnerInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwnerInput_Career(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Career, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwnerInput_Career(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwnerInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwnerInput_Position(ctx context.Context, field graphql.CollectedField, obj *model.CompanyOwnerInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwnerInput_Position(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Position, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwnerInput_Position(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwnerInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwnerInput_RegisterNo(ctx context.Context, field graphql.CollectedField, obj *model.CompanyOwnerInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwnerInput_RegisterNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.RegisterNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwnerInput_RegisterNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwnerInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwnerInput_CertNo(ctx context.Context, field graphql.CollectedField, obj *model.CompanyOwnerInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwnerInput_CertNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CertNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwnerInput_CertNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwnerInput",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyOwnerInput_Deleted(ctx context.Context, field graphql.CollectedField, obj *model.CompanyOwnerInput) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyOwnerInput_Deleted(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Deleted, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyOwnerInput_Deleted(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyOwnerInput",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -7402,7 +6724,7 @@ func (ec *executionContext) _JobDetail_Owner(ctx context.Context, field graphql.
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Owner(ctx)
+		return ec.resolvers.JobDetail().Owner(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7424,7 +6746,7 @@ func (ec *executionContext) fieldContext_JobDetail_Owner(_ context.Context, fiel
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7468,7 +6790,7 @@ func (ec *executionContext) _JobDetail_Contractor(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Contractor(ctx)
+		return ec.resolvers.JobDetail().Contractor(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7490,7 +6812,7 @@ func (ec *executionContext) fieldContext_JobDetail_Contractor(_ context.Context,
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7536,7 +6858,7 @@ func (ec *executionContext) _JobDetail_Author(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Author(ctx)
+		return ec.resolvers.JobDetail().Author(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7555,7 +6877,7 @@ func (ec *executionContext) fieldContext_JobDetail_Author(_ context.Context, fie
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7593,7 +6915,7 @@ func (ec *executionContext) _JobDetail_Progress(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Progress(ctx)
+		return ec.resolvers.JobDetail().Progress(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7612,7 +6934,7 @@ func (ec *executionContext) fieldContext_JobDetail_Progress(_ context.Context, f
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7650,7 +6972,7 @@ func (ec *executionContext) _JobDetail_Inspector(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Inspector(ctx)
+		return ec.resolvers.JobDetail().Inspector(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7669,7 +6991,7 @@ func (ec *executionContext) fieldContext_JobDetail_Inspector(_ context.Context, 
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7723,7 +7045,7 @@ func (ec *executionContext) _JobDetail_Static(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Static(ctx)
+		return ec.resolvers.JobDetail().Static(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7742,7 +7064,7 @@ func (ec *executionContext) fieldContext_JobDetail_Static(_ context.Context, fie
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7796,7 +7118,7 @@ func (ec *executionContext) _JobDetail_Architect(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Architect(ctx)
+		return ec.resolvers.JobDetail().Architect(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7815,7 +7137,7 @@ func (ec *executionContext) fieldContext_JobDetail_Architect(_ context.Context, 
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7869,7 +7191,7 @@ func (ec *executionContext) _JobDetail_Mechanic(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Mechanic(ctx)
+		return ec.resolvers.JobDetail().Mechanic(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7888,7 +7210,7 @@ func (ec *executionContext) fieldContext_JobDetail_Mechanic(_ context.Context, f
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -7942,7 +7264,7 @@ func (ec *executionContext) _JobDetail_Electric(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Electric(ctx)
+		return ec.resolvers.JobDetail().Electric(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7961,7 +7283,7 @@ func (ec *executionContext) fieldContext_JobDetail_Electric(_ context.Context, f
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -8015,7 +7337,7 @@ func (ec *executionContext) _JobDetail_Controller(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Controller(ctx)
+		return ec.resolvers.JobDetail().Controller(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8034,7 +7356,7 @@ func (ec *executionContext) fieldContext_JobDetail_Controller(_ context.Context,
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -8088,7 +7410,7 @@ func (ec *executionContext) _JobDetail_MechanicController(ctx context.Context, f
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Mechaniccontroller(ctx)
+		return ec.resolvers.JobDetail().MechanicController(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8107,7 +7429,7 @@ func (ec *executionContext) fieldContext_JobDetail_MechanicController(_ context.
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -8161,7 +7483,7 @@ func (ec *executionContext) _JobDetail_ElectricController(ctx context.Context, f
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Electriccontroller(ctx)
+		return ec.resolvers.JobDetail().ElectricController(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8180,7 +7502,7 @@ func (ec *executionContext) fieldContext_JobDetail_ElectricController(_ context.
 		Object:     "JobDetail",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -15129,173 +14451,6 @@ func (ec *executionContext) _CompanyEngineerInput(ctx context.Context, sel ast.S
 	return out
 }
 
-var companyOwnerImplementors = []string{"CompanyOwner"}
-
-func (ec *executionContext) _CompanyOwner(ctx context.Context, sel ast.SelectionSet, obj *ent.CompanyOwner) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, companyOwnerImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("CompanyOwner")
-		case "id":
-			out.Values[i] = ec._CompanyOwner_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
-		case "Name":
-			out.Values[i] = ec._CompanyOwner_Name(ctx, field, obj)
-		case "Career":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._CompanyOwner_Career(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "Position":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._CompanyOwner_Position(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "RegisterNo":
-			out.Values[i] = ec._CompanyOwner_RegisterNo(ctx, field, obj)
-		case "CertNo":
-			out.Values[i] = ec._CompanyOwner_CertNo(ctx, field, obj)
-		case "Deleted":
-			out.Values[i] = ec._CompanyOwner_Deleted(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var companyOwnerInputImplementors = []string{"CompanyOwnerInput"}
-
-func (ec *executionContext) _CompanyOwnerInput(ctx context.Context, sel ast.SelectionSet, obj *model.CompanyOwnerInput) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, companyOwnerInputImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("CompanyOwnerInput")
-		case "id":
-			out.Values[i] = ec._CompanyOwnerInput_id(ctx, field, obj)
-		case "Name":
-			out.Values[i] = ec._CompanyOwnerInput_Name(ctx, field, obj)
-		case "Career":
-			out.Values[i] = ec._CompanyOwnerInput_Career(ctx, field, obj)
-		case "Position":
-			out.Values[i] = ec._CompanyOwnerInput_Position(ctx, field, obj)
-		case "RegisterNo":
-			out.Values[i] = ec._CompanyOwnerInput_RegisterNo(ctx, field, obj)
-		case "CertNo":
-			out.Values[i] = ec._CompanyOwnerInput_CertNo(ctx, field, obj)
-		case "Deleted":
-			out.Values[i] = ec._CompanyOwnerInput_Deleted(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
 var companyPositionImplementors = []string{"CompanyPosition"}
 
 func (ec *executionContext) _CompanyPosition(ctx context.Context, sel ast.SelectionSet, obj *ent.CompanyPosition) graphql.Marshaler {
@@ -17246,16 +16401,6 @@ func (ec *executionContext) marshalNCompanyEngineer2ᚕᚖgqlgenᚑentᚋentᚐC
 	return ret
 }
 
-func (ec *executionContext) marshalNCompanyOwner2ᚖgqlgenᚑentᚋentᚐCompanyOwner(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyOwner) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._CompanyOwner(ctx, sel, v)
-}
-
 func (ec *executionContext) marshalNCompanyPosition2gqlgenᚑentᚋentᚐCompanyPosition(ctx context.Context, sel ast.SelectionSet, v ent.CompanyPosition) graphql.Marshaler {
 	return ec._CompanyPosition(ctx, sel, &v)
 }
@@ -17908,53 +17053,6 @@ func (ec *executionContext) marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐComp
 	return ec._CompanyEngineer(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOCompanyOwner2ᚕᚖgqlgenᚑentᚋentᚐCompanyOwnerᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.CompanyOwner) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNCompanyOwner2ᚖgqlgenᚑentᚋentᚐCompanyOwner(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
 func (ec *executionContext) unmarshalODate2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
 	if v == nil {
 		return nil, nil
@@ -17986,22 +17084,6 @@ func (ec *executionContext) unmarshalOID2int(ctx context.Context, v interface{})
 
 func (ec *executionContext) marshalOID2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
 	res := graphql.MarshalInt(v)
-	return res
-}
-
-func (ec *executionContext) unmarshalOID2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := graphql.UnmarshalID(v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	res := graphql.MarshalID(*v)
 	return res
 }
 

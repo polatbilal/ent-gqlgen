@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyowner"
+	"gqlgen-ent/ent/companyengineer"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -265,13 +265,13 @@ func (cdc *CompanyDetailCreate) SetNillableUpdatedAt(t *time.Time) *CompanyDetai
 	return cdc
 }
 
-// SetCompanyOwnerID sets the "companyOwner" edge to the CompanyOwner entity by ID.
+// SetCompanyOwnerID sets the "companyOwner" edge to the CompanyEngineer entity by ID.
 func (cdc *CompanyDetailCreate) SetCompanyOwnerID(id int) *CompanyDetailCreate {
 	cdc.mutation.SetCompanyOwnerID(id)
 	return cdc
 }
 
-// SetNillableCompanyOwnerID sets the "companyOwner" edge to the CompanyOwner entity by ID if the given value is not nil.
+// SetNillableCompanyOwnerID sets the "companyOwner" edge to the CompanyEngineer entity by ID if the given value is not nil.
 func (cdc *CompanyDetailCreate) SetNillableCompanyOwnerID(id *int) *CompanyDetailCreate {
 	if id != nil {
 		cdc = cdc.SetCompanyOwnerID(*id)
@@ -279,8 +279,8 @@ func (cdc *CompanyDetailCreate) SetNillableCompanyOwnerID(id *int) *CompanyDetai
 	return cdc
 }
 
-// SetCompanyOwner sets the "companyOwner" edge to the CompanyOwner entity.
-func (cdc *CompanyDetailCreate) SetCompanyOwner(c *CompanyOwner) *CompanyDetailCreate {
+// SetCompanyOwner sets the "companyOwner" edge to the CompanyEngineer entity.
+func (cdc *CompanyDetailCreate) SetCompanyOwner(c *CompanyEngineer) *CompanyDetailCreate {
 	return cdc.SetCompanyOwnerID(c.ID)
 }
 
@@ -464,7 +464,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 			Columns: []string{companydetail.CompanyOwnerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

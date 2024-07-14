@@ -7,7 +7,6 @@ import (
 	"database/sql/driver"
 	"fmt"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyowner"
 	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/predicate"
 	"math"
@@ -20,16 +19,11 @@ import (
 // CompanyPositionQuery is the builder for querying CompanyPosition entities.
 type CompanyPositionQuery struct {
 	config
-	ctx                            *QueryContext
-	order                          []companyposition.OrderOption
-	inters                         []Interceptor
-	predicates                     []predicate.CompanyPosition
-	withEngineerPositions          *CompanyEngineerQuery
-	withCompanyOwnerPositions      *CompanyOwnerQuery
-	modifiers                      []func(*sql.Selector)
-	loadTotal                      []func(context.Context, []*CompanyPosition) error
-	withNamedEngineerPositions     map[string]*CompanyEngineerQuery
-	withNamedCompanyOwnerPositions map[string]*CompanyOwnerQuery
+	ctx                   *QueryContext
+	order                 []companyposition.OrderOption
+	inters                []Interceptor
+	predicates            []predicate.CompanyPosition
+	withEngineerPositions *CompanyEngineerQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -81,28 +75,6 @@ func (cpq *CompanyPositionQuery) QueryEngineerPositions() *CompanyEngineerQuery 
 			sqlgraph.From(companyposition.Table, companyposition.FieldID, selector),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyposition.EngineerPositionsTable, companyposition.EngineerPositionsColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(cpq.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryCompanyOwnerPositions chains the current query on the "companyOwnerPositions" edge.
-func (cpq *CompanyPositionQuery) QueryCompanyOwnerPositions() *CompanyOwnerQuery {
-	query := (&CompanyOwnerClient{config: cpq.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := cpq.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := cpq.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companyposition.Table, companyposition.FieldID, selector),
-			sqlgraph.To(companyowner.Table, companyowner.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companyposition.CompanyOwnerPositionsTable, companyposition.CompanyOwnerPositionsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cpq.driver.Dialect(), step)
 		return fromU, nil
@@ -297,13 +269,12 @@ func (cpq *CompanyPositionQuery) Clone() *CompanyPositionQuery {
 		return nil
 	}
 	return &CompanyPositionQuery{
-		config:                    cpq.config,
-		ctx:                       cpq.ctx.Clone(),
-		order:                     append([]companyposition.OrderOption{}, cpq.order...),
-		inters:                    append([]Interceptor{}, cpq.inters...),
-		predicates:                append([]predicate.CompanyPosition{}, cpq.predicates...),
-		withEngineerPositions:     cpq.withEngineerPositions.Clone(),
-		withCompanyOwnerPositions: cpq.withCompanyOwnerPositions.Clone(),
+		config:                cpq.config,
+		ctx:                   cpq.ctx.Clone(),
+		order:                 append([]companyposition.OrderOption{}, cpq.order...),
+		inters:                append([]Interceptor{}, cpq.inters...),
+		predicates:            append([]predicate.CompanyPosition{}, cpq.predicates...),
+		withEngineerPositions: cpq.withEngineerPositions.Clone(),
 		// clone intermediate query.
 		sql:  cpq.sql.Clone(),
 		path: cpq.path,
@@ -318,17 +289,6 @@ func (cpq *CompanyPositionQuery) WithEngineerPositions(opts ...func(*CompanyEngi
 		opt(query)
 	}
 	cpq.withEngineerPositions = query
-	return cpq
-}
-
-// WithCompanyOwnerPositions tells the query-builder to eager-load the nodes that are connected to
-// the "companyOwnerPositions" edge. The optional arguments are used to configure the query builder of the edge.
-func (cpq *CompanyPositionQuery) WithCompanyOwnerPositions(opts ...func(*CompanyOwnerQuery)) *CompanyPositionQuery {
-	query := (&CompanyOwnerClient{config: cpq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	cpq.withCompanyOwnerPositions = query
 	return cpq
 }
 
@@ -410,9 +370,8 @@ func (cpq *CompanyPositionQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	var (
 		nodes       = []*CompanyPosition{}
 		_spec       = cpq.querySpec()
-		loadedTypes = [2]bool{
+		loadedTypes = [1]bool{
 			cpq.withEngineerPositions != nil,
-			cpq.withCompanyOwnerPositions != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -423,9 +382,6 @@ func (cpq *CompanyPositionQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
-	}
-	if len(cpq.modifiers) > 0 {
-		_spec.Modifiers = cpq.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
@@ -442,34 +398,6 @@ func (cpq *CompanyPositionQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			func(n *CompanyPosition, e *CompanyEngineer) {
 				n.Edges.EngineerPositions = append(n.Edges.EngineerPositions, e)
 			}); err != nil {
-			return nil, err
-		}
-	}
-	if query := cpq.withCompanyOwnerPositions; query != nil {
-		if err := cpq.loadCompanyOwnerPositions(ctx, query, nodes,
-			func(n *CompanyPosition) { n.Edges.CompanyOwnerPositions = []*CompanyOwner{} },
-			func(n *CompanyPosition, e *CompanyOwner) {
-				n.Edges.CompanyOwnerPositions = append(n.Edges.CompanyOwnerPositions, e)
-			}); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range cpq.withNamedEngineerPositions {
-		if err := cpq.loadEngineerPositions(ctx, query, nodes,
-			func(n *CompanyPosition) { n.appendNamedEngineerPositions(name) },
-			func(n *CompanyPosition, e *CompanyEngineer) { n.appendNamedEngineerPositions(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range cpq.withNamedCompanyOwnerPositions {
-		if err := cpq.loadCompanyOwnerPositions(ctx, query, nodes,
-			func(n *CompanyPosition) { n.appendNamedCompanyOwnerPositions(name) },
-			func(n *CompanyPosition, e *CompanyOwner) { n.appendNamedCompanyOwnerPositions(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range cpq.loadTotal {
-		if err := cpq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -507,43 +435,9 @@ func (cpq *CompanyPositionQuery) loadEngineerPositions(ctx context.Context, quer
 	}
 	return nil
 }
-func (cpq *CompanyPositionQuery) loadCompanyOwnerPositions(ctx context.Context, query *CompanyOwnerQuery, nodes []*CompanyPosition, init func(*CompanyPosition), assign func(*CompanyPosition, *CompanyOwner)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*CompanyPosition)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
-		if init != nil {
-			init(nodes[i])
-		}
-	}
-	query.withFKs = true
-	query.Where(predicate.CompanyOwner(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companyposition.CompanyOwnerPositionsColumn), fks...))
-	}))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		fk := n.position_id
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "position_id" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
-		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "position_id" returned %v for node %v`, *fk, n.ID)
-		}
-		assign(node, n)
-	}
-	return nil
-}
 
 func (cpq *CompanyPositionQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := cpq.querySpec()
-	if len(cpq.modifiers) > 0 {
-		_spec.Modifiers = cpq.modifiers
-	}
 	_spec.Node.Columns = cpq.ctx.Fields
 	if len(cpq.ctx.Fields) > 0 {
 		_spec.Unique = cpq.ctx.Unique != nil && *cpq.ctx.Unique
@@ -621,34 +515,6 @@ func (cpq *CompanyPositionQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
-}
-
-// WithNamedEngineerPositions tells the query-builder to eager-load the nodes that are connected to the "engineerPositions"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (cpq *CompanyPositionQuery) WithNamedEngineerPositions(name string, opts ...func(*CompanyEngineerQuery)) *CompanyPositionQuery {
-	query := (&CompanyEngineerClient{config: cpq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if cpq.withNamedEngineerPositions == nil {
-		cpq.withNamedEngineerPositions = make(map[string]*CompanyEngineerQuery)
-	}
-	cpq.withNamedEngineerPositions[name] = query
-	return cpq
-}
-
-// WithNamedCompanyOwnerPositions tells the query-builder to eager-load the nodes that are connected to the "companyOwnerPositions"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (cpq *CompanyPositionQuery) WithNamedCompanyOwnerPositions(name string, opts ...func(*CompanyOwnerQuery)) *CompanyPositionQuery {
-	query := (&CompanyOwnerClient{config: cpq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if cpq.withNamedCompanyOwnerPositions == nil {
-		cpq.withNamedCompanyOwnerPositions = make(map[string]*CompanyOwnerQuery)
-	}
-	cpq.withNamedCompanyOwnerPositions[name] = query
-	return cpq
 }
 
 // CompanyPositionGroupBy is the group-by builder for CompanyPosition entities.

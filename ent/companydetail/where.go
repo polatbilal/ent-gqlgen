@@ -1307,7 +1307,7 @@ func HasCompanyOwner() predicate.CompanyDetail {
 }
 
 // HasCompanyOwnerWith applies the HasEdge predicate on the "companyOwner" edge with a given conditions (other predicates).
-func HasCompanyOwnerWith(preds ...predicate.CompanyOwner) predicate.CompanyDetail {
+func HasCompanyOwnerWith(preds ...predicate.CompanyEngineer) predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := newCompanyOwnerStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

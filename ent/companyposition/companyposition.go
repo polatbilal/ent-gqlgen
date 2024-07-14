@@ -16,8 +16,6 @@ const (
 	FieldPosition = "position"
 	// EdgeEngineerPositions holds the string denoting the engineerpositions edge name in mutations.
 	EdgeEngineerPositions = "engineerPositions"
-	// EdgeCompanyOwnerPositions holds the string denoting the companyownerpositions edge name in mutations.
-	EdgeCompanyOwnerPositions = "companyOwnerPositions"
 	// Table holds the table name of the companyposition in the database.
 	Table = "company_positions"
 	// EngineerPositionsTable is the table that holds the engineerPositions relation/edge.
@@ -27,13 +25,6 @@ const (
 	EngineerPositionsInverseTable = "company_engineers"
 	// EngineerPositionsColumn is the table column denoting the engineerPositions relation/edge.
 	EngineerPositionsColumn = "position_id"
-	// CompanyOwnerPositionsTable is the table that holds the companyOwnerPositions relation/edge.
-	CompanyOwnerPositionsTable = "company_owners"
-	// CompanyOwnerPositionsInverseTable is the table name for the CompanyOwner entity.
-	// It exists in this package in order to avoid circular dependency with the "companyowner" package.
-	CompanyOwnerPositionsInverseTable = "company_owners"
-	// CompanyOwnerPositionsColumn is the table column denoting the companyOwnerPositions relation/edge.
-	CompanyOwnerPositionsColumn = "position_id"
 )
 
 // Columns holds all SQL columns for companyposition fields.
@@ -78,31 +69,10 @@ func ByEngineerPositions(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption
 		sqlgraph.OrderByNeighborTerms(s, newEngineerPositionsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
-
-// ByCompanyOwnerPositionsCount orders the results by companyOwnerPositions count.
-func ByCompanyOwnerPositionsCount(opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newCompanyOwnerPositionsStep(), opts...)
-	}
-}
-
-// ByCompanyOwnerPositions orders the results by companyOwnerPositions terms.
-func ByCompanyOwnerPositions(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newCompanyOwnerPositionsStep(), append([]sql.OrderTerm{term}, terms...)...)
-	}
-}
 func newEngineerPositionsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(EngineerPositionsInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, EngineerPositionsTable, EngineerPositionsColumn),
-	)
-}
-func newCompanyOwnerPositionsStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(CompanyOwnerPositionsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, CompanyOwnerPositionsTable, CompanyOwnerPositionsColumn),
 	)
 }

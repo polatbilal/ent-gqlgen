@@ -42,9 +42,6 @@ type JobDetailQuery struct {
 	withElectriccontroller *CompanyEngineerQuery
 	withLayers             *JobLayerQuery
 	withFKs                bool
-	modifiers              []func(*sql.Selector)
-	loadTotal              []func(context.Context, []*JobDetail) error
-	withNamedLayers        map[string]*JobLayerQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -831,9 +828,6 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jdq.modifiers) > 0 {
-		_spec.Modifiers = jdq.modifiers
-	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -919,18 +913,6 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 		if err := jdq.loadLayers(ctx, query, nodes,
 			func(n *JobDetail) { n.Edges.Layers = []*JobLayer{} },
 			func(n *JobDetail, e *JobLayer) { n.Edges.Layers = append(n.Edges.Layers, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range jdq.withNamedLayers {
-		if err := jdq.loadLayers(ctx, query, nodes,
-			func(n *JobDetail) { n.appendNamedLayers(name) },
-			func(n *JobDetail, e *JobLayer) { n.appendNamedLayers(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range jdq.loadTotal {
-		if err := jdq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -1355,9 +1337,6 @@ func (jdq *JobDetailQuery) loadLayers(ctx context.Context, query *JobLayerQuery,
 
 func (jdq *JobDetailQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jdq.querySpec()
-	if len(jdq.modifiers) > 0 {
-		_spec.Modifiers = jdq.modifiers
-	}
 	_spec.Node.Columns = jdq.ctx.Fields
 	if len(jdq.ctx.Fields) > 0 {
 		_spec.Unique = jdq.ctx.Unique != nil && *jdq.ctx.Unique
@@ -1435,20 +1414,6 @@ func (jdq *JobDetailQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
-}
-
-// WithNamedLayers tells the query-builder to eager-load the nodes that are connected to the "layers"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jdq *JobDetailQuery) WithNamedLayers(name string, opts ...func(*JobLayerQuery)) *JobDetailQuery {
-	query := (&JobLayerClient{config: jdq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if jdq.withNamedLayers == nil {
-		jdq.withNamedLayers = make(map[string]*JobLayerQuery)
-	}
-	jdq.withNamedLayers[name] = query
-	return jdq
 }
 
 // JobDetailGroupBy is the group-by builder for JobDetail entities.

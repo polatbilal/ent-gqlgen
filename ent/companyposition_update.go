@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyowner"
 	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/predicate"
 
@@ -64,21 +63,6 @@ func (cpu *CompanyPositionUpdate) AddEngineerPositions(c ...*CompanyEngineer) *C
 	return cpu.AddEngineerPositionIDs(ids...)
 }
 
-// AddCompanyOwnerPositionIDs adds the "companyOwnerPositions" edge to the CompanyOwner entity by IDs.
-func (cpu *CompanyPositionUpdate) AddCompanyOwnerPositionIDs(ids ...int) *CompanyPositionUpdate {
-	cpu.mutation.AddCompanyOwnerPositionIDs(ids...)
-	return cpu
-}
-
-// AddCompanyOwnerPositions adds the "companyOwnerPositions" edges to the CompanyOwner entity.
-func (cpu *CompanyPositionUpdate) AddCompanyOwnerPositions(c ...*CompanyOwner) *CompanyPositionUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return cpu.AddCompanyOwnerPositionIDs(ids...)
-}
-
 // Mutation returns the CompanyPositionMutation object of the builder.
 func (cpu *CompanyPositionUpdate) Mutation() *CompanyPositionMutation {
 	return cpu.mutation
@@ -103,27 +87,6 @@ func (cpu *CompanyPositionUpdate) RemoveEngineerPositions(c ...*CompanyEngineer)
 		ids[i] = c[i].ID
 	}
 	return cpu.RemoveEngineerPositionIDs(ids...)
-}
-
-// ClearCompanyOwnerPositions clears all "companyOwnerPositions" edges to the CompanyOwner entity.
-func (cpu *CompanyPositionUpdate) ClearCompanyOwnerPositions() *CompanyPositionUpdate {
-	cpu.mutation.ClearCompanyOwnerPositions()
-	return cpu
-}
-
-// RemoveCompanyOwnerPositionIDs removes the "companyOwnerPositions" edge to CompanyOwner entities by IDs.
-func (cpu *CompanyPositionUpdate) RemoveCompanyOwnerPositionIDs(ids ...int) *CompanyPositionUpdate {
-	cpu.mutation.RemoveCompanyOwnerPositionIDs(ids...)
-	return cpu
-}
-
-// RemoveCompanyOwnerPositions removes "companyOwnerPositions" edges to CompanyOwner entities.
-func (cpu *CompanyPositionUpdate) RemoveCompanyOwnerPositions(c ...*CompanyOwner) *CompanyPositionUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return cpu.RemoveCompanyOwnerPositionIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -213,51 +176,6 @@ func (cpu *CompanyPositionUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cpu.mutation.CompanyOwnerPositionsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyposition.CompanyOwnerPositionsTable,
-			Columns: []string{companyposition.CompanyOwnerPositionsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := cpu.mutation.RemovedCompanyOwnerPositionsIDs(); len(nodes) > 0 && !cpu.mutation.CompanyOwnerPositionsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyposition.CompanyOwnerPositionsTable,
-			Columns: []string{companyposition.CompanyOwnerPositionsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := cpu.mutation.CompanyOwnerPositionsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyposition.CompanyOwnerPositionsTable,
-			Columns: []string{companyposition.CompanyOwnerPositionsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cpu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companyposition.Label}
@@ -313,21 +231,6 @@ func (cpuo *CompanyPositionUpdateOne) AddEngineerPositions(c ...*CompanyEngineer
 	return cpuo.AddEngineerPositionIDs(ids...)
 }
 
-// AddCompanyOwnerPositionIDs adds the "companyOwnerPositions" edge to the CompanyOwner entity by IDs.
-func (cpuo *CompanyPositionUpdateOne) AddCompanyOwnerPositionIDs(ids ...int) *CompanyPositionUpdateOne {
-	cpuo.mutation.AddCompanyOwnerPositionIDs(ids...)
-	return cpuo
-}
-
-// AddCompanyOwnerPositions adds the "companyOwnerPositions" edges to the CompanyOwner entity.
-func (cpuo *CompanyPositionUpdateOne) AddCompanyOwnerPositions(c ...*CompanyOwner) *CompanyPositionUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return cpuo.AddCompanyOwnerPositionIDs(ids...)
-}
-
 // Mutation returns the CompanyPositionMutation object of the builder.
 func (cpuo *CompanyPositionUpdateOne) Mutation() *CompanyPositionMutation {
 	return cpuo.mutation
@@ -352,27 +255,6 @@ func (cpuo *CompanyPositionUpdateOne) RemoveEngineerPositions(c ...*CompanyEngin
 		ids[i] = c[i].ID
 	}
 	return cpuo.RemoveEngineerPositionIDs(ids...)
-}
-
-// ClearCompanyOwnerPositions clears all "companyOwnerPositions" edges to the CompanyOwner entity.
-func (cpuo *CompanyPositionUpdateOne) ClearCompanyOwnerPositions() *CompanyPositionUpdateOne {
-	cpuo.mutation.ClearCompanyOwnerPositions()
-	return cpuo
-}
-
-// RemoveCompanyOwnerPositionIDs removes the "companyOwnerPositions" edge to CompanyOwner entities by IDs.
-func (cpuo *CompanyPositionUpdateOne) RemoveCompanyOwnerPositionIDs(ids ...int) *CompanyPositionUpdateOne {
-	cpuo.mutation.RemoveCompanyOwnerPositionIDs(ids...)
-	return cpuo
-}
-
-// RemoveCompanyOwnerPositions removes "companyOwnerPositions" edges to CompanyOwner entities.
-func (cpuo *CompanyPositionUpdateOne) RemoveCompanyOwnerPositions(c ...*CompanyOwner) *CompanyPositionUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return cpuo.RemoveCompanyOwnerPositionIDs(ids...)
 }
 
 // Where appends a list predicates to the CompanyPositionUpdate builder.
@@ -485,51 +367,6 @@ func (cpuo *CompanyPositionUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if cpuo.mutation.CompanyOwnerPositionsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyposition.CompanyOwnerPositionsTable,
-			Columns: []string{companyposition.CompanyOwnerPositionsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := cpuo.mutation.RemovedCompanyOwnerPositionsIDs(); len(nodes) > 0 && !cpuo.mutation.CompanyOwnerPositionsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyposition.CompanyOwnerPositionsTable,
-			Columns: []string{companyposition.CompanyOwnerPositionsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := cpuo.mutation.CompanyOwnerPositionsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyposition.CompanyOwnerPositionsTable,
-			Columns: []string{companyposition.CompanyOwnerPositionsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

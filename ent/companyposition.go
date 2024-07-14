@@ -28,16 +28,9 @@ type CompanyPosition struct {
 type CompanyPositionEdges struct {
 	// EngineerPositions holds the value of the engineerPositions edge.
 	EngineerPositions []*CompanyEngineer `json:"engineerPositions,omitempty"`
-	// CompanyOwnerPositions holds the value of the companyOwnerPositions edge.
-	CompanyOwnerPositions []*CompanyOwner `json:"companyOwnerPositions,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
-	// totalCount holds the count of the edges above.
-	totalCount [2]map[string]int
-
-	namedEngineerPositions     map[string][]*CompanyEngineer
-	namedCompanyOwnerPositions map[string][]*CompanyOwner
+	loadedTypes [1]bool
 }
 
 // EngineerPositionsOrErr returns the EngineerPositions value or an error if the edge
@@ -47,15 +40,6 @@ func (e CompanyPositionEdges) EngineerPositionsOrErr() ([]*CompanyEngineer, erro
 		return e.EngineerPositions, nil
 	}
 	return nil, &NotLoadedError{edge: "engineerPositions"}
-}
-
-// CompanyOwnerPositionsOrErr returns the CompanyOwnerPositions value or an error if the edge
-// was not loaded in eager-loading.
-func (e CompanyPositionEdges) CompanyOwnerPositionsOrErr() ([]*CompanyOwner, error) {
-	if e.loadedTypes[1] {
-		return e.CompanyOwnerPositions, nil
-	}
-	return nil, &NotLoadedError{edge: "companyOwnerPositions"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -112,11 +96,6 @@ func (cp *CompanyPosition) QueryEngineerPositions() *CompanyEngineerQuery {
 	return NewCompanyPositionClient(cp.config).QueryEngineerPositions(cp)
 }
 
-// QueryCompanyOwnerPositions queries the "companyOwnerPositions" edge of the CompanyPosition entity.
-func (cp *CompanyPosition) QueryCompanyOwnerPositions() *CompanyOwnerQuery {
-	return NewCompanyPositionClient(cp.config).QueryCompanyOwnerPositions(cp)
-}
-
 // Update returns a builder for updating this CompanyPosition.
 // Note that you need to call CompanyPosition.Unwrap() before calling this method if this CompanyPosition
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -144,54 +123,6 @@ func (cp *CompanyPosition) String() string {
 	builder.WriteString(cp.Position)
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedEngineerPositions returns the EngineerPositions named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (cp *CompanyPosition) NamedEngineerPositions(name string) ([]*CompanyEngineer, error) {
-	if cp.Edges.namedEngineerPositions == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := cp.Edges.namedEngineerPositions[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (cp *CompanyPosition) appendNamedEngineerPositions(name string, edges ...*CompanyEngineer) {
-	if cp.Edges.namedEngineerPositions == nil {
-		cp.Edges.namedEngineerPositions = make(map[string][]*CompanyEngineer)
-	}
-	if len(edges) == 0 {
-		cp.Edges.namedEngineerPositions[name] = []*CompanyEngineer{}
-	} else {
-		cp.Edges.namedEngineerPositions[name] = append(cp.Edges.namedEngineerPositions[name], edges...)
-	}
-}
-
-// NamedCompanyOwnerPositions returns the CompanyOwnerPositions named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (cp *CompanyPosition) NamedCompanyOwnerPositions(name string) ([]*CompanyOwner, error) {
-	if cp.Edges.namedCompanyOwnerPositions == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := cp.Edges.namedCompanyOwnerPositions[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (cp *CompanyPosition) appendNamedCompanyOwnerPositions(name string, edges ...*CompanyOwner) {
-	if cp.Edges.namedCompanyOwnerPositions == nil {
-		cp.Edges.namedCompanyOwnerPositions = make(map[string][]*CompanyOwner)
-	}
-	if len(edges) == 0 {
-		cp.Edges.namedCompanyOwnerPositions[name] = []*CompanyOwner{}
-	} else {
-		cp.Edges.namedCompanyOwnerPositions[name] = append(cp.Edges.namedCompanyOwnerPositions[name], edges...)
-	}
 }
 
 // CompanyPositions is a parsable slice of CompanyPosition.

@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyowner"
 	"gqlgen-ent/ent/predicate"
 	"math"
 
@@ -20,16 +19,11 @@ import (
 // CompanyCareerQuery is the builder for querying CompanyCareer entities.
 type CompanyCareerQuery struct {
 	config
-	ctx                          *QueryContext
-	order                        []companycareer.OrderOption
-	inters                       []Interceptor
-	predicates                   []predicate.CompanyCareer
-	withEngineerCareers          *CompanyEngineerQuery
-	withCompanyOwnerCareers      *CompanyOwnerQuery
-	modifiers                    []func(*sql.Selector)
-	loadTotal                    []func(context.Context, []*CompanyCareer) error
-	withNamedEngineerCareers     map[string]*CompanyEngineerQuery
-	withNamedCompanyOwnerCareers map[string]*CompanyOwnerQuery
+	ctx                 *QueryContext
+	order               []companycareer.OrderOption
+	inters              []Interceptor
+	predicates          []predicate.CompanyCareer
+	withEngineerCareers *CompanyEngineerQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -81,28 +75,6 @@ func (ccq *CompanyCareerQuery) QueryEngineerCareers() *CompanyEngineerQuery {
 			sqlgraph.From(companycareer.Table, companycareer.FieldID, selector),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companycareer.EngineerCareersTable, companycareer.EngineerCareersColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(ccq.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryCompanyOwnerCareers chains the current query on the "companyOwnerCareers" edge.
-func (ccq *CompanyCareerQuery) QueryCompanyOwnerCareers() *CompanyOwnerQuery {
-	query := (&CompanyOwnerClient{config: ccq.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := ccq.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := ccq.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companycareer.Table, companycareer.FieldID, selector),
-			sqlgraph.To(companyowner.Table, companyowner.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companycareer.CompanyOwnerCareersTable, companycareer.CompanyOwnerCareersColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(ccq.driver.Dialect(), step)
 		return fromU, nil
@@ -297,13 +269,12 @@ func (ccq *CompanyCareerQuery) Clone() *CompanyCareerQuery {
 		return nil
 	}
 	return &CompanyCareerQuery{
-		config:                  ccq.config,
-		ctx:                     ccq.ctx.Clone(),
-		order:                   append([]companycareer.OrderOption{}, ccq.order...),
-		inters:                  append([]Interceptor{}, ccq.inters...),
-		predicates:              append([]predicate.CompanyCareer{}, ccq.predicates...),
-		withEngineerCareers:     ccq.withEngineerCareers.Clone(),
-		withCompanyOwnerCareers: ccq.withCompanyOwnerCareers.Clone(),
+		config:              ccq.config,
+		ctx:                 ccq.ctx.Clone(),
+		order:               append([]companycareer.OrderOption{}, ccq.order...),
+		inters:              append([]Interceptor{}, ccq.inters...),
+		predicates:          append([]predicate.CompanyCareer{}, ccq.predicates...),
+		withEngineerCareers: ccq.withEngineerCareers.Clone(),
 		// clone intermediate query.
 		sql:  ccq.sql.Clone(),
 		path: ccq.path,
@@ -318,17 +289,6 @@ func (ccq *CompanyCareerQuery) WithEngineerCareers(opts ...func(*CompanyEngineer
 		opt(query)
 	}
 	ccq.withEngineerCareers = query
-	return ccq
-}
-
-// WithCompanyOwnerCareers tells the query-builder to eager-load the nodes that are connected to
-// the "companyOwnerCareers" edge. The optional arguments are used to configure the query builder of the edge.
-func (ccq *CompanyCareerQuery) WithCompanyOwnerCareers(opts ...func(*CompanyOwnerQuery)) *CompanyCareerQuery {
-	query := (&CompanyOwnerClient{config: ccq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	ccq.withCompanyOwnerCareers = query
 	return ccq
 }
 
@@ -410,9 +370,8 @@ func (ccq *CompanyCareerQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	var (
 		nodes       = []*CompanyCareer{}
 		_spec       = ccq.querySpec()
-		loadedTypes = [2]bool{
+		loadedTypes = [1]bool{
 			ccq.withEngineerCareers != nil,
-			ccq.withCompanyOwnerCareers != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -423,9 +382,6 @@ func (ccq *CompanyCareerQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
-	}
-	if len(ccq.modifiers) > 0 {
-		_spec.Modifiers = ccq.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
@@ -442,34 +398,6 @@ func (ccq *CompanyCareerQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 			func(n *CompanyCareer, e *CompanyEngineer) {
 				n.Edges.EngineerCareers = append(n.Edges.EngineerCareers, e)
 			}); err != nil {
-			return nil, err
-		}
-	}
-	if query := ccq.withCompanyOwnerCareers; query != nil {
-		if err := ccq.loadCompanyOwnerCareers(ctx, query, nodes,
-			func(n *CompanyCareer) { n.Edges.CompanyOwnerCareers = []*CompanyOwner{} },
-			func(n *CompanyCareer, e *CompanyOwner) {
-				n.Edges.CompanyOwnerCareers = append(n.Edges.CompanyOwnerCareers, e)
-			}); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range ccq.withNamedEngineerCareers {
-		if err := ccq.loadEngineerCareers(ctx, query, nodes,
-			func(n *CompanyCareer) { n.appendNamedEngineerCareers(name) },
-			func(n *CompanyCareer, e *CompanyEngineer) { n.appendNamedEngineerCareers(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range ccq.withNamedCompanyOwnerCareers {
-		if err := ccq.loadCompanyOwnerCareers(ctx, query, nodes,
-			func(n *CompanyCareer) { n.appendNamedCompanyOwnerCareers(name) },
-			func(n *CompanyCareer, e *CompanyOwner) { n.appendNamedCompanyOwnerCareers(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range ccq.loadTotal {
-		if err := ccq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -507,43 +435,9 @@ func (ccq *CompanyCareerQuery) loadEngineerCareers(ctx context.Context, query *C
 	}
 	return nil
 }
-func (ccq *CompanyCareerQuery) loadCompanyOwnerCareers(ctx context.Context, query *CompanyOwnerQuery, nodes []*CompanyCareer, init func(*CompanyCareer), assign func(*CompanyCareer, *CompanyOwner)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*CompanyCareer)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
-		if init != nil {
-			init(nodes[i])
-		}
-	}
-	query.withFKs = true
-	query.Where(predicate.CompanyOwner(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companycareer.CompanyOwnerCareersColumn), fks...))
-	}))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		fk := n.career_id
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "career_id" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
-		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "career_id" returned %v for node %v`, *fk, n.ID)
-		}
-		assign(node, n)
-	}
-	return nil
-}
 
 func (ccq *CompanyCareerQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := ccq.querySpec()
-	if len(ccq.modifiers) > 0 {
-		_spec.Modifiers = ccq.modifiers
-	}
 	_spec.Node.Columns = ccq.ctx.Fields
 	if len(ccq.ctx.Fields) > 0 {
 		_spec.Unique = ccq.ctx.Unique != nil && *ccq.ctx.Unique
@@ -621,34 +515,6 @@ func (ccq *CompanyCareerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
-}
-
-// WithNamedEngineerCareers tells the query-builder to eager-load the nodes that are connected to the "engineerCareers"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (ccq *CompanyCareerQuery) WithNamedEngineerCareers(name string, opts ...func(*CompanyEngineerQuery)) *CompanyCareerQuery {
-	query := (&CompanyEngineerClient{config: ccq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if ccq.withNamedEngineerCareers == nil {
-		ccq.withNamedEngineerCareers = make(map[string]*CompanyEngineerQuery)
-	}
-	ccq.withNamedEngineerCareers[name] = query
-	return ccq
-}
-
-// WithNamedCompanyOwnerCareers tells the query-builder to eager-load the nodes that are connected to the "companyOwnerCareers"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (ccq *CompanyCareerQuery) WithNamedCompanyOwnerCareers(name string, opts ...func(*CompanyOwnerQuery)) *CompanyCareerQuery {
-	query := (&CompanyOwnerClient{config: ccq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if ccq.withNamedCompanyOwnerCareers == nil {
-		ccq.withNamedCompanyOwnerCareers = make(map[string]*CompanyOwnerQuery)
-	}
-	ccq.withNamedCompanyOwnerCareers[name] = query
-	return ccq
 }
 
 // CompanyCareerGroupBy is the group-by builder for CompanyCareer entities.

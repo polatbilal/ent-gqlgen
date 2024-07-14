@@ -15,9 +15,6 @@ type CompanyDetail func(*sql.Selector)
 // CompanyEngineer is the predicate function for companyengineer builders.
 type CompanyEngineer func(*sql.Selector)
 
-// CompanyOwner is the predicate function for companyowner builders.
-type CompanyOwner func(*sql.Selector)
-
 // CompanyPosition is the predicate function for companyposition builders.
 type CompanyPosition func(*sql.Selector)
 

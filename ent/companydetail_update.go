@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyowner"
+	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/predicate"
 	"time"
 
@@ -372,13 +372,13 @@ func (cdu *CompanyDetailUpdate) SetUpdatedAt(t time.Time) *CompanyDetailUpdate {
 	return cdu
 }
 
-// SetCompanyOwnerID sets the "companyOwner" edge to the CompanyOwner entity by ID.
+// SetCompanyOwnerID sets the "companyOwner" edge to the CompanyEngineer entity by ID.
 func (cdu *CompanyDetailUpdate) SetCompanyOwnerID(id int) *CompanyDetailUpdate {
 	cdu.mutation.SetCompanyOwnerID(id)
 	return cdu
 }
 
-// SetNillableCompanyOwnerID sets the "companyOwner" edge to the CompanyOwner entity by ID if the given value is not nil.
+// SetNillableCompanyOwnerID sets the "companyOwner" edge to the CompanyEngineer entity by ID if the given value is not nil.
 func (cdu *CompanyDetailUpdate) SetNillableCompanyOwnerID(id *int) *CompanyDetailUpdate {
 	if id != nil {
 		cdu = cdu.SetCompanyOwnerID(*id)
@@ -386,8 +386,8 @@ func (cdu *CompanyDetailUpdate) SetNillableCompanyOwnerID(id *int) *CompanyDetai
 	return cdu
 }
 
-// SetCompanyOwner sets the "companyOwner" edge to the CompanyOwner entity.
-func (cdu *CompanyDetailUpdate) SetCompanyOwner(c *CompanyOwner) *CompanyDetailUpdate {
+// SetCompanyOwner sets the "companyOwner" edge to the CompanyEngineer entity.
+func (cdu *CompanyDetailUpdate) SetCompanyOwner(c *CompanyEngineer) *CompanyDetailUpdate {
 	return cdu.SetCompanyOwnerID(c.ID)
 }
 
@@ -396,7 +396,7 @@ func (cdu *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
 	return cdu.mutation
 }
 
-// ClearCompanyOwner clears the "companyOwner" edge to the CompanyOwner entity.
+// ClearCompanyOwner clears the "companyOwner" edge to the CompanyEngineer entity.
 func (cdu *CompanyDetailUpdate) ClearCompanyOwner() *CompanyDetailUpdate {
 	cdu.mutation.ClearCompanyOwner()
 	return cdu
@@ -557,7 +557,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{companydetail.CompanyOwnerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -570,7 +570,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{companydetail.CompanyOwnerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -941,13 +941,13 @@ func (cduo *CompanyDetailUpdateOne) SetUpdatedAt(t time.Time) *CompanyDetailUpda
 	return cduo
 }
 
-// SetCompanyOwnerID sets the "companyOwner" edge to the CompanyOwner entity by ID.
+// SetCompanyOwnerID sets the "companyOwner" edge to the CompanyEngineer entity by ID.
 func (cduo *CompanyDetailUpdateOne) SetCompanyOwnerID(id int) *CompanyDetailUpdateOne {
 	cduo.mutation.SetCompanyOwnerID(id)
 	return cduo
 }
 
-// SetNillableCompanyOwnerID sets the "companyOwner" edge to the CompanyOwner entity by ID if the given value is not nil.
+// SetNillableCompanyOwnerID sets the "companyOwner" edge to the CompanyEngineer entity by ID if the given value is not nil.
 func (cduo *CompanyDetailUpdateOne) SetNillableCompanyOwnerID(id *int) *CompanyDetailUpdateOne {
 	if id != nil {
 		cduo = cduo.SetCompanyOwnerID(*id)
@@ -955,8 +955,8 @@ func (cduo *CompanyDetailUpdateOne) SetNillableCompanyOwnerID(id *int) *CompanyD
 	return cduo
 }
 
-// SetCompanyOwner sets the "companyOwner" edge to the CompanyOwner entity.
-func (cduo *CompanyDetailUpdateOne) SetCompanyOwner(c *CompanyOwner) *CompanyDetailUpdateOne {
+// SetCompanyOwner sets the "companyOwner" edge to the CompanyEngineer entity.
+func (cduo *CompanyDetailUpdateOne) SetCompanyOwner(c *CompanyEngineer) *CompanyDetailUpdateOne {
 	return cduo.SetCompanyOwnerID(c.ID)
 }
 
@@ -965,7 +965,7 @@ func (cduo *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
 	return cduo.mutation
 }
 
-// ClearCompanyOwner clears the "companyOwner" edge to the CompanyOwner entity.
+// ClearCompanyOwner clears the "companyOwner" edge to the CompanyEngineer entity.
 func (cduo *CompanyDetailUpdateOne) ClearCompanyOwner() *CompanyDetailUpdateOne {
 	cduo.mutation.ClearCompanyOwner()
 	return cduo
@@ -1156,7 +1156,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Columns: []string{companydetail.CompanyOwnerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1169,7 +1169,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Columns: []string{companydetail.CompanyOwnerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyowner.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

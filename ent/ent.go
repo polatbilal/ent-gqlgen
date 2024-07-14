@@ -9,7 +9,6 @@ import (
 	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyowner"
 	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
@@ -87,7 +86,6 @@ func checkColumn(table, column string) error {
 			companycareer.Table:   companycareer.ValidColumn,
 			companydetail.Table:   companydetail.ValidColumn,
 			companyengineer.Table: companyengineer.ValidColumn,
-			companyowner.Table:    companyowner.ValidColumn,
 			companyposition.Table: companyposition.ValidColumn,
 			jobauthor.Table:       jobauthor.ValidColumn,
 			jobcontractor.Table:   jobcontractor.ValidColumn,

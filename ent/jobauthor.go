@@ -46,10 +46,6 @@ type JobAuthorEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
-	// totalCount holds the count of the edges above.
-	totalCount [1]map[string]int
-
-	namedAuthors map[string][]*JobDetail
 }
 
 // AuthorsOrErr returns the Authors value or an error if the edge
@@ -207,30 +203,6 @@ func (ja *JobAuthor) String() string {
 	builder.WriteString(ja.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedAuthors returns the Authors named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (ja *JobAuthor) NamedAuthors(name string) ([]*JobDetail, error) {
-	if ja.Edges.namedAuthors == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := ja.Edges.namedAuthors[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (ja *JobAuthor) appendNamedAuthors(name string, edges ...*JobDetail) {
-	if ja.Edges.namedAuthors == nil {
-		ja.Edges.namedAuthors = make(map[string][]*JobDetail)
-	}
-	if len(edges) == 0 {
-		ja.Edges.namedAuthors[name] = []*JobDetail{}
-	} else {
-		ja.Edges.namedAuthors[name] = append(ja.Edges.namedAuthors[name], edges...)
-	}
 }
 
 // JobAuthors is a parsable slice of JobAuthor.

@@ -41,6 +41,6 @@ func (CompanyDetail) Fields() []ent.Field {
 // Edges of the CompanyDetail.
 func (CompanyDetail) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("companyOwner", CompanyOwner.Type).Ref("companyOwners").Unique(),
+		edge.From("companyOwner", CompanyEngineer.Type).Ref("companyOwners").Unique(),
 	}
 }

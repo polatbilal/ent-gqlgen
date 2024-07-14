@@ -22,6 +22,6 @@ func (CompanyPosition) Fields() []ent.Field {
 func (CompanyPosition) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("engineerPositions", CompanyEngineer.Type).StorageKey(edge.Column("position_id")),
-		edge.To("companyOwnerPositions", CompanyOwner.Type).StorageKey(edge.Column("position_id")),
+		// edge.To("companyOwnerPositions", CompanyOwner.Type).StorageKey(edge.Column("position_id")),
 	}
 }

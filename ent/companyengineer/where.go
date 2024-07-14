@@ -946,6 +946,29 @@ func HasEngineerPositionWith(preds ...predicate.CompanyPosition) predicate.Compa
 	})
 }
 
+// HasCompanyOwners applies the HasEdge predicate on the "companyOwners" edge.
+func HasCompanyOwners() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, CompanyOwnersTable, CompanyOwnersColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasCompanyOwnersWith applies the HasEdge predicate on the "companyOwners" edge with a given conditions (other predicates).
+func HasCompanyOwnersWith(preds ...predicate.CompanyDetail) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(func(s *sql.Selector) {
+		step := newCompanyOwnersStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // HasInspectors applies the HasEdge predicate on the "inspectors" edge.
 func HasInspectors() predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {

@@ -28,16 +28,9 @@ type CompanyCareer struct {
 type CompanyCareerEdges struct {
 	// EngineerCareers holds the value of the engineerCareers edge.
 	EngineerCareers []*CompanyEngineer `json:"engineerCareers,omitempty"`
-	// CompanyOwnerCareers holds the value of the companyOwnerCareers edge.
-	CompanyOwnerCareers []*CompanyOwner `json:"companyOwnerCareers,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
-	// totalCount holds the count of the edges above.
-	totalCount [2]map[string]int
-
-	namedEngineerCareers     map[string][]*CompanyEngineer
-	namedCompanyOwnerCareers map[string][]*CompanyOwner
+	loadedTypes [1]bool
 }
 
 // EngineerCareersOrErr returns the EngineerCareers value or an error if the edge
@@ -47,15 +40,6 @@ func (e CompanyCareerEdges) EngineerCareersOrErr() ([]*CompanyEngineer, error) {
 		return e.EngineerCareers, nil
 	}
 	return nil, &NotLoadedError{edge: "engineerCareers"}
-}
-
-// CompanyOwnerCareersOrErr returns the CompanyOwnerCareers value or an error if the edge
-// was not loaded in eager-loading.
-func (e CompanyCareerEdges) CompanyOwnerCareersOrErr() ([]*CompanyOwner, error) {
-	if e.loadedTypes[1] {
-		return e.CompanyOwnerCareers, nil
-	}
-	return nil, &NotLoadedError{edge: "companyOwnerCareers"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -112,11 +96,6 @@ func (cc *CompanyCareer) QueryEngineerCareers() *CompanyEngineerQuery {
 	return NewCompanyCareerClient(cc.config).QueryEngineerCareers(cc)
 }
 
-// QueryCompanyOwnerCareers queries the "companyOwnerCareers" edge of the CompanyCareer entity.
-func (cc *CompanyCareer) QueryCompanyOwnerCareers() *CompanyOwnerQuery {
-	return NewCompanyCareerClient(cc.config).QueryCompanyOwnerCareers(cc)
-}
-
 // Update returns a builder for updating this CompanyCareer.
 // Note that you need to call CompanyCareer.Unwrap() before calling this method if this CompanyCareer
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -144,54 +123,6 @@ func (cc *CompanyCareer) String() string {
 	builder.WriteString(cc.Career)
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedEngineerCareers returns the EngineerCareers named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (cc *CompanyCareer) NamedEngineerCareers(name string) ([]*CompanyEngineer, error) {
-	if cc.Edges.namedEngineerCareers == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := cc.Edges.namedEngineerCareers[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (cc *CompanyCareer) appendNamedEngineerCareers(name string, edges ...*CompanyEngineer) {
-	if cc.Edges.namedEngineerCareers == nil {
-		cc.Edges.namedEngineerCareers = make(map[string][]*CompanyEngineer)
-	}
-	if len(edges) == 0 {
-		cc.Edges.namedEngineerCareers[name] = []*CompanyEngineer{}
-	} else {
-		cc.Edges.namedEngineerCareers[name] = append(cc.Edges.namedEngineerCareers[name], edges...)
-	}
-}
-
-// NamedCompanyOwnerCareers returns the CompanyOwnerCareers named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (cc *CompanyCareer) NamedCompanyOwnerCareers(name string) ([]*CompanyOwner, error) {
-	if cc.Edges.namedCompanyOwnerCareers == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := cc.Edges.namedCompanyOwnerCareers[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (cc *CompanyCareer) appendNamedCompanyOwnerCareers(name string, edges ...*CompanyOwner) {
-	if cc.Edges.namedCompanyOwnerCareers == nil {
-		cc.Edges.namedCompanyOwnerCareers = make(map[string][]*CompanyOwner)
-	}
-	if len(edges) == 0 {
-		cc.Edges.namedCompanyOwnerCareers[name] = []*CompanyOwner{}
-	} else {
-		cc.Edges.namedCompanyOwnerCareers[name] = append(cc.Edges.namedCompanyOwnerCareers[name], edges...)
-	}
 }
 
 // CompanyCareers is a parsable slice of CompanyCareer.

@@ -5,7 +5,7 @@ package ent
 import (
 	"fmt"
 	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyowner"
+	"gqlgen-ent/ent/companyengineer"
 	"strings"
 	"time"
 
@@ -64,21 +64,19 @@ type CompanyDetail struct {
 // CompanyDetailEdges holds the relations/edges for other nodes in the graph.
 type CompanyDetailEdges struct {
 	// CompanyOwner holds the value of the companyOwner edge.
-	CompanyOwner *CompanyOwner `json:"companyOwner,omitempty"`
+	CompanyOwner *CompanyEngineer `json:"companyOwner,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
-	// totalCount holds the count of the edges above.
-	totalCount [1]map[string]int
 }
 
 // CompanyOwnerOrErr returns the CompanyOwner value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e CompanyDetailEdges) CompanyOwnerOrErr() (*CompanyOwner, error) {
+func (e CompanyDetailEdges) CompanyOwnerOrErr() (*CompanyEngineer, error) {
 	if e.CompanyOwner != nil {
 		return e.CompanyOwner, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: companyowner.Label}
+		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "companyOwner"}
 }
@@ -246,7 +244,7 @@ func (cd *CompanyDetail) Value(name string) (ent.Value, error) {
 }
 
 // QueryCompanyOwner queries the "companyOwner" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryCompanyOwner() *CompanyOwnerQuery {
+func (cd *CompanyDetail) QueryCompanyOwner() *CompanyEngineerQuery {
 	return NewCompanyDetailClient(cd.config).QueryCompanyOwner(cd)
 }
 
