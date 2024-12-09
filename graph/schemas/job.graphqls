@@ -122,7 +122,13 @@ input JobProgressInput {
 }
 
 extend type Query {
-  job(yibfNo: Int): [JobDetail]! @goField(forceResolver: true) @auth
+  job(
+    yibfNo: Int
+    district: String
+    ada: String
+    parsel: String
+    ownerName: String
+  ): [JobDetail]! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {

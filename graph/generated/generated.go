@@ -250,7 +250,7 @@ type ComplexityRoot struct {
 		AllUsers      func(childComplexity int) int
 		Company       func(childComplexity int) int
 		Engineer      func(childComplexity int, filter *model.EngineerFilterInput) int
-		Job           func(childComplexity int, yibfNo *int) int
+		Job           func(childComplexity int, yibfNo *int, district *string, ada *string, parsel *string, ownerName *string) int
 		Layer         func(childComplexity int, filter *model.LayerFilterInput) int
 		User          func(childComplexity int, id string) int
 	}
@@ -308,7 +308,7 @@ type QueryResolver interface {
 	Company(ctx context.Context) (*ent.CompanyDetail, error)
 	AllContractor(ctx context.Context) ([]*ent.JobContractor, error)
 	Engineer(ctx context.Context, filter *model.EngineerFilterInput) ([]*ent.CompanyEngineer, error)
-	Job(ctx context.Context, yibfNo *int) ([]*ent.JobDetail, error)
+	Job(ctx context.Context, yibfNo *int, district *string, ada *string, parsel *string, ownerName *string) ([]*ent.JobDetail, error)
 	Layer(ctx context.Context, filter *model.LayerFilterInput) ([]*ent.JobLayer, error)
 	AllOwner(ctx context.Context) ([]*ent.JobOwner, error)
 	User(ctx context.Context, id string) (*ent.User, error)
@@ -1516,7 +1516,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Job(childComplexity, args["yibfNo"].(*int)), true
+		return e.complexity.Query.Job(childComplexity, args["yibfNo"].(*int), args["district"].(*string), args["ada"].(*string), args["parsel"].(*string), args["ownerName"].(*string)), true
 
 	case "Query.layer":
 		if e.complexity.Query.Layer == nil {
@@ -2012,7 +2012,13 @@ input JobProgressInput {
 }
 
 extend type Query {
-  job(yibfNo: Int): [JobDetail]! @goField(forceResolver: true) @auth
+  job(
+    yibfNo: Int
+    district: String
+    ada: String
+    parsel: String
+    ownerName: String
+  ): [JobDetail]! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
@@ -2470,6 +2476,42 @@ func (ec *executionContext) field_Query_job_args(ctx context.Context, rawArgs ma
 		}
 	}
 	args["yibfNo"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["district"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("district"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["district"] = arg1
+	var arg2 *string
+	if tmp, ok := rawArgs["ada"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ada"))
+		arg2, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ada"] = arg2
+	var arg3 *string
+	if tmp, ok := rawArgs["parsel"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parsel"))
+		arg3, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["parsel"] = arg3
+	var arg4 *string
+	if tmp, ok := rawArgs["ownerName"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ownerName"))
+		arg4, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ownerName"] = arg4
 	return args, nil
 }
 
@@ -10406,7 +10448,7 @@ func (ec *executionContext) _Query_job(ctx context.Context, field graphql.Collec
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Job(rctx, fc.Args["yibfNo"].(*int))
+			return ec.resolvers.Query().Job(rctx, fc.Args["yibfNo"].(*int), fc.Args["district"].(*string), fc.Args["ada"].(*string), fc.Args["parsel"].(*string), fc.Args["ownerName"].(*string))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.Auth == nil {

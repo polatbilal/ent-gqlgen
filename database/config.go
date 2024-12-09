@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"log"
+	"os"
 	"sync"
 
 	"gqlgen-ent/ent"
@@ -33,14 +34,14 @@ func GetClient(companyCode string) (*ent.Client, error) {
 }
 
 func Connect(companyCode string) (*ent.Client, error) {
-	user := "casaos"
-	password := "casaos"
-	host := "192.168.1.33"
-	port := 5432
-	dbName := fmt.Sprintf("gqlgen_%s", companyCode)
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASS")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	dbName := fmt.Sprintf("%s_%s", os.Getenv("DB_NAME"), companyCode)
 	sslmode := "disable"
 
-	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbName, sslmode)
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbName, sslmode)
 
 	client, err := ent.Open("postgres", connStr)
 	if err != nil {

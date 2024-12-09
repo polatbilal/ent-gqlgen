@@ -476,7 +476,7 @@ func (r *mutationResolver) DeleteJob(ctx context.Context, yibfNo int) (bool, err
 }
 
 // Job is the resolver for the job field.
-func (r *queryResolver) Job(ctx context.Context, yibfNo *int) ([]*ent.JobDetail, error) {
+func (r *queryResolver) Job(ctx context.Context, yibfNo *int, district *string, ada *string, parsel *string, ownerName *string) ([]*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	query := client.JobDetail.Query()
 
@@ -485,6 +485,26 @@ func (r *queryResolver) Job(ctx context.Context, yibfNo *int) ([]*ent.JobDetail,
 
 	if yibfNo != nil {
 		query = query.Where(jobdetail.YibfNoEQ(*yibfNo))
+	}
+
+	if district != nil {
+		query = query.Where(jobdetail.DistrictEQ(*district))
+	}
+
+	if ada != nil {
+		query = query.Where(jobdetail.AdaEQ(*ada))
+	}
+
+	if parsel != nil {
+		query = query.Where(jobdetail.ParselEQ(*parsel))
+	}
+
+	if ownerName != nil {
+		query = query.Where(
+			jobdetail.HasOwnerWith(
+				jobowner.NameContains(*ownerName),
+			),
+		)
 	}
 
 	jobDetails, err := query.All(ctx)
