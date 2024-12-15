@@ -47,6 +47,15 @@ func (r *jobDetailResolver) LicenseDate(ctx context.Context, obj *ent.JobDetail)
 	return &licenseDate, nil
 }
 
+// CreatedAt is the resolver for the CreatedAt field.
+func (r *jobDetailResolver) CreatedAt(ctx context.Context, obj *ent.JobDetail) (*string, error) {
+	if obj.CreatedAt.IsZero() {
+		return nil, nil
+	}
+	createdAt := obj.CreatedAt.Format("2006-01-02")
+	return &createdAt, nil
+}
+
 // Layer is the resolver for the Layer field.
 func (r *jobDetailResolver) Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error) {
 	client := middlewares.GetClientFromContext(ctx)

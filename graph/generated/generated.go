@@ -161,6 +161,7 @@ type ComplexityRoot struct {
 		ContractDate       func(childComplexity int) int
 		Contractor         func(childComplexity int) int
 		Controller         func(childComplexity int) int
+		CreatedAt          func(childComplexity int) int
 		Deleted            func(childComplexity int) int
 		District           func(childComplexity int) int
 		Electric           func(childComplexity int) int
@@ -261,6 +262,7 @@ type ComplexityRoot struct {
 		ID        func(childComplexity int) int
 		Name      func(childComplexity int) int
 		Password  func(childComplexity int) int
+		Role      func(childComplexity int) int
 		Username  func(childComplexity int) int
 	}
 }
@@ -281,6 +283,7 @@ type JobDetailResolver interface {
 	StartDate(ctx context.Context, obj *ent.JobDetail) (*string, error)
 	LicenseDate(ctx context.Context, obj *ent.JobDetail) (*string, error)
 
+	CreatedAt(ctx context.Context, obj *ent.JobDetail) (*string, error)
 	Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error)
 }
 type JobLayerResolver interface {
@@ -917,6 +920,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.Controller(childComplexity), true
+
+	case "JobDetail.CreatedAt":
+		if e.complexity.JobDetail.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.JobDetail.CreatedAt(childComplexity), true
 
 	case "JobDetail.Deleted":
 		if e.complexity.JobDetail.Deleted == nil {
@@ -1577,6 +1587,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Password(childComplexity), true
 
+	case "User.role":
+		if e.complexity.User.Role == nil {
+			break
+		}
+
+		return e.complexity.User.Role(childComplexity), true
+
 	case "User.username":
 		if e.complexity.User.Username == nil {
 			break
@@ -1928,6 +1945,7 @@ type JobDetail {
   Controller: CompanyEngineer
   MechanicController: CompanyEngineer
   ElectricController: CompanyEngineer
+  CreatedAt: String
   Layer: [JobLayer]
 }
 
@@ -2134,6 +2152,7 @@ type User {
   name: String!
   email: String!
   password: String!
+  role: String!
   createdAt: String!
 }
 
@@ -7566,6 +7585,47 @@ func (ec *executionContext) fieldContext_JobDetail_ElectricController(_ context.
 	return fc, nil
 }
 
+func (ec *executionContext) _JobDetail_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobDetail_CreatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.JobDetail().CreatedAt(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobDetail_CreatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobDetail",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _JobDetail_Layer(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_JobDetail_Layer(ctx, field)
 	if err != nil {
@@ -8113,6 +8173,8 @@ func (ec *executionContext) fieldContext_JobLayer_Job(_ context.Context, field g
 				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
 			case "ElectricController":
 				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
+			case "CreatedAt":
+				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
 			}
@@ -9401,6 +9463,8 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
 			case "ElectricController":
 				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
+			case "CreatedAt":
+				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
 			}
@@ -9556,6 +9620,8 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
 			case "ElectricController":
 				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
+			case "CreatedAt":
+				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
 			}
@@ -10568,6 +10634,8 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
 			case "ElectricController":
 				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
+			case "CreatedAt":
+				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
 			}
@@ -10840,6 +10908,8 @@ func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field g
 				return ec.fieldContext_User_email(ctx, field)
 			case "password":
 				return ec.fieldContext_User_password(ctx, field)
+			case "role":
+				return ec.fieldContext_User_role(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_User_createdAt(ctx, field)
 			}
@@ -10929,6 +10999,8 @@ func (ec *executionContext) fieldContext_Query_allUsers(_ context.Context, field
 				return ec.fieldContext_User_email(ctx, field)
 			case "password":
 				return ec.fieldContext_User_password(ctx, field)
+			case "role":
+				return ec.fieldContext_User_role(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_User_createdAt(ctx, field)
 			}
@@ -11275,6 +11347,50 @@ func (ec *executionContext) _User_password(ctx context.Context, field graphql.Co
 }
 
 func (ec *executionContext) fieldContext_User_password(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _User_role(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_role(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Role, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_role(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "User",
 		Field:      field,
@@ -15181,6 +15297,39 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "CreatedAt":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._JobDetail_CreatedAt(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "Layer":
 			field := field
 
@@ -15887,6 +16036,11 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "password":
 			out.Values[i] = ec._User_password(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "role":
+			out.Values[i] = ec._User_role(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}

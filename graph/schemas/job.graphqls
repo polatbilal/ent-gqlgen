@@ -38,6 +38,7 @@ type JobDetail {
   Controller: CompanyEngineer
   MechanicController: CompanyEngineer
   ElectricController: CompanyEngineer
+  CreatedAt: String
   Layer: [JobLayer]
 }
 
