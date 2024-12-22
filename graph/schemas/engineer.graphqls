@@ -7,16 +7,16 @@ type CompanyEngineer {
   Phone: String
   RegNo: Int
   CertNo: Int
+  Career: String!
+  Position: String!
+  Employment: String
+  Dismissal: String
   Note: String
   Status: Int
   Deleted: Int
-  Employment: String
-  Dismissal: String
-  Career: CompanyCareer!
-  Position: CompanyPosition!
 }
 
-type CompanyEngineerInput {
+input CompanyEngineerInput {
   Name: String!
   Address: String
   Email: String
@@ -24,30 +24,31 @@ type CompanyEngineerInput {
   Phone: String
   RegNo: Int
   CertNo: Int
+  Career: String
+  Position: String
+  Employment: String
+  Dismissal: String
   Note: String
   Status: Int
   Deleted: Int
-  Employment: String
-  Dismissal: String
-  Career: Int!
-  Position: Int!
-}
-
-type CompanyCareer {
-  id: ID
-  Career: String
-}
-
-type CompanyPosition {
-  id: ID
-  Position: String
 }
 
 input EngineerFilterInput {
-  career: Int
-  position: Int
+  id: ID
+  career: String
+  position: String
 }
 
 extend type Query {
-  engineer(filter: EngineerFilterInput): [CompanyEngineer]! @auth
+  engineer(filter: EngineerFilterInput): [CompanyEngineer]!
+}
+
+extend type Mutation {
+  createEngineer(input: CompanyEngineerInput!): CompanyEngineer!
+    @goField(forceResolver: true)
+    @auth
+
+  updateEngineer(id: ID!, input: CompanyEngineerInput!): CompanyEngineer!
+    @goField(forceResolver: true)
+    @auth
 }

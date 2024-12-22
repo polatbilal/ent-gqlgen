@@ -8,17 +8,6 @@ import (
 )
 
 var (
-	// CompanyCareersColumns holds the columns for the "company_careers" table.
-	CompanyCareersColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "career", Type: field.TypeString, Nullable: true},
-	}
-	// CompanyCareersTable holds the schema information for the "company_careers" table.
-	CompanyCareersTable = &schema.Table{
-		Name:       "company_careers",
-		Columns:    CompanyCareersColumns,
-		PrimaryKey: []*schema.Column{CompanyCareersColumns[0]},
-	}
 	// CompanyDetailsColumns holds the columns for the "company_details" table.
 	CompanyDetailsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -66,6 +55,8 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "reg_no", Type: field.TypeInt, Nullable: true},
 		{Name: "cert_no", Type: field.TypeInt, Nullable: true},
+		{Name: "career", Type: field.TypeString, Nullable: true},
+		{Name: "position", Type: field.TypeString, Nullable: true},
 		{Name: "note", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeInt, Default: 1},
 		{Name: "deleted", Type: field.TypeInt, Default: 0},
@@ -73,39 +64,12 @@ var (
 		{Name: "dismissal", Type: field.TypeTime, Nullable: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "career_id", Type: field.TypeInt, Nullable: true},
-		{Name: "position_id", Type: field.TypeInt, Nullable: true},
 	}
 	// CompanyEngineersTable holds the schema information for the "company_engineers" table.
 	CompanyEngineersTable = &schema.Table{
 		Name:       "company_engineers",
 		Columns:    CompanyEngineersColumns,
 		PrimaryKey: []*schema.Column{CompanyEngineersColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "company_engineers_company_careers_engineerCareers",
-				Columns:    []*schema.Column{CompanyEngineersColumns[15]},
-				RefColumns: []*schema.Column{CompanyCareersColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
-				Symbol:     "company_engineers_company_positions_engineerPositions",
-				Columns:    []*schema.Column{CompanyEngineersColumns[16]},
-				RefColumns: []*schema.Column{CompanyPositionsColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-		},
-	}
-	// CompanyPositionsColumns holds the columns for the "company_positions" table.
-	CompanyPositionsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "position", Type: field.TypeString, Nullable: true},
-	}
-	// CompanyPositionsTable holds the schema information for the "company_positions" table.
-	CompanyPositionsTable = &schema.Table{
-		Name:       "company_positions",
-		Columns:    CompanyPositionsColumns,
-		PrimaryKey: []*schema.Column{CompanyPositionsColumns[0]},
 	}
 	// JobAuthorsColumns holds the columns for the "job_authors" table.
 	JobAuthorsColumns = []*schema.Column{
@@ -344,6 +308,7 @@ var (
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "name", Type: field.TypeString, Default: ""},
 		{Name: "email", Type: field.TypeString, Nullable: true, Default: ""},
+		{Name: "phone", Type: field.TypeInt, Nullable: true},
 		{Name: "password", Type: field.TypeString},
 		{Name: "role", Type: field.TypeString, Default: "User"},
 		{Name: "created_at", Type: field.TypeTime},
@@ -357,10 +322,8 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		CompanyCareersTable,
 		CompanyDetailsTable,
 		CompanyEngineersTable,
-		CompanyPositionsTable,
 		JobAuthorsTable,
 		JobContractorsTable,
 		JobDetailsTable,
@@ -373,8 +336,6 @@ var (
 
 func init() {
 	CompanyDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
-	CompanyEngineersTable.ForeignKeys[0].RefTable = CompanyCareersTable
-	CompanyEngineersTable.ForeignKeys[1].RefTable = CompanyPositionsTable
 	JobDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[1].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[2].RefTable = CompanyEngineersTable

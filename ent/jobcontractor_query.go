@@ -11,6 +11,7 @@ import (
 	"gqlgen-ent/ent/predicate"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -88,7 +89,7 @@ func (jcq *JobContractorQuery) QueryContractors() *JobDetailQuery {
 // First returns the first JobContractor entity from the query.
 // Returns a *NotFoundError when no JobContractor was found.
 func (jcq *JobContractorQuery) First(ctx context.Context) (*JobContractor, error) {
-	nodes, err := jcq.Limit(1).All(setContextOp(ctx, jcq.ctx, "First"))
+	nodes, err := jcq.Limit(1).All(setContextOp(ctx, jcq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +112,7 @@ func (jcq *JobContractorQuery) FirstX(ctx context.Context) *JobContractor {
 // Returns a *NotFoundError when no JobContractor ID was found.
 func (jcq *JobContractorQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jcq.Limit(1).IDs(setContextOp(ctx, jcq.ctx, "FirstID")); err != nil {
+	if ids, err = jcq.Limit(1).IDs(setContextOp(ctx, jcq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -134,7 +135,7 @@ func (jcq *JobContractorQuery) FirstIDX(ctx context.Context) int {
 // Returns a *NotSingularError when more than one JobContractor entity is found.
 // Returns a *NotFoundError when no JobContractor entities are found.
 func (jcq *JobContractorQuery) Only(ctx context.Context) (*JobContractor, error) {
-	nodes, err := jcq.Limit(2).All(setContextOp(ctx, jcq.ctx, "Only"))
+	nodes, err := jcq.Limit(2).All(setContextOp(ctx, jcq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +163,7 @@ func (jcq *JobContractorQuery) OnlyX(ctx context.Context) *JobContractor {
 // Returns a *NotFoundError when no entities are found.
 func (jcq *JobContractorQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jcq.Limit(2).IDs(setContextOp(ctx, jcq.ctx, "OnlyID")); err != nil {
+	if ids, err = jcq.Limit(2).IDs(setContextOp(ctx, jcq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -187,7 +188,7 @@ func (jcq *JobContractorQuery) OnlyIDX(ctx context.Context) int {
 
 // All executes the query and returns a list of JobContractors.
 func (jcq *JobContractorQuery) All(ctx context.Context) ([]*JobContractor, error) {
-	ctx = setContextOp(ctx, jcq.ctx, "All")
+	ctx = setContextOp(ctx, jcq.ctx, ent.OpQueryAll)
 	if err := jcq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -209,7 +210,7 @@ func (jcq *JobContractorQuery) IDs(ctx context.Context) (ids []int, err error) {
 	if jcq.ctx.Unique == nil && jcq.path != nil {
 		jcq.Unique(true)
 	}
-	ctx = setContextOp(ctx, jcq.ctx, "IDs")
+	ctx = setContextOp(ctx, jcq.ctx, ent.OpQueryIDs)
 	if err = jcq.Select(jobcontractor.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -227,7 +228,7 @@ func (jcq *JobContractorQuery) IDsX(ctx context.Context) []int {
 
 // Count returns the count of the given query.
 func (jcq *JobContractorQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jcq.ctx, "Count")
+	ctx = setContextOp(ctx, jcq.ctx, ent.OpQueryCount)
 	if err := jcq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -245,7 +246,7 @@ func (jcq *JobContractorQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (jcq *JobContractorQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jcq.ctx, "Exist")
+	ctx = setContextOp(ctx, jcq.ctx, ent.OpQueryExist)
 	switch _, err := jcq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -564,7 +565,7 @@ func (jcgb *JobContractorGroupBy) Aggregate(fns ...AggregateFunc) *JobContractor
 
 // Scan applies the selector query and scans the result into the given value.
 func (jcgb *JobContractorGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jcgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, jcgb.build.ctx, ent.OpQueryGroupBy)
 	if err := jcgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -612,7 +613,7 @@ func (jcs *JobContractorSelect) Aggregate(fns ...AggregateFunc) *JobContractorSe
 
 // Scan applies the selector query and scans the result into the given value.
 func (jcs *JobContractorSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jcs.ctx, "Select")
+	ctx = setContextOp(ctx, jcs.ctx, ent.OpQuerySelect)
 	if err := jcs.prepareQuery(ctx); err != nil {
 		return err
 	}

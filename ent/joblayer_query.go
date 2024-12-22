@@ -10,6 +10,7 @@ import (
 	"gqlgen-ent/ent/predicate"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -87,7 +88,7 @@ func (jlq *JobLayerQuery) QueryLayer() *JobDetailQuery {
 // First returns the first JobLayer entity from the query.
 // Returns a *NotFoundError when no JobLayer was found.
 func (jlq *JobLayerQuery) First(ctx context.Context) (*JobLayer, error) {
-	nodes, err := jlq.Limit(1).All(setContextOp(ctx, jlq.ctx, "First"))
+	nodes, err := jlq.Limit(1).All(setContextOp(ctx, jlq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +111,7 @@ func (jlq *JobLayerQuery) FirstX(ctx context.Context) *JobLayer {
 // Returns a *NotFoundError when no JobLayer ID was found.
 func (jlq *JobLayerQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jlq.Limit(1).IDs(setContextOp(ctx, jlq.ctx, "FirstID")); err != nil {
+	if ids, err = jlq.Limit(1).IDs(setContextOp(ctx, jlq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -133,7 +134,7 @@ func (jlq *JobLayerQuery) FirstIDX(ctx context.Context) int {
 // Returns a *NotSingularError when more than one JobLayer entity is found.
 // Returns a *NotFoundError when no JobLayer entities are found.
 func (jlq *JobLayerQuery) Only(ctx context.Context) (*JobLayer, error) {
-	nodes, err := jlq.Limit(2).All(setContextOp(ctx, jlq.ctx, "Only"))
+	nodes, err := jlq.Limit(2).All(setContextOp(ctx, jlq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -161,7 +162,7 @@ func (jlq *JobLayerQuery) OnlyX(ctx context.Context) *JobLayer {
 // Returns a *NotFoundError when no entities are found.
 func (jlq *JobLayerQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jlq.Limit(2).IDs(setContextOp(ctx, jlq.ctx, "OnlyID")); err != nil {
+	if ids, err = jlq.Limit(2).IDs(setContextOp(ctx, jlq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -186,7 +187,7 @@ func (jlq *JobLayerQuery) OnlyIDX(ctx context.Context) int {
 
 // All executes the query and returns a list of JobLayers.
 func (jlq *JobLayerQuery) All(ctx context.Context) ([]*JobLayer, error) {
-	ctx = setContextOp(ctx, jlq.ctx, "All")
+	ctx = setContextOp(ctx, jlq.ctx, ent.OpQueryAll)
 	if err := jlq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -208,7 +209,7 @@ func (jlq *JobLayerQuery) IDs(ctx context.Context) (ids []int, err error) {
 	if jlq.ctx.Unique == nil && jlq.path != nil {
 		jlq.Unique(true)
 	}
-	ctx = setContextOp(ctx, jlq.ctx, "IDs")
+	ctx = setContextOp(ctx, jlq.ctx, ent.OpQueryIDs)
 	if err = jlq.Select(joblayer.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -226,7 +227,7 @@ func (jlq *JobLayerQuery) IDsX(ctx context.Context) []int {
 
 // Count returns the count of the given query.
 func (jlq *JobLayerQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jlq.ctx, "Count")
+	ctx = setContextOp(ctx, jlq.ctx, ent.OpQueryCount)
 	if err := jlq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -244,7 +245,7 @@ func (jlq *JobLayerQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (jlq *JobLayerQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jlq.ctx, "Exist")
+	ctx = setContextOp(ctx, jlq.ctx, ent.OpQueryExist)
 	switch _, err := jlq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -549,7 +550,7 @@ func (jlgb *JobLayerGroupBy) Aggregate(fns ...AggregateFunc) *JobLayerGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (jlgb *JobLayerGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jlgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, jlgb.build.ctx, ent.OpQueryGroupBy)
 	if err := jlgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -597,7 +598,7 @@ func (jls *JobLayerSelect) Aggregate(fns ...AggregateFunc) *JobLayerSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (jls *JobLayerSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jls.ctx, "Select")
+	ctx = setContextOp(ctx, jls.ctx, ent.OpQuerySelect)
 	if err := jls.prepareQuery(ctx); err != nil {
 		return err
 	}

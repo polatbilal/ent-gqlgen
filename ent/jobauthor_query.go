@@ -11,6 +11,7 @@ import (
 	"gqlgen-ent/ent/predicate"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -88,7 +89,7 @@ func (jaq *JobAuthorQuery) QueryAuthors() *JobDetailQuery {
 // First returns the first JobAuthor entity from the query.
 // Returns a *NotFoundError when no JobAuthor was found.
 func (jaq *JobAuthorQuery) First(ctx context.Context) (*JobAuthor, error) {
-	nodes, err := jaq.Limit(1).All(setContextOp(ctx, jaq.ctx, "First"))
+	nodes, err := jaq.Limit(1).All(setContextOp(ctx, jaq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +112,7 @@ func (jaq *JobAuthorQuery) FirstX(ctx context.Context) *JobAuthor {
 // Returns a *NotFoundError when no JobAuthor ID was found.
 func (jaq *JobAuthorQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jaq.Limit(1).IDs(setContextOp(ctx, jaq.ctx, "FirstID")); err != nil {
+	if ids, err = jaq.Limit(1).IDs(setContextOp(ctx, jaq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -134,7 +135,7 @@ func (jaq *JobAuthorQuery) FirstIDX(ctx context.Context) int {
 // Returns a *NotSingularError when more than one JobAuthor entity is found.
 // Returns a *NotFoundError when no JobAuthor entities are found.
 func (jaq *JobAuthorQuery) Only(ctx context.Context) (*JobAuthor, error) {
-	nodes, err := jaq.Limit(2).All(setContextOp(ctx, jaq.ctx, "Only"))
+	nodes, err := jaq.Limit(2).All(setContextOp(ctx, jaq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +163,7 @@ func (jaq *JobAuthorQuery) OnlyX(ctx context.Context) *JobAuthor {
 // Returns a *NotFoundError when no entities are found.
 func (jaq *JobAuthorQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jaq.Limit(2).IDs(setContextOp(ctx, jaq.ctx, "OnlyID")); err != nil {
+	if ids, err = jaq.Limit(2).IDs(setContextOp(ctx, jaq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -187,7 +188,7 @@ func (jaq *JobAuthorQuery) OnlyIDX(ctx context.Context) int {
 
 // All executes the query and returns a list of JobAuthors.
 func (jaq *JobAuthorQuery) All(ctx context.Context) ([]*JobAuthor, error) {
-	ctx = setContextOp(ctx, jaq.ctx, "All")
+	ctx = setContextOp(ctx, jaq.ctx, ent.OpQueryAll)
 	if err := jaq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -209,7 +210,7 @@ func (jaq *JobAuthorQuery) IDs(ctx context.Context) (ids []int, err error) {
 	if jaq.ctx.Unique == nil && jaq.path != nil {
 		jaq.Unique(true)
 	}
-	ctx = setContextOp(ctx, jaq.ctx, "IDs")
+	ctx = setContextOp(ctx, jaq.ctx, ent.OpQueryIDs)
 	if err = jaq.Select(jobauthor.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -227,7 +228,7 @@ func (jaq *JobAuthorQuery) IDsX(ctx context.Context) []int {
 
 // Count returns the count of the given query.
 func (jaq *JobAuthorQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jaq.ctx, "Count")
+	ctx = setContextOp(ctx, jaq.ctx, ent.OpQueryCount)
 	if err := jaq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -245,7 +246,7 @@ func (jaq *JobAuthorQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (jaq *JobAuthorQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jaq.ctx, "Exist")
+	ctx = setContextOp(ctx, jaq.ctx, ent.OpQueryExist)
 	switch _, err := jaq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -564,7 +565,7 @@ func (jagb *JobAuthorGroupBy) Aggregate(fns ...AggregateFunc) *JobAuthorGroupBy 
 
 // Scan applies the selector query and scans the result into the given value.
 func (jagb *JobAuthorGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jagb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, jagb.build.ctx, ent.OpQueryGroupBy)
 	if err := jagb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -612,7 +613,7 @@ func (jas *JobAuthorSelect) Aggregate(fns ...AggregateFunc) *JobAuthorSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (jas *JobAuthorSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jas.ctx, "Select")
+	ctx = setContextOp(ctx, jas.ctx, ent.OpQuerySelect)
 	if err := jas.prepareQuery(ctx); err != nil {
 		return err
 	}

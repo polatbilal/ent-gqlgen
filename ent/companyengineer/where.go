@@ -90,6 +90,16 @@ func CertNo(v int) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldEQ(FieldCertNo, v))
 }
 
+// Career applies equality check predicate on the "Career" field. It's identical to CareerEQ.
+func Career(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEQ(FieldCareer, v))
+}
+
+// Position applies equality check predicate on the "Position" field. It's identical to PositionEQ.
+func Position(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEQ(FieldPosition, v))
+}
+
 // Note applies equality check predicate on the "Note" field. It's identical to NoteEQ.
 func Note(v string) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldEQ(FieldNote, v))
@@ -565,6 +575,156 @@ func CertNoNotNil() predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldNotNull(FieldCertNo))
 }
 
+// CareerEQ applies the EQ predicate on the "Career" field.
+func CareerEQ(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEQ(FieldCareer, v))
+}
+
+// CareerNEQ applies the NEQ predicate on the "Career" field.
+func CareerNEQ(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNEQ(FieldCareer, v))
+}
+
+// CareerIn applies the In predicate on the "Career" field.
+func CareerIn(vs ...string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldIn(FieldCareer, vs...))
+}
+
+// CareerNotIn applies the NotIn predicate on the "Career" field.
+func CareerNotIn(vs ...string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNotIn(FieldCareer, vs...))
+}
+
+// CareerGT applies the GT predicate on the "Career" field.
+func CareerGT(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldGT(FieldCareer, v))
+}
+
+// CareerGTE applies the GTE predicate on the "Career" field.
+func CareerGTE(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldGTE(FieldCareer, v))
+}
+
+// CareerLT applies the LT predicate on the "Career" field.
+func CareerLT(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldLT(FieldCareer, v))
+}
+
+// CareerLTE applies the LTE predicate on the "Career" field.
+func CareerLTE(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldLTE(FieldCareer, v))
+}
+
+// CareerContains applies the Contains predicate on the "Career" field.
+func CareerContains(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldContains(FieldCareer, v))
+}
+
+// CareerHasPrefix applies the HasPrefix predicate on the "Career" field.
+func CareerHasPrefix(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldHasPrefix(FieldCareer, v))
+}
+
+// CareerHasSuffix applies the HasSuffix predicate on the "Career" field.
+func CareerHasSuffix(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldHasSuffix(FieldCareer, v))
+}
+
+// CareerIsNil applies the IsNil predicate on the "Career" field.
+func CareerIsNil() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldIsNull(FieldCareer))
+}
+
+// CareerNotNil applies the NotNil predicate on the "Career" field.
+func CareerNotNil() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNotNull(FieldCareer))
+}
+
+// CareerEqualFold applies the EqualFold predicate on the "Career" field.
+func CareerEqualFold(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEqualFold(FieldCareer, v))
+}
+
+// CareerContainsFold applies the ContainsFold predicate on the "Career" field.
+func CareerContainsFold(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldContainsFold(FieldCareer, v))
+}
+
+// PositionEQ applies the EQ predicate on the "Position" field.
+func PositionEQ(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEQ(FieldPosition, v))
+}
+
+// PositionNEQ applies the NEQ predicate on the "Position" field.
+func PositionNEQ(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNEQ(FieldPosition, v))
+}
+
+// PositionIn applies the In predicate on the "Position" field.
+func PositionIn(vs ...string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldIn(FieldPosition, vs...))
+}
+
+// PositionNotIn applies the NotIn predicate on the "Position" field.
+func PositionNotIn(vs ...string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNotIn(FieldPosition, vs...))
+}
+
+// PositionGT applies the GT predicate on the "Position" field.
+func PositionGT(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldGT(FieldPosition, v))
+}
+
+// PositionGTE applies the GTE predicate on the "Position" field.
+func PositionGTE(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldGTE(FieldPosition, v))
+}
+
+// PositionLT applies the LT predicate on the "Position" field.
+func PositionLT(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldLT(FieldPosition, v))
+}
+
+// PositionLTE applies the LTE predicate on the "Position" field.
+func PositionLTE(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldLTE(FieldPosition, v))
+}
+
+// PositionContains applies the Contains predicate on the "Position" field.
+func PositionContains(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldContains(FieldPosition, v))
+}
+
+// PositionHasPrefix applies the HasPrefix predicate on the "Position" field.
+func PositionHasPrefix(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldHasPrefix(FieldPosition, v))
+}
+
+// PositionHasSuffix applies the HasSuffix predicate on the "Position" field.
+func PositionHasSuffix(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldHasSuffix(FieldPosition, v))
+}
+
+// PositionIsNil applies the IsNil predicate on the "Position" field.
+func PositionIsNil() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldIsNull(FieldPosition))
+}
+
+// PositionNotNil applies the NotNil predicate on the "Position" field.
+func PositionNotNil() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNotNull(FieldPosition))
+}
+
+// PositionEqualFold applies the EqualFold predicate on the "Position" field.
+func PositionEqualFold(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEqualFold(FieldPosition, v))
+}
+
+// PositionContainsFold applies the ContainsFold predicate on the "Position" field.
+func PositionContainsFold(v string) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldContainsFold(FieldPosition, v))
+}
+
 // NoteEQ applies the EQ predicate on the "Note" field.
 func NoteEQ(v string) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldEQ(FieldNote, v))
@@ -898,52 +1058,6 @@ func UpdatedAtLT(v time.Time) predicate.CompanyEngineer {
 // UpdatedAtLTE applies the LTE predicate on the "UpdatedAt" field.
 func UpdatedAtLTE(v time.Time) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldLTE(FieldUpdatedAt, v))
-}
-
-// HasEngineerCareer applies the HasEdge predicate on the "engineerCareer" edge.
-func HasEngineerCareer() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, EngineerCareerTable, EngineerCareerColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasEngineerCareerWith applies the HasEdge predicate on the "engineerCareer" edge with a given conditions (other predicates).
-func HasEngineerCareerWith(preds ...predicate.CompanyCareer) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(func(s *sql.Selector) {
-		step := newEngineerCareerStep()
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
-// HasEngineerPosition applies the HasEdge predicate on the "engineerPosition" edge.
-func HasEngineerPosition() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, EngineerPositionTable, EngineerPositionColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasEngineerPositionWith applies the HasEdge predicate on the "engineerPosition" edge with a given conditions (other predicates).
-func HasEngineerPositionWith(preds ...predicate.CompanyPosition) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(func(s *sql.Selector) {
-		step := newEngineerPositionStep()
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
 }
 
 // HasCompanyOwners applies the HasEdge predicate on the "companyOwners" edge.

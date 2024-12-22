@@ -68,7 +68,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	_, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).Only(ctx)
 	if err == nil {
-		return nil, fmt.Errorf("kullanıcı adı zaten mevcut")
+		return nil, fmt.Errorf("iş zaten mevcut")
 	}
 
 	if !ent.IsNotFound(err) {

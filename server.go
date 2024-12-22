@@ -13,10 +13,13 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
+
+var redisClient *redis.Client
 
 func main() {
 	e := echo.New()
@@ -24,9 +27,16 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middlewares.AuthMiddleware)
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{http.MethodGet, http.MethodPost, http.MethodOptions},
+		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
+		AllowCredentials: true,
+		ExposeHeaders:    []string{"Authorization"},
+	}))
 
 	// Database connection
-	companyCode := "0"
+	companyCode := "2"
 	client, err := database.GetClient(companyCode)
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
@@ -37,6 +47,13 @@ func main() {
 	if err := client.Schema.Create(context.Background()); !errors.Is(err, nil) {
 		log.Fatalf("Error: failed creating schema resources %v\n", err)
 	}
+
+	// Redis bağlantısını başlat
+	database.RedisClient = redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379", // Redis sunucu adresi
+		Password: "",               // Redis şifresi (varsa)
+		DB:       0,                // Veritabanı numarası
+	})
 
 	// Configure the GraphQL server and start
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))

@@ -8,38 +8,10 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 )
 
-func (cc *CompanyCareer) EngineerCareers(ctx context.Context) (result []*CompanyEngineer, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = cc.NamedEngineerCareers(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = cc.Edges.EngineerCareersOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = cc.QueryEngineerCareers().All(ctx)
-	}
-	return result, err
-}
-
 func (cd *CompanyDetail) CompanyOwner(ctx context.Context) (*CompanyEngineer, error) {
 	result, err := cd.Edges.CompanyOwnerOrErr()
 	if IsNotLoaded(err) {
 		result, err = cd.QueryCompanyOwner().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (ce *CompanyEngineer) EngineerCareer(ctx context.Context) (*CompanyCareer, error) {
-	result, err := ce.Edges.EngineerCareerOrErr()
-	if IsNotLoaded(err) {
-		result, err = ce.QueryEngineerCareer().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (ce *CompanyEngineer) EngineerPosition(ctx context.Context) (*CompanyPosition, error) {
-	result, err := ce.Edges.EngineerPositionOrErr()
-	if IsNotLoaded(err) {
-		result, err = ce.QueryEngineerPosition().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
@@ -148,18 +120,6 @@ func (ce *CompanyEngineer) Electriccontrollers(ctx context.Context) (result []*J
 	}
 	if IsNotLoaded(err) {
 		result, err = ce.QueryElectriccontrollers().All(ctx)
-	}
-	return result, err
-}
-
-func (cp *CompanyPosition) EngineerPositions(ctx context.Context) (result []*CompanyEngineer, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = cp.NamedEngineerPositions(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = cp.Edges.EngineerPositionsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = cp.QueryEngineerPositions().All(ctx)
 	}
 	return result, err
 }

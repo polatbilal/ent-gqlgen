@@ -11,6 +11,7 @@ import (
 	"gqlgen-ent/ent/predicate"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -88,7 +89,7 @@ func (joq *JobOwnerQuery) QueryOwners() *JobDetailQuery {
 // First returns the first JobOwner entity from the query.
 // Returns a *NotFoundError when no JobOwner was found.
 func (joq *JobOwnerQuery) First(ctx context.Context) (*JobOwner, error) {
-	nodes, err := joq.Limit(1).All(setContextOp(ctx, joq.ctx, "First"))
+	nodes, err := joq.Limit(1).All(setContextOp(ctx, joq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +112,7 @@ func (joq *JobOwnerQuery) FirstX(ctx context.Context) *JobOwner {
 // Returns a *NotFoundError when no JobOwner ID was found.
 func (joq *JobOwnerQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = joq.Limit(1).IDs(setContextOp(ctx, joq.ctx, "FirstID")); err != nil {
+	if ids, err = joq.Limit(1).IDs(setContextOp(ctx, joq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -134,7 +135,7 @@ func (joq *JobOwnerQuery) FirstIDX(ctx context.Context) int {
 // Returns a *NotSingularError when more than one JobOwner entity is found.
 // Returns a *NotFoundError when no JobOwner entities are found.
 func (joq *JobOwnerQuery) Only(ctx context.Context) (*JobOwner, error) {
-	nodes, err := joq.Limit(2).All(setContextOp(ctx, joq.ctx, "Only"))
+	nodes, err := joq.Limit(2).All(setContextOp(ctx, joq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +163,7 @@ func (joq *JobOwnerQuery) OnlyX(ctx context.Context) *JobOwner {
 // Returns a *NotFoundError when no entities are found.
 func (joq *JobOwnerQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = joq.Limit(2).IDs(setContextOp(ctx, joq.ctx, "OnlyID")); err != nil {
+	if ids, err = joq.Limit(2).IDs(setContextOp(ctx, joq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -187,7 +188,7 @@ func (joq *JobOwnerQuery) OnlyIDX(ctx context.Context) int {
 
 // All executes the query and returns a list of JobOwners.
 func (joq *JobOwnerQuery) All(ctx context.Context) ([]*JobOwner, error) {
-	ctx = setContextOp(ctx, joq.ctx, "All")
+	ctx = setContextOp(ctx, joq.ctx, ent.OpQueryAll)
 	if err := joq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -209,7 +210,7 @@ func (joq *JobOwnerQuery) IDs(ctx context.Context) (ids []int, err error) {
 	if joq.ctx.Unique == nil && joq.path != nil {
 		joq.Unique(true)
 	}
-	ctx = setContextOp(ctx, joq.ctx, "IDs")
+	ctx = setContextOp(ctx, joq.ctx, ent.OpQueryIDs)
 	if err = joq.Select(jobowner.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -227,7 +228,7 @@ func (joq *JobOwnerQuery) IDsX(ctx context.Context) []int {
 
 // Count returns the count of the given query.
 func (joq *JobOwnerQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, joq.ctx, "Count")
+	ctx = setContextOp(ctx, joq.ctx, ent.OpQueryCount)
 	if err := joq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -245,7 +246,7 @@ func (joq *JobOwnerQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (joq *JobOwnerQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, joq.ctx, "Exist")
+	ctx = setContextOp(ctx, joq.ctx, ent.OpQueryExist)
 	switch _, err := joq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -564,7 +565,7 @@ func (jogb *JobOwnerGroupBy) Aggregate(fns ...AggregateFunc) *JobOwnerGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (jogb *JobOwnerGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jogb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, jogb.build.ctx, ent.OpQueryGroupBy)
 	if err := jogb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -612,7 +613,7 @@ func (jos *JobOwnerSelect) Aggregate(fns ...AggregateFunc) *JobOwnerSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (jos *JobOwnerSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jos.ctx, "Select")
+	ctx = setContextOp(ctx, jos.ctx, ent.OpQuerySelect)
 	if err := jos.prepareQuery(ctx); err != nil {
 		return err
 	}

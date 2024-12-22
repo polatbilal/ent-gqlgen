@@ -6,10 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/predicate"
 	"time"
@@ -187,6 +185,46 @@ func (ceu *CompanyEngineerUpdate) ClearCertNo() *CompanyEngineerUpdate {
 	return ceu
 }
 
+// SetCareer sets the "Career" field.
+func (ceu *CompanyEngineerUpdate) SetCareer(s string) *CompanyEngineerUpdate {
+	ceu.mutation.SetCareer(s)
+	return ceu
+}
+
+// SetNillableCareer sets the "Career" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillableCareer(s *string) *CompanyEngineerUpdate {
+	if s != nil {
+		ceu.SetCareer(*s)
+	}
+	return ceu
+}
+
+// ClearCareer clears the value of the "Career" field.
+func (ceu *CompanyEngineerUpdate) ClearCareer() *CompanyEngineerUpdate {
+	ceu.mutation.ClearCareer()
+	return ceu
+}
+
+// SetPosition sets the "Position" field.
+func (ceu *CompanyEngineerUpdate) SetPosition(s string) *CompanyEngineerUpdate {
+	ceu.mutation.SetPosition(s)
+	return ceu
+}
+
+// SetNillablePosition sets the "Position" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillablePosition(s *string) *CompanyEngineerUpdate {
+	if s != nil {
+		ceu.SetPosition(*s)
+	}
+	return ceu
+}
+
+// ClearPosition clears the value of the "Position" field.
+func (ceu *CompanyEngineerUpdate) ClearPosition() *CompanyEngineerUpdate {
+	ceu.mutation.ClearPosition()
+	return ceu
+}
+
 // SetNote sets the "Note" field.
 func (ceu *CompanyEngineerUpdate) SetNote(s string) *CompanyEngineerUpdate {
 	ceu.mutation.SetNote(s)
@@ -307,44 +345,6 @@ func (ceu *CompanyEngineerUpdate) SetNillableCreatedAt(t *time.Time) *CompanyEng
 func (ceu *CompanyEngineerUpdate) SetUpdatedAt(t time.Time) *CompanyEngineerUpdate {
 	ceu.mutation.SetUpdatedAt(t)
 	return ceu
-}
-
-// SetEngineerCareerID sets the "engineerCareer" edge to the CompanyCareer entity by ID.
-func (ceu *CompanyEngineerUpdate) SetEngineerCareerID(id int) *CompanyEngineerUpdate {
-	ceu.mutation.SetEngineerCareerID(id)
-	return ceu
-}
-
-// SetNillableEngineerCareerID sets the "engineerCareer" edge to the CompanyCareer entity by ID if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillableEngineerCareerID(id *int) *CompanyEngineerUpdate {
-	if id != nil {
-		ceu = ceu.SetEngineerCareerID(*id)
-	}
-	return ceu
-}
-
-// SetEngineerCareer sets the "engineerCareer" edge to the CompanyCareer entity.
-func (ceu *CompanyEngineerUpdate) SetEngineerCareer(c *CompanyCareer) *CompanyEngineerUpdate {
-	return ceu.SetEngineerCareerID(c.ID)
-}
-
-// SetEngineerPositionID sets the "engineerPosition" edge to the CompanyPosition entity by ID.
-func (ceu *CompanyEngineerUpdate) SetEngineerPositionID(id int) *CompanyEngineerUpdate {
-	ceu.mutation.SetEngineerPositionID(id)
-	return ceu
-}
-
-// SetNillableEngineerPositionID sets the "engineerPosition" edge to the CompanyPosition entity by ID if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillableEngineerPositionID(id *int) *CompanyEngineerUpdate {
-	if id != nil {
-		ceu = ceu.SetEngineerPositionID(*id)
-	}
-	return ceu
-}
-
-// SetEngineerPosition sets the "engineerPosition" edge to the CompanyPosition entity.
-func (ceu *CompanyEngineerUpdate) SetEngineerPosition(c *CompanyPosition) *CompanyEngineerUpdate {
-	return ceu.SetEngineerPositionID(c.ID)
 }
 
 // AddCompanyOwnerIDs adds the "companyOwners" edge to the CompanyDetail entity by IDs.
@@ -485,18 +485,6 @@ func (ceu *CompanyEngineerUpdate) AddElectriccontrollers(j ...*JobDetail) *Compa
 // Mutation returns the CompanyEngineerMutation object of the builder.
 func (ceu *CompanyEngineerUpdate) Mutation() *CompanyEngineerMutation {
 	return ceu.mutation
-}
-
-// ClearEngineerCareer clears the "engineerCareer" edge to the CompanyCareer entity.
-func (ceu *CompanyEngineerUpdate) ClearEngineerCareer() *CompanyEngineerUpdate {
-	ceu.mutation.ClearEngineerCareer()
-	return ceu
-}
-
-// ClearEngineerPosition clears the "engineerPosition" edge to the CompanyPosition entity.
-func (ceu *CompanyEngineerUpdate) ClearEngineerPosition() *CompanyEngineerUpdate {
-	ceu.mutation.ClearEngineerPosition()
-	return ceu
 }
 
 // ClearCompanyOwners clears all "companyOwners" edges to the CompanyDetail entity.
@@ -781,6 +769,18 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 	if ceu.mutation.CertNoCleared() {
 		_spec.ClearField(companyengineer.FieldCertNo, field.TypeInt)
 	}
+	if value, ok := ceu.mutation.Career(); ok {
+		_spec.SetField(companyengineer.FieldCareer, field.TypeString, value)
+	}
+	if ceu.mutation.CareerCleared() {
+		_spec.ClearField(companyengineer.FieldCareer, field.TypeString)
+	}
+	if value, ok := ceu.mutation.Position(); ok {
+		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
+	}
+	if ceu.mutation.PositionCleared() {
+		_spec.ClearField(companyengineer.FieldPosition, field.TypeString)
+	}
 	if value, ok := ceu.mutation.Note(); ok {
 		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
 	}
@@ -816,64 +816,6 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 	}
 	if value, ok := ceu.mutation.UpdatedAt(); ok {
 		_spec.SetField(companyengineer.FieldUpdatedAt, field.TypeTime, value)
-	}
-	if ceu.mutation.EngineerCareerCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerCareerTable,
-			Columns: []string{companyengineer.EngineerCareerColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companycareer.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceu.mutation.EngineerCareerIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerCareerTable,
-			Columns: []string{companyengineer.EngineerCareerColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companycareer.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if ceu.mutation.EngineerPositionCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerPositionTable,
-			Columns: []string{companyengineer.EngineerPositionColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyposition.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceu.mutation.EngineerPositionIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerPositionTable,
-			Columns: []string{companyengineer.EngineerPositionColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyposition.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if ceu.mutation.CompanyOwnersCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -1455,6 +1397,46 @@ func (ceuo *CompanyEngineerUpdateOne) ClearCertNo() *CompanyEngineerUpdateOne {
 	return ceuo
 }
 
+// SetCareer sets the "Career" field.
+func (ceuo *CompanyEngineerUpdateOne) SetCareer(s string) *CompanyEngineerUpdateOne {
+	ceuo.mutation.SetCareer(s)
+	return ceuo
+}
+
+// SetNillableCareer sets the "Career" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillableCareer(s *string) *CompanyEngineerUpdateOne {
+	if s != nil {
+		ceuo.SetCareer(*s)
+	}
+	return ceuo
+}
+
+// ClearCareer clears the value of the "Career" field.
+func (ceuo *CompanyEngineerUpdateOne) ClearCareer() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearCareer()
+	return ceuo
+}
+
+// SetPosition sets the "Position" field.
+func (ceuo *CompanyEngineerUpdateOne) SetPosition(s string) *CompanyEngineerUpdateOne {
+	ceuo.mutation.SetPosition(s)
+	return ceuo
+}
+
+// SetNillablePosition sets the "Position" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillablePosition(s *string) *CompanyEngineerUpdateOne {
+	if s != nil {
+		ceuo.SetPosition(*s)
+	}
+	return ceuo
+}
+
+// ClearPosition clears the value of the "Position" field.
+func (ceuo *CompanyEngineerUpdateOne) ClearPosition() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearPosition()
+	return ceuo
+}
+
 // SetNote sets the "Note" field.
 func (ceuo *CompanyEngineerUpdateOne) SetNote(s string) *CompanyEngineerUpdateOne {
 	ceuo.mutation.SetNote(s)
@@ -1575,44 +1557,6 @@ func (ceuo *CompanyEngineerUpdateOne) SetNillableCreatedAt(t *time.Time) *Compan
 func (ceuo *CompanyEngineerUpdateOne) SetUpdatedAt(t time.Time) *CompanyEngineerUpdateOne {
 	ceuo.mutation.SetUpdatedAt(t)
 	return ceuo
-}
-
-// SetEngineerCareerID sets the "engineerCareer" edge to the CompanyCareer entity by ID.
-func (ceuo *CompanyEngineerUpdateOne) SetEngineerCareerID(id int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.SetEngineerCareerID(id)
-	return ceuo
-}
-
-// SetNillableEngineerCareerID sets the "engineerCareer" edge to the CompanyCareer entity by ID if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillableEngineerCareerID(id *int) *CompanyEngineerUpdateOne {
-	if id != nil {
-		ceuo = ceuo.SetEngineerCareerID(*id)
-	}
-	return ceuo
-}
-
-// SetEngineerCareer sets the "engineerCareer" edge to the CompanyCareer entity.
-func (ceuo *CompanyEngineerUpdateOne) SetEngineerCareer(c *CompanyCareer) *CompanyEngineerUpdateOne {
-	return ceuo.SetEngineerCareerID(c.ID)
-}
-
-// SetEngineerPositionID sets the "engineerPosition" edge to the CompanyPosition entity by ID.
-func (ceuo *CompanyEngineerUpdateOne) SetEngineerPositionID(id int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.SetEngineerPositionID(id)
-	return ceuo
-}
-
-// SetNillableEngineerPositionID sets the "engineerPosition" edge to the CompanyPosition entity by ID if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillableEngineerPositionID(id *int) *CompanyEngineerUpdateOne {
-	if id != nil {
-		ceuo = ceuo.SetEngineerPositionID(*id)
-	}
-	return ceuo
-}
-
-// SetEngineerPosition sets the "engineerPosition" edge to the CompanyPosition entity.
-func (ceuo *CompanyEngineerUpdateOne) SetEngineerPosition(c *CompanyPosition) *CompanyEngineerUpdateOne {
-	return ceuo.SetEngineerPositionID(c.ID)
 }
 
 // AddCompanyOwnerIDs adds the "companyOwners" edge to the CompanyDetail entity by IDs.
@@ -1753,18 +1697,6 @@ func (ceuo *CompanyEngineerUpdateOne) AddElectriccontrollers(j ...*JobDetail) *C
 // Mutation returns the CompanyEngineerMutation object of the builder.
 func (ceuo *CompanyEngineerUpdateOne) Mutation() *CompanyEngineerMutation {
 	return ceuo.mutation
-}
-
-// ClearEngineerCareer clears the "engineerCareer" edge to the CompanyCareer entity.
-func (ceuo *CompanyEngineerUpdateOne) ClearEngineerCareer() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearEngineerCareer()
-	return ceuo
-}
-
-// ClearEngineerPosition clears the "engineerPosition" edge to the CompanyPosition entity.
-func (ceuo *CompanyEngineerUpdateOne) ClearEngineerPosition() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearEngineerPosition()
-	return ceuo
 }
 
 // ClearCompanyOwners clears all "companyOwners" edges to the CompanyDetail entity.
@@ -2079,6 +2011,18 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 	if ceuo.mutation.CertNoCleared() {
 		_spec.ClearField(companyengineer.FieldCertNo, field.TypeInt)
 	}
+	if value, ok := ceuo.mutation.Career(); ok {
+		_spec.SetField(companyengineer.FieldCareer, field.TypeString, value)
+	}
+	if ceuo.mutation.CareerCleared() {
+		_spec.ClearField(companyengineer.FieldCareer, field.TypeString)
+	}
+	if value, ok := ceuo.mutation.Position(); ok {
+		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
+	}
+	if ceuo.mutation.PositionCleared() {
+		_spec.ClearField(companyengineer.FieldPosition, field.TypeString)
+	}
 	if value, ok := ceuo.mutation.Note(); ok {
 		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
 	}
@@ -2114,64 +2058,6 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 	}
 	if value, ok := ceuo.mutation.UpdatedAt(); ok {
 		_spec.SetField(companyengineer.FieldUpdatedAt, field.TypeTime, value)
-	}
-	if ceuo.mutation.EngineerCareerCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerCareerTable,
-			Columns: []string{companyengineer.EngineerCareerColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companycareer.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceuo.mutation.EngineerCareerIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerCareerTable,
-			Columns: []string{companyengineer.EngineerCareerColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companycareer.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if ceuo.mutation.EngineerPositionCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerPositionTable,
-			Columns: []string{companyengineer.EngineerPositionColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyposition.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceuo.mutation.EngineerPositionIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerPositionTable,
-			Columns: []string{companyengineer.EngineerPositionColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyposition.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if ceuo.mutation.CompanyOwnersCleared() {
 		edge := &sqlgraph.EdgeSpec{

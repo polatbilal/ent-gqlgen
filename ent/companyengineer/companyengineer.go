@@ -28,6 +28,10 @@ const (
 	FieldRegNo = "reg_no"
 	// FieldCertNo holds the string denoting the certno field in the database.
 	FieldCertNo = "cert_no"
+	// FieldCareer holds the string denoting the career field in the database.
+	FieldCareer = "career"
+	// FieldPosition holds the string denoting the position field in the database.
+	FieldPosition = "position"
 	// FieldNote holds the string denoting the note field in the database.
 	FieldNote = "note"
 	// FieldStatus holds the string denoting the status field in the database.
@@ -42,10 +46,6 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
-	// EdgeEngineerCareer holds the string denoting the engineercareer edge name in mutations.
-	EdgeEngineerCareer = "engineerCareer"
-	// EdgeEngineerPosition holds the string denoting the engineerposition edge name in mutations.
-	EdgeEngineerPosition = "engineerPosition"
 	// EdgeCompanyOwners holds the string denoting the companyowners edge name in mutations.
 	EdgeCompanyOwners = "companyOwners"
 	// EdgeInspectors holds the string denoting the inspectors edge name in mutations.
@@ -66,20 +66,6 @@ const (
 	EdgeElectriccontrollers = "electriccontrollers"
 	// Table holds the table name of the companyengineer in the database.
 	Table = "company_engineers"
-	// EngineerCareerTable is the table that holds the engineerCareer relation/edge.
-	EngineerCareerTable = "company_engineers"
-	// EngineerCareerInverseTable is the table name for the CompanyCareer entity.
-	// It exists in this package in order to avoid circular dependency with the "companycareer" package.
-	EngineerCareerInverseTable = "company_careers"
-	// EngineerCareerColumn is the table column denoting the engineerCareer relation/edge.
-	EngineerCareerColumn = "career_id"
-	// EngineerPositionTable is the table that holds the engineerPosition relation/edge.
-	EngineerPositionTable = "company_engineers"
-	// EngineerPositionInverseTable is the table name for the CompanyPosition entity.
-	// It exists in this package in order to avoid circular dependency with the "companyposition" package.
-	EngineerPositionInverseTable = "company_positions"
-	// EngineerPositionColumn is the table column denoting the engineerPosition relation/edge.
-	EngineerPositionColumn = "position_id"
 	// CompanyOwnersTable is the table that holds the companyOwners relation/edge.
 	CompanyOwnersTable = "company_details"
 	// CompanyOwnersInverseTable is the table name for the CompanyDetail entity.
@@ -155,6 +141,8 @@ var Columns = []string{
 	FieldPhone,
 	FieldRegNo,
 	FieldCertNo,
+	FieldCareer,
+	FieldPosition,
 	FieldNote,
 	FieldStatus,
 	FieldDeleted,
@@ -164,22 +152,10 @@ var Columns = []string{
 	FieldUpdatedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "company_engineers"
-// table and are not defined as standalone fields in the schema.
-var ForeignKeys = []string{
-	"career_id",
-	"position_id",
-}
-
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
 	for i := range Columns {
 		if column == Columns[i] {
-			return true
-		}
-	}
-	for i := range ForeignKeys {
-		if column == ForeignKeys[i] {
 			return true
 		}
 	}
@@ -244,6 +220,16 @@ func ByCertNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCertNo, opts...).ToFunc()
 }
 
+// ByCareer orders the results by the Career field.
+func ByCareer(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCareer, opts...).ToFunc()
+}
+
+// ByPosition orders the results by the Position field.
+func ByPosition(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPosition, opts...).ToFunc()
+}
+
 // ByNote orders the results by the Note field.
 func ByNote(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldNote, opts...).ToFunc()
@@ -277,20 +263,6 @@ func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdatedAt orders the results by the UpdatedAt field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
-}
-
-// ByEngineerCareerField orders the results by engineerCareer field.
-func ByEngineerCareerField(field string, opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newEngineerCareerStep(), sql.OrderByField(field, opts...))
-	}
-}
-
-// ByEngineerPositionField orders the results by engineerPosition field.
-func ByEngineerPositionField(field string, opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newEngineerPositionStep(), sql.OrderByField(field, opts...))
-	}
 }
 
 // ByCompanyOwnersCount orders the results by companyOwners count.
@@ -417,20 +389,6 @@ func ByElectriccontrollers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOpti
 	return func(s *sql.Selector) {
 		sqlgraph.OrderByNeighborTerms(s, newElectriccontrollersStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
-}
-func newEngineerCareerStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(EngineerCareerInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, EngineerCareerTable, EngineerCareerColumn),
-	)
-}
-func newEngineerPositionStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(EngineerPositionInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, EngineerPositionTable, EngineerPositionColumn),
-	)
 }
 func newCompanyOwnersStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(

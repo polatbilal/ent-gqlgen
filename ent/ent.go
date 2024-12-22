@@ -6,10 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
 	"gqlgen-ent/ent/jobdetail"
@@ -83,10 +81,8 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			companycareer.Table:   companycareer.ValidColumn,
 			companydetail.Table:   companydetail.ValidColumn,
 			companyengineer.Table: companyengineer.ValidColumn,
-			companyposition.Table: companyposition.ValidColumn,
 			jobauthor.Table:       jobauthor.ValidColumn,
 			jobcontractor.Table:   jobcontractor.ValidColumn,
 			jobdetail.Table:       jobdetail.ValidColumn,

@@ -114,6 +114,7 @@ func (r *mutationResolver) UpdateLayer(ctx context.Context, id string, input mod
 		return nil, fmt.Errorf("failed to parse contract date: %v", err)
 	}
 	concreteDatePtr := &concreteDate
+
 	layerID, err := strconv.Atoi(id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to convert layer ID: %v", err)

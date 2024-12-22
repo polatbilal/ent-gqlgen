@@ -5,10 +5,8 @@ package ent
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
 	"gqlgen-ent/ent/jobdetail"
@@ -33,11 +31,6 @@ type Noder interface {
 	IsNode()
 }
 
-var companycareerImplementors = []string{"CompanyCareer", "Node"}
-
-// IsNode implements the Node interface check for GQLGen.
-func (*CompanyCareer) IsNode() {}
-
 var companydetailImplementors = []string{"CompanyDetail", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
@@ -47,11 +40,6 @@ var companyengineerImplementors = []string{"CompanyEngineer", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
 func (*CompanyEngineer) IsNode() {}
-
-var companypositionImplementors = []string{"CompanyPosition", "Node"}
-
-// IsNode implements the Node interface check for GQLGen.
-func (*CompanyPosition) IsNode() {}
 
 var jobauthorImplementors = []string{"JobAuthor", "Node"}
 
@@ -146,15 +134,6 @@ func (c *Client) Noder(ctx context.Context, id int, opts ...NodeOption) (_ Noder
 
 func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error) {
 	switch table {
-	case companycareer.Table:
-		query := c.CompanyCareer.Query().
-			Where(companycareer.ID(id))
-		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companycareerImplementors...); err != nil {
-				return nil, err
-			}
-		}
-		return query.Only(ctx)
 	case companydetail.Table:
 		query := c.CompanyDetail.Query().
 			Where(companydetail.ID(id))
@@ -169,15 +148,6 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			Where(companyengineer.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
 			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companyengineerImplementors...); err != nil {
-				return nil, err
-			}
-		}
-		return query.Only(ctx)
-	case companyposition.Table:
-		query := c.CompanyPosition.Query().
-			Where(companyposition.ID(id))
-		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companypositionImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -318,22 +288,6 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 		idmap[id] = append(idmap[id], &noders[i])
 	}
 	switch table {
-	case companycareer.Table:
-		query := c.CompanyCareer.Query().
-			Where(companycareer.IDIn(ids...))
-		query, err := query.CollectFields(ctx, companycareerImplementors...)
-		if err != nil {
-			return nil, err
-		}
-		nodes, err := query.All(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, node := range nodes {
-			for _, noder := range idmap[node.ID] {
-				*noder = node
-			}
-		}
 	case companydetail.Table:
 		query := c.CompanyDetail.Query().
 			Where(companydetail.IDIn(ids...))
@@ -354,22 +308,6 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 		query := c.CompanyEngineer.Query().
 			Where(companyengineer.IDIn(ids...))
 		query, err := query.CollectFields(ctx, companyengineerImplementors...)
-		if err != nil {
-			return nil, err
-		}
-		nodes, err := query.All(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, node := range nodes {
-			for _, noder := range idmap[node.ID] {
-				*noder = node
-			}
-		}
-	case companyposition.Table:
-		query := c.CompanyPosition.Query().
-			Where(companyposition.IDIn(ids...))
-		query, err := query.CollectFields(ctx, companypositionImplementors...)
 		if err != nil {
 			return nil, err
 		}

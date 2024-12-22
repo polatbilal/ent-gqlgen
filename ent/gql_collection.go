@@ -4,10 +4,8 @@ package ent
 
 import (
 	"context"
-	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
 	"gqlgen-ent/ent/jobdetail"
@@ -18,83 +16,6 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 )
-
-// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (cc *CompanyCareerQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyCareerQuery, error) {
-	fc := graphql.GetFieldContext(ctx)
-	if fc == nil {
-		return cc, nil
-	}
-	if err := cc.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
-		return nil, err
-	}
-	return cc, nil
-}
-
-func (cc *CompanyCareerQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
-	path = append([]string(nil), path...)
-	var (
-		unknownSeen    bool
-		fieldSeen      = make(map[string]struct{}, len(companycareer.Columns))
-		selectedFields = []string{companycareer.FieldID}
-	)
-	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
-		switch field.Name {
-
-		case "engineercareers":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: cc.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			cc.WithNamedEngineerCareers(alias, func(wq *CompanyEngineerQuery) {
-				*wq = *query
-			})
-		case "career":
-			if _, ok := fieldSeen[companycareer.FieldCareer]; !ok {
-				selectedFields = append(selectedFields, companycareer.FieldCareer)
-				fieldSeen[companycareer.FieldCareer] = struct{}{}
-			}
-		case "id":
-		case "__typename":
-		default:
-			unknownSeen = true
-		}
-	}
-	if !unknownSeen {
-		cc.Select(selectedFields...)
-	}
-	return nil
-}
-
-type companycareerPaginateArgs struct {
-	first, last   *int
-	after, before *Cursor
-	opts          []CompanyCareerPaginateOption
-}
-
-func newCompanyCareerPaginateArgs(rv map[string]any) *companycareerPaginateArgs {
-	args := &companycareerPaginateArgs{}
-	if rv == nil {
-		return args
-	}
-	if v := rv[firstField]; v != nil {
-		args.first = v.(*int)
-	}
-	if v := rv[lastField]; v != nil {
-		args.last = v.(*int)
-	}
-	if v := rv[afterField]; v != nil {
-		args.after = v.(*Cursor)
-	}
-	if v := rv[beforeField]; v != nil {
-		args.before = v.(*Cursor)
-	}
-	return args
-}
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
 func (cd *CompanyDetailQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyDetailQuery, error) {
@@ -278,28 +199,6 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
-		case "engineercareer":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyCareerClient{config: ce.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companycareerImplementors)...); err != nil {
-				return err
-			}
-			ce.withEngineerCareer = query
-
-		case "engineerposition":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyPositionClient{config: ce.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companypositionImplementors)...); err != nil {
-				return err
-			}
-			ce.withEngineerPosition = query
-
 		case "companyowners":
 			var (
 				alias = field.Alias
@@ -451,6 +350,16 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 				selectedFields = append(selectedFields, companyengineer.FieldCertNo)
 				fieldSeen[companyengineer.FieldCertNo] = struct{}{}
 			}
+		case "career":
+			if _, ok := fieldSeen[companyengineer.FieldCareer]; !ok {
+				selectedFields = append(selectedFields, companyengineer.FieldCareer)
+				fieldSeen[companyengineer.FieldCareer] = struct{}{}
+			}
+		case "position":
+			if _, ok := fieldSeen[companyengineer.FieldPosition]; !ok {
+				selectedFields = append(selectedFields, companyengineer.FieldPosition)
+				fieldSeen[companyengineer.FieldPosition] = struct{}{}
+			}
 		case "note":
 			if _, ok := fieldSeen[companyengineer.FieldNote]; !ok {
 				selectedFields = append(selectedFields, companyengineer.FieldNote)
@@ -506,83 +415,6 @@ type companyengineerPaginateArgs struct {
 
 func newCompanyEngineerPaginateArgs(rv map[string]any) *companyengineerPaginateArgs {
 	args := &companyengineerPaginateArgs{}
-	if rv == nil {
-		return args
-	}
-	if v := rv[firstField]; v != nil {
-		args.first = v.(*int)
-	}
-	if v := rv[lastField]; v != nil {
-		args.last = v.(*int)
-	}
-	if v := rv[afterField]; v != nil {
-		args.after = v.(*Cursor)
-	}
-	if v := rv[beforeField]; v != nil {
-		args.before = v.(*Cursor)
-	}
-	return args
-}
-
-// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (cp *CompanyPositionQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyPositionQuery, error) {
-	fc := graphql.GetFieldContext(ctx)
-	if fc == nil {
-		return cp, nil
-	}
-	if err := cp.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
-		return nil, err
-	}
-	return cp, nil
-}
-
-func (cp *CompanyPositionQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
-	path = append([]string(nil), path...)
-	var (
-		unknownSeen    bool
-		fieldSeen      = make(map[string]struct{}, len(companyposition.Columns))
-		selectedFields = []string{companyposition.FieldID}
-	)
-	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
-		switch field.Name {
-
-		case "engineerpositions":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: cp.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			cp.WithNamedEngineerPositions(alias, func(wq *CompanyEngineerQuery) {
-				*wq = *query
-			})
-		case "position":
-			if _, ok := fieldSeen[companyposition.FieldPosition]; !ok {
-				selectedFields = append(selectedFields, companyposition.FieldPosition)
-				fieldSeen[companyposition.FieldPosition] = struct{}{}
-			}
-		case "id":
-		case "__typename":
-		default:
-			unknownSeen = true
-		}
-	}
-	if !unknownSeen {
-		cp.Select(selectedFields...)
-	}
-	return nil
-}
-
-type companypositionPaginateArgs struct {
-	first, last   *int
-	after, before *Cursor
-	opts          []CompanyPositionPaginateOption
-}
-
-func newCompanyPositionPaginateArgs(rv map[string]any) *companypositionPaginateArgs {
-	args := &companypositionPaginateArgs{}
 	if rv == nil {
 		return args
 	}
@@ -1578,6 +1410,11 @@ func (u *UserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graph
 			if _, ok := fieldSeen[user.FieldEmail]; !ok {
 				selectedFields = append(selectedFields, user.FieldEmail)
 				fieldSeen[user.FieldEmail] = struct{}{}
+			}
+		case "phone":
+			if _, ok := fieldSeen[user.FieldPhone]; !ok {
+				selectedFields = append(selectedFields, user.FieldPhone)
+				fieldSeen[user.FieldPhone] = struct{}{}
 			}
 		case "password":
 			if _, ok := fieldSeen[user.FieldPassword]; !ok {

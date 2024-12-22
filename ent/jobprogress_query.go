@@ -11,6 +11,7 @@ import (
 	"gqlgen-ent/ent/predicate"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -88,7 +89,7 @@ func (jpq *JobProgressQuery) QueryProgress() *JobDetailQuery {
 // First returns the first JobProgress entity from the query.
 // Returns a *NotFoundError when no JobProgress was found.
 func (jpq *JobProgressQuery) First(ctx context.Context) (*JobProgress, error) {
-	nodes, err := jpq.Limit(1).All(setContextOp(ctx, jpq.ctx, "First"))
+	nodes, err := jpq.Limit(1).All(setContextOp(ctx, jpq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +112,7 @@ func (jpq *JobProgressQuery) FirstX(ctx context.Context) *JobProgress {
 // Returns a *NotFoundError when no JobProgress ID was found.
 func (jpq *JobProgressQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jpq.Limit(1).IDs(setContextOp(ctx, jpq.ctx, "FirstID")); err != nil {
+	if ids, err = jpq.Limit(1).IDs(setContextOp(ctx, jpq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -134,7 +135,7 @@ func (jpq *JobProgressQuery) FirstIDX(ctx context.Context) int {
 // Returns a *NotSingularError when more than one JobProgress entity is found.
 // Returns a *NotFoundError when no JobProgress entities are found.
 func (jpq *JobProgressQuery) Only(ctx context.Context) (*JobProgress, error) {
-	nodes, err := jpq.Limit(2).All(setContextOp(ctx, jpq.ctx, "Only"))
+	nodes, err := jpq.Limit(2).All(setContextOp(ctx, jpq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +163,7 @@ func (jpq *JobProgressQuery) OnlyX(ctx context.Context) *JobProgress {
 // Returns a *NotFoundError when no entities are found.
 func (jpq *JobProgressQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jpq.Limit(2).IDs(setContextOp(ctx, jpq.ctx, "OnlyID")); err != nil {
+	if ids, err = jpq.Limit(2).IDs(setContextOp(ctx, jpq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -187,7 +188,7 @@ func (jpq *JobProgressQuery) OnlyIDX(ctx context.Context) int {
 
 // All executes the query and returns a list of JobProgresses.
 func (jpq *JobProgressQuery) All(ctx context.Context) ([]*JobProgress, error) {
-	ctx = setContextOp(ctx, jpq.ctx, "All")
+	ctx = setContextOp(ctx, jpq.ctx, ent.OpQueryAll)
 	if err := jpq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -209,7 +210,7 @@ func (jpq *JobProgressQuery) IDs(ctx context.Context) (ids []int, err error) {
 	if jpq.ctx.Unique == nil && jpq.path != nil {
 		jpq.Unique(true)
 	}
-	ctx = setContextOp(ctx, jpq.ctx, "IDs")
+	ctx = setContextOp(ctx, jpq.ctx, ent.OpQueryIDs)
 	if err = jpq.Select(jobprogress.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -227,7 +228,7 @@ func (jpq *JobProgressQuery) IDsX(ctx context.Context) []int {
 
 // Count returns the count of the given query.
 func (jpq *JobProgressQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jpq.ctx, "Count")
+	ctx = setContextOp(ctx, jpq.ctx, ent.OpQueryCount)
 	if err := jpq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -245,7 +246,7 @@ func (jpq *JobProgressQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (jpq *JobProgressQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jpq.ctx, "Exist")
+	ctx = setContextOp(ctx, jpq.ctx, ent.OpQueryExist)
 	switch _, err := jpq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -564,7 +565,7 @@ func (jpgb *JobProgressGroupBy) Aggregate(fns ...AggregateFunc) *JobProgressGrou
 
 // Scan applies the selector query and scans the result into the given value.
 func (jpgb *JobProgressGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jpgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, jpgb.build.ctx, ent.OpQueryGroupBy)
 	if err := jpgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -612,7 +613,7 @@ func (jps *JobProgressSelect) Aggregate(fns ...AggregateFunc) *JobProgressSelect
 
 // Scan applies the selector query and scans the result into the given value.
 func (jps *JobProgressSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jps.ctx, "Select")
+	ctx = setContextOp(ctx, jps.ctx, ent.OpQuerySelect)
 	if err := jps.prepareQuery(ctx); err != nil {
 		return err
 	}

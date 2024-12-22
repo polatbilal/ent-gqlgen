@@ -51,19 +51,19 @@ func init() {
 	// companyengineer.DefaultName holds the default value on creation for the Name field.
 	companyengineer.DefaultName = companyengineerDescName.Default.(string)
 	// companyengineerDescStatus is the schema descriptor for Status field.
-	companyengineerDescStatus := companyengineerFields[8].Descriptor()
+	companyengineerDescStatus := companyengineerFields[10].Descriptor()
 	// companyengineer.DefaultStatus holds the default value on creation for the Status field.
 	companyengineer.DefaultStatus = companyengineerDescStatus.Default.(int)
 	// companyengineerDescDeleted is the schema descriptor for Deleted field.
-	companyengineerDescDeleted := companyengineerFields[9].Descriptor()
+	companyengineerDescDeleted := companyengineerFields[11].Descriptor()
 	// companyengineer.DefaultDeleted holds the default value on creation for the Deleted field.
 	companyengineer.DefaultDeleted = companyengineerDescDeleted.Default.(int)
 	// companyengineerDescCreatedAt is the schema descriptor for CreatedAt field.
-	companyengineerDescCreatedAt := companyengineerFields[12].Descriptor()
+	companyengineerDescCreatedAt := companyengineerFields[14].Descriptor()
 	// companyengineer.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	companyengineer.DefaultCreatedAt = companyengineerDescCreatedAt.Default.(func() time.Time)
 	// companyengineerDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	companyengineerDescUpdatedAt := companyengineerFields[13].Descriptor()
+	companyengineerDescUpdatedAt := companyengineerFields[15].Descriptor()
 	// companyengineer.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	companyengineer.DefaultUpdatedAt = companyengineerDescUpdatedAt.Default.(func() time.Time)
 	// companyengineer.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
@@ -295,15 +295,15 @@ func init() {
 	// user.DefaultEmail holds the default value on creation for the email field.
 	user.DefaultEmail = userDescEmail.Default.(string)
 	// userDescRole is the schema descriptor for Role field.
-	userDescRole := userFields[4].Descriptor()
+	userDescRole := userFields[5].Descriptor()
 	// user.DefaultRole holds the default value on creation for the Role field.
 	user.DefaultRole = userDescRole.Default.(string)
 	// userDescCreatedAt is the schema descriptor for created_at field.
-	userDescCreatedAt := userFields[5].Descriptor()
+	userDescCreatedAt := userFields[6].Descriptor()
 	// user.DefaultCreatedAt holds the default value on creation for the created_at field.
 	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() time.Time)
 	// userDescUpdatedAt is the schema descriptor for updated_at field.
-	userDescUpdatedAt := userFields[6].Descriptor()
+	userDescUpdatedAt := userFields[7].Descriptor()
 	// user.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	user.DefaultUpdatedAt = userDescUpdatedAt.Default.(func() time.Time)
 	// user.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.

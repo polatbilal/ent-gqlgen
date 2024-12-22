@@ -36,18 +36,19 @@ type CompanyEngineerInput struct {
 	Phone      *string `json:"Phone,omitempty"`
 	RegNo      *int    `json:"RegNo,omitempty"`
 	CertNo     *int    `json:"CertNo,omitempty"`
+	Career     *string `json:"Career,omitempty"`
+	Position   *string `json:"Position,omitempty"`
+	Employment *string `json:"Employment,omitempty"`
+	Dismissal  *string `json:"Dismissal,omitempty"`
 	Note       *string `json:"Note,omitempty"`
 	Status     *int    `json:"Status,omitempty"`
 	Deleted    *int    `json:"Deleted,omitempty"`
-	Employment *string `json:"Employment,omitempty"`
-	Dismissal  *string `json:"Dismissal,omitempty"`
-	Career     int     `json:"Career"`
-	Position   int     `json:"Position"`
 }
 
 type EngineerFilterInput struct {
-	Career   *int `json:"career,omitempty"`
-	Position *int `json:"position,omitempty"`
+	ID       string  `json:"id"`
+	Career   *string `json:"career,omitempty"`
+	Position *string `json:"position,omitempty"`
 }
 
 type JobAuthorInput struct {

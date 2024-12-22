@@ -13,5 +13,9 @@ go run github.com/99designs/gqlgen generate
 if you edit ent schema file, you need to generate ent schema
 
 ```
-go run entgo.io/ent/cmd/ent generate
+go run entgo.io/ent/cmd/ent generate ./ent/schema
+
+OR
+
+go run ent/entc.go (recommended)
 ```

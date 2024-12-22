@@ -6,10 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/ent/jobdetail"
 	"time"
 
@@ -122,6 +120,34 @@ func (cec *CompanyEngineerCreate) SetNillableCertNo(i *int) *CompanyEngineerCrea
 	return cec
 }
 
+// SetCareer sets the "Career" field.
+func (cec *CompanyEngineerCreate) SetCareer(s string) *CompanyEngineerCreate {
+	cec.mutation.SetCareer(s)
+	return cec
+}
+
+// SetNillableCareer sets the "Career" field if the given value is not nil.
+func (cec *CompanyEngineerCreate) SetNillableCareer(s *string) *CompanyEngineerCreate {
+	if s != nil {
+		cec.SetCareer(*s)
+	}
+	return cec
+}
+
+// SetPosition sets the "Position" field.
+func (cec *CompanyEngineerCreate) SetPosition(s string) *CompanyEngineerCreate {
+	cec.mutation.SetPosition(s)
+	return cec
+}
+
+// SetNillablePosition sets the "Position" field if the given value is not nil.
+func (cec *CompanyEngineerCreate) SetNillablePosition(s *string) *CompanyEngineerCreate {
+	if s != nil {
+		cec.SetPosition(*s)
+	}
+	return cec
+}
+
 // SetNote sets the "Note" field.
 func (cec *CompanyEngineerCreate) SetNote(s string) *CompanyEngineerCreate {
 	cec.mutation.SetNote(s)
@@ -218,44 +244,6 @@ func (cec *CompanyEngineerCreate) SetNillableUpdatedAt(t *time.Time) *CompanyEng
 		cec.SetUpdatedAt(*t)
 	}
 	return cec
-}
-
-// SetEngineerCareerID sets the "engineerCareer" edge to the CompanyCareer entity by ID.
-func (cec *CompanyEngineerCreate) SetEngineerCareerID(id int) *CompanyEngineerCreate {
-	cec.mutation.SetEngineerCareerID(id)
-	return cec
-}
-
-// SetNillableEngineerCareerID sets the "engineerCareer" edge to the CompanyCareer entity by ID if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableEngineerCareerID(id *int) *CompanyEngineerCreate {
-	if id != nil {
-		cec = cec.SetEngineerCareerID(*id)
-	}
-	return cec
-}
-
-// SetEngineerCareer sets the "engineerCareer" edge to the CompanyCareer entity.
-func (cec *CompanyEngineerCreate) SetEngineerCareer(c *CompanyCareer) *CompanyEngineerCreate {
-	return cec.SetEngineerCareerID(c.ID)
-}
-
-// SetEngineerPositionID sets the "engineerPosition" edge to the CompanyPosition entity by ID.
-func (cec *CompanyEngineerCreate) SetEngineerPositionID(id int) *CompanyEngineerCreate {
-	cec.mutation.SetEngineerPositionID(id)
-	return cec
-}
-
-// SetNillableEngineerPositionID sets the "engineerPosition" edge to the CompanyPosition entity by ID if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableEngineerPositionID(id *int) *CompanyEngineerCreate {
-	if id != nil {
-		cec = cec.SetEngineerPositionID(*id)
-	}
-	return cec
-}
-
-// SetEngineerPosition sets the "engineerPosition" edge to the CompanyPosition entity.
-func (cec *CompanyEngineerCreate) SetEngineerPosition(c *CompanyPosition) *CompanyEngineerCreate {
-	return cec.SetEngineerPositionID(c.ID)
 }
 
 // AddCompanyOwnerIDs adds the "companyOwners" edge to the CompanyDetail entity by IDs.
@@ -521,6 +509,14 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		_spec.SetField(companyengineer.FieldCertNo, field.TypeInt, value)
 		_node.CertNo = value
 	}
+	if value, ok := cec.mutation.Career(); ok {
+		_spec.SetField(companyengineer.FieldCareer, field.TypeString, value)
+		_node.Career = value
+	}
+	if value, ok := cec.mutation.Position(); ok {
+		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
+		_node.Position = value
+	}
 	if value, ok := cec.mutation.Note(); ok {
 		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
 		_node.Note = value
@@ -548,40 +544,6 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 	if value, ok := cec.mutation.UpdatedAt(); ok {
 		_spec.SetField(companyengineer.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
-	}
-	if nodes := cec.mutation.EngineerCareerIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerCareerTable,
-			Columns: []string{companyengineer.EngineerCareerColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companycareer.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_node.career_id = &nodes[0]
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := cec.mutation.EngineerPositionIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companyengineer.EngineerPositionTable,
-			Columns: []string{companyengineer.EngineerPositionColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyposition.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_node.position_id = &nodes[0]
-		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := cec.mutation.CompanyOwnersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

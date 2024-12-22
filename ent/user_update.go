@@ -76,6 +76,33 @@ func (uu *UserUpdate) ClearEmail() *UserUpdate {
 	return uu
 }
 
+// SetPhone sets the "phone" field.
+func (uu *UserUpdate) SetPhone(i int) *UserUpdate {
+	uu.mutation.ResetPhone()
+	uu.mutation.SetPhone(i)
+	return uu
+}
+
+// SetNillablePhone sets the "phone" field if the given value is not nil.
+func (uu *UserUpdate) SetNillablePhone(i *int) *UserUpdate {
+	if i != nil {
+		uu.SetPhone(*i)
+	}
+	return uu
+}
+
+// AddPhone adds i to the "phone" field.
+func (uu *UserUpdate) AddPhone(i int) *UserUpdate {
+	uu.mutation.AddPhone(i)
+	return uu
+}
+
+// ClearPhone clears the value of the "phone" field.
+func (uu *UserUpdate) ClearPhone() *UserUpdate {
+	uu.mutation.ClearPhone()
+	return uu
+}
+
 // SetPassword sets the "password" field.
 func (uu *UserUpdate) SetPassword(s string) *UserUpdate {
 	uu.mutation.SetPassword(s)
@@ -186,6 +213,15 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.EmailCleared() {
 		_spec.ClearField(user.FieldEmail, field.TypeString)
 	}
+	if value, ok := uu.mutation.Phone(); ok {
+		_spec.SetField(user.FieldPhone, field.TypeInt, value)
+	}
+	if value, ok := uu.mutation.AddedPhone(); ok {
+		_spec.AddField(user.FieldPhone, field.TypeInt, value)
+	}
+	if uu.mutation.PhoneCleared() {
+		_spec.ClearField(user.FieldPhone, field.TypeInt)
+	}
 	if value, ok := uu.mutation.Password(); ok {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)
 	}
@@ -263,6 +299,33 @@ func (uuo *UserUpdateOne) SetNillableEmail(s *string) *UserUpdateOne {
 // ClearEmail clears the value of the "email" field.
 func (uuo *UserUpdateOne) ClearEmail() *UserUpdateOne {
 	uuo.mutation.ClearEmail()
+	return uuo
+}
+
+// SetPhone sets the "phone" field.
+func (uuo *UserUpdateOne) SetPhone(i int) *UserUpdateOne {
+	uuo.mutation.ResetPhone()
+	uuo.mutation.SetPhone(i)
+	return uuo
+}
+
+// SetNillablePhone sets the "phone" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillablePhone(i *int) *UserUpdateOne {
+	if i != nil {
+		uuo.SetPhone(*i)
+	}
+	return uuo
+}
+
+// AddPhone adds i to the "phone" field.
+func (uuo *UserUpdateOne) AddPhone(i int) *UserUpdateOne {
+	uuo.mutation.AddPhone(i)
+	return uuo
+}
+
+// ClearPhone clears the value of the "phone" field.
+func (uuo *UserUpdateOne) ClearPhone() *UserUpdateOne {
+	uuo.mutation.ClearPhone()
 	return uuo
 }
 
@@ -405,6 +468,15 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if uuo.mutation.EmailCleared() {
 		_spec.ClearField(user.FieldEmail, field.TypeString)
+	}
+	if value, ok := uuo.mutation.Phone(); ok {
+		_spec.SetField(user.FieldPhone, field.TypeInt, value)
+	}
+	if value, ok := uuo.mutation.AddedPhone(); ok {
+		_spec.AddField(user.FieldPhone, field.TypeInt, value)
+	}
+	if uuo.mutation.PhoneCleared() {
+		_spec.ClearField(user.FieldPhone, field.TypeInt)
 	}
 	if value, ok := uuo.mutation.Password(); ok {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)

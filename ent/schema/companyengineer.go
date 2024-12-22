@@ -23,6 +23,8 @@ func (CompanyEngineer) Fields() []ent.Field {
 		field.String("Phone").Optional(),
 		field.Int("RegNo").Optional(),
 		field.Int("CertNo").Optional(),
+		field.String("Career").Optional(),
+		field.String("Position").Optional(),
 		field.String("Note").Optional(),
 		field.Int("Status").Default(1),
 		field.Int("Deleted").Default(0),
@@ -37,9 +39,6 @@ func (CompanyEngineer) Fields() []ent.Field {
 // Edges of the CompanyEngineer.
 func (CompanyEngineer) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("engineerCareer", CompanyCareer.Type).Ref("engineerCareers").Unique(),
-		edge.From("engineerPosition", CompanyPosition.Type).Ref("engineerPositions").Unique(),
-
 		edge.To("companyOwners", CompanyDetail.Type).StorageKey(edge.Column("owner_id")),
 
 		edge.To("inspectors", JobDetail.Type).StorageKey(edge.Column("inspector_id")),

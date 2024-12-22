@@ -4,6 +4,7 @@ package enttest
 
 import (
 	"context"
+
 	"gqlgen-ent/ent"
 	// required by schema hooks.
 	_ "gqlgen-ent/ent/runtime"

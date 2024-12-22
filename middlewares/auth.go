@@ -7,6 +7,7 @@ import (
 	"gqlgen-ent/ent"
 	"gqlgen-ent/service"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 )
 
@@ -25,6 +26,14 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		if len(auth) > len(bearer) && auth[:len(bearer)] == bearer {
 			auth = auth[len(bearer):]
 		} else {
+			return c.String(echo.ErrForbidden.Code, "Invalid token")
+		}
+
+		// Redis'ten token'ı kontrol et
+		_, err := database.RedisClient.Get(c.Request().Context(), auth).Result()
+		if err == redis.Nil {
+			return c.String(echo.ErrUnauthorized.Code, "Token has expired")
+		} else if err != nil {
 			return c.String(echo.ErrForbidden.Code, "Invalid token")
 		}
 
@@ -50,7 +59,7 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		ctx := context.WithValue(c.Request().Context(), "companyCode", costumClaim.CompanyCode)
 		ctx = context.WithValue(ctx, "dbClient", client)
-		ctx = context.WithValue(ctx, authString("auth"), costumClaim) // Auth bilgisini de ekle
+		ctx = context.WithValue(ctx, authString("auth"), costumClaim)
 		c.SetRequest(c.Request().WithContext(ctx))
 
 		return next(c)

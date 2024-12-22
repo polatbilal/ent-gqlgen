@@ -8,12 +8,12 @@ import (
 	"context"
 	"fmt"
 	"gqlgen-ent/ent"
-	"gqlgen-ent/ent/companycareer"
 	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
+	"strconv"
+	"time"
 )
 
 // Employment is the resolver for the Employment field.
@@ -34,24 +34,97 @@ func (r *companyEngineerResolver) Dismissal(ctx context.Context, obj *ent.Compan
 	return &dismissal, nil
 }
 
-// Career is the resolver for the Career field.
-func (r *companyEngineerResolver) Career(ctx context.Context, obj *ent.CompanyEngineer) (*ent.CompanyCareer, error) {
+// CreateEngineer is the resolver for the createEngineer field.
+func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	career, err := client.CompanyCareer.Query().Where(companycareer.HasEngineerCareersWith(companyengineer.IDEQ(obj.ID))).Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get owners: %v", err)
+
+	var employmentPtr *time.Time
+	if input.Employment != nil {
+		parsedDate, err := time.Parse("2006-01-02", *input.Employment)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse employment date: %v", err)
+		}
+		employmentPtr = &parsedDate
 	}
-	return career, nil
+
+	var dismissalPtr *time.Time
+	if input.Dismissal != nil {
+		parsedDate, err := time.Parse("2006-01-02", *input.Dismissal)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse dismissal date: %v", err)
+		}
+		dismissalPtr = &parsedDate
+	}
+
+	createEngineer, err := client.CompanyEngineer.Create().
+		SetNillableName(&input.Name).
+		SetNillableAddress(input.Address).
+		SetNillableEmail(input.Email).
+		SetNillableTcNo(input.TcNo).
+		SetNillablePhone(input.Phone).
+		SetNillableRegNo(input.RegNo).
+		SetNillableCertNo(input.CertNo).
+		SetNillableCareer(input.Career).
+		SetNillablePosition(input.Position).
+		SetNillableNote(input.Note).
+		SetNillableEmployment(employmentPtr).
+		SetNillableDismissal(dismissalPtr).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("mühendis oluşturulamadı: %v, %s", err, createEngineer)
+	}
+
+	return createEngineer, nil
 }
 
-// Position is the resolver for the Position field.
-func (r *companyEngineerResolver) Position(ctx context.Context, obj *ent.CompanyEngineer) (*ent.CompanyPosition, error) {
+// UpdateEngineer is the resolver for the updateEngineer field.
+func (r *mutationResolver) UpdateEngineer(ctx context.Context, id string, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	position, err := client.CompanyPosition.Query().Where(companyposition.HasEngineerPositionsWith(companyengineer.IDEQ(obj.ID))).Only(ctx)
+
+	engineerID, err := strconv.Atoi(id)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get positions: %v", err)
+		return nil, fmt.Errorf("failed to convert engineer ID: %v", err)
 	}
-	return position, nil
+
+	var employmentPtr *time.Time
+	if input.Employment != nil {
+		parsedDate, err := time.Parse("2006-01-02", *input.Employment)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse employment date: %v", err)
+		}
+		employmentPtr = &parsedDate
+	}
+
+	var dismissalPtr *time.Time
+	if input.Dismissal != nil {
+		parsedDate, err := time.Parse("2006-01-02", *input.Dismissal)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse dismissal date: %v", err)
+		}
+		dismissalPtr = &parsedDate
+	}
+
+	engineer, err := client.CompanyEngineer.UpdateOneID(engineerID).
+		SetNillableName(&input.Name).
+		SetNillableAddress(input.Address).
+		SetNillableEmail(input.Email).
+		SetNillableTcNo(input.TcNo).
+		SetNillablePhone(input.Phone).
+		SetNillableRegNo(input.RegNo).
+		SetNillableCertNo(input.CertNo).
+		SetNillableCareer(input.Career).
+		SetNillablePosition(input.Position).
+		SetNillableNote(input.Note).
+		SetNillableEmployment(employmentPtr).
+		SetNillableDismissal(dismissalPtr).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update engineer: %v", err)
+	}
+
+	return engineer, nil
 }
 
 // Engineer is the resolver for the Engineer field.
@@ -60,11 +133,18 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 	query := client.CompanyEngineer.Query()
 
 	if filter != nil {
+		if filter.ID != "" {
+			engineerID, err := strconv.Atoi(filter.ID)
+			if err != nil {
+				return nil, fmt.Errorf("invalid engineer ID: %v", err)
+			}
+			query = query.Where(companyengineer.IDEQ(engineerID))
+		}
 		if filter.Career != nil {
-			query = query.Where(companyengineer.HasEngineerCareerWith(companycareer.IDEQ(*filter.Career)))
+			query = query.Where(companyengineer.CareerEQ(*filter.Career))
 		}
 		if filter.Position != nil {
-			query = query.Where(companyengineer.HasEngineerPositionWith(companyposition.IDEQ(*filter.Position)))
+			query = query.Where(companyengineer.PositionEQ(*filter.Position))
 		}
 	}
 

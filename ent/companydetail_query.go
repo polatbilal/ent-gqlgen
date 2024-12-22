@@ -10,6 +10,7 @@ import (
 	"gqlgen-ent/ent/predicate"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -87,7 +88,7 @@ func (cdq *CompanyDetailQuery) QueryCompanyOwner() *CompanyEngineerQuery {
 // First returns the first CompanyDetail entity from the query.
 // Returns a *NotFoundError when no CompanyDetail was found.
 func (cdq *CompanyDetailQuery) First(ctx context.Context) (*CompanyDetail, error) {
-	nodes, err := cdq.Limit(1).All(setContextOp(ctx, cdq.ctx, "First"))
+	nodes, err := cdq.Limit(1).All(setContextOp(ctx, cdq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +111,7 @@ func (cdq *CompanyDetailQuery) FirstX(ctx context.Context) *CompanyDetail {
 // Returns a *NotFoundError when no CompanyDetail ID was found.
 func (cdq *CompanyDetailQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = cdq.Limit(1).IDs(setContextOp(ctx, cdq.ctx, "FirstID")); err != nil {
+	if ids, err = cdq.Limit(1).IDs(setContextOp(ctx, cdq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -133,7 +134,7 @@ func (cdq *CompanyDetailQuery) FirstIDX(ctx context.Context) int {
 // Returns a *NotSingularError when more than one CompanyDetail entity is found.
 // Returns a *NotFoundError when no CompanyDetail entities are found.
 func (cdq *CompanyDetailQuery) Only(ctx context.Context) (*CompanyDetail, error) {
-	nodes, err := cdq.Limit(2).All(setContextOp(ctx, cdq.ctx, "Only"))
+	nodes, err := cdq.Limit(2).All(setContextOp(ctx, cdq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -161,7 +162,7 @@ func (cdq *CompanyDetailQuery) OnlyX(ctx context.Context) *CompanyDetail {
 // Returns a *NotFoundError when no entities are found.
 func (cdq *CompanyDetailQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = cdq.Limit(2).IDs(setContextOp(ctx, cdq.ctx, "OnlyID")); err != nil {
+	if ids, err = cdq.Limit(2).IDs(setContextOp(ctx, cdq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -186,7 +187,7 @@ func (cdq *CompanyDetailQuery) OnlyIDX(ctx context.Context) int {
 
 // All executes the query and returns a list of CompanyDetails.
 func (cdq *CompanyDetailQuery) All(ctx context.Context) ([]*CompanyDetail, error) {
-	ctx = setContextOp(ctx, cdq.ctx, "All")
+	ctx = setContextOp(ctx, cdq.ctx, ent.OpQueryAll)
 	if err := cdq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -208,7 +209,7 @@ func (cdq *CompanyDetailQuery) IDs(ctx context.Context) (ids []int, err error) {
 	if cdq.ctx.Unique == nil && cdq.path != nil {
 		cdq.Unique(true)
 	}
-	ctx = setContextOp(ctx, cdq.ctx, "IDs")
+	ctx = setContextOp(ctx, cdq.ctx, ent.OpQueryIDs)
 	if err = cdq.Select(companydetail.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -226,7 +227,7 @@ func (cdq *CompanyDetailQuery) IDsX(ctx context.Context) []int {
 
 // Count returns the count of the given query.
 func (cdq *CompanyDetailQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, cdq.ctx, "Count")
+	ctx = setContextOp(ctx, cdq.ctx, ent.OpQueryCount)
 	if err := cdq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -244,7 +245,7 @@ func (cdq *CompanyDetailQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (cdq *CompanyDetailQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, cdq.ctx, "Exist")
+	ctx = setContextOp(ctx, cdq.ctx, ent.OpQueryExist)
 	switch _, err := cdq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -549,7 +550,7 @@ func (cdgb *CompanyDetailGroupBy) Aggregate(fns ...AggregateFunc) *CompanyDetail
 
 // Scan applies the selector query and scans the result into the given value.
 func (cdgb *CompanyDetailGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cdgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, cdgb.build.ctx, ent.OpQueryGroupBy)
 	if err := cdgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -597,7 +598,7 @@ func (cds *CompanyDetailSelect) Aggregate(fns ...AggregateFunc) *CompanyDetailSe
 
 // Scan applies the selector query and scans the result into the given value.
 func (cds *CompanyDetailSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cds.ctx, "Select")
+	ctx = setContextOp(ctx, cds.ctx, ent.OpQuerySelect)
 	if err := cds.prepareQuery(ctx); err != nil {
 		return err
 	}

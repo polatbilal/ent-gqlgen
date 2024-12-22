@@ -17,6 +17,7 @@ import (
 	"gqlgen-ent/tools"
 	"log"
 	"strconv"
+	"time"
 )
 
 // Register is the resolver for the register field.
@@ -77,6 +78,12 @@ func (r *mutationResolver) Login(ctx context.Context, companyCode string, userna
 	token, err := service.JwtGenerate(ctx, user.ID, username, companyCode)
 	if err != nil {
 		return nil, err
+	}
+
+	// Token'ı Redis'e kaydet (24 saat geçerli)
+	err = database.RedisClient.Set(ctx, token, userID, 24*time.Hour).Err()
+	if err != nil {
+		return nil, fmt.Errorf("token kaydedilemedi: %v", err)
 	}
 
 	return &model.AuthPayload{

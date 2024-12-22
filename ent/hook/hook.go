@@ -8,18 +8,6 @@ import (
 	"gqlgen-ent/ent"
 )
 
-// The CompanyCareerFunc type is an adapter to allow the use of ordinary
-// function as CompanyCareer mutator.
-type CompanyCareerFunc func(context.Context, *ent.CompanyCareerMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f CompanyCareerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.CompanyCareerMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyCareerMutation", m)
-}
-
 // The CompanyDetailFunc type is an adapter to allow the use of ordinary
 // function as CompanyDetail mutator.
 type CompanyDetailFunc func(context.Context, *ent.CompanyDetailMutation) (ent.Value, error)
@@ -42,18 +30,6 @@ func (f CompanyEngineerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Va
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyEngineerMutation", m)
-}
-
-// The CompanyPositionFunc type is an adapter to allow the use of ordinary
-// function as CompanyPosition mutator.
-type CompanyPositionFunc func(context.Context, *ent.CompanyPositionMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f CompanyPositionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.CompanyPositionMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyPositionMutation", m)
 }
 
 // The JobAuthorFunc type is an adapter to allow the use of ordinary
