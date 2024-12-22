@@ -14,6 +14,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-redis/redis/v8"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/vektah/gqlparser/v2/gqlerror"
@@ -35,6 +36,11 @@ func main() {
 		ExposeHeaders:    []string{"Authorization"},
 	}))
 
+	// Load .env file
+	if err := godotenv.Load(); err != nil {
+		log.Printf("Warning: .env file not found")
+	}
+
 	// Database connection
 	companyCode := "2"
 	client, err := database.GetClient(companyCode)
@@ -50,10 +56,15 @@ func main() {
 
 	// Redis bağlantısını başlat
 	database.RedisClient = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379", // Redis sunucu adresi
-		Password: "",               // Redis şifresi (varsa)
-		DB:       0,                // Veritabanı numarası
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
 	})
+
+	// Redis bağlantısını kontrol et
+	if err := database.RedisClient.Ping(context.Background()).Err(); err != nil {
+		log.Fatalf("Redis bağlantı hatası: %v", err)
+	}
 
 	// Configure the GraphQL server and start
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))

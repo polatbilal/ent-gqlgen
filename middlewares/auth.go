@@ -26,26 +26,28 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		if len(auth) > len(bearer) && auth[:len(bearer)] == bearer {
 			auth = auth[len(bearer):]
 		} else {
-			return c.String(echo.ErrForbidden.Code, "Invalid token")
+			return c.JSON(echo.ErrForbidden.Code, map[string]string{
+				"error": "Invalid token",
+			})
 		}
 
 		// Redis'ten token'ı kontrol et
 		_, err := database.RedisClient.Get(c.Request().Context(), auth).Result()
 		if err == redis.Nil {
-			return c.String(echo.ErrUnauthorized.Code, "Token has expired")
+			return c.JSON(echo.ErrUnauthorized.Code, map[string]string{
+				"error": "Token has expired",
+			})
 		} else if err != nil {
-			return c.String(echo.ErrForbidden.Code, "Invalid token")
+			return c.JSON(echo.ErrForbidden.Code, map[string]string{
+				"error": "Invalid token",
+			})
 		}
 
-		validate, err := service.JwtValidate(context.Background(), auth)
+		validate, err := service.JwtValidate(c.Request().Context(), auth)
 		if err != nil {
-			if err.Error() == "token expired" {
-				return c.String(echo.ErrUnauthorized.Code, "Token has expired")
-			} else if err.Error() == "token invalidated" {
-				return c.String(echo.ErrForbidden.Code, "Token has been invalidated")
-			} else {
-				return c.String(echo.ErrForbidden.Code, "Invalid token")
-			}
+			return c.JSON(echo.ErrForbidden.Code, map[string]string{
+				"error": "Invalid token",
+			})
 		}
 
 		costumClaim, _ := validate.Claims.(*service.JwtCustomClaim)
@@ -59,7 +61,7 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		ctx := context.WithValue(c.Request().Context(), "companyCode", costumClaim.CompanyCode)
 		ctx = context.WithValue(ctx, "dbClient", client)
-		ctx = context.WithValue(ctx, authString("auth"), costumClaim)
+		ctx = context.WithValue(ctx, authString("auth"), costumClaim) // Auth bilgisini de ekle
 		c.SetRequest(c.Request().WithContext(ctx))
 
 		return next(c)
