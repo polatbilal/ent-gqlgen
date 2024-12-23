@@ -66,8 +66,6 @@ type CompanyDetailMutation struct {
 	_Commerce           *string
 	_CommerceReg        *string
 	_VisaDate           *time.Time
-	_Deleted            *int
-	add_Deleted         *int
 	_CreatedAt          *time.Time
 	_UpdatedAt          *time.Time
 	clearedFields       map[string]struct{}
@@ -926,62 +924,6 @@ func (m *CompanyDetailMutation) ResetVisaDate() {
 	delete(m.clearedFields, companydetail.FieldVisaDate)
 }
 
-// SetDeleted sets the "Deleted" field.
-func (m *CompanyDetailMutation) SetDeleted(i int) {
-	m._Deleted = &i
-	m.add_Deleted = nil
-}
-
-// Deleted returns the value of the "Deleted" field in the mutation.
-func (m *CompanyDetailMutation) Deleted() (r int, exists bool) {
-	v := m._Deleted
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeleted returns the old "Deleted" field's value of the CompanyDetail entity.
-// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldDeleted(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeleted is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeleted requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeleted: %w", err)
-	}
-	return oldValue.Deleted, nil
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (m *CompanyDetailMutation) AddDeleted(i int) {
-	if m.add_Deleted != nil {
-		*m.add_Deleted += i
-	} else {
-		m.add_Deleted = &i
-	}
-}
-
-// AddedDeleted returns the value that was added to the "Deleted" field in this mutation.
-func (m *CompanyDetailMutation) AddedDeleted() (r int, exists bool) {
-	v := m.add_Deleted
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetDeleted resets all changes to the "Deleted" field.
-func (m *CompanyDetailMutation) ResetDeleted() {
-	m._Deleted = nil
-	m.add_Deleted = nil
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (m *CompanyDetailMutation) SetCreatedAt(t time.Time) {
 	m._CreatedAt = &t
@@ -1127,7 +1069,7 @@ func (m *CompanyDetailMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CompanyDetailMutation) Fields() []string {
-	fields := make([]string, 0, 18)
+	fields := make([]string, 0, 17)
 	if m._CompanyCode != nil {
 		fields = append(fields, companydetail.FieldCompanyCode)
 	}
@@ -1173,9 +1115,6 @@ func (m *CompanyDetailMutation) Fields() []string {
 	if m._VisaDate != nil {
 		fields = append(fields, companydetail.FieldVisaDate)
 	}
-	if m._Deleted != nil {
-		fields = append(fields, companydetail.FieldDeleted)
-	}
 	if m._CreatedAt != nil {
 		fields = append(fields, companydetail.FieldCreatedAt)
 	}
@@ -1220,8 +1159,6 @@ func (m *CompanyDetailMutation) Field(name string) (ent.Value, bool) {
 		return m.CommerceReg()
 	case companydetail.FieldVisaDate:
 		return m.VisaDate()
-	case companydetail.FieldDeleted:
-		return m.Deleted()
 	case companydetail.FieldCreatedAt:
 		return m.CreatedAt()
 	case companydetail.FieldUpdatedAt:
@@ -1265,8 +1202,6 @@ func (m *CompanyDetailMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldCommerceReg(ctx)
 	case companydetail.FieldVisaDate:
 		return m.OldVisaDate(ctx)
-	case companydetail.FieldDeleted:
-		return m.OldDeleted(ctx)
 	case companydetail.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case companydetail.FieldUpdatedAt:
@@ -1385,13 +1320,6 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetVisaDate(v)
 		return nil
-	case companydetail.FieldDeleted:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeleted(v)
-		return nil
 	case companydetail.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -1420,9 +1348,6 @@ func (m *CompanyDetailMutation) AddedFields() []string {
 	if m.add_TaxNo != nil {
 		fields = append(fields, companydetail.FieldTaxNo)
 	}
-	if m.add_Deleted != nil {
-		fields = append(fields, companydetail.FieldDeleted)
-	}
 	return fields
 }
 
@@ -1435,8 +1360,6 @@ func (m *CompanyDetailMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedCompanyCode()
 	case companydetail.FieldTaxNo:
 		return m.AddedTaxNo()
-	case companydetail.FieldDeleted:
-		return m.AddedDeleted()
 	}
 	return nil, false
 }
@@ -1459,13 +1382,6 @@ func (m *CompanyDetailMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddTaxNo(v)
-		return nil
-	case companydetail.FieldDeleted:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddDeleted(v)
 		return nil
 	}
 	return fmt.Errorf("unknown CompanyDetail numeric field %s", name)
@@ -1619,9 +1535,6 @@ func (m *CompanyDetailMutation) ResetField(name string) error {
 		return nil
 	case companydetail.FieldVisaDate:
 		m.ResetVisaDate()
-		return nil
-	case companydetail.FieldDeleted:
-		m.ResetDeleted()
 		return nil
 	case companydetail.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -3994,8 +3907,6 @@ type JobAuthorMutation struct {
 	_Mechanic      *string
 	_Electric      *string
 	_Floor         *string
-	_Deleted       *int
-	add_Deleted    *int
 	_CreatedAt     *time.Time
 	_UpdatedAt     *time.Time
 	clearedFields  map[string]struct{}
@@ -4350,62 +4261,6 @@ func (m *JobAuthorMutation) ResetFloor() {
 	delete(m.clearedFields, jobauthor.FieldFloor)
 }
 
-// SetDeleted sets the "Deleted" field.
-func (m *JobAuthorMutation) SetDeleted(i int) {
-	m._Deleted = &i
-	m.add_Deleted = nil
-}
-
-// Deleted returns the value of the "Deleted" field in the mutation.
-func (m *JobAuthorMutation) Deleted() (r int, exists bool) {
-	v := m._Deleted
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeleted returns the old "Deleted" field's value of the JobAuthor entity.
-// If the JobAuthor object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobAuthorMutation) OldDeleted(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeleted is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeleted requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeleted: %w", err)
-	}
-	return oldValue.Deleted, nil
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (m *JobAuthorMutation) AddDeleted(i int) {
-	if m.add_Deleted != nil {
-		*m.add_Deleted += i
-	} else {
-		m.add_Deleted = &i
-	}
-}
-
-// AddedDeleted returns the value that was added to the "Deleted" field in this mutation.
-func (m *JobAuthorMutation) AddedDeleted() (r int, exists bool) {
-	v := m.add_Deleted
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetDeleted resets all changes to the "Deleted" field.
-func (m *JobAuthorMutation) ResetDeleted() {
-	m._Deleted = nil
-	m.add_Deleted = nil
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (m *JobAuthorMutation) SetCreatedAt(t time.Time) {
 	m._CreatedAt = &t
@@ -4566,7 +4421,7 @@ func (m *JobAuthorMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobAuthorMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 7)
 	if m._Architect != nil {
 		fields = append(fields, jobauthor.FieldArchitect)
 	}
@@ -4581,9 +4436,6 @@ func (m *JobAuthorMutation) Fields() []string {
 	}
 	if m._Floor != nil {
 		fields = append(fields, jobauthor.FieldFloor)
-	}
-	if m._Deleted != nil {
-		fields = append(fields, jobauthor.FieldDeleted)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, jobauthor.FieldCreatedAt)
@@ -4609,8 +4461,6 @@ func (m *JobAuthorMutation) Field(name string) (ent.Value, bool) {
 		return m.Electric()
 	case jobauthor.FieldFloor:
 		return m.Floor()
-	case jobauthor.FieldDeleted:
-		return m.Deleted()
 	case jobauthor.FieldCreatedAt:
 		return m.CreatedAt()
 	case jobauthor.FieldUpdatedAt:
@@ -4634,8 +4484,6 @@ func (m *JobAuthorMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldElectric(ctx)
 	case jobauthor.FieldFloor:
 		return m.OldFloor(ctx)
-	case jobauthor.FieldDeleted:
-		return m.OldDeleted(ctx)
 	case jobauthor.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case jobauthor.FieldUpdatedAt:
@@ -4684,13 +4532,6 @@ func (m *JobAuthorMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetFloor(v)
 		return nil
-	case jobauthor.FieldDeleted:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeleted(v)
-		return nil
 	case jobauthor.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -4712,21 +4553,13 @@ func (m *JobAuthorMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *JobAuthorMutation) AddedFields() []string {
-	var fields []string
-	if m.add_Deleted != nil {
-		fields = append(fields, jobauthor.FieldDeleted)
-	}
-	return fields
+	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *JobAuthorMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case jobauthor.FieldDeleted:
-		return m.AddedDeleted()
-	}
 	return nil, false
 }
 
@@ -4735,13 +4568,6 @@ func (m *JobAuthorMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *JobAuthorMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case jobauthor.FieldDeleted:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddDeleted(v)
-		return nil
 	}
 	return fmt.Errorf("unknown JobAuthor numeric field %s", name)
 }
@@ -4816,9 +4642,6 @@ func (m *JobAuthorMutation) ResetField(name string) error {
 		return nil
 	case jobauthor.FieldFloor:
 		m.ResetFloor()
-		return nil
-	case jobauthor.FieldDeleted:
-		m.ResetDeleted()
 		return nil
 	case jobauthor.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -4932,8 +4755,6 @@ type JobContractorMutation struct {
 	_Phone             *string
 	_Email             *string
 	_Note              *string
-	_Deleted           *int
-	add_Deleted        *int
 	_CreatedAt         *time.Time
 	_UpdatedAt         *time.Time
 	clearedFields      map[string]struct{}
@@ -5534,62 +5355,6 @@ func (m *JobContractorMutation) ResetNote() {
 	delete(m.clearedFields, jobcontractor.FieldNote)
 }
 
-// SetDeleted sets the "Deleted" field.
-func (m *JobContractorMutation) SetDeleted(i int) {
-	m._Deleted = &i
-	m.add_Deleted = nil
-}
-
-// Deleted returns the value of the "Deleted" field in the mutation.
-func (m *JobContractorMutation) Deleted() (r int, exists bool) {
-	v := m._Deleted
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeleted returns the old "Deleted" field's value of the JobContractor entity.
-// If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobContractorMutation) OldDeleted(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeleted is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeleted requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeleted: %w", err)
-	}
-	return oldValue.Deleted, nil
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (m *JobContractorMutation) AddDeleted(i int) {
-	if m.add_Deleted != nil {
-		*m.add_Deleted += i
-	} else {
-		m.add_Deleted = &i
-	}
-}
-
-// AddedDeleted returns the value that was added to the "Deleted" field in this mutation.
-func (m *JobContractorMutation) AddedDeleted() (r int, exists bool) {
-	v := m.add_Deleted
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetDeleted resets all changes to the "Deleted" field.
-func (m *JobContractorMutation) ResetDeleted() {
-	m._Deleted = nil
-	m.add_Deleted = nil
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (m *JobContractorMutation) SetCreatedAt(t time.Time) {
 	m._CreatedAt = &t
@@ -5750,7 +5515,7 @@ func (m *JobContractorMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobContractorMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 11)
 	if m._Name != nil {
 		fields = append(fields, jobcontractor.FieldName)
 	}
@@ -5777,9 +5542,6 @@ func (m *JobContractorMutation) Fields() []string {
 	}
 	if m._Note != nil {
 		fields = append(fields, jobcontractor.FieldNote)
-	}
-	if m._Deleted != nil {
-		fields = append(fields, jobcontractor.FieldDeleted)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, jobcontractor.FieldCreatedAt)
@@ -5813,8 +5575,6 @@ func (m *JobContractorMutation) Field(name string) (ent.Value, bool) {
 		return m.Email()
 	case jobcontractor.FieldNote:
 		return m.Note()
-	case jobcontractor.FieldDeleted:
-		return m.Deleted()
 	case jobcontractor.FieldCreatedAt:
 		return m.CreatedAt()
 	case jobcontractor.FieldUpdatedAt:
@@ -5846,8 +5606,6 @@ func (m *JobContractorMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldEmail(ctx)
 	case jobcontractor.FieldNote:
 		return m.OldNote(ctx)
-	case jobcontractor.FieldDeleted:
-		return m.OldDeleted(ctx)
 	case jobcontractor.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case jobcontractor.FieldUpdatedAt:
@@ -5924,13 +5682,6 @@ func (m *JobContractorMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetNote(v)
 		return nil
-	case jobcontractor.FieldDeleted:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeleted(v)
-		return nil
 	case jobcontractor.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -5962,9 +5713,6 @@ func (m *JobContractorMutation) AddedFields() []string {
 	if m.add_TaxNo != nil {
 		fields = append(fields, jobcontractor.FieldTaxNo)
 	}
-	if m.add_Deleted != nil {
-		fields = append(fields, jobcontractor.FieldDeleted)
-	}
 	return fields
 }
 
@@ -5979,8 +5727,6 @@ func (m *JobContractorMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedRegisterNo()
 	case jobcontractor.FieldTaxNo:
 		return m.AddedTaxNo()
-	case jobcontractor.FieldDeleted:
-		return m.AddedDeleted()
 	}
 	return nil, false
 }
@@ -6010,13 +5756,6 @@ func (m *JobContractorMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddTaxNo(v)
-		return nil
-	case jobcontractor.FieldDeleted:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddDeleted(v)
 		return nil
 	}
 	return fmt.Errorf("unknown JobContractor numeric field %s", name)
@@ -6122,9 +5861,6 @@ func (m *JobContractorMutation) ResetField(name string) error {
 		return nil
 	case jobcontractor.FieldNote:
 		m.ResetNote()
-		return nil
-	case jobcontractor.FieldDeleted:
-		m.ResetDeleted()
 		return nil
 	case jobcontractor.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -6250,10 +5986,10 @@ type JobDetailMutation struct {
 	_LandArea                 *string
 	_Floors                   *int
 	add_Floors                *int
+	_UsagePurpose             *string
 	_Note                     *string
 	_Started                  *int
 	add_Started               *int
-	_UsagePurpose             *string
 	_Deleted                  *int
 	add_Deleted               *int
 	created_at                *time.Time
@@ -7453,6 +7189,55 @@ func (m *JobDetailMutation) ResetFloors() {
 	delete(m.clearedFields, jobdetail.FieldFloors)
 }
 
+// SetUsagePurpose sets the "UsagePurpose" field.
+func (m *JobDetailMutation) SetUsagePurpose(s string) {
+	m._UsagePurpose = &s
+}
+
+// UsagePurpose returns the value of the "UsagePurpose" field in the mutation.
+func (m *JobDetailMutation) UsagePurpose() (r string, exists bool) {
+	v := m._UsagePurpose
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUsagePurpose returns the old "UsagePurpose" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldUsagePurpose(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUsagePurpose is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUsagePurpose requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUsagePurpose: %w", err)
+	}
+	return oldValue.UsagePurpose, nil
+}
+
+// ClearUsagePurpose clears the value of the "UsagePurpose" field.
+func (m *JobDetailMutation) ClearUsagePurpose() {
+	m._UsagePurpose = nil
+	m.clearedFields[jobdetail.FieldUsagePurpose] = struct{}{}
+}
+
+// UsagePurposeCleared returns if the "UsagePurpose" field was cleared in this mutation.
+func (m *JobDetailMutation) UsagePurposeCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldUsagePurpose]
+	return ok
+}
+
+// ResetUsagePurpose resets all changes to the "UsagePurpose" field.
+func (m *JobDetailMutation) ResetUsagePurpose() {
+	m._UsagePurpose = nil
+	delete(m.clearedFields, jobdetail.FieldUsagePurpose)
+}
+
 // SetNote sets the "Note" field.
 func (m *JobDetailMutation) SetNote(s string) {
 	m._Note = &s
@@ -7556,55 +7341,6 @@ func (m *JobDetailMutation) AddedStarted() (r int, exists bool) {
 func (m *JobDetailMutation) ResetStarted() {
 	m._Started = nil
 	m.add_Started = nil
-}
-
-// SetUsagePurpose sets the "UsagePurpose" field.
-func (m *JobDetailMutation) SetUsagePurpose(s string) {
-	m._UsagePurpose = &s
-}
-
-// UsagePurpose returns the value of the "UsagePurpose" field in the mutation.
-func (m *JobDetailMutation) UsagePurpose() (r string, exists bool) {
-	v := m._UsagePurpose
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUsagePurpose returns the old "UsagePurpose" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldUsagePurpose(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUsagePurpose is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUsagePurpose requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUsagePurpose: %w", err)
-	}
-	return oldValue.UsagePurpose, nil
-}
-
-// ClearUsagePurpose clears the value of the "UsagePurpose" field.
-func (m *JobDetailMutation) ClearUsagePurpose() {
-	m._UsagePurpose = nil
-	m.clearedFields[jobdetail.FieldUsagePurpose] = struct{}{}
-}
-
-// UsagePurposeCleared returns if the "UsagePurpose" field was cleared in this mutation.
-func (m *JobDetailMutation) UsagePurposeCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldUsagePurpose]
-	return ok
-}
-
-// ResetUsagePurpose resets all changes to the "UsagePurpose" field.
-func (m *JobDetailMutation) ResetUsagePurpose() {
-	m._UsagePurpose = nil
-	delete(m.clearedFields, jobdetail.FieldUsagePurpose)
 }
 
 // SetDeleted sets the "Deleted" field.
@@ -8355,14 +8091,14 @@ func (m *JobDetailMutation) Fields() []string {
 	if m._Floors != nil {
 		fields = append(fields, jobdetail.FieldFloors)
 	}
+	if m._UsagePurpose != nil {
+		fields = append(fields, jobdetail.FieldUsagePurpose)
+	}
 	if m._Note != nil {
 		fields = append(fields, jobdetail.FieldNote)
 	}
 	if m._Started != nil {
 		fields = append(fields, jobdetail.FieldStarted)
-	}
-	if m._UsagePurpose != nil {
-		fields = append(fields, jobdetail.FieldUsagePurpose)
 	}
 	if m._Deleted != nil {
 		fields = append(fields, jobdetail.FieldDeleted)
@@ -8423,12 +8159,12 @@ func (m *JobDetailMutation) Field(name string) (ent.Value, bool) {
 		return m.LandArea()
 	case jobdetail.FieldFloors:
 		return m.Floors()
+	case jobdetail.FieldUsagePurpose:
+		return m.UsagePurpose()
 	case jobdetail.FieldNote:
 		return m.Note()
 	case jobdetail.FieldStarted:
 		return m.Started()
-	case jobdetail.FieldUsagePurpose:
-		return m.UsagePurpose()
 	case jobdetail.FieldDeleted:
 		return m.Deleted()
 	case jobdetail.FieldCreatedAt:
@@ -8486,12 +8222,12 @@ func (m *JobDetailMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldLandArea(ctx)
 	case jobdetail.FieldFloors:
 		return m.OldFloors(ctx)
+	case jobdetail.FieldUsagePurpose:
+		return m.OldUsagePurpose(ctx)
 	case jobdetail.FieldNote:
 		return m.OldNote(ctx)
 	case jobdetail.FieldStarted:
 		return m.OldStarted(ctx)
-	case jobdetail.FieldUsagePurpose:
-		return m.OldUsagePurpose(ctx)
 	case jobdetail.FieldDeleted:
 		return m.OldDeleted(ctx)
 	case jobdetail.FieldCreatedAt:
@@ -8654,6 +8390,13 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetFloors(v)
 		return nil
+	case jobdetail.FieldUsagePurpose:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUsagePurpose(v)
+		return nil
 	case jobdetail.FieldNote:
 		v, ok := value.(string)
 		if !ok {
@@ -8667,13 +8410,6 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStarted(v)
-		return nil
-	case jobdetail.FieldUsagePurpose:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUsagePurpose(v)
 		return nil
 	case jobdetail.FieldDeleted:
 		v, ok := value.(int)
@@ -8846,11 +8582,11 @@ func (m *JobDetailMutation) ClearedFields() []string {
 	if m.FieldCleared(jobdetail.FieldFloors) {
 		fields = append(fields, jobdetail.FieldFloors)
 	}
-	if m.FieldCleared(jobdetail.FieldNote) {
-		fields = append(fields, jobdetail.FieldNote)
-	}
 	if m.FieldCleared(jobdetail.FieldUsagePurpose) {
 		fields = append(fields, jobdetail.FieldUsagePurpose)
+	}
+	if m.FieldCleared(jobdetail.FieldNote) {
+		fields = append(fields, jobdetail.FieldNote)
 	}
 	return fields
 }
@@ -8923,11 +8659,11 @@ func (m *JobDetailMutation) ClearField(name string) error {
 	case jobdetail.FieldFloors:
 		m.ClearFloors()
 		return nil
-	case jobdetail.FieldNote:
-		m.ClearNote()
-		return nil
 	case jobdetail.FieldUsagePurpose:
 		m.ClearUsagePurpose()
+		return nil
+	case jobdetail.FieldNote:
+		m.ClearNote()
 		return nil
 	}
 	return fmt.Errorf("unknown JobDetail nullable field %s", name)
@@ -9000,14 +8736,14 @@ func (m *JobDetailMutation) ResetField(name string) error {
 	case jobdetail.FieldFloors:
 		m.ResetFloors()
 		return nil
+	case jobdetail.FieldUsagePurpose:
+		m.ResetUsagePurpose()
+		return nil
 	case jobdetail.FieldNote:
 		m.ResetNote()
 		return nil
 	case jobdetail.FieldStarted:
 		m.ResetStarted()
-		return nil
-	case jobdetail.FieldUsagePurpose:
-		m.ResetUsagePurpose()
 		return nil
 	case jobdetail.FieldDeleted:
 		m.ResetDeleted()
@@ -10371,8 +10107,6 @@ type JobOwnerMutation struct {
 	_Phone        *string
 	_Email        *string
 	_Note         *string
-	_Deleted      *int
-	add_Deleted   *int
 	created_at    *time.Time
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
@@ -10903,62 +10637,6 @@ func (m *JobOwnerMutation) ResetNote() {
 	delete(m.clearedFields, jobowner.FieldNote)
 }
 
-// SetDeleted sets the "Deleted" field.
-func (m *JobOwnerMutation) SetDeleted(i int) {
-	m._Deleted = &i
-	m.add_Deleted = nil
-}
-
-// Deleted returns the value of the "Deleted" field in the mutation.
-func (m *JobOwnerMutation) Deleted() (r int, exists bool) {
-	v := m._Deleted
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeleted returns the old "Deleted" field's value of the JobOwner entity.
-// If the JobOwner object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobOwnerMutation) OldDeleted(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeleted is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeleted requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeleted: %w", err)
-	}
-	return oldValue.Deleted, nil
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (m *JobOwnerMutation) AddDeleted(i int) {
-	if m.add_Deleted != nil {
-		*m.add_Deleted += i
-	} else {
-		m.add_Deleted = &i
-	}
-}
-
-// AddedDeleted returns the value that was added to the "Deleted" field in this mutation.
-func (m *JobOwnerMutation) AddedDeleted() (r int, exists bool) {
-	v := m.add_Deleted
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetDeleted resets all changes to the "Deleted" field.
-func (m *JobOwnerMutation) ResetDeleted() {
-	m._Deleted = nil
-	m.add_Deleted = nil
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (m *JobOwnerMutation) SetCreatedAt(t time.Time) {
 	m.created_at = &t
@@ -11119,7 +10797,7 @@ func (m *JobOwnerMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobOwnerMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 10)
 	if m._Name != nil {
 		fields = append(fields, jobowner.FieldName)
 	}
@@ -11143,9 +10821,6 @@ func (m *JobOwnerMutation) Fields() []string {
 	}
 	if m._Note != nil {
 		fields = append(fields, jobowner.FieldNote)
-	}
-	if m._Deleted != nil {
-		fields = append(fields, jobowner.FieldDeleted)
 	}
 	if m.created_at != nil {
 		fields = append(fields, jobowner.FieldCreatedAt)
@@ -11177,8 +10852,6 @@ func (m *JobOwnerMutation) Field(name string) (ent.Value, bool) {
 		return m.Email()
 	case jobowner.FieldNote:
 		return m.Note()
-	case jobowner.FieldDeleted:
-		return m.Deleted()
 	case jobowner.FieldCreatedAt:
 		return m.CreatedAt()
 	case jobowner.FieldUpdatedAt:
@@ -11208,8 +10881,6 @@ func (m *JobOwnerMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldEmail(ctx)
 	case jobowner.FieldNote:
 		return m.OldNote(ctx)
-	case jobowner.FieldDeleted:
-		return m.OldDeleted(ctx)
 	case jobowner.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case jobowner.FieldUpdatedAt:
@@ -11279,13 +10950,6 @@ func (m *JobOwnerMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetNote(v)
 		return nil
-	case jobowner.FieldDeleted:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeleted(v)
-		return nil
 	case jobowner.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -11314,9 +10978,6 @@ func (m *JobOwnerMutation) AddedFields() []string {
 	if m.add_TaxNo != nil {
 		fields = append(fields, jobowner.FieldTaxNo)
 	}
-	if m.add_Deleted != nil {
-		fields = append(fields, jobowner.FieldDeleted)
-	}
 	return fields
 }
 
@@ -11329,8 +10990,6 @@ func (m *JobOwnerMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedTcNo()
 	case jobowner.FieldTaxNo:
 		return m.AddedTaxNo()
-	case jobowner.FieldDeleted:
-		return m.AddedDeleted()
 	}
 	return nil, false
 }
@@ -11353,13 +11012,6 @@ func (m *JobOwnerMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddTaxNo(v)
-		return nil
-	case jobowner.FieldDeleted:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddDeleted(v)
 		return nil
 	}
 	return fmt.Errorf("unknown JobOwner numeric field %s", name)
@@ -11456,9 +11108,6 @@ func (m *JobOwnerMutation) ResetField(name string) error {
 		return nil
 	case jobowner.FieldNote:
 		m.ResetNote()
-		return nil
-	case jobowner.FieldDeleted:
-		m.ResetDeleted()
 		return nil
 	case jobowner.FieldCreatedAt:
 		m.ResetCreatedAt()

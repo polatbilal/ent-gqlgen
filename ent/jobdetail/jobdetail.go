@@ -56,12 +56,12 @@ const (
 	FieldLandArea = "land_area"
 	// FieldFloors holds the string denoting the floors field in the database.
 	FieldFloors = "floors"
+	// FieldUsagePurpose holds the string denoting the usagepurpose field in the database.
+	FieldUsagePurpose = "usage_purpose"
 	// FieldNote holds the string denoting the note field in the database.
 	FieldNote = "note"
 	// FieldStarted holds the string denoting the started field in the database.
 	FieldStarted = "started"
-	// FieldUsagePurpose holds the string denoting the usagepurpose field in the database.
-	FieldUsagePurpose = "usage_purpose"
 	// FieldDeleted holds the string denoting the deleted field in the database.
 	FieldDeleted = "deleted"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
@@ -213,9 +213,9 @@ var Columns = []string{
 	FieldBuildingBlock,
 	FieldLandArea,
 	FieldFloors,
+	FieldUsagePurpose,
 	FieldNote,
 	FieldStarted,
-	FieldUsagePurpose,
 	FieldDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
@@ -284,10 +284,10 @@ var (
 	DefaultBuildingType string
 	// DefaultBuildingBlock holds the default value on creation for the "BuildingBlock" field.
 	DefaultBuildingBlock string
-	// DefaultStarted holds the default value on creation for the "Started" field.
-	DefaultStarted int
 	// DefaultUsagePurpose holds the default value on creation for the "UsagePurpose" field.
 	DefaultUsagePurpose string
+	// DefaultStarted holds the default value on creation for the "Started" field.
+	DefaultStarted int
 	// DefaultDeleted holds the default value on creation for the "Deleted" field.
 	DefaultDeleted int
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
@@ -411,6 +411,11 @@ func ByFloors(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldFloors, opts...).ToFunc()
 }
 
+// ByUsagePurpose orders the results by the UsagePurpose field.
+func ByUsagePurpose(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUsagePurpose, opts...).ToFunc()
+}
+
 // ByNote orders the results by the Note field.
 func ByNote(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldNote, opts...).ToFunc()
@@ -419,11 +424,6 @@ func ByNote(opts ...sql.OrderTermOption) OrderOption {
 // ByStarted orders the results by the Started field.
 func ByStarted(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStarted, opts...).ToFunc()
-}
-
-// ByUsagePurpose orders the results by the UsagePurpose field.
-func ByUsagePurpose(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUsagePurpose, opts...).ToFunc()
 }
 
 // ByDeleted orders the results by the Deleted field.

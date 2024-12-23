@@ -64,12 +64,12 @@ type JobDetail struct {
 	LandArea string `json:"LandArea,omitempty"`
 	// Floors holds the value of the "Floors" field.
 	Floors int `json:"Floors,omitempty"`
+	// UsagePurpose holds the value of the "UsagePurpose" field.
+	UsagePurpose string `json:"UsagePurpose,omitempty"`
 	// Note holds the value of the "Note" field.
 	Note string `json:"Note,omitempty"`
 	// Started holds the value of the "Started" field.
 	Started int `json:"Started,omitempty"`
-	// UsagePurpose holds the value of the "UsagePurpose" field.
-	UsagePurpose string `json:"UsagePurpose,omitempty"`
 	// Deleted holds the value of the "Deleted" field.
 	Deleted int `json:"Deleted,omitempty"`
 	// CreatedAt holds the value of the "created_at" field.
@@ -279,7 +279,7 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldStatus, jobdetail.FieldFloors, jobdetail.FieldStarted, jobdetail.FieldDeleted:
 			values[i] = new(sql.NullInt64)
-		case jobdetail.FieldProvince, jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldDistrict, jobdetail.FieldVillage, jobdetail.FieldStreet, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBuildingBlock, jobdetail.FieldLandArea, jobdetail.FieldNote, jobdetail.FieldUsagePurpose:
+		case jobdetail.FieldProvince, jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldDistrict, jobdetail.FieldVillage, jobdetail.FieldStreet, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBuildingBlock, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote:
 			values[i] = new(sql.NullString)
 		case jobdetail.FieldContractDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -454,6 +454,12 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.Floors = int(value.Int64)
 			}
+		case jobdetail.FieldUsagePurpose:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field UsagePurpose", values[i])
+			} else if value.Valid {
+				jd.UsagePurpose = value.String
+			}
 		case jobdetail.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Note", values[i])
@@ -465,12 +471,6 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Started", values[i])
 			} else if value.Valid {
 				jd.Started = int(value.Int64)
-			}
-		case jobdetail.FieldUsagePurpose:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field UsagePurpose", values[i])
-			} else if value.Valid {
-				jd.UsagePurpose = value.String
 			}
 		case jobdetail.FieldDeleted:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -738,14 +738,14 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("Floors=")
 	builder.WriteString(fmt.Sprintf("%v", jd.Floors))
 	builder.WriteString(", ")
+	builder.WriteString("UsagePurpose=")
+	builder.WriteString(jd.UsagePurpose)
+	builder.WriteString(", ")
 	builder.WriteString("Note=")
 	builder.WriteString(jd.Note)
 	builder.WriteString(", ")
 	builder.WriteString("Started=")
 	builder.WriteString(fmt.Sprintf("%v", jd.Started))
-	builder.WriteString(", ")
-	builder.WriteString("UsagePurpose=")
-	builder.WriteString(jd.UsagePurpose)
 	builder.WriteString(", ")
 	builder.WriteString("Deleted=")
 	builder.WriteString(fmt.Sprintf("%v", jd.Deleted))

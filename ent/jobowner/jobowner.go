@@ -30,8 +30,6 @@ const (
 	FieldEmail = "email"
 	// FieldNote holds the string denoting the note field in the database.
 	FieldNote = "note"
-	// FieldDeleted holds the string denoting the deleted field in the database.
-	FieldDeleted = "deleted"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
@@ -60,7 +58,6 @@ var Columns = []string{
 	FieldPhone,
 	FieldEmail,
 	FieldNote,
-	FieldDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -78,8 +75,6 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultName holds the default value on creation for the "Name" field.
 	DefaultName string
-	// DefaultDeleted holds the default value on creation for the "Deleted" field.
-	DefaultDeleted int
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
@@ -134,11 +129,6 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 // ByNote orders the results by the Note field.
 func ByNote(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldNote, opts...).ToFunc()
-}
-
-// ByDeleted orders the results by the Deleted field.
-func ByDeleted(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleted, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the created_at field.

@@ -9,7 +9,6 @@ type JobOwner {
   Phone: String
   Email: String
   Note: String
-  Deleted: Int
 }
 
 input JobOwnerInput {
@@ -21,7 +20,6 @@ input JobOwnerInput {
   Phone: String
   Email: String
   Note: String
-  Deleted: Int
 }
 
 extend type Query {

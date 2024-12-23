@@ -21,7 +21,6 @@ func (JobAuthor) Fields() []ent.Field {
 		field.String("Mechanic").Default("").Optional(),
 		field.String("Electric").Default("").Optional(),
 		field.String("Floor").Default("").Optional(),
-		field.Int("Deleted").Default(0),
 
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),

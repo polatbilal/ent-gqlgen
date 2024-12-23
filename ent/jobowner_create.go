@@ -133,20 +133,6 @@ func (joc *JobOwnerCreate) SetNillableNote(s *string) *JobOwnerCreate {
 	return joc
 }
 
-// SetDeleted sets the "Deleted" field.
-func (joc *JobOwnerCreate) SetDeleted(i int) *JobOwnerCreate {
-	joc.mutation.SetDeleted(i)
-	return joc
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableDeleted(i *int) *JobOwnerCreate {
-	if i != nil {
-		joc.SetDeleted(*i)
-	}
-	return joc
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (joc *JobOwnerCreate) SetCreatedAt(t time.Time) *JobOwnerCreate {
 	joc.mutation.SetCreatedAt(t)
@@ -229,10 +215,6 @@ func (joc *JobOwnerCreate) defaults() {
 		v := jobowner.DefaultName
 		joc.mutation.SetName(v)
 	}
-	if _, ok := joc.mutation.Deleted(); !ok {
-		v := jobowner.DefaultDeleted
-		joc.mutation.SetDeleted(v)
-	}
 	if _, ok := joc.mutation.CreatedAt(); !ok {
 		v := jobowner.DefaultCreatedAt()
 		joc.mutation.SetCreatedAt(v)
@@ -247,9 +229,6 @@ func (joc *JobOwnerCreate) defaults() {
 func (joc *JobOwnerCreate) check() error {
 	if _, ok := joc.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "JobOwner.Name"`)}
-	}
-	if _, ok := joc.mutation.Deleted(); !ok {
-		return &ValidationError{Name: "Deleted", err: errors.New(`ent: missing required field "JobOwner.Deleted"`)}
 	}
 	if _, ok := joc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "JobOwner.created_at"`)}
@@ -314,10 +293,6 @@ func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 	if value, ok := joc.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
 		_node.Note = value
-	}
-	if value, ok := joc.mutation.Deleted(); ok {
-		_spec.SetField(jobowner.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
 	}
 	if value, ok := joc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)

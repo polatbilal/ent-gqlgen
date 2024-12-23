@@ -312,6 +312,20 @@ func (jdc *JobDetailCreate) SetNillableFloors(i *int) *JobDetailCreate {
 	return jdc
 }
 
+// SetUsagePurpose sets the "UsagePurpose" field.
+func (jdc *JobDetailCreate) SetUsagePurpose(s string) *JobDetailCreate {
+	jdc.mutation.SetUsagePurpose(s)
+	return jdc
+}
+
+// SetNillableUsagePurpose sets the "UsagePurpose" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableUsagePurpose(s *string) *JobDetailCreate {
+	if s != nil {
+		jdc.SetUsagePurpose(*s)
+	}
+	return jdc
+}
+
 // SetNote sets the "Note" field.
 func (jdc *JobDetailCreate) SetNote(s string) *JobDetailCreate {
 	jdc.mutation.SetNote(s)
@@ -336,20 +350,6 @@ func (jdc *JobDetailCreate) SetStarted(i int) *JobDetailCreate {
 func (jdc *JobDetailCreate) SetNillableStarted(i *int) *JobDetailCreate {
 	if i != nil {
 		jdc.SetStarted(*i)
-	}
-	return jdc
-}
-
-// SetUsagePurpose sets the "UsagePurpose" field.
-func (jdc *JobDetailCreate) SetUsagePurpose(s string) *JobDetailCreate {
-	jdc.mutation.SetUsagePurpose(s)
-	return jdc
-}
-
-// SetNillableUsagePurpose sets the "UsagePurpose" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableUsagePurpose(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetUsagePurpose(*s)
 	}
 	return jdc
 }
@@ -730,13 +730,13 @@ func (jdc *JobDetailCreate) defaults() {
 		v := jobdetail.DefaultBuildingBlock
 		jdc.mutation.SetBuildingBlock(v)
 	}
-	if _, ok := jdc.mutation.Started(); !ok {
-		v := jobdetail.DefaultStarted
-		jdc.mutation.SetStarted(v)
-	}
 	if _, ok := jdc.mutation.UsagePurpose(); !ok {
 		v := jobdetail.DefaultUsagePurpose
 		jdc.mutation.SetUsagePurpose(v)
+	}
+	if _, ok := jdc.mutation.Started(); !ok {
+		v := jobdetail.DefaultStarted
+		jdc.mutation.SetStarted(v)
 	}
 	if _, ok := jdc.mutation.Deleted(); !ok {
 		v := jobdetail.DefaultDeleted
@@ -887,6 +887,10 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldFloors, field.TypeInt, value)
 		_node.Floors = value
 	}
+	if value, ok := jdc.mutation.UsagePurpose(); ok {
+		_spec.SetField(jobdetail.FieldUsagePurpose, field.TypeString, value)
+		_node.UsagePurpose = value
+	}
 	if value, ok := jdc.mutation.Note(); ok {
 		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
 		_node.Note = value
@@ -894,10 +898,6 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := jdc.mutation.Started(); ok {
 		_spec.SetField(jobdetail.FieldStarted, field.TypeInt, value)
 		_node.Started = value
-	}
-	if value, ok := jdc.mutation.UsagePurpose(); ok {
-		_spec.SetField(jobdetail.FieldUsagePurpose, field.TypeString, value)
-		_node.UsagePurpose = value
 	}
 	if value, ok := jdc.mutation.Deleted(); ok {
 		_spec.SetField(jobdetail.FieldDeleted, field.TypeInt, value)

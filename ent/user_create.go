@@ -155,10 +155,6 @@ func (uc *UserCreate) defaults() {
 		v := user.DefaultName
 		uc.mutation.SetName(v)
 	}
-	if _, ok := uc.mutation.Email(); !ok {
-		v := user.DefaultEmail
-		uc.mutation.SetEmail(v)
-	}
 	if _, ok := uc.mutation.Role(); !ok {
 		v := user.DefaultRole
 		uc.mutation.SetRole(v)

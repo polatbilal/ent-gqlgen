@@ -124,11 +124,6 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, companydetail.FieldVisaDate)
 				fieldSeen[companydetail.FieldVisaDate] = struct{}{}
 			}
-		case "deleted":
-			if _, ok := fieldSeen[companydetail.FieldDeleted]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldDeleted)
-				fieldSeen[companydetail.FieldDeleted] = struct{}{}
-			}
 		case "createdat":
 			if _, ok := fieldSeen[companydetail.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldCreatedAt)
@@ -492,11 +487,6 @@ func (ja *JobAuthorQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobauthor.FieldFloor)
 				fieldSeen[jobauthor.FieldFloor] = struct{}{}
 			}
-		case "deleted":
-			if _, ok := fieldSeen[jobauthor.FieldDeleted]; !ok {
-				selectedFields = append(selectedFields, jobauthor.FieldDeleted)
-				fieldSeen[jobauthor.FieldDeleted] = struct{}{}
-			}
 		case "createdat":
 			if _, ok := fieldSeen[jobauthor.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, jobauthor.FieldCreatedAt)
@@ -623,11 +613,6 @@ func (jc *JobContractorQuery) collectField(ctx context.Context, oneNode bool, op
 			if _, ok := fieldSeen[jobcontractor.FieldNote]; !ok {
 				selectedFields = append(selectedFields, jobcontractor.FieldNote)
 				fieldSeen[jobcontractor.FieldNote] = struct{}{}
-			}
-		case "deleted":
-			if _, ok := fieldSeen[jobcontractor.FieldDeleted]; !ok {
-				selectedFields = append(selectedFields, jobcontractor.FieldDeleted)
-				fieldSeen[jobcontractor.FieldDeleted] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[jobcontractor.FieldCreatedAt]; !ok {
@@ -948,6 +933,11 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldFloors)
 				fieldSeen[jobdetail.FieldFloors] = struct{}{}
 			}
+		case "usagepurpose":
+			if _, ok := fieldSeen[jobdetail.FieldUsagePurpose]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldUsagePurpose)
+				fieldSeen[jobdetail.FieldUsagePurpose] = struct{}{}
+			}
 		case "note":
 			if _, ok := fieldSeen[jobdetail.FieldNote]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldNote)
@@ -957,11 +947,6 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			if _, ok := fieldSeen[jobdetail.FieldStarted]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldStarted)
 				fieldSeen[jobdetail.FieldStarted] = struct{}{}
-			}
-		case "usagepurpose":
-			if _, ok := fieldSeen[jobdetail.FieldUsagePurpose]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldUsagePurpose)
-				fieldSeen[jobdetail.FieldUsagePurpose] = struct{}{}
 			}
 		case "deleted":
 			if _, ok := fieldSeen[jobdetail.FieldDeleted]; !ok {
@@ -1209,11 +1194,6 @@ func (jo *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 			if _, ok := fieldSeen[jobowner.FieldNote]; !ok {
 				selectedFields = append(selectedFields, jobowner.FieldNote)
 				fieldSeen[jobowner.FieldNote] = struct{}{}
-			}
-		case "deleted":
-			if _, ok := fieldSeen[jobowner.FieldDeleted]; !ok {
-				selectedFields = append(selectedFields, jobowner.FieldDeleted)
-				fieldSeen[jobowner.FieldDeleted] = struct{}{}
 			}
 		case "createdAt":
 			if _, ok := fieldSeen[jobowner.FieldCreatedAt]; !ok {

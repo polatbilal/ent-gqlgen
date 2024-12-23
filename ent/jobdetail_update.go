@@ -463,6 +463,26 @@ func (jdu *JobDetailUpdate) ClearFloors() *JobDetailUpdate {
 	return jdu
 }
 
+// SetUsagePurpose sets the "UsagePurpose" field.
+func (jdu *JobDetailUpdate) SetUsagePurpose(s string) *JobDetailUpdate {
+	jdu.mutation.SetUsagePurpose(s)
+	return jdu
+}
+
+// SetNillableUsagePurpose sets the "UsagePurpose" field if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableUsagePurpose(s *string) *JobDetailUpdate {
+	if s != nil {
+		jdu.SetUsagePurpose(*s)
+	}
+	return jdu
+}
+
+// ClearUsagePurpose clears the value of the "UsagePurpose" field.
+func (jdu *JobDetailUpdate) ClearUsagePurpose() *JobDetailUpdate {
+	jdu.mutation.ClearUsagePurpose()
+	return jdu
+}
+
 // SetNote sets the "Note" field.
 func (jdu *JobDetailUpdate) SetNote(s string) *JobDetailUpdate {
 	jdu.mutation.SetNote(s)
@@ -501,26 +521,6 @@ func (jdu *JobDetailUpdate) SetNillableStarted(i *int) *JobDetailUpdate {
 // AddStarted adds i to the "Started" field.
 func (jdu *JobDetailUpdate) AddStarted(i int) *JobDetailUpdate {
 	jdu.mutation.AddStarted(i)
-	return jdu
-}
-
-// SetUsagePurpose sets the "UsagePurpose" field.
-func (jdu *JobDetailUpdate) SetUsagePurpose(s string) *JobDetailUpdate {
-	jdu.mutation.SetUsagePurpose(s)
-	return jdu
-}
-
-// SetNillableUsagePurpose sets the "UsagePurpose" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableUsagePurpose(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetUsagePurpose(*s)
-	}
-	return jdu
-}
-
-// ClearUsagePurpose clears the value of the "UsagePurpose" field.
-func (jdu *JobDetailUpdate) ClearUsagePurpose() *JobDetailUpdate {
-	jdu.mutation.ClearUsagePurpose()
 	return jdu
 }
 
@@ -1093,6 +1093,12 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if jdu.mutation.FloorsCleared() {
 		_spec.ClearField(jobdetail.FieldFloors, field.TypeInt)
 	}
+	if value, ok := jdu.mutation.UsagePurpose(); ok {
+		_spec.SetField(jobdetail.FieldUsagePurpose, field.TypeString, value)
+	}
+	if jdu.mutation.UsagePurposeCleared() {
+		_spec.ClearField(jobdetail.FieldUsagePurpose, field.TypeString)
+	}
 	if value, ok := jdu.mutation.Note(); ok {
 		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
 	}
@@ -1104,12 +1110,6 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := jdu.mutation.AddedStarted(); ok {
 		_spec.AddField(jobdetail.FieldStarted, field.TypeInt, value)
-	}
-	if value, ok := jdu.mutation.UsagePurpose(); ok {
-		_spec.SetField(jobdetail.FieldUsagePurpose, field.TypeString, value)
-	}
-	if jdu.mutation.UsagePurposeCleared() {
-		_spec.ClearField(jobdetail.FieldUsagePurpose, field.TypeString)
 	}
 	if value, ok := jdu.mutation.Deleted(); ok {
 		_spec.SetField(jobdetail.FieldDeleted, field.TypeInt, value)
@@ -1965,6 +1965,26 @@ func (jduo *JobDetailUpdateOne) ClearFloors() *JobDetailUpdateOne {
 	return jduo
 }
 
+// SetUsagePurpose sets the "UsagePurpose" field.
+func (jduo *JobDetailUpdateOne) SetUsagePurpose(s string) *JobDetailUpdateOne {
+	jduo.mutation.SetUsagePurpose(s)
+	return jduo
+}
+
+// SetNillableUsagePurpose sets the "UsagePurpose" field if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableUsagePurpose(s *string) *JobDetailUpdateOne {
+	if s != nil {
+		jduo.SetUsagePurpose(*s)
+	}
+	return jduo
+}
+
+// ClearUsagePurpose clears the value of the "UsagePurpose" field.
+func (jduo *JobDetailUpdateOne) ClearUsagePurpose() *JobDetailUpdateOne {
+	jduo.mutation.ClearUsagePurpose()
+	return jduo
+}
+
 // SetNote sets the "Note" field.
 func (jduo *JobDetailUpdateOne) SetNote(s string) *JobDetailUpdateOne {
 	jduo.mutation.SetNote(s)
@@ -2003,26 +2023,6 @@ func (jduo *JobDetailUpdateOne) SetNillableStarted(i *int) *JobDetailUpdateOne {
 // AddStarted adds i to the "Started" field.
 func (jduo *JobDetailUpdateOne) AddStarted(i int) *JobDetailUpdateOne {
 	jduo.mutation.AddStarted(i)
-	return jduo
-}
-
-// SetUsagePurpose sets the "UsagePurpose" field.
-func (jduo *JobDetailUpdateOne) SetUsagePurpose(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetUsagePurpose(s)
-	return jduo
-}
-
-// SetNillableUsagePurpose sets the "UsagePurpose" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableUsagePurpose(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetUsagePurpose(*s)
-	}
-	return jduo
-}
-
-// ClearUsagePurpose clears the value of the "UsagePurpose" field.
-func (jduo *JobDetailUpdateOne) ClearUsagePurpose() *JobDetailUpdateOne {
-	jduo.mutation.ClearUsagePurpose()
 	return jduo
 }
 
@@ -2625,6 +2625,12 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	if jduo.mutation.FloorsCleared() {
 		_spec.ClearField(jobdetail.FieldFloors, field.TypeInt)
 	}
+	if value, ok := jduo.mutation.UsagePurpose(); ok {
+		_spec.SetField(jobdetail.FieldUsagePurpose, field.TypeString, value)
+	}
+	if jduo.mutation.UsagePurposeCleared() {
+		_spec.ClearField(jobdetail.FieldUsagePurpose, field.TypeString)
+	}
 	if value, ok := jduo.mutation.Note(); ok {
 		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
 	}
@@ -2636,12 +2642,6 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	}
 	if value, ok := jduo.mutation.AddedStarted(); ok {
 		_spec.AddField(jobdetail.FieldStarted, field.TypeInt, value)
-	}
-	if value, ok := jduo.mutation.UsagePurpose(); ok {
-		_spec.SetField(jobdetail.FieldUsagePurpose, field.TypeString, value)
-	}
-	if jduo.mutation.UsagePurposeCleared() {
-		_spec.ClearField(jobdetail.FieldUsagePurpose, field.TypeString)
 	}
 	if value, ok := jduo.mutation.Deleted(); ok {
 		_spec.SetField(jobdetail.FieldDeleted, field.TypeInt, value)

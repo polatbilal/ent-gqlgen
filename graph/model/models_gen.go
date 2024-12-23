@@ -46,7 +46,7 @@ type CompanyEngineerInput struct {
 }
 
 type EngineerFilterInput struct {
-	ID       string  `json:"id"`
+	ID       *string `json:"id,omitempty"`
 	Career   *string `json:"career,omitempty"`
 	Position *string `json:"position,omitempty"`
 }
@@ -57,7 +57,6 @@ type JobAuthorInput struct {
 	Mechanic  *string `json:"Mechanic,omitempty"`
 	Electric  *string `json:"Electric,omitempty"`
 	Floor     *string `json:"Floor,omitempty"`
-	Deleted   *int    `json:"Deleted,omitempty"`
 }
 
 type JobContractorInput struct {
@@ -70,7 +69,6 @@ type JobContractorInput struct {
 	Phone      *string `json:"Phone,omitempty"`
 	Email      *string `json:"Email,omitempty"`
 	Note       *string `json:"Note,omitempty"`
-	Deleted    *int    `json:"Deleted,omitempty"`
 }
 
 type JobInput struct {
@@ -134,7 +132,6 @@ type JobOwnerInput struct {
 	Phone    *string `json:"Phone,omitempty"`
 	Email    *string `json:"Email,omitempty"`
 	Note     *string `json:"Note,omitempty"`
-	Deleted  *int    `json:"Deleted,omitempty"`
 }
 
 type JobProgressInput struct {

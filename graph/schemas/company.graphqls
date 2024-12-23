@@ -17,19 +17,8 @@ type CompanyDetail {
   Commerce: String
   CommerceReg: String
   VisaDate: Date
-  Deleted: Int
   Owner: CompanyEngineer
 }
-
-# type CompanyOwner {
-#   id: ID!
-#   Name: String
-#   Career: String!
-#   Position: String!
-#   RegisterNo: Int
-#   CertNo: Int
-#   Deleted: Int
-# }
 
 input CompanyDetailInput {
   Name: String!
@@ -49,16 +38,6 @@ input CompanyDetailInput {
   Deleted: Int
   OwnerID: Int
 }
-
-# type CompanyOwnerInput {
-#   id: ID
-#   Name: String
-#   Career: Int
-#   Position: Int
-#   RegisterNo: Int
-#   CertNo: Int
-#   Deleted: Int
-# }
 
 extend type Query {
   company: CompanyDetail! @goField(forceResolver: true) @auth

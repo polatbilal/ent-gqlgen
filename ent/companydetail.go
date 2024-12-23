@@ -48,8 +48,6 @@ type CompanyDetail struct {
 	CommerceReg string `json:"CommerceReg,omitempty"`
 	// VisaDate holds the value of the "VisaDate" field.
 	VisaDate time.Time `json:"VisaDate,omitempty"`
-	// Deleted holds the value of the "Deleted" field.
-	Deleted int `json:"Deleted,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -88,7 +86,7 @@ func (*CompanyDetail) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo, companydetail.FieldDeleted:
+		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo:
 			values[i] = new(sql.NullInt64)
 		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldCity, companydetail.FieldState, companydetail.FieldPhone, companydetail.FieldFax, companydetail.FieldMobile, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldCommerce, companydetail.FieldCommerceReg:
 			values[i] = new(sql.NullString)
@@ -207,12 +205,6 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				cd.VisaDate = value.Time
 			}
-		case companydetail.FieldDeleted:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Deleted", values[i])
-			} else if value.Valid {
-				cd.Deleted = int(value.Int64)
-			}
 		case companydetail.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
@@ -317,9 +309,6 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("VisaDate=")
 	builder.WriteString(cd.VisaDate.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("Deleted=")
-	builder.WriteString(fmt.Sprintf("%v", cd.Deleted))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(cd.CreatedAt.Format(time.ANSIC))

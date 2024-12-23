@@ -100,11 +100,6 @@ func Note(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldNote, v))
 }
 
-// Deleted applies equality check predicate on the "Deleted" field. It's identical to DeletedEQ.
-func Deleted(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldDeleted, v))
-}
-
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldCreatedAt, v))
@@ -703,46 +698,6 @@ func NoteEqualFold(v string) predicate.JobContractor {
 // NoteContainsFold applies the ContainsFold predicate on the "Note" field.
 func NoteContainsFold(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldContainsFold(FieldNote, v))
-}
-
-// DeletedEQ applies the EQ predicate on the "Deleted" field.
-func DeletedEQ(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldDeleted, v))
-}
-
-// DeletedNEQ applies the NEQ predicate on the "Deleted" field.
-func DeletedNEQ(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNEQ(FieldDeleted, v))
-}
-
-// DeletedIn applies the In predicate on the "Deleted" field.
-func DeletedIn(vs ...int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIn(FieldDeleted, vs...))
-}
-
-// DeletedNotIn applies the NotIn predicate on the "Deleted" field.
-func DeletedNotIn(vs ...int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotIn(FieldDeleted, vs...))
-}
-
-// DeletedGT applies the GT predicate on the "Deleted" field.
-func DeletedGT(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGT(FieldDeleted, v))
-}
-
-// DeletedGTE applies the GTE predicate on the "Deleted" field.
-func DeletedGTE(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGTE(FieldDeleted, v))
-}
-
-// DeletedLT applies the LT predicate on the "Deleted" field.
-func DeletedLT(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLT(FieldDeleted, v))
-}
-
-// DeletedLTE applies the LTE predicate on the "Deleted" field.
-func DeletedLTE(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLTE(FieldDeleted, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

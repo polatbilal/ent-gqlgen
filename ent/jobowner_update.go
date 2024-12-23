@@ -197,27 +197,6 @@ func (jou *JobOwnerUpdate) ClearNote() *JobOwnerUpdate {
 	return jou
 }
 
-// SetDeleted sets the "Deleted" field.
-func (jou *JobOwnerUpdate) SetDeleted(i int) *JobOwnerUpdate {
-	jou.mutation.ResetDeleted()
-	jou.mutation.SetDeleted(i)
-	return jou
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableDeleted(i *int) *JobOwnerUpdate {
-	if i != nil {
-		jou.SetDeleted(*i)
-	}
-	return jou
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jou *JobOwnerUpdate) AddDeleted(i int) *JobOwnerUpdate {
-	jou.mutation.AddDeleted(i)
-	return jou
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (jou *JobOwnerUpdate) SetCreatedAt(t time.Time) *JobOwnerUpdate {
 	jou.mutation.SetCreatedAt(t)
@@ -374,12 +353,6 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if jou.mutation.NoteCleared() {
 		_spec.ClearField(jobowner.FieldNote, field.TypeString)
-	}
-	if value, ok := jou.mutation.Deleted(); ok {
-		_spec.SetField(jobowner.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jou.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobowner.FieldDeleted, field.TypeInt, value)
 	}
 	if value, ok := jou.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)
@@ -620,27 +593,6 @@ func (jouo *JobOwnerUpdateOne) ClearNote() *JobOwnerUpdateOne {
 	return jouo
 }
 
-// SetDeleted sets the "Deleted" field.
-func (jouo *JobOwnerUpdateOne) SetDeleted(i int) *JobOwnerUpdateOne {
-	jouo.mutation.ResetDeleted()
-	jouo.mutation.SetDeleted(i)
-	return jouo
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableDeleted(i *int) *JobOwnerUpdateOne {
-	if i != nil {
-		jouo.SetDeleted(*i)
-	}
-	return jouo
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jouo *JobOwnerUpdateOne) AddDeleted(i int) *JobOwnerUpdateOne {
-	jouo.mutation.AddDeleted(i)
-	return jouo
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (jouo *JobOwnerUpdateOne) SetCreatedAt(t time.Time) *JobOwnerUpdateOne {
 	jouo.mutation.SetCreatedAt(t)
@@ -827,12 +779,6 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 	}
 	if jouo.mutation.NoteCleared() {
 		_spec.ClearField(jobowner.FieldNote, field.TypeString)
-	}
-	if value, ok := jouo.mutation.Deleted(); ok {
-		_spec.SetField(jobowner.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jouo.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobowner.FieldDeleted, field.TypeInt, value)
 	}
 	if value, ok := jouo.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)

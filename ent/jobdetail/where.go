@@ -160,6 +160,11 @@ func Floors(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldFloors, v))
 }
 
+// UsagePurpose applies equality check predicate on the "UsagePurpose" field. It's identical to UsagePurposeEQ.
+func UsagePurpose(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldUsagePurpose, v))
+}
+
 // Note applies equality check predicate on the "Note" field. It's identical to NoteEQ.
 func Note(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldNote, v))
@@ -168,11 +173,6 @@ func Note(v string) predicate.JobDetail {
 // Started applies equality check predicate on the "Started" field. It's identical to StartedEQ.
 func Started(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldStarted, v))
-}
-
-// UsagePurpose applies equality check predicate on the "UsagePurpose" field. It's identical to UsagePurposeEQ.
-func UsagePurpose(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldUsagePurpose, v))
 }
 
 // Deleted applies equality check predicate on the "Deleted" field. It's identical to DeletedEQ.
@@ -1595,6 +1595,81 @@ func FloorsNotNil() predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotNull(FieldFloors))
 }
 
+// UsagePurposeEQ applies the EQ predicate on the "UsagePurpose" field.
+func UsagePurposeEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldUsagePurpose, v))
+}
+
+// UsagePurposeNEQ applies the NEQ predicate on the "UsagePurpose" field.
+func UsagePurposeNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldUsagePurpose, v))
+}
+
+// UsagePurposeIn applies the In predicate on the "UsagePurpose" field.
+func UsagePurposeIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldUsagePurpose, vs...))
+}
+
+// UsagePurposeNotIn applies the NotIn predicate on the "UsagePurpose" field.
+func UsagePurposeNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldUsagePurpose, vs...))
+}
+
+// UsagePurposeGT applies the GT predicate on the "UsagePurpose" field.
+func UsagePurposeGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldUsagePurpose, v))
+}
+
+// UsagePurposeGTE applies the GTE predicate on the "UsagePurpose" field.
+func UsagePurposeGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldUsagePurpose, v))
+}
+
+// UsagePurposeLT applies the LT predicate on the "UsagePurpose" field.
+func UsagePurposeLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldUsagePurpose, v))
+}
+
+// UsagePurposeLTE applies the LTE predicate on the "UsagePurpose" field.
+func UsagePurposeLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldUsagePurpose, v))
+}
+
+// UsagePurposeContains applies the Contains predicate on the "UsagePurpose" field.
+func UsagePurposeContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldUsagePurpose, v))
+}
+
+// UsagePurposeHasPrefix applies the HasPrefix predicate on the "UsagePurpose" field.
+func UsagePurposeHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldUsagePurpose, v))
+}
+
+// UsagePurposeHasSuffix applies the HasSuffix predicate on the "UsagePurpose" field.
+func UsagePurposeHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldUsagePurpose, v))
+}
+
+// UsagePurposeIsNil applies the IsNil predicate on the "UsagePurpose" field.
+func UsagePurposeIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldUsagePurpose))
+}
+
+// UsagePurposeNotNil applies the NotNil predicate on the "UsagePurpose" field.
+func UsagePurposeNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldUsagePurpose))
+}
+
+// UsagePurposeEqualFold applies the EqualFold predicate on the "UsagePurpose" field.
+func UsagePurposeEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldUsagePurpose, v))
+}
+
+// UsagePurposeContainsFold applies the ContainsFold predicate on the "UsagePurpose" field.
+func UsagePurposeContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldUsagePurpose, v))
+}
+
 // NoteEQ applies the EQ predicate on the "Note" field.
 func NoteEQ(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldNote, v))
@@ -1708,81 +1783,6 @@ func StartedLT(v int) predicate.JobDetail {
 // StartedLTE applies the LTE predicate on the "Started" field.
 func StartedLTE(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldStarted, v))
-}
-
-// UsagePurposeEQ applies the EQ predicate on the "UsagePurpose" field.
-func UsagePurposeEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldUsagePurpose, v))
-}
-
-// UsagePurposeNEQ applies the NEQ predicate on the "UsagePurpose" field.
-func UsagePurposeNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldUsagePurpose, v))
-}
-
-// UsagePurposeIn applies the In predicate on the "UsagePurpose" field.
-func UsagePurposeIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldUsagePurpose, vs...))
-}
-
-// UsagePurposeNotIn applies the NotIn predicate on the "UsagePurpose" field.
-func UsagePurposeNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldUsagePurpose, vs...))
-}
-
-// UsagePurposeGT applies the GT predicate on the "UsagePurpose" field.
-func UsagePurposeGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldUsagePurpose, v))
-}
-
-// UsagePurposeGTE applies the GTE predicate on the "UsagePurpose" field.
-func UsagePurposeGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldUsagePurpose, v))
-}
-
-// UsagePurposeLT applies the LT predicate on the "UsagePurpose" field.
-func UsagePurposeLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldUsagePurpose, v))
-}
-
-// UsagePurposeLTE applies the LTE predicate on the "UsagePurpose" field.
-func UsagePurposeLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldUsagePurpose, v))
-}
-
-// UsagePurposeContains applies the Contains predicate on the "UsagePurpose" field.
-func UsagePurposeContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldUsagePurpose, v))
-}
-
-// UsagePurposeHasPrefix applies the HasPrefix predicate on the "UsagePurpose" field.
-func UsagePurposeHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldUsagePurpose, v))
-}
-
-// UsagePurposeHasSuffix applies the HasSuffix predicate on the "UsagePurpose" field.
-func UsagePurposeHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldUsagePurpose, v))
-}
-
-// UsagePurposeIsNil applies the IsNil predicate on the "UsagePurpose" field.
-func UsagePurposeIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldUsagePurpose))
-}
-
-// UsagePurposeNotNil applies the NotNil predicate on the "UsagePurpose" field.
-func UsagePurposeNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldUsagePurpose))
-}
-
-// UsagePurposeEqualFold applies the EqualFold predicate on the "UsagePurpose" field.
-func UsagePurposeEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldUsagePurpose, v))
-}
-
-// UsagePurposeContainsFold applies the ContainsFold predicate on the "UsagePurpose" field.
-func UsagePurposeContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldUsagePurpose, v))
 }
 
 // DeletedEQ applies the EQ predicate on the "Deleted" field.

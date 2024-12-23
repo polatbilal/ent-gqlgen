@@ -7,47 +7,56 @@ import (
 	"gqlgen-ent/ent"
 	"gqlgen-ent/service"
 
+	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
-	"github.com/labstack/echo/v4"
 )
 
 type authString string
 
-func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		auth := c.Request().Header.Get("Authorization")
+func AuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		auth := c.Request.Header.Get("Authorization")
 
 		if auth == "" {
 			fmt.Println("Authorization hatası")
-			return next(c)
+			c.Next() // Devam et
+			return
 		}
 
 		bearer := "Bearer "
 		if len(auth) > len(bearer) && auth[:len(bearer)] == bearer {
 			auth = auth[len(bearer):]
 		} else {
-			return c.JSON(echo.ErrForbidden.Code, map[string]string{
+			c.JSON(403, map[string]string{
 				"error": "Invalid token",
 			})
+			c.Abort() // İşlemi durdur
+			return
 		}
 
 		// Redis'ten token'ı kontrol et
-		_, err := database.RedisClient.Get(c.Request().Context(), auth).Result()
+		_, err := database.RedisClient.Get(c.Request.Context(), auth).Result()
 		if err == redis.Nil {
-			return c.JSON(echo.ErrUnauthorized.Code, map[string]string{
+			c.JSON(401, map[string]string{
 				"error": "Token has expired",
 			})
+			c.Abort() // İşlemi durdur
+			return
 		} else if err != nil {
-			return c.JSON(echo.ErrForbidden.Code, map[string]string{
+			c.JSON(403, map[string]string{
 				"error": "Invalid token",
 			})
+			c.Abort() // İşlemi durdur
+			return
 		}
 
-		validate, err := service.JwtValidate(c.Request().Context(), auth)
+		validate, err := service.JwtValidate(c.Request.Context(), auth)
 		if err != nil {
-			return c.JSON(echo.ErrForbidden.Code, map[string]string{
+			c.JSON(403, map[string]string{
 				"error": "Invalid token",
 			})
+			c.Abort() // İşlemi durdur
+			return
 		}
 
 		costumClaim, _ := validate.Claims.(*service.JwtCustomClaim)
@@ -56,15 +65,16 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		client, err := database.GetClient(costumClaim.CompanyCode)
 		if err != nil {
 			fmt.Println("veritabanına bağlanırken hata oluştu")
-			return next(c)
+			c.Next() // Devam et
+			return
 		}
 
-		ctx := context.WithValue(c.Request().Context(), "companyCode", costumClaim.CompanyCode)
+		ctx := context.WithValue(c.Request.Context(), "companyCode", costumClaim.CompanyCode)
 		ctx = context.WithValue(ctx, "dbClient", client)
 		ctx = context.WithValue(ctx, authString("auth"), costumClaim) // Auth bilgisini de ekle
-		c.SetRequest(c.Request().WithContext(ctx))
+		c.Request = c.Request.WithContext(ctx)
 
-		return next(c)
+		c.Next() // Devam et
 	}
 }
 

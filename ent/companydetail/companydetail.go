@@ -44,8 +44,6 @@ const (
 	FieldCommerceReg = "commerce_reg"
 	// FieldVisaDate holds the string denoting the visadate field in the database.
 	FieldVisaDate = "visa_date"
-	// FieldDeleted holds the string denoting the deleted field in the database.
-	FieldDeleted = "deleted"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -81,7 +79,6 @@ var Columns = []string{
 	FieldCommerce,
 	FieldCommerceReg,
 	FieldVisaDate,
-	FieldDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -112,8 +109,6 @@ var (
 	DefaultName string
 	// DefaultTaxNo holds the default value on creation for the "TaxNo" field.
 	DefaultTaxNo int
-	// DefaultDeleted holds the default value on creation for the "Deleted" field.
-	DefaultDeleted int
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -203,11 +198,6 @@ func ByCommerceReg(opts ...sql.OrderTermOption) OrderOption {
 // ByVisaDate orders the results by the VisaDate field.
 func ByVisaDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldVisaDate, opts...).ToFunc()
-}
-
-// ByDeleted orders the results by the Deleted field.
-func ByDeleted(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleted, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

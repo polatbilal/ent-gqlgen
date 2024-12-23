@@ -59,8 +59,6 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultName holds the default value on creation for the "name" field.
 	DefaultName string
-	// DefaultEmail holds the default value on creation for the "email" field.
-	DefaultEmail string
 	// DefaultRole holds the default value on creation for the "Role" field.
 	DefaultRole string
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.

@@ -331,27 +331,6 @@ func (cdu *CompanyDetailUpdate) ClearVisaDate() *CompanyDetailUpdate {
 	return cdu
 }
 
-// SetDeleted sets the "Deleted" field.
-func (cdu *CompanyDetailUpdate) SetDeleted(i int) *CompanyDetailUpdate {
-	cdu.mutation.ResetDeleted()
-	cdu.mutation.SetDeleted(i)
-	return cdu
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableDeleted(i *int) *CompanyDetailUpdate {
-	if i != nil {
-		cdu.SetDeleted(*i)
-	}
-	return cdu
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (cdu *CompanyDetailUpdate) AddDeleted(i int) *CompanyDetailUpdate {
-	cdu.mutation.AddDeleted(i)
-	return cdu
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (cdu *CompanyDetailUpdate) SetCreatedAt(t time.Time) *CompanyDetailUpdate {
 	cdu.mutation.SetCreatedAt(t)
@@ -536,12 +515,6 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	}
 	if cdu.mutation.VisaDateCleared() {
 		_spec.ClearField(companydetail.FieldVisaDate, field.TypeTime)
-	}
-	if value, ok := cdu.mutation.Deleted(); ok {
-		_spec.SetField(companydetail.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := cdu.mutation.AddedDeleted(); ok {
-		_spec.AddField(companydetail.FieldDeleted, field.TypeInt, value)
 	}
 	if value, ok := cdu.mutation.CreatedAt(); ok {
 		_spec.SetField(companydetail.FieldCreatedAt, field.TypeTime, value)
@@ -900,27 +873,6 @@ func (cduo *CompanyDetailUpdateOne) ClearVisaDate() *CompanyDetailUpdateOne {
 	return cduo
 }
 
-// SetDeleted sets the "Deleted" field.
-func (cduo *CompanyDetailUpdateOne) SetDeleted(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.ResetDeleted()
-	cduo.mutation.SetDeleted(i)
-	return cduo
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableDeleted(i *int) *CompanyDetailUpdateOne {
-	if i != nil {
-		cduo.SetDeleted(*i)
-	}
-	return cduo
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (cduo *CompanyDetailUpdateOne) AddDeleted(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddDeleted(i)
-	return cduo
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (cduo *CompanyDetailUpdateOne) SetCreatedAt(t time.Time) *CompanyDetailUpdateOne {
 	cduo.mutation.SetCreatedAt(t)
@@ -1135,12 +1087,6 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 	}
 	if cduo.mutation.VisaDateCleared() {
 		_spec.ClearField(companydetail.FieldVisaDate, field.TypeTime)
-	}
-	if value, ok := cduo.mutation.Deleted(); ok {
-		_spec.SetField(companydetail.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := cduo.mutation.AddedDeleted(); ok {
-		_spec.AddField(companydetail.FieldDeleted, field.TypeInt, value)
 	}
 	if value, ok := cduo.mutation.CreatedAt(); ok {
 		_spec.SetField(companydetail.FieldCreatedAt, field.TypeTime, value)

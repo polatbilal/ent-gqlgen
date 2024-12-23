@@ -130,11 +130,6 @@ func VisaDate(v time.Time) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldVisaDate, v))
 }
 
-// Deleted applies equality check predicate on the "Deleted" field. It's identical to DeletedEQ.
-func Deleted(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldDeleted, v))
-}
-
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldCreatedAt, v))
@@ -1173,46 +1168,6 @@ func VisaDateIsNil() predicate.CompanyDetail {
 // VisaDateNotNil applies the NotNil predicate on the "VisaDate" field.
 func VisaDateNotNil() predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotNull(FieldVisaDate))
-}
-
-// DeletedEQ applies the EQ predicate on the "Deleted" field.
-func DeletedEQ(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldDeleted, v))
-}
-
-// DeletedNEQ applies the NEQ predicate on the "Deleted" field.
-func DeletedNEQ(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNEQ(FieldDeleted, v))
-}
-
-// DeletedIn applies the In predicate on the "Deleted" field.
-func DeletedIn(vs ...int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIn(FieldDeleted, vs...))
-}
-
-// DeletedNotIn applies the NotIn predicate on the "Deleted" field.
-func DeletedNotIn(vs ...int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotIn(FieldDeleted, vs...))
-}
-
-// DeletedGT applies the GT predicate on the "Deleted" field.
-func DeletedGT(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGT(FieldDeleted, v))
-}
-
-// DeletedGTE applies the GTE predicate on the "Deleted" field.
-func DeletedGTE(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGTE(FieldDeleted, v))
-}
-
-// DeletedLT applies the LT predicate on the "Deleted" field.
-func DeletedLT(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLT(FieldDeleted, v))
-}
-
-// DeletedLTE applies the LTE predicate on the "Deleted" field.
-func DeletedLTE(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLTE(FieldDeleted, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

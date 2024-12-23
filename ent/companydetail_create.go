@@ -223,20 +223,6 @@ func (cdc *CompanyDetailCreate) SetNillableVisaDate(t *time.Time) *CompanyDetail
 	return cdc
 }
 
-// SetDeleted sets the "Deleted" field.
-func (cdc *CompanyDetailCreate) SetDeleted(i int) *CompanyDetailCreate {
-	cdc.mutation.SetDeleted(i)
-	return cdc
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableDeleted(i *int) *CompanyDetailCreate {
-	if i != nil {
-		cdc.SetDeleted(*i)
-	}
-	return cdc
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (cdc *CompanyDetailCreate) SetCreatedAt(t time.Time) *CompanyDetailCreate {
 	cdc.mutation.SetCreatedAt(t)
@@ -327,10 +313,6 @@ func (cdc *CompanyDetailCreate) defaults() {
 		v := companydetail.DefaultTaxNo
 		cdc.mutation.SetTaxNo(v)
 	}
-	if _, ok := cdc.mutation.Deleted(); !ok {
-		v := companydetail.DefaultDeleted
-		cdc.mutation.SetDeleted(v)
-	}
 	if _, ok := cdc.mutation.CreatedAt(); !ok {
 		v := companydetail.DefaultCreatedAt()
 		cdc.mutation.SetCreatedAt(v)
@@ -348,9 +330,6 @@ func (cdc *CompanyDetailCreate) check() error {
 	}
 	if _, ok := cdc.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "CompanyDetail.Name"`)}
-	}
-	if _, ok := cdc.mutation.Deleted(); !ok {
-		return &ValidationError{Name: "Deleted", err: errors.New(`ent: missing required field "CompanyDetail.Deleted"`)}
 	}
 	if _, ok := cdc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "CompanyDetail.CreatedAt"`)}
@@ -443,10 +422,6 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 	if value, ok := cdc.mutation.VisaDate(); ok {
 		_spec.SetField(companydetail.FieldVisaDate, field.TypeTime, value)
 		_node.VisaDate = value
-	}
-	if value, ok := cdc.mutation.Deleted(); ok {
-		_spec.SetField(companydetail.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
 	}
 	if value, ok := cdc.mutation.CreatedAt(); ok {
 		_spec.SetField(companydetail.FieldCreatedAt, field.TypeTime, value)

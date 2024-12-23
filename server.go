@@ -13,27 +13,24 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 
-var redisClient *redis.Client
-
 func main() {
-	e := echo.New()
+	r := gin.Default()
 
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-	e.Use(middlewares.AuthMiddleware)
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"http://localhost:3000"},
-		AllowMethods:     []string{http.MethodGet, http.MethodPost, http.MethodOptions},
-		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
-		AllowCredentials: true,
+	r.Use(middlewares.AuthMiddleware())
+	// CORS ayarları
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Authorization"},
+		AllowCredentials: false,
 	}))
 
 	// Load .env file
@@ -69,28 +66,26 @@ func main() {
 	// Configure the GraphQL server and start
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))
 	{
-		e.POST("/graphql", func(c echo.Context) error {
-			srv.ServeHTTP(c.Response(), c.Request())
+		r.POST("/graphql", func(c *gin.Context) {
+			srv.ServeHTTP(c.Writer, c.Request)
 
 			// Handler'ın döndürdüğü hata nesnesini al
-			err := c.Get("error")
+			err := c.Errors.Last()
 			if err != nil {
 				// GQLGen'den gelen hata varsa işle
-				gqlErr, ok := err.(gqlerror.List)
+				gqlErr, ok := err.Err.(gqlerror.List)
 				if ok && len(gqlErr) > 0 {
 					// İlk hatayı al ve isteğe özel yanıt döndür
-					return c.String(http.StatusInternalServerError, gqlErr[0].Message)
+					c.String(http.StatusInternalServerError, gqlErr[0].Message)
+					return
 				}
 			}
-
-			return nil
 		})
 
-		e.GET("/playground", func(c echo.Context) error {
-			playground.Handler("Graphql", "/graphql").ServeHTTP(c.Response(), c.Request())
-			return nil
+		r.GET("/playground", func(c *gin.Context) {
+			playground.Handler("Graphql", "/graphql").ServeHTTP(c.Writer, c.Request)
 		})
 	}
 
-	e.Logger.Fatal(e.Start(":4000"))
+	r.Run(":4000")
 }

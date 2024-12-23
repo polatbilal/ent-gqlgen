@@ -27,8 +27,6 @@ type JobAuthor struct {
 	Electric string `json:"Electric,omitempty"`
 	// Floor holds the value of the "Floor" field.
 	Floor string `json:"Floor,omitempty"`
-	// Deleted holds the value of the "Deleted" field.
-	Deleted int `json:"Deleted,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -66,7 +64,7 @@ func (*JobAuthor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobauthor.FieldID, jobauthor.FieldDeleted:
+		case jobauthor.FieldID:
 			values[i] = new(sql.NullInt64)
 		case jobauthor.FieldArchitect, jobauthor.FieldStatic, jobauthor.FieldMechanic, jobauthor.FieldElectric, jobauthor.FieldFloor:
 			values[i] = new(sql.NullString)
@@ -122,12 +120,6 @@ func (ja *JobAuthor) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Floor", values[i])
 			} else if value.Valid {
 				ja.Floor = value.String
-			}
-		case jobauthor.FieldDeleted:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Deleted", values[i])
-			} else if value.Valid {
-				ja.Deleted = int(value.Int64)
 			}
 		case jobauthor.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -196,9 +188,6 @@ func (ja *JobAuthor) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("Floor=")
 	builder.WriteString(ja.Floor)
-	builder.WriteString(", ")
-	builder.WriteString("Deleted=")
-	builder.WriteString(fmt.Sprintf("%v", ja.Deleted))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(ja.CreatedAt.Format(time.ANSIC))

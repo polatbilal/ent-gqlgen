@@ -24,8 +24,6 @@ const (
 	FieldElectric = "electric"
 	// FieldFloor holds the string denoting the floor field in the database.
 	FieldFloor = "floor"
-	// FieldDeleted holds the string denoting the deleted field in the database.
-	FieldDeleted = "deleted"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -51,7 +49,6 @@ var Columns = []string{
 	FieldMechanic,
 	FieldElectric,
 	FieldFloor,
-	FieldDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -77,8 +74,6 @@ var (
 	DefaultElectric string
 	// DefaultFloor holds the default value on creation for the "Floor" field.
 	DefaultFloor string
-	// DefaultDeleted holds the default value on creation for the "Deleted" field.
-	DefaultDeleted int
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -118,11 +113,6 @@ func ByElectric(opts ...sql.OrderTermOption) OrderOption {
 // ByFloor orders the results by the Floor field.
 func ByFloor(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldFloor, opts...).ToFunc()
-}
-
-// ByDeleted orders the results by the Deleted field.
-func ByDeleted(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleted, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

@@ -31,7 +31,6 @@ func (CompanyDetail) Fields() []ent.Field {
 		field.String("Commerce").Optional(),
 		field.String("CommerceReg").Optional(),
 		field.Time("VisaDate").Optional(),
-		field.Int("Deleted").Default(0),
 
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),

@@ -95,11 +95,6 @@ func Note(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldNote, v))
 }
 
-// Deleted applies equality check predicate on the "Deleted" field. It's identical to DeletedEQ.
-func Deleted(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldEQ(FieldDeleted, v))
-}
-
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldCreatedAt, v))
@@ -648,46 +643,6 @@ func NoteEqualFold(v string) predicate.JobOwner {
 // NoteContainsFold applies the ContainsFold predicate on the "Note" field.
 func NoteContainsFold(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldContainsFold(FieldNote, v))
-}
-
-// DeletedEQ applies the EQ predicate on the "Deleted" field.
-func DeletedEQ(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldEQ(FieldDeleted, v))
-}
-
-// DeletedNEQ applies the NEQ predicate on the "Deleted" field.
-func DeletedNEQ(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldNEQ(FieldDeleted, v))
-}
-
-// DeletedIn applies the In predicate on the "Deleted" field.
-func DeletedIn(vs ...int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldIn(FieldDeleted, vs...))
-}
-
-// DeletedNotIn applies the NotIn predicate on the "Deleted" field.
-func DeletedNotIn(vs ...int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldNotIn(FieldDeleted, vs...))
-}
-
-// DeletedGT applies the GT predicate on the "Deleted" field.
-func DeletedGT(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldGT(FieldDeleted, v))
-}
-
-// DeletedGTE applies the GTE predicate on the "Deleted" field.
-func DeletedGTE(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldGTE(FieldDeleted, v))
-}
-
-// DeletedLT applies the LT predicate on the "Deleted" field.
-func DeletedLT(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldLT(FieldDeleted, v))
-}
-
-// DeletedLTE applies the LTE predicate on the "Deleted" field.
-func DeletedLTE(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldLTE(FieldDeleted, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.

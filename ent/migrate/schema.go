@@ -26,7 +26,6 @@ var (
 		{Name: "commerce", Type: field.TypeString, Nullable: true},
 		{Name: "commerce_reg", Type: field.TypeString, Nullable: true},
 		{Name: "visa_date", Type: field.TypeTime, Nullable: true},
-		{Name: "deleted", Type: field.TypeInt, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "owner_id", Type: field.TypeInt, Nullable: true},
@@ -39,7 +38,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "company_details_company_engineers_companyOwners",
-				Columns:    []*schema.Column{CompanyDetailsColumns[19]},
+				Columns:    []*schema.Column{CompanyDetailsColumns[18]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -79,7 +78,6 @@ var (
 		{Name: "mechanic", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "electric", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "floor", Type: field.TypeString, Nullable: true, Default: ""},
-		{Name: "deleted", Type: field.TypeInt, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}
@@ -101,7 +99,6 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "note", Type: field.TypeString, Nullable: true},
-		{Name: "deleted", Type: field.TypeInt, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}
@@ -135,9 +132,9 @@ var (
 		{Name: "building_block", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "land_area", Type: field.TypeString, Nullable: true},
 		{Name: "floors", Type: field.TypeInt, Nullable: true},
+		{Name: "usage_purpose", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "note", Type: field.TypeString, Nullable: true, Size: 2147483647},
 		{Name: "started", Type: field.TypeInt, Default: 0},
-		{Name: "usage_purpose", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "deleted", Type: field.TypeInt, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
@@ -274,7 +271,6 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "note", Type: field.TypeString, Nullable: true},
-		{Name: "deleted", Type: field.TypeInt, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}
@@ -307,7 +303,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "name", Type: field.TypeString, Default: ""},
-		{Name: "email", Type: field.TypeString, Nullable: true, Default: ""},
+		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "phone", Type: field.TypeInt, Nullable: true},
 		{Name: "password", Type: field.TypeString},
 		{Name: "role", Type: field.TypeString, Default: "User"},

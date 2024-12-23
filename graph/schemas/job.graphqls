@@ -90,7 +90,6 @@ type JobAuthor {
   Mechanic: String
   Electric: String
   Floor: String
-  Deleted: Int
 }
 
 input JobAuthorInput {
@@ -99,7 +98,6 @@ input JobAuthorInput {
   Mechanic: String
   Electric: String
   Floor: String
-  Deleted: Int
 }
 
 # Job Progress
