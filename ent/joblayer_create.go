@@ -133,13 +133,13 @@ func (jlc *JobLayerCreate) SetNillableMonthResult(s *string) *JobLayerCreate {
 	return jlc
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jlc *JobLayerCreate) SetCreatedAt(t time.Time) *JobLayerCreate {
 	jlc.mutation.SetCreatedAt(t)
 	return jlc
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jlc *JobLayerCreate) SetNillableCreatedAt(t *time.Time) *JobLayerCreate {
 	if t != nil {
 		jlc.SetCreatedAt(*t)
@@ -147,13 +147,13 @@ func (jlc *JobLayerCreate) SetNillableCreatedAt(t *time.Time) *JobLayerCreate {
 	return jlc
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jlc *JobLayerCreate) SetUpdatedAt(t time.Time) *JobLayerCreate {
 	jlc.mutation.SetUpdatedAt(t)
 	return jlc
 }
 
-// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+// SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
 func (jlc *JobLayerCreate) SetNillableUpdatedAt(t *time.Time) *JobLayerCreate {
 	if t != nil {
 		jlc.SetUpdatedAt(*t)
@@ -242,10 +242,10 @@ func (jlc *JobLayerCreate) check() error {
 		return &ValidationError{Name: "Metre", err: errors.New(`ent: missing required field "JobLayer.Metre"`)}
 	}
 	if _, ok := jlc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "JobLayer.created_at"`)}
+		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobLayer.CreatedAt"`)}
 	}
 	if _, ok := jlc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "JobLayer.updated_at"`)}
+		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobLayer.UpdatedAt"`)}
 	}
 	return nil
 }

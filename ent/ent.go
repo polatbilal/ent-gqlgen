@@ -13,6 +13,7 @@ import (
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/joblayer"
 	"gqlgen-ent/ent/jobowner"
+	"gqlgen-ent/ent/jobpayments"
 	"gqlgen-ent/ent/jobprogress"
 	"gqlgen-ent/ent/user"
 	"reflect"
@@ -88,6 +89,7 @@ func checkColumn(table, column string) error {
 			jobdetail.Table:       jobdetail.ValidColumn,
 			joblayer.Table:        joblayer.ValidColumn,
 			jobowner.Table:        jobowner.ValidColumn,
+			jobpayments.Table:     jobpayments.ValidColumn,
 			jobprogress.Table:     jobprogress.ValidColumn,
 			user.Table:            user.ValidColumn,
 		})

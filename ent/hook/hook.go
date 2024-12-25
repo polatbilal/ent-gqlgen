@@ -92,6 +92,18 @@ func (f JobOwnerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, er
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobOwnerMutation", m)
 }
 
+// The JobPaymentsFunc type is an adapter to allow the use of ordinary
+// function as JobPayments mutator.
+type JobPaymentsFunc func(context.Context, *ent.JobPaymentsMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f JobPaymentsFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.JobPaymentsMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobPaymentsMutation", m)
+}
+
 // The JobProgressFunc type is an adapter to allow the use of ordinary
 // function as JobProgress mutator.
 type JobProgressFunc func(context.Context, *ent.JobProgressMutation) (ent.Value, error)

@@ -42,7 +42,7 @@ func (r *mutationResolver) Register(ctx context.Context, companyCode string, use
 
 	var userID = strconv.Itoa(user.ID)
 
-	token, err := service.JwtGenerate(ctx, user.ID, username, companyCode)
+	token, err := service.JwtGenerate(ctx, user.ID, username, user.Name, companyCode, user.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,9 @@ func (r *mutationResolver) Register(ctx context.Context, companyCode string, use
 		Token:       token,
 		UserID:      userID,
 		Username:    user.Username,
+		Name:        user.Name,
 		CompanyCode: companyCode,
+		Role:        user.Role,
 	}, nil
 }
 
@@ -75,7 +77,7 @@ func (r *mutationResolver) Login(ctx context.Context, companyCode string, userna
 
 	var userID = strconv.Itoa(user.ID)
 
-	token, err := service.JwtGenerate(ctx, user.ID, username, companyCode)
+	token, err := service.JwtGenerate(ctx, user.ID, username, user.Name, companyCode, user.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +92,9 @@ func (r *mutationResolver) Login(ctx context.Context, companyCode string, userna
 		Token:       token,
 		UserID:      userID,
 		Username:    username,
+		Name:        user.Name,
 		CompanyCode: companyCode,
+		Role:        user.Role,
 	}, nil
 }
 

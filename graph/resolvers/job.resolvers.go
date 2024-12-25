@@ -17,7 +17,7 @@ import (
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
-	"time"
+	"gqlgen-ent/tools"
 )
 
 // ContractDate is the resolver for the ContractDate field.
@@ -36,6 +36,15 @@ func (r *jobDetailResolver) StartDate(ctx context.Context, obj *ent.JobDetail) (
 	}
 	startDate := obj.StartDate.Format("2006-01-02")
 	return &startDate, nil
+}
+
+// CompletionDate is the resolver for the CompletionDate field.
+func (r *jobDetailResolver) CompletionDate(ctx context.Context, obj *ent.JobDetail) (*string, error) {
+	if obj.CompletionDate.IsZero() {
+		return nil, nil
+	}
+	completionDate := obj.CompletionDate.Format("2006-01-02")
+	return &completionDate, nil
 }
 
 // LicenseDate is the resolver for the LicenseDate field.
@@ -75,31 +84,24 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		return nil, err
 	}
 
-	var contractDatePtr *time.Time
-	if input.ContractDate != nil {
-		parsedDate, err := time.Parse("2006-01-02", *input.ContractDate)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse contract date: %v", err)
-		}
-		contractDatePtr = &parsedDate
+	contractDatePtr, err := tools.ParseDate(input.ContractDate)
+	if err != nil {
+		return nil, fmt.Errorf("contract date dönüşüm hatası: %v", err)
 	}
 
-	var startDatePtr *time.Time
-	if input.StartDate != nil {
-		parsedStartDate, err := time.Parse("2006-01-02", *input.StartDate)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse start date: %v", err)
-		}
-		startDatePtr = &parsedStartDate
+	startDatePtr, err := tools.ParseDate(input.StartDate)
+	if err != nil {
+		return nil, fmt.Errorf("start date dönüşüm hatası: %v", err)
 	}
 
-	var licenseDatePtr *time.Time
-	if input.LicenseDate != nil {
-		parsedLicenseDate, err := time.Parse("2006-01-02", *input.LicenseDate)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse license date: %v", err)
-		}
-		licenseDatePtr = &parsedLicenseDate
+	completionDatePtr, err := tools.ParseDate(input.CompletionDate)
+	if err != nil {
+		return nil, fmt.Errorf("completion date dönüşüm hatası: %v", err)
+	}
+
+	licenseDatePtr, err := tools.ParseDate(input.LicenseDate)
+	if err != nil {
+		return nil, fmt.Errorf("license date dönüşüm hatası: %v", err)
 	}
 
 	newJobDetail, err := client.JobDetail.Create().
@@ -113,6 +115,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableStatus(input.Status).
 		SetNillableContractDate(contractDatePtr).
 		SetNillableStartDate(startDatePtr).
+		SetNillableCompletionDate(completionDatePtr).
 		SetNillableLicenseDate(licenseDatePtr).
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableConstructionArea(input.ConstructionArea).
@@ -217,31 +220,24 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		return nil, fmt.Errorf("iş ayrıntısı bulunamadı: %v", err)
 	}
 
-	var contractDatePtr *time.Time
-	if input.ContractDate != nil {
-		parsedDate, err := time.Parse("2006-01-02", *input.ContractDate)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse contract date: %v", err)
-		}
-		contractDatePtr = &parsedDate
+	contractDatePtr, err := tools.ParseDate(input.ContractDate)
+	if err != nil {
+		return nil, fmt.Errorf("contract date dönüşüm hatası: %v", err)
 	}
 
-	var startDatePtr *time.Time
-	if input.StartDate != nil {
-		parsedStartDate, err := time.Parse("2006-01-02", *input.StartDate)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse start date: %v", err)
-		}
-		startDatePtr = &parsedStartDate
+	startDatePtr, err := tools.ParseDate(input.StartDate)
+	if err != nil {
+		return nil, fmt.Errorf("start date dönüşüm hatası: %v", err)
 	}
 
-	var licenseDatePtr *time.Time
-	if input.LicenseDate != nil {
-		parsedLicenseDate, err := time.Parse("2006-01-02", *input.LicenseDate)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse license date: %v", err)
-		}
-		licenseDatePtr = &parsedLicenseDate
+	completionDatePtr, err := tools.ParseDate(input.CompletionDate)
+	if err != nil {
+		return nil, fmt.Errorf("completion date dönüşüm hatası: %v", err)
+	}
+
+	licenseDatePtr, err := tools.ParseDate(input.LicenseDate)
+	if err != nil {
+		return nil, fmt.Errorf("license date dönüşüm hatası: %v", err)
 	}
 
 	// Mevcut iş detayını güncelle
@@ -256,6 +252,7 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		SetNillableStatus(input.Status).
 		SetNillableContractDate(contractDatePtr).
 		SetNillableStartDate(startDatePtr).
+		SetNillableCompletionDate(completionDatePtr).
 		SetNillableLicenseDate(licenseDatePtr).
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableConstructionArea(input.ConstructionArea).
@@ -469,43 +466,35 @@ func (r *mutationResolver) DeleteJob(ctx context.Context, yibfNo int) (bool, err
 }
 
 // Job is the resolver for the job field.
-func (r *queryResolver) Job(ctx context.Context, yibfNo *int, district *string, ada *string, parsel *string, ownerName *string) ([]*ent.JobDetail, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	query := client.JobDetail.Query()
+func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, error) {
+	job, err := r.client.JobDetail.Query().
+		Where(jobdetail.DeletedEQ(0)).
+		Where(jobdetail.YibfNo(yibfNo)).
+		Only(ctx)
 
-	// deleted sütunu 0 olanları filtrele
-	query = query.Where(jobdetail.DeletedEQ(0))
-
-	if yibfNo != nil {
-		query = query.Where(jobdetail.YibfNoEQ(*yibfNo))
-	}
-
-	if district != nil {
-		query = query.Where(jobdetail.DistrictEQ(*district))
-	}
-
-	if ada != nil {
-		query = query.Where(jobdetail.AdaEQ(*ada))
-	}
-
-	if parsel != nil {
-		query = query.Where(jobdetail.ParselEQ(*parsel))
-	}
-
-	if ownerName != nil {
-		query = query.Where(
-			jobdetail.HasOwnerWith(
-				jobowner.NameContains(*ownerName),
-			),
-		)
-	}
-
-	jobDetails, err := query.All(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get job details: %v", err)
+		if ent.IsNotFound(err) {
+			return nil, nil // Kayıt bulunamadığında nil dönüyoruz, hata değil
+		}
+		return nil, fmt.Errorf("failed to get job details: %w", err)
 	}
 
-	return jobDetails, nil
+	return job, nil
+}
+
+// Jobs is the resolver for the jobs field.
+func (r *queryResolver) Jobs(ctx context.Context) ([]*ent.JobDetail, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	jobs, err := client.JobDetail.Query().Where(jobdetail.DeletedEQ(0)).All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch jobs: %w", err)
+	}
+
+	if len(jobs) == 0 {
+		return []*ent.JobDetail{}, nil // Boş array dönüyoruz, nil değil
+	}
+
+	return jobs, nil
 }
 
 // JobDetail returns generated.JobDetailResolver implementation.

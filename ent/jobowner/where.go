@@ -95,12 +95,17 @@ func Note(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldNote, v))
 }
 
-// CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
+// Deleted applies equality check predicate on the "Deleted" field. It's identical to DeletedEQ.
+func Deleted(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldEQ(FieldDeleted, v))
+}
+
+// CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
+// UpdatedAt applies equality check predicate on the "UpdatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldUpdatedAt, v))
 }
@@ -645,82 +650,132 @@ func NoteContainsFold(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldContainsFold(FieldNote, v))
 }
 
-// CreatedAtEQ applies the EQ predicate on the "created_at" field.
+// DeletedEQ applies the EQ predicate on the "Deleted" field.
+func DeletedEQ(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldEQ(FieldDeleted, v))
+}
+
+// DeletedNEQ applies the NEQ predicate on the "Deleted" field.
+func DeletedNEQ(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldNEQ(FieldDeleted, v))
+}
+
+// DeletedIn applies the In predicate on the "Deleted" field.
+func DeletedIn(vs ...int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldIn(FieldDeleted, vs...))
+}
+
+// DeletedNotIn applies the NotIn predicate on the "Deleted" field.
+func DeletedNotIn(vs ...int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldNotIn(FieldDeleted, vs...))
+}
+
+// DeletedGT applies the GT predicate on the "Deleted" field.
+func DeletedGT(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldGT(FieldDeleted, v))
+}
+
+// DeletedGTE applies the GTE predicate on the "Deleted" field.
+func DeletedGTE(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldGTE(FieldDeleted, v))
+}
+
+// DeletedLT applies the LT predicate on the "Deleted" field.
+func DeletedLT(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldLT(FieldDeleted, v))
+}
+
+// DeletedLTE applies the LTE predicate on the "Deleted" field.
+func DeletedLTE(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldLTE(FieldDeleted, v))
+}
+
+// DeletedIsNil applies the IsNil predicate on the "Deleted" field.
+func DeletedIsNil() predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldIsNull(FieldDeleted))
+}
+
+// DeletedNotNil applies the NotNil predicate on the "Deleted" field.
+func DeletedNotNil() predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldNotNull(FieldDeleted))
+}
+
+// CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.
 func CreatedAtEQ(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
+// CreatedAtNEQ applies the NEQ predicate on the "CreatedAt" field.
 func CreatedAtNEQ(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
-// CreatedAtIn applies the In predicate on the "created_at" field.
+// CreatedAtIn applies the In predicate on the "CreatedAt" field.
 func CreatedAtIn(vs ...time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
-// CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
+// CreatedAtNotIn applies the NotIn predicate on the "CreatedAt" field.
 func CreatedAtNotIn(vs ...time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
-// CreatedAtGT applies the GT predicate on the "created_at" field.
+// CreatedAtGT applies the GT predicate on the "CreatedAt" field.
 func CreatedAtGT(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldGT(FieldCreatedAt, v))
 }
 
-// CreatedAtGTE applies the GTE predicate on the "created_at" field.
+// CreatedAtGTE applies the GTE predicate on the "CreatedAt" field.
 func CreatedAtGTE(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldGTE(FieldCreatedAt, v))
 }
 
-// CreatedAtLT applies the LT predicate on the "created_at" field.
+// CreatedAtLT applies the LT predicate on the "CreatedAt" field.
 func CreatedAtLT(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldLT(FieldCreatedAt, v))
 }
 
-// CreatedAtLTE applies the LTE predicate on the "created_at" field.
+// CreatedAtLTE applies the LTE predicate on the "CreatedAt" field.
 func CreatedAtLTE(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldLTE(FieldCreatedAt, v))
 }
 
-// UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
+// UpdatedAtEQ applies the EQ predicate on the "UpdatedAt" field.
 func UpdatedAtEQ(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
+// UpdatedAtNEQ applies the NEQ predicate on the "UpdatedAt" field.
 func UpdatedAtNEQ(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
-// UpdatedAtIn applies the In predicate on the "updated_at" field.
+// UpdatedAtIn applies the In predicate on the "UpdatedAt" field.
 func UpdatedAtIn(vs ...time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
-// UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
+// UpdatedAtNotIn applies the NotIn predicate on the "UpdatedAt" field.
 func UpdatedAtNotIn(vs ...time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
-// UpdatedAtGT applies the GT predicate on the "updated_at" field.
+// UpdatedAtGT applies the GT predicate on the "UpdatedAt" field.
 func UpdatedAtGT(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldGT(FieldUpdatedAt, v))
 }
 
-// UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
+// UpdatedAtGTE applies the GTE predicate on the "UpdatedAt" field.
 func UpdatedAtGTE(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
-// UpdatedAtLT applies the LT predicate on the "updated_at" field.
+// UpdatedAtLT applies the LT predicate on the "UpdatedAt" field.
 func UpdatedAtLT(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldLT(FieldUpdatedAt, v))
 }
 
-// UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
+// UpdatedAtLTE applies the LTE predicate on the "UpdatedAt" field.
 func UpdatedAtLTE(v time.Time) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldLTE(FieldUpdatedAt, v))
 }

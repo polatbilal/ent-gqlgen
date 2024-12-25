@@ -29,10 +29,10 @@ type JobProgress struct {
 	Five int `json:"Five,omitempty"`
 	// Six holds the value of the "Six" field.
 	Six int `json:"Six,omitempty"`
-	// CreatedAt holds the value of the "created_at" field.
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	// UpdatedAt holds the value of the "updated_at" field.
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	// CreatedAt holds the value of the "CreatedAt" field.
+	CreatedAt time.Time `json:"CreatedAt,omitempty"`
+	// UpdatedAt holds the value of the "UpdatedAt" field.
+	UpdatedAt time.Time `json:"UpdatedAt,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the JobProgressQuery when eager-loading is set.
 	Edges        JobProgressEdges `json:"edges"`
@@ -129,13 +129,13 @@ func (jp *JobProgress) assignValues(columns []string, values []any) error {
 			}
 		case jobprogress.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
 				jp.CreatedAt = value.Time
 			}
 		case jobprogress.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
 				jp.UpdatedAt = value.Time
 			}
@@ -198,10 +198,10 @@ func (jp *JobProgress) String() string {
 	builder.WriteString("Six=")
 	builder.WriteString(fmt.Sprintf("%v", jp.Six))
 	builder.WriteString(", ")
-	builder.WriteString("created_at=")
+	builder.WriteString("CreatedAt=")
 	builder.WriteString(jp.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("updated_at=")
+	builder.WriteString("UpdatedAt=")
 	builder.WriteString(jp.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()

@@ -99,6 +99,7 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "note", Type: field.TypeString, Nullable: true},
+		{Name: "deleted", Type: field.TypeInt, Nullable: true, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}
@@ -120,6 +121,7 @@ var (
 		{Name: "folder_no", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "status", Type: field.TypeInt, Default: 0},
 		{Name: "contract_date", Type: field.TypeTime, Nullable: true},
+		{Name: "completion_date", Type: field.TypeTime, Nullable: true},
 		{Name: "start_date", Type: field.TypeTime, Nullable: true},
 		{Name: "license_date", Type: field.TypeTime, Nullable: true},
 		{Name: "license_no", Type: field.TypeString, Nullable: true, Default: ""},
@@ -159,73 +161,73 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "job_details_company_engineers_inspectors",
-				Columns:    []*schema.Column{JobDetailsColumns[28]},
-				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
-				Symbol:     "job_details_company_engineers_architects",
 				Columns:    []*schema.Column{JobDetailsColumns[29]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_statics",
+				Symbol:     "job_details_company_engineers_architects",
 				Columns:    []*schema.Column{JobDetailsColumns[30]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_mechanics",
+				Symbol:     "job_details_company_engineers_statics",
 				Columns:    []*schema.Column{JobDetailsColumns[31]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_electrics",
+				Symbol:     "job_details_company_engineers_mechanics",
 				Columns:    []*schema.Column{JobDetailsColumns[32]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_controllers",
+				Symbol:     "job_details_company_engineers_electrics",
 				Columns:    []*schema.Column{JobDetailsColumns[33]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_mechaniccontrollers",
+				Symbol:     "job_details_company_engineers_controllers",
 				Columns:    []*schema.Column{JobDetailsColumns[34]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_electriccontrollers",
+				Symbol:     "job_details_company_engineers_mechaniccontrollers",
 				Columns:    []*schema.Column{JobDetailsColumns[35]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_job_authors_authors",
+				Symbol:     "job_details_company_engineers_electriccontrollers",
 				Columns:    []*schema.Column{JobDetailsColumns[36]},
+				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "job_details_job_authors_authors",
+				Columns:    []*schema.Column{JobDetailsColumns[37]},
 				RefColumns: []*schema.Column{JobAuthorsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "job_details_job_contractors_contractors",
-				Columns:    []*schema.Column{JobDetailsColumns[37]},
+				Columns:    []*schema.Column{JobDetailsColumns[38]},
 				RefColumns: []*schema.Column{JobContractorsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "job_details_job_owners_owners",
-				Columns:    []*schema.Column{JobDetailsColumns[38]},
+				Columns:    []*schema.Column{JobDetailsColumns[39]},
 				RefColumns: []*schema.Column{JobOwnersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "job_details_job_progresses_progress",
-				Columns:    []*schema.Column{JobDetailsColumns[39]},
+				Columns:    []*schema.Column{JobDetailsColumns[40]},
 				RefColumns: []*schema.Column{JobProgressesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -271,6 +273,7 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "note", Type: field.TypeString, Nullable: true},
+		{Name: "deleted", Type: field.TypeInt, Nullable: true, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}
@@ -279,6 +282,32 @@ var (
 		Name:       "job_owners",
 		Columns:    JobOwnersColumns,
 		PrimaryKey: []*schema.Column{JobOwnersColumns[0]},
+	}
+	// JobPaymentsColumns holds the columns for the "job_payments" table.
+	JobPaymentsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "date", Type: field.TypeTime},
+		{Name: "amount", Type: field.TypeInt, Nullable: true, Default: 0},
+		{Name: "description", Type: field.TypeString, Nullable: true, Default: ""},
+		{Name: "status", Type: field.TypeString, Nullable: true, Default: ""},
+		{Name: "percentage", Type: field.TypeFloat64, Nullable: true, Default: 0.5},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "payments_id", Type: field.TypeInt, Nullable: true},
+	}
+	// JobPaymentsTable holds the schema information for the "job_payments" table.
+	JobPaymentsTable = &schema.Table{
+		Name:       "job_payments",
+		Columns:    JobPaymentsColumns,
+		PrimaryKey: []*schema.Column{JobPaymentsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "job_payments_job_details_payments",
+				Columns:    []*schema.Column{JobPaymentsColumns[8]},
+				RefColumns: []*schema.Column{JobDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
 	}
 	// JobProgressesColumns holds the columns for the "job_progresses" table.
 	JobProgressesColumns = []*schema.Column{
@@ -325,6 +354,7 @@ var (
 		JobDetailsTable,
 		JobLayersTable,
 		JobOwnersTable,
+		JobPaymentsTable,
 		JobProgressesTable,
 		UsersTable,
 	}
@@ -345,4 +375,5 @@ func init() {
 	JobDetailsTable.ForeignKeys[10].RefTable = JobOwnersTable
 	JobDetailsTable.ForeignKeys[11].RefTable = JobProgressesTable
 	JobLayersTable.ForeignKeys[0].RefTable = JobDetailsTable
+	JobPaymentsTable.ForeignKeys[0].RefTable = JobDetailsTable
 }

@@ -40,6 +40,8 @@ type JobDetail struct {
 	Status int `json:"Status,omitempty"`
 	// ContractDate holds the value of the "ContractDate" field.
 	ContractDate time.Time `json:"ContractDate,omitempty"`
+	// CompletionDate holds the value of the "CompletionDate" field.
+	CompletionDate time.Time `json:"CompletionDate,omitempty"`
 	// StartDate holds the value of the "StartDate" field.
 	StartDate time.Time `json:"StartDate,omitempty"`
 	// LicenseDate holds the value of the "LicenseDate" field.
@@ -72,10 +74,10 @@ type JobDetail struct {
 	Started int `json:"Started,omitempty"`
 	// Deleted holds the value of the "Deleted" field.
 	Deleted int `json:"Deleted,omitempty"`
-	// CreatedAt holds the value of the "created_at" field.
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	// UpdatedAt holds the value of the "updated_at" field.
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	// CreatedAt holds the value of the "CreatedAt" field.
+	CreatedAt time.Time `json:"CreatedAt,omitempty"`
+	// UpdatedAt holds the value of the "UpdatedAt" field.
+	UpdatedAt time.Time `json:"UpdatedAt,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the JobDetailQuery when eager-loading is set.
 	Edges                 JobDetailEdges `json:"edges"`
@@ -122,13 +124,16 @@ type JobDetailEdges struct {
 	Electriccontroller *CompanyEngineer `json:"electriccontroller,omitempty"`
 	// Layers holds the value of the layers edge.
 	Layers []*JobLayer `json:"layers,omitempty"`
+	// Payments holds the value of the payments edge.
+	Payments []*JobPayments `json:"payments,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [13]bool
+	loadedTypes [14]bool
 	// totalCount holds the count of the edges above.
-	totalCount [13]map[string]int
+	totalCount [14]map[string]int
 
-	namedLayers map[string][]*JobLayer
+	namedLayers   map[string][]*JobLayer
+	namedPayments map[string][]*JobPayments
 }
 
 // OwnerOrErr returns the Owner value or an error if the edge
@@ -272,6 +277,15 @@ func (e JobDetailEdges) LayersOrErr() ([]*JobLayer, error) {
 	return nil, &NotLoadedError{edge: "layers"}
 }
 
+// PaymentsOrErr returns the Payments value or an error if the edge
+// was not loaded in eager-loading.
+func (e JobDetailEdges) PaymentsOrErr() ([]*JobPayments, error) {
+	if e.loadedTypes[13] {
+		return e.Payments, nil
+	}
+	return nil, &NotLoadedError{edge: "payments"}
+}
+
 // scanValues returns the types for scanning values from sql.Rows.
 func (*JobDetail) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
@@ -281,7 +295,7 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case jobdetail.FieldProvince, jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldDistrict, jobdetail.FieldVillage, jobdetail.FieldStreet, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBuildingBlock, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote:
 			values[i] = new(sql.NullString)
-		case jobdetail.FieldContractDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
+		case jobdetail.FieldContractDate, jobdetail.FieldCompletionDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case jobdetail.ForeignKeys[0]: // inspector_id
 			values[i] = new(sql.NullInt64)
@@ -382,6 +396,12 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.ContractDate = value.Time
 			}
+		case jobdetail.FieldCompletionDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field CompletionDate", values[i])
+			} else if value.Valid {
+				jd.CompletionDate = value.Time
+			}
 		case jobdetail.FieldStartDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field StartDate", values[i])
@@ -480,13 +500,13 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			}
 		case jobdetail.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
 				jd.CreatedAt = value.Time
 			}
 		case jobdetail.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
 				jd.UpdatedAt = value.Time
 			}
@@ -652,6 +672,11 @@ func (jd *JobDetail) QueryLayers() *JobLayerQuery {
 	return NewJobDetailClient(jd.config).QueryLayers(jd)
 }
 
+// QueryPayments queries the "payments" edge of the JobDetail entity.
+func (jd *JobDetail) QueryPayments() *JobPaymentsQuery {
+	return NewJobDetailClient(jd.config).QueryPayments(jd)
+}
+
 // Update returns a builder for updating this JobDetail.
 // Note that you need to call JobDetail.Unwrap() before calling this method if this JobDetail
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -702,6 +727,9 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("ContractDate=")
 	builder.WriteString(jd.ContractDate.Format(time.ANSIC))
 	builder.WriteString(", ")
+	builder.WriteString("CompletionDate=")
+	builder.WriteString(jd.CompletionDate.Format(time.ANSIC))
+	builder.WriteString(", ")
 	builder.WriteString("StartDate=")
 	builder.WriteString(jd.StartDate.Format(time.ANSIC))
 	builder.WriteString(", ")
@@ -750,10 +778,10 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("Deleted=")
 	builder.WriteString(fmt.Sprintf("%v", jd.Deleted))
 	builder.WriteString(", ")
-	builder.WriteString("created_at=")
+	builder.WriteString("CreatedAt=")
 	builder.WriteString(jd.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("updated_at=")
+	builder.WriteString("UpdatedAt=")
 	builder.WriteString(jd.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
@@ -780,6 +808,30 @@ func (jd *JobDetail) appendNamedLayers(name string, edges ...*JobLayer) {
 		jd.Edges.namedLayers[name] = []*JobLayer{}
 	} else {
 		jd.Edges.namedLayers[name] = append(jd.Edges.namedLayers[name], edges...)
+	}
+}
+
+// NamedPayments returns the Payments named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (jd *JobDetail) NamedPayments(name string) ([]*JobPayments, error) {
+	if jd.Edges.namedPayments == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := jd.Edges.namedPayments[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (jd *JobDetail) appendNamedPayments(name string, edges ...*JobPayments) {
+	if jd.Edges.namedPayments == nil {
+		jd.Edges.namedPayments = make(map[string][]*JobPayments)
+	}
+	if len(edges) == 0 {
+		jd.Edges.namedPayments[name] = []*JobPayments{}
+	} else {
+		jd.Edges.namedPayments[name] = append(jd.Edges.namedPayments[name], edges...)
 	}
 }
 

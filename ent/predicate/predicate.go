@@ -27,6 +27,9 @@ type JobLayer func(*sql.Selector)
 // JobOwner is the predicate function for jobowner builders.
 type JobOwner func(*sql.Selector)
 
+// JobPayments is the predicate function for jobpayments builders.
+type JobPayments func(*sql.Selector)
+
 // JobProgress is the predicate function for jobprogress builders.
 type JobProgress func(*sql.Selector)
 

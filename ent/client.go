@@ -18,6 +18,7 @@ import (
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/joblayer"
 	"gqlgen-ent/ent/jobowner"
+	"gqlgen-ent/ent/jobpayments"
 	"gqlgen-ent/ent/jobprogress"
 	"gqlgen-ent/ent/user"
 
@@ -46,6 +47,8 @@ type Client struct {
 	JobLayer *JobLayerClient
 	// JobOwner is the client for interacting with the JobOwner builders.
 	JobOwner *JobOwnerClient
+	// JobPayments is the client for interacting with the JobPayments builders.
+	JobPayments *JobPaymentsClient
 	// JobProgress is the client for interacting with the JobProgress builders.
 	JobProgress *JobProgressClient
 	// User is the client for interacting with the User builders.
@@ -70,6 +73,7 @@ func (c *Client) init() {
 	c.JobDetail = NewJobDetailClient(c.config)
 	c.JobLayer = NewJobLayerClient(c.config)
 	c.JobOwner = NewJobOwnerClient(c.config)
+	c.JobPayments = NewJobPaymentsClient(c.config)
 	c.JobProgress = NewJobProgressClient(c.config)
 	c.User = NewUserClient(c.config)
 }
@@ -171,6 +175,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		JobDetail:       NewJobDetailClient(cfg),
 		JobLayer:        NewJobLayerClient(cfg),
 		JobOwner:        NewJobOwnerClient(cfg),
+		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
 		User:            NewUserClient(cfg),
 	}, nil
@@ -199,6 +204,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		JobDetail:       NewJobDetailClient(cfg),
 		JobLayer:        NewJobLayerClient(cfg),
 		JobOwner:        NewJobOwnerClient(cfg),
+		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
 		User:            NewUserClient(cfg),
 	}, nil
@@ -231,7 +237,7 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.CompanyDetail, c.CompanyEngineer, c.JobAuthor, c.JobContractor, c.JobDetail,
-		c.JobLayer, c.JobOwner, c.JobProgress, c.User,
+		c.JobLayer, c.JobOwner, c.JobPayments, c.JobProgress, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -242,7 +248,7 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.CompanyDetail, c.CompanyEngineer, c.JobAuthor, c.JobContractor, c.JobDetail,
-		c.JobLayer, c.JobOwner, c.JobProgress, c.User,
+		c.JobLayer, c.JobOwner, c.JobPayments, c.JobProgress, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -265,6 +271,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.JobLayer.mutate(ctx, m)
 	case *JobOwnerMutation:
 		return c.JobOwner.mutate(ctx, m)
+	case *JobPaymentsMutation:
+		return c.JobPayments.mutate(ctx, m)
 	case *JobProgressMutation:
 		return c.JobProgress.mutate(ctx, m)
 	case *UserMutation:
@@ -1314,6 +1322,22 @@ func (c *JobDetailClient) QueryLayers(jd *JobDetail) *JobLayerQuery {
 	return query
 }
 
+// QueryPayments queries the payments edge of a JobDetail.
+func (c *JobDetailClient) QueryPayments(jd *JobDetail) *JobPaymentsQuery {
+	query := (&JobPaymentsClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
+			sqlgraph.To(jobpayments.Table, jobpayments.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, jobdetail.PaymentsTable, jobdetail.PaymentsColumn),
+		)
+		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *JobDetailClient) Hooks() []Hook {
 	return c.hooks.JobDetail
@@ -1637,6 +1661,155 @@ func (c *JobOwnerClient) mutate(ctx context.Context, m *JobOwnerMutation) (Value
 	}
 }
 
+// JobPaymentsClient is a client for the JobPayments schema.
+type JobPaymentsClient struct {
+	config
+}
+
+// NewJobPaymentsClient returns a client for the JobPayments from the given config.
+func NewJobPaymentsClient(c config) *JobPaymentsClient {
+	return &JobPaymentsClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `jobpayments.Hooks(f(g(h())))`.
+func (c *JobPaymentsClient) Use(hooks ...Hook) {
+	c.hooks.JobPayments = append(c.hooks.JobPayments, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `jobpayments.Intercept(f(g(h())))`.
+func (c *JobPaymentsClient) Intercept(interceptors ...Interceptor) {
+	c.inters.JobPayments = append(c.inters.JobPayments, interceptors...)
+}
+
+// Create returns a builder for creating a JobPayments entity.
+func (c *JobPaymentsClient) Create() *JobPaymentsCreate {
+	mutation := newJobPaymentsMutation(c.config, OpCreate)
+	return &JobPaymentsCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of JobPayments entities.
+func (c *JobPaymentsClient) CreateBulk(builders ...*JobPaymentsCreate) *JobPaymentsCreateBulk {
+	return &JobPaymentsCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *JobPaymentsClient) MapCreateBulk(slice any, setFunc func(*JobPaymentsCreate, int)) *JobPaymentsCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &JobPaymentsCreateBulk{err: fmt.Errorf("calling to JobPaymentsClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*JobPaymentsCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &JobPaymentsCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for JobPayments.
+func (c *JobPaymentsClient) Update() *JobPaymentsUpdate {
+	mutation := newJobPaymentsMutation(c.config, OpUpdate)
+	return &JobPaymentsUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *JobPaymentsClient) UpdateOne(jp *JobPayments) *JobPaymentsUpdateOne {
+	mutation := newJobPaymentsMutation(c.config, OpUpdateOne, withJobPayments(jp))
+	return &JobPaymentsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *JobPaymentsClient) UpdateOneID(id int) *JobPaymentsUpdateOne {
+	mutation := newJobPaymentsMutation(c.config, OpUpdateOne, withJobPaymentsID(id))
+	return &JobPaymentsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for JobPayments.
+func (c *JobPaymentsClient) Delete() *JobPaymentsDelete {
+	mutation := newJobPaymentsMutation(c.config, OpDelete)
+	return &JobPaymentsDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *JobPaymentsClient) DeleteOne(jp *JobPayments) *JobPaymentsDeleteOne {
+	return c.DeleteOneID(jp.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *JobPaymentsClient) DeleteOneID(id int) *JobPaymentsDeleteOne {
+	builder := c.Delete().Where(jobpayments.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &JobPaymentsDeleteOne{builder}
+}
+
+// Query returns a query builder for JobPayments.
+func (c *JobPaymentsClient) Query() *JobPaymentsQuery {
+	return &JobPaymentsQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeJobPayments},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a JobPayments entity by its id.
+func (c *JobPaymentsClient) Get(ctx context.Context, id int) (*JobPayments, error) {
+	return c.Query().Where(jobpayments.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *JobPaymentsClient) GetX(ctx context.Context, id int) *JobPayments {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryPayments queries the payments edge of a JobPayments.
+func (c *JobPaymentsClient) QueryPayments(jp *JobPayments) *JobDetailQuery {
+	query := (&JobDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jp.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobpayments.Table, jobpayments.FieldID, id),
+			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, jobpayments.PaymentsTable, jobpayments.PaymentsColumn),
+		)
+		fromV = sqlgraph.Neighbors(jp.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *JobPaymentsClient) Hooks() []Hook {
+	return c.hooks.JobPayments
+}
+
+// Interceptors returns the client interceptors.
+func (c *JobPaymentsClient) Interceptors() []Interceptor {
+	return c.inters.JobPayments
+}
+
+func (c *JobPaymentsClient) mutate(ctx context.Context, m *JobPaymentsMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&JobPaymentsCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&JobPaymentsUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&JobPaymentsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&JobPaymentsDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown JobPayments mutation op: %q", m.Op())
+	}
+}
+
 // JobProgressClient is a client for the JobProgress schema.
 type JobProgressClient struct {
 	config
@@ -1923,10 +2096,10 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 type (
 	hooks struct {
 		CompanyDetail, CompanyEngineer, JobAuthor, JobContractor, JobDetail, JobLayer,
-		JobOwner, JobProgress, User []ent.Hook
+		JobOwner, JobPayments, JobProgress, User []ent.Hook
 	}
 	inters struct {
 		CompanyDetail, CompanyEngineer, JobAuthor, JobContractor, JobDetail, JobLayer,
-		JobOwner, JobProgress, User []ent.Interceptor
+		JobOwner, JobPayments, JobProgress, User []ent.Interceptor
 	}
 )

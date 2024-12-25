@@ -105,13 +105,13 @@ func (jpc *JobProgressCreate) SetNillableSix(i *int) *JobProgressCreate {
 	return jpc
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jpc *JobProgressCreate) SetCreatedAt(t time.Time) *JobProgressCreate {
 	jpc.mutation.SetCreatedAt(t)
 	return jpc
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jpc *JobProgressCreate) SetNillableCreatedAt(t *time.Time) *JobProgressCreate {
 	if t != nil {
 		jpc.SetCreatedAt(*t)
@@ -119,13 +119,13 @@ func (jpc *JobProgressCreate) SetNillableCreatedAt(t *time.Time) *JobProgressCre
 	return jpc
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jpc *JobProgressCreate) SetUpdatedAt(t time.Time) *JobProgressCreate {
 	jpc.mutation.SetUpdatedAt(t)
 	return jpc
 }
 
-// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+// SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
 func (jpc *JobProgressCreate) SetNillableUpdatedAt(t *time.Time) *JobProgressCreate {
 	if t != nil {
 		jpc.SetUpdatedAt(*t)
@@ -220,10 +220,10 @@ func (jpc *JobProgressCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (jpc *JobProgressCreate) check() error {
 	if _, ok := jpc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "JobProgress.created_at"`)}
+		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobProgress.CreatedAt"`)}
 	}
 	if _, ok := jpc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "JobProgress.updated_at"`)}
+		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobProgress.UpdatedAt"`)}
 	}
 	return nil
 }

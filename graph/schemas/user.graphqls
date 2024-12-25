@@ -12,12 +12,27 @@ type User {
   username: String!
   name: String!
   email: String!
+  phone: Int!
   password: String!
   role: String!
   createdAt: String!
 }
 
+input UserInput {
+  username: String!
+  name: String!
+  email: String!
+  phone: Int!
+  password: String!
+  role: String!
+}
+
 extend type Query {
   user(id: ID!): User! @goField(forceResolver: true) @auth
   allUsers: [User!]! @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  createUser(input: UserInput!): User! @goField(forceResolver: true) @auth
+  updateUser(input: UserInput!): User! @goField(forceResolver: true) @auth
 }

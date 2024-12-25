@@ -7,6 +7,8 @@ go run server.go
 if you edit graphql schema file, you need to generate graphql schema
 
 ```
+go get github.com/99designs/gqlgen
+
 go run github.com/99designs/gqlgen generate
 ```
 

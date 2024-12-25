@@ -30,9 +30,9 @@ const (
 	FieldWeekResult = "week_result"
 	// FieldMonthResult holds the string denoting the monthresult field in the database.
 	FieldMonthResult = "month_result"
-	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
-	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
+	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
 	// EdgeLayer holds the string denoting the layer edge name in mutations.
 	EdgeLayer = "layer"
@@ -88,11 +88,11 @@ var (
 	DefaultName string
 	// DefaultMetre holds the default value on creation for the "Metre" field.
 	DefaultMetre string
-	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
+	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
-	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
+	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
 	DefaultUpdatedAt func() time.Time
-	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
+	// UpdateDefaultUpdatedAt holds the default value on update for the "UpdatedAt" field.
 	UpdateDefaultUpdatedAt func() time.Time
 )
 
@@ -144,12 +144,12 @@ func ByMonthResult(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldMonthResult, opts...).ToFunc()
 }
 
-// ByCreatedAt orders the results by the created_at field.
+// ByCreatedAt orders the results by the CreatedAt field.
 func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
-// ByUpdatedAt orders the results by the updated_at field.
+// ByUpdatedAt orders the results by the UpdatedAt field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }

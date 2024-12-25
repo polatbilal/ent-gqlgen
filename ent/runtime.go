@@ -10,6 +10,7 @@ import (
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/joblayer"
 	"gqlgen-ent/ent/jobowner"
+	"gqlgen-ent/ent/jobpayments"
 	"gqlgen-ent/ent/jobprogress"
 	"gqlgen-ent/ent/schema"
 	"gqlgen-ent/ent/user"
@@ -102,12 +103,16 @@ func init() {
 	jobcontractorDescName := jobcontractorFields[0].Descriptor()
 	// jobcontractor.DefaultName holds the default value on creation for the Name field.
 	jobcontractor.DefaultName = jobcontractorDescName.Default.(string)
+	// jobcontractorDescDeleted is the schema descriptor for Deleted field.
+	jobcontractorDescDeleted := jobcontractorFields[9].Descriptor()
+	// jobcontractor.DefaultDeleted holds the default value on creation for the Deleted field.
+	jobcontractor.DefaultDeleted = jobcontractorDescDeleted.Default.(int)
 	// jobcontractorDescCreatedAt is the schema descriptor for CreatedAt field.
-	jobcontractorDescCreatedAt := jobcontractorFields[9].Descriptor()
+	jobcontractorDescCreatedAt := jobcontractorFields[10].Descriptor()
 	// jobcontractor.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobcontractor.DefaultCreatedAt = jobcontractorDescCreatedAt.Default.(func() time.Time)
 	// jobcontractorDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	jobcontractorDescUpdatedAt := jobcontractorFields[10].Descriptor()
+	jobcontractorDescUpdatedAt := jobcontractorFields[11].Descriptor()
 	// jobcontractor.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobcontractor.DefaultUpdatedAt = jobcontractorDescUpdatedAt.Default.(func() time.Time)
 	// jobcontractor.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
@@ -147,54 +152,54 @@ func init() {
 	// jobdetail.DefaultStatus holds the default value on creation for the Status field.
 	jobdetail.DefaultStatus = jobdetailDescStatus.Default.(int)
 	// jobdetailDescLicenseNo is the schema descriptor for LicenseNo field.
-	jobdetailDescLicenseNo := jobdetailFields[11].Descriptor()
+	jobdetailDescLicenseNo := jobdetailFields[12].Descriptor()
 	// jobdetail.DefaultLicenseNo holds the default value on creation for the LicenseNo field.
 	jobdetail.DefaultLicenseNo = jobdetailDescLicenseNo.Default.(string)
 	// jobdetailDescDistrict is the schema descriptor for District field.
-	jobdetailDescDistrict := jobdetailFields[13].Descriptor()
+	jobdetailDescDistrict := jobdetailFields[14].Descriptor()
 	// jobdetail.DefaultDistrict holds the default value on creation for the District field.
 	jobdetail.DefaultDistrict = jobdetailDescDistrict.Default.(string)
 	// jobdetailDescVillage is the schema descriptor for Village field.
-	jobdetailDescVillage := jobdetailFields[14].Descriptor()
+	jobdetailDescVillage := jobdetailFields[15].Descriptor()
 	// jobdetail.DefaultVillage holds the default value on creation for the Village field.
 	jobdetail.DefaultVillage = jobdetailDescVillage.Default.(string)
 	// jobdetailDescStreet is the schema descriptor for Street field.
-	jobdetailDescStreet := jobdetailFields[15].Descriptor()
+	jobdetailDescStreet := jobdetailFields[16].Descriptor()
 	// jobdetail.DefaultStreet holds the default value on creation for the Street field.
 	jobdetail.DefaultStreet = jobdetailDescStreet.Default.(string)
 	// jobdetailDescBuildingClass is the schema descriptor for BuildingClass field.
-	jobdetailDescBuildingClass := jobdetailFields[16].Descriptor()
+	jobdetailDescBuildingClass := jobdetailFields[17].Descriptor()
 	// jobdetail.DefaultBuildingClass holds the default value on creation for the BuildingClass field.
 	jobdetail.DefaultBuildingClass = jobdetailDescBuildingClass.Default.(string)
 	// jobdetailDescBuildingType is the schema descriptor for BuildingType field.
-	jobdetailDescBuildingType := jobdetailFields[17].Descriptor()
+	jobdetailDescBuildingType := jobdetailFields[18].Descriptor()
 	// jobdetail.DefaultBuildingType holds the default value on creation for the BuildingType field.
 	jobdetail.DefaultBuildingType = jobdetailDescBuildingType.Default.(string)
 	// jobdetailDescBuildingBlock is the schema descriptor for BuildingBlock field.
-	jobdetailDescBuildingBlock := jobdetailFields[18].Descriptor()
+	jobdetailDescBuildingBlock := jobdetailFields[19].Descriptor()
 	// jobdetail.DefaultBuildingBlock holds the default value on creation for the BuildingBlock field.
 	jobdetail.DefaultBuildingBlock = jobdetailDescBuildingBlock.Default.(string)
 	// jobdetailDescUsagePurpose is the schema descriptor for UsagePurpose field.
-	jobdetailDescUsagePurpose := jobdetailFields[21].Descriptor()
+	jobdetailDescUsagePurpose := jobdetailFields[22].Descriptor()
 	// jobdetail.DefaultUsagePurpose holds the default value on creation for the UsagePurpose field.
 	jobdetail.DefaultUsagePurpose = jobdetailDescUsagePurpose.Default.(string)
 	// jobdetailDescStarted is the schema descriptor for Started field.
-	jobdetailDescStarted := jobdetailFields[23].Descriptor()
+	jobdetailDescStarted := jobdetailFields[24].Descriptor()
 	// jobdetail.DefaultStarted holds the default value on creation for the Started field.
 	jobdetail.DefaultStarted = jobdetailDescStarted.Default.(int)
 	// jobdetailDescDeleted is the schema descriptor for Deleted field.
-	jobdetailDescDeleted := jobdetailFields[24].Descriptor()
+	jobdetailDescDeleted := jobdetailFields[25].Descriptor()
 	// jobdetail.DefaultDeleted holds the default value on creation for the Deleted field.
 	jobdetail.DefaultDeleted = jobdetailDescDeleted.Default.(int)
-	// jobdetailDescCreatedAt is the schema descriptor for created_at field.
-	jobdetailDescCreatedAt := jobdetailFields[25].Descriptor()
-	// jobdetail.DefaultCreatedAt holds the default value on creation for the created_at field.
+	// jobdetailDescCreatedAt is the schema descriptor for CreatedAt field.
+	jobdetailDescCreatedAt := jobdetailFields[26].Descriptor()
+	// jobdetail.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobdetail.DefaultCreatedAt = jobdetailDescCreatedAt.Default.(func() time.Time)
-	// jobdetailDescUpdatedAt is the schema descriptor for updated_at field.
-	jobdetailDescUpdatedAt := jobdetailFields[26].Descriptor()
-	// jobdetail.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	// jobdetailDescUpdatedAt is the schema descriptor for UpdatedAt field.
+	jobdetailDescUpdatedAt := jobdetailFields[27].Descriptor()
+	// jobdetail.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobdetail.DefaultUpdatedAt = jobdetailDescUpdatedAt.Default.(func() time.Time)
-	// jobdetail.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	// jobdetail.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	jobdetail.UpdateDefaultUpdatedAt = jobdetailDescUpdatedAt.UpdateDefault.(func() time.Time)
 	joblayerFields := schema.JobLayer{}.Fields()
 	_ = joblayerFields
@@ -206,15 +211,15 @@ func init() {
 	joblayerDescMetre := joblayerFields[1].Descriptor()
 	// joblayer.DefaultMetre holds the default value on creation for the Metre field.
 	joblayer.DefaultMetre = joblayerDescMetre.Default.(string)
-	// joblayerDescCreatedAt is the schema descriptor for created_at field.
+	// joblayerDescCreatedAt is the schema descriptor for CreatedAt field.
 	joblayerDescCreatedAt := joblayerFields[8].Descriptor()
-	// joblayer.DefaultCreatedAt holds the default value on creation for the created_at field.
+	// joblayer.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	joblayer.DefaultCreatedAt = joblayerDescCreatedAt.Default.(func() time.Time)
-	// joblayerDescUpdatedAt is the schema descriptor for updated_at field.
+	// joblayerDescUpdatedAt is the schema descriptor for UpdatedAt field.
 	joblayerDescUpdatedAt := joblayerFields[9].Descriptor()
-	// joblayer.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	// joblayer.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	joblayer.DefaultUpdatedAt = joblayerDescUpdatedAt.Default.(func() time.Time)
-	// joblayer.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	// joblayer.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	joblayer.UpdateDefaultUpdatedAt = joblayerDescUpdatedAt.UpdateDefault.(func() time.Time)
 	jobownerFields := schema.JobOwner{}.Fields()
 	_ = jobownerFields
@@ -222,16 +227,52 @@ func init() {
 	jobownerDescName := jobownerFields[0].Descriptor()
 	// jobowner.DefaultName holds the default value on creation for the Name field.
 	jobowner.DefaultName = jobownerDescName.Default.(string)
-	// jobownerDescCreatedAt is the schema descriptor for created_at field.
-	jobownerDescCreatedAt := jobownerFields[8].Descriptor()
-	// jobowner.DefaultCreatedAt holds the default value on creation for the created_at field.
+	// jobownerDescDeleted is the schema descriptor for Deleted field.
+	jobownerDescDeleted := jobownerFields[8].Descriptor()
+	// jobowner.DefaultDeleted holds the default value on creation for the Deleted field.
+	jobowner.DefaultDeleted = jobownerDescDeleted.Default.(int)
+	// jobownerDescCreatedAt is the schema descriptor for CreatedAt field.
+	jobownerDescCreatedAt := jobownerFields[9].Descriptor()
+	// jobowner.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobowner.DefaultCreatedAt = jobownerDescCreatedAt.Default.(func() time.Time)
-	// jobownerDescUpdatedAt is the schema descriptor for updated_at field.
-	jobownerDescUpdatedAt := jobownerFields[9].Descriptor()
-	// jobowner.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	// jobownerDescUpdatedAt is the schema descriptor for UpdatedAt field.
+	jobownerDescUpdatedAt := jobownerFields[10].Descriptor()
+	// jobowner.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobowner.DefaultUpdatedAt = jobownerDescUpdatedAt.Default.(func() time.Time)
-	// jobowner.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	// jobowner.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	jobowner.UpdateDefaultUpdatedAt = jobownerDescUpdatedAt.UpdateDefault.(func() time.Time)
+	jobpaymentsFields := schema.JobPayments{}.Fields()
+	_ = jobpaymentsFields
+	// jobpaymentsDescDate is the schema descriptor for Date field.
+	jobpaymentsDescDate := jobpaymentsFields[0].Descriptor()
+	// jobpayments.DefaultDate holds the default value on creation for the Date field.
+	jobpayments.DefaultDate = jobpaymentsDescDate.Default.(func() time.Time)
+	// jobpaymentsDescAmount is the schema descriptor for Amount field.
+	jobpaymentsDescAmount := jobpaymentsFields[1].Descriptor()
+	// jobpayments.DefaultAmount holds the default value on creation for the Amount field.
+	jobpayments.DefaultAmount = jobpaymentsDescAmount.Default.(int)
+	// jobpaymentsDescDescription is the schema descriptor for Description field.
+	jobpaymentsDescDescription := jobpaymentsFields[2].Descriptor()
+	// jobpayments.DefaultDescription holds the default value on creation for the Description field.
+	jobpayments.DefaultDescription = jobpaymentsDescDescription.Default.(string)
+	// jobpaymentsDescStatus is the schema descriptor for Status field.
+	jobpaymentsDescStatus := jobpaymentsFields[3].Descriptor()
+	// jobpayments.DefaultStatus holds the default value on creation for the Status field.
+	jobpayments.DefaultStatus = jobpaymentsDescStatus.Default.(string)
+	// jobpaymentsDescPercentage is the schema descriptor for Percentage field.
+	jobpaymentsDescPercentage := jobpaymentsFields[4].Descriptor()
+	// jobpayments.DefaultPercentage holds the default value on creation for the Percentage field.
+	jobpayments.DefaultPercentage = jobpaymentsDescPercentage.Default.(float64)
+	// jobpaymentsDescCreatedAt is the schema descriptor for CreatedAt field.
+	jobpaymentsDescCreatedAt := jobpaymentsFields[5].Descriptor()
+	// jobpayments.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
+	jobpayments.DefaultCreatedAt = jobpaymentsDescCreatedAt.Default.(func() time.Time)
+	// jobpaymentsDescUpdatedAt is the schema descriptor for UpdatedAt field.
+	jobpaymentsDescUpdatedAt := jobpaymentsFields[6].Descriptor()
+	// jobpayments.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
+	jobpayments.DefaultUpdatedAt = jobpaymentsDescUpdatedAt.Default.(func() time.Time)
+	// jobpayments.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
+	jobpayments.UpdateDefaultUpdatedAt = jobpaymentsDescUpdatedAt.UpdateDefault.(func() time.Time)
 	jobprogressFields := schema.JobProgress{}.Fields()
 	_ = jobprogressFields
 	// jobprogressDescOne is the schema descriptor for One field.
@@ -258,15 +299,15 @@ func init() {
 	jobprogressDescSix := jobprogressFields[5].Descriptor()
 	// jobprogress.DefaultSix holds the default value on creation for the Six field.
 	jobprogress.DefaultSix = jobprogressDescSix.Default.(int)
-	// jobprogressDescCreatedAt is the schema descriptor for created_at field.
+	// jobprogressDescCreatedAt is the schema descriptor for CreatedAt field.
 	jobprogressDescCreatedAt := jobprogressFields[6].Descriptor()
-	// jobprogress.DefaultCreatedAt holds the default value on creation for the created_at field.
+	// jobprogress.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobprogress.DefaultCreatedAt = jobprogressDescCreatedAt.Default.(func() time.Time)
-	// jobprogressDescUpdatedAt is the schema descriptor for updated_at field.
+	// jobprogressDescUpdatedAt is the schema descriptor for UpdatedAt field.
 	jobprogressDescUpdatedAt := jobprogressFields[7].Descriptor()
-	// jobprogress.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	// jobprogress.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobprogress.DefaultUpdatedAt = jobprogressDescUpdatedAt.Default.(func() time.Time)
-	// jobprogress.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	// jobprogress.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	jobprogress.UpdateDefaultUpdatedAt = jobprogressDescUpdatedAt.UpdateDefault.(func() time.Time)
 	userFields := schema.User{}.Fields()
 	_ = userFields

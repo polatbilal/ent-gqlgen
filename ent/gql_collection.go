@@ -11,6 +11,7 @@ import (
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/joblayer"
 	"gqlgen-ent/ent/jobowner"
+	"gqlgen-ent/ent/jobpayments"
 	"gqlgen-ent/ent/jobprogress"
 	"gqlgen-ent/ent/user"
 
@@ -614,6 +615,11 @@ func (jc *JobContractorQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, jobcontractor.FieldNote)
 				fieldSeen[jobcontractor.FieldNote] = struct{}{}
 			}
+		case "deleted":
+			if _, ok := fieldSeen[jobcontractor.FieldDeleted]; !ok {
+				selectedFields = append(selectedFields, jobcontractor.FieldDeleted)
+				fieldSeen[jobcontractor.FieldDeleted] = struct{}{}
+			}
 		case "createdat":
 			if _, ok := fieldSeen[jobcontractor.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, jobcontractor.FieldCreatedAt)
@@ -828,6 +834,19 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			jd.WithNamedLayers(alias, func(wq *JobLayerQuery) {
 				*wq = *query
 			})
+
+		case "payments":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobPaymentsClient{config: jd.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobpaymentsImplementors)...); err != nil {
+				return err
+			}
+			jd.WithNamedPayments(alias, func(wq *JobPaymentsQuery) {
+				*wq = *query
+			})
 		case "yibfno":
 			if _, ok := fieldSeen[jobdetail.FieldYibfNo]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldYibfNo)
@@ -872,6 +891,11 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			if _, ok := fieldSeen[jobdetail.FieldContractDate]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldContractDate)
 				fieldSeen[jobdetail.FieldContractDate] = struct{}{}
+			}
+		case "completiondate":
+			if _, ok := fieldSeen[jobdetail.FieldCompletionDate]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldCompletionDate)
+				fieldSeen[jobdetail.FieldCompletionDate] = struct{}{}
 			}
 		case "startdate":
 			if _, ok := fieldSeen[jobdetail.FieldStartDate]; !ok {
@@ -953,12 +977,12 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldDeleted)
 				fieldSeen[jobdetail.FieldDeleted] = struct{}{}
 			}
-		case "createdAt":
+		case "createdat":
 			if _, ok := fieldSeen[jobdetail.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldCreatedAt)
 				fieldSeen[jobdetail.FieldCreatedAt] = struct{}{}
 			}
-		case "updatedAt":
+		case "updatedat":
 			if _, ok := fieldSeen[jobdetail.FieldUpdatedAt]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldUpdatedAt)
 				fieldSeen[jobdetail.FieldUpdatedAt] = struct{}{}
@@ -1073,12 +1097,12 @@ func (jl *JobLayerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 				selectedFields = append(selectedFields, joblayer.FieldMonthResult)
 				fieldSeen[joblayer.FieldMonthResult] = struct{}{}
 			}
-		case "createdAt":
+		case "createdat":
 			if _, ok := fieldSeen[joblayer.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, joblayer.FieldCreatedAt)
 				fieldSeen[joblayer.FieldCreatedAt] = struct{}{}
 			}
-		case "updatedAt":
+		case "updatedat":
 			if _, ok := fieldSeen[joblayer.FieldUpdatedAt]; !ok {
 				selectedFields = append(selectedFields, joblayer.FieldUpdatedAt)
 				fieldSeen[joblayer.FieldUpdatedAt] = struct{}{}
@@ -1195,12 +1219,17 @@ func (jo *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 				selectedFields = append(selectedFields, jobowner.FieldNote)
 				fieldSeen[jobowner.FieldNote] = struct{}{}
 			}
-		case "createdAt":
+		case "deleted":
+			if _, ok := fieldSeen[jobowner.FieldDeleted]; !ok {
+				selectedFields = append(selectedFields, jobowner.FieldDeleted)
+				fieldSeen[jobowner.FieldDeleted] = struct{}{}
+			}
+		case "createdat":
 			if _, ok := fieldSeen[jobowner.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, jobowner.FieldCreatedAt)
 				fieldSeen[jobowner.FieldCreatedAt] = struct{}{}
 			}
-		case "updatedAt":
+		case "updatedat":
 			if _, ok := fieldSeen[jobowner.FieldUpdatedAt]; !ok {
 				selectedFields = append(selectedFields, jobowner.FieldUpdatedAt)
 				fieldSeen[jobowner.FieldUpdatedAt] = struct{}{}
@@ -1225,6 +1254,111 @@ type jobownerPaginateArgs struct {
 
 func newJobOwnerPaginateArgs(rv map[string]any) *jobownerPaginateArgs {
 	args := &jobownerPaginateArgs{}
+	if rv == nil {
+		return args
+	}
+	if v := rv[firstField]; v != nil {
+		args.first = v.(*int)
+	}
+	if v := rv[lastField]; v != nil {
+		args.last = v.(*int)
+	}
+	if v := rv[afterField]; v != nil {
+		args.after = v.(*Cursor)
+	}
+	if v := rv[beforeField]; v != nil {
+		args.before = v.(*Cursor)
+	}
+	return args
+}
+
+// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
+func (jp *JobPaymentsQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobPaymentsQuery, error) {
+	fc := graphql.GetFieldContext(ctx)
+	if fc == nil {
+		return jp, nil
+	}
+	if err := jp.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+		return nil, err
+	}
+	return jp, nil
+}
+
+func (jp *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+	path = append([]string(nil), path...)
+	var (
+		unknownSeen    bool
+		fieldSeen      = make(map[string]struct{}, len(jobpayments.Columns))
+		selectedFields = []string{jobpayments.FieldID}
+	)
+	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
+		switch field.Name {
+
+		case "payments":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobDetailClient{config: jp.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+				return err
+			}
+			jp.withPayments = query
+		case "date":
+			if _, ok := fieldSeen[jobpayments.FieldDate]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldDate)
+				fieldSeen[jobpayments.FieldDate] = struct{}{}
+			}
+		case "amount":
+			if _, ok := fieldSeen[jobpayments.FieldAmount]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldAmount)
+				fieldSeen[jobpayments.FieldAmount] = struct{}{}
+			}
+		case "description":
+			if _, ok := fieldSeen[jobpayments.FieldDescription]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldDescription)
+				fieldSeen[jobpayments.FieldDescription] = struct{}{}
+			}
+		case "status":
+			if _, ok := fieldSeen[jobpayments.FieldStatus]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldStatus)
+				fieldSeen[jobpayments.FieldStatus] = struct{}{}
+			}
+		case "percentage":
+			if _, ok := fieldSeen[jobpayments.FieldPercentage]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldPercentage)
+				fieldSeen[jobpayments.FieldPercentage] = struct{}{}
+			}
+		case "createdat":
+			if _, ok := fieldSeen[jobpayments.FieldCreatedAt]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldCreatedAt)
+				fieldSeen[jobpayments.FieldCreatedAt] = struct{}{}
+			}
+		case "updatedat":
+			if _, ok := fieldSeen[jobpayments.FieldUpdatedAt]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldUpdatedAt)
+				fieldSeen[jobpayments.FieldUpdatedAt] = struct{}{}
+			}
+		case "id":
+		case "__typename":
+		default:
+			unknownSeen = true
+		}
+	}
+	if !unknownSeen {
+		jp.Select(selectedFields...)
+	}
+	return nil
+}
+
+type jobpaymentsPaginateArgs struct {
+	first, last   *int
+	after, before *Cursor
+	opts          []JobPaymentsPaginateOption
+}
+
+func newJobPaymentsPaginateArgs(rv map[string]any) *jobpaymentsPaginateArgs {
+	args := &jobpaymentsPaginateArgs{}
 	if rv == nil {
 		return args
 	}
@@ -1307,12 +1441,12 @@ func (jp *JobProgressQuery) collectField(ctx context.Context, oneNode bool, opCt
 				selectedFields = append(selectedFields, jobprogress.FieldSix)
 				fieldSeen[jobprogress.FieldSix] = struct{}{}
 			}
-		case "createdAt":
+		case "createdat":
 			if _, ok := fieldSeen[jobprogress.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, jobprogress.FieldCreatedAt)
 				fieldSeen[jobprogress.FieldCreatedAt] = struct{}{}
 			}
-		case "updatedAt":
+		case "updatedat":
 			if _, ok := fieldSeen[jobprogress.FieldUpdatedAt]; !ok {
 				selectedFields = append(selectedFields, jobprogress.FieldUpdatedAt)
 				fieldSeen[jobprogress.FieldUpdatedAt] = struct{}{}

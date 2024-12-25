@@ -11,6 +11,7 @@ type JobDetail {
   Status: Int
   ContractDate: String
   StartDate: String
+  CompletionDate: String
   LicenseDate: String
   LicenseNo: String
   ConstructionArea: String
@@ -53,6 +54,7 @@ input JobInput {
   Status: Int
   ContractDate: String
   StartDate: String
+  CompletionDate: String
   LicenseDate: String
   LicenseNo: String
   ConstructionArea: String
@@ -121,13 +123,8 @@ input JobProgressInput {
 }
 
 extend type Query {
-  job(
-    yibfNo: Int
-    district: String
-    ada: String
-    parsel: String
-    ownerName: String
-  ): [JobDetail]! @goField(forceResolver: true) @auth
+  job(yibfNo: Int!): JobDetail
+  jobs: [JobDetail!]!
 }
 
 extend type Mutation {

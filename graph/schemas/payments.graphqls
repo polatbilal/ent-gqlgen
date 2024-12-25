@@ -1,0 +1,32 @@
+type JobPayments {
+  id: ID!
+  Date: Date
+  Amount: Int
+  Description: String
+  Status: String
+  Percentage: Float
+}
+
+input JobPaymentsInput {
+  Date: Date
+  Amount: Int
+  Description: String
+  Status: String
+  Percentage: Float
+}
+
+extend type Query {
+  jobPayments(yibfNo: Int!): [JobPayments!]!
+}
+
+extend type Mutation {
+  createJobPayments(input: JobPaymentsInput!): JobPayments!
+    @goField(forceResolver: true)
+    @auth
+  updateJobPayments(yibfNo: Int!, input: JobPaymentsInput!): JobPayments!
+    @goField(forceResolver: true)
+    @auth
+  deleteJobPayments(yibfNo: Int!): JobPayments!
+    @goField(forceResolver: true)
+    @auth
+}

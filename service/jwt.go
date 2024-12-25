@@ -14,15 +14,19 @@ var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 type JwtCustomClaim struct {
 	ID          int    `json:"userID"`
 	Username    string `json:"username"`
+	Name        string `json:"name"`
 	CompanyCode string `json:"companyCode"`
+	Role        string `json:"role"`
 	jwt.StandardClaims
 }
 
-func JwtGenerate(ctx context.Context, userID int, username string, companyCode string) (string, error) {
+func JwtGenerate(ctx context.Context, userID int, username string, name string, companyCode string, role string) (string, error) {
 	claims := &JwtCustomClaim{
 		ID:          userID,
 		Username:    username,
+		Name:        name,
 		CompanyCode: companyCode,
+		Role:        role,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 			IssuedAt:  time.Now().Unix(),

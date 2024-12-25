@@ -12,6 +12,7 @@ import (
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/joblayer"
 	"gqlgen-ent/ent/jobowner"
+	"gqlgen-ent/ent/jobpayments"
 	"gqlgen-ent/ent/jobprogress"
 	"gqlgen-ent/ent/user"
 
@@ -1843,6 +1844,255 @@ func (jo *JobOwner) ToEdge(order *JobOwnerOrder) *JobOwnerEdge {
 	return &JobOwnerEdge{
 		Node:   jo,
 		Cursor: order.Field.toCursor(jo),
+	}
+}
+
+// JobPaymentsEdge is the edge representation of JobPayments.
+type JobPaymentsEdge struct {
+	Node   *JobPayments `json:"node"`
+	Cursor Cursor       `json:"cursor"`
+}
+
+// JobPaymentsConnection is the connection containing edges to JobPayments.
+type JobPaymentsConnection struct {
+	Edges      []*JobPaymentsEdge `json:"edges"`
+	PageInfo   PageInfo           `json:"pageInfo"`
+	TotalCount int                `json:"totalCount"`
+}
+
+func (c *JobPaymentsConnection) build(nodes []*JobPayments, pager *jobpaymentsPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *JobPayments
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *JobPayments {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *JobPayments {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*JobPaymentsEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &JobPaymentsEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// JobPaymentsPaginateOption enables pagination customization.
+type JobPaymentsPaginateOption func(*jobpaymentsPager) error
+
+// WithJobPaymentsOrder configures pagination ordering.
+func WithJobPaymentsOrder(order *JobPaymentsOrder) JobPaymentsPaginateOption {
+	if order == nil {
+		order = DefaultJobPaymentsOrder
+	}
+	o := *order
+	return func(pager *jobpaymentsPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultJobPaymentsOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithJobPaymentsFilter configures pagination filter.
+func WithJobPaymentsFilter(filter func(*JobPaymentsQuery) (*JobPaymentsQuery, error)) JobPaymentsPaginateOption {
+	return func(pager *jobpaymentsPager) error {
+		if filter == nil {
+			return errors.New("JobPaymentsQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type jobpaymentsPager struct {
+	reverse bool
+	order   *JobPaymentsOrder
+	filter  func(*JobPaymentsQuery) (*JobPaymentsQuery, error)
+}
+
+func newJobPaymentsPager(opts []JobPaymentsPaginateOption, reverse bool) (*jobpaymentsPager, error) {
+	pager := &jobpaymentsPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultJobPaymentsOrder
+	}
+	return pager, nil
+}
+
+func (p *jobpaymentsPager) applyFilter(query *JobPaymentsQuery) (*JobPaymentsQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *jobpaymentsPager) toCursor(jp *JobPayments) Cursor {
+	return p.order.Field.toCursor(jp)
+}
+
+func (p *jobpaymentsPager) applyCursors(query *JobPaymentsQuery, after, before *Cursor) (*JobPaymentsQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultJobPaymentsOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *jobpaymentsPager) applyOrder(query *JobPaymentsQuery) *JobPaymentsQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultJobPaymentsOrder.Field {
+		query = query.Order(DefaultJobPaymentsOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *jobpaymentsPager) orderExpr(query *JobPaymentsQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultJobPaymentsOrder.Field {
+			b.Comma().Ident(DefaultJobPaymentsOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to JobPayments.
+func (jp *JobPaymentsQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...JobPaymentsPaginateOption,
+) (*JobPaymentsConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newJobPaymentsPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if jp, err = pager.applyFilter(jp); err != nil {
+		return nil, err
+	}
+	conn := &JobPaymentsConnection{Edges: []*JobPaymentsEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := jp.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if jp, err = pager.applyCursors(jp, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		jp.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := jp.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	jp = pager.applyOrder(jp)
+	nodes, err := jp.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// JobPaymentsOrderField defines the ordering field of JobPayments.
+type JobPaymentsOrderField struct {
+	// Value extracts the ordering value from the given JobPayments.
+	Value    func(*JobPayments) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) jobpayments.OrderOption
+	toCursor func(*JobPayments) Cursor
+}
+
+// JobPaymentsOrder defines the ordering of JobPayments.
+type JobPaymentsOrder struct {
+	Direction OrderDirection         `json:"direction"`
+	Field     *JobPaymentsOrderField `json:"field"`
+}
+
+// DefaultJobPaymentsOrder is the default ordering of JobPayments.
+var DefaultJobPaymentsOrder = &JobPaymentsOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &JobPaymentsOrderField{
+		Value: func(jp *JobPayments) (ent.Value, error) {
+			return jp.ID, nil
+		},
+		column: jobpayments.FieldID,
+		toTerm: jobpayments.ByID,
+		toCursor: func(jp *JobPayments) Cursor {
+			return Cursor{ID: jp.ID}
+		},
+	},
+}
+
+// ToEdge converts JobPayments into JobPaymentsEdge.
+func (jp *JobPayments) ToEdge(order *JobPaymentsOrder) *JobPaymentsEdge {
+	if order == nil {
+		order = DefaultJobPaymentsOrder
+	}
+	return &JobPaymentsEdge{
+		Node:   jp,
+		Cursor: order.Field.toCursor(jp),
 	}
 }
 

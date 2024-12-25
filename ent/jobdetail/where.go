@@ -100,6 +100,11 @@ func ContractDate(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldContractDate, v))
 }
 
+// CompletionDate applies equality check predicate on the "CompletionDate" field. It's identical to CompletionDateEQ.
+func CompletionDate(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldCompletionDate, v))
+}
+
 // StartDate applies equality check predicate on the "StartDate" field. It's identical to StartDateEQ.
 func StartDate(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldStartDate, v))
@@ -180,12 +185,12 @@ func Deleted(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldDeleted, v))
 }
 
-// CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
+// CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
+// UpdatedAt applies equality check predicate on the "UpdatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldUpdatedAt, v))
 }
@@ -768,6 +773,56 @@ func ContractDateIsNil() predicate.JobDetail {
 // ContractDateNotNil applies the NotNil predicate on the "ContractDate" field.
 func ContractDateNotNil() predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotNull(FieldContractDate))
+}
+
+// CompletionDateEQ applies the EQ predicate on the "CompletionDate" field.
+func CompletionDateEQ(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldCompletionDate, v))
+}
+
+// CompletionDateNEQ applies the NEQ predicate on the "CompletionDate" field.
+func CompletionDateNEQ(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldCompletionDate, v))
+}
+
+// CompletionDateIn applies the In predicate on the "CompletionDate" field.
+func CompletionDateIn(vs ...time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldCompletionDate, vs...))
+}
+
+// CompletionDateNotIn applies the NotIn predicate on the "CompletionDate" field.
+func CompletionDateNotIn(vs ...time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldCompletionDate, vs...))
+}
+
+// CompletionDateGT applies the GT predicate on the "CompletionDate" field.
+func CompletionDateGT(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldCompletionDate, v))
+}
+
+// CompletionDateGTE applies the GTE predicate on the "CompletionDate" field.
+func CompletionDateGTE(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldCompletionDate, v))
+}
+
+// CompletionDateLT applies the LT predicate on the "CompletionDate" field.
+func CompletionDateLT(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldCompletionDate, v))
+}
+
+// CompletionDateLTE applies the LTE predicate on the "CompletionDate" field.
+func CompletionDateLTE(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldCompletionDate, v))
+}
+
+// CompletionDateIsNil applies the IsNil predicate on the "CompletionDate" field.
+func CompletionDateIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldCompletionDate))
+}
+
+// CompletionDateNotNil applies the NotNil predicate on the "CompletionDate" field.
+func CompletionDateNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldCompletionDate))
 }
 
 // StartDateEQ applies the EQ predicate on the "StartDate" field.
@@ -1825,82 +1880,82 @@ func DeletedLTE(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldDeleted, v))
 }
 
-// CreatedAtEQ applies the EQ predicate on the "created_at" field.
+// CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.
 func CreatedAtEQ(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
+// CreatedAtNEQ applies the NEQ predicate on the "CreatedAt" field.
 func CreatedAtNEQ(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
-// CreatedAtIn applies the In predicate on the "created_at" field.
+// CreatedAtIn applies the In predicate on the "CreatedAt" field.
 func CreatedAtIn(vs ...time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
-// CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
+// CreatedAtNotIn applies the NotIn predicate on the "CreatedAt" field.
 func CreatedAtNotIn(vs ...time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
-// CreatedAtGT applies the GT predicate on the "created_at" field.
+// CreatedAtGT applies the GT predicate on the "CreatedAt" field.
 func CreatedAtGT(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldGT(FieldCreatedAt, v))
 }
 
-// CreatedAtGTE applies the GTE predicate on the "created_at" field.
+// CreatedAtGTE applies the GTE predicate on the "CreatedAt" field.
 func CreatedAtGTE(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldGTE(FieldCreatedAt, v))
 }
 
-// CreatedAtLT applies the LT predicate on the "created_at" field.
+// CreatedAtLT applies the LT predicate on the "CreatedAt" field.
 func CreatedAtLT(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLT(FieldCreatedAt, v))
 }
 
-// CreatedAtLTE applies the LTE predicate on the "created_at" field.
+// CreatedAtLTE applies the LTE predicate on the "CreatedAt" field.
 func CreatedAtLTE(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldCreatedAt, v))
 }
 
-// UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
+// UpdatedAtEQ applies the EQ predicate on the "UpdatedAt" field.
 func UpdatedAtEQ(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
+// UpdatedAtNEQ applies the NEQ predicate on the "UpdatedAt" field.
 func UpdatedAtNEQ(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
-// UpdatedAtIn applies the In predicate on the "updated_at" field.
+// UpdatedAtIn applies the In predicate on the "UpdatedAt" field.
 func UpdatedAtIn(vs ...time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
-// UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
+// UpdatedAtNotIn applies the NotIn predicate on the "UpdatedAt" field.
 func UpdatedAtNotIn(vs ...time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
-// UpdatedAtGT applies the GT predicate on the "updated_at" field.
+// UpdatedAtGT applies the GT predicate on the "UpdatedAt" field.
 func UpdatedAtGT(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldGT(FieldUpdatedAt, v))
 }
 
-// UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
+// UpdatedAtGTE applies the GTE predicate on the "UpdatedAt" field.
 func UpdatedAtGTE(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
-// UpdatedAtLT applies the LT predicate on the "updated_at" field.
+// UpdatedAtLT applies the LT predicate on the "UpdatedAt" field.
 func UpdatedAtLT(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLT(FieldUpdatedAt, v))
 }
 
-// UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
+// UpdatedAtLTE applies the LTE predicate on the "UpdatedAt" field.
 func UpdatedAtLTE(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldUpdatedAt, v))
 }
@@ -2196,6 +2251,29 @@ func HasLayers() predicate.JobDetail {
 func HasLayersWith(preds ...predicate.JobLayer) predicate.JobDetail {
 	return predicate.JobDetail(func(s *sql.Selector) {
 		step := newLayersStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasPayments applies the HasEdge predicate on the "payments" edge.
+func HasPayments() predicate.JobDetail {
+	return predicate.JobDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PaymentsTable, PaymentsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasPaymentsWith applies the HasEdge predicate on the "payments" edge with a given conditions (other predicates).
+func HasPaymentsWith(preds ...predicate.JobPayments) predicate.JobDetail {
+	return predicate.JobDetail(func(s *sql.Selector) {
+		step := newPaymentsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

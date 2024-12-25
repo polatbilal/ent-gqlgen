@@ -12,8 +12,8 @@ import (
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
+	"gqlgen-ent/tools"
 	"strconv"
-	"time"
 )
 
 // Employment is the resolver for the Employment field.
@@ -38,22 +38,14 @@ func (r *companyEngineerResolver) Dismissal(ctx context.Context, obj *ent.Compan
 func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	var employmentPtr *time.Time
-	if input.Employment != nil {
-		parsedDate, err := time.Parse("2006-01-02", *input.Employment)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse employment date: %v", err)
-		}
-		employmentPtr = &parsedDate
+	employmentPtr, err := tools.ParseDate(input.Employment)
+	if err != nil {
+		return nil, fmt.Errorf("employment date dönüşüm hatası: %v", err)
 	}
 
-	var dismissalPtr *time.Time
-	if input.Dismissal != nil {
-		parsedDate, err := time.Parse("2006-01-02", *input.Dismissal)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse dismissal date: %v", err)
-		}
-		dismissalPtr = &parsedDate
+	dismissalPtr, err := tools.ParseDate(input.Dismissal)
+	if err != nil {
+		return nil, fmt.Errorf("dismissal date dönüşüm hatası: %v", err)
 	}
 
 	createEngineer, err := client.CompanyEngineer.Create().
@@ -87,22 +79,14 @@ func (r *mutationResolver) UpdateEngineer(ctx context.Context, id string, input 
 		return nil, fmt.Errorf("failed to convert engineer ID: %v", err)
 	}
 
-	var employmentPtr *time.Time
-	if input.Employment != nil {
-		parsedDate, err := time.Parse("2006-01-02", *input.Employment)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse employment date: %v", err)
-		}
-		employmentPtr = &parsedDate
+	employmentPtr, err := tools.ParseDate(input.Employment)
+	if err != nil {
+		return nil, fmt.Errorf("employment date dönüşüm hatası: %v", err)
 	}
 
-	var dismissalPtr *time.Time
-	if input.Dismissal != nil {
-		parsedDate, err := time.Parse("2006-01-02", *input.Dismissal)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse dismissal date: %v", err)
-		}
-		dismissalPtr = &parsedDate
+	dismissalPtr, err := tools.ParseDate(input.Dismissal)
+	if err != nil {
+		return nil, fmt.Errorf("dismissal date dönüşüm hatası: %v", err)
 	}
 
 	engineer, err := client.CompanyEngineer.UpdateOneID(engineerID).

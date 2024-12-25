@@ -12,6 +12,7 @@ import (
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/joblayer"
 	"gqlgen-ent/ent/jobowner"
+	"gqlgen-ent/ent/jobpayments"
 	"gqlgen-ent/ent/jobprogress"
 	"time"
 
@@ -140,6 +141,20 @@ func (jdc *JobDetailCreate) SetContractDate(t time.Time) *JobDetailCreate {
 func (jdc *JobDetailCreate) SetNillableContractDate(t *time.Time) *JobDetailCreate {
 	if t != nil {
 		jdc.SetContractDate(*t)
+	}
+	return jdc
+}
+
+// SetCompletionDate sets the "CompletionDate" field.
+func (jdc *JobDetailCreate) SetCompletionDate(t time.Time) *JobDetailCreate {
+	jdc.mutation.SetCompletionDate(t)
+	return jdc
+}
+
+// SetNillableCompletionDate sets the "CompletionDate" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableCompletionDate(t *time.Time) *JobDetailCreate {
+	if t != nil {
+		jdc.SetCompletionDate(*t)
 	}
 	return jdc
 }
@@ -368,13 +383,13 @@ func (jdc *JobDetailCreate) SetNillableDeleted(i *int) *JobDetailCreate {
 	return jdc
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jdc *JobDetailCreate) SetCreatedAt(t time.Time) *JobDetailCreate {
 	jdc.mutation.SetCreatedAt(t)
 	return jdc
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jdc *JobDetailCreate) SetNillableCreatedAt(t *time.Time) *JobDetailCreate {
 	if t != nil {
 		jdc.SetCreatedAt(*t)
@@ -382,13 +397,13 @@ func (jdc *JobDetailCreate) SetNillableCreatedAt(t *time.Time) *JobDetailCreate 
 	return jdc
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jdc *JobDetailCreate) SetUpdatedAt(t time.Time) *JobDetailCreate {
 	jdc.mutation.SetUpdatedAt(t)
 	return jdc
 }
 
-// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+// SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
 func (jdc *JobDetailCreate) SetNillableUpdatedAt(t *time.Time) *JobDetailCreate {
 	if t != nil {
 		jdc.SetUpdatedAt(*t)
@@ -639,6 +654,21 @@ func (jdc *JobDetailCreate) AddLayers(j ...*JobLayer) *JobDetailCreate {
 	return jdc.AddLayerIDs(ids...)
 }
 
+// AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
+func (jdc *JobDetailCreate) AddPaymentIDs(ids ...int) *JobDetailCreate {
+	jdc.mutation.AddPaymentIDs(ids...)
+	return jdc
+}
+
+// AddPayments adds the "payments" edges to the JobPayments entity.
+func (jdc *JobDetailCreate) AddPayments(j ...*JobPayments) *JobDetailCreate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jdc.AddPaymentIDs(ids...)
+}
+
 // Mutation returns the JobDetailMutation object of the builder.
 func (jdc *JobDetailCreate) Mutation() *JobDetailMutation {
 	return jdc.mutation
@@ -772,10 +802,10 @@ func (jdc *JobDetailCreate) check() error {
 		return &ValidationError{Name: "Deleted", err: errors.New(`ent: missing required field "JobDetail.Deleted"`)}
 	}
 	if _, ok := jdc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "JobDetail.created_at"`)}
+		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobDetail.CreatedAt"`)}
 	}
 	if _, ok := jdc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "JobDetail.updated_at"`)}
+		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobDetail.UpdatedAt"`)}
 	}
 	return nil
 }
@@ -838,6 +868,10 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := jdc.mutation.ContractDate(); ok {
 		_spec.SetField(jobdetail.FieldContractDate, field.TypeTime, value)
 		_node.ContractDate = value
+	}
+	if value, ok := jdc.mutation.CompletionDate(); ok {
+		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)
+		_node.CompletionDate = value
 	}
 	if value, ok := jdc.mutation.StartDate(); ok {
 		_spec.SetField(jobdetail.FieldStartDate, field.TypeTime, value)
@@ -1124,6 +1158,22 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := jdc.mutation.PaymentsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobdetail.PaymentsTable,
+			Columns: []string{jobdetail.PaymentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

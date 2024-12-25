@@ -10,10 +10,21 @@ import (
 	"gqlgen-ent/ent"
 	"gqlgen-ent/ent/user"
 	"gqlgen-ent/graph/generated"
+	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
 	"strconv"
 	"time"
 )
+
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput) (*ent.User, error) {
+	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+}
+
+// UpdateUser is the resolver for the updateUser field.
+func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UserInput) (*ent.User, error) {
+	panic(fmt.Errorf("not implemented: UpdateUser - updateUser"))
+}
 
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, id string) (*ent.User, error) {

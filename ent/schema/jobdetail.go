@@ -25,6 +25,7 @@ func (JobDetail) Fields() []ent.Field {
 		field.String("FolderNo").Default("").Optional(),
 		field.Int("Status").Default(0),
 		field.Time("ContractDate").Optional(),
+		field.Time("CompletionDate").Optional(),
 		field.Time("StartDate").Optional(),
 		field.Time("LicenseDate").Optional(),
 		field.String("LicenseNo").Default("").Optional(),
@@ -41,8 +42,9 @@ func (JobDetail) Fields() []ent.Field {
 		field.Text("Note").Optional(),
 		field.Int("Started").Default(0),
 		field.Int("Deleted").Default(0),
-		field.Time("created_at").Default(time.Now),
-		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
+
+		field.Time("CreatedAt").Default(time.Now),
+		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}
 }
 
@@ -65,5 +67,6 @@ func (JobDetail) Edges() []ent.Edge {
 		edge.From("electriccontroller", CompanyEngineer.Type).Ref("electriccontrollers").Unique(),
 
 		edge.To("layers", JobLayer.Type).StorageKey(edge.Column("job_id")),
+		edge.To("payments", JobPayments.Type).StorageKey(edge.Column("payments_id")),
 	}
 }

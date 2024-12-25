@@ -191,13 +191,13 @@ func (jpu *JobProgressUpdate) ClearSix() *JobProgressUpdate {
 	return jpu
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jpu *JobProgressUpdate) SetCreatedAt(t time.Time) *JobProgressUpdate {
 	jpu.mutation.SetCreatedAt(t)
 	return jpu
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jpu *JobProgressUpdate) SetNillableCreatedAt(t *time.Time) *JobProgressUpdate {
 	if t != nil {
 		jpu.SetCreatedAt(*t)
@@ -205,7 +205,7 @@ func (jpu *JobProgressUpdate) SetNillableCreatedAt(t *time.Time) *JobProgressUpd
 	return jpu
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jpu *JobProgressUpdate) SetUpdatedAt(t time.Time) *JobProgressUpdate {
 	jpu.mutation.SetUpdatedAt(t)
 	return jpu
@@ -584,13 +584,13 @@ func (jpuo *JobProgressUpdateOne) ClearSix() *JobProgressUpdateOne {
 	return jpuo
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jpuo *JobProgressUpdateOne) SetCreatedAt(t time.Time) *JobProgressUpdateOne {
 	jpuo.mutation.SetCreatedAt(t)
 	return jpuo
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jpuo *JobProgressUpdateOne) SetNillableCreatedAt(t *time.Time) *JobProgressUpdateOne {
 	if t != nil {
 		jpuo.SetCreatedAt(*t)
@@ -598,7 +598,7 @@ func (jpuo *JobProgressUpdateOne) SetNillableCreatedAt(t *time.Time) *JobProgres
 	return jpuo
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jpuo *JobProgressUpdateOne) SetUpdatedAt(t time.Time) *JobProgressUpdateOne {
 	jpuo.mutation.SetUpdatedAt(t)
 	return jpuo

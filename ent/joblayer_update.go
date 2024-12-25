@@ -184,13 +184,13 @@ func (jlu *JobLayerUpdate) ClearMonthResult() *JobLayerUpdate {
 	return jlu
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jlu *JobLayerUpdate) SetCreatedAt(t time.Time) *JobLayerUpdate {
 	jlu.mutation.SetCreatedAt(t)
 	return jlu
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jlu *JobLayerUpdate) SetNillableCreatedAt(t *time.Time) *JobLayerUpdate {
 	if t != nil {
 		jlu.SetCreatedAt(*t)
@@ -198,7 +198,7 @@ func (jlu *JobLayerUpdate) SetNillableCreatedAt(t *time.Time) *JobLayerUpdate {
 	return jlu
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jlu *JobLayerUpdate) SetUpdatedAt(t time.Time) *JobLayerUpdate {
 	jlu.mutation.SetUpdatedAt(t)
 	return jlu
@@ -534,13 +534,13 @@ func (jluo *JobLayerUpdateOne) ClearMonthResult() *JobLayerUpdateOne {
 	return jluo
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jluo *JobLayerUpdateOne) SetCreatedAt(t time.Time) *JobLayerUpdateOne {
 	jluo.mutation.SetCreatedAt(t)
 	return jluo
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jluo *JobLayerUpdateOne) SetNillableCreatedAt(t *time.Time) *JobLayerUpdateOne {
 	if t != nil {
 		jluo.SetCreatedAt(*t)
@@ -548,7 +548,7 @@ func (jluo *JobLayerUpdateOne) SetNillableCreatedAt(t *time.Time) *JobLayerUpdat
 	return jluo
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jluo *JobLayerUpdateOne) SetUpdatedAt(t time.Time) *JobLayerUpdateOne {
 	jluo.mutation.SetUpdatedAt(t)
 	return jluo

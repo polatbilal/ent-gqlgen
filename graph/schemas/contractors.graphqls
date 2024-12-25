@@ -10,6 +10,7 @@ type JobContractor {
   Phone: String
   Email: String
   Note: String
+  Deleted: Int
 }
 
 input JobContractorInput {
@@ -22,6 +23,7 @@ input JobContractorInput {
   Phone: String
   Email: String
   Note: String
+  Deleted: Int
 }
 
 extend type Query {

@@ -224,6 +224,33 @@ func (jcu *JobContractorUpdate) ClearNote() *JobContractorUpdate {
 	return jcu
 }
 
+// SetDeleted sets the "Deleted" field.
+func (jcu *JobContractorUpdate) SetDeleted(i int) *JobContractorUpdate {
+	jcu.mutation.ResetDeleted()
+	jcu.mutation.SetDeleted(i)
+	return jcu
+}
+
+// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
+func (jcu *JobContractorUpdate) SetNillableDeleted(i *int) *JobContractorUpdate {
+	if i != nil {
+		jcu.SetDeleted(*i)
+	}
+	return jcu
+}
+
+// AddDeleted adds i to the "Deleted" field.
+func (jcu *JobContractorUpdate) AddDeleted(i int) *JobContractorUpdate {
+	jcu.mutation.AddDeleted(i)
+	return jcu
+}
+
+// ClearDeleted clears the value of the "Deleted" field.
+func (jcu *JobContractorUpdate) ClearDeleted() *JobContractorUpdate {
+	jcu.mutation.ClearDeleted()
+	return jcu
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (jcu *JobContractorUpdate) SetCreatedAt(t time.Time) *JobContractorUpdate {
 	jcu.mutation.SetCreatedAt(t)
@@ -389,6 +416,15 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	}
 	if jcu.mutation.NoteCleared() {
 		_spec.ClearField(jobcontractor.FieldNote, field.TypeString)
+	}
+	if value, ok := jcu.mutation.Deleted(); ok {
+		_spec.SetField(jobcontractor.FieldDeleted, field.TypeInt, value)
+	}
+	if value, ok := jcu.mutation.AddedDeleted(); ok {
+		_spec.AddField(jobcontractor.FieldDeleted, field.TypeInt, value)
+	}
+	if jcu.mutation.DeletedCleared() {
+		_spec.ClearField(jobcontractor.FieldDeleted, field.TypeInt)
 	}
 	if value, ok := jcu.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)
@@ -656,6 +692,33 @@ func (jcuo *JobContractorUpdateOne) ClearNote() *JobContractorUpdateOne {
 	return jcuo
 }
 
+// SetDeleted sets the "Deleted" field.
+func (jcuo *JobContractorUpdateOne) SetDeleted(i int) *JobContractorUpdateOne {
+	jcuo.mutation.ResetDeleted()
+	jcuo.mutation.SetDeleted(i)
+	return jcuo
+}
+
+// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
+func (jcuo *JobContractorUpdateOne) SetNillableDeleted(i *int) *JobContractorUpdateOne {
+	if i != nil {
+		jcuo.SetDeleted(*i)
+	}
+	return jcuo
+}
+
+// AddDeleted adds i to the "Deleted" field.
+func (jcuo *JobContractorUpdateOne) AddDeleted(i int) *JobContractorUpdateOne {
+	jcuo.mutation.AddDeleted(i)
+	return jcuo
+}
+
+// ClearDeleted clears the value of the "Deleted" field.
+func (jcuo *JobContractorUpdateOne) ClearDeleted() *JobContractorUpdateOne {
+	jcuo.mutation.ClearDeleted()
+	return jcuo
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (jcuo *JobContractorUpdateOne) SetCreatedAt(t time.Time) *JobContractorUpdateOne {
 	jcuo.mutation.SetCreatedAt(t)
@@ -851,6 +914,15 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 	}
 	if jcuo.mutation.NoteCleared() {
 		_spec.ClearField(jobcontractor.FieldNote, field.TypeString)
+	}
+	if value, ok := jcuo.mutation.Deleted(); ok {
+		_spec.SetField(jobcontractor.FieldDeleted, field.TypeInt, value)
+	}
+	if value, ok := jcuo.mutation.AddedDeleted(); ok {
+		_spec.AddField(jobcontractor.FieldDeleted, field.TypeInt, value)
+	}
+	if jcuo.mutation.DeletedCleared() {
+		_spec.ClearField(jobcontractor.FieldDeleted, field.TypeInt)
 	}
 	if value, ok := jcuo.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)

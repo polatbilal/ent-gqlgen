@@ -256,6 +256,18 @@ func (jd *JobDetail) Layers(ctx context.Context) (result []*JobLayer, err error)
 	return result, err
 }
 
+func (jd *JobDetail) Payments(ctx context.Context) (result []*JobPayments, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = jd.NamedPayments(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = jd.Edges.PaymentsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = jd.QueryPayments().All(ctx)
+	}
+	return result, err
+}
+
 func (jl *JobLayer) Layer(ctx context.Context) (*JobDetail, error) {
 	result, err := jl.Edges.LayerOrErr()
 	if IsNotLoaded(err) {
@@ -274,6 +286,14 @@ func (jo *JobOwner) Owners(ctx context.Context) (result []*JobDetail, err error)
 		result, err = jo.QueryOwners().All(ctx)
 	}
 	return result, err
+}
+
+func (jp *JobPayments) Payments(ctx context.Context) (*JobDetail, error) {
+	result, err := jp.Edges.PaymentsOrErr()
+	if IsNotLoaded(err) {
+		result, err = jp.QueryPayments().Only(ctx)
+	}
+	return result, MaskNotFound(err)
 }
 
 func (jp *JobProgress) Progress(ctx context.Context) (result []*JobDetail, err error) {

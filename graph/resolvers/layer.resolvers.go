@@ -13,6 +13,7 @@ import (
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
+	"gqlgen-ent/tools"
 	"strconv"
 	"strings"
 	"time"
@@ -47,22 +48,14 @@ func (r *mutationResolver) CreateLayer(ctx context.Context, input model.JobLayer
 	// panic(fmt.Errorf("not implemented: CreateLayer - createLayer"))
 	client := middlewares.GetClientFromContext(ctx)
 
-	var moldDatePtr *time.Time
-	if input.MoldDate != nil {
-		parsedDate, err := time.Parse("2006-01-02", *input.MoldDate)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse contract date: %v", err)
-		}
-		moldDatePtr = &parsedDate
+	moldDatePtr, err := tools.ParseDate(input.MoldDate)
+	if err != nil {
+		return nil, fmt.Errorf("mold date dönüşüm hatası: %v", err)
 	}
 
-	var concreteDatePtr *time.Time
-	if input.ConcreteDate != nil {
-		parsedDate, err := time.Parse("2006-01-02", *input.ConcreteDate)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse start date: %v", err)
-		}
-		concreteDatePtr = &parsedDate
+	concreteDatePtr, err := tools.ParseDate(input.ConcreteDate)
+	if err != nil {
+		return nil, fmt.Errorf("concrete date dönüşüm hatası: %v", err)
 	}
 
 	uppercaseName := strings.ToUpper(*input.Name)

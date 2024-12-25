@@ -12,6 +12,7 @@ import (
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/joblayer"
 	"gqlgen-ent/ent/jobowner"
+	"gqlgen-ent/ent/jobpayments"
 	"gqlgen-ent/ent/jobprogress"
 	"gqlgen-ent/ent/predicate"
 	"time"
@@ -213,6 +214,26 @@ func (jdu *JobDetailUpdate) SetNillableContractDate(t *time.Time) *JobDetailUpda
 // ClearContractDate clears the value of the "ContractDate" field.
 func (jdu *JobDetailUpdate) ClearContractDate() *JobDetailUpdate {
 	jdu.mutation.ClearContractDate()
+	return jdu
+}
+
+// SetCompletionDate sets the "CompletionDate" field.
+func (jdu *JobDetailUpdate) SetCompletionDate(t time.Time) *JobDetailUpdate {
+	jdu.mutation.SetCompletionDate(t)
+	return jdu
+}
+
+// SetNillableCompletionDate sets the "CompletionDate" field if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableCompletionDate(t *time.Time) *JobDetailUpdate {
+	if t != nil {
+		jdu.SetCompletionDate(*t)
+	}
+	return jdu
+}
+
+// ClearCompletionDate clears the value of the "CompletionDate" field.
+func (jdu *JobDetailUpdate) ClearCompletionDate() *JobDetailUpdate {
+	jdu.mutation.ClearCompletionDate()
 	return jdu
 }
 
@@ -545,13 +566,13 @@ func (jdu *JobDetailUpdate) AddDeleted(i int) *JobDetailUpdate {
 	return jdu
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jdu *JobDetailUpdate) SetCreatedAt(t time.Time) *JobDetailUpdate {
 	jdu.mutation.SetCreatedAt(t)
 	return jdu
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jdu *JobDetailUpdate) SetNillableCreatedAt(t *time.Time) *JobDetailUpdate {
 	if t != nil {
 		jdu.SetCreatedAt(*t)
@@ -559,7 +580,7 @@ func (jdu *JobDetailUpdate) SetNillableCreatedAt(t *time.Time) *JobDetailUpdate 
 	return jdu
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jdu *JobDetailUpdate) SetUpdatedAt(t time.Time) *JobDetailUpdate {
 	jdu.mutation.SetUpdatedAt(t)
 	return jdu
@@ -808,6 +829,21 @@ func (jdu *JobDetailUpdate) AddLayers(j ...*JobLayer) *JobDetailUpdate {
 	return jdu.AddLayerIDs(ids...)
 }
 
+// AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
+func (jdu *JobDetailUpdate) AddPaymentIDs(ids ...int) *JobDetailUpdate {
+	jdu.mutation.AddPaymentIDs(ids...)
+	return jdu
+}
+
+// AddPayments adds the "payments" edges to the JobPayments entity.
+func (jdu *JobDetailUpdate) AddPayments(j ...*JobPayments) *JobDetailUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jdu.AddPaymentIDs(ids...)
+}
+
 // Mutation returns the JobDetailMutation object of the builder.
 func (jdu *JobDetailUpdate) Mutation() *JobDetailMutation {
 	return jdu.mutation
@@ -904,6 +940,27 @@ func (jdu *JobDetailUpdate) RemoveLayers(j ...*JobLayer) *JobDetailUpdate {
 		ids[i] = j[i].ID
 	}
 	return jdu.RemoveLayerIDs(ids...)
+}
+
+// ClearPayments clears all "payments" edges to the JobPayments entity.
+func (jdu *JobDetailUpdate) ClearPayments() *JobDetailUpdate {
+	jdu.mutation.ClearPayments()
+	return jdu
+}
+
+// RemovePaymentIDs removes the "payments" edge to JobPayments entities by IDs.
+func (jdu *JobDetailUpdate) RemovePaymentIDs(ids ...int) *JobDetailUpdate {
+	jdu.mutation.RemovePaymentIDs(ids...)
+	return jdu
+}
+
+// RemovePayments removes "payments" edges to JobPayments entities.
+func (jdu *JobDetailUpdate) RemovePayments(j ...*JobPayments) *JobDetailUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jdu.RemovePaymentIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -1017,6 +1074,12 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if jdu.mutation.ContractDateCleared() {
 		_spec.ClearField(jobdetail.FieldContractDate, field.TypeTime)
+	}
+	if value, ok := jdu.mutation.CompletionDate(); ok {
+		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)
+	}
+	if jdu.mutation.CompletionDateCleared() {
+		_spec.ClearField(jobdetail.FieldCompletionDate, field.TypeTime)
 	}
 	if value, ok := jdu.mutation.StartDate(); ok {
 		_spec.SetField(jobdetail.FieldStartDate, field.TypeTime, value)
@@ -1516,6 +1579,51 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if jdu.mutation.PaymentsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobdetail.PaymentsTable,
+			Columns: []string{jobdetail.PaymentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jdu.mutation.RemovedPaymentsIDs(); len(nodes) > 0 && !jdu.mutation.PaymentsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobdetail.PaymentsTable,
+			Columns: []string{jobdetail.PaymentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jdu.mutation.PaymentsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobdetail.PaymentsTable,
+			Columns: []string{jobdetail.PaymentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, jdu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobdetail.Label}
@@ -1715,6 +1823,26 @@ func (jduo *JobDetailUpdateOne) SetNillableContractDate(t *time.Time) *JobDetail
 // ClearContractDate clears the value of the "ContractDate" field.
 func (jduo *JobDetailUpdateOne) ClearContractDate() *JobDetailUpdateOne {
 	jduo.mutation.ClearContractDate()
+	return jduo
+}
+
+// SetCompletionDate sets the "CompletionDate" field.
+func (jduo *JobDetailUpdateOne) SetCompletionDate(t time.Time) *JobDetailUpdateOne {
+	jduo.mutation.SetCompletionDate(t)
+	return jduo
+}
+
+// SetNillableCompletionDate sets the "CompletionDate" field if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableCompletionDate(t *time.Time) *JobDetailUpdateOne {
+	if t != nil {
+		jduo.SetCompletionDate(*t)
+	}
+	return jduo
+}
+
+// ClearCompletionDate clears the value of the "CompletionDate" field.
+func (jduo *JobDetailUpdateOne) ClearCompletionDate() *JobDetailUpdateOne {
+	jduo.mutation.ClearCompletionDate()
 	return jduo
 }
 
@@ -2047,13 +2175,13 @@ func (jduo *JobDetailUpdateOne) AddDeleted(i int) *JobDetailUpdateOne {
 	return jduo
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jduo *JobDetailUpdateOne) SetCreatedAt(t time.Time) *JobDetailUpdateOne {
 	jduo.mutation.SetCreatedAt(t)
 	return jduo
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jduo *JobDetailUpdateOne) SetNillableCreatedAt(t *time.Time) *JobDetailUpdateOne {
 	if t != nil {
 		jduo.SetCreatedAt(*t)
@@ -2061,7 +2189,7 @@ func (jduo *JobDetailUpdateOne) SetNillableCreatedAt(t *time.Time) *JobDetailUpd
 	return jduo
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jduo *JobDetailUpdateOne) SetUpdatedAt(t time.Time) *JobDetailUpdateOne {
 	jduo.mutation.SetUpdatedAt(t)
 	return jduo
@@ -2310,6 +2438,21 @@ func (jduo *JobDetailUpdateOne) AddLayers(j ...*JobLayer) *JobDetailUpdateOne {
 	return jduo.AddLayerIDs(ids...)
 }
 
+// AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
+func (jduo *JobDetailUpdateOne) AddPaymentIDs(ids ...int) *JobDetailUpdateOne {
+	jduo.mutation.AddPaymentIDs(ids...)
+	return jduo
+}
+
+// AddPayments adds the "payments" edges to the JobPayments entity.
+func (jduo *JobDetailUpdateOne) AddPayments(j ...*JobPayments) *JobDetailUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jduo.AddPaymentIDs(ids...)
+}
+
 // Mutation returns the JobDetailMutation object of the builder.
 func (jduo *JobDetailUpdateOne) Mutation() *JobDetailMutation {
 	return jduo.mutation
@@ -2406,6 +2549,27 @@ func (jduo *JobDetailUpdateOne) RemoveLayers(j ...*JobLayer) *JobDetailUpdateOne
 		ids[i] = j[i].ID
 	}
 	return jduo.RemoveLayerIDs(ids...)
+}
+
+// ClearPayments clears all "payments" edges to the JobPayments entity.
+func (jduo *JobDetailUpdateOne) ClearPayments() *JobDetailUpdateOne {
+	jduo.mutation.ClearPayments()
+	return jduo
+}
+
+// RemovePaymentIDs removes the "payments" edge to JobPayments entities by IDs.
+func (jduo *JobDetailUpdateOne) RemovePaymentIDs(ids ...int) *JobDetailUpdateOne {
+	jduo.mutation.RemovePaymentIDs(ids...)
+	return jduo
+}
+
+// RemovePayments removes "payments" edges to JobPayments entities.
+func (jduo *JobDetailUpdateOne) RemovePayments(j ...*JobPayments) *JobDetailUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jduo.RemovePaymentIDs(ids...)
 }
 
 // Where appends a list predicates to the JobDetailUpdate builder.
@@ -2549,6 +2713,12 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	}
 	if jduo.mutation.ContractDateCleared() {
 		_spec.ClearField(jobdetail.FieldContractDate, field.TypeTime)
+	}
+	if value, ok := jduo.mutation.CompletionDate(); ok {
+		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)
+	}
+	if jduo.mutation.CompletionDateCleared() {
+		_spec.ClearField(jobdetail.FieldCompletionDate, field.TypeTime)
 	}
 	if value, ok := jduo.mutation.StartDate(); ok {
 		_spec.SetField(jobdetail.FieldStartDate, field.TypeTime, value)
@@ -3041,6 +3211,51 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if jduo.mutation.PaymentsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobdetail.PaymentsTable,
+			Columns: []string{jobdetail.PaymentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jduo.mutation.RemovedPaymentsIDs(); len(nodes) > 0 && !jduo.mutation.PaymentsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobdetail.PaymentsTable,
+			Columns: []string{jobdetail.PaymentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jduo.mutation.PaymentsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobdetail.PaymentsTable,
+			Columns: []string{jobdetail.PaymentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

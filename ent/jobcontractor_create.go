@@ -147,6 +147,20 @@ func (jcc *JobContractorCreate) SetNillableNote(s *string) *JobContractorCreate 
 	return jcc
 }
 
+// SetDeleted sets the "Deleted" field.
+func (jcc *JobContractorCreate) SetDeleted(i int) *JobContractorCreate {
+	jcc.mutation.SetDeleted(i)
+	return jcc
+}
+
+// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
+func (jcc *JobContractorCreate) SetNillableDeleted(i *int) *JobContractorCreate {
+	if i != nil {
+		jcc.SetDeleted(*i)
+	}
+	return jcc
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (jcc *JobContractorCreate) SetCreatedAt(t time.Time) *JobContractorCreate {
 	jcc.mutation.SetCreatedAt(t)
@@ -228,6 +242,10 @@ func (jcc *JobContractorCreate) defaults() {
 	if _, ok := jcc.mutation.Name(); !ok {
 		v := jobcontractor.DefaultName
 		jcc.mutation.SetName(v)
+	}
+	if _, ok := jcc.mutation.Deleted(); !ok {
+		v := jobcontractor.DefaultDeleted
+		jcc.mutation.SetDeleted(v)
 	}
 	if _, ok := jcc.mutation.CreatedAt(); !ok {
 		v := jobcontractor.DefaultCreatedAt()
@@ -311,6 +329,10 @@ func (jcc *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSp
 	if value, ok := jcc.mutation.Note(); ok {
 		_spec.SetField(jobcontractor.FieldNote, field.TypeString, value)
 		_node.Note = value
+	}
+	if value, ok := jcc.mutation.Deleted(); ok {
+		_spec.SetField(jobcontractor.FieldDeleted, field.TypeInt, value)
+		_node.Deleted = value
 	}
 	if value, ok := jcc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)

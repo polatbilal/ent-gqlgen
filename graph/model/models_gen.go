@@ -6,7 +6,9 @@ type AuthPayload struct {
 	Token       string `json:"token"`
 	UserID      string `json:"userID"`
 	Username    string `json:"username"`
+	Name        string `json:"name"`
 	CompanyCode string `json:"companyCode"`
+	Role        string `json:"role"`
 }
 
 type CompanyDetailInput struct {
@@ -69,6 +71,7 @@ type JobContractorInput struct {
 	Phone      *string `json:"Phone,omitempty"`
 	Email      *string `json:"Email,omitempty"`
 	Note       *string `json:"Note,omitempty"`
+	Deleted    *int    `json:"Deleted,omitempty"`
 }
 
 type JobInput struct {
@@ -82,6 +85,7 @@ type JobInput struct {
 	Status             *int                  `json:"Status,omitempty"`
 	ContractDate       *string               `json:"ContractDate,omitempty"`
 	StartDate          *string               `json:"StartDate,omitempty"`
+	CompletionDate     *string               `json:"CompletionDate,omitempty"`
 	LicenseDate        *string               `json:"LicenseDate,omitempty"`
 	LicenseNo          *string               `json:"LicenseNo,omitempty"`
 	ConstructionArea   *string               `json:"ConstructionArea,omitempty"`
@@ -132,6 +136,15 @@ type JobOwnerInput struct {
 	Phone    *string `json:"Phone,omitempty"`
 	Email    *string `json:"Email,omitempty"`
 	Note     *string `json:"Note,omitempty"`
+	Deleted  *int    `json:"Deleted,omitempty"`
+}
+
+type JobPaymentsInput struct {
+	Date        *string  `json:"Date,omitempty"`
+	Amount      *int     `json:"Amount,omitempty"`
+	Description *string  `json:"Description,omitempty"`
+	Status      *string  `json:"Status,omitempty"`
+	Percentage  *float64 `json:"Percentage,omitempty"`
 }
 
 type JobProgressInput struct {
@@ -146,4 +159,13 @@ type JobProgressInput struct {
 type LayerFilterInput struct {
 	ID     *int `json:"id,omitempty"`
 	YibfNo *int `json:"yibfNo,omitempty"`
+}
+
+type UserInput struct {
+	Username string `json:"username"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Phone    int    `json:"phone"`
+	Password string `json:"password"`
+	Role     string `json:"role"`
 }

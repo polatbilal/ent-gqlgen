@@ -32,6 +32,8 @@ const (
 	FieldStatus = "status"
 	// FieldContractDate holds the string denoting the contractdate field in the database.
 	FieldContractDate = "contract_date"
+	// FieldCompletionDate holds the string denoting the completiondate field in the database.
+	FieldCompletionDate = "completion_date"
 	// FieldStartDate holds the string denoting the startdate field in the database.
 	FieldStartDate = "start_date"
 	// FieldLicenseDate holds the string denoting the licensedate field in the database.
@@ -64,9 +66,9 @@ const (
 	FieldStarted = "started"
 	// FieldDeleted holds the string denoting the deleted field in the database.
 	FieldDeleted = "deleted"
-	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
-	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
+	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
 	// EdgeOwner holds the string denoting the owner edge name in mutations.
 	EdgeOwner = "owner"
@@ -94,6 +96,8 @@ const (
 	EdgeElectriccontroller = "electriccontroller"
 	// EdgeLayers holds the string denoting the layers edge name in mutations.
 	EdgeLayers = "layers"
+	// EdgePayments holds the string denoting the payments edge name in mutations.
+	EdgePayments = "payments"
 	// Table holds the table name of the jobdetail in the database.
 	Table = "job_details"
 	// OwnerTable is the table that holds the owner relation/edge.
@@ -187,6 +191,13 @@ const (
 	LayersInverseTable = "job_layers"
 	// LayersColumn is the table column denoting the layers relation/edge.
 	LayersColumn = "job_id"
+	// PaymentsTable is the table that holds the payments relation/edge.
+	PaymentsTable = "job_payments"
+	// PaymentsInverseTable is the table name for the JobPayments entity.
+	// It exists in this package in order to avoid circular dependency with the "jobpayments" package.
+	PaymentsInverseTable = "job_payments"
+	// PaymentsColumn is the table column denoting the payments relation/edge.
+	PaymentsColumn = "payments_id"
 )
 
 // Columns holds all SQL columns for jobdetail fields.
@@ -201,6 +212,7 @@ var Columns = []string{
 	FieldFolderNo,
 	FieldStatus,
 	FieldContractDate,
+	FieldCompletionDate,
 	FieldStartDate,
 	FieldLicenseDate,
 	FieldLicenseNo,
@@ -290,11 +302,11 @@ var (
 	DefaultStarted int
 	// DefaultDeleted holds the default value on creation for the "Deleted" field.
 	DefaultDeleted int
-	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
+	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
-	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
+	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
 	DefaultUpdatedAt func() time.Time
-	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
+	// UpdateDefaultUpdatedAt holds the default value on update for the "UpdatedAt" field.
 	UpdateDefaultUpdatedAt func() time.Time
 )
 
@@ -349,6 +361,11 @@ func ByStatus(opts ...sql.OrderTermOption) OrderOption {
 // ByContractDate orders the results by the ContractDate field.
 func ByContractDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldContractDate, opts...).ToFunc()
+}
+
+// ByCompletionDate orders the results by the CompletionDate field.
+func ByCompletionDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCompletionDate, opts...).ToFunc()
 }
 
 // ByStartDate orders the results by the StartDate field.
@@ -431,12 +448,12 @@ func ByDeleted(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDeleted, opts...).ToFunc()
 }
 
-// ByCreatedAt orders the results by the created_at field.
+// ByCreatedAt orders the results by the CreatedAt field.
 func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
-// ByUpdatedAt orders the results by the updated_at field.
+// ByUpdatedAt orders the results by the UpdatedAt field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
@@ -538,6 +555,20 @@ func ByLayers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newLayersStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByPaymentsCount orders the results by payments count.
+func ByPaymentsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newPaymentsStep(), opts...)
+	}
+}
+
+// ByPayments orders the results by payments terms.
+func ByPayments(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newPaymentsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newOwnerStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -627,5 +658,12 @@ func newLayersStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(LayersInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, LayersTable, LayersColumn),
+	)
+}
+func newPaymentsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(PaymentsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, PaymentsTable, PaymentsColumn),
 	)
 }

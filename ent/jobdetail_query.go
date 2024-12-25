@@ -12,6 +12,7 @@ import (
 	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/joblayer"
 	"gqlgen-ent/ent/jobowner"
+	"gqlgen-ent/ent/jobpayments"
 	"gqlgen-ent/ent/jobprogress"
 	"gqlgen-ent/ent/predicate"
 	"math"
@@ -42,10 +43,12 @@ type JobDetailQuery struct {
 	withMechaniccontroller *CompanyEngineerQuery
 	withElectriccontroller *CompanyEngineerQuery
 	withLayers             *JobLayerQuery
+	withPayments           *JobPaymentsQuery
 	withFKs                bool
 	modifiers              []func(*sql.Selector)
 	loadTotal              []func(context.Context, []*JobDetail) error
 	withNamedLayers        map[string]*JobLayerQuery
+	withNamedPayments      map[string]*JobPaymentsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -368,6 +371,28 @@ func (jdq *JobDetailQuery) QueryLayers() *JobLayerQuery {
 	return query
 }
 
+// QueryPayments chains the current query on the "payments" edge.
+func (jdq *JobDetailQuery) QueryPayments() *JobPaymentsQuery {
+	query := (&JobPaymentsClient{config: jdq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := jdq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := jdq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, selector),
+			sqlgraph.To(jobpayments.Table, jobpayments.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, jobdetail.PaymentsTable, jobdetail.PaymentsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(jdq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
 // First returns the first JobDetail entity from the query.
 // Returns a *NotFoundError when no JobDetail was found.
 func (jdq *JobDetailQuery) First(ctx context.Context) (*JobDetail, error) {
@@ -573,6 +598,7 @@ func (jdq *JobDetailQuery) Clone() *JobDetailQuery {
 		withMechaniccontroller: jdq.withMechaniccontroller.Clone(),
 		withElectriccontroller: jdq.withElectriccontroller.Clone(),
 		withLayers:             jdq.withLayers.Clone(),
+		withPayments:           jdq.withPayments.Clone(),
 		// clone intermediate query.
 		sql:  jdq.sql.Clone(),
 		path: jdq.path,
@@ -722,6 +748,17 @@ func (jdq *JobDetailQuery) WithLayers(opts ...func(*JobLayerQuery)) *JobDetailQu
 	return jdq
 }
 
+// WithPayments tells the query-builder to eager-load the nodes that are connected to
+// the "payments" edge. The optional arguments are used to configure the query builder of the edge.
+func (jdq *JobDetailQuery) WithPayments(opts ...func(*JobPaymentsQuery)) *JobDetailQuery {
+	query := (&JobPaymentsClient{config: jdq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	jdq.withPayments = query
+	return jdq
+}
+
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -801,7 +838,7 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 		nodes       = []*JobDetail{}
 		withFKs     = jdq.withFKs
 		_spec       = jdq.querySpec()
-		loadedTypes = [13]bool{
+		loadedTypes = [14]bool{
 			jdq.withOwner != nil,
 			jdq.withContractor != nil,
 			jdq.withAuthor != nil,
@@ -815,6 +852,7 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 			jdq.withMechaniccontroller != nil,
 			jdq.withElectriccontroller != nil,
 			jdq.withLayers != nil,
+			jdq.withPayments != nil,
 		}
 	)
 	if jdq.withOwner != nil || jdq.withContractor != nil || jdq.withAuthor != nil || jdq.withProgress != nil || jdq.withInspector != nil || jdq.withArchitect != nil || jdq.withStatic != nil || jdq.withMechanic != nil || jdq.withElectric != nil || jdq.withController != nil || jdq.withMechaniccontroller != nil || jdq.withElectriccontroller != nil {
@@ -923,10 +961,24 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 			return nil, err
 		}
 	}
+	if query := jdq.withPayments; query != nil {
+		if err := jdq.loadPayments(ctx, query, nodes,
+			func(n *JobDetail) { n.Edges.Payments = []*JobPayments{} },
+			func(n *JobDetail, e *JobPayments) { n.Edges.Payments = append(n.Edges.Payments, e) }); err != nil {
+			return nil, err
+		}
+	}
 	for name, query := range jdq.withNamedLayers {
 		if err := jdq.loadLayers(ctx, query, nodes,
 			func(n *JobDetail) { n.appendNamedLayers(name) },
 			func(n *JobDetail, e *JobLayer) { n.appendNamedLayers(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range jdq.withNamedPayments {
+		if err := jdq.loadPayments(ctx, query, nodes,
+			func(n *JobDetail) { n.appendNamedPayments(name) },
+			func(n *JobDetail, e *JobPayments) { n.appendNamedPayments(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -1353,6 +1405,37 @@ func (jdq *JobDetailQuery) loadLayers(ctx context.Context, query *JobLayerQuery,
 	}
 	return nil
 }
+func (jdq *JobDetailQuery) loadPayments(ctx context.Context, query *JobPaymentsQuery, nodes []*JobDetail, init func(*JobDetail), assign func(*JobDetail, *JobPayments)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*JobDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.JobPayments(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(jobdetail.PaymentsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.payments_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "payments_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "payments_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
 
 func (jdq *JobDetailQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jdq.querySpec()
@@ -1449,6 +1532,20 @@ func (jdq *JobDetailQuery) WithNamedLayers(name string, opts ...func(*JobLayerQu
 		jdq.withNamedLayers = make(map[string]*JobLayerQuery)
 	}
 	jdq.withNamedLayers[name] = query
+	return jdq
+}
+
+// WithNamedPayments tells the query-builder to eager-load the nodes that are connected to the "payments"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (jdq *JobDetailQuery) WithNamedPayments(name string, opts ...func(*JobPaymentsQuery)) *JobDetailQuery {
+	query := (&JobPaymentsClient{config: jdq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if jdq.withNamedPayments == nil {
+		jdq.withNamedPayments = make(map[string]*JobPaymentsQuery)
+	}
+	jdq.withNamedPayments[name] = query
 	return jdq
 }
 

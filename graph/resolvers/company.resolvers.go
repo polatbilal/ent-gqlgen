@@ -13,7 +13,7 @@ import (
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
-	"time"
+	"gqlgen-ent/tools"
 )
 
 // VisaDate is the resolver for the VisaDate field.
@@ -38,9 +38,9 @@ func (r *companyDetailResolver) Owner(ctx context.Context, obj *ent.CompanyDetai
 // UpdateCompany is the resolver for the updateCompany field.
 func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	visaDate, err := time.Parse("2006-01-02", *input.VisaDate)
+	visaDatePtr, err := tools.ParseDate(input.VisaDate)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse contract date: %v", err)
+		return nil, fmt.Errorf("visa date dönüşüm hatası: %v", err)
 	}
 
 	updatedCompany, err := client.CompanyDetail.UpdateOneID(1).
@@ -57,7 +57,7 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 		SetTaxNo(*input.TaxNo).
 		SetCommerce(*input.Commerce).
 		SetCommerceReg(*input.CommerceReg).
-		SetVisaDate(visaDate).
+		SetVisaDate(*visaDatePtr).
 		SetCompanyOwnerID(*input.OwnerID).
 		Save(ctx)
 
