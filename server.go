@@ -10,6 +10,7 @@ import (
 	"gqlgen-ent/middlewares"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -23,15 +24,26 @@ import (
 func main() {
 	r := gin.Default()
 
+	// CORS ayarlarını middleware'den önce yapılandırın
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true // Tüm originlere izin ver
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
+	config.AllowHeaders = []string{
+		"Origin",
+		"Content-Length",
+		"Content-Type",
+		"Authorization",
+		"Accept",
+		"X-Requested-With",
+		"Access-Control-Allow-Origin",
+		"Access-Control-Allow-Headers",
+		"Access-Control-Allow-Methods",
+	}
+	config.ExposeHeaders = []string{"Authorization", "Content-Length"}
+	config.MaxAge = 12 * time.Hour
+
+	r.Use(cors.New(config))
 	r.Use(middlewares.AuthMiddleware())
-	// CORS ayarları
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
-		ExposeHeaders:    []string{"Authorization"},
-		AllowCredentials: false,
-	}))
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
@@ -67,18 +79,34 @@ func main() {
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))
 	{
 		r.POST("/graphql", func(c *gin.Context) {
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+
+			if c.Request.Method == "OPTIONS" {
+				c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+				c.Writer.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
+				c.Writer.Header().Set("Access-Control-Max-Age", "86400")
+				c.AbortWithStatus(http.StatusNoContent)
+				return
+			}
+
 			srv.ServeHTTP(c.Writer, c.Request)
 
 			// Handler'ın döndürdüğü hata nesnesini al
 			err := c.Errors.Last()
 			if err != nil {
-				// GQLGen'den gelen hata varsa işle
+				log.Printf("GraphQL Error: %v\n", err)
+
 				gqlErr, ok := err.Err.(gqlerror.List)
 				if ok && len(gqlErr) > 0 {
-					// İlk hatayı al ve isteğe özel yanıt döndür
-					c.String(http.StatusInternalServerError, gqlErr[0].Message)
+					c.JSON(http.StatusBadRequest, gin.H{
+						"errors": gqlErr,
+					})
 					return
 				}
+
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"error": err.Error(),
+				})
 			}
 		})
 
@@ -87,5 +115,13 @@ func main() {
 		})
 	}
 
-	r.Run("127.0.0.1:4000")
+	r.OPTIONS("/*path", func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
+		c.Writer.Header().Set("Access-Control-Max-Age", "86400")
+		c.AbortWithStatus(http.StatusNoContent)
+	})
+
+	r.Run(":4000")
 }

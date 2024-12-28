@@ -29,7 +29,7 @@ input LayerFilterInput {
 }
 
 extend type Query {
-  layer(filter: LayerFilterInput): [JobLayer!]!
+  Layer(filter: LayerFilterInput): [JobLayer!]!
     @goField(forceResolver: true)
     @auth
 }

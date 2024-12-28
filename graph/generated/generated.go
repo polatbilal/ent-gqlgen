@@ -1558,12 +1558,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Jobs(childComplexity), true
 
-	case "Query.layer":
+	case "Query.Layer":
 		if e.complexity.Query.Layer == nil {
 			break
 		}
 
-		args, err := ec.field_Query_layer_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_Layer_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
@@ -2097,7 +2097,7 @@ input LayerFilterInput {
 }
 
 extend type Query {
-  layer(filter: LayerFilterInput): [JobLayer!]!
+  Layer(filter: LayerFilterInput): [JobLayer!]!
     @goField(forceResolver: true)
     @auth
 }
@@ -3197,6 +3197,38 @@ func (ec *executionContext) field_Mutation_updateUser_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_Layer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_Layer_argsFilter(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["filter"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_Layer_argsFilter(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*model.LayerFilterInput, error) {
+	// We won't call the directive if the argument is null.
+	// Set call_argument_directives_with_null to true to call directives
+	// even if the argument is null.
+	_, ok := rawArgs["filter"]
+	if !ok {
+		var zeroVal *model.LayerFilterInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+	if tmp, ok := rawArgs["filter"]; ok {
+		return ec.unmarshalOLayerFilterInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐLayerFilterInput(ctx, tmp)
+	}
+
+	var zeroVal *model.LayerFilterInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3322,38 +3354,6 @@ func (ec *executionContext) field_Query_job_argsYibfNo(
 	}
 
 	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Query_layer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Query_layer_argsFilter(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["filter"] = arg0
-	return args, nil
-}
-func (ec *executionContext) field_Query_layer_argsFilter(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*model.LayerFilterInput, error) {
-	// We won't call the directive if the argument is null.
-	// Set call_argument_directives_with_null to true to call directives
-	// even if the argument is null.
-	_, ok := rawArgs["filter"]
-	if !ok {
-		var zeroVal *model.LayerFilterInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
-	if tmp, ok := rawArgs["filter"]; ok {
-		return ec.unmarshalOLayerFilterInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐLayerFilterInput(ctx, tmp)
-	}
-
-	var zeroVal *model.LayerFilterInput
 	return zeroVal, nil
 }
 
@@ -11854,8 +11854,8 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_layer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_layer(ctx, field)
+func (ec *executionContext) _Query_Layer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_Layer(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -11907,7 +11907,7 @@ func (ec *executionContext) _Query_layer(ctx context.Context, field graphql.Coll
 	return ec.marshalNJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayerᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_layer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_Layer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -11946,7 +11946,7 @@ func (ec *executionContext) fieldContext_Query_layer(ctx context.Context, field 
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_layer_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_Layer_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -17427,7 +17427,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "layer":
+		case "Layer":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -17436,7 +17436,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_layer(ctx, field)
+				res = ec._Query_Layer(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
