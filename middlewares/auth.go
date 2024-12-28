@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"gqlgen-ent/database"
 	"gqlgen-ent/ent"
-	"gqlgen-ent/service"
+	"gqlgen-ent/services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
@@ -50,7 +50,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		validate, err := service.JwtValidate(c.Request.Context(), auth)
+		validate, err := services.JwtValidate(c.Request.Context(), auth)
 		if err != nil {
 			c.JSON(403, map[string]string{
 				"error": "Invalid token",
@@ -59,7 +59,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		costumClaim, _ := validate.Claims.(*service.JwtCustomClaim)
+		costumClaim, _ := validate.Claims.(*services.JwtCustomClaim)
 
 		// Veritabanına bağlan
 		client, err := database.GetClient(costumClaim.CompanyCode)
@@ -78,8 +78,8 @@ func AuthMiddleware() gin.HandlerFunc {
 	}
 }
 
-func CtxValue(ctx context.Context) *service.JwtCustomClaim {
-	raw, _ := ctx.Value(authString("auth")).(*service.JwtCustomClaim)
+func CtxValue(ctx context.Context) *services.JwtCustomClaim {
+	raw, _ := ctx.Value(authString("auth")).(*services.JwtCustomClaim)
 	return raw
 }
 

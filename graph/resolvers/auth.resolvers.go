@@ -13,7 +13,7 @@ import (
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
-	"gqlgen-ent/service"
+	"gqlgen-ent/services"
 	"gqlgen-ent/tools"
 	"log"
 	"strconv"
@@ -42,7 +42,7 @@ func (r *mutationResolver) Register(ctx context.Context, companyCode string, use
 
 	var userID = strconv.Itoa(user.ID)
 
-	token, err := service.JwtGenerate(ctx, user.ID, username, user.Name, companyCode, user.Role)
+	token, err := services.JwtGenerate(ctx, user.ID, username, user.Name, companyCode, user.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (r *mutationResolver) Login(ctx context.Context, companyCode string, userna
 
 	var userID = strconv.Itoa(user.ID)
 
-	token, err := service.JwtGenerate(ctx, user.ID, username, user.Name, companyCode, user.Role)
+	token, err := services.JwtGenerate(ctx, user.ID, username, user.Name, companyCode, user.Role)
 	if err != nil {
 		return nil, err
 	}
