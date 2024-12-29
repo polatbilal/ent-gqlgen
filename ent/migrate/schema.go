@@ -113,7 +113,6 @@ var (
 	JobDetailsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "yibf_no", Type: field.TypeInt, Unique: true},
-		{Name: "province", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "idare", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "pafta", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "ada", Type: field.TypeString, Nullable: true, Default: ""},
@@ -126,6 +125,7 @@ var (
 		{Name: "license_date", Type: field.TypeTime, Nullable: true},
 		{Name: "license_no", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "construction_area", Type: field.TypeString, Nullable: true},
+		{Name: "city", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "district", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "village", Type: field.TypeString, Nullable: true, Default: ""},
 		{Name: "street", Type: field.TypeString, Nullable: true, Default: ""},

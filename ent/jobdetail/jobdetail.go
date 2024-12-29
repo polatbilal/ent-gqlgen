@@ -16,8 +16,6 @@ const (
 	FieldID = "id"
 	// FieldYibfNo holds the string denoting the yibfno field in the database.
 	FieldYibfNo = "yibf_no"
-	// FieldProvince holds the string denoting the province field in the database.
-	FieldProvince = "province"
 	// FieldIdare holds the string denoting the idare field in the database.
 	FieldIdare = "idare"
 	// FieldPafta holds the string denoting the pafta field in the database.
@@ -42,6 +40,8 @@ const (
 	FieldLicenseNo = "license_no"
 	// FieldConstructionArea holds the string denoting the constructionarea field in the database.
 	FieldConstructionArea = "construction_area"
+	// FieldCity holds the string denoting the city field in the database.
+	FieldCity = "city"
 	// FieldDistrict holds the string denoting the district field in the database.
 	FieldDistrict = "district"
 	// FieldVillage holds the string denoting the village field in the database.
@@ -204,7 +204,6 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldYibfNo,
-	FieldProvince,
 	FieldIdare,
 	FieldPafta,
 	FieldAda,
@@ -217,6 +216,7 @@ var Columns = []string{
 	FieldLicenseDate,
 	FieldLicenseNo,
 	FieldConstructionArea,
+	FieldCity,
 	FieldDistrict,
 	FieldVillage,
 	FieldStreet,
@@ -268,8 +268,6 @@ func ValidColumn(column string) bool {
 var (
 	// YibfNoValidator is a validator for the "YibfNo" field. It is called by the builders before save.
 	YibfNoValidator func(int) error
-	// DefaultProvince holds the default value on creation for the "Province" field.
-	DefaultProvince string
 	// DefaultIdare holds the default value on creation for the "Idare" field.
 	DefaultIdare string
 	// DefaultPafta holds the default value on creation for the "Pafta" field.
@@ -284,6 +282,8 @@ var (
 	DefaultStatus int
 	// DefaultLicenseNo holds the default value on creation for the "LicenseNo" field.
 	DefaultLicenseNo string
+	// DefaultCity holds the default value on creation for the "City" field.
+	DefaultCity string
 	// DefaultDistrict holds the default value on creation for the "District" field.
 	DefaultDistrict string
 	// DefaultVillage holds the default value on creation for the "Village" field.
@@ -321,11 +321,6 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByYibfNo orders the results by the YibfNo field.
 func ByYibfNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldYibfNo, opts...).ToFunc()
-}
-
-// ByProvince orders the results by the Province field.
-func ByProvince(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldProvince, opts...).ToFunc()
 }
 
 // ByIdare orders the results by the Idare field.
@@ -386,6 +381,11 @@ func ByLicenseNo(opts ...sql.OrderTermOption) OrderOption {
 // ByConstructionArea orders the results by the ConstructionArea field.
 func ByConstructionArea(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldConstructionArea, opts...).ToFunc()
+}
+
+// ByCity orders the results by the City field.
+func ByCity(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCity, opts...).ToFunc()
 }
 
 // ByDistrict orders the results by the District field.

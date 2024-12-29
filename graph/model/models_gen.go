@@ -62,6 +62,7 @@ type JobAuthorInput struct {
 }
 
 type JobContractorInput struct {
+	ID         *string `json:"id,omitempty"`
 	Name       *string `json:"Name,omitempty"`
 	TcNo       *int    `json:"TcNo,omitempty"`
 	Address    *string `json:"Address,omitempty"`
@@ -76,7 +77,6 @@ type JobContractorInput struct {
 
 type JobInput struct {
 	YibfNo             *int                  `json:"YibfNo,omitempty"`
-	Province           *string               `json:"Province,omitempty"`
 	Idare              *string               `json:"Idare,omitempty"`
 	Pafta              *string               `json:"Pafta,omitempty"`
 	Ada                *string               `json:"Ada,omitempty"`
@@ -90,6 +90,7 @@ type JobInput struct {
 	LicenseNo          *string               `json:"LicenseNo,omitempty"`
 	ConstructionArea   *string               `json:"ConstructionArea,omitempty"`
 	LandArea           *string               `json:"LandArea,omitempty"`
+	City               *string               `json:"City,omitempty"`
 	District           *string               `json:"District,omitempty"`
 	Village            *string               `json:"Village,omitempty"`
 	Street             *string               `json:"Street,omitempty"`

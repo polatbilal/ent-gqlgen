@@ -6073,7 +6073,6 @@ type JobDetailMutation struct {
 	id                        *int
 	_YibfNo                   *int
 	add_YibfNo                *int
-	_Province                 *string
 	_Idare                    *string
 	_Pafta                    *string
 	_Ada                      *string
@@ -6087,6 +6086,7 @@ type JobDetailMutation struct {
 	_LicenseDate              *time.Time
 	_LicenseNo                *string
 	_ConstructionArea         *string
+	_City                     *string
 	_District                 *string
 	_Village                  *string
 	_Street                   *string
@@ -6292,55 +6292,6 @@ func (m *JobDetailMutation) AddedYibfNo() (r int, exists bool) {
 func (m *JobDetailMutation) ResetYibfNo() {
 	m._YibfNo = nil
 	m.add_YibfNo = nil
-}
-
-// SetProvince sets the "Province" field.
-func (m *JobDetailMutation) SetProvince(s string) {
-	m._Province = &s
-}
-
-// Province returns the value of the "Province" field in the mutation.
-func (m *JobDetailMutation) Province() (r string, exists bool) {
-	v := m._Province
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldProvince returns the old "Province" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldProvince(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldProvince is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldProvince requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldProvince: %w", err)
-	}
-	return oldValue.Province, nil
-}
-
-// ClearProvince clears the value of the "Province" field.
-func (m *JobDetailMutation) ClearProvince() {
-	m._Province = nil
-	m.clearedFields[jobdetail.FieldProvince] = struct{}{}
-}
-
-// ProvinceCleared returns if the "Province" field was cleared in this mutation.
-func (m *JobDetailMutation) ProvinceCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldProvince]
-	return ok
-}
-
-// ResetProvince resets all changes to the "Province" field.
-func (m *JobDetailMutation) ResetProvince() {
-	m._Province = nil
-	delete(m.clearedFields, jobdetail.FieldProvince)
 }
 
 // SetIdare sets the "Idare" field.
@@ -6936,6 +6887,55 @@ func (m *JobDetailMutation) ConstructionAreaCleared() bool {
 func (m *JobDetailMutation) ResetConstructionArea() {
 	m._ConstructionArea = nil
 	delete(m.clearedFields, jobdetail.FieldConstructionArea)
+}
+
+// SetCity sets the "City" field.
+func (m *JobDetailMutation) SetCity(s string) {
+	m._City = &s
+}
+
+// City returns the value of the "City" field in the mutation.
+func (m *JobDetailMutation) City() (r string, exists bool) {
+	v := m._City
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCity returns the old "City" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldCity(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCity is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCity requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCity: %w", err)
+	}
+	return oldValue.City, nil
+}
+
+// ClearCity clears the value of the "City" field.
+func (m *JobDetailMutation) ClearCity() {
+	m._City = nil
+	m.clearedFields[jobdetail.FieldCity] = struct{}{}
+}
+
+// CityCleared returns if the "City" field was cleared in this mutation.
+func (m *JobDetailMutation) CityCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldCity]
+	return ok
+}
+
+// ResetCity resets all changes to the "City" field.
+func (m *JobDetailMutation) ResetCity() {
+	m._City = nil
+	delete(m.clearedFields, jobdetail.FieldCity)
 }
 
 // SetDistrict sets the "District" field.
@@ -8247,9 +8247,6 @@ func (m *JobDetailMutation) Fields() []string {
 	if m._YibfNo != nil {
 		fields = append(fields, jobdetail.FieldYibfNo)
 	}
-	if m._Province != nil {
-		fields = append(fields, jobdetail.FieldProvince)
-	}
 	if m._Idare != nil {
 		fields = append(fields, jobdetail.FieldIdare)
 	}
@@ -8285,6 +8282,9 @@ func (m *JobDetailMutation) Fields() []string {
 	}
 	if m._ConstructionArea != nil {
 		fields = append(fields, jobdetail.FieldConstructionArea)
+	}
+	if m._City != nil {
+		fields = append(fields, jobdetail.FieldCity)
 	}
 	if m._District != nil {
 		fields = append(fields, jobdetail.FieldDistrict)
@@ -8338,8 +8338,6 @@ func (m *JobDetailMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case jobdetail.FieldYibfNo:
 		return m.YibfNo()
-	case jobdetail.FieldProvince:
-		return m.Province()
 	case jobdetail.FieldIdare:
 		return m.Idare()
 	case jobdetail.FieldPafta:
@@ -8364,6 +8362,8 @@ func (m *JobDetailMutation) Field(name string) (ent.Value, bool) {
 		return m.LicenseNo()
 	case jobdetail.FieldConstructionArea:
 		return m.ConstructionArea()
+	case jobdetail.FieldCity:
+		return m.City()
 	case jobdetail.FieldDistrict:
 		return m.District()
 	case jobdetail.FieldVillage:
@@ -8403,8 +8403,6 @@ func (m *JobDetailMutation) OldField(ctx context.Context, name string) (ent.Valu
 	switch name {
 	case jobdetail.FieldYibfNo:
 		return m.OldYibfNo(ctx)
-	case jobdetail.FieldProvince:
-		return m.OldProvince(ctx)
 	case jobdetail.FieldIdare:
 		return m.OldIdare(ctx)
 	case jobdetail.FieldPafta:
@@ -8429,6 +8427,8 @@ func (m *JobDetailMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldLicenseNo(ctx)
 	case jobdetail.FieldConstructionArea:
 		return m.OldConstructionArea(ctx)
+	case jobdetail.FieldCity:
+		return m.OldCity(ctx)
 	case jobdetail.FieldDistrict:
 		return m.OldDistrict(ctx)
 	case jobdetail.FieldVillage:
@@ -8472,13 +8472,6 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetYibfNo(v)
-		return nil
-	case jobdetail.FieldProvince:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetProvince(v)
 		return nil
 	case jobdetail.FieldIdare:
 		v, ok := value.(string)
@@ -8563,6 +8556,13 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetConstructionArea(v)
+		return nil
+	case jobdetail.FieldCity:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCity(v)
 		return nil
 	case jobdetail.FieldDistrict:
 		v, ok := value.(string)
@@ -8755,9 +8755,6 @@ func (m *JobDetailMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *JobDetailMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(jobdetail.FieldProvince) {
-		fields = append(fields, jobdetail.FieldProvince)
-	}
 	if m.FieldCleared(jobdetail.FieldIdare) {
 		fields = append(fields, jobdetail.FieldIdare)
 	}
@@ -8790,6 +8787,9 @@ func (m *JobDetailMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(jobdetail.FieldConstructionArea) {
 		fields = append(fields, jobdetail.FieldConstructionArea)
+	}
+	if m.FieldCleared(jobdetail.FieldCity) {
+		fields = append(fields, jobdetail.FieldCity)
 	}
 	if m.FieldCleared(jobdetail.FieldDistrict) {
 		fields = append(fields, jobdetail.FieldDistrict)
@@ -8835,9 +8835,6 @@ func (m *JobDetailMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *JobDetailMutation) ClearField(name string) error {
 	switch name {
-	case jobdetail.FieldProvince:
-		m.ClearProvince()
-		return nil
 	case jobdetail.FieldIdare:
 		m.ClearIdare()
 		return nil
@@ -8870,6 +8867,9 @@ func (m *JobDetailMutation) ClearField(name string) error {
 		return nil
 	case jobdetail.FieldConstructionArea:
 		m.ClearConstructionArea()
+		return nil
+	case jobdetail.FieldCity:
+		m.ClearCity()
 		return nil
 	case jobdetail.FieldDistrict:
 		m.ClearDistrict()
@@ -8912,9 +8912,6 @@ func (m *JobDetailMutation) ResetField(name string) error {
 	case jobdetail.FieldYibfNo:
 		m.ResetYibfNo()
 		return nil
-	case jobdetail.FieldProvince:
-		m.ResetProvince()
-		return nil
 	case jobdetail.FieldIdare:
 		m.ResetIdare()
 		return nil
@@ -8950,6 +8947,9 @@ func (m *JobDetailMutation) ResetField(name string) error {
 		return nil
 	case jobdetail.FieldConstructionArea:
 		m.ResetConstructionArea()
+		return nil
+	case jobdetail.FieldCity:
+		m.ResetCity()
 		return nil
 	case jobdetail.FieldDistrict:
 		m.ResetDistrict()

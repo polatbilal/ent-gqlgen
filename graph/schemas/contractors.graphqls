@@ -14,6 +14,7 @@ type JobContractor {
 }
 
 input JobContractorInput {
+  id: ID
   Name: String
   TcNo: Int
   Address: String

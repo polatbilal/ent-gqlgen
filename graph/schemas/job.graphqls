@@ -2,7 +2,6 @@
 type JobDetail {
   id: ID!
   YibfNo: Int!
-  Province: String
   Idare: String
   Pafta: String
   Ada: String
@@ -16,6 +15,7 @@ type JobDetail {
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
+  City: String
   District: String
   Village: String
   Street: String
@@ -45,7 +45,6 @@ type JobDetail {
 
 input JobInput {
   YibfNo: Int
-  Province: String
   Idare: String
   Pafta: String
   Ada: String
@@ -59,6 +58,7 @@ input JobInput {
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
+  City: String
   District: String
   Village: String
   Street: String

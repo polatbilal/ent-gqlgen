@@ -17,7 +17,6 @@ type JobDetail struct {
 func (JobDetail) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("YibfNo").Positive().Unique(),
-		field.String("Province").Default("").Optional(),
 		field.String("Idare").Default("").Optional(),
 		field.String("Pafta").Default("").Optional(),
 		field.String("Ada").Default("").Optional(),
@@ -30,6 +29,7 @@ func (JobDetail) Fields() []ent.Field {
 		field.Time("LicenseDate").Optional(),
 		field.String("LicenseNo").Default("").Optional(),
 		field.String("ConstructionArea").Optional(),
+		field.String("City").Default("").Optional(),
 		field.String("District").Default("").Optional(),
 		field.String("Village").Default("").Optional(),
 		field.String("Street").Default("").Optional(),

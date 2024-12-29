@@ -33,20 +33,6 @@ func (jdc *JobDetailCreate) SetYibfNo(i int) *JobDetailCreate {
 	return jdc
 }
 
-// SetProvince sets the "Province" field.
-func (jdc *JobDetailCreate) SetProvince(s string) *JobDetailCreate {
-	jdc.mutation.SetProvince(s)
-	return jdc
-}
-
-// SetNillableProvince sets the "Province" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableProvince(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetProvince(*s)
-	}
-	return jdc
-}
-
 // SetIdare sets the "Idare" field.
 func (jdc *JobDetailCreate) SetIdare(s string) *JobDetailCreate {
 	jdc.mutation.SetIdare(s)
@@ -211,6 +197,20 @@ func (jdc *JobDetailCreate) SetConstructionArea(s string) *JobDetailCreate {
 func (jdc *JobDetailCreate) SetNillableConstructionArea(s *string) *JobDetailCreate {
 	if s != nil {
 		jdc.SetConstructionArea(*s)
+	}
+	return jdc
+}
+
+// SetCity sets the "City" field.
+func (jdc *JobDetailCreate) SetCity(s string) *JobDetailCreate {
+	jdc.mutation.SetCity(s)
+	return jdc
+}
+
+// SetNillableCity sets the "City" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableCity(s *string) *JobDetailCreate {
+	if s != nil {
+		jdc.SetCity(*s)
 	}
 	return jdc
 }
@@ -704,10 +704,6 @@ func (jdc *JobDetailCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (jdc *JobDetailCreate) defaults() {
-	if _, ok := jdc.mutation.Province(); !ok {
-		v := jobdetail.DefaultProvince
-		jdc.mutation.SetProvince(v)
-	}
 	if _, ok := jdc.mutation.Idare(); !ok {
 		v := jobdetail.DefaultIdare
 		jdc.mutation.SetIdare(v)
@@ -735,6 +731,10 @@ func (jdc *JobDetailCreate) defaults() {
 	if _, ok := jdc.mutation.LicenseNo(); !ok {
 		v := jobdetail.DefaultLicenseNo
 		jdc.mutation.SetLicenseNo(v)
+	}
+	if _, ok := jdc.mutation.City(); !ok {
+		v := jobdetail.DefaultCity
+		jdc.mutation.SetCity(v)
 	}
 	if _, ok := jdc.mutation.District(); !ok {
 		v := jobdetail.DefaultDistrict
@@ -837,10 +837,6 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
 	}
-	if value, ok := jdc.mutation.Province(); ok {
-		_spec.SetField(jobdetail.FieldProvince, field.TypeString, value)
-		_node.Province = value
-	}
 	if value, ok := jdc.mutation.Idare(); ok {
 		_spec.SetField(jobdetail.FieldIdare, field.TypeString, value)
 		_node.Idare = value
@@ -888,6 +884,10 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := jdc.mutation.ConstructionArea(); ok {
 		_spec.SetField(jobdetail.FieldConstructionArea, field.TypeString, value)
 		_node.ConstructionArea = value
+	}
+	if value, ok := jdc.mutation.City(); ok {
+		_spec.SetField(jobdetail.FieldCity, field.TypeString, value)
+		_node.City = value
 	}
 	if value, ok := jdc.mutation.District(); ok {
 		_spec.SetField(jobdetail.FieldDistrict, field.TypeString, value)

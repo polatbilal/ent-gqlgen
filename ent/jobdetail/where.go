@@ -60,11 +60,6 @@ func YibfNo(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldYibfNo, v))
 }
 
-// Province applies equality check predicate on the "Province" field. It's identical to ProvinceEQ.
-func Province(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldProvince, v))
-}
-
 // Idare applies equality check predicate on the "Idare" field. It's identical to IdareEQ.
 func Idare(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldIdare, v))
@@ -123,6 +118,11 @@ func LicenseNo(v string) predicate.JobDetail {
 // ConstructionArea applies equality check predicate on the "ConstructionArea" field. It's identical to ConstructionAreaEQ.
 func ConstructionArea(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldConstructionArea, v))
+}
+
+// City applies equality check predicate on the "City" field. It's identical to CityEQ.
+func City(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldCity, v))
 }
 
 // District applies equality check predicate on the "District" field. It's identical to DistrictEQ.
@@ -233,81 +233,6 @@ func YibfNoLT(v int) predicate.JobDetail {
 // YibfNoLTE applies the LTE predicate on the "YibfNo" field.
 func YibfNoLTE(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldYibfNo, v))
-}
-
-// ProvinceEQ applies the EQ predicate on the "Province" field.
-func ProvinceEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldProvince, v))
-}
-
-// ProvinceNEQ applies the NEQ predicate on the "Province" field.
-func ProvinceNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldProvince, v))
-}
-
-// ProvinceIn applies the In predicate on the "Province" field.
-func ProvinceIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldProvince, vs...))
-}
-
-// ProvinceNotIn applies the NotIn predicate on the "Province" field.
-func ProvinceNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldProvince, vs...))
-}
-
-// ProvinceGT applies the GT predicate on the "Province" field.
-func ProvinceGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldProvince, v))
-}
-
-// ProvinceGTE applies the GTE predicate on the "Province" field.
-func ProvinceGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldProvince, v))
-}
-
-// ProvinceLT applies the LT predicate on the "Province" field.
-func ProvinceLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldProvince, v))
-}
-
-// ProvinceLTE applies the LTE predicate on the "Province" field.
-func ProvinceLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldProvince, v))
-}
-
-// ProvinceContains applies the Contains predicate on the "Province" field.
-func ProvinceContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldProvince, v))
-}
-
-// ProvinceHasPrefix applies the HasPrefix predicate on the "Province" field.
-func ProvinceHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldProvince, v))
-}
-
-// ProvinceHasSuffix applies the HasSuffix predicate on the "Province" field.
-func ProvinceHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldProvince, v))
-}
-
-// ProvinceIsNil applies the IsNil predicate on the "Province" field.
-func ProvinceIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldProvince))
-}
-
-// ProvinceNotNil applies the NotNil predicate on the "Province" field.
-func ProvinceNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldProvince))
-}
-
-// ProvinceEqualFold applies the EqualFold predicate on the "Province" field.
-func ProvinceEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldProvince, v))
-}
-
-// ProvinceContainsFold applies the ContainsFold predicate on the "Province" field.
-func ProvinceContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldProvince, v))
 }
 
 // IdareEQ applies the EQ predicate on the "Idare" field.
@@ -1073,6 +998,81 @@ func ConstructionAreaEqualFold(v string) predicate.JobDetail {
 // ConstructionAreaContainsFold applies the ContainsFold predicate on the "ConstructionArea" field.
 func ConstructionAreaContainsFold(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldContainsFold(FieldConstructionArea, v))
+}
+
+// CityEQ applies the EQ predicate on the "City" field.
+func CityEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldCity, v))
+}
+
+// CityNEQ applies the NEQ predicate on the "City" field.
+func CityNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldCity, v))
+}
+
+// CityIn applies the In predicate on the "City" field.
+func CityIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldCity, vs...))
+}
+
+// CityNotIn applies the NotIn predicate on the "City" field.
+func CityNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldCity, vs...))
+}
+
+// CityGT applies the GT predicate on the "City" field.
+func CityGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldCity, v))
+}
+
+// CityGTE applies the GTE predicate on the "City" field.
+func CityGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldCity, v))
+}
+
+// CityLT applies the LT predicate on the "City" field.
+func CityLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldCity, v))
+}
+
+// CityLTE applies the LTE predicate on the "City" field.
+func CityLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldCity, v))
+}
+
+// CityContains applies the Contains predicate on the "City" field.
+func CityContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldCity, v))
+}
+
+// CityHasPrefix applies the HasPrefix predicate on the "City" field.
+func CityHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldCity, v))
+}
+
+// CityHasSuffix applies the HasSuffix predicate on the "City" field.
+func CityHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldCity, v))
+}
+
+// CityIsNil applies the IsNil predicate on the "City" field.
+func CityIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldCity))
+}
+
+// CityNotNil applies the NotNil predicate on the "City" field.
+func CityNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldCity))
+}
+
+// CityEqualFold applies the EqualFold predicate on the "City" field.
+func CityEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldCity, v))
+}
+
+// CityContainsFold applies the ContainsFold predicate on the "City" field.
+func CityContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldCity, v))
 }
 
 // DistrictEQ applies the EQ predicate on the "District" field.

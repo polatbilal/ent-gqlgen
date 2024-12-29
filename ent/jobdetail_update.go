@@ -56,26 +56,6 @@ func (jdu *JobDetailUpdate) AddYibfNo(i int) *JobDetailUpdate {
 	return jdu
 }
 
-// SetProvince sets the "Province" field.
-func (jdu *JobDetailUpdate) SetProvince(s string) *JobDetailUpdate {
-	jdu.mutation.SetProvince(s)
-	return jdu
-}
-
-// SetNillableProvince sets the "Province" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableProvince(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetProvince(*s)
-	}
-	return jdu
-}
-
-// ClearProvince clears the value of the "Province" field.
-func (jdu *JobDetailUpdate) ClearProvince() *JobDetailUpdate {
-	jdu.mutation.ClearProvince()
-	return jdu
-}
-
 // SetIdare sets the "Idare" field.
 func (jdu *JobDetailUpdate) SetIdare(s string) *JobDetailUpdate {
 	jdu.mutation.SetIdare(s)
@@ -314,6 +294,26 @@ func (jdu *JobDetailUpdate) SetNillableConstructionArea(s *string) *JobDetailUpd
 // ClearConstructionArea clears the value of the "ConstructionArea" field.
 func (jdu *JobDetailUpdate) ClearConstructionArea() *JobDetailUpdate {
 	jdu.mutation.ClearConstructionArea()
+	return jdu
+}
+
+// SetCity sets the "City" field.
+func (jdu *JobDetailUpdate) SetCity(s string) *JobDetailUpdate {
+	jdu.mutation.SetCity(s)
+	return jdu
+}
+
+// SetNillableCity sets the "City" field if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableCity(s *string) *JobDetailUpdate {
+	if s != nil {
+		jdu.SetCity(*s)
+	}
+	return jdu
+}
+
+// ClearCity clears the value of the "City" field.
+func (jdu *JobDetailUpdate) ClearCity() *JobDetailUpdate {
+	jdu.mutation.ClearCity()
 	return jdu
 }
 
@@ -1027,12 +1027,6 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := jdu.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobdetail.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jdu.mutation.Province(); ok {
-		_spec.SetField(jobdetail.FieldProvince, field.TypeString, value)
-	}
-	if jdu.mutation.ProvinceCleared() {
-		_spec.ClearField(jobdetail.FieldProvince, field.TypeString)
-	}
 	if value, ok := jdu.mutation.Idare(); ok {
 		_spec.SetField(jobdetail.FieldIdare, field.TypeString, value)
 	}
@@ -1104,6 +1098,12 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if jdu.mutation.ConstructionAreaCleared() {
 		_spec.ClearField(jobdetail.FieldConstructionArea, field.TypeString)
+	}
+	if value, ok := jdu.mutation.City(); ok {
+		_spec.SetField(jobdetail.FieldCity, field.TypeString, value)
+	}
+	if jdu.mutation.CityCleared() {
+		_spec.ClearField(jobdetail.FieldCity, field.TypeString)
 	}
 	if value, ok := jdu.mutation.District(); ok {
 		_spec.SetField(jobdetail.FieldDistrict, field.TypeString, value)
@@ -1665,26 +1665,6 @@ func (jduo *JobDetailUpdateOne) AddYibfNo(i int) *JobDetailUpdateOne {
 	return jduo
 }
 
-// SetProvince sets the "Province" field.
-func (jduo *JobDetailUpdateOne) SetProvince(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetProvince(s)
-	return jduo
-}
-
-// SetNillableProvince sets the "Province" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableProvince(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetProvince(*s)
-	}
-	return jduo
-}
-
-// ClearProvince clears the value of the "Province" field.
-func (jduo *JobDetailUpdateOne) ClearProvince() *JobDetailUpdateOne {
-	jduo.mutation.ClearProvince()
-	return jduo
-}
-
 // SetIdare sets the "Idare" field.
 func (jduo *JobDetailUpdateOne) SetIdare(s string) *JobDetailUpdateOne {
 	jduo.mutation.SetIdare(s)
@@ -1923,6 +1903,26 @@ func (jduo *JobDetailUpdateOne) SetNillableConstructionArea(s *string) *JobDetai
 // ClearConstructionArea clears the value of the "ConstructionArea" field.
 func (jduo *JobDetailUpdateOne) ClearConstructionArea() *JobDetailUpdateOne {
 	jduo.mutation.ClearConstructionArea()
+	return jduo
+}
+
+// SetCity sets the "City" field.
+func (jduo *JobDetailUpdateOne) SetCity(s string) *JobDetailUpdateOne {
+	jduo.mutation.SetCity(s)
+	return jduo
+}
+
+// SetNillableCity sets the "City" field if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableCity(s *string) *JobDetailUpdateOne {
+	if s != nil {
+		jduo.SetCity(*s)
+	}
+	return jduo
+}
+
+// ClearCity clears the value of the "City" field.
+func (jduo *JobDetailUpdateOne) ClearCity() *JobDetailUpdateOne {
+	jduo.mutation.ClearCity()
 	return jduo
 }
 
@@ -2666,12 +2666,6 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	if value, ok := jduo.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobdetail.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jduo.mutation.Province(); ok {
-		_spec.SetField(jobdetail.FieldProvince, field.TypeString, value)
-	}
-	if jduo.mutation.ProvinceCleared() {
-		_spec.ClearField(jobdetail.FieldProvince, field.TypeString)
-	}
 	if value, ok := jduo.mutation.Idare(); ok {
 		_spec.SetField(jobdetail.FieldIdare, field.TypeString, value)
 	}
@@ -2743,6 +2737,12 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	}
 	if jduo.mutation.ConstructionAreaCleared() {
 		_spec.ClearField(jobdetail.FieldConstructionArea, field.TypeString)
+	}
+	if value, ok := jduo.mutation.City(); ok {
+		_spec.SetField(jobdetail.FieldCity, field.TypeString, value)
+	}
+	if jduo.mutation.CityCleared() {
+		_spec.ClearField(jobdetail.FieldCity, field.TypeString)
 	}
 	if value, ok := jduo.mutation.District(); ok {
 		_spec.SetField(jobdetail.FieldDistrict, field.TypeString, value)

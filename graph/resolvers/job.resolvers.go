@@ -106,7 +106,6 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	newJobDetail, err := client.JobDetail.Create().
 		SetYibfNo(*input.YibfNo).
-		SetNillableProvince(input.Province).
 		SetNillableIdare(input.Idare).
 		SetNillablePafta(input.Pafta).
 		SetNillableAda(input.Ada).
@@ -120,6 +119,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableConstructionArea(input.ConstructionArea).
 		SetNillableLandArea(input.LandArea).
+		SetNillableCity(input.City).
 		SetNillableDistrict(input.District).
 		SetNillableVillage(input.Village).
 		SetNillableStreet(input.Street).
@@ -243,7 +243,6 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 	// Mevcut iş detayını güncelle
 	jobDetail, err = client.JobDetail.UpdateOne(jobDetail).
 		SetNillableYibfNo(input.YibfNo).
-		SetNillableProvince(input.Province).
 		SetNillableIdare(input.Idare).
 		SetNillablePafta(input.Pafta).
 		SetNillableAda(input.Ada).
@@ -257,6 +256,7 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableConstructionArea(input.ConstructionArea).
 		SetNillableLandArea(input.LandArea).
+		SetNillableCity(input.City).
 		SetNillableDistrict(input.District).
 		SetNillableVillage(input.Village).
 		SetNillableStreet(input.Street).

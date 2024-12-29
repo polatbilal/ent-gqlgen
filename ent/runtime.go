@@ -123,38 +123,38 @@ func init() {
 	jobdetailDescYibfNo := jobdetailFields[0].Descriptor()
 	// jobdetail.YibfNoValidator is a validator for the "YibfNo" field. It is called by the builders before save.
 	jobdetail.YibfNoValidator = jobdetailDescYibfNo.Validators[0].(func(int) error)
-	// jobdetailDescProvince is the schema descriptor for Province field.
-	jobdetailDescProvince := jobdetailFields[1].Descriptor()
-	// jobdetail.DefaultProvince holds the default value on creation for the Province field.
-	jobdetail.DefaultProvince = jobdetailDescProvince.Default.(string)
 	// jobdetailDescIdare is the schema descriptor for Idare field.
-	jobdetailDescIdare := jobdetailFields[2].Descriptor()
+	jobdetailDescIdare := jobdetailFields[1].Descriptor()
 	// jobdetail.DefaultIdare holds the default value on creation for the Idare field.
 	jobdetail.DefaultIdare = jobdetailDescIdare.Default.(string)
 	// jobdetailDescPafta is the schema descriptor for Pafta field.
-	jobdetailDescPafta := jobdetailFields[3].Descriptor()
+	jobdetailDescPafta := jobdetailFields[2].Descriptor()
 	// jobdetail.DefaultPafta holds the default value on creation for the Pafta field.
 	jobdetail.DefaultPafta = jobdetailDescPafta.Default.(string)
 	// jobdetailDescAda is the schema descriptor for Ada field.
-	jobdetailDescAda := jobdetailFields[4].Descriptor()
+	jobdetailDescAda := jobdetailFields[3].Descriptor()
 	// jobdetail.DefaultAda holds the default value on creation for the Ada field.
 	jobdetail.DefaultAda = jobdetailDescAda.Default.(string)
 	// jobdetailDescParsel is the schema descriptor for Parsel field.
-	jobdetailDescParsel := jobdetailFields[5].Descriptor()
+	jobdetailDescParsel := jobdetailFields[4].Descriptor()
 	// jobdetail.DefaultParsel holds the default value on creation for the Parsel field.
 	jobdetail.DefaultParsel = jobdetailDescParsel.Default.(string)
 	// jobdetailDescFolderNo is the schema descriptor for FolderNo field.
-	jobdetailDescFolderNo := jobdetailFields[6].Descriptor()
+	jobdetailDescFolderNo := jobdetailFields[5].Descriptor()
 	// jobdetail.DefaultFolderNo holds the default value on creation for the FolderNo field.
 	jobdetail.DefaultFolderNo = jobdetailDescFolderNo.Default.(string)
 	// jobdetailDescStatus is the schema descriptor for Status field.
-	jobdetailDescStatus := jobdetailFields[7].Descriptor()
+	jobdetailDescStatus := jobdetailFields[6].Descriptor()
 	// jobdetail.DefaultStatus holds the default value on creation for the Status field.
 	jobdetail.DefaultStatus = jobdetailDescStatus.Default.(int)
 	// jobdetailDescLicenseNo is the schema descriptor for LicenseNo field.
-	jobdetailDescLicenseNo := jobdetailFields[12].Descriptor()
+	jobdetailDescLicenseNo := jobdetailFields[11].Descriptor()
 	// jobdetail.DefaultLicenseNo holds the default value on creation for the LicenseNo field.
 	jobdetail.DefaultLicenseNo = jobdetailDescLicenseNo.Default.(string)
+	// jobdetailDescCity is the schema descriptor for City field.
+	jobdetailDescCity := jobdetailFields[13].Descriptor()
+	// jobdetail.DefaultCity holds the default value on creation for the City field.
+	jobdetail.DefaultCity = jobdetailDescCity.Default.(string)
 	// jobdetailDescDistrict is the schema descriptor for District field.
 	jobdetailDescDistrict := jobdetailFields[14].Descriptor()
 	// jobdetail.DefaultDistrict holds the default value on creation for the District field.

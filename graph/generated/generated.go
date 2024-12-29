@@ -131,6 +131,7 @@ type ComplexityRoot struct {
 		BuildingBlock      func(childComplexity int) int
 		BuildingClass      func(childComplexity int) int
 		BuildingType       func(childComplexity int) int
+		City               func(childComplexity int) int
 		CompletionDate     func(childComplexity int) int
 		ConstructionArea   func(childComplexity int) int
 		ContractDate       func(childComplexity int) int
@@ -157,7 +158,6 @@ type ComplexityRoot struct {
 		Pafta              func(childComplexity int) int
 		Parsel             func(childComplexity int) int
 		Progress           func(childComplexity int) int
-		Province           func(childComplexity int) int
 		StartDate          func(childComplexity int) int
 		Started            func(childComplexity int) int
 		Static             func(childComplexity int) int
@@ -771,6 +771,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobDetail.BuildingType(childComplexity), true
 
+	case "JobDetail.City":
+		if e.complexity.JobDetail.City == nil {
+			break
+		}
+
+		return e.complexity.JobDetail.City(childComplexity), true
+
 	case "JobDetail.CompletionDate":
 		if e.complexity.JobDetail.CompletionDate == nil {
 			break
@@ -952,13 +959,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.Progress(childComplexity), true
-
-	case "JobDetail.Province":
-		if e.complexity.JobDetail.Province == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Province(childComplexity), true
 
 	case "JobDetail.StartDate":
 		if e.complexity.JobDetail.StartDate == nil {
@@ -1846,6 +1846,7 @@ type JobContractor {
 }
 
 input JobContractorInput {
+  id: ID
   Name: String
   TcNo: Int
   Address: String
@@ -1931,7 +1932,6 @@ extend type Mutation {
 type JobDetail {
   id: ID!
   YibfNo: Int!
-  Province: String
   Idare: String
   Pafta: String
   Ada: String
@@ -1945,6 +1945,7 @@ type JobDetail {
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
+  City: String
   District: String
   Village: String
   Street: String
@@ -1974,7 +1975,6 @@ type JobDetail {
 
 input JobInput {
   YibfNo: Int
-  Province: String
   Idare: String
   Pafta: String
   Ada: String
@@ -1988,6 +1988,7 @@ input JobInput {
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
+  City: String
   District: String
   Village: String
   Street: String
@@ -5881,47 +5882,6 @@ func (ec *executionContext) fieldContext_JobDetail_YibfNo(_ context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _JobDetail_Province(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Province(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Province, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Province(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _JobDetail_Idare(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_JobDetail_Idare(ctx, field)
 	if err != nil {
@@ -6443,6 +6403,47 @@ func (ec *executionContext) _JobDetail_LandArea(ctx context.Context, field graph
 }
 
 func (ec *executionContext) fieldContext_JobDetail_LandArea(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobDetail_City(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobDetail_City(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.City, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobDetail_City(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "JobDetail",
 		Field:      field,
@@ -8246,8 +8247,6 @@ func (ec *executionContext) fieldContext_JobLayer_Job(_ context.Context, field g
 				return ec.fieldContext_JobDetail_id(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
-			case "Province":
-				return ec.fieldContext_JobDetail_Province(ctx, field)
 			case "Idare":
 				return ec.fieldContext_JobDetail_Idare(ctx, field)
 			case "Pafta":
@@ -8274,6 +8273,8 @@ func (ec *executionContext) fieldContext_JobLayer_Job(_ context.Context, field g
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
+			case "City":
+				return ec.fieldContext_JobDetail_City(ctx, field)
 			case "District":
 				return ec.fieldContext_JobDetail_District(ctx, field)
 			case "Village":
@@ -10019,8 +10020,6 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_id(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
-			case "Province":
-				return ec.fieldContext_JobDetail_Province(ctx, field)
 			case "Idare":
 				return ec.fieldContext_JobDetail_Idare(ctx, field)
 			case "Pafta":
@@ -10047,6 +10046,8 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
+			case "City":
+				return ec.fieldContext_JobDetail_City(ctx, field)
 			case "District":
 				return ec.fieldContext_JobDetail_District(ctx, field)
 			case "Village":
@@ -10180,8 +10181,6 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_id(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
-			case "Province":
-				return ec.fieldContext_JobDetail_Province(ctx, field)
 			case "Idare":
 				return ec.fieldContext_JobDetail_Idare(ctx, field)
 			case "Pafta":
@@ -10208,6 +10207,8 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
+			case "City":
+				return ec.fieldContext_JobDetail_City(ctx, field)
 			case "District":
 				return ec.fieldContext_JobDetail_District(ctx, field)
 			case "Village":
@@ -11630,8 +11631,6 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_JobDetail_id(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
-			case "Province":
-				return ec.fieldContext_JobDetail_Province(ctx, field)
 			case "Idare":
 				return ec.fieldContext_JobDetail_Idare(ctx, field)
 			case "Pafta":
@@ -11658,6 +11657,8 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
+			case "City":
+				return ec.fieldContext_JobDetail_City(ctx, field)
 			case "District":
 				return ec.fieldContext_JobDetail_District(ctx, field)
 			case "Village":
@@ -11769,8 +11770,6 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 				return ec.fieldContext_JobDetail_id(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
-			case "Province":
-				return ec.fieldContext_JobDetail_Province(ctx, field)
 			case "Idare":
 				return ec.fieldContext_JobDetail_Idare(ctx, field)
 			case "Pafta":
@@ -11797,6 +11796,8 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
+			case "City":
+				return ec.fieldContext_JobDetail_City(ctx, field)
 			case "District":
 				return ec.fieldContext_JobDetail_District(ctx, field)
 			case "Village":
@@ -14896,13 +14897,20 @@ func (ec *executionContext) unmarshalInputJobContractorInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Name", "TcNo", "Address", "RegisterNo", "TaxAdmin", "TaxNo", "Phone", "Email", "Note", "Deleted"}
+	fieldsInOrder := [...]string{"id", "Name", "TcNo", "Address", "RegisterNo", "TaxAdmin", "TaxNo", "Phone", "Email", "Note", "Deleted"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
 		case "Name":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Name"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -14986,7 +14994,7 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "Province", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "CompletionDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Deleted", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
+	fieldsInOrder := [...]string{"YibfNo", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "CompletionDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "City", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Deleted", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -15000,13 +15008,6 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.YibfNo = data
-		case "Province":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Province"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Province = data
 		case "Idare":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Idare"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -15098,6 +15099,13 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.LandArea = data
+		case "City":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("City"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.City = data
 		case "District":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("District"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -16122,8 +16130,6 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
-		case "Province":
-			out.Values[i] = ec._JobDetail_Province(ctx, field, obj)
 		case "Idare":
 			out.Values[i] = ec._JobDetail_Idare(ctx, field, obj)
 		case "Pafta":
@@ -16274,6 +16280,8 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 			out.Values[i] = ec._JobDetail_ConstructionArea(ctx, field, obj)
 		case "LandArea":
 			out.Values[i] = ec._JobDetail_LandArea(ctx, field, obj)
+		case "City":
+			out.Values[i] = ec._JobDetail_City(ctx, field, obj)
 		case "District":
 			out.Values[i] = ec._JobDetail_District(ctx, field, obj)
 		case "Village":

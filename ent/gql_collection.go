@@ -852,11 +852,6 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldYibfNo)
 				fieldSeen[jobdetail.FieldYibfNo] = struct{}{}
 			}
-		case "province":
-			if _, ok := fieldSeen[jobdetail.FieldProvince]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldProvince)
-				fieldSeen[jobdetail.FieldProvince] = struct{}{}
-			}
 		case "idare":
 			if _, ok := fieldSeen[jobdetail.FieldIdare]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldIdare)
@@ -916,6 +911,11 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			if _, ok := fieldSeen[jobdetail.FieldConstructionArea]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldConstructionArea)
 				fieldSeen[jobdetail.FieldConstructionArea] = struct{}{}
+			}
+		case "city":
+			if _, ok := fieldSeen[jobdetail.FieldCity]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldCity)
+				fieldSeen[jobdetail.FieldCity] = struct{}{}
 			}
 		case "district":
 			if _, ok := fieldSeen[jobdetail.FieldDistrict]; !ok {

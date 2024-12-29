@@ -24,8 +24,6 @@ type JobDetail struct {
 	ID int `json:"id,omitempty"`
 	// YibfNo holds the value of the "YibfNo" field.
 	YibfNo int `json:"YibfNo,omitempty"`
-	// Province holds the value of the "Province" field.
-	Province string `json:"Province,omitempty"`
 	// Idare holds the value of the "Idare" field.
 	Idare string `json:"Idare,omitempty"`
 	// Pafta holds the value of the "Pafta" field.
@@ -50,6 +48,8 @@ type JobDetail struct {
 	LicenseNo string `json:"LicenseNo,omitempty"`
 	// ConstructionArea holds the value of the "ConstructionArea" field.
 	ConstructionArea string `json:"ConstructionArea,omitempty"`
+	// City holds the value of the "City" field.
+	City string `json:"City,omitempty"`
 	// District holds the value of the "District" field.
 	District string `json:"District,omitempty"`
 	// Village holds the value of the "Village" field.
@@ -293,7 +293,7 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldStatus, jobdetail.FieldFloors, jobdetail.FieldStarted, jobdetail.FieldDeleted:
 			values[i] = new(sql.NullInt64)
-		case jobdetail.FieldProvince, jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldDistrict, jobdetail.FieldVillage, jobdetail.FieldStreet, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBuildingBlock, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote:
+		case jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldCity, jobdetail.FieldDistrict, jobdetail.FieldVillage, jobdetail.FieldStreet, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBuildingBlock, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote:
 			values[i] = new(sql.NullString)
 		case jobdetail.FieldContractDate, jobdetail.FieldCompletionDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -347,12 +347,6 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field YibfNo", values[i])
 			} else if value.Valid {
 				jd.YibfNo = int(value.Int64)
-			}
-		case jobdetail.FieldProvince:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Province", values[i])
-			} else if value.Valid {
-				jd.Province = value.String
 			}
 		case jobdetail.FieldIdare:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -425,6 +419,12 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field ConstructionArea", values[i])
 			} else if value.Valid {
 				jd.ConstructionArea = value.String
+			}
+		case jobdetail.FieldCity:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field City", values[i])
+			} else if value.Valid {
+				jd.City = value.String
 			}
 		case jobdetail.FieldDistrict:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -703,9 +703,6 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("YibfNo=")
 	builder.WriteString(fmt.Sprintf("%v", jd.YibfNo))
 	builder.WriteString(", ")
-	builder.WriteString("Province=")
-	builder.WriteString(jd.Province)
-	builder.WriteString(", ")
 	builder.WriteString("Idare=")
 	builder.WriteString(jd.Idare)
 	builder.WriteString(", ")
@@ -741,6 +738,9 @@ func (jd *JobDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("ConstructionArea=")
 	builder.WriteString(jd.ConstructionArea)
+	builder.WriteString(", ")
+	builder.WriteString("City=")
+	builder.WriteString(jd.City)
 	builder.WriteString(", ")
 	builder.WriteString("District=")
 	builder.WriteString(jd.District)
