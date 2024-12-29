@@ -70,6 +70,32 @@ var (
 		Columns:    CompanyEngineersColumns,
 		PrimaryKey: []*schema.Column{CompanyEngineersColumns[0]},
 	}
+	// CompanyUsersColumns holds the columns for the "company_users" table.
+	CompanyUsersColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "company_user_company", Type: field.TypeInt, Nullable: true},
+		{Name: "company_user_user", Type: field.TypeInt, Nullable: true},
+	}
+	// CompanyUsersTable holds the schema information for the "company_users" table.
+	CompanyUsersTable = &schema.Table{
+		Name:       "company_users",
+		Columns:    CompanyUsersColumns,
+		PrimaryKey: []*schema.Column{CompanyUsersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "company_users_company_details_company",
+				Columns:    []*schema.Column{CompanyUsersColumns[1]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "company_users_users_user",
+				Columns:    []*schema.Column{CompanyUsersColumns[2]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
 	// JobAuthorsColumns holds the columns for the "job_authors" table.
 	JobAuthorsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -349,6 +375,7 @@ var (
 	Tables = []*schema.Table{
 		CompanyDetailsTable,
 		CompanyEngineersTable,
+		CompanyUsersTable,
 		JobAuthorsTable,
 		JobContractorsTable,
 		JobDetailsTable,
@@ -362,6 +389,8 @@ var (
 
 func init() {
 	CompanyDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
+	CompanyUsersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	CompanyUsersTable.ForeignKeys[1].RefTable = UsersTable
 	JobDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[1].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[2].RefTable = CompanyEngineersTable

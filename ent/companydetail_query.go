@@ -4,9 +4,11 @@ package ent
 
 import (
 	"context"
+	"database/sql/driver"
 	"fmt"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
+	"gqlgen-ent/ent/companyuser"
 	"gqlgen-ent/ent/predicate"
 	"math"
 
@@ -24,9 +26,11 @@ type CompanyDetailQuery struct {
 	inters           []Interceptor
 	predicates       []predicate.CompanyDetail
 	withCompanyOwner *CompanyEngineerQuery
+	withUsers        *CompanyUserQuery
 	withFKs          bool
 	modifiers        []func(*sql.Selector)
 	loadTotal        []func(context.Context, []*CompanyDetail) error
+	withNamedUsers   map[string]*CompanyUserQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -78,6 +82,28 @@ func (cdq *CompanyDetailQuery) QueryCompanyOwner() *CompanyEngineerQuery {
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companydetail.CompanyOwnerTable, companydetail.CompanyOwnerColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(cdq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryUsers chains the current query on the "users" edge.
+func (cdq *CompanyDetailQuery) QueryUsers() *CompanyUserQuery {
+	query := (&CompanyUserClient{config: cdq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := cdq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := cdq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(companyuser.Table, companyuser.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, companydetail.UsersTable, companydetail.UsersColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cdq.driver.Dialect(), step)
 		return fromU, nil
@@ -278,6 +304,7 @@ func (cdq *CompanyDetailQuery) Clone() *CompanyDetailQuery {
 		inters:           append([]Interceptor{}, cdq.inters...),
 		predicates:       append([]predicate.CompanyDetail{}, cdq.predicates...),
 		withCompanyOwner: cdq.withCompanyOwner.Clone(),
+		withUsers:        cdq.withUsers.Clone(),
 		// clone intermediate query.
 		sql:  cdq.sql.Clone(),
 		path: cdq.path,
@@ -292,6 +319,17 @@ func (cdq *CompanyDetailQuery) WithCompanyOwner(opts ...func(*CompanyEngineerQue
 		opt(query)
 	}
 	cdq.withCompanyOwner = query
+	return cdq
+}
+
+// WithUsers tells the query-builder to eager-load the nodes that are connected to
+// the "users" edge. The optional arguments are used to configure the query builder of the edge.
+func (cdq *CompanyDetailQuery) WithUsers(opts ...func(*CompanyUserQuery)) *CompanyDetailQuery {
+	query := (&CompanyUserClient{config: cdq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	cdq.withUsers = query
 	return cdq
 }
 
@@ -374,8 +412,9 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		nodes       = []*CompanyDetail{}
 		withFKs     = cdq.withFKs
 		_spec       = cdq.querySpec()
-		loadedTypes = [1]bool{
+		loadedTypes = [2]bool{
 			cdq.withCompanyOwner != nil,
+			cdq.withUsers != nil,
 		}
 	)
 	if cdq.withCompanyOwner != nil {
@@ -408,6 +447,20 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	if query := cdq.withCompanyOwner; query != nil {
 		if err := cdq.loadCompanyOwner(ctx, query, nodes, nil,
 			func(n *CompanyDetail, e *CompanyEngineer) { n.Edges.CompanyOwner = e }); err != nil {
+			return nil, err
+		}
+	}
+	if query := cdq.withUsers; query != nil {
+		if err := cdq.loadUsers(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.Users = []*CompanyUser{} },
+			func(n *CompanyDetail, e *CompanyUser) { n.Edges.Users = append(n.Edges.Users, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range cdq.withNamedUsers {
+		if err := cdq.loadUsers(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedUsers(name) },
+			func(n *CompanyDetail, e *CompanyUser) { n.appendNamedUsers(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -448,6 +501,37 @@ func (cdq *CompanyDetailQuery) loadCompanyOwner(ctx context.Context, query *Comp
 		for i := range nodes {
 			assign(nodes[i], n)
 		}
+	}
+	return nil
+}
+func (cdq *CompanyDetailQuery) loadUsers(ctx context.Context, query *CompanyUserQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *CompanyUser)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.CompanyUser(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.UsersColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_user_company
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_user_company" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_user_company" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
 	}
 	return nil
 }
@@ -534,6 +618,20 @@ func (cdq *CompanyDetailQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
+}
+
+// WithNamedUsers tells the query-builder to eager-load the nodes that are connected to the "users"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (cdq *CompanyDetailQuery) WithNamedUsers(name string, opts ...func(*CompanyUserQuery)) *CompanyDetailQuery {
+	query := (&CompanyUserClient{config: cdq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if cdq.withNamedUsers == nil {
+		cdq.withNamedUsers = make(map[string]*CompanyUserQuery)
+	}
+	cdq.withNamedUsers[name] = query
+	return cdq
 }
 
 // CompanyDetailGroupBy is the group-by builder for CompanyDetail entities.

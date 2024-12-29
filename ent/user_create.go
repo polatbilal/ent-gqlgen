@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"gqlgen-ent/ent/companyuser"
 	"gqlgen-ent/ent/user"
 	"time"
 
@@ -114,6 +115,21 @@ func (uc *UserCreate) SetNillableUpdatedAt(t *time.Time) *UserCreate {
 		uc.SetUpdatedAt(*t)
 	}
 	return uc
+}
+
+// AddCompanyIDs adds the "companies" edge to the CompanyUser entity by IDs.
+func (uc *UserCreate) AddCompanyIDs(ids ...int) *UserCreate {
+	uc.mutation.AddCompanyIDs(ids...)
+	return uc
+}
+
+// AddCompanies adds the "companies" edges to the CompanyUser entity.
+func (uc *UserCreate) AddCompanies(c ...*CompanyUser) *UserCreate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return uc.AddCompanyIDs(ids...)
 }
 
 // Mutation returns the UserMutation object of the builder.
@@ -246,6 +262,22 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.UpdatedAt(); ok {
 		_spec.SetField(user.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
+	}
+	if nodes := uc.mutation.CompaniesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   user.CompaniesTable,
+			Columns: []string{user.CompaniesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }

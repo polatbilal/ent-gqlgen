@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
+	"gqlgen-ent/ent/companyuser"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -270,6 +271,21 @@ func (cdc *CompanyDetailCreate) SetCompanyOwner(c *CompanyEngineer) *CompanyDeta
 	return cdc.SetCompanyOwnerID(c.ID)
 }
 
+// AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
+func (cdc *CompanyDetailCreate) AddUserIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddUserIDs(ids...)
+	return cdc
+}
+
+// AddUsers adds the "users" edges to the CompanyUser entity.
+func (cdc *CompanyDetailCreate) AddUsers(c ...*CompanyUser) *CompanyDetailCreate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cdc.AddUserIDs(ids...)
+}
+
 // Mutation returns the CompanyDetailMutation object of the builder.
 func (cdc *CompanyDetailCreate) Mutation() *CompanyDetailMutation {
 	return cdc.mutation
@@ -446,6 +462,22 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.owner_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cdc.mutation.UsersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   companydetail.UsersTable,
+			Columns: []string{companydetail.UsersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

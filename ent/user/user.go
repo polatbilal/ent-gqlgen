@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 const (
@@ -29,8 +30,17 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
+	// EdgeCompanies holds the string denoting the companies edge name in mutations.
+	EdgeCompanies = "companies"
 	// Table holds the table name of the user in the database.
 	Table = "users"
+	// CompaniesTable is the table that holds the companies relation/edge.
+	CompaniesTable = "company_users"
+	// CompaniesInverseTable is the table name for the CompanyUser entity.
+	// It exists in this package in order to avoid circular dependency with the "companyuser" package.
+	CompaniesInverseTable = "company_users"
+	// CompaniesColumn is the table column denoting the companies relation/edge.
+	CompaniesColumn = "company_user_user"
 )
 
 // Columns holds all SQL columns for user fields.
@@ -115,4 +125,25 @@ func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdatedAt orders the results by the updated_at field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
+}
+
+// ByCompaniesCount orders the results by companies count.
+func ByCompaniesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newCompaniesStep(), opts...)
+	}
+}
+
+// ByCompanies orders the results by companies terms.
+func ByCompanies(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newCompaniesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+func newCompaniesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(CompaniesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, true, CompaniesTable, CompaniesColumn),
+	)
 }

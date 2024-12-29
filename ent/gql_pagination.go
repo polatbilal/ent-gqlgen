@@ -7,6 +7,7 @@ import (
 	"errors"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
+	"gqlgen-ent/ent/companyuser"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
 	"gqlgen-ent/ent/jobdetail"
@@ -599,6 +600,255 @@ func (ce *CompanyEngineer) ToEdge(order *CompanyEngineerOrder) *CompanyEngineerE
 	return &CompanyEngineerEdge{
 		Node:   ce,
 		Cursor: order.Field.toCursor(ce),
+	}
+}
+
+// CompanyUserEdge is the edge representation of CompanyUser.
+type CompanyUserEdge struct {
+	Node   *CompanyUser `json:"node"`
+	Cursor Cursor       `json:"cursor"`
+}
+
+// CompanyUserConnection is the connection containing edges to CompanyUser.
+type CompanyUserConnection struct {
+	Edges      []*CompanyUserEdge `json:"edges"`
+	PageInfo   PageInfo           `json:"pageInfo"`
+	TotalCount int                `json:"totalCount"`
+}
+
+func (c *CompanyUserConnection) build(nodes []*CompanyUser, pager *companyuserPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *CompanyUser
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *CompanyUser {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *CompanyUser {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*CompanyUserEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &CompanyUserEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// CompanyUserPaginateOption enables pagination customization.
+type CompanyUserPaginateOption func(*companyuserPager) error
+
+// WithCompanyUserOrder configures pagination ordering.
+func WithCompanyUserOrder(order *CompanyUserOrder) CompanyUserPaginateOption {
+	if order == nil {
+		order = DefaultCompanyUserOrder
+	}
+	o := *order
+	return func(pager *companyuserPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultCompanyUserOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithCompanyUserFilter configures pagination filter.
+func WithCompanyUserFilter(filter func(*CompanyUserQuery) (*CompanyUserQuery, error)) CompanyUserPaginateOption {
+	return func(pager *companyuserPager) error {
+		if filter == nil {
+			return errors.New("CompanyUserQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type companyuserPager struct {
+	reverse bool
+	order   *CompanyUserOrder
+	filter  func(*CompanyUserQuery) (*CompanyUserQuery, error)
+}
+
+func newCompanyUserPager(opts []CompanyUserPaginateOption, reverse bool) (*companyuserPager, error) {
+	pager := &companyuserPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultCompanyUserOrder
+	}
+	return pager, nil
+}
+
+func (p *companyuserPager) applyFilter(query *CompanyUserQuery) (*CompanyUserQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *companyuserPager) toCursor(cu *CompanyUser) Cursor {
+	return p.order.Field.toCursor(cu)
+}
+
+func (p *companyuserPager) applyCursors(query *CompanyUserQuery, after, before *Cursor) (*CompanyUserQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultCompanyUserOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *companyuserPager) applyOrder(query *CompanyUserQuery) *CompanyUserQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultCompanyUserOrder.Field {
+		query = query.Order(DefaultCompanyUserOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *companyuserPager) orderExpr(query *CompanyUserQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultCompanyUserOrder.Field {
+			b.Comma().Ident(DefaultCompanyUserOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to CompanyUser.
+func (cu *CompanyUserQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...CompanyUserPaginateOption,
+) (*CompanyUserConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newCompanyUserPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if cu, err = pager.applyFilter(cu); err != nil {
+		return nil, err
+	}
+	conn := &CompanyUserConnection{Edges: []*CompanyUserEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := cu.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if cu, err = pager.applyCursors(cu, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		cu.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := cu.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	cu = pager.applyOrder(cu)
+	nodes, err := cu.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// CompanyUserOrderField defines the ordering field of CompanyUser.
+type CompanyUserOrderField struct {
+	// Value extracts the ordering value from the given CompanyUser.
+	Value    func(*CompanyUser) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) companyuser.OrderOption
+	toCursor func(*CompanyUser) Cursor
+}
+
+// CompanyUserOrder defines the ordering of CompanyUser.
+type CompanyUserOrder struct {
+	Direction OrderDirection         `json:"direction"`
+	Field     *CompanyUserOrderField `json:"field"`
+}
+
+// DefaultCompanyUserOrder is the default ordering of CompanyUser.
+var DefaultCompanyUserOrder = &CompanyUserOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &CompanyUserOrderField{
+		Value: func(cu *CompanyUser) (ent.Value, error) {
+			return cu.ID, nil
+		},
+		column: companyuser.FieldID,
+		toTerm: companyuser.ByID,
+		toCursor: func(cu *CompanyUser) Cursor {
+			return Cursor{ID: cu.ID}
+		},
+	},
+}
+
+// ToEdge converts CompanyUser into CompanyUserEdge.
+func (cu *CompanyUser) ToEdge(order *CompanyUserOrder) *CompanyUserEdge {
+	if order == nil {
+		order = DefaultCompanyUserOrder
+	}
+	return &CompanyUserEdge{
+		Node:   cu,
+		Cursor: order.Field.toCursor(cu),
 	}
 }
 

@@ -16,6 +16,7 @@ type User {
   password: String!
   role: String!
   createdAt: String!
+  companies: [CompanyDetail!]! @goField(forceResolver: true)
 }
 
 input UserInput {
@@ -25,6 +26,7 @@ input UserInput {
   phone: Int!
   password: String!
   role: String!
+  companyIDs: [Int!]
 }
 
 extend type Query {

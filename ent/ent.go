@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
+	"gqlgen-ent/ent/companyuser"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
 	"gqlgen-ent/ent/jobdetail"
@@ -84,6 +85,7 @@ func checkColumn(table, column string) error {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			companydetail.Table:   companydetail.ValidColumn,
 			companyengineer.Table: companyengineer.ValidColumn,
+			companyuser.Table:     companyuser.ValidColumn,
 			jobauthor.Table:       jobauthor.ValidColumn,
 			jobcontractor.Table:   jobcontractor.ValidColumn,
 			jobdetail.Table:       jobdetail.ValidColumn,

@@ -32,8 +32,33 @@ type User struct {
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the UserQuery when eager-loading is set.
+	Edges        UserEdges `json:"edges"`
 	selectValues sql.SelectValues
+}
+
+// UserEdges holds the relations/edges for other nodes in the graph.
+type UserEdges struct {
+	// Companies holds the value of the companies edge.
+	Companies []*CompanyUser `json:"companies,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [1]bool
+	// totalCount holds the count of the edges above.
+	totalCount [1]map[string]int
+
+	namedCompanies map[string][]*CompanyUser
+}
+
+// CompaniesOrErr returns the Companies value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) CompaniesOrErr() ([]*CompanyUser, error) {
+	if e.loadedTypes[0] {
+		return e.Companies, nil
+	}
+	return nil, &NotLoadedError{edge: "companies"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -129,6 +154,11 @@ func (u *User) Value(name string) (ent.Value, error) {
 	return u.selectValues.Get(name)
 }
 
+// QueryCompanies queries the "companies" edge of the User entity.
+func (u *User) QueryCompanies() *CompanyUserQuery {
+	return NewUserClient(u.config).QueryCompanies(u)
+}
+
 // Update returns a builder for updating this User.
 // Note that you need to call User.Unwrap() before calling this method if this User
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -177,6 +207,30 @@ func (u *User) String() string {
 	builder.WriteString(u.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedCompanies returns the Companies named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (u *User) NamedCompanies(name string) ([]*CompanyUser, error) {
+	if u.Edges.namedCompanies == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := u.Edges.namedCompanies[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (u *User) appendNamedCompanies(name string, edges ...*CompanyUser) {
+	if u.Edges.namedCompanies == nil {
+		u.Edges.namedCompanies = make(map[string][]*CompanyUser)
+	}
+	if len(edges) == 0 {
+		u.Edges.namedCompanies[name] = []*CompanyUser{}
+	} else {
+		u.Edges.namedCompanies[name] = append(u.Edges.namedCompanies[name], edges...)
+	}
 }
 
 // Users is a parsable slice of User.

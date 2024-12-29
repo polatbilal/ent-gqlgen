@@ -32,6 +32,18 @@ func (f CompanyEngineerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Va
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyEngineerMutation", m)
 }
 
+// The CompanyUserFunc type is an adapter to allow the use of ordinary
+// function as CompanyUser mutator.
+type CompanyUserFunc func(context.Context, *ent.CompanyUserMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CompanyUserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.CompanyUserMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyUserMutation", m)
+}
+
 // The JobAuthorFunc type is an adapter to allow the use of ordinary
 // function as JobAuthor mutator.
 type JobAuthorFunc func(context.Context, *ent.JobAuthorMutation) (ent.Value, error)

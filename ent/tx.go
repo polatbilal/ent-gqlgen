@@ -16,6 +16,8 @@ type Tx struct {
 	CompanyDetail *CompanyDetailClient
 	// CompanyEngineer is the client for interacting with the CompanyEngineer builders.
 	CompanyEngineer *CompanyEngineerClient
+	// CompanyUser is the client for interacting with the CompanyUser builders.
+	CompanyUser *CompanyUserClient
 	// JobAuthor is the client for interacting with the JobAuthor builders.
 	JobAuthor *JobAuthorClient
 	// JobContractor is the client for interacting with the JobContractor builders.
@@ -165,6 +167,7 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.CompanyDetail = NewCompanyDetailClient(tx.config)
 	tx.CompanyEngineer = NewCompanyEngineerClient(tx.config)
+	tx.CompanyUser = NewCompanyUserClient(tx.config)
 	tx.JobAuthor = NewJobAuthorClient(tx.config)
 	tx.JobContractor = NewJobContractorClient(tx.config)
 	tx.JobDetail = NewJobDetailClient(tx.config)

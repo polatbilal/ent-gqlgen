@@ -63,11 +63,15 @@ type CompanyDetail struct {
 type CompanyDetailEdges struct {
 	// CompanyOwner holds the value of the companyOwner edge.
 	CompanyOwner *CompanyEngineer `json:"companyOwner,omitempty"`
+	// Users holds the value of the users edge.
+	Users []*CompanyUser `json:"users,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [1]bool
+	loadedTypes [2]bool
 	// totalCount holds the count of the edges above.
-	totalCount [1]map[string]int
+	totalCount [2]map[string]int
+
+	namedUsers map[string][]*CompanyUser
 }
 
 // CompanyOwnerOrErr returns the CompanyOwner value or an error if the edge
@@ -79,6 +83,15 @@ func (e CompanyDetailEdges) CompanyOwnerOrErr() (*CompanyEngineer, error) {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "companyOwner"}
+}
+
+// UsersOrErr returns the Users value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) UsersOrErr() ([]*CompanyUser, error) {
+	if e.loadedTypes[1] {
+		return e.Users, nil
+	}
+	return nil, &NotLoadedError{edge: "users"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -242,6 +255,11 @@ func (cd *CompanyDetail) QueryCompanyOwner() *CompanyEngineerQuery {
 	return NewCompanyDetailClient(cd.config).QueryCompanyOwner(cd)
 }
 
+// QueryUsers queries the "users" edge of the CompanyDetail entity.
+func (cd *CompanyDetail) QueryUsers() *CompanyUserQuery {
+	return NewCompanyDetailClient(cd.config).QueryUsers(cd)
+}
+
 // Update returns a builder for updating this CompanyDetail.
 // Note that you need to call CompanyDetail.Unwrap() before calling this method if this CompanyDetail
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -317,6 +335,30 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString(cd.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedUsers returns the Users named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (cd *CompanyDetail) NamedUsers(name string) ([]*CompanyUser, error) {
+	if cd.Edges.namedUsers == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := cd.Edges.namedUsers[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (cd *CompanyDetail) appendNamedUsers(name string, edges ...*CompanyUser) {
+	if cd.Edges.namedUsers == nil {
+		cd.Edges.namedUsers = make(map[string][]*CompanyUser)
+	}
+	if len(edges) == 0 {
+		cd.Edges.namedUsers[name] = []*CompanyUser{}
+	} else {
+		cd.Edges.namedUsers[name] = append(cd.Edges.namedUsers[name], edges...)
+	}
 }
 
 // CompanyDetails is a parsable slice of CompanyDetail.

@@ -50,6 +50,19 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				return err
 			}
 			cd.withCompanyOwner = query
+
+		case "users":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyUserClient{config: cd.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyuserImplementors)...); err != nil {
+				return err
+			}
+			cd.WithNamedUsers(alias, func(wq *CompanyUserQuery) {
+				*wq = *query
+			})
 		case "companycode":
 			if _, ok := fieldSeen[companydetail.FieldCompanyCode]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldCompanyCode)
@@ -411,6 +424,75 @@ type companyengineerPaginateArgs struct {
 
 func newCompanyEngineerPaginateArgs(rv map[string]any) *companyengineerPaginateArgs {
 	args := &companyengineerPaginateArgs{}
+	if rv == nil {
+		return args
+	}
+	if v := rv[firstField]; v != nil {
+		args.first = v.(*int)
+	}
+	if v := rv[lastField]; v != nil {
+		args.last = v.(*int)
+	}
+	if v := rv[afterField]; v != nil {
+		args.after = v.(*Cursor)
+	}
+	if v := rv[beforeField]; v != nil {
+		args.before = v.(*Cursor)
+	}
+	return args
+}
+
+// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
+func (cu *CompanyUserQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyUserQuery, error) {
+	fc := graphql.GetFieldContext(ctx)
+	if fc == nil {
+		return cu, nil
+	}
+	if err := cu.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+		return nil, err
+	}
+	return cu, nil
+}
+
+func (cu *CompanyUserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+	path = append([]string(nil), path...)
+	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
+		switch field.Name {
+
+		case "company":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyDetailClient{config: cu.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
+				return err
+			}
+			cu.withCompany = query
+
+		case "user":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&UserClient{config: cu.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, userImplementors)...); err != nil {
+				return err
+			}
+			cu.withUser = query
+		}
+	}
+	return nil
+}
+
+type companyuserPaginateArgs struct {
+	first, last   *int
+	after, before *Cursor
+	opts          []CompanyUserPaginateOption
+}
+
+func newCompanyUserPaginateArgs(rv map[string]any) *companyuserPaginateArgs {
+	args := &companyuserPaginateArgs{}
 	if rv == nil {
 		return args
 	}
@@ -1510,6 +1592,19 @@ func (u *UserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graph
 	)
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
+
+		case "companies":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyUserClient{config: u.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyuserImplementors)...); err != nil {
+				return err
+			}
+			u.WithNamedCompanies(alias, func(wq *CompanyUserQuery) {
+				*wq = *query
+			})
 		case "username":
 			if _, ok := fieldSeen[user.FieldUsername]; !ok {
 				selectedFields = append(selectedFields, user.FieldUsername)

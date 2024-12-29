@@ -16,6 +16,18 @@ func (cd *CompanyDetail) CompanyOwner(ctx context.Context) (*CompanyEngineer, er
 	return result, MaskNotFound(err)
 }
 
+func (cd *CompanyDetail) Users(ctx context.Context) (result []*CompanyUser, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = cd.NamedUsers(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = cd.Edges.UsersOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = cd.QueryUsers().All(ctx)
+	}
+	return result, err
+}
+
 func (ce *CompanyEngineer) CompanyOwners(ctx context.Context) (result []*CompanyDetail, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
 		result, err = ce.NamedCompanyOwners(graphql.GetFieldContext(ctx).Field.Alias)
@@ -122,6 +134,22 @@ func (ce *CompanyEngineer) Electriccontrollers(ctx context.Context) (result []*J
 		result, err = ce.QueryElectriccontrollers().All(ctx)
 	}
 	return result, err
+}
+
+func (cu *CompanyUser) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := cu.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = cu.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (cu *CompanyUser) User(ctx context.Context) (*User, error) {
+	result, err := cu.Edges.UserOrErr()
+	if IsNotLoaded(err) {
+		result, err = cu.QueryUser().Only(ctx)
+	}
+	return result, MaskNotFound(err)
 }
 
 func (ja *JobAuthor) Authors(ctx context.Context) (result []*JobDetail, err error) {
@@ -304,6 +332,18 @@ func (jp *JobProgress) Progress(ctx context.Context) (result []*JobDetail, err e
 	}
 	if IsNotLoaded(err) {
 		result, err = jp.QueryProgress().All(ctx)
+	}
+	return result, err
+}
+
+func (u *User) Companies(ctx context.Context) (result []*CompanyUser, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = u.NamedCompanies(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = u.Edges.CompaniesOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = u.QueryCompanies().All(ctx)
 	}
 	return result, err
 }

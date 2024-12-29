@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
+	"gqlgen-ent/ent/companyuser"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
 	"gqlgen-ent/ent/jobdetail"
@@ -41,6 +42,11 @@ var companyengineerImplementors = []string{"CompanyEngineer", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
 func (*CompanyEngineer) IsNode() {}
+
+var companyuserImplementors = []string{"CompanyUser", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*CompanyUser) IsNode() {}
 
 var jobauthorImplementors = []string{"JobAuthor", "Node"}
 
@@ -154,6 +160,15 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			Where(companyengineer.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
 			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companyengineerImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case companyuser.Table:
+		query := c.CompanyUser.Query().
+			Where(companyuser.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companyuserImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -323,6 +338,22 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 		query := c.CompanyEngineer.Query().
 			Where(companyengineer.IDIn(ids...))
 		query, err := query.CollectFields(ctx, companyengineerImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case companyuser.Table:
+		query := c.CompanyUser.Query().
+			Where(companyuser.IDIn(ids...))
+		query, err := query.CollectFields(ctx, companyuserImplementors...)
 		if err != nil {
 			return nil, err
 		}

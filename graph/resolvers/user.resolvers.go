@@ -18,7 +18,49 @@ import (
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput) (*ent.User, error) {
-	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+	client := middlewares.GetClientFromContext(ctx)
+
+	// Kullanıcı adının daha önce kullanılıp kullanılmadığını kontrol et
+	exists, err := client.User.Query().
+		Where(user.Username(input.Username)).
+		Exist(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı kontrolü yapılırken hata: %v", err)
+	}
+	if exists {
+		return nil, fmt.Errorf("bu kullanıcı adı zaten kullanımda: %s", input.Username)
+	}
+
+	// Önce kullanıcıyı oluştur
+	user, err := client.User.Create().
+		SetUsername(input.Username).
+		SetName(input.Name).
+		SetEmail(input.Email).
+		SetPhone(input.Phone).
+		SetPassword(input.Password).
+		SetRole(input.Role).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı oluşturulurken hata: %v", err)
+	}
+
+	// Şirketleri ekle
+	if len(input.CompanyIDs) > 0 {
+		for _, companyID := range input.CompanyIDs {
+			// CompanyUser oluştur
+			_, err = client.CompanyUser.Create().
+				SetUser(user).
+				SetCompanyID(companyID).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("şirket bağlantısı oluşturulurken hata: %v", err)
+			}
+		}
+	}
+
+	return user, nil
 }
 
 // UpdateUser is the resolver for the updateUser field.
@@ -45,6 +87,11 @@ func (r *queryResolver) AllUsers(ctx context.Context) ([]*ent.User, error) {
 // CreatedAt is the resolver for the createdAt field.
 func (r *userResolver) CreatedAt(ctx context.Context, obj *ent.User) (string, error) {
 	return obj.CreatedAt.Format(time.RFC3339), nil
+}
+
+// Companies is the resolver for the companies field.
+func (r *userResolver) Companies(ctx context.Context, obj *ent.User) ([]*ent.CompanyDetail, error) {
+	return obj.QueryCompanies().QueryCompany().All(ctx)
 }
 
 // User returns generated.UserResolver implementation.
