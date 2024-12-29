@@ -34,6 +34,7 @@ func main() {
 		"Content-Length",
 		"Content-Type",
 		"Authorization",
+		"YDK-Token",
 		"Accept",
 		"X-Requested-With",
 		"Access-Control-Allow-Origin",

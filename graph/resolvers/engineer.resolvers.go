@@ -10,6 +10,8 @@ import (
 	"gqlgen-ent/ent"
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
+	"gqlgen-ent/ent/companyuser"
+	"gqlgen-ent/ent/user"
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
@@ -38,6 +40,19 @@ func (r *companyEngineerResolver) Dismissal(ctx context.Context, obj *ent.Compan
 // CreateEngineer is the resolver for the createEngineer field.
 func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
+
+	// RegNo ile denetçi kontrolü
+	if input.RegNo != nil {
+		exists, err := client.CompanyEngineer.Query().
+			Where(companyengineer.RegNoEQ(*input.RegNo)).
+			Exist(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("denetçi kontrolü yapılırken hata oluştu: %v", err)
+		}
+		if exists {
+			return nil, fmt.Errorf("bu sicil numarasına (%d) sahip denetçi zaten mevcut", *input.RegNo)
+		}
+	}
 
 	// CompanyCode ile şirketi bul
 	company, err := client.CompanyDetail.Query().
@@ -127,11 +142,35 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 	client := middlewares.GetClientFromContext(ctx)
 	query := client.CompanyEngineer.Query()
 
+	// Kullanıcı bilgilerini context'ten al
+	customClaim := middlewares.CtxValue(ctx)
+	if customClaim == nil {
+		return nil, fmt.Errorf("kullanıcı kimliği bulunamadı")
+	}
+
+	// Kullanıcının bağlı olduğu şirketleri bul
+	userCompanies, err := client.CompanyUser.Query().
+		Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
+		QueryCompany().
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcının şirketleri alınamadı: %v", err)
+	}
+
+	// Şirket ID'lerini topla
+	companyIDs := make([]int, len(userCompanies))
+	for i, company := range userCompanies {
+		companyIDs[i] = company.ID
+	}
+
+	// Sorguyu kullanıcının şirketlerine göre filtrele
+	query = query.Where(companyengineer.HasCompanyWith(companydetail.IDIn(companyIDs...)))
+
 	if filter != nil {
 		if filter.ID != nil && *filter.ID != "" {
 			engineerID, err := strconv.Atoi(*filter.ID)
 			if err != nil {
-				return nil, fmt.Errorf("invalid engineer ID: %v", err)
+				return nil, fmt.Errorf("geçersiz mühendis ID'si: %v", err)
 			}
 			query = query.Where(companyengineer.IDEQ(engineerID))
 		}
@@ -145,7 +184,7 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 
 	engineers, err := query.All(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get engineers: %v", err)
+		return nil, fmt.Errorf("mühendisler alınamadı: %v", err)
 	}
 
 	return engineers, nil

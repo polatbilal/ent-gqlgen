@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +18,7 @@ func FindAll(c *gin.Context) {
 	}
 
 	service := &ExternalService{
-		baseURL: "https://businessyds.csb.gov.tr",
+		baseURL: os.Getenv("YDK_BASE_URL"),
 		client:  &http.Client{},
 	}
 

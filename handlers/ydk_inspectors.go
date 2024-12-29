@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -55,31 +55,6 @@ type YDKInspectorResponse struct {
 	TotalCount int `json:"totalCount"`
 }
 
-func writeToFile(filename string, data interface{}) error {
-	// Logs klasörünü oluştur
-	logsDir := "logs"
-	if err := os.MkdirAll(logsDir, 0755); err != nil {
-		return fmt.Errorf("logs klasörü oluşturma hatası: %v", err)
-	}
-
-	// Dosya adına timestamp ekle
-	timestamp := time.Now().Format("2006-01-02_15-04-05")
-	filename = filepath.Join(logsDir, fmt.Sprintf("%s_%s.json", filename, timestamp))
-
-	// Veriyi JSON formatına çevir
-	jsonData, err := json.MarshalIndent(data, "", "    ")
-	if err != nil {
-		return fmt.Errorf("JSON dönüşüm hatası: %v", err)
-	}
-
-	// Dosyaya yaz
-	if err := os.WriteFile(filename, jsonData, 0644); err != nil {
-		return fmt.Errorf("dosya yazma hatası: %v", err)
-	}
-
-	return nil
-}
-
 func YDKInspectors(c *gin.Context) {
 	// GraphQL için JWT token
 	jwtToken := c.GetHeader("Authorization")
@@ -96,8 +71,13 @@ func YDKInspectors(c *gin.Context) {
 	}
 
 	service := &ExternalService{
-		baseURL: "https://businessyds.csb.gov.tr",
+		baseURL: os.Getenv("YDK_BASE_URL"),
 		client:  &http.Client{},
+	}
+
+	if service.baseURL == "" {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "YDK_BASE_URL environment variable is not set"})
+		return
 	}
 
 	requestBody := map[string]interface{}{
@@ -142,15 +122,8 @@ func YDKInspectors(c *gin.Context) {
 		return
 	}
 
-	// Önce ham veriyi kaydet
-	var rawResponse interface{}
-	if err := json.Unmarshal(body, &rawResponse); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Raw response parse hatası: " + err.Error()})
-		return
-	}
-	if err := writeToFile("ydk_raw_response", rawResponse); err != nil {
-		log.Printf("Ham yanıt kaydetme hatası: %v", err)
-	}
+	// Ham veriyi logla
+	log.Printf("YDK API Ham Yanıt: %+v\n", string(body))
 
 	// Struct'a parse et
 	var ydkResponse YDKInspectorResponse
@@ -159,25 +132,22 @@ func YDKInspectors(c *gin.Context) {
 		return
 	}
 
-	// Parse edilmiş struct verisini kaydet
-	if err := writeToFile("ydk_parsed_response", ydkResponse); err != nil {
-		log.Printf("Parse edilmiş yanıt kaydetme hatası: %v", err)
-	}
+	log.Printf("Toplam denetçi sayısı: %d\n", ydkResponse.TotalCount)
 
 	// Struct'tan gelen verileri sadeleştir
 	type SimplifiedInspector struct {
-		Name        string `json:"name"`
-		TcNo        string `json:"tcNo"`
-		Phone       string `json:"phone"`
-		Email       string `json:"email"`
-		Address     string `json:"address"`
-		Career      string `json:"career"`
-		Position    string `json:"position"`
-		RegNo       string `json:"regNo"`
-		CertNo      int    `json:"certNo"`
-		YDSID       int    `json:"id"`
+		Name        string `json:"Name"`
+		TcNo        string `json:"TcNo"`
+		Phone       string `json:"Phone"`
+		Email       string `json:"Email"`
+		Address     string `json:"Address"`
+		Career      string `json:"Career"`
+		Position    string `json:"Position"`
+		RegNo       string `json:"RegNo"`
+		CertNo      int    `json:"CertNo"`
+		YDSID       int    `json:"YDSID"`
 		CompanyCode int    `json:"CompanyCode"`
-		Employment  int64  `json:"employment"`
+		Employment  int64  `json:"Employment"`
 	}
 
 	var simplifiedData []SimplifiedInspector
@@ -199,18 +169,13 @@ func YDKInspectors(c *gin.Context) {
 		simplifiedData = append(simplifiedData, inspector)
 	}
 
-	// Sadeleştirilmiş veriyi kaydet
-	if err := writeToFile("ydk_simplified_response", map[string]interface{}{
-		"totalCount": ydkResponse.TotalCount,
-		"groupCount": ydkResponse.GroupCount,
-		"items":      simplifiedData,
-	}); err != nil {
-		log.Printf("Sadeleştirilmiş yanıt kaydetme hatası: %v", err)
-	}
-
 	// GraphQL client oluştur
+	scheme := "http"
+	if c.Request.TLS != nil {
+		scheme = "https"
+	}
 	graphqlClient := GraphQLClient{
-		URL: "http://localhost:4000/graphql",
+		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Request.Host),
 	}
 
 	// Her bir denetçi için GraphQL mutation'ı çalıştır
@@ -218,6 +183,8 @@ func YDKInspectors(c *gin.Context) {
 	var processLogs []map[string]interface{}
 
 	for _, inspector := range simplifiedData {
+		log.Printf("Denetçi işleniyor: %s\n", inspector.Name)
+
 		processLog := map[string]interface{}{
 			"name": inspector.Name,
 			"time": time.Now().Format("2006-01-02 15:04:05"),
@@ -229,7 +196,7 @@ func YDKInspectors(c *gin.Context) {
 		mutation := `
 		mutation CreateEngineer($input: CompanyEngineerInput!) {
 			createEngineer(input: $input) {
-				YDSID
+				id
 				Name
 				TcNo
 				RegNo
@@ -239,6 +206,9 @@ func YDKInspectors(c *gin.Context) {
 				Position
 				Employment
 				Address
+				Company {
+					id
+				}
 			}
 		}
 		`
@@ -264,31 +234,39 @@ func YDKInspectors(c *gin.Context) {
 
 		if err := graphqlClient.Execute(mutation, variables, jwtToken); err != nil {
 			errMsg := fmt.Sprintf("Denetçi eklenirken hata oluştu: %v", err)
+
+			if strings.Contains(err.Error(), "sahip denetçi zaten mevcut") {
+				errMsg = fmt.Sprintf("Bu sicil numarasına sahip denetçi zaten mevcut: %s", inspector.RegNo)
+				processLog["status"] = "skipped"
+			} else {
+				processLog["status"] = "error"
+			}
+
+			log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
 			processLog["error"] = errMsg
 			processLogs = append(processLogs, processLog)
-			log.Printf("Hata: %s - Denetçi: %s", errMsg, inspector.Name)
 			continue
 		}
 
 		successCount++
 		processLog["status"] = "success"
 		processLogs = append(processLogs, processLog)
-		log.Printf("Başarılı: Denetçi eklendi - %s", inspector.Name)
+		log.Printf("Başarılı: Denetçi eklendi - %s\n", inspector.Name)
 	}
 
-	// İşlem loglarını kaydet
-	if err := writeToFile("ydk_process_logs", map[string]interface{}{
-		"totalCount":   len(simplifiedData),
-		"successCount": successCount,
-		"logs":         processLogs,
-	}); err != nil {
-		log.Printf("İşlem logları kaydetme hatası: %v", err)
-	}
+	log.Printf("İşlem tamamlandı. Toplam: %d, Başarılı: %d, Atlanan: %d\n",
+		len(simplifiedData),
+		successCount,
+		len(simplifiedData)-successCount)
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":      fmt.Sprintf("%d adet denetçiden %d tanesi başarıyla eklendi", len(simplifiedData), successCount),
+		"message": fmt.Sprintf("%d adet denetçiden %d tanesi başarıyla eklendi, %d tanesi zaten mevcut",
+			len(simplifiedData),
+			successCount,
+			len(simplifiedData)-successCount),
 		"totalCount":   len(simplifiedData),
 		"successCount": successCount,
+		"skippedCount": len(simplifiedData) - successCount,
 		"logs":         processLogs,
 	})
 }
