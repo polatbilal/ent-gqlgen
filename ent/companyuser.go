@@ -20,10 +20,10 @@ type CompanyUser struct {
 	ID int `json:"id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the CompanyUserQuery when eager-loading is set.
-	Edges                CompanyUserEdges `json:"edges"`
-	company_user_company *int
-	company_user_user    *int
-	selectValues         sql.SelectValues
+	Edges        CompanyUserEdges `json:"edges"`
+	company_id   *int
+	user_id      *int
+	selectValues sql.SelectValues
 }
 
 // CompanyUserEdges holds the relations/edges for other nodes in the graph.
@@ -68,9 +68,9 @@ func (*CompanyUser) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case companyuser.FieldID:
 			values[i] = new(sql.NullInt64)
-		case companyuser.ForeignKeys[0]: // company_user_company
+		case companyuser.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
-		case companyuser.ForeignKeys[1]: // company_user_user
+		case companyuser.ForeignKeys[1]: // user_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -95,17 +95,17 @@ func (cu *CompanyUser) assignValues(columns []string, values []any) error {
 			cu.ID = int(value.Int64)
 		case companyuser.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field company_user_company", value)
+				return fmt.Errorf("unexpected type %T for edge-field company_id", value)
 			} else if value.Valid {
-				cu.company_user_company = new(int)
-				*cu.company_user_company = int(value.Int64)
+				cu.company_id = new(int)
+				*cu.company_id = int(value.Int64)
 			}
 		case companyuser.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field company_user_user", value)
+				return fmt.Errorf("unexpected type %T for edge-field user_id", value)
 			} else if value.Valid {
-				cu.company_user_user = new(int)
-				*cu.company_user_user = int(value.Int64)
+				cu.user_id = new(int)
+				*cu.user_id = int(value.Int64)
 			}
 		default:
 			cu.selectValues.Set(columns[i], values[i])

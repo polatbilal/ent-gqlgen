@@ -98,6 +98,8 @@ const (
 	EdgeLayers = "layers"
 	// EdgePayments holds the string denoting the payments edge name in mutations.
 	EdgePayments = "payments"
+	// EdgeCompany holds the string denoting the company edge name in mutations.
+	EdgeCompany = "company"
 	// Table holds the table name of the jobdetail in the database.
 	Table = "job_details"
 	// OwnerTable is the table that holds the owner relation/edge.
@@ -198,6 +200,13 @@ const (
 	PaymentsInverseTable = "job_payments"
 	// PaymentsColumn is the table column denoting the payments relation/edge.
 	PaymentsColumn = "payments_id"
+	// CompanyTable is the table that holds the company relation/edge.
+	CompanyTable = "job_details"
+	// CompanyInverseTable is the table name for the CompanyDetail entity.
+	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
+	CompanyInverseTable = "company_details"
+	// CompanyColumn is the table column denoting the company relation/edge.
+	CompanyColumn = "company_id"
 )
 
 // Columns holds all SQL columns for jobdetail fields.
@@ -236,6 +245,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "job_details"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
+	"company_id",
 	"inspector_id",
 	"architect_id",
 	"static_id",
@@ -569,6 +579,13 @@ func ByPayments(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newPaymentsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByCompanyField orders the results by company field.
+func ByCompanyField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newCompanyStep(), sql.OrderByField(field, opts...))
+	}
+}
 func newOwnerStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -665,5 +682,12 @@ func newPaymentsStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(PaymentsInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, PaymentsTable, PaymentsColumn),
+	)
+}
+func newCompanyStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(CompanyInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 	)
 }

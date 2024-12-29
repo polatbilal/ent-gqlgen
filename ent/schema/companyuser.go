@@ -18,7 +18,7 @@ func (CompanyUser) Fields() []ent.Field {
 // Edges of the CompanyUser.
 func (CompanyUser) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("company", CompanyDetail.Type).Unique(),
-		edge.To("user", User.Type).Unique(),
+		edge.From("company", CompanyDetail.Type).Ref("users").Unique(),
+		edge.From("user", User.Type).Ref("companies").Unique(),
 	}
 }

@@ -68,5 +68,6 @@ func (JobDetail) Edges() []ent.Edge {
 
 		edge.To("layers", JobLayer.Type).StorageKey(edge.Column("job_id")),
 		edge.To("payments", JobPayments.Type).StorageKey(edge.Column("payments_id")),
+		edge.From("company", CompanyDetail.Type).Ref("jobs").Unique(),
 	}
 }

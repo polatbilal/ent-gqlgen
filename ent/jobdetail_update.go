@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
@@ -844,6 +845,25 @@ func (jdu *JobDetailUpdate) AddPayments(j ...*JobPayments) *JobDetailUpdate {
 	return jdu.AddPaymentIDs(ids...)
 }
 
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (jdu *JobDetailUpdate) SetCompanyID(id int) *JobDetailUpdate {
+	jdu.mutation.SetCompanyID(id)
+	return jdu
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableCompanyID(id *int) *JobDetailUpdate {
+	if id != nil {
+		jdu = jdu.SetCompanyID(*id)
+	}
+	return jdu
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (jdu *JobDetailUpdate) SetCompany(c *CompanyDetail) *JobDetailUpdate {
+	return jdu.SetCompanyID(c.ID)
+}
+
 // Mutation returns the JobDetailMutation object of the builder.
 func (jdu *JobDetailUpdate) Mutation() *JobDetailMutation {
 	return jdu.mutation
@@ -961,6 +981,12 @@ func (jdu *JobDetailUpdate) RemovePayments(j ...*JobPayments) *JobDetailUpdate {
 		ids[i] = j[i].ID
 	}
 	return jdu.RemovePaymentIDs(ids...)
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (jdu *JobDetailUpdate) ClearCompany() *JobDetailUpdate {
+	jdu.mutation.ClearCompany()
+	return jdu
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -1617,6 +1643,35 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if jdu.mutation.CompanyCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jdu.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -2453,6 +2508,25 @@ func (jduo *JobDetailUpdateOne) AddPayments(j ...*JobPayments) *JobDetailUpdateO
 	return jduo.AddPaymentIDs(ids...)
 }
 
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (jduo *JobDetailUpdateOne) SetCompanyID(id int) *JobDetailUpdateOne {
+	jduo.mutation.SetCompanyID(id)
+	return jduo
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableCompanyID(id *int) *JobDetailUpdateOne {
+	if id != nil {
+		jduo = jduo.SetCompanyID(*id)
+	}
+	return jduo
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (jduo *JobDetailUpdateOne) SetCompany(c *CompanyDetail) *JobDetailUpdateOne {
+	return jduo.SetCompanyID(c.ID)
+}
+
 // Mutation returns the JobDetailMutation object of the builder.
 func (jduo *JobDetailUpdateOne) Mutation() *JobDetailMutation {
 	return jduo.mutation
@@ -2570,6 +2644,12 @@ func (jduo *JobDetailUpdateOne) RemovePayments(j ...*JobPayments) *JobDetailUpda
 		ids[i] = j[i].ID
 	}
 	return jduo.RemovePaymentIDs(ids...)
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (jduo *JobDetailUpdateOne) ClearCompany() *JobDetailUpdateOne {
+	jduo.mutation.ClearCompany()
+	return jduo
 }
 
 // Where appends a list predicates to the JobDetailUpdate builder.
@@ -3256,6 +3336,35 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if jduo.mutation.CompanyCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jduo.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

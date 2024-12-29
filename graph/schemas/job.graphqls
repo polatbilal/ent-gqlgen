@@ -45,6 +45,7 @@ type JobDetail {
 
 input JobInput {
   YibfNo: Int
+  CompanyCode: Int!
   Idare: String
   Pafta: String
   Ada: String

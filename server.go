@@ -7,6 +7,7 @@ import (
 	"errors"
 	"gqlgen-ent/database"
 	"gqlgen-ent/graph/resolvers"
+	"gqlgen-ent/handlers"
 	"gqlgen-ent/middlewares"
 	"log"
 	"net/http"
@@ -44,6 +45,9 @@ func main() {
 
 	r.Use(cors.New(config))
 	r.Use(middlewares.AuthMiddleware())
+
+	// YDK Inspectors endpoint'ini ekle
+	r.GET("/ydk/inspectors", handlers.YDKInspectors)
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
@@ -123,5 +127,5 @@ func main() {
 		c.AbortWithStatus(http.StatusNoContent)
 	})
 
-	r.Run(":4000")
+	r.Run("127.0.0.1:4000")
 }

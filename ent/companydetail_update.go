@@ -9,6 +9,7 @@ import (
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/companyuser"
+	"gqlgen-ent/ent/jobdetail"
 	"gqlgen-ent/ent/predicate"
 	"time"
 
@@ -371,6 +372,21 @@ func (cdu *CompanyDetailUpdate) SetCompanyOwner(c *CompanyEngineer) *CompanyDeta
 	return cdu.SetCompanyOwnerID(c.ID)
 }
 
+// AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
+func (cdu *CompanyDetailUpdate) AddEngineerIDs(ids ...int) *CompanyDetailUpdate {
+	cdu.mutation.AddEngineerIDs(ids...)
+	return cdu
+}
+
+// AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
+func (cdu *CompanyDetailUpdate) AddEngineers(c ...*CompanyEngineer) *CompanyDetailUpdate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cdu.AddEngineerIDs(ids...)
+}
+
 // AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
 func (cdu *CompanyDetailUpdate) AddUserIDs(ids ...int) *CompanyDetailUpdate {
 	cdu.mutation.AddUserIDs(ids...)
@@ -386,6 +402,21 @@ func (cdu *CompanyDetailUpdate) AddUsers(c ...*CompanyUser) *CompanyDetailUpdate
 	return cdu.AddUserIDs(ids...)
 }
 
+// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+func (cdu *CompanyDetailUpdate) AddJobIDs(ids ...int) *CompanyDetailUpdate {
+	cdu.mutation.AddJobIDs(ids...)
+	return cdu
+}
+
+// AddJobs adds the "jobs" edges to the JobDetail entity.
+func (cdu *CompanyDetailUpdate) AddJobs(j ...*JobDetail) *CompanyDetailUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return cdu.AddJobIDs(ids...)
+}
+
 // Mutation returns the CompanyDetailMutation object of the builder.
 func (cdu *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
 	return cdu.mutation
@@ -395,6 +426,27 @@ func (cdu *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
 func (cdu *CompanyDetailUpdate) ClearCompanyOwner() *CompanyDetailUpdate {
 	cdu.mutation.ClearCompanyOwner()
 	return cdu
+}
+
+// ClearEngineers clears all "engineers" edges to the CompanyEngineer entity.
+func (cdu *CompanyDetailUpdate) ClearEngineers() *CompanyDetailUpdate {
+	cdu.mutation.ClearEngineers()
+	return cdu
+}
+
+// RemoveEngineerIDs removes the "engineers" edge to CompanyEngineer entities by IDs.
+func (cdu *CompanyDetailUpdate) RemoveEngineerIDs(ids ...int) *CompanyDetailUpdate {
+	cdu.mutation.RemoveEngineerIDs(ids...)
+	return cdu
+}
+
+// RemoveEngineers removes "engineers" edges to CompanyEngineer entities.
+func (cdu *CompanyDetailUpdate) RemoveEngineers(c ...*CompanyEngineer) *CompanyDetailUpdate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cdu.RemoveEngineerIDs(ids...)
 }
 
 // ClearUsers clears all "users" edges to the CompanyUser entity.
@@ -416,6 +468,27 @@ func (cdu *CompanyDetailUpdate) RemoveUsers(c ...*CompanyUser) *CompanyDetailUpd
 		ids[i] = c[i].ID
 	}
 	return cdu.RemoveUserIDs(ids...)
+}
+
+// ClearJobs clears all "jobs" edges to the JobDetail entity.
+func (cdu *CompanyDetailUpdate) ClearJobs() *CompanyDetailUpdate {
+	cdu.mutation.ClearJobs()
+	return cdu
+}
+
+// RemoveJobIDs removes the "jobs" edge to JobDetail entities by IDs.
+func (cdu *CompanyDetailUpdate) RemoveJobIDs(ids ...int) *CompanyDetailUpdate {
+	cdu.mutation.RemoveJobIDs(ids...)
+	return cdu
+}
+
+// RemoveJobs removes "jobs" edges to JobDetail entities.
+func (cdu *CompanyDetailUpdate) RemoveJobs(j ...*JobDetail) *CompanyDetailUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return cdu.RemoveJobIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -588,10 +661,55 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if cdu.mutation.EngineersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cdu.mutation.RemovedEngineersIDs(); len(nodes) > 0 && !cdu.mutation.EngineersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cdu.mutation.EngineersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if cdu.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   companydetail.UsersTable,
 			Columns: []string{companydetail.UsersColumn},
 			Bidi:    false,
@@ -604,7 +722,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	if nodes := cdu.mutation.RemovedUsersIDs(); len(nodes) > 0 && !cdu.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   companydetail.UsersTable,
 			Columns: []string{companydetail.UsersColumn},
 			Bidi:    false,
@@ -620,12 +738,57 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	if nodes := cdu.mutation.UsersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   companydetail.UsersTable,
 			Columns: []string{companydetail.UsersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cdu.mutation.JobsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cdu.mutation.RemovedJobsIDs(); len(nodes) > 0 && !cdu.mutation.JobsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cdu.mutation.JobsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -994,6 +1157,21 @@ func (cduo *CompanyDetailUpdateOne) SetCompanyOwner(c *CompanyEngineer) *Company
 	return cduo.SetCompanyOwnerID(c.ID)
 }
 
+// AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
+func (cduo *CompanyDetailUpdateOne) AddEngineerIDs(ids ...int) *CompanyDetailUpdateOne {
+	cduo.mutation.AddEngineerIDs(ids...)
+	return cduo
+}
+
+// AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
+func (cduo *CompanyDetailUpdateOne) AddEngineers(c ...*CompanyEngineer) *CompanyDetailUpdateOne {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cduo.AddEngineerIDs(ids...)
+}
+
 // AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
 func (cduo *CompanyDetailUpdateOne) AddUserIDs(ids ...int) *CompanyDetailUpdateOne {
 	cduo.mutation.AddUserIDs(ids...)
@@ -1009,6 +1187,21 @@ func (cduo *CompanyDetailUpdateOne) AddUsers(c ...*CompanyUser) *CompanyDetailUp
 	return cduo.AddUserIDs(ids...)
 }
 
+// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+func (cduo *CompanyDetailUpdateOne) AddJobIDs(ids ...int) *CompanyDetailUpdateOne {
+	cduo.mutation.AddJobIDs(ids...)
+	return cduo
+}
+
+// AddJobs adds the "jobs" edges to the JobDetail entity.
+func (cduo *CompanyDetailUpdateOne) AddJobs(j ...*JobDetail) *CompanyDetailUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return cduo.AddJobIDs(ids...)
+}
+
 // Mutation returns the CompanyDetailMutation object of the builder.
 func (cduo *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
 	return cduo.mutation
@@ -1018,6 +1211,27 @@ func (cduo *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
 func (cduo *CompanyDetailUpdateOne) ClearCompanyOwner() *CompanyDetailUpdateOne {
 	cduo.mutation.ClearCompanyOwner()
 	return cduo
+}
+
+// ClearEngineers clears all "engineers" edges to the CompanyEngineer entity.
+func (cduo *CompanyDetailUpdateOne) ClearEngineers() *CompanyDetailUpdateOne {
+	cduo.mutation.ClearEngineers()
+	return cduo
+}
+
+// RemoveEngineerIDs removes the "engineers" edge to CompanyEngineer entities by IDs.
+func (cduo *CompanyDetailUpdateOne) RemoveEngineerIDs(ids ...int) *CompanyDetailUpdateOne {
+	cduo.mutation.RemoveEngineerIDs(ids...)
+	return cduo
+}
+
+// RemoveEngineers removes "engineers" edges to CompanyEngineer entities.
+func (cduo *CompanyDetailUpdateOne) RemoveEngineers(c ...*CompanyEngineer) *CompanyDetailUpdateOne {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cduo.RemoveEngineerIDs(ids...)
 }
 
 // ClearUsers clears all "users" edges to the CompanyUser entity.
@@ -1039,6 +1253,27 @@ func (cduo *CompanyDetailUpdateOne) RemoveUsers(c ...*CompanyUser) *CompanyDetai
 		ids[i] = c[i].ID
 	}
 	return cduo.RemoveUserIDs(ids...)
+}
+
+// ClearJobs clears all "jobs" edges to the JobDetail entity.
+func (cduo *CompanyDetailUpdateOne) ClearJobs() *CompanyDetailUpdateOne {
+	cduo.mutation.ClearJobs()
+	return cduo
+}
+
+// RemoveJobIDs removes the "jobs" edge to JobDetail entities by IDs.
+func (cduo *CompanyDetailUpdateOne) RemoveJobIDs(ids ...int) *CompanyDetailUpdateOne {
+	cduo.mutation.RemoveJobIDs(ids...)
+	return cduo
+}
+
+// RemoveJobs removes "jobs" edges to JobDetail entities.
+func (cduo *CompanyDetailUpdateOne) RemoveJobs(j ...*JobDetail) *CompanyDetailUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return cduo.RemoveJobIDs(ids...)
 }
 
 // Where appends a list predicates to the CompanyDetailUpdate builder.
@@ -1241,10 +1476,55 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if cduo.mutation.EngineersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cduo.mutation.RemovedEngineersIDs(); len(nodes) > 0 && !cduo.mutation.EngineersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cduo.mutation.EngineersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if cduo.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   companydetail.UsersTable,
 			Columns: []string{companydetail.UsersColumn},
 			Bidi:    false,
@@ -1257,7 +1537,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 	if nodes := cduo.mutation.RemovedUsersIDs(); len(nodes) > 0 && !cduo.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   companydetail.UsersTable,
 			Columns: []string{companydetail.UsersColumn},
 			Bidi:    false,
@@ -1273,12 +1553,57 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 	if nodes := cduo.mutation.UsersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   companydetail.UsersTable,
 			Columns: []string{companydetail.UsersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cduo.mutation.JobsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cduo.mutation.RemovedJobsIDs(); len(nodes) > 0 && !cduo.mutation.JobsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cduo.mutation.JobsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

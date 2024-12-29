@@ -79,7 +79,7 @@ func (cuq *CompanyUserQuery) QueryCompany() *CompanyDetailQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyuser.Table, companyuser.FieldID, selector),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, companyuser.CompanyTable, companyuser.CompanyColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.CompanyTable, companyuser.CompanyColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cuq.driver.Dialect(), step)
 		return fromU, nil
@@ -101,7 +101,7 @@ func (cuq *CompanyUserQuery) QueryUser() *UserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyuser.Table, companyuser.FieldID, selector),
 			sqlgraph.To(user.Table, user.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, companyuser.UserTable, companyuser.UserColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.UserTable, companyuser.UserColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cuq.driver.Dialect(), step)
 		return fromU, nil
@@ -444,10 +444,10 @@ func (cuq *CompanyUserQuery) loadCompany(ctx context.Context, query *CompanyDeta
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*CompanyUser)
 	for i := range nodes {
-		if nodes[i].company_user_company == nil {
+		if nodes[i].company_id == nil {
 			continue
 		}
-		fk := *nodes[i].company_user_company
+		fk := *nodes[i].company_id
 		if _, ok := nodeids[fk]; !ok {
 			ids = append(ids, fk)
 		}
@@ -464,7 +464,7 @@ func (cuq *CompanyUserQuery) loadCompany(ctx context.Context, query *CompanyDeta
 	for _, n := range neighbors {
 		nodes, ok := nodeids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "company_user_company" returned %v`, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "company_id" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)
@@ -476,10 +476,10 @@ func (cuq *CompanyUserQuery) loadUser(ctx context.Context, query *UserQuery, nod
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*CompanyUser)
 	for i := range nodes {
-		if nodes[i].company_user_user == nil {
+		if nodes[i].user_id == nil {
 			continue
 		}
-		fk := *nodes[i].company_user_user
+		fk := *nodes[i].user_id
 		if _, ok := nodeids[fk]; !ok {
 			ids = append(ids, fk)
 		}
@@ -496,7 +496,7 @@ func (cuq *CompanyUserQuery) loadUser(ctx context.Context, query *UserQuery, nod
 	for _, n := range neighbors {
 		nodes, ok := nodeids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "company_user_user" returned %v`, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "user_id" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)

@@ -40,7 +40,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "companyuser" package.
 	CompaniesInverseTable = "company_users"
 	// CompaniesColumn is the table column denoting the companies relation/edge.
-	CompaniesColumn = "company_user_user"
+	CompaniesColumn = "user_id"
 )
 
 // Columns holds all SQL columns for user fields.
@@ -144,6 +144,6 @@ func newCompaniesStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(CompaniesInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, true, CompaniesTable, CompaniesColumn),
+		sqlgraph.Edge(sqlgraph.O2M, false, CompaniesTable, CompaniesColumn),
 	)
 }

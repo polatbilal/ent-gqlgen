@@ -4,6 +4,7 @@ package ent
 
 import (
 	"fmt"
+	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
@@ -81,6 +82,7 @@ type JobDetail struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the JobDetailQuery when eager-loading is set.
 	Edges                 JobDetailEdges `json:"edges"`
+	company_id            *int
 	inspector_id          *int
 	architect_id          *int
 	static_id             *int
@@ -126,11 +128,13 @@ type JobDetailEdges struct {
 	Layers []*JobLayer `json:"layers,omitempty"`
 	// Payments holds the value of the payments edge.
 	Payments []*JobPayments `json:"payments,omitempty"`
+	// Company holds the value of the company edge.
+	Company *CompanyDetail `json:"company,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [14]bool
+	loadedTypes [15]bool
 	// totalCount holds the count of the edges above.
-	totalCount [14]map[string]int
+	totalCount [15]map[string]int
 
 	namedLayers   map[string][]*JobLayer
 	namedPayments map[string][]*JobPayments
@@ -286,6 +290,17 @@ func (e JobDetailEdges) PaymentsOrErr() ([]*JobPayments, error) {
 	return nil, &NotLoadedError{edge: "payments"}
 }
 
+// CompanyOrErr returns the Company value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e JobDetailEdges) CompanyOrErr() (*CompanyDetail, error) {
+	if e.Company != nil {
+		return e.Company, nil
+	} else if e.loadedTypes[14] {
+		return nil, &NotFoundError{label: companydetail.Label}
+	}
+	return nil, &NotLoadedError{edge: "company"}
+}
+
 // scanValues returns the types for scanning values from sql.Rows.
 func (*JobDetail) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
@@ -297,29 +312,31 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullString)
 		case jobdetail.FieldContractDate, jobdetail.FieldCompletionDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case jobdetail.ForeignKeys[0]: // inspector_id
+		case jobdetail.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[1]: // architect_id
+		case jobdetail.ForeignKeys[1]: // inspector_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[2]: // static_id
+		case jobdetail.ForeignKeys[2]: // architect_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[3]: // mechanic_id
+		case jobdetail.ForeignKeys[3]: // static_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[4]: // electric_id
+		case jobdetail.ForeignKeys[4]: // mechanic_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[5]: // controller_id
+		case jobdetail.ForeignKeys[5]: // electric_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[6]: // mechaniccontroller_id
+		case jobdetail.ForeignKeys[6]: // controller_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[7]: // electriccontroller_id
+		case jobdetail.ForeignKeys[7]: // mechaniccontroller_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[8]: // author_id
+		case jobdetail.ForeignKeys[8]: // electriccontroller_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[9]: // contractor_id
+		case jobdetail.ForeignKeys[9]: // author_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[10]: // owner_id
+		case jobdetail.ForeignKeys[10]: // contractor_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[11]: // progress_id
+		case jobdetail.ForeignKeys[11]: // owner_id
+			values[i] = new(sql.NullInt64)
+		case jobdetail.ForeignKeys[12]: // progress_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -512,82 +529,89 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			}
 		case jobdetail.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field company_id", value)
+			} else if value.Valid {
+				jd.company_id = new(int)
+				*jd.company_id = int(value.Int64)
+			}
+		case jobdetail.ForeignKeys[1]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field inspector_id", value)
 			} else if value.Valid {
 				jd.inspector_id = new(int)
 				*jd.inspector_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[1]:
+		case jobdetail.ForeignKeys[2]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field architect_id", value)
 			} else if value.Valid {
 				jd.architect_id = new(int)
 				*jd.architect_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[2]:
+		case jobdetail.ForeignKeys[3]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field static_id", value)
 			} else if value.Valid {
 				jd.static_id = new(int)
 				*jd.static_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[3]:
+		case jobdetail.ForeignKeys[4]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field mechanic_id", value)
 			} else if value.Valid {
 				jd.mechanic_id = new(int)
 				*jd.mechanic_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[4]:
+		case jobdetail.ForeignKeys[5]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field electric_id", value)
 			} else if value.Valid {
 				jd.electric_id = new(int)
 				*jd.electric_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[5]:
+		case jobdetail.ForeignKeys[6]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field controller_id", value)
 			} else if value.Valid {
 				jd.controller_id = new(int)
 				*jd.controller_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[6]:
+		case jobdetail.ForeignKeys[7]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field mechaniccontroller_id", value)
 			} else if value.Valid {
 				jd.mechaniccontroller_id = new(int)
 				*jd.mechaniccontroller_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[7]:
+		case jobdetail.ForeignKeys[8]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field electriccontroller_id", value)
 			} else if value.Valid {
 				jd.electriccontroller_id = new(int)
 				*jd.electriccontroller_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[8]:
+		case jobdetail.ForeignKeys[9]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field author_id", value)
 			} else if value.Valid {
 				jd.author_id = new(int)
 				*jd.author_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[9]:
+		case jobdetail.ForeignKeys[10]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field contractor_id", value)
 			} else if value.Valid {
 				jd.contractor_id = new(int)
 				*jd.contractor_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[10]:
+		case jobdetail.ForeignKeys[11]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field owner_id", value)
 			} else if value.Valid {
 				jd.owner_id = new(int)
 				*jd.owner_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[11]:
+		case jobdetail.ForeignKeys[12]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field progress_id", value)
 			} else if value.Valid {
@@ -675,6 +699,11 @@ func (jd *JobDetail) QueryLayers() *JobLayerQuery {
 // QueryPayments queries the "payments" edge of the JobDetail entity.
 func (jd *JobDetail) QueryPayments() *JobPaymentsQuery {
 	return NewJobDetailClient(jd.config).QueryPayments(jd)
+}
+
+// QueryCompany queries the "company" edge of the JobDetail entity.
+func (jd *JobDetail) QueryCompany() *CompanyDetailQuery {
+	return NewJobDetailClient(jd.config).QueryCompany(jd)
 }
 
 // Update returns a builder for updating this JobDetail.

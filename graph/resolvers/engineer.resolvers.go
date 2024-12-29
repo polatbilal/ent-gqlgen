@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	"gqlgen-ent/ent"
+	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
@@ -38,6 +39,14 @@ func (r *companyEngineerResolver) Dismissal(ctx context.Context, obj *ent.Compan
 func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
+	// CompanyCode ile şirketi bul
+	company, err := client.CompanyDetail.Query().
+		Where(companydetail.CompanyCodeEQ(input.CompanyCode)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %v", input.CompanyCode, err)
+	}
+
 	employmentPtr, err := tools.ParseDate(input.Employment)
 	if err != nil {
 		return nil, fmt.Errorf("employment date dönüşüm hatası: %v", err)
@@ -50,6 +59,7 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 
 	createEngineer, err := client.CompanyEngineer.Create().
 		SetNillableName(&input.Name).
+		SetCompany(company).
 		SetNillableAddress(input.Address).
 		SetNillableEmail(input.Email).
 		SetNillableTcNo(input.TcNo).
@@ -58,6 +68,7 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 		SetNillableCertNo(input.CertNo).
 		SetNillableCareer(input.Career).
 		SetNillablePosition(input.Position).
+		SetNillableYdsID(input.Ydsid).
 		SetNillableNote(input.Note).
 		SetNillableEmployment(employmentPtr).
 		SetNillableDismissal(dismissalPtr).

@@ -48,33 +48,42 @@ var (
 	CompanyEngineersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString, Default: ""},
-		{Name: "address", Type: field.TypeString, Nullable: true},
-		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "tc_no", Type: field.TypeInt, Nullable: true},
 		{Name: "phone", Type: field.TypeString, Nullable: true},
-		{Name: "reg_no", Type: field.TypeInt, Nullable: true},
-		{Name: "cert_no", Type: field.TypeInt, Nullable: true},
+		{Name: "email", Type: field.TypeString, Nullable: true},
+		{Name: "address", Type: field.TypeString, Nullable: true},
 		{Name: "career", Type: field.TypeString, Nullable: true},
 		{Name: "position", Type: field.TypeString, Nullable: true},
-		{Name: "note", Type: field.TypeString, Nullable: true},
-		{Name: "status", Type: field.TypeInt, Default: 1},
-		{Name: "deleted", Type: field.TypeInt, Default: 0},
+		{Name: "reg_no", Type: field.TypeInt, Nullable: true},
+		{Name: "cert_no", Type: field.TypeInt, Nullable: true},
+		{Name: "yds_id", Type: field.TypeInt, Nullable: true},
 		{Name: "employment", Type: field.TypeTime, Nullable: true},
 		{Name: "dismissal", Type: field.TypeTime, Nullable: true},
+		{Name: "status", Type: field.TypeInt, Default: 1},
+		{Name: "note", Type: field.TypeString, Nullable: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
 	}
 	// CompanyEngineersTable holds the schema information for the "company_engineers" table.
 	CompanyEngineersTable = &schema.Table{
 		Name:       "company_engineers",
 		Columns:    CompanyEngineersColumns,
 		PrimaryKey: []*schema.Column{CompanyEngineersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "company_engineers_company_details_engineers",
+				Columns:    []*schema.Column{CompanyEngineersColumns[17]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
 	}
 	// CompanyUsersColumns holds the columns for the "company_users" table.
 	CompanyUsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "company_user_company", Type: field.TypeInt, Nullable: true},
-		{Name: "company_user_user", Type: field.TypeInt, Nullable: true},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+		{Name: "user_id", Type: field.TypeInt, Nullable: true},
 	}
 	// CompanyUsersTable holds the schema information for the "company_users" table.
 	CompanyUsersTable = &schema.Table{
@@ -83,13 +92,13 @@ var (
 		PrimaryKey: []*schema.Column{CompanyUsersColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "company_users_company_details_company",
+				Symbol:     "company_users_company_details_users",
 				Columns:    []*schema.Column{CompanyUsersColumns[1]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "company_users_users_user",
+				Symbol:     "company_users_users_companies",
 				Columns:    []*schema.Column{CompanyUsersColumns[2]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
 				OnDelete:   schema.SetNull,
@@ -166,6 +175,7 @@ var (
 		{Name: "deleted", Type: field.TypeInt, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
 		{Name: "inspector_id", Type: field.TypeInt, Nullable: true},
 		{Name: "architect_id", Type: field.TypeInt, Nullable: true},
 		{Name: "static_id", Type: field.TypeInt, Nullable: true},
@@ -186,74 +196,80 @@ var (
 		PrimaryKey: []*schema.Column{JobDetailsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "job_details_company_engineers_inspectors",
+				Symbol:     "job_details_company_details_jobs",
 				Columns:    []*schema.Column{JobDetailsColumns[29]},
-				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_architects",
+				Symbol:     "job_details_company_engineers_inspectors",
 				Columns:    []*schema.Column{JobDetailsColumns[30]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_statics",
+				Symbol:     "job_details_company_engineers_architects",
 				Columns:    []*schema.Column{JobDetailsColumns[31]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_mechanics",
+				Symbol:     "job_details_company_engineers_statics",
 				Columns:    []*schema.Column{JobDetailsColumns[32]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_electrics",
+				Symbol:     "job_details_company_engineers_mechanics",
 				Columns:    []*schema.Column{JobDetailsColumns[33]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_controllers",
+				Symbol:     "job_details_company_engineers_electrics",
 				Columns:    []*schema.Column{JobDetailsColumns[34]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_mechaniccontrollers",
+				Symbol:     "job_details_company_engineers_controllers",
 				Columns:    []*schema.Column{JobDetailsColumns[35]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_electriccontrollers",
+				Symbol:     "job_details_company_engineers_mechaniccontrollers",
 				Columns:    []*schema.Column{JobDetailsColumns[36]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_job_authors_authors",
+				Symbol:     "job_details_company_engineers_electriccontrollers",
 				Columns:    []*schema.Column{JobDetailsColumns[37]},
+				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "job_details_job_authors_authors",
+				Columns:    []*schema.Column{JobDetailsColumns[38]},
 				RefColumns: []*schema.Column{JobAuthorsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "job_details_job_contractors_contractors",
-				Columns:    []*schema.Column{JobDetailsColumns[38]},
+				Columns:    []*schema.Column{JobDetailsColumns[39]},
 				RefColumns: []*schema.Column{JobContractorsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "job_details_job_owners_owners",
-				Columns:    []*schema.Column{JobDetailsColumns[39]},
+				Columns:    []*schema.Column{JobDetailsColumns[40]},
 				RefColumns: []*schema.Column{JobOwnersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "job_details_job_progresses_progress",
-				Columns:    []*schema.Column{JobDetailsColumns[40]},
+				Columns:    []*schema.Column{JobDetailsColumns[41]},
 				RefColumns: []*schema.Column{JobProgressesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -389,9 +405,10 @@ var (
 
 func init() {
 	CompanyDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
+	CompanyEngineersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[1].RefTable = UsersTable
-	JobDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
+	JobDetailsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	JobDetailsTable.ForeignKeys[1].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[2].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[3].RefTable = CompanyEngineersTable
@@ -399,10 +416,11 @@ func init() {
 	JobDetailsTable.ForeignKeys[5].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[6].RefTable = CompanyEngineersTable
 	JobDetailsTable.ForeignKeys[7].RefTable = CompanyEngineersTable
-	JobDetailsTable.ForeignKeys[8].RefTable = JobAuthorsTable
-	JobDetailsTable.ForeignKeys[9].RefTable = JobContractorsTable
-	JobDetailsTable.ForeignKeys[10].RefTable = JobOwnersTable
-	JobDetailsTable.ForeignKeys[11].RefTable = JobProgressesTable
+	JobDetailsTable.ForeignKeys[8].RefTable = CompanyEngineersTable
+	JobDetailsTable.ForeignKeys[9].RefTable = JobAuthorsTable
+	JobDetailsTable.ForeignKeys[10].RefTable = JobContractorsTable
+	JobDetailsTable.ForeignKeys[11].RefTable = JobOwnersTable
+	JobDetailsTable.ForeignKeys[12].RefTable = JobProgressesTable
 	JobLayersTable.ForeignKeys[0].RefTable = JobDetailsTable
 	JobPaymentsTable.ForeignKeys[0].RefTable = JobDetailsTable
 }

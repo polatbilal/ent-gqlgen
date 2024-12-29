@@ -8,6 +8,8 @@ import (
 	"context"
 	"fmt"
 	"gqlgen-ent/ent"
+	"gqlgen-ent/ent/companydetail"
+	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
 	"gqlgen-ent/ent/jobdetail"
@@ -75,6 +77,7 @@ func (r *jobDetailResolver) Layer(ctx context.Context, obj *ent.JobDetail) ([]*e
 func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) (*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
+	// YibfNo kontrolü
 	_, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).Only(ctx)
 	if err == nil {
 		return nil, fmt.Errorf("iş zaten mevcut")
@@ -82,6 +85,78 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	if !ent.IsNotFound(err) {
 		return nil, err
+	}
+
+	// CompanyCode ile şirketi bul
+	company, err := client.CompanyDetail.Query().
+		Where(companydetail.CompanyCodeEQ(input.CompanyCode)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %v", input.CompanyCode, err)
+	}
+
+	// InspectorRegNo ile mühendis bul
+	inspector, err := client.CompanyEngineer.Query().
+		Where(companyengineer.RegNoEQ(*input.Inspector)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("denetçi bulunamadı (kod: %d): %v", input.Inspector, err)
+	}
+
+	// StaticRegNo ile statik bul
+	static, err := client.CompanyEngineer.Query().
+		Where(companyengineer.RegNoEQ(*input.Static)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("statik bulunamadı (kod: %d): %v", input.Static, err)
+	}
+
+	// ArchitectRegNo ile statik bul
+	architect, err := client.CompanyEngineer.Query().
+		Where(companyengineer.RegNoEQ(*input.Architect)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("mimar bulunamadı (kod: %d): %v", input.Architect, err)
+	}
+
+	// MechanicRegNo ile mekanik bul
+	mechanic, err := client.CompanyEngineer.Query().
+		Where(companyengineer.RegNoEQ(*input.Mechanic)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("mak. müh. bulunamadı (kod: %d): %v", input.Mechanic, err)
+	}
+
+	// ElectricRegNo ile elektrik bul
+	electric, err := client.CompanyEngineer.Query().
+		Where(companyengineer.RegNoEQ(*input.Electric)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("elektrik bulunamadı (kod: %d): %v", input.Electric, err)
+	}
+
+	// ControllerRegNo ile denetçi bul
+	controller, err := client.CompanyEngineer.Query().
+		Where(companyengineer.RegNoEQ(*input.Controller)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kont. elm. bulunamadı (kod: %d): %v", input.Controller, err)
+	}
+
+	// MechanicControllerRegNo ile mekanik denetçi bul
+	mechanicController, err := client.CompanyEngineer.Query().
+		Where(companyengineer.RegNoEQ(*input.MechanicController)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("mekanik kont. elm. bulunamadı (kod: %d): %v", input.MechanicController, err)
+	}
+
+	// ElectricControllerRegNo ile elektrik denetçi bul
+	electricController, err := client.CompanyEngineer.Query().
+		Where(companyengineer.RegNoEQ(*input.ElectricController)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("elektrik kont. elm. bulunamadı (kod: %d): %v", input.ElectricController, err)
 	}
 
 	contractDatePtr, err := tools.ParseDate(input.ContractDate)
@@ -104,8 +179,10 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		return nil, fmt.Errorf("license date dönüşüm hatası: %v", err)
 	}
 
+	// İş detayını oluştur
 	newJobDetail, err := client.JobDetail.Create().
 		SetYibfNo(*input.YibfNo).
+		SetCompany(company). // Sadece şirket ilişkisini kur
 		SetNillableIdare(input.Idare).
 		SetNillablePafta(input.Pafta).
 		SetNillableAda(input.Ada).
@@ -130,14 +207,14 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableNote(input.Note).
 		SetNillableStarted(input.Started).
 		SetNillableUsagePurpose(input.UsagePurpose).
-		SetNillableInspectorID(input.Inspector).
-		SetNillableStaticID(input.Static).
-		SetNillableArchitectID(input.Architect).
-		SetNillableMechanicID(input.Mechanic).
-		SetNillableElectricID(input.Electric).
-		SetNillableControllerID(input.Controller).
-		SetNillableMechaniccontrollerID(input.MechanicController).
-		SetNillableElectriccontrollerID(input.ElectricController).
+		SetInspector(inspector).
+		SetStatic(static).
+		SetArchitect(architect).
+		SetMechanic(mechanic).
+		SetElectric(electric).
+		SetController(controller).
+		SetMechaniccontroller(mechanicController).
+		SetElectriccontroller(electricController).
 		Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("iş ayrıntısı oluşturulamadı: %v", err)
@@ -192,7 +269,6 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		if err != nil {
 			return nil, fmt.Errorf("yazar oluşturulamadı: %v", err)
 		}
-		// }
 	}
 
 	// Progress bilgilerini iş ayrıntısına ekle

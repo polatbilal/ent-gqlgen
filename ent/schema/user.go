@@ -30,6 +30,6 @@ func (User) Fields() []ent.Field {
 // Edges of the User.
 func (User) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("companies", CompanyUser.Type).Ref("user"),
+		edge.To("companies", CompanyUser.Type).StorageKey(edge.Column("user_id")),
 	}
 }

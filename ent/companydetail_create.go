@@ -9,6 +9,7 @@ import (
 	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/companyuser"
+	"gqlgen-ent/ent/jobdetail"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -271,6 +272,21 @@ func (cdc *CompanyDetailCreate) SetCompanyOwner(c *CompanyEngineer) *CompanyDeta
 	return cdc.SetCompanyOwnerID(c.ID)
 }
 
+// AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
+func (cdc *CompanyDetailCreate) AddEngineerIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddEngineerIDs(ids...)
+	return cdc
+}
+
+// AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
+func (cdc *CompanyDetailCreate) AddEngineers(c ...*CompanyEngineer) *CompanyDetailCreate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cdc.AddEngineerIDs(ids...)
+}
+
 // AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
 func (cdc *CompanyDetailCreate) AddUserIDs(ids ...int) *CompanyDetailCreate {
 	cdc.mutation.AddUserIDs(ids...)
@@ -284,6 +300,21 @@ func (cdc *CompanyDetailCreate) AddUsers(c ...*CompanyUser) *CompanyDetailCreate
 		ids[i] = c[i].ID
 	}
 	return cdc.AddUserIDs(ids...)
+}
+
+// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+func (cdc *CompanyDetailCreate) AddJobIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddJobIDs(ids...)
+	return cdc
+}
+
+// AddJobs adds the "jobs" edges to the JobDetail entity.
+func (cdc *CompanyDetailCreate) AddJobs(j ...*JobDetail) *CompanyDetailCreate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return cdc.AddJobIDs(ids...)
 }
 
 // Mutation returns the CompanyDetailMutation object of the builder.
@@ -464,15 +495,47 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_node.owner_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
+	if nodes := cdc.mutation.EngineersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
 	if nodes := cdc.mutation.UsersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   companydetail.UsersTable,
 			Columns: []string{companydetail.UsersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cdc.mutation.JobsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

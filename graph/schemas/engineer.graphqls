@@ -9,15 +9,18 @@ type CompanyEngineer {
   CertNo: Int
   Career: String!
   Position: String!
+  YDSID: Int
   Employment: String
   Dismissal: String
   Note: String
   Status: Int
-  Deleted: Int
+  Company: CompanyDetail
 }
 
 input CompanyEngineerInput {
+  YDSID: Int
   Name: String!
+  CompanyCode: Int!
   Address: String
   Email: String
   TcNo: Int
@@ -30,7 +33,6 @@ input CompanyEngineerInput {
   Dismissal: String
   Note: String
   Status: Int
-  Deleted: Int
 }
 
 input EngineerFilterInput {

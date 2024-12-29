@@ -1273,12 +1273,35 @@ func HasCompanyOwnerWith(preds ...predicate.CompanyEngineer) predicate.CompanyDe
 	})
 }
 
+// HasEngineers applies the HasEdge predicate on the "engineers" edge.
+func HasEngineers() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, EngineersTable, EngineersColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasEngineersWith applies the HasEdge predicate on the "engineers" edge with a given conditions (other predicates).
+func HasEngineersWith(preds ...predicate.CompanyEngineer) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newEngineersStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // HasUsers applies the HasEdge predicate on the "users" edge.
 func HasUsers() predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, UsersTable, UsersColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, UsersTable, UsersColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
@@ -1288,6 +1311,29 @@ func HasUsers() predicate.CompanyDetail {
 func HasUsersWith(preds ...predicate.CompanyUser) predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := newUsersStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasJobs applies the HasEdge predicate on the "jobs" edge.
+func HasJobs() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, JobsTable, JobsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasJobsWith applies the HasEdge predicate on the "jobs" edge with a given conditions (other predicates).
+func HasJobsWith(preds ...predicate.JobDetail) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newJobsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

@@ -25,6 +25,7 @@ type CompanyEngineerQuery struct {
 	order                        []companyengineer.OrderOption
 	inters                       []Interceptor
 	predicates                   []predicate.CompanyEngineer
+	withCompany                  *CompanyDetailQuery
 	withCompanyOwners            *CompanyDetailQuery
 	withInspectors               *JobDetailQuery
 	withArchitects               *JobDetailQuery
@@ -34,6 +35,7 @@ type CompanyEngineerQuery struct {
 	withControllers              *JobDetailQuery
 	withMechaniccontrollers      *JobDetailQuery
 	withElectriccontrollers      *JobDetailQuery
+	withFKs                      bool
 	modifiers                    []func(*sql.Selector)
 	loadTotal                    []func(context.Context, []*CompanyEngineer) error
 	withNamedCompanyOwners       map[string]*CompanyDetailQuery
@@ -79,6 +81,28 @@ func (ceq *CompanyEngineerQuery) Unique(unique bool) *CompanyEngineerQuery {
 func (ceq *CompanyEngineerQuery) Order(o ...companyengineer.OrderOption) *CompanyEngineerQuery {
 	ceq.order = append(ceq.order, o...)
 	return ceq
+}
+
+// QueryCompany chains the current query on the "company" edge.
+func (ceq *CompanyEngineerQuery) QueryCompany() *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: ceq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := ceq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := ceq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.CompanyTable, companyengineer.CompanyColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
 }
 
 // QueryCompanyOwners chains the current query on the "companyOwners" edge.
@@ -471,6 +495,7 @@ func (ceq *CompanyEngineerQuery) Clone() *CompanyEngineerQuery {
 		order:                   append([]companyengineer.OrderOption{}, ceq.order...),
 		inters:                  append([]Interceptor{}, ceq.inters...),
 		predicates:              append([]predicate.CompanyEngineer{}, ceq.predicates...),
+		withCompany:             ceq.withCompany.Clone(),
 		withCompanyOwners:       ceq.withCompanyOwners.Clone(),
 		withInspectors:          ceq.withInspectors.Clone(),
 		withArchitects:          ceq.withArchitects.Clone(),
@@ -484,6 +509,17 @@ func (ceq *CompanyEngineerQuery) Clone() *CompanyEngineerQuery {
 		sql:  ceq.sql.Clone(),
 		path: ceq.path,
 	}
+}
+
+// WithCompany tells the query-builder to eager-load the nodes that are connected to
+// the "company" edge. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *CompanyEngineerQuery {
+	query := (&CompanyDetailClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	ceq.withCompany = query
+	return ceq
 }
 
 // WithCompanyOwners tells the query-builder to eager-load the nodes that are connected to
@@ -662,8 +698,10 @@ func (ceq *CompanyEngineerQuery) prepareQuery(ctx context.Context) error {
 func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*CompanyEngineer, error) {
 	var (
 		nodes       = []*CompanyEngineer{}
+		withFKs     = ceq.withFKs
 		_spec       = ceq.querySpec()
-		loadedTypes = [9]bool{
+		loadedTypes = [10]bool{
+			ceq.withCompany != nil,
 			ceq.withCompanyOwners != nil,
 			ceq.withInspectors != nil,
 			ceq.withArchitects != nil,
@@ -675,6 +713,12 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			ceq.withElectriccontrollers != nil,
 		}
 	)
+	if ceq.withCompany != nil {
+		withFKs = true
+	}
+	if withFKs {
+		_spec.Node.Columns = append(_spec.Node.Columns, companyengineer.ForeignKeys...)
+	}
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*CompanyEngineer).scanValues(nil, columns)
 	}
@@ -695,6 +739,12 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
+	}
+	if query := ceq.withCompany; query != nil {
+		if err := ceq.loadCompany(ctx, query, nodes, nil,
+			func(n *CompanyEngineer, e *CompanyDetail) { n.Edges.Company = e }); err != nil {
+			return nil, err
+		}
 	}
 	if query := ceq.withCompanyOwners; query != nil {
 		if err := ceq.loadCompanyOwners(ctx, query, nodes,
@@ -834,6 +884,38 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	return nodes, nil
 }
 
+func (ceq *CompanyEngineerQuery) loadCompany(ctx context.Context, query *CompanyDetailQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *CompanyDetail)) error {
+	ids := make([]int, 0, len(nodes))
+	nodeids := make(map[int][]*CompanyEngineer)
+	for i := range nodes {
+		if nodes[i].company_id == nil {
+			continue
+		}
+		fk := *nodes[i].company_id
+		if _, ok := nodeids[fk]; !ok {
+			ids = append(ids, fk)
+		}
+		nodeids[fk] = append(nodeids[fk], nodes[i])
+	}
+	if len(ids) == 0 {
+		return nil
+	}
+	query.Where(companydetail.IDIn(ids...))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nodeids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "company_id" returned %v`, n.ID)
+		}
+		for i := range nodes {
+			assign(nodes[i], n)
+		}
+	}
+	return nil
+}
 func (ceq *CompanyEngineerQuery) loadCompanyOwners(ctx context.Context, query *CompanyDetailQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *CompanyDetail)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*CompanyEngineer)

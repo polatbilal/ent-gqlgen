@@ -565,7 +565,7 @@ func HasCompanies() predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, CompaniesTable, CompaniesColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, CompaniesTable, CompaniesColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})

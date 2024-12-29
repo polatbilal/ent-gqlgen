@@ -44,46 +44,6 @@ func (ceu *CompanyEngineerUpdate) SetNillableName(s *string) *CompanyEngineerUpd
 	return ceu
 }
 
-// SetAddress sets the "Address" field.
-func (ceu *CompanyEngineerUpdate) SetAddress(s string) *CompanyEngineerUpdate {
-	ceu.mutation.SetAddress(s)
-	return ceu
-}
-
-// SetNillableAddress sets the "Address" field if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillableAddress(s *string) *CompanyEngineerUpdate {
-	if s != nil {
-		ceu.SetAddress(*s)
-	}
-	return ceu
-}
-
-// ClearAddress clears the value of the "Address" field.
-func (ceu *CompanyEngineerUpdate) ClearAddress() *CompanyEngineerUpdate {
-	ceu.mutation.ClearAddress()
-	return ceu
-}
-
-// SetEmail sets the "Email" field.
-func (ceu *CompanyEngineerUpdate) SetEmail(s string) *CompanyEngineerUpdate {
-	ceu.mutation.SetEmail(s)
-	return ceu
-}
-
-// SetNillableEmail sets the "Email" field if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillableEmail(s *string) *CompanyEngineerUpdate {
-	if s != nil {
-		ceu.SetEmail(*s)
-	}
-	return ceu
-}
-
-// ClearEmail clears the value of the "Email" field.
-func (ceu *CompanyEngineerUpdate) ClearEmail() *CompanyEngineerUpdate {
-	ceu.mutation.ClearEmail()
-	return ceu
-}
-
 // SetTcNo sets the "TcNo" field.
 func (ceu *CompanyEngineerUpdate) SetTcNo(i int) *CompanyEngineerUpdate {
 	ceu.mutation.ResetTcNo()
@@ -128,6 +88,86 @@ func (ceu *CompanyEngineerUpdate) SetNillablePhone(s *string) *CompanyEngineerUp
 // ClearPhone clears the value of the "Phone" field.
 func (ceu *CompanyEngineerUpdate) ClearPhone() *CompanyEngineerUpdate {
 	ceu.mutation.ClearPhone()
+	return ceu
+}
+
+// SetEmail sets the "Email" field.
+func (ceu *CompanyEngineerUpdate) SetEmail(s string) *CompanyEngineerUpdate {
+	ceu.mutation.SetEmail(s)
+	return ceu
+}
+
+// SetNillableEmail sets the "Email" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillableEmail(s *string) *CompanyEngineerUpdate {
+	if s != nil {
+		ceu.SetEmail(*s)
+	}
+	return ceu
+}
+
+// ClearEmail clears the value of the "Email" field.
+func (ceu *CompanyEngineerUpdate) ClearEmail() *CompanyEngineerUpdate {
+	ceu.mutation.ClearEmail()
+	return ceu
+}
+
+// SetAddress sets the "Address" field.
+func (ceu *CompanyEngineerUpdate) SetAddress(s string) *CompanyEngineerUpdate {
+	ceu.mutation.SetAddress(s)
+	return ceu
+}
+
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillableAddress(s *string) *CompanyEngineerUpdate {
+	if s != nil {
+		ceu.SetAddress(*s)
+	}
+	return ceu
+}
+
+// ClearAddress clears the value of the "Address" field.
+func (ceu *CompanyEngineerUpdate) ClearAddress() *CompanyEngineerUpdate {
+	ceu.mutation.ClearAddress()
+	return ceu
+}
+
+// SetCareer sets the "Career" field.
+func (ceu *CompanyEngineerUpdate) SetCareer(s string) *CompanyEngineerUpdate {
+	ceu.mutation.SetCareer(s)
+	return ceu
+}
+
+// SetNillableCareer sets the "Career" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillableCareer(s *string) *CompanyEngineerUpdate {
+	if s != nil {
+		ceu.SetCareer(*s)
+	}
+	return ceu
+}
+
+// ClearCareer clears the value of the "Career" field.
+func (ceu *CompanyEngineerUpdate) ClearCareer() *CompanyEngineerUpdate {
+	ceu.mutation.ClearCareer()
+	return ceu
+}
+
+// SetPosition sets the "Position" field.
+func (ceu *CompanyEngineerUpdate) SetPosition(s string) *CompanyEngineerUpdate {
+	ceu.mutation.SetPosition(s)
+	return ceu
+}
+
+// SetNillablePosition sets the "Position" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillablePosition(s *string) *CompanyEngineerUpdate {
+	if s != nil {
+		ceu.SetPosition(*s)
+	}
+	return ceu
+}
+
+// ClearPosition clears the value of the "Position" field.
+func (ceu *CompanyEngineerUpdate) ClearPosition() *CompanyEngineerUpdate {
+	ceu.mutation.ClearPosition()
 	return ceu
 }
 
@@ -185,105 +225,30 @@ func (ceu *CompanyEngineerUpdate) ClearCertNo() *CompanyEngineerUpdate {
 	return ceu
 }
 
-// SetCareer sets the "Career" field.
-func (ceu *CompanyEngineerUpdate) SetCareer(s string) *CompanyEngineerUpdate {
-	ceu.mutation.SetCareer(s)
+// SetYdsID sets the "yds_id" field.
+func (ceu *CompanyEngineerUpdate) SetYdsID(i int) *CompanyEngineerUpdate {
+	ceu.mutation.ResetYdsID()
+	ceu.mutation.SetYdsID(i)
 	return ceu
 }
 
-// SetNillableCareer sets the "Career" field if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillableCareer(s *string) *CompanyEngineerUpdate {
-	if s != nil {
-		ceu.SetCareer(*s)
-	}
-	return ceu
-}
-
-// ClearCareer clears the value of the "Career" field.
-func (ceu *CompanyEngineerUpdate) ClearCareer() *CompanyEngineerUpdate {
-	ceu.mutation.ClearCareer()
-	return ceu
-}
-
-// SetPosition sets the "Position" field.
-func (ceu *CompanyEngineerUpdate) SetPosition(s string) *CompanyEngineerUpdate {
-	ceu.mutation.SetPosition(s)
-	return ceu
-}
-
-// SetNillablePosition sets the "Position" field if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillablePosition(s *string) *CompanyEngineerUpdate {
-	if s != nil {
-		ceu.SetPosition(*s)
-	}
-	return ceu
-}
-
-// ClearPosition clears the value of the "Position" field.
-func (ceu *CompanyEngineerUpdate) ClearPosition() *CompanyEngineerUpdate {
-	ceu.mutation.ClearPosition()
-	return ceu
-}
-
-// SetNote sets the "Note" field.
-func (ceu *CompanyEngineerUpdate) SetNote(s string) *CompanyEngineerUpdate {
-	ceu.mutation.SetNote(s)
-	return ceu
-}
-
-// SetNillableNote sets the "Note" field if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillableNote(s *string) *CompanyEngineerUpdate {
-	if s != nil {
-		ceu.SetNote(*s)
-	}
-	return ceu
-}
-
-// ClearNote clears the value of the "Note" field.
-func (ceu *CompanyEngineerUpdate) ClearNote() *CompanyEngineerUpdate {
-	ceu.mutation.ClearNote()
-	return ceu
-}
-
-// SetStatus sets the "Status" field.
-func (ceu *CompanyEngineerUpdate) SetStatus(i int) *CompanyEngineerUpdate {
-	ceu.mutation.ResetStatus()
-	ceu.mutation.SetStatus(i)
-	return ceu
-}
-
-// SetNillableStatus sets the "Status" field if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillableStatus(i *int) *CompanyEngineerUpdate {
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillableYdsID(i *int) *CompanyEngineerUpdate {
 	if i != nil {
-		ceu.SetStatus(*i)
+		ceu.SetYdsID(*i)
 	}
 	return ceu
 }
 
-// AddStatus adds i to the "Status" field.
-func (ceu *CompanyEngineerUpdate) AddStatus(i int) *CompanyEngineerUpdate {
-	ceu.mutation.AddStatus(i)
+// AddYdsID adds i to the "yds_id" field.
+func (ceu *CompanyEngineerUpdate) AddYdsID(i int) *CompanyEngineerUpdate {
+	ceu.mutation.AddYdsID(i)
 	return ceu
 }
 
-// SetDeleted sets the "Deleted" field.
-func (ceu *CompanyEngineerUpdate) SetDeleted(i int) *CompanyEngineerUpdate {
-	ceu.mutation.ResetDeleted()
-	ceu.mutation.SetDeleted(i)
-	return ceu
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (ceu *CompanyEngineerUpdate) SetNillableDeleted(i *int) *CompanyEngineerUpdate {
-	if i != nil {
-		ceu.SetDeleted(*i)
-	}
-	return ceu
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (ceu *CompanyEngineerUpdate) AddDeleted(i int) *CompanyEngineerUpdate {
-	ceu.mutation.AddDeleted(i)
+// ClearYdsID clears the value of the "yds_id" field.
+func (ceu *CompanyEngineerUpdate) ClearYdsID() *CompanyEngineerUpdate {
+	ceu.mutation.ClearYdsID()
 	return ceu
 }
 
@@ -327,6 +292,47 @@ func (ceu *CompanyEngineerUpdate) ClearDismissal() *CompanyEngineerUpdate {
 	return ceu
 }
 
+// SetStatus sets the "Status" field.
+func (ceu *CompanyEngineerUpdate) SetStatus(i int) *CompanyEngineerUpdate {
+	ceu.mutation.ResetStatus()
+	ceu.mutation.SetStatus(i)
+	return ceu
+}
+
+// SetNillableStatus sets the "Status" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillableStatus(i *int) *CompanyEngineerUpdate {
+	if i != nil {
+		ceu.SetStatus(*i)
+	}
+	return ceu
+}
+
+// AddStatus adds i to the "Status" field.
+func (ceu *CompanyEngineerUpdate) AddStatus(i int) *CompanyEngineerUpdate {
+	ceu.mutation.AddStatus(i)
+	return ceu
+}
+
+// SetNote sets the "Note" field.
+func (ceu *CompanyEngineerUpdate) SetNote(s string) *CompanyEngineerUpdate {
+	ceu.mutation.SetNote(s)
+	return ceu
+}
+
+// SetNillableNote sets the "Note" field if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillableNote(s *string) *CompanyEngineerUpdate {
+	if s != nil {
+		ceu.SetNote(*s)
+	}
+	return ceu
+}
+
+// ClearNote clears the value of the "Note" field.
+func (ceu *CompanyEngineerUpdate) ClearNote() *CompanyEngineerUpdate {
+	ceu.mutation.ClearNote()
+	return ceu
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (ceu *CompanyEngineerUpdate) SetCreatedAt(t time.Time) *CompanyEngineerUpdate {
 	ceu.mutation.SetCreatedAt(t)
@@ -345,6 +351,25 @@ func (ceu *CompanyEngineerUpdate) SetNillableCreatedAt(t *time.Time) *CompanyEng
 func (ceu *CompanyEngineerUpdate) SetUpdatedAt(t time.Time) *CompanyEngineerUpdate {
 	ceu.mutation.SetUpdatedAt(t)
 	return ceu
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (ceu *CompanyEngineerUpdate) SetCompanyID(id int) *CompanyEngineerUpdate {
+	ceu.mutation.SetCompanyID(id)
+	return ceu
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (ceu *CompanyEngineerUpdate) SetNillableCompanyID(id *int) *CompanyEngineerUpdate {
+	if id != nil {
+		ceu = ceu.SetCompanyID(*id)
+	}
+	return ceu
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (ceu *CompanyEngineerUpdate) SetCompany(c *CompanyDetail) *CompanyEngineerUpdate {
+	return ceu.SetCompanyID(c.ID)
 }
 
 // AddCompanyOwnerIDs adds the "companyOwners" edge to the CompanyDetail entity by IDs.
@@ -485,6 +510,12 @@ func (ceu *CompanyEngineerUpdate) AddElectriccontrollers(j ...*JobDetail) *Compa
 // Mutation returns the CompanyEngineerMutation object of the builder.
 func (ceu *CompanyEngineerUpdate) Mutation() *CompanyEngineerMutation {
 	return ceu.mutation
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (ceu *CompanyEngineerUpdate) ClearCompany() *CompanyEngineerUpdate {
+	ceu.mutation.ClearCompany()
+	return ceu
 }
 
 // ClearCompanyOwners clears all "companyOwners" edges to the CompanyDetail entity.
@@ -724,18 +755,6 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 	if value, ok := ceu.mutation.Name(); ok {
 		_spec.SetField(companyengineer.FieldName, field.TypeString, value)
 	}
-	if value, ok := ceu.mutation.Address(); ok {
-		_spec.SetField(companyengineer.FieldAddress, field.TypeString, value)
-	}
-	if ceu.mutation.AddressCleared() {
-		_spec.ClearField(companyengineer.FieldAddress, field.TypeString)
-	}
-	if value, ok := ceu.mutation.Email(); ok {
-		_spec.SetField(companyengineer.FieldEmail, field.TypeString, value)
-	}
-	if ceu.mutation.EmailCleared() {
-		_spec.ClearField(companyengineer.FieldEmail, field.TypeString)
-	}
 	if value, ok := ceu.mutation.TcNo(); ok {
 		_spec.SetField(companyengineer.FieldTcNo, field.TypeInt, value)
 	}
@@ -750,6 +769,30 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 	}
 	if ceu.mutation.PhoneCleared() {
 		_spec.ClearField(companyengineer.FieldPhone, field.TypeString)
+	}
+	if value, ok := ceu.mutation.Email(); ok {
+		_spec.SetField(companyengineer.FieldEmail, field.TypeString, value)
+	}
+	if ceu.mutation.EmailCleared() {
+		_spec.ClearField(companyengineer.FieldEmail, field.TypeString)
+	}
+	if value, ok := ceu.mutation.Address(); ok {
+		_spec.SetField(companyengineer.FieldAddress, field.TypeString, value)
+	}
+	if ceu.mutation.AddressCleared() {
+		_spec.ClearField(companyengineer.FieldAddress, field.TypeString)
+	}
+	if value, ok := ceu.mutation.Career(); ok {
+		_spec.SetField(companyengineer.FieldCareer, field.TypeString, value)
+	}
+	if ceu.mutation.CareerCleared() {
+		_spec.ClearField(companyengineer.FieldCareer, field.TypeString)
+	}
+	if value, ok := ceu.mutation.Position(); ok {
+		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
+	}
+	if ceu.mutation.PositionCleared() {
+		_spec.ClearField(companyengineer.FieldPosition, field.TypeString)
 	}
 	if value, ok := ceu.mutation.RegNo(); ok {
 		_spec.SetField(companyengineer.FieldRegNo, field.TypeInt, value)
@@ -769,35 +812,14 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 	if ceu.mutation.CertNoCleared() {
 		_spec.ClearField(companyengineer.FieldCertNo, field.TypeInt)
 	}
-	if value, ok := ceu.mutation.Career(); ok {
-		_spec.SetField(companyengineer.FieldCareer, field.TypeString, value)
+	if value, ok := ceu.mutation.YdsID(); ok {
+		_spec.SetField(companyengineer.FieldYdsID, field.TypeInt, value)
 	}
-	if ceu.mutation.CareerCleared() {
-		_spec.ClearField(companyengineer.FieldCareer, field.TypeString)
+	if value, ok := ceu.mutation.AddedYdsID(); ok {
+		_spec.AddField(companyengineer.FieldYdsID, field.TypeInt, value)
 	}
-	if value, ok := ceu.mutation.Position(); ok {
-		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
-	}
-	if ceu.mutation.PositionCleared() {
-		_spec.ClearField(companyengineer.FieldPosition, field.TypeString)
-	}
-	if value, ok := ceu.mutation.Note(); ok {
-		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
-	}
-	if ceu.mutation.NoteCleared() {
-		_spec.ClearField(companyengineer.FieldNote, field.TypeString)
-	}
-	if value, ok := ceu.mutation.Status(); ok {
-		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)
-	}
-	if value, ok := ceu.mutation.AddedStatus(); ok {
-		_spec.AddField(companyengineer.FieldStatus, field.TypeInt, value)
-	}
-	if value, ok := ceu.mutation.Deleted(); ok {
-		_spec.SetField(companyengineer.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := ceu.mutation.AddedDeleted(); ok {
-		_spec.AddField(companyengineer.FieldDeleted, field.TypeInt, value)
+	if ceu.mutation.YdsIDCleared() {
+		_spec.ClearField(companyengineer.FieldYdsID, field.TypeInt)
 	}
 	if value, ok := ceu.mutation.Employment(); ok {
 		_spec.SetField(companyengineer.FieldEmployment, field.TypeTime, value)
@@ -811,11 +833,52 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 	if ceu.mutation.DismissalCleared() {
 		_spec.ClearField(companyengineer.FieldDismissal, field.TypeTime)
 	}
+	if value, ok := ceu.mutation.Status(); ok {
+		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)
+	}
+	if value, ok := ceu.mutation.AddedStatus(); ok {
+		_spec.AddField(companyengineer.FieldStatus, field.TypeInt, value)
+	}
+	if value, ok := ceu.mutation.Note(); ok {
+		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
+	}
+	if ceu.mutation.NoteCleared() {
+		_spec.ClearField(companyengineer.FieldNote, field.TypeString)
+	}
 	if value, ok := ceu.mutation.CreatedAt(); ok {
 		_spec.SetField(companyengineer.FieldCreatedAt, field.TypeTime, value)
 	}
 	if value, ok := ceu.mutation.UpdatedAt(); ok {
 		_spec.SetField(companyengineer.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if ceu.mutation.CompanyCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   companyengineer.CompanyTable,
+			Columns: []string{companyengineer.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceu.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   companyengineer.CompanyTable,
+			Columns: []string{companyengineer.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if ceu.mutation.CompanyOwnersCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -1256,46 +1319,6 @@ func (ceuo *CompanyEngineerUpdateOne) SetNillableName(s *string) *CompanyEnginee
 	return ceuo
 }
 
-// SetAddress sets the "Address" field.
-func (ceuo *CompanyEngineerUpdateOne) SetAddress(s string) *CompanyEngineerUpdateOne {
-	ceuo.mutation.SetAddress(s)
-	return ceuo
-}
-
-// SetNillableAddress sets the "Address" field if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillableAddress(s *string) *CompanyEngineerUpdateOne {
-	if s != nil {
-		ceuo.SetAddress(*s)
-	}
-	return ceuo
-}
-
-// ClearAddress clears the value of the "Address" field.
-func (ceuo *CompanyEngineerUpdateOne) ClearAddress() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearAddress()
-	return ceuo
-}
-
-// SetEmail sets the "Email" field.
-func (ceuo *CompanyEngineerUpdateOne) SetEmail(s string) *CompanyEngineerUpdateOne {
-	ceuo.mutation.SetEmail(s)
-	return ceuo
-}
-
-// SetNillableEmail sets the "Email" field if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillableEmail(s *string) *CompanyEngineerUpdateOne {
-	if s != nil {
-		ceuo.SetEmail(*s)
-	}
-	return ceuo
-}
-
-// ClearEmail clears the value of the "Email" field.
-func (ceuo *CompanyEngineerUpdateOne) ClearEmail() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearEmail()
-	return ceuo
-}
-
 // SetTcNo sets the "TcNo" field.
 func (ceuo *CompanyEngineerUpdateOne) SetTcNo(i int) *CompanyEngineerUpdateOne {
 	ceuo.mutation.ResetTcNo()
@@ -1340,6 +1363,86 @@ func (ceuo *CompanyEngineerUpdateOne) SetNillablePhone(s *string) *CompanyEngine
 // ClearPhone clears the value of the "Phone" field.
 func (ceuo *CompanyEngineerUpdateOne) ClearPhone() *CompanyEngineerUpdateOne {
 	ceuo.mutation.ClearPhone()
+	return ceuo
+}
+
+// SetEmail sets the "Email" field.
+func (ceuo *CompanyEngineerUpdateOne) SetEmail(s string) *CompanyEngineerUpdateOne {
+	ceuo.mutation.SetEmail(s)
+	return ceuo
+}
+
+// SetNillableEmail sets the "Email" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillableEmail(s *string) *CompanyEngineerUpdateOne {
+	if s != nil {
+		ceuo.SetEmail(*s)
+	}
+	return ceuo
+}
+
+// ClearEmail clears the value of the "Email" field.
+func (ceuo *CompanyEngineerUpdateOne) ClearEmail() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearEmail()
+	return ceuo
+}
+
+// SetAddress sets the "Address" field.
+func (ceuo *CompanyEngineerUpdateOne) SetAddress(s string) *CompanyEngineerUpdateOne {
+	ceuo.mutation.SetAddress(s)
+	return ceuo
+}
+
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillableAddress(s *string) *CompanyEngineerUpdateOne {
+	if s != nil {
+		ceuo.SetAddress(*s)
+	}
+	return ceuo
+}
+
+// ClearAddress clears the value of the "Address" field.
+func (ceuo *CompanyEngineerUpdateOne) ClearAddress() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearAddress()
+	return ceuo
+}
+
+// SetCareer sets the "Career" field.
+func (ceuo *CompanyEngineerUpdateOne) SetCareer(s string) *CompanyEngineerUpdateOne {
+	ceuo.mutation.SetCareer(s)
+	return ceuo
+}
+
+// SetNillableCareer sets the "Career" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillableCareer(s *string) *CompanyEngineerUpdateOne {
+	if s != nil {
+		ceuo.SetCareer(*s)
+	}
+	return ceuo
+}
+
+// ClearCareer clears the value of the "Career" field.
+func (ceuo *CompanyEngineerUpdateOne) ClearCareer() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearCareer()
+	return ceuo
+}
+
+// SetPosition sets the "Position" field.
+func (ceuo *CompanyEngineerUpdateOne) SetPosition(s string) *CompanyEngineerUpdateOne {
+	ceuo.mutation.SetPosition(s)
+	return ceuo
+}
+
+// SetNillablePosition sets the "Position" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillablePosition(s *string) *CompanyEngineerUpdateOne {
+	if s != nil {
+		ceuo.SetPosition(*s)
+	}
+	return ceuo
+}
+
+// ClearPosition clears the value of the "Position" field.
+func (ceuo *CompanyEngineerUpdateOne) ClearPosition() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearPosition()
 	return ceuo
 }
 
@@ -1397,105 +1500,30 @@ func (ceuo *CompanyEngineerUpdateOne) ClearCertNo() *CompanyEngineerUpdateOne {
 	return ceuo
 }
 
-// SetCareer sets the "Career" field.
-func (ceuo *CompanyEngineerUpdateOne) SetCareer(s string) *CompanyEngineerUpdateOne {
-	ceuo.mutation.SetCareer(s)
+// SetYdsID sets the "yds_id" field.
+func (ceuo *CompanyEngineerUpdateOne) SetYdsID(i int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.ResetYdsID()
+	ceuo.mutation.SetYdsID(i)
 	return ceuo
 }
 
-// SetNillableCareer sets the "Career" field if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillableCareer(s *string) *CompanyEngineerUpdateOne {
-	if s != nil {
-		ceuo.SetCareer(*s)
-	}
-	return ceuo
-}
-
-// ClearCareer clears the value of the "Career" field.
-func (ceuo *CompanyEngineerUpdateOne) ClearCareer() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearCareer()
-	return ceuo
-}
-
-// SetPosition sets the "Position" field.
-func (ceuo *CompanyEngineerUpdateOne) SetPosition(s string) *CompanyEngineerUpdateOne {
-	ceuo.mutation.SetPosition(s)
-	return ceuo
-}
-
-// SetNillablePosition sets the "Position" field if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillablePosition(s *string) *CompanyEngineerUpdateOne {
-	if s != nil {
-		ceuo.SetPosition(*s)
-	}
-	return ceuo
-}
-
-// ClearPosition clears the value of the "Position" field.
-func (ceuo *CompanyEngineerUpdateOne) ClearPosition() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearPosition()
-	return ceuo
-}
-
-// SetNote sets the "Note" field.
-func (ceuo *CompanyEngineerUpdateOne) SetNote(s string) *CompanyEngineerUpdateOne {
-	ceuo.mutation.SetNote(s)
-	return ceuo
-}
-
-// SetNillableNote sets the "Note" field if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillableNote(s *string) *CompanyEngineerUpdateOne {
-	if s != nil {
-		ceuo.SetNote(*s)
-	}
-	return ceuo
-}
-
-// ClearNote clears the value of the "Note" field.
-func (ceuo *CompanyEngineerUpdateOne) ClearNote() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearNote()
-	return ceuo
-}
-
-// SetStatus sets the "Status" field.
-func (ceuo *CompanyEngineerUpdateOne) SetStatus(i int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.ResetStatus()
-	ceuo.mutation.SetStatus(i)
-	return ceuo
-}
-
-// SetNillableStatus sets the "Status" field if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillableStatus(i *int) *CompanyEngineerUpdateOne {
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillableYdsID(i *int) *CompanyEngineerUpdateOne {
 	if i != nil {
-		ceuo.SetStatus(*i)
+		ceuo.SetYdsID(*i)
 	}
 	return ceuo
 }
 
-// AddStatus adds i to the "Status" field.
-func (ceuo *CompanyEngineerUpdateOne) AddStatus(i int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.AddStatus(i)
+// AddYdsID adds i to the "yds_id" field.
+func (ceuo *CompanyEngineerUpdateOne) AddYdsID(i int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.AddYdsID(i)
 	return ceuo
 }
 
-// SetDeleted sets the "Deleted" field.
-func (ceuo *CompanyEngineerUpdateOne) SetDeleted(i int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.ResetDeleted()
-	ceuo.mutation.SetDeleted(i)
-	return ceuo
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (ceuo *CompanyEngineerUpdateOne) SetNillableDeleted(i *int) *CompanyEngineerUpdateOne {
-	if i != nil {
-		ceuo.SetDeleted(*i)
-	}
-	return ceuo
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (ceuo *CompanyEngineerUpdateOne) AddDeleted(i int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.AddDeleted(i)
+// ClearYdsID clears the value of the "yds_id" field.
+func (ceuo *CompanyEngineerUpdateOne) ClearYdsID() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearYdsID()
 	return ceuo
 }
 
@@ -1539,6 +1567,47 @@ func (ceuo *CompanyEngineerUpdateOne) ClearDismissal() *CompanyEngineerUpdateOne
 	return ceuo
 }
 
+// SetStatus sets the "Status" field.
+func (ceuo *CompanyEngineerUpdateOne) SetStatus(i int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.ResetStatus()
+	ceuo.mutation.SetStatus(i)
+	return ceuo
+}
+
+// SetNillableStatus sets the "Status" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillableStatus(i *int) *CompanyEngineerUpdateOne {
+	if i != nil {
+		ceuo.SetStatus(*i)
+	}
+	return ceuo
+}
+
+// AddStatus adds i to the "Status" field.
+func (ceuo *CompanyEngineerUpdateOne) AddStatus(i int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.AddStatus(i)
+	return ceuo
+}
+
+// SetNote sets the "Note" field.
+func (ceuo *CompanyEngineerUpdateOne) SetNote(s string) *CompanyEngineerUpdateOne {
+	ceuo.mutation.SetNote(s)
+	return ceuo
+}
+
+// SetNillableNote sets the "Note" field if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillableNote(s *string) *CompanyEngineerUpdateOne {
+	if s != nil {
+		ceuo.SetNote(*s)
+	}
+	return ceuo
+}
+
+// ClearNote clears the value of the "Note" field.
+func (ceuo *CompanyEngineerUpdateOne) ClearNote() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearNote()
+	return ceuo
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (ceuo *CompanyEngineerUpdateOne) SetCreatedAt(t time.Time) *CompanyEngineerUpdateOne {
 	ceuo.mutation.SetCreatedAt(t)
@@ -1557,6 +1626,25 @@ func (ceuo *CompanyEngineerUpdateOne) SetNillableCreatedAt(t *time.Time) *Compan
 func (ceuo *CompanyEngineerUpdateOne) SetUpdatedAt(t time.Time) *CompanyEngineerUpdateOne {
 	ceuo.mutation.SetUpdatedAt(t)
 	return ceuo
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (ceuo *CompanyEngineerUpdateOne) SetCompanyID(id int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.SetCompanyID(id)
+	return ceuo
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (ceuo *CompanyEngineerUpdateOne) SetNillableCompanyID(id *int) *CompanyEngineerUpdateOne {
+	if id != nil {
+		ceuo = ceuo.SetCompanyID(*id)
+	}
+	return ceuo
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (ceuo *CompanyEngineerUpdateOne) SetCompany(c *CompanyDetail) *CompanyEngineerUpdateOne {
+	return ceuo.SetCompanyID(c.ID)
 }
 
 // AddCompanyOwnerIDs adds the "companyOwners" edge to the CompanyDetail entity by IDs.
@@ -1697,6 +1785,12 @@ func (ceuo *CompanyEngineerUpdateOne) AddElectriccontrollers(j ...*JobDetail) *C
 // Mutation returns the CompanyEngineerMutation object of the builder.
 func (ceuo *CompanyEngineerUpdateOne) Mutation() *CompanyEngineerMutation {
 	return ceuo.mutation
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (ceuo *CompanyEngineerUpdateOne) ClearCompany() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearCompany()
+	return ceuo
 }
 
 // ClearCompanyOwners clears all "companyOwners" edges to the CompanyDetail entity.
@@ -1966,18 +2060,6 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 	if value, ok := ceuo.mutation.Name(); ok {
 		_spec.SetField(companyengineer.FieldName, field.TypeString, value)
 	}
-	if value, ok := ceuo.mutation.Address(); ok {
-		_spec.SetField(companyengineer.FieldAddress, field.TypeString, value)
-	}
-	if ceuo.mutation.AddressCleared() {
-		_spec.ClearField(companyengineer.FieldAddress, field.TypeString)
-	}
-	if value, ok := ceuo.mutation.Email(); ok {
-		_spec.SetField(companyengineer.FieldEmail, field.TypeString, value)
-	}
-	if ceuo.mutation.EmailCleared() {
-		_spec.ClearField(companyengineer.FieldEmail, field.TypeString)
-	}
 	if value, ok := ceuo.mutation.TcNo(); ok {
 		_spec.SetField(companyengineer.FieldTcNo, field.TypeInt, value)
 	}
@@ -1992,6 +2074,30 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 	}
 	if ceuo.mutation.PhoneCleared() {
 		_spec.ClearField(companyengineer.FieldPhone, field.TypeString)
+	}
+	if value, ok := ceuo.mutation.Email(); ok {
+		_spec.SetField(companyengineer.FieldEmail, field.TypeString, value)
+	}
+	if ceuo.mutation.EmailCleared() {
+		_spec.ClearField(companyengineer.FieldEmail, field.TypeString)
+	}
+	if value, ok := ceuo.mutation.Address(); ok {
+		_spec.SetField(companyengineer.FieldAddress, field.TypeString, value)
+	}
+	if ceuo.mutation.AddressCleared() {
+		_spec.ClearField(companyengineer.FieldAddress, field.TypeString)
+	}
+	if value, ok := ceuo.mutation.Career(); ok {
+		_spec.SetField(companyengineer.FieldCareer, field.TypeString, value)
+	}
+	if ceuo.mutation.CareerCleared() {
+		_spec.ClearField(companyengineer.FieldCareer, field.TypeString)
+	}
+	if value, ok := ceuo.mutation.Position(); ok {
+		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
+	}
+	if ceuo.mutation.PositionCleared() {
+		_spec.ClearField(companyengineer.FieldPosition, field.TypeString)
 	}
 	if value, ok := ceuo.mutation.RegNo(); ok {
 		_spec.SetField(companyengineer.FieldRegNo, field.TypeInt, value)
@@ -2011,35 +2117,14 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 	if ceuo.mutation.CertNoCleared() {
 		_spec.ClearField(companyengineer.FieldCertNo, field.TypeInt)
 	}
-	if value, ok := ceuo.mutation.Career(); ok {
-		_spec.SetField(companyengineer.FieldCareer, field.TypeString, value)
+	if value, ok := ceuo.mutation.YdsID(); ok {
+		_spec.SetField(companyengineer.FieldYdsID, field.TypeInt, value)
 	}
-	if ceuo.mutation.CareerCleared() {
-		_spec.ClearField(companyengineer.FieldCareer, field.TypeString)
+	if value, ok := ceuo.mutation.AddedYdsID(); ok {
+		_spec.AddField(companyengineer.FieldYdsID, field.TypeInt, value)
 	}
-	if value, ok := ceuo.mutation.Position(); ok {
-		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
-	}
-	if ceuo.mutation.PositionCleared() {
-		_spec.ClearField(companyengineer.FieldPosition, field.TypeString)
-	}
-	if value, ok := ceuo.mutation.Note(); ok {
-		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
-	}
-	if ceuo.mutation.NoteCleared() {
-		_spec.ClearField(companyengineer.FieldNote, field.TypeString)
-	}
-	if value, ok := ceuo.mutation.Status(); ok {
-		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)
-	}
-	if value, ok := ceuo.mutation.AddedStatus(); ok {
-		_spec.AddField(companyengineer.FieldStatus, field.TypeInt, value)
-	}
-	if value, ok := ceuo.mutation.Deleted(); ok {
-		_spec.SetField(companyengineer.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := ceuo.mutation.AddedDeleted(); ok {
-		_spec.AddField(companyengineer.FieldDeleted, field.TypeInt, value)
+	if ceuo.mutation.YdsIDCleared() {
+		_spec.ClearField(companyengineer.FieldYdsID, field.TypeInt)
 	}
 	if value, ok := ceuo.mutation.Employment(); ok {
 		_spec.SetField(companyengineer.FieldEmployment, field.TypeTime, value)
@@ -2053,11 +2138,52 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 	if ceuo.mutation.DismissalCleared() {
 		_spec.ClearField(companyengineer.FieldDismissal, field.TypeTime)
 	}
+	if value, ok := ceuo.mutation.Status(); ok {
+		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)
+	}
+	if value, ok := ceuo.mutation.AddedStatus(); ok {
+		_spec.AddField(companyengineer.FieldStatus, field.TypeInt, value)
+	}
+	if value, ok := ceuo.mutation.Note(); ok {
+		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
+	}
+	if ceuo.mutation.NoteCleared() {
+		_spec.ClearField(companyengineer.FieldNote, field.TypeString)
+	}
 	if value, ok := ceuo.mutation.CreatedAt(); ok {
 		_spec.SetField(companyengineer.FieldCreatedAt, field.TypeTime, value)
 	}
 	if value, ok := ceuo.mutation.UpdatedAt(); ok {
 		_spec.SetField(companyengineer.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if ceuo.mutation.CompanyCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   companyengineer.CompanyTable,
+			Columns: []string{companyengineer.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceuo.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   companyengineer.CompanyTable,
+			Columns: []string{companyengineer.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if ceuo.mutation.CompanyOwnersCleared() {
 		edge := &sqlgraph.EdgeSpec{

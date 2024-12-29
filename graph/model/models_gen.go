@@ -31,20 +31,21 @@ type CompanyDetailInput struct {
 }
 
 type CompanyEngineerInput struct {
-	Name       string  `json:"Name"`
-	Address    *string `json:"Address,omitempty"`
-	Email      *string `json:"Email,omitempty"`
-	TcNo       *int    `json:"TcNo,omitempty"`
-	Phone      *string `json:"Phone,omitempty"`
-	RegNo      *int    `json:"RegNo,omitempty"`
-	CertNo     *int    `json:"CertNo,omitempty"`
-	Career     *string `json:"Career,omitempty"`
-	Position   *string `json:"Position,omitempty"`
-	Employment *string `json:"Employment,omitempty"`
-	Dismissal  *string `json:"Dismissal,omitempty"`
-	Note       *string `json:"Note,omitempty"`
-	Status     *int    `json:"Status,omitempty"`
-	Deleted    *int    `json:"Deleted,omitempty"`
+	Ydsid       *int    `json:"YDSID,omitempty"`
+	Name        string  `json:"Name"`
+	CompanyCode int     `json:"CompanyCode"`
+	Address     *string `json:"Address,omitempty"`
+	Email       *string `json:"Email,omitempty"`
+	TcNo        *int    `json:"TcNo,omitempty"`
+	Phone       *string `json:"Phone,omitempty"`
+	RegNo       *int    `json:"RegNo,omitempty"`
+	CertNo      *int    `json:"CertNo,omitempty"`
+	Career      *string `json:"Career,omitempty"`
+	Position    *string `json:"Position,omitempty"`
+	Employment  *string `json:"Employment,omitempty"`
+	Dismissal   *string `json:"Dismissal,omitempty"`
+	Note        *string `json:"Note,omitempty"`
+	Status      *int    `json:"Status,omitempty"`
 }
 
 type EngineerFilterInput struct {
@@ -77,6 +78,7 @@ type JobContractorInput struct {
 
 type JobInput struct {
 	YibfNo             *int                  `json:"YibfNo,omitempty"`
+	CompanyCode        int                   `json:"CompanyCode"`
 	Idare              *string               `json:"Idare,omitempty"`
 	Pafta              *string               `json:"Pafta,omitempty"`
 	Ada                *string               `json:"Ada,omitempty"`

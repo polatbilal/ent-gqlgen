@@ -41,6 +41,8 @@ func (CompanyDetail) Fields() []ent.Field {
 func (CompanyDetail) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("companyOwner", CompanyEngineer.Type).Ref("companyOwners").Unique(),
-		edge.From("users", CompanyUser.Type).Ref("company"),
+		edge.To("engineers", CompanyEngineer.Type).StorageKey(edge.Column("company_id")),
+		edge.To("users", CompanyUser.Type).StorageKey(edge.Column("company_id")),
+		edge.To("jobs", JobDetail.Type).StorageKey(edge.Column("company_id")),
 	}
 }

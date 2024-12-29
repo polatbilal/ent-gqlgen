@@ -50,8 +50,12 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// EdgeCompanyOwner holds the string denoting the companyowner edge name in mutations.
 	EdgeCompanyOwner = "companyOwner"
+	// EdgeEngineers holds the string denoting the engineers edge name in mutations.
+	EdgeEngineers = "engineers"
 	// EdgeUsers holds the string denoting the users edge name in mutations.
 	EdgeUsers = "users"
+	// EdgeJobs holds the string denoting the jobs edge name in mutations.
+	EdgeJobs = "jobs"
 	// Table holds the table name of the companydetail in the database.
 	Table = "company_details"
 	// CompanyOwnerTable is the table that holds the companyOwner relation/edge.
@@ -61,13 +65,27 @@ const (
 	CompanyOwnerInverseTable = "company_engineers"
 	// CompanyOwnerColumn is the table column denoting the companyOwner relation/edge.
 	CompanyOwnerColumn = "owner_id"
+	// EngineersTable is the table that holds the engineers relation/edge.
+	EngineersTable = "company_engineers"
+	// EngineersInverseTable is the table name for the CompanyEngineer entity.
+	// It exists in this package in order to avoid circular dependency with the "companyengineer" package.
+	EngineersInverseTable = "company_engineers"
+	// EngineersColumn is the table column denoting the engineers relation/edge.
+	EngineersColumn = "company_id"
 	// UsersTable is the table that holds the users relation/edge.
 	UsersTable = "company_users"
 	// UsersInverseTable is the table name for the CompanyUser entity.
 	// It exists in this package in order to avoid circular dependency with the "companyuser" package.
 	UsersInverseTable = "company_users"
 	// UsersColumn is the table column denoting the users relation/edge.
-	UsersColumn = "company_user_company"
+	UsersColumn = "company_id"
+	// JobsTable is the table that holds the jobs relation/edge.
+	JobsTable = "job_details"
+	// JobsInverseTable is the table name for the JobDetail entity.
+	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
+	JobsInverseTable = "job_details"
+	// JobsColumn is the table column denoting the jobs relation/edge.
+	JobsColumn = "company_id"
 )
 
 // Columns holds all SQL columns for companydetail fields.
@@ -226,6 +244,20 @@ func ByCompanyOwnerField(field string, opts ...sql.OrderTermOption) OrderOption 
 	}
 }
 
+// ByEngineersCount orders the results by engineers count.
+func ByEngineersCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newEngineersStep(), opts...)
+	}
+}
+
+// ByEngineers orders the results by engineers terms.
+func ByEngineers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newEngineersStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
 // ByUsersCount orders the results by users count.
 func ByUsersCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
@@ -239,6 +271,20 @@ func ByUsers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newUsersStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByJobsCount orders the results by jobs count.
+func ByJobsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newJobsStep(), opts...)
+	}
+}
+
+// ByJobs orders the results by jobs terms.
+func ByJobs(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newJobsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newCompanyOwnerStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -246,10 +292,24 @@ func newCompanyOwnerStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.M2O, true, CompanyOwnerTable, CompanyOwnerColumn),
 	)
 }
+func newEngineersStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(EngineersInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, EngineersTable, EngineersColumn),
+	)
+}
 func newUsersStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(UsersInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, true, UsersTable, UsersColumn),
+		sqlgraph.Edge(sqlgraph.O2M, false, UsersTable, UsersColumn),
+	)
+}
+func newJobsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(JobsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, JobsTable, JobsColumn),
 	)
 }

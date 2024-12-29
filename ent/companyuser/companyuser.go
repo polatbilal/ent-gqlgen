@@ -24,14 +24,14 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
-	CompanyColumn = "company_user_company"
+	CompanyColumn = "company_id"
 	// UserTable is the table that holds the user relation/edge.
 	UserTable = "company_users"
 	// UserInverseTable is the table name for the User entity.
 	// It exists in this package in order to avoid circular dependency with the "user" package.
 	UserInverseTable = "users"
 	// UserColumn is the table column denoting the user relation/edge.
-	UserColumn = "company_user_user"
+	UserColumn = "user_id"
 )
 
 // Columns holds all SQL columns for companyuser fields.
@@ -42,8 +42,8 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "company_users"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"company_user_company",
-	"company_user_user",
+	"company_id",
+	"user_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -86,13 +86,13 @@ func newCompanyStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(CompanyInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, false, CompanyTable, CompanyColumn),
+		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 	)
 }
 func newUserStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(UserInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, false, UserTable, UserColumn),
+		sqlgraph.Edge(sqlgraph.M2O, true, UserTable, UserColumn),
 	)
 }

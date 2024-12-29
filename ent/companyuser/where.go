@@ -59,7 +59,7 @@ func HasCompany() predicate.CompanyUser {
 	return predicate.CompanyUser(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, CompanyTable, CompanyColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
@@ -82,7 +82,7 @@ func HasUser() predicate.CompanyUser {
 	return predicate.CompanyUser(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, UserTable, UserColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, UserTable, UserColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})

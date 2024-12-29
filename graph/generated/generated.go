@@ -87,7 +87,7 @@ type ComplexityRoot struct {
 		Address    func(childComplexity int) int
 		Career     func(childComplexity int) int
 		CertNo     func(childComplexity int) int
-		Deleted    func(childComplexity int) int
+		Company    func(childComplexity int) int
 		Dismissal  func(childComplexity int) int
 		Email      func(childComplexity int) int
 		Employment func(childComplexity int) int
@@ -99,6 +99,7 @@ type ComplexityRoot struct {
 		RegNo      func(childComplexity int) int
 		Status     func(childComplexity int) int
 		TcNo       func(childComplexity int) int
+		YdsID      func(childComplexity int) int
 	}
 
 	JobAuthor struct {
@@ -528,12 +529,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CompanyEngineer.CertNo(childComplexity), true
 
-	case "CompanyEngineer.Deleted":
-		if e.complexity.CompanyEngineer.Deleted == nil {
+	case "CompanyEngineer.Company":
+		if e.complexity.CompanyEngineer.Company == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Deleted(childComplexity), true
+		return e.complexity.CompanyEngineer.Company(childComplexity), true
 
 	case "CompanyEngineer.Dismissal":
 		if e.complexity.CompanyEngineer.Dismissal == nil {
@@ -611,6 +612,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CompanyEngineer.TcNo(childComplexity), true
+
+	case "CompanyEngineer.YDSID":
+		if e.complexity.CompanyEngineer.YdsID == nil {
+			break
+		}
+
+		return e.complexity.CompanyEngineer.YdsID(childComplexity), true
 
 	case "JobAuthor.Architect":
 		if e.complexity.JobAuthor.Architect == nil {
@@ -1893,15 +1901,18 @@ extend type Mutation {
   CertNo: Int
   Career: String!
   Position: String!
+  YDSID: Int
   Employment: String
   Dismissal: String
   Note: String
   Status: Int
-  Deleted: Int
+  Company: CompanyDetail
 }
 
 input CompanyEngineerInput {
+  YDSID: Int
   Name: String!
+  CompanyCode: Int!
   Address: String
   Email: String
   TcNo: Int
@@ -1914,7 +1925,6 @@ input CompanyEngineerInput {
   Dismissal: String
   Note: String
   Status: Int
-  Deleted: Int
 }
 
 input EngineerFilterInput {
@@ -1984,6 +1994,7 @@ type JobDetail {
 
 input JobInput {
   YibfNo: Int
+  CompanyCode: Int!
   Idare: String
   Pafta: String
   Ada: String
@@ -4458,6 +4469,8 @@ func (ec *executionContext) fieldContext_CompanyDetail_Owner(_ context.Context, 
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -4466,8 +4479,8 @@ func (ec *executionContext) fieldContext_CompanyDetail_Owner(_ context.Context, 
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -4897,6 +4910,47 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Position(_ context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _CompanyEngineer_YDSID(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.YdsID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyEngineer_YDSID(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyEngineer",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _CompanyEngineer_Employment(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 	if err != nil {
@@ -5061,8 +5115,8 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Status(_ context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _CompanyEngineer_Deleted(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+func (ec *executionContext) _CompanyEngineer_Company(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyEngineer_Company(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5075,7 +5129,7 @@ func (ec *executionContext) _CompanyEngineer_Deleted(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Deleted, nil
+		return obj.Company(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5084,19 +5138,55 @@ func (ec *executionContext) _CompanyEngineer_Deleted(ctx context.Context, field 
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(*ent.CompanyDetail)
 	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return ec.marshalOCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_CompanyEngineer_Deleted(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "CompanyEngineer",
 		Field:      field,
-		IsMethod:   false,
+		IsMethod:   true,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_CompanyDetail_id(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyDetail_CompanyCode(ctx, field)
+			case "Name":
+				return ec.fieldContext_CompanyDetail_Name(ctx, field)
+			case "Address":
+				return ec.fieldContext_CompanyDetail_Address(ctx, field)
+			case "City":
+				return ec.fieldContext_CompanyDetail_City(ctx, field)
+			case "State":
+				return ec.fieldContext_CompanyDetail_State(ctx, field)
+			case "Phone":
+				return ec.fieldContext_CompanyDetail_Phone(ctx, field)
+			case "Fax":
+				return ec.fieldContext_CompanyDetail_Fax(ctx, field)
+			case "Mobile":
+				return ec.fieldContext_CompanyDetail_Mobile(ctx, field)
+			case "Email":
+				return ec.fieldContext_CompanyDetail_Email(ctx, field)
+			case "Website":
+				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "TaxAdmin":
+				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
+			case "TaxNo":
+				return ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
+			case "Commerce":
+				return ec.fieldContext_CompanyDetail_Commerce(ctx, field)
+			case "CommerceReg":
+				return ec.fieldContext_CompanyDetail_CommerceReg(ctx, field)
+			case "VisaDate":
+				return ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
+			case "Owner":
+				return ec.fieldContext_CompanyDetail_Owner(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
 	}
 	return fc, nil
@@ -7214,6 +7304,8 @@ func (ec *executionContext) fieldContext_JobDetail_Inspector(_ context.Context, 
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -7222,8 +7314,8 @@ func (ec *executionContext) fieldContext_JobDetail_Inspector(_ context.Context, 
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -7287,6 +7379,8 @@ func (ec *executionContext) fieldContext_JobDetail_Static(_ context.Context, fie
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -7295,8 +7389,8 @@ func (ec *executionContext) fieldContext_JobDetail_Static(_ context.Context, fie
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -7360,6 +7454,8 @@ func (ec *executionContext) fieldContext_JobDetail_Architect(_ context.Context, 
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -7368,8 +7464,8 @@ func (ec *executionContext) fieldContext_JobDetail_Architect(_ context.Context, 
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -7433,6 +7529,8 @@ func (ec *executionContext) fieldContext_JobDetail_Mechanic(_ context.Context, f
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -7441,8 +7539,8 @@ func (ec *executionContext) fieldContext_JobDetail_Mechanic(_ context.Context, f
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -7506,6 +7604,8 @@ func (ec *executionContext) fieldContext_JobDetail_Electric(_ context.Context, f
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -7514,8 +7614,8 @@ func (ec *executionContext) fieldContext_JobDetail_Electric(_ context.Context, f
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -7579,6 +7679,8 @@ func (ec *executionContext) fieldContext_JobDetail_Controller(_ context.Context,
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -7587,8 +7689,8 @@ func (ec *executionContext) fieldContext_JobDetail_Controller(_ context.Context,
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -7652,6 +7754,8 @@ func (ec *executionContext) fieldContext_JobDetail_MechanicController(_ context.
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -7660,8 +7764,8 @@ func (ec *executionContext) fieldContext_JobDetail_MechanicController(_ context.
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -7725,6 +7829,8 @@ func (ec *executionContext) fieldContext_JobDetail_ElectricController(_ context.
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -7733,8 +7839,8 @@ func (ec *executionContext) fieldContext_JobDetail_ElectricController(_ context.
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -9829,6 +9935,8 @@ func (ec *executionContext) fieldContext_Mutation_createEngineer(ctx context.Con
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -9837,8 +9945,8 @@ func (ec *executionContext) fieldContext_Mutation_createEngineer(ctx context.Con
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -9938,6 +10046,8 @@ func (ec *executionContext) fieldContext_Mutation_updateEngineer(ctx context.Con
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -9946,8 +10056,8 @@ func (ec *executionContext) fieldContext_Mutation_updateEngineer(ctx context.Con
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -11578,6 +11688,8 @@ func (ec *executionContext) fieldContext_Query_engineer(ctx context.Context, fie
 				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
 			case "Position":
 				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
 			case "Employment":
 				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
 			case "Dismissal":
@@ -11586,8 +11698,8 @@ func (ec *executionContext) fieldContext_Query_engineer(ctx context.Context, fie
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
 			case "Status":
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_CompanyEngineer_Deleted(ctx, field)
+			case "Company":
+				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -14782,13 +14894,20 @@ func (ec *executionContext) unmarshalInputCompanyEngineerInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Name", "Address", "Email", "TcNo", "Phone", "RegNo", "CertNo", "Career", "Position", "Employment", "Dismissal", "Note", "Status", "Deleted"}
+	fieldsInOrder := [...]string{"YDSID", "Name", "CompanyCode", "Address", "Email", "TcNo", "Phone", "RegNo", "CertNo", "Career", "Position", "Employment", "Dismissal", "Note", "Status"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "YDSID":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Ydsid = data
 		case "Name":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Name"))
 			data, err := ec.unmarshalNString2string(ctx, v)
@@ -14796,6 +14915,13 @@ func (ec *executionContext) unmarshalInputCompanyEngineerInput(ctx context.Conte
 				return it, err
 			}
 			it.Name = data
+		case "CompanyCode":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CompanyCode"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CompanyCode = data
 		case "Address":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Address"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -14880,13 +15006,6 @@ func (ec *executionContext) unmarshalInputCompanyEngineerInput(ctx context.Conte
 				return it, err
 			}
 			it.Status = data
-		case "Deleted":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Deleted"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Deleted = data
 		}
 	}
 
@@ -15093,7 +15212,7 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "CompletionDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "City", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Deleted", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
+	fieldsInOrder := [...]string{"YibfNo", "CompanyCode", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "CompletionDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "City", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Deleted", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -15107,6 +15226,13 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.YibfNo = data
+		case "CompanyCode":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CompanyCode"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CompanyCode = data
 		case "Idare":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Idare"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -16012,6 +16138,8 @@ func (ec *executionContext) _CompanyEngineer(ctx context.Context, sel ast.Select
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "YDSID":
+			out.Values[i] = ec._CompanyEngineer_YDSID(ctx, field, obj)
 		case "Employment":
 			field := field
 
@@ -16082,8 +16210,39 @@ func (ec *executionContext) _CompanyEngineer(ctx context.Context, sel ast.Select
 			out.Values[i] = ec._CompanyEngineer_Note(ctx, field, obj)
 		case "Status":
 			out.Values[i] = ec._CompanyEngineer_Status(ctx, field, obj)
-		case "Deleted":
-			out.Values[i] = ec._CompanyEngineer_Deleted(ctx, field, obj)
+		case "Company":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._CompanyEngineer_Company(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -19001,6 +19160,13 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	}
 	res := graphql.MarshalBoolean(*v)
 	return res
+}
+
+func (ec *executionContext) marshalOCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyDetail) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._CompanyDetail(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyEngineer) graphql.Marshaler {

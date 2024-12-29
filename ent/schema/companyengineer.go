@@ -17,19 +17,19 @@ type CompanyEngineer struct {
 func (CompanyEngineer) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Name").Default(""),
-		field.String("Address").Optional(),
-		field.String("Email").Optional(),
 		field.Int("TcNo").Optional(),
 		field.String("Phone").Optional(),
-		field.Int("RegNo").Optional(),
-		field.Int("CertNo").Optional(),
+		field.String("Email").Optional(),
+		field.String("Address").Optional(),
 		field.String("Career").Optional(),
 		field.String("Position").Optional(),
-		field.String("Note").Optional(),
-		field.Int("Status").Default(1),
-		field.Int("Deleted").Default(0),
+		field.Int("RegNo").Optional(),
+		field.Int("CertNo").Optional(),
+		field.Int("yds_id").Optional(),
 		field.Time("Employment").Optional(),
 		field.Time("Dismissal").Optional(),
+		field.Int("Status").Default(1),
+		field.String("Note").Optional(),
 
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),
@@ -39,6 +39,7 @@ func (CompanyEngineer) Fields() []ent.Field {
 // Edges of the CompanyEngineer.
 func (CompanyEngineer) Edges() []ent.Edge {
 	return []ent.Edge{
+		edge.From("company", CompanyDetail.Type).Ref("engineers").Unique(),
 		edge.To("companyOwners", CompanyDetail.Type).StorageKey(edge.Column("owner_id")),
 
 		edge.To("inspectors", JobDetail.Type).StorageKey(edge.Column("inspector_id")),

@@ -78,7 +78,7 @@ func (uq *UserQuery) QueryCompanies() *CompanyUserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(user.Table, user.FieldID, selector),
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, user.CompaniesTable, user.CompaniesColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.CompaniesTable, user.CompaniesColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(uq.driver.Dialect(), step)
 		return fromU, nil
@@ -440,13 +440,13 @@ func (uq *UserQuery) loadCompanies(ctx context.Context, query *CompanyUserQuery,
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.company_user_user
+		fk := n.user_id
 		if fk == nil {
-			return fmt.Errorf(`foreign-key "company_user_user" is nil for node %v`, n.ID)
+			return fmt.Errorf(`foreign-key "user_id" is nil for node %v`, n.ID)
 		}
 		node, ok := nodeids[*fk]
 		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "company_user_user" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected referenced foreign-key "user_id" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}

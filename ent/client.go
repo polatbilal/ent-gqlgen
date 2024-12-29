@@ -414,6 +414,22 @@ func (c *CompanyDetailClient) QueryCompanyOwner(cd *CompanyDetail) *CompanyEngin
 	return query
 }
 
+// QueryEngineers queries the engineers edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryEngineers(cd *CompanyDetail) *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := cd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
+			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
+		)
+		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // QueryUsers queries the users edge of a CompanyDetail.
 func (c *CompanyDetailClient) QueryUsers(cd *CompanyDetail) *CompanyUserQuery {
 	query := (&CompanyUserClient{config: c.config}).Query()
@@ -422,7 +438,23 @@ func (c *CompanyDetailClient) QueryUsers(cd *CompanyDetail) *CompanyUserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, companydetail.UsersTable, companydetail.UsersColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.UsersTable, companydetail.UsersColumn),
+		)
+		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryJobs queries the jobs edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryJobs(cd *CompanyDetail) *JobDetailQuery {
+	query := (&JobDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := cd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
+			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.JobsTable, companydetail.JobsColumn),
 		)
 		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
 		return fromV, nil
@@ -561,6 +593,22 @@ func (c *CompanyEngineerClient) GetX(ctx context.Context, id int) *CompanyEngine
 		panic(err)
 	}
 	return obj
+}
+
+// QueryCompany queries the company edge of a CompanyEngineer.
+func (c *CompanyEngineerClient) QueryCompany(ce *CompanyEngineer) *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := ce.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.CompanyTable, companyengineer.CompanyColumn),
+		)
+		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
 }
 
 // QueryCompanyOwners queries the companyOwners edge of a CompanyEngineer.
@@ -848,7 +896,7 @@ func (c *CompanyUserClient) QueryCompany(cu *CompanyUser) *CompanyDetailQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyuser.Table, companyuser.FieldID, id),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, companyuser.CompanyTable, companyuser.CompanyColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.CompanyTable, companyuser.CompanyColumn),
 		)
 		fromV = sqlgraph.Neighbors(cu.driver.Dialect(), step)
 		return fromV, nil
@@ -864,7 +912,7 @@ func (c *CompanyUserClient) QueryUser(cu *CompanyUser) *UserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyuser.Table, companyuser.FieldID, id),
 			sqlgraph.To(user.Table, user.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, companyuser.UserTable, companyuser.UserColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.UserTable, companyuser.UserColumn),
 		)
 		fromV = sqlgraph.Neighbors(cu.driver.Dialect(), step)
 		return fromV, nil
@@ -1520,6 +1568,22 @@ func (c *JobDetailClient) QueryPayments(jd *JobDetail) *JobPaymentsQuery {
 			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
 			sqlgraph.To(jobpayments.Table, jobpayments.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobdetail.PaymentsTable, jobdetail.PaymentsColumn),
+		)
+		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryCompany queries the company edge of a JobDetail.
+func (c *JobDetailClient) QueryCompany(jd *JobDetail) *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, jobdetail.CompanyTable, jobdetail.CompanyColumn),
 		)
 		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
 		return fromV, nil
@@ -2264,7 +2328,7 @@ func (c *UserClient) QueryCompanies(u *User) *CompanyUserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(user.Table, user.FieldID, id),
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, user.CompaniesTable, user.CompaniesColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.CompaniesTable, user.CompaniesColumn),
 		)
 		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
 		return fromV, nil

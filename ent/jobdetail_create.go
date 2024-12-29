@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
@@ -669,6 +670,25 @@ func (jdc *JobDetailCreate) AddPayments(j ...*JobPayments) *JobDetailCreate {
 	return jdc.AddPaymentIDs(ids...)
 }
 
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (jdc *JobDetailCreate) SetCompanyID(id int) *JobDetailCreate {
+	jdc.mutation.SetCompanyID(id)
+	return jdc
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableCompanyID(id *int) *JobDetailCreate {
+	if id != nil {
+		jdc = jdc.SetCompanyID(*id)
+	}
+	return jdc
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (jdc *JobDetailCreate) SetCompany(c *CompanyDetail) *JobDetailCreate {
+	return jdc.SetCompanyID(c.ID)
+}
+
 // Mutation returns the JobDetailMutation object of the builder.
 func (jdc *JobDetailCreate) Mutation() *JobDetailMutation {
 	return jdc.mutation
@@ -1179,6 +1199,23 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := jdc.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

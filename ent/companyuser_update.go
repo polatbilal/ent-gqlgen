@@ -123,7 +123,7 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if cuu.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.CompanyTable,
 			Columns: []string{companyuser.CompanyColumn},
 			Bidi:    false,
@@ -136,7 +136,7 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nodes := cuu.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.CompanyTable,
 			Columns: []string{companyuser.CompanyColumn},
 			Bidi:    false,
@@ -152,7 +152,7 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if cuu.mutation.UserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.UserTable,
 			Columns: []string{companyuser.UserColumn},
 			Bidi:    false,
@@ -165,7 +165,7 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nodes := cuu.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.UserTable,
 			Columns: []string{companyuser.UserColumn},
 			Bidi:    false,
@@ -322,7 +322,7 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 	if cuuo.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.CompanyTable,
 			Columns: []string{companyuser.CompanyColumn},
 			Bidi:    false,
@@ -335,7 +335,7 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 	if nodes := cuuo.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.CompanyTable,
 			Columns: []string{companyuser.CompanyColumn},
 			Bidi:    false,
@@ -351,7 +351,7 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 	if cuuo.mutation.UserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.UserTable,
 			Columns: []string{companyuser.UserColumn},
 			Bidi:    false,
@@ -364,7 +364,7 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 	if nodes := cuuo.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.UserTable,
 			Columns: []string{companyuser.UserColumn},
 			Bidi:    false,

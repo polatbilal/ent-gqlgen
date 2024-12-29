@@ -274,7 +274,7 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.CompaniesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   user.CompaniesTable,
 			Columns: []string{user.CompaniesColumn},
 			Bidi:    false,
@@ -287,7 +287,7 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nodes := uu.mutation.RemovedCompaniesIDs(); len(nodes) > 0 && !uu.mutation.CompaniesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   user.CompaniesTable,
 			Columns: []string{user.CompaniesColumn},
 			Bidi:    false,
@@ -303,7 +303,7 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nodes := uu.mutation.CompaniesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   user.CompaniesTable,
 			Columns: []string{user.CompaniesColumn},
 			Bidi:    false,
@@ -611,7 +611,7 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if uuo.mutation.CompaniesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   user.CompaniesTable,
 			Columns: []string{user.CompaniesColumn},
 			Bidi:    false,
@@ -624,7 +624,7 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if nodes := uuo.mutation.RemovedCompaniesIDs(); len(nodes) > 0 && !uuo.mutation.CompaniesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   user.CompaniesTable,
 			Columns: []string{user.CompaniesColumn},
 			Bidi:    false,
@@ -640,7 +640,7 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if nodes := uuo.mutation.CompaniesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   user.CompaniesTable,
 			Columns: []string{user.CompaniesColumn},
 			Bidi:    false,

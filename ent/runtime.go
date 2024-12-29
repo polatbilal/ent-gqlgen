@@ -48,13 +48,9 @@ func init() {
 	// companyengineer.DefaultName holds the default value on creation for the Name field.
 	companyengineer.DefaultName = companyengineerDescName.Default.(string)
 	// companyengineerDescStatus is the schema descriptor for Status field.
-	companyengineerDescStatus := companyengineerFields[10].Descriptor()
+	companyengineerDescStatus := companyengineerFields[12].Descriptor()
 	// companyengineer.DefaultStatus holds the default value on creation for the Status field.
 	companyengineer.DefaultStatus = companyengineerDescStatus.Default.(int)
-	// companyengineerDescDeleted is the schema descriptor for Deleted field.
-	companyengineerDescDeleted := companyengineerFields[11].Descriptor()
-	// companyengineer.DefaultDeleted holds the default value on creation for the Deleted field.
-	companyengineer.DefaultDeleted = companyengineerDescDeleted.Default.(int)
 	// companyengineerDescCreatedAt is the schema descriptor for CreatedAt field.
 	companyengineerDescCreatedAt := companyengineerFields[14].Descriptor()
 	// companyengineer.DefaultCreatedAt holds the default value on creation for the CreatedAt field.

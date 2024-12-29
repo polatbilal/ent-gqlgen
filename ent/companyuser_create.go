@@ -121,7 +121,7 @@ func (cuc *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) 
 	if nodes := cuc.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.CompanyTable,
 			Columns: []string{companyuser.CompanyColumn},
 			Bidi:    false,
@@ -132,13 +132,13 @@ func (cuc *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) 
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.company_user_company = &nodes[0]
+		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := cuc.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   companyuser.UserTable,
 			Columns: []string{companyuser.UserColumn},
 			Bidi:    false,
@@ -149,7 +149,7 @@ func (cuc *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) 
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.company_user_user = &nodes[0]
+		_node.user_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

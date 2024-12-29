@@ -6,6 +6,7 @@ import (
 	"context"
 	"database/sql/driver"
 	"fmt"
+	"gqlgen-ent/ent/companydetail"
 	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/ent/jobauthor"
 	"gqlgen-ent/ent/jobcontractor"
@@ -44,6 +45,7 @@ type JobDetailQuery struct {
 	withElectriccontroller *CompanyEngineerQuery
 	withLayers             *JobLayerQuery
 	withPayments           *JobPaymentsQuery
+	withCompany            *CompanyDetailQuery
 	withFKs                bool
 	modifiers              []func(*sql.Selector)
 	loadTotal              []func(context.Context, []*JobDetail) error
@@ -393,6 +395,28 @@ func (jdq *JobDetailQuery) QueryPayments() *JobPaymentsQuery {
 	return query
 }
 
+// QueryCompany chains the current query on the "company" edge.
+func (jdq *JobDetailQuery) QueryCompany() *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: jdq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := jdq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := jdq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, selector),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, jobdetail.CompanyTable, jobdetail.CompanyColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(jdq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
 // First returns the first JobDetail entity from the query.
 // Returns a *NotFoundError when no JobDetail was found.
 func (jdq *JobDetailQuery) First(ctx context.Context) (*JobDetail, error) {
@@ -599,6 +623,7 @@ func (jdq *JobDetailQuery) Clone() *JobDetailQuery {
 		withElectriccontroller: jdq.withElectriccontroller.Clone(),
 		withLayers:             jdq.withLayers.Clone(),
 		withPayments:           jdq.withPayments.Clone(),
+		withCompany:            jdq.withCompany.Clone(),
 		// clone intermediate query.
 		sql:  jdq.sql.Clone(),
 		path: jdq.path,
@@ -759,6 +784,17 @@ func (jdq *JobDetailQuery) WithPayments(opts ...func(*JobPaymentsQuery)) *JobDet
 	return jdq
 }
 
+// WithCompany tells the query-builder to eager-load the nodes that are connected to
+// the "company" edge. The optional arguments are used to configure the query builder of the edge.
+func (jdq *JobDetailQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *JobDetailQuery {
+	query := (&CompanyDetailClient{config: jdq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	jdq.withCompany = query
+	return jdq
+}
+
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -838,7 +874,7 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 		nodes       = []*JobDetail{}
 		withFKs     = jdq.withFKs
 		_spec       = jdq.querySpec()
-		loadedTypes = [14]bool{
+		loadedTypes = [15]bool{
 			jdq.withOwner != nil,
 			jdq.withContractor != nil,
 			jdq.withAuthor != nil,
@@ -853,9 +889,10 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 			jdq.withElectriccontroller != nil,
 			jdq.withLayers != nil,
 			jdq.withPayments != nil,
+			jdq.withCompany != nil,
 		}
 	)
-	if jdq.withOwner != nil || jdq.withContractor != nil || jdq.withAuthor != nil || jdq.withProgress != nil || jdq.withInspector != nil || jdq.withArchitect != nil || jdq.withStatic != nil || jdq.withMechanic != nil || jdq.withElectric != nil || jdq.withController != nil || jdq.withMechaniccontroller != nil || jdq.withElectriccontroller != nil {
+	if jdq.withOwner != nil || jdq.withContractor != nil || jdq.withAuthor != nil || jdq.withProgress != nil || jdq.withInspector != nil || jdq.withArchitect != nil || jdq.withStatic != nil || jdq.withMechanic != nil || jdq.withElectric != nil || jdq.withController != nil || jdq.withMechaniccontroller != nil || jdq.withElectriccontroller != nil || jdq.withCompany != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -965,6 +1002,12 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 		if err := jdq.loadPayments(ctx, query, nodes,
 			func(n *JobDetail) { n.Edges.Payments = []*JobPayments{} },
 			func(n *JobDetail, e *JobPayments) { n.Edges.Payments = append(n.Edges.Payments, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := jdq.withCompany; query != nil {
+		if err := jdq.loadCompany(ctx, query, nodes, nil,
+			func(n *JobDetail, e *CompanyDetail) { n.Edges.Company = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -1433,6 +1476,38 @@ func (jdq *JobDetailQuery) loadPayments(ctx context.Context, query *JobPaymentsQ
 			return fmt.Errorf(`unexpected referenced foreign-key "payments_id" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
+	}
+	return nil
+}
+func (jdq *JobDetailQuery) loadCompany(ctx context.Context, query *CompanyDetailQuery, nodes []*JobDetail, init func(*JobDetail), assign func(*JobDetail, *CompanyDetail)) error {
+	ids := make([]int, 0, len(nodes))
+	nodeids := make(map[int][]*JobDetail)
+	for i := range nodes {
+		if nodes[i].company_id == nil {
+			continue
+		}
+		fk := *nodes[i].company_id
+		if _, ok := nodeids[fk]; !ok {
+			ids = append(ids, fk)
+		}
+		nodeids[fk] = append(nodeids[fk], nodes[i])
+	}
+	if len(ids) == 0 {
+		return nil
+	}
+	query.Where(companydetail.IDIn(ids...))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nodeids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "company_id" returned %v`, n.ID)
+		}
+		for i := range nodes {
+			assign(nodes[i], n)
+		}
 	}
 	return nil
 }

@@ -16,6 +16,18 @@ func (cd *CompanyDetail) CompanyOwner(ctx context.Context) (*CompanyEngineer, er
 	return result, MaskNotFound(err)
 }
 
+func (cd *CompanyDetail) Engineers(ctx context.Context) (result []*CompanyEngineer, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = cd.NamedEngineers(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = cd.Edges.EngineersOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = cd.QueryEngineers().All(ctx)
+	}
+	return result, err
+}
+
 func (cd *CompanyDetail) Users(ctx context.Context) (result []*CompanyUser, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
 		result, err = cd.NamedUsers(graphql.GetFieldContext(ctx).Field.Alias)
@@ -26,6 +38,26 @@ func (cd *CompanyDetail) Users(ctx context.Context) (result []*CompanyUser, err 
 		result, err = cd.QueryUsers().All(ctx)
 	}
 	return result, err
+}
+
+func (cd *CompanyDetail) Jobs(ctx context.Context) (result []*JobDetail, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = cd.NamedJobs(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = cd.Edges.JobsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = cd.QueryJobs().All(ctx)
+	}
+	return result, err
+}
+
+func (ce *CompanyEngineer) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := ce.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = ce.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
 }
 
 func (ce *CompanyEngineer) CompanyOwners(ctx context.Context) (result []*CompanyDetail, err error) {
@@ -294,6 +326,14 @@ func (jd *JobDetail) Payments(ctx context.Context) (result []*JobPayments, err e
 		result, err = jd.QueryPayments().All(ctx)
 	}
 	return result, err
+}
+
+func (jd *JobDetail) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := jd.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = jd.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
 }
 
 func (jl *JobLayer) Layer(ctx context.Context) (*JobDetail, error) {
