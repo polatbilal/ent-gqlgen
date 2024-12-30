@@ -11,38 +11,37 @@ var (
 	// CompanyDetailsColumns holds the columns for the "company_details" table.
 	CompanyDetailsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "company_code", Type: field.TypeInt},
+		{Name: "company_code", Type: field.TypeInt, Unique: true},
 		{Name: "name", Type: field.TypeString, Default: ""},
 		{Name: "address", Type: field.TypeString, Nullable: true},
-		{Name: "city", Type: field.TypeString, Nullable: true},
-		{Name: "state", Type: field.TypeString, Nullable: true},
 		{Name: "phone", Type: field.TypeString, Nullable: true},
-		{Name: "fax", Type: field.TypeString, Nullable: true},
-		{Name: "mobile", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "website", Type: field.TypeString, Nullable: true},
 		{Name: "tax_admin", Type: field.TypeString, Nullable: true},
 		{Name: "tax_no", Type: field.TypeInt, Nullable: true, Default: 0},
-		{Name: "commerce", Type: field.TypeString, Nullable: true},
-		{Name: "commerce_reg", Type: field.TypeString, Nullable: true},
+		{Name: "chamber_info", Type: field.TypeString, Nullable: true},
+		{Name: "chamber_reg_no", Type: field.TypeString, Nullable: true},
 		{Name: "visa_date", Type: field.TypeTime, Nullable: true},
+		{Name: "visa_end_date", Type: field.TypeTime, Nullable: true},
+		{Name: "owner_name", Type: field.TypeString, Nullable: true},
+		{Name: "owner_tc_no", Type: field.TypeString, Nullable: true},
+		{Name: "owner_address", Type: field.TypeString, Nullable: true},
+		{Name: "owner_phone", Type: field.TypeString, Nullable: true},
+		{Name: "owner_email", Type: field.TypeString, Nullable: true},
+		{Name: "owner_reg_no", Type: field.TypeString, Nullable: true},
+		{Name: "owner_career", Type: field.TypeString, Nullable: true},
+		{Name: "owner_birth_date", Type: field.TypeString, Nullable: true},
+		{Name: "visa_finished_for90days", Type: field.TypeBool, Nullable: true, Default: false},
+		{Name: "core_person_absent90days", Type: field.TypeBool, Nullable: true, Default: false},
+		{Name: "is_closed", Type: field.TypeBool, Default: false},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "owner_id", Type: field.TypeInt, Nullable: true},
 	}
 	// CompanyDetailsTable holds the schema information for the "company_details" table.
 	CompanyDetailsTable = &schema.Table{
 		Name:       "company_details",
 		Columns:    CompanyDetailsColumns,
 		PrimaryKey: []*schema.Column{CompanyDetailsColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "company_details_company_engineers_companyOwners",
-				Columns:    []*schema.Column{CompanyDetailsColumns[18]},
-				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-		},
 	}
 	// CompanyEngineersColumns holds the columns for the "company_engineers" table.
 	CompanyEngineersColumns = []*schema.Column{
@@ -404,7 +403,6 @@ var (
 )
 
 func init() {
-	CompanyDetailsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
 	CompanyEngineersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[1].RefTable = UsersTable

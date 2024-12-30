@@ -398,22 +398,6 @@ func (c *CompanyDetailClient) GetX(ctx context.Context, id int) *CompanyDetail {
 	return obj
 }
 
-// QueryCompanyOwner queries the companyOwner edge of a CompanyDetail.
-func (c *CompanyDetailClient) QueryCompanyOwner(cd *CompanyDetail) *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cd.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
-			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, companydetail.CompanyOwnerTable, companydetail.CompanyOwnerColumn),
-		)
-		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
 // QueryEngineers queries the engineers edge of a CompanyDetail.
 func (c *CompanyDetailClient) QueryEngineers(cd *CompanyDetail) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
@@ -604,22 +588,6 @@ func (c *CompanyEngineerClient) QueryCompany(ce *CompanyEngineer) *CompanyDetail
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.CompanyTable, companyengineer.CompanyColumn),
-		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryCompanyOwners queries the companyOwners edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryCompanyOwners(ce *CompanyEngineer) *CompanyDetailQuery {
-	query := (&CompanyDetailClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
-			sqlgraph.To(companydetail.Table, companydetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.CompanyOwnersTable, companyengineer.CompanyOwnersColumn),
 		)
 		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
 		return fromV, nil

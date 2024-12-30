@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"gqlgen-ent/database"
+	"gqlgen-ent/ent/migrate"
 	"gqlgen-ent/graph/resolvers"
 	"gqlgen-ent/handlers"
 	"gqlgen-ent/middlewares"
@@ -48,7 +49,11 @@ func main() {
 	r.Use(middlewares.AuthMiddleware())
 
 	// YDK Inspectors endpoint'ini ekle
-	r.GET("/ydk/inspectors", handlers.YDKInspectors)
+	r.POST("/ydk/inspectors", handlers.YDKInspectors)
+	// YDK Companies endpoint'ini ekle
+	r.POST("/ydk/companies", handlers.YDKCompanies)
+	// YDK Sync endpoint'ini ekle
+	r.POST("/ydk/sync", handlers.YDKSync)
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
@@ -64,7 +69,12 @@ func main() {
 	defer client.Close()
 
 	// Run the migration here
-	if err := client.Schema.Create(context.Background()); !errors.Is(err, nil) {
+	if err := client.Schema.Create(
+		context.Background(),
+		migrate.WithDropIndex(true),
+		migrate.WithDropColumn(true),
+		migrate.WithForeignKeys(true),
+	); !errors.Is(err, nil) {
 		log.Fatalf("Error: failed creating schema resources %v\n", err)
 	}
 

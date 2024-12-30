@@ -48,8 +48,6 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// EdgeCompany holds the string denoting the company edge name in mutations.
 	EdgeCompany = "company"
-	// EdgeCompanyOwners holds the string denoting the companyowners edge name in mutations.
-	EdgeCompanyOwners = "companyOwners"
 	// EdgeInspectors holds the string denoting the inspectors edge name in mutations.
 	EdgeInspectors = "inspectors"
 	// EdgeArchitects holds the string denoting the architects edge name in mutations.
@@ -75,13 +73,6 @@ const (
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
-	// CompanyOwnersTable is the table that holds the companyOwners relation/edge.
-	CompanyOwnersTable = "company_details"
-	// CompanyOwnersInverseTable is the table name for the CompanyDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
-	CompanyOwnersInverseTable = "company_details"
-	// CompanyOwnersColumn is the table column denoting the companyOwners relation/edge.
-	CompanyOwnersColumn = "owner_id"
 	// InspectorsTable is the table that holds the inspectors relation/edge.
 	InspectorsTable = "job_details"
 	// InspectorsInverseTable is the table name for the JobDetail entity.
@@ -290,20 +281,6 @@ func ByCompanyField(field string, opts ...sql.OrderTermOption) OrderOption {
 	}
 }
 
-// ByCompanyOwnersCount orders the results by companyOwners count.
-func ByCompanyOwnersCount(opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newCompanyOwnersStep(), opts...)
-	}
-}
-
-// ByCompanyOwners orders the results by companyOwners terms.
-func ByCompanyOwners(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newCompanyOwnersStep(), append([]sql.OrderTerm{term}, terms...)...)
-	}
-}
-
 // ByInspectorsCount orders the results by inspectors count.
 func ByInspectorsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
@@ -420,13 +397,6 @@ func newCompanyStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(CompanyInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
-	)
-}
-func newCompanyOwnersStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(CompanyOwnersInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, CompanyOwnersTable, CompanyOwnersColumn),
 	)
 }
 func newInspectorsStep() *sqlgraph.Step {

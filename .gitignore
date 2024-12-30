@@ -1,2 +1,7 @@
 .env
 logs
+
+date
+
+sync*
+test*

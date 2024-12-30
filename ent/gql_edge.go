@@ -8,14 +8,6 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 )
 
-func (cd *CompanyDetail) CompanyOwner(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := cd.Edges.CompanyOwnerOrErr()
-	if IsNotLoaded(err) {
-		result, err = cd.QueryCompanyOwner().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
 func (cd *CompanyDetail) Engineers(ctx context.Context) (result []*CompanyEngineer, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
 		result, err = cd.NamedEngineers(graphql.GetFieldContext(ctx).Field.Alias)
@@ -58,18 +50,6 @@ func (ce *CompanyEngineer) Company(ctx context.Context) (*CompanyDetail, error) 
 		result, err = ce.QueryCompany().Only(ctx)
 	}
 	return result, MaskNotFound(err)
-}
-
-func (ce *CompanyEngineer) CompanyOwners(ctx context.Context) (result []*CompanyDetail, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedCompanyOwners(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = ce.Edges.CompanyOwnersOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = ce.QueryCompanyOwners().All(ctx)
-	}
-	return result, err
 }
 
 func (ce *CompanyEngineer) Inspectors(ctx context.Context) (result []*JobDetail, err error) {

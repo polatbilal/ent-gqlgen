@@ -12,22 +12,29 @@ type AuthPayload struct {
 }
 
 type CompanyDetailInput struct {
-	Name        string  `json:"Name"`
-	Address     *string `json:"Address,omitempty"`
-	City        *string `json:"City,omitempty"`
-	State       *string `json:"State,omitempty"`
-	Phone       *string `json:"Phone,omitempty"`
-	Fax         *string `json:"Fax,omitempty"`
-	Mobile      *string `json:"Mobile,omitempty"`
-	Email       *string `json:"Email,omitempty"`
-	Website     *string `json:"Website,omitempty"`
-	TaxAdmin    *string `json:"TaxAdmin,omitempty"`
-	TaxNo       *int    `json:"TaxNo,omitempty"`
-	Commerce    *string `json:"Commerce,omitempty"`
-	CommerceReg *string `json:"CommerceReg,omitempty"`
-	VisaDate    *string `json:"VisaDate,omitempty"`
-	Deleted     *int    `json:"Deleted,omitempty"`
-	OwnerID     *int    `json:"OwnerID,omitempty"`
+	CompanyCode            int     `json:"CompanyCode"`
+	Name                   string  `json:"Name"`
+	Address                *string `json:"Address,omitempty"`
+	Phone                  *string `json:"Phone,omitempty"`
+	Email                  *string `json:"Email,omitempty"`
+	Website                *string `json:"Website,omitempty"`
+	TaxAdmin               *string `json:"TaxAdmin,omitempty"`
+	TaxNo                  *int    `json:"TaxNo,omitempty"`
+	ChamberInfo            *string `json:"ChamberInfo,omitempty"`
+	ChamberRegNo           *string `json:"ChamberRegNo,omitempty"`
+	VisaDate               *string `json:"VisaDate,omitempty"`
+	VisaEndDate            *string `json:"VisaEndDate,omitempty"`
+	VisaFinishedFor90days  *bool   `json:"visa_finished_for_90days,omitempty"`
+	CorePersonAbsent90days *bool   `json:"core_person_absent_90days,omitempty"`
+	IsClosed               *bool   `json:"isClosed,omitempty"`
+	OwnerName              *string `json:"OwnerName,omitempty"`
+	OwnerTcNo              *string `json:"OwnerTcNo,omitempty"`
+	OwnerAddress           *string `json:"OwnerAddress,omitempty"`
+	OwnerPhone             *string `json:"OwnerPhone,omitempty"`
+	OwnerEmail             *string `json:"OwnerEmail,omitempty"`
+	OwnerRegNo             *string `json:"OwnerRegNo,omitempty"`
+	OwnerBirthDate         *string `json:"OwnerBirthDate,omitempty"`
+	OwnerCareer            *string `json:"OwnerCareer,omitempty"`
 }
 
 type CompanyEngineerInput struct {
@@ -50,6 +57,7 @@ type CompanyEngineerInput struct {
 
 type EngineerFilterInput struct {
 	ID       *string `json:"id,omitempty"`
+	Ydsid    *int    `json:"YDSID,omitempty"`
 	Career   *string `json:"career,omitempty"`
 	Position *string `json:"position,omitempty"`
 }

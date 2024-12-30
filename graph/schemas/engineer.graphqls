@@ -37,6 +37,7 @@ input CompanyEngineerInput {
 
 input EngineerFilterInput {
   id: ID
+  YDSID: Int
   career: String
   position: String
 }

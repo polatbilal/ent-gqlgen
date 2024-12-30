@@ -40,17 +40,6 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
-		case "companyowner":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: cd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			cd.withCompanyOwner = query
-
 		case "engineers":
 			var (
 				alias = field.Alias
@@ -104,30 +93,10 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, companydetail.FieldAddress)
 				fieldSeen[companydetail.FieldAddress] = struct{}{}
 			}
-		case "city":
-			if _, ok := fieldSeen[companydetail.FieldCity]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldCity)
-				fieldSeen[companydetail.FieldCity] = struct{}{}
-			}
-		case "state":
-			if _, ok := fieldSeen[companydetail.FieldState]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldState)
-				fieldSeen[companydetail.FieldState] = struct{}{}
-			}
 		case "phone":
 			if _, ok := fieldSeen[companydetail.FieldPhone]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldPhone)
 				fieldSeen[companydetail.FieldPhone] = struct{}{}
-			}
-		case "fax":
-			if _, ok := fieldSeen[companydetail.FieldFax]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldFax)
-				fieldSeen[companydetail.FieldFax] = struct{}{}
-			}
-		case "mobile":
-			if _, ok := fieldSeen[companydetail.FieldMobile]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldMobile)
-				fieldSeen[companydetail.FieldMobile] = struct{}{}
 			}
 		case "email":
 			if _, ok := fieldSeen[companydetail.FieldEmail]; !ok {
@@ -149,20 +118,80 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, companydetail.FieldTaxNo)
 				fieldSeen[companydetail.FieldTaxNo] = struct{}{}
 			}
-		case "commerce":
-			if _, ok := fieldSeen[companydetail.FieldCommerce]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldCommerce)
-				fieldSeen[companydetail.FieldCommerce] = struct{}{}
+		case "chamberinfo":
+			if _, ok := fieldSeen[companydetail.FieldChamberInfo]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldChamberInfo)
+				fieldSeen[companydetail.FieldChamberInfo] = struct{}{}
 			}
-		case "commercereg":
-			if _, ok := fieldSeen[companydetail.FieldCommerceReg]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldCommerceReg)
-				fieldSeen[companydetail.FieldCommerceReg] = struct{}{}
+		case "chamberregno":
+			if _, ok := fieldSeen[companydetail.FieldChamberRegNo]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldChamberRegNo)
+				fieldSeen[companydetail.FieldChamberRegNo] = struct{}{}
 			}
 		case "visadate":
 			if _, ok := fieldSeen[companydetail.FieldVisaDate]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldVisaDate)
 				fieldSeen[companydetail.FieldVisaDate] = struct{}{}
+			}
+		case "visaenddate":
+			if _, ok := fieldSeen[companydetail.FieldVisaEndDate]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldVisaEndDate)
+				fieldSeen[companydetail.FieldVisaEndDate] = struct{}{}
+			}
+		case "ownername":
+			if _, ok := fieldSeen[companydetail.FieldOwnerName]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerName)
+				fieldSeen[companydetail.FieldOwnerName] = struct{}{}
+			}
+		case "ownertcno":
+			if _, ok := fieldSeen[companydetail.FieldOwnerTcNo]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerTcNo)
+				fieldSeen[companydetail.FieldOwnerTcNo] = struct{}{}
+			}
+		case "owneraddress":
+			if _, ok := fieldSeen[companydetail.FieldOwnerAddress]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerAddress)
+				fieldSeen[companydetail.FieldOwnerAddress] = struct{}{}
+			}
+		case "ownerphone":
+			if _, ok := fieldSeen[companydetail.FieldOwnerPhone]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerPhone)
+				fieldSeen[companydetail.FieldOwnerPhone] = struct{}{}
+			}
+		case "owneremail":
+			if _, ok := fieldSeen[companydetail.FieldOwnerEmail]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerEmail)
+				fieldSeen[companydetail.FieldOwnerEmail] = struct{}{}
+			}
+		case "ownerregno":
+			if _, ok := fieldSeen[companydetail.FieldOwnerRegNo]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerRegNo)
+				fieldSeen[companydetail.FieldOwnerRegNo] = struct{}{}
+			}
+		case "ownercareer":
+			if _, ok := fieldSeen[companydetail.FieldOwnerCareer]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerCareer)
+				fieldSeen[companydetail.FieldOwnerCareer] = struct{}{}
+			}
+		case "ownerbirthdate":
+			if _, ok := fieldSeen[companydetail.FieldOwnerBirthDate]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerBirthDate)
+				fieldSeen[companydetail.FieldOwnerBirthDate] = struct{}{}
+			}
+		case "visafinishedfor90days":
+			if _, ok := fieldSeen[companydetail.FieldVisaFinishedFor90Days]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldVisaFinishedFor90Days)
+				fieldSeen[companydetail.FieldVisaFinishedFor90Days] = struct{}{}
+			}
+		case "corepersonabsent90days":
+			if _, ok := fieldSeen[companydetail.FieldCorePersonAbsent90Days]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldCorePersonAbsent90Days)
+				fieldSeen[companydetail.FieldCorePersonAbsent90Days] = struct{}{}
+			}
+		case "isclosed":
+			if _, ok := fieldSeen[companydetail.FieldIsClosed]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldIsClosed)
+				fieldSeen[companydetail.FieldIsClosed] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[companydetail.FieldCreatedAt]; !ok {
@@ -244,19 +273,6 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 				return err
 			}
 			ce.withCompany = query
-
-		case "companyowners":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: ce.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
-				return err
-			}
-			ce.WithNamedCompanyOwners(alias, func(wq *CompanyDetailQuery) {
-				*wq = *query
-			})
 
 		case "inspectors":
 			var (

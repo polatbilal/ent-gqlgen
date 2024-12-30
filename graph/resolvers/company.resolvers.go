@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"gqlgen-ent/ent"
 	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
 	"gqlgen-ent/graph/generated"
 	"gqlgen-ent/graph/model"
 	"gqlgen-ent/middlewares"
@@ -25,14 +24,60 @@ func (r *companyDetailResolver) VisaDate(ctx context.Context, obj *ent.CompanyDe
 	return &visaDate, nil
 }
 
-// Owner is the resolver for the Owner field.
-func (r *companyDetailResolver) Owner(ctx context.Context, obj *ent.CompanyDetail) (*ent.CompanyEngineer, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	owner, err := client.CompanyEngineer.Query().Where(companyengineer.HasCompanyOwnersWith(companydetail.IDEQ(obj.ID))).Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to het owners: %v", err)
+// VisaEndDate is the resolver for the VisaEndDate field.
+func (r *companyDetailResolver) VisaEndDate(ctx context.Context, obj *ent.CompanyDetail) (*string, error) {
+	if obj.VisaEndDate.IsZero() {
+		return nil, nil
 	}
-	return owner, nil
+	visaEndDate := obj.VisaEndDate.Format("2006-01-02")
+	return &visaEndDate, nil
+}
+
+// CreateCompany is the resolver for the createCompany field.
+func (r *mutationResolver) CreateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error) {
+	client := middlewares.GetClientFromContext(ctx)
+
+	visaDatePtr, err := tools.ParseDate(input.VisaDate)
+	if err != nil {
+		return nil, fmt.Errorf("visa date dönüşüm hatası: %v", err)
+	}
+
+	visaEndDatePtr, err := tools.ParseDate(input.VisaEndDate)
+	if err != nil {
+		return nil, fmt.Errorf("visa end date dönüşüm hatası: %v", err)
+	}
+
+	createCompany, err := client.CompanyDetail.Create().
+		SetCompanyCode(input.CompanyCode).
+		SetName(input.Name).
+		SetNillableAddress(input.Address).
+		SetNillablePhone(input.Phone).
+		SetNillableEmail(input.Email).
+		SetNillableWebsite(input.Website).
+		SetNillableTaxAdmin(input.TaxAdmin).
+		SetNillableTaxNo(input.TaxNo).
+		SetNillableChamberInfo(input.ChamberInfo).
+		SetNillableChamberRegNo(input.ChamberRegNo).
+		SetNillableVisaDate(visaDatePtr).
+		SetNillableVisaEndDate(visaEndDatePtr).
+		SetNillableVisaFinishedFor90Days(input.VisaFinishedFor90days).
+		SetNillableCorePersonAbsent90Days(input.CorePersonAbsent90days).
+		SetNillableIsClosed(input.IsClosed).
+		SetNillableOwnerName(input.OwnerName).
+		SetNillableOwnerTcNo(input.OwnerTcNo).
+		SetNillableOwnerAddress(input.OwnerAddress).
+		SetNillableOwnerPhone(input.OwnerPhone).
+		SetNillableOwnerEmail(input.OwnerEmail).
+		SetNillableOwnerRegNo(input.OwnerRegNo).
+		SetNillableOwnerBirthDate(input.OwnerBirthDate).
+		SetNillableOwnerCareer(input.OwnerCareer).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("şirket oluşturulamadı: %v", err)
+	}
+
+	return createCompany, nil
 }
 
 // UpdateCompany is the resolver for the updateCompany field.
@@ -42,37 +87,55 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 	if err != nil {
 		return nil, fmt.Errorf("visa date dönüşüm hatası: %v", err)
 	}
+	visaEndDatePtr, err := tools.ParseDate(input.VisaEndDate)
+	if err != nil {
+		return nil, fmt.Errorf("visa end date dönüşüm hatası: %v", err)
+	}
 
-	updatedCompany, err := client.CompanyDetail.UpdateOneID(1).
+	company, err := client.CompanyDetail.Query().Where(companydetail.CompanyCodeEQ(input.CompanyCode)).Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
+	}
+
+	updatedCompany, err := client.CompanyDetail.UpdateOneID(company.ID).
 		SetName(input.Name).
-		SetAddress(*input.Address).
-		SetCity(*input.City).
-		SetState(*input.State).
-		SetPhone(*input.Phone).
-		SetFax(*input.Fax).
-		SetMobile(*input.Mobile).
-		SetEmail(*input.Email).
-		SetWebsite(*input.Website).
-		SetTaxAdmin(*input.TaxAdmin).
-		SetTaxNo(*input.TaxNo).
-		SetCommerce(*input.Commerce).
-		SetCommerceReg(*input.CommerceReg).
-		SetVisaDate(*visaDatePtr).
-		SetCompanyOwnerID(*input.OwnerID).
+		SetCompanyCode(input.CompanyCode).
+		SetNillableAddress(input.Address).
+		SetNillablePhone(input.Phone).
+		SetNillableEmail(input.Email).
+		SetNillableWebsite(input.Website).
+		SetNillableTaxAdmin(input.TaxAdmin).
+		SetNillableTaxNo(input.TaxNo).
+		SetNillableChamberInfo(input.ChamberInfo).
+		SetNillableChamberRegNo(input.ChamberRegNo).
+		SetNillableVisaDate(visaDatePtr).
+		SetNillableVisaEndDate(visaEndDatePtr).
+		SetNillableVisaFinishedFor90Days(input.VisaFinishedFor90days).
+		SetNillableCorePersonAbsent90Days(input.CorePersonAbsent90days).
+		SetNillableIsClosed(input.IsClosed).
+		SetNillableOwnerName(input.OwnerName).
+		SetNillableOwnerTcNo(input.OwnerTcNo).
+		SetNillableOwnerAddress(input.OwnerAddress).
+		SetNillableOwnerPhone(input.OwnerPhone).
+		SetNillableOwnerEmail(input.OwnerEmail).
+		SetNillableOwnerRegNo(input.OwnerRegNo).
+		SetNillableOwnerBirthDate(input.OwnerBirthDate).
+		SetNillableOwnerCareer(input.OwnerCareer).
 		Save(ctx)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("şirket güncellenemedi: %v", err)
 	}
+
 	return updatedCompany, nil
 }
 
-// Company is the resolver for the company field.
-func (r *queryResolver) Company(ctx context.Context) (*ent.CompanyDetail, error) {
+// CompanyByCode is the resolver for the companyByCode field.
+func (r *queryResolver) CompanyByCode(ctx context.Context, companyCode int) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	company, err := client.CompanyDetail.Query().Only(ctx)
+	company, err := client.CompanyDetail.Query().Where(companydetail.CompanyCodeEQ(companyCode)).Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to het owners: %v", err)
+		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
 	}
 	return company, nil
 }

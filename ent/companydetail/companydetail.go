@@ -20,16 +20,8 @@ const (
 	FieldName = "name"
 	// FieldAddress holds the string denoting the address field in the database.
 	FieldAddress = "address"
-	// FieldCity holds the string denoting the city field in the database.
-	FieldCity = "city"
-	// FieldState holds the string denoting the state field in the database.
-	FieldState = "state"
 	// FieldPhone holds the string denoting the phone field in the database.
 	FieldPhone = "phone"
-	// FieldFax holds the string denoting the fax field in the database.
-	FieldFax = "fax"
-	// FieldMobile holds the string denoting the mobile field in the database.
-	FieldMobile = "mobile"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
 	// FieldWebsite holds the string denoting the website field in the database.
@@ -38,18 +30,40 @@ const (
 	FieldTaxAdmin = "tax_admin"
 	// FieldTaxNo holds the string denoting the taxno field in the database.
 	FieldTaxNo = "tax_no"
-	// FieldCommerce holds the string denoting the commerce field in the database.
-	FieldCommerce = "commerce"
-	// FieldCommerceReg holds the string denoting the commercereg field in the database.
-	FieldCommerceReg = "commerce_reg"
+	// FieldChamberInfo holds the string denoting the chamberinfo field in the database.
+	FieldChamberInfo = "chamber_info"
+	// FieldChamberRegNo holds the string denoting the chamberregno field in the database.
+	FieldChamberRegNo = "chamber_reg_no"
 	// FieldVisaDate holds the string denoting the visadate field in the database.
 	FieldVisaDate = "visa_date"
+	// FieldVisaEndDate holds the string denoting the visaenddate field in the database.
+	FieldVisaEndDate = "visa_end_date"
+	// FieldOwnerName holds the string denoting the ownername field in the database.
+	FieldOwnerName = "owner_name"
+	// FieldOwnerTcNo holds the string denoting the ownertcno field in the database.
+	FieldOwnerTcNo = "owner_tc_no"
+	// FieldOwnerAddress holds the string denoting the owneraddress field in the database.
+	FieldOwnerAddress = "owner_address"
+	// FieldOwnerPhone holds the string denoting the ownerphone field in the database.
+	FieldOwnerPhone = "owner_phone"
+	// FieldOwnerEmail holds the string denoting the owneremail field in the database.
+	FieldOwnerEmail = "owner_email"
+	// FieldOwnerRegNo holds the string denoting the ownerregno field in the database.
+	FieldOwnerRegNo = "owner_reg_no"
+	// FieldOwnerCareer holds the string denoting the ownercareer field in the database.
+	FieldOwnerCareer = "owner_career"
+	// FieldOwnerBirthDate holds the string denoting the ownerbirthdate field in the database.
+	FieldOwnerBirthDate = "owner_birth_date"
+	// FieldVisaFinishedFor90Days holds the string denoting the visafinishedfor90days field in the database.
+	FieldVisaFinishedFor90Days = "visa_finished_for90days"
+	// FieldCorePersonAbsent90Days holds the string denoting the corepersonabsent90days field in the database.
+	FieldCorePersonAbsent90Days = "core_person_absent90days"
+	// FieldIsClosed holds the string denoting the isclosed field in the database.
+	FieldIsClosed = "is_closed"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
-	// EdgeCompanyOwner holds the string denoting the companyowner edge name in mutations.
-	EdgeCompanyOwner = "companyOwner"
 	// EdgeEngineers holds the string denoting the engineers edge name in mutations.
 	EdgeEngineers = "engineers"
 	// EdgeUsers holds the string denoting the users edge name in mutations.
@@ -58,13 +72,6 @@ const (
 	EdgeJobs = "jobs"
 	// Table holds the table name of the companydetail in the database.
 	Table = "company_details"
-	// CompanyOwnerTable is the table that holds the companyOwner relation/edge.
-	CompanyOwnerTable = "company_details"
-	// CompanyOwnerInverseTable is the table name for the CompanyEngineer entity.
-	// It exists in this package in order to avoid circular dependency with the "companyengineer" package.
-	CompanyOwnerInverseTable = "company_engineers"
-	// CompanyOwnerColumn is the table column denoting the companyOwner relation/edge.
-	CompanyOwnerColumn = "owner_id"
 	// EngineersTable is the table that holds the engineers relation/edge.
 	EngineersTable = "company_engineers"
 	// EngineersInverseTable is the table name for the CompanyEngineer entity.
@@ -94,37 +101,34 @@ var Columns = []string{
 	FieldCompanyCode,
 	FieldName,
 	FieldAddress,
-	FieldCity,
-	FieldState,
 	FieldPhone,
-	FieldFax,
-	FieldMobile,
 	FieldEmail,
 	FieldWebsite,
 	FieldTaxAdmin,
 	FieldTaxNo,
-	FieldCommerce,
-	FieldCommerceReg,
+	FieldChamberInfo,
+	FieldChamberRegNo,
 	FieldVisaDate,
+	FieldVisaEndDate,
+	FieldOwnerName,
+	FieldOwnerTcNo,
+	FieldOwnerAddress,
+	FieldOwnerPhone,
+	FieldOwnerEmail,
+	FieldOwnerRegNo,
+	FieldOwnerCareer,
+	FieldOwnerBirthDate,
+	FieldVisaFinishedFor90Days,
+	FieldCorePersonAbsent90Days,
+	FieldIsClosed,
 	FieldCreatedAt,
 	FieldUpdatedAt,
-}
-
-// ForeignKeys holds the SQL foreign-keys that are owned by the "company_details"
-// table and are not defined as standalone fields in the schema.
-var ForeignKeys = []string{
-	"owner_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
 	for i := range Columns {
 		if column == Columns[i] {
-			return true
-		}
-	}
-	for i := range ForeignKeys {
-		if column == ForeignKeys[i] {
 			return true
 		}
 	}
@@ -136,6 +140,12 @@ var (
 	DefaultName string
 	// DefaultTaxNo holds the default value on creation for the "TaxNo" field.
 	DefaultTaxNo int
+	// DefaultVisaFinishedFor90Days holds the default value on creation for the "VisaFinishedFor90Days" field.
+	DefaultVisaFinishedFor90Days bool
+	// DefaultCorePersonAbsent90Days holds the default value on creation for the "CorePersonAbsent90Days" field.
+	DefaultCorePersonAbsent90Days bool
+	// DefaultIsClosed holds the default value on creation for the "IsClosed" field.
+	DefaultIsClosed bool
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -167,29 +177,9 @@ func ByAddress(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAddress, opts...).ToFunc()
 }
 
-// ByCity orders the results by the City field.
-func ByCity(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCity, opts...).ToFunc()
-}
-
-// ByState orders the results by the State field.
-func ByState(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldState, opts...).ToFunc()
-}
-
 // ByPhone orders the results by the Phone field.
 func ByPhone(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPhone, opts...).ToFunc()
-}
-
-// ByFax orders the results by the Fax field.
-func ByFax(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldFax, opts...).ToFunc()
-}
-
-// ByMobile orders the results by the Mobile field.
-func ByMobile(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldMobile, opts...).ToFunc()
 }
 
 // ByEmail orders the results by the Email field.
@@ -212,19 +202,79 @@ func ByTaxNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTaxNo, opts...).ToFunc()
 }
 
-// ByCommerce orders the results by the Commerce field.
-func ByCommerce(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCommerce, opts...).ToFunc()
+// ByChamberInfo orders the results by the ChamberInfo field.
+func ByChamberInfo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldChamberInfo, opts...).ToFunc()
 }
 
-// ByCommerceReg orders the results by the CommerceReg field.
-func ByCommerceReg(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCommerceReg, opts...).ToFunc()
+// ByChamberRegNo orders the results by the ChamberRegNo field.
+func ByChamberRegNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldChamberRegNo, opts...).ToFunc()
 }
 
 // ByVisaDate orders the results by the VisaDate field.
 func ByVisaDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldVisaDate, opts...).ToFunc()
+}
+
+// ByVisaEndDate orders the results by the VisaEndDate field.
+func ByVisaEndDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldVisaEndDate, opts...).ToFunc()
+}
+
+// ByOwnerName orders the results by the OwnerName field.
+func ByOwnerName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerName, opts...).ToFunc()
+}
+
+// ByOwnerTcNo orders the results by the OwnerTcNo field.
+func ByOwnerTcNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerTcNo, opts...).ToFunc()
+}
+
+// ByOwnerAddress orders the results by the OwnerAddress field.
+func ByOwnerAddress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerAddress, opts...).ToFunc()
+}
+
+// ByOwnerPhone orders the results by the OwnerPhone field.
+func ByOwnerPhone(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerPhone, opts...).ToFunc()
+}
+
+// ByOwnerEmail orders the results by the OwnerEmail field.
+func ByOwnerEmail(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerEmail, opts...).ToFunc()
+}
+
+// ByOwnerRegNo orders the results by the OwnerRegNo field.
+func ByOwnerRegNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerRegNo, opts...).ToFunc()
+}
+
+// ByOwnerCareer orders the results by the OwnerCareer field.
+func ByOwnerCareer(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerCareer, opts...).ToFunc()
+}
+
+// ByOwnerBirthDate orders the results by the OwnerBirthDate field.
+func ByOwnerBirthDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerBirthDate, opts...).ToFunc()
+}
+
+// ByVisaFinishedFor90Days orders the results by the VisaFinishedFor90Days field.
+func ByVisaFinishedFor90Days(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldVisaFinishedFor90Days, opts...).ToFunc()
+}
+
+// ByCorePersonAbsent90Days orders the results by the CorePersonAbsent90Days field.
+func ByCorePersonAbsent90Days(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCorePersonAbsent90Days, opts...).ToFunc()
+}
+
+// ByIsClosed orders the results by the IsClosed field.
+func ByIsClosed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsClosed, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.
@@ -235,13 +285,6 @@ func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdatedAt orders the results by the UpdatedAt field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
-}
-
-// ByCompanyOwnerField orders the results by companyOwner field.
-func ByCompanyOwnerField(field string, opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newCompanyOwnerStep(), sql.OrderByField(field, opts...))
-	}
 }
 
 // ByEngineersCount orders the results by engineers count.
@@ -284,13 +327,6 @@ func ByJobs(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
 		sqlgraph.OrderByNeighborTerms(s, newJobsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
-}
-func newCompanyOwnerStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(CompanyOwnerInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, CompanyOwnerTable, CompanyOwnerColumn),
-	)
 }
 func newEngineersStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(

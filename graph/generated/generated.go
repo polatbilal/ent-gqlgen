@@ -64,23 +64,30 @@ type ComplexityRoot struct {
 	}
 
 	CompanyDetail struct {
-		Address     func(childComplexity int) int
-		City        func(childComplexity int) int
-		Commerce    func(childComplexity int) int
-		CommerceReg func(childComplexity int) int
-		CompanyCode func(childComplexity int) int
-		Email       func(childComplexity int) int
-		Fax         func(childComplexity int) int
-		ID          func(childComplexity int) int
-		Mobile      func(childComplexity int) int
-		Name        func(childComplexity int) int
-		Owner       func(childComplexity int) int
-		Phone       func(childComplexity int) int
-		State       func(childComplexity int) int
-		TaxAdmin    func(childComplexity int) int
-		TaxNo       func(childComplexity int) int
-		VisaDate    func(childComplexity int) int
-		Website     func(childComplexity int) int
+		Address                func(childComplexity int) int
+		ChamberInfo            func(childComplexity int) int
+		ChamberRegNo           func(childComplexity int) int
+		CompanyCode            func(childComplexity int) int
+		CorePersonAbsent90Days func(childComplexity int) int
+		Email                  func(childComplexity int) int
+		ID                     func(childComplexity int) int
+		IsClosed               func(childComplexity int) int
+		Name                   func(childComplexity int) int
+		OwnerAddress           func(childComplexity int) int
+		OwnerBirthDate         func(childComplexity int) int
+		OwnerCareer            func(childComplexity int) int
+		OwnerEmail             func(childComplexity int) int
+		OwnerName              func(childComplexity int) int
+		OwnerPhone             func(childComplexity int) int
+		OwnerRegNo             func(childComplexity int) int
+		OwnerTcNo              func(childComplexity int) int
+		Phone                  func(childComplexity int) int
+		TaxAdmin               func(childComplexity int) int
+		TaxNo                  func(childComplexity int) int
+		VisaDate               func(childComplexity int) int
+		VisaEndDate            func(childComplexity int) int
+		VisaFinishedFor90Days  func(childComplexity int) int
+		Website                func(childComplexity int) int
 	}
 
 	CompanyEngineer struct {
@@ -215,6 +222,7 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
+		CreateCompany     func(childComplexity int, input model.CompanyDetailInput) int
 		CreateContractor  func(childComplexity int, input model.JobContractorInput) int
 		CreateEngineer    func(childComplexity int, input model.CompanyEngineerInput) int
 		CreateJob         func(childComplexity int, input model.JobInput) int
@@ -241,7 +249,7 @@ type ComplexityRoot struct {
 		AllContractor func(childComplexity int) int
 		AllOwner      func(childComplexity int) int
 		AllUsers      func(childComplexity int) int
-		Company       func(childComplexity int) int
+		CompanyByCode func(childComplexity int, companyCode int) int
 		Engineer      func(childComplexity int, filter *model.EngineerFilterInput) int
 		Job           func(childComplexity int, yibfNo int) int
 		JobPayments   func(childComplexity int, yibfNo int) int
@@ -265,7 +273,7 @@ type ComplexityRoot struct {
 
 type CompanyDetailResolver interface {
 	VisaDate(ctx context.Context, obj *ent.CompanyDetail) (*string, error)
-	Owner(ctx context.Context, obj *ent.CompanyDetail) (*ent.CompanyEngineer, error)
+	VisaEndDate(ctx context.Context, obj *ent.CompanyDetail) (*string, error)
 }
 type CompanyEngineerResolver interface {
 	Employment(ctx context.Context, obj *ent.CompanyEngineer) (*string, error)
@@ -292,6 +300,7 @@ type JobPaymentsResolver interface {
 type MutationResolver interface {
 	Register(ctx context.Context, companyCode string, username string, name *string, email *string, password string) (*model.AuthPayload, error)
 	Login(ctx context.Context, companyCode string, username string, password string) (*model.AuthPayload, error)
+	CreateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error)
 	UpdateContractor(ctx context.Context, id string, input model.JobContractorInput) (*ent.JobContractor, error)
@@ -312,7 +321,7 @@ type MutationResolver interface {
 	UpdateUser(ctx context.Context, input model.UserInput) (*ent.User, error)
 }
 type QueryResolver interface {
-	Company(ctx context.Context) (*ent.CompanyDetail, error)
+	CompanyByCode(ctx context.Context, companyCode int) (*ent.CompanyDetail, error)
 	AllContractor(ctx context.Context) ([]*ent.JobContractor, error)
 	Engineer(ctx context.Context, filter *model.EngineerFilterInput) ([]*ent.CompanyEngineer, error)
 	Job(ctx context.Context, yibfNo int) (*ent.JobDetail, error)
@@ -396,26 +405,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CompanyDetail.Address(childComplexity), true
 
-	case "CompanyDetail.City":
-		if e.complexity.CompanyDetail.City == nil {
+	case "CompanyDetail.ChamberInfo":
+		if e.complexity.CompanyDetail.ChamberInfo == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.City(childComplexity), true
+		return e.complexity.CompanyDetail.ChamberInfo(childComplexity), true
 
-	case "CompanyDetail.Commerce":
-		if e.complexity.CompanyDetail.Commerce == nil {
+	case "CompanyDetail.ChamberRegNo":
+		if e.complexity.CompanyDetail.ChamberRegNo == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Commerce(childComplexity), true
-
-	case "CompanyDetail.CommerceReg":
-		if e.complexity.CompanyDetail.CommerceReg == nil {
-			break
-		}
-
-		return e.complexity.CompanyDetail.CommerceReg(childComplexity), true
+		return e.complexity.CompanyDetail.ChamberRegNo(childComplexity), true
 
 	case "CompanyDetail.CompanyCode":
 		if e.complexity.CompanyDetail.CompanyCode == nil {
@@ -424,19 +426,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CompanyDetail.CompanyCode(childComplexity), true
 
+	case "CompanyDetail.core_person_absent_90days":
+		if e.complexity.CompanyDetail.CorePersonAbsent90Days == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.CorePersonAbsent90Days(childComplexity), true
+
 	case "CompanyDetail.Email":
 		if e.complexity.CompanyDetail.Email == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.Email(childComplexity), true
-
-	case "CompanyDetail.Fax":
-		if e.complexity.CompanyDetail.Fax == nil {
-			break
-		}
-
-		return e.complexity.CompanyDetail.Fax(childComplexity), true
 
 	case "CompanyDetail.id":
 		if e.complexity.CompanyDetail.ID == nil {
@@ -445,12 +447,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CompanyDetail.ID(childComplexity), true
 
-	case "CompanyDetail.Mobile":
-		if e.complexity.CompanyDetail.Mobile == nil {
+	case "CompanyDetail.isClosed":
+		if e.complexity.CompanyDetail.IsClosed == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Mobile(childComplexity), true
+		return e.complexity.CompanyDetail.IsClosed(childComplexity), true
 
 	case "CompanyDetail.Name":
 		if e.complexity.CompanyDetail.Name == nil {
@@ -459,12 +461,61 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CompanyDetail.Name(childComplexity), true
 
-	case "CompanyDetail.Owner":
-		if e.complexity.CompanyDetail.Owner == nil {
+	case "CompanyDetail.OwnerAddress":
+		if e.complexity.CompanyDetail.OwnerAddress == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Owner(childComplexity), true
+		return e.complexity.CompanyDetail.OwnerAddress(childComplexity), true
+
+	case "CompanyDetail.OwnerBirthDate":
+		if e.complexity.CompanyDetail.OwnerBirthDate == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.OwnerBirthDate(childComplexity), true
+
+	case "CompanyDetail.OwnerCareer":
+		if e.complexity.CompanyDetail.OwnerCareer == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.OwnerCareer(childComplexity), true
+
+	case "CompanyDetail.OwnerEmail":
+		if e.complexity.CompanyDetail.OwnerEmail == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.OwnerEmail(childComplexity), true
+
+	case "CompanyDetail.OwnerName":
+		if e.complexity.CompanyDetail.OwnerName == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.OwnerName(childComplexity), true
+
+	case "CompanyDetail.OwnerPhone":
+		if e.complexity.CompanyDetail.OwnerPhone == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.OwnerPhone(childComplexity), true
+
+	case "CompanyDetail.OwnerRegNo":
+		if e.complexity.CompanyDetail.OwnerRegNo == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.OwnerRegNo(childComplexity), true
+
+	case "CompanyDetail.OwnerTcNo":
+		if e.complexity.CompanyDetail.OwnerTcNo == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.OwnerTcNo(childComplexity), true
 
 	case "CompanyDetail.Phone":
 		if e.complexity.CompanyDetail.Phone == nil {
@@ -472,13 +523,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CompanyDetail.Phone(childComplexity), true
-
-	case "CompanyDetail.State":
-		if e.complexity.CompanyDetail.State == nil {
-			break
-		}
-
-		return e.complexity.CompanyDetail.State(childComplexity), true
 
 	case "CompanyDetail.TaxAdmin":
 		if e.complexity.CompanyDetail.TaxAdmin == nil {
@@ -500,6 +544,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CompanyDetail.VisaDate(childComplexity), true
+
+	case "CompanyDetail.VisaEndDate":
+		if e.complexity.CompanyDetail.VisaEndDate == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.VisaEndDate(childComplexity), true
+
+	case "CompanyDetail.visa_finished_for_90days":
+		if e.complexity.CompanyDetail.VisaFinishedFor90Days == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.VisaFinishedFor90Days(childComplexity), true
 
 	case "CompanyDetail.Website":
 		if e.complexity.CompanyDetail.Website == nil {
@@ -1257,6 +1315,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobProgress.Two(childComplexity), true
 
+	case "Mutation.createCompany":
+		if e.complexity.Mutation.CreateCompany == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createCompany_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateCompany(childComplexity, args["input"].(model.CompanyDetailInput)), true
+
 	case "Mutation.createContractor":
 		if e.complexity.Mutation.CreateContractor == nil {
 			break
@@ -1518,12 +1588,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.AllUsers(childComplexity), true
 
-	case "Query.company":
-		if e.complexity.Query.Company == nil {
+	case "Query.companyByCode":
+		if e.complexity.Query.CompanyByCode == nil {
 			break
 		}
 
-		return e.complexity.Query.Company(childComplexity), true
+		args, err := ec.field_Query_companyByCode_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.CompanyByCode(childComplexity, args["companyCode"].(int)), true
 
 	case "Query.engineer":
 		if e.complexity.Query.Engineer == nil {
@@ -1803,45 +1878,66 @@ type CompanyDetail {
   CompanyCode: Int!
   Name: String!
   Address: String
-  City: String
-  State: String
   Phone: String
-  Fax: String
-  Mobile: String
   Email: String
   Website: String
   TaxAdmin: String
   TaxNo: Int
-  Commerce: String
-  CommerceReg: String
+  ChamberInfo: String
+  ChamberRegNo: String
   VisaDate: Date
-  Owner: CompanyEngineer
+  VisaEndDate: Date
+  visa_finished_for_90days: Boolean
+  core_person_absent_90days: Boolean
+  isClosed: Boolean
+  OwnerName: String
+  OwnerTcNo: String
+  OwnerAddress: String
+  OwnerPhone: String
+  OwnerEmail: String
+  OwnerRegNo: String
+  OwnerBirthDate: String
+  OwnerCareer: String
 }
 
 input CompanyDetailInput {
+  CompanyCode: Int!
   Name: String!
   Address: String
-  City: String
-  State: String
   Phone: String
-  Fax: String
-  Mobile: String
   Email: String
   Website: String
   TaxAdmin: String
   TaxNo: Int
-  Commerce: String
-  CommerceReg: String
+  ChamberInfo: String
+  ChamberRegNo: String
   VisaDate: Date
-  Deleted: Int
-  OwnerID: Int
+  VisaEndDate: Date
+  visa_finished_for_90days: Boolean
+  core_person_absent_90days: Boolean
+  isClosed: Boolean
+  OwnerName: String
+  OwnerTcNo: String
+  OwnerAddress: String
+  OwnerPhone: String
+  OwnerEmail: String
+  OwnerRegNo: String
+  OwnerBirthDate: String
+  OwnerCareer: String
 }
 
 extend type Query {
-  company: CompanyDetail! @goField(forceResolver: true) @auth
+  # company: CompanyDetail! @goField(forceResolver: true) @auth
+  companyByCode(companyCode: Int!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
 }
 
 extend type Mutation {
+  createCompany(input: CompanyDetailInput!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
+
   updateCompany(input: CompanyDetailInput!): CompanyDetail!
     @goField(forceResolver: true)
     @auth
@@ -1929,6 +2025,7 @@ input CompanyEngineerInput {
 
 input EngineerFilterInput {
   id: ID
+  YDSID: Int
   career: String
   position: String
 }
@@ -2255,6 +2352,38 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) field_Mutation_createCompany_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createCompany_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createCompany_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CompanyDetailInput, error) {
+	// We won't call the directive if the argument is null.
+	// Set call_argument_directives_with_null to true to call directives
+	// even if the argument is null.
+	_, ok := rawArgs["input"]
+	if !ok {
+		var zeroVal model.CompanyDetailInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCompanyDetailInput2gqlgenᚑentᚋgraphᚋmodelᚐCompanyDetailInput(ctx, tmp)
+	}
+
+	var zeroVal model.CompanyDetailInput
+	return zeroVal, nil
+}
 
 func (ec *executionContext) field_Mutation_createContractor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
@@ -3284,6 +3413,38 @@ func (ec *executionContext) field_Query___type_argsName(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_companyByCode_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_companyByCode_argsCompanyCode(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["companyCode"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_companyByCode_argsCompanyCode(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (int, error) {
+	// We won't call the directive if the argument is null.
+	// Set call_argument_directives_with_null to true to call directives
+	// even if the argument is null.
+	_, ok := rawArgs["companyCode"]
+	if !ok {
+		var zeroVal int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("companyCode"))
+	if tmp, ok := rawArgs["companyCode"]; ok {
+		return ec.unmarshalNInt2int(ctx, tmp)
+	}
+
+	var zeroVal int
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_engineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3921,88 +4082,6 @@ func (ec *executionContext) fieldContext_CompanyDetail_Address(_ context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _CompanyDetail_City(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_City(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.City, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyDetail_City(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyDetail_State(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_State(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.State, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyDetail_State(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _CompanyDetail_Phone(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_CompanyDetail_Phone(ctx, field)
 	if err != nil {
@@ -4032,88 +4111,6 @@ func (ec *executionContext) _CompanyDetail_Phone(ctx context.Context, field grap
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Phone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyDetail_Fax(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Fax(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Fax, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyDetail_Fax(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CompanyDetail_Mobile(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Mobile(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Mobile, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyDetail_Mobile(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "CompanyDetail",
 		Field:      field,
@@ -4290,8 +4287,8 @@ func (ec *executionContext) fieldContext_CompanyDetail_TaxNo(_ context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _CompanyDetail_Commerce(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Commerce(ctx, field)
+func (ec *executionContext) _CompanyDetail_ChamberInfo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -4304,7 +4301,7 @@ func (ec *executionContext) _CompanyDetail_Commerce(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Commerce, nil
+		return obj.ChamberInfo, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4318,7 +4315,7 @@ func (ec *executionContext) _CompanyDetail_Commerce(ctx context.Context, field g
 	return ec.marshalOString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_CompanyDetail_Commerce(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_CompanyDetail_ChamberInfo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "CompanyDetail",
 		Field:      field,
@@ -4331,8 +4328,8 @@ func (ec *executionContext) fieldContext_CompanyDetail_Commerce(_ context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _CompanyDetail_CommerceReg(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_CommerceReg(ctx, field)
+func (ec *executionContext) _CompanyDetail_ChamberRegNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_ChamberRegNo(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -4345,7 +4342,7 @@ func (ec *executionContext) _CompanyDetail_CommerceReg(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CommerceReg, nil
+		return obj.ChamberRegNo, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4359,7 +4356,7 @@ func (ec *executionContext) _CompanyDetail_CommerceReg(ctx context.Context, fiel
 	return ec.marshalOString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_CompanyDetail_CommerceReg(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_CompanyDetail_ChamberRegNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "CompanyDetail",
 		Field:      field,
@@ -4413,8 +4410,8 @@ func (ec *executionContext) fieldContext_CompanyDetail_VisaDate(_ context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _CompanyDetail_Owner(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Owner(ctx, field)
+func (ec *executionContext) _CompanyDetail_VisaEndDate(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -4427,7 +4424,7 @@ func (ec *executionContext) _CompanyDetail_Owner(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.CompanyDetail().Owner(rctx, obj)
+		return ec.resolvers.CompanyDetail().VisaEndDate(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4436,53 +4433,470 @@ func (ec *executionContext) _CompanyDetail_Owner(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*ent.CompanyEngineer)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalODate2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_CompanyDetail_Owner(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_CompanyDetail_VisaEndDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "CompanyDetail",
 		Field:      field,
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "RegNo":
-				return ec.fieldContext_CompanyEngineer_RegNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Dismissal":
-				return ec.fieldContext_CompanyEngineer_Dismissal(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
+			return nil, errors.New("field of type Date does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_visa_finished_for_90days(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.VisaFinishedFor90Days, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_visa_finished_for_90days(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_core_person_absent_90days(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CorePersonAbsent90Days, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_core_person_absent_90days(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_isClosed(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_isClosed(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsClosed, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_isClosed(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_OwnerName(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_OwnerName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_OwnerTcNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerTcNo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_OwnerTcNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_OwnerAddress(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerAddress, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_OwnerAddress(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_OwnerPhone(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerPhone, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_OwnerPhone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_OwnerEmail(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerEmail, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_OwnerEmail(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_OwnerRegNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_OwnerRegNo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerRegNo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_OwnerRegNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_OwnerBirthDate(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_OwnerBirthDate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerBirthDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_OwnerBirthDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_OwnerCareer(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerCareer, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_OwnerCareer(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -5159,16 +5573,8 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Conte
 				return ec.fieldContext_CompanyDetail_Name(ctx, field)
 			case "Address":
 				return ec.fieldContext_CompanyDetail_Address(ctx, field)
-			case "City":
-				return ec.fieldContext_CompanyDetail_City(ctx, field)
-			case "State":
-				return ec.fieldContext_CompanyDetail_State(ctx, field)
 			case "Phone":
 				return ec.fieldContext_CompanyDetail_Phone(ctx, field)
-			case "Fax":
-				return ec.fieldContext_CompanyDetail_Fax(ctx, field)
-			case "Mobile":
-				return ec.fieldContext_CompanyDetail_Mobile(ctx, field)
 			case "Email":
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
@@ -5177,14 +5583,36 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Conte
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
 				return ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
-			case "Commerce":
-				return ec.fieldContext_CompanyDetail_Commerce(ctx, field)
-			case "CommerceReg":
-				return ec.fieldContext_CompanyDetail_CommerceReg(ctx, field)
+			case "ChamberInfo":
+				return ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
+			case "ChamberRegNo":
+				return ec.fieldContext_CompanyDetail_ChamberRegNo(ctx, field)
 			case "VisaDate":
 				return ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
-			case "Owner":
-				return ec.fieldContext_CompanyDetail_Owner(ctx, field)
+			case "VisaEndDate":
+				return ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
+			case "visa_finished_for_90days":
+				return ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
+			case "core_person_absent_90days":
+				return ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
+			case "isClosed":
+				return ec.fieldContext_CompanyDetail_isClosed(ctx, field)
+			case "OwnerName":
+				return ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
+			case "OwnerTcNo":
+				return ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
+			case "OwnerAddress":
+				return ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
+			case "OwnerPhone":
+				return ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
+			case "OwnerEmail":
+				return ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
+			case "OwnerRegNo":
+				return ec.fieldContext_CompanyDetail_OwnerRegNo(ctx, field)
+			case "OwnerBirthDate":
+				return ec.fieldContext_CompanyDetail_OwnerBirthDate(ctx, field)
+			case "OwnerCareer":
+				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
@@ -9539,6 +9967,133 @@ func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createCompany(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateCompany(rctx, fc.Args["input"].(model.CompanyDetailInput))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *ent.CompanyDetail
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*ent.CompanyDetail); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.CompanyDetail`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*ent.CompanyDetail)
+	fc.Result = res
+	return ec.marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createCompany(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_CompanyDetail_id(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyDetail_CompanyCode(ctx, field)
+			case "Name":
+				return ec.fieldContext_CompanyDetail_Name(ctx, field)
+			case "Address":
+				return ec.fieldContext_CompanyDetail_Address(ctx, field)
+			case "Phone":
+				return ec.fieldContext_CompanyDetail_Phone(ctx, field)
+			case "Email":
+				return ec.fieldContext_CompanyDetail_Email(ctx, field)
+			case "Website":
+				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "TaxAdmin":
+				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
+			case "TaxNo":
+				return ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
+			case "ChamberInfo":
+				return ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
+			case "ChamberRegNo":
+				return ec.fieldContext_CompanyDetail_ChamberRegNo(ctx, field)
+			case "VisaDate":
+				return ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
+			case "VisaEndDate":
+				return ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
+			case "visa_finished_for_90days":
+				return ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
+			case "core_person_absent_90days":
+				return ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
+			case "isClosed":
+				return ec.fieldContext_CompanyDetail_isClosed(ctx, field)
+			case "OwnerName":
+				return ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
+			case "OwnerTcNo":
+				return ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
+			case "OwnerAddress":
+				return ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
+			case "OwnerPhone":
+				return ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
+			case "OwnerEmail":
+				return ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
+			case "OwnerRegNo":
+				return ec.fieldContext_CompanyDetail_OwnerRegNo(ctx, field)
+			case "OwnerBirthDate":
+				return ec.fieldContext_CompanyDetail_OwnerBirthDate(ctx, field)
+			case "OwnerCareer":
+				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createCompany_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_updateCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_updateCompany(ctx, field)
 	if err != nil {
@@ -9608,16 +10163,8 @@ func (ec *executionContext) fieldContext_Mutation_updateCompany(ctx context.Cont
 				return ec.fieldContext_CompanyDetail_Name(ctx, field)
 			case "Address":
 				return ec.fieldContext_CompanyDetail_Address(ctx, field)
-			case "City":
-				return ec.fieldContext_CompanyDetail_City(ctx, field)
-			case "State":
-				return ec.fieldContext_CompanyDetail_State(ctx, field)
 			case "Phone":
 				return ec.fieldContext_CompanyDetail_Phone(ctx, field)
-			case "Fax":
-				return ec.fieldContext_CompanyDetail_Fax(ctx, field)
-			case "Mobile":
-				return ec.fieldContext_CompanyDetail_Mobile(ctx, field)
 			case "Email":
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
@@ -9626,14 +10173,36 @@ func (ec *executionContext) fieldContext_Mutation_updateCompany(ctx context.Cont
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
 				return ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
-			case "Commerce":
-				return ec.fieldContext_CompanyDetail_Commerce(ctx, field)
-			case "CommerceReg":
-				return ec.fieldContext_CompanyDetail_CommerceReg(ctx, field)
+			case "ChamberInfo":
+				return ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
+			case "ChamberRegNo":
+				return ec.fieldContext_CompanyDetail_ChamberRegNo(ctx, field)
 			case "VisaDate":
 				return ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
-			case "Owner":
-				return ec.fieldContext_CompanyDetail_Owner(ctx, field)
+			case "VisaEndDate":
+				return ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
+			case "visa_finished_for_90days":
+				return ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
+			case "core_person_absent_90days":
+				return ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
+			case "isClosed":
+				return ec.fieldContext_CompanyDetail_isClosed(ctx, field)
+			case "OwnerName":
+				return ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
+			case "OwnerTcNo":
+				return ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
+			case "OwnerAddress":
+				return ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
+			case "OwnerPhone":
+				return ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
+			case "OwnerEmail":
+				return ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
+			case "OwnerRegNo":
+				return ec.fieldContext_CompanyDetail_OwnerRegNo(ctx, field)
+			case "OwnerBirthDate":
+				return ec.fieldContext_CompanyDetail_OwnerBirthDate(ctx, field)
+			case "OwnerCareer":
+				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
@@ -11437,8 +12006,8 @@ func (ec *executionContext) fieldContext_Mutation_updateUser(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_company(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_company(ctx, field)
+func (ec *executionContext) _Query_companyByCode(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_companyByCode(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -11452,7 +12021,7 @@ func (ec *executionContext) _Query_company(ctx context.Context, field graphql.Co
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Company(rctx)
+			return ec.resolvers.Query().CompanyByCode(rctx, fc.Args["companyCode"].(int))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -11490,7 +12059,7 @@ func (ec *executionContext) _Query_company(ctx context.Context, field graphql.Co
 	return ec.marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_company(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_companyByCode(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -11506,16 +12075,8 @@ func (ec *executionContext) fieldContext_Query_company(_ context.Context, field 
 				return ec.fieldContext_CompanyDetail_Name(ctx, field)
 			case "Address":
 				return ec.fieldContext_CompanyDetail_Address(ctx, field)
-			case "City":
-				return ec.fieldContext_CompanyDetail_City(ctx, field)
-			case "State":
-				return ec.fieldContext_CompanyDetail_State(ctx, field)
 			case "Phone":
 				return ec.fieldContext_CompanyDetail_Phone(ctx, field)
-			case "Fax":
-				return ec.fieldContext_CompanyDetail_Fax(ctx, field)
-			case "Mobile":
-				return ec.fieldContext_CompanyDetail_Mobile(ctx, field)
 			case "Email":
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
@@ -11524,17 +12085,50 @@ func (ec *executionContext) fieldContext_Query_company(_ context.Context, field 
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
 				return ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
-			case "Commerce":
-				return ec.fieldContext_CompanyDetail_Commerce(ctx, field)
-			case "CommerceReg":
-				return ec.fieldContext_CompanyDetail_CommerceReg(ctx, field)
+			case "ChamberInfo":
+				return ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
+			case "ChamberRegNo":
+				return ec.fieldContext_CompanyDetail_ChamberRegNo(ctx, field)
 			case "VisaDate":
 				return ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
-			case "Owner":
-				return ec.fieldContext_CompanyDetail_Owner(ctx, field)
+			case "VisaEndDate":
+				return ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
+			case "visa_finished_for_90days":
+				return ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
+			case "core_person_absent_90days":
+				return ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
+			case "isClosed":
+				return ec.fieldContext_CompanyDetail_isClosed(ctx, field)
+			case "OwnerName":
+				return ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
+			case "OwnerTcNo":
+				return ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
+			case "OwnerAddress":
+				return ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
+			case "OwnerPhone":
+				return ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
+			case "OwnerEmail":
+				return ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
+			case "OwnerRegNo":
+				return ec.fieldContext_CompanyDetail_OwnerRegNo(ctx, field)
+			case "OwnerBirthDate":
+				return ec.fieldContext_CompanyDetail_OwnerBirthDate(ctx, field)
+			case "OwnerCareer":
+				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_companyByCode_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -12949,16 +13543,8 @@ func (ec *executionContext) fieldContext_User_companies(_ context.Context, field
 				return ec.fieldContext_CompanyDetail_Name(ctx, field)
 			case "Address":
 				return ec.fieldContext_CompanyDetail_Address(ctx, field)
-			case "City":
-				return ec.fieldContext_CompanyDetail_City(ctx, field)
-			case "State":
-				return ec.fieldContext_CompanyDetail_State(ctx, field)
 			case "Phone":
 				return ec.fieldContext_CompanyDetail_Phone(ctx, field)
-			case "Fax":
-				return ec.fieldContext_CompanyDetail_Fax(ctx, field)
-			case "Mobile":
-				return ec.fieldContext_CompanyDetail_Mobile(ctx, field)
 			case "Email":
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
@@ -12967,14 +13553,36 @@ func (ec *executionContext) fieldContext_User_companies(_ context.Context, field
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
 				return ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
-			case "Commerce":
-				return ec.fieldContext_CompanyDetail_Commerce(ctx, field)
-			case "CommerceReg":
-				return ec.fieldContext_CompanyDetail_CommerceReg(ctx, field)
+			case "ChamberInfo":
+				return ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
+			case "ChamberRegNo":
+				return ec.fieldContext_CompanyDetail_ChamberRegNo(ctx, field)
 			case "VisaDate":
 				return ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
-			case "Owner":
-				return ec.fieldContext_CompanyDetail_Owner(ctx, field)
+			case "VisaEndDate":
+				return ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
+			case "visa_finished_for_90days":
+				return ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
+			case "core_person_absent_90days":
+				return ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
+			case "isClosed":
+				return ec.fieldContext_CompanyDetail_isClosed(ctx, field)
+			case "OwnerName":
+				return ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
+			case "OwnerTcNo":
+				return ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
+			case "OwnerAddress":
+				return ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
+			case "OwnerPhone":
+				return ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
+			case "OwnerEmail":
+				return ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
+			case "OwnerRegNo":
+				return ec.fieldContext_CompanyDetail_OwnerRegNo(ctx, field)
+			case "OwnerBirthDate":
+				return ec.fieldContext_CompanyDetail_OwnerBirthDate(ctx, field)
+			case "OwnerCareer":
+				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
@@ -14762,13 +15370,20 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Name", "Address", "City", "State", "Phone", "Fax", "Mobile", "Email", "Website", "TaxAdmin", "TaxNo", "Commerce", "CommerceReg", "VisaDate", "Deleted", "OwnerID"}
+	fieldsInOrder := [...]string{"CompanyCode", "Name", "Address", "Phone", "Email", "Website", "TaxAdmin", "TaxNo", "ChamberInfo", "ChamberRegNo", "VisaDate", "VisaEndDate", "visa_finished_for_90days", "core_person_absent_90days", "isClosed", "OwnerName", "OwnerTcNo", "OwnerAddress", "OwnerPhone", "OwnerEmail", "OwnerRegNo", "OwnerBirthDate", "OwnerCareer"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "CompanyCode":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CompanyCode"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CompanyCode = data
 		case "Name":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Name"))
 			data, err := ec.unmarshalNString2string(ctx, v)
@@ -14783,20 +15398,6 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 				return it, err
 			}
 			it.Address = data
-		case "City":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("City"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.City = data
-		case "State":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("State"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.State = data
 		case "Phone":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Phone"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -14804,20 +15405,6 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 				return it, err
 			}
 			it.Phone = data
-		case "Fax":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Fax"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Fax = data
-		case "Mobile":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Mobile"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Mobile = data
 		case "Email":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Email"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -14846,20 +15433,20 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 				return it, err
 			}
 			it.TaxNo = data
-		case "Commerce":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Commerce"))
+		case "ChamberInfo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ChamberInfo"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Commerce = data
-		case "CommerceReg":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CommerceReg"))
+			it.ChamberInfo = data
+		case "ChamberRegNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ChamberRegNo"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.CommerceReg = data
+			it.ChamberRegNo = data
 		case "VisaDate":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("VisaDate"))
 			data, err := ec.unmarshalODate2ᚖstring(ctx, v)
@@ -14867,20 +15454,90 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 				return it, err
 			}
 			it.VisaDate = data
-		case "Deleted":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Deleted"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+		case "VisaEndDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("VisaEndDate"))
+			data, err := ec.unmarshalODate2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Deleted = data
-		case "OwnerID":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerID"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.VisaEndDate = data
+		case "visa_finished_for_90days":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("visa_finished_for_90days"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.OwnerID = data
+			it.VisaFinishedFor90days = data
+		case "core_person_absent_90days":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("core_person_absent_90days"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CorePersonAbsent90days = data
+		case "isClosed":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isClosed"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IsClosed = data
+		case "OwnerName":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerName"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerName = data
+		case "OwnerTcNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerTcNo"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerTcNo = data
+		case "OwnerAddress":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerAddress"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerAddress = data
+		case "OwnerPhone":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerPhone"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerPhone = data
+		case "OwnerEmail":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerEmail"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerEmail = data
+		case "OwnerRegNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerRegNo"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerRegNo = data
+		case "OwnerBirthDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerBirthDate"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerBirthDate = data
+		case "OwnerCareer":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("OwnerCareer"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerCareer = data
 		}
 	}
 
@@ -15019,7 +15676,7 @@ func (ec *executionContext) unmarshalInputEngineerFilterInput(ctx context.Contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "career", "position"}
+	fieldsInOrder := [...]string{"id", "YDSID", "career", "position"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -15033,6 +15690,13 @@ func (ec *executionContext) unmarshalInputEngineerFilterInput(ctx context.Contex
 				return it, err
 			}
 			it.ID = data
+		case "YDSID":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Ydsid = data
 		case "career":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("career"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -15984,16 +16648,8 @@ func (ec *executionContext) _CompanyDetail(ctx context.Context, sel ast.Selectio
 			}
 		case "Address":
 			out.Values[i] = ec._CompanyDetail_Address(ctx, field, obj)
-		case "City":
-			out.Values[i] = ec._CompanyDetail_City(ctx, field, obj)
-		case "State":
-			out.Values[i] = ec._CompanyDetail_State(ctx, field, obj)
 		case "Phone":
 			out.Values[i] = ec._CompanyDetail_Phone(ctx, field, obj)
-		case "Fax":
-			out.Values[i] = ec._CompanyDetail_Fax(ctx, field, obj)
-		case "Mobile":
-			out.Values[i] = ec._CompanyDetail_Mobile(ctx, field, obj)
 		case "Email":
 			out.Values[i] = ec._CompanyDetail_Email(ctx, field, obj)
 		case "Website":
@@ -16002,10 +16658,10 @@ func (ec *executionContext) _CompanyDetail(ctx context.Context, sel ast.Selectio
 			out.Values[i] = ec._CompanyDetail_TaxAdmin(ctx, field, obj)
 		case "TaxNo":
 			out.Values[i] = ec._CompanyDetail_TaxNo(ctx, field, obj)
-		case "Commerce":
-			out.Values[i] = ec._CompanyDetail_Commerce(ctx, field, obj)
-		case "CommerceReg":
-			out.Values[i] = ec._CompanyDetail_CommerceReg(ctx, field, obj)
+		case "ChamberInfo":
+			out.Values[i] = ec._CompanyDetail_ChamberInfo(ctx, field, obj)
+		case "ChamberRegNo":
+			out.Values[i] = ec._CompanyDetail_ChamberRegNo(ctx, field, obj)
 		case "VisaDate":
 			field := field
 
@@ -16039,7 +16695,7 @@ func (ec *executionContext) _CompanyDetail(ctx context.Context, sel ast.Selectio
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "Owner":
+		case "VisaEndDate":
 			field := field
 
 			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
@@ -16048,7 +16704,7 @@ func (ec *executionContext) _CompanyDetail(ctx context.Context, sel ast.Selectio
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._CompanyDetail_Owner(ctx, field, obj)
+				res = ec._CompanyDetail_VisaEndDate(ctx, field, obj)
 				return res
 			}
 
@@ -16072,6 +16728,28 @@ func (ec *executionContext) _CompanyDetail(ctx context.Context, sel ast.Selectio
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "visa_finished_for_90days":
+			out.Values[i] = ec._CompanyDetail_visa_finished_for_90days(ctx, field, obj)
+		case "core_person_absent_90days":
+			out.Values[i] = ec._CompanyDetail_core_person_absent_90days(ctx, field, obj)
+		case "isClosed":
+			out.Values[i] = ec._CompanyDetail_isClosed(ctx, field, obj)
+		case "OwnerName":
+			out.Values[i] = ec._CompanyDetail_OwnerName(ctx, field, obj)
+		case "OwnerTcNo":
+			out.Values[i] = ec._CompanyDetail_OwnerTcNo(ctx, field, obj)
+		case "OwnerAddress":
+			out.Values[i] = ec._CompanyDetail_OwnerAddress(ctx, field, obj)
+		case "OwnerPhone":
+			out.Values[i] = ec._CompanyDetail_OwnerPhone(ctx, field, obj)
+		case "OwnerEmail":
+			out.Values[i] = ec._CompanyDetail_OwnerEmail(ctx, field, obj)
+		case "OwnerRegNo":
+			out.Values[i] = ec._CompanyDetail_OwnerRegNo(ctx, field, obj)
+		case "OwnerBirthDate":
+			out.Values[i] = ec._CompanyDetail_OwnerBirthDate(ctx, field, obj)
+		case "OwnerCareer":
+			out.Values[i] = ec._CompanyDetail_OwnerCareer(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -17425,6 +18103,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "createCompany":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createCompany(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "updateCompany":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateCompany(ctx, field)
@@ -17593,7 +18278,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "company":
+		case "companyByCode":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -17602,7 +18287,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_company(ctx, field)
+				res = ec._Query_companyByCode(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}

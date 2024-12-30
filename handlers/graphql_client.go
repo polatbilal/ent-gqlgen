@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 )
 
@@ -18,7 +17,7 @@ type graphQLRequest struct {
 	Variables map[string]interface{} `json:"variables,omitempty"`
 }
 
-func (c *GraphQLClient) Execute(query string, variables map[string]interface{}, token string) error {
+func (c *GraphQLClient) Execute(query string, variables map[string]interface{}, token string, result interface{}) error {
 	requestBody := graphQLRequest{
 		Query:     query,
 		Variables: variables,
@@ -29,7 +28,7 @@ func (c *GraphQLClient) Execute(query string, variables map[string]interface{}, 
 		return fmt.Errorf("request body oluşturma hatası: %v", err)
 	}
 
-	log.Printf("GraphQL Request: %s", string(jsonBody))
+	// log.Printf("GraphQL Request: %s", string(jsonBody))
 
 	req, err := http.NewRequest("POST", c.URL, bytes.NewBuffer(jsonBody))
 	if err != nil {
@@ -51,10 +50,10 @@ func (c *GraphQLClient) Execute(query string, variables map[string]interface{}, 
 		return fmt.Errorf("response okuma hatası: %v", err)
 	}
 
-	log.Printf("GraphQL Response: %s", string(body))
+	// log.Printf("GraphQL Response: %s", string(body))
 
 	var response struct {
-		Data   interface{} `json:"data"`
+		Data   json.RawMessage `json:"data"`
 		Errors []struct {
 			Message string `json:"message"`
 		} `json:"errors,omitempty"`
@@ -66,6 +65,10 @@ func (c *GraphQLClient) Execute(query string, variables map[string]interface{}, 
 
 	if len(response.Errors) > 0 {
 		return fmt.Errorf("GraphQL hatası: %s", response.Errors[0].Message)
+	}
+
+	if err := json.Unmarshal(response.Data, result); err != nil {
+		return fmt.Errorf("data parse hatası: %v", err)
 	}
 
 	return nil

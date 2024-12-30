@@ -5,45 +5,66 @@ type CompanyDetail {
   CompanyCode: Int!
   Name: String!
   Address: String
-  City: String
-  State: String
   Phone: String
-  Fax: String
-  Mobile: String
   Email: String
   Website: String
   TaxAdmin: String
   TaxNo: Int
-  Commerce: String
-  CommerceReg: String
+  ChamberInfo: String
+  ChamberRegNo: String
   VisaDate: Date
-  Owner: CompanyEngineer
+  VisaEndDate: Date
+  visa_finished_for_90days: Boolean
+  core_person_absent_90days: Boolean
+  isClosed: Boolean
+  OwnerName: String
+  OwnerTcNo: String
+  OwnerAddress: String
+  OwnerPhone: String
+  OwnerEmail: String
+  OwnerRegNo: String
+  OwnerBirthDate: String
+  OwnerCareer: String
 }
 
 input CompanyDetailInput {
+  CompanyCode: Int!
   Name: String!
   Address: String
-  City: String
-  State: String
   Phone: String
-  Fax: String
-  Mobile: String
   Email: String
   Website: String
   TaxAdmin: String
   TaxNo: Int
-  Commerce: String
-  CommerceReg: String
+  ChamberInfo: String
+  ChamberRegNo: String
   VisaDate: Date
-  Deleted: Int
-  OwnerID: Int
+  VisaEndDate: Date
+  visa_finished_for_90days: Boolean
+  core_person_absent_90days: Boolean
+  isClosed: Boolean
+  OwnerName: String
+  OwnerTcNo: String
+  OwnerAddress: String
+  OwnerPhone: String
+  OwnerEmail: String
+  OwnerRegNo: String
+  OwnerBirthDate: String
+  OwnerCareer: String
 }
 
 extend type Query {
-  company: CompanyDetail! @goField(forceResolver: true) @auth
+  # company: CompanyDetail! @goField(forceResolver: true) @auth
+  companyByCode(companyCode: Int!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
 }
 
 extend type Mutation {
+  createCompany(input: CompanyDetailInput!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
+
   updateCompany(input: CompanyDetailInput!): CompanyDetail!
     @goField(forceResolver: true)
     @auth

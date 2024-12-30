@@ -180,6 +180,9 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 		if filter.Position != nil {
 			query = query.Where(companyengineer.PositionEQ(*filter.Position))
 		}
+		if filter.Ydsid != nil {
+			query = query.Where(companyengineer.YdsIDEQ(*filter.Ydsid))
+		}
 	}
 
 	engineers, err := query.All(ctx)

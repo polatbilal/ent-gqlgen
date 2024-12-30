@@ -265,21 +265,6 @@ func (cec *CompanyEngineerCreate) SetCompany(c *CompanyDetail) *CompanyEngineerC
 	return cec.SetCompanyID(c.ID)
 }
 
-// AddCompanyOwnerIDs adds the "companyOwners" edge to the CompanyDetail entity by IDs.
-func (cec *CompanyEngineerCreate) AddCompanyOwnerIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddCompanyOwnerIDs(ids...)
-	return cec
-}
-
-// AddCompanyOwners adds the "companyOwners" edges to the CompanyDetail entity.
-func (cec *CompanyEngineerCreate) AddCompanyOwners(c ...*CompanyDetail) *CompanyEngineerCreate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
-	}
-	return cec.AddCompanyOwnerIDs(ids...)
-}
-
 // AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
 func (cec *CompanyEngineerCreate) AddInspectorIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddInspectorIDs(ids...)
@@ -572,22 +557,6 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.company_id = &nodes[0]
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := cec.mutation.CompanyOwnersIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.CompanyOwnersTable,
-			Columns: []string{companyengineer.CompanyOwnersColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := cec.mutation.InspectorsIDs(); len(nodes) > 0 {
