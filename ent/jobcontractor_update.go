@@ -204,6 +204,33 @@ func (jcu *JobContractorUpdate) ClearEmail() *JobContractorUpdate {
 	return jcu
 }
 
+// SetYdsID sets the "yds_id" field.
+func (jcu *JobContractorUpdate) SetYdsID(i int) *JobContractorUpdate {
+	jcu.mutation.ResetYdsID()
+	jcu.mutation.SetYdsID(i)
+	return jcu
+}
+
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (jcu *JobContractorUpdate) SetNillableYdsID(i *int) *JobContractorUpdate {
+	if i != nil {
+		jcu.SetYdsID(*i)
+	}
+	return jcu
+}
+
+// AddYdsID adds i to the "yds_id" field.
+func (jcu *JobContractorUpdate) AddYdsID(i int) *JobContractorUpdate {
+	jcu.mutation.AddYdsID(i)
+	return jcu
+}
+
+// ClearYdsID clears the value of the "yds_id" field.
+func (jcu *JobContractorUpdate) ClearYdsID() *JobContractorUpdate {
+	jcu.mutation.ClearYdsID()
+	return jcu
+}
+
 // SetNote sets the "Note" field.
 func (jcu *JobContractorUpdate) SetNote(s string) *JobContractorUpdate {
 	jcu.mutation.SetNote(s)
@@ -221,33 +248,6 @@ func (jcu *JobContractorUpdate) SetNillableNote(s *string) *JobContractorUpdate 
 // ClearNote clears the value of the "Note" field.
 func (jcu *JobContractorUpdate) ClearNote() *JobContractorUpdate {
 	jcu.mutation.ClearNote()
-	return jcu
-}
-
-// SetDeleted sets the "Deleted" field.
-func (jcu *JobContractorUpdate) SetDeleted(i int) *JobContractorUpdate {
-	jcu.mutation.ResetDeleted()
-	jcu.mutation.SetDeleted(i)
-	return jcu
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableDeleted(i *int) *JobContractorUpdate {
-	if i != nil {
-		jcu.SetDeleted(*i)
-	}
-	return jcu
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jcu *JobContractorUpdate) AddDeleted(i int) *JobContractorUpdate {
-	jcu.mutation.AddDeleted(i)
-	return jcu
-}
-
-// ClearDeleted clears the value of the "Deleted" field.
-func (jcu *JobContractorUpdate) ClearDeleted() *JobContractorUpdate {
-	jcu.mutation.ClearDeleted()
 	return jcu
 }
 
@@ -411,20 +411,20 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	if jcu.mutation.EmailCleared() {
 		_spec.ClearField(jobcontractor.FieldEmail, field.TypeString)
 	}
+	if value, ok := jcu.mutation.YdsID(); ok {
+		_spec.SetField(jobcontractor.FieldYdsID, field.TypeInt, value)
+	}
+	if value, ok := jcu.mutation.AddedYdsID(); ok {
+		_spec.AddField(jobcontractor.FieldYdsID, field.TypeInt, value)
+	}
+	if jcu.mutation.YdsIDCleared() {
+		_spec.ClearField(jobcontractor.FieldYdsID, field.TypeInt)
+	}
 	if value, ok := jcu.mutation.Note(); ok {
 		_spec.SetField(jobcontractor.FieldNote, field.TypeString, value)
 	}
 	if jcu.mutation.NoteCleared() {
 		_spec.ClearField(jobcontractor.FieldNote, field.TypeString)
-	}
-	if value, ok := jcu.mutation.Deleted(); ok {
-		_spec.SetField(jobcontractor.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jcu.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobcontractor.FieldDeleted, field.TypeInt, value)
-	}
-	if jcu.mutation.DeletedCleared() {
-		_spec.ClearField(jobcontractor.FieldDeleted, field.TypeInt)
 	}
 	if value, ok := jcu.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)
@@ -672,6 +672,33 @@ func (jcuo *JobContractorUpdateOne) ClearEmail() *JobContractorUpdateOne {
 	return jcuo
 }
 
+// SetYdsID sets the "yds_id" field.
+func (jcuo *JobContractorUpdateOne) SetYdsID(i int) *JobContractorUpdateOne {
+	jcuo.mutation.ResetYdsID()
+	jcuo.mutation.SetYdsID(i)
+	return jcuo
+}
+
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (jcuo *JobContractorUpdateOne) SetNillableYdsID(i *int) *JobContractorUpdateOne {
+	if i != nil {
+		jcuo.SetYdsID(*i)
+	}
+	return jcuo
+}
+
+// AddYdsID adds i to the "yds_id" field.
+func (jcuo *JobContractorUpdateOne) AddYdsID(i int) *JobContractorUpdateOne {
+	jcuo.mutation.AddYdsID(i)
+	return jcuo
+}
+
+// ClearYdsID clears the value of the "yds_id" field.
+func (jcuo *JobContractorUpdateOne) ClearYdsID() *JobContractorUpdateOne {
+	jcuo.mutation.ClearYdsID()
+	return jcuo
+}
+
 // SetNote sets the "Note" field.
 func (jcuo *JobContractorUpdateOne) SetNote(s string) *JobContractorUpdateOne {
 	jcuo.mutation.SetNote(s)
@@ -689,33 +716,6 @@ func (jcuo *JobContractorUpdateOne) SetNillableNote(s *string) *JobContractorUpd
 // ClearNote clears the value of the "Note" field.
 func (jcuo *JobContractorUpdateOne) ClearNote() *JobContractorUpdateOne {
 	jcuo.mutation.ClearNote()
-	return jcuo
-}
-
-// SetDeleted sets the "Deleted" field.
-func (jcuo *JobContractorUpdateOne) SetDeleted(i int) *JobContractorUpdateOne {
-	jcuo.mutation.ResetDeleted()
-	jcuo.mutation.SetDeleted(i)
-	return jcuo
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableDeleted(i *int) *JobContractorUpdateOne {
-	if i != nil {
-		jcuo.SetDeleted(*i)
-	}
-	return jcuo
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jcuo *JobContractorUpdateOne) AddDeleted(i int) *JobContractorUpdateOne {
-	jcuo.mutation.AddDeleted(i)
-	return jcuo
-}
-
-// ClearDeleted clears the value of the "Deleted" field.
-func (jcuo *JobContractorUpdateOne) ClearDeleted() *JobContractorUpdateOne {
-	jcuo.mutation.ClearDeleted()
 	return jcuo
 }
 
@@ -909,20 +909,20 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 	if jcuo.mutation.EmailCleared() {
 		_spec.ClearField(jobcontractor.FieldEmail, field.TypeString)
 	}
+	if value, ok := jcuo.mutation.YdsID(); ok {
+		_spec.SetField(jobcontractor.FieldYdsID, field.TypeInt, value)
+	}
+	if value, ok := jcuo.mutation.AddedYdsID(); ok {
+		_spec.AddField(jobcontractor.FieldYdsID, field.TypeInt, value)
+	}
+	if jcuo.mutation.YdsIDCleared() {
+		_spec.ClearField(jobcontractor.FieldYdsID, field.TypeInt)
+	}
 	if value, ok := jcuo.mutation.Note(); ok {
 		_spec.SetField(jobcontractor.FieldNote, field.TypeString, value)
 	}
 	if jcuo.mutation.NoteCleared() {
 		_spec.ClearField(jobcontractor.FieldNote, field.TypeString)
-	}
-	if value, ok := jcuo.mutation.Deleted(); ok {
-		_spec.SetField(jobcontractor.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jcuo.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobcontractor.FieldDeleted, field.TypeInt, value)
-	}
-	if jcuo.mutation.DeletedCleared() {
-		_spec.ClearField(jobcontractor.FieldDeleted, field.TypeInt)
 	}
 	if value, ok := jcuo.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)

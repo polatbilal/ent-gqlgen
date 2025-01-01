@@ -80,8 +80,8 @@ type JobContractorInput struct {
 	TaxNo      *int    `json:"TaxNo,omitempty"`
 	Phone      *string `json:"Phone,omitempty"`
 	Email      *string `json:"Email,omitempty"`
+	YdsID      *int    `json:"YdsId,omitempty"`
 	Note       *string `json:"Note,omitempty"`
-	Deleted    *int    `json:"Deleted,omitempty"`
 }
 
 type JobInput struct {
@@ -111,7 +111,6 @@ type JobInput struct {
 	Note               *string               `json:"Note,omitempty"`
 	Started            *int                  `json:"Started,omitempty"`
 	UsagePurpose       *string               `json:"UsagePurpose,omitempty"`
-	Deleted            *int                  `json:"Deleted,omitempty"`
 	Owner              []*JobOwnerInput      `json:"Owner,omitempty"`
 	Contractor         []*JobContractorInput `json:"Contractor,omitempty"`
 	Author             []*JobAuthorInput     `json:"Author,omitempty"`
@@ -146,8 +145,8 @@ type JobOwnerInput struct {
 	TaxNo    *int    `json:"TaxNo,omitempty"`
 	Phone    *string `json:"Phone,omitempty"`
 	Email    *string `json:"Email,omitempty"`
+	YdsID    *int    `json:"YdsId,omitempty"`
 	Note     *string `json:"Note,omitempty"`
-	Deleted  *int    `json:"Deleted,omitempty"`
 }
 
 type JobPaymentsInput struct {

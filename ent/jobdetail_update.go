@@ -546,27 +546,6 @@ func (jdu *JobDetailUpdate) AddStarted(i int) *JobDetailUpdate {
 	return jdu
 }
 
-// SetDeleted sets the "Deleted" field.
-func (jdu *JobDetailUpdate) SetDeleted(i int) *JobDetailUpdate {
-	jdu.mutation.ResetDeleted()
-	jdu.mutation.SetDeleted(i)
-	return jdu
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableDeleted(i *int) *JobDetailUpdate {
-	if i != nil {
-		jdu.SetDeleted(*i)
-	}
-	return jdu
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jdu *JobDetailUpdate) AddDeleted(i int) *JobDetailUpdate {
-	jdu.mutation.AddDeleted(i)
-	return jdu
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (jdu *JobDetailUpdate) SetCreatedAt(t time.Time) *JobDetailUpdate {
 	jdu.mutation.SetCreatedAt(t)
@@ -1199,12 +1178,6 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := jdu.mutation.AddedStarted(); ok {
 		_spec.AddField(jobdetail.FieldStarted, field.TypeInt, value)
-	}
-	if value, ok := jdu.mutation.Deleted(); ok {
-		_spec.SetField(jobdetail.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jdu.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobdetail.FieldDeleted, field.TypeInt, value)
 	}
 	if value, ok := jdu.mutation.CreatedAt(); ok {
 		_spec.SetField(jobdetail.FieldCreatedAt, field.TypeTime, value)
@@ -2209,27 +2182,6 @@ func (jduo *JobDetailUpdateOne) AddStarted(i int) *JobDetailUpdateOne {
 	return jduo
 }
 
-// SetDeleted sets the "Deleted" field.
-func (jduo *JobDetailUpdateOne) SetDeleted(i int) *JobDetailUpdateOne {
-	jduo.mutation.ResetDeleted()
-	jduo.mutation.SetDeleted(i)
-	return jduo
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableDeleted(i *int) *JobDetailUpdateOne {
-	if i != nil {
-		jduo.SetDeleted(*i)
-	}
-	return jduo
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jduo *JobDetailUpdateOne) AddDeleted(i int) *JobDetailUpdateOne {
-	jduo.mutation.AddDeleted(i)
-	return jduo
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (jduo *JobDetailUpdateOne) SetCreatedAt(t time.Time) *JobDetailUpdateOne {
 	jduo.mutation.SetCreatedAt(t)
@@ -2892,12 +2844,6 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	}
 	if value, ok := jduo.mutation.AddedStarted(); ok {
 		_spec.AddField(jobdetail.FieldStarted, field.TypeInt, value)
-	}
-	if value, ok := jduo.mutation.Deleted(); ok {
-		_spec.SetField(jobdetail.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jduo.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobdetail.FieldDeleted, field.TypeInt, value)
 	}
 	if value, ok := jduo.mutation.CreatedAt(); ok {
 		_spec.SetField(jobdetail.FieldCreatedAt, field.TypeTime, value)

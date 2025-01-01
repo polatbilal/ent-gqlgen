@@ -90,14 +90,14 @@ func Email(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldEmail, v))
 }
 
+// YdsID applies equality check predicate on the "yds_id" field. It's identical to YdsIDEQ.
+func YdsID(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldEQ(FieldYdsID, v))
+}
+
 // Note applies equality check predicate on the "Note" field. It's identical to NoteEQ.
 func Note(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldNote, v))
-}
-
-// Deleted applies equality check predicate on the "Deleted" field. It's identical to DeletedEQ.
-func Deleted(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldEQ(FieldDeleted, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
@@ -575,6 +575,56 @@ func EmailContainsFold(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldContainsFold(FieldEmail, v))
 }
 
+// YdsIDEQ applies the EQ predicate on the "yds_id" field.
+func YdsIDEQ(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldEQ(FieldYdsID, v))
+}
+
+// YdsIDNEQ applies the NEQ predicate on the "yds_id" field.
+func YdsIDNEQ(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldNEQ(FieldYdsID, v))
+}
+
+// YdsIDIn applies the In predicate on the "yds_id" field.
+func YdsIDIn(vs ...int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldIn(FieldYdsID, vs...))
+}
+
+// YdsIDNotIn applies the NotIn predicate on the "yds_id" field.
+func YdsIDNotIn(vs ...int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldNotIn(FieldYdsID, vs...))
+}
+
+// YdsIDGT applies the GT predicate on the "yds_id" field.
+func YdsIDGT(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldGT(FieldYdsID, v))
+}
+
+// YdsIDGTE applies the GTE predicate on the "yds_id" field.
+func YdsIDGTE(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldGTE(FieldYdsID, v))
+}
+
+// YdsIDLT applies the LT predicate on the "yds_id" field.
+func YdsIDLT(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldLT(FieldYdsID, v))
+}
+
+// YdsIDLTE applies the LTE predicate on the "yds_id" field.
+func YdsIDLTE(v int) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldLTE(FieldYdsID, v))
+}
+
+// YdsIDIsNil applies the IsNil predicate on the "yds_id" field.
+func YdsIDIsNil() predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldIsNull(FieldYdsID))
+}
+
+// YdsIDNotNil applies the NotNil predicate on the "yds_id" field.
+func YdsIDNotNil() predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldNotNull(FieldYdsID))
+}
+
 // NoteEQ applies the EQ predicate on the "Note" field.
 func NoteEQ(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldNote, v))
@@ -648,56 +698,6 @@ func NoteEqualFold(v string) predicate.JobOwner {
 // NoteContainsFold applies the ContainsFold predicate on the "Note" field.
 func NoteContainsFold(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldContainsFold(FieldNote, v))
-}
-
-// DeletedEQ applies the EQ predicate on the "Deleted" field.
-func DeletedEQ(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldEQ(FieldDeleted, v))
-}
-
-// DeletedNEQ applies the NEQ predicate on the "Deleted" field.
-func DeletedNEQ(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldNEQ(FieldDeleted, v))
-}
-
-// DeletedIn applies the In predicate on the "Deleted" field.
-func DeletedIn(vs ...int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldIn(FieldDeleted, vs...))
-}
-
-// DeletedNotIn applies the NotIn predicate on the "Deleted" field.
-func DeletedNotIn(vs ...int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldNotIn(FieldDeleted, vs...))
-}
-
-// DeletedGT applies the GT predicate on the "Deleted" field.
-func DeletedGT(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldGT(FieldDeleted, v))
-}
-
-// DeletedGTE applies the GTE predicate on the "Deleted" field.
-func DeletedGTE(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldGTE(FieldDeleted, v))
-}
-
-// DeletedLT applies the LT predicate on the "Deleted" field.
-func DeletedLT(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldLT(FieldDeleted, v))
-}
-
-// DeletedLTE applies the LTE predicate on the "Deleted" field.
-func DeletedLTE(v int) predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldLTE(FieldDeleted, v))
-}
-
-// DeletedIsNil applies the IsNil predicate on the "Deleted" field.
-func DeletedIsNil() predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldIsNull(FieldDeleted))
-}
-
-// DeletedNotNil applies the NotNil predicate on the "Deleted" field.
-func DeletedNotNil() predicate.JobOwner {
-	return predicate.JobOwner(sql.FieldNotNull(FieldDeleted))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

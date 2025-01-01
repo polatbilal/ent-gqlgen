@@ -177,6 +177,33 @@ func (jou *JobOwnerUpdate) ClearEmail() *JobOwnerUpdate {
 	return jou
 }
 
+// SetYdsID sets the "yds_id" field.
+func (jou *JobOwnerUpdate) SetYdsID(i int) *JobOwnerUpdate {
+	jou.mutation.ResetYdsID()
+	jou.mutation.SetYdsID(i)
+	return jou
+}
+
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (jou *JobOwnerUpdate) SetNillableYdsID(i *int) *JobOwnerUpdate {
+	if i != nil {
+		jou.SetYdsID(*i)
+	}
+	return jou
+}
+
+// AddYdsID adds i to the "yds_id" field.
+func (jou *JobOwnerUpdate) AddYdsID(i int) *JobOwnerUpdate {
+	jou.mutation.AddYdsID(i)
+	return jou
+}
+
+// ClearYdsID clears the value of the "yds_id" field.
+func (jou *JobOwnerUpdate) ClearYdsID() *JobOwnerUpdate {
+	jou.mutation.ClearYdsID()
+	return jou
+}
+
 // SetNote sets the "Note" field.
 func (jou *JobOwnerUpdate) SetNote(s string) *JobOwnerUpdate {
 	jou.mutation.SetNote(s)
@@ -194,33 +221,6 @@ func (jou *JobOwnerUpdate) SetNillableNote(s *string) *JobOwnerUpdate {
 // ClearNote clears the value of the "Note" field.
 func (jou *JobOwnerUpdate) ClearNote() *JobOwnerUpdate {
 	jou.mutation.ClearNote()
-	return jou
-}
-
-// SetDeleted sets the "Deleted" field.
-func (jou *JobOwnerUpdate) SetDeleted(i int) *JobOwnerUpdate {
-	jou.mutation.ResetDeleted()
-	jou.mutation.SetDeleted(i)
-	return jou
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableDeleted(i *int) *JobOwnerUpdate {
-	if i != nil {
-		jou.SetDeleted(*i)
-	}
-	return jou
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jou *JobOwnerUpdate) AddDeleted(i int) *JobOwnerUpdate {
-	jou.mutation.AddDeleted(i)
-	return jou
-}
-
-// ClearDeleted clears the value of the "Deleted" field.
-func (jou *JobOwnerUpdate) ClearDeleted() *JobOwnerUpdate {
-	jou.mutation.ClearDeleted()
 	return jou
 }
 
@@ -375,20 +375,20 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if jou.mutation.EmailCleared() {
 		_spec.ClearField(jobowner.FieldEmail, field.TypeString)
 	}
+	if value, ok := jou.mutation.YdsID(); ok {
+		_spec.SetField(jobowner.FieldYdsID, field.TypeInt, value)
+	}
+	if value, ok := jou.mutation.AddedYdsID(); ok {
+		_spec.AddField(jobowner.FieldYdsID, field.TypeInt, value)
+	}
+	if jou.mutation.YdsIDCleared() {
+		_spec.ClearField(jobowner.FieldYdsID, field.TypeInt)
+	}
 	if value, ok := jou.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
 	}
 	if jou.mutation.NoteCleared() {
 		_spec.ClearField(jobowner.FieldNote, field.TypeString)
-	}
-	if value, ok := jou.mutation.Deleted(); ok {
-		_spec.SetField(jobowner.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jou.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobowner.FieldDeleted, field.TypeInt, value)
-	}
-	if jou.mutation.DeletedCleared() {
-		_spec.ClearField(jobowner.FieldDeleted, field.TypeInt)
 	}
 	if value, ok := jou.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)
@@ -609,6 +609,33 @@ func (jouo *JobOwnerUpdateOne) ClearEmail() *JobOwnerUpdateOne {
 	return jouo
 }
 
+// SetYdsID sets the "yds_id" field.
+func (jouo *JobOwnerUpdateOne) SetYdsID(i int) *JobOwnerUpdateOne {
+	jouo.mutation.ResetYdsID()
+	jouo.mutation.SetYdsID(i)
+	return jouo
+}
+
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (jouo *JobOwnerUpdateOne) SetNillableYdsID(i *int) *JobOwnerUpdateOne {
+	if i != nil {
+		jouo.SetYdsID(*i)
+	}
+	return jouo
+}
+
+// AddYdsID adds i to the "yds_id" field.
+func (jouo *JobOwnerUpdateOne) AddYdsID(i int) *JobOwnerUpdateOne {
+	jouo.mutation.AddYdsID(i)
+	return jouo
+}
+
+// ClearYdsID clears the value of the "yds_id" field.
+func (jouo *JobOwnerUpdateOne) ClearYdsID() *JobOwnerUpdateOne {
+	jouo.mutation.ClearYdsID()
+	return jouo
+}
+
 // SetNote sets the "Note" field.
 func (jouo *JobOwnerUpdateOne) SetNote(s string) *JobOwnerUpdateOne {
 	jouo.mutation.SetNote(s)
@@ -626,33 +653,6 @@ func (jouo *JobOwnerUpdateOne) SetNillableNote(s *string) *JobOwnerUpdateOne {
 // ClearNote clears the value of the "Note" field.
 func (jouo *JobOwnerUpdateOne) ClearNote() *JobOwnerUpdateOne {
 	jouo.mutation.ClearNote()
-	return jouo
-}
-
-// SetDeleted sets the "Deleted" field.
-func (jouo *JobOwnerUpdateOne) SetDeleted(i int) *JobOwnerUpdateOne {
-	jouo.mutation.ResetDeleted()
-	jouo.mutation.SetDeleted(i)
-	return jouo
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableDeleted(i *int) *JobOwnerUpdateOne {
-	if i != nil {
-		jouo.SetDeleted(*i)
-	}
-	return jouo
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jouo *JobOwnerUpdateOne) AddDeleted(i int) *JobOwnerUpdateOne {
-	jouo.mutation.AddDeleted(i)
-	return jouo
-}
-
-// ClearDeleted clears the value of the "Deleted" field.
-func (jouo *JobOwnerUpdateOne) ClearDeleted() *JobOwnerUpdateOne {
-	jouo.mutation.ClearDeleted()
 	return jouo
 }
 
@@ -837,20 +837,20 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 	if jouo.mutation.EmailCleared() {
 		_spec.ClearField(jobowner.FieldEmail, field.TypeString)
 	}
+	if value, ok := jouo.mutation.YdsID(); ok {
+		_spec.SetField(jobowner.FieldYdsID, field.TypeInt, value)
+	}
+	if value, ok := jouo.mutation.AddedYdsID(); ok {
+		_spec.AddField(jobowner.FieldYdsID, field.TypeInt, value)
+	}
+	if jouo.mutation.YdsIDCleared() {
+		_spec.ClearField(jobowner.FieldYdsID, field.TypeInt)
+	}
 	if value, ok := jouo.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
 	}
 	if jouo.mutation.NoteCleared() {
 		_spec.ClearField(jobowner.FieldNote, field.TypeString)
-	}
-	if value, ok := jouo.mutation.Deleted(); ok {
-		_spec.SetField(jobowner.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jouo.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobowner.FieldDeleted, field.TypeInt, value)
-	}
-	if jouo.mutation.DeletedCleared() {
-		_spec.ClearField(jobowner.FieldDeleted, field.TypeInt)
 	}
 	if value, ok := jouo.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)

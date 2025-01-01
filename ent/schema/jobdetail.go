@@ -41,7 +41,6 @@ func (JobDetail) Fields() []ent.Field {
 		field.String("UsagePurpose").Default("").Optional(),
 		field.Text("Note").Optional(),
 		field.Int("Started").Default(0),
-		field.Int("Deleted").Default(0),
 
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),

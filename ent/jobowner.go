@@ -31,10 +31,10 @@ type JobOwner struct {
 	Phone string `json:"Phone,omitempty"`
 	// Email holds the value of the "Email" field.
 	Email string `json:"Email,omitempty"`
+	// YdsID holds the value of the "yds_id" field.
+	YdsID int `json:"yds_id,omitempty"`
 	// Note holds the value of the "Note" field.
 	Note string `json:"Note,omitempty"`
-	// Deleted holds the value of the "Deleted" field.
-	Deleted int `json:"Deleted,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -72,7 +72,7 @@ func (*JobOwner) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobowner.FieldID, jobowner.FieldTcNo, jobowner.FieldTaxNo, jobowner.FieldDeleted:
+		case jobowner.FieldID, jobowner.FieldTcNo, jobowner.FieldTaxNo, jobowner.FieldYdsID:
 			values[i] = new(sql.NullInt64)
 		case jobowner.FieldName, jobowner.FieldAddress, jobowner.FieldTaxAdmin, jobowner.FieldPhone, jobowner.FieldEmail, jobowner.FieldNote:
 			values[i] = new(sql.NullString)
@@ -141,17 +141,17 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jo.Email = value.String
 			}
+		case jobowner.FieldYdsID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field yds_id", values[i])
+			} else if value.Valid {
+				jo.YdsID = int(value.Int64)
+			}
 		case jobowner.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Note", values[i])
 			} else if value.Valid {
 				jo.Note = value.String
-			}
-		case jobowner.FieldDeleted:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Deleted", values[i])
-			} else if value.Valid {
-				jo.Deleted = int(value.Int64)
 			}
 		case jobowner.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -227,11 +227,11 @@ func (jo *JobOwner) String() string {
 	builder.WriteString("Email=")
 	builder.WriteString(jo.Email)
 	builder.WriteString(", ")
+	builder.WriteString("yds_id=")
+	builder.WriteString(fmt.Sprintf("%v", jo.YdsID))
+	builder.WriteString(", ")
 	builder.WriteString("Note=")
 	builder.WriteString(jo.Note)
-	builder.WriteString(", ")
-	builder.WriteString("Deleted=")
-	builder.WriteString(fmt.Sprintf("%v", jo.Deleted))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(jo.CreatedAt.Format(time.ANSIC))

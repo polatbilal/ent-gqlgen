@@ -745,15 +745,15 @@ func (jc *JobContractorQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, jobcontractor.FieldEmail)
 				fieldSeen[jobcontractor.FieldEmail] = struct{}{}
 			}
+		case "ydsID":
+			if _, ok := fieldSeen[jobcontractor.FieldYdsID]; !ok {
+				selectedFields = append(selectedFields, jobcontractor.FieldYdsID)
+				fieldSeen[jobcontractor.FieldYdsID] = struct{}{}
+			}
 		case "note":
 			if _, ok := fieldSeen[jobcontractor.FieldNote]; !ok {
 				selectedFields = append(selectedFields, jobcontractor.FieldNote)
 				fieldSeen[jobcontractor.FieldNote] = struct{}{}
-			}
-		case "deleted":
-			if _, ok := fieldSeen[jobcontractor.FieldDeleted]; !ok {
-				selectedFields = append(selectedFields, jobcontractor.FieldDeleted)
-				fieldSeen[jobcontractor.FieldDeleted] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[jobcontractor.FieldCreatedAt]; !ok {
@@ -1118,11 +1118,6 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldStarted)
 				fieldSeen[jobdetail.FieldStarted] = struct{}{}
 			}
-		case "deleted":
-			if _, ok := fieldSeen[jobdetail.FieldDeleted]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldDeleted)
-				fieldSeen[jobdetail.FieldDeleted] = struct{}{}
-			}
 		case "createdat":
 			if _, ok := fieldSeen[jobdetail.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldCreatedAt)
@@ -1360,15 +1355,15 @@ func (jo *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 				selectedFields = append(selectedFields, jobowner.FieldEmail)
 				fieldSeen[jobowner.FieldEmail] = struct{}{}
 			}
+		case "ydsID":
+			if _, ok := fieldSeen[jobowner.FieldYdsID]; !ok {
+				selectedFields = append(selectedFields, jobowner.FieldYdsID)
+				fieldSeen[jobowner.FieldYdsID] = struct{}{}
+			}
 		case "note":
 			if _, ok := fieldSeen[jobowner.FieldNote]; !ok {
 				selectedFields = append(selectedFields, jobowner.FieldNote)
 				fieldSeen[jobowner.FieldNote] = struct{}{}
-			}
-		case "deleted":
-			if _, ok := fieldSeen[jobowner.FieldDeleted]; !ok {
-				selectedFields = append(selectedFields, jobowner.FieldDeleted)
-				fieldSeen[jobowner.FieldDeleted] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[jobowner.FieldCreatedAt]; !ok {

@@ -64,8 +64,6 @@ const (
 	FieldNote = "note"
 	// FieldStarted holds the string denoting the started field in the database.
 	FieldStarted = "started"
-	// FieldDeleted holds the string denoting the deleted field in the database.
-	FieldDeleted = "deleted"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -237,7 +235,6 @@ var Columns = []string{
 	FieldUsagePurpose,
 	FieldNote,
 	FieldStarted,
-	FieldDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -310,8 +307,6 @@ var (
 	DefaultUsagePurpose string
 	// DefaultStarted holds the default value on creation for the "Started" field.
 	DefaultStarted int
-	// DefaultDeleted holds the default value on creation for the "Deleted" field.
-	DefaultDeleted int
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -451,11 +446,6 @@ func ByNote(opts ...sql.OrderTermOption) OrderOption {
 // ByStarted orders the results by the Started field.
 func ByStarted(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStarted, opts...).ToFunc()
-}
-
-// ByDeleted orders the results by the Deleted field.
-func ByDeleted(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleted, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

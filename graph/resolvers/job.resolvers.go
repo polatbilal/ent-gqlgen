@@ -412,6 +412,7 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 					SetNillableTaxNo(contractorInput.TaxNo).
 					SetNillablePhone(contractorInput.Phone).
 					SetNillableEmail(contractorInput.Email).
+					SetNillableYdsID(contractorInput.YdsID).
 					SetNillableNote(contractorInput.Note).
 					AddContractors(jobDetail). // İş detayına ekle
 					Save(ctx)
@@ -431,6 +432,7 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 			SetNillableTaxNo(contractorInput.TaxNo).
 			SetNillablePhone(contractorInput.Phone).
 			SetNillableEmail(contractorInput.Email).
+			SetNillableYdsID(contractorInput.YdsID).
 			SetNillableNote(contractorInput.Note).
 			Save(ctx)
 		if err != nil {
@@ -519,32 +521,9 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 	return jobDetail, nil
 }
 
-// DeleteJob is the resolver for the deleteJob field.
-func (r *mutationResolver) DeleteJob(ctx context.Context, yibfNo int) (bool, error) {
-	client := middlewares.GetClientFromContext(ctx)
-
-	// İş ayrıntısını yibfNo ile sorgula
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(yibfNo)).Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return false, fmt.Errorf("kayıt bulunamadı")
-		}
-		return false, err
-	}
-
-	// İş ayrıntısının deleted sütununu güncelle
-	err = client.JobDetail.UpdateOne(jobDetail).SetDeleted(1).Exec(ctx)
-	if err != nil {
-		return false, fmt.Errorf("iş ayrıntısı silinemedi: %v", err)
-	}
-
-	return true, nil
-}
-
 // Job is the resolver for the job field.
 func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, error) {
 	job, err := r.client.JobDetail.Query().
-		Where(jobdetail.DeletedEQ(0)).
 		Where(jobdetail.YibfNo(yibfNo)).
 		Only(ctx)
 
@@ -561,7 +540,7 @@ func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, er
 // Jobs is the resolver for the jobs field.
 func (r *queryResolver) Jobs(ctx context.Context) ([]*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	jobs, err := client.JobDetail.Query().Where(jobdetail.DeletedEQ(0)).All(ctx)
+	jobs, err := client.JobDetail.Query().All(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch jobs: %w", err)
 	}

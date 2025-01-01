@@ -28,10 +28,10 @@ const (
 	FieldPhone = "phone"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
+	// FieldYdsID holds the string denoting the yds_id field in the database.
+	FieldYdsID = "yds_id"
 	// FieldNote holds the string denoting the note field in the database.
 	FieldNote = "note"
-	// FieldDeleted holds the string denoting the deleted field in the database.
-	FieldDeleted = "deleted"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -59,8 +59,8 @@ var Columns = []string{
 	FieldTaxNo,
 	FieldPhone,
 	FieldEmail,
+	FieldYdsID,
 	FieldNote,
-	FieldDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -78,8 +78,6 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultName holds the default value on creation for the "Name" field.
 	DefaultName string
-	// DefaultDeleted holds the default value on creation for the "Deleted" field.
-	DefaultDeleted int
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -131,14 +129,14 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEmail, opts...).ToFunc()
 }
 
+// ByYdsID orders the results by the yds_id field.
+func ByYdsID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYdsID, opts...).ToFunc()
+}
+
 // ByNote orders the results by the Note field.
 func ByNote(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldNote, opts...).ToFunc()
-}
-
-// ByDeleted orders the results by the Deleted field.
-func ByDeleted(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleted, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

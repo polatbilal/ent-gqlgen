@@ -370,20 +370,6 @@ func (jdc *JobDetailCreate) SetNillableStarted(i *int) *JobDetailCreate {
 	return jdc
 }
 
-// SetDeleted sets the "Deleted" field.
-func (jdc *JobDetailCreate) SetDeleted(i int) *JobDetailCreate {
-	jdc.mutation.SetDeleted(i)
-	return jdc
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableDeleted(i *int) *JobDetailCreate {
-	if i != nil {
-		jdc.SetDeleted(*i)
-	}
-	return jdc
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (jdc *JobDetailCreate) SetCreatedAt(t time.Time) *JobDetailCreate {
 	jdc.mutation.SetCreatedAt(t)
@@ -788,10 +774,6 @@ func (jdc *JobDetailCreate) defaults() {
 		v := jobdetail.DefaultStarted
 		jdc.mutation.SetStarted(v)
 	}
-	if _, ok := jdc.mutation.Deleted(); !ok {
-		v := jobdetail.DefaultDeleted
-		jdc.mutation.SetDeleted(v)
-	}
 	if _, ok := jdc.mutation.CreatedAt(); !ok {
 		v := jobdetail.DefaultCreatedAt()
 		jdc.mutation.SetCreatedAt(v)
@@ -817,9 +799,6 @@ func (jdc *JobDetailCreate) check() error {
 	}
 	if _, ok := jdc.mutation.Started(); !ok {
 		return &ValidationError{Name: "Started", err: errors.New(`ent: missing required field "JobDetail.Started"`)}
-	}
-	if _, ok := jdc.mutation.Deleted(); !ok {
-		return &ValidationError{Name: "Deleted", err: errors.New(`ent: missing required field "JobDetail.Deleted"`)}
 	}
 	if _, ok := jdc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobDetail.CreatedAt"`)}
@@ -952,10 +931,6 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := jdc.mutation.Started(); ok {
 		_spec.SetField(jobdetail.FieldStarted, field.TypeInt, value)
 		_node.Started = value
-	}
-	if value, ok := jdc.mutation.Deleted(); ok {
-		_spec.SetField(jobdetail.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
 	}
 	if value, ok := jdc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobdetail.FieldCreatedAt, field.TypeTime, value)

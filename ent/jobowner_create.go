@@ -119,6 +119,20 @@ func (joc *JobOwnerCreate) SetNillableEmail(s *string) *JobOwnerCreate {
 	return joc
 }
 
+// SetYdsID sets the "yds_id" field.
+func (joc *JobOwnerCreate) SetYdsID(i int) *JobOwnerCreate {
+	joc.mutation.SetYdsID(i)
+	return joc
+}
+
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (joc *JobOwnerCreate) SetNillableYdsID(i *int) *JobOwnerCreate {
+	if i != nil {
+		joc.SetYdsID(*i)
+	}
+	return joc
+}
+
 // SetNote sets the "Note" field.
 func (joc *JobOwnerCreate) SetNote(s string) *JobOwnerCreate {
 	joc.mutation.SetNote(s)
@@ -129,20 +143,6 @@ func (joc *JobOwnerCreate) SetNote(s string) *JobOwnerCreate {
 func (joc *JobOwnerCreate) SetNillableNote(s *string) *JobOwnerCreate {
 	if s != nil {
 		joc.SetNote(*s)
-	}
-	return joc
-}
-
-// SetDeleted sets the "Deleted" field.
-func (joc *JobOwnerCreate) SetDeleted(i int) *JobOwnerCreate {
-	joc.mutation.SetDeleted(i)
-	return joc
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableDeleted(i *int) *JobOwnerCreate {
-	if i != nil {
-		joc.SetDeleted(*i)
 	}
 	return joc
 }
@@ -229,10 +229,6 @@ func (joc *JobOwnerCreate) defaults() {
 		v := jobowner.DefaultName
 		joc.mutation.SetName(v)
 	}
-	if _, ok := joc.mutation.Deleted(); !ok {
-		v := jobowner.DefaultDeleted
-		joc.mutation.SetDeleted(v)
-	}
 	if _, ok := joc.mutation.CreatedAt(); !ok {
 		v := jobowner.DefaultCreatedAt()
 		joc.mutation.SetCreatedAt(v)
@@ -308,13 +304,13 @@ func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobowner.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
+	if value, ok := joc.mutation.YdsID(); ok {
+		_spec.SetField(jobowner.FieldYdsID, field.TypeInt, value)
+		_node.YdsID = value
+	}
 	if value, ok := joc.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
 		_node.Note = value
-	}
-	if value, ok := joc.mutation.Deleted(); ok {
-		_spec.SetField(jobowner.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
 	}
 	if value, ok := joc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)

@@ -26,7 +26,6 @@ type JobDetail {
   Note: String
   Started: Int
   UsagePurpose: String
-  Deleted: Int
   Owner: JobOwner
   Contractor: JobContractor
   Author: JobAuthor
@@ -70,7 +69,6 @@ input JobInput {
   Note: String
   Started: Int
   UsagePurpose: String
-  Deleted: Int
   Owner: [JobOwnerInput]
   Contractor: [JobContractorInput]
   Author: [JobAuthorInput]
@@ -134,6 +132,4 @@ extend type Mutation {
   updateJob(YibfNo: Int!, input: JobInput!): JobDetail!
     @goField(forceResolver: true)
     @auth
-
-  deleteJob(YibfNo: Int!): Boolean! @goField(forceResolver: true) @auth
 }

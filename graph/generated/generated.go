@@ -120,7 +120,6 @@ type ComplexityRoot struct {
 
 	JobContractor struct {
 		Address    func(childComplexity int) int
-		Deleted    func(childComplexity int) int
 		Email      func(childComplexity int) int
 		ID         func(childComplexity int) int
 		Name       func(childComplexity int) int
@@ -130,6 +129,7 @@ type ComplexityRoot struct {
 		TaxAdmin   func(childComplexity int) int
 		TaxNo      func(childComplexity int) int
 		TcNo       func(childComplexity int) int
+		YdsID      func(childComplexity int) int
 	}
 
 	JobDetail struct {
@@ -146,7 +146,6 @@ type ComplexityRoot struct {
 		Contractor         func(childComplexity int) int
 		Controller         func(childComplexity int) int
 		CreatedAt          func(childComplexity int) int
-		Deleted            func(childComplexity int) int
 		District           func(childComplexity int) int
 		Electric           func(childComplexity int) int
 		Electriccontroller func(childComplexity int) int
@@ -191,7 +190,6 @@ type ComplexityRoot struct {
 
 	JobOwner struct {
 		Address  func(childComplexity int) int
-		Deleted  func(childComplexity int) int
 		Email    func(childComplexity int) int
 		ID       func(childComplexity int) int
 		Name     func(childComplexity int) int
@@ -200,6 +198,7 @@ type ComplexityRoot struct {
 		TaxAdmin func(childComplexity int) int
 		TaxNo    func(childComplexity int) int
 		TcNo     func(childComplexity int) int
+		YdsID    func(childComplexity int) int
 	}
 
 	JobPayments struct {
@@ -230,7 +229,6 @@ type ComplexityRoot struct {
 		CreateLayer       func(childComplexity int, input model.JobLayerInput) int
 		CreateOwner       func(childComplexity int, input model.JobOwnerInput) int
 		CreateUser        func(childComplexity int, input model.UserInput) int
-		DeleteJob         func(childComplexity int, yibfNo int) int
 		DeleteJobPayments func(childComplexity int, yibfNo int) int
 		DeleteLayer       func(childComplexity int, id string) int
 		Login             func(childComplexity int, companyCode string, username string, password string) int
@@ -308,7 +306,6 @@ type MutationResolver interface {
 	UpdateEngineer(ctx context.Context, id string, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	CreateJob(ctx context.Context, input model.JobInput) (*ent.JobDetail, error)
 	UpdateJob(ctx context.Context, yibfNo int, input model.JobInput) (*ent.JobDetail, error)
-	DeleteJob(ctx context.Context, yibfNo int) (bool, error)
 	CreateLayer(ctx context.Context, input model.JobLayerInput) (*ent.JobLayer, error)
 	UpdateLayer(ctx context.Context, id string, input model.JobLayerInput) (*ent.JobLayer, error)
 	DeleteLayer(ctx context.Context, id string) (*ent.JobLayer, error)
@@ -727,13 +724,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobContractor.Address(childComplexity), true
 
-	case "JobContractor.Deleted":
-		if e.complexity.JobContractor.Deleted == nil {
-			break
-		}
-
-		return e.complexity.JobContractor.Deleted(childComplexity), true
-
 	case "JobContractor.Email":
 		if e.complexity.JobContractor.Email == nil {
 			break
@@ -796,6 +786,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobContractor.TcNo(childComplexity), true
+
+	case "JobContractor.YdsId":
+		if e.complexity.JobContractor.YdsID == nil {
+			break
+		}
+
+		return e.complexity.JobContractor.YdsID(childComplexity), true
 
 	case "JobDetail.Ada":
 		if e.complexity.JobDetail.Ada == nil {
@@ -887,13 +884,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.CreatedAt(childComplexity), true
-
-	case "JobDetail.Deleted":
-		if e.complexity.JobDetail.Deleted == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Deleted(childComplexity), true
 
 	case "JobDetail.District":
 		if e.complexity.JobDetail.District == nil {
@@ -1161,13 +1151,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobOwner.Address(childComplexity), true
 
-	case "JobOwner.Deleted":
-		if e.complexity.JobOwner.Deleted == nil {
-			break
-		}
-
-		return e.complexity.JobOwner.Deleted(childComplexity), true
-
 	case "JobOwner.Email":
 		if e.complexity.JobOwner.Email == nil {
 			break
@@ -1223,6 +1206,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobOwner.TcNo(childComplexity), true
+
+	case "JobOwner.YdsId":
+		if e.complexity.JobOwner.YdsID == nil {
+			break
+		}
+
+		return e.complexity.JobOwner.YdsID(childComplexity), true
 
 	case "JobPayments.Amount":
 		if e.complexity.JobPayments.Amount == nil {
@@ -1410,18 +1400,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(model.UserInput)), true
-
-	case "Mutation.deleteJob":
-		if e.complexity.Mutation.DeleteJob == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteJob_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteJob(childComplexity, args["YibfNo"].(int)), true
 
 	case "Mutation.deleteJobPayments":
 		if e.complexity.Mutation.DeleteJobPayments == nil {
@@ -1954,8 +1932,8 @@ type JobContractor {
   TaxNo: Int
   Phone: String
   Email: String
+  YdsId: Int
   Note: String
-  Deleted: Int
 }
 
 input JobContractorInput {
@@ -1968,8 +1946,8 @@ input JobContractorInput {
   TaxNo: Int
   Phone: String
   Email: String
+  YdsId: Int
   Note: String
-  Deleted: Int
 }
 
 extend type Query {
@@ -2072,7 +2050,6 @@ type JobDetail {
   Note: String
   Started: Int
   UsagePurpose: String
-  Deleted: Int
   Owner: JobOwner
   Contractor: JobContractor
   Author: JobAuthor
@@ -2116,7 +2093,6 @@ input JobInput {
   Note: String
   Started: Int
   UsagePurpose: String
-  Deleted: Int
   Owner: [JobOwnerInput]
   Contractor: [JobContractorInput]
   Author: [JobAuthorInput]
@@ -2180,8 +2156,6 @@ extend type Mutation {
   updateJob(YibfNo: Int!, input: JobInput!): JobDetail!
     @goField(forceResolver: true)
     @auth
-
-  deleteJob(YibfNo: Int!): Boolean! @goField(forceResolver: true) @auth
 }
 `, BuiltIn: false},
 	{Name: "../schemas/layer.graphqls", Input: `type JobLayer {
@@ -2242,8 +2216,8 @@ type JobOwner {
   TaxNo: Int
   Phone: String
   Email: String
+  YdsId: Int
   Note: String
-  Deleted: Int
 }
 
 input JobOwnerInput {
@@ -2254,8 +2228,8 @@ input JobOwnerInput {
   TaxNo: Int
   Phone: String
   Email: String
+  YdsId: Int
   Note: String
-  Deleted: Int
 }
 
 extend type Query {
@@ -2634,38 +2608,6 @@ func (ec *executionContext) field_Mutation_deleteJobPayments_argsYibfNo(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
 	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteJob_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_deleteJob_argsYibfNo(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["YibfNo"] = arg0
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_deleteJob_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	// We won't call the directive if the argument is null.
-	// Set call_argument_directives_with_null to true to call directives
-	// even if the argument is null.
-	_, ok := rawArgs["YibfNo"]
-	if !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
-	if tmp, ok := rawArgs["YibfNo"]; ok {
 		return ec.unmarshalNInt2int(ctx, tmp)
 	}
 
@@ -6241,6 +6183,47 @@ func (ec *executionContext) fieldContext_JobContractor_Email(_ context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _JobContractor_YdsId(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobContractor_YdsId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.YdsID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobContractor_YdsId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobContractor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _JobContractor_Note(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_JobContractor_Note(ctx, field)
 	if err != nil {
@@ -6277,47 +6260,6 @@ func (ec *executionContext) fieldContext_JobContractor_Note(_ context.Context, f
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobContractor_Deleted(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_Deleted(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Deleted, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobContractor_Deleted(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobContractor",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -7395,47 +7337,6 @@ func (ec *executionContext) fieldContext_JobDetail_UsagePurpose(_ context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _JobDetail_Deleted(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Deleted(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Deleted, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Deleted(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _JobDetail_Owner(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_JobDetail_Owner(ctx, field)
 	if err != nil {
@@ -7488,10 +7389,10 @@ func (ec *executionContext) fieldContext_JobDetail_Owner(_ context.Context, fiel
 				return ec.fieldContext_JobOwner_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobOwner_Email(ctx, field)
+			case "YdsId":
+				return ec.fieldContext_JobOwner_YdsId(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobOwner_Note(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobOwner_Deleted(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobOwner", field.Name)
 		},
@@ -7553,10 +7454,10 @@ func (ec *executionContext) fieldContext_JobDetail_Contractor(_ context.Context,
 				return ec.fieldContext_JobContractor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobContractor_Email(ctx, field)
+			case "YdsId":
+				return ec.fieldContext_JobContractor_YdsId(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobContractor_Note(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobContractor_Deleted(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobContractor", field.Name)
 		},
@@ -8840,8 +8741,6 @@ func (ec *executionContext) fieldContext_JobLayer_Job(_ context.Context, field g
 				return ec.fieldContext_JobDetail_Started(ctx, field)
 			case "UsagePurpose":
 				return ec.fieldContext_JobDetail_UsagePurpose(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobDetail_Deleted(ctx, field)
 			case "Owner":
 				return ec.fieldContext_JobDetail_Owner(ctx, field)
 			case "Contractor":
@@ -9208,6 +9107,47 @@ func (ec *executionContext) fieldContext_JobOwner_Email(_ context.Context, field
 	return fc, nil
 }
 
+func (ec *executionContext) _JobOwner_YdsId(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobOwner_YdsId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.YdsID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobOwner_YdsId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobOwner",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _JobOwner_Note(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_JobOwner_Note(ctx, field)
 	if err != nil {
@@ -9244,47 +9184,6 @@ func (ec *executionContext) fieldContext_JobOwner_Note(_ context.Context, field 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobOwner_Deleted(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_Deleted(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Deleted, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobOwner_Deleted(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobOwner",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -10300,10 +10199,10 @@ func (ec *executionContext) fieldContext_Mutation_createContractor(ctx context.C
 				return ec.fieldContext_JobContractor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobContractor_Email(ctx, field)
+			case "YdsId":
+				return ec.fieldContext_JobContractor_YdsId(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobContractor_Note(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobContractor_Deleted(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobContractor", field.Name)
 		},
@@ -10401,10 +10300,10 @@ func (ec *executionContext) fieldContext_Mutation_updateContractor(ctx context.C
 				return ec.fieldContext_JobContractor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobContractor_Email(ctx, field)
+			case "YdsId":
+				return ec.fieldContext_JobContractor_YdsId(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobContractor_Note(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobContractor_Deleted(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobContractor", field.Name)
 		},
@@ -10758,8 +10657,6 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_Started(ctx, field)
 			case "UsagePurpose":
 				return ec.fieldContext_JobDetail_UsagePurpose(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobDetail_Deleted(ctx, field)
 			case "Owner":
 				return ec.fieldContext_JobDetail_Owner(ctx, field)
 			case "Contractor":
@@ -10919,8 +10816,6 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_Started(ctx, field)
 			case "UsagePurpose":
 				return ec.fieldContext_JobDetail_UsagePurpose(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobDetail_Deleted(ctx, field)
 			case "Owner":
 				return ec.fieldContext_JobDetail_Owner(ctx, field)
 			case "Contractor":
@@ -10961,83 +10856,6 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_updateJob_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_deleteJob(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteJob(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().DeleteJob(rctx, fc.Args["YibfNo"].(int))
-		}
-
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal bool
-				return zeroVal, errors.New("directive auth is not implemented")
-			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(bool); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_deleteJob(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_deleteJob_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -11418,10 +11236,10 @@ func (ec *executionContext) fieldContext_Mutation_createOwner(ctx context.Contex
 				return ec.fieldContext_JobOwner_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobOwner_Email(ctx, field)
+			case "YdsId":
+				return ec.fieldContext_JobOwner_YdsId(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobOwner_Note(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobOwner_Deleted(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobOwner", field.Name)
 		},
@@ -11517,10 +11335,10 @@ func (ec *executionContext) fieldContext_Mutation_updateOwner(ctx context.Contex
 				return ec.fieldContext_JobOwner_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobOwner_Email(ctx, field)
+			case "YdsId":
+				return ec.fieldContext_JobOwner_YdsId(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobOwner_Note(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobOwner_Deleted(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobOwner", field.Name)
 		},
@@ -12212,10 +12030,10 @@ func (ec *executionContext) fieldContext_Query_allContractor(_ context.Context, 
 				return ec.fieldContext_JobContractor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobContractor_Email(ctx, field)
+			case "YdsId":
+				return ec.fieldContext_JobContractor_YdsId(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobContractor_Note(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobContractor_Deleted(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobContractor", field.Name)
 		},
@@ -12400,8 +12218,6 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_JobDetail_Started(ctx, field)
 			case "UsagePurpose":
 				return ec.fieldContext_JobDetail_UsagePurpose(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobDetail_Deleted(ctx, field)
 			case "Owner":
 				return ec.fieldContext_JobDetail_Owner(ctx, field)
 			case "Contractor":
@@ -12539,8 +12355,6 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 				return ec.fieldContext_JobDetail_Started(ctx, field)
 			case "UsagePurpose":
 				return ec.fieldContext_JobDetail_UsagePurpose(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobDetail_Deleted(ctx, field)
 			case "Owner":
 				return ec.fieldContext_JobDetail_Owner(ctx, field)
 			case "Contractor":
@@ -12752,10 +12566,10 @@ func (ec *executionContext) fieldContext_Query_allOwner(_ context.Context, field
 				return ec.fieldContext_JobOwner_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobOwner_Email(ctx, field)
+			case "YdsId":
+				return ec.fieldContext_JobOwner_YdsId(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobOwner_Note(ctx, field)
-			case "Deleted":
-				return ec.fieldContext_JobOwner_Deleted(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobOwner", field.Name)
 		},
@@ -15779,7 +15593,7 @@ func (ec *executionContext) unmarshalInputJobContractorInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "Name", "TcNo", "Address", "RegisterNo", "TaxAdmin", "TaxNo", "Phone", "Email", "Note", "Deleted"}
+	fieldsInOrder := [...]string{"id", "Name", "TcNo", "Address", "RegisterNo", "TaxAdmin", "TaxNo", "Phone", "Email", "YdsId", "Note"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -15849,6 +15663,13 @@ func (ec *executionContext) unmarshalInputJobContractorInput(ctx context.Context
 				return it, err
 			}
 			it.Email = data
+		case "YdsId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YdsId"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YdsID = data
 		case "Note":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Note"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -15856,13 +15677,6 @@ func (ec *executionContext) unmarshalInputJobContractorInput(ctx context.Context
 				return it, err
 			}
 			it.Note = data
-		case "Deleted":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Deleted"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Deleted = data
 		}
 	}
 
@@ -15876,7 +15690,7 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "CompanyCode", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "CompletionDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "City", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Deleted", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
+	fieldsInOrder := [...]string{"YibfNo", "CompanyCode", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "CompletionDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "City", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -16065,13 +15879,6 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.UsagePurpose = data
-		case "Deleted":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Deleted"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Deleted = data
 		case "Owner":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Owner"))
 			data, err := ec.unmarshalOJobOwnerInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, v)
@@ -16252,7 +16059,7 @@ func (ec *executionContext) unmarshalInputJobOwnerInput(ctx context.Context, obj
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Name", "TcNo", "Address", "TaxAdmin", "TaxNo", "Phone", "Email", "Note", "Deleted"}
+	fieldsInOrder := [...]string{"Name", "TcNo", "Address", "TaxAdmin", "TaxNo", "Phone", "Email", "YdsId", "Note"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -16308,6 +16115,13 @@ func (ec *executionContext) unmarshalInputJobOwnerInput(ctx context.Context, obj
 				return it, err
 			}
 			it.Email = data
+		case "YdsId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YdsId"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YdsID = data
 		case "Note":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Note"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -16315,13 +16129,6 @@ func (ec *executionContext) unmarshalInputJobOwnerInput(ctx context.Context, obj
 				return it, err
 			}
 			it.Note = data
-		case "Deleted":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Deleted"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Deleted = data
 		}
 	}
 
@@ -17025,10 +16832,10 @@ func (ec *executionContext) _JobContractor(ctx context.Context, sel ast.Selectio
 			out.Values[i] = ec._JobContractor_Phone(ctx, field, obj)
 		case "Email":
 			out.Values[i] = ec._JobContractor_Email(ctx, field, obj)
+		case "YdsId":
+			out.Values[i] = ec._JobContractor_YdsId(ctx, field, obj)
 		case "Note":
 			out.Values[i] = ec._JobContractor_Note(ctx, field, obj)
-		case "Deleted":
-			out.Values[i] = ec._JobContractor_Deleted(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -17245,8 +17052,6 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 			out.Values[i] = ec._JobDetail_Started(ctx, field, obj)
 		case "UsagePurpose":
 			out.Values[i] = ec._JobDetail_UsagePurpose(ctx, field, obj)
-		case "Deleted":
-			out.Values[i] = ec._JobDetail_Deleted(ctx, field, obj)
 		case "Owner":
 			field := field
 
@@ -17912,10 +17717,10 @@ func (ec *executionContext) _JobOwner(ctx context.Context, sel ast.SelectionSet,
 			out.Values[i] = ec._JobOwner_Phone(ctx, field, obj)
 		case "Email":
 			out.Values[i] = ec._JobOwner_Email(ctx, field, obj)
+		case "YdsId":
+			out.Values[i] = ec._JobOwner_YdsId(ctx, field, obj)
 		case "Note":
 			out.Values[i] = ec._JobOwner_Note(ctx, field, obj)
-		case "Deleted":
-			out.Values[i] = ec._JobOwner_Deleted(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -18155,13 +17960,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "updateJob":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateJob(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "deleteJob":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_deleteJob(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++

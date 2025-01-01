@@ -95,14 +95,14 @@ func Email(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldEmail, v))
 }
 
+// YdsID applies equality check predicate on the "yds_id" field. It's identical to YdsIDEQ.
+func YdsID(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldYdsID, v))
+}
+
 // Note applies equality check predicate on the "Note" field. It's identical to NoteEQ.
 func Note(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldNote, v))
-}
-
-// Deleted applies equality check predicate on the "Deleted" field. It's identical to DeletedEQ.
-func Deleted(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldDeleted, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
@@ -630,6 +630,56 @@ func EmailContainsFold(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldContainsFold(FieldEmail, v))
 }
 
+// YdsIDEQ applies the EQ predicate on the "yds_id" field.
+func YdsIDEQ(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldYdsID, v))
+}
+
+// YdsIDNEQ applies the NEQ predicate on the "yds_id" field.
+func YdsIDNEQ(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNEQ(FieldYdsID, v))
+}
+
+// YdsIDIn applies the In predicate on the "yds_id" field.
+func YdsIDIn(vs ...int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIn(FieldYdsID, vs...))
+}
+
+// YdsIDNotIn applies the NotIn predicate on the "yds_id" field.
+func YdsIDNotIn(vs ...int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotIn(FieldYdsID, vs...))
+}
+
+// YdsIDGT applies the GT predicate on the "yds_id" field.
+func YdsIDGT(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGT(FieldYdsID, v))
+}
+
+// YdsIDGTE applies the GTE predicate on the "yds_id" field.
+func YdsIDGTE(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGTE(FieldYdsID, v))
+}
+
+// YdsIDLT applies the LT predicate on the "yds_id" field.
+func YdsIDLT(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLT(FieldYdsID, v))
+}
+
+// YdsIDLTE applies the LTE predicate on the "yds_id" field.
+func YdsIDLTE(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLTE(FieldYdsID, v))
+}
+
+// YdsIDIsNil applies the IsNil predicate on the "yds_id" field.
+func YdsIDIsNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIsNull(FieldYdsID))
+}
+
+// YdsIDNotNil applies the NotNil predicate on the "yds_id" field.
+func YdsIDNotNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotNull(FieldYdsID))
+}
+
 // NoteEQ applies the EQ predicate on the "Note" field.
 func NoteEQ(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldNote, v))
@@ -703,56 +753,6 @@ func NoteEqualFold(v string) predicate.JobContractor {
 // NoteContainsFold applies the ContainsFold predicate on the "Note" field.
 func NoteContainsFold(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldContainsFold(FieldNote, v))
-}
-
-// DeletedEQ applies the EQ predicate on the "Deleted" field.
-func DeletedEQ(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldDeleted, v))
-}
-
-// DeletedNEQ applies the NEQ predicate on the "Deleted" field.
-func DeletedNEQ(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNEQ(FieldDeleted, v))
-}
-
-// DeletedIn applies the In predicate on the "Deleted" field.
-func DeletedIn(vs ...int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIn(FieldDeleted, vs...))
-}
-
-// DeletedNotIn applies the NotIn predicate on the "Deleted" field.
-func DeletedNotIn(vs ...int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotIn(FieldDeleted, vs...))
-}
-
-// DeletedGT applies the GT predicate on the "Deleted" field.
-func DeletedGT(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGT(FieldDeleted, v))
-}
-
-// DeletedGTE applies the GTE predicate on the "Deleted" field.
-func DeletedGTE(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGTE(FieldDeleted, v))
-}
-
-// DeletedLT applies the LT predicate on the "Deleted" field.
-func DeletedLT(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLT(FieldDeleted, v))
-}
-
-// DeletedLTE applies the LTE predicate on the "Deleted" field.
-func DeletedLTE(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLTE(FieldDeleted, v))
-}
-
-// DeletedIsNil applies the IsNil predicate on the "Deleted" field.
-func DeletedIsNil() predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIsNull(FieldDeleted))
-}
-
-// DeletedNotNil applies the NotNil predicate on the "Deleted" field.
-func DeletedNotNil() predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotNull(FieldDeleted))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

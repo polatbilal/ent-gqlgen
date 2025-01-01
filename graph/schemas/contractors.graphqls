@@ -9,8 +9,8 @@ type JobContractor {
   TaxNo: Int
   Phone: String
   Email: String
+  YdsId: Int
   Note: String
-  Deleted: Int
 }
 
 input JobContractorInput {
@@ -23,8 +23,8 @@ input JobContractorInput {
   TaxNo: Int
   Phone: String
   Email: String
+  YdsId: Int
   Note: String
-  Deleted: Int
 }
 
 extend type Query {

@@ -133,6 +133,20 @@ func (jcc *JobContractorCreate) SetNillableEmail(s *string) *JobContractorCreate
 	return jcc
 }
 
+// SetYdsID sets the "yds_id" field.
+func (jcc *JobContractorCreate) SetYdsID(i int) *JobContractorCreate {
+	jcc.mutation.SetYdsID(i)
+	return jcc
+}
+
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (jcc *JobContractorCreate) SetNillableYdsID(i *int) *JobContractorCreate {
+	if i != nil {
+		jcc.SetYdsID(*i)
+	}
+	return jcc
+}
+
 // SetNote sets the "Note" field.
 func (jcc *JobContractorCreate) SetNote(s string) *JobContractorCreate {
 	jcc.mutation.SetNote(s)
@@ -143,20 +157,6 @@ func (jcc *JobContractorCreate) SetNote(s string) *JobContractorCreate {
 func (jcc *JobContractorCreate) SetNillableNote(s *string) *JobContractorCreate {
 	if s != nil {
 		jcc.SetNote(*s)
-	}
-	return jcc
-}
-
-// SetDeleted sets the "Deleted" field.
-func (jcc *JobContractorCreate) SetDeleted(i int) *JobContractorCreate {
-	jcc.mutation.SetDeleted(i)
-	return jcc
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableDeleted(i *int) *JobContractorCreate {
-	if i != nil {
-		jcc.SetDeleted(*i)
 	}
 	return jcc
 }
@@ -243,10 +243,6 @@ func (jcc *JobContractorCreate) defaults() {
 		v := jobcontractor.DefaultName
 		jcc.mutation.SetName(v)
 	}
-	if _, ok := jcc.mutation.Deleted(); !ok {
-		v := jobcontractor.DefaultDeleted
-		jcc.mutation.SetDeleted(v)
-	}
 	if _, ok := jcc.mutation.CreatedAt(); !ok {
 		v := jobcontractor.DefaultCreatedAt()
 		jcc.mutation.SetCreatedAt(v)
@@ -326,13 +322,13 @@ func (jcc *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSp
 		_spec.SetField(jobcontractor.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
+	if value, ok := jcc.mutation.YdsID(); ok {
+		_spec.SetField(jobcontractor.FieldYdsID, field.TypeInt, value)
+		_node.YdsID = value
+	}
 	if value, ok := jcc.mutation.Note(); ok {
 		_spec.SetField(jobcontractor.FieldNote, field.TypeString, value)
 		_node.Note = value
-	}
-	if value, ok := jcc.mutation.Deleted(); ok {
-		_spec.SetField(jobcontractor.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
 	}
 	if value, ok := jcc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)

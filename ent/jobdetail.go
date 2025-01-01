@@ -73,8 +73,6 @@ type JobDetail struct {
 	Note string `json:"Note,omitempty"`
 	// Started holds the value of the "Started" field.
 	Started int `json:"Started,omitempty"`
-	// Deleted holds the value of the "Deleted" field.
-	Deleted int `json:"Deleted,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -306,7 +304,7 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldStatus, jobdetail.FieldFloors, jobdetail.FieldStarted, jobdetail.FieldDeleted:
+		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldStatus, jobdetail.FieldFloors, jobdetail.FieldStarted:
 			values[i] = new(sql.NullInt64)
 		case jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldCity, jobdetail.FieldDistrict, jobdetail.FieldVillage, jobdetail.FieldStreet, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBuildingBlock, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote:
 			values[i] = new(sql.NullString)
@@ -508,12 +506,6 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Started", values[i])
 			} else if value.Valid {
 				jd.Started = int(value.Int64)
-			}
-		case jobdetail.FieldDeleted:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Deleted", values[i])
-			} else if value.Valid {
-				jd.Deleted = int(value.Int64)
 			}
 		case jobdetail.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -803,9 +795,6 @@ func (jd *JobDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("Started=")
 	builder.WriteString(fmt.Sprintf("%v", jd.Started))
-	builder.WriteString(", ")
-	builder.WriteString("Deleted=")
-	builder.WriteString(fmt.Sprintf("%v", jd.Deleted))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(jd.CreatedAt.Format(time.ANSIC))
