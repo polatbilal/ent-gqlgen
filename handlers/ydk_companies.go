@@ -16,45 +16,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type YDKCompanyResponse struct {
-	Items []struct {
-		Department struct {
-			Name                   string `json:"name"`                      // Company Name
-			FileNumber             int    `json:"fileNumber"`                // Company Code
-			ChamberInfo            string `json:"chamberInfo"`               // Chamber Info
-			RegistrationNumber     string `json:"registrationNumber"`        // Chamber Reg No
-			VisaDate               int64  `json:"visaDate"`                  // Visa Date
-			VisaEndDate            int64  `json:"visaEndDate"`               // Visa End Date
-			VisaFinishedFor90Days  bool   `json:"visa_finished_for_90days"`  // Visa Finished For 90 Days
-			CorePersonAbsent90Days bool   `json:"core_person_absent_90days"` // Core Person Absent 90 Days
-			IsClosed               bool   `json:"isClosed"`                  // Is Closed
-			Person                 struct {
-				IdentityNumber    string `json:"identityNumber"`    // Tax Number
-				TaxAdministration string `json:"taxAdministration"` // Tax Administration
-				AddressStr        string `json:"addressStr"`        // Company Address
-				FullName          string `json:"fullName"`          // Company Name
-				LastPhoneNumber   string `json:"lastPhoneNumber"`   // Company Phone
-				LastWebAddress    string `json:"lastWebAddress"`    // Company Website
-				LastEPosta        string `json:"lastEPosta"`        // Company Email
-			} `json:"person"`
-		} `json:"department"`
-		Title struct {
-			Name string `json:"name"` // Owner Career
-		} `json:"title"`
-		Person struct {
-			IdentityNumber  string `json:"identityNumber"`  // Owner TC No
-			AddressStr      string `json:"addressStr"`      // Owner Address
-			FullName        string `json:"fullName"`        // Owner Name
-			BirthDateString string `json:"birthDateString"` // Owner Birth Date
-			LastPhoneNumber string `json:"lastPhoneNumber"` // Owner Phone
-			LastEPosta      string `json:"lastEPosta"`      // Owner Email
-		} `json:"person"`
-		OccupationalRegistrationNumber string `json:"occupationalRegistrationNumber"` // Owner Reg No
-	} `json:"items"`
-	TotalCount int `json:"totalCount"`
-	GroupCount int `json:"groupCount"`
-}
-
 func YDKCompanies(c *gin.Context) {
 	// GraphQL için JWT token
 	jwtToken := c.GetHeader("Authorization")

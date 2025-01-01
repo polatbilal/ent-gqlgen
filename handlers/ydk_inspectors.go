@@ -15,47 +15,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type YDKInspectorResponse struct {
-	GroupCount int `json:"groupCount"`
-	Items      []struct {
-		Active      bool `json:"active"`
-		Application struct {
-			Active           bool `json:"active"`
-			ApplicationState struct {
-				Active bool   `json:"active"`
-				ID     int    `json:"id"`
-				Name   string `json:"name"`
-			} `json:"applicationState"`
-			ApplicationType struct {
-				Active bool   `json:"active"`
-				ID     int    `json:"id"`
-				Name   string `json:"name"`
-			} `json:"applicationType"`
-			Person struct {
-				ID              int    `json:"id"`
-				IdentityNumber  string `json:"identityNumber"`
-				FullName        string `json:"fullName"`
-				LastPhoneNumber string `json:"lastPhoneNumber"`
-				LastEPosta      string `json:"lastEPosta"`
-				AddressStr      string `json:"addressStr"`
-			} `json:"person"`
-			Title struct {
-				Name string `json:"name"`
-			} `json:"title"`
-			Tasks struct {
-				Name string `json:"name"`
-			} `json:"tasks"`
-			RegistrationNumber string `json:"occupationalRegistrationNumber"`
-			DocumentNumber     int    `json:"documentNumber"`
-		} `json:"application"`
-		Department struct {
-			FileNumber int `json:"fileNumber"`
-		} `json:"department"`
-		TaskStartDate int64 `json:"taskStartDate"`
-	} `json:"items"`
-	TotalCount int `json:"totalCount"`
-}
-
 func YDKInspectors(c *gin.Context) {
 	// GraphQL için JWT token
 	jwtToken := c.GetHeader("Authorization")
@@ -173,6 +132,7 @@ func YDKInspectors(c *gin.Context) {
 	var simplifiedData []SimplifiedInspector
 	for _, item := range inspectorResponse.Items {
 		inspector := SimplifiedInspector{
+			YDSID:       item.Application.Person.ID,
 			Name:        item.Application.Person.FullName,
 			Address:     item.Application.Person.AddressStr,
 			Email:       item.Application.Person.LastEPosta,
@@ -183,7 +143,6 @@ func YDKInspectors(c *gin.Context) {
 			Career:      item.Application.Title.Name,
 			Position:    item.Application.Tasks.Name,
 			Employment:  item.TaskStartDate,
-			YDSID:       item.Application.Person.ID,
 			CompanyCode: item.Department.FileNumber,
 		}
 		simplifiedData = append(simplifiedData, inspector)

@@ -8,15 +8,6 @@ import (
 	"net/http"
 )
 
-type GraphQLClient struct {
-	URL string
-}
-
-type graphQLRequest struct {
-	Query     string                 `json:"query"`
-	Variables map[string]interface{} `json:"variables,omitempty"`
-}
-
 func (c *GraphQLClient) Execute(query string, variables map[string]interface{}, token string, result interface{}) error {
 	requestBody := graphQLRequest{
 		Query:     query,
