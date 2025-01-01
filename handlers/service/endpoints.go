@@ -1,4 +1,4 @@
-package handlers
+package service
 
 const (
 	ENDPOINT_ALL           = "/api/yibf/findAll"

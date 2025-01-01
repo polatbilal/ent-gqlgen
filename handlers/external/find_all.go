@@ -1,4 +1,4 @@
-package handlers
+package external
 
 import (
 	"bytes"
@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 	"sync"
+
+	"gqlgen-ent/handlers/service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,9 +21,9 @@ func FindAll(c *gin.Context) {
 		return
 	}
 
-	service := &ExternalService{
-		baseURL: os.Getenv("YDK_BASE_URL"),
-		client:  &http.Client{},
+	svc := &service.ExternalService{
+		BaseURL: os.Getenv("YDK_BASE_URL"),
+		Client:  &http.Client{},
 	}
 
 	requestBody := map[string]interface{}{
@@ -49,7 +51,7 @@ func FindAll(c *gin.Context) {
 		return
 	}
 
-	req, err := http.NewRequest("POST", service.baseURL+ENDPOINT_ALL, bytes.NewBuffer(jsonBody))
+	req, err := http.NewRequest("POST", svc.BaseURL+service.ENDPOINT_ALL, bytes.NewBuffer(jsonBody))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -58,7 +60,7 @@ func FindAll(c *gin.Context) {
 	req.Header.Set("Authorization", token)
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := service.client.Do(req)
+	resp, err := svc.Client.Do(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -92,7 +94,7 @@ func FindAll(c *gin.Context) {
 		go func(id int) {
 			defer wg.Done()
 
-			url := fmt.Sprintf("%s/api/yibf/findById/%d", service.baseURL, id)
+			url := fmt.Sprintf("%s/api/yibf/findById/%d", svc.BaseURL, id)
 			req, err := http.NewRequest("GET", url, nil)
 			if err != nil {
 				errorsChan <- err
@@ -101,7 +103,7 @@ func FindAll(c *gin.Context) {
 
 			req.Header.Set("Authorization", token)
 
-			resp, err := service.client.Do(req)
+			resp, err := svc.Client.Do(req)
 			if err != nil {
 				errorsChan <- err
 				return

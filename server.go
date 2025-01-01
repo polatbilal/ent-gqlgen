@@ -8,7 +8,8 @@ import (
 	"gqlgen-ent/database"
 	"gqlgen-ent/ent/migrate"
 	"gqlgen-ent/graph/resolvers"
-	"gqlgen-ent/handlers"
+	"gqlgen-ent/handlers/external"
+	"gqlgen-ent/handlers/sync"
 	"gqlgen-ent/middlewares"
 	"log"
 	"net/http"
@@ -49,11 +50,11 @@ func main() {
 	r.Use(middlewares.AuthMiddleware())
 
 	// YDK Inspectors endpoint'ini ekle
-	r.POST("/ydk/inspectors", handlers.YDKInspectors)
+	r.POST("/ydk/inspectors", external.YDKInspectors)
 	// YDK Companies endpoint'ini ekle
-	r.POST("/ydk/companies", handlers.YDKCompanies)
+	r.POST("/ydk/companies", external.YDKCompanies)
 	// YDK Sync endpoint'ini ekle
-	r.GET("/ydk/sync", handlers.YDKSync)
+	r.GET("/ydk/sync", sync.YDKSync)
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {

@@ -1,4 +1,4 @@
-package handlers
+package external
 
 import (
 	"bytes"
@@ -12,6 +12,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"gqlgen-ent/handlers/client"
+	"gqlgen-ent/handlers/service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,18 +35,18 @@ func YDKCompanies(c *gin.Context) {
 	}
 
 	// YDK token'ı JSON'dan parse et
-	var ydkToken YDKTokenResponse
+	var ydkToken service.YDKTokenResponse
 	if err := json.Unmarshal([]byte(ydkTokenStr), &ydkToken); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK Token parse hatası: " + err.Error()})
 		return
 	}
 
-	service := &ExternalService{
-		baseURL: os.Getenv("YDK_BASE_URL"),
-		client:  &http.Client{},
+	svc := &service.ExternalService{
+		BaseURL: os.Getenv("YDK_BASE_URL"),
+		Client:  &http.Client{},
 	}
 
-	if service.baseURL == "" {
+	if svc.BaseURL == "" {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "YDK_BASE_URL environment variable is not set"})
 		return
 	}
@@ -58,7 +61,7 @@ func YDKCompanies(c *gin.Context) {
 		return
 	}
 
-	url := service.baseURL + ENDPOINT_BY_DEPARTMENT
+	url := svc.BaseURL + service.ENDPOINT_BY_DEPARTMENT
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -68,7 +71,7 @@ func YDKCompanies(c *gin.Context) {
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := service.client.Do(req)
+	resp, err := svc.Client.Do(req)
 	if err != nil {
 		log.Printf("YDK API isteği başarısız: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK API isteği başarısız: " + err.Error()})
@@ -94,7 +97,7 @@ func YDKCompanies(c *gin.Context) {
 	// log.Printf("YDK API Ham Yanıt: %s\n", string(body))
 
 	// Struct'a parse et
-	var ydkResponse YDKCompanyResponse
+	var ydkResponse service.YDKCompanyResponse
 	if err := json.Unmarshal(body, &ydkResponse); err != nil {
 		log.Printf("JSON parse hatası: %v\nHam veri: %s\n", err, string(body))
 		c.JSON(http.StatusBadRequest, gin.H{"error": "JSON parse hatası: " + err.Error()})
@@ -121,7 +124,7 @@ func YDKCompanies(c *gin.Context) {
 	if c.Request.TLS != nil {
 		scheme = "https"
 	}
-	graphqlClient := GraphQLClient{
+	graphqlClient := client.GraphQLClient{
 		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Request.Host),
 	}
 

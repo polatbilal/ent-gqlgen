@@ -1,4 +1,4 @@
-package handlers
+package external
 
 import (
 	"bytes"
@@ -11,6 +11,9 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"gqlgen-ent/handlers/client"
+	"gqlgen-ent/handlers/service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,7 +40,7 @@ func YDKInspectors(c *gin.Context) {
 	}
 
 	// YDK Token'ı JSON'dan parse et
-	var ydkTokenResp YDKTokenResponse
+	var ydkTokenResp service.YDKTokenResponse
 	if err := json.Unmarshal([]byte(ydkTokenJSON), &ydkTokenResp); err != nil {
 		log.Printf("Parse hatası detayı: %v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("YDK Token JSON parse hatası: %v - Gelen veri: %s", err, ydkTokenJSON)})
@@ -49,12 +52,12 @@ func YDKInspectors(c *gin.Context) {
 		return
 	}
 
-	service := &ExternalService{
-		baseURL: os.Getenv("YDK_BASE_URL"),
-		client:  &http.Client{},
+	svc := &service.ExternalService{
+		BaseURL: os.Getenv("YDK_BASE_URL"),
+		Client:  &http.Client{},
 	}
 
-	if service.baseURL == "" {
+	if svc.BaseURL == "" {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "YDK_BASE_URL environment variable is not set"})
 		return
 	}
@@ -78,7 +81,7 @@ func YDKInspectors(c *gin.Context) {
 		return
 	}
 
-	url := service.baseURL + ENDPOINT_BY_EMPLOYEE
+	url := svc.BaseURL + service.ENDPOINT_BY_EMPLOYEE
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -88,7 +91,7 @@ func YDKInspectors(c *gin.Context) {
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkTokenResp.AccessToken))
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := service.client.Do(req)
+	resp, err := svc.Client.Do(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -105,7 +108,7 @@ func YDKInspectors(c *gin.Context) {
 	// log.Printf("YDK API Ham Yanıt: %+v\n", string(body))
 
 	// Struct'a parse et
-	var inspectorResponse YDKInspectorResponse
+	var inspectorResponse service.YDKInspectorResponse
 	if err := json.Unmarshal(body, &inspectorResponse); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Parse hatası: " + err.Error()})
 		return
@@ -153,7 +156,7 @@ func YDKInspectors(c *gin.Context) {
 	if c.Request.TLS != nil {
 		scheme = "https"
 	}
-	graphqlClient := GraphQLClient{
+	graphqlClient := client.GraphQLClient{
 		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Request.Host),
 	}
 

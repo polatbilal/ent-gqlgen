@@ -3,11 +3,10 @@ package tests
 import (
 	"encoding/json"
 	"fmt"
+	"gqlgen-ent/handlers/external"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"gqlgen-ent/handlers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,8 +14,8 @@ import (
 func TestFindAllAndFindById(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	r := gin.New()
-	r.POST("/sync/findAll", handlers.FindAll)
-	r.GET("/sync/findById/:id", handlers.FindById)
+	r.POST("/sync/findAll", external.FindAll)
+	r.GET("/sync/findById/:id", external.FindById)
 
 	// Önce FindAll'ı çağır
 	w := httptest.NewRecorder()

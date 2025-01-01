@@ -1,11 +1,10 @@
 package tests
 
 import (
+	"gqlgen-ent/handlers/external"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"gqlgen-ent/handlers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +12,7 @@ import (
 func TestFindById(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	r := gin.New()
-	r.GET("/sync/findById/:id", handlers.FindById)
+	r.GET("/sync/findById/:id", external.FindById)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/sync/findById/2307446", nil)

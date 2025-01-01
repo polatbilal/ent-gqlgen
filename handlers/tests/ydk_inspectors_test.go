@@ -1,11 +1,10 @@
 package tests
 
 import (
+	"gqlgen-ent/handlers/external"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"gqlgen-ent/handlers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +12,7 @@ import (
 func TestYDKInspectors(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	r := gin.New()
-	r.GET("/ydk/inspectors", handlers.YDKInspectors)
+	r.GET("/ydk/inspectors", external.YDKInspectors)
 
 	// Test senaryoları
 	tests := []struct {

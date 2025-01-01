@@ -1,19 +1,10 @@
-package handlers
+package service
 
 import "net/http"
 
 type ExternalService struct {
-	baseURL string
-	client  *http.Client
-}
-
-type GraphQLClient struct {
-	URL string
-}
-
-type graphQLRequest struct {
-	Query     string                 `json:"query"`
-	Variables map[string]interface{} `json:"variables,omitempty"`
+	BaseURL string
+	Client  *http.Client
 }
 
 type YDKTokenResponse struct {

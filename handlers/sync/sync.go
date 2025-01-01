@@ -1,7 +1,9 @@
-package handlers
+package sync
 
 import (
 	"encoding/json"
+	"gqlgen-ent/handlers/external"
+	"gqlgen-ent/handlers/service"
 	"net/http"
 	"time"
 
@@ -49,7 +51,7 @@ func YDKSync(c *gin.Context) {
 	}
 
 	// YDK token'ı JSON'dan parse et
-	var ydkToken YDKTokenResponse
+	var ydkToken service.YDKTokenResponse
 	if err := json.Unmarshal([]byte(ydkTokenStr), &ydkToken); err != nil {
 		sendNotification(c, "error", "YDK Token parse hatası: "+err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK Token parse hatası: " + err.Error()})
@@ -72,7 +74,7 @@ func YDKSync(c *gin.Context) {
 
 	// Şirket senkronizasyonu başladı bildirimi
 	sendNotification(c, "info", "Şirket bilgileri senkronizasyonu başladı")
-	YDKCompanies(companyCtx)
+	external.YDKCompanies(companyCtx)
 
 	// Şirket yanıtını parse et
 	var companyResponse map[string]interface{}
@@ -87,7 +89,7 @@ func YDKSync(c *gin.Context) {
 
 	// Denetçi senkronizasyonu başladı bildirimi
 	sendNotification(c, "info", "Denetçi bilgileri senkronizasyonu başladı")
-	YDKInspectors(inspectorCtx)
+	external.YDKInspectors(inspectorCtx)
 
 	// Denetçi yanıtını parse et
 	var inspectorResponse map[string]interface{}

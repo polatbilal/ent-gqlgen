@@ -1,8 +1,9 @@
-package handlers
+package external
 
 import (
 	"encoding/json"
 	"fmt"
+	"gqlgen-ent/handlers/service"
 	"io"
 	"net/http"
 	"os"
@@ -23,12 +24,12 @@ func FindById(c *gin.Context) {
 		return
 	}
 
-	service := &ExternalService{
-		baseURL: os.Getenv("YDK_BASE_URL"),
-		client:  &http.Client{},
+	svc := &service.ExternalService{
+		BaseURL: os.Getenv("YDK_BASE_URL"),
+		Client:  &http.Client{},
 	}
 
-	url := fmt.Sprintf("%s/api/yibf/findById/%s", service.baseURL, id)
+	url := fmt.Sprintf("%s/api/yibf/findById/%s", svc.BaseURL, id)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -37,7 +38,7 @@ func FindById(c *gin.Context) {
 
 	req.Header.Set("Authorization", token)
 
-	resp, err := service.client.Do(req)
+	resp, err := svc.Client.Do(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -1,11 +1,10 @@
 package tests
 
 import (
+	"gqlgen-ent/handlers/external"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"gqlgen-ent/handlers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +12,7 @@ import (
 func TestFindAll(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	r := gin.New()
-	r.POST("/sync/findAll", handlers.FindAll)
+	r.POST("/sync/findAll", external.FindAll)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/sync/findAll", nil)
