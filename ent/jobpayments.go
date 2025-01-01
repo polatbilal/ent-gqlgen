@@ -4,13 +4,13 @@ package ent
 
 import (
 	"fmt"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/jobpayments"
 	"strings"
 	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 )
 
 // JobPayments is the model entity for the JobPayments schema.

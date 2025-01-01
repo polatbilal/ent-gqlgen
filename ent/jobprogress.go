@@ -4,12 +4,12 @@ package ent
 
 import (
 	"fmt"
-	"gqlgen-ent/ent/jobprogress"
 	"strings"
 	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
 )
 
 // JobProgress is the model entity for the JobProgress schema.

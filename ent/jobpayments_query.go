@@ -5,15 +5,15 @@ package ent
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/jobpayments"
-	"gqlgen-ent/ent/predicate"
 	"math"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
 // JobPaymentsQuery is the builder for querying JobPayments entities.

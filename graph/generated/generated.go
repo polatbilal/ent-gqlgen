@@ -7,14 +7,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/graph/model"
 	"strconv"
 	"sync"
 	"sync/atomic"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -134,19 +134,17 @@ type ComplexityRoot struct {
 
 	JobDetail struct {
 		Ada                func(childComplexity int) int
+		Address            func(childComplexity int) int
 		Architect          func(childComplexity int) int
 		Author             func(childComplexity int) int
-		BuildingBlock      func(childComplexity int) int
 		BuildingClass      func(childComplexity int) int
 		BuildingType       func(childComplexity int) int
-		City               func(childComplexity int) int
 		CompletionDate     func(childComplexity int) int
 		ConstructionArea   func(childComplexity int) int
 		ContractDate       func(childComplexity int) int
 		Contractor         func(childComplexity int) int
 		Controller         func(childComplexity int) int
 		CreatedAt          func(childComplexity int) int
-		District           func(childComplexity int) int
 		Electric           func(childComplexity int) int
 		Electriccontroller func(childComplexity int) int
 		Floors             func(childComplexity int) int
@@ -169,9 +167,8 @@ type ComplexityRoot struct {
 		Started            func(childComplexity int) int
 		Static             func(childComplexity int) int
 		Status             func(childComplexity int) int
-		Street             func(childComplexity int) int
+		Supervisor         func(childComplexity int) int
 		UsagePurpose       func(childComplexity int) int
-		Village            func(childComplexity int) int
 		YibfNo             func(childComplexity int) int
 	}
 
@@ -220,27 +217,45 @@ type ComplexityRoot struct {
 		Two   func(childComplexity int) int
 	}
 
+	JobSupervisor struct {
+		Address          func(childComplexity int) int
+		Career           func(childComplexity int) int
+		Email            func(childComplexity int) int
+		ID               func(childComplexity int) int
+		Job              func(childComplexity int) int
+		Name             func(childComplexity int) int
+		Phone            func(childComplexity int) int
+		Position         func(childComplexity int) int
+		RegNo            func(childComplexity int) int
+		SchoolGraduation func(childComplexity int) int
+		SocialSecurityNo func(childComplexity int) int
+		Tcno             func(childComplexity int) int
+		Ydsid            func(childComplexity int) int
+	}
+
 	Mutation struct {
-		CreateCompany     func(childComplexity int, input model.CompanyDetailInput) int
-		CreateContractor  func(childComplexity int, input model.JobContractorInput) int
-		CreateEngineer    func(childComplexity int, input model.CompanyEngineerInput) int
-		CreateJob         func(childComplexity int, input model.JobInput) int
-		CreateJobPayments func(childComplexity int, input model.JobPaymentsInput) int
-		CreateLayer       func(childComplexity int, input model.JobLayerInput) int
-		CreateOwner       func(childComplexity int, input model.JobOwnerInput) int
-		CreateUser        func(childComplexity int, input model.UserInput) int
-		DeleteJobPayments func(childComplexity int, yibfNo int) int
-		DeleteLayer       func(childComplexity int, id string) int
-		Login             func(childComplexity int, companyCode string, username string, password string) int
-		Register          func(childComplexity int, companyCode string, username string, name *string, email *string, password string) int
-		UpdateCompany     func(childComplexity int, input model.CompanyDetailInput) int
-		UpdateContractor  func(childComplexity int, id string, input model.JobContractorInput) int
-		UpdateEngineer    func(childComplexity int, id string, input model.CompanyEngineerInput) int
-		UpdateJob         func(childComplexity int, yibfNo int, input model.JobInput) int
-		UpdateJobPayments func(childComplexity int, yibfNo int, input model.JobPaymentsInput) int
-		UpdateLayer       func(childComplexity int, id string, input model.JobLayerInput) int
-		UpdateOwner       func(childComplexity int, id string, input model.JobOwnerInput) int
-		UpdateUser        func(childComplexity int, input model.UserInput) int
+		CreateCompany       func(childComplexity int, input model.CompanyDetailInput) int
+		CreateContractor    func(childComplexity int, input model.JobContractorInput) int
+		CreateEngineer      func(childComplexity int, input model.CompanyEngineerInput) int
+		CreateJob           func(childComplexity int, input model.JobInput) int
+		CreateJobPayments   func(childComplexity int, input model.JobPaymentsInput) int
+		CreateJobSupervisor func(childComplexity int, input model.JobSupervisorInput) int
+		CreateLayer         func(childComplexity int, input model.JobLayerInput) int
+		CreateOwner         func(childComplexity int, input model.JobOwnerInput) int
+		CreateUser          func(childComplexity int, input model.UserInput) int
+		DeleteJobPayments   func(childComplexity int, yibfNo int) int
+		DeleteLayer         func(childComplexity int, id string) int
+		Login               func(childComplexity int, companyCode string, username string, password string) int
+		Register            func(childComplexity int, companyCode string, username string, name *string, email *string, password string) int
+		UpdateCompany       func(childComplexity int, input model.CompanyDetailInput) int
+		UpdateContractor    func(childComplexity int, id string, input model.JobContractorInput) int
+		UpdateEngineer      func(childComplexity int, id string, input model.CompanyEngineerInput) int
+		UpdateJob           func(childComplexity int, yibfNo int, input model.JobInput) int
+		UpdateJobPayments   func(childComplexity int, yibfNo int, input model.JobPaymentsInput) int
+		UpdateJobSupervisor func(childComplexity int, id string, input model.JobSupervisorInput) int
+		UpdateLayer         func(childComplexity int, id string, input model.JobLayerInput) int
+		UpdateOwner         func(childComplexity int, id string, input model.JobOwnerInput) int
+		UpdateUser          func(childComplexity int, input model.UserInput) int
 	}
 
 	Query struct {
@@ -285,6 +300,7 @@ type JobDetailResolver interface {
 
 	CreatedAt(ctx context.Context, obj *ent.JobDetail) (*string, error)
 	Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error)
+	Supervisor(ctx context.Context, obj *ent.JobDetail) (*model.JobSupervisor, error)
 }
 type JobLayerResolver interface {
 	MoldDate(ctx context.Context, obj *ent.JobLayer) (*string, error)
@@ -314,6 +330,8 @@ type MutationResolver interface {
 	CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	UpdateJobPayments(ctx context.Context, yibfNo int, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	DeleteJobPayments(ctx context.Context, yibfNo int) (*ent.JobPayments, error)
+	CreateJobSupervisor(ctx context.Context, input model.JobSupervisorInput) (*model.JobSupervisor, error)
+	UpdateJobSupervisor(ctx context.Context, id string, input model.JobSupervisorInput) (*model.JobSupervisor, error)
 	CreateUser(ctx context.Context, input model.UserInput) (*ent.User, error)
 	UpdateUser(ctx context.Context, input model.UserInput) (*ent.User, error)
 }
@@ -801,6 +819,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobDetail.Ada(childComplexity), true
 
+	case "JobDetail.Address":
+		if e.complexity.JobDetail.Address == nil {
+			break
+		}
+
+		return e.complexity.JobDetail.Address(childComplexity), true
+
 	case "JobDetail.Architect":
 		if e.complexity.JobDetail.Architect == nil {
 			break
@@ -815,13 +840,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobDetail.Author(childComplexity), true
 
-	case "JobDetail.BuildingBlock":
-		if e.complexity.JobDetail.BuildingBlock == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.BuildingBlock(childComplexity), true
-
 	case "JobDetail.BuildingClass":
 		if e.complexity.JobDetail.BuildingClass == nil {
 			break
@@ -835,13 +853,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.BuildingType(childComplexity), true
-
-	case "JobDetail.City":
-		if e.complexity.JobDetail.City == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.City(childComplexity), true
 
 	case "JobDetail.CompletionDate":
 		if e.complexity.JobDetail.CompletionDate == nil {
@@ -884,13 +895,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.CreatedAt(childComplexity), true
-
-	case "JobDetail.District":
-		if e.complexity.JobDetail.District == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.District(childComplexity), true
 
 	case "JobDetail.Electric":
 		if e.complexity.JobDetail.Electric == nil {
@@ -1046,12 +1050,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobDetail.Status(childComplexity), true
 
-	case "JobDetail.Street":
-		if e.complexity.JobDetail.Street == nil {
+	case "JobDetail.Supervisor":
+		if e.complexity.JobDetail.Supervisor == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Street(childComplexity), true
+		return e.complexity.JobDetail.Supervisor(childComplexity), true
 
 	case "JobDetail.UsagePurpose":
 		if e.complexity.JobDetail.UsagePurpose == nil {
@@ -1059,13 +1063,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.UsagePurpose(childComplexity), true
-
-	case "JobDetail.Village":
-		if e.complexity.JobDetail.Village == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Village(childComplexity), true
 
 	case "JobDetail.YibfNo":
 		if e.complexity.JobDetail.YibfNo == nil {
@@ -1305,6 +1302,97 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobProgress.Two(childComplexity), true
 
+	case "JobSupervisor.Address":
+		if e.complexity.JobSupervisor.Address == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Address(childComplexity), true
+
+	case "JobSupervisor.Career":
+		if e.complexity.JobSupervisor.Career == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Career(childComplexity), true
+
+	case "JobSupervisor.Email":
+		if e.complexity.JobSupervisor.Email == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Email(childComplexity), true
+
+	case "JobSupervisor.id":
+		if e.complexity.JobSupervisor.ID == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.ID(childComplexity), true
+
+	case "JobSupervisor.Job":
+		if e.complexity.JobSupervisor.Job == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Job(childComplexity), true
+
+	case "JobSupervisor.Name":
+		if e.complexity.JobSupervisor.Name == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Name(childComplexity), true
+
+	case "JobSupervisor.Phone":
+		if e.complexity.JobSupervisor.Phone == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Phone(childComplexity), true
+
+	case "JobSupervisor.Position":
+		if e.complexity.JobSupervisor.Position == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Position(childComplexity), true
+
+	case "JobSupervisor.RegNo":
+		if e.complexity.JobSupervisor.RegNo == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.RegNo(childComplexity), true
+
+	case "JobSupervisor.SchoolGraduation":
+		if e.complexity.JobSupervisor.SchoolGraduation == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.SchoolGraduation(childComplexity), true
+
+	case "JobSupervisor.SocialSecurityNo":
+		if e.complexity.JobSupervisor.SocialSecurityNo == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.SocialSecurityNo(childComplexity), true
+
+	case "JobSupervisor.TCNO":
+		if e.complexity.JobSupervisor.Tcno == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Tcno(childComplexity), true
+
+	case "JobSupervisor.YDSID":
+		if e.complexity.JobSupervisor.Ydsid == nil {
+			break
+		}
+
+		return e.complexity.JobSupervisor.Ydsid(childComplexity), true
+
 	case "Mutation.createCompany":
 		if e.complexity.Mutation.CreateCompany == nil {
 			break
@@ -1364,6 +1452,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateJobPayments(childComplexity, args["input"].(model.JobPaymentsInput)), true
+
+	case "Mutation.createJobSupervisor":
+		if e.complexity.Mutation.CreateJobSupervisor == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createJobSupervisor_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateJobSupervisor(childComplexity, args["input"].(model.JobSupervisorInput)), true
 
 	case "Mutation.createLayer":
 		if e.complexity.Mutation.CreateLayer == nil {
@@ -1508,6 +1608,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.UpdateJobPayments(childComplexity, args["yibfNo"].(int), args["input"].(model.JobPaymentsInput)), true
+
+	case "Mutation.updateJobSupervisor":
+		if e.complexity.Mutation.UpdateJobSupervisor == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateJobSupervisor_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateJobSupervisor(childComplexity, args["id"].(string), args["input"].(model.JobSupervisorInput)), true
 
 	case "Mutation.updateLayer":
 		if e.complexity.Mutation.UpdateLayer == nil {
@@ -1726,6 +1838,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputJobOwnerInput,
 		ec.unmarshalInputJobPaymentsInput,
 		ec.unmarshalInputJobProgressInput,
+		ec.unmarshalInputJobSupervisorInput,
 		ec.unmarshalInputLayerFilterInput,
 		ec.unmarshalInputUserInput,
 	)
@@ -2039,13 +2152,9 @@ type JobDetail {
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
-  City: String
-  District: String
-  Village: String
-  Street: String
+  Address: String
   BuildingClass: String
   BuildingType: String
-  BuildingBlock: String
   Floors: Int
   Note: String
   Started: Int
@@ -2064,6 +2173,7 @@ type JobDetail {
   ElectricController: CompanyEngineer
   CreatedAt: String
   Layer: [JobLayer]
+  Supervisor: JobSupervisor
 }
 
 input JobInput {
@@ -2082,13 +2192,9 @@ input JobInput {
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
-  City: String
-  District: String
-  Village: String
-  Street: String
+  Address: String
   BuildingClass: String
   BuildingType: String
-  BuildingBlock: String
   Floors: Int
   Note: String
   Started: Int
@@ -2105,6 +2211,7 @@ input JobInput {
   Controller: Int
   MechanicController: Int
   ElectricController: Int
+  Supervisor: JobSupervisorInput
 }
 
 # Job Author
@@ -2279,6 +2386,45 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
+	{Name: "../schemas/supervisor.graphqls", Input: `type JobSupervisor {
+  id: ID!
+  Name: String
+  Address: String
+  Phone: String
+  Email: String
+  TCNO: Int
+  Position: String
+  Career: String
+  RegNo: Int
+  SocialSecurityNo: Int
+  SchoolGraduation: String
+  YDSID: Int
+  Job: JobDetail
+}
+
+input JobSupervisorInput {
+  Name: String
+  Address: String
+  Phone: String
+  Email: String
+  TCNO: Int
+  Position: String
+  Career: String
+  RegNo: Int
+  SocialSecurityNo: Int
+  SchoolGraduation: String
+  YDSID: Int
+}
+
+extend type Mutation {
+  createJobSupervisor(input: JobSupervisorInput!): JobSupervisor!
+    @goField(forceResolver: true)
+    @auth
+  updateJobSupervisor(id: ID!, input: JobSupervisorInput!): JobSupervisor!
+    @goField(forceResolver: true)
+    @auth
+}
+`, BuiltIn: false},
 	{Name: "../schemas/user.graphqls", Input: `directive @goField(
   forceResolver: Boolean
   name: String
@@ -2352,7 +2498,7 @@ func (ec *executionContext) field_Mutation_createCompany_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyDetailInput2gqlgenᚑentᚋgraphᚋmodelᚐCompanyDetailInput(ctx, tmp)
+		return ec.unmarshalNCompanyDetailInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐCompanyDetailInput(ctx, tmp)
 	}
 
 	var zeroVal model.CompanyDetailInput
@@ -2384,7 +2530,7 @@ func (ec *executionContext) field_Mutation_createContractor_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobContractorInput2gqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx, tmp)
+		return ec.unmarshalNJobContractorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobContractorInput
@@ -2416,7 +2562,7 @@ func (ec *executionContext) field_Mutation_createEngineer_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyEngineerInput2gqlgenᚑentᚋgraphᚋmodelᚐCompanyEngineerInput(ctx, tmp)
+		return ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐCompanyEngineerInput(ctx, tmp)
 	}
 
 	var zeroVal model.CompanyEngineerInput
@@ -2448,10 +2594,42 @@ func (ec *executionContext) field_Mutation_createJobPayments_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobPaymentsInput2gqlgenᚑentᚋgraphᚋmodelᚐJobPaymentsInput(ctx, tmp)
+		return ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobPaymentsInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobPaymentsInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createJobSupervisor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createJobSupervisor_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createJobSupervisor_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.JobSupervisorInput, error) {
+	// We won't call the directive if the argument is null.
+	// Set call_argument_directives_with_null to true to call directives
+	// even if the argument is null.
+	_, ok := rawArgs["input"]
+	if !ok {
+		var zeroVal model.JobSupervisorInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobSupervisorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisorInput(ctx, tmp)
+	}
+
+	var zeroVal model.JobSupervisorInput
 	return zeroVal, nil
 }
 
@@ -2480,7 +2658,7 @@ func (ec *executionContext) field_Mutation_createJob_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobInput2gqlgenᚑentᚋgraphᚋmodelᚐJobInput(ctx, tmp)
+		return ec.unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobInput
@@ -2512,7 +2690,7 @@ func (ec *executionContext) field_Mutation_createLayer_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobLayerInput2gqlgenᚑentᚋgraphᚋmodelᚐJobLayerInput(ctx, tmp)
+		return ec.unmarshalNJobLayerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobLayerInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobLayerInput
@@ -2544,7 +2722,7 @@ func (ec *executionContext) field_Mutation_createOwner_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobOwnerInput2gqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, tmp)
+		return ec.unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobOwnerInput
@@ -2576,7 +2754,7 @@ func (ec *executionContext) field_Mutation_createUser_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUserInput2gqlgenᚑentᚋgraphᚋmodelᚐUserInput(ctx, tmp)
+		return ec.unmarshalNUserInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐUserInput(ctx, tmp)
 	}
 
 	var zeroVal model.UserInput
@@ -2898,7 +3076,7 @@ func (ec *executionContext) field_Mutation_updateCompany_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyDetailInput2gqlgenᚑentᚋgraphᚋmodelᚐCompanyDetailInput(ctx, tmp)
+		return ec.unmarshalNCompanyDetailInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐCompanyDetailInput(ctx, tmp)
 	}
 
 	var zeroVal model.CompanyDetailInput
@@ -2957,7 +3135,7 @@ func (ec *executionContext) field_Mutation_updateContractor_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobContractorInput2gqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx, tmp)
+		return ec.unmarshalNJobContractorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobContractorInput
@@ -3016,7 +3194,7 @@ func (ec *executionContext) field_Mutation_updateEngineer_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyEngineerInput2gqlgenᚑentᚋgraphᚋmodelᚐCompanyEngineerInput(ctx, tmp)
+		return ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐCompanyEngineerInput(ctx, tmp)
 	}
 
 	var zeroVal model.CompanyEngineerInput
@@ -3075,10 +3253,69 @@ func (ec *executionContext) field_Mutation_updateJobPayments_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobPaymentsInput2gqlgenᚑentᚋgraphᚋmodelᚐJobPaymentsInput(ctx, tmp)
+		return ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobPaymentsInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobPaymentsInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateJobSupervisor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateJobSupervisor_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg0
+	arg1, err := ec.field_Mutation_updateJobSupervisor_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateJobSupervisor_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	// We won't call the directive if the argument is null.
+	// Set call_argument_directives_with_null to true to call directives
+	// even if the argument is null.
+	_, ok := rawArgs["id"]
+	if !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateJobSupervisor_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.JobSupervisorInput, error) {
+	// We won't call the directive if the argument is null.
+	// Set call_argument_directives_with_null to true to call directives
+	// even if the argument is null.
+	_, ok := rawArgs["input"]
+	if !ok {
+		var zeroVal model.JobSupervisorInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobSupervisorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisorInput(ctx, tmp)
+	}
+
+	var zeroVal model.JobSupervisorInput
 	return zeroVal, nil
 }
 
@@ -3134,7 +3371,7 @@ func (ec *executionContext) field_Mutation_updateJob_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobInput2gqlgenᚑentᚋgraphᚋmodelᚐJobInput(ctx, tmp)
+		return ec.unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobInput
@@ -3193,7 +3430,7 @@ func (ec *executionContext) field_Mutation_updateLayer_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobLayerInput2gqlgenᚑentᚋgraphᚋmodelᚐJobLayerInput(ctx, tmp)
+		return ec.unmarshalNJobLayerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobLayerInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobLayerInput
@@ -3252,7 +3489,7 @@ func (ec *executionContext) field_Mutation_updateOwner_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobOwnerInput2gqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, tmp)
+		return ec.unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, tmp)
 	}
 
 	var zeroVal model.JobOwnerInput
@@ -3284,7 +3521,7 @@ func (ec *executionContext) field_Mutation_updateUser_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUserInput2gqlgenᚑentᚋgraphᚋmodelᚐUserInput(ctx, tmp)
+		return ec.unmarshalNUserInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐUserInput(ctx, tmp)
 	}
 
 	var zeroVal model.UserInput
@@ -3316,7 +3553,7 @@ func (ec *executionContext) field_Query_Layer_argsFilter(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 	if tmp, ok := rawArgs["filter"]; ok {
-		return ec.unmarshalOLayerFilterInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐLayerFilterInput(ctx, tmp)
+		return ec.unmarshalOLayerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐLayerFilterInput(ctx, tmp)
 	}
 
 	var zeroVal *model.LayerFilterInput
@@ -3412,7 +3649,7 @@ func (ec *executionContext) field_Query_engineer_argsFilter(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
 	if tmp, ok := rawArgs["filter"]; ok {
-		return ec.unmarshalOEngineerFilterInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐEngineerFilterInput(ctx, tmp)
+		return ec.unmarshalOEngineerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐEngineerFilterInput(ctx, tmp)
 	}
 
 	var zeroVal *model.EngineerFilterInput
@@ -5496,7 +5733,7 @@ func (ec *executionContext) _CompanyEngineer_Company(ctx context.Context, field 
 	}
 	res := resTmp.(*ent.CompanyDetail)
 	fc.Result = res
-	return ec.marshalOCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
+	return ec.marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6886,8 +7123,8 @@ func (ec *executionContext) fieldContext_JobDetail_LandArea(_ context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _JobDetail_City(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_City(ctx, field)
+func (ec *executionContext) _JobDetail_Address(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobDetail_Address(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -6900,7 +7137,7 @@ func (ec *executionContext) _JobDetail_City(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.City, nil
+		return obj.Address, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6914,130 +7151,7 @@ func (ec *executionContext) _JobDetail_City(ctx context.Context, field graphql.C
 	return ec.marshalOString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_JobDetail_City(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_District(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_District(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.District, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_District(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_Village(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Village(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Village, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Village(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_Street(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Street(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Street, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Street(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_JobDetail_Address(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "JobDetail",
 		Field:      field,
@@ -7120,47 +7234,6 @@ func (ec *executionContext) _JobDetail_BuildingType(ctx context.Context, field g
 }
 
 func (ec *executionContext) fieldContext_JobDetail_BuildingType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_BuildingBlock(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_BuildingBlock(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.BuildingBlock, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_BuildingBlock(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "JobDetail",
 		Field:      field,
@@ -7362,7 +7435,7 @@ func (ec *executionContext) _JobDetail_Owner(ctx context.Context, field graphql.
 	}
 	res := resTmp.(*ent.JobOwner)
 	fc.Result = res
-	return ec.marshalOJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
+	return ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Owner(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7425,7 +7498,7 @@ func (ec *executionContext) _JobDetail_Contractor(ctx context.Context, field gra
 	}
 	res := resTmp.(*ent.JobContractor)
 	fc.Result = res
-	return ec.marshalOJobContractor2ᚖgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
+	return ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Contractor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7490,7 +7563,7 @@ func (ec *executionContext) _JobDetail_Author(ctx context.Context, field graphql
 	}
 	res := resTmp.(*ent.JobAuthor)
 	fc.Result = res
-	return ec.marshalOJobAuthor2ᚖgqlgenᚑentᚋentᚐJobAuthor(ctx, field.Selections, res)
+	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobAuthor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Author(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7545,7 +7618,7 @@ func (ec *executionContext) _JobDetail_Progress(ctx context.Context, field graph
 	}
 	res := resTmp.(*ent.JobProgress)
 	fc.Result = res
-	return ec.marshalOJobProgress2ᚖgqlgenᚑentᚋentᚐJobProgress(ctx, field.Selections, res)
+	return ec.marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobProgress(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Progress(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7602,7 +7675,7 @@ func (ec *executionContext) _JobDetail_Inspector(ctx context.Context, field grap
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Inspector(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7677,7 +7750,7 @@ func (ec *executionContext) _JobDetail_Static(ctx context.Context, field graphql
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Static(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7752,7 +7825,7 @@ func (ec *executionContext) _JobDetail_Architect(ctx context.Context, field grap
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Architect(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7827,7 +7900,7 @@ func (ec *executionContext) _JobDetail_Mechanic(ctx context.Context, field graph
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Mechanic(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7902,7 +7975,7 @@ func (ec *executionContext) _JobDetail_Electric(ctx context.Context, field graph
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Electric(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7977,7 +8050,7 @@ func (ec *executionContext) _JobDetail_Controller(ctx context.Context, field gra
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Controller(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8052,7 +8125,7 @@ func (ec *executionContext) _JobDetail_MechanicController(ctx context.Context, f
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_MechanicController(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8127,7 +8200,7 @@ func (ec *executionContext) _JobDetail_ElectricController(ctx context.Context, f
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_ElectricController(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8243,7 +8316,7 @@ func (ec *executionContext) _JobDetail_Layer(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*ent.JobLayer)
 	fc.Result = res
-	return ec.marshalOJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayer(ctx, field.Selections, res)
+	return ec.marshalOJobLayer2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Layer(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8276,6 +8349,75 @@ func (ec *executionContext) fieldContext_JobDetail_Layer(_ context.Context, fiel
 				return ec.fieldContext_JobLayer_Job(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobLayer", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobDetail_Supervisor(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobDetail_Supervisor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.JobDetail().Supervisor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobSupervisor)
+	fc.Result = res
+	return ec.marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobDetail_Supervisor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobDetail",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobSupervisor_id(ctx, field)
+			case "Name":
+				return ec.fieldContext_JobSupervisor_Name(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobSupervisor_Address(ctx, field)
+			case "Phone":
+				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
+			case "Email":
+				return ec.fieldContext_JobSupervisor_Email(ctx, field)
+			case "TCNO":
+				return ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+			case "Position":
+				return ec.fieldContext_JobSupervisor_Position(ctx, field)
+			case "Career":
+				return ec.fieldContext_JobSupervisor_Career(ctx, field)
+			case "RegNo":
+				return ec.fieldContext_JobSupervisor_RegNo(ctx, field)
+			case "SocialSecurityNo":
+				return ec.fieldContext_JobSupervisor_SocialSecurityNo(ctx, field)
+			case "SchoolGraduation":
+				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
+			case "Job":
+				return ec.fieldContext_JobSupervisor_Job(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
 		},
 	}
 	return fc, nil
@@ -8678,7 +8820,7 @@ func (ec *executionContext) _JobLayer_Job(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*ent.JobDetail)
 	fc.Result = res
-	return ec.marshalOJobDetail2ᚖgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
+	return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_JobLayer_Job(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8719,20 +8861,12 @@ func (ec *executionContext) fieldContext_JobLayer_Job(_ context.Context, field g
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
-			case "City":
-				return ec.fieldContext_JobDetail_City(ctx, field)
-			case "District":
-				return ec.fieldContext_JobDetail_District(ctx, field)
-			case "Village":
-				return ec.fieldContext_JobDetail_Village(ctx, field)
-			case "Street":
-				return ec.fieldContext_JobDetail_Street(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobDetail_Address(ctx, field)
 			case "BuildingClass":
 				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
 			case "BuildingType":
 				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
-			case "BuildingBlock":
-				return ec.fieldContext_JobDetail_BuildingBlock(ctx, field)
 			case "Floors":
 				return ec.fieldContext_JobDetail_Floors(ctx, field)
 			case "Note":
@@ -8769,6 +8903,8 @@ func (ec *executionContext) fieldContext_JobLayer_Job(_ context.Context, field g
 				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
+			case "Supervisor":
+				return ec.fieldContext_JobDetail_Supervisor(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -9728,6 +9864,618 @@ func (ec *executionContext) fieldContext_JobProgress_Six(_ context.Context, fiel
 	return fc, nil
 }
 
+func (ec *executionContext) _JobSupervisor_id(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_Name(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_Name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_Address(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_Address(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Address, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_Address(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_Phone(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_Phone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Phone, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_Phone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_Email(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_Email(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_Email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_TCNO(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tcno, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_TCNO(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_Position(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_Position(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Position, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_Position(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_Career(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_Career(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Career, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_Career(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_RegNo(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_RegNo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RegNo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_RegNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_SocialSecurityNo(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_SocialSecurityNo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SocialSecurityNo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_SocialSecurityNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_SchoolGraduation(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SchoolGraduation, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_SchoolGraduation(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_YDSID(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_YDSID(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Ydsid, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_YDSID(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobSupervisor_Job(ctx context.Context, field graphql.CollectedField, obj *model.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_Job(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Job, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobDetail)
+	fc.Result = res
+	return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobSupervisor_Job(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobSupervisor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobDetail_id(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
+			case "Idare":
+				return ec.fieldContext_JobDetail_Idare(ctx, field)
+			case "Pafta":
+				return ec.fieldContext_JobDetail_Pafta(ctx, field)
+			case "Ada":
+				return ec.fieldContext_JobDetail_Ada(ctx, field)
+			case "Parsel":
+				return ec.fieldContext_JobDetail_Parsel(ctx, field)
+			case "FolderNo":
+				return ec.fieldContext_JobDetail_FolderNo(ctx, field)
+			case "Status":
+				return ec.fieldContext_JobDetail_Status(ctx, field)
+			case "ContractDate":
+				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
+			case "StartDate":
+				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "CompletionDate":
+				return ec.fieldContext_JobDetail_CompletionDate(ctx, field)
+			case "LicenseDate":
+				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
+			case "LicenseNo":
+				return ec.fieldContext_JobDetail_LicenseNo(ctx, field)
+			case "ConstructionArea":
+				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
+			case "LandArea":
+				return ec.fieldContext_JobDetail_LandArea(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobDetail_Address(ctx, field)
+			case "BuildingClass":
+				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
+			case "BuildingType":
+				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
+			case "Floors":
+				return ec.fieldContext_JobDetail_Floors(ctx, field)
+			case "Note":
+				return ec.fieldContext_JobDetail_Note(ctx, field)
+			case "Started":
+				return ec.fieldContext_JobDetail_Started(ctx, field)
+			case "UsagePurpose":
+				return ec.fieldContext_JobDetail_UsagePurpose(ctx, field)
+			case "Owner":
+				return ec.fieldContext_JobDetail_Owner(ctx, field)
+			case "Contractor":
+				return ec.fieldContext_JobDetail_Contractor(ctx, field)
+			case "Author":
+				return ec.fieldContext_JobDetail_Author(ctx, field)
+			case "Progress":
+				return ec.fieldContext_JobDetail_Progress(ctx, field)
+			case "Inspector":
+				return ec.fieldContext_JobDetail_Inspector(ctx, field)
+			case "Static":
+				return ec.fieldContext_JobDetail_Static(ctx, field)
+			case "Architect":
+				return ec.fieldContext_JobDetail_Architect(ctx, field)
+			case "Mechanic":
+				return ec.fieldContext_JobDetail_Mechanic(ctx, field)
+			case "Electric":
+				return ec.fieldContext_JobDetail_Electric(ctx, field)
+			case "Controller":
+				return ec.fieldContext_JobDetail_Controller(ctx, field)
+			case "MechanicController":
+				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
+			case "ElectricController":
+				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
+			case "CreatedAt":
+				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
+			case "Layer":
+				return ec.fieldContext_JobDetail_Layer(ctx, field)
+			case "Supervisor":
+				return ec.fieldContext_JobDetail_Supervisor(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_register(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_register(ctx, field)
 	if err != nil {
@@ -9756,7 +10504,7 @@ func (ec *executionContext) _Mutation_register(ctx context.Context, field graphq
 	}
 	res := resTmp.(*model.AuthPayload)
 	fc.Result = res
-	return ec.marshalNAuthPayload2ᚖgqlgenᚑentᚋgraphᚋmodelᚐAuthPayload(ctx, field.Selections, res)
+	return ec.marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐAuthPayload(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_register(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9825,7 +10573,7 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 	}
 	res := resTmp.(*model.AuthPayload)
 	fc.Result = res
-	return ec.marshalNAuthPayload2ᚖgqlgenᚑentᚋgraphᚋmodelᚐAuthPayload(ctx, field.Selections, res)
+	return ec.marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐAuthPayload(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9902,7 +10650,7 @@ func (ec *executionContext) _Mutation_createCompany(ctx context.Context, field g
 		if data, ok := tmp.(*ent.CompanyDetail); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.CompanyDetail`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.CompanyDetail`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9916,7 +10664,7 @@ func (ec *executionContext) _Mutation_createCompany(ctx context.Context, field g
 	}
 	res := resTmp.(*ent.CompanyDetail)
 	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
+	return ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createCompany(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10029,7 +10777,7 @@ func (ec *executionContext) _Mutation_updateCompany(ctx context.Context, field g
 		if data, ok := tmp.(*ent.CompanyDetail); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.CompanyDetail`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.CompanyDetail`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10043,7 +10791,7 @@ func (ec *executionContext) _Mutation_updateCompany(ctx context.Context, field g
 	}
 	res := resTmp.(*ent.CompanyDetail)
 	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
+	return ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateCompany(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10156,7 +10904,7 @@ func (ec *executionContext) _Mutation_createContractor(ctx context.Context, fiel
 		if data, ok := tmp.(*ent.JobContractor); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobContractor`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobContractor`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10170,7 +10918,7 @@ func (ec *executionContext) _Mutation_createContractor(ctx context.Context, fiel
 	}
 	res := resTmp.(*ent.JobContractor)
 	fc.Result = res
-	return ec.marshalNJobContractor2ᚖgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
+	return ec.marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createContractor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10257,7 +11005,7 @@ func (ec *executionContext) _Mutation_updateContractor(ctx context.Context, fiel
 		if data, ok := tmp.(*ent.JobContractor); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobContractor`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobContractor`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10271,7 +11019,7 @@ func (ec *executionContext) _Mutation_updateContractor(ctx context.Context, fiel
 	}
 	res := resTmp.(*ent.JobContractor)
 	fc.Result = res
-	return ec.marshalNJobContractor2ᚖgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
+	return ec.marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateContractor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10358,7 +11106,7 @@ func (ec *executionContext) _Mutation_createEngineer(ctx context.Context, field 
 		if data, ok := tmp.(*ent.CompanyEngineer); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.CompanyEngineer`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.CompanyEngineer`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10372,7 +11120,7 @@ func (ec *executionContext) _Mutation_createEngineer(ctx context.Context, field 
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalNCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createEngineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10469,7 +11217,7 @@ func (ec *executionContext) _Mutation_updateEngineer(ctx context.Context, field 
 		if data, ok := tmp.(*ent.CompanyEngineer); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.CompanyEngineer`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.CompanyEngineer`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10483,7 +11231,7 @@ func (ec *executionContext) _Mutation_updateEngineer(ctx context.Context, field 
 	}
 	res := resTmp.(*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalNCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateEngineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10580,7 +11328,7 @@ func (ec *executionContext) _Mutation_createJob(ctx context.Context, field graph
 		if data, ok := tmp.(*ent.JobDetail); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobDetail`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobDetail`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10594,7 +11342,7 @@ func (ec *executionContext) _Mutation_createJob(ctx context.Context, field graph
 	}
 	res := resTmp.(*ent.JobDetail)
 	fc.Result = res
-	return ec.marshalNJobDetail2ᚖgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
+	return ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10635,20 +11383,12 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
-			case "City":
-				return ec.fieldContext_JobDetail_City(ctx, field)
-			case "District":
-				return ec.fieldContext_JobDetail_District(ctx, field)
-			case "Village":
-				return ec.fieldContext_JobDetail_Village(ctx, field)
-			case "Street":
-				return ec.fieldContext_JobDetail_Street(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobDetail_Address(ctx, field)
 			case "BuildingClass":
 				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
 			case "BuildingType":
 				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
-			case "BuildingBlock":
-				return ec.fieldContext_JobDetail_BuildingBlock(ctx, field)
 			case "Floors":
 				return ec.fieldContext_JobDetail_Floors(ctx, field)
 			case "Note":
@@ -10685,6 +11425,8 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
+			case "Supervisor":
+				return ec.fieldContext_JobDetail_Supervisor(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -10739,7 +11481,7 @@ func (ec *executionContext) _Mutation_updateJob(ctx context.Context, field graph
 		if data, ok := tmp.(*ent.JobDetail); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobDetail`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobDetail`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10753,7 +11495,7 @@ func (ec *executionContext) _Mutation_updateJob(ctx context.Context, field graph
 	}
 	res := resTmp.(*ent.JobDetail)
 	fc.Result = res
-	return ec.marshalNJobDetail2ᚖgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
+	return ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10794,20 +11536,12 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
-			case "City":
-				return ec.fieldContext_JobDetail_City(ctx, field)
-			case "District":
-				return ec.fieldContext_JobDetail_District(ctx, field)
-			case "Village":
-				return ec.fieldContext_JobDetail_Village(ctx, field)
-			case "Street":
-				return ec.fieldContext_JobDetail_Street(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobDetail_Address(ctx, field)
 			case "BuildingClass":
 				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
 			case "BuildingType":
 				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
-			case "BuildingBlock":
-				return ec.fieldContext_JobDetail_BuildingBlock(ctx, field)
 			case "Floors":
 				return ec.fieldContext_JobDetail_Floors(ctx, field)
 			case "Note":
@@ -10844,6 +11578,8 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
+			case "Supervisor":
+				return ec.fieldContext_JobDetail_Supervisor(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -10898,7 +11634,7 @@ func (ec *executionContext) _Mutation_createLayer(ctx context.Context, field gra
 		if data, ok := tmp.(*ent.JobLayer); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobLayer`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobLayer`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -10912,7 +11648,7 @@ func (ec *executionContext) _Mutation_createLayer(ctx context.Context, field gra
 	}
 	res := resTmp.(*ent.JobLayer)
 	fc.Result = res
-	return ec.marshalNJobLayer2ᚖgqlgenᚑentᚋentᚐJobLayer(ctx, field.Selections, res)
+	return ec.marshalNJobLayer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createLayer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10997,7 +11733,7 @@ func (ec *executionContext) _Mutation_updateLayer(ctx context.Context, field gra
 		if data, ok := tmp.(*ent.JobLayer); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobLayer`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobLayer`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11011,7 +11747,7 @@ func (ec *executionContext) _Mutation_updateLayer(ctx context.Context, field gra
 	}
 	res := resTmp.(*ent.JobLayer)
 	fc.Result = res
-	return ec.marshalNJobLayer2ᚖgqlgenᚑentᚋentᚐJobLayer(ctx, field.Selections, res)
+	return ec.marshalNJobLayer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateLayer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11096,7 +11832,7 @@ func (ec *executionContext) _Mutation_deleteLayer(ctx context.Context, field gra
 		if data, ok := tmp.(*ent.JobLayer); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobLayer`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobLayer`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11110,7 +11846,7 @@ func (ec *executionContext) _Mutation_deleteLayer(ctx context.Context, field gra
 	}
 	res := resTmp.(*ent.JobLayer)
 	fc.Result = res
-	return ec.marshalNJobLayer2ᚖgqlgenᚑentᚋentᚐJobLayer(ctx, field.Selections, res)
+	return ec.marshalNJobLayer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteLayer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11195,7 +11931,7 @@ func (ec *executionContext) _Mutation_createOwner(ctx context.Context, field gra
 		if data, ok := tmp.(*ent.JobOwner); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobOwner`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobOwner`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11209,7 +11945,7 @@ func (ec *executionContext) _Mutation_createOwner(ctx context.Context, field gra
 	}
 	res := resTmp.(*ent.JobOwner)
 	fc.Result = res
-	return ec.marshalNJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
+	return ec.marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createOwner(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11294,7 +12030,7 @@ func (ec *executionContext) _Mutation_updateOwner(ctx context.Context, field gra
 		if data, ok := tmp.(*ent.JobOwner); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobOwner`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobOwner`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11308,7 +12044,7 @@ func (ec *executionContext) _Mutation_updateOwner(ctx context.Context, field gra
 	}
 	res := resTmp.(*ent.JobOwner)
 	fc.Result = res
-	return ec.marshalNJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
+	return ec.marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateOwner(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11393,7 +12129,7 @@ func (ec *executionContext) _Mutation_createJobPayments(ctx context.Context, fie
 		if data, ok := tmp.(*ent.JobPayments); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobPayments`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobPayments`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11407,7 +12143,7 @@ func (ec *executionContext) _Mutation_createJobPayments(ctx context.Context, fie
 	}
 	res := resTmp.(*ent.JobPayments)
 	fc.Result = res
-	return ec.marshalNJobPayments2ᚖgqlgenᚑentᚋentᚐJobPayments(ctx, field.Selections, res)
+	return ec.marshalNJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobPayments(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11484,7 +12220,7 @@ func (ec *executionContext) _Mutation_updateJobPayments(ctx context.Context, fie
 		if data, ok := tmp.(*ent.JobPayments); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobPayments`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobPayments`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11498,7 +12234,7 @@ func (ec *executionContext) _Mutation_updateJobPayments(ctx context.Context, fie
 	}
 	res := resTmp.(*ent.JobPayments)
 	fc.Result = res
-	return ec.marshalNJobPayments2ᚖgqlgenᚑentᚋentᚐJobPayments(ctx, field.Selections, res)
+	return ec.marshalNJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobPayments(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateJobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11575,7 +12311,7 @@ func (ec *executionContext) _Mutation_deleteJobPayments(ctx context.Context, fie
 		if data, ok := tmp.(*ent.JobPayments); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.JobPayments`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobPayments`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11589,7 +12325,7 @@ func (ec *executionContext) _Mutation_deleteJobPayments(ctx context.Context, fie
 	}
 	res := resTmp.(*ent.JobPayments)
 	fc.Result = res
-	return ec.marshalNJobPayments2ᚖgqlgenᚑentᚋentᚐJobPayments(ctx, field.Selections, res)
+	return ec.marshalNJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobPayments(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteJobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11624,6 +12360,216 @@ func (ec *executionContext) fieldContext_Mutation_deleteJobPayments(ctx context.
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteJobPayments_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createJobSupervisor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createJobSupervisor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateJobSupervisor(rctx, fc.Args["input"].(model.JobSupervisorInput))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *model.JobSupervisor
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.JobSupervisor); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/graph/model.JobSupervisor`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobSupervisor)
+	fc.Result = res
+	return ec.marshalNJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createJobSupervisor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobSupervisor_id(ctx, field)
+			case "Name":
+				return ec.fieldContext_JobSupervisor_Name(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobSupervisor_Address(ctx, field)
+			case "Phone":
+				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
+			case "Email":
+				return ec.fieldContext_JobSupervisor_Email(ctx, field)
+			case "TCNO":
+				return ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+			case "Position":
+				return ec.fieldContext_JobSupervisor_Position(ctx, field)
+			case "Career":
+				return ec.fieldContext_JobSupervisor_Career(ctx, field)
+			case "RegNo":
+				return ec.fieldContext_JobSupervisor_RegNo(ctx, field)
+			case "SocialSecurityNo":
+				return ec.fieldContext_JobSupervisor_SocialSecurityNo(ctx, field)
+			case "SchoolGraduation":
+				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
+			case "Job":
+				return ec.fieldContext_JobSupervisor_Job(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createJobSupervisor_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateJobSupervisor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateJobSupervisor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateJobSupervisor(rctx, fc.Args["id"].(string), fc.Args["input"].(model.JobSupervisorInput))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *model.JobSupervisor
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.JobSupervisor); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/graph/model.JobSupervisor`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobSupervisor)
+	fc.Result = res
+	return ec.marshalNJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateJobSupervisor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobSupervisor_id(ctx, field)
+			case "Name":
+				return ec.fieldContext_JobSupervisor_Name(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobSupervisor_Address(ctx, field)
+			case "Phone":
+				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
+			case "Email":
+				return ec.fieldContext_JobSupervisor_Email(ctx, field)
+			case "TCNO":
+				return ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+			case "Position":
+				return ec.fieldContext_JobSupervisor_Position(ctx, field)
+			case "Career":
+				return ec.fieldContext_JobSupervisor_Career(ctx, field)
+			case "RegNo":
+				return ec.fieldContext_JobSupervisor_RegNo(ctx, field)
+			case "SocialSecurityNo":
+				return ec.fieldContext_JobSupervisor_SocialSecurityNo(ctx, field)
+			case "SchoolGraduation":
+				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
+			case "Job":
+				return ec.fieldContext_JobSupervisor_Job(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateJobSupervisor_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -11666,7 +12612,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 		if data, ok := tmp.(*ent.User); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.User`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.User`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11680,7 +12626,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 	}
 	res := resTmp.(*ent.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgqlgenᚑentᚋentᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11763,7 +12709,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 		if data, ok := tmp.(*ent.User); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.User`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.User`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11777,7 +12723,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 	}
 	res := resTmp.(*ent.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgqlgenᚑentᚋentᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11860,7 +12806,7 @@ func (ec *executionContext) _Query_companyByCode(ctx context.Context, field grap
 		if data, ok := tmp.(*ent.CompanyDetail); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.CompanyDetail`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.CompanyDetail`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -11874,7 +12820,7 @@ func (ec *executionContext) _Query_companyByCode(ctx context.Context, field grap
 	}
 	res := resTmp.(*ent.CompanyDetail)
 	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
+	return ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_companyByCode(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11987,7 +12933,7 @@ func (ec *executionContext) _Query_allContractor(ctx context.Context, field grap
 		if data, ok := tmp.([]*ent.JobContractor); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*gqlgen-ent/ent.JobContractor`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/gqlgen-ent/ent.JobContractor`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -12001,7 +12947,7 @@ func (ec *executionContext) _Query_allContractor(ctx context.Context, field grap
 	}
 	res := resTmp.([]*ent.JobContractor)
 	fc.Result = res
-	return ec.marshalNJobContractor2ᚕᚖgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
+	return ec.marshalNJobContractor2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_allContractor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12069,7 +13015,7 @@ func (ec *executionContext) _Query_engineer(ctx context.Context, field graphql.C
 	}
 	res := resTmp.([]*ent.CompanyEngineer)
 	fc.Result = res
-	return ec.marshalNCompanyEngineer2ᚕᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return ec.marshalNCompanyEngineer2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_engineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12155,7 +13101,7 @@ func (ec *executionContext) _Query_job(ctx context.Context, field graphql.Collec
 	}
 	res := resTmp.(*ent.JobDetail)
 	fc.Result = res
-	return ec.marshalOJobDetail2ᚖgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
+	return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12196,20 +13142,12 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
-			case "City":
-				return ec.fieldContext_JobDetail_City(ctx, field)
-			case "District":
-				return ec.fieldContext_JobDetail_District(ctx, field)
-			case "Village":
-				return ec.fieldContext_JobDetail_Village(ctx, field)
-			case "Street":
-				return ec.fieldContext_JobDetail_Street(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobDetail_Address(ctx, field)
 			case "BuildingClass":
 				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
 			case "BuildingType":
 				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
-			case "BuildingBlock":
-				return ec.fieldContext_JobDetail_BuildingBlock(ctx, field)
 			case "Floors":
 				return ec.fieldContext_JobDetail_Floors(ctx, field)
 			case "Note":
@@ -12246,6 +13184,8 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
+			case "Supervisor":
+				return ec.fieldContext_JobDetail_Supervisor(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -12292,7 +13232,7 @@ func (ec *executionContext) _Query_jobs(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.([]*ent.JobDetail)
 	fc.Result = res
-	return ec.marshalNJobDetail2ᚕᚖgqlgenᚑentᚋentᚐJobDetailᚄ(ctx, field.Selections, res)
+	return ec.marshalNJobDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetailᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12333,20 +13273,12 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
 			case "LandArea":
 				return ec.fieldContext_JobDetail_LandArea(ctx, field)
-			case "City":
-				return ec.fieldContext_JobDetail_City(ctx, field)
-			case "District":
-				return ec.fieldContext_JobDetail_District(ctx, field)
-			case "Village":
-				return ec.fieldContext_JobDetail_Village(ctx, field)
-			case "Street":
-				return ec.fieldContext_JobDetail_Street(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobDetail_Address(ctx, field)
 			case "BuildingClass":
 				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
 			case "BuildingType":
 				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
-			case "BuildingBlock":
-				return ec.fieldContext_JobDetail_BuildingBlock(ctx, field)
 			case "Floors":
 				return ec.fieldContext_JobDetail_Floors(ctx, field)
 			case "Note":
@@ -12383,6 +13315,8 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 				return ec.fieldContext_JobDetail_CreatedAt(ctx, field)
 			case "Layer":
 				return ec.fieldContext_JobDetail_Layer(ctx, field)
+			case "Supervisor":
+				return ec.fieldContext_JobDetail_Supervisor(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -12426,7 +13360,7 @@ func (ec *executionContext) _Query_Layer(ctx context.Context, field graphql.Coll
 		if data, ok := tmp.([]*ent.JobLayer); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*gqlgen-ent/ent.JobLayer`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/gqlgen-ent/ent.JobLayer`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -12440,7 +13374,7 @@ func (ec *executionContext) _Query_Layer(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*ent.JobLayer)
 	fc.Result = res
-	return ec.marshalNJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayerᚄ(ctx, field.Selections, res)
+	return ec.marshalNJobLayer2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayerᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_Layer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12525,7 +13459,7 @@ func (ec *executionContext) _Query_allOwner(ctx context.Context, field graphql.C
 		if data, ok := tmp.([]*ent.JobOwner); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*gqlgen-ent/ent.JobOwner`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/gqlgen-ent/ent.JobOwner`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -12539,7 +13473,7 @@ func (ec *executionContext) _Query_allOwner(ctx context.Context, field graphql.C
 	}
 	res := resTmp.([]*ent.JobOwner)
 	fc.Result = res
-	return ec.marshalNJobOwner2ᚕᚖgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
+	return ec.marshalNJobOwner2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_allOwner(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12605,7 +13539,7 @@ func (ec *executionContext) _Query_jobPayments(ctx context.Context, field graphq
 	}
 	res := resTmp.([]*ent.JobPayments)
 	fc.Result = res
-	return ec.marshalNJobPayments2ᚕᚖgqlgenᚑentᚋentᚐJobPaymentsᚄ(ctx, field.Selections, res)
+	return ec.marshalNJobPayments2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobPaymentsᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_jobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12682,7 +13616,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 		if data, ok := tmp.(*ent.User); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *gqlgen-ent/ent.User`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.User`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -12696,7 +13630,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.(*ent.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgqlgenᚑentᚋentᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12779,7 +13713,7 @@ func (ec *executionContext) _Query_allUsers(ctx context.Context, field graphql.C
 		if data, ok := tmp.([]*ent.User); ok {
 			return data, nil
 		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*gqlgen-ent/ent.User`, tmp)
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/gqlgen-ent/ent.User`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -12793,7 +13727,7 @@ func (ec *executionContext) _Query_allUsers(ctx context.Context, field graphql.C
 	}
 	res := resTmp.([]*ent.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚕᚖgqlgenᚑentᚋentᚐUserᚄ(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_allUsers(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13338,7 +14272,7 @@ func (ec *executionContext) _User_companies(ctx context.Context, field graphql.C
 	}
 	res := resTmp.([]*ent.CompanyDetail)
 	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚕᚖgqlgenᚑentᚋentᚐCompanyDetailᚄ(ctx, field.Selections, res)
+	return ec.marshalNCompanyDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetailᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_User_companies(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15690,7 +16624,7 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "CompanyCode", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "CompletionDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "City", "District", "Village", "Street", "BuildingClass", "BuildingType", "BuildingBlock", "Floors", "Note", "Started", "UsagePurpose", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
+	fieldsInOrder := [...]string{"YibfNo", "CompanyCode", "Idare", "Pafta", "Ada", "Parsel", "FolderNo", "Status", "ContractDate", "StartDate", "CompletionDate", "LicenseDate", "LicenseNo", "ConstructionArea", "LandArea", "Address", "BuildingClass", "BuildingType", "Floors", "Note", "Started", "UsagePurpose", "Owner", "Contractor", "Author", "Progress", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController", "Supervisor"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -15802,34 +16736,13 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.LandArea = data
-		case "City":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("City"))
+		case "Address":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Address"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.City = data
-		case "District":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("District"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.District = data
-		case "Village":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Village"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Village = data
-		case "Street":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Street"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Street = data
+			it.Address = data
 		case "BuildingClass":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("BuildingClass"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -15844,13 +16757,6 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.BuildingType = data
-		case "BuildingBlock":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("BuildingBlock"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.BuildingBlock = data
 		case "Floors":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Floors"))
 			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
@@ -15881,28 +16787,28 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 			it.UsagePurpose = data
 		case "Owner":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Owner"))
-			data, err := ec.unmarshalOJobOwnerInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, v)
+			data, err := ec.unmarshalOJobOwnerInput2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Owner = data
 		case "Contractor":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Contractor"))
-			data, err := ec.unmarshalOJobContractorInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx, v)
+			data, err := ec.unmarshalOJobContractorInput2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Contractor = data
 		case "Author":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Author"))
-			data, err := ec.unmarshalOJobAuthorInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx, v)
+			data, err := ec.unmarshalOJobAuthorInput2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Author = data
 		case "Progress":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Progress"))
-			data, err := ec.unmarshalOJobProgressInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobProgressInput(ctx, v)
+			data, err := ec.unmarshalOJobProgressInput2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobProgressInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -15963,6 +16869,13 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.ElectricController = data
+		case "Supervisor":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Supervisor"))
+			data, err := ec.unmarshalOJobSupervisorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisorInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Supervisor = data
 		}
 	}
 
@@ -16246,6 +17159,103 @@ func (ec *executionContext) unmarshalInputJobProgressInput(ctx context.Context, 
 				return it, err
 			}
 			it.Six = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputJobSupervisorInput(ctx context.Context, obj any) (model.JobSupervisorInput, error) {
+	var it model.JobSupervisorInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"Name", "Address", "Phone", "Email", "TCNO", "Position", "Career", "RegNo", "SocialSecurityNo", "SchoolGraduation", "YDSID"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "Name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "Address":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Address"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Address = data
+		case "Phone":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Phone"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Phone = data
+		case "Email":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Email"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Email = data
+		case "TCNO":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("TCNO"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tcno = data
+		case "Position":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Position"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Position = data
+		case "Career":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Career"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Career = data
+		case "RegNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("RegNo"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RegNo = data
+		case "SocialSecurityNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("SocialSecurityNo"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SocialSecurityNo = data
+		case "SchoolGraduation":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("SchoolGraduation"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SchoolGraduation = data
+		case "YDSID":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Ydsid = data
 		}
 	}
 
@@ -17030,20 +18040,12 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 			out.Values[i] = ec._JobDetail_ConstructionArea(ctx, field, obj)
 		case "LandArea":
 			out.Values[i] = ec._JobDetail_LandArea(ctx, field, obj)
-		case "City":
-			out.Values[i] = ec._JobDetail_City(ctx, field, obj)
-		case "District":
-			out.Values[i] = ec._JobDetail_District(ctx, field, obj)
-		case "Village":
-			out.Values[i] = ec._JobDetail_Village(ctx, field, obj)
-		case "Street":
-			out.Values[i] = ec._JobDetail_Street(ctx, field, obj)
+		case "Address":
+			out.Values[i] = ec._JobDetail_Address(ctx, field, obj)
 		case "BuildingClass":
 			out.Values[i] = ec._JobDetail_BuildingClass(ctx, field, obj)
 		case "BuildingType":
 			out.Values[i] = ec._JobDetail_BuildingType(ctx, field, obj)
-		case "BuildingBlock":
-			out.Values[i] = ec._JobDetail_BuildingBlock(ctx, field, obj)
 		case "Floors":
 			out.Values[i] = ec._JobDetail_Floors(ctx, field, obj)
 		case "Note":
@@ -17514,6 +18516,39 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "Supervisor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._JobDetail_Supervisor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -17875,6 +18910,69 @@ func (ec *executionContext) _JobProgress(ctx context.Context, sel ast.SelectionS
 	return out
 }
 
+var jobSupervisorImplementors = []string{"JobSupervisor"}
+
+func (ec *executionContext) _JobSupervisor(ctx context.Context, sel ast.SelectionSet, obj *model.JobSupervisor) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, jobSupervisorImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("JobSupervisor")
+		case "id":
+			out.Values[i] = ec._JobSupervisor_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "Name":
+			out.Values[i] = ec._JobSupervisor_Name(ctx, field, obj)
+		case "Address":
+			out.Values[i] = ec._JobSupervisor_Address(ctx, field, obj)
+		case "Phone":
+			out.Values[i] = ec._JobSupervisor_Phone(ctx, field, obj)
+		case "Email":
+			out.Values[i] = ec._JobSupervisor_Email(ctx, field, obj)
+		case "TCNO":
+			out.Values[i] = ec._JobSupervisor_TCNO(ctx, field, obj)
+		case "Position":
+			out.Values[i] = ec._JobSupervisor_Position(ctx, field, obj)
+		case "Career":
+			out.Values[i] = ec._JobSupervisor_Career(ctx, field, obj)
+		case "RegNo":
+			out.Values[i] = ec._JobSupervisor_RegNo(ctx, field, obj)
+		case "SocialSecurityNo":
+			out.Values[i] = ec._JobSupervisor_SocialSecurityNo(ctx, field, obj)
+		case "SchoolGraduation":
+			out.Values[i] = ec._JobSupervisor_SchoolGraduation(ctx, field, obj)
+		case "YDSID":
+			out.Values[i] = ec._JobSupervisor_YDSID(ctx, field, obj)
+		case "Job":
+			out.Values[i] = ec._JobSupervisor_Job(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var mutationImplementors = []string{"Mutation"}
 
 func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -18016,6 +19114,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteJobPayments":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteJobPayments(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createJobSupervisor":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createJobSupervisor(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateJobSupervisor":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateJobSupervisor(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -18791,11 +19903,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNAuthPayload2gqlgenᚑentᚋgraphᚋmodelᚐAuthPayload(ctx context.Context, sel ast.SelectionSet, v model.AuthPayload) graphql.Marshaler {
+func (ec *executionContext) marshalNAuthPayload2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐAuthPayload(ctx context.Context, sel ast.SelectionSet, v model.AuthPayload) graphql.Marshaler {
 	return ec._AuthPayload(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNAuthPayload2ᚖgqlgenᚑentᚋgraphᚋmodelᚐAuthPayload(ctx context.Context, sel ast.SelectionSet, v *model.AuthPayload) graphql.Marshaler {
+func (ec *executionContext) marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐAuthPayload(ctx context.Context, sel ast.SelectionSet, v *model.AuthPayload) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -18820,11 +19932,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNCompanyDetail2gqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v ent.CompanyDetail) graphql.Marshaler {
+func (ec *executionContext) marshalNCompanyDetail2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v ent.CompanyDetail) graphql.Marshaler {
 	return ec._CompanyDetail(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNCompanyDetail2ᚕᚖgqlgenᚑentᚋentᚐCompanyDetailᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.CompanyDetail) graphql.Marshaler {
+func (ec *executionContext) marshalNCompanyDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetailᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.CompanyDetail) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -18848,7 +19960,7 @@ func (ec *executionContext) marshalNCompanyDetail2ᚕᚖgqlgenᚑentᚋentᚐCom
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx, sel, v[i])
+			ret[i] = ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -18868,7 +19980,7 @@ func (ec *executionContext) marshalNCompanyDetail2ᚕᚖgqlgenᚑentᚋentᚐCom
 	return ret
 }
 
-func (ec *executionContext) marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyDetail) graphql.Marshaler {
+func (ec *executionContext) marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyDetail) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -18878,16 +19990,16 @@ func (ec *executionContext) marshalNCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompan
 	return ec._CompanyDetail(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNCompanyDetailInput2gqlgenᚑentᚋgraphᚋmodelᚐCompanyDetailInput(ctx context.Context, v any) (model.CompanyDetailInput, error) {
+func (ec *executionContext) unmarshalNCompanyDetailInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐCompanyDetailInput(ctx context.Context, v any) (model.CompanyDetailInput, error) {
 	res, err := ec.unmarshalInputCompanyDetailInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNCompanyEngineer2gqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v ent.CompanyEngineer) graphql.Marshaler {
+func (ec *executionContext) marshalNCompanyEngineer2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v ent.CompanyEngineer) graphql.Marshaler {
 	return ec._CompanyEngineer(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNCompanyEngineer2ᚕᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v []*ent.CompanyEngineer) graphql.Marshaler {
+func (ec *executionContext) marshalNCompanyEngineer2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v []*ent.CompanyEngineer) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -18911,7 +20023,7 @@ func (ec *executionContext) marshalNCompanyEngineer2ᚕᚖgqlgenᚑentᚋentᚐC
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx, sel, v[i])
+			ret[i] = ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -18925,7 +20037,7 @@ func (ec *executionContext) marshalNCompanyEngineer2ᚕᚖgqlgenᚑentᚋentᚐC
 	return ret
 }
 
-func (ec *executionContext) marshalNCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyEngineer) graphql.Marshaler {
+func (ec *executionContext) marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyEngineer) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -18935,7 +20047,7 @@ func (ec *executionContext) marshalNCompanyEngineer2ᚖgqlgenᚑentᚋentᚐComp
 	return ec._CompanyEngineer(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNCompanyEngineerInput2gqlgenᚑentᚋgraphᚋmodelᚐCompanyEngineerInput(ctx context.Context, v any) (model.CompanyEngineerInput, error) {
+func (ec *executionContext) unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐCompanyEngineerInput(ctx context.Context, v any) (model.CompanyEngineerInput, error) {
 	res, err := ec.unmarshalInputCompanyEngineerInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -18985,11 +20097,11 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) marshalNJobContractor2gqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v ent.JobContractor) graphql.Marshaler {
+func (ec *executionContext) marshalNJobContractor2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v ent.JobContractor) graphql.Marshaler {
 	return ec._JobContractor(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNJobContractor2ᚕᚖgqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v []*ent.JobContractor) graphql.Marshaler {
+func (ec *executionContext) marshalNJobContractor2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v []*ent.JobContractor) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -19013,7 +20125,7 @@ func (ec *executionContext) marshalNJobContractor2ᚕᚖgqlgenᚑentᚋentᚐJob
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOJobContractor2ᚖgqlgenᚑentᚋentᚐJobContractor(ctx, sel, v[i])
+			ret[i] = ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -19027,7 +20139,7 @@ func (ec *executionContext) marshalNJobContractor2ᚕᚖgqlgenᚑentᚋentᚐJob
 	return ret
 }
 
-func (ec *executionContext) marshalNJobContractor2ᚖgqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v *ent.JobContractor) graphql.Marshaler {
+func (ec *executionContext) marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v *ent.JobContractor) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -19037,16 +20149,16 @@ func (ec *executionContext) marshalNJobContractor2ᚖgqlgenᚑentᚋentᚐJobCon
 	return ec._JobContractor(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNJobContractorInput2gqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx context.Context, v any) (model.JobContractorInput, error) {
+func (ec *executionContext) unmarshalNJobContractorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx context.Context, v any) (model.JobContractorInput, error) {
 	res, err := ec.unmarshalInputJobContractorInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNJobDetail2gqlgenᚑentᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v ent.JobDetail) graphql.Marshaler {
+func (ec *executionContext) marshalNJobDetail2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v ent.JobDetail) graphql.Marshaler {
 	return ec._JobDetail(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNJobDetail2ᚕᚖgqlgenᚑentᚋentᚐJobDetailᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobDetail) graphql.Marshaler {
+func (ec *executionContext) marshalNJobDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetailᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobDetail) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -19070,7 +20182,7 @@ func (ec *executionContext) marshalNJobDetail2ᚕᚖgqlgenᚑentᚋentᚐJobDeta
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNJobDetail2ᚖgqlgenᚑentᚋentᚐJobDetail(ctx, sel, v[i])
+			ret[i] = ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -19090,7 +20202,7 @@ func (ec *executionContext) marshalNJobDetail2ᚕᚖgqlgenᚑentᚋentᚐJobDeta
 	return ret
 }
 
-func (ec *executionContext) marshalNJobDetail2ᚖgqlgenᚑentᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v *ent.JobDetail) graphql.Marshaler {
+func (ec *executionContext) marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v *ent.JobDetail) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -19100,16 +20212,16 @@ func (ec *executionContext) marshalNJobDetail2ᚖgqlgenᚑentᚋentᚐJobDetail(
 	return ec._JobDetail(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNJobInput2gqlgenᚑentᚋgraphᚋmodelᚐJobInput(ctx context.Context, v any) (model.JobInput, error) {
+func (ec *executionContext) unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobInput(ctx context.Context, v any) (model.JobInput, error) {
 	res, err := ec.unmarshalInputJobInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNJobLayer2gqlgenᚑentᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v ent.JobLayer) graphql.Marshaler {
+func (ec *executionContext) marshalNJobLayer2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v ent.JobLayer) graphql.Marshaler {
 	return ec._JobLayer(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayerᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobLayer) graphql.Marshaler {
+func (ec *executionContext) marshalNJobLayer2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayerᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobLayer) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -19133,7 +20245,7 @@ func (ec *executionContext) marshalNJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayer
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNJobLayer2ᚖgqlgenᚑentᚋentᚐJobLayer(ctx, sel, v[i])
+			ret[i] = ec.marshalNJobLayer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -19153,7 +20265,7 @@ func (ec *executionContext) marshalNJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayer
 	return ret
 }
 
-func (ec *executionContext) marshalNJobLayer2ᚖgqlgenᚑentᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v *ent.JobLayer) graphql.Marshaler {
+func (ec *executionContext) marshalNJobLayer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v *ent.JobLayer) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -19163,16 +20275,16 @@ func (ec *executionContext) marshalNJobLayer2ᚖgqlgenᚑentᚋentᚐJobLayer(ct
 	return ec._JobLayer(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNJobLayerInput2gqlgenᚑentᚋgraphᚋmodelᚐJobLayerInput(ctx context.Context, v any) (model.JobLayerInput, error) {
+func (ec *executionContext) unmarshalNJobLayerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobLayerInput(ctx context.Context, v any) (model.JobLayerInput, error) {
 	res, err := ec.unmarshalInputJobLayerInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNJobOwner2gqlgenᚑentᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v ent.JobOwner) graphql.Marshaler {
+func (ec *executionContext) marshalNJobOwner2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v ent.JobOwner) graphql.Marshaler {
 	return ec._JobOwner(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNJobOwner2ᚕᚖgqlgenᚑentᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v []*ent.JobOwner) graphql.Marshaler {
+func (ec *executionContext) marshalNJobOwner2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v []*ent.JobOwner) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -19196,7 +20308,7 @@ func (ec *executionContext) marshalNJobOwner2ᚕᚖgqlgenᚑentᚋentᚐJobOwner
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ctx, sel, v[i])
+			ret[i] = ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -19210,7 +20322,7 @@ func (ec *executionContext) marshalNJobOwner2ᚕᚖgqlgenᚑentᚋentᚐJobOwner
 	return ret
 }
 
-func (ec *executionContext) marshalNJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v *ent.JobOwner) graphql.Marshaler {
+func (ec *executionContext) marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v *ent.JobOwner) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -19220,16 +20332,16 @@ func (ec *executionContext) marshalNJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ct
 	return ec._JobOwner(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNJobOwnerInput2gqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx context.Context, v any) (model.JobOwnerInput, error) {
+func (ec *executionContext) unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx context.Context, v any) (model.JobOwnerInput, error) {
 	res, err := ec.unmarshalInputJobOwnerInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNJobPayments2gqlgenᚑentᚋentᚐJobPayments(ctx context.Context, sel ast.SelectionSet, v ent.JobPayments) graphql.Marshaler {
+func (ec *executionContext) marshalNJobPayments2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobPayments(ctx context.Context, sel ast.SelectionSet, v ent.JobPayments) graphql.Marshaler {
 	return ec._JobPayments(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNJobPayments2ᚕᚖgqlgenᚑentᚋentᚐJobPaymentsᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobPayments) graphql.Marshaler {
+func (ec *executionContext) marshalNJobPayments2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobPaymentsᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobPayments) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -19253,7 +20365,7 @@ func (ec *executionContext) marshalNJobPayments2ᚕᚖgqlgenᚑentᚋentᚐJobPa
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNJobPayments2ᚖgqlgenᚑentᚋentᚐJobPayments(ctx, sel, v[i])
+			ret[i] = ec.marshalNJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobPayments(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -19273,7 +20385,7 @@ func (ec *executionContext) marshalNJobPayments2ᚕᚖgqlgenᚑentᚋentᚐJobPa
 	return ret
 }
 
-func (ec *executionContext) marshalNJobPayments2ᚖgqlgenᚑentᚋentᚐJobPayments(ctx context.Context, sel ast.SelectionSet, v *ent.JobPayments) graphql.Marshaler {
+func (ec *executionContext) marshalNJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobPayments(ctx context.Context, sel ast.SelectionSet, v *ent.JobPayments) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -19283,8 +20395,27 @@ func (ec *executionContext) marshalNJobPayments2ᚖgqlgenᚑentᚋentᚐJobPayme
 	return ec._JobPayments(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNJobPaymentsInput2gqlgenᚑentᚋgraphᚋmodelᚐJobPaymentsInput(ctx context.Context, v any) (model.JobPaymentsInput, error) {
+func (ec *executionContext) unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobPaymentsInput(ctx context.Context, v any) (model.JobPaymentsInput, error) {
 	res, err := ec.unmarshalInputJobPaymentsInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNJobSupervisor2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisor(ctx context.Context, sel ast.SelectionSet, v model.JobSupervisor) graphql.Marshaler {
+	return ec._JobSupervisor(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisor(ctx context.Context, sel ast.SelectionSet, v *model.JobSupervisor) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._JobSupervisor(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNJobSupervisorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisorInput(ctx context.Context, v any) (model.JobSupervisorInput, error) {
+	res, err := ec.unmarshalInputJobSupervisorInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -19303,11 +20434,11 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNUser2gqlgenᚑentᚋentᚐUser(ctx context.Context, sel ast.SelectionSet, v ent.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐUser(ctx context.Context, sel ast.SelectionSet, v ent.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚕᚖgqlgenᚑentᚋentᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.User) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -19331,7 +20462,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgqlgenᚑentᚋentᚐUserᚄ(ctx 
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNUser2ᚖgqlgenᚑentᚋentᚐUser(ctx, sel, v[i])
+			ret[i] = ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐUser(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -19351,7 +20482,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgqlgenᚑentᚋentᚐUserᚄ(ctx 
 	return ret
 }
 
-func (ec *executionContext) marshalNUser2ᚖgqlgenᚑentᚋentᚐUser(ctx context.Context, sel ast.SelectionSet, v *ent.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐUser(ctx context.Context, sel ast.SelectionSet, v *ent.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -19361,7 +20492,7 @@ func (ec *executionContext) marshalNUser2ᚖgqlgenᚑentᚋentᚐUser(ctx contex
 	return ec._User(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNUserInput2gqlgenᚑentᚋgraphᚋmodelᚐUserInput(ctx context.Context, v any) (model.UserInput, error) {
+func (ec *executionContext) unmarshalNUserInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐUserInput(ctx context.Context, v any) (model.UserInput, error) {
 	res, err := ec.unmarshalInputUserInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -19645,14 +20776,14 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalOCompanyDetail2ᚖgqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyDetail) graphql.Marshaler {
+func (ec *executionContext) marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyDetail) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._CompanyDetail(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOCompanyEngineer2ᚖgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyEngineer) graphql.Marshaler {
+func (ec *executionContext) marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyEngineer) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -19675,7 +20806,7 @@ func (ec *executionContext) marshalODate2ᚖstring(ctx context.Context, sel ast.
 	return res
 }
 
-func (ec *executionContext) unmarshalOEngineerFilterInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐEngineerFilterInput(ctx context.Context, v any) (*model.EngineerFilterInput, error) {
+func (ec *executionContext) unmarshalOEngineerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐEngineerFilterInput(ctx context.Context, v any) (*model.EngineerFilterInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19789,14 +20920,14 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	return res
 }
 
-func (ec *executionContext) marshalOJobAuthor2ᚖgqlgenᚑentᚋentᚐJobAuthor(ctx context.Context, sel ast.SelectionSet, v *ent.JobAuthor) graphql.Marshaler {
+func (ec *executionContext) marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobAuthor(ctx context.Context, sel ast.SelectionSet, v *ent.JobAuthor) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._JobAuthor(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOJobAuthorInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx context.Context, v any) ([]*model.JobAuthorInput, error) {
+func (ec *executionContext) unmarshalOJobAuthorInput2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx context.Context, v any) ([]*model.JobAuthorInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19808,7 +20939,7 @@ func (ec *executionContext) unmarshalOJobAuthorInput2ᚕᚖgqlgenᚑentᚋgraph�
 	res := make([]*model.JobAuthorInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOJobAuthorInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOJobAuthorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -19816,7 +20947,7 @@ func (ec *executionContext) unmarshalOJobAuthorInput2ᚕᚖgqlgenᚑentᚋgraph�
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOJobAuthorInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx context.Context, v any) (*model.JobAuthorInput, error) {
+func (ec *executionContext) unmarshalOJobAuthorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx context.Context, v any) (*model.JobAuthorInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19824,14 +20955,14 @@ func (ec *executionContext) unmarshalOJobAuthorInput2ᚖgqlgenᚑentᚋgraphᚋm
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOJobContractor2ᚖgqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v *ent.JobContractor) graphql.Marshaler {
+func (ec *executionContext) marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v *ent.JobContractor) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._JobContractor(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOJobContractorInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx context.Context, v any) ([]*model.JobContractorInput, error) {
+func (ec *executionContext) unmarshalOJobContractorInput2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx context.Context, v any) ([]*model.JobContractorInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19843,7 +20974,7 @@ func (ec *executionContext) unmarshalOJobContractorInput2ᚕᚖgqlgenᚑentᚋgr
 	res := make([]*model.JobContractorInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOJobContractorInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOJobContractorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -19851,7 +20982,7 @@ func (ec *executionContext) unmarshalOJobContractorInput2ᚕᚖgqlgenᚑentᚋgr
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOJobContractorInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx context.Context, v any) (*model.JobContractorInput, error) {
+func (ec *executionContext) unmarshalOJobContractorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx context.Context, v any) (*model.JobContractorInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19859,14 +20990,14 @@ func (ec *executionContext) unmarshalOJobContractorInput2ᚖgqlgenᚑentᚋgraph
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOJobDetail2ᚖgqlgenᚑentᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v *ent.JobDetail) graphql.Marshaler {
+func (ec *executionContext) marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v *ent.JobDetail) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._JobDetail(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v []*ent.JobLayer) graphql.Marshaler {
+func (ec *executionContext) marshalOJobLayer2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v []*ent.JobLayer) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -19893,7 +21024,7 @@ func (ec *executionContext) marshalOJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayer
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOJobLayer2ᚖgqlgenᚑentᚋentᚐJobLayer(ctx, sel, v[i])
+			ret[i] = ec.marshalOJobLayer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -19907,21 +21038,21 @@ func (ec *executionContext) marshalOJobLayer2ᚕᚖgqlgenᚑentᚋentᚐJobLayer
 	return ret
 }
 
-func (ec *executionContext) marshalOJobLayer2ᚖgqlgenᚑentᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v *ent.JobLayer) graphql.Marshaler {
+func (ec *executionContext) marshalOJobLayer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v *ent.JobLayer) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._JobLayer(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOJobOwner2ᚖgqlgenᚑentᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v *ent.JobOwner) graphql.Marshaler {
+func (ec *executionContext) marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v *ent.JobOwner) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._JobOwner(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOJobOwnerInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx context.Context, v any) ([]*model.JobOwnerInput, error) {
+func (ec *executionContext) unmarshalOJobOwnerInput2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx context.Context, v any) ([]*model.JobOwnerInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19933,7 +21064,7 @@ func (ec *executionContext) unmarshalOJobOwnerInput2ᚕᚖgqlgenᚑentᚋgraph�
 	res := make([]*model.JobOwnerInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOJobOwnerInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOJobOwnerInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -19941,7 +21072,7 @@ func (ec *executionContext) unmarshalOJobOwnerInput2ᚕᚖgqlgenᚑentᚋgraph�
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOJobOwnerInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx context.Context, v any) (*model.JobOwnerInput, error) {
+func (ec *executionContext) unmarshalOJobOwnerInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobOwnerInput(ctx context.Context, v any) (*model.JobOwnerInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19949,14 +21080,14 @@ func (ec *executionContext) unmarshalOJobOwnerInput2ᚖgqlgenᚑentᚋgraphᚋmo
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOJobProgress2ᚖgqlgenᚑentᚋentᚐJobProgress(ctx context.Context, sel ast.SelectionSet, v *ent.JobProgress) graphql.Marshaler {
+func (ec *executionContext) marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobProgress(ctx context.Context, sel ast.SelectionSet, v *ent.JobProgress) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._JobProgress(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOJobProgressInput2ᚕᚖgqlgenᚑentᚋgraphᚋmodelᚐJobProgressInput(ctx context.Context, v any) ([]*model.JobProgressInput, error) {
+func (ec *executionContext) unmarshalOJobProgressInput2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobProgressInput(ctx context.Context, v any) ([]*model.JobProgressInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19968,7 +21099,7 @@ func (ec *executionContext) unmarshalOJobProgressInput2ᚕᚖgqlgenᚑentᚋgrap
 	res := make([]*model.JobProgressInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOJobProgressInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐJobProgressInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOJobProgressInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobProgressInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -19976,7 +21107,7 @@ func (ec *executionContext) unmarshalOJobProgressInput2ᚕᚖgqlgenᚑentᚋgrap
 	return res, nil
 }
 
-func (ec *executionContext) unmarshalOJobProgressInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐJobProgressInput(ctx context.Context, v any) (*model.JobProgressInput, error) {
+func (ec *executionContext) unmarshalOJobProgressInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobProgressInput(ctx context.Context, v any) (*model.JobProgressInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -19984,7 +21115,22 @@ func (ec *executionContext) unmarshalOJobProgressInput2ᚖgqlgenᚑentᚋgraph�
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOLayerFilterInput2ᚖgqlgenᚑentᚋgraphᚋmodelᚐLayerFilterInput(ctx context.Context, v any) (*model.LayerFilterInput, error) {
+func (ec *executionContext) marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisor(ctx context.Context, sel ast.SelectionSet, v *model.JobSupervisor) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._JobSupervisor(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOJobSupervisorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobSupervisorInput(ctx context.Context, v any) (*model.JobSupervisorInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputJobSupervisorInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOLayerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐLayerFilterInput(ctx context.Context, v any) (*model.LayerFilterInput, error) {
 	if v == nil {
 		return nil, nil
 	}

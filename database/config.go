@@ -6,7 +6,7 @@ import (
 	"os"
 	"sync"
 
-	"gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent"
 
 	_ "github.com/lib/pq" // PostgreSQL driver
 )

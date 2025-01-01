@@ -6,14 +6,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/jobpayments"
-	"gqlgen-ent/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
 // JobPaymentsUpdate is the builder for updating JobPayments entities.

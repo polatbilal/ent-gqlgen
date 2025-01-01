@@ -6,12 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/jobprogress"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
 )
 
 // JobProgressCreate is the builder for creating a JobProgress entity.

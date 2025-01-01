@@ -9,7 +9,7 @@ import (
 	"os"
 	"sync"
 
-	"gqlgen-ent/handlers/service"
+	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
 	"github.com/gin-gonic/gin"
 )

@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"gqlgen-ent/handlers/client"
-	"gqlgen-ent/handlers/service"
+	"github.com/polatbilal/gqlgen-ent/handlers/client"
+	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
 	"github.com/gin-gonic/gin"
 )

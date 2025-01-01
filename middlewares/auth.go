@@ -3,9 +3,10 @@ package middlewares
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/database"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/services"
+
+	"github.com/polatbilal/gqlgen-ent/database"
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"

@@ -2,10 +2,11 @@ package sync
 
 import (
 	"encoding/json"
-	"gqlgen-ent/handlers/external"
-	"gqlgen-ent/handlers/service"
 	"net/http"
 	"time"
+
+	"github.com/polatbilal/gqlgen-ent/handlers/external"
+	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
 	"github.com/gin-gonic/gin"
 )

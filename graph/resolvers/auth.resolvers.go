@@ -7,17 +7,18 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/database"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/ent/user"
-	"gqlgen-ent/graph/generated"
-	"gqlgen-ent/graph/model"
-	"gqlgen-ent/middlewares"
-	"gqlgen-ent/services"
-	"gqlgen-ent/tools"
 	"log"
 	"strconv"
 	"time"
+
+	"github.com/polatbilal/gqlgen-ent/database"
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/gqlgen-ent/graph/generated"
+	"github.com/polatbilal/gqlgen-ent/graph/model"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/gqlgen-ent/services"
+	"github.com/polatbilal/gqlgen-ent/tools"
 )
 
 // Register is the resolver for the register field.

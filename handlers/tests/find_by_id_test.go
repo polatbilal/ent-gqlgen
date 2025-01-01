@@ -1,10 +1,11 @@
 package tests
 
 import (
-	"gqlgen-ent/handlers/external"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/polatbilal/gqlgen-ent/handlers/external"
 
 	"github.com/gin-gonic/gin"
 )

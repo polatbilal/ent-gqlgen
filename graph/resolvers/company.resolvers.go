@@ -7,12 +7,13 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/graph/generated"
-	"gqlgen-ent/graph/model"
-	"gqlgen-ent/middlewares"
-	"gqlgen-ent/tools"
+
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/graph/generated"
+	"github.com/polatbilal/gqlgen-ent/graph/model"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/gqlgen-ent/tools"
 )
 
 // VisaDate is the resolver for the VisaDate field.

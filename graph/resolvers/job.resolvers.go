@@ -7,19 +7,21 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobprogress"
-	"gqlgen-ent/graph/generated"
-	"gqlgen-ent/graph/model"
-	"gqlgen-ent/middlewares"
-	"gqlgen-ent/tools"
+
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/gqlgen-ent/graph/generated"
+	"github.com/polatbilal/gqlgen-ent/graph/model"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/gqlgen-ent/tools"
 )
 
 // ContractDate is the resolver for the ContractDate field.
@@ -73,6 +75,11 @@ func (r *jobDetailResolver) Layer(ctx context.Context, obj *ent.JobDetail) ([]*e
 	return client.JobLayer.Query().Where(joblayer.HasLayerWith(jobdetail.IDEQ(obj.ID))).All(ctx)
 }
 
+// Supervisor is the resolver for the Supervisor field.
+func (r *jobDetailResolver) Supervisor(ctx context.Context, obj *ent.JobDetail) (*model.JobSupervisor, error) {
+	panic(fmt.Errorf("not implemented: Supervisor - Supervisor"))
+}
+
 // CreateJob is the resolver for the createJob field.
 func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) (*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
@@ -97,7 +104,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// InspectorRegNo ile mühendis bul
 	inspector, err := client.CompanyEngineer.Query().
-		Where(companyengineer.RegNoEQ(*input.Inspector)).
+		Where(companyengineer.YdsIDEQ(*input.Inspector)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("denetçi bulunamadı (kod: %d): %v", input.Inspector, err)
@@ -105,7 +112,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// StaticRegNo ile statik bul
 	static, err := client.CompanyEngineer.Query().
-		Where(companyengineer.RegNoEQ(*input.Static)).
+		Where(companyengineer.YdsIDEQ(*input.Static)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("statik bulunamadı (kod: %d): %v", input.Static, err)
@@ -113,7 +120,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// ArchitectRegNo ile statik bul
 	architect, err := client.CompanyEngineer.Query().
-		Where(companyengineer.RegNoEQ(*input.Architect)).
+		Where(companyengineer.YdsIDEQ(*input.Architect)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("mimar bulunamadı (kod: %d): %v", input.Architect, err)
@@ -121,7 +128,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// MechanicRegNo ile mekanik bul
 	mechanic, err := client.CompanyEngineer.Query().
-		Where(companyengineer.RegNoEQ(*input.Mechanic)).
+		Where(companyengineer.YdsIDEQ(*input.Mechanic)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("mak. müh. bulunamadı (kod: %d): %v", input.Mechanic, err)
@@ -129,7 +136,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// ElectricRegNo ile elektrik bul
 	electric, err := client.CompanyEngineer.Query().
-		Where(companyengineer.RegNoEQ(*input.Electric)).
+		Where(companyengineer.YdsIDEQ(*input.Electric)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("elektrik bulunamadı (kod: %d): %v", input.Electric, err)
@@ -137,7 +144,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// ControllerRegNo ile denetçi bul
 	controller, err := client.CompanyEngineer.Query().
-		Where(companyengineer.RegNoEQ(*input.Controller)).
+		Where(companyengineer.YdsIDEQ(*input.Controller)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("kont. elm. bulunamadı (kod: %d): %v", input.Controller, err)
@@ -145,7 +152,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// MechanicControllerRegNo ile mekanik denetçi bul
 	mechanicController, err := client.CompanyEngineer.Query().
-		Where(companyengineer.RegNoEQ(*input.MechanicController)).
+		Where(companyengineer.YdsIDEQ(*input.MechanicController)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("mekanik kont. elm. bulunamadı (kod: %d): %v", input.MechanicController, err)
@@ -153,7 +160,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// ElectricControllerRegNo ile elektrik denetçi bul
 	electricController, err := client.CompanyEngineer.Query().
-		Where(companyengineer.RegNoEQ(*input.ElectricController)).
+		Where(companyengineer.YdsIDEQ(*input.ElectricController)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("elektrik kont. elm. bulunamadı (kod: %d): %v", input.ElectricController, err)
@@ -182,7 +189,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 	// İş detayını oluştur
 	newJobDetail, err := client.JobDetail.Create().
 		SetYibfNo(*input.YibfNo).
-		SetCompany(company). // Sadece şirket ilişkisini kur
+		SetCompany(company).
 		SetNillableIdare(input.Idare).
 		SetNillablePafta(input.Pafta).
 		SetNillableAda(input.Ada).
@@ -196,13 +203,9 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableConstructionArea(input.ConstructionArea).
 		SetNillableLandArea(input.LandArea).
-		SetNillableCity(input.City).
-		SetNillableDistrict(input.District).
-		SetNillableVillage(input.Village).
-		SetNillableStreet(input.Street).
+		SetNillableAddress(input.Address).
 		SetNillableBuildingClass(input.BuildingClass).
 		SetNillableBuildingType(input.BuildingType).
-		SetNillableBuildingBlock(input.BuildingBlock).
 		SetNillableFloors(input.Floors).
 		SetNillableNote(input.Note).
 		SetNillableStarted(input.Started).
@@ -216,8 +219,78 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetMechaniccontroller(mechanicController).
 		SetElectriccontroller(electricController).
 		Save(ctx)
+
 	if err != nil {
 		return nil, fmt.Errorf("iş ayrıntısı oluşturulamadı: %v", err)
+	}
+
+	// Supervisor kontrolü ve ekleme işlemi
+	if input.Supervisor != nil && input.Supervisor.Ydsid != nil {
+		// Önce mevcut supervisor'ı kontrol et
+		existingSupervisor, err := client.JobSuperVisor.Query().
+			Where(jobsupervisor.YDSIDEQ(*input.Supervisor.Ydsid)).
+			Only(ctx)
+
+		if err != nil {
+			if ent.IsNotFound(err) {
+				// Supervisor bulunamadı, yeni ekle
+				supervisor, err := client.JobSuperVisor.Create().
+					SetNillableName(input.Supervisor.Name).
+					SetNillableAddress(input.Supervisor.Address).
+					SetNillablePhone(input.Supervisor.Phone).
+					SetNillableEmail(input.Supervisor.Email).
+					SetNillableTCNO(input.Supervisor.Tcno).
+					SetNillablePosition(input.Supervisor.Position).
+					SetNillableCareer(input.Supervisor.Career).
+					SetNillableRegNo(input.Supervisor.RegNo).
+					SetNillableSocialSecurityNo(input.Supervisor.SocialSecurityNo).
+					SetNillableSchoolGraduation(input.Supervisor.SchoolGraduation).
+					SetNillableYDSID(input.Supervisor.Ydsid).
+					Save(ctx)
+
+				if err != nil {
+					return nil, fmt.Errorf("supervisor oluşturulamadı: %v", err)
+				}
+
+				// Job'ı supervisor ile ilişkilendir
+				_, err = client.JobDetail.UpdateOne(newJobDetail).
+					SetSupervisor(supervisor).
+					Save(ctx)
+
+				if err != nil {
+					return nil, fmt.Errorf("supervisor ilişkilendirilemedi: %v", err)
+				}
+			} else {
+				return nil, fmt.Errorf("supervisor sorgulanırken hata oluştu: %v", err)
+			}
+		} else {
+			// Mevcut supervisor'ı güncelle
+			_, err = client.JobSuperVisor.UpdateOne(existingSupervisor).
+				SetNillableName(input.Supervisor.Name).
+				SetNillableAddress(input.Supervisor.Address).
+				SetNillablePhone(input.Supervisor.Phone).
+				SetNillableEmail(input.Supervisor.Email).
+				SetNillableTCNO(input.Supervisor.Tcno).
+				SetNillablePosition(input.Supervisor.Position).
+				SetNillableCareer(input.Supervisor.Career).
+				SetNillableRegNo(input.Supervisor.RegNo).
+				SetNillableSocialSecurityNo(input.Supervisor.SocialSecurityNo).
+				SetNillableSchoolGraduation(input.Supervisor.SchoolGraduation).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("supervisor güncellenemedi: %v", err)
+			}
+
+			// Job'ı supervisor ile ilişkilendir
+			_, err = client.JobDetail.UpdateOne(newJobDetail).
+				SetSupervisor(existingSupervisor).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("supervisor ilişkilendirilemedi: %v", err)
+			}
+		}
 	}
 
 	// Owner bilgilerini iş ayrıntısına ekle
@@ -316,6 +389,75 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		return nil, fmt.Errorf("license date dönüşüm hatası: %v", err)
 	}
 
+	// Supervisor kontrolü ve güncelleme/ekleme işlemi
+	if input.Supervisor != nil && input.Supervisor.Ydsid != nil {
+		// Önce mevcut supervisor'ı kontrol et
+		existingSupervisor, err := client.JobSuperVisor.Query().
+			Where(jobsupervisor.YDSIDEQ(*input.Supervisor.Ydsid)).
+			Only(ctx)
+
+		if err != nil {
+			if ent.IsNotFound(err) {
+				// Supervisor bulunamadı, yeni ekle
+				supervisor, err := client.JobSuperVisor.Create().
+					SetNillableName(input.Supervisor.Name).
+					SetNillableAddress(input.Supervisor.Address).
+					SetNillablePhone(input.Supervisor.Phone).
+					SetNillableEmail(input.Supervisor.Email).
+					SetNillableTCNO(input.Supervisor.Tcno).
+					SetNillablePosition(input.Supervisor.Position).
+					SetNillableCareer(input.Supervisor.Career).
+					SetNillableRegNo(input.Supervisor.RegNo).
+					SetNillableSocialSecurityNo(input.Supervisor.SocialSecurityNo).
+					SetNillableSchoolGraduation(input.Supervisor.SchoolGraduation).
+					SetNillableYDSID(input.Supervisor.Ydsid).
+					Save(ctx)
+
+				if err != nil {
+					return nil, fmt.Errorf("supervisor oluşturulamadı: %v", err)
+				}
+
+				// Job'ı supervisor ile ilişkilendir
+				_, err = client.JobDetail.UpdateOne(jobDetail).
+					SetSupervisor(supervisor).
+					Save(ctx)
+
+				if err != nil {
+					return nil, fmt.Errorf("supervisor ilişkilendirilemedi: %v", err)
+				}
+			} else {
+				return nil, fmt.Errorf("supervisor sorgulanırken hata oluştu: %v", err)
+			}
+		} else {
+			// Mevcut supervisor'ı güncelle
+			_, err = client.JobSuperVisor.UpdateOne(existingSupervisor).
+				SetNillableName(input.Supervisor.Name).
+				SetNillableAddress(input.Supervisor.Address).
+				SetNillablePhone(input.Supervisor.Phone).
+				SetNillableEmail(input.Supervisor.Email).
+				SetNillableTCNO(input.Supervisor.Tcno).
+				SetNillablePosition(input.Supervisor.Position).
+				SetNillableCareer(input.Supervisor.Career).
+				SetNillableRegNo(input.Supervisor.RegNo).
+				SetNillableSocialSecurityNo(input.Supervisor.SocialSecurityNo).
+				SetNillableSchoolGraduation(input.Supervisor.SchoolGraduation).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("supervisor güncellenemedi: %v", err)
+			}
+
+			// Job'ı supervisor ile ilişkilendir
+			_, err = client.JobDetail.UpdateOne(jobDetail).
+				SetSupervisor(existingSupervisor).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("supervisor ilişkilendirilemedi: %v", err)
+			}
+		}
+	}
+
 	// Mevcut iş detayını güncelle
 	jobDetail, err = client.JobDetail.UpdateOne(jobDetail).
 		SetNillableYibfNo(input.YibfNo).
@@ -332,13 +474,9 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableConstructionArea(input.ConstructionArea).
 		SetNillableLandArea(input.LandArea).
-		SetNillableCity(input.City).
-		SetNillableDistrict(input.District).
-		SetNillableVillage(input.Village).
-		SetNillableStreet(input.Street).
+		SetNillableAddress(input.Address).
 		SetNillableBuildingClass(input.BuildingClass).
 		SetNillableBuildingType(input.BuildingType).
-		SetNillableBuildingBlock(input.BuildingBlock).
 		SetNillableFloors(input.Floors).
 		SetNillableNote(input.Note).
 		SetNillableStarted(input.Started).

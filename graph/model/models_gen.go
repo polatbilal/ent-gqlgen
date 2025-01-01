@@ -2,6 +2,10 @@
 
 package model
 
+import (
+	"github.com/polatbilal/gqlgen-ent/ent"
+)
+
 type AuthPayload struct {
 	Token       string `json:"token"`
 	UserID      string `json:"userID"`
@@ -100,13 +104,9 @@ type JobInput struct {
 	LicenseNo          *string               `json:"LicenseNo,omitempty"`
 	ConstructionArea   *string               `json:"ConstructionArea,omitempty"`
 	LandArea           *string               `json:"LandArea,omitempty"`
-	City               *string               `json:"City,omitempty"`
-	District           *string               `json:"District,omitempty"`
-	Village            *string               `json:"Village,omitempty"`
-	Street             *string               `json:"Street,omitempty"`
+	Address            *string               `json:"Address,omitempty"`
 	BuildingClass      *string               `json:"BuildingClass,omitempty"`
 	BuildingType       *string               `json:"BuildingType,omitempty"`
-	BuildingBlock      *string               `json:"BuildingBlock,omitempty"`
 	Floors             *int                  `json:"Floors,omitempty"`
 	Note               *string               `json:"Note,omitempty"`
 	Started            *int                  `json:"Started,omitempty"`
@@ -123,6 +123,7 @@ type JobInput struct {
 	Controller         *int                  `json:"Controller,omitempty"`
 	MechanicController *int                  `json:"MechanicController,omitempty"`
 	ElectricController *int                  `json:"ElectricController,omitempty"`
+	Supervisor         *JobSupervisorInput   `json:"Supervisor,omitempty"`
 }
 
 type JobLayerInput struct {
@@ -164,6 +165,36 @@ type JobProgressInput struct {
 	Four  *int `json:"Four,omitempty"`
 	Five  *int `json:"Five,omitempty"`
 	Six   *int `json:"Six,omitempty"`
+}
+
+type JobSupervisor struct {
+	ID               string         `json:"id"`
+	Name             *string        `json:"Name,omitempty"`
+	Address          *string        `json:"Address,omitempty"`
+	Phone            *string        `json:"Phone,omitempty"`
+	Email            *string        `json:"Email,omitempty"`
+	Tcno             *int           `json:"TCNO,omitempty"`
+	Position         *string        `json:"Position,omitempty"`
+	Career           *string        `json:"Career,omitempty"`
+	RegNo            *int           `json:"RegNo,omitempty"`
+	SocialSecurityNo *int           `json:"SocialSecurityNo,omitempty"`
+	SchoolGraduation *string        `json:"SchoolGraduation,omitempty"`
+	Ydsid            *int           `json:"YDSID,omitempty"`
+	Job              *ent.JobDetail `json:"Job,omitempty"`
+}
+
+type JobSupervisorInput struct {
+	Name             *string `json:"Name,omitempty"`
+	Address          *string `json:"Address,omitempty"`
+	Phone            *string `json:"Phone,omitempty"`
+	Email            *string `json:"Email,omitempty"`
+	Tcno             *int    `json:"TCNO,omitempty"`
+	Position         *string `json:"Position,omitempty"`
+	Career           *string `json:"Career,omitempty"`
+	RegNo            *int    `json:"RegNo,omitempty"`
+	SocialSecurityNo *int    `json:"SocialSecurityNo,omitempty"`
+	SchoolGraduation *string `json:"SchoolGraduation,omitempty"`
+	Ydsid            *int    `json:"YDSID,omitempty"`
 }
 
 type LayerFilterInput struct {

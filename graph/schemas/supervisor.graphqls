@@ -1,0 +1,38 @@
+type JobSupervisor {
+  id: ID!
+  Name: String
+  Address: String
+  Phone: String
+  Email: String
+  TCNO: Int
+  Position: String
+  Career: String
+  RegNo: Int
+  SocialSecurityNo: Int
+  SchoolGraduation: String
+  YDSID: Int
+  Job: JobDetail
+}
+
+input JobSupervisorInput {
+  Name: String
+  Address: String
+  Phone: String
+  Email: String
+  TCNO: Int
+  Position: String
+  Career: String
+  RegNo: Int
+  SocialSecurityNo: Int
+  SchoolGraduation: String
+  YDSID: Int
+}
+
+extend type Mutation {
+  createJobSupervisor(input: JobSupervisorInput!): JobSupervisor!
+    @goField(forceResolver: true)
+    @auth
+  updateJobSupervisor(id: ID!, input: JobSupervisorInput!): JobSupervisor!
+    @goField(forceResolver: true)
+    @auth
+}

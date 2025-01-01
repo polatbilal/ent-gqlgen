@@ -4,12 +4,12 @@ package ent
 
 import (
 	"context"
-	"gqlgen-ent/ent/companyuser"
-	"gqlgen-ent/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
 // CompanyUserDelete is the builder for deleting a CompanyUser entity.

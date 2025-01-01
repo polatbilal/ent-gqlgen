@@ -188,6 +188,14 @@ func (jc *JobContractor) Contractors(ctx context.Context) (result []*JobDetail, 
 	return result, err
 }
 
+func (jd *JobDetail) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := jd.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = jd.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
 func (jd *JobDetail) Owner(ctx context.Context) (*JobOwner, error) {
 	result, err := jd.Edges.OwnerOrErr()
 	if IsNotLoaded(err) {
@@ -216,6 +224,14 @@ func (jd *JobDetail) Progress(ctx context.Context) (*JobProgress, error) {
 	result, err := jd.Edges.ProgressOrErr()
 	if IsNotLoaded(err) {
 		result, err = jd.QueryProgress().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (jd *JobDetail) Supervisor(ctx context.Context) (*JobSuperVisor, error) {
+	result, err := jd.Edges.SupervisorOrErr()
+	if IsNotLoaded(err) {
+		result, err = jd.QuerySupervisor().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
@@ -308,14 +324,6 @@ func (jd *JobDetail) Payments(ctx context.Context) (result []*JobPayments, err e
 	return result, err
 }
 
-func (jd *JobDetail) Company(ctx context.Context) (*CompanyDetail, error) {
-	result, err := jd.Edges.CompanyOrErr()
-	if IsNotLoaded(err) {
-		result, err = jd.QueryCompany().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
 func (jl *JobLayer) Layer(ctx context.Context) (*JobDetail, error) {
 	result, err := jl.Edges.LayerOrErr()
 	if IsNotLoaded(err) {
@@ -352,6 +360,18 @@ func (jp *JobProgress) Progress(ctx context.Context) (result []*JobDetail, err e
 	}
 	if IsNotLoaded(err) {
 		result, err = jp.QueryProgress().All(ctx)
+	}
+	return result, err
+}
+
+func (jsv *JobSuperVisor) Supervisors(ctx context.Context) (result []*JobDetail, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = jsv.NamedSupervisors(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = jsv.Edges.SupervisorsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = jsv.QuerySupervisors().All(ctx)
 	}
 	return result, err
 }

@@ -7,16 +7,17 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/graph/generated"
-	"gqlgen-ent/graph/model"
-	"gqlgen-ent/middlewares"
-	"gqlgen-ent/tools"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/graph/generated"
+	"github.com/polatbilal/gqlgen-ent/graph/model"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/gqlgen-ent/tools"
 )
 
 // MoldDate is the resolver for the MoldDate field.

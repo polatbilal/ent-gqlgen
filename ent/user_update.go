@@ -6,14 +6,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/companyuser"
-	"gqlgen-ent/ent/predicate"
-	"gqlgen-ent/ent/user"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 )
 
 // UserUpdate is the builder for updating User entities.

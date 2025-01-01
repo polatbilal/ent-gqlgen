@@ -1,9 +1,9 @@
 package resolvers
 
 import (
-	"gqlgen-ent/directives"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/graph/generated"
+	"github.com/polatbilal/gqlgen-ent/directives"
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/graph/generated"
 
 	"github.com/99designs/gqlgen/graphql"
 )

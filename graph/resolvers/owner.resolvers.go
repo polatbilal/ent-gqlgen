@@ -7,9 +7,10 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/graph/model"
-	"gqlgen-ent/middlewares"
+
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/graph/model"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
 
 // CreateOwner is the resolver for the createOwner field.

@@ -1,4 +1,4 @@
-module gqlgen-ent
+module github.com/polatbilal/gqlgen-ent
 
 go 1.23.4
 

@@ -5,17 +5,6 @@ package ent
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyuser"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobpayments"
-	"gqlgen-ent/ent/jobprogress"
-	"gqlgen-ent/ent/user"
 	"sync"
 	"sync/atomic"
 
@@ -25,6 +14,18 @@ import (
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/hashicorp/go-multierror"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 	"golang.org/x/sync/semaphore"
 )
 
@@ -82,6 +83,11 @@ var jobprogressImplementors = []string{"JobProgress", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
 func (*JobProgress) IsNode() {}
+
+var jobsupervisorImplementors = []string{"JobSuperVisor", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*JobSuperVisor) IsNode() {}
 
 var userImplementors = []string{"User", "Node"}
 
@@ -232,6 +238,15 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			Where(jobprogress.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
 			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobprogressImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case jobsupervisor.Table:
+		query := c.JobSuperVisor.Query().
+			Where(jobsupervisor.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobsupervisorImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -466,6 +481,22 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 		query := c.JobProgress.Query().
 			Where(jobprogress.IDIn(ids...))
 		query, err := query.CollectFields(ctx, jobprogressImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case jobsupervisor.Table:
+		query := c.JobSuperVisor.Query().
+			Where(jobsupervisor.IDIn(ids...))
+		query, err := query.CollectFields(ctx, jobsupervisorImplementors...)
 		if err != nil {
 			return nil, err
 		}

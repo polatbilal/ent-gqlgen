@@ -6,19 +6,20 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobpayments"
-	"gqlgen-ent/ent/jobprogress"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 )
 
 // JobDetailCreate is the builder for creating a JobDetail entity.
@@ -202,58 +203,30 @@ func (jdc *JobDetailCreate) SetNillableConstructionArea(s *string) *JobDetailCre
 	return jdc
 }
 
-// SetCity sets the "City" field.
-func (jdc *JobDetailCreate) SetCity(s string) *JobDetailCreate {
-	jdc.mutation.SetCity(s)
+// SetYDSAddress sets the "YDSAddress" field.
+func (jdc *JobDetailCreate) SetYDSAddress(s string) *JobDetailCreate {
+	jdc.mutation.SetYDSAddress(s)
 	return jdc
 }
 
-// SetNillableCity sets the "City" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableCity(s *string) *JobDetailCreate {
+// SetNillableYDSAddress sets the "YDSAddress" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableYDSAddress(s *string) *JobDetailCreate {
 	if s != nil {
-		jdc.SetCity(*s)
+		jdc.SetYDSAddress(*s)
 	}
 	return jdc
 }
 
-// SetDistrict sets the "District" field.
-func (jdc *JobDetailCreate) SetDistrict(s string) *JobDetailCreate {
-	jdc.mutation.SetDistrict(s)
+// SetAddress sets the "Address" field.
+func (jdc *JobDetailCreate) SetAddress(s string) *JobDetailCreate {
+	jdc.mutation.SetAddress(s)
 	return jdc
 }
 
-// SetNillableDistrict sets the "District" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableDistrict(s *string) *JobDetailCreate {
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableAddress(s *string) *JobDetailCreate {
 	if s != nil {
-		jdc.SetDistrict(*s)
-	}
-	return jdc
-}
-
-// SetVillage sets the "Village" field.
-func (jdc *JobDetailCreate) SetVillage(s string) *JobDetailCreate {
-	jdc.mutation.SetVillage(s)
-	return jdc
-}
-
-// SetNillableVillage sets the "Village" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableVillage(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetVillage(*s)
-	}
-	return jdc
-}
-
-// SetStreet sets the "Street" field.
-func (jdc *JobDetailCreate) SetStreet(s string) *JobDetailCreate {
-	jdc.mutation.SetStreet(s)
-	return jdc
-}
-
-// SetNillableStreet sets the "Street" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableStreet(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetStreet(*s)
+		jdc.SetAddress(*s)
 	}
 	return jdc
 }
@@ -286,16 +259,16 @@ func (jdc *JobDetailCreate) SetNillableBuildingType(s *string) *JobDetailCreate 
 	return jdc
 }
 
-// SetBuildingBlock sets the "BuildingBlock" field.
-func (jdc *JobDetailCreate) SetBuildingBlock(s string) *JobDetailCreate {
-	jdc.mutation.SetBuildingBlock(s)
+// SetUnitPrice sets the "UnitPrice" field.
+func (jdc *JobDetailCreate) SetUnitPrice(f float64) *JobDetailCreate {
+	jdc.mutation.SetUnitPrice(f)
 	return jdc
 }
 
-// SetNillableBuildingBlock sets the "BuildingBlock" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableBuildingBlock(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetBuildingBlock(*s)
+// SetNillableUnitPrice sets the "UnitPrice" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableUnitPrice(f *float64) *JobDetailCreate {
+	if f != nil {
+		jdc.SetUnitPrice(*f)
 	}
 	return jdc
 }
@@ -356,6 +329,20 @@ func (jdc *JobDetailCreate) SetNillableNote(s *string) *JobDetailCreate {
 	return jdc
 }
 
+// SetCoordinates sets the "Coordinates" field.
+func (jdc *JobDetailCreate) SetCoordinates(s string) *JobDetailCreate {
+	jdc.mutation.SetCoordinates(s)
+	return jdc
+}
+
+// SetNillableCoordinates sets the "Coordinates" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableCoordinates(s *string) *JobDetailCreate {
+	if s != nil {
+		jdc.SetCoordinates(*s)
+	}
+	return jdc
+}
+
 // SetStarted sets the "Started" field.
 func (jdc *JobDetailCreate) SetStarted(i int) *JobDetailCreate {
 	jdc.mutation.SetStarted(i)
@@ -396,6 +383,25 @@ func (jdc *JobDetailCreate) SetNillableUpdatedAt(t *time.Time) *JobDetailCreate 
 		jdc.SetUpdatedAt(*t)
 	}
 	return jdc
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (jdc *JobDetailCreate) SetCompanyID(id int) *JobDetailCreate {
+	jdc.mutation.SetCompanyID(id)
+	return jdc
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableCompanyID(id *int) *JobDetailCreate {
+	if id != nil {
+		jdc = jdc.SetCompanyID(*id)
+	}
+	return jdc
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (jdc *JobDetailCreate) SetCompany(c *CompanyDetail) *JobDetailCreate {
+	return jdc.SetCompanyID(c.ID)
 }
 
 // SetOwnerID sets the "owner" edge to the JobOwner entity by ID.
@@ -472,6 +478,25 @@ func (jdc *JobDetailCreate) SetNillableProgressID(id *int) *JobDetailCreate {
 // SetProgress sets the "progress" edge to the JobProgress entity.
 func (jdc *JobDetailCreate) SetProgress(j *JobProgress) *JobDetailCreate {
 	return jdc.SetProgressID(j.ID)
+}
+
+// SetSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID.
+func (jdc *JobDetailCreate) SetSupervisorID(id int) *JobDetailCreate {
+	jdc.mutation.SetSupervisorID(id)
+	return jdc
+}
+
+// SetNillableSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableSupervisorID(id *int) *JobDetailCreate {
+	if id != nil {
+		jdc = jdc.SetSupervisorID(*id)
+	}
+	return jdc
+}
+
+// SetSupervisor sets the "supervisor" edge to the JobSuperVisor entity.
+func (jdc *JobDetailCreate) SetSupervisor(j *JobSuperVisor) *JobDetailCreate {
+	return jdc.SetSupervisorID(j.ID)
 }
 
 // SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
@@ -656,25 +681,6 @@ func (jdc *JobDetailCreate) AddPayments(j ...*JobPayments) *JobDetailCreate {
 	return jdc.AddPaymentIDs(ids...)
 }
 
-// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (jdc *JobDetailCreate) SetCompanyID(id int) *JobDetailCreate {
-	jdc.mutation.SetCompanyID(id)
-	return jdc
-}
-
-// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableCompanyID(id *int) *JobDetailCreate {
-	if id != nil {
-		jdc = jdc.SetCompanyID(*id)
-	}
-	return jdc
-}
-
-// SetCompany sets the "company" edge to the CompanyDetail entity.
-func (jdc *JobDetailCreate) SetCompany(c *CompanyDetail) *JobDetailCreate {
-	return jdc.SetCompanyID(c.ID)
-}
-
 // Mutation returns the JobDetailMutation object of the builder.
 func (jdc *JobDetailCreate) Mutation() *JobDetailMutation {
 	return jdc.mutation
@@ -710,65 +716,9 @@ func (jdc *JobDetailCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (jdc *JobDetailCreate) defaults() {
-	if _, ok := jdc.mutation.Idare(); !ok {
-		v := jobdetail.DefaultIdare
-		jdc.mutation.SetIdare(v)
-	}
-	if _, ok := jdc.mutation.Pafta(); !ok {
-		v := jobdetail.DefaultPafta
-		jdc.mutation.SetPafta(v)
-	}
-	if _, ok := jdc.mutation.Ada(); !ok {
-		v := jobdetail.DefaultAda
-		jdc.mutation.SetAda(v)
-	}
-	if _, ok := jdc.mutation.Parsel(); !ok {
-		v := jobdetail.DefaultParsel
-		jdc.mutation.SetParsel(v)
-	}
-	if _, ok := jdc.mutation.FolderNo(); !ok {
-		v := jobdetail.DefaultFolderNo
-		jdc.mutation.SetFolderNo(v)
-	}
 	if _, ok := jdc.mutation.Status(); !ok {
 		v := jobdetail.DefaultStatus
 		jdc.mutation.SetStatus(v)
-	}
-	if _, ok := jdc.mutation.LicenseNo(); !ok {
-		v := jobdetail.DefaultLicenseNo
-		jdc.mutation.SetLicenseNo(v)
-	}
-	if _, ok := jdc.mutation.City(); !ok {
-		v := jobdetail.DefaultCity
-		jdc.mutation.SetCity(v)
-	}
-	if _, ok := jdc.mutation.District(); !ok {
-		v := jobdetail.DefaultDistrict
-		jdc.mutation.SetDistrict(v)
-	}
-	if _, ok := jdc.mutation.Village(); !ok {
-		v := jobdetail.DefaultVillage
-		jdc.mutation.SetVillage(v)
-	}
-	if _, ok := jdc.mutation.Street(); !ok {
-		v := jobdetail.DefaultStreet
-		jdc.mutation.SetStreet(v)
-	}
-	if _, ok := jdc.mutation.BuildingClass(); !ok {
-		v := jobdetail.DefaultBuildingClass
-		jdc.mutation.SetBuildingClass(v)
-	}
-	if _, ok := jdc.mutation.BuildingType(); !ok {
-		v := jobdetail.DefaultBuildingType
-		jdc.mutation.SetBuildingType(v)
-	}
-	if _, ok := jdc.mutation.BuildingBlock(); !ok {
-		v := jobdetail.DefaultBuildingBlock
-		jdc.mutation.SetBuildingBlock(v)
-	}
-	if _, ok := jdc.mutation.UsagePurpose(); !ok {
-		v := jobdetail.DefaultUsagePurpose
-		jdc.mutation.SetUsagePurpose(v)
 	}
 	if _, ok := jdc.mutation.Started(); !ok {
 		v := jobdetail.DefaultStarted
@@ -884,21 +834,13 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldConstructionArea, field.TypeString, value)
 		_node.ConstructionArea = value
 	}
-	if value, ok := jdc.mutation.City(); ok {
-		_spec.SetField(jobdetail.FieldCity, field.TypeString, value)
-		_node.City = value
+	if value, ok := jdc.mutation.YDSAddress(); ok {
+		_spec.SetField(jobdetail.FieldYDSAddress, field.TypeString, value)
+		_node.YDSAddress = value
 	}
-	if value, ok := jdc.mutation.District(); ok {
-		_spec.SetField(jobdetail.FieldDistrict, field.TypeString, value)
-		_node.District = value
-	}
-	if value, ok := jdc.mutation.Village(); ok {
-		_spec.SetField(jobdetail.FieldVillage, field.TypeString, value)
-		_node.Village = value
-	}
-	if value, ok := jdc.mutation.Street(); ok {
-		_spec.SetField(jobdetail.FieldStreet, field.TypeString, value)
-		_node.Street = value
+	if value, ok := jdc.mutation.Address(); ok {
+		_spec.SetField(jobdetail.FieldAddress, field.TypeString, value)
+		_node.Address = value
 	}
 	if value, ok := jdc.mutation.BuildingClass(); ok {
 		_spec.SetField(jobdetail.FieldBuildingClass, field.TypeString, value)
@@ -908,9 +850,9 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldBuildingType, field.TypeString, value)
 		_node.BuildingType = value
 	}
-	if value, ok := jdc.mutation.BuildingBlock(); ok {
-		_spec.SetField(jobdetail.FieldBuildingBlock, field.TypeString, value)
-		_node.BuildingBlock = value
+	if value, ok := jdc.mutation.UnitPrice(); ok {
+		_spec.SetField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)
+		_node.UnitPrice = value
 	}
 	if value, ok := jdc.mutation.LandArea(); ok {
 		_spec.SetField(jobdetail.FieldLandArea, field.TypeString, value)
@@ -928,6 +870,10 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
 		_node.Note = value
 	}
+	if value, ok := jdc.mutation.Coordinates(); ok {
+		_spec.SetField(jobdetail.FieldCoordinates, field.TypeString, value)
+		_node.Coordinates = value
+	}
 	if value, ok := jdc.mutation.Started(); ok {
 		_spec.SetField(jobdetail.FieldStarted, field.TypeInt, value)
 		_node.Started = value
@@ -939,6 +885,23 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := jdc.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobdetail.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
+	}
+	if nodes := jdc.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.company_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := jdc.mutation.OwnerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -1006,6 +969,23 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.progress_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := jdc.mutation.SupervisorIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.SupervisorTable,
+			Columns: []string{jobdetail.SupervisorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.supervisor_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := jdc.mutation.InspectorIDs(); len(nodes) > 0 {
@@ -1174,23 +1154,6 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := jdc.mutation.CompanyIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.CompanyTable,
-			Columns: []string{jobdetail.CompanyColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

@@ -4,13 +4,13 @@ package ent
 
 import (
 	"fmt"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyuser"
-	"gqlgen-ent/ent/user"
 	"strings"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 )
 
 // CompanyUser is the model entity for the CompanyUser schema.

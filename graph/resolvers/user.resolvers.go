@@ -7,13 +7,14 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent"
-	"gqlgen-ent/ent/user"
-	"gqlgen-ent/graph/generated"
-	"gqlgen-ent/graph/model"
-	"gqlgen-ent/middlewares"
 	"strconv"
 	"time"
+
+	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/gqlgen-ent/graph/generated"
+	"github.com/polatbilal/gqlgen-ent/graph/model"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
 
 // CreateUser is the resolver for the createUser field.

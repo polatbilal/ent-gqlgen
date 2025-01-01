@@ -5,23 +5,24 @@ package ent
 import (
 	"context"
 	"errors"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyuser"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobpayments"
-	"gqlgen-ent/ent/jobprogress"
-	"gqlgen-ent/ent/user"
 
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/errcode"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 
@@ -2592,6 +2593,255 @@ func (jp *JobProgress) ToEdge(order *JobProgressOrder) *JobProgressEdge {
 	return &JobProgressEdge{
 		Node:   jp,
 		Cursor: order.Field.toCursor(jp),
+	}
+}
+
+// JobSuperVisorEdge is the edge representation of JobSuperVisor.
+type JobSuperVisorEdge struct {
+	Node   *JobSuperVisor `json:"node"`
+	Cursor Cursor         `json:"cursor"`
+}
+
+// JobSuperVisorConnection is the connection containing edges to JobSuperVisor.
+type JobSuperVisorConnection struct {
+	Edges      []*JobSuperVisorEdge `json:"edges"`
+	PageInfo   PageInfo             `json:"pageInfo"`
+	TotalCount int                  `json:"totalCount"`
+}
+
+func (c *JobSuperVisorConnection) build(nodes []*JobSuperVisor, pager *jobsupervisorPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *JobSuperVisor
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *JobSuperVisor {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *JobSuperVisor {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*JobSuperVisorEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &JobSuperVisorEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// JobSuperVisorPaginateOption enables pagination customization.
+type JobSuperVisorPaginateOption func(*jobsupervisorPager) error
+
+// WithJobSuperVisorOrder configures pagination ordering.
+func WithJobSuperVisorOrder(order *JobSuperVisorOrder) JobSuperVisorPaginateOption {
+	if order == nil {
+		order = DefaultJobSuperVisorOrder
+	}
+	o := *order
+	return func(pager *jobsupervisorPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultJobSuperVisorOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithJobSuperVisorFilter configures pagination filter.
+func WithJobSuperVisorFilter(filter func(*JobSuperVisorQuery) (*JobSuperVisorQuery, error)) JobSuperVisorPaginateOption {
+	return func(pager *jobsupervisorPager) error {
+		if filter == nil {
+			return errors.New("JobSuperVisorQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type jobsupervisorPager struct {
+	reverse bool
+	order   *JobSuperVisorOrder
+	filter  func(*JobSuperVisorQuery) (*JobSuperVisorQuery, error)
+}
+
+func newJobSuperVisorPager(opts []JobSuperVisorPaginateOption, reverse bool) (*jobsupervisorPager, error) {
+	pager := &jobsupervisorPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultJobSuperVisorOrder
+	}
+	return pager, nil
+}
+
+func (p *jobsupervisorPager) applyFilter(query *JobSuperVisorQuery) (*JobSuperVisorQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *jobsupervisorPager) toCursor(jsv *JobSuperVisor) Cursor {
+	return p.order.Field.toCursor(jsv)
+}
+
+func (p *jobsupervisorPager) applyCursors(query *JobSuperVisorQuery, after, before *Cursor) (*JobSuperVisorQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultJobSuperVisorOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *jobsupervisorPager) applyOrder(query *JobSuperVisorQuery) *JobSuperVisorQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultJobSuperVisorOrder.Field {
+		query = query.Order(DefaultJobSuperVisorOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *jobsupervisorPager) orderExpr(query *JobSuperVisorQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultJobSuperVisorOrder.Field {
+			b.Comma().Ident(DefaultJobSuperVisorOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to JobSuperVisor.
+func (jsv *JobSuperVisorQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...JobSuperVisorPaginateOption,
+) (*JobSuperVisorConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newJobSuperVisorPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if jsv, err = pager.applyFilter(jsv); err != nil {
+		return nil, err
+	}
+	conn := &JobSuperVisorConnection{Edges: []*JobSuperVisorEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := jsv.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if jsv, err = pager.applyCursors(jsv, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		jsv.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := jsv.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	jsv = pager.applyOrder(jsv)
+	nodes, err := jsv.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// JobSuperVisorOrderField defines the ordering field of JobSuperVisor.
+type JobSuperVisorOrderField struct {
+	// Value extracts the ordering value from the given JobSuperVisor.
+	Value    func(*JobSuperVisor) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) jobsupervisor.OrderOption
+	toCursor func(*JobSuperVisor) Cursor
+}
+
+// JobSuperVisorOrder defines the ordering of JobSuperVisor.
+type JobSuperVisorOrder struct {
+	Direction OrderDirection           `json:"direction"`
+	Field     *JobSuperVisorOrderField `json:"field"`
+}
+
+// DefaultJobSuperVisorOrder is the default ordering of JobSuperVisor.
+var DefaultJobSuperVisorOrder = &JobSuperVisorOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &JobSuperVisorOrderField{
+		Value: func(jsv *JobSuperVisor) (ent.Value, error) {
+			return jsv.ID, nil
+		},
+		column: jobsupervisor.FieldID,
+		toTerm: jobsupervisor.ByID,
+		toCursor: func(jsv *JobSuperVisor) Cursor {
+			return Cursor{ID: jsv.ID}
+		},
+	},
+}
+
+// ToEdge converts JobSuperVisor into JobSuperVisorEdge.
+func (jsv *JobSuperVisor) ToEdge(order *JobSuperVisorOrder) *JobSuperVisorEdge {
+	if order == nil {
+		order = DefaultJobSuperVisorOrder
+	}
+	return &JobSuperVisorEdge{
+		Node:   jsv,
+		Cursor: order.Field.toCursor(jsv),
 	}
 }
 

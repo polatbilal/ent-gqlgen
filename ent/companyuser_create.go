@@ -5,12 +5,12 @@ package ent
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyuser"
-	"gqlgen-ent/ent/user"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 )
 
 // CompanyUserCreate is the builder for creating a CompanyUser entity.

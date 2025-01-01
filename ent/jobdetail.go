@@ -4,18 +4,19 @@ package ent
 
 import (
 	"fmt"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobprogress"
 	"strings"
 	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 )
 
 // JobDetail is the model entity for the JobDetail schema.
@@ -49,20 +50,16 @@ type JobDetail struct {
 	LicenseNo string `json:"LicenseNo,omitempty"`
 	// ConstructionArea holds the value of the "ConstructionArea" field.
 	ConstructionArea string `json:"ConstructionArea,omitempty"`
-	// City holds the value of the "City" field.
-	City string `json:"City,omitempty"`
-	// District holds the value of the "District" field.
-	District string `json:"District,omitempty"`
-	// Village holds the value of the "Village" field.
-	Village string `json:"Village,omitempty"`
-	// Street holds the value of the "Street" field.
-	Street string `json:"Street,omitempty"`
+	// YDSAddress holds the value of the "YDSAddress" field.
+	YDSAddress string `json:"YDSAddress,omitempty"`
+	// Address holds the value of the "Address" field.
+	Address string `json:"Address,omitempty"`
 	// BuildingClass holds the value of the "BuildingClass" field.
 	BuildingClass string `json:"BuildingClass,omitempty"`
 	// BuildingType holds the value of the "BuildingType" field.
 	BuildingType string `json:"BuildingType,omitempty"`
-	// BuildingBlock holds the value of the "BuildingBlock" field.
-	BuildingBlock string `json:"BuildingBlock,omitempty"`
+	// UnitPrice holds the value of the "UnitPrice" field.
+	UnitPrice float64 `json:"UnitPrice,omitempty"`
 	// LandArea holds the value of the "LandArea" field.
 	LandArea string `json:"LandArea,omitempty"`
 	// Floors holds the value of the "Floors" field.
@@ -71,6 +68,8 @@ type JobDetail struct {
 	UsagePurpose string `json:"UsagePurpose,omitempty"`
 	// Note holds the value of the "Note" field.
 	Note string `json:"Note,omitempty"`
+	// Coordinates holds the value of the "Coordinates" field.
+	Coordinates string `json:"Coordinates,omitempty"`
 	// Started holds the value of the "Started" field.
 	Started int `json:"Started,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
@@ -93,11 +92,14 @@ type JobDetail struct {
 	contractor_id         *int
 	owner_id              *int
 	progress_id           *int
+	supervisor_id         *int
 	selectValues          sql.SelectValues
 }
 
 // JobDetailEdges holds the relations/edges for other nodes in the graph.
 type JobDetailEdges struct {
+	// Company holds the value of the company edge.
+	Company *CompanyDetail `json:"company,omitempty"`
 	// Owner holds the value of the owner edge.
 	Owner *JobOwner `json:"owner,omitempty"`
 	// Contractor holds the value of the contractor edge.
@@ -106,6 +108,8 @@ type JobDetailEdges struct {
 	Author *JobAuthor `json:"author,omitempty"`
 	// Progress holds the value of the progress edge.
 	Progress *JobProgress `json:"progress,omitempty"`
+	// Supervisor holds the value of the supervisor edge.
+	Supervisor *JobSuperVisor `json:"supervisor,omitempty"`
 	// Inspector holds the value of the inspector edge.
 	Inspector *CompanyEngineer `json:"inspector,omitempty"`
 	// Architect holds the value of the architect edge.
@@ -126,16 +130,25 @@ type JobDetailEdges struct {
 	Layers []*JobLayer `json:"layers,omitempty"`
 	// Payments holds the value of the payments edge.
 	Payments []*JobPayments `json:"payments,omitempty"`
-	// Company holds the value of the company edge.
-	Company *CompanyDetail `json:"company,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [15]bool
+	loadedTypes [16]bool
 	// totalCount holds the count of the edges above.
-	totalCount [15]map[string]int
+	totalCount [16]map[string]int
 
 	namedLayers   map[string][]*JobLayer
 	namedPayments map[string][]*JobPayments
+}
+
+// CompanyOrErr returns the Company value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e JobDetailEdges) CompanyOrErr() (*CompanyDetail, error) {
+	if e.Company != nil {
+		return e.Company, nil
+	} else if e.loadedTypes[0] {
+		return nil, &NotFoundError{label: companydetail.Label}
+	}
+	return nil, &NotLoadedError{edge: "company"}
 }
 
 // OwnerOrErr returns the Owner value or an error if the edge
@@ -143,7 +156,7 @@ type JobDetailEdges struct {
 func (e JobDetailEdges) OwnerOrErr() (*JobOwner, error) {
 	if e.Owner != nil {
 		return e.Owner, nil
-	} else if e.loadedTypes[0] {
+	} else if e.loadedTypes[1] {
 		return nil, &NotFoundError{label: jobowner.Label}
 	}
 	return nil, &NotLoadedError{edge: "owner"}
@@ -154,7 +167,7 @@ func (e JobDetailEdges) OwnerOrErr() (*JobOwner, error) {
 func (e JobDetailEdges) ContractorOrErr() (*JobContractor, error) {
 	if e.Contractor != nil {
 		return e.Contractor, nil
-	} else if e.loadedTypes[1] {
+	} else if e.loadedTypes[2] {
 		return nil, &NotFoundError{label: jobcontractor.Label}
 	}
 	return nil, &NotLoadedError{edge: "contractor"}
@@ -165,7 +178,7 @@ func (e JobDetailEdges) ContractorOrErr() (*JobContractor, error) {
 func (e JobDetailEdges) AuthorOrErr() (*JobAuthor, error) {
 	if e.Author != nil {
 		return e.Author, nil
-	} else if e.loadedTypes[2] {
+	} else if e.loadedTypes[3] {
 		return nil, &NotFoundError{label: jobauthor.Label}
 	}
 	return nil, &NotLoadedError{edge: "author"}
@@ -176,10 +189,21 @@ func (e JobDetailEdges) AuthorOrErr() (*JobAuthor, error) {
 func (e JobDetailEdges) ProgressOrErr() (*JobProgress, error) {
 	if e.Progress != nil {
 		return e.Progress, nil
-	} else if e.loadedTypes[3] {
+	} else if e.loadedTypes[4] {
 		return nil, &NotFoundError{label: jobprogress.Label}
 	}
 	return nil, &NotLoadedError{edge: "progress"}
+}
+
+// SupervisorOrErr returns the Supervisor value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e JobDetailEdges) SupervisorOrErr() (*JobSuperVisor, error) {
+	if e.Supervisor != nil {
+		return e.Supervisor, nil
+	} else if e.loadedTypes[5] {
+		return nil, &NotFoundError{label: jobsupervisor.Label}
+	}
+	return nil, &NotLoadedError{edge: "supervisor"}
 }
 
 // InspectorOrErr returns the Inspector value or an error if the edge
@@ -187,7 +211,7 @@ func (e JobDetailEdges) ProgressOrErr() (*JobProgress, error) {
 func (e JobDetailEdges) InspectorOrErr() (*CompanyEngineer, error) {
 	if e.Inspector != nil {
 		return e.Inspector, nil
-	} else if e.loadedTypes[4] {
+	} else if e.loadedTypes[6] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "inspector"}
@@ -198,7 +222,7 @@ func (e JobDetailEdges) InspectorOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) ArchitectOrErr() (*CompanyEngineer, error) {
 	if e.Architect != nil {
 		return e.Architect, nil
-	} else if e.loadedTypes[5] {
+	} else if e.loadedTypes[7] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "architect"}
@@ -209,7 +233,7 @@ func (e JobDetailEdges) ArchitectOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) StaticOrErr() (*CompanyEngineer, error) {
 	if e.Static != nil {
 		return e.Static, nil
-	} else if e.loadedTypes[6] {
+	} else if e.loadedTypes[8] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "static"}
@@ -220,7 +244,7 @@ func (e JobDetailEdges) StaticOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) MechanicOrErr() (*CompanyEngineer, error) {
 	if e.Mechanic != nil {
 		return e.Mechanic, nil
-	} else if e.loadedTypes[7] {
+	} else if e.loadedTypes[9] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "mechanic"}
@@ -231,7 +255,7 @@ func (e JobDetailEdges) MechanicOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) ElectricOrErr() (*CompanyEngineer, error) {
 	if e.Electric != nil {
 		return e.Electric, nil
-	} else if e.loadedTypes[8] {
+	} else if e.loadedTypes[10] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "electric"}
@@ -242,7 +266,7 @@ func (e JobDetailEdges) ElectricOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) ControllerOrErr() (*CompanyEngineer, error) {
 	if e.Controller != nil {
 		return e.Controller, nil
-	} else if e.loadedTypes[9] {
+	} else if e.loadedTypes[11] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "controller"}
@@ -253,7 +277,7 @@ func (e JobDetailEdges) ControllerOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) MechaniccontrollerOrErr() (*CompanyEngineer, error) {
 	if e.Mechaniccontroller != nil {
 		return e.Mechaniccontroller, nil
-	} else if e.loadedTypes[10] {
+	} else if e.loadedTypes[12] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "mechaniccontroller"}
@@ -264,7 +288,7 @@ func (e JobDetailEdges) MechaniccontrollerOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) ElectriccontrollerOrErr() (*CompanyEngineer, error) {
 	if e.Electriccontroller != nil {
 		return e.Electriccontroller, nil
-	} else if e.loadedTypes[11] {
+	} else if e.loadedTypes[13] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "electriccontroller"}
@@ -273,7 +297,7 @@ func (e JobDetailEdges) ElectriccontrollerOrErr() (*CompanyEngineer, error) {
 // LayersOrErr returns the Layers value or an error if the edge
 // was not loaded in eager-loading.
 func (e JobDetailEdges) LayersOrErr() ([]*JobLayer, error) {
-	if e.loadedTypes[12] {
+	if e.loadedTypes[14] {
 		return e.Layers, nil
 	}
 	return nil, &NotLoadedError{edge: "layers"}
@@ -282,21 +306,10 @@ func (e JobDetailEdges) LayersOrErr() ([]*JobLayer, error) {
 // PaymentsOrErr returns the Payments value or an error if the edge
 // was not loaded in eager-loading.
 func (e JobDetailEdges) PaymentsOrErr() ([]*JobPayments, error) {
-	if e.loadedTypes[13] {
+	if e.loadedTypes[15] {
 		return e.Payments, nil
 	}
 	return nil, &NotLoadedError{edge: "payments"}
-}
-
-// CompanyOrErr returns the Company value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e JobDetailEdges) CompanyOrErr() (*CompanyDetail, error) {
-	if e.Company != nil {
-		return e.Company, nil
-	} else if e.loadedTypes[14] {
-		return nil, &NotFoundError{label: companydetail.Label}
-	}
-	return nil, &NotLoadedError{edge: "company"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -304,9 +317,11 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case jobdetail.FieldUnitPrice:
+			values[i] = new(sql.NullFloat64)
 		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldStatus, jobdetail.FieldFloors, jobdetail.FieldStarted:
 			values[i] = new(sql.NullInt64)
-		case jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldCity, jobdetail.FieldDistrict, jobdetail.FieldVillage, jobdetail.FieldStreet, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBuildingBlock, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote:
+		case jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote, jobdetail.FieldCoordinates:
 			values[i] = new(sql.NullString)
 		case jobdetail.FieldContractDate, jobdetail.FieldCompletionDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -335,6 +350,8 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 		case jobdetail.ForeignKeys[11]: // owner_id
 			values[i] = new(sql.NullInt64)
 		case jobdetail.ForeignKeys[12]: // progress_id
+			values[i] = new(sql.NullInt64)
+		case jobdetail.ForeignKeys[13]: // supervisor_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -435,29 +452,17 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.ConstructionArea = value.String
 			}
-		case jobdetail.FieldCity:
+		case jobdetail.FieldYDSAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field City", values[i])
+				return fmt.Errorf("unexpected type %T for field YDSAddress", values[i])
 			} else if value.Valid {
-				jd.City = value.String
+				jd.YDSAddress = value.String
 			}
-		case jobdetail.FieldDistrict:
+		case jobdetail.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field District", values[i])
+				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				jd.District = value.String
-			}
-		case jobdetail.FieldVillage:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Village", values[i])
-			} else if value.Valid {
-				jd.Village = value.String
-			}
-		case jobdetail.FieldStreet:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Street", values[i])
-			} else if value.Valid {
-				jd.Street = value.String
+				jd.Address = value.String
 			}
 		case jobdetail.FieldBuildingClass:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -471,11 +476,11 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.BuildingType = value.String
 			}
-		case jobdetail.FieldBuildingBlock:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field BuildingBlock", values[i])
+		case jobdetail.FieldUnitPrice:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field UnitPrice", values[i])
 			} else if value.Valid {
-				jd.BuildingBlock = value.String
+				jd.UnitPrice = value.Float64
 			}
 		case jobdetail.FieldLandArea:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -500,6 +505,12 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Note", values[i])
 			} else if value.Valid {
 				jd.Note = value.String
+			}
+		case jobdetail.FieldCoordinates:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Coordinates", values[i])
+			} else if value.Valid {
+				jd.Coordinates = value.String
 			}
 		case jobdetail.FieldStarted:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -610,6 +621,13 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				jd.progress_id = new(int)
 				*jd.progress_id = int(value.Int64)
 			}
+		case jobdetail.ForeignKeys[13]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field supervisor_id", value)
+			} else if value.Valid {
+				jd.supervisor_id = new(int)
+				*jd.supervisor_id = int(value.Int64)
+			}
 		default:
 			jd.selectValues.Set(columns[i], values[i])
 		}
@@ -621,6 +639,11 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 // This includes values selected through modifiers, order, etc.
 func (jd *JobDetail) Value(name string) (ent.Value, error) {
 	return jd.selectValues.Get(name)
+}
+
+// QueryCompany queries the "company" edge of the JobDetail entity.
+func (jd *JobDetail) QueryCompany() *CompanyDetailQuery {
+	return NewJobDetailClient(jd.config).QueryCompany(jd)
 }
 
 // QueryOwner queries the "owner" edge of the JobDetail entity.
@@ -641,6 +664,11 @@ func (jd *JobDetail) QueryAuthor() *JobAuthorQuery {
 // QueryProgress queries the "progress" edge of the JobDetail entity.
 func (jd *JobDetail) QueryProgress() *JobProgressQuery {
 	return NewJobDetailClient(jd.config).QueryProgress(jd)
+}
+
+// QuerySupervisor queries the "supervisor" edge of the JobDetail entity.
+func (jd *JobDetail) QuerySupervisor() *JobSuperVisorQuery {
+	return NewJobDetailClient(jd.config).QuerySupervisor(jd)
 }
 
 // QueryInspector queries the "inspector" edge of the JobDetail entity.
@@ -691,11 +719,6 @@ func (jd *JobDetail) QueryLayers() *JobLayerQuery {
 // QueryPayments queries the "payments" edge of the JobDetail entity.
 func (jd *JobDetail) QueryPayments() *JobPaymentsQuery {
 	return NewJobDetailClient(jd.config).QueryPayments(jd)
-}
-
-// QueryCompany queries the "company" edge of the JobDetail entity.
-func (jd *JobDetail) QueryCompany() *CompanyDetailQuery {
-	return NewJobDetailClient(jd.config).QueryCompany(jd)
 }
 
 // Update returns a builder for updating this JobDetail.
@@ -760,17 +783,11 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("ConstructionArea=")
 	builder.WriteString(jd.ConstructionArea)
 	builder.WriteString(", ")
-	builder.WriteString("City=")
-	builder.WriteString(jd.City)
+	builder.WriteString("YDSAddress=")
+	builder.WriteString(jd.YDSAddress)
 	builder.WriteString(", ")
-	builder.WriteString("District=")
-	builder.WriteString(jd.District)
-	builder.WriteString(", ")
-	builder.WriteString("Village=")
-	builder.WriteString(jd.Village)
-	builder.WriteString(", ")
-	builder.WriteString("Street=")
-	builder.WriteString(jd.Street)
+	builder.WriteString("Address=")
+	builder.WriteString(jd.Address)
 	builder.WriteString(", ")
 	builder.WriteString("BuildingClass=")
 	builder.WriteString(jd.BuildingClass)
@@ -778,8 +795,8 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("BuildingType=")
 	builder.WriteString(jd.BuildingType)
 	builder.WriteString(", ")
-	builder.WriteString("BuildingBlock=")
-	builder.WriteString(jd.BuildingBlock)
+	builder.WriteString("UnitPrice=")
+	builder.WriteString(fmt.Sprintf("%v", jd.UnitPrice))
 	builder.WriteString(", ")
 	builder.WriteString("LandArea=")
 	builder.WriteString(jd.LandArea)
@@ -792,6 +809,9 @@ func (jd *JobDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("Note=")
 	builder.WriteString(jd.Note)
+	builder.WriteString(", ")
+	builder.WriteString("Coordinates=")
+	builder.WriteString(jd.Coordinates)
 	builder.WriteString(", ")
 	builder.WriteString("Started=")
 	builder.WriteString(fmt.Sprintf("%v", jd.Started))

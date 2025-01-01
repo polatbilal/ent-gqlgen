@@ -4,12 +4,12 @@ package ent
 
 import (
 	"fmt"
-	"gqlgen-ent/ent/jobauthor"
 	"strings"
 	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
 )
 
 // JobAuthor is the model entity for the JobAuthor schema.

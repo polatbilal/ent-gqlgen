@@ -4,18 +4,19 @@ package ent
 
 import (
 	"context"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobpayments"
-	"gqlgen-ent/ent/jobprogress"
-	"gqlgen-ent/ent/user"
 
 	"github.com/99designs/gqlgen/graphql"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 )
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
@@ -825,6 +826,17 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
+		case "company":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyDetailClient{config: jd.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
+				return err
+			}
+			jd.withCompany = query
+
 		case "owner":
 			var (
 				alias = field.Alias
@@ -868,6 +880,17 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				return err
 			}
 			jd.withProgress = query
+
+		case "supervisor":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobSuperVisorClient{config: jd.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobsupervisorImplementors)...); err != nil {
+				return err
+			}
+			jd.withSupervisor = query
 
 		case "inspector":
 			var (
@@ -982,17 +1005,6 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			jd.WithNamedPayments(alias, func(wq *JobPaymentsQuery) {
 				*wq = *query
 			})
-
-		case "company":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
-				return err
-			}
-			jd.withCompany = query
 		case "yibfno":
 			if _, ok := fieldSeen[jobdetail.FieldYibfNo]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldYibfNo)
@@ -1058,25 +1070,15 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldConstructionArea)
 				fieldSeen[jobdetail.FieldConstructionArea] = struct{}{}
 			}
-		case "city":
-			if _, ok := fieldSeen[jobdetail.FieldCity]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldCity)
-				fieldSeen[jobdetail.FieldCity] = struct{}{}
+		case "ydsaddress":
+			if _, ok := fieldSeen[jobdetail.FieldYDSAddress]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldYDSAddress)
+				fieldSeen[jobdetail.FieldYDSAddress] = struct{}{}
 			}
-		case "district":
-			if _, ok := fieldSeen[jobdetail.FieldDistrict]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldDistrict)
-				fieldSeen[jobdetail.FieldDistrict] = struct{}{}
-			}
-		case "village":
-			if _, ok := fieldSeen[jobdetail.FieldVillage]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldVillage)
-				fieldSeen[jobdetail.FieldVillage] = struct{}{}
-			}
-		case "street":
-			if _, ok := fieldSeen[jobdetail.FieldStreet]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldStreet)
-				fieldSeen[jobdetail.FieldStreet] = struct{}{}
+		case "address":
+			if _, ok := fieldSeen[jobdetail.FieldAddress]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldAddress)
+				fieldSeen[jobdetail.FieldAddress] = struct{}{}
 			}
 		case "buildingclass":
 			if _, ok := fieldSeen[jobdetail.FieldBuildingClass]; !ok {
@@ -1088,10 +1090,10 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldBuildingType)
 				fieldSeen[jobdetail.FieldBuildingType] = struct{}{}
 			}
-		case "buildingblock":
-			if _, ok := fieldSeen[jobdetail.FieldBuildingBlock]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldBuildingBlock)
-				fieldSeen[jobdetail.FieldBuildingBlock] = struct{}{}
+		case "unitprice":
+			if _, ok := fieldSeen[jobdetail.FieldUnitPrice]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldUnitPrice)
+				fieldSeen[jobdetail.FieldUnitPrice] = struct{}{}
 			}
 		case "landarea":
 			if _, ok := fieldSeen[jobdetail.FieldLandArea]; !ok {
@@ -1112,6 +1114,11 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			if _, ok := fieldSeen[jobdetail.FieldNote]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldNote)
 				fieldSeen[jobdetail.FieldNote] = struct{}{}
+			}
+		case "coordinates":
+			if _, ok := fieldSeen[jobdetail.FieldCoordinates]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldCoordinates)
+				fieldSeen[jobdetail.FieldCoordinates] = struct{}{}
 			}
 		case "started":
 			if _, ok := fieldSeen[jobdetail.FieldStarted]; !ok {
@@ -1612,6 +1619,143 @@ type jobprogressPaginateArgs struct {
 
 func newJobProgressPaginateArgs(rv map[string]any) *jobprogressPaginateArgs {
 	args := &jobprogressPaginateArgs{}
+	if rv == nil {
+		return args
+	}
+	if v := rv[firstField]; v != nil {
+		args.first = v.(*int)
+	}
+	if v := rv[lastField]; v != nil {
+		args.last = v.(*int)
+	}
+	if v := rv[afterField]; v != nil {
+		args.after = v.(*Cursor)
+	}
+	if v := rv[beforeField]; v != nil {
+		args.before = v.(*Cursor)
+	}
+	return args
+}
+
+// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
+func (jsv *JobSuperVisorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobSuperVisorQuery, error) {
+	fc := graphql.GetFieldContext(ctx)
+	if fc == nil {
+		return jsv, nil
+	}
+	if err := jsv.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+		return nil, err
+	}
+	return jsv, nil
+}
+
+func (jsv *JobSuperVisorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+	path = append([]string(nil), path...)
+	var (
+		unknownSeen    bool
+		fieldSeen      = make(map[string]struct{}, len(jobsupervisor.Columns))
+		selectedFields = []string{jobsupervisor.FieldID}
+	)
+	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
+		switch field.Name {
+
+		case "supervisors":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobDetailClient{config: jsv.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+				return err
+			}
+			jsv.WithNamedSupervisors(alias, func(wq *JobDetailQuery) {
+				*wq = *query
+			})
+		case "name":
+			if _, ok := fieldSeen[jobsupervisor.FieldName]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldName)
+				fieldSeen[jobsupervisor.FieldName] = struct{}{}
+			}
+		case "address":
+			if _, ok := fieldSeen[jobsupervisor.FieldAddress]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldAddress)
+				fieldSeen[jobsupervisor.FieldAddress] = struct{}{}
+			}
+		case "phone":
+			if _, ok := fieldSeen[jobsupervisor.FieldPhone]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldPhone)
+				fieldSeen[jobsupervisor.FieldPhone] = struct{}{}
+			}
+		case "email":
+			if _, ok := fieldSeen[jobsupervisor.FieldEmail]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldEmail)
+				fieldSeen[jobsupervisor.FieldEmail] = struct{}{}
+			}
+		case "tcno":
+			if _, ok := fieldSeen[jobsupervisor.FieldTCNO]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldTCNO)
+				fieldSeen[jobsupervisor.FieldTCNO] = struct{}{}
+			}
+		case "position":
+			if _, ok := fieldSeen[jobsupervisor.FieldPosition]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldPosition)
+				fieldSeen[jobsupervisor.FieldPosition] = struct{}{}
+			}
+		case "career":
+			if _, ok := fieldSeen[jobsupervisor.FieldCareer]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldCareer)
+				fieldSeen[jobsupervisor.FieldCareer] = struct{}{}
+			}
+		case "regno":
+			if _, ok := fieldSeen[jobsupervisor.FieldRegNo]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldRegNo)
+				fieldSeen[jobsupervisor.FieldRegNo] = struct{}{}
+			}
+		case "socialsecurityno":
+			if _, ok := fieldSeen[jobsupervisor.FieldSocialSecurityNo]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldSocialSecurityNo)
+				fieldSeen[jobsupervisor.FieldSocialSecurityNo] = struct{}{}
+			}
+		case "schoolgraduation":
+			if _, ok := fieldSeen[jobsupervisor.FieldSchoolGraduation]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldSchoolGraduation)
+				fieldSeen[jobsupervisor.FieldSchoolGraduation] = struct{}{}
+			}
+		case "ydsid":
+			if _, ok := fieldSeen[jobsupervisor.FieldYDSID]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldYDSID)
+				fieldSeen[jobsupervisor.FieldYDSID] = struct{}{}
+			}
+		case "createdat":
+			if _, ok := fieldSeen[jobsupervisor.FieldCreatedAt]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldCreatedAt)
+				fieldSeen[jobsupervisor.FieldCreatedAt] = struct{}{}
+			}
+		case "updatedat":
+			if _, ok := fieldSeen[jobsupervisor.FieldUpdatedAt]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldUpdatedAt)
+				fieldSeen[jobsupervisor.FieldUpdatedAt] = struct{}{}
+			}
+		case "id":
+		case "__typename":
+		default:
+			unknownSeen = true
+		}
+	}
+	if !unknownSeen {
+		jsv.Select(selectedFields...)
+	}
+	return nil
+}
+
+type jobsupervisorPaginateArgs struct {
+	first, last   *int
+	after, before *Cursor
+	opts          []JobSuperVisorPaginateOption
+}
+
+func newJobSuperVisorPaginateArgs(rv map[string]any) *jobsupervisorPaginateArgs {
+	args := &jobsupervisorPaginateArgs{}
 	if rv == nil {
 		return args
 	}

@@ -5,15 +5,16 @@ package main
 import (
 	"context"
 	"errors"
-	"gqlgen-ent/database"
-	"gqlgen-ent/ent/migrate"
-	"gqlgen-ent/graph/resolvers"
-	"gqlgen-ent/handlers/external"
-	"gqlgen-ent/handlers/sync"
-	"gqlgen-ent/middlewares"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/polatbilal/gqlgen-ent/database"
+	"github.com/polatbilal/gqlgen-ent/ent/migrate"
+	"github.com/polatbilal/gqlgen-ent/graph/resolvers"
+	"github.com/polatbilal/gqlgen-ent/handlers/external"
+	"github.com/polatbilal/gqlgen-ent/handlers/sync"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"

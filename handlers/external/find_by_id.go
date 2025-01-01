@@ -3,10 +3,11 @@ package external
 import (
 	"encoding/json"
 	"fmt"
-	"gqlgen-ent/handlers/service"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
 	"github.com/gin-gonic/gin"
 )

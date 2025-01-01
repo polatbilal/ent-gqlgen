@@ -15,13 +15,9 @@ type JobDetail {
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
-  City: String
-  District: String
-  Village: String
-  Street: String
+  Address: String
   BuildingClass: String
   BuildingType: String
-  BuildingBlock: String
   Floors: Int
   Note: String
   Started: Int
@@ -40,6 +36,7 @@ type JobDetail {
   ElectricController: CompanyEngineer
   CreatedAt: String
   Layer: [JobLayer]
+  Supervisor: JobSupervisor
 }
 
 input JobInput {
@@ -58,13 +55,9 @@ input JobInput {
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
-  City: String
-  District: String
-  Village: String
-  Street: String
+  Address: String
   BuildingClass: String
   BuildingType: String
-  BuildingBlock: String
   Floors: Int
   Note: String
   Started: Int
@@ -81,6 +74,7 @@ input JobInput {
   Controller: Int
   MechanicController: Int
   ElectricController: Int
+  Supervisor: JobSupervisorInput
 }
 
 # Job Author
