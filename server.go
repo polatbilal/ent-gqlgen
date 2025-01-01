@@ -53,7 +53,7 @@ func main() {
 	// YDK Companies endpoint'ini ekle
 	r.POST("/ydk/companies", handlers.YDKCompanies)
 	// YDK Sync endpoint'ini ekle
-	r.POST("/ydk/sync", handlers.YDKSync)
+	r.GET("/ydk/sync", handlers.YDKSync)
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {

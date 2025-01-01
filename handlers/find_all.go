@@ -3,9 +3,11 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 )
@@ -80,13 +82,89 @@ func FindAll(c *gin.Context) {
 		return
 	}
 
-	var ids []int
+	// Her bir ID için detaylı bilgileri almak için goroutine kullanacağız
+	var wg sync.WaitGroup
+	detailsChan := make(chan map[string]interface{}, len(response.Items))
+	errorsChan := make(chan error, len(response.Items))
+
 	for _, item := range response.Items {
-		ids = append(ids, item.ID)
+		wg.Add(1)
+		go func(id int) {
+			defer wg.Done()
+
+			url := fmt.Sprintf("%s/api/yibf/findById/%d", service.baseURL, id)
+			req, err := http.NewRequest("GET", url, nil)
+			if err != nil {
+				errorsChan <- err
+				return
+			}
+
+			req.Header.Set("Authorization", token)
+
+			resp, err := service.client.Do(req)
+			if err != nil {
+				errorsChan <- err
+				return
+			}
+			defer resp.Body.Close()
+
+			body, err := io.ReadAll(resp.Body)
+			if err != nil {
+				errorsChan <- err
+				return
+			}
+
+			var findByIdResponse struct {
+				ID      int `json:"id"`
+				Village struct {
+					Parent struct {
+						Name   string `json:"name"`
+						Parent struct {
+							Name string `json:"name"`
+						} `json:"parent"`
+					} `json:"parent"`
+				} `json:"village"`
+			}
+
+			if err := json.Unmarshal(body, &findByIdResponse); err != nil {
+				errorsChan <- fmt.Errorf("ID %d için parse hatası: %v", id, err)
+				return
+			}
+
+			detailsChan <- map[string]interface{}{
+				"id":      findByIdResponse.ID,
+				"village": findByIdResponse.Village,
+			}
+		}(item.ID)
+	}
+
+	// Tüm goroutine'lerin tamamlanmasını bekle
+	go func() {
+		wg.Wait()
+		close(detailsChan)
+		close(errorsChan)
+	}()
+
+	// Sonuçları topla
+	var details []map[string]interface{}
+	var errors []string
+
+	for i := 0; i < len(response.Items); i++ {
+		select {
+		case detail := <-detailsChan:
+			if detail != nil {
+				details = append(details, detail)
+			}
+		case err := <-errorsChan:
+			if err != nil {
+				errors = append(errors, err.Error())
+			}
+		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"ids":     ids,
+		"details": details,
+		"errors":  errors,
 	})
 }
