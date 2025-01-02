@@ -20,7 +20,6 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis/v8"
 	"github.com/joho/godotenv"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
@@ -81,16 +80,10 @@ func main() {
 	}
 
 	// Redis bağlantısını başlat
-	database.RedisClient = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
-	})
-
-	// Redis bağlantısını kontrol et
-	if err := database.RedisClient.Ping(context.Background()).Err(); err != nil {
-		log.Fatalf("Redis bağlantı hatası: %v", err)
+	if err := database.InitRedis(); err != nil {
+		log.Fatalf("Redis başlatma hatası: %v", err)
 	}
+	defer database.RedisClient.Close()
 
 	// Configure the GraphQL server and start
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))
