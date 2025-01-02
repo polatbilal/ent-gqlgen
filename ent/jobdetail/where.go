@@ -90,6 +90,11 @@ func Status(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldStatus, v))
 }
 
+// State applies equality check predicate on the "State" field. It's identical to StateEQ.
+func State(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldState, v))
+}
+
 // ContractDate applies equality check predicate on the "ContractDate" field. It's identical to ContractDateEQ.
 func ContractDate(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldContractDate, v))
@@ -138,6 +143,11 @@ func BuildingClass(v string) predicate.JobDetail {
 // BuildingType applies equality check predicate on the "BuildingType" field. It's identical to BuildingTypeEQ.
 func BuildingType(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldBuildingType, v))
+}
+
+// Level applies equality check predicate on the "Level" field. It's identical to LevelEQ.
+func Level(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldLevel, v))
 }
 
 // UnitPrice applies equality check predicate on the "UnitPrice" field. It's identical to UnitPriceEQ.
@@ -638,6 +648,81 @@ func StatusLT(v int) predicate.JobDetail {
 // StatusLTE applies the LTE predicate on the "Status" field.
 func StatusLTE(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldStatus, v))
+}
+
+// StateEQ applies the EQ predicate on the "State" field.
+func StateEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldState, v))
+}
+
+// StateNEQ applies the NEQ predicate on the "State" field.
+func StateNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldState, v))
+}
+
+// StateIn applies the In predicate on the "State" field.
+func StateIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldState, vs...))
+}
+
+// StateNotIn applies the NotIn predicate on the "State" field.
+func StateNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldState, vs...))
+}
+
+// StateGT applies the GT predicate on the "State" field.
+func StateGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldState, v))
+}
+
+// StateGTE applies the GTE predicate on the "State" field.
+func StateGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldState, v))
+}
+
+// StateLT applies the LT predicate on the "State" field.
+func StateLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldState, v))
+}
+
+// StateLTE applies the LTE predicate on the "State" field.
+func StateLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldState, v))
+}
+
+// StateContains applies the Contains predicate on the "State" field.
+func StateContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldState, v))
+}
+
+// StateHasPrefix applies the HasPrefix predicate on the "State" field.
+func StateHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldState, v))
+}
+
+// StateHasSuffix applies the HasSuffix predicate on the "State" field.
+func StateHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldState, v))
+}
+
+// StateIsNil applies the IsNil predicate on the "State" field.
+func StateIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldState))
+}
+
+// StateNotNil applies the NotNil predicate on the "State" field.
+func StateNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldState))
+}
+
+// StateEqualFold applies the EqualFold predicate on the "State" field.
+func StateEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldState, v))
+}
+
+// StateContainsFold applies the ContainsFold predicate on the "State" field.
+func StateContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldState, v))
 }
 
 // ContractDateEQ applies the EQ predicate on the "ContractDate" field.
@@ -1288,6 +1373,56 @@ func BuildingTypeEqualFold(v string) predicate.JobDetail {
 // BuildingTypeContainsFold applies the ContainsFold predicate on the "BuildingType" field.
 func BuildingTypeContainsFold(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldContainsFold(FieldBuildingType, v))
+}
+
+// LevelEQ applies the EQ predicate on the "Level" field.
+func LevelEQ(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldLevel, v))
+}
+
+// LevelNEQ applies the NEQ predicate on the "Level" field.
+func LevelNEQ(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldLevel, v))
+}
+
+// LevelIn applies the In predicate on the "Level" field.
+func LevelIn(vs ...float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldLevel, vs...))
+}
+
+// LevelNotIn applies the NotIn predicate on the "Level" field.
+func LevelNotIn(vs ...float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldLevel, vs...))
+}
+
+// LevelGT applies the GT predicate on the "Level" field.
+func LevelGT(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldLevel, v))
+}
+
+// LevelGTE applies the GTE predicate on the "Level" field.
+func LevelGTE(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldLevel, v))
+}
+
+// LevelLT applies the LT predicate on the "Level" field.
+func LevelLT(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldLevel, v))
+}
+
+// LevelLTE applies the LTE predicate on the "Level" field.
+func LevelLTE(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldLevel, v))
+}
+
+// LevelIsNil applies the IsNil predicate on the "Level" field.
+func LevelIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldLevel))
+}
+
+// LevelNotNil applies the NotNil predicate on the "Level" field.
+func LevelNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldLevel))
 }
 
 // UnitPriceEQ applies the EQ predicate on the "UnitPrice" field.

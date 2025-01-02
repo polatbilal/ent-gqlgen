@@ -3,20 +3,17 @@ type AuthPayload {
   userID: ID!
   username: String!
   name: String!
-  companyCode: String!
   role: String!
 }
 
 type Mutation {
   register(
-    companyCode: String!
     username: String!
     name: String
     email: String
     password: String!
   ): AuthPayload!
   login(
-    companyCode: String!
     username: String!
     password: String!
   ): AuthPayload!

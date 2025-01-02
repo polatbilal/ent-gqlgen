@@ -61,7 +61,7 @@ func YDKCompanies(c *gin.Context) {
 		return
 	}
 
-	url := svc.BaseURL + service.ENDPOINT_BY_DEPARTMENT
+	url := svc.BaseURL + service.ENDPOINT_COMPANY
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

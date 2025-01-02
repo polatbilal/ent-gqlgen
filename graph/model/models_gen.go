@@ -7,12 +7,11 @@ import (
 )
 
 type AuthPayload struct {
-	Token       string `json:"token"`
-	UserID      string `json:"userID"`
-	Username    string `json:"username"`
-	Name        string `json:"name"`
-	CompanyCode string `json:"companyCode"`
-	Role        string `json:"role"`
+	Token    string `json:"token"`
+	UserID   string `json:"userID"`
+	Username string `json:"username"`
+	Name     string `json:"name"`
+	Role     string `json:"role"`
 }
 
 type CompanyDetailInput struct {
@@ -97,6 +96,7 @@ type JobInput struct {
 	Parsel             *string               `json:"Parsel,omitempty"`
 	FolderNo           *string               `json:"FolderNo,omitempty"`
 	Status             *int                  `json:"Status,omitempty"`
+	State              *string               `json:"State,omitempty"`
 	ContractDate       *string               `json:"ContractDate,omitempty"`
 	StartDate          *string               `json:"StartDate,omitempty"`
 	CompletionDate     *string               `json:"CompletionDate,omitempty"`
@@ -108,6 +108,7 @@ type JobInput struct {
 	BuildingClass      *string               `json:"BuildingClass,omitempty"`
 	BuildingType       *string               `json:"BuildingType,omitempty"`
 	Floors             *int                  `json:"Floors,omitempty"`
+	Level              *float64              `json:"Level,omitempty"`
 	Note               *string               `json:"Note,omitempty"`
 	Started            *int                  `json:"Started,omitempty"`
 	UsagePurpose       *string               `json:"UsagePurpose,omitempty"`
@@ -123,7 +124,7 @@ type JobInput struct {
 	Controller         *int                  `json:"Controller,omitempty"`
 	MechanicController *int                  `json:"MechanicController,omitempty"`
 	ElectricController *int                  `json:"ElectricController,omitempty"`
-	Supervisor         *JobSupervisorInput   `json:"Supervisor,omitempty"`
+	Supervisor         *SupervisorInput      `json:"Supervisor,omitempty"`
 }
 
 type JobLayerInput struct {
@@ -167,23 +168,28 @@ type JobProgressInput struct {
 	Six   *int `json:"Six,omitempty"`
 }
 
-type JobSupervisor struct {
-	ID               string         `json:"id"`
-	Name             *string        `json:"Name,omitempty"`
-	Address          *string        `json:"Address,omitempty"`
-	Phone            *string        `json:"Phone,omitempty"`
-	Email            *string        `json:"Email,omitempty"`
-	Tcno             *int           `json:"TCNO,omitempty"`
-	Position         *string        `json:"Position,omitempty"`
-	Career           *string        `json:"Career,omitempty"`
-	RegNo            *int           `json:"RegNo,omitempty"`
-	SocialSecurityNo *int           `json:"SocialSecurityNo,omitempty"`
-	SchoolGraduation *string        `json:"SchoolGraduation,omitempty"`
-	Ydsid            *int           `json:"YDSID,omitempty"`
-	Job              *ent.JobDetail `json:"Job,omitempty"`
+type LayerFilterInput struct {
+	ID     *int `json:"id,omitempty"`
+	YibfNo *int `json:"yibfNo,omitempty"`
 }
 
-type JobSupervisorInput struct {
+type Supervisor struct {
+	ID               string           `json:"id"`
+	Name             *string          `json:"Name,omitempty"`
+	Address          *string          `json:"Address,omitempty"`
+	Phone            *string          `json:"Phone,omitempty"`
+	Email            *string          `json:"Email,omitempty"`
+	Tcno             *int             `json:"TCNO,omitempty"`
+	Position         *string          `json:"Position,omitempty"`
+	Career           *string          `json:"Career,omitempty"`
+	RegNo            *int             `json:"RegNo,omitempty"`
+	SocialSecurityNo *int             `json:"SocialSecurityNo,omitempty"`
+	SchoolGraduation *string          `json:"SchoolGraduation,omitempty"`
+	Ydsid            *int             `json:"YDSID,omitempty"`
+	Job              []*ent.JobDetail `json:"Job,omitempty"`
+}
+
+type SupervisorInput struct {
 	Name             *string `json:"Name,omitempty"`
 	Address          *string `json:"Address,omitempty"`
 	Phone            *string `json:"Phone,omitempty"`
@@ -195,11 +201,6 @@ type JobSupervisorInput struct {
 	SocialSecurityNo *int    `json:"SocialSecurityNo,omitempty"`
 	SchoolGraduation *string `json:"SchoolGraduation,omitempty"`
 	Ydsid            *int    `json:"YDSID,omitempty"`
-}
-
-type LayerFilterInput struct {
-	ID     *int `json:"id,omitempty"`
-	YibfNo *int `json:"yibfNo,omitempty"`
 }
 
 type UserInput struct {

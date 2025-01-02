@@ -203,14 +203,14 @@ func (jsvu *JobSuperVisorUpdate) ClearRegNo() *JobSuperVisorUpdate {
 	return jsvu
 }
 
-// SetSocialSecurityNo sets the "socialSecurityNo" field.
+// SetSocialSecurityNo sets the "SocialSecurityNo" field.
 func (jsvu *JobSuperVisorUpdate) SetSocialSecurityNo(i int) *JobSuperVisorUpdate {
 	jsvu.mutation.ResetSocialSecurityNo()
 	jsvu.mutation.SetSocialSecurityNo(i)
 	return jsvu
 }
 
-// SetNillableSocialSecurityNo sets the "socialSecurityNo" field if the given value is not nil.
+// SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
 func (jsvu *JobSuperVisorUpdate) SetNillableSocialSecurityNo(i *int) *JobSuperVisorUpdate {
 	if i != nil {
 		jsvu.SetSocialSecurityNo(*i)
@@ -218,25 +218,25 @@ func (jsvu *JobSuperVisorUpdate) SetNillableSocialSecurityNo(i *int) *JobSuperVi
 	return jsvu
 }
 
-// AddSocialSecurityNo adds i to the "socialSecurityNo" field.
+// AddSocialSecurityNo adds i to the "SocialSecurityNo" field.
 func (jsvu *JobSuperVisorUpdate) AddSocialSecurityNo(i int) *JobSuperVisorUpdate {
 	jsvu.mutation.AddSocialSecurityNo(i)
 	return jsvu
 }
 
-// ClearSocialSecurityNo clears the value of the "socialSecurityNo" field.
+// ClearSocialSecurityNo clears the value of the "SocialSecurityNo" field.
 func (jsvu *JobSuperVisorUpdate) ClearSocialSecurityNo() *JobSuperVisorUpdate {
 	jsvu.mutation.ClearSocialSecurityNo()
 	return jsvu
 }
 
-// SetSchoolGraduation sets the "schoolGraduation" field.
+// SetSchoolGraduation sets the "SchoolGraduation" field.
 func (jsvu *JobSuperVisorUpdate) SetSchoolGraduation(s string) *JobSuperVisorUpdate {
 	jsvu.mutation.SetSchoolGraduation(s)
 	return jsvu
 }
 
-// SetNillableSchoolGraduation sets the "schoolGraduation" field if the given value is not nil.
+// SetNillableSchoolGraduation sets the "SchoolGraduation" field if the given value is not nil.
 func (jsvu *JobSuperVisorUpdate) SetNillableSchoolGraduation(s *string) *JobSuperVisorUpdate {
 	if s != nil {
 		jsvu.SetSchoolGraduation(*s)
@@ -244,7 +244,7 @@ func (jsvu *JobSuperVisorUpdate) SetNillableSchoolGraduation(s *string) *JobSupe
 	return jsvu
 }
 
-// ClearSchoolGraduation clears the value of the "schoolGraduation" field.
+// ClearSchoolGraduation clears the value of the "SchoolGraduation" field.
 func (jsvu *JobSuperVisorUpdate) ClearSchoolGraduation() *JobSuperVisorUpdate {
 	jsvu.mutation.ClearSchoolGraduation()
 	return jsvu
@@ -706,14 +706,14 @@ func (jsvuo *JobSuperVisorUpdateOne) ClearRegNo() *JobSuperVisorUpdateOne {
 	return jsvuo
 }
 
-// SetSocialSecurityNo sets the "socialSecurityNo" field.
+// SetSocialSecurityNo sets the "SocialSecurityNo" field.
 func (jsvuo *JobSuperVisorUpdateOne) SetSocialSecurityNo(i int) *JobSuperVisorUpdateOne {
 	jsvuo.mutation.ResetSocialSecurityNo()
 	jsvuo.mutation.SetSocialSecurityNo(i)
 	return jsvuo
 }
 
-// SetNillableSocialSecurityNo sets the "socialSecurityNo" field if the given value is not nil.
+// SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
 func (jsvuo *JobSuperVisorUpdateOne) SetNillableSocialSecurityNo(i *int) *JobSuperVisorUpdateOne {
 	if i != nil {
 		jsvuo.SetSocialSecurityNo(*i)
@@ -721,25 +721,25 @@ func (jsvuo *JobSuperVisorUpdateOne) SetNillableSocialSecurityNo(i *int) *JobSup
 	return jsvuo
 }
 
-// AddSocialSecurityNo adds i to the "socialSecurityNo" field.
+// AddSocialSecurityNo adds i to the "SocialSecurityNo" field.
 func (jsvuo *JobSuperVisorUpdateOne) AddSocialSecurityNo(i int) *JobSuperVisorUpdateOne {
 	jsvuo.mutation.AddSocialSecurityNo(i)
 	return jsvuo
 }
 
-// ClearSocialSecurityNo clears the value of the "socialSecurityNo" field.
+// ClearSocialSecurityNo clears the value of the "SocialSecurityNo" field.
 func (jsvuo *JobSuperVisorUpdateOne) ClearSocialSecurityNo() *JobSuperVisorUpdateOne {
 	jsvuo.mutation.ClearSocialSecurityNo()
 	return jsvuo
 }
 
-// SetSchoolGraduation sets the "schoolGraduation" field.
+// SetSchoolGraduation sets the "SchoolGraduation" field.
 func (jsvuo *JobSuperVisorUpdateOne) SetSchoolGraduation(s string) *JobSuperVisorUpdateOne {
 	jsvuo.mutation.SetSchoolGraduation(s)
 	return jsvuo
 }
 
-// SetNillableSchoolGraduation sets the "schoolGraduation" field if the given value is not nil.
+// SetNillableSchoolGraduation sets the "SchoolGraduation" field if the given value is not nil.
 func (jsvuo *JobSuperVisorUpdateOne) SetNillableSchoolGraduation(s *string) *JobSuperVisorUpdateOne {
 	if s != nil {
 		jsvuo.SetSchoolGraduation(*s)
@@ -747,7 +747,7 @@ func (jsvuo *JobSuperVisorUpdateOne) SetNillableSchoolGraduation(s *string) *Job
 	return jsvuo
 }
 
-// ClearSchoolGraduation clears the value of the "schoolGraduation" field.
+// ClearSchoolGraduation clears the value of the "SchoolGraduation" field.
 func (jsvuo *JobSuperVisorUpdateOne) ClearSchoolGraduation() *JobSuperVisorUpdateOne {
 	jsvuo.mutation.ClearSchoolGraduation()
 	return jsvuo

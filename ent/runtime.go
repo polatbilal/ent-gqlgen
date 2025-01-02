@@ -134,15 +134,15 @@ func init() {
 	// jobdetail.DefaultStatus holds the default value on creation for the Status field.
 	jobdetail.DefaultStatus = jobdetailDescStatus.Default.(int)
 	// jobdetailDescStarted is the schema descriptor for Started field.
-	jobdetailDescStarted := jobdetailFields[23].Descriptor()
+	jobdetailDescStarted := jobdetailFields[25].Descriptor()
 	// jobdetail.DefaultStarted holds the default value on creation for the Started field.
 	jobdetail.DefaultStarted = jobdetailDescStarted.Default.(int)
 	// jobdetailDescCreatedAt is the schema descriptor for CreatedAt field.
-	jobdetailDescCreatedAt := jobdetailFields[24].Descriptor()
+	jobdetailDescCreatedAt := jobdetailFields[26].Descriptor()
 	// jobdetail.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobdetail.DefaultCreatedAt = jobdetailDescCreatedAt.Default.(func() time.Time)
 	// jobdetailDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	jobdetailDescUpdatedAt := jobdetailFields[25].Descriptor()
+	jobdetailDescUpdatedAt := jobdetailFields[27].Descriptor()
 	// jobdetail.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobdetail.DefaultUpdatedAt = jobdetailDescUpdatedAt.Default.(func() time.Time)
 	// jobdetail.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.

@@ -138,12 +138,12 @@ func ByRegNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRegNo, opts...).ToFunc()
 }
 
-// BySocialSecurityNo orders the results by the socialSecurityNo field.
+// BySocialSecurityNo orders the results by the SocialSecurityNo field.
 func BySocialSecurityNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSocialSecurityNo, opts...).ToFunc()
 }
 
-// BySchoolGraduation orders the results by the schoolGraduation field.
+// BySchoolGraduation orders the results by the SchoolGraduation field.
 func BySchoolGraduation(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSchoolGraduation, opts...).ToFunc()
 }

@@ -95,12 +95,12 @@ func RegNo(v int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldEQ(FieldRegNo, v))
 }
 
-// SocialSecurityNo applies equality check predicate on the "socialSecurityNo" field. It's identical to SocialSecurityNoEQ.
+// SocialSecurityNo applies equality check predicate on the "SocialSecurityNo" field. It's identical to SocialSecurityNoEQ.
 func SocialSecurityNo(v int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldEQ(FieldSocialSecurityNo, v))
 }
 
-// SchoolGraduation applies equality check predicate on the "schoolGraduation" field. It's identical to SchoolGraduationEQ.
+// SchoolGraduation applies equality check predicate on the "SchoolGraduation" field. It's identical to SchoolGraduationEQ.
 func SchoolGraduation(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldEQ(FieldSchoolGraduation, v))
 }
@@ -670,127 +670,127 @@ func RegNoNotNil() predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldNotNull(FieldRegNo))
 }
 
-// SocialSecurityNoEQ applies the EQ predicate on the "socialSecurityNo" field.
+// SocialSecurityNoEQ applies the EQ predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoEQ(v int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldEQ(FieldSocialSecurityNo, v))
 }
 
-// SocialSecurityNoNEQ applies the NEQ predicate on the "socialSecurityNo" field.
+// SocialSecurityNoNEQ applies the NEQ predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoNEQ(v int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldNEQ(FieldSocialSecurityNo, v))
 }
 
-// SocialSecurityNoIn applies the In predicate on the "socialSecurityNo" field.
+// SocialSecurityNoIn applies the In predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoIn(vs ...int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldIn(FieldSocialSecurityNo, vs...))
 }
 
-// SocialSecurityNoNotIn applies the NotIn predicate on the "socialSecurityNo" field.
+// SocialSecurityNoNotIn applies the NotIn predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoNotIn(vs ...int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldNotIn(FieldSocialSecurityNo, vs...))
 }
 
-// SocialSecurityNoGT applies the GT predicate on the "socialSecurityNo" field.
+// SocialSecurityNoGT applies the GT predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoGT(v int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldGT(FieldSocialSecurityNo, v))
 }
 
-// SocialSecurityNoGTE applies the GTE predicate on the "socialSecurityNo" field.
+// SocialSecurityNoGTE applies the GTE predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoGTE(v int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldGTE(FieldSocialSecurityNo, v))
 }
 
-// SocialSecurityNoLT applies the LT predicate on the "socialSecurityNo" field.
+// SocialSecurityNoLT applies the LT predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoLT(v int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldLT(FieldSocialSecurityNo, v))
 }
 
-// SocialSecurityNoLTE applies the LTE predicate on the "socialSecurityNo" field.
+// SocialSecurityNoLTE applies the LTE predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoLTE(v int) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldLTE(FieldSocialSecurityNo, v))
 }
 
-// SocialSecurityNoIsNil applies the IsNil predicate on the "socialSecurityNo" field.
+// SocialSecurityNoIsNil applies the IsNil predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoIsNil() predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldIsNull(FieldSocialSecurityNo))
 }
 
-// SocialSecurityNoNotNil applies the NotNil predicate on the "socialSecurityNo" field.
+// SocialSecurityNoNotNil applies the NotNil predicate on the "SocialSecurityNo" field.
 func SocialSecurityNoNotNil() predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldNotNull(FieldSocialSecurityNo))
 }
 
-// SchoolGraduationEQ applies the EQ predicate on the "schoolGraduation" field.
+// SchoolGraduationEQ applies the EQ predicate on the "SchoolGraduation" field.
 func SchoolGraduationEQ(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldEQ(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationNEQ applies the NEQ predicate on the "schoolGraduation" field.
+// SchoolGraduationNEQ applies the NEQ predicate on the "SchoolGraduation" field.
 func SchoolGraduationNEQ(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldNEQ(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationIn applies the In predicate on the "schoolGraduation" field.
+// SchoolGraduationIn applies the In predicate on the "SchoolGraduation" field.
 func SchoolGraduationIn(vs ...string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldIn(FieldSchoolGraduation, vs...))
 }
 
-// SchoolGraduationNotIn applies the NotIn predicate on the "schoolGraduation" field.
+// SchoolGraduationNotIn applies the NotIn predicate on the "SchoolGraduation" field.
 func SchoolGraduationNotIn(vs ...string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldNotIn(FieldSchoolGraduation, vs...))
 }
 
-// SchoolGraduationGT applies the GT predicate on the "schoolGraduation" field.
+// SchoolGraduationGT applies the GT predicate on the "SchoolGraduation" field.
 func SchoolGraduationGT(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldGT(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationGTE applies the GTE predicate on the "schoolGraduation" field.
+// SchoolGraduationGTE applies the GTE predicate on the "SchoolGraduation" field.
 func SchoolGraduationGTE(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldGTE(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationLT applies the LT predicate on the "schoolGraduation" field.
+// SchoolGraduationLT applies the LT predicate on the "SchoolGraduation" field.
 func SchoolGraduationLT(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldLT(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationLTE applies the LTE predicate on the "schoolGraduation" field.
+// SchoolGraduationLTE applies the LTE predicate on the "SchoolGraduation" field.
 func SchoolGraduationLTE(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldLTE(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationContains applies the Contains predicate on the "schoolGraduation" field.
+// SchoolGraduationContains applies the Contains predicate on the "SchoolGraduation" field.
 func SchoolGraduationContains(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldContains(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationHasPrefix applies the HasPrefix predicate on the "schoolGraduation" field.
+// SchoolGraduationHasPrefix applies the HasPrefix predicate on the "SchoolGraduation" field.
 func SchoolGraduationHasPrefix(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldHasPrefix(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationHasSuffix applies the HasSuffix predicate on the "schoolGraduation" field.
+// SchoolGraduationHasSuffix applies the HasSuffix predicate on the "SchoolGraduation" field.
 func SchoolGraduationHasSuffix(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldHasSuffix(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationIsNil applies the IsNil predicate on the "schoolGraduation" field.
+// SchoolGraduationIsNil applies the IsNil predicate on the "SchoolGraduation" field.
 func SchoolGraduationIsNil() predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldIsNull(FieldSchoolGraduation))
 }
 
-// SchoolGraduationNotNil applies the NotNil predicate on the "schoolGraduation" field.
+// SchoolGraduationNotNil applies the NotNil predicate on the "SchoolGraduation" field.
 func SchoolGraduationNotNil() predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldNotNull(FieldSchoolGraduation))
 }
 
-// SchoolGraduationEqualFold applies the EqualFold predicate on the "schoolGraduation" field.
+// SchoolGraduationEqualFold applies the EqualFold predicate on the "SchoolGraduation" field.
 func SchoolGraduationEqualFold(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldEqualFold(FieldSchoolGraduation, v))
 }
 
-// SchoolGraduationContainsFold applies the ContainsFold predicate on the "schoolGraduation" field.
+// SchoolGraduationContainsFold applies the ContainsFold predicate on the "SchoolGraduation" field.
 func SchoolGraduationContainsFold(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldSchoolGraduation, v))
 }

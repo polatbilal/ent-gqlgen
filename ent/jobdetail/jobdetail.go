@@ -28,6 +28,8 @@ const (
 	FieldFolderNo = "folder_no"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
+	// FieldState holds the string denoting the state field in the database.
+	FieldState = "state"
 	// FieldContractDate holds the string denoting the contractdate field in the database.
 	FieldContractDate = "contract_date"
 	// FieldCompletionDate holds the string denoting the completiondate field in the database.
@@ -48,6 +50,8 @@ const (
 	FieldBuildingClass = "building_class"
 	// FieldBuildingType holds the string denoting the buildingtype field in the database.
 	FieldBuildingType = "building_type"
+	// FieldLevel holds the string denoting the level field in the database.
+	FieldLevel = "level"
 	// FieldUnitPrice holds the string denoting the unitprice field in the database.
 	FieldUnitPrice = "unit_price"
 	// FieldLandArea holds the string denoting the landarea field in the database.
@@ -224,6 +228,7 @@ var Columns = []string{
 	FieldParsel,
 	FieldFolderNo,
 	FieldStatus,
+	FieldState,
 	FieldContractDate,
 	FieldCompletionDate,
 	FieldStartDate,
@@ -234,6 +239,7 @@ var Columns = []string{
 	FieldAddress,
 	FieldBuildingClass,
 	FieldBuildingType,
+	FieldLevel,
 	FieldUnitPrice,
 	FieldLandArea,
 	FieldFloors,
@@ -337,6 +343,11 @@ func ByStatus(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
+// ByState orders the results by the State field.
+func ByState(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldState, opts...).ToFunc()
+}
+
 // ByContractDate orders the results by the ContractDate field.
 func ByContractDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldContractDate, opts...).ToFunc()
@@ -385,6 +396,11 @@ func ByBuildingClass(opts ...sql.OrderTermOption) OrderOption {
 // ByBuildingType orders the results by the BuildingType field.
 func ByBuildingType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldBuildingType, opts...).ToFunc()
+}
+
+// ByLevel orders the results by the Level field.
+func ByLevel(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLevel, opts...).ToFunc()
 }
 
 // ByUnitPrice orders the results by the UnitPrice field.

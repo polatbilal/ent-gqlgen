@@ -133,13 +133,13 @@ func (jsvc *JobSuperVisorCreate) SetNillableRegNo(i *int) *JobSuperVisorCreate {
 	return jsvc
 }
 
-// SetSocialSecurityNo sets the "socialSecurityNo" field.
+// SetSocialSecurityNo sets the "SocialSecurityNo" field.
 func (jsvc *JobSuperVisorCreate) SetSocialSecurityNo(i int) *JobSuperVisorCreate {
 	jsvc.mutation.SetSocialSecurityNo(i)
 	return jsvc
 }
 
-// SetNillableSocialSecurityNo sets the "socialSecurityNo" field if the given value is not nil.
+// SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
 func (jsvc *JobSuperVisorCreate) SetNillableSocialSecurityNo(i *int) *JobSuperVisorCreate {
 	if i != nil {
 		jsvc.SetSocialSecurityNo(*i)
@@ -147,13 +147,13 @@ func (jsvc *JobSuperVisorCreate) SetNillableSocialSecurityNo(i *int) *JobSuperVi
 	return jsvc
 }
 
-// SetSchoolGraduation sets the "schoolGraduation" field.
+// SetSchoolGraduation sets the "SchoolGraduation" field.
 func (jsvc *JobSuperVisorCreate) SetSchoolGraduation(s string) *JobSuperVisorCreate {
 	jsvc.mutation.SetSchoolGraduation(s)
 	return jsvc
 }
 
-// SetNillableSchoolGraduation sets the "schoolGraduation" field if the given value is not nil.
+// SetNillableSchoolGraduation sets the "SchoolGraduation" field if the given value is not nil.
 func (jsvc *JobSuperVisorCreate) SetNillableSchoolGraduation(s *string) *JobSuperVisorCreate {
 	if s != nil {
 		jsvc.SetSchoolGraduation(*s)

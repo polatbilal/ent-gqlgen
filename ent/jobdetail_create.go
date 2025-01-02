@@ -119,6 +119,20 @@ func (jdc *JobDetailCreate) SetNillableStatus(i *int) *JobDetailCreate {
 	return jdc
 }
 
+// SetState sets the "State" field.
+func (jdc *JobDetailCreate) SetState(s string) *JobDetailCreate {
+	jdc.mutation.SetState(s)
+	return jdc
+}
+
+// SetNillableState sets the "State" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableState(s *string) *JobDetailCreate {
+	if s != nil {
+		jdc.SetState(*s)
+	}
+	return jdc
+}
+
 // SetContractDate sets the "ContractDate" field.
 func (jdc *JobDetailCreate) SetContractDate(t time.Time) *JobDetailCreate {
 	jdc.mutation.SetContractDate(t)
@@ -255,6 +269,20 @@ func (jdc *JobDetailCreate) SetBuildingType(s string) *JobDetailCreate {
 func (jdc *JobDetailCreate) SetNillableBuildingType(s *string) *JobDetailCreate {
 	if s != nil {
 		jdc.SetBuildingType(*s)
+	}
+	return jdc
+}
+
+// SetLevel sets the "Level" field.
+func (jdc *JobDetailCreate) SetLevel(f float64) *JobDetailCreate {
+	jdc.mutation.SetLevel(f)
+	return jdc
+}
+
+// SetNillableLevel sets the "Level" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableLevel(f *float64) *JobDetailCreate {
+	if f != nil {
+		jdc.SetLevel(*f)
 	}
 	return jdc
 }
@@ -810,6 +838,10 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
+	if value, ok := jdc.mutation.State(); ok {
+		_spec.SetField(jobdetail.FieldState, field.TypeString, value)
+		_node.State = value
+	}
 	if value, ok := jdc.mutation.ContractDate(); ok {
 		_spec.SetField(jobdetail.FieldContractDate, field.TypeTime, value)
 		_node.ContractDate = value
@@ -849,6 +881,10 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := jdc.mutation.BuildingType(); ok {
 		_spec.SetField(jobdetail.FieldBuildingType, field.TypeString, value)
 		_node.BuildingType = value
+	}
+	if value, ok := jdc.mutation.Level(); ok {
+		_spec.SetField(jobdetail.FieldLevel, field.TypeFloat64, value)
+		_node.Level = value
 	}
 	if value, ok := jdc.mutation.UnitPrice(); ok {
 		_spec.SetField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)

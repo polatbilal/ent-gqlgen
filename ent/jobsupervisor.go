@@ -33,10 +33,10 @@ type JobSuperVisor struct {
 	Career string `json:"Career,omitempty"`
 	// RegNo holds the value of the "RegNo" field.
 	RegNo int `json:"RegNo,omitempty"`
-	// SocialSecurityNo holds the value of the "socialSecurityNo" field.
-	SocialSecurityNo int `json:"socialSecurityNo,omitempty"`
-	// SchoolGraduation holds the value of the "schoolGraduation" field.
-	SchoolGraduation string `json:"schoolGraduation,omitempty"`
+	// SocialSecurityNo holds the value of the "SocialSecurityNo" field.
+	SocialSecurityNo int `json:"SocialSecurityNo,omitempty"`
+	// SchoolGraduation holds the value of the "SchoolGraduation" field.
+	SchoolGraduation string `json:"SchoolGraduation,omitempty"`
 	// YDSID holds the value of the "YDSID" field.
 	YDSID int `json:"YDSID,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
@@ -153,13 +153,13 @@ func (jsv *JobSuperVisor) assignValues(columns []string, values []any) error {
 			}
 		case jobsupervisor.FieldSocialSecurityNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field socialSecurityNo", values[i])
+				return fmt.Errorf("unexpected type %T for field SocialSecurityNo", values[i])
 			} else if value.Valid {
 				jsv.SocialSecurityNo = int(value.Int64)
 			}
 		case jobsupervisor.FieldSchoolGraduation:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field schoolGraduation", values[i])
+				return fmt.Errorf("unexpected type %T for field SchoolGraduation", values[i])
 			} else if value.Valid {
 				jsv.SchoolGraduation = value.String
 			}
@@ -246,10 +246,10 @@ func (jsv *JobSuperVisor) String() string {
 	builder.WriteString("RegNo=")
 	builder.WriteString(fmt.Sprintf("%v", jsv.RegNo))
 	builder.WriteString(", ")
-	builder.WriteString("socialSecurityNo=")
+	builder.WriteString("SocialSecurityNo=")
 	builder.WriteString(fmt.Sprintf("%v", jsv.SocialSecurityNo))
 	builder.WriteString(", ")
-	builder.WriteString("schoolGraduation=")
+	builder.WriteString("SchoolGraduation=")
 	builder.WriteString(jsv.SchoolGraduation)
 	builder.WriteString(", ")
 	builder.WriteString("YDSID=")

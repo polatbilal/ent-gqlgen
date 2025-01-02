@@ -1040,6 +1040,11 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldStatus)
 				fieldSeen[jobdetail.FieldStatus] = struct{}{}
 			}
+		case "state":
+			if _, ok := fieldSeen[jobdetail.FieldState]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldState)
+				fieldSeen[jobdetail.FieldState] = struct{}{}
+			}
 		case "contractdate":
 			if _, ok := fieldSeen[jobdetail.FieldContractDate]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldContractDate)
@@ -1089,6 +1094,11 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			if _, ok := fieldSeen[jobdetail.FieldBuildingType]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldBuildingType)
 				fieldSeen[jobdetail.FieldBuildingType] = struct{}{}
+			}
+		case "level":
+			if _, ok := fieldSeen[jobdetail.FieldLevel]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldLevel)
+				fieldSeen[jobdetail.FieldLevel] = struct{}{}
 			}
 		case "unitprice":
 			if _, ok := fieldSeen[jobdetail.FieldUnitPrice]; !ok {

@@ -81,7 +81,7 @@ func YDKInspectors(c *gin.Context) {
 		return
 	}
 
-	url := svc.BaseURL + service.ENDPOINT_BY_EMPLOYEE
+	url := svc.BaseURL + service.ENDPOINT_COMPANY_ENGİNNER
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -135,12 +135,12 @@ func YDKInspectors(c *gin.Context) {
 	var simplifiedData []SimplifiedInspector
 	for _, item := range inspectorResponse.Items {
 		inspector := SimplifiedInspector{
-			YDSID:       item.Application.Person.ID,
-			Name:        item.Application.Person.FullName,
-			Address:     item.Application.Person.AddressStr,
-			Email:       item.Application.Person.LastEPosta,
-			TcNo:        item.Application.Person.IdentityNumber,
-			Phone:       item.Application.Person.LastPhoneNumber,
+			YDSID:       item.Application.User.ID,
+			Name:        item.Application.User.Person.FullName,
+			Address:     item.Application.User.Person.AddressStr,
+			Email:       item.Application.User.Person.LastEPosta,
+			TcNo:        item.Application.User.Person.IdentityNumber,
+			Phone:       item.Application.User.Person.LastPhoneNumber,
 			RegNo:       item.Application.RegistrationNumber,
 			CertNo:      item.Application.DocumentNumber,
 			Career:      item.Application.Title.Name,
@@ -192,16 +192,7 @@ func YDKInspectors(c *gin.Context) {
 			engineer(filter: {YDSID: $ydsid}) {
 				id
 				Name
-				RegNo
-				TcNo
-				Email
-				Phone
-				Career
-				Position
-				Address
-				CertNo
 				YDSID
-				Employment
 			}
 		}
 		`

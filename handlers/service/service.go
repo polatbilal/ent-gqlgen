@@ -1,6 +1,8 @@
 package service
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type ExternalService struct {
 	BaseURL string
@@ -66,14 +68,17 @@ type YDKInspectorResponse struct {
 			ApplicationType struct {
 				Name string `json:"name"`
 			} `json:"applicationType"`
-			Person struct {
-				ID              int    `json:"id"`
-				FullName        string `json:"fullName"`
-				AddressStr      string `json:"addressStr"`
-				LastEPosta      string `json:"lastEPosta"`
-				IdentityNumber  string `json:"identityNumber"`
-				LastPhoneNumber string `json:"lastPhoneNumber"`
-			} `json:"person"`
+			User struct {
+				ID     int `json:"id"`
+				Person struct {
+					ID              int    `json:"id"`
+					FullName        string `json:"fullName"`
+					AddressStr      string `json:"addressStr"`
+					LastEPosta      string `json:"lastEPosta"`
+					IdentityNumber  string `json:"identityNumber"`
+					LastPhoneNumber string `json:"lastPhoneNumber"`
+				} `json:"person"`
+			} `json:"user"`
 			Title struct {
 				Name string `json:"name"`
 			} `json:"title"`
@@ -89,4 +94,84 @@ type YDKInspectorResponse struct {
 		TaskStartDate int64 `json:"taskStartDate"`
 	} `json:"items"`
 	TotalCount int `json:"totalCount"`
+}
+
+type YIBFResponse struct {
+	ID             int `json:"id"`
+	Administration struct {
+		Name string `json:"name"`
+	} `json:"administration"`
+	State struct {
+		Name string `json:"name"`
+	} `json:"state"`
+	YDK struct {
+		FileNumber int `json:"fileNumber"`
+	} `json:"ydk"`
+	Island        string `json:"island"`
+	Parcel        string `json:"parcel"`
+	Sheet         string `json:"sheet"`
+	Title         string `json:"title"`
+	ContractDate  int64  `json:"contractDate"`
+	LicenseNumber string `json:"licenseNumber"`
+	LicenseDate   int64  `json:"licenseDate"`
+	Position      struct {
+		Coordinates []float64 `json:"coordinates"`
+	} `json:"position"`
+	YibfStructure struct {
+		BuildingClass struct {
+			Name string `json:"name"`
+		} `json:"buildingClass"`
+		CarrierSystemType struct {
+			Name string `json:"name"`
+		} `json:"carrierSystemType"`
+		TotalArea        float64 `json:"totalArea"`
+		ConstructionArea float64 `json:"constructionArea"`
+		LeftArea         float64 `json:"leftArea"`
+		BuildingAddress  string  `json:"buildingAddress"`
+		UnitPrice        float64 `json:"unitPrice"`
+		FloorCount       int     `json:"floorCount"`
+	} `json:"yibfStructure"`
+	YibfOwner struct {
+		Person struct {
+			ID              int    `json:"id"`
+			IdentityNumber  string `json:"identityNumber"`
+			FullName        string `json:"fullName"`
+			LastAddress     string `json:"lastAddress"`
+			LastPhoneNumber string `json:"lastPhoneNumber"`
+		} `json:"person"`
+	} `json:"yibfOwner"`
+	LatestYibfSiteSupervisor struct {
+		Application struct {
+			Person struct {
+				ID              int    `json:"id"`
+				IdentityNumber  string `json:"identityNumber"`
+				FullName        string `json:"fullName"`
+				LastAddress     string `json:"lastAddress"`
+				LastPhoneNumber string `json:"lastPhoneNumber"`
+				LastEPosta      string `json:"lastEPosta"`
+			} `json:"person"`
+			OccupationalRegistrationNumber string `json:"occupationalRegistrationNumber"`
+			SocialSecurityNo               string `json:"socialSecurityNo"`
+			SchoolGraduation               string `json:"schoolGraduation"`
+			Tasks                          struct {
+				Name string `json:"name"`
+			} `json:"tasks"`
+			Title struct {
+				Name string `json:"name"`
+			} `json:"title"`
+		} `json:"application"`
+	} `json:"latestYibfSiteSupervisor"`
+	LatestYibfYambis struct {
+		Yambis struct {
+			ID            int    `json:"id"`
+			Ybno          string `json:"ybno"`
+			AdSoyadUnvan  string `json:"adSoyadUnvan"`
+			VergiKimlikNo string `json:"vergiKimlikNo"`
+			Adres         string `json:"adres"`
+			CepTelefon    string `json:"cepTelefon"`
+			Eposta        string `json:"eposta"`
+			Telefon       string `json:"telefon"`
+		} `json:"yambis"`
+	} `json:"latestYibfYambis"`
+	Level float64 `json:"level"`
 }

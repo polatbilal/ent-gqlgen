@@ -38,6 +38,8 @@ type JobDetail struct {
 	FolderNo string `json:"FolderNo,omitempty"`
 	// Status holds the value of the "Status" field.
 	Status int `json:"Status,omitempty"`
+	// State holds the value of the "State" field.
+	State string `json:"State,omitempty"`
 	// ContractDate holds the value of the "ContractDate" field.
 	ContractDate time.Time `json:"ContractDate,omitempty"`
 	// CompletionDate holds the value of the "CompletionDate" field.
@@ -58,6 +60,8 @@ type JobDetail struct {
 	BuildingClass string `json:"BuildingClass,omitempty"`
 	// BuildingType holds the value of the "BuildingType" field.
 	BuildingType string `json:"BuildingType,omitempty"`
+	// Level holds the value of the "Level" field.
+	Level float64 `json:"Level,omitempty"`
 	// UnitPrice holds the value of the "UnitPrice" field.
 	UnitPrice float64 `json:"UnitPrice,omitempty"`
 	// LandArea holds the value of the "LandArea" field.
@@ -317,11 +321,11 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobdetail.FieldUnitPrice:
+		case jobdetail.FieldLevel, jobdetail.FieldUnitPrice:
 			values[i] = new(sql.NullFloat64)
 		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldStatus, jobdetail.FieldFloors, jobdetail.FieldStarted:
 			values[i] = new(sql.NullInt64)
-		case jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote, jobdetail.FieldCoordinates:
+		case jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldState, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote, jobdetail.FieldCoordinates:
 			values[i] = new(sql.NullString)
 		case jobdetail.FieldContractDate, jobdetail.FieldCompletionDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -416,6 +420,12 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.Status = int(value.Int64)
 			}
+		case jobdetail.FieldState:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field State", values[i])
+			} else if value.Valid {
+				jd.State = value.String
+			}
 		case jobdetail.FieldContractDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field ContractDate", values[i])
@@ -475,6 +485,12 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field BuildingType", values[i])
 			} else if value.Valid {
 				jd.BuildingType = value.String
+			}
+		case jobdetail.FieldLevel:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field Level", values[i])
+			} else if value.Valid {
+				jd.Level = value.Float64
 			}
 		case jobdetail.FieldUnitPrice:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
@@ -765,6 +781,9 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("Status=")
 	builder.WriteString(fmt.Sprintf("%v", jd.Status))
 	builder.WriteString(", ")
+	builder.WriteString("State=")
+	builder.WriteString(jd.State)
+	builder.WriteString(", ")
 	builder.WriteString("ContractDate=")
 	builder.WriteString(jd.ContractDate.Format(time.ANSIC))
 	builder.WriteString(", ")
@@ -794,6 +813,9 @@ func (jd *JobDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("BuildingType=")
 	builder.WriteString(jd.BuildingType)
+	builder.WriteString(", ")
+	builder.WriteString("Level=")
+	builder.WriteString(fmt.Sprintf("%v", jd.Level))
 	builder.WriteString(", ")
 	builder.WriteString("UnitPrice=")
 	builder.WriteString(fmt.Sprintf("%v", jd.UnitPrice))

@@ -12,21 +12,19 @@ import (
 var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
 type JwtCustomClaim struct {
-	ID          int    `json:"userID"`
-	Username    string `json:"username"`
-	Name        string `json:"name"`
-	CompanyCode string `json:"companyCode"`
-	Role        string `json:"role"`
+	ID       int    `json:"userID"`
+	Username string `json:"username"`
+	Name     string `json:"name"`
+	Role     string `json:"role"`
 	jwt.StandardClaims
 }
 
-func JwtGenerate(ctx context.Context, userID int, username string, name string, companyCode string, role string) (string, error) {
+func JwtGenerate(ctx context.Context, userID int, username string, name string, role string) (string, error) {
 	claims := &JwtCustomClaim{
-		ID:          userID,
-		Username:    username,
-		Name:        name,
-		CompanyCode: companyCode,
-		Role:        role,
+		ID:       userID,
+		Username: username,
+		Name:     name,
+		Role:     role,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 			IssuedAt:  time.Now().Unix(),
@@ -62,7 +60,7 @@ func JwtValidate(ctx context.Context, tokenStr string) (*jwt.Token, error) {
 	}
 
 	if claims, ok := token.Claims.(*JwtCustomClaim); ok && token.Valid {
-		if claims.ID == 0 || claims.Username == "" || claims.CompanyCode == "" {
+		if claims.ID == 0 || claims.Username == "" {
 			return nil, fmt.Errorf("invalid token claims")
 		}
 		return token, nil

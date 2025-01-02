@@ -179,6 +179,26 @@ func (jdu *JobDetailUpdate) AddStatus(i int) *JobDetailUpdate {
 	return jdu
 }
 
+// SetState sets the "State" field.
+func (jdu *JobDetailUpdate) SetState(s string) *JobDetailUpdate {
+	jdu.mutation.SetState(s)
+	return jdu
+}
+
+// SetNillableState sets the "State" field if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableState(s *string) *JobDetailUpdate {
+	if s != nil {
+		jdu.SetState(*s)
+	}
+	return jdu
+}
+
+// ClearState clears the value of the "State" field.
+func (jdu *JobDetailUpdate) ClearState() *JobDetailUpdate {
+	jdu.mutation.ClearState()
+	return jdu
+}
+
 // SetContractDate sets the "ContractDate" field.
 func (jdu *JobDetailUpdate) SetContractDate(t time.Time) *JobDetailUpdate {
 	jdu.mutation.SetContractDate(t)
@@ -376,6 +396,33 @@ func (jdu *JobDetailUpdate) SetNillableBuildingType(s *string) *JobDetailUpdate 
 // ClearBuildingType clears the value of the "BuildingType" field.
 func (jdu *JobDetailUpdate) ClearBuildingType() *JobDetailUpdate {
 	jdu.mutation.ClearBuildingType()
+	return jdu
+}
+
+// SetLevel sets the "Level" field.
+func (jdu *JobDetailUpdate) SetLevel(f float64) *JobDetailUpdate {
+	jdu.mutation.ResetLevel()
+	jdu.mutation.SetLevel(f)
+	return jdu
+}
+
+// SetNillableLevel sets the "Level" field if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableLevel(f *float64) *JobDetailUpdate {
+	if f != nil {
+		jdu.SetLevel(*f)
+	}
+	return jdu
+}
+
+// AddLevel adds f to the "Level" field.
+func (jdu *JobDetailUpdate) AddLevel(f float64) *JobDetailUpdate {
+	jdu.mutation.AddLevel(f)
+	return jdu
+}
+
+// ClearLevel clears the value of the "Level" field.
+func (jdu *JobDetailUpdate) ClearLevel() *JobDetailUpdate {
+	jdu.mutation.ClearLevel()
 	return jdu
 }
 
@@ -1081,6 +1128,12 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := jdu.mutation.AddedStatus(); ok {
 		_spec.AddField(jobdetail.FieldStatus, field.TypeInt, value)
 	}
+	if value, ok := jdu.mutation.State(); ok {
+		_spec.SetField(jobdetail.FieldState, field.TypeString, value)
+	}
+	if jdu.mutation.StateCleared() {
+		_spec.ClearField(jobdetail.FieldState, field.TypeString)
+	}
 	if value, ok := jdu.mutation.ContractDate(); ok {
 		_spec.SetField(jobdetail.FieldContractDate, field.TypeTime, value)
 	}
@@ -1140,6 +1193,15 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if jdu.mutation.BuildingTypeCleared() {
 		_spec.ClearField(jobdetail.FieldBuildingType, field.TypeString)
+	}
+	if value, ok := jdu.mutation.Level(); ok {
+		_spec.SetField(jobdetail.FieldLevel, field.TypeFloat64, value)
+	}
+	if value, ok := jdu.mutation.AddedLevel(); ok {
+		_spec.AddField(jobdetail.FieldLevel, field.TypeFloat64, value)
+	}
+	if jdu.mutation.LevelCleared() {
+		_spec.ClearField(jobdetail.FieldLevel, field.TypeFloat64)
 	}
 	if value, ok := jdu.mutation.UnitPrice(); ok {
 		_spec.SetField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)
@@ -1853,6 +1915,26 @@ func (jduo *JobDetailUpdateOne) AddStatus(i int) *JobDetailUpdateOne {
 	return jduo
 }
 
+// SetState sets the "State" field.
+func (jduo *JobDetailUpdateOne) SetState(s string) *JobDetailUpdateOne {
+	jduo.mutation.SetState(s)
+	return jduo
+}
+
+// SetNillableState sets the "State" field if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableState(s *string) *JobDetailUpdateOne {
+	if s != nil {
+		jduo.SetState(*s)
+	}
+	return jduo
+}
+
+// ClearState clears the value of the "State" field.
+func (jduo *JobDetailUpdateOne) ClearState() *JobDetailUpdateOne {
+	jduo.mutation.ClearState()
+	return jduo
+}
+
 // SetContractDate sets the "ContractDate" field.
 func (jduo *JobDetailUpdateOne) SetContractDate(t time.Time) *JobDetailUpdateOne {
 	jduo.mutation.SetContractDate(t)
@@ -2050,6 +2132,33 @@ func (jduo *JobDetailUpdateOne) SetNillableBuildingType(s *string) *JobDetailUpd
 // ClearBuildingType clears the value of the "BuildingType" field.
 func (jduo *JobDetailUpdateOne) ClearBuildingType() *JobDetailUpdateOne {
 	jduo.mutation.ClearBuildingType()
+	return jduo
+}
+
+// SetLevel sets the "Level" field.
+func (jduo *JobDetailUpdateOne) SetLevel(f float64) *JobDetailUpdateOne {
+	jduo.mutation.ResetLevel()
+	jduo.mutation.SetLevel(f)
+	return jduo
+}
+
+// SetNillableLevel sets the "Level" field if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableLevel(f *float64) *JobDetailUpdateOne {
+	if f != nil {
+		jduo.SetLevel(*f)
+	}
+	return jduo
+}
+
+// AddLevel adds f to the "Level" field.
+func (jduo *JobDetailUpdateOne) AddLevel(f float64) *JobDetailUpdateOne {
+	jduo.mutation.AddLevel(f)
+	return jduo
+}
+
+// ClearLevel clears the value of the "Level" field.
+func (jduo *JobDetailUpdateOne) ClearLevel() *JobDetailUpdateOne {
+	jduo.mutation.ClearLevel()
 	return jduo
 }
 
@@ -2785,6 +2894,12 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	if value, ok := jduo.mutation.AddedStatus(); ok {
 		_spec.AddField(jobdetail.FieldStatus, field.TypeInt, value)
 	}
+	if value, ok := jduo.mutation.State(); ok {
+		_spec.SetField(jobdetail.FieldState, field.TypeString, value)
+	}
+	if jduo.mutation.StateCleared() {
+		_spec.ClearField(jobdetail.FieldState, field.TypeString)
+	}
 	if value, ok := jduo.mutation.ContractDate(); ok {
 		_spec.SetField(jobdetail.FieldContractDate, field.TypeTime, value)
 	}
@@ -2844,6 +2959,15 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	}
 	if jduo.mutation.BuildingTypeCleared() {
 		_spec.ClearField(jobdetail.FieldBuildingType, field.TypeString)
+	}
+	if value, ok := jduo.mutation.Level(); ok {
+		_spec.SetField(jobdetail.FieldLevel, field.TypeFloat64, value)
+	}
+	if value, ok := jduo.mutation.AddedLevel(); ok {
+		_spec.AddField(jobdetail.FieldLevel, field.TypeFloat64, value)
+	}
+	if jduo.mutation.LevelCleared() {
+		_spec.ClearField(jobdetail.FieldLevel, field.TypeFloat64)
 	}
 	if value, ok := jduo.mutation.UnitPrice(); ok {
 		_spec.SetField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)

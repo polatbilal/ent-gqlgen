@@ -55,6 +55,10 @@ func main() {
 	r.POST("/ydk/companies", external.YDKCompanies)
 	// YDK Sync endpoint'ini ekle
 	r.GET("/ydk/sync", sync.YDKSync)
+	// YDK FindById endpoint'ini ekle
+	r.GET("/ydk/findById/:id", external.YibfDetail)
+	// YDK FindAll endpoint'ini ekle
+	r.GET("/ydk/findAll", external.YibfList)
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
