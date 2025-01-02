@@ -247,52 +247,49 @@ func YDKCompanies(c *gin.Context) {
 				if numericFields[key] {
 					// Sayısal değerlere çevir
 					var newFloat, currentFloat float64
-
 					switch v := newValue.(type) {
-					case int:
-						newFloat = float64(v)
 					case float64:
 						newFloat = v
+					case int:
+						newFloat = float64(v)
 					case string:
-						newFloat, _ = strconv.ParseFloat(v, 64)
+						if f, err := strconv.ParseFloat(v, 64); err == nil {
+							newFloat = f
+						}
 					}
 
 					switch v := currentValue.(type) {
-					case int:
-						currentFloat = float64(v)
 					case float64:
 						currentFloat = v
+					case int:
+						currentFloat = float64(v)
 					case string:
-						currentFloat, _ = strconv.ParseFloat(v, 64)
+						if f, err := strconv.ParseFloat(v, 64); err == nil {
+							currentFloat = f
+						}
 					}
 
-					// Sayısal karşılaştırma
-					if math.Abs(newFloat-currentFloat) > 0.0001 { // küçük farkları tolere et
-						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+					if math.Abs(newFloat-currentFloat) > 0.001 {
 						needsUpdate = true
+						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
 					}
-					continue
-				}
-
-				// String'e çevirip karşılaştır (sayısal olmayan alanlar için)
-				newStr := fmt.Sprintf("%v", newValue)
-				currentStr := fmt.Sprintf("%v", currentValue)
-
-				if newStr != currentStr {
-					log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentStr, newStr)
-					needsUpdate = true
-				}
-			} else {
-				// Eğer alan mevcut değilse ve yeni değer boş değilse güncelleme gerekir
-				if newValue != nil && newValue != "" {
-					log.Printf("Yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
-					needsUpdate = true
+				} else {
+					// String karşılaştırması
+					newStr := fmt.Sprintf("%v", newValue)
+					currentStr := fmt.Sprintf("%v", currentValue)
+					if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+						needsUpdate = true
+						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+					}
 				}
 			}
 		}
 
 		if !needsUpdate {
-			log.Printf("Şirket verileri güncel, güncelleme yapılmayacak")
+			c.JSON(http.StatusOK, gin.H{
+				"status":  "success",
+				"message": "Şirket bilgileri güncel, güncelleme gerekmedi",
+			})
 			return
 		}
 
