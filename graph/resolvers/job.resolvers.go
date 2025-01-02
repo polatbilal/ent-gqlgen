@@ -110,68 +110,81 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %v", input.CompanyCode, err)
 	}
 
-	// InspectorRegNo ile mühendis bul
-	inspector, err := client.CompanyEngineer.Query().
-		Where(companyengineer.YdsIDEQ(*input.Inspector)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("denetçi bulunamadı (kod: %d): %v", input.Inspector, err)
+	var (
+		inspector, static, architect, mechanic, electric, controller, mechanicController, electricController *ent.CompanyEngineer
+		engineerErr                                                                                          error
+	)
+
+	if input.Inspector != nil {
+		inspector, engineerErr = client.CompanyEngineer.Query().
+			Where(companyengineer.YdsIDEQ(*input.Inspector)).
+			Only(ctx)
+		if engineerErr != nil {
+			return nil, fmt.Errorf("denetçi bulunamadı (kod: %d): %v", *input.Inspector, engineerErr)
+		}
 	}
 
-	// StaticRegNo ile statik bul
-	static, err := client.CompanyEngineer.Query().
-		Where(companyengineer.YdsIDEQ(*input.Static)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("statik bulunamadı (kod: %d): %v", input.Static, err)
+	if input.Static != nil {
+		static, engineerErr = client.CompanyEngineer.Query().
+			Where(companyengineer.YdsIDEQ(*input.Static)).
+			Only(ctx)
+		if engineerErr != nil {
+			return nil, fmt.Errorf("statik bulunamadı (kod: %d): %v", *input.Static, engineerErr)
+		}
 	}
 
-	// ArchitectRegNo ile statik bul
-	architect, err := client.CompanyEngineer.Query().
-		Where(companyengineer.YdsIDEQ(*input.Architect)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("mimar bulunamadı (kod: %d): %v", input.Architect, err)
+	if input.Architect != nil {
+		architect, engineerErr = client.CompanyEngineer.Query().
+			Where(companyengineer.YdsIDEQ(*input.Architect)).
+			Only(ctx)
+		if engineerErr != nil {
+			return nil, fmt.Errorf("mimar bulunamadı (kod: %d): %v", *input.Architect, engineerErr)
+		}
 	}
 
-	// MechanicRegNo ile mekanik bul
-	mechanic, err := client.CompanyEngineer.Query().
-		Where(companyengineer.YdsIDEQ(*input.Mechanic)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("mak. müh. bulunamadı (kod: %d): %v", input.Mechanic, err)
+	if input.Mechanic != nil {
+		mechanic, engineerErr = client.CompanyEngineer.Query().
+			Where(companyengineer.YdsIDEQ(*input.Mechanic)).
+			Only(ctx)
+		if engineerErr != nil {
+			return nil, fmt.Errorf("mak. müh. bulunamadı (kod: %d): %v", *input.Mechanic, engineerErr)
+		}
 	}
 
-	// ElectricRegNo ile elektrik bul
-	electric, err := client.CompanyEngineer.Query().
-		Where(companyengineer.YdsIDEQ(*input.Electric)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("elektrik bulunamadı (kod: %d): %v", input.Electric, err)
+	if input.Electric != nil {
+		electric, engineerErr = client.CompanyEngineer.Query().
+			Where(companyengineer.YdsIDEQ(*input.Electric)).
+			Only(ctx)
+		if engineerErr != nil {
+			return nil, fmt.Errorf("elektrik bulunamadı (kod: %d): %v", *input.Electric, engineerErr)
+		}
 	}
 
-	// ControllerRegNo ile denetçi bul
-	controller, err := client.CompanyEngineer.Query().
-		Where(companyengineer.YdsIDEQ(*input.Controller)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("kont. elm. bulunamadı (kod: %d): %v", input.Controller, err)
+	if input.Controller != nil {
+		controller, engineerErr = client.CompanyEngineer.Query().
+			Where(companyengineer.YdsIDEQ(*input.Controller)).
+			Only(ctx)
+		if engineerErr != nil {
+			return nil, fmt.Errorf("kont. elm. bulunamadı (kod: %d): %v", *input.Controller, engineerErr)
+		}
 	}
 
-	// MechanicControllerRegNo ile mekanik denetçi bul
-	mechanicController, err := client.CompanyEngineer.Query().
-		Where(companyengineer.YdsIDEQ(*input.MechanicController)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("mekanik kont. elm. bulunamadı (kod: %d): %v", input.MechanicController, err)
+	if input.MechanicController != nil {
+		mechanicController, engineerErr = client.CompanyEngineer.Query().
+			Where(companyengineer.YdsIDEQ(*input.MechanicController)).
+			Only(ctx)
+		if engineerErr != nil {
+			return nil, fmt.Errorf("mekanik kont. elm. bulunamadı (kod: %d): %v", *input.MechanicController, engineerErr)
+		}
 	}
 
-	// ElectricControllerRegNo ile elektrik denetçi bul
-	electricController, err := client.CompanyEngineer.Query().
-		Where(companyengineer.YdsIDEQ(*input.ElectricController)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("elektrik kont. elm. bulunamadı (kod: %d): %v", input.ElectricController, err)
+	if input.ElectricController != nil {
+		electricController, engineerErr = client.CompanyEngineer.Query().
+			Where(companyengineer.YdsIDEQ(*input.ElectricController)).
+			Only(ctx)
+		if engineerErr != nil {
+			return nil, fmt.Errorf("elektrik kont. elm. bulunamadı (kod: %d): %v", *input.ElectricController, engineerErr)
+		}
 	}
 
 	contractDatePtr, err := tools.ParseDate(input.ContractDate)
@@ -195,7 +208,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 	}
 
 	// İş detayını oluştur
-	newJobDetail, err := client.JobDetail.Create().
+	jobDetailCreate := client.JobDetail.Create().
 		SetYibfNo(*input.YibfNo).
 		SetCompany(company).
 		SetNillableIdare(input.Idare).
@@ -217,16 +230,41 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableFloors(input.Floors).
 		SetNillableNote(input.Note).
 		SetNillableStarted(input.Started).
-		SetNillableUsagePurpose(input.UsagePurpose).
-		SetInspector(inspector).
-		SetStatic(static).
-		SetArchitect(architect).
-		SetMechanic(mechanic).
-		SetElectric(electric).
-		SetController(controller).
-		SetMechaniccontroller(mechanicController).
-		SetElectriccontroller(electricController).
-		Save(ctx)
+		SetNillableUsagePurpose(input.UsagePurpose)
+
+	if inspector != nil {
+		jobDetailCreate = jobDetailCreate.SetInspector(inspector)
+	}
+
+	if static != nil {
+		jobDetailCreate = jobDetailCreate.SetStatic(static)
+	}
+
+	if architect != nil {
+		jobDetailCreate = jobDetailCreate.SetArchitect(architect)
+	}
+
+	if mechanic != nil {
+		jobDetailCreate = jobDetailCreate.SetMechanic(mechanic)
+	}
+
+	if electric != nil {
+		jobDetailCreate = jobDetailCreate.SetElectric(electric)
+	}
+
+	if controller != nil {
+		jobDetailCreate = jobDetailCreate.SetController(controller)
+	}
+
+	if mechanicController != nil {
+		jobDetailCreate = jobDetailCreate.SetMechaniccontroller(mechanicController)
+	}
+
+	if electricController != nil {
+		jobDetailCreate = jobDetailCreate.SetElectriccontroller(electricController)
+	}
+
+	newJobDetail, err := jobDetailCreate.Save(ctx)
 
 	if err != nil {
 		return nil, fmt.Errorf("iş ayrıntısı oluşturulamadı: %v", err)
