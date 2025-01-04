@@ -248,6 +248,7 @@ type ComplexityRoot struct {
 		CreateContractor  func(childComplexity int, input model.JobContractorInput) int
 		CreateEngineer    func(childComplexity int, input model.CompanyEngineerInput) int
 		CreateJob         func(childComplexity int, input model.JobInput) int
+		CreateJobAuthor   func(childComplexity int, input model.JobAuthorInput) int
 		CreateJobPayments func(childComplexity int, input model.JobPaymentsInput) int
 		CreateLayer       func(childComplexity int, input model.JobLayerInput) int
 		CreateOwner       func(childComplexity int, input model.JobOwnerInput) int
@@ -262,6 +263,7 @@ type ComplexityRoot struct {
 		UpdateContractor  func(childComplexity int, ydsid int, input model.JobContractorInput) int
 		UpdateEngineer    func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
 		UpdateJob         func(childComplexity int, yibfNo int, input model.JobInput) int
+		UpdateJobAuthor   func(childComplexity int, yibfNo int, input model.JobAuthorInput) int
 		UpdateJobPayments func(childComplexity int, yibfNo int, input model.JobPaymentsInput) int
 		UpdateLayer       func(childComplexity int, id string, input model.JobLayerInput) int
 		UpdateOwner       func(childComplexity int, ydsid int, input model.JobOwnerInput) int
@@ -274,6 +276,7 @@ type ComplexityRoot struct {
 		AllContractor     func(childComplexity int) int
 		AllOwner          func(childComplexity int) int
 		AllUsers          func(childComplexity int) int
+		Author            func(childComplexity int, yibfNo int) int
 		CompanyByCode     func(childComplexity int, companyCode int) int
 		Contractor        func(childComplexity int, yibfNo int) int
 		Engineer          func(childComplexity int, filter *model.EngineerFilterInput) int
@@ -315,6 +318,8 @@ type JobLayerResolver interface {
 type MutationResolver interface {
 	Register(ctx context.Context, username string, name *string, email *string, password string) (*model.AuthPayload, error)
 	Login(ctx context.Context, username string, password string) (*model.AuthPayload, error)
+	CreateJobAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error)
+	UpdateJobAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error)
 	CreateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error)
@@ -339,6 +344,7 @@ type MutationResolver interface {
 	DeleteUser(ctx context.Context, id string) (bool, error)
 }
 type QueryResolver interface {
+	Author(ctx context.Context, yibfNo int) (*ent.JobAuthor, error)
 	CompanyByCode(ctx context.Context, companyCode int) (*ent.CompanyDetail, error)
 	AllContractor(ctx context.Context) ([]*ent.JobContractor, error)
 	Contractor(ctx context.Context, yibfNo int) (*ent.JobContractor, error)
@@ -1520,6 +1526,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateJob(childComplexity, args["input"].(model.JobInput)), true
 
+	case "Mutation.createJobAuthor":
+		if e.complexity.Mutation.CreateJobAuthor == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createJobAuthor_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateJobAuthor(childComplexity, args["input"].(model.JobAuthorInput)), true
+
 	case "Mutation.createJobPayments":
 		if e.complexity.Mutation.CreateJobPayments == nil {
 			break
@@ -1688,6 +1706,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateJob(childComplexity, args["yibfNo"].(int), args["input"].(model.JobInput)), true
 
+	case "Mutation.updateJobAuthor":
+		if e.complexity.Mutation.UpdateJobAuthor == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateJobAuthor_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateJobAuthor(childComplexity, args["yibfNo"].(int), args["input"].(model.JobAuthorInput)), true
+
 	case "Mutation.updateJobPayments":
 		if e.complexity.Mutation.UpdateJobPayments == nil {
 			break
@@ -1780,6 +1810,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.AllUsers(childComplexity), true
+
+	case "Query.author":
+		if e.complexity.Query.Author == nil {
+			break
+		}
+
+		args, err := ec.field_Query_author_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Author(childComplexity, args["yibfNo"].(int)), true
 
 	case "Query.companyByCode":
 		if e.complexity.Query.CompanyByCode == nil {
@@ -2174,6 +2216,15 @@ input JobAuthorInput {
   GeotechnicalEngineer: String
   GeotechnicalGeologist: String
   GeotechnicalGeophysicist: String
+}
+
+extend type Query {
+  author(yibfNo: Int!): JobAuthor
+}
+
+extend type Mutation {
+  createJobAuthor(input: JobAuthorInput!): JobAuthor
+  updateJobAuthor(yibfNo: Int!, input: JobAuthorInput!): JobAuthor
 }`, BuiltIn: false},
 	{Name: "../schemas/company.graphqls", Input: `type CompanyDetail {
   id: ID
@@ -2784,6 +2835,34 @@ func (ec *executionContext) field_Mutation_createEngineer_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createJobAuthor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createJobAuthor_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createJobAuthor_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.JobAuthorInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.JobAuthorInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobAuthorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx, tmp)
+	}
+
+	var zeroVal model.JobAuthorInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createJobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3314,6 +3393,57 @@ func (ec *executionContext) field_Mutation_updateEngineer_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_updateJobAuthor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateJobAuthor_argsYibfNo(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["yibfNo"] = arg0
+	arg1, err := ec.field_Mutation_updateJobAuthor_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateJobAuthor_argsYibfNo(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (int, error) {
+	if _, ok := rawArgs["yibfNo"]; !ok {
+		var zeroVal int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
+	if tmp, ok := rawArgs["yibfNo"]; ok {
+		return ec.unmarshalNInt2int(ctx, tmp)
+	}
+
+	var zeroVal int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateJobAuthor_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.JobAuthorInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.JobAuthorInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobAuthorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx, tmp)
+	}
+
+	var zeroVal model.JobAuthorInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_updateJobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3724,6 +3854,34 @@ func (ec *executionContext) field_Query___type_argsName(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_author_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_author_argsYibfNo(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["yibfNo"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_author_argsYibfNo(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (int, error) {
+	if _, ok := rawArgs["yibfNo"]; !ok {
+		var zeroVal int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
+	if tmp, ok := rawArgs["yibfNo"]; ok {
+		return ec.unmarshalNInt2int(ctx, tmp)
+	}
+
+	var zeroVal int
 	return zeroVal, nil
 }
 
@@ -11186,6 +11344,146 @@ func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createJobAuthor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createJobAuthor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateJobAuthor(rctx, fc.Args["input"].(model.JobAuthorInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobAuthor)
+	fc.Result = res
+	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobAuthor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createJobAuthor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobAuthor_id(ctx, field)
+			case "Static":
+				return ec.fieldContext_JobAuthor_Static(ctx, field)
+			case "Mechanic":
+				return ec.fieldContext_JobAuthor_Mechanic(ctx, field)
+			case "Electric":
+				return ec.fieldContext_JobAuthor_Electric(ctx, field)
+			case "Architect":
+				return ec.fieldContext_JobAuthor_Architect(ctx, field)
+			case "GeotechnicalEngineer":
+				return ec.fieldContext_JobAuthor_GeotechnicalEngineer(ctx, field)
+			case "GeotechnicalGeologist":
+				return ec.fieldContext_JobAuthor_GeotechnicalGeologist(ctx, field)
+			case "GeotechnicalGeophysicist":
+				return ec.fieldContext_JobAuthor_GeotechnicalGeophysicist(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobAuthor", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createJobAuthor_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateJobAuthor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateJobAuthor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateJobAuthor(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobAuthorInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobAuthor)
+	fc.Result = res
+	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobAuthor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateJobAuthor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobAuthor_id(ctx, field)
+			case "Static":
+				return ec.fieldContext_JobAuthor_Static(ctx, field)
+			case "Mechanic":
+				return ec.fieldContext_JobAuthor_Mechanic(ctx, field)
+			case "Electric":
+				return ec.fieldContext_JobAuthor_Electric(ctx, field)
+			case "Architect":
+				return ec.fieldContext_JobAuthor_Architect(ctx, field)
+			case "GeotechnicalEngineer":
+				return ec.fieldContext_JobAuthor_GeotechnicalEngineer(ctx, field)
+			case "GeotechnicalGeologist":
+				return ec.fieldContext_JobAuthor_GeotechnicalGeologist(ctx, field)
+			case "GeotechnicalGeophysicist":
+				return ec.fieldContext_JobAuthor_GeotechnicalGeophysicist(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobAuthor", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateJobAuthor_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createCompany(ctx, field)
 	if err != nil {
@@ -13542,6 +13840,76 @@ func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteUser_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_author(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_author(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Author(rctx, fc.Args["yibfNo"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobAuthor)
+	fc.Result = res
+	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobAuthor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_author(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobAuthor_id(ctx, field)
+			case "Static":
+				return ec.fieldContext_JobAuthor_Static(ctx, field)
+			case "Mechanic":
+				return ec.fieldContext_JobAuthor_Mechanic(ctx, field)
+			case "Electric":
+				return ec.fieldContext_JobAuthor_Electric(ctx, field)
+			case "Architect":
+				return ec.fieldContext_JobAuthor_Architect(ctx, field)
+			case "GeotechnicalEngineer":
+				return ec.fieldContext_JobAuthor_GeotechnicalEngineer(ctx, field)
+			case "GeotechnicalGeologist":
+				return ec.fieldContext_JobAuthor_GeotechnicalGeologist(ctx, field)
+			case "GeotechnicalGeophysicist":
+				return ec.fieldContext_JobAuthor_GeotechnicalGeophysicist(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobAuthor", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_author_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -20280,6 +20648,14 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "createJobAuthor":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createJobAuthor(ctx, field)
+			})
+		case "updateJobAuthor":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateJobAuthor(ctx, field)
+			})
 		case "createCompany":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createCompany(ctx, field)
@@ -20476,6 +20852,25 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
+		case "author":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_author(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "companyByCode":
 			field := field
 
@@ -21488,6 +21883,11 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNJobAuthorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobAuthorInput(ctx context.Context, v any) (model.JobAuthorInput, error) {
+	res, err := ec.unmarshalInputJobAuthorInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNJobContractor2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v ent.JobContractor) graphql.Marshaler {

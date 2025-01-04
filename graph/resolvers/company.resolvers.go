@@ -10,7 +10,6 @@ import (
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
@@ -101,8 +100,3 @@ func (r *queryResolver) CompanyByCode(ctx context.Context, companyCode int) (*en
 	}
 	return company, nil
 }
-
-// Query returns generated.QueryResolver implementation.
-func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
-
-type queryResolver struct{ *Resolver }

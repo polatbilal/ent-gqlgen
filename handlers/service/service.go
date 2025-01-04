@@ -204,10 +204,7 @@ type YIBFAuthorResponse struct {
 		YibfId        string `json:"yibfId"`
 		PersonName    string `json:"personName"`
 		PersonSurname string `json:"personSurname"`
-		TaskId        int    `json:"taskId"`
 		TaskName      string `json:"taskName"`
-		TitleId       int    `json:"titleId"`
 		TitleName     string `json:"titleName"`
-		TaskGroupId   int    `json:"taskGroupId"`
 	} `json:"items"`
 }

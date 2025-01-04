@@ -18,3 +18,12 @@ input JobAuthorInput {
   GeotechnicalGeologist: String
   GeotechnicalGeophysicist: String
 }
+
+extend type Query {
+  author(yibfNo: Int!): JobAuthor
+}
+
+extend type Mutation {
+  createJobAuthor(input: JobAuthorInput!): JobAuthor
+  updateJobAuthor(yibfNo: Int!, input: JobAuthorInput!): JobAuthor
+}

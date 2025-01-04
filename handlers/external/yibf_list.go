@@ -8,14 +8,69 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
 	"github.com/gin-gonic/gin"
 )
+
+// String'i int'e dönüştürür, hata durumunda 0 döner
+func safeStringToInt(s string) int {
+	if s == "" {
+		return 0
+	}
+	if val, err := strconv.Atoi(s); err == nil {
+		return val
+	}
+	return 0
+}
+
+// Unix timestamp'i tarihe dönüştürür, geçersiz timestamp için boş string döner
+func safeUnixToDate(timestamp int64) string {
+	if timestamp > 0 {
+		// Milisaniyeyi saniyeye çevir
+		seconds := timestamp / 1000
+		return time.Unix(seconds, 0).Local().Format("2006-01-02")
+	}
+	return ""
+}
+
+// Koordinat array'ini string'e dönüştürür
+func coordinatesToString(coords []float64) string {
+	if len(coords) >= 2 {
+		return fmt.Sprintf("%.6f, %.6f", coords[0], coords[1])
+	}
+	return ""
+}
+
+// Hata loglarını dosyaya yazar
+func logError(message string) {
+	logDir := "logs"
+	if err := os.MkdirAll(logDir, 0755); err != nil {
+		log.Printf("Log dizini oluşturulamadı: %v", err)
+		return
+	}
+
+	logFile := filepath.Join(logDir, fmt.Sprintf("yibf_errors_%s.log", time.Now().Format("2006-01-02")))
+	f, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Printf("Log dosyası açılamadı: %v", err)
+		return
+	}
+	defer f.Close()
+
+	timestamp := time.Now().Format("2006-01-02 15:04:05")
+	logMessage := fmt.Sprintf("[%s] %s\n", timestamp, message)
+
+	if _, err := f.WriteString(logMessage); err != nil {
+		log.Printf("Log yazılamadı: %v", err)
+	}
+}
 
 func YibfList(c *gin.Context) {
 	// GraphQL için JWT token
@@ -260,9 +315,43 @@ func YibfList(c *gin.Context) {
 
 		// Input verilerini hazırla
 		jobData := map[string]interface{}{
-			"YibfNo":      detail.ID,
-			"CompanyCode": detail.YDK.FileNumber,
-			"Title":       detail.Title,
+			"YibfNo":           detail.ID,
+			"CompanyCode":      detail.YDK.FileNumber,
+			"Title":            detail.Title,
+			"Administration":   detail.Administration.Name,
+			"State":            detail.State.Name,
+			"Island":           detail.Island,
+			"Parcel":           detail.Parcel,
+			"Sheet":            detail.Sheet,
+			"LicenseNo":        detail.LicenseNumber,
+			"LandArea":         detail.Megsis.Alan,
+			"TotalArea":        detail.YibfStructure.TotalArea,
+			"ConstructionArea": detail.YibfStructure.ConstructionArea,
+			"LeftArea":         detail.YibfStructure.LeftArea,
+			"YDSAddress":       detail.YibfStructure.BuildingAddress,
+			"BuildingClass":    detail.YibfStructure.BuildingClass.Name,
+			"BuildingType":     detail.YibfStructure.CarrierSystemType.Name,
+			"Level":            detail.Level,
+			"UnitPrice":        detail.YibfStructure.UnitPrice,
+			"FloorCount":       detail.YibfStructure.FloorCount,
+			"BKSReferenceNo":   detail.ReferenceNumber,
+			"Coordinates":      coordinatesToString(detail.Position.Coordinates),
+			"UploadedFile":     detail.UploadedFile,
+			"IndustryArea":     detail.YibfStructure.IndustryArea,
+			"ClusterStructure": detail.ClusterStructure,
+			"IsLicenseExpired": detail.IsLicenseExpired,
+			"IsCompleted":      detail.IsCompleted,
+		}
+
+		// Tarihleri sadece geçerli değer varsa ekle
+		if detail.ContractDate > 0 {
+			jobData["ContractDate"] = safeUnixToDate(detail.ContractDate)
+		}
+		if detail.LicenseDate > 0 {
+			jobData["LicenseDate"] = safeUnixToDate(detail.LicenseDate)
+		}
+		if detail.CompleteDate > 0 {
+			jobData["CompletionDate"] = safeUnixToDate(detail.CompleteDate)
 		}
 
 		var ownerData, contractorData, supervisorData map[string]interface{}
@@ -270,51 +359,37 @@ func YibfList(c *gin.Context) {
 		// Owner verilerini hazırla
 		if detail.YibfOwner.Person.ID > 0 {
 			ownerData = map[string]interface{}{
-				"YibfNo": detail.ID,
-				"YDSID":  detail.YibfOwner.Person.ID,
-				"Name":   detail.YibfOwner.Person.FullName,
-				"TcNo":   detail.YibfOwner.Person.IdentityNumber,
-				"Phone":  detail.YibfOwner.Person.LastPhoneNumber,
+				"YibfNo":      detail.ID,
+				"YDSID":       detail.YibfOwner.Person.ID,
+				"Name":        detail.YibfOwner.Person.FullName,
+				"TcNo":        safeStringToInt(detail.YibfOwner.Person.IdentityNumber),
+				"Address":     detail.YibfOwner.Person.LastAddress,
+				"Phone":       detail.YibfOwner.Person.LastPhoneNumber,
+				"TaxAdmin":    detail.YibfOwner.Person.TaxAdministration,
+				"TaxNo":       safeStringToInt(detail.YibfOwner.Person.TaxAdministrationCode),
+				"Shareholder": detail.YibfOwner.ExistsShareholder,
 			}
 		}
 
 		// Contractor verilerini hazırla
 		if detail.LatestYibfYambis.Yambis.ID > 0 {
 			contractorData = map[string]interface{}{
-				"YibfNo":     detail.ID,
-				"YDSID":      detail.LatestYibfYambis.Yambis.ID,
-				"Name":       detail.LatestYibfYambis.Yambis.AdSoyadUnvan,
-				"TaxNo":      detail.LatestYibfYambis.Yambis.VergiKimlikNo,
-				"Phone":      detail.LatestYibfYambis.Yambis.Telefon,
-				"Email":      detail.LatestYibfYambis.Yambis.Eposta,
-				"Address":    detail.LatestYibfYambis.Yambis.Adres,
-				"RegisterNo": detail.LatestYibfYambis.Yambis.Ybno,
+				"YibfNo":      detail.ID,
+				"YDSID":       detail.LatestYibfYambis.Yambis.ID,
+				"Name":        detail.LatestYibfYambis.Yambis.AdSoyadUnvan,
+				"TaxNo":       safeStringToInt(detail.LatestYibfYambis.Yambis.VergiKimlikNo),
+				"Phone":       detail.LatestYibfYambis.Yambis.Telefon,
+				"MobilePhone": detail.LatestYibfYambis.Yambis.CepTelefon,
+				"Email":       detail.LatestYibfYambis.Yambis.Eposta,
+				"Address":     detail.LatestYibfYambis.Yambis.Adres,
+				"RegisterNo":  safeStringToInt(detail.LatestYibfYambis.Yambis.Ybno),
+				"PersonType":  detail.LatestYibfYambis.Yambis.KisiTuru,
+				"TcNo":        safeStringToInt(detail.LatestYibfYambis.Yambis.TcNo),
 			}
 		}
 
 		// Supervisor verilerini hazırla
 		if detail.LatestYibfSiteSupervisor.Application.User.ID > 0 {
-			tcno := 0
-			if tcStr := detail.LatestYibfSiteSupervisor.Application.User.Person.IdentityNumber; tcStr != "" {
-				if tcInt, err := strconv.Atoi(tcStr); err == nil {
-					tcno = tcInt
-				}
-			}
-
-			registerNo := 0
-			if registerNoStr := detail.LatestYibfSiteSupervisor.Application.OccupationalRegistrationNumber; registerNoStr != "" {
-				if registerNoInt, err := strconv.Atoi(registerNoStr); err == nil {
-					registerNo = registerNoInt
-				}
-			}
-
-			securityNo := 0
-			if securityNoStr := detail.LatestYibfSiteSupervisor.Application.SocialSecurityNo; securityNoStr != "" {
-				if securityNoInt, err := strconv.Atoi(securityNoStr); err == nil {
-					securityNo = securityNoInt
-				}
-			}
-
 			supervisorData = map[string]interface{}{
 				"YibfNo":           detail.ID,
 				"YDSID":            detail.LatestYibfSiteSupervisor.Application.User.ID,
@@ -322,11 +397,11 @@ func YibfList(c *gin.Context) {
 				"Address":          detail.LatestYibfSiteSupervisor.Application.User.Person.LastAddress,
 				"Phone":            detail.LatestYibfSiteSupervisor.Application.User.Person.LastPhoneNumber,
 				"Email":            detail.LatestYibfSiteSupervisor.Application.User.Person.LastEPosta,
-				"TcNo":             tcno,
+				"TcNo":             safeStringToInt(detail.LatestYibfSiteSupervisor.Application.User.Person.IdentityNumber),
 				"Position":         detail.LatestYibfSiteSupervisor.Application.Tasks.Name,
 				"Career":           detail.LatestYibfSiteSupervisor.Application.Title.Name,
-				"RegisterNo":       registerNo,
-				"SocialSecurityNo": securityNo,
+				"RegisterNo":       safeStringToInt(detail.LatestYibfSiteSupervisor.Application.OccupationalRegistrationNumber),
+				"SocialSecurityNo": safeStringToInt(detail.LatestYibfSiteSupervisor.Application.SocialSecurityNo),
 				"SchoolGraduation": detail.LatestYibfSiteSupervisor.Application.SchoolGraduation,
 			}
 		}
@@ -485,7 +560,9 @@ func YibfList(c *gin.Context) {
 			}
 
 			if err := graphqlClient.Execute(createMutation, createVariables, jwtToken, &createResult); err != nil {
-				log.Printf("ID %d için oluşturma hatası: %v", item.ID, err)
+				errMsg := fmt.Sprintf("ID %d için oluşturma hatası: %v", item.ID, err)
+				log.Printf("%s", errMsg)
+				logError(errMsg)
 				failedIDs = append(failedIDs, item.ID)
 				continue
 			}
