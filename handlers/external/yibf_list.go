@@ -72,6 +72,26 @@ func logError(message string) {
 	}
 }
 
+// Inspector alanlarını kontrol eden yardımcı fonksiyon
+func isInspectorField(field string) bool {
+	inspectorFields := []string{
+		"Inspector",
+		"Static",
+		"Architect",
+		"Mechanic",
+		"Electric",
+		"Controller",
+		"MechanicController",
+		"ElectricController",
+	}
+	for _, f := range inspectorFields {
+		if field == f {
+			return true
+		}
+	}
+	return false
+}
+
 func YibfList(c *gin.Context) {
 	// GraphQL için JWT token
 	jwtToken := c.GetHeader("Authorization")
@@ -142,7 +162,6 @@ func YibfList(c *gin.Context) {
 	req.Header.Set("Content-Type", "application/json")
 
 	log.Printf("İstek gönderiliyor: %s", svc.BaseURL+service.ENDPOINT_YIBF_ALL)
-	log.Printf("Request Body: %s", string(jsonBody))
 
 	resp, err := svc.Client.Do(req)
 	if err != nil {
@@ -196,6 +215,7 @@ func YibfList(c *gin.Context) {
 		query CheckJob($yibfNo: Int!) {
 			job(yibfNo: $yibfNo) {
 				id
+				CompanyCode
 				YibfNo
 				Title
 				Administration
@@ -231,34 +251,42 @@ func YibfList(c *gin.Context) {
 				Inspector {
 					id
 					YDSID
+					Name
 				}
 				Static {
 					id
 					YDSID
+					Name
 				}
 				Architect {
 					id
 					YDSID
+					Name
 				}
 				Mechanic {
 					id
 					YDSID
+					Name
 				}
 				Electric {
 					id
 					YDSID
+					Name
 				}
 				Controller {
 					id
 					YDSID
+					Name
 				}
 				MechanicController {
 					id
 					YDSID
+					Name
 				}
 				ElectricController {
 					id
 					YDSID
+					Name
 				}
 			}
 		}
@@ -576,7 +604,69 @@ func YibfList(c *gin.Context) {
 						continue
 					}
 
-					// String'e çevirip karşılaştır
+					// YibfNo ve CompanyCode için özel karşılaştırma
+					if key == "YibfNo" || key == "CompanyCode" {
+						// Float to int conversion
+						var currentIDInt int
+						switch v := currentValue.(type) {
+						case float64:
+							currentIDInt = int(v)
+						case int:
+							currentIDInt = v
+						}
+
+						// Yeni değeri int'e çevir
+						var newIDInt int
+						switch v := newValue.(type) {
+						case float64:
+							newIDInt = int(v)
+						case int:
+							newIDInt = v
+						}
+
+						if currentIDInt == newIDInt {
+							continue // Değerler eşleşiyorsa değişiklik yok
+						}
+						log.Printf("%s değişikliği tespit edildi - Eski: %v, Yeni: %v", key, currentValue, newValue)
+						needsUpdate = true
+						continue
+					}
+
+					// Inspector alanlarını özel olarak karşılaştır
+					if isInspectorField(key) {
+						// Mevcut değer bir map ise (GraphQL'den gelen nested yapı)
+						if currentMap, ok := currentValue.(map[string]interface{}); ok {
+							// YDSID'yi kontrol et
+							if currentYDSID, exists := currentMap["YDSID"]; exists {
+								// Float to int conversion
+								var currentIDInt int
+								switch v := currentYDSID.(type) {
+								case float64:
+									currentIDInt = int(v)
+								case int:
+									currentIDInt = v
+								}
+
+								// Yeni değeri int'e çevir
+								var newIDInt int
+								switch v := newValue.(type) {
+								case float64:
+									newIDInt = int(v)
+								case int:
+									newIDInt = v
+								}
+
+								if currentIDInt == newIDInt {
+									continue // YDSID'ler eşleşiyorsa değişiklik yok
+								}
+							}
+						}
+						needsUpdate = true
+						log.Printf("Inspector değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+						continue
+					}
+
+					// Diğer alanlar için normal karşılaştırma
 					newStr := fmt.Sprintf("%v", newValue)
 					currentStr := fmt.Sprintf("%v", currentValue)
 
@@ -602,7 +692,7 @@ func YibfList(c *gin.Context) {
 			// Değişiklik varsa güncelle
 			updateMutation := `
 			mutation UpdateJob($yibfNo: Int!, $input: JobInput!) {
-				updateJob(YibfNo: $yibfNo, input: $input) {
+				updateJob(yibfNo: $yibfNo, input: $input) {
 					id
 					YibfNo
 				}

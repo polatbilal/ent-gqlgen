@@ -1,6 +1,7 @@
 # JobDetail
 type JobDetail {
   id: ID!
+  CompanyCode: Int!
   YibfNo: Int!
   Title: String
   Administration: String

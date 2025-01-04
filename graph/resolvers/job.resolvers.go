@@ -18,6 +18,16 @@ import (
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
 
+// CompanyCode is the resolver for the CompanyCode field.
+func (r *jobDetailResolver) CompanyCode(ctx context.Context, obj *ent.JobDetail) (int, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	company, err := client.CompanyDetail.Query().Where(companydetail.HasJobsWith(jobdetail.IDEQ(obj.ID))).Only(ctx)
+	if err != nil {
+		return 0, fmt.Errorf("şirket bulunamadı: %v", err)
+	}
+	return int(company.CompanyCode), nil
+}
+
 // Layer is the resolver for the Layer field.
 func (r *jobDetailResolver) Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error) {
 	client := middlewares.GetClientFromContext(ctx)
