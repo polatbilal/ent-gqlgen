@@ -54,8 +54,8 @@ type Client struct {
 	JobPayments *JobPaymentsClient
 	// JobProgress is the client for interacting with the JobProgress builders.
 	JobProgress *JobProgressClient
-	// JobSuperVisor is the client for interacting with the JobSuperVisor builders.
-	JobSuperVisor *JobSuperVisorClient
+	// JobSupervisor is the client for interacting with the JobSupervisor builders.
+	JobSupervisor *JobSupervisorClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 	// additional fields for node api
@@ -81,7 +81,7 @@ func (c *Client) init() {
 	c.JobOwner = NewJobOwnerClient(c.config)
 	c.JobPayments = NewJobPaymentsClient(c.config)
 	c.JobProgress = NewJobProgressClient(c.config)
-	c.JobSuperVisor = NewJobSuperVisorClient(c.config)
+	c.JobSupervisor = NewJobSupervisorClient(c.config)
 	c.User = NewUserClient(c.config)
 }
 
@@ -185,7 +185,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		JobOwner:        NewJobOwnerClient(cfg),
 		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
-		JobSuperVisor:   NewJobSuperVisorClient(cfg),
+		JobSupervisor:   NewJobSupervisorClient(cfg),
 		User:            NewUserClient(cfg),
 	}, nil
 }
@@ -216,7 +216,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		JobOwner:        NewJobOwnerClient(cfg),
 		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
-		JobSuperVisor:   NewJobSuperVisorClient(cfg),
+		JobSupervisor:   NewJobSupervisorClient(cfg),
 		User:            NewUserClient(cfg),
 	}, nil
 }
@@ -249,7 +249,7 @@ func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.CompanyDetail, c.CompanyEngineer, c.CompanyUser, c.JobAuthor, c.JobContractor,
 		c.JobDetail, c.JobLayer, c.JobOwner, c.JobPayments, c.JobProgress,
-		c.JobSuperVisor, c.User,
+		c.JobSupervisor, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -261,7 +261,7 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.CompanyDetail, c.CompanyEngineer, c.CompanyUser, c.JobAuthor, c.JobContractor,
 		c.JobDetail, c.JobLayer, c.JobOwner, c.JobPayments, c.JobProgress,
-		c.JobSuperVisor, c.User,
+		c.JobSupervisor, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -290,8 +290,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.JobPayments.mutate(ctx, m)
 	case *JobProgressMutation:
 		return c.JobProgress.mutate(ctx, m)
-	case *JobSuperVisorMutation:
-		return c.JobSuperVisor.mutate(ctx, m)
+	case *JobSupervisorMutation:
+		return c.JobSupervisor.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
 	default:
@@ -1409,8 +1409,8 @@ func (c *JobDetailClient) QueryProgress(jd *JobDetail) *JobProgressQuery {
 }
 
 // QuerySupervisor queries the supervisor edge of a JobDetail.
-func (c *JobDetailClient) QuerySupervisor(jd *JobDetail) *JobSuperVisorQuery {
-	query := (&JobSuperVisorClient{config: c.config}).Query()
+func (c *JobDetailClient) QuerySupervisor(jd *JobDetail) *JobSupervisorQuery {
+	query := (&JobSupervisorClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := jd.ID
 		step := sqlgraph.NewStep(
@@ -2205,107 +2205,107 @@ func (c *JobProgressClient) mutate(ctx context.Context, m *JobProgressMutation) 
 	}
 }
 
-// JobSuperVisorClient is a client for the JobSuperVisor schema.
-type JobSuperVisorClient struct {
+// JobSupervisorClient is a client for the JobSupervisor schema.
+type JobSupervisorClient struct {
 	config
 }
 
-// NewJobSuperVisorClient returns a client for the JobSuperVisor from the given config.
-func NewJobSuperVisorClient(c config) *JobSuperVisorClient {
-	return &JobSuperVisorClient{config: c}
+// NewJobSupervisorClient returns a client for the JobSupervisor from the given config.
+func NewJobSupervisorClient(c config) *JobSupervisorClient {
+	return &JobSupervisorClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
 // A call to `Use(f, g, h)` equals to `jobsupervisor.Hooks(f(g(h())))`.
-func (c *JobSuperVisorClient) Use(hooks ...Hook) {
-	c.hooks.JobSuperVisor = append(c.hooks.JobSuperVisor, hooks...)
+func (c *JobSupervisorClient) Use(hooks ...Hook) {
+	c.hooks.JobSupervisor = append(c.hooks.JobSupervisor, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
 // A call to `Intercept(f, g, h)` equals to `jobsupervisor.Intercept(f(g(h())))`.
-func (c *JobSuperVisorClient) Intercept(interceptors ...Interceptor) {
-	c.inters.JobSuperVisor = append(c.inters.JobSuperVisor, interceptors...)
+func (c *JobSupervisorClient) Intercept(interceptors ...Interceptor) {
+	c.inters.JobSupervisor = append(c.inters.JobSupervisor, interceptors...)
 }
 
-// Create returns a builder for creating a JobSuperVisor entity.
-func (c *JobSuperVisorClient) Create() *JobSuperVisorCreate {
-	mutation := newJobSuperVisorMutation(c.config, OpCreate)
-	return &JobSuperVisorCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a JobSupervisor entity.
+func (c *JobSupervisorClient) Create() *JobSupervisorCreate {
+	mutation := newJobSupervisorMutation(c.config, OpCreate)
+	return &JobSupervisorCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of JobSuperVisor entities.
-func (c *JobSuperVisorClient) CreateBulk(builders ...*JobSuperVisorCreate) *JobSuperVisorCreateBulk {
-	return &JobSuperVisorCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of JobSupervisor entities.
+func (c *JobSupervisorClient) CreateBulk(builders ...*JobSupervisorCreate) *JobSupervisorCreateBulk {
+	return &JobSupervisorCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *JobSuperVisorClient) MapCreateBulk(slice any, setFunc func(*JobSuperVisorCreate, int)) *JobSuperVisorCreateBulk {
+func (c *JobSupervisorClient) MapCreateBulk(slice any, setFunc func(*JobSupervisorCreate, int)) *JobSupervisorCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &JobSuperVisorCreateBulk{err: fmt.Errorf("calling to JobSuperVisorClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &JobSupervisorCreateBulk{err: fmt.Errorf("calling to JobSupervisorClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*JobSuperVisorCreate, rv.Len())
+	builders := make([]*JobSupervisorCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &JobSuperVisorCreateBulk{config: c.config, builders: builders}
+	return &JobSupervisorCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for JobSuperVisor.
-func (c *JobSuperVisorClient) Update() *JobSuperVisorUpdate {
-	mutation := newJobSuperVisorMutation(c.config, OpUpdate)
-	return &JobSuperVisorUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for JobSupervisor.
+func (c *JobSupervisorClient) Update() *JobSupervisorUpdate {
+	mutation := newJobSupervisorMutation(c.config, OpUpdate)
+	return &JobSupervisorUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobSuperVisorClient) UpdateOne(jsv *JobSuperVisor) *JobSuperVisorUpdateOne {
-	mutation := newJobSuperVisorMutation(c.config, OpUpdateOne, withJobSuperVisor(jsv))
-	return &JobSuperVisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *JobSupervisorClient) UpdateOne(js *JobSupervisor) *JobSupervisorUpdateOne {
+	mutation := newJobSupervisorMutation(c.config, OpUpdateOne, withJobSupervisor(js))
+	return &JobSupervisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *JobSuperVisorClient) UpdateOneID(id int) *JobSuperVisorUpdateOne {
-	mutation := newJobSuperVisorMutation(c.config, OpUpdateOne, withJobSuperVisorID(id))
-	return &JobSuperVisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *JobSupervisorClient) UpdateOneID(id int) *JobSupervisorUpdateOne {
+	mutation := newJobSupervisorMutation(c.config, OpUpdateOne, withJobSupervisorID(id))
+	return &JobSupervisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for JobSuperVisor.
-func (c *JobSuperVisorClient) Delete() *JobSuperVisorDelete {
-	mutation := newJobSuperVisorMutation(c.config, OpDelete)
-	return &JobSuperVisorDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for JobSupervisor.
+func (c *JobSupervisorClient) Delete() *JobSupervisorDelete {
+	mutation := newJobSupervisorMutation(c.config, OpDelete)
+	return &JobSupervisorDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobSuperVisorClient) DeleteOne(jsv *JobSuperVisor) *JobSuperVisorDeleteOne {
-	return c.DeleteOneID(jsv.ID)
+func (c *JobSupervisorClient) DeleteOne(js *JobSupervisor) *JobSupervisorDeleteOne {
+	return c.DeleteOneID(js.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *JobSuperVisorClient) DeleteOneID(id int) *JobSuperVisorDeleteOne {
+func (c *JobSupervisorClient) DeleteOneID(id int) *JobSupervisorDeleteOne {
 	builder := c.Delete().Where(jobsupervisor.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &JobSuperVisorDeleteOne{builder}
+	return &JobSupervisorDeleteOne{builder}
 }
 
-// Query returns a query builder for JobSuperVisor.
-func (c *JobSuperVisorClient) Query() *JobSuperVisorQuery {
-	return &JobSuperVisorQuery{
+// Query returns a query builder for JobSupervisor.
+func (c *JobSupervisorClient) Query() *JobSupervisorQuery {
+	return &JobSupervisorQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeJobSuperVisor},
+		ctx:    &QueryContext{Type: TypeJobSupervisor},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a JobSuperVisor entity by its id.
-func (c *JobSuperVisorClient) Get(ctx context.Context, id int) (*JobSuperVisor, error) {
+// Get returns a JobSupervisor entity by its id.
+func (c *JobSupervisorClient) Get(ctx context.Context, id int) (*JobSupervisor, error) {
 	return c.Query().Where(jobsupervisor.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *JobSuperVisorClient) GetX(ctx context.Context, id int) *JobSuperVisor {
+func (c *JobSupervisorClient) GetX(ctx context.Context, id int) *JobSupervisor {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -2313,44 +2313,44 @@ func (c *JobSuperVisorClient) GetX(ctx context.Context, id int) *JobSuperVisor {
 	return obj
 }
 
-// QuerySupervisors queries the supervisors edge of a JobSuperVisor.
-func (c *JobSuperVisorClient) QuerySupervisors(jsv *JobSuperVisor) *JobDetailQuery {
+// QuerySupervisors queries the supervisors edge of a JobSupervisor.
+func (c *JobSupervisorClient) QuerySupervisors(js *JobSupervisor) *JobDetailQuery {
 	query := (&JobDetailClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jsv.ID
+		id := js.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobsupervisor.Table, jobsupervisor.FieldID, id),
 			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobsupervisor.SupervisorsTable, jobsupervisor.SupervisorsColumn),
 		)
-		fromV = sqlgraph.Neighbors(jsv.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(js.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *JobSuperVisorClient) Hooks() []Hook {
-	return c.hooks.JobSuperVisor
+func (c *JobSupervisorClient) Hooks() []Hook {
+	return c.hooks.JobSupervisor
 }
 
 // Interceptors returns the client interceptors.
-func (c *JobSuperVisorClient) Interceptors() []Interceptor {
-	return c.inters.JobSuperVisor
+func (c *JobSupervisorClient) Interceptors() []Interceptor {
+	return c.inters.JobSupervisor
 }
 
-func (c *JobSuperVisorClient) mutate(ctx context.Context, m *JobSuperVisorMutation) (Value, error) {
+func (c *JobSupervisorClient) mutate(ctx context.Context, m *JobSupervisorMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&JobSuperVisorCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&JobSupervisorCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&JobSuperVisorUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&JobSupervisorUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&JobSuperVisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&JobSupervisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&JobSuperVisorDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&JobSupervisorDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown JobSuperVisor mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown JobSupervisor mutation op: %q", m.Op())
 	}
 }
 
@@ -2507,12 +2507,12 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 type (
 	hooks struct {
 		CompanyDetail, CompanyEngineer, CompanyUser, JobAuthor, JobContractor,
-		JobDetail, JobLayer, JobOwner, JobPayments, JobProgress, JobSuperVisor,
+		JobDetail, JobLayer, JobOwner, JobPayments, JobProgress, JobSupervisor,
 		User []ent.Hook
 	}
 	inters struct {
 		CompanyDetail, CompanyEngineer, CompanyUser, JobAuthor, JobContractor,
-		JobDetail, JobLayer, JobOwner, JobPayments, JobProgress, JobSuperVisor,
+		JobDetail, JobLayer, JobOwner, JobPayments, JobProgress, JobSupervisor,
 		User []ent.Interceptor
 	}
 )

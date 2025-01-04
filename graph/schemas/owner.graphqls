@@ -29,6 +29,7 @@ input JobOwnerInput {
 
 extend type Query {
   allOwner: [JobOwner]! @goField(forceResolver: true) @auth
+  owner(yibfNo: Int!): JobOwner! @goField(forceResolver: true) @auth
   getOwner(YDSID: Int!): JobOwner! @goField(forceResolver: true) @auth
 }
 

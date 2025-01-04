@@ -1,4 +1,4 @@
-type Supervisor {
+type JobSupervisor {
   id: ID!
   Name: String
   Address: String
@@ -7,14 +7,15 @@ type Supervisor {
   TCNO: Int
   Position: String
   Career: String
-  RegNo: Int
+  RegisterNo: Int
   SocialSecurityNo: Int
   SchoolGraduation: String
   YDSID: Int
-  Job: [JobDetail]
+  Job: JobDetail
 }
 
-input SupervisorInput {
+input JobSupervisorInput {
+  YibfNo: Int!
   Name: String
   Address: String
   Phone: String
@@ -22,8 +23,23 @@ input SupervisorInput {
   TCNO: Int
   Position: String
   Career: String
-  RegNo: Int
+  RegisterNo: Int
   SocialSecurityNo: Int
   SchoolGraduation: String
   YDSID: Int
+}
+
+extend type Query {
+  supervisor(yibfNo: Int!): JobSupervisor! @goField(forceResolver: true) @auth
+  supervisorByYDSID(ydsid: Int!): JobSupervisor! @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  createSupervisor(input: JobSupervisorInput!): JobSupervisor! 
+  @goField(forceResolver: true)
+  @auth
+  
+  updateSupervisor(yibfNo: Int!, input: JobSupervisorInput!): JobSupervisor!
+  @goField(forceResolver: true)
+  @auth
 }

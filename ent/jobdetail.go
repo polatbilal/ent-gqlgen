@@ -125,7 +125,7 @@ type JobDetailEdges struct {
 	// Progress holds the value of the progress edge.
 	Progress *JobProgress `json:"progress,omitempty"`
 	// Supervisor holds the value of the supervisor edge.
-	Supervisor *JobSuperVisor `json:"supervisor,omitempty"`
+	Supervisor *JobSupervisor `json:"supervisor,omitempty"`
 	// Inspector holds the value of the inspector edge.
 	Inspector *CompanyEngineer `json:"inspector,omitempty"`
 	// Architect holds the value of the architect edge.
@@ -213,7 +213,7 @@ func (e JobDetailEdges) ProgressOrErr() (*JobProgress, error) {
 
 // SupervisorOrErr returns the Supervisor value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e JobDetailEdges) SupervisorOrErr() (*JobSuperVisor, error) {
+func (e JobDetailEdges) SupervisorOrErr() (*JobSupervisor, error) {
 	if e.Supervisor != nil {
 		return e.Supervisor, nil
 	} else if e.loadedTypes[5] {
@@ -733,7 +733,7 @@ func (jd *JobDetail) QueryProgress() *JobProgressQuery {
 }
 
 // QuerySupervisor queries the "supervisor" edge of the JobDetail entity.
-func (jd *JobDetail) QuerySupervisor() *JobSuperVisorQuery {
+func (jd *JobDetail) QuerySupervisor() *JobSupervisorQuery {
 	return NewJobDetailClient(jd.config).QuerySupervisor(jd)
 }
 

@@ -11,7 +11,7 @@ import (
 
 const (
 	// Label holds the string label denoting the jobsupervisor type in the database.
-	Label = "job_super_visor"
+	Label = "job_supervisor"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
 	// FieldName holds the string denoting the name field in the database.
@@ -43,7 +43,7 @@ const (
 	// EdgeSupervisors holds the string denoting the supervisors edge name in mutations.
 	EdgeSupervisors = "supervisors"
 	// Table holds the table name of the jobsupervisor in the database.
-	Table = "job_super_visors"
+	Table = "job_supervisors"
 	// SupervisorsTable is the table that holds the supervisors relation/edge.
 	SupervisorsTable = "job_details"
 	// SupervisorsInverseTable is the table name for the JobDetail entity.
@@ -90,7 +90,7 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 )
 
-// OrderOption defines the ordering options for the JobSuperVisor queries.
+// OrderOption defines the ordering options for the JobSupervisor queries.
 type OrderOption func(*sql.Selector)
 
 // ByID orders the results by the id field.

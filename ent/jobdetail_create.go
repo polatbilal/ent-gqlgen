@@ -592,13 +592,13 @@ func (jdc *JobDetailCreate) SetProgress(j *JobProgress) *JobDetailCreate {
 	return jdc.SetProgressID(j.ID)
 }
 
-// SetSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID.
+// SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID.
 func (jdc *JobDetailCreate) SetSupervisorID(id int) *JobDetailCreate {
 	jdc.mutation.SetSupervisorID(id)
 	return jdc
 }
 
-// SetNillableSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID if the given value is not nil.
+// SetNillableSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID if the given value is not nil.
 func (jdc *JobDetailCreate) SetNillableSupervisorID(id *int) *JobDetailCreate {
 	if id != nil {
 		jdc = jdc.SetSupervisorID(*id)
@@ -606,8 +606,8 @@ func (jdc *JobDetailCreate) SetNillableSupervisorID(id *int) *JobDetailCreate {
 	return jdc
 }
 
-// SetSupervisor sets the "supervisor" edge to the JobSuperVisor entity.
-func (jdc *JobDetailCreate) SetSupervisor(j *JobSuperVisor) *JobDetailCreate {
+// SetSupervisor sets the "supervisor" edge to the JobSupervisor entity.
+func (jdc *JobDetailCreate) SetSupervisor(j *JobSupervisor) *JobDetailCreate {
 	return jdc.SetSupervisorID(j.ID)
 }
 
@@ -862,11 +862,6 @@ func (jdc *JobDetailCreate) defaults() {
 func (jdc *JobDetailCreate) check() error {
 	if _, ok := jdc.mutation.YibfNo(); !ok {
 		return &ValidationError{Name: "YibfNo", err: errors.New(`ent: missing required field "JobDetail.YibfNo"`)}
-	}
-	if v, ok := jdc.mutation.YibfNo(); ok {
-		if err := jobdetail.YibfNoValidator(v); err != nil {
-			return &ValidationError{Name: "YibfNo", err: fmt.Errorf(`ent: validator failed for field "JobDetail.YibfNo": %w`, err)}
-		}
 	}
 	if _, ok := jdc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobDetail.CreatedAt"`)}

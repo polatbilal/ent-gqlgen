@@ -54,7 +54,7 @@ var (
 		{Name: "position", Type: field.TypeString, Nullable: true},
 		{Name: "register_no", Type: field.TypeInt, Nullable: true},
 		{Name: "cert_no", Type: field.TypeInt, Nullable: true},
-		{Name: "ydsid", Type: field.TypeInt, Nullable: true},
+		{Name: "ydsid", Type: field.TypeInt, Unique: true, Nullable: true},
 		{Name: "employment", Type: field.TypeTime, Nullable: true},
 		{Name: "status", Type: field.TypeInt, Default: 1},
 		{Name: "note", Type: field.TypeString, Nullable: true},
@@ -133,7 +133,7 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "person_type", Type: field.TypeString, Nullable: true},
-		{Name: "ydsid", Type: field.TypeInt, Nullable: true},
+		{Name: "ydsid", Type: field.TypeInt, Unique: true, Nullable: true},
 		{Name: "note", Type: field.TypeString, Nullable: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
@@ -281,9 +281,9 @@ var (
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_job_super_visors_supervisors",
+				Symbol:     "job_details_job_supervisors_supervisors",
 				Columns:    []*schema.Column{JobDetailsColumns[48]},
-				RefColumns: []*schema.Column{JobSuperVisorsColumns[0]},
+				RefColumns: []*schema.Column{JobSupervisorsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -327,7 +327,7 @@ var (
 		{Name: "tax_no", Type: field.TypeInt, Nullable: true},
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
-		{Name: "ydsid", Type: field.TypeInt, Nullable: true},
+		{Name: "ydsid", Type: field.TypeInt, Unique: true, Nullable: true},
 		{Name: "shareholder", Type: field.TypeBool, Default: false},
 		{Name: "note", Type: field.TypeString, Nullable: true},
 		{Name: "created_at", Type: field.TypeTime},
@@ -383,8 +383,8 @@ var (
 		Columns:    JobProgressesColumns,
 		PrimaryKey: []*schema.Column{JobProgressesColumns[0]},
 	}
-	// JobSuperVisorsColumns holds the columns for the "job_super_visors" table.
-	JobSuperVisorsColumns = []*schema.Column{
+	// JobSupervisorsColumns holds the columns for the "job_supervisors" table.
+	JobSupervisorsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString, Nullable: true},
 		{Name: "address", Type: field.TypeString, Nullable: true},
@@ -396,15 +396,15 @@ var (
 		{Name: "register_no", Type: field.TypeInt, Nullable: true},
 		{Name: "social_security_no", Type: field.TypeInt, Nullable: true},
 		{Name: "school_graduation", Type: field.TypeString, Nullable: true},
-		{Name: "ydsid", Type: field.TypeInt, Nullable: true},
+		{Name: "ydsid", Type: field.TypeInt, Unique: true, Nullable: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}
-	// JobSuperVisorsTable holds the schema information for the "job_super_visors" table.
-	JobSuperVisorsTable = &schema.Table{
-		Name:       "job_super_visors",
-		Columns:    JobSuperVisorsColumns,
-		PrimaryKey: []*schema.Column{JobSuperVisorsColumns[0]},
+	// JobSupervisorsTable holds the schema information for the "job_supervisors" table.
+	JobSupervisorsTable = &schema.Table{
+		Name:       "job_supervisors",
+		Columns:    JobSupervisorsColumns,
+		PrimaryKey: []*schema.Column{JobSupervisorsColumns[0]},
 	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
@@ -436,7 +436,7 @@ var (
 		JobOwnersTable,
 		JobPaymentsTable,
 		JobProgressesTable,
-		JobSuperVisorsTable,
+		JobSupervisorsTable,
 		UsersTable,
 	}
 )
@@ -458,7 +458,7 @@ func init() {
 	JobDetailsTable.ForeignKeys[10].RefTable = JobContractorsTable
 	JobDetailsTable.ForeignKeys[11].RefTable = JobOwnersTable
 	JobDetailsTable.ForeignKeys[12].RefTable = JobProgressesTable
-	JobDetailsTable.ForeignKeys[13].RefTable = JobSuperVisorsTable
+	JobDetailsTable.ForeignKeys[13].RefTable = JobSupervisorsTable
 	JobLayersTable.ForeignKeys[0].RefTable = JobDetailsTable
 	JobPaymentsTable.ForeignKeys[0].RefTable = JobDetailsTable
 }

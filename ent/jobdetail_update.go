@@ -849,13 +849,13 @@ func (jdu *JobDetailUpdate) SetProgress(j *JobProgress) *JobDetailUpdate {
 	return jdu.SetProgressID(j.ID)
 }
 
-// SetSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID.
+// SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID.
 func (jdu *JobDetailUpdate) SetSupervisorID(id int) *JobDetailUpdate {
 	jdu.mutation.SetSupervisorID(id)
 	return jdu
 }
 
-// SetNillableSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID if the given value is not nil.
+// SetNillableSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID if the given value is not nil.
 func (jdu *JobDetailUpdate) SetNillableSupervisorID(id *int) *JobDetailUpdate {
 	if id != nil {
 		jdu = jdu.SetSupervisorID(*id)
@@ -863,8 +863,8 @@ func (jdu *JobDetailUpdate) SetNillableSupervisorID(id *int) *JobDetailUpdate {
 	return jdu
 }
 
-// SetSupervisor sets the "supervisor" edge to the JobSuperVisor entity.
-func (jdu *JobDetailUpdate) SetSupervisor(j *JobSuperVisor) *JobDetailUpdate {
+// SetSupervisor sets the "supervisor" edge to the JobSupervisor entity.
+func (jdu *JobDetailUpdate) SetSupervisor(j *JobSupervisor) *JobDetailUpdate {
 	return jdu.SetSupervisorID(j.ID)
 }
 
@@ -1085,7 +1085,7 @@ func (jdu *JobDetailUpdate) ClearProgress() *JobDetailUpdate {
 	return jdu
 }
 
-// ClearSupervisor clears the "supervisor" edge to the JobSuperVisor entity.
+// ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
 func (jdu *JobDetailUpdate) ClearSupervisor() *JobDetailUpdate {
 	jdu.mutation.ClearSupervisor()
 	return jdu
@@ -1217,20 +1217,7 @@ func (jdu *JobDetailUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (jdu *JobDetailUpdate) check() error {
-	if v, ok := jdu.mutation.YibfNo(); ok {
-		if err := jobdetail.YibfNoValidator(v); err != nil {
-			return &ValidationError{Name: "YibfNo", err: fmt.Errorf(`ent: validator failed for field "JobDetail.YibfNo": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := jdu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(jobdetail.Table, jobdetail.Columns, sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt))
 	if ps := jdu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -2789,13 +2776,13 @@ func (jduo *JobDetailUpdateOne) SetProgress(j *JobProgress) *JobDetailUpdateOne 
 	return jduo.SetProgressID(j.ID)
 }
 
-// SetSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID.
+// SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID.
 func (jduo *JobDetailUpdateOne) SetSupervisorID(id int) *JobDetailUpdateOne {
 	jduo.mutation.SetSupervisorID(id)
 	return jduo
 }
 
-// SetNillableSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID if the given value is not nil.
+// SetNillableSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID if the given value is not nil.
 func (jduo *JobDetailUpdateOne) SetNillableSupervisorID(id *int) *JobDetailUpdateOne {
 	if id != nil {
 		jduo = jduo.SetSupervisorID(*id)
@@ -2803,8 +2790,8 @@ func (jduo *JobDetailUpdateOne) SetNillableSupervisorID(id *int) *JobDetailUpdat
 	return jduo
 }
 
-// SetSupervisor sets the "supervisor" edge to the JobSuperVisor entity.
-func (jduo *JobDetailUpdateOne) SetSupervisor(j *JobSuperVisor) *JobDetailUpdateOne {
+// SetSupervisor sets the "supervisor" edge to the JobSupervisor entity.
+func (jduo *JobDetailUpdateOne) SetSupervisor(j *JobSupervisor) *JobDetailUpdateOne {
 	return jduo.SetSupervisorID(j.ID)
 }
 
@@ -3025,7 +3012,7 @@ func (jduo *JobDetailUpdateOne) ClearProgress() *JobDetailUpdateOne {
 	return jduo
 }
 
-// ClearSupervisor clears the "supervisor" edge to the JobSuperVisor entity.
+// ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
 func (jduo *JobDetailUpdateOne) ClearSupervisor() *JobDetailUpdateOne {
 	jduo.mutation.ClearSupervisor()
 	return jduo
@@ -3170,20 +3157,7 @@ func (jduo *JobDetailUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (jduo *JobDetailUpdateOne) check() error {
-	if v, ok := jduo.mutation.YibfNo(); ok {
-		if err := jobdetail.YibfNoValidator(v); err != nil {
-			return &ValidationError{Name: "YibfNo", err: fmt.Errorf(`ent: validator failed for field "JobDetail.YibfNo": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, err error) {
-	if err := jduo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(jobdetail.Table, jobdetail.Columns, sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt))
 	id, ok := jduo.mutation.ID()
 	if !ok {

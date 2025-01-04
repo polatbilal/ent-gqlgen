@@ -12,8 +12,8 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 )
 
-// JobSuperVisor is the model entity for the JobSuperVisor schema.
-type JobSuperVisor struct {
+// JobSupervisor is the model entity for the JobSupervisor schema.
+type JobSupervisor struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
@@ -44,13 +44,13 @@ type JobSuperVisor struct {
 	// UpdatedAt holds the value of the "UpdatedAt" field.
 	UpdatedAt time.Time `json:"UpdatedAt,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
-	// The values are being populated by the JobSuperVisorQuery when eager-loading is set.
-	Edges        JobSuperVisorEdges `json:"edges"`
+	// The values are being populated by the JobSupervisorQuery when eager-loading is set.
+	Edges        JobSupervisorEdges `json:"edges"`
 	selectValues sql.SelectValues
 }
 
-// JobSuperVisorEdges holds the relations/edges for other nodes in the graph.
-type JobSuperVisorEdges struct {
+// JobSupervisorEdges holds the relations/edges for other nodes in the graph.
+type JobSupervisorEdges struct {
 	// Supervisors holds the value of the supervisors edge.
 	Supervisors []*JobDetail `json:"supervisors,omitempty"`
 	// loadedTypes holds the information for reporting if a
@@ -64,7 +64,7 @@ type JobSuperVisorEdges struct {
 
 // SupervisorsOrErr returns the Supervisors value or an error if the edge
 // was not loaded in eager-loading.
-func (e JobSuperVisorEdges) SupervisorsOrErr() ([]*JobDetail, error) {
+func (e JobSupervisorEdges) SupervisorsOrErr() ([]*JobDetail, error) {
 	if e.loadedTypes[0] {
 		return e.Supervisors, nil
 	}
@@ -72,7 +72,7 @@ func (e JobSuperVisorEdges) SupervisorsOrErr() ([]*JobDetail, error) {
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*JobSuperVisor) scanValues(columns []string) ([]any, error) {
+func (*JobSupervisor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
@@ -90,8 +90,8 @@ func (*JobSuperVisor) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the JobSuperVisor fields.
-func (jsv *JobSuperVisor) assignValues(columns []string, values []any) error {
+// to the JobSupervisor fields.
+func (js *JobSupervisor) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -102,191 +102,191 @@ func (jsv *JobSuperVisor) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jsv.ID = int(value.Int64)
+			js.ID = int(value.Int64)
 		case jobsupervisor.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				jsv.Name = value.String
+				js.Name = value.String
 			}
 		case jobsupervisor.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				jsv.Address = value.String
+				js.Address = value.String
 			}
 		case jobsupervisor.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Phone", values[i])
 			} else if value.Valid {
-				jsv.Phone = value.String
+				js.Phone = value.String
 			}
 		case jobsupervisor.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Email", values[i])
 			} else if value.Valid {
-				jsv.Email = value.String
+				js.Email = value.String
 			}
 		case jobsupervisor.FieldTcNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				jsv.TcNo = int(value.Int64)
+				js.TcNo = int(value.Int64)
 			}
 		case jobsupervisor.FieldPosition:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Position", values[i])
 			} else if value.Valid {
-				jsv.Position = value.String
+				js.Position = value.String
 			}
 		case jobsupervisor.FieldCareer:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Career", values[i])
 			} else if value.Valid {
-				jsv.Career = value.String
+				js.Career = value.String
 			}
 		case jobsupervisor.FieldRegisterNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
-				jsv.RegisterNo = int(value.Int64)
+				js.RegisterNo = int(value.Int64)
 			}
 		case jobsupervisor.FieldSocialSecurityNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field SocialSecurityNo", values[i])
 			} else if value.Valid {
-				jsv.SocialSecurityNo = int(value.Int64)
+				js.SocialSecurityNo = int(value.Int64)
 			}
 		case jobsupervisor.FieldSchoolGraduation:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field SchoolGraduation", values[i])
 			} else if value.Valid {
-				jsv.SchoolGraduation = value.String
+				js.SchoolGraduation = value.String
 			}
 		case jobsupervisor.FieldYDSID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field YDSID", values[i])
 			} else if value.Valid {
-				jsv.YDSID = int(value.Int64)
+				js.YDSID = int(value.Int64)
 			}
 		case jobsupervisor.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jsv.CreatedAt = value.Time
+				js.CreatedAt = value.Time
 			}
 		case jobsupervisor.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jsv.UpdatedAt = value.Time
+				js.UpdatedAt = value.Time
 			}
 		default:
-			jsv.selectValues.Set(columns[i], values[i])
+			js.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the JobSuperVisor.
+// Value returns the ent.Value that was dynamically selected and assigned to the JobSupervisor.
 // This includes values selected through modifiers, order, etc.
-func (jsv *JobSuperVisor) Value(name string) (ent.Value, error) {
-	return jsv.selectValues.Get(name)
+func (js *JobSupervisor) Value(name string) (ent.Value, error) {
+	return js.selectValues.Get(name)
 }
 
-// QuerySupervisors queries the "supervisors" edge of the JobSuperVisor entity.
-func (jsv *JobSuperVisor) QuerySupervisors() *JobDetailQuery {
-	return NewJobSuperVisorClient(jsv.config).QuerySupervisors(jsv)
+// QuerySupervisors queries the "supervisors" edge of the JobSupervisor entity.
+func (js *JobSupervisor) QuerySupervisors() *JobDetailQuery {
+	return NewJobSupervisorClient(js.config).QuerySupervisors(js)
 }
 
-// Update returns a builder for updating this JobSuperVisor.
-// Note that you need to call JobSuperVisor.Unwrap() before calling this method if this JobSuperVisor
+// Update returns a builder for updating this JobSupervisor.
+// Note that you need to call JobSupervisor.Unwrap() before calling this method if this JobSupervisor
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jsv *JobSuperVisor) Update() *JobSuperVisorUpdateOne {
-	return NewJobSuperVisorClient(jsv.config).UpdateOne(jsv)
+func (js *JobSupervisor) Update() *JobSupervisorUpdateOne {
+	return NewJobSupervisorClient(js.config).UpdateOne(js)
 }
 
-// Unwrap unwraps the JobSuperVisor entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the JobSupervisor entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jsv *JobSuperVisor) Unwrap() *JobSuperVisor {
-	_tx, ok := jsv.config.driver.(*txDriver)
+func (js *JobSupervisor) Unwrap() *JobSupervisor {
+	_tx, ok := js.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: JobSuperVisor is not a transactional entity")
+		panic("ent: JobSupervisor is not a transactional entity")
 	}
-	jsv.config.driver = _tx.drv
-	return jsv
+	js.config.driver = _tx.drv
+	return js
 }
 
 // String implements the fmt.Stringer.
-func (jsv *JobSuperVisor) String() string {
+func (js *JobSupervisor) String() string {
 	var builder strings.Builder
-	builder.WriteString("JobSuperVisor(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jsv.ID))
+	builder.WriteString("JobSupervisor(")
+	builder.WriteString(fmt.Sprintf("id=%v, ", js.ID))
 	builder.WriteString("Name=")
-	builder.WriteString(jsv.Name)
+	builder.WriteString(js.Name)
 	builder.WriteString(", ")
 	builder.WriteString("Address=")
-	builder.WriteString(jsv.Address)
+	builder.WriteString(js.Address)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
-	builder.WriteString(jsv.Phone)
+	builder.WriteString(js.Phone)
 	builder.WriteString(", ")
 	builder.WriteString("Email=")
-	builder.WriteString(jsv.Email)
+	builder.WriteString(js.Email)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(fmt.Sprintf("%v", jsv.TcNo))
+	builder.WriteString(fmt.Sprintf("%v", js.TcNo))
 	builder.WriteString(", ")
 	builder.WriteString("Position=")
-	builder.WriteString(jsv.Position)
+	builder.WriteString(js.Position)
 	builder.WriteString(", ")
 	builder.WriteString("Career=")
-	builder.WriteString(jsv.Career)
+	builder.WriteString(js.Career)
 	builder.WriteString(", ")
 	builder.WriteString("RegisterNo=")
-	builder.WriteString(fmt.Sprintf("%v", jsv.RegisterNo))
+	builder.WriteString(fmt.Sprintf("%v", js.RegisterNo))
 	builder.WriteString(", ")
 	builder.WriteString("SocialSecurityNo=")
-	builder.WriteString(fmt.Sprintf("%v", jsv.SocialSecurityNo))
+	builder.WriteString(fmt.Sprintf("%v", js.SocialSecurityNo))
 	builder.WriteString(", ")
 	builder.WriteString("SchoolGraduation=")
-	builder.WriteString(jsv.SchoolGraduation)
+	builder.WriteString(js.SchoolGraduation)
 	builder.WriteString(", ")
 	builder.WriteString("YDSID=")
-	builder.WriteString(fmt.Sprintf("%v", jsv.YDSID))
+	builder.WriteString(fmt.Sprintf("%v", js.YDSID))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jsv.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(js.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jsv.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(js.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedSupervisors returns the Supervisors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jsv *JobSuperVisor) NamedSupervisors(name string) ([]*JobDetail, error) {
-	if jsv.Edges.namedSupervisors == nil {
+func (js *JobSupervisor) NamedSupervisors(name string) ([]*JobDetail, error) {
+	if js.Edges.namedSupervisors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := jsv.Edges.namedSupervisors[name]
+	nodes, ok := js.Edges.namedSupervisors[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (jsv *JobSuperVisor) appendNamedSupervisors(name string, edges ...*JobDetail) {
-	if jsv.Edges.namedSupervisors == nil {
-		jsv.Edges.namedSupervisors = make(map[string][]*JobDetail)
+func (js *JobSupervisor) appendNamedSupervisors(name string, edges ...*JobDetail) {
+	if js.Edges.namedSupervisors == nil {
+		js.Edges.namedSupervisors = make(map[string][]*JobDetail)
 	}
 	if len(edges) == 0 {
-		jsv.Edges.namedSupervisors[name] = []*JobDetail{}
+		js.Edges.namedSupervisors[name] = []*JobDetail{}
 	} else {
-		jsv.Edges.namedSupervisors[name] = append(jsv.Edges.namedSupervisors[name], edges...)
+		js.Edges.namedSupervisors[name] = append(js.Edges.namedSupervisors[name], edges...)
 	}
 }
 
-// JobSuperVisors is a parsable slice of JobSuperVisor.
-type JobSuperVisors []*JobSuperVisor
+// JobSupervisors is a parsable slice of JobSupervisor.
+type JobSupervisors []*JobSupervisor

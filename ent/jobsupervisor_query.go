@@ -17,61 +17,61 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
-// JobSuperVisorQuery is the builder for querying JobSuperVisor entities.
-type JobSuperVisorQuery struct {
+// JobSupervisorQuery is the builder for querying JobSupervisor entities.
+type JobSupervisorQuery struct {
 	config
 	ctx                  *QueryContext
 	order                []jobsupervisor.OrderOption
 	inters               []Interceptor
-	predicates           []predicate.JobSuperVisor
+	predicates           []predicate.JobSupervisor
 	withSupervisors      *JobDetailQuery
 	modifiers            []func(*sql.Selector)
-	loadTotal            []func(context.Context, []*JobSuperVisor) error
+	loadTotal            []func(context.Context, []*JobSupervisor) error
 	withNamedSupervisors map[string]*JobDetailQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
 }
 
-// Where adds a new predicate for the JobSuperVisorQuery builder.
-func (jsvq *JobSuperVisorQuery) Where(ps ...predicate.JobSuperVisor) *JobSuperVisorQuery {
-	jsvq.predicates = append(jsvq.predicates, ps...)
-	return jsvq
+// Where adds a new predicate for the JobSupervisorQuery builder.
+func (jsq *JobSupervisorQuery) Where(ps ...predicate.JobSupervisor) *JobSupervisorQuery {
+	jsq.predicates = append(jsq.predicates, ps...)
+	return jsq
 }
 
 // Limit the number of records to be returned by this query.
-func (jsvq *JobSuperVisorQuery) Limit(limit int) *JobSuperVisorQuery {
-	jsvq.ctx.Limit = &limit
-	return jsvq
+func (jsq *JobSupervisorQuery) Limit(limit int) *JobSupervisorQuery {
+	jsq.ctx.Limit = &limit
+	return jsq
 }
 
 // Offset to start from.
-func (jsvq *JobSuperVisorQuery) Offset(offset int) *JobSuperVisorQuery {
-	jsvq.ctx.Offset = &offset
-	return jsvq
+func (jsq *JobSupervisorQuery) Offset(offset int) *JobSupervisorQuery {
+	jsq.ctx.Offset = &offset
+	return jsq
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (jsvq *JobSuperVisorQuery) Unique(unique bool) *JobSuperVisorQuery {
-	jsvq.ctx.Unique = &unique
-	return jsvq
+func (jsq *JobSupervisorQuery) Unique(unique bool) *JobSupervisorQuery {
+	jsq.ctx.Unique = &unique
+	return jsq
 }
 
 // Order specifies how the records should be ordered.
-func (jsvq *JobSuperVisorQuery) Order(o ...jobsupervisor.OrderOption) *JobSuperVisorQuery {
-	jsvq.order = append(jsvq.order, o...)
-	return jsvq
+func (jsq *JobSupervisorQuery) Order(o ...jobsupervisor.OrderOption) *JobSupervisorQuery {
+	jsq.order = append(jsq.order, o...)
+	return jsq
 }
 
 // QuerySupervisors chains the current query on the "supervisors" edge.
-func (jsvq *JobSuperVisorQuery) QuerySupervisors() *JobDetailQuery {
-	query := (&JobDetailClient{config: jsvq.config}).Query()
+func (jsq *JobSupervisorQuery) QuerySupervisors() *JobDetailQuery {
+	query := (&JobDetailClient{config: jsq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jsvq.prepareQuery(ctx); err != nil {
+		if err := jsq.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jsvq.sqlQuery(ctx)
+		selector := jsq.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -80,16 +80,16 @@ func (jsvq *JobSuperVisorQuery) QuerySupervisors() *JobDetailQuery {
 			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobsupervisor.SupervisorsTable, jobsupervisor.SupervisorsColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jsvq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(jsq.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
-// First returns the first JobSuperVisor entity from the query.
-// Returns a *NotFoundError when no JobSuperVisor was found.
-func (jsvq *JobSuperVisorQuery) First(ctx context.Context) (*JobSuperVisor, error) {
-	nodes, err := jsvq.Limit(1).All(setContextOp(ctx, jsvq.ctx, ent.OpQueryFirst))
+// First returns the first JobSupervisor entity from the query.
+// Returns a *NotFoundError when no JobSupervisor was found.
+func (jsq *JobSupervisorQuery) First(ctx context.Context) (*JobSupervisor, error) {
+	nodes, err := jsq.Limit(1).All(setContextOp(ctx, jsq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -100,19 +100,19 @@ func (jsvq *JobSuperVisorQuery) First(ctx context.Context) (*JobSuperVisor, erro
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (jsvq *JobSuperVisorQuery) FirstX(ctx context.Context) *JobSuperVisor {
-	node, err := jsvq.First(ctx)
+func (jsq *JobSupervisorQuery) FirstX(ctx context.Context) *JobSupervisor {
+	node, err := jsq.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
 	return node
 }
 
-// FirstID returns the first JobSuperVisor ID from the query.
-// Returns a *NotFoundError when no JobSuperVisor ID was found.
-func (jsvq *JobSuperVisorQuery) FirstID(ctx context.Context) (id int, err error) {
+// FirstID returns the first JobSupervisor ID from the query.
+// Returns a *NotFoundError when no JobSupervisor ID was found.
+func (jsq *JobSupervisorQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jsvq.Limit(1).IDs(setContextOp(ctx, jsvq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = jsq.Limit(1).IDs(setContextOp(ctx, jsq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -123,19 +123,19 @@ func (jsvq *JobSuperVisorQuery) FirstID(ctx context.Context) (id int, err error)
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (jsvq *JobSuperVisorQuery) FirstIDX(ctx context.Context) int {
-	id, err := jsvq.FirstID(ctx)
+func (jsq *JobSupervisorQuery) FirstIDX(ctx context.Context) int {
+	id, err := jsq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
 	return id
 }
 
-// Only returns a single JobSuperVisor entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when more than one JobSuperVisor entity is found.
-// Returns a *NotFoundError when no JobSuperVisor entities are found.
-func (jsvq *JobSuperVisorQuery) Only(ctx context.Context) (*JobSuperVisor, error) {
-	nodes, err := jsvq.Limit(2).All(setContextOp(ctx, jsvq.ctx, ent.OpQueryOnly))
+// Only returns a single JobSupervisor entity found by the query, ensuring it only returns one.
+// Returns a *NotSingularError when more than one JobSupervisor entity is found.
+// Returns a *NotFoundError when no JobSupervisor entities are found.
+func (jsq *JobSupervisorQuery) Only(ctx context.Context) (*JobSupervisor, error) {
+	nodes, err := jsq.Limit(2).All(setContextOp(ctx, jsq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -150,20 +150,20 @@ func (jsvq *JobSuperVisorQuery) Only(ctx context.Context) (*JobSuperVisor, error
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (jsvq *JobSuperVisorQuery) OnlyX(ctx context.Context) *JobSuperVisor {
-	node, err := jsvq.Only(ctx)
+func (jsq *JobSupervisorQuery) OnlyX(ctx context.Context) *JobSupervisor {
+	node, err := jsq.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return node
 }
 
-// OnlyID is like Only, but returns the only JobSuperVisor ID in the query.
-// Returns a *NotSingularError when more than one JobSuperVisor ID is found.
+// OnlyID is like Only, but returns the only JobSupervisor ID in the query.
+// Returns a *NotSingularError when more than one JobSupervisor ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (jsvq *JobSuperVisorQuery) OnlyID(ctx context.Context) (id int, err error) {
+func (jsq *JobSupervisorQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jsvq.Limit(2).IDs(setContextOp(ctx, jsvq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = jsq.Limit(2).IDs(setContextOp(ctx, jsq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -178,48 +178,48 @@ func (jsvq *JobSuperVisorQuery) OnlyID(ctx context.Context) (id int, err error) 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (jsvq *JobSuperVisorQuery) OnlyIDX(ctx context.Context) int {
-	id, err := jsvq.OnlyID(ctx)
+func (jsq *JobSupervisorQuery) OnlyIDX(ctx context.Context) int {
+	id, err := jsq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return id
 }
 
-// All executes the query and returns a list of JobSuperVisors.
-func (jsvq *JobSuperVisorQuery) All(ctx context.Context) ([]*JobSuperVisor, error) {
-	ctx = setContextOp(ctx, jsvq.ctx, ent.OpQueryAll)
-	if err := jsvq.prepareQuery(ctx); err != nil {
+// All executes the query and returns a list of JobSupervisors.
+func (jsq *JobSupervisorQuery) All(ctx context.Context) ([]*JobSupervisor, error) {
+	ctx = setContextOp(ctx, jsq.ctx, ent.OpQueryAll)
+	if err := jsq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
-	qr := querierAll[[]*JobSuperVisor, *JobSuperVisorQuery]()
-	return withInterceptors[[]*JobSuperVisor](ctx, jsvq, qr, jsvq.inters)
+	qr := querierAll[[]*JobSupervisor, *JobSupervisorQuery]()
+	return withInterceptors[[]*JobSupervisor](ctx, jsq, qr, jsq.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (jsvq *JobSuperVisorQuery) AllX(ctx context.Context) []*JobSuperVisor {
-	nodes, err := jsvq.All(ctx)
+func (jsq *JobSupervisorQuery) AllX(ctx context.Context) []*JobSupervisor {
+	nodes, err := jsq.All(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return nodes
 }
 
-// IDs executes the query and returns a list of JobSuperVisor IDs.
-func (jsvq *JobSuperVisorQuery) IDs(ctx context.Context) (ids []int, err error) {
-	if jsvq.ctx.Unique == nil && jsvq.path != nil {
-		jsvq.Unique(true)
+// IDs executes the query and returns a list of JobSupervisor IDs.
+func (jsq *JobSupervisorQuery) IDs(ctx context.Context) (ids []int, err error) {
+	if jsq.ctx.Unique == nil && jsq.path != nil {
+		jsq.Unique(true)
 	}
-	ctx = setContextOp(ctx, jsvq.ctx, ent.OpQueryIDs)
-	if err = jsvq.Select(jobsupervisor.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, jsq.ctx, ent.OpQueryIDs)
+	if err = jsq.Select(jobsupervisor.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (jsvq *JobSuperVisorQuery) IDsX(ctx context.Context) []int {
-	ids, err := jsvq.IDs(ctx)
+func (jsq *JobSupervisorQuery) IDsX(ctx context.Context) []int {
+	ids, err := jsq.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -227,17 +227,17 @@ func (jsvq *JobSuperVisorQuery) IDsX(ctx context.Context) []int {
 }
 
 // Count returns the count of the given query.
-func (jsvq *JobSuperVisorQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jsvq.ctx, ent.OpQueryCount)
-	if err := jsvq.prepareQuery(ctx); err != nil {
+func (jsq *JobSupervisorQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, jsq.ctx, ent.OpQueryCount)
+	if err := jsq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, jsvq, querierCount[*JobSuperVisorQuery](), jsvq.inters)
+	return withInterceptors[int](ctx, jsq, querierCount[*JobSupervisorQuery](), jsq.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (jsvq *JobSuperVisorQuery) CountX(ctx context.Context) int {
-	count, err := jsvq.Count(ctx)
+func (jsq *JobSupervisorQuery) CountX(ctx context.Context) int {
+	count, err := jsq.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -245,9 +245,9 @@ func (jsvq *JobSuperVisorQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (jsvq *JobSuperVisorQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jsvq.ctx, ent.OpQueryExist)
-	switch _, err := jsvq.FirstID(ctx); {
+func (jsq *JobSupervisorQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, jsq.ctx, ent.OpQueryExist)
+	switch _, err := jsq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -258,42 +258,42 @@ func (jsvq *JobSuperVisorQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (jsvq *JobSuperVisorQuery) ExistX(ctx context.Context) bool {
-	exist, err := jsvq.Exist(ctx)
+func (jsq *JobSupervisorQuery) ExistX(ctx context.Context) bool {
+	exist, err := jsq.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return exist
 }
 
-// Clone returns a duplicate of the JobSuperVisorQuery builder, including all associated steps. It can be
+// Clone returns a duplicate of the JobSupervisorQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (jsvq *JobSuperVisorQuery) Clone() *JobSuperVisorQuery {
-	if jsvq == nil {
+func (jsq *JobSupervisorQuery) Clone() *JobSupervisorQuery {
+	if jsq == nil {
 		return nil
 	}
-	return &JobSuperVisorQuery{
-		config:          jsvq.config,
-		ctx:             jsvq.ctx.Clone(),
-		order:           append([]jobsupervisor.OrderOption{}, jsvq.order...),
-		inters:          append([]Interceptor{}, jsvq.inters...),
-		predicates:      append([]predicate.JobSuperVisor{}, jsvq.predicates...),
-		withSupervisors: jsvq.withSupervisors.Clone(),
+	return &JobSupervisorQuery{
+		config:          jsq.config,
+		ctx:             jsq.ctx.Clone(),
+		order:           append([]jobsupervisor.OrderOption{}, jsq.order...),
+		inters:          append([]Interceptor{}, jsq.inters...),
+		predicates:      append([]predicate.JobSupervisor{}, jsq.predicates...),
+		withSupervisors: jsq.withSupervisors.Clone(),
 		// clone intermediate query.
-		sql:  jsvq.sql.Clone(),
-		path: jsvq.path,
+		sql:  jsq.sql.Clone(),
+		path: jsq.path,
 	}
 }
 
 // WithSupervisors tells the query-builder to eager-load the nodes that are connected to
 // the "supervisors" edge. The optional arguments are used to configure the query builder of the edge.
-func (jsvq *JobSuperVisorQuery) WithSupervisors(opts ...func(*JobDetailQuery)) *JobSuperVisorQuery {
-	query := (&JobDetailClient{config: jsvq.config}).Query()
+func (jsq *JobSupervisorQuery) WithSupervisors(opts ...func(*JobDetailQuery)) *JobSupervisorQuery {
+	query := (&JobDetailClient{config: jsq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jsvq.withSupervisors = query
-	return jsvq
+	jsq.withSupervisors = query
+	return jsq
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -306,14 +306,14 @@ func (jsvq *JobSuperVisorQuery) WithSupervisors(opts ...func(*JobDetailQuery)) *
 //		Count int `json:"count,omitempty"`
 //	}
 //
-//	client.JobSuperVisor.Query().
+//	client.JobSupervisor.Query().
 //		GroupBy(jobsupervisor.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (jsvq *JobSuperVisorQuery) GroupBy(field string, fields ...string) *JobSuperVisorGroupBy {
-	jsvq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &JobSuperVisorGroupBy{build: jsvq}
-	grbuild.flds = &jsvq.ctx.Fields
+func (jsq *JobSupervisorQuery) GroupBy(field string, fields ...string) *JobSupervisorGroupBy {
+	jsq.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &JobSupervisorGroupBy{build: jsq}
+	grbuild.flds = &jsq.ctx.Fields
 	grbuild.label = jobsupervisor.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -328,102 +328,102 @@ func (jsvq *JobSuperVisorQuery) GroupBy(field string, fields ...string) *JobSupe
 //		Name string `json:"Name,omitempty"`
 //	}
 //
-//	client.JobSuperVisor.Query().
+//	client.JobSupervisor.Query().
 //		Select(jobsupervisor.FieldName).
 //		Scan(ctx, &v)
-func (jsvq *JobSuperVisorQuery) Select(fields ...string) *JobSuperVisorSelect {
-	jsvq.ctx.Fields = append(jsvq.ctx.Fields, fields...)
-	sbuild := &JobSuperVisorSelect{JobSuperVisorQuery: jsvq}
+func (jsq *JobSupervisorQuery) Select(fields ...string) *JobSupervisorSelect {
+	jsq.ctx.Fields = append(jsq.ctx.Fields, fields...)
+	sbuild := &JobSupervisorSelect{JobSupervisorQuery: jsq}
 	sbuild.label = jobsupervisor.Label
-	sbuild.flds, sbuild.scan = &jsvq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &jsq.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
-// Aggregate returns a JobSuperVisorSelect configured with the given aggregations.
-func (jsvq *JobSuperVisorQuery) Aggregate(fns ...AggregateFunc) *JobSuperVisorSelect {
-	return jsvq.Select().Aggregate(fns...)
+// Aggregate returns a JobSupervisorSelect configured with the given aggregations.
+func (jsq *JobSupervisorQuery) Aggregate(fns ...AggregateFunc) *JobSupervisorSelect {
+	return jsq.Select().Aggregate(fns...)
 }
 
-func (jsvq *JobSuperVisorQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range jsvq.inters {
+func (jsq *JobSupervisorQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range jsq.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, jsvq); err != nil {
+			if err := trv.Traverse(ctx, jsq); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range jsvq.ctx.Fields {
+	for _, f := range jsq.ctx.Fields {
 		if !jobsupervisor.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if jsvq.path != nil {
-		prev, err := jsvq.path(ctx)
+	if jsq.path != nil {
+		prev, err := jsq.path(ctx)
 		if err != nil {
 			return err
 		}
-		jsvq.sql = prev
+		jsq.sql = prev
 	}
 	return nil
 }
 
-func (jsvq *JobSuperVisorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobSuperVisor, error) {
+func (jsq *JobSupervisorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobSupervisor, error) {
 	var (
-		nodes       = []*JobSuperVisor{}
-		_spec       = jsvq.querySpec()
+		nodes       = []*JobSupervisor{}
+		_spec       = jsq.querySpec()
 		loadedTypes = [1]bool{
-			jsvq.withSupervisors != nil,
+			jsq.withSupervisors != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
-		return (*JobSuperVisor).scanValues(nil, columns)
+		return (*JobSupervisor).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &JobSuperVisor{config: jsvq.config}
+		node := &JobSupervisor{config: jsq.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jsvq.modifiers) > 0 {
-		_spec.Modifiers = jsvq.modifiers
+	if len(jsq.modifiers) > 0 {
+		_spec.Modifiers = jsq.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, jsvq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, jsq.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := jsvq.withSupervisors; query != nil {
-		if err := jsvq.loadSupervisors(ctx, query, nodes,
-			func(n *JobSuperVisor) { n.Edges.Supervisors = []*JobDetail{} },
-			func(n *JobSuperVisor, e *JobDetail) { n.Edges.Supervisors = append(n.Edges.Supervisors, e) }); err != nil {
+	if query := jsq.withSupervisors; query != nil {
+		if err := jsq.loadSupervisors(ctx, query, nodes,
+			func(n *JobSupervisor) { n.Edges.Supervisors = []*JobDetail{} },
+			func(n *JobSupervisor, e *JobDetail) { n.Edges.Supervisors = append(n.Edges.Supervisors, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range jsvq.withNamedSupervisors {
-		if err := jsvq.loadSupervisors(ctx, query, nodes,
-			func(n *JobSuperVisor) { n.appendNamedSupervisors(name) },
-			func(n *JobSuperVisor, e *JobDetail) { n.appendNamedSupervisors(name, e) }); err != nil {
+	for name, query := range jsq.withNamedSupervisors {
+		if err := jsq.loadSupervisors(ctx, query, nodes,
+			func(n *JobSupervisor) { n.appendNamedSupervisors(name) },
+			func(n *JobSupervisor, e *JobDetail) { n.appendNamedSupervisors(name, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for i := range jsvq.loadTotal {
-		if err := jsvq.loadTotal[i](ctx, nodes); err != nil {
+	for i := range jsq.loadTotal {
+		if err := jsq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (jsvq *JobSuperVisorQuery) loadSupervisors(ctx context.Context, query *JobDetailQuery, nodes []*JobSuperVisor, init func(*JobSuperVisor), assign func(*JobSuperVisor, *JobDetail)) error {
+func (jsq *JobSupervisorQuery) loadSupervisors(ctx context.Context, query *JobDetailQuery, nodes []*JobSupervisor, init func(*JobSupervisor), assign func(*JobSupervisor, *JobDetail)) error {
 	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*JobSuperVisor)
+	nodeids := make(map[int]*JobSupervisor)
 	for i := range nodes {
 		fks = append(fks, nodes[i].ID)
 		nodeids[nodes[i].ID] = nodes[i]
@@ -453,27 +453,27 @@ func (jsvq *JobSuperVisorQuery) loadSupervisors(ctx context.Context, query *JobD
 	return nil
 }
 
-func (jsvq *JobSuperVisorQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := jsvq.querySpec()
-	if len(jsvq.modifiers) > 0 {
-		_spec.Modifiers = jsvq.modifiers
+func (jsq *JobSupervisorQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := jsq.querySpec()
+	if len(jsq.modifiers) > 0 {
+		_spec.Modifiers = jsq.modifiers
 	}
-	_spec.Node.Columns = jsvq.ctx.Fields
-	if len(jsvq.ctx.Fields) > 0 {
-		_spec.Unique = jsvq.ctx.Unique != nil && *jsvq.ctx.Unique
+	_spec.Node.Columns = jsq.ctx.Fields
+	if len(jsq.ctx.Fields) > 0 {
+		_spec.Unique = jsq.ctx.Unique != nil && *jsq.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, jsvq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, jsq.driver, _spec)
 }
 
-func (jsvq *JobSuperVisorQuery) querySpec() *sqlgraph.QuerySpec {
+func (jsq *JobSupervisorQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(jobsupervisor.Table, jobsupervisor.Columns, sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt))
-	_spec.From = jsvq.sql
-	if unique := jsvq.ctx.Unique; unique != nil {
+	_spec.From = jsq.sql
+	if unique := jsq.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if jsvq.path != nil {
+	} else if jsq.path != nil {
 		_spec.Unique = true
 	}
-	if fields := jsvq.ctx.Fields; len(fields) > 0 {
+	if fields := jsq.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobsupervisor.FieldID)
 		for i := range fields {
@@ -482,20 +482,20 @@ func (jsvq *JobSuperVisorQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := jsvq.predicates; len(ps) > 0 {
+	if ps := jsq.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := jsvq.ctx.Limit; limit != nil {
+	if limit := jsq.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := jsvq.ctx.Offset; offset != nil {
+	if offset := jsq.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := jsvq.order; len(ps) > 0 {
+	if ps := jsq.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -505,33 +505,33 @@ func (jsvq *JobSuperVisorQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (jsvq *JobSuperVisorQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(jsvq.driver.Dialect())
+func (jsq *JobSupervisorQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(jsq.driver.Dialect())
 	t1 := builder.Table(jobsupervisor.Table)
-	columns := jsvq.ctx.Fields
+	columns := jsq.ctx.Fields
 	if len(columns) == 0 {
 		columns = jobsupervisor.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if jsvq.sql != nil {
-		selector = jsvq.sql
+	if jsq.sql != nil {
+		selector = jsq.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if jsvq.ctx.Unique != nil && *jsvq.ctx.Unique {
+	if jsq.ctx.Unique != nil && *jsq.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range jsvq.predicates {
+	for _, p := range jsq.predicates {
 		p(selector)
 	}
-	for _, p := range jsvq.order {
+	for _, p := range jsq.order {
 		p(selector)
 	}
-	if offset := jsvq.ctx.Offset; offset != nil {
+	if offset := jsq.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := jsvq.ctx.Limit; limit != nil {
+	if limit := jsq.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -539,94 +539,94 @@ func (jsvq *JobSuperVisorQuery) sqlQuery(ctx context.Context) *sql.Selector {
 
 // WithNamedSupervisors tells the query-builder to eager-load the nodes that are connected to the "supervisors"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jsvq *JobSuperVisorQuery) WithNamedSupervisors(name string, opts ...func(*JobDetailQuery)) *JobSuperVisorQuery {
-	query := (&JobDetailClient{config: jsvq.config}).Query()
+func (jsq *JobSupervisorQuery) WithNamedSupervisors(name string, opts ...func(*JobDetailQuery)) *JobSupervisorQuery {
+	query := (&JobDetailClient{config: jsq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if jsvq.withNamedSupervisors == nil {
-		jsvq.withNamedSupervisors = make(map[string]*JobDetailQuery)
+	if jsq.withNamedSupervisors == nil {
+		jsq.withNamedSupervisors = make(map[string]*JobDetailQuery)
 	}
-	jsvq.withNamedSupervisors[name] = query
-	return jsvq
+	jsq.withNamedSupervisors[name] = query
+	return jsq
 }
 
-// JobSuperVisorGroupBy is the group-by builder for JobSuperVisor entities.
-type JobSuperVisorGroupBy struct {
+// JobSupervisorGroupBy is the group-by builder for JobSupervisor entities.
+type JobSupervisorGroupBy struct {
 	selector
-	build *JobSuperVisorQuery
+	build *JobSupervisorQuery
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (jsvgb *JobSuperVisorGroupBy) Aggregate(fns ...AggregateFunc) *JobSuperVisorGroupBy {
-	jsvgb.fns = append(jsvgb.fns, fns...)
-	return jsvgb
+func (jsgb *JobSupervisorGroupBy) Aggregate(fns ...AggregateFunc) *JobSupervisorGroupBy {
+	jsgb.fns = append(jsgb.fns, fns...)
+	return jsgb
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jsvgb *JobSuperVisorGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jsvgb.build.ctx, ent.OpQueryGroupBy)
-	if err := jsvgb.build.prepareQuery(ctx); err != nil {
+func (jsgb *JobSupervisorGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, jsgb.build.ctx, ent.OpQueryGroupBy)
+	if err := jsgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobSuperVisorQuery, *JobSuperVisorGroupBy](ctx, jsvgb.build, jsvgb, jsvgb.build.inters, v)
+	return scanWithInterceptors[*JobSupervisorQuery, *JobSupervisorGroupBy](ctx, jsgb.build, jsgb, jsgb.build.inters, v)
 }
 
-func (jsvgb *JobSuperVisorGroupBy) sqlScan(ctx context.Context, root *JobSuperVisorQuery, v any) error {
+func (jsgb *JobSupervisorGroupBy) sqlScan(ctx context.Context, root *JobSupervisorQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(jsvgb.fns))
-	for _, fn := range jsvgb.fns {
+	aggregation := make([]string, 0, len(jsgb.fns))
+	for _, fn := range jsgb.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*jsvgb.flds)+len(jsvgb.fns))
-		for _, f := range *jsvgb.flds {
+		columns := make([]string, 0, len(*jsgb.flds)+len(jsgb.fns))
+		for _, f := range *jsgb.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*jsvgb.flds...)...)
+	selector.GroupBy(selector.Columns(*jsgb.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jsvgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := jsgb.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
 	return sql.ScanSlice(rows, v)
 }
 
-// JobSuperVisorSelect is the builder for selecting fields of JobSuperVisor entities.
-type JobSuperVisorSelect struct {
-	*JobSuperVisorQuery
+// JobSupervisorSelect is the builder for selecting fields of JobSupervisor entities.
+type JobSupervisorSelect struct {
+	*JobSupervisorQuery
 	selector
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (jsvs *JobSuperVisorSelect) Aggregate(fns ...AggregateFunc) *JobSuperVisorSelect {
-	jsvs.fns = append(jsvs.fns, fns...)
-	return jsvs
+func (jss *JobSupervisorSelect) Aggregate(fns ...AggregateFunc) *JobSupervisorSelect {
+	jss.fns = append(jss.fns, fns...)
+	return jss
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jsvs *JobSuperVisorSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jsvs.ctx, ent.OpQuerySelect)
-	if err := jsvs.prepareQuery(ctx); err != nil {
+func (jss *JobSupervisorSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, jss.ctx, ent.OpQuerySelect)
+	if err := jss.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobSuperVisorQuery, *JobSuperVisorSelect](ctx, jsvs.JobSuperVisorQuery, jsvs, jsvs.inters, v)
+	return scanWithInterceptors[*JobSupervisorQuery, *JobSupervisorSelect](ctx, jss.JobSupervisorQuery, jss, jss.inters, v)
 }
 
-func (jsvs *JobSuperVisorSelect) sqlScan(ctx context.Context, root *JobSuperVisorQuery, v any) error {
+func (jss *JobSupervisorSelect) sqlScan(ctx context.Context, root *JobSupervisorQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(jsvs.fns))
-	for _, fn := range jsvs.fns {
+	aggregation := make([]string, 0, len(jss.fns))
+	for _, fn := range jss.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*jsvs.selector.flds); {
+	switch n := len(*jss.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -634,7 +634,7 @@ func (jsvs *JobSuperVisorSelect) sqlScan(ctx context.Context, root *JobSuperViso
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jsvs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := jss.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

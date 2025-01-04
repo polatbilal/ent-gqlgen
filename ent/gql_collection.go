@@ -890,7 +890,7 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobSuperVisorClient{config: jd.config}).Query()
+				query = (&JobSupervisorClient{config: jd.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobsupervisorImplementors)...); err != nil {
 				return err
@@ -1688,18 +1688,18 @@ func newJobProgressPaginateArgs(rv map[string]any) *jobprogressPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jsv *JobSuperVisorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobSuperVisorQuery, error) {
+func (js *JobSupervisorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobSupervisorQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jsv, nil
+		return js, nil
 	}
-	if err := jsv.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := js.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jsv, nil
+	return js, nil
 }
 
-func (jsv *JobSuperVisorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (js *JobSupervisorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -1713,12 +1713,12 @@ func (jsv *JobSuperVisorQuery) collectField(ctx context.Context, oneNode bool, o
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: jsv.config}).Query()
+				query = (&JobDetailClient{config: js.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
 				return err
 			}
-			jsv.WithNamedSupervisors(alias, func(wq *JobDetailQuery) {
+			js.WithNamedSupervisors(alias, func(wq *JobDetailQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -1793,7 +1793,7 @@ func (jsv *JobSuperVisorQuery) collectField(ctx context.Context, oneNode bool, o
 		}
 	}
 	if !unknownSeen {
-		jsv.Select(selectedFields...)
+		js.Select(selectedFields...)
 	}
 	return nil
 }
@@ -1801,10 +1801,10 @@ func (jsv *JobSuperVisorQuery) collectField(ctx context.Context, oneNode bool, o
 type jobsupervisorPaginateArgs struct {
 	first, last   *int
 	after, before *Cursor
-	opts          []JobSuperVisorPaginateOption
+	opts          []JobSupervisorPaginateOption
 }
 
-func newJobSuperVisorPaginateArgs(rv map[string]any) *jobsupervisorPaginateArgs {
+func newJobSupervisorPaginateArgs(rv map[string]any) *jobsupervisorPaginateArgs {
 	args := &jobsupervisorPaginateArgs{}
 	if rv == nil {
 		return args

@@ -1,5 +1,3 @@
-scalar Time
-
 type CompanyDetail {
   id: ID
   CompanyCode: Int

@@ -129,16 +129,16 @@ func (f JobProgressFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobProgressMutation", m)
 }
 
-// The JobSuperVisorFunc type is an adapter to allow the use of ordinary
-// function as JobSuperVisor mutator.
-type JobSuperVisorFunc func(context.Context, *ent.JobSuperVisorMutation) (ent.Value, error)
+// The JobSupervisorFunc type is an adapter to allow the use of ordinary
+// function as JobSupervisor mutator.
+type JobSupervisorFunc func(context.Context, *ent.JobSupervisorMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f JobSuperVisorFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.JobSuperVisorMutation); ok {
+func (f JobSupervisorFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.JobSupervisorMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobSuperVisorMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobSupervisorMutation", m)
 }
 
 // The UserFunc type is an adapter to allow the use of ordinary

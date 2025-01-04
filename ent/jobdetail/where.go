@@ -2222,7 +2222,7 @@ func HasSupervisor() predicate.JobDetail {
 }
 
 // HasSupervisorWith applies the HasEdge predicate on the "supervisor" edge with a given conditions (other predicates).
-func HasSupervisorWith(preds ...predicate.JobSuperVisor) predicate.JobDetail {
+func HasSupervisorWith(preds ...predicate.JobSupervisor) predicate.JobDetail {
 	return predicate.JobDetail(func(s *sql.Selector) {
 		step := newSupervisorStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

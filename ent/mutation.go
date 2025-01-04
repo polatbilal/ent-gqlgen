@@ -45,7 +45,7 @@ const (
 	TypeJobOwner        = "JobOwner"
 	TypeJobPayments     = "JobPayments"
 	TypeJobProgress     = "JobProgress"
-	TypeJobSuperVisor   = "JobSuperVisor"
+	TypeJobSupervisor   = "JobSupervisor"
 	TypeUser            = "User"
 )
 
@@ -9550,17 +9550,17 @@ func (m *JobDetailMutation) ResetProgress() {
 	m.clearedprogress = false
 }
 
-// SetSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by id.
+// SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by id.
 func (m *JobDetailMutation) SetSupervisorID(id int) {
 	m.supervisor = &id
 }
 
-// ClearSupervisor clears the "supervisor" edge to the JobSuperVisor entity.
+// ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
 func (m *JobDetailMutation) ClearSupervisor() {
 	m.clearedsupervisor = true
 }
 
-// SupervisorCleared reports if the "supervisor" edge to the JobSuperVisor entity was cleared.
+// SupervisorCleared reports if the "supervisor" edge to the JobSupervisor entity was cleared.
 func (m *JobDetailMutation) SupervisorCleared() bool {
 	return m.clearedsupervisor
 }
@@ -15657,8 +15657,8 @@ func (m *JobProgressMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown JobProgress edge %s", name)
 }
 
-// JobSuperVisorMutation represents an operation that mutates the JobSuperVisor nodes in the graph.
-type JobSuperVisorMutation struct {
+// JobSupervisorMutation represents an operation that mutates the JobSupervisor nodes in the graph.
+type JobSupervisorMutation struct {
 	config
 	op                   Op
 	typ                  string
@@ -15685,21 +15685,21 @@ type JobSuperVisorMutation struct {
 	removedsupervisors   map[int]struct{}
 	clearedsupervisors   bool
 	done                 bool
-	oldValue             func(context.Context) (*JobSuperVisor, error)
-	predicates           []predicate.JobSuperVisor
+	oldValue             func(context.Context) (*JobSupervisor, error)
+	predicates           []predicate.JobSupervisor
 }
 
-var _ ent.Mutation = (*JobSuperVisorMutation)(nil)
+var _ ent.Mutation = (*JobSupervisorMutation)(nil)
 
 // jobsupervisorOption allows management of the mutation configuration using functional options.
-type jobsupervisorOption func(*JobSuperVisorMutation)
+type jobsupervisorOption func(*JobSupervisorMutation)
 
-// newJobSuperVisorMutation creates new mutation for the JobSuperVisor entity.
-func newJobSuperVisorMutation(c config, op Op, opts ...jobsupervisorOption) *JobSuperVisorMutation {
-	m := &JobSuperVisorMutation{
+// newJobSupervisorMutation creates new mutation for the JobSupervisor entity.
+func newJobSupervisorMutation(c config, op Op, opts ...jobsupervisorOption) *JobSupervisorMutation {
+	m := &JobSupervisorMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeJobSuperVisor,
+		typ:           TypeJobSupervisor,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -15708,20 +15708,20 @@ func newJobSuperVisorMutation(c config, op Op, opts ...jobsupervisorOption) *Job
 	return m
 }
 
-// withJobSuperVisorID sets the ID field of the mutation.
-func withJobSuperVisorID(id int) jobsupervisorOption {
-	return func(m *JobSuperVisorMutation) {
+// withJobSupervisorID sets the ID field of the mutation.
+func withJobSupervisorID(id int) jobsupervisorOption {
+	return func(m *JobSupervisorMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *JobSuperVisor
+			value *JobSupervisor
 		)
-		m.oldValue = func(ctx context.Context) (*JobSuperVisor, error) {
+		m.oldValue = func(ctx context.Context) (*JobSupervisor, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().JobSuperVisor.Get(ctx, id)
+					value, err = m.Client().JobSupervisor.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -15730,10 +15730,10 @@ func withJobSuperVisorID(id int) jobsupervisorOption {
 	}
 }
 
-// withJobSuperVisor sets the old JobSuperVisor of the mutation.
-func withJobSuperVisor(node *JobSuperVisor) jobsupervisorOption {
-	return func(m *JobSuperVisorMutation) {
-		m.oldValue = func(context.Context) (*JobSuperVisor, error) {
+// withJobSupervisor sets the old JobSupervisor of the mutation.
+func withJobSupervisor(node *JobSupervisor) jobsupervisorOption {
+	return func(m *JobSupervisorMutation) {
+		m.oldValue = func(context.Context) (*JobSupervisor, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -15742,7 +15742,7 @@ func withJobSuperVisor(node *JobSuperVisor) jobsupervisorOption {
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m JobSuperVisorMutation) Client() *Client {
+func (m JobSupervisorMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -15750,7 +15750,7 @@ func (m JobSuperVisorMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m JobSuperVisorMutation) Tx() (*Tx, error) {
+func (m JobSupervisorMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
@@ -15761,7 +15761,7 @@ func (m JobSuperVisorMutation) Tx() (*Tx, error) {
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *JobSuperVisorMutation) ID() (id int, exists bool) {
+func (m *JobSupervisorMutation) ID() (id int, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -15772,7 +15772,7 @@ func (m *JobSuperVisorMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *JobSuperVisorMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *JobSupervisorMutation) IDs(ctx context.Context) ([]int, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -15781,19 +15781,19 @@ func (m *JobSuperVisorMutation) IDs(ctx context.Context) ([]int, error) {
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().JobSuperVisor.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().JobSupervisor.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetName sets the "Name" field.
-func (m *JobSuperVisorMutation) SetName(s string) {
+func (m *JobSupervisorMutation) SetName(s string) {
 	m._Name = &s
 }
 
 // Name returns the value of the "Name" field in the mutation.
-func (m *JobSuperVisorMutation) Name() (r string, exists bool) {
+func (m *JobSupervisorMutation) Name() (r string, exists bool) {
 	v := m._Name
 	if v == nil {
 		return
@@ -15801,10 +15801,10 @@ func (m *JobSuperVisorMutation) Name() (r string, exists bool) {
 	return *v, true
 }
 
-// OldName returns the old "Name" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldName returns the old "Name" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldName(ctx context.Context) (v string, err error) {
+func (m *JobSupervisorMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldName is only allowed on UpdateOne operations")
 	}
@@ -15819,30 +15819,30 @@ func (m *JobSuperVisorMutation) OldName(ctx context.Context) (v string, err erro
 }
 
 // ClearName clears the value of the "Name" field.
-func (m *JobSuperVisorMutation) ClearName() {
+func (m *JobSupervisorMutation) ClearName() {
 	m._Name = nil
 	m.clearedFields[jobsupervisor.FieldName] = struct{}{}
 }
 
 // NameCleared returns if the "Name" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) NameCleared() bool {
+func (m *JobSupervisorMutation) NameCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldName]
 	return ok
 }
 
 // ResetName resets all changes to the "Name" field.
-func (m *JobSuperVisorMutation) ResetName() {
+func (m *JobSupervisorMutation) ResetName() {
 	m._Name = nil
 	delete(m.clearedFields, jobsupervisor.FieldName)
 }
 
 // SetAddress sets the "Address" field.
-func (m *JobSuperVisorMutation) SetAddress(s string) {
+func (m *JobSupervisorMutation) SetAddress(s string) {
 	m._Address = &s
 }
 
 // Address returns the value of the "Address" field in the mutation.
-func (m *JobSuperVisorMutation) Address() (r string, exists bool) {
+func (m *JobSupervisorMutation) Address() (r string, exists bool) {
 	v := m._Address
 	if v == nil {
 		return
@@ -15850,10 +15850,10 @@ func (m *JobSuperVisorMutation) Address() (r string, exists bool) {
 	return *v, true
 }
 
-// OldAddress returns the old "Address" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldAddress returns the old "Address" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldAddress(ctx context.Context) (v string, err error) {
+func (m *JobSupervisorMutation) OldAddress(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAddress is only allowed on UpdateOne operations")
 	}
@@ -15868,30 +15868,30 @@ func (m *JobSuperVisorMutation) OldAddress(ctx context.Context) (v string, err e
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (m *JobSuperVisorMutation) ClearAddress() {
+func (m *JobSupervisorMutation) ClearAddress() {
 	m._Address = nil
 	m.clearedFields[jobsupervisor.FieldAddress] = struct{}{}
 }
 
 // AddressCleared returns if the "Address" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) AddressCleared() bool {
+func (m *JobSupervisorMutation) AddressCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldAddress]
 	return ok
 }
 
 // ResetAddress resets all changes to the "Address" field.
-func (m *JobSuperVisorMutation) ResetAddress() {
+func (m *JobSupervisorMutation) ResetAddress() {
 	m._Address = nil
 	delete(m.clearedFields, jobsupervisor.FieldAddress)
 }
 
 // SetPhone sets the "Phone" field.
-func (m *JobSuperVisorMutation) SetPhone(s string) {
+func (m *JobSupervisorMutation) SetPhone(s string) {
 	m._Phone = &s
 }
 
 // Phone returns the value of the "Phone" field in the mutation.
-func (m *JobSuperVisorMutation) Phone() (r string, exists bool) {
+func (m *JobSupervisorMutation) Phone() (r string, exists bool) {
 	v := m._Phone
 	if v == nil {
 		return
@@ -15899,10 +15899,10 @@ func (m *JobSuperVisorMutation) Phone() (r string, exists bool) {
 	return *v, true
 }
 
-// OldPhone returns the old "Phone" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldPhone returns the old "Phone" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldPhone(ctx context.Context) (v string, err error) {
+func (m *JobSupervisorMutation) OldPhone(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldPhone is only allowed on UpdateOne operations")
 	}
@@ -15917,30 +15917,30 @@ func (m *JobSuperVisorMutation) OldPhone(ctx context.Context) (v string, err err
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (m *JobSuperVisorMutation) ClearPhone() {
+func (m *JobSupervisorMutation) ClearPhone() {
 	m._Phone = nil
 	m.clearedFields[jobsupervisor.FieldPhone] = struct{}{}
 }
 
 // PhoneCleared returns if the "Phone" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) PhoneCleared() bool {
+func (m *JobSupervisorMutation) PhoneCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldPhone]
 	return ok
 }
 
 // ResetPhone resets all changes to the "Phone" field.
-func (m *JobSuperVisorMutation) ResetPhone() {
+func (m *JobSupervisorMutation) ResetPhone() {
 	m._Phone = nil
 	delete(m.clearedFields, jobsupervisor.FieldPhone)
 }
 
 // SetEmail sets the "Email" field.
-func (m *JobSuperVisorMutation) SetEmail(s string) {
+func (m *JobSupervisorMutation) SetEmail(s string) {
 	m._Email = &s
 }
 
 // Email returns the value of the "Email" field in the mutation.
-func (m *JobSuperVisorMutation) Email() (r string, exists bool) {
+func (m *JobSupervisorMutation) Email() (r string, exists bool) {
 	v := m._Email
 	if v == nil {
 		return
@@ -15948,10 +15948,10 @@ func (m *JobSuperVisorMutation) Email() (r string, exists bool) {
 	return *v, true
 }
 
-// OldEmail returns the old "Email" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldEmail returns the old "Email" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldEmail(ctx context.Context) (v string, err error) {
+func (m *JobSupervisorMutation) OldEmail(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldEmail is only allowed on UpdateOne operations")
 	}
@@ -15966,31 +15966,31 @@ func (m *JobSuperVisorMutation) OldEmail(ctx context.Context) (v string, err err
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (m *JobSuperVisorMutation) ClearEmail() {
+func (m *JobSupervisorMutation) ClearEmail() {
 	m._Email = nil
 	m.clearedFields[jobsupervisor.FieldEmail] = struct{}{}
 }
 
 // EmailCleared returns if the "Email" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) EmailCleared() bool {
+func (m *JobSupervisorMutation) EmailCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldEmail]
 	return ok
 }
 
 // ResetEmail resets all changes to the "Email" field.
-func (m *JobSuperVisorMutation) ResetEmail() {
+func (m *JobSupervisorMutation) ResetEmail() {
 	m._Email = nil
 	delete(m.clearedFields, jobsupervisor.FieldEmail)
 }
 
 // SetTcNo sets the "TcNo" field.
-func (m *JobSuperVisorMutation) SetTcNo(i int) {
+func (m *JobSupervisorMutation) SetTcNo(i int) {
 	m._TcNo = &i
 	m.add_TcNo = nil
 }
 
 // TcNo returns the value of the "TcNo" field in the mutation.
-func (m *JobSuperVisorMutation) TcNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) TcNo() (r int, exists bool) {
 	v := m._TcNo
 	if v == nil {
 		return
@@ -15998,10 +15998,10 @@ func (m *JobSuperVisorMutation) TcNo() (r int, exists bool) {
 	return *v, true
 }
 
-// OldTcNo returns the old "TcNo" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldTcNo returns the old "TcNo" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldTcNo(ctx context.Context) (v int, err error) {
+func (m *JobSupervisorMutation) OldTcNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTcNo is only allowed on UpdateOne operations")
 	}
@@ -16016,7 +16016,7 @@ func (m *JobSuperVisorMutation) OldTcNo(ctx context.Context) (v int, err error) 
 }
 
 // AddTcNo adds i to the "TcNo" field.
-func (m *JobSuperVisorMutation) AddTcNo(i int) {
+func (m *JobSupervisorMutation) AddTcNo(i int) {
 	if m.add_TcNo != nil {
 		*m.add_TcNo += i
 	} else {
@@ -16025,7 +16025,7 @@ func (m *JobSuperVisorMutation) AddTcNo(i int) {
 }
 
 // AddedTcNo returns the value that was added to the "TcNo" field in this mutation.
-func (m *JobSuperVisorMutation) AddedTcNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) AddedTcNo() (r int, exists bool) {
 	v := m.add_TcNo
 	if v == nil {
 		return
@@ -16034,32 +16034,32 @@ func (m *JobSuperVisorMutation) AddedTcNo() (r int, exists bool) {
 }
 
 // ClearTcNo clears the value of the "TcNo" field.
-func (m *JobSuperVisorMutation) ClearTcNo() {
+func (m *JobSupervisorMutation) ClearTcNo() {
 	m._TcNo = nil
 	m.add_TcNo = nil
 	m.clearedFields[jobsupervisor.FieldTcNo] = struct{}{}
 }
 
 // TcNoCleared returns if the "TcNo" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) TcNoCleared() bool {
+func (m *JobSupervisorMutation) TcNoCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldTcNo]
 	return ok
 }
 
 // ResetTcNo resets all changes to the "TcNo" field.
-func (m *JobSuperVisorMutation) ResetTcNo() {
+func (m *JobSupervisorMutation) ResetTcNo() {
 	m._TcNo = nil
 	m.add_TcNo = nil
 	delete(m.clearedFields, jobsupervisor.FieldTcNo)
 }
 
 // SetPosition sets the "Position" field.
-func (m *JobSuperVisorMutation) SetPosition(s string) {
+func (m *JobSupervisorMutation) SetPosition(s string) {
 	m._Position = &s
 }
 
 // Position returns the value of the "Position" field in the mutation.
-func (m *JobSuperVisorMutation) Position() (r string, exists bool) {
+func (m *JobSupervisorMutation) Position() (r string, exists bool) {
 	v := m._Position
 	if v == nil {
 		return
@@ -16067,10 +16067,10 @@ func (m *JobSuperVisorMutation) Position() (r string, exists bool) {
 	return *v, true
 }
 
-// OldPosition returns the old "Position" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldPosition returns the old "Position" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldPosition(ctx context.Context) (v string, err error) {
+func (m *JobSupervisorMutation) OldPosition(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldPosition is only allowed on UpdateOne operations")
 	}
@@ -16085,30 +16085,30 @@ func (m *JobSuperVisorMutation) OldPosition(ctx context.Context) (v string, err 
 }
 
 // ClearPosition clears the value of the "Position" field.
-func (m *JobSuperVisorMutation) ClearPosition() {
+func (m *JobSupervisorMutation) ClearPosition() {
 	m._Position = nil
 	m.clearedFields[jobsupervisor.FieldPosition] = struct{}{}
 }
 
 // PositionCleared returns if the "Position" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) PositionCleared() bool {
+func (m *JobSupervisorMutation) PositionCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldPosition]
 	return ok
 }
 
 // ResetPosition resets all changes to the "Position" field.
-func (m *JobSuperVisorMutation) ResetPosition() {
+func (m *JobSupervisorMutation) ResetPosition() {
 	m._Position = nil
 	delete(m.clearedFields, jobsupervisor.FieldPosition)
 }
 
 // SetCareer sets the "Career" field.
-func (m *JobSuperVisorMutation) SetCareer(s string) {
+func (m *JobSupervisorMutation) SetCareer(s string) {
 	m._Career = &s
 }
 
 // Career returns the value of the "Career" field in the mutation.
-func (m *JobSuperVisorMutation) Career() (r string, exists bool) {
+func (m *JobSupervisorMutation) Career() (r string, exists bool) {
 	v := m._Career
 	if v == nil {
 		return
@@ -16116,10 +16116,10 @@ func (m *JobSuperVisorMutation) Career() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCareer returns the old "Career" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldCareer returns the old "Career" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldCareer(ctx context.Context) (v string, err error) {
+func (m *JobSupervisorMutation) OldCareer(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCareer is only allowed on UpdateOne operations")
 	}
@@ -16134,31 +16134,31 @@ func (m *JobSuperVisorMutation) OldCareer(ctx context.Context) (v string, err er
 }
 
 // ClearCareer clears the value of the "Career" field.
-func (m *JobSuperVisorMutation) ClearCareer() {
+func (m *JobSupervisorMutation) ClearCareer() {
 	m._Career = nil
 	m.clearedFields[jobsupervisor.FieldCareer] = struct{}{}
 }
 
 // CareerCleared returns if the "Career" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) CareerCleared() bool {
+func (m *JobSupervisorMutation) CareerCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldCareer]
 	return ok
 }
 
 // ResetCareer resets all changes to the "Career" field.
-func (m *JobSuperVisorMutation) ResetCareer() {
+func (m *JobSupervisorMutation) ResetCareer() {
 	m._Career = nil
 	delete(m.clearedFields, jobsupervisor.FieldCareer)
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (m *JobSuperVisorMutation) SetRegisterNo(i int) {
+func (m *JobSupervisorMutation) SetRegisterNo(i int) {
 	m._RegisterNo = &i
 	m.add_RegisterNo = nil
 }
 
 // RegisterNo returns the value of the "RegisterNo" field in the mutation.
-func (m *JobSuperVisorMutation) RegisterNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) RegisterNo() (r int, exists bool) {
 	v := m._RegisterNo
 	if v == nil {
 		return
@@ -16166,10 +16166,10 @@ func (m *JobSuperVisorMutation) RegisterNo() (r int, exists bool) {
 	return *v, true
 }
 
-// OldRegisterNo returns the old "RegisterNo" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldRegisterNo returns the old "RegisterNo" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldRegisterNo(ctx context.Context) (v int, err error) {
+func (m *JobSupervisorMutation) OldRegisterNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldRegisterNo is only allowed on UpdateOne operations")
 	}
@@ -16184,7 +16184,7 @@ func (m *JobSuperVisorMutation) OldRegisterNo(ctx context.Context) (v int, err e
 }
 
 // AddRegisterNo adds i to the "RegisterNo" field.
-func (m *JobSuperVisorMutation) AddRegisterNo(i int) {
+func (m *JobSupervisorMutation) AddRegisterNo(i int) {
 	if m.add_RegisterNo != nil {
 		*m.add_RegisterNo += i
 	} else {
@@ -16193,7 +16193,7 @@ func (m *JobSuperVisorMutation) AddRegisterNo(i int) {
 }
 
 // AddedRegisterNo returns the value that was added to the "RegisterNo" field in this mutation.
-func (m *JobSuperVisorMutation) AddedRegisterNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) AddedRegisterNo() (r int, exists bool) {
 	v := m.add_RegisterNo
 	if v == nil {
 		return
@@ -16202,33 +16202,33 @@ func (m *JobSuperVisorMutation) AddedRegisterNo() (r int, exists bool) {
 }
 
 // ClearRegisterNo clears the value of the "RegisterNo" field.
-func (m *JobSuperVisorMutation) ClearRegisterNo() {
+func (m *JobSupervisorMutation) ClearRegisterNo() {
 	m._RegisterNo = nil
 	m.add_RegisterNo = nil
 	m.clearedFields[jobsupervisor.FieldRegisterNo] = struct{}{}
 }
 
 // RegisterNoCleared returns if the "RegisterNo" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) RegisterNoCleared() bool {
+func (m *JobSupervisorMutation) RegisterNoCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldRegisterNo]
 	return ok
 }
 
 // ResetRegisterNo resets all changes to the "RegisterNo" field.
-func (m *JobSuperVisorMutation) ResetRegisterNo() {
+func (m *JobSupervisorMutation) ResetRegisterNo() {
 	m._RegisterNo = nil
 	m.add_RegisterNo = nil
 	delete(m.clearedFields, jobsupervisor.FieldRegisterNo)
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
-func (m *JobSuperVisorMutation) SetSocialSecurityNo(i int) {
+func (m *JobSupervisorMutation) SetSocialSecurityNo(i int) {
 	m._SocialSecurityNo = &i
 	m.add_SocialSecurityNo = nil
 }
 
 // SocialSecurityNo returns the value of the "SocialSecurityNo" field in the mutation.
-func (m *JobSuperVisorMutation) SocialSecurityNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) SocialSecurityNo() (r int, exists bool) {
 	v := m._SocialSecurityNo
 	if v == nil {
 		return
@@ -16236,10 +16236,10 @@ func (m *JobSuperVisorMutation) SocialSecurityNo() (r int, exists bool) {
 	return *v, true
 }
 
-// OldSocialSecurityNo returns the old "SocialSecurityNo" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldSocialSecurityNo returns the old "SocialSecurityNo" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldSocialSecurityNo(ctx context.Context) (v int, err error) {
+func (m *JobSupervisorMutation) OldSocialSecurityNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldSocialSecurityNo is only allowed on UpdateOne operations")
 	}
@@ -16254,7 +16254,7 @@ func (m *JobSuperVisorMutation) OldSocialSecurityNo(ctx context.Context) (v int,
 }
 
 // AddSocialSecurityNo adds i to the "SocialSecurityNo" field.
-func (m *JobSuperVisorMutation) AddSocialSecurityNo(i int) {
+func (m *JobSupervisorMutation) AddSocialSecurityNo(i int) {
 	if m.add_SocialSecurityNo != nil {
 		*m.add_SocialSecurityNo += i
 	} else {
@@ -16263,7 +16263,7 @@ func (m *JobSuperVisorMutation) AddSocialSecurityNo(i int) {
 }
 
 // AddedSocialSecurityNo returns the value that was added to the "SocialSecurityNo" field in this mutation.
-func (m *JobSuperVisorMutation) AddedSocialSecurityNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) AddedSocialSecurityNo() (r int, exists bool) {
 	v := m.add_SocialSecurityNo
 	if v == nil {
 		return
@@ -16272,32 +16272,32 @@ func (m *JobSuperVisorMutation) AddedSocialSecurityNo() (r int, exists bool) {
 }
 
 // ClearSocialSecurityNo clears the value of the "SocialSecurityNo" field.
-func (m *JobSuperVisorMutation) ClearSocialSecurityNo() {
+func (m *JobSupervisorMutation) ClearSocialSecurityNo() {
 	m._SocialSecurityNo = nil
 	m.add_SocialSecurityNo = nil
 	m.clearedFields[jobsupervisor.FieldSocialSecurityNo] = struct{}{}
 }
 
 // SocialSecurityNoCleared returns if the "SocialSecurityNo" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) SocialSecurityNoCleared() bool {
+func (m *JobSupervisorMutation) SocialSecurityNoCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldSocialSecurityNo]
 	return ok
 }
 
 // ResetSocialSecurityNo resets all changes to the "SocialSecurityNo" field.
-func (m *JobSuperVisorMutation) ResetSocialSecurityNo() {
+func (m *JobSupervisorMutation) ResetSocialSecurityNo() {
 	m._SocialSecurityNo = nil
 	m.add_SocialSecurityNo = nil
 	delete(m.clearedFields, jobsupervisor.FieldSocialSecurityNo)
 }
 
 // SetSchoolGraduation sets the "SchoolGraduation" field.
-func (m *JobSuperVisorMutation) SetSchoolGraduation(s string) {
+func (m *JobSupervisorMutation) SetSchoolGraduation(s string) {
 	m._SchoolGraduation = &s
 }
 
 // SchoolGraduation returns the value of the "SchoolGraduation" field in the mutation.
-func (m *JobSuperVisorMutation) SchoolGraduation() (r string, exists bool) {
+func (m *JobSupervisorMutation) SchoolGraduation() (r string, exists bool) {
 	v := m._SchoolGraduation
 	if v == nil {
 		return
@@ -16305,10 +16305,10 @@ func (m *JobSuperVisorMutation) SchoolGraduation() (r string, exists bool) {
 	return *v, true
 }
 
-// OldSchoolGraduation returns the old "SchoolGraduation" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldSchoolGraduation returns the old "SchoolGraduation" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldSchoolGraduation(ctx context.Context) (v string, err error) {
+func (m *JobSupervisorMutation) OldSchoolGraduation(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldSchoolGraduation is only allowed on UpdateOne operations")
 	}
@@ -16323,31 +16323,31 @@ func (m *JobSuperVisorMutation) OldSchoolGraduation(ctx context.Context) (v stri
 }
 
 // ClearSchoolGraduation clears the value of the "SchoolGraduation" field.
-func (m *JobSuperVisorMutation) ClearSchoolGraduation() {
+func (m *JobSupervisorMutation) ClearSchoolGraduation() {
 	m._SchoolGraduation = nil
 	m.clearedFields[jobsupervisor.FieldSchoolGraduation] = struct{}{}
 }
 
 // SchoolGraduationCleared returns if the "SchoolGraduation" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) SchoolGraduationCleared() bool {
+func (m *JobSupervisorMutation) SchoolGraduationCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldSchoolGraduation]
 	return ok
 }
 
 // ResetSchoolGraduation resets all changes to the "SchoolGraduation" field.
-func (m *JobSuperVisorMutation) ResetSchoolGraduation() {
+func (m *JobSupervisorMutation) ResetSchoolGraduation() {
 	m._SchoolGraduation = nil
 	delete(m.clearedFields, jobsupervisor.FieldSchoolGraduation)
 }
 
 // SetYDSID sets the "YDSID" field.
-func (m *JobSuperVisorMutation) SetYDSID(i int) {
+func (m *JobSupervisorMutation) SetYDSID(i int) {
 	m._YDSID = &i
 	m.add_YDSID = nil
 }
 
 // YDSID returns the value of the "YDSID" field in the mutation.
-func (m *JobSuperVisorMutation) YDSID() (r int, exists bool) {
+func (m *JobSupervisorMutation) YDSID() (r int, exists bool) {
 	v := m._YDSID
 	if v == nil {
 		return
@@ -16355,10 +16355,10 @@ func (m *JobSuperVisorMutation) YDSID() (r int, exists bool) {
 	return *v, true
 }
 
-// OldYDSID returns the old "YDSID" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldYDSID returns the old "YDSID" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldYDSID(ctx context.Context) (v int, err error) {
+func (m *JobSupervisorMutation) OldYDSID(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldYDSID is only allowed on UpdateOne operations")
 	}
@@ -16373,7 +16373,7 @@ func (m *JobSuperVisorMutation) OldYDSID(ctx context.Context) (v int, err error)
 }
 
 // AddYDSID adds i to the "YDSID" field.
-func (m *JobSuperVisorMutation) AddYDSID(i int) {
+func (m *JobSupervisorMutation) AddYDSID(i int) {
 	if m.add_YDSID != nil {
 		*m.add_YDSID += i
 	} else {
@@ -16382,7 +16382,7 @@ func (m *JobSuperVisorMutation) AddYDSID(i int) {
 }
 
 // AddedYDSID returns the value that was added to the "YDSID" field in this mutation.
-func (m *JobSuperVisorMutation) AddedYDSID() (r int, exists bool) {
+func (m *JobSupervisorMutation) AddedYDSID() (r int, exists bool) {
 	v := m.add_YDSID
 	if v == nil {
 		return
@@ -16391,32 +16391,32 @@ func (m *JobSuperVisorMutation) AddedYDSID() (r int, exists bool) {
 }
 
 // ClearYDSID clears the value of the "YDSID" field.
-func (m *JobSuperVisorMutation) ClearYDSID() {
+func (m *JobSupervisorMutation) ClearYDSID() {
 	m._YDSID = nil
 	m.add_YDSID = nil
 	m.clearedFields[jobsupervisor.FieldYDSID] = struct{}{}
 }
 
 // YDSIDCleared returns if the "YDSID" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) YDSIDCleared() bool {
+func (m *JobSupervisorMutation) YDSIDCleared() bool {
 	_, ok := m.clearedFields[jobsupervisor.FieldYDSID]
 	return ok
 }
 
 // ResetYDSID resets all changes to the "YDSID" field.
-func (m *JobSuperVisorMutation) ResetYDSID() {
+func (m *JobSupervisorMutation) ResetYDSID() {
 	m._YDSID = nil
 	m.add_YDSID = nil
 	delete(m.clearedFields, jobsupervisor.FieldYDSID)
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (m *JobSuperVisorMutation) SetCreatedAt(t time.Time) {
+func (m *JobSupervisorMutation) SetCreatedAt(t time.Time) {
 	m._CreatedAt = &t
 }
 
 // CreatedAt returns the value of the "CreatedAt" field in the mutation.
-func (m *JobSuperVisorMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *JobSupervisorMutation) CreatedAt() (r time.Time, exists bool) {
 	v := m._CreatedAt
 	if v == nil {
 		return
@@ -16424,10 +16424,10 @@ func (m *JobSuperVisorMutation) CreatedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldCreatedAt returns the old "CreatedAt" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldCreatedAt returns the old "CreatedAt" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *JobSupervisorMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -16442,17 +16442,17 @@ func (m *JobSuperVisorMutation) OldCreatedAt(ctx context.Context) (v time.Time, 
 }
 
 // ResetCreatedAt resets all changes to the "CreatedAt" field.
-func (m *JobSuperVisorMutation) ResetCreatedAt() {
+func (m *JobSupervisorMutation) ResetCreatedAt() {
 	m._CreatedAt = nil
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (m *JobSuperVisorMutation) SetUpdatedAt(t time.Time) {
+func (m *JobSupervisorMutation) SetUpdatedAt(t time.Time) {
 	m._UpdatedAt = &t
 }
 
 // UpdatedAt returns the value of the "UpdatedAt" field in the mutation.
-func (m *JobSuperVisorMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *JobSupervisorMutation) UpdatedAt() (r time.Time, exists bool) {
 	v := m._UpdatedAt
 	if v == nil {
 		return
@@ -16460,10 +16460,10 @@ func (m *JobSuperVisorMutation) UpdatedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldUpdatedAt returns the old "UpdatedAt" field's value of the JobSuperVisor entity.
-// If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
+// OldUpdatedAt returns the old "UpdatedAt" field's value of the JobSupervisor entity.
+// If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *JobSupervisorMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -16478,12 +16478,12 @@ func (m *JobSuperVisorMutation) OldUpdatedAt(ctx context.Context) (v time.Time, 
 }
 
 // ResetUpdatedAt resets all changes to the "UpdatedAt" field.
-func (m *JobSuperVisorMutation) ResetUpdatedAt() {
+func (m *JobSupervisorMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
 // AddSupervisorIDs adds the "supervisors" edge to the JobDetail entity by ids.
-func (m *JobSuperVisorMutation) AddSupervisorIDs(ids ...int) {
+func (m *JobSupervisorMutation) AddSupervisorIDs(ids ...int) {
 	if m.supervisors == nil {
 		m.supervisors = make(map[int]struct{})
 	}
@@ -16493,17 +16493,17 @@ func (m *JobSuperVisorMutation) AddSupervisorIDs(ids ...int) {
 }
 
 // ClearSupervisors clears the "supervisors" edge to the JobDetail entity.
-func (m *JobSuperVisorMutation) ClearSupervisors() {
+func (m *JobSupervisorMutation) ClearSupervisors() {
 	m.clearedsupervisors = true
 }
 
 // SupervisorsCleared reports if the "supervisors" edge to the JobDetail entity was cleared.
-func (m *JobSuperVisorMutation) SupervisorsCleared() bool {
+func (m *JobSupervisorMutation) SupervisorsCleared() bool {
 	return m.clearedsupervisors
 }
 
 // RemoveSupervisorIDs removes the "supervisors" edge to the JobDetail entity by IDs.
-func (m *JobSuperVisorMutation) RemoveSupervisorIDs(ids ...int) {
+func (m *JobSupervisorMutation) RemoveSupervisorIDs(ids ...int) {
 	if m.removedsupervisors == nil {
 		m.removedsupervisors = make(map[int]struct{})
 	}
@@ -16514,7 +16514,7 @@ func (m *JobSuperVisorMutation) RemoveSupervisorIDs(ids ...int) {
 }
 
 // RemovedSupervisors returns the removed IDs of the "supervisors" edge to the JobDetail entity.
-func (m *JobSuperVisorMutation) RemovedSupervisorsIDs() (ids []int) {
+func (m *JobSupervisorMutation) RemovedSupervisorsIDs() (ids []int) {
 	for id := range m.removedsupervisors {
 		ids = append(ids, id)
 	}
@@ -16522,7 +16522,7 @@ func (m *JobSuperVisorMutation) RemovedSupervisorsIDs() (ids []int) {
 }
 
 // SupervisorsIDs returns the "supervisors" edge IDs in the mutation.
-func (m *JobSuperVisorMutation) SupervisorsIDs() (ids []int) {
+func (m *JobSupervisorMutation) SupervisorsIDs() (ids []int) {
 	for id := range m.supervisors {
 		ids = append(ids, id)
 	}
@@ -16530,21 +16530,21 @@ func (m *JobSuperVisorMutation) SupervisorsIDs() (ids []int) {
 }
 
 // ResetSupervisors resets all changes to the "supervisors" edge.
-func (m *JobSuperVisorMutation) ResetSupervisors() {
+func (m *JobSupervisorMutation) ResetSupervisors() {
 	m.supervisors = nil
 	m.clearedsupervisors = false
 	m.removedsupervisors = nil
 }
 
-// Where appends a list predicates to the JobSuperVisorMutation builder.
-func (m *JobSuperVisorMutation) Where(ps ...predicate.JobSuperVisor) {
+// Where appends a list predicates to the JobSupervisorMutation builder.
+func (m *JobSupervisorMutation) Where(ps ...predicate.JobSupervisor) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the JobSuperVisorMutation builder. Using this method,
+// WhereP appends storage-level predicates to the JobSupervisorMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *JobSuperVisorMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.JobSuperVisor, len(ps))
+func (m *JobSupervisorMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.JobSupervisor, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -16552,24 +16552,24 @@ func (m *JobSuperVisorMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *JobSuperVisorMutation) Op() Op {
+func (m *JobSupervisorMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *JobSuperVisorMutation) SetOp(op Op) {
+func (m *JobSupervisorMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (JobSuperVisor).
-func (m *JobSuperVisorMutation) Type() string {
+// Type returns the node type of this mutation (JobSupervisor).
+func (m *JobSupervisorMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *JobSuperVisorMutation) Fields() []string {
+func (m *JobSupervisorMutation) Fields() []string {
 	fields := make([]string, 0, 13)
 	if m._Name != nil {
 		fields = append(fields, jobsupervisor.FieldName)
@@ -16616,7 +16616,7 @@ func (m *JobSuperVisorMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *JobSuperVisorMutation) Field(name string) (ent.Value, bool) {
+func (m *JobSupervisorMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case jobsupervisor.FieldName:
 		return m.Name()
@@ -16651,7 +16651,7 @@ func (m *JobSuperVisorMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *JobSuperVisorMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *JobSupervisorMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
 	case jobsupervisor.FieldName:
 		return m.OldName(ctx)
@@ -16680,13 +16680,13 @@ func (m *JobSuperVisorMutation) OldField(ctx context.Context, name string) (ent.
 	case jobsupervisor.FieldUpdatedAt:
 		return m.OldUpdatedAt(ctx)
 	}
-	return nil, fmt.Errorf("unknown JobSuperVisor field %s", name)
+	return nil, fmt.Errorf("unknown JobSupervisor field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *JobSuperVisorMutation) SetField(name string, value ent.Value) error {
+func (m *JobSupervisorMutation) SetField(name string, value ent.Value) error {
 	switch name {
 	case jobsupervisor.FieldName:
 		v, ok := value.(string)
@@ -16780,12 +16780,12 @@ func (m *JobSuperVisorMutation) SetField(name string, value ent.Value) error {
 		m.SetUpdatedAt(v)
 		return nil
 	}
-	return fmt.Errorf("unknown JobSuperVisor field %s", name)
+	return fmt.Errorf("unknown JobSupervisor field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *JobSuperVisorMutation) AddedFields() []string {
+func (m *JobSupervisorMutation) AddedFields() []string {
 	var fields []string
 	if m.add_TcNo != nil {
 		fields = append(fields, jobsupervisor.FieldTcNo)
@@ -16805,7 +16805,7 @@ func (m *JobSuperVisorMutation) AddedFields() []string {
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *JobSuperVisorMutation) AddedField(name string) (ent.Value, bool) {
+func (m *JobSupervisorMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case jobsupervisor.FieldTcNo:
 		return m.AddedTcNo()
@@ -16822,7 +16822,7 @@ func (m *JobSuperVisorMutation) AddedField(name string) (ent.Value, bool) {
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *JobSuperVisorMutation) AddField(name string, value ent.Value) error {
+func (m *JobSupervisorMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case jobsupervisor.FieldTcNo:
 		v, ok := value.(int)
@@ -16853,12 +16853,12 @@ func (m *JobSuperVisorMutation) AddField(name string, value ent.Value) error {
 		m.AddYDSID(v)
 		return nil
 	}
-	return fmt.Errorf("unknown JobSuperVisor numeric field %s", name)
+	return fmt.Errorf("unknown JobSupervisor numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *JobSuperVisorMutation) ClearedFields() []string {
+func (m *JobSupervisorMutation) ClearedFields() []string {
 	var fields []string
 	if m.FieldCleared(jobsupervisor.FieldName) {
 		fields = append(fields, jobsupervisor.FieldName)
@@ -16898,14 +16898,14 @@ func (m *JobSuperVisorMutation) ClearedFields() []string {
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *JobSuperVisorMutation) FieldCleared(name string) bool {
+func (m *JobSupervisorMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *JobSuperVisorMutation) ClearField(name string) error {
+func (m *JobSupervisorMutation) ClearField(name string) error {
 	switch name {
 	case jobsupervisor.FieldName:
 		m.ClearName()
@@ -16941,12 +16941,12 @@ func (m *JobSuperVisorMutation) ClearField(name string) error {
 		m.ClearYDSID()
 		return nil
 	}
-	return fmt.Errorf("unknown JobSuperVisor nullable field %s", name)
+	return fmt.Errorf("unknown JobSupervisor nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *JobSuperVisorMutation) ResetField(name string) error {
+func (m *JobSupervisorMutation) ResetField(name string) error {
 	switch name {
 	case jobsupervisor.FieldName:
 		m.ResetName()
@@ -16988,11 +16988,11 @@ func (m *JobSuperVisorMutation) ResetField(name string) error {
 		m.ResetUpdatedAt()
 		return nil
 	}
-	return fmt.Errorf("unknown JobSuperVisor field %s", name)
+	return fmt.Errorf("unknown JobSupervisor field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *JobSuperVisorMutation) AddedEdges() []string {
+func (m *JobSupervisorMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.supervisors != nil {
 		edges = append(edges, jobsupervisor.EdgeSupervisors)
@@ -17002,7 +17002,7 @@ func (m *JobSuperVisorMutation) AddedEdges() []string {
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *JobSuperVisorMutation) AddedIDs(name string) []ent.Value {
+func (m *JobSupervisorMutation) AddedIDs(name string) []ent.Value {
 	switch name {
 	case jobsupervisor.EdgeSupervisors:
 		ids := make([]ent.Value, 0, len(m.supervisors))
@@ -17015,7 +17015,7 @@ func (m *JobSuperVisorMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *JobSuperVisorMutation) RemovedEdges() []string {
+func (m *JobSupervisorMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.removedsupervisors != nil {
 		edges = append(edges, jobsupervisor.EdgeSupervisors)
@@ -17025,7 +17025,7 @@ func (m *JobSuperVisorMutation) RemovedEdges() []string {
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *JobSuperVisorMutation) RemovedIDs(name string) []ent.Value {
+func (m *JobSupervisorMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
 	case jobsupervisor.EdgeSupervisors:
 		ids := make([]ent.Value, 0, len(m.removedsupervisors))
@@ -17038,7 +17038,7 @@ func (m *JobSuperVisorMutation) RemovedIDs(name string) []ent.Value {
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *JobSuperVisorMutation) ClearedEdges() []string {
+func (m *JobSupervisorMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.clearedsupervisors {
 		edges = append(edges, jobsupervisor.EdgeSupervisors)
@@ -17048,7 +17048,7 @@ func (m *JobSuperVisorMutation) ClearedEdges() []string {
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *JobSuperVisorMutation) EdgeCleared(name string) bool {
+func (m *JobSupervisorMutation) EdgeCleared(name string) bool {
 	switch name {
 	case jobsupervisor.EdgeSupervisors:
 		return m.clearedsupervisors
@@ -17058,21 +17058,21 @@ func (m *JobSuperVisorMutation) EdgeCleared(name string) bool {
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *JobSuperVisorMutation) ClearEdge(name string) error {
+func (m *JobSupervisorMutation) ClearEdge(name string) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown JobSuperVisor unique edge %s", name)
+	return fmt.Errorf("unknown JobSupervisor unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *JobSuperVisorMutation) ResetEdge(name string) error {
+func (m *JobSupervisorMutation) ResetEdge(name string) error {
 	switch name {
 	case jobsupervisor.EdgeSupervisors:
 		m.ResetSupervisors()
 		return nil
 	}
-	return fmt.Errorf("unknown JobSuperVisor edge %s", name)
+	return fmt.Errorf("unknown JobSupervisor edge %s", name)
 }
 
 // UserMutation represents an operation that mutates the User nodes in the graph.

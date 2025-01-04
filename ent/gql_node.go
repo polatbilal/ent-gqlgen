@@ -84,10 +84,10 @@ var jobprogressImplementors = []string{"JobProgress", "Node"}
 // IsNode implements the Node interface check for GQLGen.
 func (*JobProgress) IsNode() {}
 
-var jobsupervisorImplementors = []string{"JobSuperVisor", "Node"}
+var jobsupervisorImplementors = []string{"JobSupervisor", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
-func (*JobSuperVisor) IsNode() {}
+func (*JobSupervisor) IsNode() {}
 
 var userImplementors = []string{"User", "Node"}
 
@@ -243,7 +243,7 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 		}
 		return query.Only(ctx)
 	case jobsupervisor.Table:
-		query := c.JobSuperVisor.Query().
+		query := c.JobSupervisor.Query().
 			Where(jobsupervisor.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
 			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobsupervisorImplementors...); err != nil {
@@ -494,7 +494,7 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 			}
 		}
 	case jobsupervisor.Table:
-		query := c.JobSuperVisor.Query().
+		query := c.JobSupervisor.Query().
 			Where(jobsupervisor.IDIn(ids...))
 		query, err := query.CollectFields(ctx, jobsupervisorImplementors...)
 		if err != nil {

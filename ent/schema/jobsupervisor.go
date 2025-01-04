@@ -8,13 +8,13 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// JobSuperVisor holds the schema definition for the JobSuperVisor entity.
-type JobSuperVisor struct {
+// JobSupervisor holds the schema definition for the JobSupervisor entity.
+type JobSupervisor struct {
 	ent.Schema
 }
 
-// Fields of the JobSuperVisor.
-func (JobSuperVisor) Fields() []ent.Field {
+// Fields of the JobSupervisor.
+func (JobSupervisor) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Name").Optional(),
 		field.String("Address").Optional(),
@@ -26,14 +26,15 @@ func (JobSuperVisor) Fields() []ent.Field {
 		field.Int("RegisterNo").Optional(),
 		field.Int("SocialSecurityNo").Optional(),
 		field.String("SchoolGraduation").Optional(),
-		field.Int("YDSID").Optional(),
+		field.Int("YDSID").Optional().Unique(),
+
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}
 }
 
-// Edges of the JobSuperVisor.
-func (JobSuperVisor) Edges() []ent.Edge {
+// Edges of the JobSupervisor.
+func (JobSupervisor) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("supervisors", JobDetail.Type).StorageKey(edge.Column("supervisor_id")),
 	}

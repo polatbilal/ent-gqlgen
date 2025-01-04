@@ -153,9 +153,9 @@ const (
 	ProgressColumn = "progress_id"
 	// SupervisorTable is the table that holds the supervisor relation/edge.
 	SupervisorTable = "job_details"
-	// SupervisorInverseTable is the table name for the JobSuperVisor entity.
+	// SupervisorInverseTable is the table name for the JobSupervisor entity.
 	// It exists in this package in order to avoid circular dependency with the "jobsupervisor" package.
-	SupervisorInverseTable = "job_super_visors"
+	SupervisorInverseTable = "job_supervisors"
 	// SupervisorColumn is the table column denoting the supervisor relation/edge.
 	SupervisorColumn = "supervisor_id"
 	// InspectorTable is the table that holds the inspector relation/edge.
@@ -304,8 +304,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// YibfNoValidator is a validator for the "YibfNo" field. It is called by the builders before save.
-	YibfNoValidator func(int) error
 	// DefaultUploadedFile holds the default value on creation for the "UploadedFile" field.
 	DefaultUploadedFile bool
 	// DefaultIndustryArea holds the default value on creation for the "IndustryArea" field.

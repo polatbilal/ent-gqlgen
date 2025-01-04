@@ -25,7 +25,7 @@ func (CompanyEngineer) Fields() []ent.Field {
 		field.String("Position").Optional(),
 		field.Int("RegisterNo").Optional(),
 		field.Int("CertNo").Optional(),
-		field.Int("YDSID").Optional(),
+		field.Int("YDSID").Optional().Unique(),
 		field.Time("Employment").Optional(),
 		field.Int("Status").Default(1),
 		field.String("Note").Optional(),

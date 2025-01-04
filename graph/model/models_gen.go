@@ -4,8 +4,6 @@ package model
 
 import (
 	"time"
-
-	"github.com/polatbilal/gqlgen-ent/ent"
 )
 
 type AuthPayload struct {
@@ -93,6 +91,7 @@ type JobContractorInput struct {
 type JobInput struct {
 	CompanyCode        int        `json:"CompanyCode"`
 	YibfNo             *int       `json:"YibfNo,omitempty"`
+	Title              *string    `json:"Title,omitempty"`
 	Administration     *string    `json:"Administration,omitempty"`
 	State              *string    `json:"State,omitempty"`
 	Island             *string    `json:"Island,omitempty"`
@@ -180,28 +179,8 @@ type JobProgressInput struct {
 	Six   *int `json:"Six,omitempty"`
 }
 
-type LayerFilterInput struct {
-	ID     *int `json:"id,omitempty"`
-	YibfNo *int `json:"yibfNo,omitempty"`
-}
-
-type Supervisor struct {
-	ID               string           `json:"id"`
-	Name             *string          `json:"Name,omitempty"`
-	Address          *string          `json:"Address,omitempty"`
-	Phone            *string          `json:"Phone,omitempty"`
-	Email            *string          `json:"Email,omitempty"`
-	Tcno             *int             `json:"TCNO,omitempty"`
-	Position         *string          `json:"Position,omitempty"`
-	Career           *string          `json:"Career,omitempty"`
-	RegNo            *int             `json:"RegNo,omitempty"`
-	SocialSecurityNo *int             `json:"SocialSecurityNo,omitempty"`
-	SchoolGraduation *string          `json:"SchoolGraduation,omitempty"`
-	Ydsid            *int             `json:"YDSID,omitempty"`
-	Job              []*ent.JobDetail `json:"Job,omitempty"`
-}
-
-type SupervisorInput struct {
+type JobSupervisorInput struct {
+	YibfNo           int     `json:"YibfNo"`
 	Name             *string `json:"Name,omitempty"`
 	Address          *string `json:"Address,omitempty"`
 	Phone            *string `json:"Phone,omitempty"`
@@ -209,18 +188,23 @@ type SupervisorInput struct {
 	Tcno             *int    `json:"TCNO,omitempty"`
 	Position         *string `json:"Position,omitempty"`
 	Career           *string `json:"Career,omitempty"`
-	RegNo            *int    `json:"RegNo,omitempty"`
+	RegisterNo       *int    `json:"RegisterNo,omitempty"`
 	SocialSecurityNo *int    `json:"SocialSecurityNo,omitempty"`
 	SchoolGraduation *string `json:"SchoolGraduation,omitempty"`
 	Ydsid            *int    `json:"YDSID,omitempty"`
 }
 
+type LayerFilterInput struct {
+	ID     *int `json:"id,omitempty"`
+	YibfNo *int `json:"yibfNo,omitempty"`
+}
+
 type UserInput struct {
-	Username   string `json:"username"`
-	Name       string `json:"name"`
-	Email      string `json:"email"`
-	Phone      int    `json:"phone"`
-	Password   string `json:"password"`
-	Role       string `json:"role"`
-	CompanyIDs []int  `json:"companyIDs,omitempty"`
+	Username   string  `json:"Username"`
+	Name       string  `json:"Name"`
+	Email      string  `json:"Email"`
+	Phone      *int    `json:"Phone,omitempty"`
+	Password   string  `json:"Password"`
+	Role       *string `json:"Role,omitempty"`
+	CompanyIDs []int   `json:"CompanyIDs,omitempty"`
 }

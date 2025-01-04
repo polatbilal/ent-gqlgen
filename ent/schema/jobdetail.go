@@ -16,7 +16,7 @@ type JobDetail struct {
 // Fields of the JobDetail.
 func (JobDetail) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("YibfNo").Positive().Unique(),
+		field.Int("YibfNo").Unique(),
 		field.String("Title").Optional(),
 		field.String("Administration").Optional(),
 		field.String("State").Optional(),
@@ -62,7 +62,7 @@ func (JobDetail) Edges() []ent.Edge {
 		edge.From("contractor", JobContractor.Type).Ref("contractors").Unique(),
 		edge.From("author", JobAuthor.Type).Ref("authors").Unique(),
 		edge.From("progress", JobProgress.Type).Ref("progress").Unique(),
-		edge.From("supervisor", JobSuperVisor.Type).Ref("supervisors").Unique(),
+		edge.From("supervisor", JobSupervisor.Type).Ref("supervisors").Unique(),
 
 		edge.From("inspector", CompanyEngineer.Type).Ref("inspectors").Unique(),
 		edge.From("architect", CompanyEngineer.Type).Ref("architects").Unique(),

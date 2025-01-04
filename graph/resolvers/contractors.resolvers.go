@@ -18,21 +18,44 @@ import (
 // CreateContractor is the resolver for the createContractor field.
 func (r *mutationResolver) CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	contractor, err := client.JobContractor.Create().
-		SetName(input.Name).
-		SetNillableTcNo(input.TcNo).
-		SetNillableRegisterNo(input.RegisterNo).
-		SetNillableAddress(input.Address).
-		SetNillableTaxNo(input.TaxNo).
-		SetNillableMobilePhone(input.MobilePhone).
-		SetNillablePhone(input.Phone).
-		SetNillableEmail(input.Email).
-		SetNillablePersonType(input.PersonType).
-		SetNillableYDSID(input.Ydsid).
-		Save(ctx)
+
+	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(input.YibfNo)).Only(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to create contractor: %w", err)
+		return nil, fmt.Errorf("failed to get job detail: %w", err)
+	}
+
+	// YDSID ile Contractor var mı kontrol edelim
+	contractor, err := client.JobContractor.Query().Where(jobcontractor.YDSID(*input.Ydsid)).Only(ctx)
+	if ent.IsNotFound(err) {
+		// Contractor yoksa yeni oluşturalım
+		contractor, err = client.JobContractor.Create().
+			SetName(input.Name).
+			SetNillableTcNo(input.TcNo).
+			SetNillableRegisterNo(input.RegisterNo).
+			SetNillableAddress(input.Address).
+			SetNillableTaxNo(input.TaxNo).
+			SetNillableMobilePhone(input.MobilePhone).
+			SetNillablePhone(input.Phone).
+			SetNillableEmail(input.Email).
+			SetNillablePersonType(input.PersonType).
+			SetNillableYDSID(input.Ydsid).
+			Save(ctx)
+
+		if err != nil {
+			return nil, fmt.Errorf("failed to create contractor: %w", err)
+		}
+	} else if err != nil {
+		return nil, fmt.Errorf("failed to check contractor: %w", err)
+	}
+
+	// Contractor'ı job'a ekleyelim
+	err = contractor.Update().
+		AddContractors(jobDetail).
+		Exec(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to add contractor to job detail: %w", err)
 	}
 
 	return contractor, nil

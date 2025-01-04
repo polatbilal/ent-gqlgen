@@ -37,7 +37,7 @@ type JobDetailQuery struct {
 	withContractor         *JobContractorQuery
 	withAuthor             *JobAuthorQuery
 	withProgress           *JobProgressQuery
-	withSupervisor         *JobSuperVisorQuery
+	withSupervisor         *JobSupervisorQuery
 	withInspector          *CompanyEngineerQuery
 	withArchitect          *CompanyEngineerQuery
 	withStatic             *CompanyEngineerQuery
@@ -200,8 +200,8 @@ func (jdq *JobDetailQuery) QueryProgress() *JobProgressQuery {
 }
 
 // QuerySupervisor chains the current query on the "supervisor" edge.
-func (jdq *JobDetailQuery) QuerySupervisor() *JobSuperVisorQuery {
-	query := (&JobSuperVisorClient{config: jdq.config}).Query()
+func (jdq *JobDetailQuery) QuerySupervisor() *JobSupervisorQuery {
+	query := (&JobSupervisorClient{config: jdq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := jdq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -712,8 +712,8 @@ func (jdq *JobDetailQuery) WithProgress(opts ...func(*JobProgressQuery)) *JobDet
 
 // WithSupervisor tells the query-builder to eager-load the nodes that are connected to
 // the "supervisor" edge. The optional arguments are used to configure the query builder of the edge.
-func (jdq *JobDetailQuery) WithSupervisor(opts ...func(*JobSuperVisorQuery)) *JobDetailQuery {
-	query := (&JobSuperVisorClient{config: jdq.config}).Query()
+func (jdq *JobDetailQuery) WithSupervisor(opts ...func(*JobSupervisorQuery)) *JobDetailQuery {
+	query := (&JobSupervisorClient{config: jdq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -988,7 +988,7 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 	}
 	if query := jdq.withSupervisor; query != nil {
 		if err := jdq.loadSupervisor(ctx, query, nodes, nil,
-			func(n *JobDetail, e *JobSuperVisor) { n.Edges.Supervisor = e }); err != nil {
+			func(n *JobDetail, e *JobSupervisor) { n.Edges.Supervisor = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -1236,7 +1236,7 @@ func (jdq *JobDetailQuery) loadProgress(ctx context.Context, query *JobProgressQ
 	}
 	return nil
 }
-func (jdq *JobDetailQuery) loadSupervisor(ctx context.Context, query *JobSuperVisorQuery, nodes []*JobDetail, init func(*JobDetail), assign func(*JobDetail, *JobSuperVisor)) error {
+func (jdq *JobDetailQuery) loadSupervisor(ctx context.Context, query *JobSupervisorQuery, nodes []*JobDetail, init func(*JobDetail), assign func(*JobDetail, *JobSupervisor)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobDetail)
 	for i := range nodes {

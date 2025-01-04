@@ -105,10 +105,6 @@ func init() {
 	jobcontractor.UpdateDefaultUpdatedAt = jobcontractorDescUpdatedAt.UpdateDefault.(func() time.Time)
 	jobdetailFields := schema.JobDetail{}.Fields()
 	_ = jobdetailFields
-	// jobdetailDescYibfNo is the schema descriptor for YibfNo field.
-	jobdetailDescYibfNo := jobdetailFields[0].Descriptor()
-	// jobdetail.YibfNoValidator is a validator for the "YibfNo" field. It is called by the builders before save.
-	jobdetail.YibfNoValidator = jobdetailDescYibfNo.Validators[0].(func(int) error)
 	// jobdetailDescUploadedFile is the schema descriptor for UploadedFile field.
 	jobdetailDescUploadedFile := jobdetailFields[26].Descriptor()
 	// jobdetail.DefaultUploadedFile holds the default value on creation for the UploadedFile field.
@@ -247,7 +243,7 @@ func init() {
 	jobprogress.DefaultUpdatedAt = jobprogressDescUpdatedAt.Default.(func() time.Time)
 	// jobprogress.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	jobprogress.UpdateDefaultUpdatedAt = jobprogressDescUpdatedAt.UpdateDefault.(func() time.Time)
-	jobsupervisorFields := schema.JobSuperVisor{}.Fields()
+	jobsupervisorFields := schema.JobSupervisor{}.Fields()
 	_ = jobsupervisorFields
 	// jobsupervisorDescCreatedAt is the schema descriptor for CreatedAt field.
 	jobsupervisorDescCreatedAt := jobsupervisorFields[11].Descriptor()

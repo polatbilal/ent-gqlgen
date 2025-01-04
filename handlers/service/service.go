@@ -97,31 +97,19 @@ type YDKInspectorResponse struct {
 }
 
 type YIBFResponse struct {
-	ID     int     `json:"id"`
-	Level  float64 `json:"level"`
-	Megsis struct {
-		Alan float64 `json:"alan"`
-	} `json:"megsis"`
-	Administration struct {
-		Name string `json:"name"`
-	} `json:"administration"`
-	State struct {
-		Name string `json:"name"`
-	} `json:"state"`
-	YDK struct {
-		FileNumber int `json:"fileNumber"`
-	} `json:"ydk"`
-	Island           string `json:"island"`
-	Parcel           string `json:"parcel"`
-	Sheet            string `json:"sheet"`
-	Title            string `json:"title"`
-	ClusterStructure bool   `json:"clusterStructure"`
-	IsLicenseExpired bool   `json:"isLicenseExpired"`
-	ContractDate     int64  `json:"contractDate"`
-	LicenseNumber    string `json:"licenseNumber"`
-	LicenseDate      int64  `json:"licenseDate"`
-	ReferenceNumber  int    `json:"referenceNumber"`
-	IsCompleted      bool   `json:"isCompleted"`
+	ID               int     `json:"id"`
+	Island           string  `json:"island"`
+	Parcel           string  `json:"parcel"`
+	Sheet            string  `json:"sheet"`
+	Title            string  `json:"title"`
+	ClusterStructure bool    `json:"clusterStructure"`
+	IsLicenseExpired bool    `json:"isLicenseExpired"`
+	ContractDate     int64   `json:"contractDate"`
+	LicenseNumber    string  `json:"licenseNumber"`
+	LicenseDate      int64   `json:"licenseDate"`
+	ReferenceNumber  int     `json:"referenceNumber"`
+	IsCompleted      bool    `json:"isCompleted"`
+	Level            float64 `json:"level"`
 	Position         struct {
 		Coordinates []float64 `json:"coordinates"`
 	} `json:"position"`
@@ -139,6 +127,24 @@ type YIBFResponse struct {
 		UnitPrice        float64 `json:"unitPrice"`
 		FloorCount       int     `json:"floorCount"`
 	} `json:"yibfStructure"`
+	LatestYibfContract struct {
+		ContractPriceRatio  float64 `json:"contractPriceRatio"`
+		PriceRatio          float64 `json:"priceRatio"`
+		CompletionTimeMonth int     `json:"completionTimeMonth"`
+		ContractServiceFee  float64 `json:"contractServiceFee"`
+	} `json:"latestYibfContract"`
+	Megsis struct {
+		Alan float64 `json:"alan"`
+	} `json:"megsis"`
+	Administration struct {
+		Name string `json:"name"`
+	} `json:"administration"`
+	State struct {
+		Name string `json:"name"`
+	} `json:"state"`
+	YDK struct {
+		FileNumber int `json:"fileNumber"`
+	} `json:"ydk"`
 	YibfOwner struct {
 		ExistsShareholder bool `json:"existsShareholder"`
 		Person            struct {
@@ -151,12 +157,6 @@ type YIBFResponse struct {
 			TaxAdministrationCode string `json:"taxAdministrationCode"`
 		} `json:"person"`
 	} `json:"yibfOwner"`
-	LatestYibfContract struct {
-		ContractPriceRatio  float64 `json:"contractPriceRatio"`
-		PriceRatio          float64 `json:"priceRatio"`
-		CompletionTimeMonth int     `json:"completionTimeMonth"`
-		ContractServiceFee  float64 `json:"contractServiceFee"`
-	} `json:"latestYibfContract"`
 	LatestYibfSiteSupervisor struct {
 		Application struct {
 			User struct {

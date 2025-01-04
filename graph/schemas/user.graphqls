@@ -1,32 +1,23 @@
-directive @goField(
-  forceResolver: Boolean
-  name: String
-) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
-
-directive @auth on FIELD_DEFINITION
-
-scalar Any
-
 type User {
-  id: ID!
-  username: String!
-  name: String!
-  email: String!
-  phone: Int!
-  password: String!
-  role: String!
-  createdAt: String!
-  companies: [CompanyDetail!]! @goField(forceResolver: true)
+  id: ID
+  Username: String!
+  Name: String
+  Email: String
+  Phone: Int
+  Password: String
+  Role: String!
+  CreatedAt: Time
+  Companies: [CompanyDetail!]! @goField(forceResolver: true)
 }
 
 input UserInput {
-  username: String!
-  name: String!
-  email: String!
-  phone: Int!
-  password: String!
-  role: String!
-  companyIDs: [Int!]
+  Username: String!
+  Name: String!
+  Email: String!
+  Phone: Int
+  Password: String!
+  Role: String
+  CompanyIDs: [Int!]
 }
 
 extend type Query {
@@ -36,5 +27,6 @@ extend type Query {
 
 extend type Mutation {
   createUser(input: UserInput!): User! @goField(forceResolver: true) @auth
-  updateUser(input: UserInput!): User! @goField(forceResolver: true) @auth
+  updateUser(id: ID!, input: UserInput!): User! @goField(forceResolver: true) @auth
+  deleteUser(id: ID!): Boolean! @goField(forceResolver: true) @auth
 }

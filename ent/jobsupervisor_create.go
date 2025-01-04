@@ -14,224 +14,224 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 )
 
-// JobSuperVisorCreate is the builder for creating a JobSuperVisor entity.
-type JobSuperVisorCreate struct {
+// JobSupervisorCreate is the builder for creating a JobSupervisor entity.
+type JobSupervisorCreate struct {
 	config
-	mutation *JobSuperVisorMutation
+	mutation *JobSupervisorMutation
 	hooks    []Hook
 }
 
 // SetName sets the "Name" field.
-func (jsvc *JobSuperVisorCreate) SetName(s string) *JobSuperVisorCreate {
-	jsvc.mutation.SetName(s)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetName(s string) *JobSupervisorCreate {
+	jsc.mutation.SetName(s)
+	return jsc
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableName(s *string) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableName(s *string) *JobSupervisorCreate {
 	if s != nil {
-		jsvc.SetName(*s)
+		jsc.SetName(*s)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetAddress sets the "Address" field.
-func (jsvc *JobSuperVisorCreate) SetAddress(s string) *JobSuperVisorCreate {
-	jsvc.mutation.SetAddress(s)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetAddress(s string) *JobSupervisorCreate {
+	jsc.mutation.SetAddress(s)
+	return jsc
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableAddress(s *string) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableAddress(s *string) *JobSupervisorCreate {
 	if s != nil {
-		jsvc.SetAddress(*s)
+		jsc.SetAddress(*s)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetPhone sets the "Phone" field.
-func (jsvc *JobSuperVisorCreate) SetPhone(s string) *JobSuperVisorCreate {
-	jsvc.mutation.SetPhone(s)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetPhone(s string) *JobSupervisorCreate {
+	jsc.mutation.SetPhone(s)
+	return jsc
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillablePhone(s *string) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillablePhone(s *string) *JobSupervisorCreate {
 	if s != nil {
-		jsvc.SetPhone(*s)
+		jsc.SetPhone(*s)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetEmail sets the "Email" field.
-func (jsvc *JobSuperVisorCreate) SetEmail(s string) *JobSuperVisorCreate {
-	jsvc.mutation.SetEmail(s)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetEmail(s string) *JobSupervisorCreate {
+	jsc.mutation.SetEmail(s)
+	return jsc
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableEmail(s *string) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableEmail(s *string) *JobSupervisorCreate {
 	if s != nil {
-		jsvc.SetEmail(*s)
+		jsc.SetEmail(*s)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jsvc *JobSuperVisorCreate) SetTcNo(i int) *JobSuperVisorCreate {
-	jsvc.mutation.SetTcNo(i)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetTcNo(i int) *JobSupervisorCreate {
+	jsc.mutation.SetTcNo(i)
+	return jsc
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableTcNo(i *int) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableTcNo(i *int) *JobSupervisorCreate {
 	if i != nil {
-		jsvc.SetTcNo(*i)
+		jsc.SetTcNo(*i)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetPosition sets the "Position" field.
-func (jsvc *JobSuperVisorCreate) SetPosition(s string) *JobSuperVisorCreate {
-	jsvc.mutation.SetPosition(s)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetPosition(s string) *JobSupervisorCreate {
+	jsc.mutation.SetPosition(s)
+	return jsc
 }
 
 // SetNillablePosition sets the "Position" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillablePosition(s *string) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillablePosition(s *string) *JobSupervisorCreate {
 	if s != nil {
-		jsvc.SetPosition(*s)
+		jsc.SetPosition(*s)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetCareer sets the "Career" field.
-func (jsvc *JobSuperVisorCreate) SetCareer(s string) *JobSuperVisorCreate {
-	jsvc.mutation.SetCareer(s)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetCareer(s string) *JobSupervisorCreate {
+	jsc.mutation.SetCareer(s)
+	return jsc
 }
 
 // SetNillableCareer sets the "Career" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableCareer(s *string) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableCareer(s *string) *JobSupervisorCreate {
 	if s != nil {
-		jsvc.SetCareer(*s)
+		jsc.SetCareer(*s)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jsvc *JobSuperVisorCreate) SetRegisterNo(i int) *JobSuperVisorCreate {
-	jsvc.mutation.SetRegisterNo(i)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetRegisterNo(i int) *JobSupervisorCreate {
+	jsc.mutation.SetRegisterNo(i)
+	return jsc
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableRegisterNo(i *int) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableRegisterNo(i *int) *JobSupervisorCreate {
 	if i != nil {
-		jsvc.SetRegisterNo(*i)
+		jsc.SetRegisterNo(*i)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
-func (jsvc *JobSuperVisorCreate) SetSocialSecurityNo(i int) *JobSuperVisorCreate {
-	jsvc.mutation.SetSocialSecurityNo(i)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetSocialSecurityNo(i int) *JobSupervisorCreate {
+	jsc.mutation.SetSocialSecurityNo(i)
+	return jsc
 }
 
 // SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableSocialSecurityNo(i *int) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableSocialSecurityNo(i *int) *JobSupervisorCreate {
 	if i != nil {
-		jsvc.SetSocialSecurityNo(*i)
+		jsc.SetSocialSecurityNo(*i)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetSchoolGraduation sets the "SchoolGraduation" field.
-func (jsvc *JobSuperVisorCreate) SetSchoolGraduation(s string) *JobSuperVisorCreate {
-	jsvc.mutation.SetSchoolGraduation(s)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetSchoolGraduation(s string) *JobSupervisorCreate {
+	jsc.mutation.SetSchoolGraduation(s)
+	return jsc
 }
 
 // SetNillableSchoolGraduation sets the "SchoolGraduation" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableSchoolGraduation(s *string) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableSchoolGraduation(s *string) *JobSupervisorCreate {
 	if s != nil {
-		jsvc.SetSchoolGraduation(*s)
+		jsc.SetSchoolGraduation(*s)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetYDSID sets the "YDSID" field.
-func (jsvc *JobSuperVisorCreate) SetYDSID(i int) *JobSuperVisorCreate {
-	jsvc.mutation.SetYDSID(i)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetYDSID(i int) *JobSupervisorCreate {
+	jsc.mutation.SetYDSID(i)
+	return jsc
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableYDSID(i *int) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableYDSID(i *int) *JobSupervisorCreate {
 	if i != nil {
-		jsvc.SetYDSID(*i)
+		jsc.SetYDSID(*i)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jsvc *JobSuperVisorCreate) SetCreatedAt(t time.Time) *JobSuperVisorCreate {
-	jsvc.mutation.SetCreatedAt(t)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetCreatedAt(t time.Time) *JobSupervisorCreate {
+	jsc.mutation.SetCreatedAt(t)
+	return jsc
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableCreatedAt(t *time.Time) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableCreatedAt(t *time.Time) *JobSupervisorCreate {
 	if t != nil {
-		jsvc.SetCreatedAt(*t)
+		jsc.SetCreatedAt(*t)
 	}
-	return jsvc
+	return jsc
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jsvc *JobSuperVisorCreate) SetUpdatedAt(t time.Time) *JobSuperVisorCreate {
-	jsvc.mutation.SetUpdatedAt(t)
-	return jsvc
+func (jsc *JobSupervisorCreate) SetUpdatedAt(t time.Time) *JobSupervisorCreate {
+	jsc.mutation.SetUpdatedAt(t)
+	return jsc
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableUpdatedAt(t *time.Time) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) SetNillableUpdatedAt(t *time.Time) *JobSupervisorCreate {
 	if t != nil {
-		jsvc.SetUpdatedAt(*t)
+		jsc.SetUpdatedAt(*t)
 	}
-	return jsvc
+	return jsc
 }
 
 // AddSupervisorIDs adds the "supervisors" edge to the JobDetail entity by IDs.
-func (jsvc *JobSuperVisorCreate) AddSupervisorIDs(ids ...int) *JobSuperVisorCreate {
-	jsvc.mutation.AddSupervisorIDs(ids...)
-	return jsvc
+func (jsc *JobSupervisorCreate) AddSupervisorIDs(ids ...int) *JobSupervisorCreate {
+	jsc.mutation.AddSupervisorIDs(ids...)
+	return jsc
 }
 
 // AddSupervisors adds the "supervisors" edges to the JobDetail entity.
-func (jsvc *JobSuperVisorCreate) AddSupervisors(j ...*JobDetail) *JobSuperVisorCreate {
+func (jsc *JobSupervisorCreate) AddSupervisors(j ...*JobDetail) *JobSupervisorCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
 	}
-	return jsvc.AddSupervisorIDs(ids...)
+	return jsc.AddSupervisorIDs(ids...)
 }
 
-// Mutation returns the JobSuperVisorMutation object of the builder.
-func (jsvc *JobSuperVisorCreate) Mutation() *JobSuperVisorMutation {
-	return jsvc.mutation
+// Mutation returns the JobSupervisorMutation object of the builder.
+func (jsc *JobSupervisorCreate) Mutation() *JobSupervisorMutation {
+	return jsc.mutation
 }
 
-// Save creates the JobSuperVisor in the database.
-func (jsvc *JobSuperVisorCreate) Save(ctx context.Context) (*JobSuperVisor, error) {
-	jsvc.defaults()
-	return withHooks(ctx, jsvc.sqlSave, jsvc.mutation, jsvc.hooks)
+// Save creates the JobSupervisor in the database.
+func (jsc *JobSupervisorCreate) Save(ctx context.Context) (*JobSupervisor, error) {
+	jsc.defaults()
+	return withHooks(ctx, jsc.sqlSave, jsc.mutation, jsc.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (jsvc *JobSuperVisorCreate) SaveX(ctx context.Context) *JobSuperVisor {
-	v, err := jsvc.Save(ctx)
+func (jsc *JobSupervisorCreate) SaveX(ctx context.Context) *JobSupervisor {
+	v, err := jsc.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -239,47 +239,47 @@ func (jsvc *JobSuperVisorCreate) SaveX(ctx context.Context) *JobSuperVisor {
 }
 
 // Exec executes the query.
-func (jsvc *JobSuperVisorCreate) Exec(ctx context.Context) error {
-	_, err := jsvc.Save(ctx)
+func (jsc *JobSupervisorCreate) Exec(ctx context.Context) error {
+	_, err := jsc.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jsvc *JobSuperVisorCreate) ExecX(ctx context.Context) {
-	if err := jsvc.Exec(ctx); err != nil {
+func (jsc *JobSupervisorCreate) ExecX(ctx context.Context) {
+	if err := jsc.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jsvc *JobSuperVisorCreate) defaults() {
-	if _, ok := jsvc.mutation.CreatedAt(); !ok {
+func (jsc *JobSupervisorCreate) defaults() {
+	if _, ok := jsc.mutation.CreatedAt(); !ok {
 		v := jobsupervisor.DefaultCreatedAt()
-		jsvc.mutation.SetCreatedAt(v)
+		jsc.mutation.SetCreatedAt(v)
 	}
-	if _, ok := jsvc.mutation.UpdatedAt(); !ok {
+	if _, ok := jsc.mutation.UpdatedAt(); !ok {
 		v := jobsupervisor.DefaultUpdatedAt()
-		jsvc.mutation.SetUpdatedAt(v)
+		jsc.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (jsvc *JobSuperVisorCreate) check() error {
-	if _, ok := jsvc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobSuperVisor.CreatedAt"`)}
+func (jsc *JobSupervisorCreate) check() error {
+	if _, ok := jsc.mutation.CreatedAt(); !ok {
+		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobSupervisor.CreatedAt"`)}
 	}
-	if _, ok := jsvc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobSuperVisor.UpdatedAt"`)}
+	if _, ok := jsc.mutation.UpdatedAt(); !ok {
+		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobSupervisor.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (jsvc *JobSuperVisorCreate) sqlSave(ctx context.Context) (*JobSuperVisor, error) {
-	if err := jsvc.check(); err != nil {
+func (jsc *JobSupervisorCreate) sqlSave(ctx context.Context) (*JobSupervisor, error) {
+	if err := jsc.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := jsvc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, jsvc.driver, _spec); err != nil {
+	_node, _spec := jsc.createSpec()
+	if err := sqlgraph.CreateNode(ctx, jsc.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -287,69 +287,69 @@ func (jsvc *JobSuperVisorCreate) sqlSave(ctx context.Context) (*JobSuperVisor, e
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	jsvc.mutation.id = &_node.ID
-	jsvc.mutation.done = true
+	jsc.mutation.id = &_node.ID
+	jsc.mutation.done = true
 	return _node, nil
 }
 
-func (jsvc *JobSuperVisorCreate) createSpec() (*JobSuperVisor, *sqlgraph.CreateSpec) {
+func (jsc *JobSupervisorCreate) createSpec() (*JobSupervisor, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobSuperVisor{config: jsvc.config}
+		_node = &JobSupervisor{config: jsc.config}
 		_spec = sqlgraph.NewCreateSpec(jobsupervisor.Table, sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt))
 	)
-	if value, ok := jsvc.mutation.Name(); ok {
+	if value, ok := jsc.mutation.Name(); ok {
 		_spec.SetField(jobsupervisor.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := jsvc.mutation.Address(); ok {
+	if value, ok := jsc.mutation.Address(); ok {
 		_spec.SetField(jobsupervisor.FieldAddress, field.TypeString, value)
 		_node.Address = value
 	}
-	if value, ok := jsvc.mutation.Phone(); ok {
+	if value, ok := jsc.mutation.Phone(); ok {
 		_spec.SetField(jobsupervisor.FieldPhone, field.TypeString, value)
 		_node.Phone = value
 	}
-	if value, ok := jsvc.mutation.Email(); ok {
+	if value, ok := jsc.mutation.Email(); ok {
 		_spec.SetField(jobsupervisor.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := jsvc.mutation.TcNo(); ok {
+	if value, ok := jsc.mutation.TcNo(); ok {
 		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeInt, value)
 		_node.TcNo = value
 	}
-	if value, ok := jsvc.mutation.Position(); ok {
+	if value, ok := jsc.mutation.Position(); ok {
 		_spec.SetField(jobsupervisor.FieldPosition, field.TypeString, value)
 		_node.Position = value
 	}
-	if value, ok := jsvc.mutation.Career(); ok {
+	if value, ok := jsc.mutation.Career(); ok {
 		_spec.SetField(jobsupervisor.FieldCareer, field.TypeString, value)
 		_node.Career = value
 	}
-	if value, ok := jsvc.mutation.RegisterNo(); ok {
+	if value, ok := jsc.mutation.RegisterNo(); ok {
 		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
 		_node.RegisterNo = value
 	}
-	if value, ok := jsvc.mutation.SocialSecurityNo(); ok {
+	if value, ok := jsc.mutation.SocialSecurityNo(); ok {
 		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)
 		_node.SocialSecurityNo = value
 	}
-	if value, ok := jsvc.mutation.SchoolGraduation(); ok {
+	if value, ok := jsc.mutation.SchoolGraduation(); ok {
 		_spec.SetField(jobsupervisor.FieldSchoolGraduation, field.TypeString, value)
 		_node.SchoolGraduation = value
 	}
-	if value, ok := jsvc.mutation.YDSID(); ok {
+	if value, ok := jsc.mutation.YDSID(); ok {
 		_spec.SetField(jobsupervisor.FieldYDSID, field.TypeInt, value)
 		_node.YDSID = value
 	}
-	if value, ok := jsvc.mutation.CreatedAt(); ok {
+	if value, ok := jsc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobsupervisor.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := jsvc.mutation.UpdatedAt(); ok {
+	if value, ok := jsc.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobsupervisor.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := jsvc.mutation.SupervisorsIDs(); len(nodes) > 0 {
+	if nodes := jsc.mutation.SupervisorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -368,27 +368,27 @@ func (jsvc *JobSuperVisorCreate) createSpec() (*JobSuperVisor, *sqlgraph.CreateS
 	return _node, _spec
 }
 
-// JobSuperVisorCreateBulk is the builder for creating many JobSuperVisor entities in bulk.
-type JobSuperVisorCreateBulk struct {
+// JobSupervisorCreateBulk is the builder for creating many JobSupervisor entities in bulk.
+type JobSupervisorCreateBulk struct {
 	config
 	err      error
-	builders []*JobSuperVisorCreate
+	builders []*JobSupervisorCreate
 }
 
-// Save creates the JobSuperVisor entities in the database.
-func (jsvcb *JobSuperVisorCreateBulk) Save(ctx context.Context) ([]*JobSuperVisor, error) {
-	if jsvcb.err != nil {
-		return nil, jsvcb.err
+// Save creates the JobSupervisor entities in the database.
+func (jscb *JobSupervisorCreateBulk) Save(ctx context.Context) ([]*JobSupervisor, error) {
+	if jscb.err != nil {
+		return nil, jscb.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jsvcb.builders))
-	nodes := make([]*JobSuperVisor, len(jsvcb.builders))
-	mutators := make([]Mutator, len(jsvcb.builders))
-	for i := range jsvcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(jscb.builders))
+	nodes := make([]*JobSupervisor, len(jscb.builders))
+	mutators := make([]Mutator, len(jscb.builders))
+	for i := range jscb.builders {
 		func(i int, root context.Context) {
-			builder := jsvcb.builders[i]
+			builder := jscb.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
-				mutation, ok := m.(*JobSuperVisorMutation)
+				mutation, ok := m.(*JobSupervisorMutation)
 				if !ok {
 					return nil, fmt.Errorf("unexpected mutation type %T", m)
 				}
@@ -399,11 +399,11 @@ func (jsvcb *JobSuperVisorCreateBulk) Save(ctx context.Context) ([]*JobSuperViso
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jsvcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, jscb.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jsvcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, jscb.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -427,7 +427,7 @@ func (jsvcb *JobSuperVisorCreateBulk) Save(ctx context.Context) ([]*JobSuperViso
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jsvcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, jscb.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -435,8 +435,8 @@ func (jsvcb *JobSuperVisorCreateBulk) Save(ctx context.Context) ([]*JobSuperViso
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jsvcb *JobSuperVisorCreateBulk) SaveX(ctx context.Context) []*JobSuperVisor {
-	v, err := jsvcb.Save(ctx)
+func (jscb *JobSupervisorCreateBulk) SaveX(ctx context.Context) []*JobSupervisor {
+	v, err := jscb.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -444,14 +444,14 @@ func (jsvcb *JobSuperVisorCreateBulk) SaveX(ctx context.Context) []*JobSuperViso
 }
 
 // Exec executes the query.
-func (jsvcb *JobSuperVisorCreateBulk) Exec(ctx context.Context) error {
-	_, err := jsvcb.Save(ctx)
+func (jscb *JobSupervisorCreateBulk) Exec(ctx context.Context) error {
+	_, err := jscb.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jsvcb *JobSuperVisorCreateBulk) ExecX(ctx context.Context) {
-	if err := jsvcb.Exec(ctx); err != nil {
+func (jscb *JobSupervisorCreateBulk) ExecX(ctx context.Context) {
+	if err := jscb.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

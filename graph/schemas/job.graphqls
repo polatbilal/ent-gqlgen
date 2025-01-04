@@ -2,6 +2,7 @@
 type JobDetail {
   id: ID!
   YibfNo: Int!
+  Title: String
   Administration: String
   State: String
   Island: String
@@ -37,7 +38,7 @@ type JobDetail {
   Contractor: JobContractor
   Author: JobAuthor
   Progress: JobProgress
-  Supervisor: Supervisor
+  Supervisor: JobSupervisor
   Layer: [JobLayer]
 
   Inspector: CompanyEngineer
@@ -53,6 +54,7 @@ type JobDetail {
 input JobInput {
   CompanyCode: Int!
   YibfNo: Int
+  Title: String
   Administration: String
   State: String
   Island: String
@@ -100,14 +102,14 @@ input JobInput {
 }
 
 extend type Query {
-  job(yibfNo: Int!): JobDetail
-  jobs: JobDetail!
+  job(yibfNo: Int!): JobDetail @goField(forceResolver: true) @auth
+  jobs: JobDetail! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
   createJob(input: JobInput!): JobDetail! @goField(forceResolver: true) @auth
 
-  updateJob(YibfNo: Int!, input: JobInput!): JobDetail!
+  updateJob(yibfNo: Int!, input: JobInput!): JobDetail!
     @goField(forceResolver: true)
     @auth
 }

@@ -9,7 +9,10 @@ import (
 	"fmt"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
 
 // UpdateProgress is the resolver for the updateProgress field.
@@ -19,5 +22,6 @@ func (r *mutationResolver) UpdateProgress(ctx context.Context, yibfNo int, input
 
 // GetProgress is the resolver for the getProgress field.
 func (r *queryResolver) GetProgress(ctx context.Context, yibfNo int) (*ent.JobProgress, error) {
-	panic(fmt.Errorf("not implemented: GetProgress - getProgress"))
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobProgress.Query().Where(jobprogress.HasProgressWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
 }

@@ -12,64 +12,64 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
-// JobSuperVisorDelete is the builder for deleting a JobSuperVisor entity.
-type JobSuperVisorDelete struct {
+// JobSupervisorDelete is the builder for deleting a JobSupervisor entity.
+type JobSupervisorDelete struct {
 	config
 	hooks    []Hook
-	mutation *JobSuperVisorMutation
+	mutation *JobSupervisorMutation
 }
 
-// Where appends a list predicates to the JobSuperVisorDelete builder.
-func (jsvd *JobSuperVisorDelete) Where(ps ...predicate.JobSuperVisor) *JobSuperVisorDelete {
-	jsvd.mutation.Where(ps...)
-	return jsvd
+// Where appends a list predicates to the JobSupervisorDelete builder.
+func (jsd *JobSupervisorDelete) Where(ps ...predicate.JobSupervisor) *JobSupervisorDelete {
+	jsd.mutation.Where(ps...)
+	return jsd
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (jsvd *JobSuperVisorDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, jsvd.sqlExec, jsvd.mutation, jsvd.hooks)
+func (jsd *JobSupervisorDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, jsd.sqlExec, jsd.mutation, jsd.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jsvd *JobSuperVisorDelete) ExecX(ctx context.Context) int {
-	n, err := jsvd.Exec(ctx)
+func (jsd *JobSupervisorDelete) ExecX(ctx context.Context) int {
+	n, err := jsd.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (jsvd *JobSuperVisorDelete) sqlExec(ctx context.Context) (int, error) {
+func (jsd *JobSupervisorDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(jobsupervisor.Table, sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt))
-	if ps := jsvd.mutation.predicates; len(ps) > 0 {
+	if ps := jsd.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, jsvd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, jsd.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	jsvd.mutation.done = true
+	jsd.mutation.done = true
 	return affected, err
 }
 
-// JobSuperVisorDeleteOne is the builder for deleting a single JobSuperVisor entity.
-type JobSuperVisorDeleteOne struct {
-	jsvd *JobSuperVisorDelete
+// JobSupervisorDeleteOne is the builder for deleting a single JobSupervisor entity.
+type JobSupervisorDeleteOne struct {
+	jsd *JobSupervisorDelete
 }
 
-// Where appends a list predicates to the JobSuperVisorDelete builder.
-func (jsvdo *JobSuperVisorDeleteOne) Where(ps ...predicate.JobSuperVisor) *JobSuperVisorDeleteOne {
-	jsvdo.jsvd.mutation.Where(ps...)
-	return jsvdo
+// Where appends a list predicates to the JobSupervisorDelete builder.
+func (jsdo *JobSupervisorDeleteOne) Where(ps ...predicate.JobSupervisor) *JobSupervisorDeleteOne {
+	jsdo.jsd.mutation.Where(ps...)
+	return jsdo
 }
 
 // Exec executes the deletion query.
-func (jsvdo *JobSuperVisorDeleteOne) Exec(ctx context.Context) error {
-	n, err := jsvdo.jsvd.Exec(ctx)
+func (jsdo *JobSupervisorDeleteOne) Exec(ctx context.Context) error {
+	n, err := jsdo.jsd.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (jsvdo *JobSuperVisorDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jsvdo *JobSuperVisorDeleteOne) ExecX(ctx context.Context) {
-	if err := jsvdo.Exec(ctx); err != nil {
+func (jsdo *JobSupervisorDeleteOne) ExecX(ctx context.Context) {
+	if err := jsdo.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

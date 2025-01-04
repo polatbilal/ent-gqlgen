@@ -228,7 +228,7 @@ func (jd *JobDetail) Progress(ctx context.Context) (*JobProgress, error) {
 	return result, MaskNotFound(err)
 }
 
-func (jd *JobDetail) Supervisor(ctx context.Context) (*JobSuperVisor, error) {
+func (jd *JobDetail) Supervisor(ctx context.Context) (*JobSupervisor, error) {
 	result, err := jd.Edges.SupervisorOrErr()
 	if IsNotLoaded(err) {
 		result, err = jd.QuerySupervisor().Only(ctx)
@@ -364,14 +364,14 @@ func (jp *JobProgress) Progress(ctx context.Context) (result []*JobDetail, err e
 	return result, err
 }
 
-func (jsv *JobSuperVisor) Supervisors(ctx context.Context) (result []*JobDetail, err error) {
+func (js *JobSupervisor) Supervisors(ctx context.Context) (result []*JobDetail, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = jsv.NamedSupervisors(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = js.NamedSupervisors(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = jsv.Edges.SupervisorsOrErr()
+		result, err = js.Edges.SupervisorsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = jsv.QuerySupervisors().All(ctx)
+		result, err = js.QuerySupervisors().All(ctx)
 	}
 	return result, err
 }

@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
@@ -17,20 +18,43 @@ import (
 // CreateOwner is the resolver for the createOwner field.
 func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	owner, err := client.JobOwner.Create().
-		SetName(*input.Name).
-		SetNillableTcNo(input.TcNo).
-		SetNillableTaxAdmin(input.TaxAdmin).
-		SetNillableTaxNo(input.TaxNo).
-		SetNillablePhone(input.Phone).
-		SetNillableEmail(input.Email).
-		SetYDSID(*input.Ydsid).
-		SetNillableShareholder(input.Shareholder).
-		SetNillableNote(input.Note).
-		Save(ctx)
+
+	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(input.YibfNo)).Only(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to create owner: %w", err)
+		return nil, fmt.Errorf("failed to get job detail: %w", err)
+	}
+
+	// YDSID ile Owner var mı kontrol edelim
+	owner, err := client.JobOwner.Query().Where(jobowner.YDSID(*input.Ydsid)).Only(ctx)
+	if ent.IsNotFound(err) {
+		// Owner yoksa yeni oluşturalım
+		owner, err = client.JobOwner.Create().
+			SetName(*input.Name).
+			SetNillableTcNo(input.TcNo).
+			SetNillableTaxAdmin(input.TaxAdmin).
+			SetNillableTaxNo(input.TaxNo).
+			SetNillablePhone(input.Phone).
+			SetNillableEmail(input.Email).
+			SetYDSID(*input.Ydsid).
+			SetNillableShareholder(input.Shareholder).
+			SetNillableNote(input.Note).
+			Save(ctx)
+
+		if err != nil {
+			return nil, fmt.Errorf("failed to create owner: %w", err)
+		}
+	} else if err != nil {
+		return nil, fmt.Errorf("failed to check owner: %w", err)
+	}
+
+	// Owner'ı job'a ekleyelim
+	err = owner.Update().
+		AddOwners(jobDetail).
+		Exec(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to add owner to job detail: %w", err)
 	}
 
 	return owner, nil
@@ -62,6 +86,12 @@ func (r *mutationResolver) UpdateOwner(ctx context.Context, ydsid int, input mod
 func (r *queryResolver) AllOwner(ctx context.Context) ([]*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	return client.JobOwner.Query().All(ctx)
+}
+
+// Owner is the resolver for the owner field.
+func (r *queryResolver) Owner(ctx context.Context, yibfNo int) (*ent.JobOwner, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobOwner.Query().Where(jobowner.HasOwnersWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
 }
 
 // GetOwner is the resolver for the getOwner field.

@@ -25,7 +25,7 @@ func (JobContractor) Fields() []ent.Field {
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
 		field.String("PersonType").Optional(),
-		field.Int("YDSID").Optional(),
+		field.Int("YDSID").Optional().Unique(),
 		field.String("Note").Optional(),
 
 		field.Time("CreatedAt").Default(time.Now),

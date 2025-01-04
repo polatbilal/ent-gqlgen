@@ -11,923 +11,923 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldID, id))
+func ID(id int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldID, id))
+func IDEQ(id int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldID, id))
+func IDNEQ(id int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldID, ids...))
+func IDIn(ids ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldID, ids...))
+func IDNotIn(ids ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldID, id))
+func IDGT(id int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldID, id))
+func IDGTE(id int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldID, id))
+func IDLT(id int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldID, id))
+func IDLTE(id int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldID, id))
 }
 
 // Name applies equality check predicate on the "Name" field. It's identical to NameEQ.
-func Name(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldName, v))
+func Name(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldName, v))
 }
 
 // Address applies equality check predicate on the "Address" field. It's identical to AddressEQ.
-func Address(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldAddress, v))
+func Address(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldAddress, v))
 }
 
 // Phone applies equality check predicate on the "Phone" field. It's identical to PhoneEQ.
-func Phone(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldPhone, v))
+func Phone(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldPhone, v))
 }
 
 // Email applies equality check predicate on the "Email" field. It's identical to EmailEQ.
-func Email(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldEmail, v))
+func Email(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldEmail, v))
 }
 
 // TcNo applies equality check predicate on the "TcNo" field. It's identical to TcNoEQ.
-func TcNo(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldTcNo, v))
+func TcNo(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldTcNo, v))
 }
 
 // Position applies equality check predicate on the "Position" field. It's identical to PositionEQ.
-func Position(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldPosition, v))
+func Position(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldPosition, v))
 }
 
 // Career applies equality check predicate on the "Career" field. It's identical to CareerEQ.
-func Career(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldCareer, v))
+func Career(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldCareer, v))
 }
 
 // RegisterNo applies equality check predicate on the "RegisterNo" field. It's identical to RegisterNoEQ.
-func RegisterNo(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldRegisterNo, v))
+func RegisterNo(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldRegisterNo, v))
 }
 
 // SocialSecurityNo applies equality check predicate on the "SocialSecurityNo" field. It's identical to SocialSecurityNoEQ.
-func SocialSecurityNo(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldSocialSecurityNo, v))
+func SocialSecurityNo(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldSocialSecurityNo, v))
 }
 
 // SchoolGraduation applies equality check predicate on the "SchoolGraduation" field. It's identical to SchoolGraduationEQ.
-func SchoolGraduation(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldSchoolGraduation, v))
+func SchoolGraduation(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldSchoolGraduation, v))
 }
 
 // YDSID applies equality check predicate on the "YDSID" field. It's identical to YDSIDEQ.
-func YDSID(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldYDSID, v))
+func YDSID(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldYDSID, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
-func CreatedAt(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldCreatedAt, v))
+func CreatedAt(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // UpdatedAt applies equality check predicate on the "UpdatedAt" field. It's identical to UpdatedAtEQ.
-func UpdatedAt(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldUpdatedAt, v))
+func UpdatedAt(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
 // NameEQ applies the EQ predicate on the "Name" field.
-func NameEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldName, v))
+func NameEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldName, v))
 }
 
 // NameNEQ applies the NEQ predicate on the "Name" field.
-func NameNEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldName, v))
+func NameNEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldName, v))
 }
 
 // NameIn applies the In predicate on the "Name" field.
-func NameIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldName, vs...))
+func NameIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldName, vs...))
 }
 
 // NameNotIn applies the NotIn predicate on the "Name" field.
-func NameNotIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldName, vs...))
+func NameNotIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldName, vs...))
 }
 
 // NameGT applies the GT predicate on the "Name" field.
-func NameGT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldName, v))
+func NameGT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldName, v))
 }
 
 // NameGTE applies the GTE predicate on the "Name" field.
-func NameGTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldName, v))
+func NameGTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldName, v))
 }
 
 // NameLT applies the LT predicate on the "Name" field.
-func NameLT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldName, v))
+func NameLT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldName, v))
 }
 
 // NameLTE applies the LTE predicate on the "Name" field.
-func NameLTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldName, v))
+func NameLTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldName, v))
 }
 
 // NameContains applies the Contains predicate on the "Name" field.
-func NameContains(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContains(FieldName, v))
+func NameContains(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContains(FieldName, v))
 }
 
 // NameHasPrefix applies the HasPrefix predicate on the "Name" field.
-func NameHasPrefix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasPrefix(FieldName, v))
+func NameHasPrefix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasPrefix(FieldName, v))
 }
 
 // NameHasSuffix applies the HasSuffix predicate on the "Name" field.
-func NameHasSuffix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasSuffix(FieldName, v))
+func NameHasSuffix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasSuffix(FieldName, v))
 }
 
 // NameIsNil applies the IsNil predicate on the "Name" field.
-func NameIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldName))
+func NameIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldName))
 }
 
 // NameNotNil applies the NotNil predicate on the "Name" field.
-func NameNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldName))
+func NameNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldName))
 }
 
 // NameEqualFold applies the EqualFold predicate on the "Name" field.
-func NameEqualFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEqualFold(FieldName, v))
+func NameEqualFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEqualFold(FieldName, v))
 }
 
 // NameContainsFold applies the ContainsFold predicate on the "Name" field.
-func NameContainsFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldName, v))
+func NameContainsFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContainsFold(FieldName, v))
 }
 
 // AddressEQ applies the EQ predicate on the "Address" field.
-func AddressEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldAddress, v))
+func AddressEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldAddress, v))
 }
 
 // AddressNEQ applies the NEQ predicate on the "Address" field.
-func AddressNEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldAddress, v))
+func AddressNEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldAddress, v))
 }
 
 // AddressIn applies the In predicate on the "Address" field.
-func AddressIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldAddress, vs...))
+func AddressIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldAddress, vs...))
 }
 
 // AddressNotIn applies the NotIn predicate on the "Address" field.
-func AddressNotIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldAddress, vs...))
+func AddressNotIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldAddress, vs...))
 }
 
 // AddressGT applies the GT predicate on the "Address" field.
-func AddressGT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldAddress, v))
+func AddressGT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldAddress, v))
 }
 
 // AddressGTE applies the GTE predicate on the "Address" field.
-func AddressGTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldAddress, v))
+func AddressGTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldAddress, v))
 }
 
 // AddressLT applies the LT predicate on the "Address" field.
-func AddressLT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldAddress, v))
+func AddressLT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldAddress, v))
 }
 
 // AddressLTE applies the LTE predicate on the "Address" field.
-func AddressLTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldAddress, v))
+func AddressLTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldAddress, v))
 }
 
 // AddressContains applies the Contains predicate on the "Address" field.
-func AddressContains(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContains(FieldAddress, v))
+func AddressContains(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContains(FieldAddress, v))
 }
 
 // AddressHasPrefix applies the HasPrefix predicate on the "Address" field.
-func AddressHasPrefix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasPrefix(FieldAddress, v))
+func AddressHasPrefix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasPrefix(FieldAddress, v))
 }
 
 // AddressHasSuffix applies the HasSuffix predicate on the "Address" field.
-func AddressHasSuffix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasSuffix(FieldAddress, v))
+func AddressHasSuffix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasSuffix(FieldAddress, v))
 }
 
 // AddressIsNil applies the IsNil predicate on the "Address" field.
-func AddressIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldAddress))
+func AddressIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldAddress))
 }
 
 // AddressNotNil applies the NotNil predicate on the "Address" field.
-func AddressNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldAddress))
+func AddressNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldAddress))
 }
 
 // AddressEqualFold applies the EqualFold predicate on the "Address" field.
-func AddressEqualFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEqualFold(FieldAddress, v))
+func AddressEqualFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEqualFold(FieldAddress, v))
 }
 
 // AddressContainsFold applies the ContainsFold predicate on the "Address" field.
-func AddressContainsFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldAddress, v))
+func AddressContainsFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContainsFold(FieldAddress, v))
 }
 
 // PhoneEQ applies the EQ predicate on the "Phone" field.
-func PhoneEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldPhone, v))
+func PhoneEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldPhone, v))
 }
 
 // PhoneNEQ applies the NEQ predicate on the "Phone" field.
-func PhoneNEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldPhone, v))
+func PhoneNEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldPhone, v))
 }
 
 // PhoneIn applies the In predicate on the "Phone" field.
-func PhoneIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldPhone, vs...))
+func PhoneIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldPhone, vs...))
 }
 
 // PhoneNotIn applies the NotIn predicate on the "Phone" field.
-func PhoneNotIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldPhone, vs...))
+func PhoneNotIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldPhone, vs...))
 }
 
 // PhoneGT applies the GT predicate on the "Phone" field.
-func PhoneGT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldPhone, v))
+func PhoneGT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldPhone, v))
 }
 
 // PhoneGTE applies the GTE predicate on the "Phone" field.
-func PhoneGTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldPhone, v))
+func PhoneGTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldPhone, v))
 }
 
 // PhoneLT applies the LT predicate on the "Phone" field.
-func PhoneLT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldPhone, v))
+func PhoneLT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldPhone, v))
 }
 
 // PhoneLTE applies the LTE predicate on the "Phone" field.
-func PhoneLTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldPhone, v))
+func PhoneLTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldPhone, v))
 }
 
 // PhoneContains applies the Contains predicate on the "Phone" field.
-func PhoneContains(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContains(FieldPhone, v))
+func PhoneContains(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContains(FieldPhone, v))
 }
 
 // PhoneHasPrefix applies the HasPrefix predicate on the "Phone" field.
-func PhoneHasPrefix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasPrefix(FieldPhone, v))
+func PhoneHasPrefix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasPrefix(FieldPhone, v))
 }
 
 // PhoneHasSuffix applies the HasSuffix predicate on the "Phone" field.
-func PhoneHasSuffix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasSuffix(FieldPhone, v))
+func PhoneHasSuffix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasSuffix(FieldPhone, v))
 }
 
 // PhoneIsNil applies the IsNil predicate on the "Phone" field.
-func PhoneIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldPhone))
+func PhoneIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldPhone))
 }
 
 // PhoneNotNil applies the NotNil predicate on the "Phone" field.
-func PhoneNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldPhone))
+func PhoneNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldPhone))
 }
 
 // PhoneEqualFold applies the EqualFold predicate on the "Phone" field.
-func PhoneEqualFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEqualFold(FieldPhone, v))
+func PhoneEqualFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEqualFold(FieldPhone, v))
 }
 
 // PhoneContainsFold applies the ContainsFold predicate on the "Phone" field.
-func PhoneContainsFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldPhone, v))
+func PhoneContainsFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContainsFold(FieldPhone, v))
 }
 
 // EmailEQ applies the EQ predicate on the "Email" field.
-func EmailEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldEmail, v))
+func EmailEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldEmail, v))
 }
 
 // EmailNEQ applies the NEQ predicate on the "Email" field.
-func EmailNEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldEmail, v))
+func EmailNEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldEmail, v))
 }
 
 // EmailIn applies the In predicate on the "Email" field.
-func EmailIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldEmail, vs...))
+func EmailIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldEmail, vs...))
 }
 
 // EmailNotIn applies the NotIn predicate on the "Email" field.
-func EmailNotIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldEmail, vs...))
+func EmailNotIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldEmail, vs...))
 }
 
 // EmailGT applies the GT predicate on the "Email" field.
-func EmailGT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldEmail, v))
+func EmailGT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldEmail, v))
 }
 
 // EmailGTE applies the GTE predicate on the "Email" field.
-func EmailGTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldEmail, v))
+func EmailGTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldEmail, v))
 }
 
 // EmailLT applies the LT predicate on the "Email" field.
-func EmailLT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldEmail, v))
+func EmailLT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldEmail, v))
 }
 
 // EmailLTE applies the LTE predicate on the "Email" field.
-func EmailLTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldEmail, v))
+func EmailLTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldEmail, v))
 }
 
 // EmailContains applies the Contains predicate on the "Email" field.
-func EmailContains(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContains(FieldEmail, v))
+func EmailContains(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContains(FieldEmail, v))
 }
 
 // EmailHasPrefix applies the HasPrefix predicate on the "Email" field.
-func EmailHasPrefix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasPrefix(FieldEmail, v))
+func EmailHasPrefix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasPrefix(FieldEmail, v))
 }
 
 // EmailHasSuffix applies the HasSuffix predicate on the "Email" field.
-func EmailHasSuffix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasSuffix(FieldEmail, v))
+func EmailHasSuffix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasSuffix(FieldEmail, v))
 }
 
 // EmailIsNil applies the IsNil predicate on the "Email" field.
-func EmailIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldEmail))
+func EmailIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldEmail))
 }
 
 // EmailNotNil applies the NotNil predicate on the "Email" field.
-func EmailNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldEmail))
+func EmailNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldEmail))
 }
 
 // EmailEqualFold applies the EqualFold predicate on the "Email" field.
-func EmailEqualFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEqualFold(FieldEmail, v))
+func EmailEqualFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEqualFold(FieldEmail, v))
 }
 
 // EmailContainsFold applies the ContainsFold predicate on the "Email" field.
-func EmailContainsFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldEmail, v))
+func EmailContainsFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContainsFold(FieldEmail, v))
 }
 
 // TcNoEQ applies the EQ predicate on the "TcNo" field.
-func TcNoEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldTcNo, v))
+func TcNoEQ(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldTcNo, v))
 }
 
 // TcNoNEQ applies the NEQ predicate on the "TcNo" field.
-func TcNoNEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldTcNo, v))
+func TcNoNEQ(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldTcNo, v))
 }
 
 // TcNoIn applies the In predicate on the "TcNo" field.
-func TcNoIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldTcNo, vs...))
+func TcNoIn(vs ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldTcNo, vs...))
 }
 
 // TcNoNotIn applies the NotIn predicate on the "TcNo" field.
-func TcNoNotIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldTcNo, vs...))
+func TcNoNotIn(vs ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldTcNo, vs...))
 }
 
 // TcNoGT applies the GT predicate on the "TcNo" field.
-func TcNoGT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldTcNo, v))
+func TcNoGT(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldTcNo, v))
 }
 
 // TcNoGTE applies the GTE predicate on the "TcNo" field.
-func TcNoGTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldTcNo, v))
+func TcNoGTE(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldTcNo, v))
 }
 
 // TcNoLT applies the LT predicate on the "TcNo" field.
-func TcNoLT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldTcNo, v))
+func TcNoLT(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldTcNo, v))
 }
 
 // TcNoLTE applies the LTE predicate on the "TcNo" field.
-func TcNoLTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldTcNo, v))
+func TcNoLTE(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldTcNo, v))
 }
 
 // TcNoIsNil applies the IsNil predicate on the "TcNo" field.
-func TcNoIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldTcNo))
+func TcNoIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldTcNo))
 }
 
 // TcNoNotNil applies the NotNil predicate on the "TcNo" field.
-func TcNoNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldTcNo))
+func TcNoNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldTcNo))
 }
 
 // PositionEQ applies the EQ predicate on the "Position" field.
-func PositionEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldPosition, v))
+func PositionEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldPosition, v))
 }
 
 // PositionNEQ applies the NEQ predicate on the "Position" field.
-func PositionNEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldPosition, v))
+func PositionNEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldPosition, v))
 }
 
 // PositionIn applies the In predicate on the "Position" field.
-func PositionIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldPosition, vs...))
+func PositionIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldPosition, vs...))
 }
 
 // PositionNotIn applies the NotIn predicate on the "Position" field.
-func PositionNotIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldPosition, vs...))
+func PositionNotIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldPosition, vs...))
 }
 
 // PositionGT applies the GT predicate on the "Position" field.
-func PositionGT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldPosition, v))
+func PositionGT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldPosition, v))
 }
 
 // PositionGTE applies the GTE predicate on the "Position" field.
-func PositionGTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldPosition, v))
+func PositionGTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldPosition, v))
 }
 
 // PositionLT applies the LT predicate on the "Position" field.
-func PositionLT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldPosition, v))
+func PositionLT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldPosition, v))
 }
 
 // PositionLTE applies the LTE predicate on the "Position" field.
-func PositionLTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldPosition, v))
+func PositionLTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldPosition, v))
 }
 
 // PositionContains applies the Contains predicate on the "Position" field.
-func PositionContains(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContains(FieldPosition, v))
+func PositionContains(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContains(FieldPosition, v))
 }
 
 // PositionHasPrefix applies the HasPrefix predicate on the "Position" field.
-func PositionHasPrefix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasPrefix(FieldPosition, v))
+func PositionHasPrefix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasPrefix(FieldPosition, v))
 }
 
 // PositionHasSuffix applies the HasSuffix predicate on the "Position" field.
-func PositionHasSuffix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasSuffix(FieldPosition, v))
+func PositionHasSuffix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasSuffix(FieldPosition, v))
 }
 
 // PositionIsNil applies the IsNil predicate on the "Position" field.
-func PositionIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldPosition))
+func PositionIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldPosition))
 }
 
 // PositionNotNil applies the NotNil predicate on the "Position" field.
-func PositionNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldPosition))
+func PositionNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldPosition))
 }
 
 // PositionEqualFold applies the EqualFold predicate on the "Position" field.
-func PositionEqualFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEqualFold(FieldPosition, v))
+func PositionEqualFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEqualFold(FieldPosition, v))
 }
 
 // PositionContainsFold applies the ContainsFold predicate on the "Position" field.
-func PositionContainsFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldPosition, v))
+func PositionContainsFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContainsFold(FieldPosition, v))
 }
 
 // CareerEQ applies the EQ predicate on the "Career" field.
-func CareerEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldCareer, v))
+func CareerEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldCareer, v))
 }
 
 // CareerNEQ applies the NEQ predicate on the "Career" field.
-func CareerNEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldCareer, v))
+func CareerNEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldCareer, v))
 }
 
 // CareerIn applies the In predicate on the "Career" field.
-func CareerIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldCareer, vs...))
+func CareerIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldCareer, vs...))
 }
 
 // CareerNotIn applies the NotIn predicate on the "Career" field.
-func CareerNotIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldCareer, vs...))
+func CareerNotIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldCareer, vs...))
 }
 
 // CareerGT applies the GT predicate on the "Career" field.
-func CareerGT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldCareer, v))
+func CareerGT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldCareer, v))
 }
 
 // CareerGTE applies the GTE predicate on the "Career" field.
-func CareerGTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldCareer, v))
+func CareerGTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldCareer, v))
 }
 
 // CareerLT applies the LT predicate on the "Career" field.
-func CareerLT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldCareer, v))
+func CareerLT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldCareer, v))
 }
 
 // CareerLTE applies the LTE predicate on the "Career" field.
-func CareerLTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldCareer, v))
+func CareerLTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldCareer, v))
 }
 
 // CareerContains applies the Contains predicate on the "Career" field.
-func CareerContains(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContains(FieldCareer, v))
+func CareerContains(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContains(FieldCareer, v))
 }
 
 // CareerHasPrefix applies the HasPrefix predicate on the "Career" field.
-func CareerHasPrefix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasPrefix(FieldCareer, v))
+func CareerHasPrefix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasPrefix(FieldCareer, v))
 }
 
 // CareerHasSuffix applies the HasSuffix predicate on the "Career" field.
-func CareerHasSuffix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasSuffix(FieldCareer, v))
+func CareerHasSuffix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasSuffix(FieldCareer, v))
 }
 
 // CareerIsNil applies the IsNil predicate on the "Career" field.
-func CareerIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldCareer))
+func CareerIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldCareer))
 }
 
 // CareerNotNil applies the NotNil predicate on the "Career" field.
-func CareerNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldCareer))
+func CareerNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldCareer))
 }
 
 // CareerEqualFold applies the EqualFold predicate on the "Career" field.
-func CareerEqualFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEqualFold(FieldCareer, v))
+func CareerEqualFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEqualFold(FieldCareer, v))
 }
 
 // CareerContainsFold applies the ContainsFold predicate on the "Career" field.
-func CareerContainsFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldCareer, v))
+func CareerContainsFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContainsFold(FieldCareer, v))
 }
 
 // RegisterNoEQ applies the EQ predicate on the "RegisterNo" field.
-func RegisterNoEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldRegisterNo, v))
+func RegisterNoEQ(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldRegisterNo, v))
 }
 
 // RegisterNoNEQ applies the NEQ predicate on the "RegisterNo" field.
-func RegisterNoNEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldRegisterNo, v))
+func RegisterNoNEQ(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldRegisterNo, v))
 }
 
 // RegisterNoIn applies the In predicate on the "RegisterNo" field.
-func RegisterNoIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldRegisterNo, vs...))
+func RegisterNoIn(vs ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldRegisterNo, vs...))
 }
 
 // RegisterNoNotIn applies the NotIn predicate on the "RegisterNo" field.
-func RegisterNoNotIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldRegisterNo, vs...))
+func RegisterNoNotIn(vs ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldRegisterNo, vs...))
 }
 
 // RegisterNoGT applies the GT predicate on the "RegisterNo" field.
-func RegisterNoGT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldRegisterNo, v))
+func RegisterNoGT(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldRegisterNo, v))
 }
 
 // RegisterNoGTE applies the GTE predicate on the "RegisterNo" field.
-func RegisterNoGTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldRegisterNo, v))
+func RegisterNoGTE(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldRegisterNo, v))
 }
 
 // RegisterNoLT applies the LT predicate on the "RegisterNo" field.
-func RegisterNoLT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldRegisterNo, v))
+func RegisterNoLT(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldRegisterNo, v))
 }
 
 // RegisterNoLTE applies the LTE predicate on the "RegisterNo" field.
-func RegisterNoLTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldRegisterNo, v))
+func RegisterNoLTE(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldRegisterNo, v))
 }
 
 // RegisterNoIsNil applies the IsNil predicate on the "RegisterNo" field.
-func RegisterNoIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldRegisterNo))
+func RegisterNoIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldRegisterNo))
 }
 
 // RegisterNoNotNil applies the NotNil predicate on the "RegisterNo" field.
-func RegisterNoNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldRegisterNo))
+func RegisterNoNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldRegisterNo))
 }
 
 // SocialSecurityNoEQ applies the EQ predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldSocialSecurityNo, v))
+func SocialSecurityNoEQ(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldSocialSecurityNo, v))
 }
 
 // SocialSecurityNoNEQ applies the NEQ predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoNEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldSocialSecurityNo, v))
+func SocialSecurityNoNEQ(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldSocialSecurityNo, v))
 }
 
 // SocialSecurityNoIn applies the In predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldSocialSecurityNo, vs...))
+func SocialSecurityNoIn(vs ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldSocialSecurityNo, vs...))
 }
 
 // SocialSecurityNoNotIn applies the NotIn predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoNotIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldSocialSecurityNo, vs...))
+func SocialSecurityNoNotIn(vs ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldSocialSecurityNo, vs...))
 }
 
 // SocialSecurityNoGT applies the GT predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoGT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldSocialSecurityNo, v))
+func SocialSecurityNoGT(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldSocialSecurityNo, v))
 }
 
 // SocialSecurityNoGTE applies the GTE predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoGTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldSocialSecurityNo, v))
+func SocialSecurityNoGTE(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldSocialSecurityNo, v))
 }
 
 // SocialSecurityNoLT applies the LT predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoLT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldSocialSecurityNo, v))
+func SocialSecurityNoLT(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldSocialSecurityNo, v))
 }
 
 // SocialSecurityNoLTE applies the LTE predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoLTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldSocialSecurityNo, v))
+func SocialSecurityNoLTE(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldSocialSecurityNo, v))
 }
 
 // SocialSecurityNoIsNil applies the IsNil predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldSocialSecurityNo))
+func SocialSecurityNoIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldSocialSecurityNo))
 }
 
 // SocialSecurityNoNotNil applies the NotNil predicate on the "SocialSecurityNo" field.
-func SocialSecurityNoNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldSocialSecurityNo))
+func SocialSecurityNoNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldSocialSecurityNo))
 }
 
 // SchoolGraduationEQ applies the EQ predicate on the "SchoolGraduation" field.
-func SchoolGraduationEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldSchoolGraduation, v))
+func SchoolGraduationEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationNEQ applies the NEQ predicate on the "SchoolGraduation" field.
-func SchoolGraduationNEQ(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldSchoolGraduation, v))
+func SchoolGraduationNEQ(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationIn applies the In predicate on the "SchoolGraduation" field.
-func SchoolGraduationIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldSchoolGraduation, vs...))
+func SchoolGraduationIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldSchoolGraduation, vs...))
 }
 
 // SchoolGraduationNotIn applies the NotIn predicate on the "SchoolGraduation" field.
-func SchoolGraduationNotIn(vs ...string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldSchoolGraduation, vs...))
+func SchoolGraduationNotIn(vs ...string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldSchoolGraduation, vs...))
 }
 
 // SchoolGraduationGT applies the GT predicate on the "SchoolGraduation" field.
-func SchoolGraduationGT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldSchoolGraduation, v))
+func SchoolGraduationGT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationGTE applies the GTE predicate on the "SchoolGraduation" field.
-func SchoolGraduationGTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldSchoolGraduation, v))
+func SchoolGraduationGTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationLT applies the LT predicate on the "SchoolGraduation" field.
-func SchoolGraduationLT(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldSchoolGraduation, v))
+func SchoolGraduationLT(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationLTE applies the LTE predicate on the "SchoolGraduation" field.
-func SchoolGraduationLTE(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldSchoolGraduation, v))
+func SchoolGraduationLTE(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationContains applies the Contains predicate on the "SchoolGraduation" field.
-func SchoolGraduationContains(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContains(FieldSchoolGraduation, v))
+func SchoolGraduationContains(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContains(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationHasPrefix applies the HasPrefix predicate on the "SchoolGraduation" field.
-func SchoolGraduationHasPrefix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasPrefix(FieldSchoolGraduation, v))
+func SchoolGraduationHasPrefix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasPrefix(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationHasSuffix applies the HasSuffix predicate on the "SchoolGraduation" field.
-func SchoolGraduationHasSuffix(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldHasSuffix(FieldSchoolGraduation, v))
+func SchoolGraduationHasSuffix(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldHasSuffix(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationIsNil applies the IsNil predicate on the "SchoolGraduation" field.
-func SchoolGraduationIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldSchoolGraduation))
+func SchoolGraduationIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldSchoolGraduation))
 }
 
 // SchoolGraduationNotNil applies the NotNil predicate on the "SchoolGraduation" field.
-func SchoolGraduationNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldSchoolGraduation))
+func SchoolGraduationNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldSchoolGraduation))
 }
 
 // SchoolGraduationEqualFold applies the EqualFold predicate on the "SchoolGraduation" field.
-func SchoolGraduationEqualFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEqualFold(FieldSchoolGraduation, v))
+func SchoolGraduationEqualFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEqualFold(FieldSchoolGraduation, v))
 }
 
 // SchoolGraduationContainsFold applies the ContainsFold predicate on the "SchoolGraduation" field.
-func SchoolGraduationContainsFold(v string) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldSchoolGraduation, v))
+func SchoolGraduationContainsFold(v string) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldContainsFold(FieldSchoolGraduation, v))
 }
 
 // YDSIDEQ applies the EQ predicate on the "YDSID" field.
-func YDSIDEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldYDSID, v))
+func YDSIDEQ(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldYDSID, v))
 }
 
 // YDSIDNEQ applies the NEQ predicate on the "YDSID" field.
-func YDSIDNEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldYDSID, v))
+func YDSIDNEQ(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldYDSID, v))
 }
 
 // YDSIDIn applies the In predicate on the "YDSID" field.
-func YDSIDIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldYDSID, vs...))
+func YDSIDIn(vs ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldYDSID, vs...))
 }
 
 // YDSIDNotIn applies the NotIn predicate on the "YDSID" field.
-func YDSIDNotIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldYDSID, vs...))
+func YDSIDNotIn(vs ...int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldYDSID, vs...))
 }
 
 // YDSIDGT applies the GT predicate on the "YDSID" field.
-func YDSIDGT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldYDSID, v))
+func YDSIDGT(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldYDSID, v))
 }
 
 // YDSIDGTE applies the GTE predicate on the "YDSID" field.
-func YDSIDGTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldYDSID, v))
+func YDSIDGTE(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldYDSID, v))
 }
 
 // YDSIDLT applies the LT predicate on the "YDSID" field.
-func YDSIDLT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldYDSID, v))
+func YDSIDLT(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldYDSID, v))
 }
 
 // YDSIDLTE applies the LTE predicate on the "YDSID" field.
-func YDSIDLTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldYDSID, v))
+func YDSIDLTE(v int) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldYDSID, v))
 }
 
 // YDSIDIsNil applies the IsNil predicate on the "YDSID" field.
-func YDSIDIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldYDSID))
+func YDSIDIsNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIsNull(FieldYDSID))
 }
 
 // YDSIDNotNil applies the NotNil predicate on the "YDSID" field.
-func YDSIDNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldYDSID))
+func YDSIDNotNil() predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotNull(FieldYDSID))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.
-func CreatedAtEQ(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldCreatedAt, v))
+func CreatedAtEQ(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtNEQ applies the NEQ predicate on the "CreatedAt" field.
-func CreatedAtNEQ(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldCreatedAt, v))
+func CreatedAtNEQ(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtIn applies the In predicate on the "CreatedAt" field.
-func CreatedAtIn(vs ...time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldCreatedAt, vs...))
+func CreatedAtIn(vs ...time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtNotIn applies the NotIn predicate on the "CreatedAt" field.
-func CreatedAtNotIn(vs ...time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldCreatedAt, vs...))
+func CreatedAtNotIn(vs ...time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtGT applies the GT predicate on the "CreatedAt" field.
-func CreatedAtGT(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldCreatedAt, v))
+func CreatedAtGT(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldCreatedAt, v))
 }
 
 // CreatedAtGTE applies the GTE predicate on the "CreatedAt" field.
-func CreatedAtGTE(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldCreatedAt, v))
+func CreatedAtGTE(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldCreatedAt, v))
 }
 
 // CreatedAtLT applies the LT predicate on the "CreatedAt" field.
-func CreatedAtLT(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldCreatedAt, v))
+func CreatedAtLT(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldCreatedAt, v))
 }
 
 // CreatedAtLTE applies the LTE predicate on the "CreatedAt" field.
-func CreatedAtLTE(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldCreatedAt, v))
+func CreatedAtLTE(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldCreatedAt, v))
 }
 
 // UpdatedAtEQ applies the EQ predicate on the "UpdatedAt" field.
-func UpdatedAtEQ(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldUpdatedAt, v))
+func UpdatedAtEQ(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtNEQ applies the NEQ predicate on the "UpdatedAt" field.
-func UpdatedAtNEQ(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldUpdatedAt, v))
+func UpdatedAtNEQ(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtIn applies the In predicate on the "UpdatedAt" field.
-func UpdatedAtIn(vs ...time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldUpdatedAt, vs...))
+func UpdatedAtIn(vs ...time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtNotIn applies the NotIn predicate on the "UpdatedAt" field.
-func UpdatedAtNotIn(vs ...time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldUpdatedAt, vs...))
+func UpdatedAtNotIn(vs ...time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtGT applies the GT predicate on the "UpdatedAt" field.
-func UpdatedAtGT(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldUpdatedAt, v))
+func UpdatedAtGT(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtGTE applies the GTE predicate on the "UpdatedAt" field.
-func UpdatedAtGTE(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldUpdatedAt, v))
+func UpdatedAtGTE(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLT applies the LT predicate on the "UpdatedAt" field.
-func UpdatedAtLT(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldUpdatedAt, v))
+func UpdatedAtLT(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLTE applies the LTE predicate on the "UpdatedAt" field.
-func UpdatedAtLTE(v time.Time) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldUpdatedAt, v))
+func UpdatedAtLTE(v time.Time) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
 // HasSupervisors applies the HasEdge predicate on the "supervisors" edge.
-func HasSupervisors() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(func(s *sql.Selector) {
+func HasSupervisors() predicate.JobSupervisor {
+	return predicate.JobSupervisor(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, SupervisorsTable, SupervisorsColumn),
@@ -937,8 +937,8 @@ func HasSupervisors() predicate.JobSuperVisor {
 }
 
 // HasSupervisorsWith applies the HasEdge predicate on the "supervisors" edge with a given conditions (other predicates).
-func HasSupervisorsWith(preds ...predicate.JobDetail) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(func(s *sql.Selector) {
+func HasSupervisorsWith(preds ...predicate.JobDetail) predicate.JobSupervisor {
+	return predicate.JobSupervisor(func(s *sql.Selector) {
 		step := newSupervisorsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
@@ -949,16 +949,16 @@ func HasSupervisorsWith(preds ...predicate.JobDetail) predicate.JobSuperVisor {
 }
 
 // And groups predicates with the AND operator between them.
-func And(predicates ...predicate.JobSuperVisor) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.AndPredicates(predicates...))
+func And(predicates ...predicate.JobSupervisor) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.AndPredicates(predicates...))
 }
 
 // Or groups predicates with the OR operator between them.
-func Or(predicates ...predicate.JobSuperVisor) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.OrPredicates(predicates...))
+func Or(predicates ...predicate.JobSupervisor) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.OrPredicates(predicates...))
 }
 
 // Not applies the not operator on the given predicate.
-func Not(p predicate.JobSuperVisor) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.NotPredicates(p))
+func Not(p predicate.JobSupervisor) predicate.JobSupervisor {
+	return predicate.JobSupervisor(sql.NotPredicates(p))
 }

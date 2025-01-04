@@ -8,9 +8,9 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/user"
 	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
@@ -37,9 +37,9 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput
 		SetUsername(input.Username).
 		SetName(input.Name).
 		SetEmail(input.Email).
-		SetPhone(input.Phone).
+		SetNillablePhone(input.Phone).
 		SetPassword(input.Password).
-		SetRole(input.Role).
+		SetNillableRole(input.Role).
 		Save(ctx)
 
 	if err != nil {
@@ -65,8 +65,84 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UserInput) (*ent.User, error) {
-	panic(fmt.Errorf("not implemented: UpdateUser - updateUser"))
+func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.UserInput) (*ent.User, error) {
+	client := middlewares.GetClientFromContext(ctx)
+
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı bulunurken hata: %v", err)
+	}
+
+	getUser, err := client.User.Query().Where(user.IDEQ(intID)).Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı bulunurken hata: %v", err)
+	}
+
+	user, err := client.User.UpdateOneID(getUser.ID).
+		SetUsername(input.Username).
+		SetName(input.Name).
+		SetEmail(input.Email).
+		SetNillablePhone(input.Phone).
+		SetPassword(input.Password).
+		SetNillableRole(input.Role).
+		Save(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı güncellenirken hata: %v", err)
+	}
+
+	// Şirketleri ekle
+	if len(input.CompanyIDs) > 0 {
+		// Kullanıcının mevcut şirket bağlantılarını al
+		existingCompanies, err := user.QueryCompanies().QueryCompany().IDs(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("mevcut şirket bağlantıları kontrol edilirken hata: %v", err)
+		}
+
+		// Mevcut şirketleri map'e dönüştür (hızlı arama için)
+		existingCompanyMap := make(map[int]bool)
+		for _, id := range existingCompanies {
+			existingCompanyMap[id] = true
+		}
+
+		// Sadece yeni şirketler için bağlantı oluştur
+		for _, companyID := range input.CompanyIDs {
+			// Eğer bu şirket bağlantısı zaten varsa, atla
+			if existingCompanyMap[companyID] {
+				continue
+			}
+
+			// CompanyUser oluştur
+			_, err = client.CompanyUser.Create().
+				SetUser(user).
+				SetCompanyID(companyID).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("şirket bağlantısı oluşturulurken hata: %v", err)
+			}
+		}
+	}
+
+	return user, nil
+}
+
+// DeleteUser is the resolver for the deleteUser field.
+func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (bool, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		return false, fmt.Errorf("kullanıcı bulunurken hata: %v", err)
+	}
+
+	// Önce kullanıcının CompanyUser kayıtlarını sil
+	_, err = client.CompanyUser.Delete().Where(companyuser.HasUserWith(user.IDEQ(intID))).Exec(ctx)
+	if err != nil {
+		return false, fmt.Errorf("kullanıcının şirket bağlantıları silinirken hata: %v", err)
+	}
+
+	// Sonra kullanıcıyı sil
+	err = client.User.DeleteOneID(intID).Exec(ctx)
+	return err == nil, err
 }
 
 // User is the resolver for the user field.
@@ -83,11 +159,6 @@ func (r *queryResolver) User(ctx context.Context, id string) (*ent.User, error) 
 func (r *queryResolver) AllUsers(ctx context.Context) ([]*ent.User, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	return client.User.Query().All(ctx)
-}
-
-// CreatedAt is the resolver for the createdAt field.
-func (r *userResolver) CreatedAt(ctx context.Context, obj *ent.User) (string, error) {
-	return obj.CreatedAt.Format(time.RFC3339), nil
 }
 
 // Companies is the resolver for the companies field.

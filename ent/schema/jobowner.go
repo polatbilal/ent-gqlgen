@@ -23,7 +23,7 @@ func (JobOwner) Fields() []ent.Field {
 		field.Int("TaxNo").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
-		field.Int("YDSID").Optional(),
+		field.Int("YDSID").Optional().Unique(),
 		field.Bool("Shareholder").Default(false),
 		field.String("Note").Optional(),
 
