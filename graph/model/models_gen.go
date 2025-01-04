@@ -63,6 +63,7 @@ type EngineerFilterInput struct {
 }
 
 type JobAuthorInput struct {
+	YibfNo                   int     `json:"YibfNo"`
 	Static                   *string `json:"Static,omitempty"`
 	Mechanic                 *string `json:"Mechanic,omitempty"`
 	Electric                 *string `json:"Electric,omitempty"`

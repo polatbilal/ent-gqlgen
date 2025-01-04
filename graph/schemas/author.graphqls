@@ -10,6 +10,7 @@ type JobAuthor {
 }
 
 input JobAuthorInput {
+  YibfNo: Int!
   Static: String
   Mechanic: String
   Electric: String
@@ -24,6 +25,6 @@ extend type Query {
 }
 
 extend type Mutation {
-  createJobAuthor(input: JobAuthorInput!): JobAuthor
-  updateJobAuthor(yibfNo: Int!, input: JobAuthorInput!): JobAuthor
+  createAuthor(input: JobAuthorInput!): JobAuthor
+  updateAuthor(yibfNo: Int!, input: JobAuthorInput!): JobAuthor
 }

@@ -15,9 +15,14 @@ import (
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
 
-// CreateJobAuthor is the resolver for the CreateJobAuthor field.
-func (r *mutationResolver) CreateJobAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error) {
+// CreateAuthor is the resolver for the createAuthor field.
+func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
+
+	jobdetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(input.YibfNo)).Only(ctx)
+	if err != nil {
+		return nil, err
+	}
 
 	jobAuthor, err := client.JobAuthor.Create().
 		SetNillableStatic(input.Static).
@@ -27,6 +32,7 @@ func (r *mutationResolver) CreateJobAuthor(ctx context.Context, input model.JobA
 		SetNillableGeotechnicalEngineer(input.GeotechnicalEngineer).
 		SetNillableGeotechnicalGeologist(input.GeotechnicalGeologist).
 		SetNillableGeotechnicalGeophysicist(input.GeotechnicalGeophysicist).
+		AddAuthors(jobdetail).
 		Save(ctx)
 	if err != nil {
 		return nil, err
@@ -35,8 +41,8 @@ func (r *mutationResolver) CreateJobAuthor(ctx context.Context, input model.JobA
 	return jobAuthor, nil
 }
 
-// UpdateJobAuthor is the resolver for the UpdateJobAuthor field.
-func (r *mutationResolver) UpdateJobAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error) {
+// UpdateAuthor is the resolver for the updateAuthor field.
+func (r *mutationResolver) UpdateAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	jobAuthor, err := client.JobAuthor.UpdateOneID(yibfNo).

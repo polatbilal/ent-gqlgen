@@ -313,6 +313,8 @@ func YibfList(c *gin.Context) {
 			continue
 		}
 
+		var ownerData, contractorData, supervisorData, authorData map[string]interface{}
+
 		// Input verilerini hazırla
 		jobData := map[string]interface{}{
 			"YibfNo":           detail.ID,
@@ -353,8 +355,6 @@ func YibfList(c *gin.Context) {
 		if detail.CompleteDate > 0 {
 			jobData["CompletionDate"] = safeUnixToDate(detail.CompleteDate)
 		}
-
-		var ownerData, contractorData, supervisorData map[string]interface{}
 
 		// Owner verilerini hazırla
 		if detail.YibfOwner.Person.ID > 0 {
@@ -403,6 +403,91 @@ func YibfList(c *gin.Context) {
 				"RegisterNo":       safeStringToInt(detail.LatestYibfSiteSupervisor.Application.OccupationalRegistrationNumber),
 				"SocialSecurityNo": safeStringToInt(detail.LatestYibfSiteSupervisor.Application.SocialSecurityNo),
 				"SchoolGraduation": detail.LatestYibfSiteSupervisor.Application.SchoolGraduation,
+			}
+		}
+
+		// Author verilerini ayrı endpoint'ten al
+		authorURL := fmt.Sprintf("%s%s", svc.BaseURL, service.ENDPOINT_YIBF_PROJECT_OWNER)
+		log.Printf("Author URL: %s", authorURL)
+
+		// Author request body hazırla
+		authorRequestBody := map[string]interface{}{
+			"filter": [][]interface{}{
+				{"yibfId", "=", item.ID},
+			},
+		}
+
+		authorJsonBody, err := json.Marshal(authorRequestBody)
+		if err != nil {
+			log.Printf("ID %d için author request body oluşturma hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		authorReq, err := http.NewRequest("POST", authorURL, bytes.NewBuffer(authorJsonBody))
+		if err != nil {
+			log.Printf("ID %d için author request oluşturma hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		authorReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
+		authorReq.Header.Set("Content-Type", "application/json")
+
+		authorResp, err := svc.Client.Do(authorReq)
+		if err != nil {
+			log.Printf("ID %d için author isteği başarısız: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		authorBody, err := io.ReadAll(authorResp.Body)
+		authorResp.Body.Close()
+		if err != nil {
+			log.Printf("ID %d için author yanıtı okuma hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		// Author yanıtını logla
+		log.Printf("ID %d için author yanıtı: %s", item.ID, string(authorBody))
+		log.Printf("Author yanıt status kodu: %d", authorResp.StatusCode)
+		log.Printf("Author yanıt headers: %v", authorResp.Header)
+
+		var authorResponse service.YIBFAuthorResponse
+		if err := json.Unmarshal(authorBody, &authorResponse); err != nil {
+			log.Printf("ID %d için author parse hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		// Author verilerini hazırla
+		if len(authorResponse.Items) > 0 {
+			authorData = make(map[string]interface{})
+			authorData["YibfNo"] = item.ID
+
+			for _, author := range authorResponse.Items {
+				fullName := fmt.Sprintf("%s %s", author.PersonName, author.PersonSurname)
+
+				switch author.TaskId {
+				case 4:
+					authorData["Electric"] = fullName
+				case 5:
+					authorData["Mechanic"] = fullName
+				case 6:
+					authorData["Architect"] = fullName
+				case 7:
+					authorData["Static"] = fullName
+				case 8:
+					switch author.TitleId {
+					case 7:
+						authorData["GeotechnicalGeophysicist"] = fullName
+					case 6:
+						authorData["GeotechnicalGeologist"] = fullName
+					case 4:
+						authorData["GeotechnicalEngineer"] = fullName
+					}
+				}
 			}
 		}
 
@@ -515,6 +600,21 @@ func YibfList(c *gin.Context) {
 				createVariables["supervisorInput"] = supervisorData
 			}
 
+			// Author verisi varsa ekle
+			if authorData != nil {
+				mutationParts = append(mutationParts, `
+				createAuthor(input: $authorInput) {
+					Static
+					Mechanic
+					Electric
+					Architect
+					GeotechnicalEngineer
+					GeotechnicalGeologist
+					GeotechnicalGeophysicist
+				}`)
+				createVariables["authorInput"] = authorData
+			}
+
 			// Mutation parametrelerini oluştur
 			var paramParts []string
 			paramParts = append(paramParts, "$jobInput: JobInput!")
@@ -526,6 +626,9 @@ func YibfList(c *gin.Context) {
 			}
 			if supervisorData != nil {
 				paramParts = append(paramParts, "$supervisorInput: JobSupervisorInput!")
+			}
+			if authorData != nil {
+				paramParts = append(paramParts, "$authorInput: JobAuthorInput!")
 			}
 
 			// Tam mutation string'ini oluştur
@@ -557,6 +660,15 @@ func YibfList(c *gin.Context) {
 					Name  string `json:"Name"`
 					YDSID int    `json:"YDSID"`
 				} `json:"createSupervisor,omitempty"`
+				CreateAuthor *struct {
+					Static                   string `json:"Static"`
+					Mechanic                 string `json:"Mechanic"`
+					Electric                 string `json:"Electric"`
+					Architect                string `json:"Architect"`
+					GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
+					GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
+					GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
+				} `json:"createAuthor,omitempty"`
 			}
 
 			if err := graphqlClient.Execute(createMutation, createVariables, jwtToken, &createResult); err != nil {
