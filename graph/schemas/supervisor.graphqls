@@ -4,14 +4,13 @@ type JobSupervisor {
   Address: String
   Phone: String
   Email: String
-  TCNO: Int
+  TcNo: Int
   Position: String
   Career: String
   RegisterNo: Int
   SocialSecurityNo: Int
   SchoolGraduation: String
   YDSID: Int
-  Job: JobDetail
 }
 
 input JobSupervisorInput {
@@ -20,7 +19,7 @@ input JobSupervisorInput {
   Address: String
   Phone: String
   Email: String
-  TCNO: Int
+  TcNo: Int
   Position: String
   Career: String
   RegisterNo: Int

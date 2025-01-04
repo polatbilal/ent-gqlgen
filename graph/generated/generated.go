@@ -44,7 +44,6 @@ type ResolverRoot interface {
 	CompanyEngineer() CompanyEngineerResolver
 	JobDetail() JobDetailResolver
 	JobLayer() JobLayerResolver
-	JobSupervisor() JobSupervisorResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 	User() UserResolver
@@ -234,7 +233,6 @@ type ComplexityRoot struct {
 		Career           func(childComplexity int) int
 		Email            func(childComplexity int) int
 		ID               func(childComplexity int) int
-		Job              func(childComplexity int) int
 		Name             func(childComplexity int) int
 		Phone            func(childComplexity int) int
 		Position         func(childComplexity int) int
@@ -313,9 +311,6 @@ type JobDetailResolver interface {
 }
 type JobLayerResolver interface {
 	Job(ctx context.Context, obj *ent.JobLayer) (*ent.JobDetail, error)
-}
-type JobSupervisorResolver interface {
-	Job(ctx context.Context, obj *ent.JobSupervisor) (*ent.JobDetail, error)
 }
 type MutationResolver interface {
 	Register(ctx context.Context, username string, name *string, email *string, password string) (*model.AuthPayload, error)
@@ -1421,13 +1416,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobSupervisor.ID(childComplexity), true
 
-	case "JobSupervisor.Job":
-		if e.complexity.JobSupervisor.Job == nil {
-			break
-		}
-
-		return e.complexity.JobSupervisor.Job(childComplexity), true
-
 	case "JobSupervisor.Name":
 		if e.complexity.JobSupervisor.Name == nil {
 			break
@@ -1470,7 +1458,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobSupervisor.SocialSecurityNo(childComplexity), true
 
-	case "JobSupervisor.TCNO":
+	case "JobSupervisor.TcNo":
 		if e.complexity.JobSupervisor.TcNo == nil {
 			break
 		}
@@ -2633,14 +2621,13 @@ extend type Mutation {
   Address: String
   Phone: String
   Email: String
-  TCNO: Int
+  TcNo: Int
   Position: String
   Career: String
   RegisterNo: Int
   SocialSecurityNo: Int
   SchoolGraduation: String
   YDSID: Int
-  Job: JobDetail
 }
 
 input JobSupervisorInput {
@@ -2649,7 +2636,7 @@ input JobSupervisorInput {
   Address: String
   Phone: String
   Email: String
-  TCNO: Int
+  TcNo: Int
   Position: String
   Career: String
   RegisterNo: Int
@@ -8400,8 +8387,8 @@ func (ec *executionContext) fieldContext_JobDetail_Supervisor(_ context.Context,
 				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobSupervisor_Email(ctx, field)
-			case "TCNO":
-				return ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_JobSupervisor_TcNo(ctx, field)
 			case "Position":
 				return ec.fieldContext_JobSupervisor_Position(ctx, field)
 			case "Career":
@@ -8414,8 +8401,6 @@ func (ec *executionContext) fieldContext_JobDetail_Supervisor(_ context.Context,
 				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
 			case "YDSID":
 				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
-			case "Job":
-				return ec.fieldContext_JobSupervisor_Job(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
 		},
@@ -10780,8 +10765,8 @@ func (ec *executionContext) fieldContext_JobSupervisor_Email(_ context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _JobSupervisor_TCNO(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+func (ec *executionContext) _JobSupervisor_TcNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobSupervisor_TcNo(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -10808,7 +10793,7 @@ func (ec *executionContext) _JobSupervisor_TCNO(ctx context.Context, field graph
 	return ec.marshalOInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_JobSupervisor_TCNO(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_JobSupervisor_TcNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "JobSupervisor",
 		Field:      field,
@@ -11062,143 +11047,6 @@ func (ec *executionContext) fieldContext_JobSupervisor_YDSID(_ context.Context, 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobSupervisor_Job(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_Job(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobSupervisor().Job(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobDetail)
-	fc.Result = res
-	return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobSupervisor_Job(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobSupervisor",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_JobDetail_id(ctx, field)
-			case "YibfNo":
-				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
-			case "Title":
-				return ec.fieldContext_JobDetail_Title(ctx, field)
-			case "Administration":
-				return ec.fieldContext_JobDetail_Administration(ctx, field)
-			case "State":
-				return ec.fieldContext_JobDetail_State(ctx, field)
-			case "Island":
-				return ec.fieldContext_JobDetail_Island(ctx, field)
-			case "Parcel":
-				return ec.fieldContext_JobDetail_Parcel(ctx, field)
-			case "Sheet":
-				return ec.fieldContext_JobDetail_Sheet(ctx, field)
-			case "ContractDate":
-				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
-			case "StartDate":
-				return ec.fieldContext_JobDetail_StartDate(ctx, field)
-			case "LicenseDate":
-				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
-			case "LicenseNo":
-				return ec.fieldContext_JobDetail_LicenseNo(ctx, field)
-			case "CompletionDate":
-				return ec.fieldContext_JobDetail_CompletionDate(ctx, field)
-			case "LandArea":
-				return ec.fieldContext_JobDetail_LandArea(ctx, field)
-			case "TotalArea":
-				return ec.fieldContext_JobDetail_TotalArea(ctx, field)
-			case "ConstructionArea":
-				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
-			case "LeftArea":
-				return ec.fieldContext_JobDetail_LeftArea(ctx, field)
-			case "YDSAddress":
-				return ec.fieldContext_JobDetail_YDSAddress(ctx, field)
-			case "Address":
-				return ec.fieldContext_JobDetail_Address(ctx, field)
-			case "BuildingClass":
-				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
-			case "BuildingType":
-				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
-			case "Level":
-				return ec.fieldContext_JobDetail_Level(ctx, field)
-			case "UnitPrice":
-				return ec.fieldContext_JobDetail_UnitPrice(ctx, field)
-			case "FloorCount":
-				return ec.fieldContext_JobDetail_FloorCount(ctx, field)
-			case "BKSReferenceNo":
-				return ec.fieldContext_JobDetail_BKSReferenceNo(ctx, field)
-			case "Coordinates":
-				return ec.fieldContext_JobDetail_Coordinates(ctx, field)
-			case "FolderNo":
-				return ec.fieldContext_JobDetail_FolderNo(ctx, field)
-			case "UploadedFile":
-				return ec.fieldContext_JobDetail_UploadedFile(ctx, field)
-			case "IndustryArea":
-				return ec.fieldContext_JobDetail_IndustryArea(ctx, field)
-			case "ClusterStructure":
-				return ec.fieldContext_JobDetail_ClusterStructure(ctx, field)
-			case "IsLicenseExpired":
-				return ec.fieldContext_JobDetail_IsLicenseExpired(ctx, field)
-			case "IsCompleted":
-				return ec.fieldContext_JobDetail_IsCompleted(ctx, field)
-			case "Note":
-				return ec.fieldContext_JobDetail_Note(ctx, field)
-			case "Owner":
-				return ec.fieldContext_JobDetail_Owner(ctx, field)
-			case "Contractor":
-				return ec.fieldContext_JobDetail_Contractor(ctx, field)
-			case "Author":
-				return ec.fieldContext_JobDetail_Author(ctx, field)
-			case "Progress":
-				return ec.fieldContext_JobDetail_Progress(ctx, field)
-			case "Supervisor":
-				return ec.fieldContext_JobDetail_Supervisor(ctx, field)
-			case "Layer":
-				return ec.fieldContext_JobDetail_Layer(ctx, field)
-			case "Inspector":
-				return ec.fieldContext_JobDetail_Inspector(ctx, field)
-			case "Static":
-				return ec.fieldContext_JobDetail_Static(ctx, field)
-			case "Architect":
-				return ec.fieldContext_JobDetail_Architect(ctx, field)
-			case "Mechanic":
-				return ec.fieldContext_JobDetail_Mechanic(ctx, field)
-			case "Electric":
-				return ec.fieldContext_JobDetail_Electric(ctx, field)
-			case "Controller":
-				return ec.fieldContext_JobDetail_Controller(ctx, field)
-			case "MechanicController":
-				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
-			case "ElectricController":
-				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
 	}
 	return fc, nil
@@ -13294,8 +13142,8 @@ func (ec *executionContext) fieldContext_Mutation_createSupervisor(ctx context.C
 				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobSupervisor_Email(ctx, field)
-			case "TCNO":
-				return ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_JobSupervisor_TcNo(ctx, field)
 			case "Position":
 				return ec.fieldContext_JobSupervisor_Position(ctx, field)
 			case "Career":
@@ -13308,8 +13156,6 @@ func (ec *executionContext) fieldContext_Mutation_createSupervisor(ctx context.C
 				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
 			case "YDSID":
 				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
-			case "Job":
-				return ec.fieldContext_JobSupervisor_Job(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
 		},
@@ -13399,8 +13245,8 @@ func (ec *executionContext) fieldContext_Mutation_updateSupervisor(ctx context.C
 				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobSupervisor_Email(ctx, field)
-			case "TCNO":
-				return ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_JobSupervisor_TcNo(ctx, field)
 			case "Position":
 				return ec.fieldContext_JobSupervisor_Position(ctx, field)
 			case "Career":
@@ -13413,8 +13259,6 @@ func (ec *executionContext) fieldContext_Mutation_updateSupervisor(ctx context.C
 				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
 			case "YDSID":
 				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
-			case "Job":
-				return ec.fieldContext_JobSupervisor_Job(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
 		},
@@ -15170,8 +15014,8 @@ func (ec *executionContext) fieldContext_Query_supervisor(ctx context.Context, f
 				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobSupervisor_Email(ctx, field)
-			case "TCNO":
-				return ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_JobSupervisor_TcNo(ctx, field)
 			case "Position":
 				return ec.fieldContext_JobSupervisor_Position(ctx, field)
 			case "Career":
@@ -15184,8 +15028,6 @@ func (ec *executionContext) fieldContext_Query_supervisor(ctx context.Context, f
 				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
 			case "YDSID":
 				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
-			case "Job":
-				return ec.fieldContext_JobSupervisor_Job(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
 		},
@@ -15275,8 +15117,8 @@ func (ec *executionContext) fieldContext_Query_supervisorByYDSID(ctx context.Con
 				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
 			case "Email":
 				return ec.fieldContext_JobSupervisor_Email(ctx, field)
-			case "TCNO":
-				return ec.fieldContext_JobSupervisor_TCNO(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_JobSupervisor_TcNo(ctx, field)
 			case "Position":
 				return ec.fieldContext_JobSupervisor_Position(ctx, field)
 			case "Career":
@@ -15289,8 +15131,6 @@ func (ec *executionContext) fieldContext_Query_supervisorByYDSID(ctx context.Con
 				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
 			case "YDSID":
 				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
-			case "Job":
-				return ec.fieldContext_JobSupervisor_Job(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
 		},
@@ -18972,7 +18812,7 @@ func (ec *executionContext) unmarshalInputJobSupervisorInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "Name", "Address", "Phone", "Email", "TCNO", "Position", "Career", "RegisterNo", "SocialSecurityNo", "SchoolGraduation", "YDSID"}
+	fieldsInOrder := [...]string{"YibfNo", "Name", "Address", "Phone", "Email", "TcNo", "Position", "Career", "RegisterNo", "SocialSecurityNo", "SchoolGraduation", "YDSID"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -19014,13 +18854,13 @@ func (ec *executionContext) unmarshalInputJobSupervisorInput(ctx context.Context
 				return it, err
 			}
 			it.Email = data
-		case "TCNO":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("TCNO"))
+		case "TcNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("TcNo"))
 			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Tcno = data
+			it.TcNo = data
 		case "Position":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Position"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -20360,7 +20200,7 @@ func (ec *executionContext) _JobSupervisor(ctx context.Context, sel ast.Selectio
 		case "id":
 			out.Values[i] = ec._JobSupervisor_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "Name":
 			out.Values[i] = ec._JobSupervisor_Name(ctx, field, obj)
@@ -20370,8 +20210,8 @@ func (ec *executionContext) _JobSupervisor(ctx context.Context, sel ast.Selectio
 			out.Values[i] = ec._JobSupervisor_Phone(ctx, field, obj)
 		case "Email":
 			out.Values[i] = ec._JobSupervisor_Email(ctx, field, obj)
-		case "TCNO":
-			out.Values[i] = ec._JobSupervisor_TCNO(ctx, field, obj)
+		case "TcNo":
+			out.Values[i] = ec._JobSupervisor_TcNo(ctx, field, obj)
 		case "Position":
 			out.Values[i] = ec._JobSupervisor_Position(ctx, field, obj)
 		case "Career":
@@ -20384,39 +20224,6 @@ func (ec *executionContext) _JobSupervisor(ctx context.Context, sel ast.Selectio
 			out.Values[i] = ec._JobSupervisor_SchoolGraduation(ctx, field, obj)
 		case "YDSID":
 			out.Values[i] = ec._JobSupervisor_YDSID(ctx, field, obj)
-		case "Job":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobSupervisor_Job(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

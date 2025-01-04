@@ -10,10 +10,10 @@ import (
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
 	"github.com/polatbilal/gqlgen-ent/graph/generated"
+	"github.com/polatbilal/gqlgen-ent/graph/helpers"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
@@ -22,48 +22,6 @@ import (
 func (r *jobDetailResolver) Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	return client.JobLayer.Query().Where(joblayer.HasLayerWith(jobdetail.IDEQ(obj.ID))).All(ctx)
-}
-
-// validateAndGetEngineers, mühendislerin varlığını kontrol eder ve bulur
-func (r *mutationResolver) validateAndGetEngineers(ctx context.Context, input model.JobInput) (map[string]*ent.CompanyEngineer, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	engineers := make(map[string]*ent.CompanyEngineer)
-	var engineerErr error
-
-	engineerChecks := map[string]*int{
-		"inspector":          input.Inspector,
-		"static":             input.Static,
-		"architect":          input.Architect,
-		"mechanic":           input.Mechanic,
-		"electric":           input.Electric,
-		"controller":         input.Controller,
-		"mechanicController": input.MechanicController,
-		"electricController": input.ElectricController,
-	}
-
-	errorMessages := map[string]string{
-		"inspector":          "denetçi",
-		"static":             "statik",
-		"architect":          "mimar",
-		"mechanic":           "mak. müh.",
-		"electric":           "elektrik",
-		"controller":         "kont. elm.",
-		"mechanicController": "mekanik kont. elm.",
-		"electricController": "elektrik kont. elm.",
-	}
-
-	for key, id := range engineerChecks {
-		if id != nil {
-			engineers[key], engineerErr = client.CompanyEngineer.Query().
-				Where(companyengineer.YDSIDEQ(*id)).
-				Only(ctx)
-			if engineerErr != nil {
-				return nil, fmt.Errorf("%s bulunamadı (kod: %d): %v", errorMessages[key], *id, engineerErr)
-			}
-		}
-	}
-
-	return engineers, nil
 }
 
 // CreateJob is the resolver for the createJob field.
@@ -89,7 +47,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 	}
 
 	// Mühendisleri kontrol et ve getir
-	engineers, err := r.validateAndGetEngineers(ctx, input)
+	engineers, err := helpers.ValidateAndGetEngineers(ctx, input)
 	if err != nil {
 		return nil, err
 	}
@@ -186,7 +144,7 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 	}
 
 	// Mühendisleri kontrol et ve getir
-	engineers, err := r.validateAndGetEngineers(ctx, input)
+	engineers, err := helpers.ValidateAndGetEngineers(ctx, input)
 	if err != nil {
 		return nil, err
 	}

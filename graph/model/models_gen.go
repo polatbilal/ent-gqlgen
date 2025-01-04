@@ -185,7 +185,7 @@ type JobSupervisorInput struct {
 	Address          *string `json:"Address,omitempty"`
 	Phone            *string `json:"Phone,omitempty"`
 	Email            *string `json:"Email,omitempty"`
-	Tcno             *int    `json:"TCNO,omitempty"`
+	TcNo             *int    `json:"TcNo,omitempty"`
 	Position         *string `json:"Position,omitempty"`
 	Career           *string `json:"Career,omitempty"`
 	RegisterNo       *int    `json:"RegisterNo,omitempty"`

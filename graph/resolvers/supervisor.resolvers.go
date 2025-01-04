@@ -11,15 +11,9 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
-
-// Job is the resolver for the Job field.
-func (r *jobSupervisorResolver) Job(ctx context.Context, obj *ent.JobSupervisor) (*ent.JobDetail, error) {
-	panic(fmt.Errorf("not implemented: Job - Job"))
-}
 
 // CreateSupervisor is the resolver for the createSupervisor field.
 func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
@@ -40,7 +34,7 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 			SetNillableAddress(input.Address).
 			SetNillablePhone(input.Phone).
 			SetNillableEmail(input.Email).
-			SetNillableTcNo(input.Tcno).
+			SetNillableTcNo(input.TcNo).
 			SetNillablePosition(input.Position).
 			SetNillableCareer(input.Career).
 			SetNillableRegisterNo(input.RegisterNo).
@@ -83,7 +77,7 @@ func (r *mutationResolver) UpdateSupervisor(ctx context.Context, yibfNo int, inp
 		SetNillableAddress(input.Address).
 		SetNillablePhone(input.Phone).
 		SetNillableEmail(input.Email).
-		SetNillableTcNo(input.Tcno).
+		SetNillableTcNo(input.TcNo).
 		SetNillablePosition(input.Position).
 		Save(ctx)
 
@@ -113,7 +107,16 @@ func (r *queryResolver) SupervisorByYdsid(ctx context.Context, ydsid int) (*ent.
 	return client.JobSupervisor.Query().Where(jobsupervisor.YDSID(ydsid)).Only(ctx)
 }
 
-// JobSupervisor returns generated.JobSupervisorResolver implementation.
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//    it when you're done.
+//  - You have helper methods in this file. Move them out to keep these resolver files clean.
+/*
+	func (r *jobSupervisorResolver) Job(ctx context.Context, obj *ent.JobSupervisor) (*ent.JobDetail, error) {
+	panic(fmt.Errorf("not implemented: Job - Job"))
+}
 func (r *Resolver) JobSupervisor() generated.JobSupervisorResolver { return &jobSupervisorResolver{r} }
-
 type jobSupervisorResolver struct{ *Resolver }
+*/
