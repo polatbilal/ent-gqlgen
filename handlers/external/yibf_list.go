@@ -53,8 +53,8 @@ func YibfList(c *gin.Context) {
 		"requireTotalCount": true,
 		"searchOperation":   "contains",
 		"searchValue":       nil,
-		"skip":              0,
-		"take":              3, // Test için 3 kayıt
+		"skip":              30,
+		"take":              33, // Test için 3 kayıt
 		"userData":          struct{}{},
 		"sort": []map[string]interface{}{
 			{
@@ -260,23 +260,23 @@ func YibfList(c *gin.Context) {
 
 		// Input verilerini hazırla
 		jobData := map[string]interface{}{
-				"YibfNo":           detail.ID,
-				"CompanyCode":      detail.YDK.FileNumber,
-				"Idare":            detail.Administration.Name,
-				"Pafta":            detail.Sheet,
-				"Ada":              detail.Island,
-				"Parsel":           detail.Parcel,
-				"State":            detail.State.Name,
-				"ContractDate":     time.Unix(detail.ContractDate, 0).Format("2006-01-02"),
-				"LicenseDate":      time.Unix(detail.LicenseDate, 0).Format("2006-01-02"),
-				"LicenseNo":        detail.LicenseNumber,
-				"ConstructionArea": fmt.Sprintf("%.2f", detail.YibfStructure.ConstructionArea),
-				"LandArea":         fmt.Sprintf("%.2f", detail.YibfStructure.LeftArea),
-				"Address":          detail.YibfStructure.BuildingAddress,
-				"BuildingClass":    detail.YibfStructure.BuildingClass.Name,
-				"BuildingType":     detail.YibfStructure.CarrierSystemType.Name,
-				"Floors":           detail.YibfStructure.FloorCount,
-				"Level":            detail.Level,
+			"YibfNo":           detail.ID,
+			"CompanyCode":      detail.YDK.FileNumber,
+			"Idare":            detail.Administration.Name,
+			"Pafta":            detail.Sheet,
+			"Ada":              detail.Island,
+			"Parsel":           detail.Parcel,
+			"State":            detail.State.Name,
+			"ContractDate":     time.Unix(detail.ContractDate, 0).Format("2006-01-02"),
+			"LicenseDate":      time.Unix(detail.LicenseDate, 0).Format("2006-01-02"),
+			"LicenseNo":        detail.LicenseNumber,
+			"ConstructionArea": fmt.Sprintf("%.2f", detail.YibfStructure.ConstructionArea),
+			"LandArea":         fmt.Sprintf("%.2f", detail.YibfStructure.LeftArea),
+			"Address":          detail.YibfStructure.BuildingAddress,
+			"BuildingClass":    detail.YibfStructure.BuildingClass.Name,
+			"BuildingType":     detail.YibfStructure.CarrierSystemType.Name,
+			"Floors":           detail.YibfStructure.FloorCount,
+			"Level":            detail.Level,
 		}
 
 		// Mühendis bilgilerini çek ve ekle
@@ -375,13 +375,14 @@ func YibfList(c *gin.Context) {
 		}
 
 		// Supervisor bilgilerini kontrol et ve ekle
-		if detail.LatestYibfSiteSupervisor.Application.Person.ID > 0 {
-			person := detail.LatestYibfSiteSupervisor.Application.Person
+		if detail.LatestYibfSiteSupervisor.Application.User.ID > 0 {
+			user := detail.LatestYibfSiteSupervisor.Application.User
+			person := detail.LatestYibfSiteSupervisor.Application.User.Person
 			supervisor := detail.LatestYibfSiteSupervisor.Application
 
 			if supervisor.Tasks.Name != "" && supervisor.Title.Name != "" {
 				jobData["Supervisor"] = map[string]interface{}{
-					"YdsId":            person.ID,
+					"YdsId":            user.ID,
 					"Name":             person.FullName,
 					"Address":          person.LastAddress,
 					"Phone":            person.LastPhoneNumber,

@@ -97,7 +97,11 @@ type YDKInspectorResponse struct {
 }
 
 type YIBFResponse struct {
-	ID             int `json:"id"`
+	ID     int     `json:"id"`
+	Level  float64 `json:"level"`
+	Megsis struct {
+		Alan float64 `json:"alan"`
+	} `json:"megsis"`
 	Administration struct {
 		Name string `json:"name"`
 	} `json:"administration"`
@@ -107,14 +111,18 @@ type YIBFResponse struct {
 	YDK struct {
 		FileNumber int `json:"fileNumber"`
 	} `json:"ydk"`
-	Island        string `json:"island"`
-	Parcel        string `json:"parcel"`
-	Sheet         string `json:"sheet"`
-	Title         string `json:"title"`
-	ContractDate  int64  `json:"contractDate"`
-	LicenseNumber string `json:"licenseNumber"`
-	LicenseDate   int64  `json:"licenseDate"`
-	Position      struct {
+	Island           string `json:"island"`
+	Parcel           string `json:"parcel"`
+	Sheet            string `json:"sheet"`
+	Title            string `json:"title"`
+	ClusterStructure bool   `json:"clusterStructure"`
+	IsLicenseExpired bool   `json:"isLicenseExpired"`
+	ContractDate     int64  `json:"contractDate"`
+	LicenseNumber    string `json:"licenseNumber"`
+	LicenseDate      int64  `json:"licenseDate"`
+	ReferenceNumber  int    `json:"referenceNumber"`
+	IsCompleted      bool   `json:"isCompleted"`
+	Position         struct {
 		Coordinates []float64 `json:"coordinates"`
 	} `json:"position"`
 	YibfStructure struct {
@@ -132,24 +140,35 @@ type YIBFResponse struct {
 		FloorCount       int     `json:"floorCount"`
 	} `json:"yibfStructure"`
 	YibfOwner struct {
-		Person struct {
-			ID              int    `json:"id"`
-			IdentityNumber  string `json:"identityNumber"`
-			FullName        string `json:"fullName"`
-			LastAddress     string `json:"lastAddress"`
-			LastPhoneNumber string `json:"lastPhoneNumber"`
+		ExistsShareholder bool `json:"existsShareholder"`
+		Person            struct {
+			ID                    int    `json:"id"`
+			IdentityNumber        string `json:"identityNumber"`
+			FullName              string `json:"fullName"`
+			LastAddress           string `json:"lastAddress"`
+			LastPhoneNumber       string `json:"lastPhoneNumber"`
+			TaxAdministration     string `json:"taxAdministration"`
+			TaxAdministrationCode string `json:"taxAdministrationCode"`
 		} `json:"person"`
 	} `json:"yibfOwner"`
+	LatestYibfContract struct {
+		ContractPriceRatio  float64 `json:"contractPriceRatio"`
+		PriceRatio          float64 `json:"priceRatio"`
+		CompletionTimeMonth int     `json:"completionTimeMonth"`
+		ContractServiceFee  float64 `json:"contractServiceFee"`
+	} `json:"latestYibfContract"`
 	LatestYibfSiteSupervisor struct {
 		Application struct {
-			Person struct {
-				ID              int    `json:"id"`
-				IdentityNumber  string `json:"identityNumber"`
-				FullName        string `json:"fullName"`
-				LastAddress     string `json:"lastAddress"`
-				LastPhoneNumber string `json:"lastPhoneNumber"`
-				LastEPosta      string `json:"lastEPosta"`
-			} `json:"person"`
+			User struct {
+				ID     int `json:"id"`
+				Person struct {
+					IdentityNumber  string `json:"identityNumber"`
+					FullName        string `json:"fullName"`
+					LastAddress     string `json:"lastAddress"`
+					LastPhoneNumber string `json:"lastPhoneNumber"`
+					LastEPosta      string `json:"lastEPosta"`
+				} `json:"person"`
+			} `json:"user"`
 			OccupationalRegistrationNumber string `json:"occupationalRegistrationNumber"`
 			SocialSecurityNo               string `json:"socialSecurityNo"`
 			SchoolGraduation               string `json:"schoolGraduation"`
@@ -169,9 +188,23 @@ type YIBFResponse struct {
 			VergiKimlikNo string `json:"vergiKimlikNo"`
 			Adres         string `json:"adres"`
 			CepTelefon    string `json:"cepTelefon"`
-			Eposta        string `json:"eposta"`
 			Telefon       string `json:"telefon"`
+			Eposta        string `json:"eposta"`
+			KisiTuru      string `json:"kisiTuru"`
+			TcNo          string `json:"tcNo"`
 		} `json:"yambis"`
 	} `json:"latestYibfYambis"`
-	Level float64 `json:"level"`
+}
+
+type YIBFAuthorResponse struct {
+	Items []struct {
+		YibfId        string `json:"yibfId"`
+		PersonName    string `json:"personName"`
+		PersonSurname string `json:"personSurname"`
+		TaskId        int    `json:"taskId"`
+		TaskName      string `json:"taskName"`
+		TitleId       int    `json:"titleId"`
+		TitleName     string `json:"titleName"`
+		TaskGroupId   int    `json:"taskGroupId"`
+	} `json:"items"`
 }
