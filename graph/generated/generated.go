@@ -41,6 +41,7 @@ type Config struct {
 }
 
 type ResolverRoot interface {
+	CompanyEngineer() CompanyEngineerResolver
 	JobDetail() JobDetailResolver
 	JobLayer() JobLayerResolver
 	JobSupervisor() JobSupervisorResolver
@@ -89,21 +90,21 @@ type ComplexityRoot struct {
 	}
 
 	CompanyEngineer struct {
-		Address    func(childComplexity int) int
-		Career     func(childComplexity int) int
-		CertNo     func(childComplexity int) int
-		Company    func(childComplexity int) int
-		Email      func(childComplexity int) int
-		Employment func(childComplexity int) int
-		ID         func(childComplexity int) int
-		Name       func(childComplexity int) int
-		Note       func(childComplexity int) int
-		Phone      func(childComplexity int) int
-		Position   func(childComplexity int) int
-		RegisterNo func(childComplexity int) int
-		Status     func(childComplexity int) int
-		TcNo       func(childComplexity int) int
-		YDSID      func(childComplexity int) int
+		Address     func(childComplexity int) int
+		Career      func(childComplexity int) int
+		CertNo      func(childComplexity int) int
+		CompanyCode func(childComplexity int) int
+		Email       func(childComplexity int) int
+		Employment  func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Name        func(childComplexity int) int
+		Note        func(childComplexity int) int
+		Phone       func(childComplexity int) int
+		Position    func(childComplexity int) int
+		RegisterNo  func(childComplexity int) int
+		Status      func(childComplexity int) int
+		TcNo        func(childComplexity int) int
+		YDSID       func(childComplexity int) int
 	}
 
 	JobAuthor struct {
@@ -304,6 +305,9 @@ type ComplexityRoot struct {
 	}
 }
 
+type CompanyEngineerResolver interface {
+	CompanyCode(ctx context.Context, obj *ent.CompanyEngineer) (*int, error)
+}
 type JobDetailResolver interface {
 	Layer(ctx context.Context, obj *ent.JobDetail) ([]*ent.JobLayer, error)
 }
@@ -598,12 +602,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CompanyEngineer.CertNo(childComplexity), true
 
-	case "CompanyEngineer.Company":
-		if e.complexity.CompanyEngineer.Company == nil {
+	case "CompanyEngineer.CompanyCode":
+		if e.complexity.CompanyEngineer.CompanyCode == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Company(childComplexity), true
+		return e.complexity.CompanyEngineer.CompanyCode(childComplexity), true
 
 	case "CompanyEngineer.Email":
 		if e.complexity.CompanyEngineer.Email == nil {
@@ -2314,7 +2318,7 @@ extend type Mutation {
   Employment: Time
   Status: Int
   Note: String
-  Company: CompanyDetail
+  CompanyCode: Int
 }
 
 input CompanyEngineerInput {
@@ -2328,7 +2332,7 @@ input CompanyEngineerInput {
   Address: String
   Career: String
   Position: String
-  RegNo: Int
+  RegisterNo: Int
   CertNo: Int
   Employment: Time
   Status: Int
@@ -5879,8 +5883,8 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Note(_ context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _CompanyEngineer_Company(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Company(ctx, field)
+func (ec *executionContext) _CompanyEngineer_CompanyCode(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5893,7 +5897,7 @@ func (ec *executionContext) _CompanyEngineer_Company(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Company(ctx)
+		return ec.resolvers.CompanyEngineer().CompanyCode(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5902,67 +5906,19 @@ func (ec *executionContext) _CompanyEngineer_Company(ctx context.Context, field 
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*ent.CompanyDetail)
+	res := resTmp.(*int)
 	fc.Result = res
-	return ec.marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_CompanyEngineer_CompanyCode(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "CompanyEngineer",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: false,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyDetail_id(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyDetail_CompanyCode(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyDetail_Name(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyDetail_Address(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyDetail_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyDetail_Email(ctx, field)
-			case "Website":
-				return ec.fieldContext_CompanyDetail_Website(ctx, field)
-			case "TaxAdmin":
-				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
-			case "TaxNo":
-				return ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
-			case "ChamberInfo":
-				return ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
-			case "ChamberRegisterNo":
-				return ec.fieldContext_CompanyDetail_ChamberRegisterNo(ctx, field)
-			case "VisaDate":
-				return ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
-			case "VisaEndDate":
-				return ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
-			case "visa_finished_for_90days":
-				return ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
-			case "core_person_absent_90days":
-				return ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
-			case "isClosed":
-				return ec.fieldContext_CompanyDetail_isClosed(ctx, field)
-			case "OwnerName":
-				return ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
-			case "OwnerTcNo":
-				return ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
-			case "OwnerAddress":
-				return ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
-			case "OwnerPhone":
-				return ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
-			case "OwnerEmail":
-				return ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
-			case "OwnerRegisterNo":
-				return ec.fieldContext_CompanyDetail_OwnerRegisterNo(ctx, field)
-			case "OwnerCareer":
-				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -8594,8 +8550,8 @@ func (ec *executionContext) fieldContext_JobDetail_Inspector(_ context.Context, 
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -8667,8 +8623,8 @@ func (ec *executionContext) fieldContext_JobDetail_Static(_ context.Context, fie
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -8740,8 +8696,8 @@ func (ec *executionContext) fieldContext_JobDetail_Architect(_ context.Context, 
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -8813,8 +8769,8 @@ func (ec *executionContext) fieldContext_JobDetail_Mechanic(_ context.Context, f
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -8886,8 +8842,8 @@ func (ec *executionContext) fieldContext_JobDetail_Electric(_ context.Context, f
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -8959,8 +8915,8 @@ func (ec *executionContext) fieldContext_JobDetail_Controller(_ context.Context,
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -9032,8 +8988,8 @@ func (ec *executionContext) fieldContext_JobDetail_MechanicController(_ context.
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -9105,8 +9061,8 @@ func (ec *executionContext) fieldContext_JobDetail_ElectricController(_ context.
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -11927,8 +11883,8 @@ func (ec *executionContext) fieldContext_Mutation_createEngineer(ctx context.Con
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -12036,8 +11992,8 @@ func (ec *executionContext) fieldContext_Mutation_updateEngineer(ctx context.Con
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -14238,8 +14194,8 @@ func (ec *executionContext) fieldContext_Query_engineer(ctx context.Context, fie
 				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
 			case "Note":
 				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
 		},
@@ -18045,7 +18001,7 @@ func (ec *executionContext) unmarshalInputCompanyEngineerInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"CompanyCode", "YibfNo", "YDSID", "Name", "TcNo", "Phone", "Email", "Address", "Career", "Position", "RegNo", "CertNo", "Employment", "Status", "Note"}
+	fieldsInOrder := [...]string{"CompanyCode", "YibfNo", "YDSID", "Name", "TcNo", "Phone", "Email", "Address", "Career", "Position", "RegisterNo", "CertNo", "Employment", "Status", "Note"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -18122,13 +18078,13 @@ func (ec *executionContext) unmarshalInputCompanyEngineerInput(ctx context.Conte
 				return it, err
 			}
 			it.Position = data
-		case "RegNo":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("RegNo"))
+		case "RegisterNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("RegisterNo"))
 			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.RegNo = data
+			it.RegisterNo = data
 		case "CertNo":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CertNo"))
 			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
@@ -19408,7 +19364,7 @@ func (ec *executionContext) _CompanyEngineer(ctx context.Context, sel ast.Select
 			out.Values[i] = ec._CompanyEngineer_Status(ctx, field, obj)
 		case "Note":
 			out.Values[i] = ec._CompanyEngineer_Note(ctx, field, obj)
-		case "Company":
+		case "CompanyCode":
 			field := field
 
 			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
@@ -19417,7 +19373,7 @@ func (ec *executionContext) _CompanyEngineer(ctx context.Context, sel ast.Select
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._CompanyEngineer_Company(ctx, field, obj)
+				res = ec._CompanyEngineer_CompanyCode(ctx, field, obj)
 				return res
 			}
 
@@ -22379,13 +22335,6 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	}
 	res := graphql.MarshalBoolean(*v)
 	return res
-}
-
-func (ec *executionContext) marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyDetail) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._CompanyDetail(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyEngineer) graphql.Marshaler {

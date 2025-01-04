@@ -50,7 +50,7 @@ type CompanyEngineerInput struct {
 	Address     *string    `json:"Address,omitempty"`
 	Career      *string    `json:"Career,omitempty"`
 	Position    *string    `json:"Position,omitempty"`
-	RegNo       *int       `json:"RegNo,omitempty"`
+	RegisterNo  *int       `json:"RegisterNo,omitempty"`
 	CertNo      *int       `json:"CertNo,omitempty"`
 	Employment  *time.Time `json:"Employment,omitempty"`
 	Status      *int       `json:"Status,omitempty"`

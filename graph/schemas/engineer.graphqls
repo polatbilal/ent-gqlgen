@@ -13,7 +13,7 @@ type CompanyEngineer {
   Employment: Time
   Status: Int
   Note: String
-  Company: CompanyDetail
+  CompanyCode: Int
 }
 
 input CompanyEngineerInput {
@@ -27,7 +27,7 @@ input CompanyEngineerInput {
   Address: String
   Career: String
   Position: String
-  RegNo: Int
+  RegisterNo: Int
   CertNo: Int
   Employment: Time
   Status: Int

@@ -155,8 +155,8 @@ func YDKCompanies(c *gin.Context) {
 
 	// Şirket verilerini hazırla
 	companyData := map[string]interface{}{
-		"Name":                      item.Department.Name,
 		"CompanyCode":               item.Department.FileNumber,
+		"Name":                      item.Department.Name,
 		"Address":                   item.Department.Person.AddressStr,
 		"Phone":                     item.Department.Person.LastPhoneNumber,
 		"Email":                     item.Department.Person.LastEPosta,
@@ -164,7 +164,7 @@ func YDKCompanies(c *gin.Context) {
 		"TaxAdmin":                  item.Department.Person.TaxAdministration,
 		"TaxNo":                     item.Department.Person.IdentityNumber,
 		"ChamberInfo":               item.Department.ChamberInfo,
-		"ChamberRegNo":              item.Department.RegistrationNumber,
+		"ChamberRegisterNo":         item.Department.RegistrationNumber,
 		"VisaDate":                  visaDate,
 		"VisaEndDate":               visaEndDate,
 		"visa_finished_for_90days":  item.Department.VisaFinishedFor90Days,
@@ -175,8 +175,7 @@ func YDKCompanies(c *gin.Context) {
 		"OwnerAddress":              item.Person.AddressStr,
 		"OwnerPhone":                item.Person.LastPhoneNumber,
 		"OwnerEmail":                item.Person.LastEPosta,
-		"OwnerRegNo":                item.OccupationalRegistrationNumber,
-		"OwnerBirthDate":            item.Person.BirthDateString,
+		"OwnerRegisterNo":           item.OccupationalRegistrationNumber,
 		"OwnerCareer":               item.Title.Name,
 	}
 
@@ -196,7 +195,7 @@ func YDKCompanies(c *gin.Context) {
 				TaxAdmin
 				TaxNo
 				ChamberInfo
-				ChamberRegNo
+				ChamberRegisterNo
 				VisaDate
 				VisaEndDate
 				visa_finished_for_90days
@@ -207,8 +206,7 @@ func YDKCompanies(c *gin.Context) {
 				OwnerAddress
 				OwnerPhone
 				OwnerEmail
-				OwnerRegNo
-				OwnerBirthDate
+				OwnerRegisterNo
 				OwnerCareer
 			}
 		}
@@ -229,18 +227,18 @@ func YDKCompanies(c *gin.Context) {
 		// Değişiklik var mı kontrol et
 		needsUpdate := false
 
-		// Sayısal alanların listesi
-		numericFields := map[string]bool{
-			"CompanyCode": true,
-			"TaxNo":       true,
-		}
-
 		// Değerleri karşılaştır ve farklılıkları logla
 		for key, newValue := range companyData {
 			if currentValue, exists := detailResult.CompanyByCode[key]; exists {
 				// Nil değerleri kontrol et
 				if newValue == nil && currentValue == nil {
 					continue
+				}
+
+				// Sayısal alanların listesi
+				numericFields := map[string]bool{
+					"CompanyCode": true,
+					"TaxNo":       true,
 				}
 
 				// Sayısal alan kontrolü
@@ -361,7 +359,7 @@ func YDKCompanies(c *gin.Context) {
 			"TaxAdmin":                  item.Department.Person.TaxAdministration,
 			"TaxNo":                     item.Department.Person.IdentityNumber,
 			"ChamberInfo":               item.Department.ChamberInfo,
-			"ChamberRegNo":              item.Department.RegistrationNumber,
+			"ChamberRegistrationNo":     item.Department.RegistrationNumber,
 			"VisaDate":                  visaDate,
 			"VisaEndDate":               visaEndDate,
 			"visa_finished_for_90days":  item.Department.VisaFinishedFor90Days,
@@ -372,8 +370,7 @@ func YDKCompanies(c *gin.Context) {
 			"OwnerAddress":              item.Person.AddressStr,
 			"OwnerPhone":                item.Person.LastPhoneNumber,
 			"OwnerEmail":                item.Person.LastEPosta,
-			"OwnerRegNo":                item.OccupationalRegistrationNumber,
-			"OwnerBirthDate":            item.Person.BirthDateString,
+			"OwnerRegisterNo":           item.OccupationalRegistrationNumber,
 			"OwnerCareer":               item.Title.Name,
 		},
 	}

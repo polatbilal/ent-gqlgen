@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
@@ -108,7 +109,7 @@ func YDKInspectors(c *gin.Context) {
 	// log.Printf("YDK API Ham Yanıt: %+v\n", string(body))
 
 	// Struct'a parse et
-	var inspectorResponse service.YDKInspectorResponse
+	var inspectorResponse service.YDKEngineerResponse
 	if err := json.Unmarshal(body, &inspectorResponse); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Parse hatası: " + err.Error()})
 		return
@@ -125,7 +126,7 @@ func YDKInspectors(c *gin.Context) {
 		Address     string `json:"Address"`
 		Career      string `json:"Career"`
 		Position    string `json:"Position"`
-		RegNo       string `json:"RegNo"`
+		RegisterNo  string `json:"RegisterNo"`
 		CertNo      int    `json:"CertNo"`
 		YDSID       int    `json:"YDSID"`
 		CompanyCode int    `json:"CompanyCode"`
@@ -141,7 +142,7 @@ func YDKInspectors(c *gin.Context) {
 			Email:       item.Application.User.Person.LastEPosta,
 			TcNo:        item.Application.User.Person.IdentityNumber,
 			Phone:       item.Application.User.Person.LastPhoneNumber,
-			RegNo:       item.Application.RegistrationNumber,
+			RegisterNo:  item.Application.RegistrationNumber,
 			CertNo:      item.Application.DocumentNumber,
 			Career:      item.Application.Title.Name,
 			Position:    item.Application.Tasks.Name,
@@ -175,10 +176,10 @@ func YDKInspectors(c *gin.Context) {
 		// Unix timestamp'i tarihe çevir
 		employment := time.Unix(inspector.Employment/1000, 0).Format("2006-01-02")
 
-		// RegNo'yu int'e çevir
-		regNoInt, err := strconv.Atoi(inspector.RegNo)
+		// RegisterNo'yu int'e çevir
+		RegisterNoInt, err := strconv.Atoi(inspector.RegisterNo)
 		if err != nil {
-			errMsg := fmt.Sprintf("RegNo int'e çevrilemedi: %v", err)
+			errMsg := fmt.Sprintf("RegisterNo int'e çevrilemedi: %v", err)
 			log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
 			processLog["status"] = "error"
 			processLog["error"] = errMsg
@@ -191,8 +192,8 @@ func YDKInspectors(c *gin.Context) {
 		query CheckEngineer($ydsid: Int!) {
 			engineer(filter: {YDSID: $ydsid}) {
 				id
-				Name
 				YDSID
+				Name
 			}
 		}
 		`
@@ -206,20 +207,12 @@ func YDKInspectors(c *gin.Context) {
 		}
 
 		err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResult)
-		if err != nil {
-			errMsg := fmt.Sprintf("Denetçi kontrolü sırasında hata oluştu: %v", err)
-			log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
-			processLog["status"] = "error"
-			processLog["error"] = errMsg
-			processLogs = append(processLogs, processLog)
-			continue
-		}
 
 		// Denetçi verilerini hazırla
 		engineerData := map[string]interface{}{
 			"Name":        inspector.Name,
 			"TcNo":        inspector.TcNo,
-			"RegNo":       regNoInt,
+			"RegisterNo":  RegisterNoInt,
 			"Email":       inspector.Email,
 			"Phone":       inspector.Phone,
 			"Career":      inspector.Career,
@@ -231,77 +224,126 @@ func YDKInspectors(c *gin.Context) {
 			"CompanyCode": inspector.CompanyCode,
 		}
 
+		// Eğer hata varsa ve bu "not found" hatası değilse
+		if err != nil && !strings.Contains(err.Error(), "not found") {
+			errMsg := fmt.Sprintf("Denetçi kontrolü sırasında hata oluştu: %v", err)
+			log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
+			processLog["status"] = "error"
+			processLog["error"] = errMsg
+			processLogs = append(processLogs, processLog)
+			continue
+		}
+
 		// Denetçi var mı kontrolü
 		if len(checkResult.Engineer) > 0 {
-			// Denetçi bulundu, güncelleme kontrolü yap
-			existingEngineer := checkResult.Engineer[0]
+			// Mevcut denetçi detaylarını al
+			detailQuery := `
+			query GetEngineerDetail($ydsid: Int!) {
+				engineer(filter: {YDSID: $ydsid}) {
+					id
+					Name
+					TcNo
+					RegisterNo
+					Email
+					Phone
+					Career
+					Position
+					Address
+					CertNo
+					YDSID
+					Employment
+					CompanyCode
+				}
+			}
+			`
+
+			var detailResult struct {
+				Engineer []map[string]interface{} `json:"engineer"`
+			}
+
+			err = graphqlClient.Execute(detailQuery, checkVariables, jwtToken, &detailResult)
+			if err != nil {
+				errMsg := fmt.Sprintf("Denetçi detayları alınırken hata oluştu: %v", err)
+				log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
+				processLog["status"] = "error"
+				processLog["error"] = errMsg
+				processLogs = append(processLogs, processLog)
+				continue
+			}
+
+			if len(detailResult.Engineer) == 0 {
+				errMsg := "Denetçi detayları bulunamadı"
+				log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
+				processLog["status"] = "error"
+				processLog["error"] = errMsg
+				processLogs = append(processLogs, processLog)
+				continue
+			}
+
+			// Değişiklik var mı kontrol et
 			needsUpdate := false
+
+			// Sayısal alanların listesi
+			numericFields := map[string]bool{
+				"RegisterNo":  true,
+				"TcNo":        true,
+				"YDSID":       true,
+				"CertNo":      true,
+				"CompanyCode": true,
+			}
 
 			// Değerleri karşılaştır ve farklılıkları logla
 			for key, newValue := range engineerData {
-				// CompanyCode'u karşılaştırmaya dahil etme
-				if key == "CompanyCode" {
-					continue
-				}
-
-				if currentValue, exists := existingEngineer[key]; exists {
+				if currentValue, exists := detailResult.Engineer[0][key]; exists {
 					// Nil değerleri kontrol et
 					if newValue == nil && currentValue == nil {
 						continue
-					}
-
-					// Sayısal alanların listesi
-					numericFields := map[string]bool{
-						"RegNo":  true,
-						"TcNo":   true,
-						"YDSID":  true,
-						"CertNo": true,
 					}
 
 					// Sayısal alan kontrolü
 					if numericFields[key] {
 						// Sayısal değerlere çevir
 						var newFloat, currentFloat float64
-
 						switch v := newValue.(type) {
-						case int:
-							newFloat = float64(v)
 						case float64:
 							newFloat = v
+						case int:
+							newFloat = float64(v)
 						case string:
-							newFloat, _ = strconv.ParseFloat(v, 64)
+							if f, err := strconv.ParseFloat(v, 64); err == nil {
+								newFloat = f
+							}
 						}
 
 						switch v := currentValue.(type) {
-						case int:
-							currentFloat = float64(v)
 						case float64:
 							currentFloat = v
+						case int:
+							currentFloat = float64(v)
 						case string:
-							currentFloat, _ = strconv.ParseFloat(v, 64)
+							if f, err := strconv.ParseFloat(v, 64); err == nil {
+								currentFloat = f
+							}
 						}
 
-						// Sayısal karşılaştırma
-						if math.Abs(newFloat-currentFloat) > 0.0001 { // küçük farkları tolere et
-							log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+						if math.Abs(newFloat-currentFloat) > 0.001 {
 							needsUpdate = true
+							log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
 						}
-						continue
-					}
-
-					// String'e çevirip karşılaştır (sayısal olmayan alanlar için)
-					newStr := fmt.Sprintf("%v", newValue)
-					currentStr := fmt.Sprintf("%v", currentValue)
-
-					if newStr != currentStr {
-						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentStr, newStr)
-						needsUpdate = true
+					} else {
+						// String karşılaştırması
+						newStr := fmt.Sprintf("%v", newValue)
+						currentStr := fmt.Sprintf("%v", currentValue)
+						if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+							needsUpdate = true
+							log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+						}
 					}
 				} else {
 					// Eğer alan mevcut değilse ve yeni değer boş değilse güncelleme gerekir
 					if newValue != nil && newValue != "" {
-						log.Printf("Yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
 						needsUpdate = true
+						log.Printf("Yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
 					}
 				}
 			}
@@ -314,32 +356,30 @@ func YDKInspectors(c *gin.Context) {
 				continue
 			}
 
+			log.Printf("Değişiklik tespit edildi, denetçi güncelleniyor...")
+
 			// Değişiklik varsa güncelle
 			updateMutation := `
-			mutation UpdateEngineer($id: ID!, $input: CompanyEngineerInput!) {
-				updateEngineer(id: $id, input: $input) {
+			mutation UpdateEngineer($ydsid: Int!, $input: CompanyEngineerInput!) {
+				updateEngineer(YDSID: $ydsid, input: $input) {
 					id
 					Name
-					RegNo
+					YDSID
 				}
 			}
 			`
-
-			// ID'yi string'e çevir
-			engineerID := fmt.Sprintf("%v", existingEngineer["id"])
 
 			var updateResult struct {
 				UpdateEngineer struct {
 					ID    int    `json:"id"`
 					Name  string `json:"Name"`
-					RegNo int    `json:"RegNo"`
+					YDSID int    `json:"YDSID"`
 				} `json:"updateEngineer"`
 			}
 
-			// Update için CompanyCode'u dahil et ama karşılaştırmaya dahil etme
 			updateVariables := map[string]interface{}{
-				"id":    engineerID,
-				"input": engineerData, // CompanyCode dahil olarak gönder
+				"ydsid": inspector.YDSID,
+				"input": engineerData,
 			}
 
 			if err := graphqlClient.Execute(updateMutation, updateVariables, jwtToken, &updateResult); err != nil {
@@ -364,7 +404,7 @@ func YDKInspectors(c *gin.Context) {
 			createEngineer(input: $input) {
 				id
 				Name
-				RegNo
+				YDSID
 			}
 		}
 		`
@@ -373,7 +413,7 @@ func YDKInspectors(c *gin.Context) {
 			CreateEngineer struct {
 				ID    int    `json:"id"`
 				Name  string `json:"Name"`
-				RegNo int    `json:"RegNo"`
+				YDSID int    `json:"YDSID"`
 			} `json:"createEngineer"`
 		}
 

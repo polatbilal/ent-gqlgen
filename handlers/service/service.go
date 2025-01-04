@@ -62,7 +62,7 @@ type YDKCompanyResponse struct {
 	GroupCount int `json:"groupCount"`
 }
 
-type YDKInspectorResponse struct {
+type YDKEngineerResponse struct {
 	Items []struct {
 		Application struct {
 			ApplicationType struct {
@@ -107,8 +107,10 @@ type YIBFResponse struct {
 	ContractDate     int64   `json:"contractDate"`
 	LicenseNumber    string  `json:"licenseNumber"`
 	LicenseDate      int64   `json:"licenseDate"`
+	CompleteDate     int64   `json:"completeDate"`
 	ReferenceNumber  int     `json:"referenceNumber"`
 	IsCompleted      bool    `json:"isCompleted"`
+	UploadedFile     bool    `json:"hasUploadedProjectDocument"`
 	Level            float64 `json:"level"`
 	Position         struct {
 		Coordinates []float64 `json:"coordinates"`
@@ -123,6 +125,7 @@ type YIBFResponse struct {
 		TotalArea        float64 `json:"totalArea"`
 		ConstructionArea float64 `json:"constructionArea"`
 		LeftArea         float64 `json:"leftArea"`
+		IndustryArea     bool    `json:"industryArea"`
 		BuildingAddress  string  `json:"buildingAddress"`
 		UnitPrice        float64 `json:"unitPrice"`
 		FloorCount       int     `json:"floorCount"`

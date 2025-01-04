@@ -12,18 +12,29 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
+
+// CompanyCode is the resolver for the CompanyCode field.
+func (r *companyEngineerResolver) CompanyCode(ctx context.Context, obj *ent.CompanyEngineer) (*int, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	company, err := client.CompanyDetail.Query().
+		Where(companydetail.HasEngineersWith(companyengineer.IDEQ(obj.ID))).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
+	}
+	return &company.CompanyCode, nil
+}
 
 // CreateEngineer is the resolver for the createEngineer field.
 func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// YDSID ile denetçi kontrolü
-	if input.RegNo != nil {
+	if input.RegisterNo != nil {
 		exists, err := client.CompanyEngineer.Query().
 			Where(companyengineer.YDSIDEQ(*input.Ydsid)).
 			Exist(ctx)
@@ -31,7 +42,7 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 			return nil, fmt.Errorf("denetçi kontrolü yapılırken hata oluştu: %v", err)
 		}
 		if exists {
-			return nil, fmt.Errorf("bu ydsid numarasına (%d) sahip denetçi zaten mevcut", *input.RegNo)
+			return nil, fmt.Errorf("bu ydsid numarasına (%d) sahip denetçi zaten mevcut", *input.RegisterNo)
 		}
 	}
 
@@ -49,7 +60,7 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 		SetNillableEmail(input.Email).
 		SetNillableTcNo(input.TcNo).
 		SetNillablePhone(input.Phone).
-		SetNillableRegisterNo(input.RegNo).
+		SetNillableRegisterNo(input.RegisterNo).
 		SetNillableCertNo(input.CertNo).
 		SetNillableCareer(input.Career).
 		SetNillablePosition(input.Position).
@@ -70,13 +81,22 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 func (r *mutationResolver) UpdateEngineer(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	engineer, err := client.CompanyEngineer.UpdateOneID(ydsid).
+	// Önce YDSID'ye göre denetçiyi bul
+	engineer, err := client.CompanyEngineer.Query().
+		Where(companyengineer.YDSIDEQ(ydsid)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("denetçi bulunamadı (YDSID: %d): %v", ydsid, err)
+	}
+
+	// Bulunan denetçiyi ID'sine göre güncelle
+	updatedEngineer, err := client.CompanyEngineer.UpdateOneID(engineer.ID).
 		SetNillableName(input.Name).
 		SetNillableAddress(input.Address).
 		SetNillableEmail(input.Email).
 		SetNillableTcNo(input.TcNo).
 		SetNillablePhone(input.Phone).
-		SetNillableRegisterNo(input.RegNo).
+		SetNillableRegisterNo(input.RegisterNo).
 		SetNillableCertNo(input.CertNo).
 		SetNillableCareer(input.Career).
 		SetNillablePosition(input.Position).
@@ -85,10 +105,10 @@ func (r *mutationResolver) UpdateEngineer(ctx context.Context, ydsid int, input 
 		Save(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to update engineer: %v", err)
+		return nil, fmt.Errorf("denetçi güncellenemedi: %v", err)
 	}
 
-	return engineer, nil
+	return updatedEngineer, nil
 }
 
 // Engineer is the resolver for the Engineer field.
@@ -97,28 +117,28 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 	query := client.CompanyEngineer.Query()
 
 	// Kullanıcı bilgilerini context'ten al
-	customClaim := middlewares.CtxValue(ctx)
-	if customClaim == nil {
-		return nil, fmt.Errorf("kullanıcı kimliği bulunamadı")
-	}
+	// customClaim := middlewares.CtxValue(ctx)
+	// if customClaim == nil {
+	// 	return nil, fmt.Errorf("kullanıcı kimliği bulunamadı")
+	// }
 
-	// Kullanıcının bağlı olduğu şirketleri bul
-	userCompanies, err := client.CompanyUser.Query().
-		Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
-		QueryCompany().
-		All(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("kullanıcının şirketleri alınamadı: %v", err)
-	}
+	// // Kullanıcının bağlı olduğu şirketleri bul
+	// userCompanies, err := client.CompanyUser.Query().
+	// 	Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
+	// 	QueryCompany().
+	// 	All(ctx)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("kullanıcının şirketleri alınamadı: %v", err)
+	// }
 
-	// Şirket ID'lerini topla
-	companyIDs := make([]int, len(userCompanies))
-	for i, company := range userCompanies {
-		companyIDs[i] = company.ID
-	}
+	// // Şirket ID'lerini topla
+	// companyIDs := make([]int, len(userCompanies))
+	// for i, company := range userCompanies {
+	// 	companyIDs[i] = company.ID
+	// }
 
-	// Sorguyu kullanıcının şirketlerine göre filtrele
-	query = query.Where(companyengineer.HasCompanyWith(companydetail.IDIn(companyIDs...)))
+	// // Sorguyu kullanıcının şirketlerine göre filtrele
+	// query = query.Where(companyengineer.HasCompanyWith(companydetail.IDIn(companyIDs...)))
 
 	if filter != nil {
 		if filter.ID != nil && *filter.ID != "" {
@@ -129,7 +149,7 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 			query = query.Where(companyengineer.IDEQ(engineerID))
 		}
 		if filter.Ydsid != nil {
-			query = query.Where(companyengineer.YDSIDEQ(*filter.Ydsid))
+			query = query.Where(companyengineer.YDSIDEQ(int(*filter.Ydsid)))
 		}
 	}
 
@@ -140,3 +160,10 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 
 	return engineers, nil
 }
+
+// CompanyEngineer returns generated.CompanyEngineerResolver implementation.
+func (r *Resolver) CompanyEngineer() generated.CompanyEngineerResolver {
+	return &companyEngineerResolver{r}
+}
+
+type companyEngineerResolver struct{ *Resolver }
