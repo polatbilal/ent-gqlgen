@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
@@ -17,26 +16,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
-	"github.com/polatbilal/gqlgen-ent/tools"
 )
-
-// MoldDate is the resolver for the MoldDate field.
-func (r *jobLayerResolver) MoldDate(ctx context.Context, obj *ent.JobLayer) (*string, error) {
-	if obj.MoldDate.IsZero() {
-		return nil, nil
-	}
-	moldDate := obj.MoldDate.Format("2006-01-02")
-	return &moldDate, nil
-}
-
-// ConcreteDate is the resolver for the ConcreteDate field.
-func (r *jobLayerResolver) ConcreteDate(ctx context.Context, obj *ent.JobLayer) (*string, error) {
-	if obj.ConcreteDate.IsZero() {
-		return nil, nil
-	}
-	concreteDate := obj.ConcreteDate.Format("2006-01-02")
-	return &concreteDate, nil
-}
 
 // Job is the resolver for the Job field.
 func (r *jobLayerResolver) Job(ctx context.Context, obj *ent.JobLayer) (*ent.JobDetail, error) {
@@ -49,23 +29,13 @@ func (r *mutationResolver) CreateLayer(ctx context.Context, input model.JobLayer
 	// panic(fmt.Errorf("not implemented: CreateLayer - createLayer"))
 	client := middlewares.GetClientFromContext(ctx)
 
-	moldDatePtr, err := tools.ParseDate(input.MoldDate)
-	if err != nil {
-		return nil, fmt.Errorf("mold date dönüşüm hatası: %v", err)
-	}
-
-	concreteDatePtr, err := tools.ParseDate(input.ConcreteDate)
-	if err != nil {
-		return nil, fmt.Errorf("concrete date dönüşüm hatası: %v", err)
-	}
-
 	uppercaseName := strings.ToUpper(*input.Name)
 
 	layer, err := client.JobLayer.Create().
 		SetName(uppercaseName).
 		SetMetre(*input.Metre).
-		SetNillableMoldDate(moldDatePtr).
-		SetNillableConcreteDate(concreteDatePtr).
+		SetNillableMoldDate(input.MoldDate).
+		SetNillableConcreteDate(input.ConcreteDate).
 		SetNillableSamples(input.Samples).
 		SetNillableConcreteClass(input.ConcreteClass).
 		SetNillableWeekResult(input.WeekResult).
@@ -97,18 +67,6 @@ func (r *mutationResolver) CreateLayer(ctx context.Context, input model.JobLayer
 func (r *mutationResolver) UpdateLayer(ctx context.Context, id string, input model.JobLayerInput) (*ent.JobLayer, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	moldDate, err := time.Parse("2006-01-02", *input.MoldDate)
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse mold date: %v", err)
-	}
-	moldDatePtr := &moldDate
-
-	concreteDate, err := time.Parse("2006-01-02", *input.ConcreteDate)
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse contract date: %v", err)
-	}
-	concreteDatePtr := &concreteDate
-
 	layerID, err := strconv.Atoi(id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to convert layer ID: %v", err)
@@ -118,8 +76,8 @@ func (r *mutationResolver) UpdateLayer(ctx context.Context, id string, input mod
 	layer, err := client.JobLayer.UpdateOneID(layerID).
 		SetNillableName(input.Name).
 		SetNillableMetre(input.Metre).
-		SetNillableMoldDate(moldDatePtr).
-		SetNillableConcreteDate(concreteDatePtr).
+		SetNillableMoldDate(input.MoldDate).
+		SetNillableConcreteDate(input.ConcreteDate).
 		SetNillableSamples(input.Samples).
 		SetNillableConcreteClass(input.ConcreteClass).
 		SetNillableWeekResult(input.WeekResult).

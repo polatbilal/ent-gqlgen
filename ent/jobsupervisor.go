@@ -25,14 +25,14 @@ type JobSuperVisor struct {
 	Phone string `json:"Phone,omitempty"`
 	// Email holds the value of the "Email" field.
 	Email string `json:"Email,omitempty"`
-	// TCNO holds the value of the "TCNO" field.
-	TCNO int `json:"TCNO,omitempty"`
+	// TcNo holds the value of the "TcNo" field.
+	TcNo int `json:"TcNo,omitempty"`
 	// Position holds the value of the "Position" field.
 	Position string `json:"Position,omitempty"`
 	// Career holds the value of the "Career" field.
 	Career string `json:"Career,omitempty"`
-	// RegNo holds the value of the "RegNo" field.
-	RegNo int `json:"RegNo,omitempty"`
+	// RegisterNo holds the value of the "RegisterNo" field.
+	RegisterNo int `json:"RegisterNo,omitempty"`
 	// SocialSecurityNo holds the value of the "SocialSecurityNo" field.
 	SocialSecurityNo int `json:"SocialSecurityNo,omitempty"`
 	// SchoolGraduation holds the value of the "SchoolGraduation" field.
@@ -76,7 +76,7 @@ func (*JobSuperVisor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobsupervisor.FieldID, jobsupervisor.FieldTCNO, jobsupervisor.FieldRegNo, jobsupervisor.FieldSocialSecurityNo, jobsupervisor.FieldYDSID:
+		case jobsupervisor.FieldID, jobsupervisor.FieldTcNo, jobsupervisor.FieldRegisterNo, jobsupervisor.FieldSocialSecurityNo, jobsupervisor.FieldYDSID:
 			values[i] = new(sql.NullInt64)
 		case jobsupervisor.FieldName, jobsupervisor.FieldAddress, jobsupervisor.FieldPhone, jobsupervisor.FieldEmail, jobsupervisor.FieldPosition, jobsupervisor.FieldCareer, jobsupervisor.FieldSchoolGraduation:
 			values[i] = new(sql.NullString)
@@ -127,11 +127,11 @@ func (jsv *JobSuperVisor) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jsv.Email = value.String
 			}
-		case jobsupervisor.FieldTCNO:
+		case jobsupervisor.FieldTcNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field TCNO", values[i])
+				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				jsv.TCNO = int(value.Int64)
+				jsv.TcNo = int(value.Int64)
 			}
 		case jobsupervisor.FieldPosition:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -145,11 +145,11 @@ func (jsv *JobSuperVisor) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jsv.Career = value.String
 			}
-		case jobsupervisor.FieldRegNo:
+		case jobsupervisor.FieldRegisterNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field RegNo", values[i])
+				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
-				jsv.RegNo = int(value.Int64)
+				jsv.RegisterNo = int(value.Int64)
 			}
 		case jobsupervisor.FieldSocialSecurityNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -234,8 +234,8 @@ func (jsv *JobSuperVisor) String() string {
 	builder.WriteString("Email=")
 	builder.WriteString(jsv.Email)
 	builder.WriteString(", ")
-	builder.WriteString("TCNO=")
-	builder.WriteString(fmt.Sprintf("%v", jsv.TCNO))
+	builder.WriteString("TcNo=")
+	builder.WriteString(fmt.Sprintf("%v", jsv.TcNo))
 	builder.WriteString(", ")
 	builder.WriteString("Position=")
 	builder.WriteString(jsv.Position)
@@ -243,8 +243,8 @@ func (jsv *JobSuperVisor) String() string {
 	builder.WriteString("Career=")
 	builder.WriteString(jsv.Career)
 	builder.WriteString(", ")
-	builder.WriteString("RegNo=")
-	builder.WriteString(fmt.Sprintf("%v", jsv.RegNo))
+	builder.WriteString("RegisterNo=")
+	builder.WriteString(fmt.Sprintf("%v", jsv.RegisterNo))
 	builder.WriteString(", ")
 	builder.WriteString("SocialSecurityNo=")
 	builder.WriteString(fmt.Sprintf("%v", jsv.SocialSecurityNo))

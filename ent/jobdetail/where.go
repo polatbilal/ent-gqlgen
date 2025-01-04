@@ -60,34 +60,14 @@ func YibfNo(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldYibfNo, v))
 }
 
-// Idare applies equality check predicate on the "Idare" field. It's identical to IdareEQ.
-func Idare(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldIdare, v))
+// Title applies equality check predicate on the "Title" field. It's identical to TitleEQ.
+func Title(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldTitle, v))
 }
 
-// Pafta applies equality check predicate on the "Pafta" field. It's identical to PaftaEQ.
-func Pafta(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldPafta, v))
-}
-
-// Ada applies equality check predicate on the "Ada" field. It's identical to AdaEQ.
-func Ada(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldAda, v))
-}
-
-// Parsel applies equality check predicate on the "Parsel" field. It's identical to ParselEQ.
-func Parsel(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldParsel, v))
-}
-
-// FolderNo applies equality check predicate on the "FolderNo" field. It's identical to FolderNoEQ.
-func FolderNo(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldFolderNo, v))
-}
-
-// Status applies equality check predicate on the "Status" field. It's identical to StatusEQ.
-func Status(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldStatus, v))
+// Administration applies equality check predicate on the "Administration" field. It's identical to AdministrationEQ.
+func Administration(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldAdministration, v))
 }
 
 // State applies equality check predicate on the "State" field. It's identical to StateEQ.
@@ -95,14 +75,24 @@ func State(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldState, v))
 }
 
+// Island applies equality check predicate on the "Island" field. It's identical to IslandEQ.
+func Island(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldIsland, v))
+}
+
+// Parcel applies equality check predicate on the "Parcel" field. It's identical to ParcelEQ.
+func Parcel(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldParcel, v))
+}
+
+// Sheet applies equality check predicate on the "Sheet" field. It's identical to SheetEQ.
+func Sheet(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldSheet, v))
+}
+
 // ContractDate applies equality check predicate on the "ContractDate" field. It's identical to ContractDateEQ.
 func ContractDate(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldContractDate, v))
-}
-
-// CompletionDate applies equality check predicate on the "CompletionDate" field. It's identical to CompletionDateEQ.
-func CompletionDate(v time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldCompletionDate, v))
 }
 
 // StartDate applies equality check predicate on the "StartDate" field. It's identical to StartDateEQ.
@@ -120,9 +110,29 @@ func LicenseNo(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldLicenseNo, v))
 }
 
+// CompletionDate applies equality check predicate on the "CompletionDate" field. It's identical to CompletionDateEQ.
+func CompletionDate(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldCompletionDate, v))
+}
+
+// LandArea applies equality check predicate on the "LandArea" field. It's identical to LandAreaEQ.
+func LandArea(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldLandArea, v))
+}
+
+// TotalArea applies equality check predicate on the "TotalArea" field. It's identical to TotalAreaEQ.
+func TotalArea(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldTotalArea, v))
+}
+
 // ConstructionArea applies equality check predicate on the "ConstructionArea" field. It's identical to ConstructionAreaEQ.
-func ConstructionArea(v string) predicate.JobDetail {
+func ConstructionArea(v float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldConstructionArea, v))
+}
+
+// LeftArea applies equality check predicate on the "LeftArea" field. It's identical to LeftAreaEQ.
+func LeftArea(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldLeftArea, v))
 }
 
 // YDSAddress applies equality check predicate on the "YDSAddress" field. It's identical to YDSAddressEQ.
@@ -155,24 +165,14 @@ func UnitPrice(v float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldUnitPrice, v))
 }
 
-// LandArea applies equality check predicate on the "LandArea" field. It's identical to LandAreaEQ.
-func LandArea(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldLandArea, v))
+// FloorCount applies equality check predicate on the "FloorCount" field. It's identical to FloorCountEQ.
+func FloorCount(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldFloorCount, v))
 }
 
-// Floors applies equality check predicate on the "Floors" field. It's identical to FloorsEQ.
-func Floors(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldFloors, v))
-}
-
-// UsagePurpose applies equality check predicate on the "UsagePurpose" field. It's identical to UsagePurposeEQ.
-func UsagePurpose(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldUsagePurpose, v))
-}
-
-// Note applies equality check predicate on the "Note" field. It's identical to NoteEQ.
-func Note(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldNote, v))
+// BKSReferenceNo applies equality check predicate on the "BKSReferenceNo" field. It's identical to BKSReferenceNoEQ.
+func BKSReferenceNo(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldBKSReferenceNo, v))
 }
 
 // Coordinates applies equality check predicate on the "Coordinates" field. It's identical to CoordinatesEQ.
@@ -180,9 +180,39 @@ func Coordinates(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldCoordinates, v))
 }
 
-// Started applies equality check predicate on the "Started" field. It's identical to StartedEQ.
-func Started(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldStarted, v))
+// FolderNo applies equality check predicate on the "FolderNo" field. It's identical to FolderNoEQ.
+func FolderNo(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldFolderNo, v))
+}
+
+// UploadedFile applies equality check predicate on the "UploadedFile" field. It's identical to UploadedFileEQ.
+func UploadedFile(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldUploadedFile, v))
+}
+
+// IndustryArea applies equality check predicate on the "IndustryArea" field. It's identical to IndustryAreaEQ.
+func IndustryArea(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldIndustryArea, v))
+}
+
+// ClusterStructure applies equality check predicate on the "ClusterStructure" field. It's identical to ClusterStructureEQ.
+func ClusterStructure(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldClusterStructure, v))
+}
+
+// IsLicenseExpired applies equality check predicate on the "IsLicenseExpired" field. It's identical to IsLicenseExpiredEQ.
+func IsLicenseExpired(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldIsLicenseExpired, v))
+}
+
+// IsCompleted applies equality check predicate on the "IsCompleted" field. It's identical to IsCompletedEQ.
+func IsCompleted(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldIsCompleted, v))
+}
+
+// Note applies equality check predicate on the "Note" field. It's identical to NoteEQ.
+func Note(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldNote, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
@@ -235,419 +265,154 @@ func YibfNoLTE(v int) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldYibfNo, v))
 }
 
-// IdareEQ applies the EQ predicate on the "Idare" field.
-func IdareEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldIdare, v))
+// TitleEQ applies the EQ predicate on the "Title" field.
+func TitleEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldTitle, v))
 }
 
-// IdareNEQ applies the NEQ predicate on the "Idare" field.
-func IdareNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldIdare, v))
+// TitleNEQ applies the NEQ predicate on the "Title" field.
+func TitleNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldTitle, v))
 }
 
-// IdareIn applies the In predicate on the "Idare" field.
-func IdareIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldIdare, vs...))
+// TitleIn applies the In predicate on the "Title" field.
+func TitleIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldTitle, vs...))
 }
 
-// IdareNotIn applies the NotIn predicate on the "Idare" field.
-func IdareNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldIdare, vs...))
+// TitleNotIn applies the NotIn predicate on the "Title" field.
+func TitleNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldTitle, vs...))
 }
 
-// IdareGT applies the GT predicate on the "Idare" field.
-func IdareGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldIdare, v))
+// TitleGT applies the GT predicate on the "Title" field.
+func TitleGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldTitle, v))
 }
 
-// IdareGTE applies the GTE predicate on the "Idare" field.
-func IdareGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldIdare, v))
+// TitleGTE applies the GTE predicate on the "Title" field.
+func TitleGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldTitle, v))
 }
 
-// IdareLT applies the LT predicate on the "Idare" field.
-func IdareLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldIdare, v))
+// TitleLT applies the LT predicate on the "Title" field.
+func TitleLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldTitle, v))
 }
 
-// IdareLTE applies the LTE predicate on the "Idare" field.
-func IdareLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldIdare, v))
+// TitleLTE applies the LTE predicate on the "Title" field.
+func TitleLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldTitle, v))
 }
 
-// IdareContains applies the Contains predicate on the "Idare" field.
-func IdareContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldIdare, v))
+// TitleContains applies the Contains predicate on the "Title" field.
+func TitleContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldTitle, v))
 }
 
-// IdareHasPrefix applies the HasPrefix predicate on the "Idare" field.
-func IdareHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldIdare, v))
+// TitleHasPrefix applies the HasPrefix predicate on the "Title" field.
+func TitleHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldTitle, v))
 }
 
-// IdareHasSuffix applies the HasSuffix predicate on the "Idare" field.
-func IdareHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldIdare, v))
+// TitleHasSuffix applies the HasSuffix predicate on the "Title" field.
+func TitleHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldTitle, v))
 }
 
-// IdareIsNil applies the IsNil predicate on the "Idare" field.
-func IdareIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldIdare))
+// TitleIsNil applies the IsNil predicate on the "Title" field.
+func TitleIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldTitle))
 }
 
-// IdareNotNil applies the NotNil predicate on the "Idare" field.
-func IdareNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldIdare))
+// TitleNotNil applies the NotNil predicate on the "Title" field.
+func TitleNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldTitle))
 }
 
-// IdareEqualFold applies the EqualFold predicate on the "Idare" field.
-func IdareEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldIdare, v))
+// TitleEqualFold applies the EqualFold predicate on the "Title" field.
+func TitleEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldTitle, v))
 }
 
-// IdareContainsFold applies the ContainsFold predicate on the "Idare" field.
-func IdareContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldIdare, v))
+// TitleContainsFold applies the ContainsFold predicate on the "Title" field.
+func TitleContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldTitle, v))
 }
 
-// PaftaEQ applies the EQ predicate on the "Pafta" field.
-func PaftaEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldPafta, v))
+// AdministrationEQ applies the EQ predicate on the "Administration" field.
+func AdministrationEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldAdministration, v))
 }
 
-// PaftaNEQ applies the NEQ predicate on the "Pafta" field.
-func PaftaNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldPafta, v))
+// AdministrationNEQ applies the NEQ predicate on the "Administration" field.
+func AdministrationNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldAdministration, v))
 }
 
-// PaftaIn applies the In predicate on the "Pafta" field.
-func PaftaIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldPafta, vs...))
+// AdministrationIn applies the In predicate on the "Administration" field.
+func AdministrationIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldAdministration, vs...))
 }
 
-// PaftaNotIn applies the NotIn predicate on the "Pafta" field.
-func PaftaNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldPafta, vs...))
+// AdministrationNotIn applies the NotIn predicate on the "Administration" field.
+func AdministrationNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldAdministration, vs...))
 }
 
-// PaftaGT applies the GT predicate on the "Pafta" field.
-func PaftaGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldPafta, v))
+// AdministrationGT applies the GT predicate on the "Administration" field.
+func AdministrationGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldAdministration, v))
 }
 
-// PaftaGTE applies the GTE predicate on the "Pafta" field.
-func PaftaGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldPafta, v))
+// AdministrationGTE applies the GTE predicate on the "Administration" field.
+func AdministrationGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldAdministration, v))
 }
 
-// PaftaLT applies the LT predicate on the "Pafta" field.
-func PaftaLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldPafta, v))
+// AdministrationLT applies the LT predicate on the "Administration" field.
+func AdministrationLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldAdministration, v))
 }
 
-// PaftaLTE applies the LTE predicate on the "Pafta" field.
-func PaftaLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldPafta, v))
+// AdministrationLTE applies the LTE predicate on the "Administration" field.
+func AdministrationLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldAdministration, v))
 }
 
-// PaftaContains applies the Contains predicate on the "Pafta" field.
-func PaftaContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldPafta, v))
+// AdministrationContains applies the Contains predicate on the "Administration" field.
+func AdministrationContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldAdministration, v))
 }
 
-// PaftaHasPrefix applies the HasPrefix predicate on the "Pafta" field.
-func PaftaHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldPafta, v))
+// AdministrationHasPrefix applies the HasPrefix predicate on the "Administration" field.
+func AdministrationHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldAdministration, v))
 }
 
-// PaftaHasSuffix applies the HasSuffix predicate on the "Pafta" field.
-func PaftaHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldPafta, v))
+// AdministrationHasSuffix applies the HasSuffix predicate on the "Administration" field.
+func AdministrationHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldAdministration, v))
 }
 
-// PaftaIsNil applies the IsNil predicate on the "Pafta" field.
-func PaftaIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldPafta))
+// AdministrationIsNil applies the IsNil predicate on the "Administration" field.
+func AdministrationIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldAdministration))
 }
 
-// PaftaNotNil applies the NotNil predicate on the "Pafta" field.
-func PaftaNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldPafta))
+// AdministrationNotNil applies the NotNil predicate on the "Administration" field.
+func AdministrationNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldAdministration))
 }
 
-// PaftaEqualFold applies the EqualFold predicate on the "Pafta" field.
-func PaftaEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldPafta, v))
+// AdministrationEqualFold applies the EqualFold predicate on the "Administration" field.
+func AdministrationEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldAdministration, v))
 }
 
-// PaftaContainsFold applies the ContainsFold predicate on the "Pafta" field.
-func PaftaContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldPafta, v))
-}
-
-// AdaEQ applies the EQ predicate on the "Ada" field.
-func AdaEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldAda, v))
-}
-
-// AdaNEQ applies the NEQ predicate on the "Ada" field.
-func AdaNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldAda, v))
-}
-
-// AdaIn applies the In predicate on the "Ada" field.
-func AdaIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldAda, vs...))
-}
-
-// AdaNotIn applies the NotIn predicate on the "Ada" field.
-func AdaNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldAda, vs...))
-}
-
-// AdaGT applies the GT predicate on the "Ada" field.
-func AdaGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldAda, v))
-}
-
-// AdaGTE applies the GTE predicate on the "Ada" field.
-func AdaGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldAda, v))
-}
-
-// AdaLT applies the LT predicate on the "Ada" field.
-func AdaLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldAda, v))
-}
-
-// AdaLTE applies the LTE predicate on the "Ada" field.
-func AdaLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldAda, v))
-}
-
-// AdaContains applies the Contains predicate on the "Ada" field.
-func AdaContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldAda, v))
-}
-
-// AdaHasPrefix applies the HasPrefix predicate on the "Ada" field.
-func AdaHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldAda, v))
-}
-
-// AdaHasSuffix applies the HasSuffix predicate on the "Ada" field.
-func AdaHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldAda, v))
-}
-
-// AdaIsNil applies the IsNil predicate on the "Ada" field.
-func AdaIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldAda))
-}
-
-// AdaNotNil applies the NotNil predicate on the "Ada" field.
-func AdaNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldAda))
-}
-
-// AdaEqualFold applies the EqualFold predicate on the "Ada" field.
-func AdaEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldAda, v))
-}
-
-// AdaContainsFold applies the ContainsFold predicate on the "Ada" field.
-func AdaContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldAda, v))
-}
-
-// ParselEQ applies the EQ predicate on the "Parsel" field.
-func ParselEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldParsel, v))
-}
-
-// ParselNEQ applies the NEQ predicate on the "Parsel" field.
-func ParselNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldParsel, v))
-}
-
-// ParselIn applies the In predicate on the "Parsel" field.
-func ParselIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldParsel, vs...))
-}
-
-// ParselNotIn applies the NotIn predicate on the "Parsel" field.
-func ParselNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldParsel, vs...))
-}
-
-// ParselGT applies the GT predicate on the "Parsel" field.
-func ParselGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldParsel, v))
-}
-
-// ParselGTE applies the GTE predicate on the "Parsel" field.
-func ParselGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldParsel, v))
-}
-
-// ParselLT applies the LT predicate on the "Parsel" field.
-func ParselLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldParsel, v))
-}
-
-// ParselLTE applies the LTE predicate on the "Parsel" field.
-func ParselLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldParsel, v))
-}
-
-// ParselContains applies the Contains predicate on the "Parsel" field.
-func ParselContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldParsel, v))
-}
-
-// ParselHasPrefix applies the HasPrefix predicate on the "Parsel" field.
-func ParselHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldParsel, v))
-}
-
-// ParselHasSuffix applies the HasSuffix predicate on the "Parsel" field.
-func ParselHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldParsel, v))
-}
-
-// ParselIsNil applies the IsNil predicate on the "Parsel" field.
-func ParselIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldParsel))
-}
-
-// ParselNotNil applies the NotNil predicate on the "Parsel" field.
-func ParselNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldParsel))
-}
-
-// ParselEqualFold applies the EqualFold predicate on the "Parsel" field.
-func ParselEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldParsel, v))
-}
-
-// ParselContainsFold applies the ContainsFold predicate on the "Parsel" field.
-func ParselContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldParsel, v))
-}
-
-// FolderNoEQ applies the EQ predicate on the "FolderNo" field.
-func FolderNoEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldFolderNo, v))
-}
-
-// FolderNoNEQ applies the NEQ predicate on the "FolderNo" field.
-func FolderNoNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldFolderNo, v))
-}
-
-// FolderNoIn applies the In predicate on the "FolderNo" field.
-func FolderNoIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldFolderNo, vs...))
-}
-
-// FolderNoNotIn applies the NotIn predicate on the "FolderNo" field.
-func FolderNoNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldFolderNo, vs...))
-}
-
-// FolderNoGT applies the GT predicate on the "FolderNo" field.
-func FolderNoGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldFolderNo, v))
-}
-
-// FolderNoGTE applies the GTE predicate on the "FolderNo" field.
-func FolderNoGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldFolderNo, v))
-}
-
-// FolderNoLT applies the LT predicate on the "FolderNo" field.
-func FolderNoLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldFolderNo, v))
-}
-
-// FolderNoLTE applies the LTE predicate on the "FolderNo" field.
-func FolderNoLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldFolderNo, v))
-}
-
-// FolderNoContains applies the Contains predicate on the "FolderNo" field.
-func FolderNoContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldFolderNo, v))
-}
-
-// FolderNoHasPrefix applies the HasPrefix predicate on the "FolderNo" field.
-func FolderNoHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldFolderNo, v))
-}
-
-// FolderNoHasSuffix applies the HasSuffix predicate on the "FolderNo" field.
-func FolderNoHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldFolderNo, v))
-}
-
-// FolderNoIsNil applies the IsNil predicate on the "FolderNo" field.
-func FolderNoIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldFolderNo))
-}
-
-// FolderNoNotNil applies the NotNil predicate on the "FolderNo" field.
-func FolderNoNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldFolderNo))
-}
-
-// FolderNoEqualFold applies the EqualFold predicate on the "FolderNo" field.
-func FolderNoEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldFolderNo, v))
-}
-
-// FolderNoContainsFold applies the ContainsFold predicate on the "FolderNo" field.
-func FolderNoContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldFolderNo, v))
-}
-
-// StatusEQ applies the EQ predicate on the "Status" field.
-func StatusEQ(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldStatus, v))
-}
-
-// StatusNEQ applies the NEQ predicate on the "Status" field.
-func StatusNEQ(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldStatus, v))
-}
-
-// StatusIn applies the In predicate on the "Status" field.
-func StatusIn(vs ...int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldStatus, vs...))
-}
-
-// StatusNotIn applies the NotIn predicate on the "Status" field.
-func StatusNotIn(vs ...int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldStatus, vs...))
-}
-
-// StatusGT applies the GT predicate on the "Status" field.
-func StatusGT(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldStatus, v))
-}
-
-// StatusGTE applies the GTE predicate on the "Status" field.
-func StatusGTE(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldStatus, v))
-}
-
-// StatusLT applies the LT predicate on the "Status" field.
-func StatusLT(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldStatus, v))
-}
-
-// StatusLTE applies the LTE predicate on the "Status" field.
-func StatusLTE(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldStatus, v))
+// AdministrationContainsFold applies the ContainsFold predicate on the "Administration" field.
+func AdministrationContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldAdministration, v))
 }
 
 // StateEQ applies the EQ predicate on the "State" field.
@@ -725,6 +490,231 @@ func StateContainsFold(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldContainsFold(FieldState, v))
 }
 
+// IslandEQ applies the EQ predicate on the "Island" field.
+func IslandEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldIsland, v))
+}
+
+// IslandNEQ applies the NEQ predicate on the "Island" field.
+func IslandNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldIsland, v))
+}
+
+// IslandIn applies the In predicate on the "Island" field.
+func IslandIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldIsland, vs...))
+}
+
+// IslandNotIn applies the NotIn predicate on the "Island" field.
+func IslandNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldIsland, vs...))
+}
+
+// IslandGT applies the GT predicate on the "Island" field.
+func IslandGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldIsland, v))
+}
+
+// IslandGTE applies the GTE predicate on the "Island" field.
+func IslandGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldIsland, v))
+}
+
+// IslandLT applies the LT predicate on the "Island" field.
+func IslandLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldIsland, v))
+}
+
+// IslandLTE applies the LTE predicate on the "Island" field.
+func IslandLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldIsland, v))
+}
+
+// IslandContains applies the Contains predicate on the "Island" field.
+func IslandContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldIsland, v))
+}
+
+// IslandHasPrefix applies the HasPrefix predicate on the "Island" field.
+func IslandHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldIsland, v))
+}
+
+// IslandHasSuffix applies the HasSuffix predicate on the "Island" field.
+func IslandHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldIsland, v))
+}
+
+// IslandIsNil applies the IsNil predicate on the "Island" field.
+func IslandIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldIsland))
+}
+
+// IslandNotNil applies the NotNil predicate on the "Island" field.
+func IslandNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldIsland))
+}
+
+// IslandEqualFold applies the EqualFold predicate on the "Island" field.
+func IslandEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldIsland, v))
+}
+
+// IslandContainsFold applies the ContainsFold predicate on the "Island" field.
+func IslandContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldIsland, v))
+}
+
+// ParcelEQ applies the EQ predicate on the "Parcel" field.
+func ParcelEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldParcel, v))
+}
+
+// ParcelNEQ applies the NEQ predicate on the "Parcel" field.
+func ParcelNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldParcel, v))
+}
+
+// ParcelIn applies the In predicate on the "Parcel" field.
+func ParcelIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldParcel, vs...))
+}
+
+// ParcelNotIn applies the NotIn predicate on the "Parcel" field.
+func ParcelNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldParcel, vs...))
+}
+
+// ParcelGT applies the GT predicate on the "Parcel" field.
+func ParcelGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldParcel, v))
+}
+
+// ParcelGTE applies the GTE predicate on the "Parcel" field.
+func ParcelGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldParcel, v))
+}
+
+// ParcelLT applies the LT predicate on the "Parcel" field.
+func ParcelLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldParcel, v))
+}
+
+// ParcelLTE applies the LTE predicate on the "Parcel" field.
+func ParcelLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldParcel, v))
+}
+
+// ParcelContains applies the Contains predicate on the "Parcel" field.
+func ParcelContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldParcel, v))
+}
+
+// ParcelHasPrefix applies the HasPrefix predicate on the "Parcel" field.
+func ParcelHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldParcel, v))
+}
+
+// ParcelHasSuffix applies the HasSuffix predicate on the "Parcel" field.
+func ParcelHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldParcel, v))
+}
+
+// ParcelIsNil applies the IsNil predicate on the "Parcel" field.
+func ParcelIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldParcel))
+}
+
+// ParcelNotNil applies the NotNil predicate on the "Parcel" field.
+func ParcelNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldParcel))
+}
+
+// ParcelEqualFold applies the EqualFold predicate on the "Parcel" field.
+func ParcelEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldParcel, v))
+}
+
+// ParcelContainsFold applies the ContainsFold predicate on the "Parcel" field.
+func ParcelContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldParcel, v))
+}
+
+// SheetEQ applies the EQ predicate on the "Sheet" field.
+func SheetEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldSheet, v))
+}
+
+// SheetNEQ applies the NEQ predicate on the "Sheet" field.
+func SheetNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldSheet, v))
+}
+
+// SheetIn applies the In predicate on the "Sheet" field.
+func SheetIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldSheet, vs...))
+}
+
+// SheetNotIn applies the NotIn predicate on the "Sheet" field.
+func SheetNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldSheet, vs...))
+}
+
+// SheetGT applies the GT predicate on the "Sheet" field.
+func SheetGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldSheet, v))
+}
+
+// SheetGTE applies the GTE predicate on the "Sheet" field.
+func SheetGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldSheet, v))
+}
+
+// SheetLT applies the LT predicate on the "Sheet" field.
+func SheetLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldSheet, v))
+}
+
+// SheetLTE applies the LTE predicate on the "Sheet" field.
+func SheetLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldSheet, v))
+}
+
+// SheetContains applies the Contains predicate on the "Sheet" field.
+func SheetContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldSheet, v))
+}
+
+// SheetHasPrefix applies the HasPrefix predicate on the "Sheet" field.
+func SheetHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldSheet, v))
+}
+
+// SheetHasSuffix applies the HasSuffix predicate on the "Sheet" field.
+func SheetHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldSheet, v))
+}
+
+// SheetIsNil applies the IsNil predicate on the "Sheet" field.
+func SheetIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldSheet))
+}
+
+// SheetNotNil applies the NotNil predicate on the "Sheet" field.
+func SheetNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldSheet))
+}
+
+// SheetEqualFold applies the EqualFold predicate on the "Sheet" field.
+func SheetEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldSheet, v))
+}
+
+// SheetContainsFold applies the ContainsFold predicate on the "Sheet" field.
+func SheetContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldSheet, v))
+}
+
 // ContractDateEQ applies the EQ predicate on the "ContractDate" field.
 func ContractDateEQ(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldContractDate, v))
@@ -773,56 +763,6 @@ func ContractDateIsNil() predicate.JobDetail {
 // ContractDateNotNil applies the NotNil predicate on the "ContractDate" field.
 func ContractDateNotNil() predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotNull(FieldContractDate))
-}
-
-// CompletionDateEQ applies the EQ predicate on the "CompletionDate" field.
-func CompletionDateEQ(v time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldCompletionDate, v))
-}
-
-// CompletionDateNEQ applies the NEQ predicate on the "CompletionDate" field.
-func CompletionDateNEQ(v time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldCompletionDate, v))
-}
-
-// CompletionDateIn applies the In predicate on the "CompletionDate" field.
-func CompletionDateIn(vs ...time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldCompletionDate, vs...))
-}
-
-// CompletionDateNotIn applies the NotIn predicate on the "CompletionDate" field.
-func CompletionDateNotIn(vs ...time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldCompletionDate, vs...))
-}
-
-// CompletionDateGT applies the GT predicate on the "CompletionDate" field.
-func CompletionDateGT(v time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldCompletionDate, v))
-}
-
-// CompletionDateGTE applies the GTE predicate on the "CompletionDate" field.
-func CompletionDateGTE(v time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldCompletionDate, v))
-}
-
-// CompletionDateLT applies the LT predicate on the "CompletionDate" field.
-func CompletionDateLT(v time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldCompletionDate, v))
-}
-
-// CompletionDateLTE applies the LTE predicate on the "CompletionDate" field.
-func CompletionDateLTE(v time.Time) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldCompletionDate, v))
-}
-
-// CompletionDateIsNil applies the IsNil predicate on the "CompletionDate" field.
-func CompletionDateIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldCompletionDate))
-}
-
-// CompletionDateNotNil applies the NotNil predicate on the "CompletionDate" field.
-func CompletionDateNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldCompletionDate))
 }
 
 // StartDateEQ applies the EQ predicate on the "StartDate" field.
@@ -1000,59 +940,194 @@ func LicenseNoContainsFold(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldContainsFold(FieldLicenseNo, v))
 }
 
+// CompletionDateEQ applies the EQ predicate on the "CompletionDate" field.
+func CompletionDateEQ(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldCompletionDate, v))
+}
+
+// CompletionDateNEQ applies the NEQ predicate on the "CompletionDate" field.
+func CompletionDateNEQ(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldCompletionDate, v))
+}
+
+// CompletionDateIn applies the In predicate on the "CompletionDate" field.
+func CompletionDateIn(vs ...time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldCompletionDate, vs...))
+}
+
+// CompletionDateNotIn applies the NotIn predicate on the "CompletionDate" field.
+func CompletionDateNotIn(vs ...time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldCompletionDate, vs...))
+}
+
+// CompletionDateGT applies the GT predicate on the "CompletionDate" field.
+func CompletionDateGT(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldCompletionDate, v))
+}
+
+// CompletionDateGTE applies the GTE predicate on the "CompletionDate" field.
+func CompletionDateGTE(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldCompletionDate, v))
+}
+
+// CompletionDateLT applies the LT predicate on the "CompletionDate" field.
+func CompletionDateLT(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldCompletionDate, v))
+}
+
+// CompletionDateLTE applies the LTE predicate on the "CompletionDate" field.
+func CompletionDateLTE(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldCompletionDate, v))
+}
+
+// CompletionDateIsNil applies the IsNil predicate on the "CompletionDate" field.
+func CompletionDateIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldCompletionDate))
+}
+
+// CompletionDateNotNil applies the NotNil predicate on the "CompletionDate" field.
+func CompletionDateNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldCompletionDate))
+}
+
+// LandAreaEQ applies the EQ predicate on the "LandArea" field.
+func LandAreaEQ(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldLandArea, v))
+}
+
+// LandAreaNEQ applies the NEQ predicate on the "LandArea" field.
+func LandAreaNEQ(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldLandArea, v))
+}
+
+// LandAreaIn applies the In predicate on the "LandArea" field.
+func LandAreaIn(vs ...float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldLandArea, vs...))
+}
+
+// LandAreaNotIn applies the NotIn predicate on the "LandArea" field.
+func LandAreaNotIn(vs ...float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldLandArea, vs...))
+}
+
+// LandAreaGT applies the GT predicate on the "LandArea" field.
+func LandAreaGT(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldLandArea, v))
+}
+
+// LandAreaGTE applies the GTE predicate on the "LandArea" field.
+func LandAreaGTE(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldLandArea, v))
+}
+
+// LandAreaLT applies the LT predicate on the "LandArea" field.
+func LandAreaLT(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldLandArea, v))
+}
+
+// LandAreaLTE applies the LTE predicate on the "LandArea" field.
+func LandAreaLTE(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldLandArea, v))
+}
+
+// LandAreaIsNil applies the IsNil predicate on the "LandArea" field.
+func LandAreaIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldLandArea))
+}
+
+// LandAreaNotNil applies the NotNil predicate on the "LandArea" field.
+func LandAreaNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldLandArea))
+}
+
+// TotalAreaEQ applies the EQ predicate on the "TotalArea" field.
+func TotalAreaEQ(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldTotalArea, v))
+}
+
+// TotalAreaNEQ applies the NEQ predicate on the "TotalArea" field.
+func TotalAreaNEQ(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldTotalArea, v))
+}
+
+// TotalAreaIn applies the In predicate on the "TotalArea" field.
+func TotalAreaIn(vs ...float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldTotalArea, vs...))
+}
+
+// TotalAreaNotIn applies the NotIn predicate on the "TotalArea" field.
+func TotalAreaNotIn(vs ...float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldTotalArea, vs...))
+}
+
+// TotalAreaGT applies the GT predicate on the "TotalArea" field.
+func TotalAreaGT(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldTotalArea, v))
+}
+
+// TotalAreaGTE applies the GTE predicate on the "TotalArea" field.
+func TotalAreaGTE(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldTotalArea, v))
+}
+
+// TotalAreaLT applies the LT predicate on the "TotalArea" field.
+func TotalAreaLT(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldTotalArea, v))
+}
+
+// TotalAreaLTE applies the LTE predicate on the "TotalArea" field.
+func TotalAreaLTE(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldTotalArea, v))
+}
+
+// TotalAreaIsNil applies the IsNil predicate on the "TotalArea" field.
+func TotalAreaIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldTotalArea))
+}
+
+// TotalAreaNotNil applies the NotNil predicate on the "TotalArea" field.
+func TotalAreaNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldTotalArea))
+}
+
 // ConstructionAreaEQ applies the EQ predicate on the "ConstructionArea" field.
-func ConstructionAreaEQ(v string) predicate.JobDetail {
+func ConstructionAreaEQ(v float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldConstructionArea, v))
 }
 
 // ConstructionAreaNEQ applies the NEQ predicate on the "ConstructionArea" field.
-func ConstructionAreaNEQ(v string) predicate.JobDetail {
+func ConstructionAreaNEQ(v float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNEQ(FieldConstructionArea, v))
 }
 
 // ConstructionAreaIn applies the In predicate on the "ConstructionArea" field.
-func ConstructionAreaIn(vs ...string) predicate.JobDetail {
+func ConstructionAreaIn(vs ...float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldIn(FieldConstructionArea, vs...))
 }
 
 // ConstructionAreaNotIn applies the NotIn predicate on the "ConstructionArea" field.
-func ConstructionAreaNotIn(vs ...string) predicate.JobDetail {
+func ConstructionAreaNotIn(vs ...float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotIn(FieldConstructionArea, vs...))
 }
 
 // ConstructionAreaGT applies the GT predicate on the "ConstructionArea" field.
-func ConstructionAreaGT(v string) predicate.JobDetail {
+func ConstructionAreaGT(v float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldGT(FieldConstructionArea, v))
 }
 
 // ConstructionAreaGTE applies the GTE predicate on the "ConstructionArea" field.
-func ConstructionAreaGTE(v string) predicate.JobDetail {
+func ConstructionAreaGTE(v float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldGTE(FieldConstructionArea, v))
 }
 
 // ConstructionAreaLT applies the LT predicate on the "ConstructionArea" field.
-func ConstructionAreaLT(v string) predicate.JobDetail {
+func ConstructionAreaLT(v float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLT(FieldConstructionArea, v))
 }
 
 // ConstructionAreaLTE applies the LTE predicate on the "ConstructionArea" field.
-func ConstructionAreaLTE(v string) predicate.JobDetail {
+func ConstructionAreaLTE(v float64) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldConstructionArea, v))
-}
-
-// ConstructionAreaContains applies the Contains predicate on the "ConstructionArea" field.
-func ConstructionAreaContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldConstructionArea, v))
-}
-
-// ConstructionAreaHasPrefix applies the HasPrefix predicate on the "ConstructionArea" field.
-func ConstructionAreaHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldConstructionArea, v))
-}
-
-// ConstructionAreaHasSuffix applies the HasSuffix predicate on the "ConstructionArea" field.
-func ConstructionAreaHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldConstructionArea, v))
 }
 
 // ConstructionAreaIsNil applies the IsNil predicate on the "ConstructionArea" field.
@@ -1065,14 +1140,54 @@ func ConstructionAreaNotNil() predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotNull(FieldConstructionArea))
 }
 
-// ConstructionAreaEqualFold applies the EqualFold predicate on the "ConstructionArea" field.
-func ConstructionAreaEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldConstructionArea, v))
+// LeftAreaEQ applies the EQ predicate on the "LeftArea" field.
+func LeftAreaEQ(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldLeftArea, v))
 }
 
-// ConstructionAreaContainsFold applies the ContainsFold predicate on the "ConstructionArea" field.
-func ConstructionAreaContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldConstructionArea, v))
+// LeftAreaNEQ applies the NEQ predicate on the "LeftArea" field.
+func LeftAreaNEQ(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldLeftArea, v))
+}
+
+// LeftAreaIn applies the In predicate on the "LeftArea" field.
+func LeftAreaIn(vs ...float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldLeftArea, vs...))
+}
+
+// LeftAreaNotIn applies the NotIn predicate on the "LeftArea" field.
+func LeftAreaNotIn(vs ...float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldLeftArea, vs...))
+}
+
+// LeftAreaGT applies the GT predicate on the "LeftArea" field.
+func LeftAreaGT(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldLeftArea, v))
+}
+
+// LeftAreaGTE applies the GTE predicate on the "LeftArea" field.
+func LeftAreaGTE(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldLeftArea, v))
+}
+
+// LeftAreaLT applies the LT predicate on the "LeftArea" field.
+func LeftAreaLT(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldLeftArea, v))
+}
+
+// LeftAreaLTE applies the LTE predicate on the "LeftArea" field.
+func LeftAreaLTE(v float64) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldLeftArea, v))
+}
+
+// LeftAreaIsNil applies the IsNil predicate on the "LeftArea" field.
+func LeftAreaIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldLeftArea))
+}
+
+// LeftAreaNotNil applies the NotNil predicate on the "LeftArea" field.
+func LeftAreaNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldLeftArea))
 }
 
 // YDSAddressEQ applies the EQ predicate on the "YDSAddress" field.
@@ -1475,279 +1590,104 @@ func UnitPriceNotNil() predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotNull(FieldUnitPrice))
 }
 
-// LandAreaEQ applies the EQ predicate on the "LandArea" field.
-func LandAreaEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldLandArea, v))
+// FloorCountEQ applies the EQ predicate on the "FloorCount" field.
+func FloorCountEQ(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldFloorCount, v))
 }
 
-// LandAreaNEQ applies the NEQ predicate on the "LandArea" field.
-func LandAreaNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldLandArea, v))
+// FloorCountNEQ applies the NEQ predicate on the "FloorCount" field.
+func FloorCountNEQ(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldFloorCount, v))
 }
 
-// LandAreaIn applies the In predicate on the "LandArea" field.
-func LandAreaIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldLandArea, vs...))
+// FloorCountIn applies the In predicate on the "FloorCount" field.
+func FloorCountIn(vs ...int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldFloorCount, vs...))
 }
 
-// LandAreaNotIn applies the NotIn predicate on the "LandArea" field.
-func LandAreaNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldLandArea, vs...))
+// FloorCountNotIn applies the NotIn predicate on the "FloorCount" field.
+func FloorCountNotIn(vs ...int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldFloorCount, vs...))
 }
 
-// LandAreaGT applies the GT predicate on the "LandArea" field.
-func LandAreaGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldLandArea, v))
+// FloorCountGT applies the GT predicate on the "FloorCount" field.
+func FloorCountGT(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldFloorCount, v))
 }
 
-// LandAreaGTE applies the GTE predicate on the "LandArea" field.
-func LandAreaGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldLandArea, v))
+// FloorCountGTE applies the GTE predicate on the "FloorCount" field.
+func FloorCountGTE(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldFloorCount, v))
 }
 
-// LandAreaLT applies the LT predicate on the "LandArea" field.
-func LandAreaLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldLandArea, v))
+// FloorCountLT applies the LT predicate on the "FloorCount" field.
+func FloorCountLT(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldFloorCount, v))
 }
 
-// LandAreaLTE applies the LTE predicate on the "LandArea" field.
-func LandAreaLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldLandArea, v))
+// FloorCountLTE applies the LTE predicate on the "FloorCount" field.
+func FloorCountLTE(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldFloorCount, v))
 }
 
-// LandAreaContains applies the Contains predicate on the "LandArea" field.
-func LandAreaContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldLandArea, v))
+// FloorCountIsNil applies the IsNil predicate on the "FloorCount" field.
+func FloorCountIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldFloorCount))
 }
 
-// LandAreaHasPrefix applies the HasPrefix predicate on the "LandArea" field.
-func LandAreaHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldLandArea, v))
+// FloorCountNotNil applies the NotNil predicate on the "FloorCount" field.
+func FloorCountNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldFloorCount))
 }
 
-// LandAreaHasSuffix applies the HasSuffix predicate on the "LandArea" field.
-func LandAreaHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldLandArea, v))
+// BKSReferenceNoEQ applies the EQ predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoEQ(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldBKSReferenceNo, v))
 }
 
-// LandAreaIsNil applies the IsNil predicate on the "LandArea" field.
-func LandAreaIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldLandArea))
+// BKSReferenceNoNEQ applies the NEQ predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoNEQ(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldBKSReferenceNo, v))
 }
 
-// LandAreaNotNil applies the NotNil predicate on the "LandArea" field.
-func LandAreaNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldLandArea))
+// BKSReferenceNoIn applies the In predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoIn(vs ...int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldBKSReferenceNo, vs...))
 }
 
-// LandAreaEqualFold applies the EqualFold predicate on the "LandArea" field.
-func LandAreaEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldLandArea, v))
+// BKSReferenceNoNotIn applies the NotIn predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoNotIn(vs ...int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldBKSReferenceNo, vs...))
 }
 
-// LandAreaContainsFold applies the ContainsFold predicate on the "LandArea" field.
-func LandAreaContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldLandArea, v))
+// BKSReferenceNoGT applies the GT predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoGT(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldBKSReferenceNo, v))
 }
 
-// FloorsEQ applies the EQ predicate on the "Floors" field.
-func FloorsEQ(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldFloors, v))
+// BKSReferenceNoGTE applies the GTE predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoGTE(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldBKSReferenceNo, v))
 }
 
-// FloorsNEQ applies the NEQ predicate on the "Floors" field.
-func FloorsNEQ(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldFloors, v))
+// BKSReferenceNoLT applies the LT predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoLT(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldBKSReferenceNo, v))
 }
 
-// FloorsIn applies the In predicate on the "Floors" field.
-func FloorsIn(vs ...int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldFloors, vs...))
+// BKSReferenceNoLTE applies the LTE predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoLTE(v int) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldBKSReferenceNo, v))
 }
 
-// FloorsNotIn applies the NotIn predicate on the "Floors" field.
-func FloorsNotIn(vs ...int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldFloors, vs...))
+// BKSReferenceNoIsNil applies the IsNil predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldBKSReferenceNo))
 }
 
-// FloorsGT applies the GT predicate on the "Floors" field.
-func FloorsGT(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldFloors, v))
-}
-
-// FloorsGTE applies the GTE predicate on the "Floors" field.
-func FloorsGTE(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldFloors, v))
-}
-
-// FloorsLT applies the LT predicate on the "Floors" field.
-func FloorsLT(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldFloors, v))
-}
-
-// FloorsLTE applies the LTE predicate on the "Floors" field.
-func FloorsLTE(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldFloors, v))
-}
-
-// FloorsIsNil applies the IsNil predicate on the "Floors" field.
-func FloorsIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldFloors))
-}
-
-// FloorsNotNil applies the NotNil predicate on the "Floors" field.
-func FloorsNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldFloors))
-}
-
-// UsagePurposeEQ applies the EQ predicate on the "UsagePurpose" field.
-func UsagePurposeEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldUsagePurpose, v))
-}
-
-// UsagePurposeNEQ applies the NEQ predicate on the "UsagePurpose" field.
-func UsagePurposeNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldUsagePurpose, v))
-}
-
-// UsagePurposeIn applies the In predicate on the "UsagePurpose" field.
-func UsagePurposeIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldUsagePurpose, vs...))
-}
-
-// UsagePurposeNotIn applies the NotIn predicate on the "UsagePurpose" field.
-func UsagePurposeNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldUsagePurpose, vs...))
-}
-
-// UsagePurposeGT applies the GT predicate on the "UsagePurpose" field.
-func UsagePurposeGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldUsagePurpose, v))
-}
-
-// UsagePurposeGTE applies the GTE predicate on the "UsagePurpose" field.
-func UsagePurposeGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldUsagePurpose, v))
-}
-
-// UsagePurposeLT applies the LT predicate on the "UsagePurpose" field.
-func UsagePurposeLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldUsagePurpose, v))
-}
-
-// UsagePurposeLTE applies the LTE predicate on the "UsagePurpose" field.
-func UsagePurposeLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldUsagePurpose, v))
-}
-
-// UsagePurposeContains applies the Contains predicate on the "UsagePurpose" field.
-func UsagePurposeContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldUsagePurpose, v))
-}
-
-// UsagePurposeHasPrefix applies the HasPrefix predicate on the "UsagePurpose" field.
-func UsagePurposeHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldUsagePurpose, v))
-}
-
-// UsagePurposeHasSuffix applies the HasSuffix predicate on the "UsagePurpose" field.
-func UsagePurposeHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldUsagePurpose, v))
-}
-
-// UsagePurposeIsNil applies the IsNil predicate on the "UsagePurpose" field.
-func UsagePurposeIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldUsagePurpose))
-}
-
-// UsagePurposeNotNil applies the NotNil predicate on the "UsagePurpose" field.
-func UsagePurposeNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldUsagePurpose))
-}
-
-// UsagePurposeEqualFold applies the EqualFold predicate on the "UsagePurpose" field.
-func UsagePurposeEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldUsagePurpose, v))
-}
-
-// UsagePurposeContainsFold applies the ContainsFold predicate on the "UsagePurpose" field.
-func UsagePurposeContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldUsagePurpose, v))
-}
-
-// NoteEQ applies the EQ predicate on the "Note" field.
-func NoteEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldNote, v))
-}
-
-// NoteNEQ applies the NEQ predicate on the "Note" field.
-func NoteNEQ(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldNote, v))
-}
-
-// NoteIn applies the In predicate on the "Note" field.
-func NoteIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldNote, vs...))
-}
-
-// NoteNotIn applies the NotIn predicate on the "Note" field.
-func NoteNotIn(vs ...string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldNote, vs...))
-}
-
-// NoteGT applies the GT predicate on the "Note" field.
-func NoteGT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldNote, v))
-}
-
-// NoteGTE applies the GTE predicate on the "Note" field.
-func NoteGTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldNote, v))
-}
-
-// NoteLT applies the LT predicate on the "Note" field.
-func NoteLT(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldNote, v))
-}
-
-// NoteLTE applies the LTE predicate on the "Note" field.
-func NoteLTE(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldNote, v))
-}
-
-// NoteContains applies the Contains predicate on the "Note" field.
-func NoteContains(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContains(FieldNote, v))
-}
-
-// NoteHasPrefix applies the HasPrefix predicate on the "Note" field.
-func NoteHasPrefix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasPrefix(FieldNote, v))
-}
-
-// NoteHasSuffix applies the HasSuffix predicate on the "Note" field.
-func NoteHasSuffix(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldHasSuffix(FieldNote, v))
-}
-
-// NoteIsNil applies the IsNil predicate on the "Note" field.
-func NoteIsNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIsNull(FieldNote))
-}
-
-// NoteNotNil applies the NotNil predicate on the "Note" field.
-func NoteNotNil() predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotNull(FieldNote))
-}
-
-// NoteEqualFold applies the EqualFold predicate on the "Note" field.
-func NoteEqualFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEqualFold(FieldNote, v))
-}
-
-// NoteContainsFold applies the ContainsFold predicate on the "Note" field.
-func NoteContainsFold(v string) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldContainsFold(FieldNote, v))
+// BKSReferenceNoNotNil applies the NotNil predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldBKSReferenceNo))
 }
 
 // CoordinatesEQ applies the EQ predicate on the "Coordinates" field.
@@ -1825,44 +1765,254 @@ func CoordinatesContainsFold(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldContainsFold(FieldCoordinates, v))
 }
 
-// StartedEQ applies the EQ predicate on the "Started" field.
-func StartedEQ(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldEQ(FieldStarted, v))
+// FolderNoEQ applies the EQ predicate on the "FolderNo" field.
+func FolderNoEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldFolderNo, v))
 }
 
-// StartedNEQ applies the NEQ predicate on the "Started" field.
-func StartedNEQ(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNEQ(FieldStarted, v))
+// FolderNoNEQ applies the NEQ predicate on the "FolderNo" field.
+func FolderNoNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldFolderNo, v))
 }
 
-// StartedIn applies the In predicate on the "Started" field.
-func StartedIn(vs ...int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldIn(FieldStarted, vs...))
+// FolderNoIn applies the In predicate on the "FolderNo" field.
+func FolderNoIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldFolderNo, vs...))
 }
 
-// StartedNotIn applies the NotIn predicate on the "Started" field.
-func StartedNotIn(vs ...int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldNotIn(FieldStarted, vs...))
+// FolderNoNotIn applies the NotIn predicate on the "FolderNo" field.
+func FolderNoNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldFolderNo, vs...))
 }
 
-// StartedGT applies the GT predicate on the "Started" field.
-func StartedGT(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGT(FieldStarted, v))
+// FolderNoGT applies the GT predicate on the "FolderNo" field.
+func FolderNoGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldFolderNo, v))
 }
 
-// StartedGTE applies the GTE predicate on the "Started" field.
-func StartedGTE(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldGTE(FieldStarted, v))
+// FolderNoGTE applies the GTE predicate on the "FolderNo" field.
+func FolderNoGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldFolderNo, v))
 }
 
-// StartedLT applies the LT predicate on the "Started" field.
-func StartedLT(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLT(FieldStarted, v))
+// FolderNoLT applies the LT predicate on the "FolderNo" field.
+func FolderNoLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldFolderNo, v))
 }
 
-// StartedLTE applies the LTE predicate on the "Started" field.
-func StartedLTE(v int) predicate.JobDetail {
-	return predicate.JobDetail(sql.FieldLTE(FieldStarted, v))
+// FolderNoLTE applies the LTE predicate on the "FolderNo" field.
+func FolderNoLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldFolderNo, v))
+}
+
+// FolderNoContains applies the Contains predicate on the "FolderNo" field.
+func FolderNoContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldFolderNo, v))
+}
+
+// FolderNoHasPrefix applies the HasPrefix predicate on the "FolderNo" field.
+func FolderNoHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldFolderNo, v))
+}
+
+// FolderNoHasSuffix applies the HasSuffix predicate on the "FolderNo" field.
+func FolderNoHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldFolderNo, v))
+}
+
+// FolderNoIsNil applies the IsNil predicate on the "FolderNo" field.
+func FolderNoIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldFolderNo))
+}
+
+// FolderNoNotNil applies the NotNil predicate on the "FolderNo" field.
+func FolderNoNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldFolderNo))
+}
+
+// FolderNoEqualFold applies the EqualFold predicate on the "FolderNo" field.
+func FolderNoEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldFolderNo, v))
+}
+
+// FolderNoContainsFold applies the ContainsFold predicate on the "FolderNo" field.
+func FolderNoContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldFolderNo, v))
+}
+
+// UploadedFileEQ applies the EQ predicate on the "UploadedFile" field.
+func UploadedFileEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldUploadedFile, v))
+}
+
+// UploadedFileNEQ applies the NEQ predicate on the "UploadedFile" field.
+func UploadedFileNEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldUploadedFile, v))
+}
+
+// UploadedFileIsNil applies the IsNil predicate on the "UploadedFile" field.
+func UploadedFileIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldUploadedFile))
+}
+
+// UploadedFileNotNil applies the NotNil predicate on the "UploadedFile" field.
+func UploadedFileNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldUploadedFile))
+}
+
+// IndustryAreaEQ applies the EQ predicate on the "IndustryArea" field.
+func IndustryAreaEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldIndustryArea, v))
+}
+
+// IndustryAreaNEQ applies the NEQ predicate on the "IndustryArea" field.
+func IndustryAreaNEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldIndustryArea, v))
+}
+
+// IndustryAreaIsNil applies the IsNil predicate on the "IndustryArea" field.
+func IndustryAreaIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldIndustryArea))
+}
+
+// IndustryAreaNotNil applies the NotNil predicate on the "IndustryArea" field.
+func IndustryAreaNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldIndustryArea))
+}
+
+// ClusterStructureEQ applies the EQ predicate on the "ClusterStructure" field.
+func ClusterStructureEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldClusterStructure, v))
+}
+
+// ClusterStructureNEQ applies the NEQ predicate on the "ClusterStructure" field.
+func ClusterStructureNEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldClusterStructure, v))
+}
+
+// ClusterStructureIsNil applies the IsNil predicate on the "ClusterStructure" field.
+func ClusterStructureIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldClusterStructure))
+}
+
+// ClusterStructureNotNil applies the NotNil predicate on the "ClusterStructure" field.
+func ClusterStructureNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldClusterStructure))
+}
+
+// IsLicenseExpiredEQ applies the EQ predicate on the "IsLicenseExpired" field.
+func IsLicenseExpiredEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldIsLicenseExpired, v))
+}
+
+// IsLicenseExpiredNEQ applies the NEQ predicate on the "IsLicenseExpired" field.
+func IsLicenseExpiredNEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldIsLicenseExpired, v))
+}
+
+// IsLicenseExpiredIsNil applies the IsNil predicate on the "IsLicenseExpired" field.
+func IsLicenseExpiredIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldIsLicenseExpired))
+}
+
+// IsLicenseExpiredNotNil applies the NotNil predicate on the "IsLicenseExpired" field.
+func IsLicenseExpiredNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldIsLicenseExpired))
+}
+
+// IsCompletedEQ applies the EQ predicate on the "IsCompleted" field.
+func IsCompletedEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldIsCompleted, v))
+}
+
+// IsCompletedNEQ applies the NEQ predicate on the "IsCompleted" field.
+func IsCompletedNEQ(v bool) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldIsCompleted, v))
+}
+
+// IsCompletedIsNil applies the IsNil predicate on the "IsCompleted" field.
+func IsCompletedIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldIsCompleted))
+}
+
+// IsCompletedNotNil applies the NotNil predicate on the "IsCompleted" field.
+func IsCompletedNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldIsCompleted))
+}
+
+// NoteEQ applies the EQ predicate on the "Note" field.
+func NoteEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldNote, v))
+}
+
+// NoteNEQ applies the NEQ predicate on the "Note" field.
+func NoteNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldNote, v))
+}
+
+// NoteIn applies the In predicate on the "Note" field.
+func NoteIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldNote, vs...))
+}
+
+// NoteNotIn applies the NotIn predicate on the "Note" field.
+func NoteNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldNote, vs...))
+}
+
+// NoteGT applies the GT predicate on the "Note" field.
+func NoteGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldNote, v))
+}
+
+// NoteGTE applies the GTE predicate on the "Note" field.
+func NoteGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldNote, v))
+}
+
+// NoteLT applies the LT predicate on the "Note" field.
+func NoteLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldNote, v))
+}
+
+// NoteLTE applies the LTE predicate on the "Note" field.
+func NoteLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldNote, v))
+}
+
+// NoteContains applies the Contains predicate on the "Note" field.
+func NoteContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldNote, v))
+}
+
+// NoteHasPrefix applies the HasPrefix predicate on the "Note" field.
+func NoteHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldNote, v))
+}
+
+// NoteHasSuffix applies the HasSuffix predicate on the "Note" field.
+func NoteHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldNote, v))
+}
+
+// NoteIsNil applies the IsNil predicate on the "Note" field.
+func NoteIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldNote))
+}
+
+// NoteNotNil applies the NotNil predicate on the "Note" field.
+func NoteNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldNote))
+}
+
+// NoteEqualFold applies the EqualFold predicate on the "Note" field.
+func NoteEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldNote, v))
+}
+
+// NoteContainsFold applies the ContainsFold predicate on the "Note" field.
+func NoteContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldNote, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

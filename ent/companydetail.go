@@ -35,34 +35,32 @@ type CompanyDetail struct {
 	TaxNo int `json:"TaxNo,omitempty"`
 	// ChamberInfo holds the value of the "ChamberInfo" field.
 	ChamberInfo string `json:"ChamberInfo,omitempty"`
-	// ChamberRegNo holds the value of the "ChamberRegNo" field.
-	ChamberRegNo string `json:"ChamberRegNo,omitempty"`
+	// ChamberRegisterNo holds the value of the "ChamberRegisterNo" field.
+	ChamberRegisterNo string `json:"ChamberRegisterNo,omitempty"`
 	// VisaDate holds the value of the "VisaDate" field.
 	VisaDate time.Time `json:"VisaDate,omitempty"`
 	// VisaEndDate holds the value of the "VisaEndDate" field.
 	VisaEndDate time.Time `json:"VisaEndDate,omitempty"`
-	// OwnerName holds the value of the "OwnerName" field.
-	OwnerName string `json:"OwnerName,omitempty"`
-	// OwnerTcNo holds the value of the "OwnerTcNo" field.
-	OwnerTcNo string `json:"OwnerTcNo,omitempty"`
-	// OwnerAddress holds the value of the "OwnerAddress" field.
-	OwnerAddress string `json:"OwnerAddress,omitempty"`
-	// OwnerPhone holds the value of the "OwnerPhone" field.
-	OwnerPhone string `json:"OwnerPhone,omitempty"`
-	// OwnerEmail holds the value of the "OwnerEmail" field.
-	OwnerEmail string `json:"OwnerEmail,omitempty"`
-	// OwnerRegNo holds the value of the "OwnerRegNo" field.
-	OwnerRegNo string `json:"OwnerRegNo,omitempty"`
-	// OwnerCareer holds the value of the "OwnerCareer" field.
-	OwnerCareer string `json:"OwnerCareer,omitempty"`
-	// OwnerBirthDate holds the value of the "OwnerBirthDate" field.
-	OwnerBirthDate string `json:"OwnerBirthDate,omitempty"`
 	// VisaFinishedFor90Days holds the value of the "VisaFinishedFor90Days" field.
 	VisaFinishedFor90Days bool `json:"VisaFinishedFor90Days,omitempty"`
 	// CorePersonAbsent90Days holds the value of the "CorePersonAbsent90Days" field.
 	CorePersonAbsent90Days bool `json:"CorePersonAbsent90Days,omitempty"`
 	// IsClosed holds the value of the "IsClosed" field.
 	IsClosed bool `json:"IsClosed,omitempty"`
+	// OwnerName holds the value of the "OwnerName" field.
+	OwnerName string `json:"OwnerName,omitempty"`
+	// OwnerTcNo holds the value of the "OwnerTcNo" field.
+	OwnerTcNo int `json:"OwnerTcNo,omitempty"`
+	// OwnerAddress holds the value of the "OwnerAddress" field.
+	OwnerAddress string `json:"OwnerAddress,omitempty"`
+	// OwnerPhone holds the value of the "OwnerPhone" field.
+	OwnerPhone string `json:"OwnerPhone,omitempty"`
+	// OwnerEmail holds the value of the "OwnerEmail" field.
+	OwnerEmail string `json:"OwnerEmail,omitempty"`
+	// OwnerRegisterNo holds the value of the "OwnerRegisterNo" field.
+	OwnerRegisterNo int `json:"OwnerRegisterNo,omitempty"`
+	// OwnerCareer holds the value of the "OwnerCareer" field.
+	OwnerCareer string `json:"OwnerCareer,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -126,9 +124,9 @@ func (*CompanyDetail) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case companydetail.FieldVisaFinishedFor90Days, companydetail.FieldCorePersonAbsent90Days, companydetail.FieldIsClosed:
 			values[i] = new(sql.NullBool)
-		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo:
+		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerRegisterNo:
 			values[i] = new(sql.NullInt64)
-		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldChamberInfo, companydetail.FieldChamberRegNo, companydetail.FieldOwnerName, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerRegNo, companydetail.FieldOwnerCareer, companydetail.FieldOwnerBirthDate:
+		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerCareer:
 			values[i] = new(sql.NullString)
 		case companydetail.FieldVisaDate, companydetail.FieldVisaEndDate, companydetail.FieldCreatedAt, companydetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -207,11 +205,11 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				cd.ChamberInfo = value.String
 			}
-		case companydetail.FieldChamberRegNo:
+		case companydetail.FieldChamberRegisterNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field ChamberRegNo", values[i])
+				return fmt.Errorf("unexpected type %T for field ChamberRegisterNo", values[i])
 			} else if value.Valid {
-				cd.ChamberRegNo = value.String
+				cd.ChamberRegisterNo = value.String
 			}
 		case companydetail.FieldVisaDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -225,6 +223,24 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				cd.VisaEndDate = value.Time
 			}
+		case companydetail.FieldVisaFinishedFor90Days:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field VisaFinishedFor90Days", values[i])
+			} else if value.Valid {
+				cd.VisaFinishedFor90Days = value.Bool
+			}
+		case companydetail.FieldCorePersonAbsent90Days:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field CorePersonAbsent90Days", values[i])
+			} else if value.Valid {
+				cd.CorePersonAbsent90Days = value.Bool
+			}
+		case companydetail.FieldIsClosed:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field IsClosed", values[i])
+			} else if value.Valid {
+				cd.IsClosed = value.Bool
+			}
 		case companydetail.FieldOwnerName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerName", values[i])
@@ -232,10 +248,10 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 				cd.OwnerName = value.String
 			}
 		case companydetail.FieldOwnerTcNo:
-			if value, ok := values[i].(*sql.NullString); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerTcNo", values[i])
 			} else if value.Valid {
-				cd.OwnerTcNo = value.String
+				cd.OwnerTcNo = int(value.Int64)
 			}
 		case companydetail.FieldOwnerAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -255,41 +271,17 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				cd.OwnerEmail = value.String
 			}
-		case companydetail.FieldOwnerRegNo:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field OwnerRegNo", values[i])
+		case companydetail.FieldOwnerRegisterNo:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field OwnerRegisterNo", values[i])
 			} else if value.Valid {
-				cd.OwnerRegNo = value.String
+				cd.OwnerRegisterNo = int(value.Int64)
 			}
 		case companydetail.FieldOwnerCareer:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerCareer", values[i])
 			} else if value.Valid {
 				cd.OwnerCareer = value.String
-			}
-		case companydetail.FieldOwnerBirthDate:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field OwnerBirthDate", values[i])
-			} else if value.Valid {
-				cd.OwnerBirthDate = value.String
-			}
-		case companydetail.FieldVisaFinishedFor90Days:
-			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field VisaFinishedFor90Days", values[i])
-			} else if value.Valid {
-				cd.VisaFinishedFor90Days = value.Bool
-			}
-		case companydetail.FieldCorePersonAbsent90Days:
-			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field CorePersonAbsent90Days", values[i])
-			} else if value.Valid {
-				cd.CorePersonAbsent90Days = value.Bool
-			}
-		case companydetail.FieldIsClosed:
-			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field IsClosed", values[i])
-			} else if value.Valid {
-				cd.IsClosed = value.Bool
 			}
 		case companydetail.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -381,8 +373,8 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString("ChamberInfo=")
 	builder.WriteString(cd.ChamberInfo)
 	builder.WriteString(", ")
-	builder.WriteString("ChamberRegNo=")
-	builder.WriteString(cd.ChamberRegNo)
+	builder.WriteString("ChamberRegisterNo=")
+	builder.WriteString(cd.ChamberRegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("VisaDate=")
 	builder.WriteString(cd.VisaDate.Format(time.ANSIC))
@@ -390,11 +382,20 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString("VisaEndDate=")
 	builder.WriteString(cd.VisaEndDate.Format(time.ANSIC))
 	builder.WriteString(", ")
+	builder.WriteString("VisaFinishedFor90Days=")
+	builder.WriteString(fmt.Sprintf("%v", cd.VisaFinishedFor90Days))
+	builder.WriteString(", ")
+	builder.WriteString("CorePersonAbsent90Days=")
+	builder.WriteString(fmt.Sprintf("%v", cd.CorePersonAbsent90Days))
+	builder.WriteString(", ")
+	builder.WriteString("IsClosed=")
+	builder.WriteString(fmt.Sprintf("%v", cd.IsClosed))
+	builder.WriteString(", ")
 	builder.WriteString("OwnerName=")
 	builder.WriteString(cd.OwnerName)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerTcNo=")
-	builder.WriteString(cd.OwnerTcNo)
+	builder.WriteString(fmt.Sprintf("%v", cd.OwnerTcNo))
 	builder.WriteString(", ")
 	builder.WriteString("OwnerAddress=")
 	builder.WriteString(cd.OwnerAddress)
@@ -405,23 +406,11 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString("OwnerEmail=")
 	builder.WriteString(cd.OwnerEmail)
 	builder.WriteString(", ")
-	builder.WriteString("OwnerRegNo=")
-	builder.WriteString(cd.OwnerRegNo)
+	builder.WriteString("OwnerRegisterNo=")
+	builder.WriteString(fmt.Sprintf("%v", cd.OwnerRegisterNo))
 	builder.WriteString(", ")
 	builder.WriteString("OwnerCareer=")
 	builder.WriteString(cd.OwnerCareer)
-	builder.WriteString(", ")
-	builder.WriteString("OwnerBirthDate=")
-	builder.WriteString(cd.OwnerBirthDate)
-	builder.WriteString(", ")
-	builder.WriteString("VisaFinishedFor90Days=")
-	builder.WriteString(fmt.Sprintf("%v", cd.VisaFinishedFor90Days))
-	builder.WriteString(", ")
-	builder.WriteString("CorePersonAbsent90Days=")
-	builder.WriteString(fmt.Sprintf("%v", cd.CorePersonAbsent90Days))
-	builder.WriteString(", ")
-	builder.WriteString("IsClosed=")
-	builder.WriteString(fmt.Sprintf("%v", cd.IsClosed))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(cd.CreatedAt.Format(time.ANSIC))

@@ -90,9 +90,9 @@ func Position(v string) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldEQ(FieldPosition, v))
 }
 
-// RegNo applies equality check predicate on the "RegNo" field. It's identical to RegNoEQ.
-func RegNo(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldEQ(FieldRegNo, v))
+// RegisterNo applies equality check predicate on the "RegisterNo" field. It's identical to RegisterNoEQ.
+func RegisterNo(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEQ(FieldRegisterNo, v))
 }
 
 // CertNo applies equality check predicate on the "CertNo" field. It's identical to CertNoEQ.
@@ -100,19 +100,14 @@ func CertNo(v int) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldEQ(FieldCertNo, v))
 }
 
-// YdsID applies equality check predicate on the "yds_id" field. It's identical to YdsIDEQ.
-func YdsID(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldEQ(FieldYdsID, v))
+// YDSID applies equality check predicate on the "YDSID" field. It's identical to YDSIDEQ.
+func YDSID(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEQ(FieldYDSID, v))
 }
 
 // Employment applies equality check predicate on the "Employment" field. It's identical to EmploymentEQ.
 func Employment(v time.Time) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldEQ(FieldEmployment, v))
-}
-
-// Dismissal applies equality check predicate on the "Dismissal" field. It's identical to DismissalEQ.
-func Dismissal(v time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldEQ(FieldDismissal, v))
 }
 
 // Status applies equality check predicate on the "Status" field. It's identical to StatusEQ.
@@ -625,54 +620,54 @@ func PositionContainsFold(v string) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldContainsFold(FieldPosition, v))
 }
 
-// RegNoEQ applies the EQ predicate on the "RegNo" field.
-func RegNoEQ(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldEQ(FieldRegNo, v))
+// RegisterNoEQ applies the EQ predicate on the "RegisterNo" field.
+func RegisterNoEQ(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEQ(FieldRegisterNo, v))
 }
 
-// RegNoNEQ applies the NEQ predicate on the "RegNo" field.
-func RegNoNEQ(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNEQ(FieldRegNo, v))
+// RegisterNoNEQ applies the NEQ predicate on the "RegisterNo" field.
+func RegisterNoNEQ(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNEQ(FieldRegisterNo, v))
 }
 
-// RegNoIn applies the In predicate on the "RegNo" field.
-func RegNoIn(vs ...int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldIn(FieldRegNo, vs...))
+// RegisterNoIn applies the In predicate on the "RegisterNo" field.
+func RegisterNoIn(vs ...int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldIn(FieldRegisterNo, vs...))
 }
 
-// RegNoNotIn applies the NotIn predicate on the "RegNo" field.
-func RegNoNotIn(vs ...int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNotIn(FieldRegNo, vs...))
+// RegisterNoNotIn applies the NotIn predicate on the "RegisterNo" field.
+func RegisterNoNotIn(vs ...int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNotIn(FieldRegisterNo, vs...))
 }
 
-// RegNoGT applies the GT predicate on the "RegNo" field.
-func RegNoGT(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldGT(FieldRegNo, v))
+// RegisterNoGT applies the GT predicate on the "RegisterNo" field.
+func RegisterNoGT(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldGT(FieldRegisterNo, v))
 }
 
-// RegNoGTE applies the GTE predicate on the "RegNo" field.
-func RegNoGTE(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldGTE(FieldRegNo, v))
+// RegisterNoGTE applies the GTE predicate on the "RegisterNo" field.
+func RegisterNoGTE(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldGTE(FieldRegisterNo, v))
 }
 
-// RegNoLT applies the LT predicate on the "RegNo" field.
-func RegNoLT(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldLT(FieldRegNo, v))
+// RegisterNoLT applies the LT predicate on the "RegisterNo" field.
+func RegisterNoLT(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldLT(FieldRegisterNo, v))
 }
 
-// RegNoLTE applies the LTE predicate on the "RegNo" field.
-func RegNoLTE(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldLTE(FieldRegNo, v))
+// RegisterNoLTE applies the LTE predicate on the "RegisterNo" field.
+func RegisterNoLTE(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldLTE(FieldRegisterNo, v))
 }
 
-// RegNoIsNil applies the IsNil predicate on the "RegNo" field.
-func RegNoIsNil() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldIsNull(FieldRegNo))
+// RegisterNoIsNil applies the IsNil predicate on the "RegisterNo" field.
+func RegisterNoIsNil() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldIsNull(FieldRegisterNo))
 }
 
-// RegNoNotNil applies the NotNil predicate on the "RegNo" field.
-func RegNoNotNil() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNotNull(FieldRegNo))
+// RegisterNoNotNil applies the NotNil predicate on the "RegisterNo" field.
+func RegisterNoNotNil() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNotNull(FieldRegisterNo))
 }
 
 // CertNoEQ applies the EQ predicate on the "CertNo" field.
@@ -725,54 +720,54 @@ func CertNoNotNil() predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldNotNull(FieldCertNo))
 }
 
-// YdsIDEQ applies the EQ predicate on the "yds_id" field.
-func YdsIDEQ(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldEQ(FieldYdsID, v))
+// YDSIDEQ applies the EQ predicate on the "YDSID" field.
+func YDSIDEQ(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldEQ(FieldYDSID, v))
 }
 
-// YdsIDNEQ applies the NEQ predicate on the "yds_id" field.
-func YdsIDNEQ(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNEQ(FieldYdsID, v))
+// YDSIDNEQ applies the NEQ predicate on the "YDSID" field.
+func YDSIDNEQ(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNEQ(FieldYDSID, v))
 }
 
-// YdsIDIn applies the In predicate on the "yds_id" field.
-func YdsIDIn(vs ...int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldIn(FieldYdsID, vs...))
+// YDSIDIn applies the In predicate on the "YDSID" field.
+func YDSIDIn(vs ...int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldIn(FieldYDSID, vs...))
 }
 
-// YdsIDNotIn applies the NotIn predicate on the "yds_id" field.
-func YdsIDNotIn(vs ...int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNotIn(FieldYdsID, vs...))
+// YDSIDNotIn applies the NotIn predicate on the "YDSID" field.
+func YDSIDNotIn(vs ...int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNotIn(FieldYDSID, vs...))
 }
 
-// YdsIDGT applies the GT predicate on the "yds_id" field.
-func YdsIDGT(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldGT(FieldYdsID, v))
+// YDSIDGT applies the GT predicate on the "YDSID" field.
+func YDSIDGT(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldGT(FieldYDSID, v))
 }
 
-// YdsIDGTE applies the GTE predicate on the "yds_id" field.
-func YdsIDGTE(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldGTE(FieldYdsID, v))
+// YDSIDGTE applies the GTE predicate on the "YDSID" field.
+func YDSIDGTE(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldGTE(FieldYDSID, v))
 }
 
-// YdsIDLT applies the LT predicate on the "yds_id" field.
-func YdsIDLT(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldLT(FieldYdsID, v))
+// YDSIDLT applies the LT predicate on the "YDSID" field.
+func YDSIDLT(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldLT(FieldYDSID, v))
 }
 
-// YdsIDLTE applies the LTE predicate on the "yds_id" field.
-func YdsIDLTE(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldLTE(FieldYdsID, v))
+// YDSIDLTE applies the LTE predicate on the "YDSID" field.
+func YDSIDLTE(v int) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldLTE(FieldYDSID, v))
 }
 
-// YdsIDIsNil applies the IsNil predicate on the "yds_id" field.
-func YdsIDIsNil() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldIsNull(FieldYdsID))
+// YDSIDIsNil applies the IsNil predicate on the "YDSID" field.
+func YDSIDIsNil() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldIsNull(FieldYDSID))
 }
 
-// YdsIDNotNil applies the NotNil predicate on the "yds_id" field.
-func YdsIDNotNil() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNotNull(FieldYdsID))
+// YDSIDNotNil applies the NotNil predicate on the "YDSID" field.
+func YDSIDNotNil() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(sql.FieldNotNull(FieldYDSID))
 }
 
 // EmploymentEQ applies the EQ predicate on the "Employment" field.
@@ -823,56 +818,6 @@ func EmploymentIsNil() predicate.CompanyEngineer {
 // EmploymentNotNil applies the NotNil predicate on the "Employment" field.
 func EmploymentNotNil() predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldNotNull(FieldEmployment))
-}
-
-// DismissalEQ applies the EQ predicate on the "Dismissal" field.
-func DismissalEQ(v time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldEQ(FieldDismissal, v))
-}
-
-// DismissalNEQ applies the NEQ predicate on the "Dismissal" field.
-func DismissalNEQ(v time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNEQ(FieldDismissal, v))
-}
-
-// DismissalIn applies the In predicate on the "Dismissal" field.
-func DismissalIn(vs ...time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldIn(FieldDismissal, vs...))
-}
-
-// DismissalNotIn applies the NotIn predicate on the "Dismissal" field.
-func DismissalNotIn(vs ...time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNotIn(FieldDismissal, vs...))
-}
-
-// DismissalGT applies the GT predicate on the "Dismissal" field.
-func DismissalGT(v time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldGT(FieldDismissal, v))
-}
-
-// DismissalGTE applies the GTE predicate on the "Dismissal" field.
-func DismissalGTE(v time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldGTE(FieldDismissal, v))
-}
-
-// DismissalLT applies the LT predicate on the "Dismissal" field.
-func DismissalLT(v time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldLT(FieldDismissal, v))
-}
-
-// DismissalLTE applies the LTE predicate on the "Dismissal" field.
-func DismissalLTE(v time.Time) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldLTE(FieldDismissal, v))
-}
-
-// DismissalIsNil applies the IsNil predicate on the "Dismissal" field.
-func DismissalIsNil() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldIsNull(FieldDismissal))
-}
-
-// DismissalNotNil applies the NotNil predicate on the "Dismissal" field.
-func DismissalNotNil() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNotNull(FieldDismissal))
 }
 
 // StatusEQ applies the EQ predicate on the "Status" field.

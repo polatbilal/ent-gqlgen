@@ -7,6 +7,7 @@ package resolvers
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
@@ -15,12 +16,50 @@ import (
 
 // CreateOwner is the resolver for the createOwner field.
 func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error) {
-	panic(fmt.Errorf("not implemented: CreateOwner - createOwner"))
+	client := middlewares.GetClientFromContext(ctx)
+	owner, err := client.JobOwner.Create().
+		SetName(*input.Name).
+		SetNillableTcNo(input.TcNo).
+		SetNillableTaxAdmin(input.TaxAdmin).
+		SetNillableTaxNo(input.TaxNo).
+		SetNillablePhone(input.Phone).
+		SetNillableEmail(input.Email).
+		SetNillableYDSID(input.YdsID).
+		SetNillableShareholder(input.Shareholder).
+		SetNillableNote(input.Note).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to create owner: %w", err)
+	}
+
+	return owner, nil
 }
 
 // UpdateOwner is the resolver for the updateOwner field.
 func (r *mutationResolver) UpdateOwner(ctx context.Context, id string, input model.JobOwnerInput) (*ent.JobOwner, error) {
-	panic(fmt.Errorf("not implemented: UpdateOwner - updateOwner"))
+	client := middlewares.GetClientFromContext(ctx)
+	ownerID, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, fmt.Errorf("invalid owner ID: %w", err)
+	}
+	owner, err := client.JobOwner.UpdateOneID(ownerID).
+		SetNillableName(input.Name).
+		SetNillableTcNo(input.TcNo).
+		SetNillableTaxAdmin(input.TaxAdmin).
+		SetNillableTaxNo(input.TaxNo).
+		SetNillablePhone(input.Phone).
+		SetNillableEmail(input.Email).
+		SetNillableYDSID(input.YdsID).
+		SetNillableShareholder(input.Shareholder).
+		SetNillableNote(input.Note).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update owner: %w", err)
+	}
+
+	return owner, nil
 }
 
 // AllOwner is the resolver for the allOwner field.

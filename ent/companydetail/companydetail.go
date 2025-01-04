@@ -32,12 +32,18 @@ const (
 	FieldTaxNo = "tax_no"
 	// FieldChamberInfo holds the string denoting the chamberinfo field in the database.
 	FieldChamberInfo = "chamber_info"
-	// FieldChamberRegNo holds the string denoting the chamberregno field in the database.
-	FieldChamberRegNo = "chamber_reg_no"
+	// FieldChamberRegisterNo holds the string denoting the chamberregisterno field in the database.
+	FieldChamberRegisterNo = "chamber_register_no"
 	// FieldVisaDate holds the string denoting the visadate field in the database.
 	FieldVisaDate = "visa_date"
 	// FieldVisaEndDate holds the string denoting the visaenddate field in the database.
 	FieldVisaEndDate = "visa_end_date"
+	// FieldVisaFinishedFor90Days holds the string denoting the visafinishedfor90days field in the database.
+	FieldVisaFinishedFor90Days = "visa_finished_for90days"
+	// FieldCorePersonAbsent90Days holds the string denoting the corepersonabsent90days field in the database.
+	FieldCorePersonAbsent90Days = "core_person_absent90days"
+	// FieldIsClosed holds the string denoting the isclosed field in the database.
+	FieldIsClosed = "is_closed"
 	// FieldOwnerName holds the string denoting the ownername field in the database.
 	FieldOwnerName = "owner_name"
 	// FieldOwnerTcNo holds the string denoting the ownertcno field in the database.
@@ -48,18 +54,10 @@ const (
 	FieldOwnerPhone = "owner_phone"
 	// FieldOwnerEmail holds the string denoting the owneremail field in the database.
 	FieldOwnerEmail = "owner_email"
-	// FieldOwnerRegNo holds the string denoting the ownerregno field in the database.
-	FieldOwnerRegNo = "owner_reg_no"
+	// FieldOwnerRegisterNo holds the string denoting the ownerregisterno field in the database.
+	FieldOwnerRegisterNo = "owner_register_no"
 	// FieldOwnerCareer holds the string denoting the ownercareer field in the database.
 	FieldOwnerCareer = "owner_career"
-	// FieldOwnerBirthDate holds the string denoting the ownerbirthdate field in the database.
-	FieldOwnerBirthDate = "owner_birth_date"
-	// FieldVisaFinishedFor90Days holds the string denoting the visafinishedfor90days field in the database.
-	FieldVisaFinishedFor90Days = "visa_finished_for90days"
-	// FieldCorePersonAbsent90Days holds the string denoting the corepersonabsent90days field in the database.
-	FieldCorePersonAbsent90Days = "core_person_absent90days"
-	// FieldIsClosed holds the string denoting the isclosed field in the database.
-	FieldIsClosed = "is_closed"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -107,20 +105,19 @@ var Columns = []string{
 	FieldTaxAdmin,
 	FieldTaxNo,
 	FieldChamberInfo,
-	FieldChamberRegNo,
+	FieldChamberRegisterNo,
 	FieldVisaDate,
 	FieldVisaEndDate,
+	FieldVisaFinishedFor90Days,
+	FieldCorePersonAbsent90Days,
+	FieldIsClosed,
 	FieldOwnerName,
 	FieldOwnerTcNo,
 	FieldOwnerAddress,
 	FieldOwnerPhone,
 	FieldOwnerEmail,
-	FieldOwnerRegNo,
+	FieldOwnerRegisterNo,
 	FieldOwnerCareer,
-	FieldOwnerBirthDate,
-	FieldVisaFinishedFor90Days,
-	FieldCorePersonAbsent90Days,
-	FieldIsClosed,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -207,9 +204,9 @@ func ByChamberInfo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldChamberInfo, opts...).ToFunc()
 }
 
-// ByChamberRegNo orders the results by the ChamberRegNo field.
-func ByChamberRegNo(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldChamberRegNo, opts...).ToFunc()
+// ByChamberRegisterNo orders the results by the ChamberRegisterNo field.
+func ByChamberRegisterNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldChamberRegisterNo, opts...).ToFunc()
 }
 
 // ByVisaDate orders the results by the VisaDate field.
@@ -220,6 +217,21 @@ func ByVisaDate(opts ...sql.OrderTermOption) OrderOption {
 // ByVisaEndDate orders the results by the VisaEndDate field.
 func ByVisaEndDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldVisaEndDate, opts...).ToFunc()
+}
+
+// ByVisaFinishedFor90Days orders the results by the VisaFinishedFor90Days field.
+func ByVisaFinishedFor90Days(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldVisaFinishedFor90Days, opts...).ToFunc()
+}
+
+// ByCorePersonAbsent90Days orders the results by the CorePersonAbsent90Days field.
+func ByCorePersonAbsent90Days(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCorePersonAbsent90Days, opts...).ToFunc()
+}
+
+// ByIsClosed orders the results by the IsClosed field.
+func ByIsClosed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsClosed, opts...).ToFunc()
 }
 
 // ByOwnerName orders the results by the OwnerName field.
@@ -247,34 +259,14 @@ func ByOwnerEmail(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOwnerEmail, opts...).ToFunc()
 }
 
-// ByOwnerRegNo orders the results by the OwnerRegNo field.
-func ByOwnerRegNo(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOwnerRegNo, opts...).ToFunc()
+// ByOwnerRegisterNo orders the results by the OwnerRegisterNo field.
+func ByOwnerRegisterNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerRegisterNo, opts...).ToFunc()
 }
 
 // ByOwnerCareer orders the results by the OwnerCareer field.
 func ByOwnerCareer(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOwnerCareer, opts...).ToFunc()
-}
-
-// ByOwnerBirthDate orders the results by the OwnerBirthDate field.
-func ByOwnerBirthDate(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOwnerBirthDate, opts...).ToFunc()
-}
-
-// ByVisaFinishedFor90Days orders the results by the VisaFinishedFor90Days field.
-func ByVisaFinishedFor90Days(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldVisaFinishedFor90Days, opts...).ToFunc()
-}
-
-// ByCorePersonAbsent90Days orders the results by the CorePersonAbsent90Days field.
-func ByCorePersonAbsent90Days(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCorePersonAbsent90Days, opts...).ToFunc()
-}
-
-// ByIsClosed orders the results by the IsClosed field.
-func ByIsClosed(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIsClosed, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

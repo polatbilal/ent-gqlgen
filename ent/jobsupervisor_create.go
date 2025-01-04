@@ -77,16 +77,16 @@ func (jsvc *JobSuperVisorCreate) SetNillableEmail(s *string) *JobSuperVisorCreat
 	return jsvc
 }
 
-// SetTCNO sets the "TCNO" field.
-func (jsvc *JobSuperVisorCreate) SetTCNO(i int) *JobSuperVisorCreate {
-	jsvc.mutation.SetTCNO(i)
+// SetTcNo sets the "TcNo" field.
+func (jsvc *JobSuperVisorCreate) SetTcNo(i int) *JobSuperVisorCreate {
+	jsvc.mutation.SetTcNo(i)
 	return jsvc
 }
 
-// SetNillableTCNO sets the "TCNO" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableTCNO(i *int) *JobSuperVisorCreate {
+// SetNillableTcNo sets the "TcNo" field if the given value is not nil.
+func (jsvc *JobSuperVisorCreate) SetNillableTcNo(i *int) *JobSuperVisorCreate {
 	if i != nil {
-		jsvc.SetTCNO(*i)
+		jsvc.SetTcNo(*i)
 	}
 	return jsvc
 }
@@ -119,16 +119,16 @@ func (jsvc *JobSuperVisorCreate) SetNillableCareer(s *string) *JobSuperVisorCrea
 	return jsvc
 }
 
-// SetRegNo sets the "RegNo" field.
-func (jsvc *JobSuperVisorCreate) SetRegNo(i int) *JobSuperVisorCreate {
-	jsvc.mutation.SetRegNo(i)
+// SetRegisterNo sets the "RegisterNo" field.
+func (jsvc *JobSuperVisorCreate) SetRegisterNo(i int) *JobSuperVisorCreate {
+	jsvc.mutation.SetRegisterNo(i)
 	return jsvc
 }
 
-// SetNillableRegNo sets the "RegNo" field if the given value is not nil.
-func (jsvc *JobSuperVisorCreate) SetNillableRegNo(i *int) *JobSuperVisorCreate {
+// SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
+func (jsvc *JobSuperVisorCreate) SetNillableRegisterNo(i *int) *JobSuperVisorCreate {
 	if i != nil {
-		jsvc.SetRegNo(*i)
+		jsvc.SetRegisterNo(*i)
 	}
 	return jsvc
 }
@@ -313,9 +313,9 @@ func (jsvc *JobSuperVisorCreate) createSpec() (*JobSuperVisor, *sqlgraph.CreateS
 		_spec.SetField(jobsupervisor.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := jsvc.mutation.TCNO(); ok {
-		_spec.SetField(jobsupervisor.FieldTCNO, field.TypeInt, value)
-		_node.TCNO = value
+	if value, ok := jsvc.mutation.TcNo(); ok {
+		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeInt, value)
+		_node.TcNo = value
 	}
 	if value, ok := jsvc.mutation.Position(); ok {
 		_spec.SetField(jobsupervisor.FieldPosition, field.TypeString, value)
@@ -325,9 +325,9 @@ func (jsvc *JobSuperVisorCreate) createSpec() (*JobSuperVisor, *sqlgraph.CreateS
 		_spec.SetField(jobsupervisor.FieldCareer, field.TypeString, value)
 		_node.Career = value
 	}
-	if value, ok := jsvc.mutation.RegNo(); ok {
-		_spec.SetField(jobsupervisor.FieldRegNo, field.TypeInt, value)
-		_node.RegNo = value
+	if value, ok := jsvc.mutation.RegisterNo(); ok {
+		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
+		_node.RegisterNo = value
 	}
 	if value, ok := jsvc.mutation.SocialSecurityNo(); ok {
 		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)

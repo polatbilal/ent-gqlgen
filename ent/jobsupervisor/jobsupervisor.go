@@ -22,14 +22,14 @@ const (
 	FieldPhone = "phone"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
-	// FieldTCNO holds the string denoting the tcno field in the database.
-	FieldTCNO = "tcno"
+	// FieldTcNo holds the string denoting the tcno field in the database.
+	FieldTcNo = "tc_no"
 	// FieldPosition holds the string denoting the position field in the database.
 	FieldPosition = "position"
 	// FieldCareer holds the string denoting the career field in the database.
 	FieldCareer = "career"
-	// FieldRegNo holds the string denoting the regno field in the database.
-	FieldRegNo = "reg_no"
+	// FieldRegisterNo holds the string denoting the registerno field in the database.
+	FieldRegisterNo = "register_no"
 	// FieldSocialSecurityNo holds the string denoting the socialsecurityno field in the database.
 	FieldSocialSecurityNo = "social_security_no"
 	// FieldSchoolGraduation holds the string denoting the schoolgraduation field in the database.
@@ -60,10 +60,10 @@ var Columns = []string{
 	FieldAddress,
 	FieldPhone,
 	FieldEmail,
-	FieldTCNO,
+	FieldTcNo,
 	FieldPosition,
 	FieldCareer,
-	FieldRegNo,
+	FieldRegisterNo,
 	FieldSocialSecurityNo,
 	FieldSchoolGraduation,
 	FieldYDSID,
@@ -118,9 +118,9 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEmail, opts...).ToFunc()
 }
 
-// ByTCNO orders the results by the TCNO field.
-func ByTCNO(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTCNO, opts...).ToFunc()
+// ByTcNo orders the results by the TcNo field.
+func ByTcNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTcNo, opts...).ToFunc()
 }
 
 // ByPosition orders the results by the Position field.
@@ -133,9 +133,9 @@ func ByCareer(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCareer, opts...).ToFunc()
 }
 
-// ByRegNo orders the results by the RegNo field.
-func ByRegNo(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRegNo, opts...).ToFunc()
+// ByRegisterNo orders the results by the RegisterNo field.
+func ByRegisterNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRegisterNo, opts...).ToFunc()
 }
 
 // BySocialSecurityNo orders the results by the SocialSecurityNo field.

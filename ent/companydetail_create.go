@@ -141,16 +141,16 @@ func (cdc *CompanyDetailCreate) SetNillableChamberInfo(s *string) *CompanyDetail
 	return cdc
 }
 
-// SetChamberRegNo sets the "ChamberRegNo" field.
-func (cdc *CompanyDetailCreate) SetChamberRegNo(s string) *CompanyDetailCreate {
-	cdc.mutation.SetChamberRegNo(s)
+// SetChamberRegisterNo sets the "ChamberRegisterNo" field.
+func (cdc *CompanyDetailCreate) SetChamberRegisterNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetChamberRegisterNo(s)
 	return cdc
 }
 
-// SetNillableChamberRegNo sets the "ChamberRegNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableChamberRegNo(s *string) *CompanyDetailCreate {
+// SetNillableChamberRegisterNo sets the "ChamberRegisterNo" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableChamberRegisterNo(s *string) *CompanyDetailCreate {
 	if s != nil {
-		cdc.SetChamberRegNo(*s)
+		cdc.SetChamberRegisterNo(*s)
 	}
 	return cdc
 }
@@ -183,6 +183,48 @@ func (cdc *CompanyDetailCreate) SetNillableVisaEndDate(t *time.Time) *CompanyDet
 	return cdc
 }
 
+// SetVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field.
+func (cdc *CompanyDetailCreate) SetVisaFinishedFor90Days(b bool) *CompanyDetailCreate {
+	cdc.mutation.SetVisaFinishedFor90Days(b)
+	return cdc
+}
+
+// SetNillableVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableVisaFinishedFor90Days(b *bool) *CompanyDetailCreate {
+	if b != nil {
+		cdc.SetVisaFinishedFor90Days(*b)
+	}
+	return cdc
+}
+
+// SetCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field.
+func (cdc *CompanyDetailCreate) SetCorePersonAbsent90Days(b bool) *CompanyDetailCreate {
+	cdc.mutation.SetCorePersonAbsent90Days(b)
+	return cdc
+}
+
+// SetNillableCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableCorePersonAbsent90Days(b *bool) *CompanyDetailCreate {
+	if b != nil {
+		cdc.SetCorePersonAbsent90Days(*b)
+	}
+	return cdc
+}
+
+// SetIsClosed sets the "IsClosed" field.
+func (cdc *CompanyDetailCreate) SetIsClosed(b bool) *CompanyDetailCreate {
+	cdc.mutation.SetIsClosed(b)
+	return cdc
+}
+
+// SetNillableIsClosed sets the "IsClosed" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableIsClosed(b *bool) *CompanyDetailCreate {
+	if b != nil {
+		cdc.SetIsClosed(*b)
+	}
+	return cdc
+}
+
 // SetOwnerName sets the "OwnerName" field.
 func (cdc *CompanyDetailCreate) SetOwnerName(s string) *CompanyDetailCreate {
 	cdc.mutation.SetOwnerName(s)
@@ -198,15 +240,15 @@ func (cdc *CompanyDetailCreate) SetNillableOwnerName(s *string) *CompanyDetailCr
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (cdc *CompanyDetailCreate) SetOwnerTcNo(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerTcNo(s)
+func (cdc *CompanyDetailCreate) SetOwnerTcNo(i int) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerTcNo(i)
 	return cdc
 }
 
 // SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerTcNo(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerTcNo(*s)
+func (cdc *CompanyDetailCreate) SetNillableOwnerTcNo(i *int) *CompanyDetailCreate {
+	if i != nil {
+		cdc.SetOwnerTcNo(*i)
 	}
 	return cdc
 }
@@ -253,16 +295,16 @@ func (cdc *CompanyDetailCreate) SetNillableOwnerEmail(s *string) *CompanyDetailC
 	return cdc
 }
 
-// SetOwnerRegNo sets the "OwnerRegNo" field.
-func (cdc *CompanyDetailCreate) SetOwnerRegNo(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerRegNo(s)
+// SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
+func (cdc *CompanyDetailCreate) SetOwnerRegisterNo(i int) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerRegisterNo(i)
 	return cdc
 }
 
-// SetNillableOwnerRegNo sets the "OwnerRegNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerRegNo(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerRegNo(*s)
+// SetNillableOwnerRegisterNo sets the "OwnerRegisterNo" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerRegisterNo(i *int) *CompanyDetailCreate {
+	if i != nil {
+		cdc.SetOwnerRegisterNo(*i)
 	}
 	return cdc
 }
@@ -277,62 +319,6 @@ func (cdc *CompanyDetailCreate) SetOwnerCareer(s string) *CompanyDetailCreate {
 func (cdc *CompanyDetailCreate) SetNillableOwnerCareer(s *string) *CompanyDetailCreate {
 	if s != nil {
 		cdc.SetOwnerCareer(*s)
-	}
-	return cdc
-}
-
-// SetOwnerBirthDate sets the "OwnerBirthDate" field.
-func (cdc *CompanyDetailCreate) SetOwnerBirthDate(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerBirthDate(s)
-	return cdc
-}
-
-// SetNillableOwnerBirthDate sets the "OwnerBirthDate" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerBirthDate(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerBirthDate(*s)
-	}
-	return cdc
-}
-
-// SetVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field.
-func (cdc *CompanyDetailCreate) SetVisaFinishedFor90Days(b bool) *CompanyDetailCreate {
-	cdc.mutation.SetVisaFinishedFor90Days(b)
-	return cdc
-}
-
-// SetNillableVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableVisaFinishedFor90Days(b *bool) *CompanyDetailCreate {
-	if b != nil {
-		cdc.SetVisaFinishedFor90Days(*b)
-	}
-	return cdc
-}
-
-// SetCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field.
-func (cdc *CompanyDetailCreate) SetCorePersonAbsent90Days(b bool) *CompanyDetailCreate {
-	cdc.mutation.SetCorePersonAbsent90Days(b)
-	return cdc
-}
-
-// SetNillableCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableCorePersonAbsent90Days(b *bool) *CompanyDetailCreate {
-	if b != nil {
-		cdc.SetCorePersonAbsent90Days(*b)
-	}
-	return cdc
-}
-
-// SetIsClosed sets the "IsClosed" field.
-func (cdc *CompanyDetailCreate) SetIsClosed(b bool) *CompanyDetailCreate {
-	cdc.mutation.SetIsClosed(b)
-	return cdc
-}
-
-// SetNillableIsClosed sets the "IsClosed" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableIsClosed(b *bool) *CompanyDetailCreate {
-	if b != nil {
-		cdc.SetIsClosed(*b)
 	}
 	return cdc
 }
@@ -554,9 +540,9 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_spec.SetField(companydetail.FieldChamberInfo, field.TypeString, value)
 		_node.ChamberInfo = value
 	}
-	if value, ok := cdc.mutation.ChamberRegNo(); ok {
-		_spec.SetField(companydetail.FieldChamberRegNo, field.TypeString, value)
-		_node.ChamberRegNo = value
+	if value, ok := cdc.mutation.ChamberRegisterNo(); ok {
+		_spec.SetField(companydetail.FieldChamberRegisterNo, field.TypeString, value)
+		_node.ChamberRegisterNo = value
 	}
 	if value, ok := cdc.mutation.VisaDate(); ok {
 		_spec.SetField(companydetail.FieldVisaDate, field.TypeTime, value)
@@ -566,12 +552,24 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_spec.SetField(companydetail.FieldVisaEndDate, field.TypeTime, value)
 		_node.VisaEndDate = value
 	}
+	if value, ok := cdc.mutation.VisaFinishedFor90Days(); ok {
+		_spec.SetField(companydetail.FieldVisaFinishedFor90Days, field.TypeBool, value)
+		_node.VisaFinishedFor90Days = value
+	}
+	if value, ok := cdc.mutation.CorePersonAbsent90Days(); ok {
+		_spec.SetField(companydetail.FieldCorePersonAbsent90Days, field.TypeBool, value)
+		_node.CorePersonAbsent90Days = value
+	}
+	if value, ok := cdc.mutation.IsClosed(); ok {
+		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
+		_node.IsClosed = value
+	}
 	if value, ok := cdc.mutation.OwnerName(); ok {
 		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)
 		_node.OwnerName = value
 	}
 	if value, ok := cdc.mutation.OwnerTcNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
+		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeInt, value)
 		_node.OwnerTcNo = value
 	}
 	if value, ok := cdc.mutation.OwnerAddress(); ok {
@@ -586,29 +584,13 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_spec.SetField(companydetail.FieldOwnerEmail, field.TypeString, value)
 		_node.OwnerEmail = value
 	}
-	if value, ok := cdc.mutation.OwnerRegNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerRegNo, field.TypeString, value)
-		_node.OwnerRegNo = value
+	if value, ok := cdc.mutation.OwnerRegisterNo(); ok {
+		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeInt, value)
+		_node.OwnerRegisterNo = value
 	}
 	if value, ok := cdc.mutation.OwnerCareer(); ok {
 		_spec.SetField(companydetail.FieldOwnerCareer, field.TypeString, value)
 		_node.OwnerCareer = value
-	}
-	if value, ok := cdc.mutation.OwnerBirthDate(); ok {
-		_spec.SetField(companydetail.FieldOwnerBirthDate, field.TypeString, value)
-		_node.OwnerBirthDate = value
-	}
-	if value, ok := cdc.mutation.VisaFinishedFor90Days(); ok {
-		_spec.SetField(companydetail.FieldVisaFinishedFor90Days, field.TypeBool, value)
-		_node.VisaFinishedFor90Days = value
-	}
-	if value, ok := cdc.mutation.CorePersonAbsent90Days(); ok {
-		_spec.SetField(companydetail.FieldCorePersonAbsent90Days, field.TypeBool, value)
-		_node.CorePersonAbsent90Days = value
-	}
-	if value, ok := cdc.mutation.IsClosed(); ok {
-		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
-		_node.IsClosed = value
 	}
 	if value, ok := cdc.mutation.CreatedAt(); ok {
 		_spec.SetField(companydetail.FieldCreatedAt, field.TypeTime, value)

@@ -35,20 +35,6 @@ func (joc *JobOwnerCreate) SetNillableName(s *string) *JobOwnerCreate {
 	return joc
 }
 
-// SetTcNo sets the "TcNo" field.
-func (joc *JobOwnerCreate) SetTcNo(i int) *JobOwnerCreate {
-	joc.mutation.SetTcNo(i)
-	return joc
-}
-
-// SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableTcNo(i *int) *JobOwnerCreate {
-	if i != nil {
-		joc.SetTcNo(*i)
-	}
-	return joc
-}
-
 // SetAddress sets the "Address" field.
 func (joc *JobOwnerCreate) SetAddress(s string) *JobOwnerCreate {
 	joc.mutation.SetAddress(s)
@@ -59,6 +45,20 @@ func (joc *JobOwnerCreate) SetAddress(s string) *JobOwnerCreate {
 func (joc *JobOwnerCreate) SetNillableAddress(s *string) *JobOwnerCreate {
 	if s != nil {
 		joc.SetAddress(*s)
+	}
+	return joc
+}
+
+// SetTcNo sets the "TcNo" field.
+func (joc *JobOwnerCreate) SetTcNo(i int) *JobOwnerCreate {
+	joc.mutation.SetTcNo(i)
+	return joc
+}
+
+// SetNillableTcNo sets the "TcNo" field if the given value is not nil.
+func (joc *JobOwnerCreate) SetNillableTcNo(i *int) *JobOwnerCreate {
+	if i != nil {
+		joc.SetTcNo(*i)
 	}
 	return joc
 }
@@ -119,16 +119,30 @@ func (joc *JobOwnerCreate) SetNillableEmail(s *string) *JobOwnerCreate {
 	return joc
 }
 
-// SetYdsID sets the "yds_id" field.
-func (joc *JobOwnerCreate) SetYdsID(i int) *JobOwnerCreate {
-	joc.mutation.SetYdsID(i)
+// SetYDSID sets the "YDSID" field.
+func (joc *JobOwnerCreate) SetYDSID(i int) *JobOwnerCreate {
+	joc.mutation.SetYDSID(i)
 	return joc
 }
 
-// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableYdsID(i *int) *JobOwnerCreate {
+// SetNillableYDSID sets the "YDSID" field if the given value is not nil.
+func (joc *JobOwnerCreate) SetNillableYDSID(i *int) *JobOwnerCreate {
 	if i != nil {
-		joc.SetYdsID(*i)
+		joc.SetYDSID(*i)
+	}
+	return joc
+}
+
+// SetShareholder sets the "Shareholder" field.
+func (joc *JobOwnerCreate) SetShareholder(b bool) *JobOwnerCreate {
+	joc.mutation.SetShareholder(b)
+	return joc
+}
+
+// SetNillableShareholder sets the "Shareholder" field if the given value is not nil.
+func (joc *JobOwnerCreate) SetNillableShareholder(b *bool) *JobOwnerCreate {
+	if b != nil {
+		joc.SetShareholder(*b)
 	}
 	return joc
 }
@@ -229,6 +243,10 @@ func (joc *JobOwnerCreate) defaults() {
 		v := jobowner.DefaultName
 		joc.mutation.SetName(v)
 	}
+	if _, ok := joc.mutation.Shareholder(); !ok {
+		v := jobowner.DefaultShareholder
+		joc.mutation.SetShareholder(v)
+	}
 	if _, ok := joc.mutation.CreatedAt(); !ok {
 		v := jobowner.DefaultCreatedAt()
 		joc.mutation.SetCreatedAt(v)
@@ -243,6 +261,9 @@ func (joc *JobOwnerCreate) defaults() {
 func (joc *JobOwnerCreate) check() error {
 	if _, ok := joc.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "JobOwner.Name"`)}
+	}
+	if _, ok := joc.mutation.Shareholder(); !ok {
+		return &ValidationError{Name: "Shareholder", err: errors.New(`ent: missing required field "JobOwner.Shareholder"`)}
 	}
 	if _, ok := joc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobOwner.CreatedAt"`)}
@@ -280,13 +301,13 @@ func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobowner.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := joc.mutation.TcNo(); ok {
-		_spec.SetField(jobowner.FieldTcNo, field.TypeInt, value)
-		_node.TcNo = value
-	}
 	if value, ok := joc.mutation.Address(); ok {
 		_spec.SetField(jobowner.FieldAddress, field.TypeString, value)
 		_node.Address = value
+	}
+	if value, ok := joc.mutation.TcNo(); ok {
+		_spec.SetField(jobowner.FieldTcNo, field.TypeInt, value)
+		_node.TcNo = value
 	}
 	if value, ok := joc.mutation.TaxAdmin(); ok {
 		_spec.SetField(jobowner.FieldTaxAdmin, field.TypeString, value)
@@ -304,9 +325,13 @@ func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobowner.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := joc.mutation.YdsID(); ok {
-		_spec.SetField(jobowner.FieldYdsID, field.TypeInt, value)
-		_node.YdsID = value
+	if value, ok := joc.mutation.YDSID(); ok {
+		_spec.SetField(jobowner.FieldYDSID, field.TypeInt, value)
+		_node.YDSID = value
+	}
+	if value, ok := joc.mutation.Shareholder(); ok {
+		_spec.SetField(jobowner.FieldShareholder, field.TypeBool, value)
+		_node.Shareholder = value
 	}
 	if value, ok := joc.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)

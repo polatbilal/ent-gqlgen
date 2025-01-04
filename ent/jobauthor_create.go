@@ -21,20 +21,6 @@ type JobAuthorCreate struct {
 	hooks    []Hook
 }
 
-// SetArchitect sets the "Architect" field.
-func (jac *JobAuthorCreate) SetArchitect(s string) *JobAuthorCreate {
-	jac.mutation.SetArchitect(s)
-	return jac
-}
-
-// SetNillableArchitect sets the "Architect" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableArchitect(s *string) *JobAuthorCreate {
-	if s != nil {
-		jac.SetArchitect(*s)
-	}
-	return jac
-}
-
 // SetStatic sets the "Static" field.
 func (jac *JobAuthorCreate) SetStatic(s string) *JobAuthorCreate {
 	jac.mutation.SetStatic(s)
@@ -77,16 +63,58 @@ func (jac *JobAuthorCreate) SetNillableElectric(s *string) *JobAuthorCreate {
 	return jac
 }
 
-// SetFloor sets the "Floor" field.
-func (jac *JobAuthorCreate) SetFloor(s string) *JobAuthorCreate {
-	jac.mutation.SetFloor(s)
+// SetArchitect sets the "Architect" field.
+func (jac *JobAuthorCreate) SetArchitect(s string) *JobAuthorCreate {
+	jac.mutation.SetArchitect(s)
 	return jac
 }
 
-// SetNillableFloor sets the "Floor" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableFloor(s *string) *JobAuthorCreate {
+// SetNillableArchitect sets the "Architect" field if the given value is not nil.
+func (jac *JobAuthorCreate) SetNillableArchitect(s *string) *JobAuthorCreate {
 	if s != nil {
-		jac.SetFloor(*s)
+		jac.SetArchitect(*s)
+	}
+	return jac
+}
+
+// SetGeotechnicalEngineer sets the "GeotechnicalEngineer" field.
+func (jac *JobAuthorCreate) SetGeotechnicalEngineer(s string) *JobAuthorCreate {
+	jac.mutation.SetGeotechnicalEngineer(s)
+	return jac
+}
+
+// SetNillableGeotechnicalEngineer sets the "GeotechnicalEngineer" field if the given value is not nil.
+func (jac *JobAuthorCreate) SetNillableGeotechnicalEngineer(s *string) *JobAuthorCreate {
+	if s != nil {
+		jac.SetGeotechnicalEngineer(*s)
+	}
+	return jac
+}
+
+// SetGeotechnicalGeologist sets the "GeotechnicalGeologist" field.
+func (jac *JobAuthorCreate) SetGeotechnicalGeologist(s string) *JobAuthorCreate {
+	jac.mutation.SetGeotechnicalGeologist(s)
+	return jac
+}
+
+// SetNillableGeotechnicalGeologist sets the "GeotechnicalGeologist" field if the given value is not nil.
+func (jac *JobAuthorCreate) SetNillableGeotechnicalGeologist(s *string) *JobAuthorCreate {
+	if s != nil {
+		jac.SetGeotechnicalGeologist(*s)
+	}
+	return jac
+}
+
+// SetGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field.
+func (jac *JobAuthorCreate) SetGeotechnicalGeophysicist(s string) *JobAuthorCreate {
+	jac.mutation.SetGeotechnicalGeophysicist(s)
+	return jac
+}
+
+// SetNillableGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field if the given value is not nil.
+func (jac *JobAuthorCreate) SetNillableGeotechnicalGeophysicist(s *string) *JobAuthorCreate {
+	if s != nil {
+		jac.SetGeotechnicalGeophysicist(*s)
 	}
 	return jac
 }
@@ -169,26 +197,6 @@ func (jac *JobAuthorCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (jac *JobAuthorCreate) defaults() {
-	if _, ok := jac.mutation.Architect(); !ok {
-		v := jobauthor.DefaultArchitect
-		jac.mutation.SetArchitect(v)
-	}
-	if _, ok := jac.mutation.Static(); !ok {
-		v := jobauthor.DefaultStatic
-		jac.mutation.SetStatic(v)
-	}
-	if _, ok := jac.mutation.Mechanic(); !ok {
-		v := jobauthor.DefaultMechanic
-		jac.mutation.SetMechanic(v)
-	}
-	if _, ok := jac.mutation.Electric(); !ok {
-		v := jobauthor.DefaultElectric
-		jac.mutation.SetElectric(v)
-	}
-	if _, ok := jac.mutation.Floor(); !ok {
-		v := jobauthor.DefaultFloor
-		jac.mutation.SetFloor(v)
-	}
 	if _, ok := jac.mutation.CreatedAt(); !ok {
 		v := jobauthor.DefaultCreatedAt()
 		jac.mutation.SetCreatedAt(v)
@@ -233,10 +241,6 @@ func (jac *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
 		_node = &JobAuthor{config: jac.config}
 		_spec = sqlgraph.NewCreateSpec(jobauthor.Table, sqlgraph.NewFieldSpec(jobauthor.FieldID, field.TypeInt))
 	)
-	if value, ok := jac.mutation.Architect(); ok {
-		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
-		_node.Architect = value
-	}
 	if value, ok := jac.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
 		_node.Static = value
@@ -249,9 +253,21 @@ func (jac *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobauthor.FieldElectric, field.TypeString, value)
 		_node.Electric = value
 	}
-	if value, ok := jac.mutation.Floor(); ok {
-		_spec.SetField(jobauthor.FieldFloor, field.TypeString, value)
-		_node.Floor = value
+	if value, ok := jac.mutation.Architect(); ok {
+		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
+		_node.Architect = value
+	}
+	if value, ok := jac.mutation.GeotechnicalEngineer(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalEngineer, field.TypeString, value)
+		_node.GeotechnicalEngineer = value
+	}
+	if value, ok := jac.mutation.GeotechnicalGeologist(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalGeologist, field.TypeString, value)
+		_node.GeotechnicalGeologist = value
+	}
+	if value, ok := jac.mutation.GeotechnicalGeophysicist(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString, value)
+		_node.GeotechnicalGeophysicist = value
 	}
 	if value, ok := jac.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)

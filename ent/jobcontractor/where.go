@@ -65,24 +65,24 @@ func TcNo(v int) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldTcNo, v))
 }
 
-// Address applies equality check predicate on the "Address" field. It's identical to AddressEQ.
-func Address(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldAddress, v))
-}
-
 // RegisterNo applies equality check predicate on the "RegisterNo" field. It's identical to RegisterNoEQ.
 func RegisterNo(v int) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldRegisterNo, v))
 }
 
-// TaxAdmin applies equality check predicate on the "TaxAdmin" field. It's identical to TaxAdminEQ.
-func TaxAdmin(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldTaxAdmin, v))
+// Address applies equality check predicate on the "Address" field. It's identical to AddressEQ.
+func Address(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldAddress, v))
 }
 
 // TaxNo applies equality check predicate on the "TaxNo" field. It's identical to TaxNoEQ.
 func TaxNo(v int) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldTaxNo, v))
+}
+
+// MobilePhone applies equality check predicate on the "MobilePhone" field. It's identical to MobilePhoneEQ.
+func MobilePhone(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldMobilePhone, v))
 }
 
 // Phone applies equality check predicate on the "Phone" field. It's identical to PhoneEQ.
@@ -95,9 +95,14 @@ func Email(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldEmail, v))
 }
 
-// YdsID applies equality check predicate on the "yds_id" field. It's identical to YdsIDEQ.
-func YdsID(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldYdsID, v))
+// PersonType applies equality check predicate on the "PersonType" field. It's identical to PersonTypeEQ.
+func PersonType(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldPersonType, v))
+}
+
+// YDSID applies equality check predicate on the "YDSID" field. It's identical to YDSIDEQ.
+func YDSID(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldYDSID, v))
 }
 
 // Note applies equality check predicate on the "Note" field. It's identical to NoteEQ.
@@ -230,6 +235,56 @@ func TcNoNotNil() predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldNotNull(FieldTcNo))
 }
 
+// RegisterNoEQ applies the EQ predicate on the "RegisterNo" field.
+func RegisterNoEQ(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldRegisterNo, v))
+}
+
+// RegisterNoNEQ applies the NEQ predicate on the "RegisterNo" field.
+func RegisterNoNEQ(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNEQ(FieldRegisterNo, v))
+}
+
+// RegisterNoIn applies the In predicate on the "RegisterNo" field.
+func RegisterNoIn(vs ...int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIn(FieldRegisterNo, vs...))
+}
+
+// RegisterNoNotIn applies the NotIn predicate on the "RegisterNo" field.
+func RegisterNoNotIn(vs ...int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotIn(FieldRegisterNo, vs...))
+}
+
+// RegisterNoGT applies the GT predicate on the "RegisterNo" field.
+func RegisterNoGT(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGT(FieldRegisterNo, v))
+}
+
+// RegisterNoGTE applies the GTE predicate on the "RegisterNo" field.
+func RegisterNoGTE(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGTE(FieldRegisterNo, v))
+}
+
+// RegisterNoLT applies the LT predicate on the "RegisterNo" field.
+func RegisterNoLT(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLT(FieldRegisterNo, v))
+}
+
+// RegisterNoLTE applies the LTE predicate on the "RegisterNo" field.
+func RegisterNoLTE(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLTE(FieldRegisterNo, v))
+}
+
+// RegisterNoIsNil applies the IsNil predicate on the "RegisterNo" field.
+func RegisterNoIsNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIsNull(FieldRegisterNo))
+}
+
+// RegisterNoNotNil applies the NotNil predicate on the "RegisterNo" field.
+func RegisterNoNotNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotNull(FieldRegisterNo))
+}
+
 // AddressEQ applies the EQ predicate on the "Address" field.
 func AddressEQ(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldAddress, v))
@@ -305,131 +360,6 @@ func AddressContainsFold(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldContainsFold(FieldAddress, v))
 }
 
-// RegisterNoEQ applies the EQ predicate on the "RegisterNo" field.
-func RegisterNoEQ(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldRegisterNo, v))
-}
-
-// RegisterNoNEQ applies the NEQ predicate on the "RegisterNo" field.
-func RegisterNoNEQ(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNEQ(FieldRegisterNo, v))
-}
-
-// RegisterNoIn applies the In predicate on the "RegisterNo" field.
-func RegisterNoIn(vs ...int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIn(FieldRegisterNo, vs...))
-}
-
-// RegisterNoNotIn applies the NotIn predicate on the "RegisterNo" field.
-func RegisterNoNotIn(vs ...int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotIn(FieldRegisterNo, vs...))
-}
-
-// RegisterNoGT applies the GT predicate on the "RegisterNo" field.
-func RegisterNoGT(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGT(FieldRegisterNo, v))
-}
-
-// RegisterNoGTE applies the GTE predicate on the "RegisterNo" field.
-func RegisterNoGTE(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGTE(FieldRegisterNo, v))
-}
-
-// RegisterNoLT applies the LT predicate on the "RegisterNo" field.
-func RegisterNoLT(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLT(FieldRegisterNo, v))
-}
-
-// RegisterNoLTE applies the LTE predicate on the "RegisterNo" field.
-func RegisterNoLTE(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLTE(FieldRegisterNo, v))
-}
-
-// RegisterNoIsNil applies the IsNil predicate on the "RegisterNo" field.
-func RegisterNoIsNil() predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIsNull(FieldRegisterNo))
-}
-
-// RegisterNoNotNil applies the NotNil predicate on the "RegisterNo" field.
-func RegisterNoNotNil() predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotNull(FieldRegisterNo))
-}
-
-// TaxAdminEQ applies the EQ predicate on the "TaxAdmin" field.
-func TaxAdminEQ(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldTaxAdmin, v))
-}
-
-// TaxAdminNEQ applies the NEQ predicate on the "TaxAdmin" field.
-func TaxAdminNEQ(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNEQ(FieldTaxAdmin, v))
-}
-
-// TaxAdminIn applies the In predicate on the "TaxAdmin" field.
-func TaxAdminIn(vs ...string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIn(FieldTaxAdmin, vs...))
-}
-
-// TaxAdminNotIn applies the NotIn predicate on the "TaxAdmin" field.
-func TaxAdminNotIn(vs ...string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotIn(FieldTaxAdmin, vs...))
-}
-
-// TaxAdminGT applies the GT predicate on the "TaxAdmin" field.
-func TaxAdminGT(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGT(FieldTaxAdmin, v))
-}
-
-// TaxAdminGTE applies the GTE predicate on the "TaxAdmin" field.
-func TaxAdminGTE(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGTE(FieldTaxAdmin, v))
-}
-
-// TaxAdminLT applies the LT predicate on the "TaxAdmin" field.
-func TaxAdminLT(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLT(FieldTaxAdmin, v))
-}
-
-// TaxAdminLTE applies the LTE predicate on the "TaxAdmin" field.
-func TaxAdminLTE(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLTE(FieldTaxAdmin, v))
-}
-
-// TaxAdminContains applies the Contains predicate on the "TaxAdmin" field.
-func TaxAdminContains(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldContains(FieldTaxAdmin, v))
-}
-
-// TaxAdminHasPrefix applies the HasPrefix predicate on the "TaxAdmin" field.
-func TaxAdminHasPrefix(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldHasPrefix(FieldTaxAdmin, v))
-}
-
-// TaxAdminHasSuffix applies the HasSuffix predicate on the "TaxAdmin" field.
-func TaxAdminHasSuffix(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldHasSuffix(FieldTaxAdmin, v))
-}
-
-// TaxAdminIsNil applies the IsNil predicate on the "TaxAdmin" field.
-func TaxAdminIsNil() predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIsNull(FieldTaxAdmin))
-}
-
-// TaxAdminNotNil applies the NotNil predicate on the "TaxAdmin" field.
-func TaxAdminNotNil() predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotNull(FieldTaxAdmin))
-}
-
-// TaxAdminEqualFold applies the EqualFold predicate on the "TaxAdmin" field.
-func TaxAdminEqualFold(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEqualFold(FieldTaxAdmin, v))
-}
-
-// TaxAdminContainsFold applies the ContainsFold predicate on the "TaxAdmin" field.
-func TaxAdminContainsFold(v string) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldContainsFold(FieldTaxAdmin, v))
-}
-
 // TaxNoEQ applies the EQ predicate on the "TaxNo" field.
 func TaxNoEQ(v int) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldEQ(FieldTaxNo, v))
@@ -478,6 +408,81 @@ func TaxNoIsNil() predicate.JobContractor {
 // TaxNoNotNil applies the NotNil predicate on the "TaxNo" field.
 func TaxNoNotNil() predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldNotNull(FieldTaxNo))
+}
+
+// MobilePhoneEQ applies the EQ predicate on the "MobilePhone" field.
+func MobilePhoneEQ(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldMobilePhone, v))
+}
+
+// MobilePhoneNEQ applies the NEQ predicate on the "MobilePhone" field.
+func MobilePhoneNEQ(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNEQ(FieldMobilePhone, v))
+}
+
+// MobilePhoneIn applies the In predicate on the "MobilePhone" field.
+func MobilePhoneIn(vs ...string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIn(FieldMobilePhone, vs...))
+}
+
+// MobilePhoneNotIn applies the NotIn predicate on the "MobilePhone" field.
+func MobilePhoneNotIn(vs ...string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotIn(FieldMobilePhone, vs...))
+}
+
+// MobilePhoneGT applies the GT predicate on the "MobilePhone" field.
+func MobilePhoneGT(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGT(FieldMobilePhone, v))
+}
+
+// MobilePhoneGTE applies the GTE predicate on the "MobilePhone" field.
+func MobilePhoneGTE(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGTE(FieldMobilePhone, v))
+}
+
+// MobilePhoneLT applies the LT predicate on the "MobilePhone" field.
+func MobilePhoneLT(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLT(FieldMobilePhone, v))
+}
+
+// MobilePhoneLTE applies the LTE predicate on the "MobilePhone" field.
+func MobilePhoneLTE(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLTE(FieldMobilePhone, v))
+}
+
+// MobilePhoneContains applies the Contains predicate on the "MobilePhone" field.
+func MobilePhoneContains(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldContains(FieldMobilePhone, v))
+}
+
+// MobilePhoneHasPrefix applies the HasPrefix predicate on the "MobilePhone" field.
+func MobilePhoneHasPrefix(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldHasPrefix(FieldMobilePhone, v))
+}
+
+// MobilePhoneHasSuffix applies the HasSuffix predicate on the "MobilePhone" field.
+func MobilePhoneHasSuffix(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldHasSuffix(FieldMobilePhone, v))
+}
+
+// MobilePhoneIsNil applies the IsNil predicate on the "MobilePhone" field.
+func MobilePhoneIsNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIsNull(FieldMobilePhone))
+}
+
+// MobilePhoneNotNil applies the NotNil predicate on the "MobilePhone" field.
+func MobilePhoneNotNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotNull(FieldMobilePhone))
+}
+
+// MobilePhoneEqualFold applies the EqualFold predicate on the "MobilePhone" field.
+func MobilePhoneEqualFold(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEqualFold(FieldMobilePhone, v))
+}
+
+// MobilePhoneContainsFold applies the ContainsFold predicate on the "MobilePhone" field.
+func MobilePhoneContainsFold(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldContainsFold(FieldMobilePhone, v))
 }
 
 // PhoneEQ applies the EQ predicate on the "Phone" field.
@@ -630,54 +635,129 @@ func EmailContainsFold(v string) predicate.JobContractor {
 	return predicate.JobContractor(sql.FieldContainsFold(FieldEmail, v))
 }
 
-// YdsIDEQ applies the EQ predicate on the "yds_id" field.
-func YdsIDEQ(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldEQ(FieldYdsID, v))
+// PersonTypeEQ applies the EQ predicate on the "PersonType" field.
+func PersonTypeEQ(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldPersonType, v))
 }
 
-// YdsIDNEQ applies the NEQ predicate on the "yds_id" field.
-func YdsIDNEQ(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNEQ(FieldYdsID, v))
+// PersonTypeNEQ applies the NEQ predicate on the "PersonType" field.
+func PersonTypeNEQ(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNEQ(FieldPersonType, v))
 }
 
-// YdsIDIn applies the In predicate on the "yds_id" field.
-func YdsIDIn(vs ...int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIn(FieldYdsID, vs...))
+// PersonTypeIn applies the In predicate on the "PersonType" field.
+func PersonTypeIn(vs ...string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIn(FieldPersonType, vs...))
 }
 
-// YdsIDNotIn applies the NotIn predicate on the "yds_id" field.
-func YdsIDNotIn(vs ...int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotIn(FieldYdsID, vs...))
+// PersonTypeNotIn applies the NotIn predicate on the "PersonType" field.
+func PersonTypeNotIn(vs ...string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotIn(FieldPersonType, vs...))
 }
 
-// YdsIDGT applies the GT predicate on the "yds_id" field.
-func YdsIDGT(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGT(FieldYdsID, v))
+// PersonTypeGT applies the GT predicate on the "PersonType" field.
+func PersonTypeGT(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGT(FieldPersonType, v))
 }
 
-// YdsIDGTE applies the GTE predicate on the "yds_id" field.
-func YdsIDGTE(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldGTE(FieldYdsID, v))
+// PersonTypeGTE applies the GTE predicate on the "PersonType" field.
+func PersonTypeGTE(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGTE(FieldPersonType, v))
 }
 
-// YdsIDLT applies the LT predicate on the "yds_id" field.
-func YdsIDLT(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLT(FieldYdsID, v))
+// PersonTypeLT applies the LT predicate on the "PersonType" field.
+func PersonTypeLT(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLT(FieldPersonType, v))
 }
 
-// YdsIDLTE applies the LTE predicate on the "yds_id" field.
-func YdsIDLTE(v int) predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldLTE(FieldYdsID, v))
+// PersonTypeLTE applies the LTE predicate on the "PersonType" field.
+func PersonTypeLTE(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLTE(FieldPersonType, v))
 }
 
-// YdsIDIsNil applies the IsNil predicate on the "yds_id" field.
-func YdsIDIsNil() predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldIsNull(FieldYdsID))
+// PersonTypeContains applies the Contains predicate on the "PersonType" field.
+func PersonTypeContains(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldContains(FieldPersonType, v))
 }
 
-// YdsIDNotNil applies the NotNil predicate on the "yds_id" field.
-func YdsIDNotNil() predicate.JobContractor {
-	return predicate.JobContractor(sql.FieldNotNull(FieldYdsID))
+// PersonTypeHasPrefix applies the HasPrefix predicate on the "PersonType" field.
+func PersonTypeHasPrefix(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldHasPrefix(FieldPersonType, v))
+}
+
+// PersonTypeHasSuffix applies the HasSuffix predicate on the "PersonType" field.
+func PersonTypeHasSuffix(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldHasSuffix(FieldPersonType, v))
+}
+
+// PersonTypeIsNil applies the IsNil predicate on the "PersonType" field.
+func PersonTypeIsNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIsNull(FieldPersonType))
+}
+
+// PersonTypeNotNil applies the NotNil predicate on the "PersonType" field.
+func PersonTypeNotNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotNull(FieldPersonType))
+}
+
+// PersonTypeEqualFold applies the EqualFold predicate on the "PersonType" field.
+func PersonTypeEqualFold(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEqualFold(FieldPersonType, v))
+}
+
+// PersonTypeContainsFold applies the ContainsFold predicate on the "PersonType" field.
+func PersonTypeContainsFold(v string) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldContainsFold(FieldPersonType, v))
+}
+
+// YDSIDEQ applies the EQ predicate on the "YDSID" field.
+func YDSIDEQ(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldEQ(FieldYDSID, v))
+}
+
+// YDSIDNEQ applies the NEQ predicate on the "YDSID" field.
+func YDSIDNEQ(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNEQ(FieldYDSID, v))
+}
+
+// YDSIDIn applies the In predicate on the "YDSID" field.
+func YDSIDIn(vs ...int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIn(FieldYDSID, vs...))
+}
+
+// YDSIDNotIn applies the NotIn predicate on the "YDSID" field.
+func YDSIDNotIn(vs ...int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotIn(FieldYDSID, vs...))
+}
+
+// YDSIDGT applies the GT predicate on the "YDSID" field.
+func YDSIDGT(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGT(FieldYDSID, v))
+}
+
+// YDSIDGTE applies the GTE predicate on the "YDSID" field.
+func YDSIDGTE(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldGTE(FieldYDSID, v))
+}
+
+// YDSIDLT applies the LT predicate on the "YDSID" field.
+func YDSIDLT(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLT(FieldYDSID, v))
+}
+
+// YDSIDLTE applies the LTE predicate on the "YDSID" field.
+func YDSIDLTE(v int) predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldLTE(FieldYDSID, v))
+}
+
+// YDSIDIsNil applies the IsNil predicate on the "YDSID" field.
+func YDSIDIsNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldIsNull(FieldYDSID))
+}
+
+// YDSIDNotNil applies the NotNil predicate on the "YDSID" field.
+func YDSIDNotNil() predicate.JobContractor {
+	return predicate.JobContractor(sql.FieldNotNull(FieldYDSID))
 }
 
 // NoteEQ applies the EQ predicate on the "Note" field.

@@ -16,32 +16,36 @@ const (
 	FieldID = "id"
 	// FieldYibfNo holds the string denoting the yibfno field in the database.
 	FieldYibfNo = "yibf_no"
-	// FieldIdare holds the string denoting the idare field in the database.
-	FieldIdare = "idare"
-	// FieldPafta holds the string denoting the pafta field in the database.
-	FieldPafta = "pafta"
-	// FieldAda holds the string denoting the ada field in the database.
-	FieldAda = "ada"
-	// FieldParsel holds the string denoting the parsel field in the database.
-	FieldParsel = "parsel"
-	// FieldFolderNo holds the string denoting the folderno field in the database.
-	FieldFolderNo = "folder_no"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
+	// FieldTitle holds the string denoting the title field in the database.
+	FieldTitle = "title"
+	// FieldAdministration holds the string denoting the administration field in the database.
+	FieldAdministration = "administration"
 	// FieldState holds the string denoting the state field in the database.
 	FieldState = "state"
+	// FieldIsland holds the string denoting the island field in the database.
+	FieldIsland = "island"
+	// FieldParcel holds the string denoting the parcel field in the database.
+	FieldParcel = "parcel"
+	// FieldSheet holds the string denoting the sheet field in the database.
+	FieldSheet = "sheet"
 	// FieldContractDate holds the string denoting the contractdate field in the database.
 	FieldContractDate = "contract_date"
-	// FieldCompletionDate holds the string denoting the completiondate field in the database.
-	FieldCompletionDate = "completion_date"
 	// FieldStartDate holds the string denoting the startdate field in the database.
 	FieldStartDate = "start_date"
 	// FieldLicenseDate holds the string denoting the licensedate field in the database.
 	FieldLicenseDate = "license_date"
 	// FieldLicenseNo holds the string denoting the licenseno field in the database.
 	FieldLicenseNo = "license_no"
+	// FieldCompletionDate holds the string denoting the completiondate field in the database.
+	FieldCompletionDate = "completion_date"
+	// FieldLandArea holds the string denoting the landarea field in the database.
+	FieldLandArea = "land_area"
+	// FieldTotalArea holds the string denoting the totalarea field in the database.
+	FieldTotalArea = "total_area"
 	// FieldConstructionArea holds the string denoting the constructionarea field in the database.
 	FieldConstructionArea = "construction_area"
+	// FieldLeftArea holds the string denoting the leftarea field in the database.
+	FieldLeftArea = "left_area"
 	// FieldYDSAddress holds the string denoting the ydsaddress field in the database.
 	FieldYDSAddress = "yds_address"
 	// FieldAddress holds the string denoting the address field in the database.
@@ -54,18 +58,26 @@ const (
 	FieldLevel = "level"
 	// FieldUnitPrice holds the string denoting the unitprice field in the database.
 	FieldUnitPrice = "unit_price"
-	// FieldLandArea holds the string denoting the landarea field in the database.
-	FieldLandArea = "land_area"
-	// FieldFloors holds the string denoting the floors field in the database.
-	FieldFloors = "floors"
-	// FieldUsagePurpose holds the string denoting the usagepurpose field in the database.
-	FieldUsagePurpose = "usage_purpose"
-	// FieldNote holds the string denoting the note field in the database.
-	FieldNote = "note"
+	// FieldFloorCount holds the string denoting the floorcount field in the database.
+	FieldFloorCount = "floor_count"
+	// FieldBKSReferenceNo holds the string denoting the bksreferenceno field in the database.
+	FieldBKSReferenceNo = "bks_reference_no"
 	// FieldCoordinates holds the string denoting the coordinates field in the database.
 	FieldCoordinates = "coordinates"
-	// FieldStarted holds the string denoting the started field in the database.
-	FieldStarted = "started"
+	// FieldFolderNo holds the string denoting the folderno field in the database.
+	FieldFolderNo = "folder_no"
+	// FieldUploadedFile holds the string denoting the uploadedfile field in the database.
+	FieldUploadedFile = "uploaded_file"
+	// FieldIndustryArea holds the string denoting the industryarea field in the database.
+	FieldIndustryArea = "industry_area"
+	// FieldClusterStructure holds the string denoting the clusterstructure field in the database.
+	FieldClusterStructure = "cluster_structure"
+	// FieldIsLicenseExpired holds the string denoting the islicenseexpired field in the database.
+	FieldIsLicenseExpired = "is_license_expired"
+	// FieldIsCompleted holds the string denoting the iscompleted field in the database.
+	FieldIsCompleted = "is_completed"
+	// FieldNote holds the string denoting the note field in the database.
+	FieldNote = "note"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -222,31 +234,37 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldYibfNo,
-	FieldIdare,
-	FieldPafta,
-	FieldAda,
-	FieldParsel,
-	FieldFolderNo,
-	FieldStatus,
+	FieldTitle,
+	FieldAdministration,
 	FieldState,
+	FieldIsland,
+	FieldParcel,
+	FieldSheet,
 	FieldContractDate,
-	FieldCompletionDate,
 	FieldStartDate,
 	FieldLicenseDate,
 	FieldLicenseNo,
+	FieldCompletionDate,
+	FieldLandArea,
+	FieldTotalArea,
 	FieldConstructionArea,
+	FieldLeftArea,
 	FieldYDSAddress,
 	FieldAddress,
 	FieldBuildingClass,
 	FieldBuildingType,
 	FieldLevel,
 	FieldUnitPrice,
-	FieldLandArea,
-	FieldFloors,
-	FieldUsagePurpose,
-	FieldNote,
+	FieldFloorCount,
+	FieldBKSReferenceNo,
 	FieldCoordinates,
-	FieldStarted,
+	FieldFolderNo,
+	FieldUploadedFile,
+	FieldIndustryArea,
+	FieldClusterStructure,
+	FieldIsLicenseExpired,
+	FieldIsCompleted,
+	FieldNote,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -288,10 +306,16 @@ func ValidColumn(column string) bool {
 var (
 	// YibfNoValidator is a validator for the "YibfNo" field. It is called by the builders before save.
 	YibfNoValidator func(int) error
-	// DefaultStatus holds the default value on creation for the "Status" field.
-	DefaultStatus int
-	// DefaultStarted holds the default value on creation for the "Started" field.
-	DefaultStarted int
+	// DefaultUploadedFile holds the default value on creation for the "UploadedFile" field.
+	DefaultUploadedFile bool
+	// DefaultIndustryArea holds the default value on creation for the "IndustryArea" field.
+	DefaultIndustryArea bool
+	// DefaultClusterStructure holds the default value on creation for the "ClusterStructure" field.
+	DefaultClusterStructure bool
+	// DefaultIsLicenseExpired holds the default value on creation for the "IsLicenseExpired" field.
+	DefaultIsLicenseExpired bool
+	// DefaultIsCompleted holds the default value on creation for the "IsCompleted" field.
+	DefaultIsCompleted bool
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -313,34 +337,14 @@ func ByYibfNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldYibfNo, opts...).ToFunc()
 }
 
-// ByIdare orders the results by the Idare field.
-func ByIdare(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIdare, opts...).ToFunc()
+// ByTitle orders the results by the Title field.
+func ByTitle(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTitle, opts...).ToFunc()
 }
 
-// ByPafta orders the results by the Pafta field.
-func ByPafta(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPafta, opts...).ToFunc()
-}
-
-// ByAda orders the results by the Ada field.
-func ByAda(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAda, opts...).ToFunc()
-}
-
-// ByParsel orders the results by the Parsel field.
-func ByParsel(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldParsel, opts...).ToFunc()
-}
-
-// ByFolderNo orders the results by the FolderNo field.
-func ByFolderNo(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldFolderNo, opts...).ToFunc()
-}
-
-// ByStatus orders the results by the Status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+// ByAdministration orders the results by the Administration field.
+func ByAdministration(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAdministration, opts...).ToFunc()
 }
 
 // ByState orders the results by the State field.
@@ -348,14 +352,24 @@ func ByState(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldState, opts...).ToFunc()
 }
 
+// ByIsland orders the results by the Island field.
+func ByIsland(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsland, opts...).ToFunc()
+}
+
+// ByParcel orders the results by the Parcel field.
+func ByParcel(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldParcel, opts...).ToFunc()
+}
+
+// BySheet orders the results by the Sheet field.
+func BySheet(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSheet, opts...).ToFunc()
+}
+
 // ByContractDate orders the results by the ContractDate field.
 func ByContractDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldContractDate, opts...).ToFunc()
-}
-
-// ByCompletionDate orders the results by the CompletionDate field.
-func ByCompletionDate(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCompletionDate, opts...).ToFunc()
 }
 
 // ByStartDate orders the results by the StartDate field.
@@ -373,9 +387,29 @@ func ByLicenseNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldLicenseNo, opts...).ToFunc()
 }
 
+// ByCompletionDate orders the results by the CompletionDate field.
+func ByCompletionDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCompletionDate, opts...).ToFunc()
+}
+
+// ByLandArea orders the results by the LandArea field.
+func ByLandArea(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLandArea, opts...).ToFunc()
+}
+
+// ByTotalArea orders the results by the TotalArea field.
+func ByTotalArea(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTotalArea, opts...).ToFunc()
+}
+
 // ByConstructionArea orders the results by the ConstructionArea field.
 func ByConstructionArea(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldConstructionArea, opts...).ToFunc()
+}
+
+// ByLeftArea orders the results by the LeftArea field.
+func ByLeftArea(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLeftArea, opts...).ToFunc()
 }
 
 // ByYDSAddress orders the results by the YDSAddress field.
@@ -408,24 +442,14 @@ func ByUnitPrice(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUnitPrice, opts...).ToFunc()
 }
 
-// ByLandArea orders the results by the LandArea field.
-func ByLandArea(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldLandArea, opts...).ToFunc()
+// ByFloorCount orders the results by the FloorCount field.
+func ByFloorCount(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFloorCount, opts...).ToFunc()
 }
 
-// ByFloors orders the results by the Floors field.
-func ByFloors(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldFloors, opts...).ToFunc()
-}
-
-// ByUsagePurpose orders the results by the UsagePurpose field.
-func ByUsagePurpose(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUsagePurpose, opts...).ToFunc()
-}
-
-// ByNote orders the results by the Note field.
-func ByNote(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldNote, opts...).ToFunc()
+// ByBKSReferenceNo orders the results by the BKSReferenceNo field.
+func ByBKSReferenceNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldBKSReferenceNo, opts...).ToFunc()
 }
 
 // ByCoordinates orders the results by the Coordinates field.
@@ -433,9 +457,39 @@ func ByCoordinates(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCoordinates, opts...).ToFunc()
 }
 
-// ByStarted orders the results by the Started field.
-func ByStarted(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStarted, opts...).ToFunc()
+// ByFolderNo orders the results by the FolderNo field.
+func ByFolderNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFolderNo, opts...).ToFunc()
+}
+
+// ByUploadedFile orders the results by the UploadedFile field.
+func ByUploadedFile(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUploadedFile, opts...).ToFunc()
+}
+
+// ByIndustryArea orders the results by the IndustryArea field.
+func ByIndustryArea(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIndustryArea, opts...).ToFunc()
+}
+
+// ByClusterStructure orders the results by the ClusterStructure field.
+func ByClusterStructure(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldClusterStructure, opts...).ToFunc()
+}
+
+// ByIsLicenseExpired orders the results by the IsLicenseExpired field.
+func ByIsLicenseExpired(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsLicenseExpired, opts...).ToFunc()
+}
+
+// ByIsCompleted orders the results by the IsCompleted field.
+func ByIsCompleted(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsCompleted, opts...).ToFunc()
+}
+
+// ByNote orders the results by the Note field.
+func ByNote(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldNote, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

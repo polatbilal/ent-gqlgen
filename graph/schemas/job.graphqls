@@ -2,32 +2,44 @@
 type JobDetail {
   id: ID!
   YibfNo: Int!
-  Idare: String
-  Pafta: String
-  Ada: String
-  Parsel: String
-  FolderNo: String
-  Status: Int
+  Administration: String
   State: String
-  ContractDate: String
-  StartDate: String
-  CompletionDate: String
-  LicenseDate: String
+  Island: String
+  Parcel: String
+  Sheet: String
+  ContractDate: Time
+  StartDate: Time
+  LicenseDate: Time
   LicenseNo: String
-  ConstructionArea: String
-  LandArea: String
+  CompletionDate: Time
+  LandArea: Float
+  TotalArea: Float
+  ConstructionArea: Float
+  LeftArea: Float
+  YDSAddress: String
   Address: String
   BuildingClass: String
   BuildingType: String
   Level: Float
-  Floors: Int
+  UnitPrice: Float
+  FloorCount: Int
+  BKSReferenceNo: Int
+  Coordinates: String
+  FolderNo: String
+  UploadedFile: Boolean
+  IndustryArea: Boolean
+  ClusterStructure: Boolean
+  IsLicenseExpired: Boolean
+  IsCompleted: Boolean
   Note: String
-  Started: Int
-  UsagePurpose: String
+
   Owner: JobOwner
   Contractor: JobContractor
   Author: JobAuthor
   Progress: JobProgress
+  Supervisor: Supervisor
+  Layer: [JobLayer]
+
   Inspector: CompanyEngineer
   Static: CompanyEngineer
   Architect: CompanyEngineer
@@ -36,40 +48,47 @@ type JobDetail {
   Controller: CompanyEngineer
   MechanicController: CompanyEngineer
   ElectricController: CompanyEngineer
-  CreatedAt: String
-  Layer: [JobLayer]
-  Supervisor: Supervisor
 }
 
 input JobInput {
-  YibfNo: Int
   CompanyCode: Int!
-  Idare: String
-  Pafta: String
-  Ada: String
-  Parsel: String
-  FolderNo: String
-  Status: Int
+  YibfNo: Int
+  Administration: String
   State: String
-  ContractDate: String
-  StartDate: String
-  CompletionDate: String
-  LicenseDate: String
+  Island: String
+  Parcel: String
+  Sheet: String
+  ContractDate: Time
+  StartDate: Time
+  LicenseDate: Time
   LicenseNo: String
-  ConstructionArea: String
-  LandArea: String
+  CompletionDate: Time
+  LandArea: Float
+  TotalArea: Float
+  ConstructionArea: Float
+  LeftArea: Float
+  YDSAddress: String
   Address: String
   BuildingClass: String
   BuildingType: String
-  Floors: Int
   Level: Float
+  UnitPrice: Float
+  FloorCount: Int
+  BKSReferenceNo: Int
+  Coordinates: String
+  FolderNo: String
+  UploadedFile: Boolean
+  IndustryArea: Boolean
+  ClusterStructure: Boolean
+  IsLicenseExpired: Boolean
+  IsCompleted: Boolean
   Note: String
-  Started: Int
-  UsagePurpose: String
-  Owner: [JobOwnerInput]
-  Contractor: [JobContractorInput]
-  Author: [JobAuthorInput]
-  Progress: [JobProgressInput]
+
+  Owner: Int
+  Contractor: Int
+  Author: Int
+  Supervisor: Int
+
   Inspector: Int
   Static: Int
   Architect: Int
@@ -78,27 +97,31 @@ input JobInput {
   Controller: Int
   MechanicController: Int
   ElectricController: Int
-  Supervisor: SupervisorInput
 }
 
 # Job Author
 type JobAuthor {
   id: ID!
-  Architect: String
   Static: String
   Mechanic: String
   Electric: String
-  Floor: String
+  Architect: String
+  GeotechnicalEngineer: String
+  GeotechnicalGeologist: String
+  GeotechnicalGeophysicist: String
 }
 
 input JobAuthorInput {
-  Architect: String
   Static: String
   Mechanic: String
   Electric: String
-  Floor: String
+  Architect: String
+  GeotechnicalEngineer: String
+  GeotechnicalGeologist: String
+  GeotechnicalGeophysicist: String
 }
 
+# Supervisor
 type Supervisor {
   id: ID!
   Name: String
@@ -151,7 +174,7 @@ input JobProgressInput {
 
 extend type Query {
   job(yibfNo: Int!): JobDetail
-  jobs: [JobDetail!]!
+  jobs: JobDetail!
 }
 
 extend type Mutation {

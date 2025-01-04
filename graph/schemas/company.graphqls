@@ -1,8 +1,8 @@
-scalar Date
+scalar Time
 
 type CompanyDetail {
-  id: ID!
-  CompanyCode: Int!
+  id: ID
+  CompanyCode: Int
   Name: String!
   Address: String
   Phone: String
@@ -11,19 +11,18 @@ type CompanyDetail {
   TaxAdmin: String
   TaxNo: Int
   ChamberInfo: String
-  ChamberRegNo: String
-  VisaDate: Date
-  VisaEndDate: Date
+  ChamberRegisterNo: String
+  VisaDate: Time
+  VisaEndDate: Time
   visa_finished_for_90days: Boolean
   core_person_absent_90days: Boolean
   isClosed: Boolean
   OwnerName: String
-  OwnerTcNo: String
+  OwnerTcNo: Int
   OwnerAddress: String
   OwnerPhone: String
   OwnerEmail: String
-  OwnerRegNo: String
-  OwnerBirthDate: String
+  OwnerRegisterNo: Int
   OwnerCareer: String
 }
 
@@ -37,19 +36,18 @@ input CompanyDetailInput {
   TaxAdmin: String
   TaxNo: Int
   ChamberInfo: String
-  ChamberRegNo: String
-  VisaDate: Date
-  VisaEndDate: Date
+  ChamberRegisterNo: String
+  VisaDate: Time
+  VisaEndDate: Time
   visa_finished_for_90days: Boolean
   core_person_absent_90days: Boolean
   isClosed: Boolean
   OwnerName: String
-  OwnerTcNo: String
+  OwnerTcNo: Int
   OwnerAddress: String
   OwnerPhone: String
   OwnerEmail: String
-  OwnerRegNo: String
-  OwnerBirthDate: String
+  OwnerRegisterNo: Int
   OwnerCareer: String
 }
 

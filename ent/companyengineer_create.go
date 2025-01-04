@@ -120,16 +120,16 @@ func (cec *CompanyEngineerCreate) SetNillablePosition(s *string) *CompanyEnginee
 	return cec
 }
 
-// SetRegNo sets the "RegNo" field.
-func (cec *CompanyEngineerCreate) SetRegNo(i int) *CompanyEngineerCreate {
-	cec.mutation.SetRegNo(i)
+// SetRegisterNo sets the "RegisterNo" field.
+func (cec *CompanyEngineerCreate) SetRegisterNo(i int) *CompanyEngineerCreate {
+	cec.mutation.SetRegisterNo(i)
 	return cec
 }
 
-// SetNillableRegNo sets the "RegNo" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableRegNo(i *int) *CompanyEngineerCreate {
+// SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
+func (cec *CompanyEngineerCreate) SetNillableRegisterNo(i *int) *CompanyEngineerCreate {
 	if i != nil {
-		cec.SetRegNo(*i)
+		cec.SetRegisterNo(*i)
 	}
 	return cec
 }
@@ -148,16 +148,16 @@ func (cec *CompanyEngineerCreate) SetNillableCertNo(i *int) *CompanyEngineerCrea
 	return cec
 }
 
-// SetYdsID sets the "yds_id" field.
-func (cec *CompanyEngineerCreate) SetYdsID(i int) *CompanyEngineerCreate {
-	cec.mutation.SetYdsID(i)
+// SetYDSID sets the "YDSID" field.
+func (cec *CompanyEngineerCreate) SetYDSID(i int) *CompanyEngineerCreate {
+	cec.mutation.SetYDSID(i)
 	return cec
 }
 
-// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableYdsID(i *int) *CompanyEngineerCreate {
+// SetNillableYDSID sets the "YDSID" field if the given value is not nil.
+func (cec *CompanyEngineerCreate) SetNillableYDSID(i *int) *CompanyEngineerCreate {
 	if i != nil {
-		cec.SetYdsID(*i)
+		cec.SetYDSID(*i)
 	}
 	return cec
 }
@@ -172,20 +172,6 @@ func (cec *CompanyEngineerCreate) SetEmployment(t time.Time) *CompanyEngineerCre
 func (cec *CompanyEngineerCreate) SetNillableEmployment(t *time.Time) *CompanyEngineerCreate {
 	if t != nil {
 		cec.SetEmployment(*t)
-	}
-	return cec
-}
-
-// SetDismissal sets the "Dismissal" field.
-func (cec *CompanyEngineerCreate) SetDismissal(t time.Time) *CompanyEngineerCreate {
-	cec.mutation.SetDismissal(t)
-	return cec
-}
-
-// SetNillableDismissal sets the "Dismissal" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableDismissal(t *time.Time) *CompanyEngineerCreate {
-	if t != nil {
-		cec.SetDismissal(*t)
 	}
 	return cec
 }
@@ -506,25 +492,21 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
 		_node.Position = value
 	}
-	if value, ok := cec.mutation.RegNo(); ok {
-		_spec.SetField(companyengineer.FieldRegNo, field.TypeInt, value)
-		_node.RegNo = value
+	if value, ok := cec.mutation.RegisterNo(); ok {
+		_spec.SetField(companyengineer.FieldRegisterNo, field.TypeInt, value)
+		_node.RegisterNo = value
 	}
 	if value, ok := cec.mutation.CertNo(); ok {
 		_spec.SetField(companyengineer.FieldCertNo, field.TypeInt, value)
 		_node.CertNo = value
 	}
-	if value, ok := cec.mutation.YdsID(); ok {
-		_spec.SetField(companyengineer.FieldYdsID, field.TypeInt, value)
-		_node.YdsID = value
+	if value, ok := cec.mutation.YDSID(); ok {
+		_spec.SetField(companyengineer.FieldYDSID, field.TypeInt, value)
+		_node.YDSID = value
 	}
 	if value, ok := cec.mutation.Employment(); ok {
 		_spec.SetField(companyengineer.FieldEmployment, field.TypeTime, value)
 		_node.Employment = value
-	}
-	if value, ok := cec.mutation.Dismissal(); ok {
-		_spec.SetField(companyengineer.FieldDismissal, field.TypeTime, value)
-		_node.Dismissal = value
 	}
 	if value, ok := cec.mutation.Status(); ok {
 		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)

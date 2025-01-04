@@ -66,20 +66,21 @@ type CompanyDetailMutation struct {
 	_TaxNo                  *int
 	add_TaxNo               *int
 	_ChamberInfo            *string
-	_ChamberRegNo           *string
+	_ChamberRegisterNo      *string
 	_VisaDate               *time.Time
 	_VisaEndDate            *time.Time
-	_OwnerName              *string
-	_OwnerTcNo              *string
-	_OwnerAddress           *string
-	_OwnerPhone             *string
-	_OwnerEmail             *string
-	_OwnerRegNo             *string
-	_OwnerCareer            *string
-	_OwnerBirthDate         *string
 	_VisaFinishedFor90Days  *bool
 	_CorePersonAbsent90Days *bool
 	_IsClosed               *bool
+	_OwnerName              *string
+	_OwnerTcNo              *int
+	add_OwnerTcNo           *int
+	_OwnerAddress           *string
+	_OwnerPhone             *string
+	_OwnerEmail             *string
+	_OwnerRegisterNo        *int
+	add_OwnerRegisterNo     *int
+	_OwnerCareer            *string
 	_CreatedAt              *time.Time
 	_UpdatedAt              *time.Time
 	clearedFields           map[string]struct{}
@@ -651,53 +652,53 @@ func (m *CompanyDetailMutation) ResetChamberInfo() {
 	delete(m.clearedFields, companydetail.FieldChamberInfo)
 }
 
-// SetChamberRegNo sets the "ChamberRegNo" field.
-func (m *CompanyDetailMutation) SetChamberRegNo(s string) {
-	m._ChamberRegNo = &s
+// SetChamberRegisterNo sets the "ChamberRegisterNo" field.
+func (m *CompanyDetailMutation) SetChamberRegisterNo(s string) {
+	m._ChamberRegisterNo = &s
 }
 
-// ChamberRegNo returns the value of the "ChamberRegNo" field in the mutation.
-func (m *CompanyDetailMutation) ChamberRegNo() (r string, exists bool) {
-	v := m._ChamberRegNo
+// ChamberRegisterNo returns the value of the "ChamberRegisterNo" field in the mutation.
+func (m *CompanyDetailMutation) ChamberRegisterNo() (r string, exists bool) {
+	v := m._ChamberRegisterNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldChamberRegNo returns the old "ChamberRegNo" field's value of the CompanyDetail entity.
+// OldChamberRegisterNo returns the old "ChamberRegisterNo" field's value of the CompanyDetail entity.
 // If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldChamberRegNo(ctx context.Context) (v string, err error) {
+func (m *CompanyDetailMutation) OldChamberRegisterNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldChamberRegNo is only allowed on UpdateOne operations")
+		return v, errors.New("OldChamberRegisterNo is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldChamberRegNo requires an ID field in the mutation")
+		return v, errors.New("OldChamberRegisterNo requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldChamberRegNo: %w", err)
+		return v, fmt.Errorf("querying old value for OldChamberRegisterNo: %w", err)
 	}
-	return oldValue.ChamberRegNo, nil
+	return oldValue.ChamberRegisterNo, nil
 }
 
-// ClearChamberRegNo clears the value of the "ChamberRegNo" field.
-func (m *CompanyDetailMutation) ClearChamberRegNo() {
-	m._ChamberRegNo = nil
-	m.clearedFields[companydetail.FieldChamberRegNo] = struct{}{}
+// ClearChamberRegisterNo clears the value of the "ChamberRegisterNo" field.
+func (m *CompanyDetailMutation) ClearChamberRegisterNo() {
+	m._ChamberRegisterNo = nil
+	m.clearedFields[companydetail.FieldChamberRegisterNo] = struct{}{}
 }
 
-// ChamberRegNoCleared returns if the "ChamberRegNo" field was cleared in this mutation.
-func (m *CompanyDetailMutation) ChamberRegNoCleared() bool {
-	_, ok := m.clearedFields[companydetail.FieldChamberRegNo]
+// ChamberRegisterNoCleared returns if the "ChamberRegisterNo" field was cleared in this mutation.
+func (m *CompanyDetailMutation) ChamberRegisterNoCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldChamberRegisterNo]
 	return ok
 }
 
-// ResetChamberRegNo resets all changes to the "ChamberRegNo" field.
-func (m *CompanyDetailMutation) ResetChamberRegNo() {
-	m._ChamberRegNo = nil
-	delete(m.clearedFields, companydetail.FieldChamberRegNo)
+// ResetChamberRegisterNo resets all changes to the "ChamberRegisterNo" field.
+func (m *CompanyDetailMutation) ResetChamberRegisterNo() {
+	m._ChamberRegisterNo = nil
+	delete(m.clearedFields, companydetail.FieldChamberRegisterNo)
 }
 
 // SetVisaDate sets the "VisaDate" field.
@@ -798,6 +799,140 @@ func (m *CompanyDetailMutation) ResetVisaEndDate() {
 	delete(m.clearedFields, companydetail.FieldVisaEndDate)
 }
 
+// SetVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field.
+func (m *CompanyDetailMutation) SetVisaFinishedFor90Days(b bool) {
+	m._VisaFinishedFor90Days = &b
+}
+
+// VisaFinishedFor90Days returns the value of the "VisaFinishedFor90Days" field in the mutation.
+func (m *CompanyDetailMutation) VisaFinishedFor90Days() (r bool, exists bool) {
+	v := m._VisaFinishedFor90Days
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldVisaFinishedFor90Days returns the old "VisaFinishedFor90Days" field's value of the CompanyDetail entity.
+// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyDetailMutation) OldVisaFinishedFor90Days(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldVisaFinishedFor90Days is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldVisaFinishedFor90Days requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldVisaFinishedFor90Days: %w", err)
+	}
+	return oldValue.VisaFinishedFor90Days, nil
+}
+
+// ClearVisaFinishedFor90Days clears the value of the "VisaFinishedFor90Days" field.
+func (m *CompanyDetailMutation) ClearVisaFinishedFor90Days() {
+	m._VisaFinishedFor90Days = nil
+	m.clearedFields[companydetail.FieldVisaFinishedFor90Days] = struct{}{}
+}
+
+// VisaFinishedFor90DaysCleared returns if the "VisaFinishedFor90Days" field was cleared in this mutation.
+func (m *CompanyDetailMutation) VisaFinishedFor90DaysCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldVisaFinishedFor90Days]
+	return ok
+}
+
+// ResetVisaFinishedFor90Days resets all changes to the "VisaFinishedFor90Days" field.
+func (m *CompanyDetailMutation) ResetVisaFinishedFor90Days() {
+	m._VisaFinishedFor90Days = nil
+	delete(m.clearedFields, companydetail.FieldVisaFinishedFor90Days)
+}
+
+// SetCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field.
+func (m *CompanyDetailMutation) SetCorePersonAbsent90Days(b bool) {
+	m._CorePersonAbsent90Days = &b
+}
+
+// CorePersonAbsent90Days returns the value of the "CorePersonAbsent90Days" field in the mutation.
+func (m *CompanyDetailMutation) CorePersonAbsent90Days() (r bool, exists bool) {
+	v := m._CorePersonAbsent90Days
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCorePersonAbsent90Days returns the old "CorePersonAbsent90Days" field's value of the CompanyDetail entity.
+// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyDetailMutation) OldCorePersonAbsent90Days(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCorePersonAbsent90Days is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCorePersonAbsent90Days requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCorePersonAbsent90Days: %w", err)
+	}
+	return oldValue.CorePersonAbsent90Days, nil
+}
+
+// ClearCorePersonAbsent90Days clears the value of the "CorePersonAbsent90Days" field.
+func (m *CompanyDetailMutation) ClearCorePersonAbsent90Days() {
+	m._CorePersonAbsent90Days = nil
+	m.clearedFields[companydetail.FieldCorePersonAbsent90Days] = struct{}{}
+}
+
+// CorePersonAbsent90DaysCleared returns if the "CorePersonAbsent90Days" field was cleared in this mutation.
+func (m *CompanyDetailMutation) CorePersonAbsent90DaysCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldCorePersonAbsent90Days]
+	return ok
+}
+
+// ResetCorePersonAbsent90Days resets all changes to the "CorePersonAbsent90Days" field.
+func (m *CompanyDetailMutation) ResetCorePersonAbsent90Days() {
+	m._CorePersonAbsent90Days = nil
+	delete(m.clearedFields, companydetail.FieldCorePersonAbsent90Days)
+}
+
+// SetIsClosed sets the "IsClosed" field.
+func (m *CompanyDetailMutation) SetIsClosed(b bool) {
+	m._IsClosed = &b
+}
+
+// IsClosed returns the value of the "IsClosed" field in the mutation.
+func (m *CompanyDetailMutation) IsClosed() (r bool, exists bool) {
+	v := m._IsClosed
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsClosed returns the old "IsClosed" field's value of the CompanyDetail entity.
+// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyDetailMutation) OldIsClosed(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsClosed is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsClosed requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsClosed: %w", err)
+	}
+	return oldValue.IsClosed, nil
+}
+
+// ResetIsClosed resets all changes to the "IsClosed" field.
+func (m *CompanyDetailMutation) ResetIsClosed() {
+	m._IsClosed = nil
+}
+
 // SetOwnerName sets the "OwnerName" field.
 func (m *CompanyDetailMutation) SetOwnerName(s string) {
 	m._OwnerName = &s
@@ -848,12 +983,13 @@ func (m *CompanyDetailMutation) ResetOwnerName() {
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (m *CompanyDetailMutation) SetOwnerTcNo(s string) {
-	m._OwnerTcNo = &s
+func (m *CompanyDetailMutation) SetOwnerTcNo(i int) {
+	m._OwnerTcNo = &i
+	m.add_OwnerTcNo = nil
 }
 
 // OwnerTcNo returns the value of the "OwnerTcNo" field in the mutation.
-func (m *CompanyDetailMutation) OwnerTcNo() (r string, exists bool) {
+func (m *CompanyDetailMutation) OwnerTcNo() (r int, exists bool) {
 	v := m._OwnerTcNo
 	if v == nil {
 		return
@@ -864,7 +1000,7 @@ func (m *CompanyDetailMutation) OwnerTcNo() (r string, exists bool) {
 // OldOwnerTcNo returns the old "OwnerTcNo" field's value of the CompanyDetail entity.
 // If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldOwnerTcNo(ctx context.Context) (v string, err error) {
+func (m *CompanyDetailMutation) OldOwnerTcNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOwnerTcNo is only allowed on UpdateOne operations")
 	}
@@ -878,9 +1014,28 @@ func (m *CompanyDetailMutation) OldOwnerTcNo(ctx context.Context) (v string, err
 	return oldValue.OwnerTcNo, nil
 }
 
+// AddOwnerTcNo adds i to the "OwnerTcNo" field.
+func (m *CompanyDetailMutation) AddOwnerTcNo(i int) {
+	if m.add_OwnerTcNo != nil {
+		*m.add_OwnerTcNo += i
+	} else {
+		m.add_OwnerTcNo = &i
+	}
+}
+
+// AddedOwnerTcNo returns the value that was added to the "OwnerTcNo" field in this mutation.
+func (m *CompanyDetailMutation) AddedOwnerTcNo() (r int, exists bool) {
+	v := m.add_OwnerTcNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearOwnerTcNo clears the value of the "OwnerTcNo" field.
 func (m *CompanyDetailMutation) ClearOwnerTcNo() {
 	m._OwnerTcNo = nil
+	m.add_OwnerTcNo = nil
 	m.clearedFields[companydetail.FieldOwnerTcNo] = struct{}{}
 }
 
@@ -893,6 +1048,7 @@ func (m *CompanyDetailMutation) OwnerTcNoCleared() bool {
 // ResetOwnerTcNo resets all changes to the "OwnerTcNo" field.
 func (m *CompanyDetailMutation) ResetOwnerTcNo() {
 	m._OwnerTcNo = nil
+	m.add_OwnerTcNo = nil
 	delete(m.clearedFields, companydetail.FieldOwnerTcNo)
 }
 
@@ -1043,53 +1199,74 @@ func (m *CompanyDetailMutation) ResetOwnerEmail() {
 	delete(m.clearedFields, companydetail.FieldOwnerEmail)
 }
 
-// SetOwnerRegNo sets the "OwnerRegNo" field.
-func (m *CompanyDetailMutation) SetOwnerRegNo(s string) {
-	m._OwnerRegNo = &s
+// SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
+func (m *CompanyDetailMutation) SetOwnerRegisterNo(i int) {
+	m._OwnerRegisterNo = &i
+	m.add_OwnerRegisterNo = nil
 }
 
-// OwnerRegNo returns the value of the "OwnerRegNo" field in the mutation.
-func (m *CompanyDetailMutation) OwnerRegNo() (r string, exists bool) {
-	v := m._OwnerRegNo
+// OwnerRegisterNo returns the value of the "OwnerRegisterNo" field in the mutation.
+func (m *CompanyDetailMutation) OwnerRegisterNo() (r int, exists bool) {
+	v := m._OwnerRegisterNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldOwnerRegNo returns the old "OwnerRegNo" field's value of the CompanyDetail entity.
+// OldOwnerRegisterNo returns the old "OwnerRegisterNo" field's value of the CompanyDetail entity.
 // If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldOwnerRegNo(ctx context.Context) (v string, err error) {
+func (m *CompanyDetailMutation) OldOwnerRegisterNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldOwnerRegNo is only allowed on UpdateOne operations")
+		return v, errors.New("OldOwnerRegisterNo is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldOwnerRegNo requires an ID field in the mutation")
+		return v, errors.New("OldOwnerRegisterNo requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldOwnerRegNo: %w", err)
+		return v, fmt.Errorf("querying old value for OldOwnerRegisterNo: %w", err)
 	}
-	return oldValue.OwnerRegNo, nil
+	return oldValue.OwnerRegisterNo, nil
 }
 
-// ClearOwnerRegNo clears the value of the "OwnerRegNo" field.
-func (m *CompanyDetailMutation) ClearOwnerRegNo() {
-	m._OwnerRegNo = nil
-	m.clearedFields[companydetail.FieldOwnerRegNo] = struct{}{}
+// AddOwnerRegisterNo adds i to the "OwnerRegisterNo" field.
+func (m *CompanyDetailMutation) AddOwnerRegisterNo(i int) {
+	if m.add_OwnerRegisterNo != nil {
+		*m.add_OwnerRegisterNo += i
+	} else {
+		m.add_OwnerRegisterNo = &i
+	}
 }
 
-// OwnerRegNoCleared returns if the "OwnerRegNo" field was cleared in this mutation.
-func (m *CompanyDetailMutation) OwnerRegNoCleared() bool {
-	_, ok := m.clearedFields[companydetail.FieldOwnerRegNo]
+// AddedOwnerRegisterNo returns the value that was added to the "OwnerRegisterNo" field in this mutation.
+func (m *CompanyDetailMutation) AddedOwnerRegisterNo() (r int, exists bool) {
+	v := m.add_OwnerRegisterNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearOwnerRegisterNo clears the value of the "OwnerRegisterNo" field.
+func (m *CompanyDetailMutation) ClearOwnerRegisterNo() {
+	m._OwnerRegisterNo = nil
+	m.add_OwnerRegisterNo = nil
+	m.clearedFields[companydetail.FieldOwnerRegisterNo] = struct{}{}
+}
+
+// OwnerRegisterNoCleared returns if the "OwnerRegisterNo" field was cleared in this mutation.
+func (m *CompanyDetailMutation) OwnerRegisterNoCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldOwnerRegisterNo]
 	return ok
 }
 
-// ResetOwnerRegNo resets all changes to the "OwnerRegNo" field.
-func (m *CompanyDetailMutation) ResetOwnerRegNo() {
-	m._OwnerRegNo = nil
-	delete(m.clearedFields, companydetail.FieldOwnerRegNo)
+// ResetOwnerRegisterNo resets all changes to the "OwnerRegisterNo" field.
+func (m *CompanyDetailMutation) ResetOwnerRegisterNo() {
+	m._OwnerRegisterNo = nil
+	m.add_OwnerRegisterNo = nil
+	delete(m.clearedFields, companydetail.FieldOwnerRegisterNo)
 }
 
 // SetOwnerCareer sets the "OwnerCareer" field.
@@ -1139,189 +1316,6 @@ func (m *CompanyDetailMutation) OwnerCareerCleared() bool {
 func (m *CompanyDetailMutation) ResetOwnerCareer() {
 	m._OwnerCareer = nil
 	delete(m.clearedFields, companydetail.FieldOwnerCareer)
-}
-
-// SetOwnerBirthDate sets the "OwnerBirthDate" field.
-func (m *CompanyDetailMutation) SetOwnerBirthDate(s string) {
-	m._OwnerBirthDate = &s
-}
-
-// OwnerBirthDate returns the value of the "OwnerBirthDate" field in the mutation.
-func (m *CompanyDetailMutation) OwnerBirthDate() (r string, exists bool) {
-	v := m._OwnerBirthDate
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldOwnerBirthDate returns the old "OwnerBirthDate" field's value of the CompanyDetail entity.
-// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldOwnerBirthDate(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldOwnerBirthDate is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldOwnerBirthDate requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldOwnerBirthDate: %w", err)
-	}
-	return oldValue.OwnerBirthDate, nil
-}
-
-// ClearOwnerBirthDate clears the value of the "OwnerBirthDate" field.
-func (m *CompanyDetailMutation) ClearOwnerBirthDate() {
-	m._OwnerBirthDate = nil
-	m.clearedFields[companydetail.FieldOwnerBirthDate] = struct{}{}
-}
-
-// OwnerBirthDateCleared returns if the "OwnerBirthDate" field was cleared in this mutation.
-func (m *CompanyDetailMutation) OwnerBirthDateCleared() bool {
-	_, ok := m.clearedFields[companydetail.FieldOwnerBirthDate]
-	return ok
-}
-
-// ResetOwnerBirthDate resets all changes to the "OwnerBirthDate" field.
-func (m *CompanyDetailMutation) ResetOwnerBirthDate() {
-	m._OwnerBirthDate = nil
-	delete(m.clearedFields, companydetail.FieldOwnerBirthDate)
-}
-
-// SetVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field.
-func (m *CompanyDetailMutation) SetVisaFinishedFor90Days(b bool) {
-	m._VisaFinishedFor90Days = &b
-}
-
-// VisaFinishedFor90Days returns the value of the "VisaFinishedFor90Days" field in the mutation.
-func (m *CompanyDetailMutation) VisaFinishedFor90Days() (r bool, exists bool) {
-	v := m._VisaFinishedFor90Days
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldVisaFinishedFor90Days returns the old "VisaFinishedFor90Days" field's value of the CompanyDetail entity.
-// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldVisaFinishedFor90Days(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldVisaFinishedFor90Days is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldVisaFinishedFor90Days requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldVisaFinishedFor90Days: %w", err)
-	}
-	return oldValue.VisaFinishedFor90Days, nil
-}
-
-// ClearVisaFinishedFor90Days clears the value of the "VisaFinishedFor90Days" field.
-func (m *CompanyDetailMutation) ClearVisaFinishedFor90Days() {
-	m._VisaFinishedFor90Days = nil
-	m.clearedFields[companydetail.FieldVisaFinishedFor90Days] = struct{}{}
-}
-
-// VisaFinishedFor90DaysCleared returns if the "VisaFinishedFor90Days" field was cleared in this mutation.
-func (m *CompanyDetailMutation) VisaFinishedFor90DaysCleared() bool {
-	_, ok := m.clearedFields[companydetail.FieldVisaFinishedFor90Days]
-	return ok
-}
-
-// ResetVisaFinishedFor90Days resets all changes to the "VisaFinishedFor90Days" field.
-func (m *CompanyDetailMutation) ResetVisaFinishedFor90Days() {
-	m._VisaFinishedFor90Days = nil
-	delete(m.clearedFields, companydetail.FieldVisaFinishedFor90Days)
-}
-
-// SetCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field.
-func (m *CompanyDetailMutation) SetCorePersonAbsent90Days(b bool) {
-	m._CorePersonAbsent90Days = &b
-}
-
-// CorePersonAbsent90Days returns the value of the "CorePersonAbsent90Days" field in the mutation.
-func (m *CompanyDetailMutation) CorePersonAbsent90Days() (r bool, exists bool) {
-	v := m._CorePersonAbsent90Days
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCorePersonAbsent90Days returns the old "CorePersonAbsent90Days" field's value of the CompanyDetail entity.
-// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldCorePersonAbsent90Days(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCorePersonAbsent90Days is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCorePersonAbsent90Days requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCorePersonAbsent90Days: %w", err)
-	}
-	return oldValue.CorePersonAbsent90Days, nil
-}
-
-// ClearCorePersonAbsent90Days clears the value of the "CorePersonAbsent90Days" field.
-func (m *CompanyDetailMutation) ClearCorePersonAbsent90Days() {
-	m._CorePersonAbsent90Days = nil
-	m.clearedFields[companydetail.FieldCorePersonAbsent90Days] = struct{}{}
-}
-
-// CorePersonAbsent90DaysCleared returns if the "CorePersonAbsent90Days" field was cleared in this mutation.
-func (m *CompanyDetailMutation) CorePersonAbsent90DaysCleared() bool {
-	_, ok := m.clearedFields[companydetail.FieldCorePersonAbsent90Days]
-	return ok
-}
-
-// ResetCorePersonAbsent90Days resets all changes to the "CorePersonAbsent90Days" field.
-func (m *CompanyDetailMutation) ResetCorePersonAbsent90Days() {
-	m._CorePersonAbsent90Days = nil
-	delete(m.clearedFields, companydetail.FieldCorePersonAbsent90Days)
-}
-
-// SetIsClosed sets the "IsClosed" field.
-func (m *CompanyDetailMutation) SetIsClosed(b bool) {
-	m._IsClosed = &b
-}
-
-// IsClosed returns the value of the "IsClosed" field in the mutation.
-func (m *CompanyDetailMutation) IsClosed() (r bool, exists bool) {
-	v := m._IsClosed
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldIsClosed returns the old "IsClosed" field's value of the CompanyDetail entity.
-// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldIsClosed(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldIsClosed is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldIsClosed requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldIsClosed: %w", err)
-	}
-	return oldValue.IsClosed, nil
-}
-
-// ResetIsClosed resets all changes to the "IsClosed" field.
-func (m *CompanyDetailMutation) ResetIsClosed() {
-	m._IsClosed = nil
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
@@ -1592,7 +1586,7 @@ func (m *CompanyDetailMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CompanyDetailMutation) Fields() []string {
-	fields := make([]string, 0, 25)
+	fields := make([]string, 0, 24)
 	if m._CompanyCode != nil {
 		fields = append(fields, companydetail.FieldCompanyCode)
 	}
@@ -1620,14 +1614,23 @@ func (m *CompanyDetailMutation) Fields() []string {
 	if m._ChamberInfo != nil {
 		fields = append(fields, companydetail.FieldChamberInfo)
 	}
-	if m._ChamberRegNo != nil {
-		fields = append(fields, companydetail.FieldChamberRegNo)
+	if m._ChamberRegisterNo != nil {
+		fields = append(fields, companydetail.FieldChamberRegisterNo)
 	}
 	if m._VisaDate != nil {
 		fields = append(fields, companydetail.FieldVisaDate)
 	}
 	if m._VisaEndDate != nil {
 		fields = append(fields, companydetail.FieldVisaEndDate)
+	}
+	if m._VisaFinishedFor90Days != nil {
+		fields = append(fields, companydetail.FieldVisaFinishedFor90Days)
+	}
+	if m._CorePersonAbsent90Days != nil {
+		fields = append(fields, companydetail.FieldCorePersonAbsent90Days)
+	}
+	if m._IsClosed != nil {
+		fields = append(fields, companydetail.FieldIsClosed)
 	}
 	if m._OwnerName != nil {
 		fields = append(fields, companydetail.FieldOwnerName)
@@ -1644,23 +1647,11 @@ func (m *CompanyDetailMutation) Fields() []string {
 	if m._OwnerEmail != nil {
 		fields = append(fields, companydetail.FieldOwnerEmail)
 	}
-	if m._OwnerRegNo != nil {
-		fields = append(fields, companydetail.FieldOwnerRegNo)
+	if m._OwnerRegisterNo != nil {
+		fields = append(fields, companydetail.FieldOwnerRegisterNo)
 	}
 	if m._OwnerCareer != nil {
 		fields = append(fields, companydetail.FieldOwnerCareer)
-	}
-	if m._OwnerBirthDate != nil {
-		fields = append(fields, companydetail.FieldOwnerBirthDate)
-	}
-	if m._VisaFinishedFor90Days != nil {
-		fields = append(fields, companydetail.FieldVisaFinishedFor90Days)
-	}
-	if m._CorePersonAbsent90Days != nil {
-		fields = append(fields, companydetail.FieldCorePersonAbsent90Days)
-	}
-	if m._IsClosed != nil {
-		fields = append(fields, companydetail.FieldIsClosed)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, companydetail.FieldCreatedAt)
@@ -1694,12 +1685,18 @@ func (m *CompanyDetailMutation) Field(name string) (ent.Value, bool) {
 		return m.TaxNo()
 	case companydetail.FieldChamberInfo:
 		return m.ChamberInfo()
-	case companydetail.FieldChamberRegNo:
-		return m.ChamberRegNo()
+	case companydetail.FieldChamberRegisterNo:
+		return m.ChamberRegisterNo()
 	case companydetail.FieldVisaDate:
 		return m.VisaDate()
 	case companydetail.FieldVisaEndDate:
 		return m.VisaEndDate()
+	case companydetail.FieldVisaFinishedFor90Days:
+		return m.VisaFinishedFor90Days()
+	case companydetail.FieldCorePersonAbsent90Days:
+		return m.CorePersonAbsent90Days()
+	case companydetail.FieldIsClosed:
+		return m.IsClosed()
 	case companydetail.FieldOwnerName:
 		return m.OwnerName()
 	case companydetail.FieldOwnerTcNo:
@@ -1710,18 +1707,10 @@ func (m *CompanyDetailMutation) Field(name string) (ent.Value, bool) {
 		return m.OwnerPhone()
 	case companydetail.FieldOwnerEmail:
 		return m.OwnerEmail()
-	case companydetail.FieldOwnerRegNo:
-		return m.OwnerRegNo()
+	case companydetail.FieldOwnerRegisterNo:
+		return m.OwnerRegisterNo()
 	case companydetail.FieldOwnerCareer:
 		return m.OwnerCareer()
-	case companydetail.FieldOwnerBirthDate:
-		return m.OwnerBirthDate()
-	case companydetail.FieldVisaFinishedFor90Days:
-		return m.VisaFinishedFor90Days()
-	case companydetail.FieldCorePersonAbsent90Days:
-		return m.CorePersonAbsent90Days()
-	case companydetail.FieldIsClosed:
-		return m.IsClosed()
 	case companydetail.FieldCreatedAt:
 		return m.CreatedAt()
 	case companydetail.FieldUpdatedAt:
@@ -1753,12 +1742,18 @@ func (m *CompanyDetailMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldTaxNo(ctx)
 	case companydetail.FieldChamberInfo:
 		return m.OldChamberInfo(ctx)
-	case companydetail.FieldChamberRegNo:
-		return m.OldChamberRegNo(ctx)
+	case companydetail.FieldChamberRegisterNo:
+		return m.OldChamberRegisterNo(ctx)
 	case companydetail.FieldVisaDate:
 		return m.OldVisaDate(ctx)
 	case companydetail.FieldVisaEndDate:
 		return m.OldVisaEndDate(ctx)
+	case companydetail.FieldVisaFinishedFor90Days:
+		return m.OldVisaFinishedFor90Days(ctx)
+	case companydetail.FieldCorePersonAbsent90Days:
+		return m.OldCorePersonAbsent90Days(ctx)
+	case companydetail.FieldIsClosed:
+		return m.OldIsClosed(ctx)
 	case companydetail.FieldOwnerName:
 		return m.OldOwnerName(ctx)
 	case companydetail.FieldOwnerTcNo:
@@ -1769,18 +1764,10 @@ func (m *CompanyDetailMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldOwnerPhone(ctx)
 	case companydetail.FieldOwnerEmail:
 		return m.OldOwnerEmail(ctx)
-	case companydetail.FieldOwnerRegNo:
-		return m.OldOwnerRegNo(ctx)
+	case companydetail.FieldOwnerRegisterNo:
+		return m.OldOwnerRegisterNo(ctx)
 	case companydetail.FieldOwnerCareer:
 		return m.OldOwnerCareer(ctx)
-	case companydetail.FieldOwnerBirthDate:
-		return m.OldOwnerBirthDate(ctx)
-	case companydetail.FieldVisaFinishedFor90Days:
-		return m.OldVisaFinishedFor90Days(ctx)
-	case companydetail.FieldCorePersonAbsent90Days:
-		return m.OldCorePersonAbsent90Days(ctx)
-	case companydetail.FieldIsClosed:
-		return m.OldIsClosed(ctx)
 	case companydetail.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case companydetail.FieldUpdatedAt:
@@ -1857,12 +1844,12 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetChamberInfo(v)
 		return nil
-	case companydetail.FieldChamberRegNo:
+	case companydetail.FieldChamberRegisterNo:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetChamberRegNo(v)
+		m.SetChamberRegisterNo(v)
 		return nil
 	case companydetail.FieldVisaDate:
 		v, ok := value.(time.Time)
@@ -1878,6 +1865,27 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetVisaEndDate(v)
 		return nil
+	case companydetail.FieldVisaFinishedFor90Days:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetVisaFinishedFor90Days(v)
+		return nil
+	case companydetail.FieldCorePersonAbsent90Days:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCorePersonAbsent90Days(v)
+		return nil
+	case companydetail.FieldIsClosed:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsClosed(v)
+		return nil
 	case companydetail.FieldOwnerName:
 		v, ok := value.(string)
 		if !ok {
@@ -1886,7 +1894,7 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 		m.SetOwnerName(v)
 		return nil
 	case companydetail.FieldOwnerTcNo:
-		v, ok := value.(string)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1913,12 +1921,12 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetOwnerEmail(v)
 		return nil
-	case companydetail.FieldOwnerRegNo:
-		v, ok := value.(string)
+	case companydetail.FieldOwnerRegisterNo:
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetOwnerRegNo(v)
+		m.SetOwnerRegisterNo(v)
 		return nil
 	case companydetail.FieldOwnerCareer:
 		v, ok := value.(string)
@@ -1926,34 +1934,6 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetOwnerCareer(v)
-		return nil
-	case companydetail.FieldOwnerBirthDate:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetOwnerBirthDate(v)
-		return nil
-	case companydetail.FieldVisaFinishedFor90Days:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetVisaFinishedFor90Days(v)
-		return nil
-	case companydetail.FieldCorePersonAbsent90Days:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCorePersonAbsent90Days(v)
-		return nil
-	case companydetail.FieldIsClosed:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetIsClosed(v)
 		return nil
 	case companydetail.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -1983,6 +1963,12 @@ func (m *CompanyDetailMutation) AddedFields() []string {
 	if m.add_TaxNo != nil {
 		fields = append(fields, companydetail.FieldTaxNo)
 	}
+	if m.add_OwnerTcNo != nil {
+		fields = append(fields, companydetail.FieldOwnerTcNo)
+	}
+	if m.add_OwnerRegisterNo != nil {
+		fields = append(fields, companydetail.FieldOwnerRegisterNo)
+	}
 	return fields
 }
 
@@ -1995,6 +1981,10 @@ func (m *CompanyDetailMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedCompanyCode()
 	case companydetail.FieldTaxNo:
 		return m.AddedTaxNo()
+	case companydetail.FieldOwnerTcNo:
+		return m.AddedOwnerTcNo()
+	case companydetail.FieldOwnerRegisterNo:
+		return m.AddedOwnerRegisterNo()
 	}
 	return nil, false
 }
@@ -2017,6 +2007,20 @@ func (m *CompanyDetailMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddTaxNo(v)
+		return nil
+	case companydetail.FieldOwnerTcNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddOwnerTcNo(v)
+		return nil
+	case companydetail.FieldOwnerRegisterNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddOwnerRegisterNo(v)
 		return nil
 	}
 	return fmt.Errorf("unknown CompanyDetail numeric field %s", name)
@@ -2047,14 +2051,20 @@ func (m *CompanyDetailMutation) ClearedFields() []string {
 	if m.FieldCleared(companydetail.FieldChamberInfo) {
 		fields = append(fields, companydetail.FieldChamberInfo)
 	}
-	if m.FieldCleared(companydetail.FieldChamberRegNo) {
-		fields = append(fields, companydetail.FieldChamberRegNo)
+	if m.FieldCleared(companydetail.FieldChamberRegisterNo) {
+		fields = append(fields, companydetail.FieldChamberRegisterNo)
 	}
 	if m.FieldCleared(companydetail.FieldVisaDate) {
 		fields = append(fields, companydetail.FieldVisaDate)
 	}
 	if m.FieldCleared(companydetail.FieldVisaEndDate) {
 		fields = append(fields, companydetail.FieldVisaEndDate)
+	}
+	if m.FieldCleared(companydetail.FieldVisaFinishedFor90Days) {
+		fields = append(fields, companydetail.FieldVisaFinishedFor90Days)
+	}
+	if m.FieldCleared(companydetail.FieldCorePersonAbsent90Days) {
+		fields = append(fields, companydetail.FieldCorePersonAbsent90Days)
 	}
 	if m.FieldCleared(companydetail.FieldOwnerName) {
 		fields = append(fields, companydetail.FieldOwnerName)
@@ -2071,20 +2081,11 @@ func (m *CompanyDetailMutation) ClearedFields() []string {
 	if m.FieldCleared(companydetail.FieldOwnerEmail) {
 		fields = append(fields, companydetail.FieldOwnerEmail)
 	}
-	if m.FieldCleared(companydetail.FieldOwnerRegNo) {
-		fields = append(fields, companydetail.FieldOwnerRegNo)
+	if m.FieldCleared(companydetail.FieldOwnerRegisterNo) {
+		fields = append(fields, companydetail.FieldOwnerRegisterNo)
 	}
 	if m.FieldCleared(companydetail.FieldOwnerCareer) {
 		fields = append(fields, companydetail.FieldOwnerCareer)
-	}
-	if m.FieldCleared(companydetail.FieldOwnerBirthDate) {
-		fields = append(fields, companydetail.FieldOwnerBirthDate)
-	}
-	if m.FieldCleared(companydetail.FieldVisaFinishedFor90Days) {
-		fields = append(fields, companydetail.FieldVisaFinishedFor90Days)
-	}
-	if m.FieldCleared(companydetail.FieldCorePersonAbsent90Days) {
-		fields = append(fields, companydetail.FieldCorePersonAbsent90Days)
 	}
 	return fields
 }
@@ -2121,14 +2122,20 @@ func (m *CompanyDetailMutation) ClearField(name string) error {
 	case companydetail.FieldChamberInfo:
 		m.ClearChamberInfo()
 		return nil
-	case companydetail.FieldChamberRegNo:
-		m.ClearChamberRegNo()
+	case companydetail.FieldChamberRegisterNo:
+		m.ClearChamberRegisterNo()
 		return nil
 	case companydetail.FieldVisaDate:
 		m.ClearVisaDate()
 		return nil
 	case companydetail.FieldVisaEndDate:
 		m.ClearVisaEndDate()
+		return nil
+	case companydetail.FieldVisaFinishedFor90Days:
+		m.ClearVisaFinishedFor90Days()
+		return nil
+	case companydetail.FieldCorePersonAbsent90Days:
+		m.ClearCorePersonAbsent90Days()
 		return nil
 	case companydetail.FieldOwnerName:
 		m.ClearOwnerName()
@@ -2145,20 +2152,11 @@ func (m *CompanyDetailMutation) ClearField(name string) error {
 	case companydetail.FieldOwnerEmail:
 		m.ClearOwnerEmail()
 		return nil
-	case companydetail.FieldOwnerRegNo:
-		m.ClearOwnerRegNo()
+	case companydetail.FieldOwnerRegisterNo:
+		m.ClearOwnerRegisterNo()
 		return nil
 	case companydetail.FieldOwnerCareer:
 		m.ClearOwnerCareer()
-		return nil
-	case companydetail.FieldOwnerBirthDate:
-		m.ClearOwnerBirthDate()
-		return nil
-	case companydetail.FieldVisaFinishedFor90Days:
-		m.ClearVisaFinishedFor90Days()
-		return nil
-	case companydetail.FieldCorePersonAbsent90Days:
-		m.ClearCorePersonAbsent90Days()
 		return nil
 	}
 	return fmt.Errorf("unknown CompanyDetail nullable field %s", name)
@@ -2195,14 +2193,23 @@ func (m *CompanyDetailMutation) ResetField(name string) error {
 	case companydetail.FieldChamberInfo:
 		m.ResetChamberInfo()
 		return nil
-	case companydetail.FieldChamberRegNo:
-		m.ResetChamberRegNo()
+	case companydetail.FieldChamberRegisterNo:
+		m.ResetChamberRegisterNo()
 		return nil
 	case companydetail.FieldVisaDate:
 		m.ResetVisaDate()
 		return nil
 	case companydetail.FieldVisaEndDate:
 		m.ResetVisaEndDate()
+		return nil
+	case companydetail.FieldVisaFinishedFor90Days:
+		m.ResetVisaFinishedFor90Days()
+		return nil
+	case companydetail.FieldCorePersonAbsent90Days:
+		m.ResetCorePersonAbsent90Days()
+		return nil
+	case companydetail.FieldIsClosed:
+		m.ResetIsClosed()
 		return nil
 	case companydetail.FieldOwnerName:
 		m.ResetOwnerName()
@@ -2219,23 +2226,11 @@ func (m *CompanyDetailMutation) ResetField(name string) error {
 	case companydetail.FieldOwnerEmail:
 		m.ResetOwnerEmail()
 		return nil
-	case companydetail.FieldOwnerRegNo:
-		m.ResetOwnerRegNo()
+	case companydetail.FieldOwnerRegisterNo:
+		m.ResetOwnerRegisterNo()
 		return nil
 	case companydetail.FieldOwnerCareer:
 		m.ResetOwnerCareer()
-		return nil
-	case companydetail.FieldOwnerBirthDate:
-		m.ResetOwnerBirthDate()
-		return nil
-	case companydetail.FieldVisaFinishedFor90Days:
-		m.ResetVisaFinishedFor90Days()
-		return nil
-	case companydetail.FieldCorePersonAbsent90Days:
-		m.ResetCorePersonAbsent90Days()
-		return nil
-	case companydetail.FieldIsClosed:
-		m.ResetIsClosed()
 		return nil
 	case companydetail.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -2397,14 +2392,13 @@ type CompanyEngineerMutation struct {
 	_Address                   *string
 	_Career                    *string
 	_Position                  *string
-	_RegNo                     *int
-	add_RegNo                  *int
+	_RegisterNo                *int
+	add_RegisterNo             *int
 	_CertNo                    *int
 	add_CertNo                 *int
-	yds_id                     *int
-	addyds_id                  *int
+	_YDSID                     *int
+	add_YDSID                  *int
 	_Employment                *time.Time
-	_Dismissal                 *time.Time
 	_Status                    *int
 	add_Status                 *int
 	_Note                      *string
@@ -2891,74 +2885,74 @@ func (m *CompanyEngineerMutation) ResetPosition() {
 	delete(m.clearedFields, companyengineer.FieldPosition)
 }
 
-// SetRegNo sets the "RegNo" field.
-func (m *CompanyEngineerMutation) SetRegNo(i int) {
-	m._RegNo = &i
-	m.add_RegNo = nil
+// SetRegisterNo sets the "RegisterNo" field.
+func (m *CompanyEngineerMutation) SetRegisterNo(i int) {
+	m._RegisterNo = &i
+	m.add_RegisterNo = nil
 }
 
-// RegNo returns the value of the "RegNo" field in the mutation.
-func (m *CompanyEngineerMutation) RegNo() (r int, exists bool) {
-	v := m._RegNo
+// RegisterNo returns the value of the "RegisterNo" field in the mutation.
+func (m *CompanyEngineerMutation) RegisterNo() (r int, exists bool) {
+	v := m._RegisterNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldRegNo returns the old "RegNo" field's value of the CompanyEngineer entity.
+// OldRegisterNo returns the old "RegisterNo" field's value of the CompanyEngineer entity.
 // If the CompanyEngineer object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyEngineerMutation) OldRegNo(ctx context.Context) (v int, err error) {
+func (m *CompanyEngineerMutation) OldRegisterNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldRegNo is only allowed on UpdateOne operations")
+		return v, errors.New("OldRegisterNo is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldRegNo requires an ID field in the mutation")
+		return v, errors.New("OldRegisterNo requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldRegNo: %w", err)
+		return v, fmt.Errorf("querying old value for OldRegisterNo: %w", err)
 	}
-	return oldValue.RegNo, nil
+	return oldValue.RegisterNo, nil
 }
 
-// AddRegNo adds i to the "RegNo" field.
-func (m *CompanyEngineerMutation) AddRegNo(i int) {
-	if m.add_RegNo != nil {
-		*m.add_RegNo += i
+// AddRegisterNo adds i to the "RegisterNo" field.
+func (m *CompanyEngineerMutation) AddRegisterNo(i int) {
+	if m.add_RegisterNo != nil {
+		*m.add_RegisterNo += i
 	} else {
-		m.add_RegNo = &i
+		m.add_RegisterNo = &i
 	}
 }
 
-// AddedRegNo returns the value that was added to the "RegNo" field in this mutation.
-func (m *CompanyEngineerMutation) AddedRegNo() (r int, exists bool) {
-	v := m.add_RegNo
+// AddedRegisterNo returns the value that was added to the "RegisterNo" field in this mutation.
+func (m *CompanyEngineerMutation) AddedRegisterNo() (r int, exists bool) {
+	v := m.add_RegisterNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ClearRegNo clears the value of the "RegNo" field.
-func (m *CompanyEngineerMutation) ClearRegNo() {
-	m._RegNo = nil
-	m.add_RegNo = nil
-	m.clearedFields[companyengineer.FieldRegNo] = struct{}{}
+// ClearRegisterNo clears the value of the "RegisterNo" field.
+func (m *CompanyEngineerMutation) ClearRegisterNo() {
+	m._RegisterNo = nil
+	m.add_RegisterNo = nil
+	m.clearedFields[companyengineer.FieldRegisterNo] = struct{}{}
 }
 
-// RegNoCleared returns if the "RegNo" field was cleared in this mutation.
-func (m *CompanyEngineerMutation) RegNoCleared() bool {
-	_, ok := m.clearedFields[companyengineer.FieldRegNo]
+// RegisterNoCleared returns if the "RegisterNo" field was cleared in this mutation.
+func (m *CompanyEngineerMutation) RegisterNoCleared() bool {
+	_, ok := m.clearedFields[companyengineer.FieldRegisterNo]
 	return ok
 }
 
-// ResetRegNo resets all changes to the "RegNo" field.
-func (m *CompanyEngineerMutation) ResetRegNo() {
-	m._RegNo = nil
-	m.add_RegNo = nil
-	delete(m.clearedFields, companyengineer.FieldRegNo)
+// ResetRegisterNo resets all changes to the "RegisterNo" field.
+func (m *CompanyEngineerMutation) ResetRegisterNo() {
+	m._RegisterNo = nil
+	m.add_RegisterNo = nil
+	delete(m.clearedFields, companyengineer.FieldRegisterNo)
 }
 
 // SetCertNo sets the "CertNo" field.
@@ -3031,74 +3025,74 @@ func (m *CompanyEngineerMutation) ResetCertNo() {
 	delete(m.clearedFields, companyengineer.FieldCertNo)
 }
 
-// SetYdsID sets the "yds_id" field.
-func (m *CompanyEngineerMutation) SetYdsID(i int) {
-	m.yds_id = &i
-	m.addyds_id = nil
+// SetYDSID sets the "YDSID" field.
+func (m *CompanyEngineerMutation) SetYDSID(i int) {
+	m._YDSID = &i
+	m.add_YDSID = nil
 }
 
-// YdsID returns the value of the "yds_id" field in the mutation.
-func (m *CompanyEngineerMutation) YdsID() (r int, exists bool) {
-	v := m.yds_id
+// YDSID returns the value of the "YDSID" field in the mutation.
+func (m *CompanyEngineerMutation) YDSID() (r int, exists bool) {
+	v := m._YDSID
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldYdsID returns the old "yds_id" field's value of the CompanyEngineer entity.
+// OldYDSID returns the old "YDSID" field's value of the CompanyEngineer entity.
 // If the CompanyEngineer object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyEngineerMutation) OldYdsID(ctx context.Context) (v int, err error) {
+func (m *CompanyEngineerMutation) OldYDSID(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldYdsID is only allowed on UpdateOne operations")
+		return v, errors.New("OldYDSID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldYdsID requires an ID field in the mutation")
+		return v, errors.New("OldYDSID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldYdsID: %w", err)
+		return v, fmt.Errorf("querying old value for OldYDSID: %w", err)
 	}
-	return oldValue.YdsID, nil
+	return oldValue.YDSID, nil
 }
 
-// AddYdsID adds i to the "yds_id" field.
-func (m *CompanyEngineerMutation) AddYdsID(i int) {
-	if m.addyds_id != nil {
-		*m.addyds_id += i
+// AddYDSID adds i to the "YDSID" field.
+func (m *CompanyEngineerMutation) AddYDSID(i int) {
+	if m.add_YDSID != nil {
+		*m.add_YDSID += i
 	} else {
-		m.addyds_id = &i
+		m.add_YDSID = &i
 	}
 }
 
-// AddedYdsID returns the value that was added to the "yds_id" field in this mutation.
-func (m *CompanyEngineerMutation) AddedYdsID() (r int, exists bool) {
-	v := m.addyds_id
+// AddedYDSID returns the value that was added to the "YDSID" field in this mutation.
+func (m *CompanyEngineerMutation) AddedYDSID() (r int, exists bool) {
+	v := m.add_YDSID
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ClearYdsID clears the value of the "yds_id" field.
-func (m *CompanyEngineerMutation) ClearYdsID() {
-	m.yds_id = nil
-	m.addyds_id = nil
-	m.clearedFields[companyengineer.FieldYdsID] = struct{}{}
+// ClearYDSID clears the value of the "YDSID" field.
+func (m *CompanyEngineerMutation) ClearYDSID() {
+	m._YDSID = nil
+	m.add_YDSID = nil
+	m.clearedFields[companyengineer.FieldYDSID] = struct{}{}
 }
 
-// YdsIDCleared returns if the "yds_id" field was cleared in this mutation.
-func (m *CompanyEngineerMutation) YdsIDCleared() bool {
-	_, ok := m.clearedFields[companyengineer.FieldYdsID]
+// YDSIDCleared returns if the "YDSID" field was cleared in this mutation.
+func (m *CompanyEngineerMutation) YDSIDCleared() bool {
+	_, ok := m.clearedFields[companyengineer.FieldYDSID]
 	return ok
 }
 
-// ResetYdsID resets all changes to the "yds_id" field.
-func (m *CompanyEngineerMutation) ResetYdsID() {
-	m.yds_id = nil
-	m.addyds_id = nil
-	delete(m.clearedFields, companyengineer.FieldYdsID)
+// ResetYDSID resets all changes to the "YDSID" field.
+func (m *CompanyEngineerMutation) ResetYDSID() {
+	m._YDSID = nil
+	m.add_YDSID = nil
+	delete(m.clearedFields, companyengineer.FieldYDSID)
 }
 
 // SetEmployment sets the "Employment" field.
@@ -3148,55 +3142,6 @@ func (m *CompanyEngineerMutation) EmploymentCleared() bool {
 func (m *CompanyEngineerMutation) ResetEmployment() {
 	m._Employment = nil
 	delete(m.clearedFields, companyengineer.FieldEmployment)
-}
-
-// SetDismissal sets the "Dismissal" field.
-func (m *CompanyEngineerMutation) SetDismissal(t time.Time) {
-	m._Dismissal = &t
-}
-
-// Dismissal returns the value of the "Dismissal" field in the mutation.
-func (m *CompanyEngineerMutation) Dismissal() (r time.Time, exists bool) {
-	v := m._Dismissal
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDismissal returns the old "Dismissal" field's value of the CompanyEngineer entity.
-// If the CompanyEngineer object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyEngineerMutation) OldDismissal(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDismissal is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDismissal requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDismissal: %w", err)
-	}
-	return oldValue.Dismissal, nil
-}
-
-// ClearDismissal clears the value of the "Dismissal" field.
-func (m *CompanyEngineerMutation) ClearDismissal() {
-	m._Dismissal = nil
-	m.clearedFields[companyengineer.FieldDismissal] = struct{}{}
-}
-
-// DismissalCleared returns if the "Dismissal" field was cleared in this mutation.
-func (m *CompanyEngineerMutation) DismissalCleared() bool {
-	_, ok := m.clearedFields[companyengineer.FieldDismissal]
-	return ok
-}
-
-// ResetDismissal resets all changes to the "Dismissal" field.
-func (m *CompanyEngineerMutation) ResetDismissal() {
-	m._Dismissal = nil
-	delete(m.clearedFields, companyengineer.FieldDismissal)
 }
 
 // SetStatus sets the "Status" field.
@@ -3881,7 +3826,7 @@ func (m *CompanyEngineerMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CompanyEngineerMutation) Fields() []string {
-	fields := make([]string, 0, 16)
+	fields := make([]string, 0, 15)
 	if m._Name != nil {
 		fields = append(fields, companyengineer.FieldName)
 	}
@@ -3903,20 +3848,17 @@ func (m *CompanyEngineerMutation) Fields() []string {
 	if m._Position != nil {
 		fields = append(fields, companyengineer.FieldPosition)
 	}
-	if m._RegNo != nil {
-		fields = append(fields, companyengineer.FieldRegNo)
+	if m._RegisterNo != nil {
+		fields = append(fields, companyengineer.FieldRegisterNo)
 	}
 	if m._CertNo != nil {
 		fields = append(fields, companyengineer.FieldCertNo)
 	}
-	if m.yds_id != nil {
-		fields = append(fields, companyengineer.FieldYdsID)
+	if m._YDSID != nil {
+		fields = append(fields, companyengineer.FieldYDSID)
 	}
 	if m._Employment != nil {
 		fields = append(fields, companyengineer.FieldEmployment)
-	}
-	if m._Dismissal != nil {
-		fields = append(fields, companyengineer.FieldDismissal)
 	}
 	if m._Status != nil {
 		fields = append(fields, companyengineer.FieldStatus)
@@ -3952,16 +3894,14 @@ func (m *CompanyEngineerMutation) Field(name string) (ent.Value, bool) {
 		return m.Career()
 	case companyengineer.FieldPosition:
 		return m.Position()
-	case companyengineer.FieldRegNo:
-		return m.RegNo()
+	case companyengineer.FieldRegisterNo:
+		return m.RegisterNo()
 	case companyengineer.FieldCertNo:
 		return m.CertNo()
-	case companyengineer.FieldYdsID:
-		return m.YdsID()
+	case companyengineer.FieldYDSID:
+		return m.YDSID()
 	case companyengineer.FieldEmployment:
 		return m.Employment()
-	case companyengineer.FieldDismissal:
-		return m.Dismissal()
 	case companyengineer.FieldStatus:
 		return m.Status()
 	case companyengineer.FieldNote:
@@ -3993,16 +3933,14 @@ func (m *CompanyEngineerMutation) OldField(ctx context.Context, name string) (en
 		return m.OldCareer(ctx)
 	case companyengineer.FieldPosition:
 		return m.OldPosition(ctx)
-	case companyengineer.FieldRegNo:
-		return m.OldRegNo(ctx)
+	case companyengineer.FieldRegisterNo:
+		return m.OldRegisterNo(ctx)
 	case companyengineer.FieldCertNo:
 		return m.OldCertNo(ctx)
-	case companyengineer.FieldYdsID:
-		return m.OldYdsID(ctx)
+	case companyengineer.FieldYDSID:
+		return m.OldYDSID(ctx)
 	case companyengineer.FieldEmployment:
 		return m.OldEmployment(ctx)
-	case companyengineer.FieldDismissal:
-		return m.OldDismissal(ctx)
 	case companyengineer.FieldStatus:
 		return m.OldStatus(ctx)
 	case companyengineer.FieldNote:
@@ -4069,12 +4007,12 @@ func (m *CompanyEngineerMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetPosition(v)
 		return nil
-	case companyengineer.FieldRegNo:
+	case companyengineer.FieldRegisterNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetRegNo(v)
+		m.SetRegisterNo(v)
 		return nil
 	case companyengineer.FieldCertNo:
 		v, ok := value.(int)
@@ -4083,12 +4021,12 @@ func (m *CompanyEngineerMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCertNo(v)
 		return nil
-	case companyengineer.FieldYdsID:
+	case companyengineer.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetYdsID(v)
+		m.SetYDSID(v)
 		return nil
 	case companyengineer.FieldEmployment:
 		v, ok := value.(time.Time)
@@ -4096,13 +4034,6 @@ func (m *CompanyEngineerMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetEmployment(v)
-		return nil
-	case companyengineer.FieldDismissal:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDismissal(v)
 		return nil
 	case companyengineer.FieldStatus:
 		v, ok := value.(int)
@@ -4143,14 +4074,14 @@ func (m *CompanyEngineerMutation) AddedFields() []string {
 	if m.add_TcNo != nil {
 		fields = append(fields, companyengineer.FieldTcNo)
 	}
-	if m.add_RegNo != nil {
-		fields = append(fields, companyengineer.FieldRegNo)
+	if m.add_RegisterNo != nil {
+		fields = append(fields, companyengineer.FieldRegisterNo)
 	}
 	if m.add_CertNo != nil {
 		fields = append(fields, companyengineer.FieldCertNo)
 	}
-	if m.addyds_id != nil {
-		fields = append(fields, companyengineer.FieldYdsID)
+	if m.add_YDSID != nil {
+		fields = append(fields, companyengineer.FieldYDSID)
 	}
 	if m.add_Status != nil {
 		fields = append(fields, companyengineer.FieldStatus)
@@ -4165,12 +4096,12 @@ func (m *CompanyEngineerMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case companyengineer.FieldTcNo:
 		return m.AddedTcNo()
-	case companyengineer.FieldRegNo:
-		return m.AddedRegNo()
+	case companyengineer.FieldRegisterNo:
+		return m.AddedRegisterNo()
 	case companyengineer.FieldCertNo:
 		return m.AddedCertNo()
-	case companyengineer.FieldYdsID:
-		return m.AddedYdsID()
+	case companyengineer.FieldYDSID:
+		return m.AddedYDSID()
 	case companyengineer.FieldStatus:
 		return m.AddedStatus()
 	}
@@ -4189,12 +4120,12 @@ func (m *CompanyEngineerMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddTcNo(v)
 		return nil
-	case companyengineer.FieldRegNo:
+	case companyengineer.FieldRegisterNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddRegNo(v)
+		m.AddRegisterNo(v)
 		return nil
 	case companyengineer.FieldCertNo:
 		v, ok := value.(int)
@@ -4203,12 +4134,12 @@ func (m *CompanyEngineerMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddCertNo(v)
 		return nil
-	case companyengineer.FieldYdsID:
+	case companyengineer.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddYdsID(v)
+		m.AddYDSID(v)
 		return nil
 	case companyengineer.FieldStatus:
 		v, ok := value.(int)
@@ -4243,20 +4174,17 @@ func (m *CompanyEngineerMutation) ClearedFields() []string {
 	if m.FieldCleared(companyengineer.FieldPosition) {
 		fields = append(fields, companyengineer.FieldPosition)
 	}
-	if m.FieldCleared(companyengineer.FieldRegNo) {
-		fields = append(fields, companyengineer.FieldRegNo)
+	if m.FieldCleared(companyengineer.FieldRegisterNo) {
+		fields = append(fields, companyengineer.FieldRegisterNo)
 	}
 	if m.FieldCleared(companyengineer.FieldCertNo) {
 		fields = append(fields, companyengineer.FieldCertNo)
 	}
-	if m.FieldCleared(companyengineer.FieldYdsID) {
-		fields = append(fields, companyengineer.FieldYdsID)
+	if m.FieldCleared(companyengineer.FieldYDSID) {
+		fields = append(fields, companyengineer.FieldYDSID)
 	}
 	if m.FieldCleared(companyengineer.FieldEmployment) {
 		fields = append(fields, companyengineer.FieldEmployment)
-	}
-	if m.FieldCleared(companyengineer.FieldDismissal) {
-		fields = append(fields, companyengineer.FieldDismissal)
 	}
 	if m.FieldCleared(companyengineer.FieldNote) {
 		fields = append(fields, companyengineer.FieldNote)
@@ -4293,20 +4221,17 @@ func (m *CompanyEngineerMutation) ClearField(name string) error {
 	case companyengineer.FieldPosition:
 		m.ClearPosition()
 		return nil
-	case companyengineer.FieldRegNo:
-		m.ClearRegNo()
+	case companyengineer.FieldRegisterNo:
+		m.ClearRegisterNo()
 		return nil
 	case companyengineer.FieldCertNo:
 		m.ClearCertNo()
 		return nil
-	case companyengineer.FieldYdsID:
-		m.ClearYdsID()
+	case companyengineer.FieldYDSID:
+		m.ClearYDSID()
 		return nil
 	case companyengineer.FieldEmployment:
 		m.ClearEmployment()
-		return nil
-	case companyengineer.FieldDismissal:
-		m.ClearDismissal()
 		return nil
 	case companyengineer.FieldNote:
 		m.ClearNote()
@@ -4340,20 +4265,17 @@ func (m *CompanyEngineerMutation) ResetField(name string) error {
 	case companyengineer.FieldPosition:
 		m.ResetPosition()
 		return nil
-	case companyengineer.FieldRegNo:
-		m.ResetRegNo()
+	case companyengineer.FieldRegisterNo:
+		m.ResetRegisterNo()
 		return nil
 	case companyengineer.FieldCertNo:
 		m.ResetCertNo()
 		return nil
-	case companyengineer.FieldYdsID:
-		m.ResetYdsID()
+	case companyengineer.FieldYDSID:
+		m.ResetYDSID()
 		return nil
 	case companyengineer.FieldEmployment:
 		m.ResetEmployment()
-		return nil
-	case companyengineer.FieldDismissal:
-		m.ResetDismissal()
 		return nil
 	case companyengineer.FieldStatus:
 		m.ResetStatus()
@@ -5048,23 +4970,25 @@ func (m *CompanyUserMutation) ResetEdge(name string) error {
 // JobAuthorMutation represents an operation that mutates the JobAuthor nodes in the graph.
 type JobAuthorMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *int
-	_Architect     *string
-	_Static        *string
-	_Mechanic      *string
-	_Electric      *string
-	_Floor         *string
-	_CreatedAt     *time.Time
-	_UpdatedAt     *time.Time
-	clearedFields  map[string]struct{}
-	authors        map[int]struct{}
-	removedauthors map[int]struct{}
-	clearedauthors bool
-	done           bool
-	oldValue       func(context.Context) (*JobAuthor, error)
-	predicates     []predicate.JobAuthor
+	op                        Op
+	typ                       string
+	id                        *int
+	_Static                   *string
+	_Mechanic                 *string
+	_Electric                 *string
+	_Architect                *string
+	_GeotechnicalEngineer     *string
+	_GeotechnicalGeologist    *string
+	_GeotechnicalGeophysicist *string
+	_CreatedAt                *time.Time
+	_UpdatedAt                *time.Time
+	clearedFields             map[string]struct{}
+	authors                   map[int]struct{}
+	removedauthors            map[int]struct{}
+	clearedauthors            bool
+	done                      bool
+	oldValue                  func(context.Context) (*JobAuthor, error)
+	predicates                []predicate.JobAuthor
 }
 
 var _ ent.Mutation = (*JobAuthorMutation)(nil)
@@ -5163,55 +5087,6 @@ func (m *JobAuthorMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
-}
-
-// SetArchitect sets the "Architect" field.
-func (m *JobAuthorMutation) SetArchitect(s string) {
-	m._Architect = &s
-}
-
-// Architect returns the value of the "Architect" field in the mutation.
-func (m *JobAuthorMutation) Architect() (r string, exists bool) {
-	v := m._Architect
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldArchitect returns the old "Architect" field's value of the JobAuthor entity.
-// If the JobAuthor object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobAuthorMutation) OldArchitect(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldArchitect is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldArchitect requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldArchitect: %w", err)
-	}
-	return oldValue.Architect, nil
-}
-
-// ClearArchitect clears the value of the "Architect" field.
-func (m *JobAuthorMutation) ClearArchitect() {
-	m._Architect = nil
-	m.clearedFields[jobauthor.FieldArchitect] = struct{}{}
-}
-
-// ArchitectCleared returns if the "Architect" field was cleared in this mutation.
-func (m *JobAuthorMutation) ArchitectCleared() bool {
-	_, ok := m.clearedFields[jobauthor.FieldArchitect]
-	return ok
-}
-
-// ResetArchitect resets all changes to the "Architect" field.
-func (m *JobAuthorMutation) ResetArchitect() {
-	m._Architect = nil
-	delete(m.clearedFields, jobauthor.FieldArchitect)
 }
 
 // SetStatic sets the "Static" field.
@@ -5361,53 +5236,200 @@ func (m *JobAuthorMutation) ResetElectric() {
 	delete(m.clearedFields, jobauthor.FieldElectric)
 }
 
-// SetFloor sets the "Floor" field.
-func (m *JobAuthorMutation) SetFloor(s string) {
-	m._Floor = &s
+// SetArchitect sets the "Architect" field.
+func (m *JobAuthorMutation) SetArchitect(s string) {
+	m._Architect = &s
 }
 
-// Floor returns the value of the "Floor" field in the mutation.
-func (m *JobAuthorMutation) Floor() (r string, exists bool) {
-	v := m._Floor
+// Architect returns the value of the "Architect" field in the mutation.
+func (m *JobAuthorMutation) Architect() (r string, exists bool) {
+	v := m._Architect
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldFloor returns the old "Floor" field's value of the JobAuthor entity.
+// OldArchitect returns the old "Architect" field's value of the JobAuthor entity.
 // If the JobAuthor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobAuthorMutation) OldFloor(ctx context.Context) (v string, err error) {
+func (m *JobAuthorMutation) OldArchitect(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldFloor is only allowed on UpdateOne operations")
+		return v, errors.New("OldArchitect is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldFloor requires an ID field in the mutation")
+		return v, errors.New("OldArchitect requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFloor: %w", err)
+		return v, fmt.Errorf("querying old value for OldArchitect: %w", err)
 	}
-	return oldValue.Floor, nil
+	return oldValue.Architect, nil
 }
 
-// ClearFloor clears the value of the "Floor" field.
-func (m *JobAuthorMutation) ClearFloor() {
-	m._Floor = nil
-	m.clearedFields[jobauthor.FieldFloor] = struct{}{}
+// ClearArchitect clears the value of the "Architect" field.
+func (m *JobAuthorMutation) ClearArchitect() {
+	m._Architect = nil
+	m.clearedFields[jobauthor.FieldArchitect] = struct{}{}
 }
 
-// FloorCleared returns if the "Floor" field was cleared in this mutation.
-func (m *JobAuthorMutation) FloorCleared() bool {
-	_, ok := m.clearedFields[jobauthor.FieldFloor]
+// ArchitectCleared returns if the "Architect" field was cleared in this mutation.
+func (m *JobAuthorMutation) ArchitectCleared() bool {
+	_, ok := m.clearedFields[jobauthor.FieldArchitect]
 	return ok
 }
 
-// ResetFloor resets all changes to the "Floor" field.
-func (m *JobAuthorMutation) ResetFloor() {
-	m._Floor = nil
-	delete(m.clearedFields, jobauthor.FieldFloor)
+// ResetArchitect resets all changes to the "Architect" field.
+func (m *JobAuthorMutation) ResetArchitect() {
+	m._Architect = nil
+	delete(m.clearedFields, jobauthor.FieldArchitect)
+}
+
+// SetGeotechnicalEngineer sets the "GeotechnicalEngineer" field.
+func (m *JobAuthorMutation) SetGeotechnicalEngineer(s string) {
+	m._GeotechnicalEngineer = &s
+}
+
+// GeotechnicalEngineer returns the value of the "GeotechnicalEngineer" field in the mutation.
+func (m *JobAuthorMutation) GeotechnicalEngineer() (r string, exists bool) {
+	v := m._GeotechnicalEngineer
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGeotechnicalEngineer returns the old "GeotechnicalEngineer" field's value of the JobAuthor entity.
+// If the JobAuthor object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobAuthorMutation) OldGeotechnicalEngineer(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGeotechnicalEngineer is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGeotechnicalEngineer requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGeotechnicalEngineer: %w", err)
+	}
+	return oldValue.GeotechnicalEngineer, nil
+}
+
+// ClearGeotechnicalEngineer clears the value of the "GeotechnicalEngineer" field.
+func (m *JobAuthorMutation) ClearGeotechnicalEngineer() {
+	m._GeotechnicalEngineer = nil
+	m.clearedFields[jobauthor.FieldGeotechnicalEngineer] = struct{}{}
+}
+
+// GeotechnicalEngineerCleared returns if the "GeotechnicalEngineer" field was cleared in this mutation.
+func (m *JobAuthorMutation) GeotechnicalEngineerCleared() bool {
+	_, ok := m.clearedFields[jobauthor.FieldGeotechnicalEngineer]
+	return ok
+}
+
+// ResetGeotechnicalEngineer resets all changes to the "GeotechnicalEngineer" field.
+func (m *JobAuthorMutation) ResetGeotechnicalEngineer() {
+	m._GeotechnicalEngineer = nil
+	delete(m.clearedFields, jobauthor.FieldGeotechnicalEngineer)
+}
+
+// SetGeotechnicalGeologist sets the "GeotechnicalGeologist" field.
+func (m *JobAuthorMutation) SetGeotechnicalGeologist(s string) {
+	m._GeotechnicalGeologist = &s
+}
+
+// GeotechnicalGeologist returns the value of the "GeotechnicalGeologist" field in the mutation.
+func (m *JobAuthorMutation) GeotechnicalGeologist() (r string, exists bool) {
+	v := m._GeotechnicalGeologist
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGeotechnicalGeologist returns the old "GeotechnicalGeologist" field's value of the JobAuthor entity.
+// If the JobAuthor object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobAuthorMutation) OldGeotechnicalGeologist(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGeotechnicalGeologist is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGeotechnicalGeologist requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGeotechnicalGeologist: %w", err)
+	}
+	return oldValue.GeotechnicalGeologist, nil
+}
+
+// ClearGeotechnicalGeologist clears the value of the "GeotechnicalGeologist" field.
+func (m *JobAuthorMutation) ClearGeotechnicalGeologist() {
+	m._GeotechnicalGeologist = nil
+	m.clearedFields[jobauthor.FieldGeotechnicalGeologist] = struct{}{}
+}
+
+// GeotechnicalGeologistCleared returns if the "GeotechnicalGeologist" field was cleared in this mutation.
+func (m *JobAuthorMutation) GeotechnicalGeologistCleared() bool {
+	_, ok := m.clearedFields[jobauthor.FieldGeotechnicalGeologist]
+	return ok
+}
+
+// ResetGeotechnicalGeologist resets all changes to the "GeotechnicalGeologist" field.
+func (m *JobAuthorMutation) ResetGeotechnicalGeologist() {
+	m._GeotechnicalGeologist = nil
+	delete(m.clearedFields, jobauthor.FieldGeotechnicalGeologist)
+}
+
+// SetGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field.
+func (m *JobAuthorMutation) SetGeotechnicalGeophysicist(s string) {
+	m._GeotechnicalGeophysicist = &s
+}
+
+// GeotechnicalGeophysicist returns the value of the "GeotechnicalGeophysicist" field in the mutation.
+func (m *JobAuthorMutation) GeotechnicalGeophysicist() (r string, exists bool) {
+	v := m._GeotechnicalGeophysicist
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGeotechnicalGeophysicist returns the old "GeotechnicalGeophysicist" field's value of the JobAuthor entity.
+// If the JobAuthor object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobAuthorMutation) OldGeotechnicalGeophysicist(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGeotechnicalGeophysicist is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGeotechnicalGeophysicist requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGeotechnicalGeophysicist: %w", err)
+	}
+	return oldValue.GeotechnicalGeophysicist, nil
+}
+
+// ClearGeotechnicalGeophysicist clears the value of the "GeotechnicalGeophysicist" field.
+func (m *JobAuthorMutation) ClearGeotechnicalGeophysicist() {
+	m._GeotechnicalGeophysicist = nil
+	m.clearedFields[jobauthor.FieldGeotechnicalGeophysicist] = struct{}{}
+}
+
+// GeotechnicalGeophysicistCleared returns if the "GeotechnicalGeophysicist" field was cleared in this mutation.
+func (m *JobAuthorMutation) GeotechnicalGeophysicistCleared() bool {
+	_, ok := m.clearedFields[jobauthor.FieldGeotechnicalGeophysicist]
+	return ok
+}
+
+// ResetGeotechnicalGeophysicist resets all changes to the "GeotechnicalGeophysicist" field.
+func (m *JobAuthorMutation) ResetGeotechnicalGeophysicist() {
+	m._GeotechnicalGeophysicist = nil
+	delete(m.clearedFields, jobauthor.FieldGeotechnicalGeophysicist)
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
@@ -5570,10 +5592,7 @@ func (m *JobAuthorMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobAuthorMutation) Fields() []string {
-	fields := make([]string, 0, 7)
-	if m._Architect != nil {
-		fields = append(fields, jobauthor.FieldArchitect)
-	}
+	fields := make([]string, 0, 9)
 	if m._Static != nil {
 		fields = append(fields, jobauthor.FieldStatic)
 	}
@@ -5583,8 +5602,17 @@ func (m *JobAuthorMutation) Fields() []string {
 	if m._Electric != nil {
 		fields = append(fields, jobauthor.FieldElectric)
 	}
-	if m._Floor != nil {
-		fields = append(fields, jobauthor.FieldFloor)
+	if m._Architect != nil {
+		fields = append(fields, jobauthor.FieldArchitect)
+	}
+	if m._GeotechnicalEngineer != nil {
+		fields = append(fields, jobauthor.FieldGeotechnicalEngineer)
+	}
+	if m._GeotechnicalGeologist != nil {
+		fields = append(fields, jobauthor.FieldGeotechnicalGeologist)
+	}
+	if m._GeotechnicalGeophysicist != nil {
+		fields = append(fields, jobauthor.FieldGeotechnicalGeophysicist)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, jobauthor.FieldCreatedAt)
@@ -5600,16 +5628,20 @@ func (m *JobAuthorMutation) Fields() []string {
 // schema.
 func (m *JobAuthorMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case jobauthor.FieldArchitect:
-		return m.Architect()
 	case jobauthor.FieldStatic:
 		return m.Static()
 	case jobauthor.FieldMechanic:
 		return m.Mechanic()
 	case jobauthor.FieldElectric:
 		return m.Electric()
-	case jobauthor.FieldFloor:
-		return m.Floor()
+	case jobauthor.FieldArchitect:
+		return m.Architect()
+	case jobauthor.FieldGeotechnicalEngineer:
+		return m.GeotechnicalEngineer()
+	case jobauthor.FieldGeotechnicalGeologist:
+		return m.GeotechnicalGeologist()
+	case jobauthor.FieldGeotechnicalGeophysicist:
+		return m.GeotechnicalGeophysicist()
 	case jobauthor.FieldCreatedAt:
 		return m.CreatedAt()
 	case jobauthor.FieldUpdatedAt:
@@ -5623,16 +5655,20 @@ func (m *JobAuthorMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *JobAuthorMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case jobauthor.FieldArchitect:
-		return m.OldArchitect(ctx)
 	case jobauthor.FieldStatic:
 		return m.OldStatic(ctx)
 	case jobauthor.FieldMechanic:
 		return m.OldMechanic(ctx)
 	case jobauthor.FieldElectric:
 		return m.OldElectric(ctx)
-	case jobauthor.FieldFloor:
-		return m.OldFloor(ctx)
+	case jobauthor.FieldArchitect:
+		return m.OldArchitect(ctx)
+	case jobauthor.FieldGeotechnicalEngineer:
+		return m.OldGeotechnicalEngineer(ctx)
+	case jobauthor.FieldGeotechnicalGeologist:
+		return m.OldGeotechnicalGeologist(ctx)
+	case jobauthor.FieldGeotechnicalGeophysicist:
+		return m.OldGeotechnicalGeophysicist(ctx)
 	case jobauthor.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case jobauthor.FieldUpdatedAt:
@@ -5646,13 +5682,6 @@ func (m *JobAuthorMutation) OldField(ctx context.Context, name string) (ent.Valu
 // type.
 func (m *JobAuthorMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case jobauthor.FieldArchitect:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetArchitect(v)
-		return nil
 	case jobauthor.FieldStatic:
 		v, ok := value.(string)
 		if !ok {
@@ -5674,12 +5703,33 @@ func (m *JobAuthorMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetElectric(v)
 		return nil
-	case jobauthor.FieldFloor:
+	case jobauthor.FieldArchitect:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetFloor(v)
+		m.SetArchitect(v)
+		return nil
+	case jobauthor.FieldGeotechnicalEngineer:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGeotechnicalEngineer(v)
+		return nil
+	case jobauthor.FieldGeotechnicalGeologist:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGeotechnicalGeologist(v)
+		return nil
+	case jobauthor.FieldGeotechnicalGeophysicist:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGeotechnicalGeophysicist(v)
 		return nil
 	case jobauthor.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -5725,9 +5775,6 @@ func (m *JobAuthorMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *JobAuthorMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(jobauthor.FieldArchitect) {
-		fields = append(fields, jobauthor.FieldArchitect)
-	}
 	if m.FieldCleared(jobauthor.FieldStatic) {
 		fields = append(fields, jobauthor.FieldStatic)
 	}
@@ -5737,8 +5784,17 @@ func (m *JobAuthorMutation) ClearedFields() []string {
 	if m.FieldCleared(jobauthor.FieldElectric) {
 		fields = append(fields, jobauthor.FieldElectric)
 	}
-	if m.FieldCleared(jobauthor.FieldFloor) {
-		fields = append(fields, jobauthor.FieldFloor)
+	if m.FieldCleared(jobauthor.FieldArchitect) {
+		fields = append(fields, jobauthor.FieldArchitect)
+	}
+	if m.FieldCleared(jobauthor.FieldGeotechnicalEngineer) {
+		fields = append(fields, jobauthor.FieldGeotechnicalEngineer)
+	}
+	if m.FieldCleared(jobauthor.FieldGeotechnicalGeologist) {
+		fields = append(fields, jobauthor.FieldGeotechnicalGeologist)
+	}
+	if m.FieldCleared(jobauthor.FieldGeotechnicalGeophysicist) {
+		fields = append(fields, jobauthor.FieldGeotechnicalGeophysicist)
 	}
 	return fields
 }
@@ -5754,9 +5810,6 @@ func (m *JobAuthorMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *JobAuthorMutation) ClearField(name string) error {
 	switch name {
-	case jobauthor.FieldArchitect:
-		m.ClearArchitect()
-		return nil
 	case jobauthor.FieldStatic:
 		m.ClearStatic()
 		return nil
@@ -5766,8 +5819,17 @@ func (m *JobAuthorMutation) ClearField(name string) error {
 	case jobauthor.FieldElectric:
 		m.ClearElectric()
 		return nil
-	case jobauthor.FieldFloor:
-		m.ClearFloor()
+	case jobauthor.FieldArchitect:
+		m.ClearArchitect()
+		return nil
+	case jobauthor.FieldGeotechnicalEngineer:
+		m.ClearGeotechnicalEngineer()
+		return nil
+	case jobauthor.FieldGeotechnicalGeologist:
+		m.ClearGeotechnicalGeologist()
+		return nil
+	case jobauthor.FieldGeotechnicalGeophysicist:
+		m.ClearGeotechnicalGeophysicist()
 		return nil
 	}
 	return fmt.Errorf("unknown JobAuthor nullable field %s", name)
@@ -5777,9 +5839,6 @@ func (m *JobAuthorMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *JobAuthorMutation) ResetField(name string) error {
 	switch name {
-	case jobauthor.FieldArchitect:
-		m.ResetArchitect()
-		return nil
 	case jobauthor.FieldStatic:
 		m.ResetStatic()
 		return nil
@@ -5789,8 +5848,17 @@ func (m *JobAuthorMutation) ResetField(name string) error {
 	case jobauthor.FieldElectric:
 		m.ResetElectric()
 		return nil
-	case jobauthor.FieldFloor:
-		m.ResetFloor()
+	case jobauthor.FieldArchitect:
+		m.ResetArchitect()
+		return nil
+	case jobauthor.FieldGeotechnicalEngineer:
+		m.ResetGeotechnicalEngineer()
+		return nil
+	case jobauthor.FieldGeotechnicalGeologist:
+		m.ResetGeotechnicalGeologist()
+		return nil
+	case jobauthor.FieldGeotechnicalGeophysicist:
+		m.ResetGeotechnicalGeophysicist()
 		return nil
 	case jobauthor.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -5895,16 +5963,17 @@ type JobContractorMutation struct {
 	_Name              *string
 	_TcNo              *int
 	add_TcNo           *int
-	_Address           *string
 	_RegisterNo        *int
 	add_RegisterNo     *int
-	_TaxAdmin          *string
+	_Address           *string
 	_TaxNo             *int
 	add_TaxNo          *int
+	_MobilePhone       *string
 	_Phone             *string
 	_Email             *string
-	yds_id             *int
-	addyds_id          *int
+	_PersonType        *string
+	_YDSID             *int
+	add_YDSID          *int
 	_Note              *string
 	_CreatedAt         *time.Time
 	_UpdatedAt         *time.Time
@@ -6121,55 +6190,6 @@ func (m *JobContractorMutation) ResetTcNo() {
 	delete(m.clearedFields, jobcontractor.FieldTcNo)
 }
 
-// SetAddress sets the "Address" field.
-func (m *JobContractorMutation) SetAddress(s string) {
-	m._Address = &s
-}
-
-// Address returns the value of the "Address" field in the mutation.
-func (m *JobContractorMutation) Address() (r string, exists bool) {
-	v := m._Address
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAddress returns the old "Address" field's value of the JobContractor entity.
-// If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobContractorMutation) OldAddress(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAddress is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAddress requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAddress: %w", err)
-	}
-	return oldValue.Address, nil
-}
-
-// ClearAddress clears the value of the "Address" field.
-func (m *JobContractorMutation) ClearAddress() {
-	m._Address = nil
-	m.clearedFields[jobcontractor.FieldAddress] = struct{}{}
-}
-
-// AddressCleared returns if the "Address" field was cleared in this mutation.
-func (m *JobContractorMutation) AddressCleared() bool {
-	_, ok := m.clearedFields[jobcontractor.FieldAddress]
-	return ok
-}
-
-// ResetAddress resets all changes to the "Address" field.
-func (m *JobContractorMutation) ResetAddress() {
-	m._Address = nil
-	delete(m.clearedFields, jobcontractor.FieldAddress)
-}
-
 // SetRegisterNo sets the "RegisterNo" field.
 func (m *JobContractorMutation) SetRegisterNo(i int) {
 	m._RegisterNo = &i
@@ -6240,53 +6260,53 @@ func (m *JobContractorMutation) ResetRegisterNo() {
 	delete(m.clearedFields, jobcontractor.FieldRegisterNo)
 }
 
-// SetTaxAdmin sets the "TaxAdmin" field.
-func (m *JobContractorMutation) SetTaxAdmin(s string) {
-	m._TaxAdmin = &s
+// SetAddress sets the "Address" field.
+func (m *JobContractorMutation) SetAddress(s string) {
+	m._Address = &s
 }
 
-// TaxAdmin returns the value of the "TaxAdmin" field in the mutation.
-func (m *JobContractorMutation) TaxAdmin() (r string, exists bool) {
-	v := m._TaxAdmin
+// Address returns the value of the "Address" field in the mutation.
+func (m *JobContractorMutation) Address() (r string, exists bool) {
+	v := m._Address
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTaxAdmin returns the old "TaxAdmin" field's value of the JobContractor entity.
+// OldAddress returns the old "Address" field's value of the JobContractor entity.
 // If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobContractorMutation) OldTaxAdmin(ctx context.Context) (v string, err error) {
+func (m *JobContractorMutation) OldAddress(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTaxAdmin is only allowed on UpdateOne operations")
+		return v, errors.New("OldAddress is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTaxAdmin requires an ID field in the mutation")
+		return v, errors.New("OldAddress requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTaxAdmin: %w", err)
+		return v, fmt.Errorf("querying old value for OldAddress: %w", err)
 	}
-	return oldValue.TaxAdmin, nil
+	return oldValue.Address, nil
 }
 
-// ClearTaxAdmin clears the value of the "TaxAdmin" field.
-func (m *JobContractorMutation) ClearTaxAdmin() {
-	m._TaxAdmin = nil
-	m.clearedFields[jobcontractor.FieldTaxAdmin] = struct{}{}
+// ClearAddress clears the value of the "Address" field.
+func (m *JobContractorMutation) ClearAddress() {
+	m._Address = nil
+	m.clearedFields[jobcontractor.FieldAddress] = struct{}{}
 }
 
-// TaxAdminCleared returns if the "TaxAdmin" field was cleared in this mutation.
-func (m *JobContractorMutation) TaxAdminCleared() bool {
-	_, ok := m.clearedFields[jobcontractor.FieldTaxAdmin]
+// AddressCleared returns if the "Address" field was cleared in this mutation.
+func (m *JobContractorMutation) AddressCleared() bool {
+	_, ok := m.clearedFields[jobcontractor.FieldAddress]
 	return ok
 }
 
-// ResetTaxAdmin resets all changes to the "TaxAdmin" field.
-func (m *JobContractorMutation) ResetTaxAdmin() {
-	m._TaxAdmin = nil
-	delete(m.clearedFields, jobcontractor.FieldTaxAdmin)
+// ResetAddress resets all changes to the "Address" field.
+func (m *JobContractorMutation) ResetAddress() {
+	m._Address = nil
+	delete(m.clearedFields, jobcontractor.FieldAddress)
 }
 
 // SetTaxNo sets the "TaxNo" field.
@@ -6357,6 +6377,55 @@ func (m *JobContractorMutation) ResetTaxNo() {
 	m._TaxNo = nil
 	m.add_TaxNo = nil
 	delete(m.clearedFields, jobcontractor.FieldTaxNo)
+}
+
+// SetMobilePhone sets the "MobilePhone" field.
+func (m *JobContractorMutation) SetMobilePhone(s string) {
+	m._MobilePhone = &s
+}
+
+// MobilePhone returns the value of the "MobilePhone" field in the mutation.
+func (m *JobContractorMutation) MobilePhone() (r string, exists bool) {
+	v := m._MobilePhone
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMobilePhone returns the old "MobilePhone" field's value of the JobContractor entity.
+// If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobContractorMutation) OldMobilePhone(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMobilePhone is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMobilePhone requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMobilePhone: %w", err)
+	}
+	return oldValue.MobilePhone, nil
+}
+
+// ClearMobilePhone clears the value of the "MobilePhone" field.
+func (m *JobContractorMutation) ClearMobilePhone() {
+	m._MobilePhone = nil
+	m.clearedFields[jobcontractor.FieldMobilePhone] = struct{}{}
+}
+
+// MobilePhoneCleared returns if the "MobilePhone" field was cleared in this mutation.
+func (m *JobContractorMutation) MobilePhoneCleared() bool {
+	_, ok := m.clearedFields[jobcontractor.FieldMobilePhone]
+	return ok
+}
+
+// ResetMobilePhone resets all changes to the "MobilePhone" field.
+func (m *JobContractorMutation) ResetMobilePhone() {
+	m._MobilePhone = nil
+	delete(m.clearedFields, jobcontractor.FieldMobilePhone)
 }
 
 // SetPhone sets the "Phone" field.
@@ -6457,74 +6526,123 @@ func (m *JobContractorMutation) ResetEmail() {
 	delete(m.clearedFields, jobcontractor.FieldEmail)
 }
 
-// SetYdsID sets the "yds_id" field.
-func (m *JobContractorMutation) SetYdsID(i int) {
-	m.yds_id = &i
-	m.addyds_id = nil
+// SetPersonType sets the "PersonType" field.
+func (m *JobContractorMutation) SetPersonType(s string) {
+	m._PersonType = &s
 }
 
-// YdsID returns the value of the "yds_id" field in the mutation.
-func (m *JobContractorMutation) YdsID() (r int, exists bool) {
-	v := m.yds_id
+// PersonType returns the value of the "PersonType" field in the mutation.
+func (m *JobContractorMutation) PersonType() (r string, exists bool) {
+	v := m._PersonType
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldYdsID returns the old "yds_id" field's value of the JobContractor entity.
+// OldPersonType returns the old "PersonType" field's value of the JobContractor entity.
 // If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobContractorMutation) OldYdsID(ctx context.Context) (v int, err error) {
+func (m *JobContractorMutation) OldPersonType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldYdsID is only allowed on UpdateOne operations")
+		return v, errors.New("OldPersonType is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldYdsID requires an ID field in the mutation")
+		return v, errors.New("OldPersonType requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldYdsID: %w", err)
+		return v, fmt.Errorf("querying old value for OldPersonType: %w", err)
 	}
-	return oldValue.YdsID, nil
+	return oldValue.PersonType, nil
 }
 
-// AddYdsID adds i to the "yds_id" field.
-func (m *JobContractorMutation) AddYdsID(i int) {
-	if m.addyds_id != nil {
-		*m.addyds_id += i
-	} else {
-		m.addyds_id = &i
-	}
+// ClearPersonType clears the value of the "PersonType" field.
+func (m *JobContractorMutation) ClearPersonType() {
+	m._PersonType = nil
+	m.clearedFields[jobcontractor.FieldPersonType] = struct{}{}
 }
 
-// AddedYdsID returns the value that was added to the "yds_id" field in this mutation.
-func (m *JobContractorMutation) AddedYdsID() (r int, exists bool) {
-	v := m.addyds_id
+// PersonTypeCleared returns if the "PersonType" field was cleared in this mutation.
+func (m *JobContractorMutation) PersonTypeCleared() bool {
+	_, ok := m.clearedFields[jobcontractor.FieldPersonType]
+	return ok
+}
+
+// ResetPersonType resets all changes to the "PersonType" field.
+func (m *JobContractorMutation) ResetPersonType() {
+	m._PersonType = nil
+	delete(m.clearedFields, jobcontractor.FieldPersonType)
+}
+
+// SetYDSID sets the "YDSID" field.
+func (m *JobContractorMutation) SetYDSID(i int) {
+	m._YDSID = &i
+	m.add_YDSID = nil
+}
+
+// YDSID returns the value of the "YDSID" field in the mutation.
+func (m *JobContractorMutation) YDSID() (r int, exists bool) {
+	v := m._YDSID
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ClearYdsID clears the value of the "yds_id" field.
-func (m *JobContractorMutation) ClearYdsID() {
-	m.yds_id = nil
-	m.addyds_id = nil
-	m.clearedFields[jobcontractor.FieldYdsID] = struct{}{}
+// OldYDSID returns the old "YDSID" field's value of the JobContractor entity.
+// If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobContractorMutation) OldYDSID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYDSID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYDSID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYDSID: %w", err)
+	}
+	return oldValue.YDSID, nil
 }
 
-// YdsIDCleared returns if the "yds_id" field was cleared in this mutation.
-func (m *JobContractorMutation) YdsIDCleared() bool {
-	_, ok := m.clearedFields[jobcontractor.FieldYdsID]
+// AddYDSID adds i to the "YDSID" field.
+func (m *JobContractorMutation) AddYDSID(i int) {
+	if m.add_YDSID != nil {
+		*m.add_YDSID += i
+	} else {
+		m.add_YDSID = &i
+	}
+}
+
+// AddedYDSID returns the value that was added to the "YDSID" field in this mutation.
+func (m *JobContractorMutation) AddedYDSID() (r int, exists bool) {
+	v := m.add_YDSID
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearYDSID clears the value of the "YDSID" field.
+func (m *JobContractorMutation) ClearYDSID() {
+	m._YDSID = nil
+	m.add_YDSID = nil
+	m.clearedFields[jobcontractor.FieldYDSID] = struct{}{}
+}
+
+// YDSIDCleared returns if the "YDSID" field was cleared in this mutation.
+func (m *JobContractorMutation) YDSIDCleared() bool {
+	_, ok := m.clearedFields[jobcontractor.FieldYDSID]
 	return ok
 }
 
-// ResetYdsID resets all changes to the "yds_id" field.
-func (m *JobContractorMutation) ResetYdsID() {
-	m.yds_id = nil
-	m.addyds_id = nil
-	delete(m.clearedFields, jobcontractor.FieldYdsID)
+// ResetYDSID resets all changes to the "YDSID" field.
+func (m *JobContractorMutation) ResetYDSID() {
+	m._YDSID = nil
+	m.add_YDSID = nil
+	delete(m.clearedFields, jobcontractor.FieldYDSID)
 }
 
 // SetNote sets the "Note" field.
@@ -6736,24 +6854,24 @@ func (m *JobContractorMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobContractorMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 13)
 	if m._Name != nil {
 		fields = append(fields, jobcontractor.FieldName)
 	}
 	if m._TcNo != nil {
 		fields = append(fields, jobcontractor.FieldTcNo)
 	}
-	if m._Address != nil {
-		fields = append(fields, jobcontractor.FieldAddress)
-	}
 	if m._RegisterNo != nil {
 		fields = append(fields, jobcontractor.FieldRegisterNo)
 	}
-	if m._TaxAdmin != nil {
-		fields = append(fields, jobcontractor.FieldTaxAdmin)
+	if m._Address != nil {
+		fields = append(fields, jobcontractor.FieldAddress)
 	}
 	if m._TaxNo != nil {
 		fields = append(fields, jobcontractor.FieldTaxNo)
+	}
+	if m._MobilePhone != nil {
+		fields = append(fields, jobcontractor.FieldMobilePhone)
 	}
 	if m._Phone != nil {
 		fields = append(fields, jobcontractor.FieldPhone)
@@ -6761,8 +6879,11 @@ func (m *JobContractorMutation) Fields() []string {
 	if m._Email != nil {
 		fields = append(fields, jobcontractor.FieldEmail)
 	}
-	if m.yds_id != nil {
-		fields = append(fields, jobcontractor.FieldYdsID)
+	if m._PersonType != nil {
+		fields = append(fields, jobcontractor.FieldPersonType)
+	}
+	if m._YDSID != nil {
+		fields = append(fields, jobcontractor.FieldYDSID)
 	}
 	if m._Note != nil {
 		fields = append(fields, jobcontractor.FieldNote)
@@ -6785,20 +6906,22 @@ func (m *JobContractorMutation) Field(name string) (ent.Value, bool) {
 		return m.Name()
 	case jobcontractor.FieldTcNo:
 		return m.TcNo()
-	case jobcontractor.FieldAddress:
-		return m.Address()
 	case jobcontractor.FieldRegisterNo:
 		return m.RegisterNo()
-	case jobcontractor.FieldTaxAdmin:
-		return m.TaxAdmin()
+	case jobcontractor.FieldAddress:
+		return m.Address()
 	case jobcontractor.FieldTaxNo:
 		return m.TaxNo()
+	case jobcontractor.FieldMobilePhone:
+		return m.MobilePhone()
 	case jobcontractor.FieldPhone:
 		return m.Phone()
 	case jobcontractor.FieldEmail:
 		return m.Email()
-	case jobcontractor.FieldYdsID:
-		return m.YdsID()
+	case jobcontractor.FieldPersonType:
+		return m.PersonType()
+	case jobcontractor.FieldYDSID:
+		return m.YDSID()
 	case jobcontractor.FieldNote:
 		return m.Note()
 	case jobcontractor.FieldCreatedAt:
@@ -6818,20 +6941,22 @@ func (m *JobContractorMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldName(ctx)
 	case jobcontractor.FieldTcNo:
 		return m.OldTcNo(ctx)
-	case jobcontractor.FieldAddress:
-		return m.OldAddress(ctx)
 	case jobcontractor.FieldRegisterNo:
 		return m.OldRegisterNo(ctx)
-	case jobcontractor.FieldTaxAdmin:
-		return m.OldTaxAdmin(ctx)
+	case jobcontractor.FieldAddress:
+		return m.OldAddress(ctx)
 	case jobcontractor.FieldTaxNo:
 		return m.OldTaxNo(ctx)
+	case jobcontractor.FieldMobilePhone:
+		return m.OldMobilePhone(ctx)
 	case jobcontractor.FieldPhone:
 		return m.OldPhone(ctx)
 	case jobcontractor.FieldEmail:
 		return m.OldEmail(ctx)
-	case jobcontractor.FieldYdsID:
-		return m.OldYdsID(ctx)
+	case jobcontractor.FieldPersonType:
+		return m.OldPersonType(ctx)
+	case jobcontractor.FieldYDSID:
+		return m.OldYDSID(ctx)
 	case jobcontractor.FieldNote:
 		return m.OldNote(ctx)
 	case jobcontractor.FieldCreatedAt:
@@ -6861,13 +6986,6 @@ func (m *JobContractorMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetTcNo(v)
 		return nil
-	case jobcontractor.FieldAddress:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAddress(v)
-		return nil
 	case jobcontractor.FieldRegisterNo:
 		v, ok := value.(int)
 		if !ok {
@@ -6875,12 +6993,12 @@ func (m *JobContractorMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetRegisterNo(v)
 		return nil
-	case jobcontractor.FieldTaxAdmin:
+	case jobcontractor.FieldAddress:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTaxAdmin(v)
+		m.SetAddress(v)
 		return nil
 	case jobcontractor.FieldTaxNo:
 		v, ok := value.(int)
@@ -6888,6 +7006,13 @@ func (m *JobContractorMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetTaxNo(v)
+		return nil
+	case jobcontractor.FieldMobilePhone:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMobilePhone(v)
 		return nil
 	case jobcontractor.FieldPhone:
 		v, ok := value.(string)
@@ -6903,12 +7028,19 @@ func (m *JobContractorMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetEmail(v)
 		return nil
-	case jobcontractor.FieldYdsID:
+	case jobcontractor.FieldPersonType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPersonType(v)
+		return nil
+	case jobcontractor.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetYdsID(v)
+		m.SetYDSID(v)
 		return nil
 	case jobcontractor.FieldNote:
 		v, ok := value.(string)
@@ -6948,8 +7080,8 @@ func (m *JobContractorMutation) AddedFields() []string {
 	if m.add_TaxNo != nil {
 		fields = append(fields, jobcontractor.FieldTaxNo)
 	}
-	if m.addyds_id != nil {
-		fields = append(fields, jobcontractor.FieldYdsID)
+	if m.add_YDSID != nil {
+		fields = append(fields, jobcontractor.FieldYDSID)
 	}
 	return fields
 }
@@ -6965,8 +7097,8 @@ func (m *JobContractorMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedRegisterNo()
 	case jobcontractor.FieldTaxNo:
 		return m.AddedTaxNo()
-	case jobcontractor.FieldYdsID:
-		return m.AddedYdsID()
+	case jobcontractor.FieldYDSID:
+		return m.AddedYDSID()
 	}
 	return nil, false
 }
@@ -6997,12 +7129,12 @@ func (m *JobContractorMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddTaxNo(v)
 		return nil
-	case jobcontractor.FieldYdsID:
+	case jobcontractor.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddYdsID(v)
+		m.AddYDSID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown JobContractor numeric field %s", name)
@@ -7015,17 +7147,17 @@ func (m *JobContractorMutation) ClearedFields() []string {
 	if m.FieldCleared(jobcontractor.FieldTcNo) {
 		fields = append(fields, jobcontractor.FieldTcNo)
 	}
-	if m.FieldCleared(jobcontractor.FieldAddress) {
-		fields = append(fields, jobcontractor.FieldAddress)
-	}
 	if m.FieldCleared(jobcontractor.FieldRegisterNo) {
 		fields = append(fields, jobcontractor.FieldRegisterNo)
 	}
-	if m.FieldCleared(jobcontractor.FieldTaxAdmin) {
-		fields = append(fields, jobcontractor.FieldTaxAdmin)
+	if m.FieldCleared(jobcontractor.FieldAddress) {
+		fields = append(fields, jobcontractor.FieldAddress)
 	}
 	if m.FieldCleared(jobcontractor.FieldTaxNo) {
 		fields = append(fields, jobcontractor.FieldTaxNo)
+	}
+	if m.FieldCleared(jobcontractor.FieldMobilePhone) {
+		fields = append(fields, jobcontractor.FieldMobilePhone)
 	}
 	if m.FieldCleared(jobcontractor.FieldPhone) {
 		fields = append(fields, jobcontractor.FieldPhone)
@@ -7033,8 +7165,11 @@ func (m *JobContractorMutation) ClearedFields() []string {
 	if m.FieldCleared(jobcontractor.FieldEmail) {
 		fields = append(fields, jobcontractor.FieldEmail)
 	}
-	if m.FieldCleared(jobcontractor.FieldYdsID) {
-		fields = append(fields, jobcontractor.FieldYdsID)
+	if m.FieldCleared(jobcontractor.FieldPersonType) {
+		fields = append(fields, jobcontractor.FieldPersonType)
+	}
+	if m.FieldCleared(jobcontractor.FieldYDSID) {
+		fields = append(fields, jobcontractor.FieldYDSID)
 	}
 	if m.FieldCleared(jobcontractor.FieldNote) {
 		fields = append(fields, jobcontractor.FieldNote)
@@ -7056,17 +7191,17 @@ func (m *JobContractorMutation) ClearField(name string) error {
 	case jobcontractor.FieldTcNo:
 		m.ClearTcNo()
 		return nil
-	case jobcontractor.FieldAddress:
-		m.ClearAddress()
-		return nil
 	case jobcontractor.FieldRegisterNo:
 		m.ClearRegisterNo()
 		return nil
-	case jobcontractor.FieldTaxAdmin:
-		m.ClearTaxAdmin()
+	case jobcontractor.FieldAddress:
+		m.ClearAddress()
 		return nil
 	case jobcontractor.FieldTaxNo:
 		m.ClearTaxNo()
+		return nil
+	case jobcontractor.FieldMobilePhone:
+		m.ClearMobilePhone()
 		return nil
 	case jobcontractor.FieldPhone:
 		m.ClearPhone()
@@ -7074,8 +7209,11 @@ func (m *JobContractorMutation) ClearField(name string) error {
 	case jobcontractor.FieldEmail:
 		m.ClearEmail()
 		return nil
-	case jobcontractor.FieldYdsID:
-		m.ClearYdsID()
+	case jobcontractor.FieldPersonType:
+		m.ClearPersonType()
+		return nil
+	case jobcontractor.FieldYDSID:
+		m.ClearYDSID()
 		return nil
 	case jobcontractor.FieldNote:
 		m.ClearNote()
@@ -7094,17 +7232,17 @@ func (m *JobContractorMutation) ResetField(name string) error {
 	case jobcontractor.FieldTcNo:
 		m.ResetTcNo()
 		return nil
-	case jobcontractor.FieldAddress:
-		m.ResetAddress()
-		return nil
 	case jobcontractor.FieldRegisterNo:
 		m.ResetRegisterNo()
 		return nil
-	case jobcontractor.FieldTaxAdmin:
-		m.ResetTaxAdmin()
+	case jobcontractor.FieldAddress:
+		m.ResetAddress()
 		return nil
 	case jobcontractor.FieldTaxNo:
 		m.ResetTaxNo()
+		return nil
+	case jobcontractor.FieldMobilePhone:
+		m.ResetMobilePhone()
 		return nil
 	case jobcontractor.FieldPhone:
 		m.ResetPhone()
@@ -7112,8 +7250,11 @@ func (m *JobContractorMutation) ResetField(name string) error {
 	case jobcontractor.FieldEmail:
 		m.ResetEmail()
 		return nil
-	case jobcontractor.FieldYdsID:
-		m.ResetYdsID()
+	case jobcontractor.FieldPersonType:
+		m.ResetPersonType()
+		return nil
+	case jobcontractor.FieldYDSID:
+		m.ResetYDSID()
 		return nil
 	case jobcontractor.FieldNote:
 		m.ResetNote()
@@ -7220,20 +7361,25 @@ type JobDetailMutation struct {
 	id                        *int
 	_YibfNo                   *int
 	add_YibfNo                *int
-	_Idare                    *string
-	_Pafta                    *string
-	_Ada                      *string
-	_Parsel                   *string
-	_FolderNo                 *string
-	_Status                   *int
-	add_Status                *int
+	_Title                    *string
+	_Administration           *string
 	_State                    *string
+	_Island                   *string
+	_Parcel                   *string
+	_Sheet                    *string
 	_ContractDate             *time.Time
-	_CompletionDate           *time.Time
 	_StartDate                *time.Time
 	_LicenseDate              *time.Time
 	_LicenseNo                *string
-	_ConstructionArea         *string
+	_CompletionDate           *time.Time
+	_LandArea                 *float64
+	add_LandArea              *float64
+	_TotalArea                *float64
+	add_TotalArea             *float64
+	_ConstructionArea         *float64
+	add_ConstructionArea      *float64
+	_LeftArea                 *float64
+	add_LeftArea              *float64
 	_YDSAddress               *string
 	_Address                  *string
 	_BuildingClass            *string
@@ -7242,14 +7388,18 @@ type JobDetailMutation struct {
 	add_Level                 *float64
 	_UnitPrice                *float64
 	add_UnitPrice             *float64
-	_LandArea                 *string
-	_Floors                   *int
-	add_Floors                *int
-	_UsagePurpose             *string
-	_Note                     *string
+	_FloorCount               *int
+	add_FloorCount            *int
+	_BKSReferenceNo           *int
+	add_BKSReferenceNo        *int
 	_Coordinates              *string
-	_Started                  *int
-	add_Started               *int
+	_FolderNo                 *string
+	_UploadedFile             *bool
+	_IndustryArea             *bool
+	_ClusterStructure         *bool
+	_IsLicenseExpired         *bool
+	_IsCompleted              *bool
+	_Note                     *string
 	_CreatedAt                *time.Time
 	_UpdatedAt                *time.Time
 	clearedFields             map[string]struct{}
@@ -7446,305 +7596,102 @@ func (m *JobDetailMutation) ResetYibfNo() {
 	m.add_YibfNo = nil
 }
 
-// SetIdare sets the "Idare" field.
-func (m *JobDetailMutation) SetIdare(s string) {
-	m._Idare = &s
+// SetTitle sets the "Title" field.
+func (m *JobDetailMutation) SetTitle(s string) {
+	m._Title = &s
 }
 
-// Idare returns the value of the "Idare" field in the mutation.
-func (m *JobDetailMutation) Idare() (r string, exists bool) {
-	v := m._Idare
+// Title returns the value of the "Title" field in the mutation.
+func (m *JobDetailMutation) Title() (r string, exists bool) {
+	v := m._Title
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldIdare returns the old "Idare" field's value of the JobDetail entity.
+// OldTitle returns the old "Title" field's value of the JobDetail entity.
 // If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldIdare(ctx context.Context) (v string, err error) {
+func (m *JobDetailMutation) OldTitle(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldIdare is only allowed on UpdateOne operations")
+		return v, errors.New("OldTitle is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldIdare requires an ID field in the mutation")
+		return v, errors.New("OldTitle requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldIdare: %w", err)
+		return v, fmt.Errorf("querying old value for OldTitle: %w", err)
 	}
-	return oldValue.Idare, nil
+	return oldValue.Title, nil
 }
 
-// ClearIdare clears the value of the "Idare" field.
-func (m *JobDetailMutation) ClearIdare() {
-	m._Idare = nil
-	m.clearedFields[jobdetail.FieldIdare] = struct{}{}
+// ClearTitle clears the value of the "Title" field.
+func (m *JobDetailMutation) ClearTitle() {
+	m._Title = nil
+	m.clearedFields[jobdetail.FieldTitle] = struct{}{}
 }
 
-// IdareCleared returns if the "Idare" field was cleared in this mutation.
-func (m *JobDetailMutation) IdareCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldIdare]
+// TitleCleared returns if the "Title" field was cleared in this mutation.
+func (m *JobDetailMutation) TitleCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldTitle]
 	return ok
 }
 
-// ResetIdare resets all changes to the "Idare" field.
-func (m *JobDetailMutation) ResetIdare() {
-	m._Idare = nil
-	delete(m.clearedFields, jobdetail.FieldIdare)
+// ResetTitle resets all changes to the "Title" field.
+func (m *JobDetailMutation) ResetTitle() {
+	m._Title = nil
+	delete(m.clearedFields, jobdetail.FieldTitle)
 }
 
-// SetPafta sets the "Pafta" field.
-func (m *JobDetailMutation) SetPafta(s string) {
-	m._Pafta = &s
+// SetAdministration sets the "Administration" field.
+func (m *JobDetailMutation) SetAdministration(s string) {
+	m._Administration = &s
 }
 
-// Pafta returns the value of the "Pafta" field in the mutation.
-func (m *JobDetailMutation) Pafta() (r string, exists bool) {
-	v := m._Pafta
+// Administration returns the value of the "Administration" field in the mutation.
+func (m *JobDetailMutation) Administration() (r string, exists bool) {
+	v := m._Administration
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldPafta returns the old "Pafta" field's value of the JobDetail entity.
+// OldAdministration returns the old "Administration" field's value of the JobDetail entity.
 // If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldPafta(ctx context.Context) (v string, err error) {
+func (m *JobDetailMutation) OldAdministration(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPafta is only allowed on UpdateOne operations")
+		return v, errors.New("OldAdministration is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPafta requires an ID field in the mutation")
+		return v, errors.New("OldAdministration requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPafta: %w", err)
+		return v, fmt.Errorf("querying old value for OldAdministration: %w", err)
 	}
-	return oldValue.Pafta, nil
+	return oldValue.Administration, nil
 }
 
-// ClearPafta clears the value of the "Pafta" field.
-func (m *JobDetailMutation) ClearPafta() {
-	m._Pafta = nil
-	m.clearedFields[jobdetail.FieldPafta] = struct{}{}
+// ClearAdministration clears the value of the "Administration" field.
+func (m *JobDetailMutation) ClearAdministration() {
+	m._Administration = nil
+	m.clearedFields[jobdetail.FieldAdministration] = struct{}{}
 }
 
-// PaftaCleared returns if the "Pafta" field was cleared in this mutation.
-func (m *JobDetailMutation) PaftaCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldPafta]
+// AdministrationCleared returns if the "Administration" field was cleared in this mutation.
+func (m *JobDetailMutation) AdministrationCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldAdministration]
 	return ok
 }
 
-// ResetPafta resets all changes to the "Pafta" field.
-func (m *JobDetailMutation) ResetPafta() {
-	m._Pafta = nil
-	delete(m.clearedFields, jobdetail.FieldPafta)
-}
-
-// SetAda sets the "Ada" field.
-func (m *JobDetailMutation) SetAda(s string) {
-	m._Ada = &s
-}
-
-// Ada returns the value of the "Ada" field in the mutation.
-func (m *JobDetailMutation) Ada() (r string, exists bool) {
-	v := m._Ada
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAda returns the old "Ada" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldAda(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAda is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAda requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAda: %w", err)
-	}
-	return oldValue.Ada, nil
-}
-
-// ClearAda clears the value of the "Ada" field.
-func (m *JobDetailMutation) ClearAda() {
-	m._Ada = nil
-	m.clearedFields[jobdetail.FieldAda] = struct{}{}
-}
-
-// AdaCleared returns if the "Ada" field was cleared in this mutation.
-func (m *JobDetailMutation) AdaCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldAda]
-	return ok
-}
-
-// ResetAda resets all changes to the "Ada" field.
-func (m *JobDetailMutation) ResetAda() {
-	m._Ada = nil
-	delete(m.clearedFields, jobdetail.FieldAda)
-}
-
-// SetParsel sets the "Parsel" field.
-func (m *JobDetailMutation) SetParsel(s string) {
-	m._Parsel = &s
-}
-
-// Parsel returns the value of the "Parsel" field in the mutation.
-func (m *JobDetailMutation) Parsel() (r string, exists bool) {
-	v := m._Parsel
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldParsel returns the old "Parsel" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldParsel(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldParsel is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldParsel requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldParsel: %w", err)
-	}
-	return oldValue.Parsel, nil
-}
-
-// ClearParsel clears the value of the "Parsel" field.
-func (m *JobDetailMutation) ClearParsel() {
-	m._Parsel = nil
-	m.clearedFields[jobdetail.FieldParsel] = struct{}{}
-}
-
-// ParselCleared returns if the "Parsel" field was cleared in this mutation.
-func (m *JobDetailMutation) ParselCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldParsel]
-	return ok
-}
-
-// ResetParsel resets all changes to the "Parsel" field.
-func (m *JobDetailMutation) ResetParsel() {
-	m._Parsel = nil
-	delete(m.clearedFields, jobdetail.FieldParsel)
-}
-
-// SetFolderNo sets the "FolderNo" field.
-func (m *JobDetailMutation) SetFolderNo(s string) {
-	m._FolderNo = &s
-}
-
-// FolderNo returns the value of the "FolderNo" field in the mutation.
-func (m *JobDetailMutation) FolderNo() (r string, exists bool) {
-	v := m._FolderNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldFolderNo returns the old "FolderNo" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldFolderNo(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldFolderNo is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldFolderNo requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFolderNo: %w", err)
-	}
-	return oldValue.FolderNo, nil
-}
-
-// ClearFolderNo clears the value of the "FolderNo" field.
-func (m *JobDetailMutation) ClearFolderNo() {
-	m._FolderNo = nil
-	m.clearedFields[jobdetail.FieldFolderNo] = struct{}{}
-}
-
-// FolderNoCleared returns if the "FolderNo" field was cleared in this mutation.
-func (m *JobDetailMutation) FolderNoCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldFolderNo]
-	return ok
-}
-
-// ResetFolderNo resets all changes to the "FolderNo" field.
-func (m *JobDetailMutation) ResetFolderNo() {
-	m._FolderNo = nil
-	delete(m.clearedFields, jobdetail.FieldFolderNo)
-}
-
-// SetStatus sets the "Status" field.
-func (m *JobDetailMutation) SetStatus(i int) {
-	m._Status = &i
-	m.add_Status = nil
-}
-
-// Status returns the value of the "Status" field in the mutation.
-func (m *JobDetailMutation) Status() (r int, exists bool) {
-	v := m._Status
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldStatus returns the old "Status" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldStatus(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStatus requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
-	}
-	return oldValue.Status, nil
-}
-
-// AddStatus adds i to the "Status" field.
-func (m *JobDetailMutation) AddStatus(i int) {
-	if m.add_Status != nil {
-		*m.add_Status += i
-	} else {
-		m.add_Status = &i
-	}
-}
-
-// AddedStatus returns the value that was added to the "Status" field in this mutation.
-func (m *JobDetailMutation) AddedStatus() (r int, exists bool) {
-	v := m.add_Status
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetStatus resets all changes to the "Status" field.
-func (m *JobDetailMutation) ResetStatus() {
-	m._Status = nil
-	m.add_Status = nil
+// ResetAdministration resets all changes to the "Administration" field.
+func (m *JobDetailMutation) ResetAdministration() {
+	m._Administration = nil
+	delete(m.clearedFields, jobdetail.FieldAdministration)
 }
 
 // SetState sets the "State" field.
@@ -7796,6 +7743,153 @@ func (m *JobDetailMutation) ResetState() {
 	delete(m.clearedFields, jobdetail.FieldState)
 }
 
+// SetIsland sets the "Island" field.
+func (m *JobDetailMutation) SetIsland(s string) {
+	m._Island = &s
+}
+
+// Island returns the value of the "Island" field in the mutation.
+func (m *JobDetailMutation) Island() (r string, exists bool) {
+	v := m._Island
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsland returns the old "Island" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldIsland(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsland is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsland requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsland: %w", err)
+	}
+	return oldValue.Island, nil
+}
+
+// ClearIsland clears the value of the "Island" field.
+func (m *JobDetailMutation) ClearIsland() {
+	m._Island = nil
+	m.clearedFields[jobdetail.FieldIsland] = struct{}{}
+}
+
+// IslandCleared returns if the "Island" field was cleared in this mutation.
+func (m *JobDetailMutation) IslandCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldIsland]
+	return ok
+}
+
+// ResetIsland resets all changes to the "Island" field.
+func (m *JobDetailMutation) ResetIsland() {
+	m._Island = nil
+	delete(m.clearedFields, jobdetail.FieldIsland)
+}
+
+// SetParcel sets the "Parcel" field.
+func (m *JobDetailMutation) SetParcel(s string) {
+	m._Parcel = &s
+}
+
+// Parcel returns the value of the "Parcel" field in the mutation.
+func (m *JobDetailMutation) Parcel() (r string, exists bool) {
+	v := m._Parcel
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldParcel returns the old "Parcel" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldParcel(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldParcel is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldParcel requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldParcel: %w", err)
+	}
+	return oldValue.Parcel, nil
+}
+
+// ClearParcel clears the value of the "Parcel" field.
+func (m *JobDetailMutation) ClearParcel() {
+	m._Parcel = nil
+	m.clearedFields[jobdetail.FieldParcel] = struct{}{}
+}
+
+// ParcelCleared returns if the "Parcel" field was cleared in this mutation.
+func (m *JobDetailMutation) ParcelCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldParcel]
+	return ok
+}
+
+// ResetParcel resets all changes to the "Parcel" field.
+func (m *JobDetailMutation) ResetParcel() {
+	m._Parcel = nil
+	delete(m.clearedFields, jobdetail.FieldParcel)
+}
+
+// SetSheet sets the "Sheet" field.
+func (m *JobDetailMutation) SetSheet(s string) {
+	m._Sheet = &s
+}
+
+// Sheet returns the value of the "Sheet" field in the mutation.
+func (m *JobDetailMutation) Sheet() (r string, exists bool) {
+	v := m._Sheet
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSheet returns the old "Sheet" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldSheet(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSheet is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSheet requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSheet: %w", err)
+	}
+	return oldValue.Sheet, nil
+}
+
+// ClearSheet clears the value of the "Sheet" field.
+func (m *JobDetailMutation) ClearSheet() {
+	m._Sheet = nil
+	m.clearedFields[jobdetail.FieldSheet] = struct{}{}
+}
+
+// SheetCleared returns if the "Sheet" field was cleared in this mutation.
+func (m *JobDetailMutation) SheetCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldSheet]
+	return ok
+}
+
+// ResetSheet resets all changes to the "Sheet" field.
+func (m *JobDetailMutation) ResetSheet() {
+	m._Sheet = nil
+	delete(m.clearedFields, jobdetail.FieldSheet)
+}
+
 // SetContractDate sets the "ContractDate" field.
 func (m *JobDetailMutation) SetContractDate(t time.Time) {
 	m._ContractDate = &t
@@ -7843,55 +7937,6 @@ func (m *JobDetailMutation) ContractDateCleared() bool {
 func (m *JobDetailMutation) ResetContractDate() {
 	m._ContractDate = nil
 	delete(m.clearedFields, jobdetail.FieldContractDate)
-}
-
-// SetCompletionDate sets the "CompletionDate" field.
-func (m *JobDetailMutation) SetCompletionDate(t time.Time) {
-	m._CompletionDate = &t
-}
-
-// CompletionDate returns the value of the "CompletionDate" field in the mutation.
-func (m *JobDetailMutation) CompletionDate() (r time.Time, exists bool) {
-	v := m._CompletionDate
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCompletionDate returns the old "CompletionDate" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldCompletionDate(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCompletionDate is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCompletionDate requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCompletionDate: %w", err)
-	}
-	return oldValue.CompletionDate, nil
-}
-
-// ClearCompletionDate clears the value of the "CompletionDate" field.
-func (m *JobDetailMutation) ClearCompletionDate() {
-	m._CompletionDate = nil
-	m.clearedFields[jobdetail.FieldCompletionDate] = struct{}{}
-}
-
-// CompletionDateCleared returns if the "CompletionDate" field was cleared in this mutation.
-func (m *JobDetailMutation) CompletionDateCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldCompletionDate]
-	return ok
-}
-
-// ResetCompletionDate resets all changes to the "CompletionDate" field.
-func (m *JobDetailMutation) ResetCompletionDate() {
-	m._CompletionDate = nil
-	delete(m.clearedFields, jobdetail.FieldCompletionDate)
 }
 
 // SetStartDate sets the "StartDate" field.
@@ -8041,13 +8086,203 @@ func (m *JobDetailMutation) ResetLicenseNo() {
 	delete(m.clearedFields, jobdetail.FieldLicenseNo)
 }
 
+// SetCompletionDate sets the "CompletionDate" field.
+func (m *JobDetailMutation) SetCompletionDate(t time.Time) {
+	m._CompletionDate = &t
+}
+
+// CompletionDate returns the value of the "CompletionDate" field in the mutation.
+func (m *JobDetailMutation) CompletionDate() (r time.Time, exists bool) {
+	v := m._CompletionDate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCompletionDate returns the old "CompletionDate" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldCompletionDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCompletionDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCompletionDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCompletionDate: %w", err)
+	}
+	return oldValue.CompletionDate, nil
+}
+
+// ClearCompletionDate clears the value of the "CompletionDate" field.
+func (m *JobDetailMutation) ClearCompletionDate() {
+	m._CompletionDate = nil
+	m.clearedFields[jobdetail.FieldCompletionDate] = struct{}{}
+}
+
+// CompletionDateCleared returns if the "CompletionDate" field was cleared in this mutation.
+func (m *JobDetailMutation) CompletionDateCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldCompletionDate]
+	return ok
+}
+
+// ResetCompletionDate resets all changes to the "CompletionDate" field.
+func (m *JobDetailMutation) ResetCompletionDate() {
+	m._CompletionDate = nil
+	delete(m.clearedFields, jobdetail.FieldCompletionDate)
+}
+
+// SetLandArea sets the "LandArea" field.
+func (m *JobDetailMutation) SetLandArea(f float64) {
+	m._LandArea = &f
+	m.add_LandArea = nil
+}
+
+// LandArea returns the value of the "LandArea" field in the mutation.
+func (m *JobDetailMutation) LandArea() (r float64, exists bool) {
+	v := m._LandArea
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLandArea returns the old "LandArea" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldLandArea(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLandArea is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLandArea requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLandArea: %w", err)
+	}
+	return oldValue.LandArea, nil
+}
+
+// AddLandArea adds f to the "LandArea" field.
+func (m *JobDetailMutation) AddLandArea(f float64) {
+	if m.add_LandArea != nil {
+		*m.add_LandArea += f
+	} else {
+		m.add_LandArea = &f
+	}
+}
+
+// AddedLandArea returns the value that was added to the "LandArea" field in this mutation.
+func (m *JobDetailMutation) AddedLandArea() (r float64, exists bool) {
+	v := m.add_LandArea
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearLandArea clears the value of the "LandArea" field.
+func (m *JobDetailMutation) ClearLandArea() {
+	m._LandArea = nil
+	m.add_LandArea = nil
+	m.clearedFields[jobdetail.FieldLandArea] = struct{}{}
+}
+
+// LandAreaCleared returns if the "LandArea" field was cleared in this mutation.
+func (m *JobDetailMutation) LandAreaCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldLandArea]
+	return ok
+}
+
+// ResetLandArea resets all changes to the "LandArea" field.
+func (m *JobDetailMutation) ResetLandArea() {
+	m._LandArea = nil
+	m.add_LandArea = nil
+	delete(m.clearedFields, jobdetail.FieldLandArea)
+}
+
+// SetTotalArea sets the "TotalArea" field.
+func (m *JobDetailMutation) SetTotalArea(f float64) {
+	m._TotalArea = &f
+	m.add_TotalArea = nil
+}
+
+// TotalArea returns the value of the "TotalArea" field in the mutation.
+func (m *JobDetailMutation) TotalArea() (r float64, exists bool) {
+	v := m._TotalArea
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTotalArea returns the old "TotalArea" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldTotalArea(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTotalArea is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTotalArea requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTotalArea: %w", err)
+	}
+	return oldValue.TotalArea, nil
+}
+
+// AddTotalArea adds f to the "TotalArea" field.
+func (m *JobDetailMutation) AddTotalArea(f float64) {
+	if m.add_TotalArea != nil {
+		*m.add_TotalArea += f
+	} else {
+		m.add_TotalArea = &f
+	}
+}
+
+// AddedTotalArea returns the value that was added to the "TotalArea" field in this mutation.
+func (m *JobDetailMutation) AddedTotalArea() (r float64, exists bool) {
+	v := m.add_TotalArea
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearTotalArea clears the value of the "TotalArea" field.
+func (m *JobDetailMutation) ClearTotalArea() {
+	m._TotalArea = nil
+	m.add_TotalArea = nil
+	m.clearedFields[jobdetail.FieldTotalArea] = struct{}{}
+}
+
+// TotalAreaCleared returns if the "TotalArea" field was cleared in this mutation.
+func (m *JobDetailMutation) TotalAreaCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldTotalArea]
+	return ok
+}
+
+// ResetTotalArea resets all changes to the "TotalArea" field.
+func (m *JobDetailMutation) ResetTotalArea() {
+	m._TotalArea = nil
+	m.add_TotalArea = nil
+	delete(m.clearedFields, jobdetail.FieldTotalArea)
+}
+
 // SetConstructionArea sets the "ConstructionArea" field.
-func (m *JobDetailMutation) SetConstructionArea(s string) {
-	m._ConstructionArea = &s
+func (m *JobDetailMutation) SetConstructionArea(f float64) {
+	m._ConstructionArea = &f
+	m.add_ConstructionArea = nil
 }
 
 // ConstructionArea returns the value of the "ConstructionArea" field in the mutation.
-func (m *JobDetailMutation) ConstructionArea() (r string, exists bool) {
+func (m *JobDetailMutation) ConstructionArea() (r float64, exists bool) {
 	v := m._ConstructionArea
 	if v == nil {
 		return
@@ -8058,7 +8293,7 @@ func (m *JobDetailMutation) ConstructionArea() (r string, exists bool) {
 // OldConstructionArea returns the old "ConstructionArea" field's value of the JobDetail entity.
 // If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldConstructionArea(ctx context.Context) (v string, err error) {
+func (m *JobDetailMutation) OldConstructionArea(ctx context.Context) (v float64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldConstructionArea is only allowed on UpdateOne operations")
 	}
@@ -8072,9 +8307,28 @@ func (m *JobDetailMutation) OldConstructionArea(ctx context.Context) (v string, 
 	return oldValue.ConstructionArea, nil
 }
 
+// AddConstructionArea adds f to the "ConstructionArea" field.
+func (m *JobDetailMutation) AddConstructionArea(f float64) {
+	if m.add_ConstructionArea != nil {
+		*m.add_ConstructionArea += f
+	} else {
+		m.add_ConstructionArea = &f
+	}
+}
+
+// AddedConstructionArea returns the value that was added to the "ConstructionArea" field in this mutation.
+func (m *JobDetailMutation) AddedConstructionArea() (r float64, exists bool) {
+	v := m.add_ConstructionArea
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearConstructionArea clears the value of the "ConstructionArea" field.
 func (m *JobDetailMutation) ClearConstructionArea() {
 	m._ConstructionArea = nil
+	m.add_ConstructionArea = nil
 	m.clearedFields[jobdetail.FieldConstructionArea] = struct{}{}
 }
 
@@ -8087,7 +8341,78 @@ func (m *JobDetailMutation) ConstructionAreaCleared() bool {
 // ResetConstructionArea resets all changes to the "ConstructionArea" field.
 func (m *JobDetailMutation) ResetConstructionArea() {
 	m._ConstructionArea = nil
+	m.add_ConstructionArea = nil
 	delete(m.clearedFields, jobdetail.FieldConstructionArea)
+}
+
+// SetLeftArea sets the "LeftArea" field.
+func (m *JobDetailMutation) SetLeftArea(f float64) {
+	m._LeftArea = &f
+	m.add_LeftArea = nil
+}
+
+// LeftArea returns the value of the "LeftArea" field in the mutation.
+func (m *JobDetailMutation) LeftArea() (r float64, exists bool) {
+	v := m._LeftArea
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLeftArea returns the old "LeftArea" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldLeftArea(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLeftArea is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLeftArea requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLeftArea: %w", err)
+	}
+	return oldValue.LeftArea, nil
+}
+
+// AddLeftArea adds f to the "LeftArea" field.
+func (m *JobDetailMutation) AddLeftArea(f float64) {
+	if m.add_LeftArea != nil {
+		*m.add_LeftArea += f
+	} else {
+		m.add_LeftArea = &f
+	}
+}
+
+// AddedLeftArea returns the value that was added to the "LeftArea" field in this mutation.
+func (m *JobDetailMutation) AddedLeftArea() (r float64, exists bool) {
+	v := m.add_LeftArea
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearLeftArea clears the value of the "LeftArea" field.
+func (m *JobDetailMutation) ClearLeftArea() {
+	m._LeftArea = nil
+	m.add_LeftArea = nil
+	m.clearedFields[jobdetail.FieldLeftArea] = struct{}{}
+}
+
+// LeftAreaCleared returns if the "LeftArea" field was cleared in this mutation.
+func (m *JobDetailMutation) LeftAreaCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldLeftArea]
+	return ok
+}
+
+// ResetLeftArea resets all changes to the "LeftArea" field.
+func (m *JobDetailMutation) ResetLeftArea() {
+	m._LeftArea = nil
+	m.add_LeftArea = nil
+	delete(m.clearedFields, jobdetail.FieldLeftArea)
 }
 
 // SetYDSAddress sets the "YDSAddress" field.
@@ -8426,221 +8751,144 @@ func (m *JobDetailMutation) ResetUnitPrice() {
 	delete(m.clearedFields, jobdetail.FieldUnitPrice)
 }
 
-// SetLandArea sets the "LandArea" field.
-func (m *JobDetailMutation) SetLandArea(s string) {
-	m._LandArea = &s
+// SetFloorCount sets the "FloorCount" field.
+func (m *JobDetailMutation) SetFloorCount(i int) {
+	m._FloorCount = &i
+	m.add_FloorCount = nil
 }
 
-// LandArea returns the value of the "LandArea" field in the mutation.
-func (m *JobDetailMutation) LandArea() (r string, exists bool) {
-	v := m._LandArea
+// FloorCount returns the value of the "FloorCount" field in the mutation.
+func (m *JobDetailMutation) FloorCount() (r int, exists bool) {
+	v := m._FloorCount
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldLandArea returns the old "LandArea" field's value of the JobDetail entity.
+// OldFloorCount returns the old "FloorCount" field's value of the JobDetail entity.
 // If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldLandArea(ctx context.Context) (v string, err error) {
+func (m *JobDetailMutation) OldFloorCount(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldLandArea is only allowed on UpdateOne operations")
+		return v, errors.New("OldFloorCount is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldLandArea requires an ID field in the mutation")
+		return v, errors.New("OldFloorCount requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldLandArea: %w", err)
+		return v, fmt.Errorf("querying old value for OldFloorCount: %w", err)
 	}
-	return oldValue.LandArea, nil
+	return oldValue.FloorCount, nil
 }
 
-// ClearLandArea clears the value of the "LandArea" field.
-func (m *JobDetailMutation) ClearLandArea() {
-	m._LandArea = nil
-	m.clearedFields[jobdetail.FieldLandArea] = struct{}{}
-}
-
-// LandAreaCleared returns if the "LandArea" field was cleared in this mutation.
-func (m *JobDetailMutation) LandAreaCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldLandArea]
-	return ok
-}
-
-// ResetLandArea resets all changes to the "LandArea" field.
-func (m *JobDetailMutation) ResetLandArea() {
-	m._LandArea = nil
-	delete(m.clearedFields, jobdetail.FieldLandArea)
-}
-
-// SetFloors sets the "Floors" field.
-func (m *JobDetailMutation) SetFloors(i int) {
-	m._Floors = &i
-	m.add_Floors = nil
-}
-
-// Floors returns the value of the "Floors" field in the mutation.
-func (m *JobDetailMutation) Floors() (r int, exists bool) {
-	v := m._Floors
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldFloors returns the old "Floors" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldFloors(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldFloors is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldFloors requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFloors: %w", err)
-	}
-	return oldValue.Floors, nil
-}
-
-// AddFloors adds i to the "Floors" field.
-func (m *JobDetailMutation) AddFloors(i int) {
-	if m.add_Floors != nil {
-		*m.add_Floors += i
+// AddFloorCount adds i to the "FloorCount" field.
+func (m *JobDetailMutation) AddFloorCount(i int) {
+	if m.add_FloorCount != nil {
+		*m.add_FloorCount += i
 	} else {
-		m.add_Floors = &i
+		m.add_FloorCount = &i
 	}
 }
 
-// AddedFloors returns the value that was added to the "Floors" field in this mutation.
-func (m *JobDetailMutation) AddedFloors() (r int, exists bool) {
-	v := m.add_Floors
+// AddedFloorCount returns the value that was added to the "FloorCount" field in this mutation.
+func (m *JobDetailMutation) AddedFloorCount() (r int, exists bool) {
+	v := m.add_FloorCount
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ClearFloors clears the value of the "Floors" field.
-func (m *JobDetailMutation) ClearFloors() {
-	m._Floors = nil
-	m.add_Floors = nil
-	m.clearedFields[jobdetail.FieldFloors] = struct{}{}
+// ClearFloorCount clears the value of the "FloorCount" field.
+func (m *JobDetailMutation) ClearFloorCount() {
+	m._FloorCount = nil
+	m.add_FloorCount = nil
+	m.clearedFields[jobdetail.FieldFloorCount] = struct{}{}
 }
 
-// FloorsCleared returns if the "Floors" field was cleared in this mutation.
-func (m *JobDetailMutation) FloorsCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldFloors]
+// FloorCountCleared returns if the "FloorCount" field was cleared in this mutation.
+func (m *JobDetailMutation) FloorCountCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldFloorCount]
 	return ok
 }
 
-// ResetFloors resets all changes to the "Floors" field.
-func (m *JobDetailMutation) ResetFloors() {
-	m._Floors = nil
-	m.add_Floors = nil
-	delete(m.clearedFields, jobdetail.FieldFloors)
+// ResetFloorCount resets all changes to the "FloorCount" field.
+func (m *JobDetailMutation) ResetFloorCount() {
+	m._FloorCount = nil
+	m.add_FloorCount = nil
+	delete(m.clearedFields, jobdetail.FieldFloorCount)
 }
 
-// SetUsagePurpose sets the "UsagePurpose" field.
-func (m *JobDetailMutation) SetUsagePurpose(s string) {
-	m._UsagePurpose = &s
+// SetBKSReferenceNo sets the "BKSReferenceNo" field.
+func (m *JobDetailMutation) SetBKSReferenceNo(i int) {
+	m._BKSReferenceNo = &i
+	m.add_BKSReferenceNo = nil
 }
 
-// UsagePurpose returns the value of the "UsagePurpose" field in the mutation.
-func (m *JobDetailMutation) UsagePurpose() (r string, exists bool) {
-	v := m._UsagePurpose
+// BKSReferenceNo returns the value of the "BKSReferenceNo" field in the mutation.
+func (m *JobDetailMutation) BKSReferenceNo() (r int, exists bool) {
+	v := m._BKSReferenceNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldUsagePurpose returns the old "UsagePurpose" field's value of the JobDetail entity.
+// OldBKSReferenceNo returns the old "BKSReferenceNo" field's value of the JobDetail entity.
 // If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldUsagePurpose(ctx context.Context) (v string, err error) {
+func (m *JobDetailMutation) OldBKSReferenceNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUsagePurpose is only allowed on UpdateOne operations")
+		return v, errors.New("OldBKSReferenceNo is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUsagePurpose requires an ID field in the mutation")
+		return v, errors.New("OldBKSReferenceNo requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUsagePurpose: %w", err)
+		return v, fmt.Errorf("querying old value for OldBKSReferenceNo: %w", err)
 	}
-	return oldValue.UsagePurpose, nil
+	return oldValue.BKSReferenceNo, nil
 }
 
-// ClearUsagePurpose clears the value of the "UsagePurpose" field.
-func (m *JobDetailMutation) ClearUsagePurpose() {
-	m._UsagePurpose = nil
-	m.clearedFields[jobdetail.FieldUsagePurpose] = struct{}{}
+// AddBKSReferenceNo adds i to the "BKSReferenceNo" field.
+func (m *JobDetailMutation) AddBKSReferenceNo(i int) {
+	if m.add_BKSReferenceNo != nil {
+		*m.add_BKSReferenceNo += i
+	} else {
+		m.add_BKSReferenceNo = &i
+	}
 }
 
-// UsagePurposeCleared returns if the "UsagePurpose" field was cleared in this mutation.
-func (m *JobDetailMutation) UsagePurposeCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldUsagePurpose]
-	return ok
-}
-
-// ResetUsagePurpose resets all changes to the "UsagePurpose" field.
-func (m *JobDetailMutation) ResetUsagePurpose() {
-	m._UsagePurpose = nil
-	delete(m.clearedFields, jobdetail.FieldUsagePurpose)
-}
-
-// SetNote sets the "Note" field.
-func (m *JobDetailMutation) SetNote(s string) {
-	m._Note = &s
-}
-
-// Note returns the value of the "Note" field in the mutation.
-func (m *JobDetailMutation) Note() (r string, exists bool) {
-	v := m._Note
+// AddedBKSReferenceNo returns the value that was added to the "BKSReferenceNo" field in this mutation.
+func (m *JobDetailMutation) AddedBKSReferenceNo() (r int, exists bool) {
+	v := m.add_BKSReferenceNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldNote returns the old "Note" field's value of the JobDetail entity.
-// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldNote(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldNote is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldNote requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldNote: %w", err)
-	}
-	return oldValue.Note, nil
+// ClearBKSReferenceNo clears the value of the "BKSReferenceNo" field.
+func (m *JobDetailMutation) ClearBKSReferenceNo() {
+	m._BKSReferenceNo = nil
+	m.add_BKSReferenceNo = nil
+	m.clearedFields[jobdetail.FieldBKSReferenceNo] = struct{}{}
 }
 
-// ClearNote clears the value of the "Note" field.
-func (m *JobDetailMutation) ClearNote() {
-	m._Note = nil
-	m.clearedFields[jobdetail.FieldNote] = struct{}{}
-}
-
-// NoteCleared returns if the "Note" field was cleared in this mutation.
-func (m *JobDetailMutation) NoteCleared() bool {
-	_, ok := m.clearedFields[jobdetail.FieldNote]
+// BKSReferenceNoCleared returns if the "BKSReferenceNo" field was cleared in this mutation.
+func (m *JobDetailMutation) BKSReferenceNoCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldBKSReferenceNo]
 	return ok
 }
 
-// ResetNote resets all changes to the "Note" field.
-func (m *JobDetailMutation) ResetNote() {
-	m._Note = nil
-	delete(m.clearedFields, jobdetail.FieldNote)
+// ResetBKSReferenceNo resets all changes to the "BKSReferenceNo" field.
+func (m *JobDetailMutation) ResetBKSReferenceNo() {
+	m._BKSReferenceNo = nil
+	m.add_BKSReferenceNo = nil
+	delete(m.clearedFields, jobdetail.FieldBKSReferenceNo)
 }
 
 // SetCoordinates sets the "Coordinates" field.
@@ -8692,60 +8940,347 @@ func (m *JobDetailMutation) ResetCoordinates() {
 	delete(m.clearedFields, jobdetail.FieldCoordinates)
 }
 
-// SetStarted sets the "Started" field.
-func (m *JobDetailMutation) SetStarted(i int) {
-	m._Started = &i
-	m.add_Started = nil
+// SetFolderNo sets the "FolderNo" field.
+func (m *JobDetailMutation) SetFolderNo(s string) {
+	m._FolderNo = &s
 }
 
-// Started returns the value of the "Started" field in the mutation.
-func (m *JobDetailMutation) Started() (r int, exists bool) {
-	v := m._Started
+// FolderNo returns the value of the "FolderNo" field in the mutation.
+func (m *JobDetailMutation) FolderNo() (r string, exists bool) {
+	v := m._FolderNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldStarted returns the old "Started" field's value of the JobDetail entity.
+// OldFolderNo returns the old "FolderNo" field's value of the JobDetail entity.
 // If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldStarted(ctx context.Context) (v int, err error) {
+func (m *JobDetailMutation) OldFolderNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStarted is only allowed on UpdateOne operations")
+		return v, errors.New("OldFolderNo is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStarted requires an ID field in the mutation")
+		return v, errors.New("OldFolderNo requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStarted: %w", err)
+		return v, fmt.Errorf("querying old value for OldFolderNo: %w", err)
 	}
-	return oldValue.Started, nil
+	return oldValue.FolderNo, nil
 }
 
-// AddStarted adds i to the "Started" field.
-func (m *JobDetailMutation) AddStarted(i int) {
-	if m.add_Started != nil {
-		*m.add_Started += i
-	} else {
-		m.add_Started = &i
-	}
+// ClearFolderNo clears the value of the "FolderNo" field.
+func (m *JobDetailMutation) ClearFolderNo() {
+	m._FolderNo = nil
+	m.clearedFields[jobdetail.FieldFolderNo] = struct{}{}
 }
 
-// AddedStarted returns the value that was added to the "Started" field in this mutation.
-func (m *JobDetailMutation) AddedStarted() (r int, exists bool) {
-	v := m.add_Started
+// FolderNoCleared returns if the "FolderNo" field was cleared in this mutation.
+func (m *JobDetailMutation) FolderNoCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldFolderNo]
+	return ok
+}
+
+// ResetFolderNo resets all changes to the "FolderNo" field.
+func (m *JobDetailMutation) ResetFolderNo() {
+	m._FolderNo = nil
+	delete(m.clearedFields, jobdetail.FieldFolderNo)
+}
+
+// SetUploadedFile sets the "UploadedFile" field.
+func (m *JobDetailMutation) SetUploadedFile(b bool) {
+	m._UploadedFile = &b
+}
+
+// UploadedFile returns the value of the "UploadedFile" field in the mutation.
+func (m *JobDetailMutation) UploadedFile() (r bool, exists bool) {
+	v := m._UploadedFile
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetStarted resets all changes to the "Started" field.
-func (m *JobDetailMutation) ResetStarted() {
-	m._Started = nil
-	m.add_Started = nil
+// OldUploadedFile returns the old "UploadedFile" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldUploadedFile(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUploadedFile is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUploadedFile requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUploadedFile: %w", err)
+	}
+	return oldValue.UploadedFile, nil
+}
+
+// ClearUploadedFile clears the value of the "UploadedFile" field.
+func (m *JobDetailMutation) ClearUploadedFile() {
+	m._UploadedFile = nil
+	m.clearedFields[jobdetail.FieldUploadedFile] = struct{}{}
+}
+
+// UploadedFileCleared returns if the "UploadedFile" field was cleared in this mutation.
+func (m *JobDetailMutation) UploadedFileCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldUploadedFile]
+	return ok
+}
+
+// ResetUploadedFile resets all changes to the "UploadedFile" field.
+func (m *JobDetailMutation) ResetUploadedFile() {
+	m._UploadedFile = nil
+	delete(m.clearedFields, jobdetail.FieldUploadedFile)
+}
+
+// SetIndustryArea sets the "IndustryArea" field.
+func (m *JobDetailMutation) SetIndustryArea(b bool) {
+	m._IndustryArea = &b
+}
+
+// IndustryArea returns the value of the "IndustryArea" field in the mutation.
+func (m *JobDetailMutation) IndustryArea() (r bool, exists bool) {
+	v := m._IndustryArea
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIndustryArea returns the old "IndustryArea" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldIndustryArea(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIndustryArea is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIndustryArea requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIndustryArea: %w", err)
+	}
+	return oldValue.IndustryArea, nil
+}
+
+// ClearIndustryArea clears the value of the "IndustryArea" field.
+func (m *JobDetailMutation) ClearIndustryArea() {
+	m._IndustryArea = nil
+	m.clearedFields[jobdetail.FieldIndustryArea] = struct{}{}
+}
+
+// IndustryAreaCleared returns if the "IndustryArea" field was cleared in this mutation.
+func (m *JobDetailMutation) IndustryAreaCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldIndustryArea]
+	return ok
+}
+
+// ResetIndustryArea resets all changes to the "IndustryArea" field.
+func (m *JobDetailMutation) ResetIndustryArea() {
+	m._IndustryArea = nil
+	delete(m.clearedFields, jobdetail.FieldIndustryArea)
+}
+
+// SetClusterStructure sets the "ClusterStructure" field.
+func (m *JobDetailMutation) SetClusterStructure(b bool) {
+	m._ClusterStructure = &b
+}
+
+// ClusterStructure returns the value of the "ClusterStructure" field in the mutation.
+func (m *JobDetailMutation) ClusterStructure() (r bool, exists bool) {
+	v := m._ClusterStructure
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldClusterStructure returns the old "ClusterStructure" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldClusterStructure(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldClusterStructure is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldClusterStructure requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldClusterStructure: %w", err)
+	}
+	return oldValue.ClusterStructure, nil
+}
+
+// ClearClusterStructure clears the value of the "ClusterStructure" field.
+func (m *JobDetailMutation) ClearClusterStructure() {
+	m._ClusterStructure = nil
+	m.clearedFields[jobdetail.FieldClusterStructure] = struct{}{}
+}
+
+// ClusterStructureCleared returns if the "ClusterStructure" field was cleared in this mutation.
+func (m *JobDetailMutation) ClusterStructureCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldClusterStructure]
+	return ok
+}
+
+// ResetClusterStructure resets all changes to the "ClusterStructure" field.
+func (m *JobDetailMutation) ResetClusterStructure() {
+	m._ClusterStructure = nil
+	delete(m.clearedFields, jobdetail.FieldClusterStructure)
+}
+
+// SetIsLicenseExpired sets the "IsLicenseExpired" field.
+func (m *JobDetailMutation) SetIsLicenseExpired(b bool) {
+	m._IsLicenseExpired = &b
+}
+
+// IsLicenseExpired returns the value of the "IsLicenseExpired" field in the mutation.
+func (m *JobDetailMutation) IsLicenseExpired() (r bool, exists bool) {
+	v := m._IsLicenseExpired
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsLicenseExpired returns the old "IsLicenseExpired" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldIsLicenseExpired(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsLicenseExpired is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsLicenseExpired requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsLicenseExpired: %w", err)
+	}
+	return oldValue.IsLicenseExpired, nil
+}
+
+// ClearIsLicenseExpired clears the value of the "IsLicenseExpired" field.
+func (m *JobDetailMutation) ClearIsLicenseExpired() {
+	m._IsLicenseExpired = nil
+	m.clearedFields[jobdetail.FieldIsLicenseExpired] = struct{}{}
+}
+
+// IsLicenseExpiredCleared returns if the "IsLicenseExpired" field was cleared in this mutation.
+func (m *JobDetailMutation) IsLicenseExpiredCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldIsLicenseExpired]
+	return ok
+}
+
+// ResetIsLicenseExpired resets all changes to the "IsLicenseExpired" field.
+func (m *JobDetailMutation) ResetIsLicenseExpired() {
+	m._IsLicenseExpired = nil
+	delete(m.clearedFields, jobdetail.FieldIsLicenseExpired)
+}
+
+// SetIsCompleted sets the "IsCompleted" field.
+func (m *JobDetailMutation) SetIsCompleted(b bool) {
+	m._IsCompleted = &b
+}
+
+// IsCompleted returns the value of the "IsCompleted" field in the mutation.
+func (m *JobDetailMutation) IsCompleted() (r bool, exists bool) {
+	v := m._IsCompleted
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsCompleted returns the old "IsCompleted" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldIsCompleted(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsCompleted is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsCompleted requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsCompleted: %w", err)
+	}
+	return oldValue.IsCompleted, nil
+}
+
+// ClearIsCompleted clears the value of the "IsCompleted" field.
+func (m *JobDetailMutation) ClearIsCompleted() {
+	m._IsCompleted = nil
+	m.clearedFields[jobdetail.FieldIsCompleted] = struct{}{}
+}
+
+// IsCompletedCleared returns if the "IsCompleted" field was cleared in this mutation.
+func (m *JobDetailMutation) IsCompletedCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldIsCompleted]
+	return ok
+}
+
+// ResetIsCompleted resets all changes to the "IsCompleted" field.
+func (m *JobDetailMutation) ResetIsCompleted() {
+	m._IsCompleted = nil
+	delete(m.clearedFields, jobdetail.FieldIsCompleted)
+}
+
+// SetNote sets the "Note" field.
+func (m *JobDetailMutation) SetNote(s string) {
+	m._Note = &s
+}
+
+// Note returns the value of the "Note" field in the mutation.
+func (m *JobDetailMutation) Note() (r string, exists bool) {
+	v := m._Note
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNote returns the old "Note" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldNote(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNote is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNote requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNote: %w", err)
+	}
+	return oldValue.Note, nil
+}
+
+// ClearNote clears the value of the "Note" field.
+func (m *JobDetailMutation) ClearNote() {
+	m._Note = nil
+	m.clearedFields[jobdetail.FieldNote] = struct{}{}
+}
+
+// NoteCleared returns if the "Note" field was cleared in this mutation.
+func (m *JobDetailMutation) NoteCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldNote]
+	return ok
+}
+
+// ResetNote resets all changes to the "Note" field.
+func (m *JobDetailMutation) ResetNote() {
+	m._Note = nil
+	delete(m.clearedFields, jobdetail.FieldNote)
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
@@ -9508,36 +10043,30 @@ func (m *JobDetailMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobDetailMutation) Fields() []string {
-	fields := make([]string, 0, 28)
+	fields := make([]string, 0, 34)
 	if m._YibfNo != nil {
 		fields = append(fields, jobdetail.FieldYibfNo)
 	}
-	if m._Idare != nil {
-		fields = append(fields, jobdetail.FieldIdare)
+	if m._Title != nil {
+		fields = append(fields, jobdetail.FieldTitle)
 	}
-	if m._Pafta != nil {
-		fields = append(fields, jobdetail.FieldPafta)
-	}
-	if m._Ada != nil {
-		fields = append(fields, jobdetail.FieldAda)
-	}
-	if m._Parsel != nil {
-		fields = append(fields, jobdetail.FieldParsel)
-	}
-	if m._FolderNo != nil {
-		fields = append(fields, jobdetail.FieldFolderNo)
-	}
-	if m._Status != nil {
-		fields = append(fields, jobdetail.FieldStatus)
+	if m._Administration != nil {
+		fields = append(fields, jobdetail.FieldAdministration)
 	}
 	if m._State != nil {
 		fields = append(fields, jobdetail.FieldState)
 	}
+	if m._Island != nil {
+		fields = append(fields, jobdetail.FieldIsland)
+	}
+	if m._Parcel != nil {
+		fields = append(fields, jobdetail.FieldParcel)
+	}
+	if m._Sheet != nil {
+		fields = append(fields, jobdetail.FieldSheet)
+	}
 	if m._ContractDate != nil {
 		fields = append(fields, jobdetail.FieldContractDate)
-	}
-	if m._CompletionDate != nil {
-		fields = append(fields, jobdetail.FieldCompletionDate)
 	}
 	if m._StartDate != nil {
 		fields = append(fields, jobdetail.FieldStartDate)
@@ -9548,8 +10077,20 @@ func (m *JobDetailMutation) Fields() []string {
 	if m._LicenseNo != nil {
 		fields = append(fields, jobdetail.FieldLicenseNo)
 	}
+	if m._CompletionDate != nil {
+		fields = append(fields, jobdetail.FieldCompletionDate)
+	}
+	if m._LandArea != nil {
+		fields = append(fields, jobdetail.FieldLandArea)
+	}
+	if m._TotalArea != nil {
+		fields = append(fields, jobdetail.FieldTotalArea)
+	}
 	if m._ConstructionArea != nil {
 		fields = append(fields, jobdetail.FieldConstructionArea)
+	}
+	if m._LeftArea != nil {
+		fields = append(fields, jobdetail.FieldLeftArea)
 	}
 	if m._YDSAddress != nil {
 		fields = append(fields, jobdetail.FieldYDSAddress)
@@ -9569,23 +10110,35 @@ func (m *JobDetailMutation) Fields() []string {
 	if m._UnitPrice != nil {
 		fields = append(fields, jobdetail.FieldUnitPrice)
 	}
-	if m._LandArea != nil {
-		fields = append(fields, jobdetail.FieldLandArea)
+	if m._FloorCount != nil {
+		fields = append(fields, jobdetail.FieldFloorCount)
 	}
-	if m._Floors != nil {
-		fields = append(fields, jobdetail.FieldFloors)
-	}
-	if m._UsagePurpose != nil {
-		fields = append(fields, jobdetail.FieldUsagePurpose)
-	}
-	if m._Note != nil {
-		fields = append(fields, jobdetail.FieldNote)
+	if m._BKSReferenceNo != nil {
+		fields = append(fields, jobdetail.FieldBKSReferenceNo)
 	}
 	if m._Coordinates != nil {
 		fields = append(fields, jobdetail.FieldCoordinates)
 	}
-	if m._Started != nil {
-		fields = append(fields, jobdetail.FieldStarted)
+	if m._FolderNo != nil {
+		fields = append(fields, jobdetail.FieldFolderNo)
+	}
+	if m._UploadedFile != nil {
+		fields = append(fields, jobdetail.FieldUploadedFile)
+	}
+	if m._IndustryArea != nil {
+		fields = append(fields, jobdetail.FieldIndustryArea)
+	}
+	if m._ClusterStructure != nil {
+		fields = append(fields, jobdetail.FieldClusterStructure)
+	}
+	if m._IsLicenseExpired != nil {
+		fields = append(fields, jobdetail.FieldIsLicenseExpired)
+	}
+	if m._IsCompleted != nil {
+		fields = append(fields, jobdetail.FieldIsCompleted)
+	}
+	if m._Note != nil {
+		fields = append(fields, jobdetail.FieldNote)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, jobdetail.FieldCreatedAt)
@@ -9603,32 +10156,36 @@ func (m *JobDetailMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case jobdetail.FieldYibfNo:
 		return m.YibfNo()
-	case jobdetail.FieldIdare:
-		return m.Idare()
-	case jobdetail.FieldPafta:
-		return m.Pafta()
-	case jobdetail.FieldAda:
-		return m.Ada()
-	case jobdetail.FieldParsel:
-		return m.Parsel()
-	case jobdetail.FieldFolderNo:
-		return m.FolderNo()
-	case jobdetail.FieldStatus:
-		return m.Status()
+	case jobdetail.FieldTitle:
+		return m.Title()
+	case jobdetail.FieldAdministration:
+		return m.Administration()
 	case jobdetail.FieldState:
 		return m.State()
+	case jobdetail.FieldIsland:
+		return m.Island()
+	case jobdetail.FieldParcel:
+		return m.Parcel()
+	case jobdetail.FieldSheet:
+		return m.Sheet()
 	case jobdetail.FieldContractDate:
 		return m.ContractDate()
-	case jobdetail.FieldCompletionDate:
-		return m.CompletionDate()
 	case jobdetail.FieldStartDate:
 		return m.StartDate()
 	case jobdetail.FieldLicenseDate:
 		return m.LicenseDate()
 	case jobdetail.FieldLicenseNo:
 		return m.LicenseNo()
+	case jobdetail.FieldCompletionDate:
+		return m.CompletionDate()
+	case jobdetail.FieldLandArea:
+		return m.LandArea()
+	case jobdetail.FieldTotalArea:
+		return m.TotalArea()
 	case jobdetail.FieldConstructionArea:
 		return m.ConstructionArea()
+	case jobdetail.FieldLeftArea:
+		return m.LeftArea()
 	case jobdetail.FieldYDSAddress:
 		return m.YDSAddress()
 	case jobdetail.FieldAddress:
@@ -9641,18 +10198,26 @@ func (m *JobDetailMutation) Field(name string) (ent.Value, bool) {
 		return m.Level()
 	case jobdetail.FieldUnitPrice:
 		return m.UnitPrice()
-	case jobdetail.FieldLandArea:
-		return m.LandArea()
-	case jobdetail.FieldFloors:
-		return m.Floors()
-	case jobdetail.FieldUsagePurpose:
-		return m.UsagePurpose()
-	case jobdetail.FieldNote:
-		return m.Note()
+	case jobdetail.FieldFloorCount:
+		return m.FloorCount()
+	case jobdetail.FieldBKSReferenceNo:
+		return m.BKSReferenceNo()
 	case jobdetail.FieldCoordinates:
 		return m.Coordinates()
-	case jobdetail.FieldStarted:
-		return m.Started()
+	case jobdetail.FieldFolderNo:
+		return m.FolderNo()
+	case jobdetail.FieldUploadedFile:
+		return m.UploadedFile()
+	case jobdetail.FieldIndustryArea:
+		return m.IndustryArea()
+	case jobdetail.FieldClusterStructure:
+		return m.ClusterStructure()
+	case jobdetail.FieldIsLicenseExpired:
+		return m.IsLicenseExpired()
+	case jobdetail.FieldIsCompleted:
+		return m.IsCompleted()
+	case jobdetail.FieldNote:
+		return m.Note()
 	case jobdetail.FieldCreatedAt:
 		return m.CreatedAt()
 	case jobdetail.FieldUpdatedAt:
@@ -9668,32 +10233,36 @@ func (m *JobDetailMutation) OldField(ctx context.Context, name string) (ent.Valu
 	switch name {
 	case jobdetail.FieldYibfNo:
 		return m.OldYibfNo(ctx)
-	case jobdetail.FieldIdare:
-		return m.OldIdare(ctx)
-	case jobdetail.FieldPafta:
-		return m.OldPafta(ctx)
-	case jobdetail.FieldAda:
-		return m.OldAda(ctx)
-	case jobdetail.FieldParsel:
-		return m.OldParsel(ctx)
-	case jobdetail.FieldFolderNo:
-		return m.OldFolderNo(ctx)
-	case jobdetail.FieldStatus:
-		return m.OldStatus(ctx)
+	case jobdetail.FieldTitle:
+		return m.OldTitle(ctx)
+	case jobdetail.FieldAdministration:
+		return m.OldAdministration(ctx)
 	case jobdetail.FieldState:
 		return m.OldState(ctx)
+	case jobdetail.FieldIsland:
+		return m.OldIsland(ctx)
+	case jobdetail.FieldParcel:
+		return m.OldParcel(ctx)
+	case jobdetail.FieldSheet:
+		return m.OldSheet(ctx)
 	case jobdetail.FieldContractDate:
 		return m.OldContractDate(ctx)
-	case jobdetail.FieldCompletionDate:
-		return m.OldCompletionDate(ctx)
 	case jobdetail.FieldStartDate:
 		return m.OldStartDate(ctx)
 	case jobdetail.FieldLicenseDate:
 		return m.OldLicenseDate(ctx)
 	case jobdetail.FieldLicenseNo:
 		return m.OldLicenseNo(ctx)
+	case jobdetail.FieldCompletionDate:
+		return m.OldCompletionDate(ctx)
+	case jobdetail.FieldLandArea:
+		return m.OldLandArea(ctx)
+	case jobdetail.FieldTotalArea:
+		return m.OldTotalArea(ctx)
 	case jobdetail.FieldConstructionArea:
 		return m.OldConstructionArea(ctx)
+	case jobdetail.FieldLeftArea:
+		return m.OldLeftArea(ctx)
 	case jobdetail.FieldYDSAddress:
 		return m.OldYDSAddress(ctx)
 	case jobdetail.FieldAddress:
@@ -9706,18 +10275,26 @@ func (m *JobDetailMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldLevel(ctx)
 	case jobdetail.FieldUnitPrice:
 		return m.OldUnitPrice(ctx)
-	case jobdetail.FieldLandArea:
-		return m.OldLandArea(ctx)
-	case jobdetail.FieldFloors:
-		return m.OldFloors(ctx)
-	case jobdetail.FieldUsagePurpose:
-		return m.OldUsagePurpose(ctx)
-	case jobdetail.FieldNote:
-		return m.OldNote(ctx)
+	case jobdetail.FieldFloorCount:
+		return m.OldFloorCount(ctx)
+	case jobdetail.FieldBKSReferenceNo:
+		return m.OldBKSReferenceNo(ctx)
 	case jobdetail.FieldCoordinates:
 		return m.OldCoordinates(ctx)
-	case jobdetail.FieldStarted:
-		return m.OldStarted(ctx)
+	case jobdetail.FieldFolderNo:
+		return m.OldFolderNo(ctx)
+	case jobdetail.FieldUploadedFile:
+		return m.OldUploadedFile(ctx)
+	case jobdetail.FieldIndustryArea:
+		return m.OldIndustryArea(ctx)
+	case jobdetail.FieldClusterStructure:
+		return m.OldClusterStructure(ctx)
+	case jobdetail.FieldIsLicenseExpired:
+		return m.OldIsLicenseExpired(ctx)
+	case jobdetail.FieldIsCompleted:
+		return m.OldIsCompleted(ctx)
+	case jobdetail.FieldNote:
+		return m.OldNote(ctx)
 	case jobdetail.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case jobdetail.FieldUpdatedAt:
@@ -9738,47 +10315,19 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetYibfNo(v)
 		return nil
-	case jobdetail.FieldIdare:
+	case jobdetail.FieldTitle:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetIdare(v)
+		m.SetTitle(v)
 		return nil
-	case jobdetail.FieldPafta:
+	case jobdetail.FieldAdministration:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetPafta(v)
-		return nil
-	case jobdetail.FieldAda:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAda(v)
-		return nil
-	case jobdetail.FieldParsel:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetParsel(v)
-		return nil
-	case jobdetail.FieldFolderNo:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetFolderNo(v)
-		return nil
-	case jobdetail.FieldStatus:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetStatus(v)
+		m.SetAdministration(v)
 		return nil
 	case jobdetail.FieldState:
 		v, ok := value.(string)
@@ -9787,19 +10336,33 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetState(v)
 		return nil
+	case jobdetail.FieldIsland:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsland(v)
+		return nil
+	case jobdetail.FieldParcel:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetParcel(v)
+		return nil
+	case jobdetail.FieldSheet:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSheet(v)
+		return nil
 	case jobdetail.FieldContractDate:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetContractDate(v)
-		return nil
-	case jobdetail.FieldCompletionDate:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCompletionDate(v)
 		return nil
 	case jobdetail.FieldStartDate:
 		v, ok := value.(time.Time)
@@ -9822,12 +10385,40 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetLicenseNo(v)
 		return nil
+	case jobdetail.FieldCompletionDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCompletionDate(v)
+		return nil
+	case jobdetail.FieldLandArea:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLandArea(v)
+		return nil
+	case jobdetail.FieldTotalArea:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTotalArea(v)
+		return nil
 	case jobdetail.FieldConstructionArea:
-		v, ok := value.(string)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetConstructionArea(v)
+		return nil
+	case jobdetail.FieldLeftArea:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLeftArea(v)
 		return nil
 	case jobdetail.FieldYDSAddress:
 		v, ok := value.(string)
@@ -9871,33 +10462,19 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUnitPrice(v)
 		return nil
-	case jobdetail.FieldLandArea:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetLandArea(v)
-		return nil
-	case jobdetail.FieldFloors:
+	case jobdetail.FieldFloorCount:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetFloors(v)
+		m.SetFloorCount(v)
 		return nil
-	case jobdetail.FieldUsagePurpose:
-		v, ok := value.(string)
+	case jobdetail.FieldBKSReferenceNo:
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetUsagePurpose(v)
-		return nil
-	case jobdetail.FieldNote:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetNote(v)
+		m.SetBKSReferenceNo(v)
 		return nil
 	case jobdetail.FieldCoordinates:
 		v, ok := value.(string)
@@ -9906,12 +10483,54 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCoordinates(v)
 		return nil
-	case jobdetail.FieldStarted:
-		v, ok := value.(int)
+	case jobdetail.FieldFolderNo:
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetStarted(v)
+		m.SetFolderNo(v)
+		return nil
+	case jobdetail.FieldUploadedFile:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUploadedFile(v)
+		return nil
+	case jobdetail.FieldIndustryArea:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIndustryArea(v)
+		return nil
+	case jobdetail.FieldClusterStructure:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetClusterStructure(v)
+		return nil
+	case jobdetail.FieldIsLicenseExpired:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsLicenseExpired(v)
+		return nil
+	case jobdetail.FieldIsCompleted:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsCompleted(v)
+		return nil
+	case jobdetail.FieldNote:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNote(v)
 		return nil
 	case jobdetail.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -9938,8 +10557,17 @@ func (m *JobDetailMutation) AddedFields() []string {
 	if m.add_YibfNo != nil {
 		fields = append(fields, jobdetail.FieldYibfNo)
 	}
-	if m.add_Status != nil {
-		fields = append(fields, jobdetail.FieldStatus)
+	if m.add_LandArea != nil {
+		fields = append(fields, jobdetail.FieldLandArea)
+	}
+	if m.add_TotalArea != nil {
+		fields = append(fields, jobdetail.FieldTotalArea)
+	}
+	if m.add_ConstructionArea != nil {
+		fields = append(fields, jobdetail.FieldConstructionArea)
+	}
+	if m.add_LeftArea != nil {
+		fields = append(fields, jobdetail.FieldLeftArea)
 	}
 	if m.add_Level != nil {
 		fields = append(fields, jobdetail.FieldLevel)
@@ -9947,11 +10575,11 @@ func (m *JobDetailMutation) AddedFields() []string {
 	if m.add_UnitPrice != nil {
 		fields = append(fields, jobdetail.FieldUnitPrice)
 	}
-	if m.add_Floors != nil {
-		fields = append(fields, jobdetail.FieldFloors)
+	if m.add_FloorCount != nil {
+		fields = append(fields, jobdetail.FieldFloorCount)
 	}
-	if m.add_Started != nil {
-		fields = append(fields, jobdetail.FieldStarted)
+	if m.add_BKSReferenceNo != nil {
+		fields = append(fields, jobdetail.FieldBKSReferenceNo)
 	}
 	return fields
 }
@@ -9963,16 +10591,22 @@ func (m *JobDetailMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case jobdetail.FieldYibfNo:
 		return m.AddedYibfNo()
-	case jobdetail.FieldStatus:
-		return m.AddedStatus()
+	case jobdetail.FieldLandArea:
+		return m.AddedLandArea()
+	case jobdetail.FieldTotalArea:
+		return m.AddedTotalArea()
+	case jobdetail.FieldConstructionArea:
+		return m.AddedConstructionArea()
+	case jobdetail.FieldLeftArea:
+		return m.AddedLeftArea()
 	case jobdetail.FieldLevel:
 		return m.AddedLevel()
 	case jobdetail.FieldUnitPrice:
 		return m.AddedUnitPrice()
-	case jobdetail.FieldFloors:
-		return m.AddedFloors()
-	case jobdetail.FieldStarted:
-		return m.AddedStarted()
+	case jobdetail.FieldFloorCount:
+		return m.AddedFloorCount()
+	case jobdetail.FieldBKSReferenceNo:
+		return m.AddedBKSReferenceNo()
 	}
 	return nil, false
 }
@@ -9989,12 +10623,33 @@ func (m *JobDetailMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddYibfNo(v)
 		return nil
-	case jobdetail.FieldStatus:
-		v, ok := value.(int)
+	case jobdetail.FieldLandArea:
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddStatus(v)
+		m.AddLandArea(v)
+		return nil
+	case jobdetail.FieldTotalArea:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddTotalArea(v)
+		return nil
+	case jobdetail.FieldConstructionArea:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddConstructionArea(v)
+		return nil
+	case jobdetail.FieldLeftArea:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddLeftArea(v)
 		return nil
 	case jobdetail.FieldLevel:
 		v, ok := value.(float64)
@@ -10010,19 +10665,19 @@ func (m *JobDetailMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddUnitPrice(v)
 		return nil
-	case jobdetail.FieldFloors:
+	case jobdetail.FieldFloorCount:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddFloors(v)
+		m.AddFloorCount(v)
 		return nil
-	case jobdetail.FieldStarted:
+	case jobdetail.FieldBKSReferenceNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddStarted(v)
+		m.AddBKSReferenceNo(v)
 		return nil
 	}
 	return fmt.Errorf("unknown JobDetail numeric field %s", name)
@@ -10032,29 +10687,26 @@ func (m *JobDetailMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *JobDetailMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(jobdetail.FieldIdare) {
-		fields = append(fields, jobdetail.FieldIdare)
+	if m.FieldCleared(jobdetail.FieldTitle) {
+		fields = append(fields, jobdetail.FieldTitle)
 	}
-	if m.FieldCleared(jobdetail.FieldPafta) {
-		fields = append(fields, jobdetail.FieldPafta)
-	}
-	if m.FieldCleared(jobdetail.FieldAda) {
-		fields = append(fields, jobdetail.FieldAda)
-	}
-	if m.FieldCleared(jobdetail.FieldParsel) {
-		fields = append(fields, jobdetail.FieldParsel)
-	}
-	if m.FieldCleared(jobdetail.FieldFolderNo) {
-		fields = append(fields, jobdetail.FieldFolderNo)
+	if m.FieldCleared(jobdetail.FieldAdministration) {
+		fields = append(fields, jobdetail.FieldAdministration)
 	}
 	if m.FieldCleared(jobdetail.FieldState) {
 		fields = append(fields, jobdetail.FieldState)
 	}
+	if m.FieldCleared(jobdetail.FieldIsland) {
+		fields = append(fields, jobdetail.FieldIsland)
+	}
+	if m.FieldCleared(jobdetail.FieldParcel) {
+		fields = append(fields, jobdetail.FieldParcel)
+	}
+	if m.FieldCleared(jobdetail.FieldSheet) {
+		fields = append(fields, jobdetail.FieldSheet)
+	}
 	if m.FieldCleared(jobdetail.FieldContractDate) {
 		fields = append(fields, jobdetail.FieldContractDate)
-	}
-	if m.FieldCleared(jobdetail.FieldCompletionDate) {
-		fields = append(fields, jobdetail.FieldCompletionDate)
 	}
 	if m.FieldCleared(jobdetail.FieldStartDate) {
 		fields = append(fields, jobdetail.FieldStartDate)
@@ -10065,8 +10717,20 @@ func (m *JobDetailMutation) ClearedFields() []string {
 	if m.FieldCleared(jobdetail.FieldLicenseNo) {
 		fields = append(fields, jobdetail.FieldLicenseNo)
 	}
+	if m.FieldCleared(jobdetail.FieldCompletionDate) {
+		fields = append(fields, jobdetail.FieldCompletionDate)
+	}
+	if m.FieldCleared(jobdetail.FieldLandArea) {
+		fields = append(fields, jobdetail.FieldLandArea)
+	}
+	if m.FieldCleared(jobdetail.FieldTotalArea) {
+		fields = append(fields, jobdetail.FieldTotalArea)
+	}
 	if m.FieldCleared(jobdetail.FieldConstructionArea) {
 		fields = append(fields, jobdetail.FieldConstructionArea)
+	}
+	if m.FieldCleared(jobdetail.FieldLeftArea) {
+		fields = append(fields, jobdetail.FieldLeftArea)
 	}
 	if m.FieldCleared(jobdetail.FieldYDSAddress) {
 		fields = append(fields, jobdetail.FieldYDSAddress)
@@ -10086,20 +10750,35 @@ func (m *JobDetailMutation) ClearedFields() []string {
 	if m.FieldCleared(jobdetail.FieldUnitPrice) {
 		fields = append(fields, jobdetail.FieldUnitPrice)
 	}
-	if m.FieldCleared(jobdetail.FieldLandArea) {
-		fields = append(fields, jobdetail.FieldLandArea)
+	if m.FieldCleared(jobdetail.FieldFloorCount) {
+		fields = append(fields, jobdetail.FieldFloorCount)
 	}
-	if m.FieldCleared(jobdetail.FieldFloors) {
-		fields = append(fields, jobdetail.FieldFloors)
-	}
-	if m.FieldCleared(jobdetail.FieldUsagePurpose) {
-		fields = append(fields, jobdetail.FieldUsagePurpose)
-	}
-	if m.FieldCleared(jobdetail.FieldNote) {
-		fields = append(fields, jobdetail.FieldNote)
+	if m.FieldCleared(jobdetail.FieldBKSReferenceNo) {
+		fields = append(fields, jobdetail.FieldBKSReferenceNo)
 	}
 	if m.FieldCleared(jobdetail.FieldCoordinates) {
 		fields = append(fields, jobdetail.FieldCoordinates)
+	}
+	if m.FieldCleared(jobdetail.FieldFolderNo) {
+		fields = append(fields, jobdetail.FieldFolderNo)
+	}
+	if m.FieldCleared(jobdetail.FieldUploadedFile) {
+		fields = append(fields, jobdetail.FieldUploadedFile)
+	}
+	if m.FieldCleared(jobdetail.FieldIndustryArea) {
+		fields = append(fields, jobdetail.FieldIndustryArea)
+	}
+	if m.FieldCleared(jobdetail.FieldClusterStructure) {
+		fields = append(fields, jobdetail.FieldClusterStructure)
+	}
+	if m.FieldCleared(jobdetail.FieldIsLicenseExpired) {
+		fields = append(fields, jobdetail.FieldIsLicenseExpired)
+	}
+	if m.FieldCleared(jobdetail.FieldIsCompleted) {
+		fields = append(fields, jobdetail.FieldIsCompleted)
+	}
+	if m.FieldCleared(jobdetail.FieldNote) {
+		fields = append(fields, jobdetail.FieldNote)
 	}
 	return fields
 }
@@ -10115,29 +10794,26 @@ func (m *JobDetailMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *JobDetailMutation) ClearField(name string) error {
 	switch name {
-	case jobdetail.FieldIdare:
-		m.ClearIdare()
+	case jobdetail.FieldTitle:
+		m.ClearTitle()
 		return nil
-	case jobdetail.FieldPafta:
-		m.ClearPafta()
-		return nil
-	case jobdetail.FieldAda:
-		m.ClearAda()
-		return nil
-	case jobdetail.FieldParsel:
-		m.ClearParsel()
-		return nil
-	case jobdetail.FieldFolderNo:
-		m.ClearFolderNo()
+	case jobdetail.FieldAdministration:
+		m.ClearAdministration()
 		return nil
 	case jobdetail.FieldState:
 		m.ClearState()
 		return nil
+	case jobdetail.FieldIsland:
+		m.ClearIsland()
+		return nil
+	case jobdetail.FieldParcel:
+		m.ClearParcel()
+		return nil
+	case jobdetail.FieldSheet:
+		m.ClearSheet()
+		return nil
 	case jobdetail.FieldContractDate:
 		m.ClearContractDate()
-		return nil
-	case jobdetail.FieldCompletionDate:
-		m.ClearCompletionDate()
 		return nil
 	case jobdetail.FieldStartDate:
 		m.ClearStartDate()
@@ -10148,8 +10824,20 @@ func (m *JobDetailMutation) ClearField(name string) error {
 	case jobdetail.FieldLicenseNo:
 		m.ClearLicenseNo()
 		return nil
+	case jobdetail.FieldCompletionDate:
+		m.ClearCompletionDate()
+		return nil
+	case jobdetail.FieldLandArea:
+		m.ClearLandArea()
+		return nil
+	case jobdetail.FieldTotalArea:
+		m.ClearTotalArea()
+		return nil
 	case jobdetail.FieldConstructionArea:
 		m.ClearConstructionArea()
+		return nil
+	case jobdetail.FieldLeftArea:
+		m.ClearLeftArea()
 		return nil
 	case jobdetail.FieldYDSAddress:
 		m.ClearYDSAddress()
@@ -10169,20 +10857,35 @@ func (m *JobDetailMutation) ClearField(name string) error {
 	case jobdetail.FieldUnitPrice:
 		m.ClearUnitPrice()
 		return nil
-	case jobdetail.FieldLandArea:
-		m.ClearLandArea()
+	case jobdetail.FieldFloorCount:
+		m.ClearFloorCount()
 		return nil
-	case jobdetail.FieldFloors:
-		m.ClearFloors()
-		return nil
-	case jobdetail.FieldUsagePurpose:
-		m.ClearUsagePurpose()
-		return nil
-	case jobdetail.FieldNote:
-		m.ClearNote()
+	case jobdetail.FieldBKSReferenceNo:
+		m.ClearBKSReferenceNo()
 		return nil
 	case jobdetail.FieldCoordinates:
 		m.ClearCoordinates()
+		return nil
+	case jobdetail.FieldFolderNo:
+		m.ClearFolderNo()
+		return nil
+	case jobdetail.FieldUploadedFile:
+		m.ClearUploadedFile()
+		return nil
+	case jobdetail.FieldIndustryArea:
+		m.ClearIndustryArea()
+		return nil
+	case jobdetail.FieldClusterStructure:
+		m.ClearClusterStructure()
+		return nil
+	case jobdetail.FieldIsLicenseExpired:
+		m.ClearIsLicenseExpired()
+		return nil
+	case jobdetail.FieldIsCompleted:
+		m.ClearIsCompleted()
+		return nil
+	case jobdetail.FieldNote:
+		m.ClearNote()
 		return nil
 	}
 	return fmt.Errorf("unknown JobDetail nullable field %s", name)
@@ -10195,32 +10898,26 @@ func (m *JobDetailMutation) ResetField(name string) error {
 	case jobdetail.FieldYibfNo:
 		m.ResetYibfNo()
 		return nil
-	case jobdetail.FieldIdare:
-		m.ResetIdare()
+	case jobdetail.FieldTitle:
+		m.ResetTitle()
 		return nil
-	case jobdetail.FieldPafta:
-		m.ResetPafta()
-		return nil
-	case jobdetail.FieldAda:
-		m.ResetAda()
-		return nil
-	case jobdetail.FieldParsel:
-		m.ResetParsel()
-		return nil
-	case jobdetail.FieldFolderNo:
-		m.ResetFolderNo()
-		return nil
-	case jobdetail.FieldStatus:
-		m.ResetStatus()
+	case jobdetail.FieldAdministration:
+		m.ResetAdministration()
 		return nil
 	case jobdetail.FieldState:
 		m.ResetState()
 		return nil
+	case jobdetail.FieldIsland:
+		m.ResetIsland()
+		return nil
+	case jobdetail.FieldParcel:
+		m.ResetParcel()
+		return nil
+	case jobdetail.FieldSheet:
+		m.ResetSheet()
+		return nil
 	case jobdetail.FieldContractDate:
 		m.ResetContractDate()
-		return nil
-	case jobdetail.FieldCompletionDate:
-		m.ResetCompletionDate()
 		return nil
 	case jobdetail.FieldStartDate:
 		m.ResetStartDate()
@@ -10231,8 +10928,20 @@ func (m *JobDetailMutation) ResetField(name string) error {
 	case jobdetail.FieldLicenseNo:
 		m.ResetLicenseNo()
 		return nil
+	case jobdetail.FieldCompletionDate:
+		m.ResetCompletionDate()
+		return nil
+	case jobdetail.FieldLandArea:
+		m.ResetLandArea()
+		return nil
+	case jobdetail.FieldTotalArea:
+		m.ResetTotalArea()
+		return nil
 	case jobdetail.FieldConstructionArea:
 		m.ResetConstructionArea()
+		return nil
+	case jobdetail.FieldLeftArea:
+		m.ResetLeftArea()
 		return nil
 	case jobdetail.FieldYDSAddress:
 		m.ResetYDSAddress()
@@ -10252,23 +10961,35 @@ func (m *JobDetailMutation) ResetField(name string) error {
 	case jobdetail.FieldUnitPrice:
 		m.ResetUnitPrice()
 		return nil
-	case jobdetail.FieldLandArea:
-		m.ResetLandArea()
+	case jobdetail.FieldFloorCount:
+		m.ResetFloorCount()
 		return nil
-	case jobdetail.FieldFloors:
-		m.ResetFloors()
-		return nil
-	case jobdetail.FieldUsagePurpose:
-		m.ResetUsagePurpose()
-		return nil
-	case jobdetail.FieldNote:
-		m.ResetNote()
+	case jobdetail.FieldBKSReferenceNo:
+		m.ResetBKSReferenceNo()
 		return nil
 	case jobdetail.FieldCoordinates:
 		m.ResetCoordinates()
 		return nil
-	case jobdetail.FieldStarted:
-		m.ResetStarted()
+	case jobdetail.FieldFolderNo:
+		m.ResetFolderNo()
+		return nil
+	case jobdetail.FieldUploadedFile:
+		m.ResetUploadedFile()
+		return nil
+	case jobdetail.FieldIndustryArea:
+		m.ResetIndustryArea()
+		return nil
+	case jobdetail.FieldClusterStructure:
+		m.ResetClusterStructure()
+		return nil
+	case jobdetail.FieldIsLicenseExpired:
+		m.ResetIsLicenseExpired()
+		return nil
+	case jobdetail.FieldIsCompleted:
+		m.ResetIsCompleted()
+		return nil
+	case jobdetail.FieldNote:
+		m.ResetNote()
 		return nil
 	case jobdetail.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -11682,16 +12403,17 @@ type JobOwnerMutation struct {
 	typ           string
 	id            *int
 	_Name         *string
+	_Address      *string
 	_TcNo         *int
 	add_TcNo      *int
-	_Address      *string
 	_TaxAdmin     *string
 	_TaxNo        *int
 	add_TaxNo     *int
 	_Phone        *string
 	_Email        *string
-	yds_id        *int
-	addyds_id     *int
+	_YDSID        *int
+	add_YDSID     *int
+	_Shareholder  *bool
 	_Note         *string
 	_CreatedAt    *time.Time
 	_UpdatedAt    *time.Time
@@ -11838,6 +12560,55 @@ func (m *JobOwnerMutation) ResetName() {
 	m._Name = nil
 }
 
+// SetAddress sets the "Address" field.
+func (m *JobOwnerMutation) SetAddress(s string) {
+	m._Address = &s
+}
+
+// Address returns the value of the "Address" field in the mutation.
+func (m *JobOwnerMutation) Address() (r string, exists bool) {
+	v := m._Address
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAddress returns the old "Address" field's value of the JobOwner entity.
+// If the JobOwner object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobOwnerMutation) OldAddress(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAddress is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAddress requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAddress: %w", err)
+	}
+	return oldValue.Address, nil
+}
+
+// ClearAddress clears the value of the "Address" field.
+func (m *JobOwnerMutation) ClearAddress() {
+	m._Address = nil
+	m.clearedFields[jobowner.FieldAddress] = struct{}{}
+}
+
+// AddressCleared returns if the "Address" field was cleared in this mutation.
+func (m *JobOwnerMutation) AddressCleared() bool {
+	_, ok := m.clearedFields[jobowner.FieldAddress]
+	return ok
+}
+
+// ResetAddress resets all changes to the "Address" field.
+func (m *JobOwnerMutation) ResetAddress() {
+	m._Address = nil
+	delete(m.clearedFields, jobowner.FieldAddress)
+}
+
 // SetTcNo sets the "TcNo" field.
 func (m *JobOwnerMutation) SetTcNo(i int) {
 	m._TcNo = &i
@@ -11906,55 +12677,6 @@ func (m *JobOwnerMutation) ResetTcNo() {
 	m._TcNo = nil
 	m.add_TcNo = nil
 	delete(m.clearedFields, jobowner.FieldTcNo)
-}
-
-// SetAddress sets the "Address" field.
-func (m *JobOwnerMutation) SetAddress(s string) {
-	m._Address = &s
-}
-
-// Address returns the value of the "Address" field in the mutation.
-func (m *JobOwnerMutation) Address() (r string, exists bool) {
-	v := m._Address
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAddress returns the old "Address" field's value of the JobOwner entity.
-// If the JobOwner object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobOwnerMutation) OldAddress(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAddress is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAddress requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAddress: %w", err)
-	}
-	return oldValue.Address, nil
-}
-
-// ClearAddress clears the value of the "Address" field.
-func (m *JobOwnerMutation) ClearAddress() {
-	m._Address = nil
-	m.clearedFields[jobowner.FieldAddress] = struct{}{}
-}
-
-// AddressCleared returns if the "Address" field was cleared in this mutation.
-func (m *JobOwnerMutation) AddressCleared() bool {
-	_, ok := m.clearedFields[jobowner.FieldAddress]
-	return ok
-}
-
-// ResetAddress resets all changes to the "Address" field.
-func (m *JobOwnerMutation) ResetAddress() {
-	m._Address = nil
-	delete(m.clearedFields, jobowner.FieldAddress)
 }
 
 // SetTaxAdmin sets the "TaxAdmin" field.
@@ -12174,74 +12896,110 @@ func (m *JobOwnerMutation) ResetEmail() {
 	delete(m.clearedFields, jobowner.FieldEmail)
 }
 
-// SetYdsID sets the "yds_id" field.
-func (m *JobOwnerMutation) SetYdsID(i int) {
-	m.yds_id = &i
-	m.addyds_id = nil
+// SetYDSID sets the "YDSID" field.
+func (m *JobOwnerMutation) SetYDSID(i int) {
+	m._YDSID = &i
+	m.add_YDSID = nil
 }
 
-// YdsID returns the value of the "yds_id" field in the mutation.
-func (m *JobOwnerMutation) YdsID() (r int, exists bool) {
-	v := m.yds_id
+// YDSID returns the value of the "YDSID" field in the mutation.
+func (m *JobOwnerMutation) YDSID() (r int, exists bool) {
+	v := m._YDSID
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldYdsID returns the old "yds_id" field's value of the JobOwner entity.
+// OldYDSID returns the old "YDSID" field's value of the JobOwner entity.
 // If the JobOwner object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobOwnerMutation) OldYdsID(ctx context.Context) (v int, err error) {
+func (m *JobOwnerMutation) OldYDSID(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldYdsID is only allowed on UpdateOne operations")
+		return v, errors.New("OldYDSID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldYdsID requires an ID field in the mutation")
+		return v, errors.New("OldYDSID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldYdsID: %w", err)
+		return v, fmt.Errorf("querying old value for OldYDSID: %w", err)
 	}
-	return oldValue.YdsID, nil
+	return oldValue.YDSID, nil
 }
 
-// AddYdsID adds i to the "yds_id" field.
-func (m *JobOwnerMutation) AddYdsID(i int) {
-	if m.addyds_id != nil {
-		*m.addyds_id += i
+// AddYDSID adds i to the "YDSID" field.
+func (m *JobOwnerMutation) AddYDSID(i int) {
+	if m.add_YDSID != nil {
+		*m.add_YDSID += i
 	} else {
-		m.addyds_id = &i
+		m.add_YDSID = &i
 	}
 }
 
-// AddedYdsID returns the value that was added to the "yds_id" field in this mutation.
-func (m *JobOwnerMutation) AddedYdsID() (r int, exists bool) {
-	v := m.addyds_id
+// AddedYDSID returns the value that was added to the "YDSID" field in this mutation.
+func (m *JobOwnerMutation) AddedYDSID() (r int, exists bool) {
+	v := m.add_YDSID
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ClearYdsID clears the value of the "yds_id" field.
-func (m *JobOwnerMutation) ClearYdsID() {
-	m.yds_id = nil
-	m.addyds_id = nil
-	m.clearedFields[jobowner.FieldYdsID] = struct{}{}
+// ClearYDSID clears the value of the "YDSID" field.
+func (m *JobOwnerMutation) ClearYDSID() {
+	m._YDSID = nil
+	m.add_YDSID = nil
+	m.clearedFields[jobowner.FieldYDSID] = struct{}{}
 }
 
-// YdsIDCleared returns if the "yds_id" field was cleared in this mutation.
-func (m *JobOwnerMutation) YdsIDCleared() bool {
-	_, ok := m.clearedFields[jobowner.FieldYdsID]
+// YDSIDCleared returns if the "YDSID" field was cleared in this mutation.
+func (m *JobOwnerMutation) YDSIDCleared() bool {
+	_, ok := m.clearedFields[jobowner.FieldYDSID]
 	return ok
 }
 
-// ResetYdsID resets all changes to the "yds_id" field.
-func (m *JobOwnerMutation) ResetYdsID() {
-	m.yds_id = nil
-	m.addyds_id = nil
-	delete(m.clearedFields, jobowner.FieldYdsID)
+// ResetYDSID resets all changes to the "YDSID" field.
+func (m *JobOwnerMutation) ResetYDSID() {
+	m._YDSID = nil
+	m.add_YDSID = nil
+	delete(m.clearedFields, jobowner.FieldYDSID)
+}
+
+// SetShareholder sets the "Shareholder" field.
+func (m *JobOwnerMutation) SetShareholder(b bool) {
+	m._Shareholder = &b
+}
+
+// Shareholder returns the value of the "Shareholder" field in the mutation.
+func (m *JobOwnerMutation) Shareholder() (r bool, exists bool) {
+	v := m._Shareholder
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldShareholder returns the old "Shareholder" field's value of the JobOwner entity.
+// If the JobOwner object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobOwnerMutation) OldShareholder(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldShareholder is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldShareholder requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldShareholder: %w", err)
+	}
+	return oldValue.Shareholder, nil
+}
+
+// ResetShareholder resets all changes to the "Shareholder" field.
+func (m *JobOwnerMutation) ResetShareholder() {
+	m._Shareholder = nil
 }
 
 // SetNote sets the "Note" field.
@@ -12453,15 +13211,15 @@ func (m *JobOwnerMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobOwnerMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 12)
 	if m._Name != nil {
 		fields = append(fields, jobowner.FieldName)
 	}
-	if m._TcNo != nil {
-		fields = append(fields, jobowner.FieldTcNo)
-	}
 	if m._Address != nil {
 		fields = append(fields, jobowner.FieldAddress)
+	}
+	if m._TcNo != nil {
+		fields = append(fields, jobowner.FieldTcNo)
 	}
 	if m._TaxAdmin != nil {
 		fields = append(fields, jobowner.FieldTaxAdmin)
@@ -12475,8 +13233,11 @@ func (m *JobOwnerMutation) Fields() []string {
 	if m._Email != nil {
 		fields = append(fields, jobowner.FieldEmail)
 	}
-	if m.yds_id != nil {
-		fields = append(fields, jobowner.FieldYdsID)
+	if m._YDSID != nil {
+		fields = append(fields, jobowner.FieldYDSID)
+	}
+	if m._Shareholder != nil {
+		fields = append(fields, jobowner.FieldShareholder)
 	}
 	if m._Note != nil {
 		fields = append(fields, jobowner.FieldNote)
@@ -12497,10 +13258,10 @@ func (m *JobOwnerMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case jobowner.FieldName:
 		return m.Name()
-	case jobowner.FieldTcNo:
-		return m.TcNo()
 	case jobowner.FieldAddress:
 		return m.Address()
+	case jobowner.FieldTcNo:
+		return m.TcNo()
 	case jobowner.FieldTaxAdmin:
 		return m.TaxAdmin()
 	case jobowner.FieldTaxNo:
@@ -12509,8 +13270,10 @@ func (m *JobOwnerMutation) Field(name string) (ent.Value, bool) {
 		return m.Phone()
 	case jobowner.FieldEmail:
 		return m.Email()
-	case jobowner.FieldYdsID:
-		return m.YdsID()
+	case jobowner.FieldYDSID:
+		return m.YDSID()
+	case jobowner.FieldShareholder:
+		return m.Shareholder()
 	case jobowner.FieldNote:
 		return m.Note()
 	case jobowner.FieldCreatedAt:
@@ -12528,10 +13291,10 @@ func (m *JobOwnerMutation) OldField(ctx context.Context, name string) (ent.Value
 	switch name {
 	case jobowner.FieldName:
 		return m.OldName(ctx)
-	case jobowner.FieldTcNo:
-		return m.OldTcNo(ctx)
 	case jobowner.FieldAddress:
 		return m.OldAddress(ctx)
+	case jobowner.FieldTcNo:
+		return m.OldTcNo(ctx)
 	case jobowner.FieldTaxAdmin:
 		return m.OldTaxAdmin(ctx)
 	case jobowner.FieldTaxNo:
@@ -12540,8 +13303,10 @@ func (m *JobOwnerMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldPhone(ctx)
 	case jobowner.FieldEmail:
 		return m.OldEmail(ctx)
-	case jobowner.FieldYdsID:
-		return m.OldYdsID(ctx)
+	case jobowner.FieldYDSID:
+		return m.OldYDSID(ctx)
+	case jobowner.FieldShareholder:
+		return m.OldShareholder(ctx)
 	case jobowner.FieldNote:
 		return m.OldNote(ctx)
 	case jobowner.FieldCreatedAt:
@@ -12564,19 +13329,19 @@ func (m *JobOwnerMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetName(v)
 		return nil
-	case jobowner.FieldTcNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTcNo(v)
-		return nil
 	case jobowner.FieldAddress:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAddress(v)
+		return nil
+	case jobowner.FieldTcNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTcNo(v)
 		return nil
 	case jobowner.FieldTaxAdmin:
 		v, ok := value.(string)
@@ -12606,12 +13371,19 @@ func (m *JobOwnerMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetEmail(v)
 		return nil
-	case jobowner.FieldYdsID:
+	case jobowner.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetYdsID(v)
+		m.SetYDSID(v)
+		return nil
+	case jobowner.FieldShareholder:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetShareholder(v)
 		return nil
 	case jobowner.FieldNote:
 		v, ok := value.(string)
@@ -12648,8 +13420,8 @@ func (m *JobOwnerMutation) AddedFields() []string {
 	if m.add_TaxNo != nil {
 		fields = append(fields, jobowner.FieldTaxNo)
 	}
-	if m.addyds_id != nil {
-		fields = append(fields, jobowner.FieldYdsID)
+	if m.add_YDSID != nil {
+		fields = append(fields, jobowner.FieldYDSID)
 	}
 	return fields
 }
@@ -12663,8 +13435,8 @@ func (m *JobOwnerMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedTcNo()
 	case jobowner.FieldTaxNo:
 		return m.AddedTaxNo()
-	case jobowner.FieldYdsID:
-		return m.AddedYdsID()
+	case jobowner.FieldYDSID:
+		return m.AddedYDSID()
 	}
 	return nil, false
 }
@@ -12688,12 +13460,12 @@ func (m *JobOwnerMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddTaxNo(v)
 		return nil
-	case jobowner.FieldYdsID:
+	case jobowner.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddYdsID(v)
+		m.AddYDSID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown JobOwner numeric field %s", name)
@@ -12703,11 +13475,11 @@ func (m *JobOwnerMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *JobOwnerMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(jobowner.FieldTcNo) {
-		fields = append(fields, jobowner.FieldTcNo)
-	}
 	if m.FieldCleared(jobowner.FieldAddress) {
 		fields = append(fields, jobowner.FieldAddress)
+	}
+	if m.FieldCleared(jobowner.FieldTcNo) {
+		fields = append(fields, jobowner.FieldTcNo)
 	}
 	if m.FieldCleared(jobowner.FieldTaxAdmin) {
 		fields = append(fields, jobowner.FieldTaxAdmin)
@@ -12721,8 +13493,8 @@ func (m *JobOwnerMutation) ClearedFields() []string {
 	if m.FieldCleared(jobowner.FieldEmail) {
 		fields = append(fields, jobowner.FieldEmail)
 	}
-	if m.FieldCleared(jobowner.FieldYdsID) {
-		fields = append(fields, jobowner.FieldYdsID)
+	if m.FieldCleared(jobowner.FieldYDSID) {
+		fields = append(fields, jobowner.FieldYDSID)
 	}
 	if m.FieldCleared(jobowner.FieldNote) {
 		fields = append(fields, jobowner.FieldNote)
@@ -12741,11 +13513,11 @@ func (m *JobOwnerMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *JobOwnerMutation) ClearField(name string) error {
 	switch name {
-	case jobowner.FieldTcNo:
-		m.ClearTcNo()
-		return nil
 	case jobowner.FieldAddress:
 		m.ClearAddress()
+		return nil
+	case jobowner.FieldTcNo:
+		m.ClearTcNo()
 		return nil
 	case jobowner.FieldTaxAdmin:
 		m.ClearTaxAdmin()
@@ -12759,8 +13531,8 @@ func (m *JobOwnerMutation) ClearField(name string) error {
 	case jobowner.FieldEmail:
 		m.ClearEmail()
 		return nil
-	case jobowner.FieldYdsID:
-		m.ClearYdsID()
+	case jobowner.FieldYDSID:
+		m.ClearYDSID()
 		return nil
 	case jobowner.FieldNote:
 		m.ClearNote()
@@ -12776,11 +13548,11 @@ func (m *JobOwnerMutation) ResetField(name string) error {
 	case jobowner.FieldName:
 		m.ResetName()
 		return nil
-	case jobowner.FieldTcNo:
-		m.ResetTcNo()
-		return nil
 	case jobowner.FieldAddress:
 		m.ResetAddress()
+		return nil
+	case jobowner.FieldTcNo:
+		m.ResetTcNo()
 		return nil
 	case jobowner.FieldTaxAdmin:
 		m.ResetTaxAdmin()
@@ -12794,8 +13566,11 @@ func (m *JobOwnerMutation) ResetField(name string) error {
 	case jobowner.FieldEmail:
 		m.ResetEmail()
 		return nil
-	case jobowner.FieldYdsID:
-		m.ResetYdsID()
+	case jobowner.FieldYDSID:
+		m.ResetYDSID()
+		return nil
+	case jobowner.FieldShareholder:
+		m.ResetShareholder()
 		return nil
 	case jobowner.FieldNote:
 		m.ResetNote()
@@ -14892,12 +15667,12 @@ type JobSuperVisorMutation struct {
 	_Address             *string
 	_Phone               *string
 	_Email               *string
-	_TCNO                *int
-	add_TCNO             *int
+	_TcNo                *int
+	add_TcNo             *int
 	_Position            *string
 	_Career              *string
-	_RegNo               *int
-	add_RegNo            *int
+	_RegisterNo          *int
+	add_RegisterNo       *int
 	_SocialSecurityNo    *int
 	add_SocialSecurityNo *int
 	_SchoolGraduation    *string
@@ -15208,74 +15983,74 @@ func (m *JobSuperVisorMutation) ResetEmail() {
 	delete(m.clearedFields, jobsupervisor.FieldEmail)
 }
 
-// SetTCNO sets the "TCNO" field.
-func (m *JobSuperVisorMutation) SetTCNO(i int) {
-	m._TCNO = &i
-	m.add_TCNO = nil
+// SetTcNo sets the "TcNo" field.
+func (m *JobSuperVisorMutation) SetTcNo(i int) {
+	m._TcNo = &i
+	m.add_TcNo = nil
 }
 
-// TCNO returns the value of the "TCNO" field in the mutation.
-func (m *JobSuperVisorMutation) TCNO() (r int, exists bool) {
-	v := m._TCNO
+// TcNo returns the value of the "TcNo" field in the mutation.
+func (m *JobSuperVisorMutation) TcNo() (r int, exists bool) {
+	v := m._TcNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTCNO returns the old "TCNO" field's value of the JobSuperVisor entity.
+// OldTcNo returns the old "TcNo" field's value of the JobSuperVisor entity.
 // If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldTCNO(ctx context.Context) (v int, err error) {
+func (m *JobSuperVisorMutation) OldTcNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTCNO is only allowed on UpdateOne operations")
+		return v, errors.New("OldTcNo is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTCNO requires an ID field in the mutation")
+		return v, errors.New("OldTcNo requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTCNO: %w", err)
+		return v, fmt.Errorf("querying old value for OldTcNo: %w", err)
 	}
-	return oldValue.TCNO, nil
+	return oldValue.TcNo, nil
 }
 
-// AddTCNO adds i to the "TCNO" field.
-func (m *JobSuperVisorMutation) AddTCNO(i int) {
-	if m.add_TCNO != nil {
-		*m.add_TCNO += i
+// AddTcNo adds i to the "TcNo" field.
+func (m *JobSuperVisorMutation) AddTcNo(i int) {
+	if m.add_TcNo != nil {
+		*m.add_TcNo += i
 	} else {
-		m.add_TCNO = &i
+		m.add_TcNo = &i
 	}
 }
 
-// AddedTCNO returns the value that was added to the "TCNO" field in this mutation.
-func (m *JobSuperVisorMutation) AddedTCNO() (r int, exists bool) {
-	v := m.add_TCNO
+// AddedTcNo returns the value that was added to the "TcNo" field in this mutation.
+func (m *JobSuperVisorMutation) AddedTcNo() (r int, exists bool) {
+	v := m.add_TcNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ClearTCNO clears the value of the "TCNO" field.
-func (m *JobSuperVisorMutation) ClearTCNO() {
-	m._TCNO = nil
-	m.add_TCNO = nil
-	m.clearedFields[jobsupervisor.FieldTCNO] = struct{}{}
+// ClearTcNo clears the value of the "TcNo" field.
+func (m *JobSuperVisorMutation) ClearTcNo() {
+	m._TcNo = nil
+	m.add_TcNo = nil
+	m.clearedFields[jobsupervisor.FieldTcNo] = struct{}{}
 }
 
-// TCNOCleared returns if the "TCNO" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) TCNOCleared() bool {
-	_, ok := m.clearedFields[jobsupervisor.FieldTCNO]
+// TcNoCleared returns if the "TcNo" field was cleared in this mutation.
+func (m *JobSuperVisorMutation) TcNoCleared() bool {
+	_, ok := m.clearedFields[jobsupervisor.FieldTcNo]
 	return ok
 }
 
-// ResetTCNO resets all changes to the "TCNO" field.
-func (m *JobSuperVisorMutation) ResetTCNO() {
-	m._TCNO = nil
-	m.add_TCNO = nil
-	delete(m.clearedFields, jobsupervisor.FieldTCNO)
+// ResetTcNo resets all changes to the "TcNo" field.
+func (m *JobSuperVisorMutation) ResetTcNo() {
+	m._TcNo = nil
+	m.add_TcNo = nil
+	delete(m.clearedFields, jobsupervisor.FieldTcNo)
 }
 
 // SetPosition sets the "Position" field.
@@ -15376,74 +16151,74 @@ func (m *JobSuperVisorMutation) ResetCareer() {
 	delete(m.clearedFields, jobsupervisor.FieldCareer)
 }
 
-// SetRegNo sets the "RegNo" field.
-func (m *JobSuperVisorMutation) SetRegNo(i int) {
-	m._RegNo = &i
-	m.add_RegNo = nil
+// SetRegisterNo sets the "RegisterNo" field.
+func (m *JobSuperVisorMutation) SetRegisterNo(i int) {
+	m._RegisterNo = &i
+	m.add_RegisterNo = nil
 }
 
-// RegNo returns the value of the "RegNo" field in the mutation.
-func (m *JobSuperVisorMutation) RegNo() (r int, exists bool) {
-	v := m._RegNo
+// RegisterNo returns the value of the "RegisterNo" field in the mutation.
+func (m *JobSuperVisorMutation) RegisterNo() (r int, exists bool) {
+	v := m._RegisterNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldRegNo returns the old "RegNo" field's value of the JobSuperVisor entity.
+// OldRegisterNo returns the old "RegisterNo" field's value of the JobSuperVisor entity.
 // If the JobSuperVisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSuperVisorMutation) OldRegNo(ctx context.Context) (v int, err error) {
+func (m *JobSuperVisorMutation) OldRegisterNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldRegNo is only allowed on UpdateOne operations")
+		return v, errors.New("OldRegisterNo is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldRegNo requires an ID field in the mutation")
+		return v, errors.New("OldRegisterNo requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldRegNo: %w", err)
+		return v, fmt.Errorf("querying old value for OldRegisterNo: %w", err)
 	}
-	return oldValue.RegNo, nil
+	return oldValue.RegisterNo, nil
 }
 
-// AddRegNo adds i to the "RegNo" field.
-func (m *JobSuperVisorMutation) AddRegNo(i int) {
-	if m.add_RegNo != nil {
-		*m.add_RegNo += i
+// AddRegisterNo adds i to the "RegisterNo" field.
+func (m *JobSuperVisorMutation) AddRegisterNo(i int) {
+	if m.add_RegisterNo != nil {
+		*m.add_RegisterNo += i
 	} else {
-		m.add_RegNo = &i
+		m.add_RegisterNo = &i
 	}
 }
 
-// AddedRegNo returns the value that was added to the "RegNo" field in this mutation.
-func (m *JobSuperVisorMutation) AddedRegNo() (r int, exists bool) {
-	v := m.add_RegNo
+// AddedRegisterNo returns the value that was added to the "RegisterNo" field in this mutation.
+func (m *JobSuperVisorMutation) AddedRegisterNo() (r int, exists bool) {
+	v := m.add_RegisterNo
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ClearRegNo clears the value of the "RegNo" field.
-func (m *JobSuperVisorMutation) ClearRegNo() {
-	m._RegNo = nil
-	m.add_RegNo = nil
-	m.clearedFields[jobsupervisor.FieldRegNo] = struct{}{}
+// ClearRegisterNo clears the value of the "RegisterNo" field.
+func (m *JobSuperVisorMutation) ClearRegisterNo() {
+	m._RegisterNo = nil
+	m.add_RegisterNo = nil
+	m.clearedFields[jobsupervisor.FieldRegisterNo] = struct{}{}
 }
 
-// RegNoCleared returns if the "RegNo" field was cleared in this mutation.
-func (m *JobSuperVisorMutation) RegNoCleared() bool {
-	_, ok := m.clearedFields[jobsupervisor.FieldRegNo]
+// RegisterNoCleared returns if the "RegisterNo" field was cleared in this mutation.
+func (m *JobSuperVisorMutation) RegisterNoCleared() bool {
+	_, ok := m.clearedFields[jobsupervisor.FieldRegisterNo]
 	return ok
 }
 
-// ResetRegNo resets all changes to the "RegNo" field.
-func (m *JobSuperVisorMutation) ResetRegNo() {
-	m._RegNo = nil
-	m.add_RegNo = nil
-	delete(m.clearedFields, jobsupervisor.FieldRegNo)
+// ResetRegisterNo resets all changes to the "RegisterNo" field.
+func (m *JobSuperVisorMutation) ResetRegisterNo() {
+	m._RegisterNo = nil
+	m.add_RegisterNo = nil
+	delete(m.clearedFields, jobsupervisor.FieldRegisterNo)
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
@@ -15808,8 +16583,8 @@ func (m *JobSuperVisorMutation) Fields() []string {
 	if m._Email != nil {
 		fields = append(fields, jobsupervisor.FieldEmail)
 	}
-	if m._TCNO != nil {
-		fields = append(fields, jobsupervisor.FieldTCNO)
+	if m._TcNo != nil {
+		fields = append(fields, jobsupervisor.FieldTcNo)
 	}
 	if m._Position != nil {
 		fields = append(fields, jobsupervisor.FieldPosition)
@@ -15817,8 +16592,8 @@ func (m *JobSuperVisorMutation) Fields() []string {
 	if m._Career != nil {
 		fields = append(fields, jobsupervisor.FieldCareer)
 	}
-	if m._RegNo != nil {
-		fields = append(fields, jobsupervisor.FieldRegNo)
+	if m._RegisterNo != nil {
+		fields = append(fields, jobsupervisor.FieldRegisterNo)
 	}
 	if m._SocialSecurityNo != nil {
 		fields = append(fields, jobsupervisor.FieldSocialSecurityNo)
@@ -15851,14 +16626,14 @@ func (m *JobSuperVisorMutation) Field(name string) (ent.Value, bool) {
 		return m.Phone()
 	case jobsupervisor.FieldEmail:
 		return m.Email()
-	case jobsupervisor.FieldTCNO:
-		return m.TCNO()
+	case jobsupervisor.FieldTcNo:
+		return m.TcNo()
 	case jobsupervisor.FieldPosition:
 		return m.Position()
 	case jobsupervisor.FieldCareer:
 		return m.Career()
-	case jobsupervisor.FieldRegNo:
-		return m.RegNo()
+	case jobsupervisor.FieldRegisterNo:
+		return m.RegisterNo()
 	case jobsupervisor.FieldSocialSecurityNo:
 		return m.SocialSecurityNo()
 	case jobsupervisor.FieldSchoolGraduation:
@@ -15886,14 +16661,14 @@ func (m *JobSuperVisorMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldPhone(ctx)
 	case jobsupervisor.FieldEmail:
 		return m.OldEmail(ctx)
-	case jobsupervisor.FieldTCNO:
-		return m.OldTCNO(ctx)
+	case jobsupervisor.FieldTcNo:
+		return m.OldTcNo(ctx)
 	case jobsupervisor.FieldPosition:
 		return m.OldPosition(ctx)
 	case jobsupervisor.FieldCareer:
 		return m.OldCareer(ctx)
-	case jobsupervisor.FieldRegNo:
-		return m.OldRegNo(ctx)
+	case jobsupervisor.FieldRegisterNo:
+		return m.OldRegisterNo(ctx)
 	case jobsupervisor.FieldSocialSecurityNo:
 		return m.OldSocialSecurityNo(ctx)
 	case jobsupervisor.FieldSchoolGraduation:
@@ -15941,12 +16716,12 @@ func (m *JobSuperVisorMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetEmail(v)
 		return nil
-	case jobsupervisor.FieldTCNO:
+	case jobsupervisor.FieldTcNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTCNO(v)
+		m.SetTcNo(v)
 		return nil
 	case jobsupervisor.FieldPosition:
 		v, ok := value.(string)
@@ -15962,12 +16737,12 @@ func (m *JobSuperVisorMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCareer(v)
 		return nil
-	case jobsupervisor.FieldRegNo:
+	case jobsupervisor.FieldRegisterNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetRegNo(v)
+		m.SetRegisterNo(v)
 		return nil
 	case jobsupervisor.FieldSocialSecurityNo:
 		v, ok := value.(int)
@@ -16012,11 +16787,11 @@ func (m *JobSuperVisorMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *JobSuperVisorMutation) AddedFields() []string {
 	var fields []string
-	if m.add_TCNO != nil {
-		fields = append(fields, jobsupervisor.FieldTCNO)
+	if m.add_TcNo != nil {
+		fields = append(fields, jobsupervisor.FieldTcNo)
 	}
-	if m.add_RegNo != nil {
-		fields = append(fields, jobsupervisor.FieldRegNo)
+	if m.add_RegisterNo != nil {
+		fields = append(fields, jobsupervisor.FieldRegisterNo)
 	}
 	if m.add_SocialSecurityNo != nil {
 		fields = append(fields, jobsupervisor.FieldSocialSecurityNo)
@@ -16032,10 +16807,10 @@ func (m *JobSuperVisorMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *JobSuperVisorMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case jobsupervisor.FieldTCNO:
-		return m.AddedTCNO()
-	case jobsupervisor.FieldRegNo:
-		return m.AddedRegNo()
+	case jobsupervisor.FieldTcNo:
+		return m.AddedTcNo()
+	case jobsupervisor.FieldRegisterNo:
+		return m.AddedRegisterNo()
 	case jobsupervisor.FieldSocialSecurityNo:
 		return m.AddedSocialSecurityNo()
 	case jobsupervisor.FieldYDSID:
@@ -16049,19 +16824,19 @@ func (m *JobSuperVisorMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *JobSuperVisorMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case jobsupervisor.FieldTCNO:
+	case jobsupervisor.FieldTcNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddTCNO(v)
+		m.AddTcNo(v)
 		return nil
-	case jobsupervisor.FieldRegNo:
+	case jobsupervisor.FieldRegisterNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddRegNo(v)
+		m.AddRegisterNo(v)
 		return nil
 	case jobsupervisor.FieldSocialSecurityNo:
 		v, ok := value.(int)
@@ -16097,8 +16872,8 @@ func (m *JobSuperVisorMutation) ClearedFields() []string {
 	if m.FieldCleared(jobsupervisor.FieldEmail) {
 		fields = append(fields, jobsupervisor.FieldEmail)
 	}
-	if m.FieldCleared(jobsupervisor.FieldTCNO) {
-		fields = append(fields, jobsupervisor.FieldTCNO)
+	if m.FieldCleared(jobsupervisor.FieldTcNo) {
+		fields = append(fields, jobsupervisor.FieldTcNo)
 	}
 	if m.FieldCleared(jobsupervisor.FieldPosition) {
 		fields = append(fields, jobsupervisor.FieldPosition)
@@ -16106,8 +16881,8 @@ func (m *JobSuperVisorMutation) ClearedFields() []string {
 	if m.FieldCleared(jobsupervisor.FieldCareer) {
 		fields = append(fields, jobsupervisor.FieldCareer)
 	}
-	if m.FieldCleared(jobsupervisor.FieldRegNo) {
-		fields = append(fields, jobsupervisor.FieldRegNo)
+	if m.FieldCleared(jobsupervisor.FieldRegisterNo) {
+		fields = append(fields, jobsupervisor.FieldRegisterNo)
 	}
 	if m.FieldCleared(jobsupervisor.FieldSocialSecurityNo) {
 		fields = append(fields, jobsupervisor.FieldSocialSecurityNo)
@@ -16144,8 +16919,8 @@ func (m *JobSuperVisorMutation) ClearField(name string) error {
 	case jobsupervisor.FieldEmail:
 		m.ClearEmail()
 		return nil
-	case jobsupervisor.FieldTCNO:
-		m.ClearTCNO()
+	case jobsupervisor.FieldTcNo:
+		m.ClearTcNo()
 		return nil
 	case jobsupervisor.FieldPosition:
 		m.ClearPosition()
@@ -16153,8 +16928,8 @@ func (m *JobSuperVisorMutation) ClearField(name string) error {
 	case jobsupervisor.FieldCareer:
 		m.ClearCareer()
 		return nil
-	case jobsupervisor.FieldRegNo:
-		m.ClearRegNo()
+	case jobsupervisor.FieldRegisterNo:
+		m.ClearRegisterNo()
 		return nil
 	case jobsupervisor.FieldSocialSecurityNo:
 		m.ClearSocialSecurityNo()
@@ -16185,8 +16960,8 @@ func (m *JobSuperVisorMutation) ResetField(name string) error {
 	case jobsupervisor.FieldEmail:
 		m.ResetEmail()
 		return nil
-	case jobsupervisor.FieldTCNO:
-		m.ResetTCNO()
+	case jobsupervisor.FieldTcNo:
+		m.ResetTcNo()
 		return nil
 	case jobsupervisor.FieldPosition:
 		m.ResetPosition()
@@ -16194,8 +16969,8 @@ func (m *JobSuperVisorMutation) ResetField(name string) error {
 	case jobsupervisor.FieldCareer:
 		m.ResetCareer()
 		return nil
-	case jobsupervisor.FieldRegNo:
-		m.ResetRegNo()
+	case jobsupervisor.FieldRegisterNo:
+		m.ResetRegisterNo()
 		return nil
 	case jobsupervisor.FieldSocialSecurityNo:
 		m.ResetSocialSecurityNo()

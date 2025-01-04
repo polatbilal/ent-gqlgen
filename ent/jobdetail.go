@@ -26,32 +26,36 @@ type JobDetail struct {
 	ID int `json:"id,omitempty"`
 	// YibfNo holds the value of the "YibfNo" field.
 	YibfNo int `json:"YibfNo,omitempty"`
-	// Idare holds the value of the "Idare" field.
-	Idare string `json:"Idare,omitempty"`
-	// Pafta holds the value of the "Pafta" field.
-	Pafta string `json:"Pafta,omitempty"`
-	// Ada holds the value of the "Ada" field.
-	Ada string `json:"Ada,omitempty"`
-	// Parsel holds the value of the "Parsel" field.
-	Parsel string `json:"Parsel,omitempty"`
-	// FolderNo holds the value of the "FolderNo" field.
-	FolderNo string `json:"FolderNo,omitempty"`
-	// Status holds the value of the "Status" field.
-	Status int `json:"Status,omitempty"`
+	// Title holds the value of the "Title" field.
+	Title string `json:"Title,omitempty"`
+	// Administration holds the value of the "Administration" field.
+	Administration string `json:"Administration,omitempty"`
 	// State holds the value of the "State" field.
 	State string `json:"State,omitempty"`
+	// Island holds the value of the "Island" field.
+	Island string `json:"Island,omitempty"`
+	// Parcel holds the value of the "Parcel" field.
+	Parcel string `json:"Parcel,omitempty"`
+	// Sheet holds the value of the "Sheet" field.
+	Sheet string `json:"Sheet,omitempty"`
 	// ContractDate holds the value of the "ContractDate" field.
 	ContractDate time.Time `json:"ContractDate,omitempty"`
-	// CompletionDate holds the value of the "CompletionDate" field.
-	CompletionDate time.Time `json:"CompletionDate,omitempty"`
 	// StartDate holds the value of the "StartDate" field.
 	StartDate time.Time `json:"StartDate,omitempty"`
 	// LicenseDate holds the value of the "LicenseDate" field.
 	LicenseDate time.Time `json:"LicenseDate,omitempty"`
 	// LicenseNo holds the value of the "LicenseNo" field.
 	LicenseNo string `json:"LicenseNo,omitempty"`
+	// CompletionDate holds the value of the "CompletionDate" field.
+	CompletionDate time.Time `json:"CompletionDate,omitempty"`
+	// LandArea holds the value of the "LandArea" field.
+	LandArea float64 `json:"LandArea,omitempty"`
+	// TotalArea holds the value of the "TotalArea" field.
+	TotalArea float64 `json:"TotalArea,omitempty"`
 	// ConstructionArea holds the value of the "ConstructionArea" field.
-	ConstructionArea string `json:"ConstructionArea,omitempty"`
+	ConstructionArea float64 `json:"ConstructionArea,omitempty"`
+	// LeftArea holds the value of the "LeftArea" field.
+	LeftArea float64 `json:"LeftArea,omitempty"`
 	// YDSAddress holds the value of the "YDSAddress" field.
 	YDSAddress string `json:"YDSAddress,omitempty"`
 	// Address holds the value of the "Address" field.
@@ -64,18 +68,26 @@ type JobDetail struct {
 	Level float64 `json:"Level,omitempty"`
 	// UnitPrice holds the value of the "UnitPrice" field.
 	UnitPrice float64 `json:"UnitPrice,omitempty"`
-	// LandArea holds the value of the "LandArea" field.
-	LandArea string `json:"LandArea,omitempty"`
-	// Floors holds the value of the "Floors" field.
-	Floors int `json:"Floors,omitempty"`
-	// UsagePurpose holds the value of the "UsagePurpose" field.
-	UsagePurpose string `json:"UsagePurpose,omitempty"`
-	// Note holds the value of the "Note" field.
-	Note string `json:"Note,omitempty"`
+	// FloorCount holds the value of the "FloorCount" field.
+	FloorCount int `json:"FloorCount,omitempty"`
+	// BKSReferenceNo holds the value of the "BKSReferenceNo" field.
+	BKSReferenceNo int `json:"BKSReferenceNo,omitempty"`
 	// Coordinates holds the value of the "Coordinates" field.
 	Coordinates string `json:"Coordinates,omitempty"`
-	// Started holds the value of the "Started" field.
-	Started int `json:"Started,omitempty"`
+	// FolderNo holds the value of the "FolderNo" field.
+	FolderNo string `json:"FolderNo,omitempty"`
+	// UploadedFile holds the value of the "UploadedFile" field.
+	UploadedFile bool `json:"UploadedFile,omitempty"`
+	// IndustryArea holds the value of the "IndustryArea" field.
+	IndustryArea bool `json:"IndustryArea,omitempty"`
+	// ClusterStructure holds the value of the "ClusterStructure" field.
+	ClusterStructure bool `json:"ClusterStructure,omitempty"`
+	// IsLicenseExpired holds the value of the "IsLicenseExpired" field.
+	IsLicenseExpired bool `json:"IsLicenseExpired,omitempty"`
+	// IsCompleted holds the value of the "IsCompleted" field.
+	IsCompleted bool `json:"IsCompleted,omitempty"`
+	// Note holds the value of the "Note" field.
+	Note string `json:"Note,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -321,13 +333,15 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobdetail.FieldLevel, jobdetail.FieldUnitPrice:
+		case jobdetail.FieldUploadedFile, jobdetail.FieldIndustryArea, jobdetail.FieldClusterStructure, jobdetail.FieldIsLicenseExpired, jobdetail.FieldIsCompleted:
+			values[i] = new(sql.NullBool)
+		case jobdetail.FieldLandArea, jobdetail.FieldTotalArea, jobdetail.FieldConstructionArea, jobdetail.FieldLeftArea, jobdetail.FieldLevel, jobdetail.FieldUnitPrice:
 			values[i] = new(sql.NullFloat64)
-		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldStatus, jobdetail.FieldFloors, jobdetail.FieldStarted:
+		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldFloorCount, jobdetail.FieldBKSReferenceNo:
 			values[i] = new(sql.NullInt64)
-		case jobdetail.FieldIdare, jobdetail.FieldPafta, jobdetail.FieldAda, jobdetail.FieldParsel, jobdetail.FieldFolderNo, jobdetail.FieldState, jobdetail.FieldLicenseNo, jobdetail.FieldConstructionArea, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldLandArea, jobdetail.FieldUsagePurpose, jobdetail.FieldNote, jobdetail.FieldCoordinates:
+		case jobdetail.FieldTitle, jobdetail.FieldAdministration, jobdetail.FieldState, jobdetail.FieldIsland, jobdetail.FieldParcel, jobdetail.FieldSheet, jobdetail.FieldLicenseNo, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldCoordinates, jobdetail.FieldFolderNo, jobdetail.FieldNote:
 			values[i] = new(sql.NullString)
-		case jobdetail.FieldContractDate, jobdetail.FieldCompletionDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
+		case jobdetail.FieldContractDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCompletionDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case jobdetail.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
@@ -384,41 +398,17 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.YibfNo = int(value.Int64)
 			}
-		case jobdetail.FieldIdare:
+		case jobdetail.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Idare", values[i])
+				return fmt.Errorf("unexpected type %T for field Title", values[i])
 			} else if value.Valid {
-				jd.Idare = value.String
+				jd.Title = value.String
 			}
-		case jobdetail.FieldPafta:
+		case jobdetail.FieldAdministration:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Pafta", values[i])
+				return fmt.Errorf("unexpected type %T for field Administration", values[i])
 			} else if value.Valid {
-				jd.Pafta = value.String
-			}
-		case jobdetail.FieldAda:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Ada", values[i])
-			} else if value.Valid {
-				jd.Ada = value.String
-			}
-		case jobdetail.FieldParsel:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Parsel", values[i])
-			} else if value.Valid {
-				jd.Parsel = value.String
-			}
-		case jobdetail.FieldFolderNo:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field FolderNo", values[i])
-			} else if value.Valid {
-				jd.FolderNo = value.String
-			}
-		case jobdetail.FieldStatus:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Status", values[i])
-			} else if value.Valid {
-				jd.Status = int(value.Int64)
+				jd.Administration = value.String
 			}
 		case jobdetail.FieldState:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -426,17 +416,29 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.State = value.String
 			}
+		case jobdetail.FieldIsland:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Island", values[i])
+			} else if value.Valid {
+				jd.Island = value.String
+			}
+		case jobdetail.FieldParcel:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Parcel", values[i])
+			} else if value.Valid {
+				jd.Parcel = value.String
+			}
+		case jobdetail.FieldSheet:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Sheet", values[i])
+			} else if value.Valid {
+				jd.Sheet = value.String
+			}
 		case jobdetail.FieldContractDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field ContractDate", values[i])
 			} else if value.Valid {
 				jd.ContractDate = value.Time
-			}
-		case jobdetail.FieldCompletionDate:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field CompletionDate", values[i])
-			} else if value.Valid {
-				jd.CompletionDate = value.Time
 			}
 		case jobdetail.FieldStartDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -456,11 +458,35 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.LicenseNo = value.String
 			}
+		case jobdetail.FieldCompletionDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field CompletionDate", values[i])
+			} else if value.Valid {
+				jd.CompletionDate = value.Time
+			}
+		case jobdetail.FieldLandArea:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field LandArea", values[i])
+			} else if value.Valid {
+				jd.LandArea = value.Float64
+			}
+		case jobdetail.FieldTotalArea:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field TotalArea", values[i])
+			} else if value.Valid {
+				jd.TotalArea = value.Float64
+			}
 		case jobdetail.FieldConstructionArea:
-			if value, ok := values[i].(*sql.NullString); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field ConstructionArea", values[i])
 			} else if value.Valid {
-				jd.ConstructionArea = value.String
+				jd.ConstructionArea = value.Float64
+			}
+		case jobdetail.FieldLeftArea:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field LeftArea", values[i])
+			} else if value.Valid {
+				jd.LeftArea = value.Float64
 			}
 		case jobdetail.FieldYDSAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -498,29 +524,17 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.UnitPrice = value.Float64
 			}
-		case jobdetail.FieldLandArea:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field LandArea", values[i])
-			} else if value.Valid {
-				jd.LandArea = value.String
-			}
-		case jobdetail.FieldFloors:
+		case jobdetail.FieldFloorCount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Floors", values[i])
+				return fmt.Errorf("unexpected type %T for field FloorCount", values[i])
 			} else if value.Valid {
-				jd.Floors = int(value.Int64)
+				jd.FloorCount = int(value.Int64)
 			}
-		case jobdetail.FieldUsagePurpose:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field UsagePurpose", values[i])
+		case jobdetail.FieldBKSReferenceNo:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field BKSReferenceNo", values[i])
 			} else if value.Valid {
-				jd.UsagePurpose = value.String
-			}
-		case jobdetail.FieldNote:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Note", values[i])
-			} else if value.Valid {
-				jd.Note = value.String
+				jd.BKSReferenceNo = int(value.Int64)
 			}
 		case jobdetail.FieldCoordinates:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -528,11 +542,47 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jd.Coordinates = value.String
 			}
-		case jobdetail.FieldStarted:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Started", values[i])
+		case jobdetail.FieldFolderNo:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field FolderNo", values[i])
 			} else if value.Valid {
-				jd.Started = int(value.Int64)
+				jd.FolderNo = value.String
+			}
+		case jobdetail.FieldUploadedFile:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field UploadedFile", values[i])
+			} else if value.Valid {
+				jd.UploadedFile = value.Bool
+			}
+		case jobdetail.FieldIndustryArea:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field IndustryArea", values[i])
+			} else if value.Valid {
+				jd.IndustryArea = value.Bool
+			}
+		case jobdetail.FieldClusterStructure:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field ClusterStructure", values[i])
+			} else if value.Valid {
+				jd.ClusterStructure = value.Bool
+			}
+		case jobdetail.FieldIsLicenseExpired:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field IsLicenseExpired", values[i])
+			} else if value.Valid {
+				jd.IsLicenseExpired = value.Bool
+			}
+		case jobdetail.FieldIsCompleted:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field IsCompleted", values[i])
+			} else if value.Valid {
+				jd.IsCompleted = value.Bool
+			}
+		case jobdetail.FieldNote:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Note", values[i])
+			} else if value.Valid {
+				jd.Note = value.String
 			}
 		case jobdetail.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -763,32 +813,26 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("YibfNo=")
 	builder.WriteString(fmt.Sprintf("%v", jd.YibfNo))
 	builder.WriteString(", ")
-	builder.WriteString("Idare=")
-	builder.WriteString(jd.Idare)
+	builder.WriteString("Title=")
+	builder.WriteString(jd.Title)
 	builder.WriteString(", ")
-	builder.WriteString("Pafta=")
-	builder.WriteString(jd.Pafta)
-	builder.WriteString(", ")
-	builder.WriteString("Ada=")
-	builder.WriteString(jd.Ada)
-	builder.WriteString(", ")
-	builder.WriteString("Parsel=")
-	builder.WriteString(jd.Parsel)
-	builder.WriteString(", ")
-	builder.WriteString("FolderNo=")
-	builder.WriteString(jd.FolderNo)
-	builder.WriteString(", ")
-	builder.WriteString("Status=")
-	builder.WriteString(fmt.Sprintf("%v", jd.Status))
+	builder.WriteString("Administration=")
+	builder.WriteString(jd.Administration)
 	builder.WriteString(", ")
 	builder.WriteString("State=")
 	builder.WriteString(jd.State)
 	builder.WriteString(", ")
+	builder.WriteString("Island=")
+	builder.WriteString(jd.Island)
+	builder.WriteString(", ")
+	builder.WriteString("Parcel=")
+	builder.WriteString(jd.Parcel)
+	builder.WriteString(", ")
+	builder.WriteString("Sheet=")
+	builder.WriteString(jd.Sheet)
+	builder.WriteString(", ")
 	builder.WriteString("ContractDate=")
 	builder.WriteString(jd.ContractDate.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("CompletionDate=")
-	builder.WriteString(jd.CompletionDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("StartDate=")
 	builder.WriteString(jd.StartDate.Format(time.ANSIC))
@@ -799,8 +843,20 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("LicenseNo=")
 	builder.WriteString(jd.LicenseNo)
 	builder.WriteString(", ")
+	builder.WriteString("CompletionDate=")
+	builder.WriteString(jd.CompletionDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("LandArea=")
+	builder.WriteString(fmt.Sprintf("%v", jd.LandArea))
+	builder.WriteString(", ")
+	builder.WriteString("TotalArea=")
+	builder.WriteString(fmt.Sprintf("%v", jd.TotalArea))
+	builder.WriteString(", ")
 	builder.WriteString("ConstructionArea=")
-	builder.WriteString(jd.ConstructionArea)
+	builder.WriteString(fmt.Sprintf("%v", jd.ConstructionArea))
+	builder.WriteString(", ")
+	builder.WriteString("LeftArea=")
+	builder.WriteString(fmt.Sprintf("%v", jd.LeftArea))
 	builder.WriteString(", ")
 	builder.WriteString("YDSAddress=")
 	builder.WriteString(jd.YDSAddress)
@@ -820,23 +876,35 @@ func (jd *JobDetail) String() string {
 	builder.WriteString("UnitPrice=")
 	builder.WriteString(fmt.Sprintf("%v", jd.UnitPrice))
 	builder.WriteString(", ")
-	builder.WriteString("LandArea=")
-	builder.WriteString(jd.LandArea)
+	builder.WriteString("FloorCount=")
+	builder.WriteString(fmt.Sprintf("%v", jd.FloorCount))
 	builder.WriteString(", ")
-	builder.WriteString("Floors=")
-	builder.WriteString(fmt.Sprintf("%v", jd.Floors))
-	builder.WriteString(", ")
-	builder.WriteString("UsagePurpose=")
-	builder.WriteString(jd.UsagePurpose)
-	builder.WriteString(", ")
-	builder.WriteString("Note=")
-	builder.WriteString(jd.Note)
+	builder.WriteString("BKSReferenceNo=")
+	builder.WriteString(fmt.Sprintf("%v", jd.BKSReferenceNo))
 	builder.WriteString(", ")
 	builder.WriteString("Coordinates=")
 	builder.WriteString(jd.Coordinates)
 	builder.WriteString(", ")
-	builder.WriteString("Started=")
-	builder.WriteString(fmt.Sprintf("%v", jd.Started))
+	builder.WriteString("FolderNo=")
+	builder.WriteString(jd.FolderNo)
+	builder.WriteString(", ")
+	builder.WriteString("UploadedFile=")
+	builder.WriteString(fmt.Sprintf("%v", jd.UploadedFile))
+	builder.WriteString(", ")
+	builder.WriteString("IndustryArea=")
+	builder.WriteString(fmt.Sprintf("%v", jd.IndustryArea))
+	builder.WriteString(", ")
+	builder.WriteString("ClusterStructure=")
+	builder.WriteString(fmt.Sprintf("%v", jd.ClusterStructure))
+	builder.WriteString(", ")
+	builder.WriteString("IsLicenseExpired=")
+	builder.WriteString(fmt.Sprintf("%v", jd.IsLicenseExpired))
+	builder.WriteString(", ")
+	builder.WriteString("IsCompleted=")
+	builder.WriteString(fmt.Sprintf("%v", jd.IsCompleted))
+	builder.WriteString(", ")
+	builder.WriteString("Note=")
+	builder.WriteString(jd.Note)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(jd.CreatedAt.Format(time.ANSIC))

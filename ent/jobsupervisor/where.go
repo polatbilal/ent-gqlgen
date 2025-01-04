@@ -75,9 +75,9 @@ func Email(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldEQ(FieldEmail, v))
 }
 
-// TCNO applies equality check predicate on the "TCNO" field. It's identical to TCNOEQ.
-func TCNO(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldTCNO, v))
+// TcNo applies equality check predicate on the "TcNo" field. It's identical to TcNoEQ.
+func TcNo(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldEQ(FieldTcNo, v))
 }
 
 // Position applies equality check predicate on the "Position" field. It's identical to PositionEQ.
@@ -90,9 +90,9 @@ func Career(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldEQ(FieldCareer, v))
 }
 
-// RegNo applies equality check predicate on the "RegNo" field. It's identical to RegNoEQ.
-func RegNo(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldRegNo, v))
+// RegisterNo applies equality check predicate on the "RegisterNo" field. It's identical to RegisterNoEQ.
+func RegisterNo(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldEQ(FieldRegisterNo, v))
 }
 
 // SocialSecurityNo applies equality check predicate on the "SocialSecurityNo" field. It's identical to SocialSecurityNoEQ.
@@ -420,54 +420,54 @@ func EmailContainsFold(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldEmail, v))
 }
 
-// TCNOEQ applies the EQ predicate on the "TCNO" field.
-func TCNOEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldTCNO, v))
+// TcNoEQ applies the EQ predicate on the "TcNo" field.
+func TcNoEQ(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldEQ(FieldTcNo, v))
 }
 
-// TCNONEQ applies the NEQ predicate on the "TCNO" field.
-func TCNONEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldTCNO, v))
+// TcNoNEQ applies the NEQ predicate on the "TcNo" field.
+func TcNoNEQ(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldNEQ(FieldTcNo, v))
 }
 
-// TCNOIn applies the In predicate on the "TCNO" field.
-func TCNOIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldTCNO, vs...))
+// TcNoIn applies the In predicate on the "TcNo" field.
+func TcNoIn(vs ...int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldIn(FieldTcNo, vs...))
 }
 
-// TCNONotIn applies the NotIn predicate on the "TCNO" field.
-func TCNONotIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldTCNO, vs...))
+// TcNoNotIn applies the NotIn predicate on the "TcNo" field.
+func TcNoNotIn(vs ...int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldNotIn(FieldTcNo, vs...))
 }
 
-// TCNOGT applies the GT predicate on the "TCNO" field.
-func TCNOGT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldTCNO, v))
+// TcNoGT applies the GT predicate on the "TcNo" field.
+func TcNoGT(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldGT(FieldTcNo, v))
 }
 
-// TCNOGTE applies the GTE predicate on the "TCNO" field.
-func TCNOGTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldTCNO, v))
+// TcNoGTE applies the GTE predicate on the "TcNo" field.
+func TcNoGTE(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldGTE(FieldTcNo, v))
 }
 
-// TCNOLT applies the LT predicate on the "TCNO" field.
-func TCNOLT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldTCNO, v))
+// TcNoLT applies the LT predicate on the "TcNo" field.
+func TcNoLT(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldLT(FieldTcNo, v))
 }
 
-// TCNOLTE applies the LTE predicate on the "TCNO" field.
-func TCNOLTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldTCNO, v))
+// TcNoLTE applies the LTE predicate on the "TcNo" field.
+func TcNoLTE(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldLTE(FieldTcNo, v))
 }
 
-// TCNOIsNil applies the IsNil predicate on the "TCNO" field.
-func TCNOIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldTCNO))
+// TcNoIsNil applies the IsNil predicate on the "TcNo" field.
+func TcNoIsNil() predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldIsNull(FieldTcNo))
 }
 
-// TCNONotNil applies the NotNil predicate on the "TCNO" field.
-func TCNONotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldTCNO))
+// TcNoNotNil applies the NotNil predicate on the "TcNo" field.
+func TcNoNotNil() predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldNotNull(FieldTcNo))
 }
 
 // PositionEQ applies the EQ predicate on the "Position" field.
@@ -620,54 +620,54 @@ func CareerContainsFold(v string) predicate.JobSuperVisor {
 	return predicate.JobSuperVisor(sql.FieldContainsFold(FieldCareer, v))
 }
 
-// RegNoEQ applies the EQ predicate on the "RegNo" field.
-func RegNoEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldEQ(FieldRegNo, v))
+// RegisterNoEQ applies the EQ predicate on the "RegisterNo" field.
+func RegisterNoEQ(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldEQ(FieldRegisterNo, v))
 }
 
-// RegNoNEQ applies the NEQ predicate on the "RegNo" field.
-func RegNoNEQ(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNEQ(FieldRegNo, v))
+// RegisterNoNEQ applies the NEQ predicate on the "RegisterNo" field.
+func RegisterNoNEQ(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldNEQ(FieldRegisterNo, v))
 }
 
-// RegNoIn applies the In predicate on the "RegNo" field.
-func RegNoIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIn(FieldRegNo, vs...))
+// RegisterNoIn applies the In predicate on the "RegisterNo" field.
+func RegisterNoIn(vs ...int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldIn(FieldRegisterNo, vs...))
 }
 
-// RegNoNotIn applies the NotIn predicate on the "RegNo" field.
-func RegNoNotIn(vs ...int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotIn(FieldRegNo, vs...))
+// RegisterNoNotIn applies the NotIn predicate on the "RegisterNo" field.
+func RegisterNoNotIn(vs ...int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldNotIn(FieldRegisterNo, vs...))
 }
 
-// RegNoGT applies the GT predicate on the "RegNo" field.
-func RegNoGT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGT(FieldRegNo, v))
+// RegisterNoGT applies the GT predicate on the "RegisterNo" field.
+func RegisterNoGT(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldGT(FieldRegisterNo, v))
 }
 
-// RegNoGTE applies the GTE predicate on the "RegNo" field.
-func RegNoGTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldGTE(FieldRegNo, v))
+// RegisterNoGTE applies the GTE predicate on the "RegisterNo" field.
+func RegisterNoGTE(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldGTE(FieldRegisterNo, v))
 }
 
-// RegNoLT applies the LT predicate on the "RegNo" field.
-func RegNoLT(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLT(FieldRegNo, v))
+// RegisterNoLT applies the LT predicate on the "RegisterNo" field.
+func RegisterNoLT(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldLT(FieldRegisterNo, v))
 }
 
-// RegNoLTE applies the LTE predicate on the "RegNo" field.
-func RegNoLTE(v int) predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldLTE(FieldRegNo, v))
+// RegisterNoLTE applies the LTE predicate on the "RegisterNo" field.
+func RegisterNoLTE(v int) predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldLTE(FieldRegisterNo, v))
 }
 
-// RegNoIsNil applies the IsNil predicate on the "RegNo" field.
-func RegNoIsNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldIsNull(FieldRegNo))
+// RegisterNoIsNil applies the IsNil predicate on the "RegisterNo" field.
+func RegisterNoIsNil() predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldIsNull(FieldRegisterNo))
 }
 
-// RegNoNotNil applies the NotNil predicate on the "RegNo" field.
-func RegNoNotNil() predicate.JobSuperVisor {
-	return predicate.JobSuperVisor(sql.FieldNotNull(FieldRegNo))
+// RegisterNoNotNil applies the NotNil predicate on the "RegisterNo" field.
+func RegisterNoNotNil() predicate.JobSuperVisor {
+	return predicate.JobSuperVisor(sql.FieldNotNull(FieldRegisterNo))
 }
 
 // SocialSecurityNoEQ applies the EQ predicate on the "SocialSecurityNo" field.

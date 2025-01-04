@@ -2,8 +2,8 @@ type JobLayer {
   id: ID!
   Name: String
   Metre: String
-  MoldDate: String
-  ConcreteDate: String
+  MoldDate: Time
+  ConcreteDate: Time
   Samples: Int
   ConcreteClass: String
   WeekResult: String
@@ -14,8 +14,8 @@ type JobLayer {
 input JobLayerInput {
   Name: String
   Metre: String
-  MoldDate: String
-  ConcreteDate: String
+  MoldDate: Time
+  ConcreteDate: Time
   Samples: Int
   ConcreteClass: String
   WeekResult: String

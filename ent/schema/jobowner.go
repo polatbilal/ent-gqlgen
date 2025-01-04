@@ -17,13 +17,14 @@ type JobOwner struct {
 func (JobOwner) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Name").Default(""),
-		field.Int("TcNo").Optional(),
 		field.String("Address").Optional(),
+		field.Int("TcNo").Optional(),
 		field.String("TaxAdmin").Optional(),
 		field.Int("TaxNo").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
-		field.Int("yds_id").Optional(),
+		field.Int("YDSID").Optional(),
+		field.Bool("Shareholder").Default(false),
 		field.String("Note").Optional(),
 
 		field.Time("CreatedAt").Default(time.Now),

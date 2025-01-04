@@ -13,40 +13,11 @@ import (
 	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
-	"github.com/polatbilal/gqlgen-ent/tools"
 )
-
-// VisaDate is the resolver for the VisaDate field.
-func (r *companyDetailResolver) VisaDate(ctx context.Context, obj *ent.CompanyDetail) (*string, error) {
-	if obj.VisaDate.IsZero() {
-		return nil, nil
-	}
-	visaDate := obj.VisaDate.Format("2006-01-02")
-	return &visaDate, nil
-}
-
-// VisaEndDate is the resolver for the VisaEndDate field.
-func (r *companyDetailResolver) VisaEndDate(ctx context.Context, obj *ent.CompanyDetail) (*string, error) {
-	if obj.VisaEndDate.IsZero() {
-		return nil, nil
-	}
-	visaEndDate := obj.VisaEndDate.Format("2006-01-02")
-	return &visaEndDate, nil
-}
 
 // CreateCompany is the resolver for the createCompany field.
 func (r *mutationResolver) CreateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-
-	visaDatePtr, err := tools.ParseDate(input.VisaDate)
-	if err != nil {
-		return nil, fmt.Errorf("visa date dönüşüm hatası: %v", err)
-	}
-
-	visaEndDatePtr, err := tools.ParseDate(input.VisaEndDate)
-	if err != nil {
-		return nil, fmt.Errorf("visa end date dönüşüm hatası: %v", err)
-	}
 
 	createCompany, err := client.CompanyDetail.Create().
 		SetCompanyCode(input.CompanyCode).
@@ -58,9 +29,9 @@ func (r *mutationResolver) CreateCompany(ctx context.Context, input model.Compan
 		SetNillableTaxAdmin(input.TaxAdmin).
 		SetNillableTaxNo(input.TaxNo).
 		SetNillableChamberInfo(input.ChamberInfo).
-		SetNillableChamberRegNo(input.ChamberRegNo).
-		SetNillableVisaDate(visaDatePtr).
-		SetNillableVisaEndDate(visaEndDatePtr).
+		SetNillableChamberRegisterNo(input.ChamberRegisterNo).
+		SetNillableVisaDate(input.VisaDate).
+		SetNillableVisaEndDate(input.VisaEndDate).
 		SetNillableVisaFinishedFor90Days(input.VisaFinishedFor90days).
 		SetNillableCorePersonAbsent90Days(input.CorePersonAbsent90days).
 		SetNillableIsClosed(input.IsClosed).
@@ -69,8 +40,7 @@ func (r *mutationResolver) CreateCompany(ctx context.Context, input model.Compan
 		SetNillableOwnerAddress(input.OwnerAddress).
 		SetNillableOwnerPhone(input.OwnerPhone).
 		SetNillableOwnerEmail(input.OwnerEmail).
-		SetNillableOwnerRegNo(input.OwnerRegNo).
-		SetNillableOwnerBirthDate(input.OwnerBirthDate).
+		SetNillableOwnerRegisterNo(input.OwnerRegisterNo).
 		SetNillableOwnerCareer(input.OwnerCareer).
 		Save(ctx)
 
@@ -84,14 +54,6 @@ func (r *mutationResolver) CreateCompany(ctx context.Context, input model.Compan
 // UpdateCompany is the resolver for the updateCompany field.
 func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	visaDatePtr, err := tools.ParseDate(input.VisaDate)
-	if err != nil {
-		return nil, fmt.Errorf("visa date dönüşüm hatası: %v", err)
-	}
-	visaEndDatePtr, err := tools.ParseDate(input.VisaEndDate)
-	if err != nil {
-		return nil, fmt.Errorf("visa end date dönüşüm hatası: %v", err)
-	}
 
 	company, err := client.CompanyDetail.Query().Where(companydetail.CompanyCodeEQ(input.CompanyCode)).Only(ctx)
 	if err != nil {
@@ -108,9 +70,9 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 		SetNillableTaxAdmin(input.TaxAdmin).
 		SetNillableTaxNo(input.TaxNo).
 		SetNillableChamberInfo(input.ChamberInfo).
-		SetNillableChamberRegNo(input.ChamberRegNo).
-		SetNillableVisaDate(visaDatePtr).
-		SetNillableVisaEndDate(visaEndDatePtr).
+		SetNillableChamberRegisterNo(input.ChamberRegisterNo).
+		SetNillableVisaDate(input.VisaDate).
+		SetNillableVisaEndDate(input.VisaEndDate).
 		SetNillableVisaFinishedFor90Days(input.VisaFinishedFor90days).
 		SetNillableCorePersonAbsent90Days(input.CorePersonAbsent90days).
 		SetNillableIsClosed(input.IsClosed).
@@ -119,8 +81,7 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 		SetNillableOwnerAddress(input.OwnerAddress).
 		SetNillableOwnerPhone(input.OwnerPhone).
 		SetNillableOwnerEmail(input.OwnerEmail).
-		SetNillableOwnerRegNo(input.OwnerRegNo).
-		SetNillableOwnerBirthDate(input.OwnerBirthDate).
+		SetNillableOwnerRegisterNo(input.OwnerRegisterNo).
 		SetNillableOwnerCareer(input.OwnerCareer).
 		Save(ctx)
 
@@ -141,11 +102,7 @@ func (r *queryResolver) CompanyByCode(ctx context.Context, companyCode int) (*en
 	return company, nil
 }
 
-// CompanyDetail returns generated.CompanyDetailResolver implementation.
-func (r *Resolver) CompanyDetail() generated.CompanyDetailResolver { return &companyDetailResolver{r} }
-
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
-type companyDetailResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

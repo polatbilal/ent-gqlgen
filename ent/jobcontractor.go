@@ -21,20 +21,22 @@ type JobContractor struct {
 	Name string `json:"Name,omitempty"`
 	// TcNo holds the value of the "TcNo" field.
 	TcNo int `json:"TcNo,omitempty"`
-	// Address holds the value of the "Address" field.
-	Address string `json:"Address,omitempty"`
 	// RegisterNo holds the value of the "RegisterNo" field.
 	RegisterNo int `json:"RegisterNo,omitempty"`
-	// TaxAdmin holds the value of the "TaxAdmin" field.
-	TaxAdmin string `json:"TaxAdmin,omitempty"`
+	// Address holds the value of the "Address" field.
+	Address string `json:"Address,omitempty"`
 	// TaxNo holds the value of the "TaxNo" field.
 	TaxNo int `json:"TaxNo,omitempty"`
+	// MobilePhone holds the value of the "MobilePhone" field.
+	MobilePhone string `json:"MobilePhone,omitempty"`
 	// Phone holds the value of the "Phone" field.
 	Phone string `json:"Phone,omitempty"`
 	// Email holds the value of the "Email" field.
 	Email string `json:"Email,omitempty"`
-	// YdsID holds the value of the "yds_id" field.
-	YdsID int `json:"yds_id,omitempty"`
+	// PersonType holds the value of the "PersonType" field.
+	PersonType string `json:"PersonType,omitempty"`
+	// YDSID holds the value of the "YDSID" field.
+	YDSID int `json:"YDSID,omitempty"`
 	// Note holds the value of the "Note" field.
 	Note string `json:"Note,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
@@ -74,9 +76,9 @@ func (*JobContractor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobcontractor.FieldID, jobcontractor.FieldTcNo, jobcontractor.FieldRegisterNo, jobcontractor.FieldTaxNo, jobcontractor.FieldYdsID:
+		case jobcontractor.FieldID, jobcontractor.FieldTcNo, jobcontractor.FieldRegisterNo, jobcontractor.FieldTaxNo, jobcontractor.FieldYDSID:
 			values[i] = new(sql.NullInt64)
-		case jobcontractor.FieldName, jobcontractor.FieldAddress, jobcontractor.FieldTaxAdmin, jobcontractor.FieldPhone, jobcontractor.FieldEmail, jobcontractor.FieldNote:
+		case jobcontractor.FieldName, jobcontractor.FieldAddress, jobcontractor.FieldMobilePhone, jobcontractor.FieldPhone, jobcontractor.FieldEmail, jobcontractor.FieldPersonType, jobcontractor.FieldNote:
 			values[i] = new(sql.NullString)
 		case jobcontractor.FieldCreatedAt, jobcontractor.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -113,29 +115,29 @@ func (jc *JobContractor) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jc.TcNo = int(value.Int64)
 			}
-		case jobcontractor.FieldAddress:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Address", values[i])
-			} else if value.Valid {
-				jc.Address = value.String
-			}
 		case jobcontractor.FieldRegisterNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
 				jc.RegisterNo = int(value.Int64)
 			}
-		case jobcontractor.FieldTaxAdmin:
+		case jobcontractor.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field TaxAdmin", values[i])
+				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				jc.TaxAdmin = value.String
+				jc.Address = value.String
 			}
 		case jobcontractor.FieldTaxNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
 			} else if value.Valid {
 				jc.TaxNo = int(value.Int64)
+			}
+		case jobcontractor.FieldMobilePhone:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field MobilePhone", values[i])
+			} else if value.Valid {
+				jc.MobilePhone = value.String
 			}
 		case jobcontractor.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -149,11 +151,17 @@ func (jc *JobContractor) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jc.Email = value.String
 			}
-		case jobcontractor.FieldYdsID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field yds_id", values[i])
+		case jobcontractor.FieldPersonType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field PersonType", values[i])
 			} else if value.Valid {
-				jc.YdsID = int(value.Int64)
+				jc.PersonType = value.String
+			}
+		case jobcontractor.FieldYDSID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field YDSID", values[i])
+			} else if value.Valid {
+				jc.YDSID = int(value.Int64)
 			}
 		case jobcontractor.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -220,17 +228,17 @@ func (jc *JobContractor) String() string {
 	builder.WriteString("TcNo=")
 	builder.WriteString(fmt.Sprintf("%v", jc.TcNo))
 	builder.WriteString(", ")
-	builder.WriteString("Address=")
-	builder.WriteString(jc.Address)
-	builder.WriteString(", ")
 	builder.WriteString("RegisterNo=")
 	builder.WriteString(fmt.Sprintf("%v", jc.RegisterNo))
 	builder.WriteString(", ")
-	builder.WriteString("TaxAdmin=")
-	builder.WriteString(jc.TaxAdmin)
+	builder.WriteString("Address=")
+	builder.WriteString(jc.Address)
 	builder.WriteString(", ")
 	builder.WriteString("TaxNo=")
 	builder.WriteString(fmt.Sprintf("%v", jc.TaxNo))
+	builder.WriteString(", ")
+	builder.WriteString("MobilePhone=")
+	builder.WriteString(jc.MobilePhone)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
 	builder.WriteString(jc.Phone)
@@ -238,8 +246,11 @@ func (jc *JobContractor) String() string {
 	builder.WriteString("Email=")
 	builder.WriteString(jc.Email)
 	builder.WriteString(", ")
-	builder.WriteString("yds_id=")
-	builder.WriteString(fmt.Sprintf("%v", jc.YdsID))
+	builder.WriteString("PersonType=")
+	builder.WriteString(jc.PersonType)
+	builder.WriteString(", ")
+	builder.WriteString("YDSID=")
+	builder.WriteString(fmt.Sprintf("%v", jc.YDSID))
 	builder.WriteString(", ")
 	builder.WriteString("Note=")
 	builder.WriteString(jc.Note)

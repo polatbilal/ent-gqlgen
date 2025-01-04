@@ -18,20 +18,22 @@ const (
 	FieldName = "name"
 	// FieldTcNo holds the string denoting the tcno field in the database.
 	FieldTcNo = "tc_no"
-	// FieldAddress holds the string denoting the address field in the database.
-	FieldAddress = "address"
 	// FieldRegisterNo holds the string denoting the registerno field in the database.
 	FieldRegisterNo = "register_no"
-	// FieldTaxAdmin holds the string denoting the taxadmin field in the database.
-	FieldTaxAdmin = "tax_admin"
+	// FieldAddress holds the string denoting the address field in the database.
+	FieldAddress = "address"
 	// FieldTaxNo holds the string denoting the taxno field in the database.
 	FieldTaxNo = "tax_no"
+	// FieldMobilePhone holds the string denoting the mobilephone field in the database.
+	FieldMobilePhone = "mobile_phone"
 	// FieldPhone holds the string denoting the phone field in the database.
 	FieldPhone = "phone"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
-	// FieldYdsID holds the string denoting the yds_id field in the database.
-	FieldYdsID = "yds_id"
+	// FieldPersonType holds the string denoting the persontype field in the database.
+	FieldPersonType = "person_type"
+	// FieldYDSID holds the string denoting the ydsid field in the database.
+	FieldYDSID = "ydsid"
 	// FieldNote holds the string denoting the note field in the database.
 	FieldNote = "note"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
@@ -56,13 +58,14 @@ var Columns = []string{
 	FieldID,
 	FieldName,
 	FieldTcNo,
-	FieldAddress,
 	FieldRegisterNo,
-	FieldTaxAdmin,
+	FieldAddress,
 	FieldTaxNo,
+	FieldMobilePhone,
 	FieldPhone,
 	FieldEmail,
-	FieldYdsID,
+	FieldPersonType,
+	FieldYDSID,
 	FieldNote,
 	FieldCreatedAt,
 	FieldUpdatedAt,
@@ -107,24 +110,24 @@ func ByTcNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTcNo, opts...).ToFunc()
 }
 
-// ByAddress orders the results by the Address field.
-func ByAddress(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAddress, opts...).ToFunc()
-}
-
 // ByRegisterNo orders the results by the RegisterNo field.
 func ByRegisterNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRegisterNo, opts...).ToFunc()
 }
 
-// ByTaxAdmin orders the results by the TaxAdmin field.
-func ByTaxAdmin(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTaxAdmin, opts...).ToFunc()
+// ByAddress orders the results by the Address field.
+func ByAddress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAddress, opts...).ToFunc()
 }
 
 // ByTaxNo orders the results by the TaxNo field.
 func ByTaxNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTaxNo, opts...).ToFunc()
+}
+
+// ByMobilePhone orders the results by the MobilePhone field.
+func ByMobilePhone(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldMobilePhone, opts...).ToFunc()
 }
 
 // ByPhone orders the results by the Phone field.
@@ -137,9 +140,14 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEmail, opts...).ToFunc()
 }
 
-// ByYdsID orders the results by the yds_id field.
-func ByYdsID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldYdsID, opts...).ToFunc()
+// ByPersonType orders the results by the PersonType field.
+func ByPersonType(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPersonType, opts...).ToFunc()
+}
+
+// ByYDSID orders the results by the YDSID field.
+func ByYDSID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSID, opts...).ToFunc()
 }
 
 // ByNote orders the results by the Note field.

@@ -109,30 +109,30 @@ func (jsvu *JobSuperVisorUpdate) ClearEmail() *JobSuperVisorUpdate {
 	return jsvu
 }
 
-// SetTCNO sets the "TCNO" field.
-func (jsvu *JobSuperVisorUpdate) SetTCNO(i int) *JobSuperVisorUpdate {
-	jsvu.mutation.ResetTCNO()
-	jsvu.mutation.SetTCNO(i)
+// SetTcNo sets the "TcNo" field.
+func (jsvu *JobSuperVisorUpdate) SetTcNo(i int) *JobSuperVisorUpdate {
+	jsvu.mutation.ResetTcNo()
+	jsvu.mutation.SetTcNo(i)
 	return jsvu
 }
 
-// SetNillableTCNO sets the "TCNO" field if the given value is not nil.
-func (jsvu *JobSuperVisorUpdate) SetNillableTCNO(i *int) *JobSuperVisorUpdate {
+// SetNillableTcNo sets the "TcNo" field if the given value is not nil.
+func (jsvu *JobSuperVisorUpdate) SetNillableTcNo(i *int) *JobSuperVisorUpdate {
 	if i != nil {
-		jsvu.SetTCNO(*i)
+		jsvu.SetTcNo(*i)
 	}
 	return jsvu
 }
 
-// AddTCNO adds i to the "TCNO" field.
-func (jsvu *JobSuperVisorUpdate) AddTCNO(i int) *JobSuperVisorUpdate {
-	jsvu.mutation.AddTCNO(i)
+// AddTcNo adds i to the "TcNo" field.
+func (jsvu *JobSuperVisorUpdate) AddTcNo(i int) *JobSuperVisorUpdate {
+	jsvu.mutation.AddTcNo(i)
 	return jsvu
 }
 
-// ClearTCNO clears the value of the "TCNO" field.
-func (jsvu *JobSuperVisorUpdate) ClearTCNO() *JobSuperVisorUpdate {
-	jsvu.mutation.ClearTCNO()
+// ClearTcNo clears the value of the "TcNo" field.
+func (jsvu *JobSuperVisorUpdate) ClearTcNo() *JobSuperVisorUpdate {
+	jsvu.mutation.ClearTcNo()
 	return jsvu
 }
 
@@ -176,30 +176,30 @@ func (jsvu *JobSuperVisorUpdate) ClearCareer() *JobSuperVisorUpdate {
 	return jsvu
 }
 
-// SetRegNo sets the "RegNo" field.
-func (jsvu *JobSuperVisorUpdate) SetRegNo(i int) *JobSuperVisorUpdate {
-	jsvu.mutation.ResetRegNo()
-	jsvu.mutation.SetRegNo(i)
+// SetRegisterNo sets the "RegisterNo" field.
+func (jsvu *JobSuperVisorUpdate) SetRegisterNo(i int) *JobSuperVisorUpdate {
+	jsvu.mutation.ResetRegisterNo()
+	jsvu.mutation.SetRegisterNo(i)
 	return jsvu
 }
 
-// SetNillableRegNo sets the "RegNo" field if the given value is not nil.
-func (jsvu *JobSuperVisorUpdate) SetNillableRegNo(i *int) *JobSuperVisorUpdate {
+// SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
+func (jsvu *JobSuperVisorUpdate) SetNillableRegisterNo(i *int) *JobSuperVisorUpdate {
 	if i != nil {
-		jsvu.SetRegNo(*i)
+		jsvu.SetRegisterNo(*i)
 	}
 	return jsvu
 }
 
-// AddRegNo adds i to the "RegNo" field.
-func (jsvu *JobSuperVisorUpdate) AddRegNo(i int) *JobSuperVisorUpdate {
-	jsvu.mutation.AddRegNo(i)
+// AddRegisterNo adds i to the "RegisterNo" field.
+func (jsvu *JobSuperVisorUpdate) AddRegisterNo(i int) *JobSuperVisorUpdate {
+	jsvu.mutation.AddRegisterNo(i)
 	return jsvu
 }
 
-// ClearRegNo clears the value of the "RegNo" field.
-func (jsvu *JobSuperVisorUpdate) ClearRegNo() *JobSuperVisorUpdate {
-	jsvu.mutation.ClearRegNo()
+// ClearRegisterNo clears the value of the "RegisterNo" field.
+func (jsvu *JobSuperVisorUpdate) ClearRegisterNo() *JobSuperVisorUpdate {
+	jsvu.mutation.ClearRegisterNo()
 	return jsvu
 }
 
@@ -407,14 +407,14 @@ func (jsvu *JobSuperVisorUpdate) sqlSave(ctx context.Context) (n int, err error)
 	if jsvu.mutation.EmailCleared() {
 		_spec.ClearField(jobsupervisor.FieldEmail, field.TypeString)
 	}
-	if value, ok := jsvu.mutation.TCNO(); ok {
-		_spec.SetField(jobsupervisor.FieldTCNO, field.TypeInt, value)
+	if value, ok := jsvu.mutation.TcNo(); ok {
+		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeInt, value)
 	}
-	if value, ok := jsvu.mutation.AddedTCNO(); ok {
-		_spec.AddField(jobsupervisor.FieldTCNO, field.TypeInt, value)
+	if value, ok := jsvu.mutation.AddedTcNo(); ok {
+		_spec.AddField(jobsupervisor.FieldTcNo, field.TypeInt, value)
 	}
-	if jsvu.mutation.TCNOCleared() {
-		_spec.ClearField(jobsupervisor.FieldTCNO, field.TypeInt)
+	if jsvu.mutation.TcNoCleared() {
+		_spec.ClearField(jobsupervisor.FieldTcNo, field.TypeInt)
 	}
 	if value, ok := jsvu.mutation.Position(); ok {
 		_spec.SetField(jobsupervisor.FieldPosition, field.TypeString, value)
@@ -428,14 +428,14 @@ func (jsvu *JobSuperVisorUpdate) sqlSave(ctx context.Context) (n int, err error)
 	if jsvu.mutation.CareerCleared() {
 		_spec.ClearField(jobsupervisor.FieldCareer, field.TypeString)
 	}
-	if value, ok := jsvu.mutation.RegNo(); ok {
-		_spec.SetField(jobsupervisor.FieldRegNo, field.TypeInt, value)
+	if value, ok := jsvu.mutation.RegisterNo(); ok {
+		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
 	}
-	if value, ok := jsvu.mutation.AddedRegNo(); ok {
-		_spec.AddField(jobsupervisor.FieldRegNo, field.TypeInt, value)
+	if value, ok := jsvu.mutation.AddedRegisterNo(); ok {
+		_spec.AddField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
 	}
-	if jsvu.mutation.RegNoCleared() {
-		_spec.ClearField(jobsupervisor.FieldRegNo, field.TypeInt)
+	if jsvu.mutation.RegisterNoCleared() {
+		_spec.ClearField(jobsupervisor.FieldRegisterNo, field.TypeInt)
 	}
 	if value, ok := jsvu.mutation.SocialSecurityNo(); ok {
 		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)
@@ -612,30 +612,30 @@ func (jsvuo *JobSuperVisorUpdateOne) ClearEmail() *JobSuperVisorUpdateOne {
 	return jsvuo
 }
 
-// SetTCNO sets the "TCNO" field.
-func (jsvuo *JobSuperVisorUpdateOne) SetTCNO(i int) *JobSuperVisorUpdateOne {
-	jsvuo.mutation.ResetTCNO()
-	jsvuo.mutation.SetTCNO(i)
+// SetTcNo sets the "TcNo" field.
+func (jsvuo *JobSuperVisorUpdateOne) SetTcNo(i int) *JobSuperVisorUpdateOne {
+	jsvuo.mutation.ResetTcNo()
+	jsvuo.mutation.SetTcNo(i)
 	return jsvuo
 }
 
-// SetNillableTCNO sets the "TCNO" field if the given value is not nil.
-func (jsvuo *JobSuperVisorUpdateOne) SetNillableTCNO(i *int) *JobSuperVisorUpdateOne {
+// SetNillableTcNo sets the "TcNo" field if the given value is not nil.
+func (jsvuo *JobSuperVisorUpdateOne) SetNillableTcNo(i *int) *JobSuperVisorUpdateOne {
 	if i != nil {
-		jsvuo.SetTCNO(*i)
+		jsvuo.SetTcNo(*i)
 	}
 	return jsvuo
 }
 
-// AddTCNO adds i to the "TCNO" field.
-func (jsvuo *JobSuperVisorUpdateOne) AddTCNO(i int) *JobSuperVisorUpdateOne {
-	jsvuo.mutation.AddTCNO(i)
+// AddTcNo adds i to the "TcNo" field.
+func (jsvuo *JobSuperVisorUpdateOne) AddTcNo(i int) *JobSuperVisorUpdateOne {
+	jsvuo.mutation.AddTcNo(i)
 	return jsvuo
 }
 
-// ClearTCNO clears the value of the "TCNO" field.
-func (jsvuo *JobSuperVisorUpdateOne) ClearTCNO() *JobSuperVisorUpdateOne {
-	jsvuo.mutation.ClearTCNO()
+// ClearTcNo clears the value of the "TcNo" field.
+func (jsvuo *JobSuperVisorUpdateOne) ClearTcNo() *JobSuperVisorUpdateOne {
+	jsvuo.mutation.ClearTcNo()
 	return jsvuo
 }
 
@@ -679,30 +679,30 @@ func (jsvuo *JobSuperVisorUpdateOne) ClearCareer() *JobSuperVisorUpdateOne {
 	return jsvuo
 }
 
-// SetRegNo sets the "RegNo" field.
-func (jsvuo *JobSuperVisorUpdateOne) SetRegNo(i int) *JobSuperVisorUpdateOne {
-	jsvuo.mutation.ResetRegNo()
-	jsvuo.mutation.SetRegNo(i)
+// SetRegisterNo sets the "RegisterNo" field.
+func (jsvuo *JobSuperVisorUpdateOne) SetRegisterNo(i int) *JobSuperVisorUpdateOne {
+	jsvuo.mutation.ResetRegisterNo()
+	jsvuo.mutation.SetRegisterNo(i)
 	return jsvuo
 }
 
-// SetNillableRegNo sets the "RegNo" field if the given value is not nil.
-func (jsvuo *JobSuperVisorUpdateOne) SetNillableRegNo(i *int) *JobSuperVisorUpdateOne {
+// SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
+func (jsvuo *JobSuperVisorUpdateOne) SetNillableRegisterNo(i *int) *JobSuperVisorUpdateOne {
 	if i != nil {
-		jsvuo.SetRegNo(*i)
+		jsvuo.SetRegisterNo(*i)
 	}
 	return jsvuo
 }
 
-// AddRegNo adds i to the "RegNo" field.
-func (jsvuo *JobSuperVisorUpdateOne) AddRegNo(i int) *JobSuperVisorUpdateOne {
-	jsvuo.mutation.AddRegNo(i)
+// AddRegisterNo adds i to the "RegisterNo" field.
+func (jsvuo *JobSuperVisorUpdateOne) AddRegisterNo(i int) *JobSuperVisorUpdateOne {
+	jsvuo.mutation.AddRegisterNo(i)
 	return jsvuo
 }
 
-// ClearRegNo clears the value of the "RegNo" field.
-func (jsvuo *JobSuperVisorUpdateOne) ClearRegNo() *JobSuperVisorUpdateOne {
-	jsvuo.mutation.ClearRegNo()
+// ClearRegisterNo clears the value of the "RegisterNo" field.
+func (jsvuo *JobSuperVisorUpdateOne) ClearRegisterNo() *JobSuperVisorUpdateOne {
+	jsvuo.mutation.ClearRegisterNo()
 	return jsvuo
 }
 
@@ -940,14 +940,14 @@ func (jsvuo *JobSuperVisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSup
 	if jsvuo.mutation.EmailCleared() {
 		_spec.ClearField(jobsupervisor.FieldEmail, field.TypeString)
 	}
-	if value, ok := jsvuo.mutation.TCNO(); ok {
-		_spec.SetField(jobsupervisor.FieldTCNO, field.TypeInt, value)
+	if value, ok := jsvuo.mutation.TcNo(); ok {
+		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeInt, value)
 	}
-	if value, ok := jsvuo.mutation.AddedTCNO(); ok {
-		_spec.AddField(jobsupervisor.FieldTCNO, field.TypeInt, value)
+	if value, ok := jsvuo.mutation.AddedTcNo(); ok {
+		_spec.AddField(jobsupervisor.FieldTcNo, field.TypeInt, value)
 	}
-	if jsvuo.mutation.TCNOCleared() {
-		_spec.ClearField(jobsupervisor.FieldTCNO, field.TypeInt)
+	if jsvuo.mutation.TcNoCleared() {
+		_spec.ClearField(jobsupervisor.FieldTcNo, field.TypeInt)
 	}
 	if value, ok := jsvuo.mutation.Position(); ok {
 		_spec.SetField(jobsupervisor.FieldPosition, field.TypeString, value)
@@ -961,14 +961,14 @@ func (jsvuo *JobSuperVisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSup
 	if jsvuo.mutation.CareerCleared() {
 		_spec.ClearField(jobsupervisor.FieldCareer, field.TypeString)
 	}
-	if value, ok := jsvuo.mutation.RegNo(); ok {
-		_spec.SetField(jobsupervisor.FieldRegNo, field.TypeInt, value)
+	if value, ok := jsvuo.mutation.RegisterNo(); ok {
+		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
 	}
-	if value, ok := jsvuo.mutation.AddedRegNo(); ok {
-		_spec.AddField(jobsupervisor.FieldRegNo, field.TypeInt, value)
+	if value, ok := jsvuo.mutation.AddedRegisterNo(); ok {
+		_spec.AddField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
 	}
-	if jsvuo.mutation.RegNoCleared() {
-		_spec.ClearField(jobsupervisor.FieldRegNo, field.TypeInt)
+	if jsvuo.mutation.RegisterNoCleared() {
+		_spec.ClearField(jobsupervisor.FieldRegisterNo, field.TypeInt)
 	}
 	if value, ok := jsvuo.mutation.SocialSecurityNo(); ok {
 		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)

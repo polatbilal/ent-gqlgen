@@ -11,19 +11,9 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
-
-// Date is the resolver for the Date field.
-func (r *jobPaymentsResolver) Date(ctx context.Context, obj *ent.JobPayments) (*string, error) {
-	if obj.Date.IsZero() {
-		return nil, nil
-	}
-	date := obj.Date.Format("2006-01-02")
-	return &date, nil
-}
 
 // CreateJobPayments is the resolver for the createJobPayments field.
 func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error) {
@@ -51,8 +41,3 @@ func (r *queryResolver) JobPayments(ctx context.Context, yibfNo int) ([]*ent.Job
 	}
 	return payments, nil
 }
-
-// JobPayments returns generated.JobPaymentsResolver implementation.
-func (r *Resolver) JobPayments() generated.JobPaymentsResolver { return &jobPaymentsResolver{r} }
-
-type jobPaymentsResolver struct{ *Resolver }

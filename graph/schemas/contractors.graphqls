@@ -1,34 +1,39 @@
 # Job Contractor
 type JobContractor {
-  id: ID!
+  id: ID
   Name: String
   TcNo: Int
-  Address: String
   RegisterNo: Int
-  TaxAdmin: String
+  Address: String
   TaxNo: Int
+  MobilePhone: String
   Phone: String
   Email: String
-  YdsId: Int
+  PersonType: String
+  YDSID: Int
   Note: String
 }
 
 input JobContractorInput {
   id: ID
-  Name: String
+  YibfNo: Int!
+  Name: String!
   TcNo: Int
-  Address: String
   RegisterNo: Int
-  TaxAdmin: String
+  Address: String
   TaxNo: Int
+  MobilePhone: String
   Phone: String
   Email: String
-  YdsId: Int
+  PersonType: String
+  YDSID: Int
   Note: String
 }
 
 extend type Query {
   allContractor: [JobContractor]! @goField(forceResolver: true) @auth
+  contractor(YibfNo: Int!): JobContractor! @goField(forceResolver: true) @auth
+  contractorByYDSID(YDSID: Int!): JobContractor! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {

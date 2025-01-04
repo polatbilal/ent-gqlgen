@@ -14,29 +14,9 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/user"
-	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
-	"github.com/polatbilal/gqlgen-ent/tools"
 )
-
-// Employment is the resolver for the Employment field.
-func (r *companyEngineerResolver) Employment(ctx context.Context, obj *ent.CompanyEngineer) (*string, error) {
-	if obj.Employment.IsZero() {
-		return nil, nil
-	}
-	employment := obj.Employment.Format("2006-01-02")
-	return &employment, nil
-}
-
-// Dismissal is the resolver for the Dismissal field.
-func (r *companyEngineerResolver) Dismissal(ctx context.Context, obj *ent.CompanyEngineer) (*string, error) {
-	if obj.Dismissal.IsZero() {
-		return nil, nil
-	}
-	dismissal := obj.Dismissal.Format("2006-01-02")
-	return &dismissal, nil
-}
 
 // CreateEngineer is the resolver for the createEngineer field.
 func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
@@ -45,7 +25,7 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 	// YDSID ile denetçi kontrolü
 	if input.RegNo != nil {
 		exists, err := client.CompanyEngineer.Query().
-			Where(companyengineer.YdsIDEQ(*input.Ydsid)).
+			Where(companyengineer.YDSIDEQ(*input.Ydsid)).
 			Exist(ctx)
 		if err != nil {
 			return nil, fmt.Errorf("denetçi kontrolü yapılırken hata oluştu: %v", err)
@@ -57,37 +37,26 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 
 	// CompanyCode ile şirketi bul
 	company, err := client.CompanyDetail.Query().
-		Where(companydetail.CompanyCodeEQ(input.CompanyCode)).
+		Where(companydetail.CompanyCodeEQ(*input.CompanyCode)).
 		Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %v", input.CompanyCode, err)
-	}
-
-	employmentPtr, err := tools.ParseDate(input.Employment)
-	if err != nil {
-		return nil, fmt.Errorf("employment date dönüşüm hatası: %v", err)
-	}
-
-	dismissalPtr, err := tools.ParseDate(input.Dismissal)
-	if err != nil {
-		return nil, fmt.Errorf("dismissal date dönüşüm hatası: %v", err)
+		return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %v", *input.CompanyCode, err)
 	}
 
 	createEngineer, err := client.CompanyEngineer.Create().
-		SetNillableName(&input.Name).
-		SetCompany(company).
+		SetNillableName(input.Name).
 		SetNillableAddress(input.Address).
 		SetNillableEmail(input.Email).
 		SetNillableTcNo(input.TcNo).
 		SetNillablePhone(input.Phone).
-		SetNillableRegNo(input.RegNo).
+		SetNillableRegisterNo(input.RegNo).
 		SetNillableCertNo(input.CertNo).
 		SetNillableCareer(input.Career).
 		SetNillablePosition(input.Position).
-		SetNillableYdsID(input.Ydsid).
+		SetNillableYDSID(input.Ydsid).
 		SetNillableNote(input.Note).
-		SetNillableEmployment(employmentPtr).
-		SetNillableDismissal(dismissalPtr).
+		SetNillableEmployment(input.Employment).
+		SetCompany(company).
 		Save(ctx)
 
 	if err != nil {
@@ -106,29 +75,18 @@ func (r *mutationResolver) UpdateEngineer(ctx context.Context, id string, input 
 		return nil, fmt.Errorf("failed to convert engineer ID: %v", err)
 	}
 
-	employmentPtr, err := tools.ParseDate(input.Employment)
-	if err != nil {
-		return nil, fmt.Errorf("employment date dönüşüm hatası: %v", err)
-	}
-
-	dismissalPtr, err := tools.ParseDate(input.Dismissal)
-	if err != nil {
-		return nil, fmt.Errorf("dismissal date dönüşüm hatası: %v", err)
-	}
-
 	engineer, err := client.CompanyEngineer.UpdateOneID(engineerID).
-		SetNillableName(&input.Name).
+		SetNillableName(input.Name).
 		SetNillableAddress(input.Address).
 		SetNillableEmail(input.Email).
 		SetNillableTcNo(input.TcNo).
 		SetNillablePhone(input.Phone).
-		SetNillableRegNo(input.RegNo).
+		SetNillableRegisterNo(input.RegNo).
 		SetNillableCertNo(input.CertNo).
 		SetNillableCareer(input.Career).
 		SetNillablePosition(input.Position).
 		SetNillableNote(input.Note).
-		SetNillableEmployment(employmentPtr).
-		SetNillableDismissal(dismissalPtr).
+		SetNillableEmployment(input.Employment).
 		Save(ctx)
 
 	if err != nil {
@@ -175,14 +133,8 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 			}
 			query = query.Where(companyengineer.IDEQ(engineerID))
 		}
-		if filter.Career != nil {
-			query = query.Where(companyengineer.CareerEQ(*filter.Career))
-		}
-		if filter.Position != nil {
-			query = query.Where(companyengineer.PositionEQ(*filter.Position))
-		}
 		if filter.Ydsid != nil {
-			query = query.Where(companyengineer.YdsIDEQ(*filter.Ydsid))
+			query = query.Where(companyengineer.YDSIDEQ(*filter.Ydsid))
 		}
 	}
 
@@ -193,10 +145,3 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 
 	return engineers, nil
 }
-
-// CompanyEngineer returns generated.CompanyEngineerResolver implementation.
-func (r *Resolver) CompanyEngineer() generated.CompanyEngineerResolver {
-	return &companyEngineerResolver{r}
-}
-
-type companyEngineerResolver struct{ *Resolver }

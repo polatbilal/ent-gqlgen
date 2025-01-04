@@ -16,10 +16,10 @@ const (
 	FieldID = "id"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
-	// FieldTcNo holds the string denoting the tcno field in the database.
-	FieldTcNo = "tc_no"
 	// FieldAddress holds the string denoting the address field in the database.
 	FieldAddress = "address"
+	// FieldTcNo holds the string denoting the tcno field in the database.
+	FieldTcNo = "tc_no"
 	// FieldTaxAdmin holds the string denoting the taxadmin field in the database.
 	FieldTaxAdmin = "tax_admin"
 	// FieldTaxNo holds the string denoting the taxno field in the database.
@@ -28,8 +28,10 @@ const (
 	FieldPhone = "phone"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
-	// FieldYdsID holds the string denoting the yds_id field in the database.
-	FieldYdsID = "yds_id"
+	// FieldYDSID holds the string denoting the ydsid field in the database.
+	FieldYDSID = "ydsid"
+	// FieldShareholder holds the string denoting the shareholder field in the database.
+	FieldShareholder = "shareholder"
 	// FieldNote holds the string denoting the note field in the database.
 	FieldNote = "note"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
@@ -53,13 +55,14 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldName,
-	FieldTcNo,
 	FieldAddress,
+	FieldTcNo,
 	FieldTaxAdmin,
 	FieldTaxNo,
 	FieldPhone,
 	FieldEmail,
-	FieldYdsID,
+	FieldYDSID,
+	FieldShareholder,
 	FieldNote,
 	FieldCreatedAt,
 	FieldUpdatedAt,
@@ -78,6 +81,8 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultName holds the default value on creation for the "Name" field.
 	DefaultName string
+	// DefaultShareholder holds the default value on creation for the "Shareholder" field.
+	DefaultShareholder bool
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -99,14 +104,14 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
-// ByTcNo orders the results by the TcNo field.
-func ByTcNo(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTcNo, opts...).ToFunc()
-}
-
 // ByAddress orders the results by the Address field.
 func ByAddress(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAddress, opts...).ToFunc()
+}
+
+// ByTcNo orders the results by the TcNo field.
+func ByTcNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTcNo, opts...).ToFunc()
 }
 
 // ByTaxAdmin orders the results by the TaxAdmin field.
@@ -129,9 +134,14 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEmail, opts...).ToFunc()
 }
 
-// ByYdsID orders the results by the yds_id field.
-func ByYdsID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldYdsID, opts...).ToFunc()
+// ByYDSID orders the results by the YDSID field.
+func ByYDSID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSID, opts...).ToFunc()
+}
+
+// ByShareholder orders the results by the Shareholder field.
+func ByShareholder(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldShareholder, opts...).ToFunc()
 }
 
 // ByNote orders the results by the Note field.

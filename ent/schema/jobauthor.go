@@ -16,11 +16,13 @@ type JobAuthor struct {
 // Fields of the Job_Author.
 func (JobAuthor) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("Architect").Default("").Optional(),
-		field.String("Static").Default("").Optional(),
-		field.String("Mechanic").Default("").Optional(),
-		field.String("Electric").Default("").Optional(),
-		field.String("Floor").Default("").Optional(),
+		field.String("Static").Optional(),
+		field.String("Mechanic").Optional(),
+		field.String("Electric").Optional(),
+		field.String("Architect").Optional(),
+		field.String("GeotechnicalEngineer").Optional(),
+		field.String("GeotechnicalGeologist").Optional(),
+		field.String("GeotechnicalGeophysicist").Optional(),
 
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),

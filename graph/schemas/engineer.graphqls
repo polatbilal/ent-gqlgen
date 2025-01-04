@@ -1,45 +1,42 @@
 type CompanyEngineer {
   id: ID!
-  Name: String!
-  Address: String
-  Email: String
+  Name: String
   TcNo: Int
   Phone: String
-  RegNo: Int
+  Email: String
+  Address: String
+  Career: String
+  Position: String
+  RegisterNo: Int
   CertNo: Int
-  Career: String!
-  Position: String!
   YDSID: Int
-  Employment: String
-  Dismissal: String
-  Note: String
+  Employment: Time
   Status: Int
+  Note: String
   Company: CompanyDetail
 }
 
 input CompanyEngineerInput {
+  CompanyCode: Int
+  YibfNo: Int
   YDSID: Int
-  Name: String!
-  CompanyCode: Int!
-  Address: String
-  Email: String
+  Name: String
   TcNo: Int
   Phone: String
-  RegNo: Int
-  CertNo: Int
+  Email: String
+  Address: String
   Career: String
   Position: String
-  Employment: String
-  Dismissal: String
-  Note: String
+  RegNo: Int
+  CertNo: Int
+  Employment: Time
   Status: Int
+  Note: String
 }
 
 input EngineerFilterInput {
   id: ID
   YDSID: Int
-  career: String
-  position: String
 }
 
 extend type Query {

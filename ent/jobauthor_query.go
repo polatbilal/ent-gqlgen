@@ -302,12 +302,12 @@ func (jaq *JobAuthorQuery) WithAuthors(opts ...func(*JobDetailQuery)) *JobAuthor
 // Example:
 //
 //	var v []struct {
-//		Architect string `json:"Architect,omitempty"`
+//		Static string `json:"Static,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.JobAuthor.Query().
-//		GroupBy(jobauthor.FieldArchitect).
+//		GroupBy(jobauthor.FieldStatic).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (jaq *JobAuthorQuery) GroupBy(field string, fields ...string) *JobAuthorGroupBy {
@@ -325,11 +325,11 @@ func (jaq *JobAuthorQuery) GroupBy(field string, fields ...string) *JobAuthorGro
 // Example:
 //
 //	var v []struct {
-//		Architect string `json:"Architect,omitempty"`
+//		Static string `json:"Static,omitempty"`
 //	}
 //
 //	client.JobAuthor.Query().
-//		Select(jobauthor.FieldArchitect).
+//		Select(jobauthor.FieldStatic).
 //		Scan(ctx, &v)
 func (jaq *JobAuthorQuery) Select(fields ...string) *JobAuthorSelect {
 	jaq.ctx.Fields = append(jaq.ctx.Fields, fields...)

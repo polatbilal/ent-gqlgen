@@ -19,10 +19,10 @@ type JobOwner struct {
 	ID int `json:"id,omitempty"`
 	// Name holds the value of the "Name" field.
 	Name string `json:"Name,omitempty"`
-	// TcNo holds the value of the "TcNo" field.
-	TcNo int `json:"TcNo,omitempty"`
 	// Address holds the value of the "Address" field.
 	Address string `json:"Address,omitempty"`
+	// TcNo holds the value of the "TcNo" field.
+	TcNo int `json:"TcNo,omitempty"`
 	// TaxAdmin holds the value of the "TaxAdmin" field.
 	TaxAdmin string `json:"TaxAdmin,omitempty"`
 	// TaxNo holds the value of the "TaxNo" field.
@@ -31,8 +31,10 @@ type JobOwner struct {
 	Phone string `json:"Phone,omitempty"`
 	// Email holds the value of the "Email" field.
 	Email string `json:"Email,omitempty"`
-	// YdsID holds the value of the "yds_id" field.
-	YdsID int `json:"yds_id,omitempty"`
+	// YDSID holds the value of the "YDSID" field.
+	YDSID int `json:"YDSID,omitempty"`
+	// Shareholder holds the value of the "Shareholder" field.
+	Shareholder bool `json:"Shareholder,omitempty"`
 	// Note holds the value of the "Note" field.
 	Note string `json:"Note,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
@@ -72,7 +74,9 @@ func (*JobOwner) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobowner.FieldID, jobowner.FieldTcNo, jobowner.FieldTaxNo, jobowner.FieldYdsID:
+		case jobowner.FieldShareholder:
+			values[i] = new(sql.NullBool)
+		case jobowner.FieldID, jobowner.FieldTcNo, jobowner.FieldTaxNo, jobowner.FieldYDSID:
 			values[i] = new(sql.NullInt64)
 		case jobowner.FieldName, jobowner.FieldAddress, jobowner.FieldTaxAdmin, jobowner.FieldPhone, jobowner.FieldEmail, jobowner.FieldNote:
 			values[i] = new(sql.NullString)
@@ -105,17 +109,17 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jo.Name = value.String
 			}
-		case jobowner.FieldTcNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
-			} else if value.Valid {
-				jo.TcNo = int(value.Int64)
-			}
 		case jobowner.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
 				jo.Address = value.String
+			}
+		case jobowner.FieldTcNo:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
+			} else if value.Valid {
+				jo.TcNo = int(value.Int64)
 			}
 		case jobowner.FieldTaxAdmin:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -141,11 +145,17 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				jo.Email = value.String
 			}
-		case jobowner.FieldYdsID:
+		case jobowner.FieldYDSID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field yds_id", values[i])
+				return fmt.Errorf("unexpected type %T for field YDSID", values[i])
 			} else if value.Valid {
-				jo.YdsID = int(value.Int64)
+				jo.YDSID = int(value.Int64)
+			}
+		case jobowner.FieldShareholder:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field Shareholder", values[i])
+			} else if value.Valid {
+				jo.Shareholder = value.Bool
 			}
 		case jobowner.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -209,11 +219,11 @@ func (jo *JobOwner) String() string {
 	builder.WriteString("Name=")
 	builder.WriteString(jo.Name)
 	builder.WriteString(", ")
-	builder.WriteString("TcNo=")
-	builder.WriteString(fmt.Sprintf("%v", jo.TcNo))
-	builder.WriteString(", ")
 	builder.WriteString("Address=")
 	builder.WriteString(jo.Address)
+	builder.WriteString(", ")
+	builder.WriteString("TcNo=")
+	builder.WriteString(fmt.Sprintf("%v", jo.TcNo))
 	builder.WriteString(", ")
 	builder.WriteString("TaxAdmin=")
 	builder.WriteString(jo.TaxAdmin)
@@ -227,8 +237,11 @@ func (jo *JobOwner) String() string {
 	builder.WriteString("Email=")
 	builder.WriteString(jo.Email)
 	builder.WriteString(", ")
-	builder.WriteString("yds_id=")
-	builder.WriteString(fmt.Sprintf("%v", jo.YdsID))
+	builder.WriteString("YDSID=")
+	builder.WriteString(fmt.Sprintf("%v", jo.YDSID))
+	builder.WriteString(", ")
+	builder.WriteString("Shareholder=")
+	builder.WriteString(fmt.Sprintf("%v", jo.Shareholder))
 	builder.WriteString(", ")
 	builder.WriteString("Note=")
 	builder.WriteString(jo.Note)

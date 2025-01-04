@@ -168,7 +168,7 @@ func YibfList(c *gin.Context) {
 			continue
 		}
 
-		log.Printf("ID %d için detay yanıtı: %s", item.ID, string(detailBody))
+		// log.Printf("ID %d için detay yanıtı: %s", item.ID, string(detailBody))
 
 		var detail service.YIBFResponse
 		if err := json.Unmarshal(detailBody, &detail); err != nil {
@@ -186,91 +186,97 @@ func YibfList(c *gin.Context) {
 			detail.Parcel)
 
 		// GraphQL mutation'ı için input hazırla
-		mutation := `
-			mutation CreateJob($input: JobInput!) {
-				createJob(input: $input) {
+		// Önce işin var olup olmadığını kontrol et
+		checkQuery := `
+		query CheckJob($yibfNo: Int!) {
+			job(yibfNo: $yibfNo) {
+				id
+				YibfNo
+				Idare
+				Pafta
+				Ada
+				Parsel
+				State
+				ContractDate
+				LicenseDate
+				LicenseNo
+				ConstructionArea
+				LandArea
+				Address
+				BuildingClass
+				BuildingType
+				Floors
+				Level
+				Inspector {
 					id
-					YibfNo
+					YDSID
+				}
+				Static {
+					id
+					YDSID
+				}
+				Architect {
+					id
+					YDSID
+				}
+				Mechanic {
+					id
+					YDSID
+				}
+				Electric {
+					id
+					YDSID
+				}
+				Controller {
+					id
+					YDSID
+				}
+				MechanicController {
+					id
+					YDSID
+				}
+				ElectricController {
+					id
+					YDSID
 				}
 			}
+		}
 		`
 
+		checkVariables := map[string]interface{}{
+			"yibfNo": detail.ID,
+		}
+
+		var checkResult struct {
+			Job map[string]interface{} `json:"job"`
+		}
+
+		err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResult)
+		if err != nil {
+			log.Printf("İş kontrolü sırasında hata oluştu: %v", err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
 		// Input verilerini hazırla
-		input := map[string]interface{}{
-			"input": map[string]interface{}{
-				"YibfNo":           detail.ID,
-				"CompanyCode":      detail.YDK.FileNumber,
-				"Idare":            detail.Administration.Name,
-				"Pafta":            detail.Sheet,
-				"Ada":              detail.Island,
-				"Parsel":           detail.Parcel,
-				"State":            detail.State.Name,
-				"ContractDate":     time.Unix(detail.ContractDate, 0).Format("2006-01-02"),
-				"LicenseDate":      time.Unix(detail.LicenseDate, 0).Format("2006-01-02"),
-				"LicenseNo":        detail.LicenseNumber,
-				"ConstructionArea": fmt.Sprintf("%.2f", detail.YibfStructure.ConstructionArea),
-				"LandArea":         fmt.Sprintf("%.2f", detail.YibfStructure.LeftArea),
-				"Address":          detail.YibfStructure.BuildingAddress,
-				"BuildingClass":    detail.YibfStructure.BuildingClass.Name,
-				"BuildingType":     detail.YibfStructure.CarrierSystemType.Name,
-				"Floors":           detail.YibfStructure.FloorCount,
-				"Level":            detail.Level,
-			},
-		}
-
-		// Supervisor bilgilerini kontrol et ve ekle
-		if detail.LatestYibfSiteSupervisor.Application.Person.ID > 0 {
-			person := detail.LatestYibfSiteSupervisor.Application.Person
-			supervisor := detail.LatestYibfSiteSupervisor.Application
-
-			input["input"].(map[string]interface{})["Inspector"] = person.ID
-			input["input"].(map[string]interface{})["Static"] = person.ID
-			input["input"].(map[string]interface{})["Architect"] = person.ID
-			input["input"].(map[string]interface{})["Mechanic"] = person.ID
-			input["input"].(map[string]interface{})["Electric"] = person.ID
-			input["input"].(map[string]interface{})["Controller"] = person.ID
-			input["input"].(map[string]interface{})["MechanicController"] = person.ID
-			input["input"].(map[string]interface{})["ElectricController"] = person.ID
-
-			if supervisor.Tasks.Name != "" && supervisor.Title.Name != "" {
-				input["input"].(map[string]interface{})["Supervisor"] = map[string]interface{}{
-					"YdsId":            person.ID,
-					"Name":             person.FullName,
-					"Address":          person.LastAddress,
-					"Phone":            person.LastPhoneNumber,
-					"Email":            person.LastEPosta,
-					"Tcno":             person.IdentityNumber,
-					"Position":         supervisor.Tasks.Name,
-					"Career":           supervisor.Title.Name,
-					"RegNo":            supervisor.OccupationalRegistrationNumber,
-					"SocialSecurityNo": supervisor.SocialSecurityNo,
-					"SchoolGraduation": supervisor.SchoolGraduation,
-				}
-			}
-		}
-
-		// Owner bilgilerini kontrol et ve ekle
-		if detail.YibfOwner.Person.ID > 0 {
-			input["input"].(map[string]interface{})["Owner"] = map[string]interface{}{
-				"YdsId": detail.YibfOwner.Person.ID,
-				"Name":  detail.Title,
-				"TcNo":  detail.YibfOwner.Person.IdentityNumber,
-				"Phone": detail.YibfOwner.Person.LastPhoneNumber,
-			}
-		}
-
-		// Contractor bilgilerini kontrol et ve ekle
-		if detail.LatestYibfYambis.Yambis.ID > 0 {
-			yambis := detail.LatestYibfYambis.Yambis
-			input["input"].(map[string]interface{})["Contractor"] = map[string]interface{}{
-				"YdsId":      yambis.ID,
-				"Name":       yambis.AdSoyadUnvan,
-				"TaxNo":      yambis.VergiKimlikNo,
-				"Phone":      yambis.Telefon,
-				"Email":      yambis.Eposta,
-				"Address":    yambis.Adres,
-				"RegisterNo": yambis.Ybno,
-			}
+		jobData := map[string]interface{}{
+			"YibfNo":           detail.ID,
+			"CompanyCode":      detail.YDK.FileNumber,
+			"Idare":            detail.Administration.Name,
+			"Pafta":            detail.Sheet,
+			"Ada":              detail.Island,
+			"Parsel":           detail.Parcel,
+			"State":            detail.State.Name,
+			"ContractDate":     time.Unix(detail.ContractDate, 0).Format("2006-01-02"),
+			"LicenseDate":      time.Unix(detail.LicenseDate, 0).Format("2006-01-02"),
+			"LicenseNo":        detail.LicenseNumber,
+			"ConstructionArea": fmt.Sprintf("%.2f", detail.YibfStructure.ConstructionArea),
+			"LandArea":         fmt.Sprintf("%.2f", detail.YibfStructure.LeftArea),
+			"Address":          detail.YibfStructure.BuildingAddress,
+			"BuildingClass":    detail.YibfStructure.BuildingClass.Name,
+			"BuildingType":     detail.YibfStructure.CarrierSystemType.Name,
+			"Floors":           detail.YibfStructure.FloorCount,
+			"Level":            detail.Level,
 		}
 
 		// Mühendis bilgilerini çek ve ekle
@@ -313,7 +319,10 @@ func YibfList(c *gin.Context) {
 
 		var engineerResponse struct {
 			Items []struct {
-				ID int `json:"id"`
+				YibfId  int `json:"yibfId"`
+				UserId  int `json:"userId"`
+				TaskId  int `json:"taskId"`
+				TitleId int `json:"titleId"`
 			} `json:"items"`
 		}
 
@@ -322,23 +331,174 @@ func YibfList(c *gin.Context) {
 			continue
 		}
 
-		// Eğer mühendis varsa, ilk mühendisin ID'sini al
-		if len(engineerResponse.Items) > 0 {
-			input["input"].(map[string]interface{})["Engineer"] = engineerResponse.Items[0].ID
+		// Her rol için ilgili mühendisi bul ve ata
+		for _, eng := range engineerResponse.Items {
+			// Inspector: taskId = 1 veya (taskId = 2 ve titleId = 4)
+			if eng.TaskId == 1 || (eng.TaskId == 2 && eng.TitleId == 4) {
+				jobData["Inspector"] = eng.UserId
+			}
+
+			// Static: taskId = 2 ve titleId = 4
+			if eng.TaskId == 2 && eng.TitleId == 4 {
+				jobData["Static"] = eng.UserId
+			}
+
+			// Architect: taskId = 2 ve titleId = 3
+			if eng.TaskId == 2 && eng.TitleId == 3 {
+				jobData["Architect"] = eng.UserId
+			}
+
+			// Mechanic: taskId = 2 ve titleId = 2
+			if eng.TaskId == 2 && eng.TitleId == 2 {
+				jobData["Mechanic"] = eng.UserId
+			}
+
+			// Electric: taskId = 2 ve titleId = 1
+			if eng.TaskId == 2 && eng.TitleId == 1 {
+				jobData["Electric"] = eng.UserId
+			}
+
+			// Controller: taskId = 14 ve (titleId = 3 veya titleId = 4)
+			if eng.TaskId == 14 && (eng.TitleId == 3 || eng.TitleId == 4) {
+				jobData["Controller"] = eng.UserId
+			}
+
+			// MechanicController: taskId = 14 ve titleId = 2
+			if eng.TaskId == 14 && eng.TitleId == 2 {
+				jobData["MechanicController"] = eng.UserId
+			}
+
+			// ElectricController: taskId = 14 ve titleId = 1
+			if eng.TaskId == 14 && eng.TitleId == 1 {
+				jobData["ElectricController"] = eng.UserId
+			}
 		}
 
-		log.Printf("GraphQL mutation: %s", mutation)
-		inputJSON, _ := json.MarshalIndent(input, "", "  ")
-		log.Printf("GraphQL input: %s", string(inputJSON))
+		// Supervisor bilgilerini kontrol et ve ekle
+		if detail.LatestYibfSiteSupervisor.Application.Person.ID > 0 {
+			person := detail.LatestYibfSiteSupervisor.Application.Person
+			supervisor := detail.LatestYibfSiteSupervisor.Application
+
+			if supervisor.Tasks.Name != "" && supervisor.Title.Name != "" {
+				jobData["Supervisor"] = map[string]interface{}{
+					"YdsId":            person.ID,
+					"Name":             person.FullName,
+					"Address":          person.LastAddress,
+					"Phone":            person.LastPhoneNumber,
+					"Email":            person.LastEPosta,
+					"Tcno":             person.IdentityNumber,
+					"Position":         supervisor.Tasks.Name,
+					"Career":           supervisor.Title.Name,
+					"RegNo":            supervisor.OccupationalRegistrationNumber,
+					"SocialSecurityNo": supervisor.SocialSecurityNo,
+					"SchoolGraduation": supervisor.SchoolGraduation,
+				}
+			}
+		}
+
+		// Owner bilgilerini kontrol et ve ekle
+		if detail.YibfOwner.Person.ID > 0 {
+			jobData["Owner"] = map[string]interface{}{
+				"YdsId": detail.YibfOwner.Person.ID,
+				"Name":  detail.Title,
+				"TcNo":  detail.YibfOwner.Person.IdentityNumber,
+				"Phone": detail.YibfOwner.Person.LastPhoneNumber,
+			}
+		}
+
+		// Contractor bilgilerini kontrol et ve ekle
+		if detail.LatestYibfYambis.Yambis.ID > 0 {
+			yambis := detail.LatestYibfYambis.Yambis
+			jobData["Contractor"] = map[string]interface{}{
+				"YdsId":      yambis.ID,
+				"Name":       yambis.AdSoyadUnvan,
+				"TaxNo":      yambis.VergiKimlikNo,
+				"Phone":      yambis.Telefon,
+				"Email":      yambis.Eposta,
+				"Address":    yambis.Adres,
+				"RegisterNo": yambis.Ybno,
+			}
+		}
+
+		var mutation string
+		var variables map[string]interface{}
+
+		if checkResult.Job != nil {
+			// İş bulundu, değişiklik kontrolü yap
+			needsUpdate := false
+			existingJob := checkResult.Job
+
+			// Değerleri karşılaştır ve farklılıkları logla
+			for key, newValue := range jobData {
+				if currentValue, exists := existingJob[key]; exists {
+					// Nil değerleri kontrol et
+					if newValue == nil && currentValue == nil {
+						continue
+					}
+
+					// String'e çevirip karşılaştır
+					newStr := fmt.Sprintf("%v", newValue)
+					currentStr := fmt.Sprintf("%v", currentValue)
+
+					if newStr != currentStr {
+						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentStr, newStr)
+						needsUpdate = true
+					}
+				} else {
+					// Eğer alan mevcut değilse ve yeni değer boş değilse güncelleme gerekir
+					if newValue != nil && newValue != "" {
+						log.Printf("Yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
+						needsUpdate = true
+					}
+				}
+			}
+
+			if !needsUpdate {
+				log.Printf("İş verileri güncel, güncelleme yapılmayacak: YibfNo %d", detail.ID)
+				processedIDs = append(processedIDs, item.ID)
+				continue
+			}
+
+			// Değişiklik varsa güncelle
+			mutation = `
+			mutation UpdateJob($yibfNo: Int!, $input: JobInput!) {
+				updateJob(YibfNo: $yibfNo, input: $input) {
+					id
+					YibfNo
+				}
+			}
+			`
+			variables = map[string]interface{}{
+				"yibfNo": detail.ID,
+				"input":  jobData,
+			}
+		} else {
+			// Yeni kayıt oluştur
+			mutation = `
+			mutation CreateJob($input: JobInput!) {
+				createJob(input: $input) {
+					id
+					YibfNo
+				}
+			}
+			`
+			variables = map[string]interface{}{
+				"input": jobData,
+			}
+		}
 
 		var result struct {
-			CreateJob struct {
-				ID     string `json:"id"`
-				YibfNo int    `json:"YibfNo"`
+			CreateJob *struct {
+				ID     int `json:"id"`
+				YibfNo int `json:"YibfNo"`
 			} `json:"createJob"`
+			UpdateJob *struct {
+				ID     int `json:"id"`
+				YibfNo int `json:"YibfNo"`
+			} `json:"updateJob"`
 		}
 
-		err = graphqlClient.Execute(mutation, input, jwtToken, &result)
+		err = graphqlClient.Execute(mutation, variables, jwtToken, &result)
 		if err != nil {
 			log.Printf("ID %d için GraphQL mutation hatası: %v", item.ID, err)
 			failedIDs = append(failedIDs, item.ID)
@@ -348,7 +508,7 @@ func YibfList(c *gin.Context) {
 		processedIDs = append(processedIDs, item.ID)
 		log.Printf("ID %d başarıyla işlendi", item.ID)
 
-		// Yapı Bilgileri loglaması devam ediyor...
+		// Yapı Bilgileri loglaması
 		log.Printf("Yapı Bilgileri - YibfNo: %d, İdare: %s, Pafta: %s, Ada: %s, Parsel: %s",
 			detail.ID,
 			detail.Administration.Name,

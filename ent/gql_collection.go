@@ -124,10 +124,10 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, companydetail.FieldChamberInfo)
 				fieldSeen[companydetail.FieldChamberInfo] = struct{}{}
 			}
-		case "chamberregno":
-			if _, ok := fieldSeen[companydetail.FieldChamberRegNo]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldChamberRegNo)
-				fieldSeen[companydetail.FieldChamberRegNo] = struct{}{}
+		case "chamberregisterno":
+			if _, ok := fieldSeen[companydetail.FieldChamberRegisterNo]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldChamberRegisterNo)
+				fieldSeen[companydetail.FieldChamberRegisterNo] = struct{}{}
 			}
 		case "visadate":
 			if _, ok := fieldSeen[companydetail.FieldVisaDate]; !ok {
@@ -138,6 +138,21 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 			if _, ok := fieldSeen[companydetail.FieldVisaEndDate]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldVisaEndDate)
 				fieldSeen[companydetail.FieldVisaEndDate] = struct{}{}
+			}
+		case "visafinishedfor90days":
+			if _, ok := fieldSeen[companydetail.FieldVisaFinishedFor90Days]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldVisaFinishedFor90Days)
+				fieldSeen[companydetail.FieldVisaFinishedFor90Days] = struct{}{}
+			}
+		case "corepersonabsent90days":
+			if _, ok := fieldSeen[companydetail.FieldCorePersonAbsent90Days]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldCorePersonAbsent90Days)
+				fieldSeen[companydetail.FieldCorePersonAbsent90Days] = struct{}{}
+			}
+		case "isclosed":
+			if _, ok := fieldSeen[companydetail.FieldIsClosed]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldIsClosed)
+				fieldSeen[companydetail.FieldIsClosed] = struct{}{}
 			}
 		case "ownername":
 			if _, ok := fieldSeen[companydetail.FieldOwnerName]; !ok {
@@ -164,35 +179,15 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, companydetail.FieldOwnerEmail)
 				fieldSeen[companydetail.FieldOwnerEmail] = struct{}{}
 			}
-		case "ownerregno":
-			if _, ok := fieldSeen[companydetail.FieldOwnerRegNo]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldOwnerRegNo)
-				fieldSeen[companydetail.FieldOwnerRegNo] = struct{}{}
+		case "ownerregisterno":
+			if _, ok := fieldSeen[companydetail.FieldOwnerRegisterNo]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldOwnerRegisterNo)
+				fieldSeen[companydetail.FieldOwnerRegisterNo] = struct{}{}
 			}
 		case "ownercareer":
 			if _, ok := fieldSeen[companydetail.FieldOwnerCareer]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldOwnerCareer)
 				fieldSeen[companydetail.FieldOwnerCareer] = struct{}{}
-			}
-		case "ownerbirthdate":
-			if _, ok := fieldSeen[companydetail.FieldOwnerBirthDate]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldOwnerBirthDate)
-				fieldSeen[companydetail.FieldOwnerBirthDate] = struct{}{}
-			}
-		case "visafinishedfor90days":
-			if _, ok := fieldSeen[companydetail.FieldVisaFinishedFor90Days]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldVisaFinishedFor90Days)
-				fieldSeen[companydetail.FieldVisaFinishedFor90Days] = struct{}{}
-			}
-		case "corepersonabsent90days":
-			if _, ok := fieldSeen[companydetail.FieldCorePersonAbsent90Days]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldCorePersonAbsent90Days)
-				fieldSeen[companydetail.FieldCorePersonAbsent90Days] = struct{}{}
-			}
-		case "isclosed":
-			if _, ok := fieldSeen[companydetail.FieldIsClosed]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldIsClosed)
-				fieldSeen[companydetail.FieldIsClosed] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[companydetail.FieldCreatedAt]; !ok {
@@ -413,30 +408,25 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 				selectedFields = append(selectedFields, companyengineer.FieldPosition)
 				fieldSeen[companyengineer.FieldPosition] = struct{}{}
 			}
-		case "regno":
-			if _, ok := fieldSeen[companyengineer.FieldRegNo]; !ok {
-				selectedFields = append(selectedFields, companyengineer.FieldRegNo)
-				fieldSeen[companyengineer.FieldRegNo] = struct{}{}
+		case "registerno":
+			if _, ok := fieldSeen[companyengineer.FieldRegisterNo]; !ok {
+				selectedFields = append(selectedFields, companyengineer.FieldRegisterNo)
+				fieldSeen[companyengineer.FieldRegisterNo] = struct{}{}
 			}
 		case "certno":
 			if _, ok := fieldSeen[companyengineer.FieldCertNo]; !ok {
 				selectedFields = append(selectedFields, companyengineer.FieldCertNo)
 				fieldSeen[companyengineer.FieldCertNo] = struct{}{}
 			}
-		case "ydsID":
-			if _, ok := fieldSeen[companyengineer.FieldYdsID]; !ok {
-				selectedFields = append(selectedFields, companyengineer.FieldYdsID)
-				fieldSeen[companyengineer.FieldYdsID] = struct{}{}
+		case "ydsid":
+			if _, ok := fieldSeen[companyengineer.FieldYDSID]; !ok {
+				selectedFields = append(selectedFields, companyengineer.FieldYDSID)
+				fieldSeen[companyengineer.FieldYDSID] = struct{}{}
 			}
 		case "employment":
 			if _, ok := fieldSeen[companyengineer.FieldEmployment]; !ok {
 				selectedFields = append(selectedFields, companyengineer.FieldEmployment)
 				fieldSeen[companyengineer.FieldEmployment] = struct{}{}
-			}
-		case "dismissal":
-			if _, ok := fieldSeen[companyengineer.FieldDismissal]; !ok {
-				selectedFields = append(selectedFields, companyengineer.FieldDismissal)
-				fieldSeen[companyengineer.FieldDismissal] = struct{}{}
 			}
 		case "status":
 			if _, ok := fieldSeen[companyengineer.FieldStatus]; !ok {
@@ -599,11 +589,6 @@ func (ja *JobAuthorQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			ja.WithNamedAuthors(alias, func(wq *JobDetailQuery) {
 				*wq = *query
 			})
-		case "architect":
-			if _, ok := fieldSeen[jobauthor.FieldArchitect]; !ok {
-				selectedFields = append(selectedFields, jobauthor.FieldArchitect)
-				fieldSeen[jobauthor.FieldArchitect] = struct{}{}
-			}
 		case "static":
 			if _, ok := fieldSeen[jobauthor.FieldStatic]; !ok {
 				selectedFields = append(selectedFields, jobauthor.FieldStatic)
@@ -619,10 +604,25 @@ func (ja *JobAuthorQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobauthor.FieldElectric)
 				fieldSeen[jobauthor.FieldElectric] = struct{}{}
 			}
-		case "floor":
-			if _, ok := fieldSeen[jobauthor.FieldFloor]; !ok {
-				selectedFields = append(selectedFields, jobauthor.FieldFloor)
-				fieldSeen[jobauthor.FieldFloor] = struct{}{}
+		case "architect":
+			if _, ok := fieldSeen[jobauthor.FieldArchitect]; !ok {
+				selectedFields = append(selectedFields, jobauthor.FieldArchitect)
+				fieldSeen[jobauthor.FieldArchitect] = struct{}{}
+			}
+		case "geotechnicalengineer":
+			if _, ok := fieldSeen[jobauthor.FieldGeotechnicalEngineer]; !ok {
+				selectedFields = append(selectedFields, jobauthor.FieldGeotechnicalEngineer)
+				fieldSeen[jobauthor.FieldGeotechnicalEngineer] = struct{}{}
+			}
+		case "geotechnicalgeologist":
+			if _, ok := fieldSeen[jobauthor.FieldGeotechnicalGeologist]; !ok {
+				selectedFields = append(selectedFields, jobauthor.FieldGeotechnicalGeologist)
+				fieldSeen[jobauthor.FieldGeotechnicalGeologist] = struct{}{}
+			}
+		case "geotechnicalgeophysicist":
+			if _, ok := fieldSeen[jobauthor.FieldGeotechnicalGeophysicist]; !ok {
+				selectedFields = append(selectedFields, jobauthor.FieldGeotechnicalGeophysicist)
+				fieldSeen[jobauthor.FieldGeotechnicalGeophysicist] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[jobauthor.FieldCreatedAt]; !ok {
@@ -716,25 +716,25 @@ func (jc *JobContractorQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, jobcontractor.FieldTcNo)
 				fieldSeen[jobcontractor.FieldTcNo] = struct{}{}
 			}
-		case "address":
-			if _, ok := fieldSeen[jobcontractor.FieldAddress]; !ok {
-				selectedFields = append(selectedFields, jobcontractor.FieldAddress)
-				fieldSeen[jobcontractor.FieldAddress] = struct{}{}
-			}
 		case "registerno":
 			if _, ok := fieldSeen[jobcontractor.FieldRegisterNo]; !ok {
 				selectedFields = append(selectedFields, jobcontractor.FieldRegisterNo)
 				fieldSeen[jobcontractor.FieldRegisterNo] = struct{}{}
 			}
-		case "taxadmin":
-			if _, ok := fieldSeen[jobcontractor.FieldTaxAdmin]; !ok {
-				selectedFields = append(selectedFields, jobcontractor.FieldTaxAdmin)
-				fieldSeen[jobcontractor.FieldTaxAdmin] = struct{}{}
+		case "address":
+			if _, ok := fieldSeen[jobcontractor.FieldAddress]; !ok {
+				selectedFields = append(selectedFields, jobcontractor.FieldAddress)
+				fieldSeen[jobcontractor.FieldAddress] = struct{}{}
 			}
 		case "taxno":
 			if _, ok := fieldSeen[jobcontractor.FieldTaxNo]; !ok {
 				selectedFields = append(selectedFields, jobcontractor.FieldTaxNo)
 				fieldSeen[jobcontractor.FieldTaxNo] = struct{}{}
+			}
+		case "mobilephone":
+			if _, ok := fieldSeen[jobcontractor.FieldMobilePhone]; !ok {
+				selectedFields = append(selectedFields, jobcontractor.FieldMobilePhone)
+				fieldSeen[jobcontractor.FieldMobilePhone] = struct{}{}
 			}
 		case "phone":
 			if _, ok := fieldSeen[jobcontractor.FieldPhone]; !ok {
@@ -746,10 +746,15 @@ func (jc *JobContractorQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, jobcontractor.FieldEmail)
 				fieldSeen[jobcontractor.FieldEmail] = struct{}{}
 			}
-		case "ydsID":
-			if _, ok := fieldSeen[jobcontractor.FieldYdsID]; !ok {
-				selectedFields = append(selectedFields, jobcontractor.FieldYdsID)
-				fieldSeen[jobcontractor.FieldYdsID] = struct{}{}
+		case "persontype":
+			if _, ok := fieldSeen[jobcontractor.FieldPersonType]; !ok {
+				selectedFields = append(selectedFields, jobcontractor.FieldPersonType)
+				fieldSeen[jobcontractor.FieldPersonType] = struct{}{}
+			}
+		case "ydsid":
+			if _, ok := fieldSeen[jobcontractor.FieldYDSID]; !ok {
+				selectedFields = append(selectedFields, jobcontractor.FieldYDSID)
+				fieldSeen[jobcontractor.FieldYDSID] = struct{}{}
 			}
 		case "note":
 			if _, ok := fieldSeen[jobcontractor.FieldNote]; !ok {
@@ -1010,50 +1015,40 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldYibfNo)
 				fieldSeen[jobdetail.FieldYibfNo] = struct{}{}
 			}
-		case "idare":
-			if _, ok := fieldSeen[jobdetail.FieldIdare]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldIdare)
-				fieldSeen[jobdetail.FieldIdare] = struct{}{}
+		case "title":
+			if _, ok := fieldSeen[jobdetail.FieldTitle]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldTitle)
+				fieldSeen[jobdetail.FieldTitle] = struct{}{}
 			}
-		case "pafta":
-			if _, ok := fieldSeen[jobdetail.FieldPafta]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldPafta)
-				fieldSeen[jobdetail.FieldPafta] = struct{}{}
-			}
-		case "ada":
-			if _, ok := fieldSeen[jobdetail.FieldAda]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldAda)
-				fieldSeen[jobdetail.FieldAda] = struct{}{}
-			}
-		case "parsel":
-			if _, ok := fieldSeen[jobdetail.FieldParsel]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldParsel)
-				fieldSeen[jobdetail.FieldParsel] = struct{}{}
-			}
-		case "folderno":
-			if _, ok := fieldSeen[jobdetail.FieldFolderNo]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldFolderNo)
-				fieldSeen[jobdetail.FieldFolderNo] = struct{}{}
-			}
-		case "status":
-			if _, ok := fieldSeen[jobdetail.FieldStatus]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldStatus)
-				fieldSeen[jobdetail.FieldStatus] = struct{}{}
+		case "administration":
+			if _, ok := fieldSeen[jobdetail.FieldAdministration]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldAdministration)
+				fieldSeen[jobdetail.FieldAdministration] = struct{}{}
 			}
 		case "state":
 			if _, ok := fieldSeen[jobdetail.FieldState]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldState)
 				fieldSeen[jobdetail.FieldState] = struct{}{}
 			}
+		case "island":
+			if _, ok := fieldSeen[jobdetail.FieldIsland]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldIsland)
+				fieldSeen[jobdetail.FieldIsland] = struct{}{}
+			}
+		case "parcel":
+			if _, ok := fieldSeen[jobdetail.FieldParcel]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldParcel)
+				fieldSeen[jobdetail.FieldParcel] = struct{}{}
+			}
+		case "sheet":
+			if _, ok := fieldSeen[jobdetail.FieldSheet]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldSheet)
+				fieldSeen[jobdetail.FieldSheet] = struct{}{}
+			}
 		case "contractdate":
 			if _, ok := fieldSeen[jobdetail.FieldContractDate]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldContractDate)
 				fieldSeen[jobdetail.FieldContractDate] = struct{}{}
-			}
-		case "completiondate":
-			if _, ok := fieldSeen[jobdetail.FieldCompletionDate]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldCompletionDate)
-				fieldSeen[jobdetail.FieldCompletionDate] = struct{}{}
 			}
 		case "startdate":
 			if _, ok := fieldSeen[jobdetail.FieldStartDate]; !ok {
@@ -1070,10 +1065,30 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldLicenseNo)
 				fieldSeen[jobdetail.FieldLicenseNo] = struct{}{}
 			}
+		case "completiondate":
+			if _, ok := fieldSeen[jobdetail.FieldCompletionDate]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldCompletionDate)
+				fieldSeen[jobdetail.FieldCompletionDate] = struct{}{}
+			}
+		case "landarea":
+			if _, ok := fieldSeen[jobdetail.FieldLandArea]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldLandArea)
+				fieldSeen[jobdetail.FieldLandArea] = struct{}{}
+			}
+		case "totalarea":
+			if _, ok := fieldSeen[jobdetail.FieldTotalArea]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldTotalArea)
+				fieldSeen[jobdetail.FieldTotalArea] = struct{}{}
+			}
 		case "constructionarea":
 			if _, ok := fieldSeen[jobdetail.FieldConstructionArea]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldConstructionArea)
 				fieldSeen[jobdetail.FieldConstructionArea] = struct{}{}
+			}
+		case "leftarea":
+			if _, ok := fieldSeen[jobdetail.FieldLeftArea]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldLeftArea)
+				fieldSeen[jobdetail.FieldLeftArea] = struct{}{}
 			}
 		case "ydsaddress":
 			if _, ok := fieldSeen[jobdetail.FieldYDSAddress]; !ok {
@@ -1105,35 +1120,55 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldUnitPrice)
 				fieldSeen[jobdetail.FieldUnitPrice] = struct{}{}
 			}
-		case "landarea":
-			if _, ok := fieldSeen[jobdetail.FieldLandArea]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldLandArea)
-				fieldSeen[jobdetail.FieldLandArea] = struct{}{}
+		case "floorcount":
+			if _, ok := fieldSeen[jobdetail.FieldFloorCount]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldFloorCount)
+				fieldSeen[jobdetail.FieldFloorCount] = struct{}{}
 			}
-		case "floors":
-			if _, ok := fieldSeen[jobdetail.FieldFloors]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldFloors)
-				fieldSeen[jobdetail.FieldFloors] = struct{}{}
-			}
-		case "usagepurpose":
-			if _, ok := fieldSeen[jobdetail.FieldUsagePurpose]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldUsagePurpose)
-				fieldSeen[jobdetail.FieldUsagePurpose] = struct{}{}
-			}
-		case "note":
-			if _, ok := fieldSeen[jobdetail.FieldNote]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldNote)
-				fieldSeen[jobdetail.FieldNote] = struct{}{}
+		case "bksreferenceno":
+			if _, ok := fieldSeen[jobdetail.FieldBKSReferenceNo]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldBKSReferenceNo)
+				fieldSeen[jobdetail.FieldBKSReferenceNo] = struct{}{}
 			}
 		case "coordinates":
 			if _, ok := fieldSeen[jobdetail.FieldCoordinates]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldCoordinates)
 				fieldSeen[jobdetail.FieldCoordinates] = struct{}{}
 			}
-		case "started":
-			if _, ok := fieldSeen[jobdetail.FieldStarted]; !ok {
-				selectedFields = append(selectedFields, jobdetail.FieldStarted)
-				fieldSeen[jobdetail.FieldStarted] = struct{}{}
+		case "folderno":
+			if _, ok := fieldSeen[jobdetail.FieldFolderNo]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldFolderNo)
+				fieldSeen[jobdetail.FieldFolderNo] = struct{}{}
+			}
+		case "uploadedfile":
+			if _, ok := fieldSeen[jobdetail.FieldUploadedFile]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldUploadedFile)
+				fieldSeen[jobdetail.FieldUploadedFile] = struct{}{}
+			}
+		case "industryarea":
+			if _, ok := fieldSeen[jobdetail.FieldIndustryArea]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldIndustryArea)
+				fieldSeen[jobdetail.FieldIndustryArea] = struct{}{}
+			}
+		case "clusterstructure":
+			if _, ok := fieldSeen[jobdetail.FieldClusterStructure]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldClusterStructure)
+				fieldSeen[jobdetail.FieldClusterStructure] = struct{}{}
+			}
+		case "islicenseexpired":
+			if _, ok := fieldSeen[jobdetail.FieldIsLicenseExpired]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldIsLicenseExpired)
+				fieldSeen[jobdetail.FieldIsLicenseExpired] = struct{}{}
+			}
+		case "iscompleted":
+			if _, ok := fieldSeen[jobdetail.FieldIsCompleted]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldIsCompleted)
+				fieldSeen[jobdetail.FieldIsCompleted] = struct{}{}
+			}
+		case "note":
+			if _, ok := fieldSeen[jobdetail.FieldNote]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldNote)
+				fieldSeen[jobdetail.FieldNote] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[jobdetail.FieldCreatedAt]; !ok {
@@ -1342,15 +1377,15 @@ func (jo *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 				selectedFields = append(selectedFields, jobowner.FieldName)
 				fieldSeen[jobowner.FieldName] = struct{}{}
 			}
-		case "tcno":
-			if _, ok := fieldSeen[jobowner.FieldTcNo]; !ok {
-				selectedFields = append(selectedFields, jobowner.FieldTcNo)
-				fieldSeen[jobowner.FieldTcNo] = struct{}{}
-			}
 		case "address":
 			if _, ok := fieldSeen[jobowner.FieldAddress]; !ok {
 				selectedFields = append(selectedFields, jobowner.FieldAddress)
 				fieldSeen[jobowner.FieldAddress] = struct{}{}
+			}
+		case "tcno":
+			if _, ok := fieldSeen[jobowner.FieldTcNo]; !ok {
+				selectedFields = append(selectedFields, jobowner.FieldTcNo)
+				fieldSeen[jobowner.FieldTcNo] = struct{}{}
 			}
 		case "taxadmin":
 			if _, ok := fieldSeen[jobowner.FieldTaxAdmin]; !ok {
@@ -1372,10 +1407,15 @@ func (jo *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 				selectedFields = append(selectedFields, jobowner.FieldEmail)
 				fieldSeen[jobowner.FieldEmail] = struct{}{}
 			}
-		case "ydsID":
-			if _, ok := fieldSeen[jobowner.FieldYdsID]; !ok {
-				selectedFields = append(selectedFields, jobowner.FieldYdsID)
-				fieldSeen[jobowner.FieldYdsID] = struct{}{}
+		case "ydsid":
+			if _, ok := fieldSeen[jobowner.FieldYDSID]; !ok {
+				selectedFields = append(selectedFields, jobowner.FieldYDSID)
+				fieldSeen[jobowner.FieldYDSID] = struct{}{}
+			}
+		case "shareholder":
+			if _, ok := fieldSeen[jobowner.FieldShareholder]; !ok {
+				selectedFields = append(selectedFields, jobowner.FieldShareholder)
+				fieldSeen[jobowner.FieldShareholder] = struct{}{}
 			}
 		case "note":
 			if _, ok := fieldSeen[jobowner.FieldNote]; !ok {
@@ -1702,9 +1742,9 @@ func (jsv *JobSuperVisorQuery) collectField(ctx context.Context, oneNode bool, o
 				fieldSeen[jobsupervisor.FieldEmail] = struct{}{}
 			}
 		case "tcno":
-			if _, ok := fieldSeen[jobsupervisor.FieldTCNO]; !ok {
-				selectedFields = append(selectedFields, jobsupervisor.FieldTCNO)
-				fieldSeen[jobsupervisor.FieldTCNO] = struct{}{}
+			if _, ok := fieldSeen[jobsupervisor.FieldTcNo]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldTcNo)
+				fieldSeen[jobsupervisor.FieldTcNo] = struct{}{}
 			}
 		case "position":
 			if _, ok := fieldSeen[jobsupervisor.FieldPosition]; !ok {
@@ -1716,10 +1756,10 @@ func (jsv *JobSuperVisorQuery) collectField(ctx context.Context, oneNode bool, o
 				selectedFields = append(selectedFields, jobsupervisor.FieldCareer)
 				fieldSeen[jobsupervisor.FieldCareer] = struct{}{}
 			}
-		case "regno":
-			if _, ok := fieldSeen[jobsupervisor.FieldRegNo]; !ok {
-				selectedFields = append(selectedFields, jobsupervisor.FieldRegNo)
-				fieldSeen[jobsupervisor.FieldRegNo] = struct{}{}
+		case "registerno":
+			if _, ok := fieldSeen[jobsupervisor.FieldRegisterNo]; !ok {
+				selectedFields = append(selectedFields, jobsupervisor.FieldRegisterNo)
+				fieldSeen[jobsupervisor.FieldRegisterNo] = struct{}{}
 			}
 		case "socialsecurityno":
 			if _, ok := fieldSeen[jobsupervisor.FieldSocialSecurityNo]; !ok {

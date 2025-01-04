@@ -7,24 +7,79 @@ package resolvers
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
 
 // CreateContractor is the resolver for the createContractor field.
 func (r *mutationResolver) CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error) {
-	panic(fmt.Errorf("not implemented: CreateContractor - createContractor"))
+	client := middlewares.GetClientFromContext(ctx)
+	contractor, err := client.JobContractor.Create().
+		SetName(input.Name).
+		SetNillableTcNo(input.TcNo).
+		SetNillableRegisterNo(input.RegisterNo).
+		SetNillableAddress(input.Address).
+		SetNillableTaxNo(input.TaxNo).
+		SetNillableMobilePhone(input.MobilePhone).
+		SetNillablePhone(input.Phone).
+		SetNillableEmail(input.Email).
+		SetNillablePersonType(input.PersonType).
+		SetNillableYDSID(input.Ydsid).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to create contractor: %w", err)
+	}
+
+	return contractor, nil
 }
 
 // UpdateContractor is the resolver for the updateContractor field.
 func (r *mutationResolver) UpdateContractor(ctx context.Context, id string, input model.JobContractorInput) (*ent.JobContractor, error) {
-	panic(fmt.Errorf("not implemented: UpdateContractor - updateContractor"))
+	client := middlewares.GetClientFromContext(ctx)
+	contractorID, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, fmt.Errorf("invalid contractor ID: %w", err)
+	}
+	contractor, err := client.JobContractor.UpdateOneID(contractorID).
+		SetName(input.Name).
+		SetNillableTcNo(input.TcNo).
+		SetNillableRegisterNo(input.RegisterNo).
+		SetNillableAddress(input.Address).
+		SetNillableTaxNo(input.TaxNo).
+		SetNillableMobilePhone(input.MobilePhone).
+		SetNillablePhone(input.Phone).
+		SetNillableEmail(input.Email).
+		SetNillablePersonType(input.PersonType).
+		SetNillableYDSID(input.Ydsid).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update contractor: %w", err)
+	}
+
+	return contractor, nil
 }
 
 // AllContractor is the resolver for the allContractor field.
 func (r *queryResolver) AllContractor(ctx context.Context) ([]*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	return client.JobContractor.Query().All(ctx)
+}
+
+// Contractor is the resolver for the contractor field.
+func (r *queryResolver) Contractor(ctx context.Context, yibfNo int) (*ent.JobContractor, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobContractor.Query().Where(jobcontractor.HasContractorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+}
+
+// ContractorByYdsid is the resolver for the contractorByYDSID field.
+func (r *queryResolver) ContractorByYdsid(ctx context.Context, ydsid int) (*ent.JobContractor, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobContractor.Query().Where(jobcontractor.YDSID(ydsid)).Only(ctx)
 }

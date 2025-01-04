@@ -29,26 +29,6 @@ func (jau *JobAuthorUpdate) Where(ps ...predicate.JobAuthor) *JobAuthorUpdate {
 	return jau
 }
 
-// SetArchitect sets the "Architect" field.
-func (jau *JobAuthorUpdate) SetArchitect(s string) *JobAuthorUpdate {
-	jau.mutation.SetArchitect(s)
-	return jau
-}
-
-// SetNillableArchitect sets the "Architect" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableArchitect(s *string) *JobAuthorUpdate {
-	if s != nil {
-		jau.SetArchitect(*s)
-	}
-	return jau
-}
-
-// ClearArchitect clears the value of the "Architect" field.
-func (jau *JobAuthorUpdate) ClearArchitect() *JobAuthorUpdate {
-	jau.mutation.ClearArchitect()
-	return jau
-}
-
 // SetStatic sets the "Static" field.
 func (jau *JobAuthorUpdate) SetStatic(s string) *JobAuthorUpdate {
 	jau.mutation.SetStatic(s)
@@ -109,23 +89,83 @@ func (jau *JobAuthorUpdate) ClearElectric() *JobAuthorUpdate {
 	return jau
 }
 
-// SetFloor sets the "Floor" field.
-func (jau *JobAuthorUpdate) SetFloor(s string) *JobAuthorUpdate {
-	jau.mutation.SetFloor(s)
+// SetArchitect sets the "Architect" field.
+func (jau *JobAuthorUpdate) SetArchitect(s string) *JobAuthorUpdate {
+	jau.mutation.SetArchitect(s)
 	return jau
 }
 
-// SetNillableFloor sets the "Floor" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableFloor(s *string) *JobAuthorUpdate {
+// SetNillableArchitect sets the "Architect" field if the given value is not nil.
+func (jau *JobAuthorUpdate) SetNillableArchitect(s *string) *JobAuthorUpdate {
 	if s != nil {
-		jau.SetFloor(*s)
+		jau.SetArchitect(*s)
 	}
 	return jau
 }
 
-// ClearFloor clears the value of the "Floor" field.
-func (jau *JobAuthorUpdate) ClearFloor() *JobAuthorUpdate {
-	jau.mutation.ClearFloor()
+// ClearArchitect clears the value of the "Architect" field.
+func (jau *JobAuthorUpdate) ClearArchitect() *JobAuthorUpdate {
+	jau.mutation.ClearArchitect()
+	return jau
+}
+
+// SetGeotechnicalEngineer sets the "GeotechnicalEngineer" field.
+func (jau *JobAuthorUpdate) SetGeotechnicalEngineer(s string) *JobAuthorUpdate {
+	jau.mutation.SetGeotechnicalEngineer(s)
+	return jau
+}
+
+// SetNillableGeotechnicalEngineer sets the "GeotechnicalEngineer" field if the given value is not nil.
+func (jau *JobAuthorUpdate) SetNillableGeotechnicalEngineer(s *string) *JobAuthorUpdate {
+	if s != nil {
+		jau.SetGeotechnicalEngineer(*s)
+	}
+	return jau
+}
+
+// ClearGeotechnicalEngineer clears the value of the "GeotechnicalEngineer" field.
+func (jau *JobAuthorUpdate) ClearGeotechnicalEngineer() *JobAuthorUpdate {
+	jau.mutation.ClearGeotechnicalEngineer()
+	return jau
+}
+
+// SetGeotechnicalGeologist sets the "GeotechnicalGeologist" field.
+func (jau *JobAuthorUpdate) SetGeotechnicalGeologist(s string) *JobAuthorUpdate {
+	jau.mutation.SetGeotechnicalGeologist(s)
+	return jau
+}
+
+// SetNillableGeotechnicalGeologist sets the "GeotechnicalGeologist" field if the given value is not nil.
+func (jau *JobAuthorUpdate) SetNillableGeotechnicalGeologist(s *string) *JobAuthorUpdate {
+	if s != nil {
+		jau.SetGeotechnicalGeologist(*s)
+	}
+	return jau
+}
+
+// ClearGeotechnicalGeologist clears the value of the "GeotechnicalGeologist" field.
+func (jau *JobAuthorUpdate) ClearGeotechnicalGeologist() *JobAuthorUpdate {
+	jau.mutation.ClearGeotechnicalGeologist()
+	return jau
+}
+
+// SetGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field.
+func (jau *JobAuthorUpdate) SetGeotechnicalGeophysicist(s string) *JobAuthorUpdate {
+	jau.mutation.SetGeotechnicalGeophysicist(s)
+	return jau
+}
+
+// SetNillableGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field if the given value is not nil.
+func (jau *JobAuthorUpdate) SetNillableGeotechnicalGeophysicist(s *string) *JobAuthorUpdate {
+	if s != nil {
+		jau.SetGeotechnicalGeophysicist(*s)
+	}
+	return jau
+}
+
+// ClearGeotechnicalGeophysicist clears the value of the "GeotechnicalGeophysicist" field.
+func (jau *JobAuthorUpdate) ClearGeotechnicalGeophysicist() *JobAuthorUpdate {
+	jau.mutation.ClearGeotechnicalGeophysicist()
 	return jau
 }
 
@@ -235,12 +275,6 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := jau.mutation.Architect(); ok {
-		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
-	}
-	if jau.mutation.ArchitectCleared() {
-		_spec.ClearField(jobauthor.FieldArchitect, field.TypeString)
-	}
 	if value, ok := jau.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
 	}
@@ -259,11 +293,29 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if jau.mutation.ElectricCleared() {
 		_spec.ClearField(jobauthor.FieldElectric, field.TypeString)
 	}
-	if value, ok := jau.mutation.Floor(); ok {
-		_spec.SetField(jobauthor.FieldFloor, field.TypeString, value)
+	if value, ok := jau.mutation.Architect(); ok {
+		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
 	}
-	if jau.mutation.FloorCleared() {
-		_spec.ClearField(jobauthor.FieldFloor, field.TypeString)
+	if jau.mutation.ArchitectCleared() {
+		_spec.ClearField(jobauthor.FieldArchitect, field.TypeString)
+	}
+	if value, ok := jau.mutation.GeotechnicalEngineer(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalEngineer, field.TypeString, value)
+	}
+	if jau.mutation.GeotechnicalEngineerCleared() {
+		_spec.ClearField(jobauthor.FieldGeotechnicalEngineer, field.TypeString)
+	}
+	if value, ok := jau.mutation.GeotechnicalGeologist(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalGeologist, field.TypeString, value)
+	}
+	if jau.mutation.GeotechnicalGeologistCleared() {
+		_spec.ClearField(jobauthor.FieldGeotechnicalGeologist, field.TypeString)
+	}
+	if value, ok := jau.mutation.GeotechnicalGeophysicist(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString, value)
+	}
+	if jau.mutation.GeotechnicalGeophysicistCleared() {
+		_spec.ClearField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString)
 	}
 	if value, ok := jau.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)
@@ -336,26 +388,6 @@ type JobAuthorUpdateOne struct {
 	mutation *JobAuthorMutation
 }
 
-// SetArchitect sets the "Architect" field.
-func (jauo *JobAuthorUpdateOne) SetArchitect(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetArchitect(s)
-	return jauo
-}
-
-// SetNillableArchitect sets the "Architect" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableArchitect(s *string) *JobAuthorUpdateOne {
-	if s != nil {
-		jauo.SetArchitect(*s)
-	}
-	return jauo
-}
-
-// ClearArchitect clears the value of the "Architect" field.
-func (jauo *JobAuthorUpdateOne) ClearArchitect() *JobAuthorUpdateOne {
-	jauo.mutation.ClearArchitect()
-	return jauo
-}
-
 // SetStatic sets the "Static" field.
 func (jauo *JobAuthorUpdateOne) SetStatic(s string) *JobAuthorUpdateOne {
 	jauo.mutation.SetStatic(s)
@@ -416,23 +448,83 @@ func (jauo *JobAuthorUpdateOne) ClearElectric() *JobAuthorUpdateOne {
 	return jauo
 }
 
-// SetFloor sets the "Floor" field.
-func (jauo *JobAuthorUpdateOne) SetFloor(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetFloor(s)
+// SetArchitect sets the "Architect" field.
+func (jauo *JobAuthorUpdateOne) SetArchitect(s string) *JobAuthorUpdateOne {
+	jauo.mutation.SetArchitect(s)
 	return jauo
 }
 
-// SetNillableFloor sets the "Floor" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableFloor(s *string) *JobAuthorUpdateOne {
+// SetNillableArchitect sets the "Architect" field if the given value is not nil.
+func (jauo *JobAuthorUpdateOne) SetNillableArchitect(s *string) *JobAuthorUpdateOne {
 	if s != nil {
-		jauo.SetFloor(*s)
+		jauo.SetArchitect(*s)
 	}
 	return jauo
 }
 
-// ClearFloor clears the value of the "Floor" field.
-func (jauo *JobAuthorUpdateOne) ClearFloor() *JobAuthorUpdateOne {
-	jauo.mutation.ClearFloor()
+// ClearArchitect clears the value of the "Architect" field.
+func (jauo *JobAuthorUpdateOne) ClearArchitect() *JobAuthorUpdateOne {
+	jauo.mutation.ClearArchitect()
+	return jauo
+}
+
+// SetGeotechnicalEngineer sets the "GeotechnicalEngineer" field.
+func (jauo *JobAuthorUpdateOne) SetGeotechnicalEngineer(s string) *JobAuthorUpdateOne {
+	jauo.mutation.SetGeotechnicalEngineer(s)
+	return jauo
+}
+
+// SetNillableGeotechnicalEngineer sets the "GeotechnicalEngineer" field if the given value is not nil.
+func (jauo *JobAuthorUpdateOne) SetNillableGeotechnicalEngineer(s *string) *JobAuthorUpdateOne {
+	if s != nil {
+		jauo.SetGeotechnicalEngineer(*s)
+	}
+	return jauo
+}
+
+// ClearGeotechnicalEngineer clears the value of the "GeotechnicalEngineer" field.
+func (jauo *JobAuthorUpdateOne) ClearGeotechnicalEngineer() *JobAuthorUpdateOne {
+	jauo.mutation.ClearGeotechnicalEngineer()
+	return jauo
+}
+
+// SetGeotechnicalGeologist sets the "GeotechnicalGeologist" field.
+func (jauo *JobAuthorUpdateOne) SetGeotechnicalGeologist(s string) *JobAuthorUpdateOne {
+	jauo.mutation.SetGeotechnicalGeologist(s)
+	return jauo
+}
+
+// SetNillableGeotechnicalGeologist sets the "GeotechnicalGeologist" field if the given value is not nil.
+func (jauo *JobAuthorUpdateOne) SetNillableGeotechnicalGeologist(s *string) *JobAuthorUpdateOne {
+	if s != nil {
+		jauo.SetGeotechnicalGeologist(*s)
+	}
+	return jauo
+}
+
+// ClearGeotechnicalGeologist clears the value of the "GeotechnicalGeologist" field.
+func (jauo *JobAuthorUpdateOne) ClearGeotechnicalGeologist() *JobAuthorUpdateOne {
+	jauo.mutation.ClearGeotechnicalGeologist()
+	return jauo
+}
+
+// SetGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field.
+func (jauo *JobAuthorUpdateOne) SetGeotechnicalGeophysicist(s string) *JobAuthorUpdateOne {
+	jauo.mutation.SetGeotechnicalGeophysicist(s)
+	return jauo
+}
+
+// SetNillableGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field if the given value is not nil.
+func (jauo *JobAuthorUpdateOne) SetNillableGeotechnicalGeophysicist(s *string) *JobAuthorUpdateOne {
+	if s != nil {
+		jauo.SetGeotechnicalGeophysicist(*s)
+	}
+	return jauo
+}
+
+// ClearGeotechnicalGeophysicist clears the value of the "GeotechnicalGeophysicist" field.
+func (jauo *JobAuthorUpdateOne) ClearGeotechnicalGeophysicist() *JobAuthorUpdateOne {
+	jauo.mutation.ClearGeotechnicalGeophysicist()
 	return jauo
 }
 
@@ -572,12 +664,6 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 			}
 		}
 	}
-	if value, ok := jauo.mutation.Architect(); ok {
-		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
-	}
-	if jauo.mutation.ArchitectCleared() {
-		_spec.ClearField(jobauthor.FieldArchitect, field.TypeString)
-	}
 	if value, ok := jauo.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
 	}
@@ -596,11 +682,29 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 	if jauo.mutation.ElectricCleared() {
 		_spec.ClearField(jobauthor.FieldElectric, field.TypeString)
 	}
-	if value, ok := jauo.mutation.Floor(); ok {
-		_spec.SetField(jobauthor.FieldFloor, field.TypeString, value)
+	if value, ok := jauo.mutation.Architect(); ok {
+		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
 	}
-	if jauo.mutation.FloorCleared() {
-		_spec.ClearField(jobauthor.FieldFloor, field.TypeString)
+	if jauo.mutation.ArchitectCleared() {
+		_spec.ClearField(jobauthor.FieldArchitect, field.TypeString)
+	}
+	if value, ok := jauo.mutation.GeotechnicalEngineer(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalEngineer, field.TypeString, value)
+	}
+	if jauo.mutation.GeotechnicalEngineerCleared() {
+		_spec.ClearField(jobauthor.FieldGeotechnicalEngineer, field.TypeString)
+	}
+	if value, ok := jauo.mutation.GeotechnicalGeologist(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalGeologist, field.TypeString, value)
+	}
+	if jauo.mutation.GeotechnicalGeologistCleared() {
+		_spec.ClearField(jobauthor.FieldGeotechnicalGeologist, field.TypeString)
+	}
+	if value, ok := jauo.mutation.GeotechnicalGeophysicist(); ok {
+		_spec.SetField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString, value)
+	}
+	if jauo.mutation.GeotechnicalGeophysicistCleared() {
+		_spec.ClearField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString)
 	}
 	if value, ok := jauo.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)

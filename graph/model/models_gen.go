@@ -3,6 +3,8 @@
 package model
 
 import (
+	"time"
+
 	"github.com/polatbilal/gqlgen-ent/ent"
 )
 
@@ -15,148 +17,158 @@ type AuthPayload struct {
 }
 
 type CompanyDetailInput struct {
-	CompanyCode            int     `json:"CompanyCode"`
-	Name                   string  `json:"Name"`
-	Address                *string `json:"Address,omitempty"`
-	Phone                  *string `json:"Phone,omitempty"`
-	Email                  *string `json:"Email,omitempty"`
-	Website                *string `json:"Website,omitempty"`
-	TaxAdmin               *string `json:"TaxAdmin,omitempty"`
-	TaxNo                  *int    `json:"TaxNo,omitempty"`
-	ChamberInfo            *string `json:"ChamberInfo,omitempty"`
-	ChamberRegNo           *string `json:"ChamberRegNo,omitempty"`
-	VisaDate               *string `json:"VisaDate,omitempty"`
-	VisaEndDate            *string `json:"VisaEndDate,omitempty"`
-	VisaFinishedFor90days  *bool   `json:"visa_finished_for_90days,omitempty"`
-	CorePersonAbsent90days *bool   `json:"core_person_absent_90days,omitempty"`
-	IsClosed               *bool   `json:"isClosed,omitempty"`
-	OwnerName              *string `json:"OwnerName,omitempty"`
-	OwnerTcNo              *string `json:"OwnerTcNo,omitempty"`
-	OwnerAddress           *string `json:"OwnerAddress,omitempty"`
-	OwnerPhone             *string `json:"OwnerPhone,omitempty"`
-	OwnerEmail             *string `json:"OwnerEmail,omitempty"`
-	OwnerRegNo             *string `json:"OwnerRegNo,omitempty"`
-	OwnerBirthDate         *string `json:"OwnerBirthDate,omitempty"`
-	OwnerCareer            *string `json:"OwnerCareer,omitempty"`
+	CompanyCode            int        `json:"CompanyCode"`
+	Name                   string     `json:"Name"`
+	Address                *string    `json:"Address,omitempty"`
+	Phone                  *string    `json:"Phone,omitempty"`
+	Email                  *string    `json:"Email,omitempty"`
+	Website                *string    `json:"Website,omitempty"`
+	TaxAdmin               *string    `json:"TaxAdmin,omitempty"`
+	TaxNo                  *int       `json:"TaxNo,omitempty"`
+	ChamberInfo            *string    `json:"ChamberInfo,omitempty"`
+	ChamberRegisterNo      *string    `json:"ChamberRegisterNo,omitempty"`
+	VisaDate               *time.Time `json:"VisaDate,omitempty"`
+	VisaEndDate            *time.Time `json:"VisaEndDate,omitempty"`
+	VisaFinishedFor90days  *bool      `json:"visa_finished_for_90days,omitempty"`
+	CorePersonAbsent90days *bool      `json:"core_person_absent_90days,omitempty"`
+	IsClosed               *bool      `json:"isClosed,omitempty"`
+	OwnerName              *string    `json:"OwnerName,omitempty"`
+	OwnerTcNo              *int       `json:"OwnerTcNo,omitempty"`
+	OwnerAddress           *string    `json:"OwnerAddress,omitempty"`
+	OwnerPhone             *string    `json:"OwnerPhone,omitempty"`
+	OwnerEmail             *string    `json:"OwnerEmail,omitempty"`
+	OwnerRegisterNo        *int       `json:"OwnerRegisterNo,omitempty"`
+	OwnerCareer            *string    `json:"OwnerCareer,omitempty"`
 }
 
 type CompanyEngineerInput struct {
-	Ydsid       *int    `json:"YDSID,omitempty"`
-	Name        string  `json:"Name"`
-	CompanyCode int     `json:"CompanyCode"`
-	Address     *string `json:"Address,omitempty"`
-	Email       *string `json:"Email,omitempty"`
-	TcNo        *int    `json:"TcNo,omitempty"`
-	Phone       *string `json:"Phone,omitempty"`
-	RegNo       *int    `json:"RegNo,omitempty"`
-	CertNo      *int    `json:"CertNo,omitempty"`
-	Career      *string `json:"Career,omitempty"`
-	Position    *string `json:"Position,omitempty"`
-	Employment  *string `json:"Employment,omitempty"`
-	Dismissal   *string `json:"Dismissal,omitempty"`
-	Note        *string `json:"Note,omitempty"`
-	Status      *int    `json:"Status,omitempty"`
+	CompanyCode *int       `json:"CompanyCode,omitempty"`
+	YibfNo      *int       `json:"YibfNo,omitempty"`
+	Ydsid       *int       `json:"YDSID,omitempty"`
+	Name        *string    `json:"Name,omitempty"`
+	TcNo        *int       `json:"TcNo,omitempty"`
+	Phone       *string    `json:"Phone,omitempty"`
+	Email       *string    `json:"Email,omitempty"`
+	Address     *string    `json:"Address,omitempty"`
+	Career      *string    `json:"Career,omitempty"`
+	Position    *string    `json:"Position,omitempty"`
+	RegNo       *int       `json:"RegNo,omitempty"`
+	CertNo      *int       `json:"CertNo,omitempty"`
+	Employment  *time.Time `json:"Employment,omitempty"`
+	Status      *int       `json:"Status,omitempty"`
+	Note        *string    `json:"Note,omitempty"`
 }
 
 type EngineerFilterInput struct {
-	ID       *string `json:"id,omitempty"`
-	Ydsid    *int    `json:"YDSID,omitempty"`
-	Career   *string `json:"career,omitempty"`
-	Position *string `json:"position,omitempty"`
+	ID    *string `json:"id,omitempty"`
+	Ydsid *int    `json:"YDSID,omitempty"`
 }
 
 type JobAuthorInput struct {
-	Architect *string `json:"Architect,omitempty"`
-	Static    *string `json:"Static,omitempty"`
-	Mechanic  *string `json:"Mechanic,omitempty"`
-	Electric  *string `json:"Electric,omitempty"`
-	Floor     *string `json:"Floor,omitempty"`
+	Static                   *string `json:"Static,omitempty"`
+	Mechanic                 *string `json:"Mechanic,omitempty"`
+	Electric                 *string `json:"Electric,omitempty"`
+	Architect                *string `json:"Architect,omitempty"`
+	GeotechnicalEngineer     *string `json:"GeotechnicalEngineer,omitempty"`
+	GeotechnicalGeologist    *string `json:"GeotechnicalGeologist,omitempty"`
+	GeotechnicalGeophysicist *string `json:"GeotechnicalGeophysicist,omitempty"`
 }
 
 type JobContractorInput struct {
-	ID         *string `json:"id,omitempty"`
-	Name       *string `json:"Name,omitempty"`
-	TcNo       *int    `json:"TcNo,omitempty"`
-	Address    *string `json:"Address,omitempty"`
-	RegisterNo *int    `json:"RegisterNo,omitempty"`
-	TaxAdmin   *string `json:"TaxAdmin,omitempty"`
-	TaxNo      *int    `json:"TaxNo,omitempty"`
-	Phone      *string `json:"Phone,omitempty"`
-	Email      *string `json:"Email,omitempty"`
-	YdsID      *int    `json:"YdsId,omitempty"`
-	Note       *string `json:"Note,omitempty"`
+	ID          *string `json:"id,omitempty"`
+	YibfNo      int     `json:"YibfNo"`
+	Name        string  `json:"Name"`
+	TcNo        *int    `json:"TcNo,omitempty"`
+	RegisterNo  *int    `json:"RegisterNo,omitempty"`
+	Address     *string `json:"Address,omitempty"`
+	TaxNo       *int    `json:"TaxNo,omitempty"`
+	MobilePhone *string `json:"MobilePhone,omitempty"`
+	Phone       *string `json:"Phone,omitempty"`
+	Email       *string `json:"Email,omitempty"`
+	PersonType  *string `json:"PersonType,omitempty"`
+	Ydsid       *int    `json:"YDSID,omitempty"`
+	Note        *string `json:"Note,omitempty"`
 }
 
 type JobInput struct {
-	YibfNo             *int                  `json:"YibfNo,omitempty"`
-	CompanyCode        int                   `json:"CompanyCode"`
-	Idare              *string               `json:"Idare,omitempty"`
-	Pafta              *string               `json:"Pafta,omitempty"`
-	Ada                *string               `json:"Ada,omitempty"`
-	Parsel             *string               `json:"Parsel,omitempty"`
-	FolderNo           *string               `json:"FolderNo,omitempty"`
-	Status             *int                  `json:"Status,omitempty"`
-	State              *string               `json:"State,omitempty"`
-	ContractDate       *string               `json:"ContractDate,omitempty"`
-	StartDate          *string               `json:"StartDate,omitempty"`
-	CompletionDate     *string               `json:"CompletionDate,omitempty"`
-	LicenseDate        *string               `json:"LicenseDate,omitempty"`
-	LicenseNo          *string               `json:"LicenseNo,omitempty"`
-	ConstructionArea   *string               `json:"ConstructionArea,omitempty"`
-	LandArea           *string               `json:"LandArea,omitempty"`
-	Address            *string               `json:"Address,omitempty"`
-	BuildingClass      *string               `json:"BuildingClass,omitempty"`
-	BuildingType       *string               `json:"BuildingType,omitempty"`
-	Floors             *int                  `json:"Floors,omitempty"`
-	Level              *float64              `json:"Level,omitempty"`
-	Note               *string               `json:"Note,omitempty"`
-	Started            *int                  `json:"Started,omitempty"`
-	UsagePurpose       *string               `json:"UsagePurpose,omitempty"`
-	Owner              []*JobOwnerInput      `json:"Owner,omitempty"`
-	Contractor         []*JobContractorInput `json:"Contractor,omitempty"`
-	Author             []*JobAuthorInput     `json:"Author,omitempty"`
-	Progress           []*JobProgressInput   `json:"Progress,omitempty"`
-	Inspector          *int                  `json:"Inspector,omitempty"`
-	Static             *int                  `json:"Static,omitempty"`
-	Architect          *int                  `json:"Architect,omitempty"`
-	Mechanic           *int                  `json:"Mechanic,omitempty"`
-	Electric           *int                  `json:"Electric,omitempty"`
-	Controller         *int                  `json:"Controller,omitempty"`
-	MechanicController *int                  `json:"MechanicController,omitempty"`
-	ElectricController *int                  `json:"ElectricController,omitempty"`
-	Supervisor         *SupervisorInput      `json:"Supervisor,omitempty"`
+	CompanyCode        int        `json:"CompanyCode"`
+	YibfNo             *int       `json:"YibfNo,omitempty"`
+	Administration     *string    `json:"Administration,omitempty"`
+	State              *string    `json:"State,omitempty"`
+	Island             *string    `json:"Island,omitempty"`
+	Parcel             *string    `json:"Parcel,omitempty"`
+	Sheet              *string    `json:"Sheet,omitempty"`
+	ContractDate       *time.Time `json:"ContractDate,omitempty"`
+	StartDate          *time.Time `json:"StartDate,omitempty"`
+	LicenseDate        *time.Time `json:"LicenseDate,omitempty"`
+	LicenseNo          *string    `json:"LicenseNo,omitempty"`
+	CompletionDate     *time.Time `json:"CompletionDate,omitempty"`
+	LandArea           *float64   `json:"LandArea,omitempty"`
+	TotalArea          *float64   `json:"TotalArea,omitempty"`
+	ConstructionArea   *float64   `json:"ConstructionArea,omitempty"`
+	LeftArea           *float64   `json:"LeftArea,omitempty"`
+	YDSAddress         *string    `json:"YDSAddress,omitempty"`
+	Address            *string    `json:"Address,omitempty"`
+	BuildingClass      *string    `json:"BuildingClass,omitempty"`
+	BuildingType       *string    `json:"BuildingType,omitempty"`
+	Level              *float64   `json:"Level,omitempty"`
+	UnitPrice          *float64   `json:"UnitPrice,omitempty"`
+	FloorCount         *int       `json:"FloorCount,omitempty"`
+	BKSReferenceNo     *int       `json:"BKSReferenceNo,omitempty"`
+	Coordinates        *string    `json:"Coordinates,omitempty"`
+	FolderNo           *string    `json:"FolderNo,omitempty"`
+	UploadedFile       *bool      `json:"UploadedFile,omitempty"`
+	IndustryArea       *bool      `json:"IndustryArea,omitempty"`
+	ClusterStructure   *bool      `json:"ClusterStructure,omitempty"`
+	IsLicenseExpired   *bool      `json:"IsLicenseExpired,omitempty"`
+	IsCompleted        *bool      `json:"IsCompleted,omitempty"`
+	Note               *string    `json:"Note,omitempty"`
+	Owner              *int       `json:"Owner,omitempty"`
+	Contractor         *int       `json:"Contractor,omitempty"`
+	Author             *int       `json:"Author,omitempty"`
+	Supervisor         *int       `json:"Supervisor,omitempty"`
+	Inspector          *int       `json:"Inspector,omitempty"`
+	Static             *int       `json:"Static,omitempty"`
+	Architect          *int       `json:"Architect,omitempty"`
+	Mechanic           *int       `json:"Mechanic,omitempty"`
+	Electric           *int       `json:"Electric,omitempty"`
+	Controller         *int       `json:"Controller,omitempty"`
+	MechanicController *int       `json:"MechanicController,omitempty"`
+	ElectricController *int       `json:"ElectricController,omitempty"`
 }
 
 type JobLayerInput struct {
-	Name          *string `json:"Name,omitempty"`
-	Metre         *string `json:"Metre,omitempty"`
-	MoldDate      *string `json:"MoldDate,omitempty"`
-	ConcreteDate  *string `json:"ConcreteDate,omitempty"`
-	Samples       *int    `json:"Samples,omitempty"`
-	ConcreteClass *string `json:"ConcreteClass,omitempty"`
-	WeekResult    *string `json:"WeekResult,omitempty"`
-	MonthResult   *string `json:"MonthResult,omitempty"`
-	YibfNo        *int    `json:"YibfNo,omitempty"`
+	Name          *string    `json:"Name,omitempty"`
+	Metre         *string    `json:"Metre,omitempty"`
+	MoldDate      *time.Time `json:"MoldDate,omitempty"`
+	ConcreteDate  *time.Time `json:"ConcreteDate,omitempty"`
+	Samples       *int       `json:"Samples,omitempty"`
+	ConcreteClass *string    `json:"ConcreteClass,omitempty"`
+	WeekResult    *string    `json:"WeekResult,omitempty"`
+	MonthResult   *string    `json:"MonthResult,omitempty"`
+	YibfNo        *int       `json:"YibfNo,omitempty"`
 }
 
 type JobOwnerInput struct {
-	Name     *string `json:"Name,omitempty"`
-	TcNo     *int    `json:"TcNo,omitempty"`
-	Address  *string `json:"Address,omitempty"`
-	TaxAdmin *string `json:"TaxAdmin,omitempty"`
-	TaxNo    *int    `json:"TaxNo,omitempty"`
-	Phone    *string `json:"Phone,omitempty"`
-	Email    *string `json:"Email,omitempty"`
-	YdsID    *int    `json:"YdsId,omitempty"`
-	Note     *string `json:"Note,omitempty"`
+	YibfNo      int     `json:"YibfNo"`
+	Name        *string `json:"Name,omitempty"`
+	TcNo        *int    `json:"TcNo,omitempty"`
+	Address     *string `json:"Address,omitempty"`
+	TaxAdmin    *string `json:"TaxAdmin,omitempty"`
+	TaxNo       *int    `json:"TaxNo,omitempty"`
+	Phone       *string `json:"Phone,omitempty"`
+	Email       *string `json:"Email,omitempty"`
+	YdsID       *int    `json:"YdsId,omitempty"`
+	Shareholder *bool   `json:"Shareholder,omitempty"`
+	Note        *string `json:"Note,omitempty"`
 }
 
 type JobPaymentsInput struct {
-	Date        *string  `json:"Date,omitempty"`
-	Amount      *int     `json:"Amount,omitempty"`
-	Description *string  `json:"Description,omitempty"`
-	Status      *string  `json:"Status,omitempty"`
-	Percentage  *float64 `json:"Percentage,omitempty"`
+	Date        *time.Time `json:"Date,omitempty"`
+	Amount      *int       `json:"Amount,omitempty"`
+	Description *string    `json:"Description,omitempty"`
+	Status      *string    `json:"Status,omitempty"`
+	Percentage  *float64   `json:"Percentage,omitempty"`
 }
 
 type JobProgressInput struct {

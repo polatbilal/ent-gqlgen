@@ -18,13 +18,14 @@ func (JobContractor) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Name").Default(""),
 		field.Int("TcNo").Optional(),
-		field.String("Address").Optional(),
 		field.Int("RegisterNo").Optional(),
-		field.String("TaxAdmin").Optional(),
+		field.String("Address").Optional(),
 		field.Int("TaxNo").Optional(),
+		field.String("MobilePhone").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
-		field.Int("yds_id").Optional(),
+		field.String("PersonType").Optional(),
+		field.Int("YDSID").Optional(),
 		field.String("Note").Optional(),
 
 		field.Time("CreatedAt").Default(time.Now),

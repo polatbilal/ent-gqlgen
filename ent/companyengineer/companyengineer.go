@@ -28,16 +28,14 @@ const (
 	FieldCareer = "career"
 	// FieldPosition holds the string denoting the position field in the database.
 	FieldPosition = "position"
-	// FieldRegNo holds the string denoting the regno field in the database.
-	FieldRegNo = "reg_no"
+	// FieldRegisterNo holds the string denoting the registerno field in the database.
+	FieldRegisterNo = "register_no"
 	// FieldCertNo holds the string denoting the certno field in the database.
 	FieldCertNo = "cert_no"
-	// FieldYdsID holds the string denoting the yds_id field in the database.
-	FieldYdsID = "yds_id"
+	// FieldYDSID holds the string denoting the ydsid field in the database.
+	FieldYDSID = "ydsid"
 	// FieldEmployment holds the string denoting the employment field in the database.
 	FieldEmployment = "employment"
-	// FieldDismissal holds the string denoting the dismissal field in the database.
-	FieldDismissal = "dismissal"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
 	// FieldNote holds the string denoting the note field in the database.
@@ -141,11 +139,10 @@ var Columns = []string{
 	FieldAddress,
 	FieldCareer,
 	FieldPosition,
-	FieldRegNo,
+	FieldRegisterNo,
 	FieldCertNo,
-	FieldYdsID,
+	FieldYDSID,
 	FieldEmployment,
-	FieldDismissal,
 	FieldStatus,
 	FieldNote,
 	FieldCreatedAt,
@@ -229,9 +226,9 @@ func ByPosition(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPosition, opts...).ToFunc()
 }
 
-// ByRegNo orders the results by the RegNo field.
-func ByRegNo(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRegNo, opts...).ToFunc()
+// ByRegisterNo orders the results by the RegisterNo field.
+func ByRegisterNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRegisterNo, opts...).ToFunc()
 }
 
 // ByCertNo orders the results by the CertNo field.
@@ -239,19 +236,14 @@ func ByCertNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCertNo, opts...).ToFunc()
 }
 
-// ByYdsID orders the results by the yds_id field.
-func ByYdsID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldYdsID, opts...).ToFunc()
+// ByYDSID orders the results by the YDSID field.
+func ByYDSID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSID, opts...).ToFunc()
 }
 
 // ByEmployment orders the results by the Employment field.
 func ByEmployment(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEmployment, opts...).ToFunc()
-}
-
-// ByDismissal orders the results by the Dismissal field.
-func ByDismissal(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDismissal, opts...).ToFunc()
 }
 
 // ByStatus orders the results by the Status field.

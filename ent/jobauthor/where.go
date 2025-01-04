@@ -55,11 +55,6 @@ func IDLTE(id int) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldLTE(FieldID, id))
 }
 
-// Architect applies equality check predicate on the "Architect" field. It's identical to ArchitectEQ.
-func Architect(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldEQ(FieldArchitect, v))
-}
-
 // Static applies equality check predicate on the "Static" field. It's identical to StaticEQ.
 func Static(v string) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldEQ(FieldStatic, v))
@@ -75,9 +70,24 @@ func Electric(v string) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldEQ(FieldElectric, v))
 }
 
-// Floor applies equality check predicate on the "Floor" field. It's identical to FloorEQ.
-func Floor(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldEQ(FieldFloor, v))
+// Architect applies equality check predicate on the "Architect" field. It's identical to ArchitectEQ.
+func Architect(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldArchitect, v))
+}
+
+// GeotechnicalEngineer applies equality check predicate on the "GeotechnicalEngineer" field. It's identical to GeotechnicalEngineerEQ.
+func GeotechnicalEngineer(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalGeologist applies equality check predicate on the "GeotechnicalGeologist" field. It's identical to GeotechnicalGeologistEQ.
+func GeotechnicalGeologist(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeophysicist applies equality check predicate on the "GeotechnicalGeophysicist" field. It's identical to GeotechnicalGeophysicistEQ.
+func GeotechnicalGeophysicist(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldGeotechnicalGeophysicist, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
@@ -88,81 +98,6 @@ func CreatedAt(v time.Time) predicate.JobAuthor {
 // UpdatedAt applies equality check predicate on the "UpdatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldEQ(FieldUpdatedAt, v))
-}
-
-// ArchitectEQ applies the EQ predicate on the "Architect" field.
-func ArchitectEQ(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldEQ(FieldArchitect, v))
-}
-
-// ArchitectNEQ applies the NEQ predicate on the "Architect" field.
-func ArchitectNEQ(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldNEQ(FieldArchitect, v))
-}
-
-// ArchitectIn applies the In predicate on the "Architect" field.
-func ArchitectIn(vs ...string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldIn(FieldArchitect, vs...))
-}
-
-// ArchitectNotIn applies the NotIn predicate on the "Architect" field.
-func ArchitectNotIn(vs ...string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldNotIn(FieldArchitect, vs...))
-}
-
-// ArchitectGT applies the GT predicate on the "Architect" field.
-func ArchitectGT(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldGT(FieldArchitect, v))
-}
-
-// ArchitectGTE applies the GTE predicate on the "Architect" field.
-func ArchitectGTE(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldGTE(FieldArchitect, v))
-}
-
-// ArchitectLT applies the LT predicate on the "Architect" field.
-func ArchitectLT(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldLT(FieldArchitect, v))
-}
-
-// ArchitectLTE applies the LTE predicate on the "Architect" field.
-func ArchitectLTE(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldLTE(FieldArchitect, v))
-}
-
-// ArchitectContains applies the Contains predicate on the "Architect" field.
-func ArchitectContains(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldContains(FieldArchitect, v))
-}
-
-// ArchitectHasPrefix applies the HasPrefix predicate on the "Architect" field.
-func ArchitectHasPrefix(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldHasPrefix(FieldArchitect, v))
-}
-
-// ArchitectHasSuffix applies the HasSuffix predicate on the "Architect" field.
-func ArchitectHasSuffix(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldHasSuffix(FieldArchitect, v))
-}
-
-// ArchitectIsNil applies the IsNil predicate on the "Architect" field.
-func ArchitectIsNil() predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldIsNull(FieldArchitect))
-}
-
-// ArchitectNotNil applies the NotNil predicate on the "Architect" field.
-func ArchitectNotNil() predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldNotNull(FieldArchitect))
-}
-
-// ArchitectEqualFold applies the EqualFold predicate on the "Architect" field.
-func ArchitectEqualFold(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldEqualFold(FieldArchitect, v))
-}
-
-// ArchitectContainsFold applies the ContainsFold predicate on the "Architect" field.
-func ArchitectContainsFold(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldContainsFold(FieldArchitect, v))
 }
 
 // StaticEQ applies the EQ predicate on the "Static" field.
@@ -390,79 +325,304 @@ func ElectricContainsFold(v string) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldContainsFold(FieldElectric, v))
 }
 
-// FloorEQ applies the EQ predicate on the "Floor" field.
-func FloorEQ(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldEQ(FieldFloor, v))
+// ArchitectEQ applies the EQ predicate on the "Architect" field.
+func ArchitectEQ(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldArchitect, v))
 }
 
-// FloorNEQ applies the NEQ predicate on the "Floor" field.
-func FloorNEQ(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldNEQ(FieldFloor, v))
+// ArchitectNEQ applies the NEQ predicate on the "Architect" field.
+func ArchitectNEQ(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNEQ(FieldArchitect, v))
 }
 
-// FloorIn applies the In predicate on the "Floor" field.
-func FloorIn(vs ...string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldIn(FieldFloor, vs...))
+// ArchitectIn applies the In predicate on the "Architect" field.
+func ArchitectIn(vs ...string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIn(FieldArchitect, vs...))
 }
 
-// FloorNotIn applies the NotIn predicate on the "Floor" field.
-func FloorNotIn(vs ...string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldNotIn(FieldFloor, vs...))
+// ArchitectNotIn applies the NotIn predicate on the "Architect" field.
+func ArchitectNotIn(vs ...string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotIn(FieldArchitect, vs...))
 }
 
-// FloorGT applies the GT predicate on the "Floor" field.
-func FloorGT(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldGT(FieldFloor, v))
+// ArchitectGT applies the GT predicate on the "Architect" field.
+func ArchitectGT(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGT(FieldArchitect, v))
 }
 
-// FloorGTE applies the GTE predicate on the "Floor" field.
-func FloorGTE(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldGTE(FieldFloor, v))
+// ArchitectGTE applies the GTE predicate on the "Architect" field.
+func ArchitectGTE(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGTE(FieldArchitect, v))
 }
 
-// FloorLT applies the LT predicate on the "Floor" field.
-func FloorLT(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldLT(FieldFloor, v))
+// ArchitectLT applies the LT predicate on the "Architect" field.
+func ArchitectLT(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLT(FieldArchitect, v))
 }
 
-// FloorLTE applies the LTE predicate on the "Floor" field.
-func FloorLTE(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldLTE(FieldFloor, v))
+// ArchitectLTE applies the LTE predicate on the "Architect" field.
+func ArchitectLTE(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLTE(FieldArchitect, v))
 }
 
-// FloorContains applies the Contains predicate on the "Floor" field.
-func FloorContains(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldContains(FieldFloor, v))
+// ArchitectContains applies the Contains predicate on the "Architect" field.
+func ArchitectContains(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldContains(FieldArchitect, v))
 }
 
-// FloorHasPrefix applies the HasPrefix predicate on the "Floor" field.
-func FloorHasPrefix(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldHasPrefix(FieldFloor, v))
+// ArchitectHasPrefix applies the HasPrefix predicate on the "Architect" field.
+func ArchitectHasPrefix(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldHasPrefix(FieldArchitect, v))
 }
 
-// FloorHasSuffix applies the HasSuffix predicate on the "Floor" field.
-func FloorHasSuffix(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldHasSuffix(FieldFloor, v))
+// ArchitectHasSuffix applies the HasSuffix predicate on the "Architect" field.
+func ArchitectHasSuffix(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldHasSuffix(FieldArchitect, v))
 }
 
-// FloorIsNil applies the IsNil predicate on the "Floor" field.
-func FloorIsNil() predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldIsNull(FieldFloor))
+// ArchitectIsNil applies the IsNil predicate on the "Architect" field.
+func ArchitectIsNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIsNull(FieldArchitect))
 }
 
-// FloorNotNil applies the NotNil predicate on the "Floor" field.
-func FloorNotNil() predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldNotNull(FieldFloor))
+// ArchitectNotNil applies the NotNil predicate on the "Architect" field.
+func ArchitectNotNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotNull(FieldArchitect))
 }
 
-// FloorEqualFold applies the EqualFold predicate on the "Floor" field.
-func FloorEqualFold(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldEqualFold(FieldFloor, v))
+// ArchitectEqualFold applies the EqualFold predicate on the "Architect" field.
+func ArchitectEqualFold(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEqualFold(FieldArchitect, v))
 }
 
-// FloorContainsFold applies the ContainsFold predicate on the "Floor" field.
-func FloorContainsFold(v string) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldContainsFold(FieldFloor, v))
+// ArchitectContainsFold applies the ContainsFold predicate on the "Architect" field.
+func ArchitectContainsFold(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldContainsFold(FieldArchitect, v))
+}
+
+// GeotechnicalEngineerEQ applies the EQ predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerEQ(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerNEQ applies the NEQ predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerNEQ(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNEQ(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerIn applies the In predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerIn(vs ...string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIn(FieldGeotechnicalEngineer, vs...))
+}
+
+// GeotechnicalEngineerNotIn applies the NotIn predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerNotIn(vs ...string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotIn(FieldGeotechnicalEngineer, vs...))
+}
+
+// GeotechnicalEngineerGT applies the GT predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerGT(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGT(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerGTE applies the GTE predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerGTE(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGTE(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerLT applies the LT predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerLT(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLT(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerLTE applies the LTE predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerLTE(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLTE(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerContains applies the Contains predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerContains(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldContains(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerHasPrefix applies the HasPrefix predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerHasPrefix(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldHasPrefix(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerHasSuffix applies the HasSuffix predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerHasSuffix(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldHasSuffix(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerIsNil applies the IsNil predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerIsNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIsNull(FieldGeotechnicalEngineer))
+}
+
+// GeotechnicalEngineerNotNil applies the NotNil predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerNotNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotNull(FieldGeotechnicalEngineer))
+}
+
+// GeotechnicalEngineerEqualFold applies the EqualFold predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerEqualFold(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEqualFold(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalEngineerContainsFold applies the ContainsFold predicate on the "GeotechnicalEngineer" field.
+func GeotechnicalEngineerContainsFold(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldContainsFold(FieldGeotechnicalEngineer, v))
+}
+
+// GeotechnicalGeologistEQ applies the EQ predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistEQ(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistNEQ applies the NEQ predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistNEQ(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNEQ(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistIn applies the In predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistIn(vs ...string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIn(FieldGeotechnicalGeologist, vs...))
+}
+
+// GeotechnicalGeologistNotIn applies the NotIn predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistNotIn(vs ...string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotIn(FieldGeotechnicalGeologist, vs...))
+}
+
+// GeotechnicalGeologistGT applies the GT predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistGT(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGT(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistGTE applies the GTE predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistGTE(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGTE(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistLT applies the LT predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistLT(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLT(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistLTE applies the LTE predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistLTE(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLTE(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistContains applies the Contains predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistContains(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldContains(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistHasPrefix applies the HasPrefix predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistHasPrefix(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldHasPrefix(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistHasSuffix applies the HasSuffix predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistHasSuffix(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldHasSuffix(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistIsNil applies the IsNil predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistIsNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIsNull(FieldGeotechnicalGeologist))
+}
+
+// GeotechnicalGeologistNotNil applies the NotNil predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistNotNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotNull(FieldGeotechnicalGeologist))
+}
+
+// GeotechnicalGeologistEqualFold applies the EqualFold predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistEqualFold(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEqualFold(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeologistContainsFold applies the ContainsFold predicate on the "GeotechnicalGeologist" field.
+func GeotechnicalGeologistContainsFold(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldContainsFold(FieldGeotechnicalGeologist, v))
+}
+
+// GeotechnicalGeophysicistEQ applies the EQ predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistEQ(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistNEQ applies the NEQ predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistNEQ(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNEQ(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistIn applies the In predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistIn(vs ...string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIn(FieldGeotechnicalGeophysicist, vs...))
+}
+
+// GeotechnicalGeophysicistNotIn applies the NotIn predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistNotIn(vs ...string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotIn(FieldGeotechnicalGeophysicist, vs...))
+}
+
+// GeotechnicalGeophysicistGT applies the GT predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistGT(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGT(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistGTE applies the GTE predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistGTE(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGTE(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistLT applies the LT predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistLT(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLT(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistLTE applies the LTE predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistLTE(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLTE(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistContains applies the Contains predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistContains(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldContains(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistHasPrefix applies the HasPrefix predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistHasPrefix(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldHasPrefix(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistHasSuffix applies the HasSuffix predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistHasSuffix(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldHasSuffix(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistIsNil applies the IsNil predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistIsNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIsNull(FieldGeotechnicalGeophysicist))
+}
+
+// GeotechnicalGeophysicistNotNil applies the NotNil predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistNotNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotNull(FieldGeotechnicalGeophysicist))
+}
+
+// GeotechnicalGeophysicistEqualFold applies the EqualFold predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistEqualFold(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEqualFold(FieldGeotechnicalGeophysicist, v))
+}
+
+// GeotechnicalGeophysicistContainsFold applies the ContainsFold predicate on the "GeotechnicalGeophysicist" field.
+func GeotechnicalGeophysicistContainsFold(v string) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldContainsFold(FieldGeotechnicalGeophysicist, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

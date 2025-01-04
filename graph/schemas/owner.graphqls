@@ -9,10 +9,12 @@ type JobOwner {
   Phone: String
   Email: String
   YdsId: Int
+  Shareholder: Boolean
   Note: String
 }
 
 input JobOwnerInput {
+  YibfNo: Int!
   Name: String
   TcNo: Int
   Address: String
@@ -21,6 +23,7 @@ input JobOwnerInput {
   Phone: String
   Email: String
   YdsId: Int
+  Shareholder: Boolean
   Note: String
 }
 

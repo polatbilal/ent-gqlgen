@@ -100,9 +100,9 @@ func ChamberInfo(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldChamberInfo, v))
 }
 
-// ChamberRegNo applies equality check predicate on the "ChamberRegNo" field. It's identical to ChamberRegNoEQ.
-func ChamberRegNo(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldChamberRegNo, v))
+// ChamberRegisterNo applies equality check predicate on the "ChamberRegisterNo" field. It's identical to ChamberRegisterNoEQ.
+func ChamberRegisterNo(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldChamberRegisterNo, v))
 }
 
 // VisaDate applies equality check predicate on the "VisaDate" field. It's identical to VisaDateEQ.
@@ -115,13 +115,28 @@ func VisaEndDate(v time.Time) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldVisaEndDate, v))
 }
 
+// VisaFinishedFor90Days applies equality check predicate on the "VisaFinishedFor90Days" field. It's identical to VisaFinishedFor90DaysEQ.
+func VisaFinishedFor90Days(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldVisaFinishedFor90Days, v))
+}
+
+// CorePersonAbsent90Days applies equality check predicate on the "CorePersonAbsent90Days" field. It's identical to CorePersonAbsent90DaysEQ.
+func CorePersonAbsent90Days(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldCorePersonAbsent90Days, v))
+}
+
+// IsClosed applies equality check predicate on the "IsClosed" field. It's identical to IsClosedEQ.
+func IsClosed(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldIsClosed, v))
+}
+
 // OwnerName applies equality check predicate on the "OwnerName" field. It's identical to OwnerNameEQ.
 func OwnerName(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerName, v))
 }
 
 // OwnerTcNo applies equality check predicate on the "OwnerTcNo" field. It's identical to OwnerTcNoEQ.
-func OwnerTcNo(v string) predicate.CompanyDetail {
+func OwnerTcNo(v int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerTcNo, v))
 }
 
@@ -140,34 +155,14 @@ func OwnerEmail(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerEmail, v))
 }
 
-// OwnerRegNo applies equality check predicate on the "OwnerRegNo" field. It's identical to OwnerRegNoEQ.
-func OwnerRegNo(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerRegNo, v))
+// OwnerRegisterNo applies equality check predicate on the "OwnerRegisterNo" field. It's identical to OwnerRegisterNoEQ.
+func OwnerRegisterNo(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerRegisterNo, v))
 }
 
 // OwnerCareer applies equality check predicate on the "OwnerCareer" field. It's identical to OwnerCareerEQ.
 func OwnerCareer(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerCareer, v))
-}
-
-// OwnerBirthDate applies equality check predicate on the "OwnerBirthDate" field. It's identical to OwnerBirthDateEQ.
-func OwnerBirthDate(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerBirthDate, v))
-}
-
-// VisaFinishedFor90Days applies equality check predicate on the "VisaFinishedFor90Days" field. It's identical to VisaFinishedFor90DaysEQ.
-func VisaFinishedFor90Days(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldVisaFinishedFor90Days, v))
-}
-
-// CorePersonAbsent90Days applies equality check predicate on the "CorePersonAbsent90Days" field. It's identical to CorePersonAbsent90DaysEQ.
-func CorePersonAbsent90Days(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldCorePersonAbsent90Days, v))
-}
-
-// IsClosed applies equality check predicate on the "IsClosed" field. It's identical to IsClosedEQ.
-func IsClosed(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldIsClosed, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
@@ -785,79 +780,79 @@ func ChamberInfoContainsFold(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldContainsFold(FieldChamberInfo, v))
 }
 
-// ChamberRegNoEQ applies the EQ predicate on the "ChamberRegNo" field.
-func ChamberRegNoEQ(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldChamberRegNo, v))
+// ChamberRegisterNoEQ applies the EQ predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoNEQ applies the NEQ predicate on the "ChamberRegNo" field.
-func ChamberRegNoNEQ(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNEQ(FieldChamberRegNo, v))
+// ChamberRegisterNoNEQ applies the NEQ predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoNEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoIn applies the In predicate on the "ChamberRegNo" field.
-func ChamberRegNoIn(vs ...string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIn(FieldChamberRegNo, vs...))
+// ChamberRegisterNoIn applies the In predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldChamberRegisterNo, vs...))
 }
 
-// ChamberRegNoNotIn applies the NotIn predicate on the "ChamberRegNo" field.
-func ChamberRegNoNotIn(vs ...string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotIn(FieldChamberRegNo, vs...))
+// ChamberRegisterNoNotIn applies the NotIn predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoNotIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldChamberRegisterNo, vs...))
 }
 
-// ChamberRegNoGT applies the GT predicate on the "ChamberRegNo" field.
-func ChamberRegNoGT(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGT(FieldChamberRegNo, v))
+// ChamberRegisterNoGT applies the GT predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoGT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoGTE applies the GTE predicate on the "ChamberRegNo" field.
-func ChamberRegNoGTE(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGTE(FieldChamberRegNo, v))
+// ChamberRegisterNoGTE applies the GTE predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoGTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoLT applies the LT predicate on the "ChamberRegNo" field.
-func ChamberRegNoLT(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLT(FieldChamberRegNo, v))
+// ChamberRegisterNoLT applies the LT predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoLT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoLTE applies the LTE predicate on the "ChamberRegNo" field.
-func ChamberRegNoLTE(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLTE(FieldChamberRegNo, v))
+// ChamberRegisterNoLTE applies the LTE predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoLTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoContains applies the Contains predicate on the "ChamberRegNo" field.
-func ChamberRegNoContains(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldContains(FieldChamberRegNo, v))
+// ChamberRegisterNoContains applies the Contains predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoHasPrefix applies the HasPrefix predicate on the "ChamberRegNo" field.
-func ChamberRegNoHasPrefix(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldChamberRegNo, v))
+// ChamberRegisterNoHasPrefix applies the HasPrefix predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoHasSuffix applies the HasSuffix predicate on the "ChamberRegNo" field.
-func ChamberRegNoHasSuffix(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldChamberRegNo, v))
+// ChamberRegisterNoHasSuffix applies the HasSuffix predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoIsNil applies the IsNil predicate on the "ChamberRegNo" field.
-func ChamberRegNoIsNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIsNull(FieldChamberRegNo))
+// ChamberRegisterNoIsNil applies the IsNil predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldChamberRegisterNo))
 }
 
-// ChamberRegNoNotNil applies the NotNil predicate on the "ChamberRegNo" field.
-func ChamberRegNoNotNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotNull(FieldChamberRegNo))
+// ChamberRegisterNoNotNil applies the NotNil predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldChamberRegisterNo))
 }
 
-// ChamberRegNoEqualFold applies the EqualFold predicate on the "ChamberRegNo" field.
-func ChamberRegNoEqualFold(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEqualFold(FieldChamberRegNo, v))
+// ChamberRegisterNoEqualFold applies the EqualFold predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldChamberRegisterNo, v))
 }
 
-// ChamberRegNoContainsFold applies the ContainsFold predicate on the "ChamberRegNo" field.
-func ChamberRegNoContainsFold(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldContainsFold(FieldChamberRegNo, v))
+// ChamberRegisterNoContainsFold applies the ContainsFold predicate on the "ChamberRegisterNo" field.
+func ChamberRegisterNoContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldChamberRegisterNo, v))
 }
 
 // VisaDateEQ applies the EQ predicate on the "VisaDate" field.
@@ -960,6 +955,56 @@ func VisaEndDateNotNil() predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotNull(FieldVisaEndDate))
 }
 
+// VisaFinishedFor90DaysEQ applies the EQ predicate on the "VisaFinishedFor90Days" field.
+func VisaFinishedFor90DaysEQ(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldVisaFinishedFor90Days, v))
+}
+
+// VisaFinishedFor90DaysNEQ applies the NEQ predicate on the "VisaFinishedFor90Days" field.
+func VisaFinishedFor90DaysNEQ(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldVisaFinishedFor90Days, v))
+}
+
+// VisaFinishedFor90DaysIsNil applies the IsNil predicate on the "VisaFinishedFor90Days" field.
+func VisaFinishedFor90DaysIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldVisaFinishedFor90Days))
+}
+
+// VisaFinishedFor90DaysNotNil applies the NotNil predicate on the "VisaFinishedFor90Days" field.
+func VisaFinishedFor90DaysNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldVisaFinishedFor90Days))
+}
+
+// CorePersonAbsent90DaysEQ applies the EQ predicate on the "CorePersonAbsent90Days" field.
+func CorePersonAbsent90DaysEQ(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldCorePersonAbsent90Days, v))
+}
+
+// CorePersonAbsent90DaysNEQ applies the NEQ predicate on the "CorePersonAbsent90Days" field.
+func CorePersonAbsent90DaysNEQ(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldCorePersonAbsent90Days, v))
+}
+
+// CorePersonAbsent90DaysIsNil applies the IsNil predicate on the "CorePersonAbsent90Days" field.
+func CorePersonAbsent90DaysIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldCorePersonAbsent90Days))
+}
+
+// CorePersonAbsent90DaysNotNil applies the NotNil predicate on the "CorePersonAbsent90Days" field.
+func CorePersonAbsent90DaysNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldCorePersonAbsent90Days))
+}
+
+// IsClosedEQ applies the EQ predicate on the "IsClosed" field.
+func IsClosedEQ(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldIsClosed, v))
+}
+
+// IsClosedNEQ applies the NEQ predicate on the "IsClosed" field.
+func IsClosedNEQ(v bool) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldIsClosed, v))
+}
+
 // OwnerNameEQ applies the EQ predicate on the "OwnerName" field.
 func OwnerNameEQ(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerName, v))
@@ -1036,58 +1081,43 @@ func OwnerNameContainsFold(v string) predicate.CompanyDetail {
 }
 
 // OwnerTcNoEQ applies the EQ predicate on the "OwnerTcNo" field.
-func OwnerTcNoEQ(v string) predicate.CompanyDetail {
+func OwnerTcNoEQ(v int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoNEQ applies the NEQ predicate on the "OwnerTcNo" field.
-func OwnerTcNoNEQ(v string) predicate.CompanyDetail {
+func OwnerTcNoNEQ(v int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNEQ(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoIn applies the In predicate on the "OwnerTcNo" field.
-func OwnerTcNoIn(vs ...string) predicate.CompanyDetail {
+func OwnerTcNoIn(vs ...int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldIn(FieldOwnerTcNo, vs...))
 }
 
 // OwnerTcNoNotIn applies the NotIn predicate on the "OwnerTcNo" field.
-func OwnerTcNoNotIn(vs ...string) predicate.CompanyDetail {
+func OwnerTcNoNotIn(vs ...int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotIn(FieldOwnerTcNo, vs...))
 }
 
 // OwnerTcNoGT applies the GT predicate on the "OwnerTcNo" field.
-func OwnerTcNoGT(v string) predicate.CompanyDetail {
+func OwnerTcNoGT(v int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldGT(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoGTE applies the GTE predicate on the "OwnerTcNo" field.
-func OwnerTcNoGTE(v string) predicate.CompanyDetail {
+func OwnerTcNoGTE(v int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldGTE(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoLT applies the LT predicate on the "OwnerTcNo" field.
-func OwnerTcNoLT(v string) predicate.CompanyDetail {
+func OwnerTcNoLT(v int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLT(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoLTE applies the LTE predicate on the "OwnerTcNo" field.
-func OwnerTcNoLTE(v string) predicate.CompanyDetail {
+func OwnerTcNoLTE(v int) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLTE(FieldOwnerTcNo, v))
-}
-
-// OwnerTcNoContains applies the Contains predicate on the "OwnerTcNo" field.
-func OwnerTcNoContains(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldContains(FieldOwnerTcNo, v))
-}
-
-// OwnerTcNoHasPrefix applies the HasPrefix predicate on the "OwnerTcNo" field.
-func OwnerTcNoHasPrefix(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldOwnerTcNo, v))
-}
-
-// OwnerTcNoHasSuffix applies the HasSuffix predicate on the "OwnerTcNo" field.
-func OwnerTcNoHasSuffix(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoIsNil applies the IsNil predicate on the "OwnerTcNo" field.
@@ -1098,16 +1128,6 @@ func OwnerTcNoIsNil() predicate.CompanyDetail {
 // OwnerTcNoNotNil applies the NotNil predicate on the "OwnerTcNo" field.
 func OwnerTcNoNotNil() predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotNull(FieldOwnerTcNo))
-}
-
-// OwnerTcNoEqualFold applies the EqualFold predicate on the "OwnerTcNo" field.
-func OwnerTcNoEqualFold(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEqualFold(FieldOwnerTcNo, v))
-}
-
-// OwnerTcNoContainsFold applies the ContainsFold predicate on the "OwnerTcNo" field.
-func OwnerTcNoContainsFold(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldContainsFold(FieldOwnerTcNo, v))
 }
 
 // OwnerAddressEQ applies the EQ predicate on the "OwnerAddress" field.
@@ -1335,79 +1355,54 @@ func OwnerEmailContainsFold(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldContainsFold(FieldOwnerEmail, v))
 }
 
-// OwnerRegNoEQ applies the EQ predicate on the "OwnerRegNo" field.
-func OwnerRegNoEQ(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerRegNo, v))
+// OwnerRegisterNoEQ applies the EQ predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoEQ(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerRegisterNo, v))
 }
 
-// OwnerRegNoNEQ applies the NEQ predicate on the "OwnerRegNo" field.
-func OwnerRegNoNEQ(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNEQ(FieldOwnerRegNo, v))
+// OwnerRegisterNoNEQ applies the NEQ predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoNEQ(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldOwnerRegisterNo, v))
 }
 
-// OwnerRegNoIn applies the In predicate on the "OwnerRegNo" field.
-func OwnerRegNoIn(vs ...string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIn(FieldOwnerRegNo, vs...))
+// OwnerRegisterNoIn applies the In predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoIn(vs ...int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldOwnerRegisterNo, vs...))
 }
 
-// OwnerRegNoNotIn applies the NotIn predicate on the "OwnerRegNo" field.
-func OwnerRegNoNotIn(vs ...string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotIn(FieldOwnerRegNo, vs...))
+// OwnerRegisterNoNotIn applies the NotIn predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoNotIn(vs ...int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldOwnerRegisterNo, vs...))
 }
 
-// OwnerRegNoGT applies the GT predicate on the "OwnerRegNo" field.
-func OwnerRegNoGT(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGT(FieldOwnerRegNo, v))
+// OwnerRegisterNoGT applies the GT predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoGT(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldOwnerRegisterNo, v))
 }
 
-// OwnerRegNoGTE applies the GTE predicate on the "OwnerRegNo" field.
-func OwnerRegNoGTE(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGTE(FieldOwnerRegNo, v))
+// OwnerRegisterNoGTE applies the GTE predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoGTE(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldOwnerRegisterNo, v))
 }
 
-// OwnerRegNoLT applies the LT predicate on the "OwnerRegNo" field.
-func OwnerRegNoLT(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLT(FieldOwnerRegNo, v))
+// OwnerRegisterNoLT applies the LT predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoLT(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldOwnerRegisterNo, v))
 }
 
-// OwnerRegNoLTE applies the LTE predicate on the "OwnerRegNo" field.
-func OwnerRegNoLTE(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLTE(FieldOwnerRegNo, v))
+// OwnerRegisterNoLTE applies the LTE predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoLTE(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldOwnerRegisterNo, v))
 }
 
-// OwnerRegNoContains applies the Contains predicate on the "OwnerRegNo" field.
-func OwnerRegNoContains(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldContains(FieldOwnerRegNo, v))
+// OwnerRegisterNoIsNil applies the IsNil predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldOwnerRegisterNo))
 }
 
-// OwnerRegNoHasPrefix applies the HasPrefix predicate on the "OwnerRegNo" field.
-func OwnerRegNoHasPrefix(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldOwnerRegNo, v))
-}
-
-// OwnerRegNoHasSuffix applies the HasSuffix predicate on the "OwnerRegNo" field.
-func OwnerRegNoHasSuffix(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldOwnerRegNo, v))
-}
-
-// OwnerRegNoIsNil applies the IsNil predicate on the "OwnerRegNo" field.
-func OwnerRegNoIsNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIsNull(FieldOwnerRegNo))
-}
-
-// OwnerRegNoNotNil applies the NotNil predicate on the "OwnerRegNo" field.
-func OwnerRegNoNotNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotNull(FieldOwnerRegNo))
-}
-
-// OwnerRegNoEqualFold applies the EqualFold predicate on the "OwnerRegNo" field.
-func OwnerRegNoEqualFold(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEqualFold(FieldOwnerRegNo, v))
-}
-
-// OwnerRegNoContainsFold applies the ContainsFold predicate on the "OwnerRegNo" field.
-func OwnerRegNoContainsFold(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldContainsFold(FieldOwnerRegNo, v))
+// OwnerRegisterNoNotNil applies the NotNil predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldOwnerRegisterNo))
 }
 
 // OwnerCareerEQ applies the EQ predicate on the "OwnerCareer" field.
@@ -1483,131 +1478,6 @@ func OwnerCareerEqualFold(v string) predicate.CompanyDetail {
 // OwnerCareerContainsFold applies the ContainsFold predicate on the "OwnerCareer" field.
 func OwnerCareerContainsFold(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldContainsFold(FieldOwnerCareer, v))
-}
-
-// OwnerBirthDateEQ applies the EQ predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateEQ(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateNEQ applies the NEQ predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateNEQ(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNEQ(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateIn applies the In predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateIn(vs ...string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIn(FieldOwnerBirthDate, vs...))
-}
-
-// OwnerBirthDateNotIn applies the NotIn predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateNotIn(vs ...string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotIn(FieldOwnerBirthDate, vs...))
-}
-
-// OwnerBirthDateGT applies the GT predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateGT(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGT(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateGTE applies the GTE predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateGTE(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGTE(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateLT applies the LT predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateLT(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLT(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateLTE applies the LTE predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateLTE(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLTE(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateContains applies the Contains predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateContains(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldContains(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateHasPrefix applies the HasPrefix predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateHasPrefix(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateHasSuffix applies the HasSuffix predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateHasSuffix(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateIsNil applies the IsNil predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateIsNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIsNull(FieldOwnerBirthDate))
-}
-
-// OwnerBirthDateNotNil applies the NotNil predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateNotNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotNull(FieldOwnerBirthDate))
-}
-
-// OwnerBirthDateEqualFold applies the EqualFold predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateEqualFold(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEqualFold(FieldOwnerBirthDate, v))
-}
-
-// OwnerBirthDateContainsFold applies the ContainsFold predicate on the "OwnerBirthDate" field.
-func OwnerBirthDateContainsFold(v string) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldContainsFold(FieldOwnerBirthDate, v))
-}
-
-// VisaFinishedFor90DaysEQ applies the EQ predicate on the "VisaFinishedFor90Days" field.
-func VisaFinishedFor90DaysEQ(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldVisaFinishedFor90Days, v))
-}
-
-// VisaFinishedFor90DaysNEQ applies the NEQ predicate on the "VisaFinishedFor90Days" field.
-func VisaFinishedFor90DaysNEQ(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNEQ(FieldVisaFinishedFor90Days, v))
-}
-
-// VisaFinishedFor90DaysIsNil applies the IsNil predicate on the "VisaFinishedFor90Days" field.
-func VisaFinishedFor90DaysIsNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIsNull(FieldVisaFinishedFor90Days))
-}
-
-// VisaFinishedFor90DaysNotNil applies the NotNil predicate on the "VisaFinishedFor90Days" field.
-func VisaFinishedFor90DaysNotNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotNull(FieldVisaFinishedFor90Days))
-}
-
-// CorePersonAbsent90DaysEQ applies the EQ predicate on the "CorePersonAbsent90Days" field.
-func CorePersonAbsent90DaysEQ(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldCorePersonAbsent90Days, v))
-}
-
-// CorePersonAbsent90DaysNEQ applies the NEQ predicate on the "CorePersonAbsent90Days" field.
-func CorePersonAbsent90DaysNEQ(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNEQ(FieldCorePersonAbsent90Days, v))
-}
-
-// CorePersonAbsent90DaysIsNil applies the IsNil predicate on the "CorePersonAbsent90Days" field.
-func CorePersonAbsent90DaysIsNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIsNull(FieldCorePersonAbsent90Days))
-}
-
-// CorePersonAbsent90DaysNotNil applies the NotNil predicate on the "CorePersonAbsent90Days" field.
-func CorePersonAbsent90DaysNotNil() predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotNull(FieldCorePersonAbsent90Days))
-}
-
-// IsClosedEQ applies the EQ predicate on the "IsClosed" field.
-func IsClosedEQ(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldIsClosed, v))
-}
-
-// IsClosedNEQ applies the NEQ predicate on the "IsClosed" field.
-func IsClosedNEQ(v bool) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNEQ(FieldIsClosed, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

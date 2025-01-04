@@ -17,16 +17,20 @@ type JobAuthor struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Architect holds the value of the "Architect" field.
-	Architect string `json:"Architect,omitempty"`
 	// Static holds the value of the "Static" field.
 	Static string `json:"Static,omitempty"`
 	// Mechanic holds the value of the "Mechanic" field.
 	Mechanic string `json:"Mechanic,omitempty"`
 	// Electric holds the value of the "Electric" field.
 	Electric string `json:"Electric,omitempty"`
-	// Floor holds the value of the "Floor" field.
-	Floor string `json:"Floor,omitempty"`
+	// Architect holds the value of the "Architect" field.
+	Architect string `json:"Architect,omitempty"`
+	// GeotechnicalEngineer holds the value of the "GeotechnicalEngineer" field.
+	GeotechnicalEngineer string `json:"GeotechnicalEngineer,omitempty"`
+	// GeotechnicalGeologist holds the value of the "GeotechnicalGeologist" field.
+	GeotechnicalGeologist string `json:"GeotechnicalGeologist,omitempty"`
+	// GeotechnicalGeophysicist holds the value of the "GeotechnicalGeophysicist" field.
+	GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -66,7 +70,7 @@ func (*JobAuthor) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case jobauthor.FieldID:
 			values[i] = new(sql.NullInt64)
-		case jobauthor.FieldArchitect, jobauthor.FieldStatic, jobauthor.FieldMechanic, jobauthor.FieldElectric, jobauthor.FieldFloor:
+		case jobauthor.FieldStatic, jobauthor.FieldMechanic, jobauthor.FieldElectric, jobauthor.FieldArchitect, jobauthor.FieldGeotechnicalEngineer, jobauthor.FieldGeotechnicalGeologist, jobauthor.FieldGeotechnicalGeophysicist:
 			values[i] = new(sql.NullString)
 		case jobauthor.FieldCreatedAt, jobauthor.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -91,12 +95,6 @@ func (ja *JobAuthor) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			ja.ID = int(value.Int64)
-		case jobauthor.FieldArchitect:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Architect", values[i])
-			} else if value.Valid {
-				ja.Architect = value.String
-			}
 		case jobauthor.FieldStatic:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Static", values[i])
@@ -115,11 +113,29 @@ func (ja *JobAuthor) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				ja.Electric = value.String
 			}
-		case jobauthor.FieldFloor:
+		case jobauthor.FieldArchitect:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Floor", values[i])
+				return fmt.Errorf("unexpected type %T for field Architect", values[i])
 			} else if value.Valid {
-				ja.Floor = value.String
+				ja.Architect = value.String
+			}
+		case jobauthor.FieldGeotechnicalEngineer:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field GeotechnicalEngineer", values[i])
+			} else if value.Valid {
+				ja.GeotechnicalEngineer = value.String
+			}
+		case jobauthor.FieldGeotechnicalGeologist:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field GeotechnicalGeologist", values[i])
+			} else if value.Valid {
+				ja.GeotechnicalGeologist = value.String
+			}
+		case jobauthor.FieldGeotechnicalGeophysicist:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field GeotechnicalGeophysicist", values[i])
+			} else if value.Valid {
+				ja.GeotechnicalGeophysicist = value.String
 			}
 		case jobauthor.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -174,9 +190,6 @@ func (ja *JobAuthor) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobAuthor(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", ja.ID))
-	builder.WriteString("Architect=")
-	builder.WriteString(ja.Architect)
-	builder.WriteString(", ")
 	builder.WriteString("Static=")
 	builder.WriteString(ja.Static)
 	builder.WriteString(", ")
@@ -186,8 +199,17 @@ func (ja *JobAuthor) String() string {
 	builder.WriteString("Electric=")
 	builder.WriteString(ja.Electric)
 	builder.WriteString(", ")
-	builder.WriteString("Floor=")
-	builder.WriteString(ja.Floor)
+	builder.WriteString("Architect=")
+	builder.WriteString(ja.Architect)
+	builder.WriteString(", ")
+	builder.WriteString("GeotechnicalEngineer=")
+	builder.WriteString(ja.GeotechnicalEngineer)
+	builder.WriteString(", ")
+	builder.WriteString("GeotechnicalGeologist=")
+	builder.WriteString(ja.GeotechnicalGeologist)
+	builder.WriteString(", ")
+	builder.WriteString("GeotechnicalGeophysicist=")
+	builder.WriteString(ja.GeotechnicalGeophysicist)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(ja.CreatedAt.Format(time.ANSIC))

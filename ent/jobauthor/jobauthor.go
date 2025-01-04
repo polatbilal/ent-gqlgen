@@ -14,16 +14,20 @@ const (
 	Label = "job_author"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldArchitect holds the string denoting the architect field in the database.
-	FieldArchitect = "architect"
 	// FieldStatic holds the string denoting the static field in the database.
 	FieldStatic = "static"
 	// FieldMechanic holds the string denoting the mechanic field in the database.
 	FieldMechanic = "mechanic"
 	// FieldElectric holds the string denoting the electric field in the database.
 	FieldElectric = "electric"
-	// FieldFloor holds the string denoting the floor field in the database.
-	FieldFloor = "floor"
+	// FieldArchitect holds the string denoting the architect field in the database.
+	FieldArchitect = "architect"
+	// FieldGeotechnicalEngineer holds the string denoting the geotechnicalengineer field in the database.
+	FieldGeotechnicalEngineer = "geotechnical_engineer"
+	// FieldGeotechnicalGeologist holds the string denoting the geotechnicalgeologist field in the database.
+	FieldGeotechnicalGeologist = "geotechnical_geologist"
+	// FieldGeotechnicalGeophysicist holds the string denoting the geotechnicalgeophysicist field in the database.
+	FieldGeotechnicalGeophysicist = "geotechnical_geophysicist"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -44,11 +48,13 @@ const (
 // Columns holds all SQL columns for jobauthor fields.
 var Columns = []string{
 	FieldID,
-	FieldArchitect,
 	FieldStatic,
 	FieldMechanic,
 	FieldElectric,
-	FieldFloor,
+	FieldArchitect,
+	FieldGeotechnicalEngineer,
+	FieldGeotechnicalGeologist,
+	FieldGeotechnicalGeophysicist,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -64,16 +70,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultArchitect holds the default value on creation for the "Architect" field.
-	DefaultArchitect string
-	// DefaultStatic holds the default value on creation for the "Static" field.
-	DefaultStatic string
-	// DefaultMechanic holds the default value on creation for the "Mechanic" field.
-	DefaultMechanic string
-	// DefaultElectric holds the default value on creation for the "Electric" field.
-	DefaultElectric string
-	// DefaultFloor holds the default value on creation for the "Floor" field.
-	DefaultFloor string
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -88,11 +84,6 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
-}
-
-// ByArchitect orders the results by the Architect field.
-func ByArchitect(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldArchitect, opts...).ToFunc()
 }
 
 // ByStatic orders the results by the Static field.
@@ -110,9 +101,24 @@ func ByElectric(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldElectric, opts...).ToFunc()
 }
 
-// ByFloor orders the results by the Floor field.
-func ByFloor(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldFloor, opts...).ToFunc()
+// ByArchitect orders the results by the Architect field.
+func ByArchitect(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldArchitect, opts...).ToFunc()
+}
+
+// ByGeotechnicalEngineer orders the results by the GeotechnicalEngineer field.
+func ByGeotechnicalEngineer(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldGeotechnicalEngineer, opts...).ToFunc()
+}
+
+// ByGeotechnicalGeologist orders the results by the GeotechnicalGeologist field.
+func ByGeotechnicalGeologist(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldGeotechnicalGeologist, opts...).ToFunc()
+}
+
+// ByGeotechnicalGeophysicist orders the results by the GeotechnicalGeophysicist field.
+func ByGeotechnicalGeophysicist(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldGeotechnicalGeophysicist, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

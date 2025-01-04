@@ -43,6 +43,26 @@ func (jou *JobOwnerUpdate) SetNillableName(s *string) *JobOwnerUpdate {
 	return jou
 }
 
+// SetAddress sets the "Address" field.
+func (jou *JobOwnerUpdate) SetAddress(s string) *JobOwnerUpdate {
+	jou.mutation.SetAddress(s)
+	return jou
+}
+
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (jou *JobOwnerUpdate) SetNillableAddress(s *string) *JobOwnerUpdate {
+	if s != nil {
+		jou.SetAddress(*s)
+	}
+	return jou
+}
+
+// ClearAddress clears the value of the "Address" field.
+func (jou *JobOwnerUpdate) ClearAddress() *JobOwnerUpdate {
+	jou.mutation.ClearAddress()
+	return jou
+}
+
 // SetTcNo sets the "TcNo" field.
 func (jou *JobOwnerUpdate) SetTcNo(i int) *JobOwnerUpdate {
 	jou.mutation.ResetTcNo()
@@ -67,26 +87,6 @@ func (jou *JobOwnerUpdate) AddTcNo(i int) *JobOwnerUpdate {
 // ClearTcNo clears the value of the "TcNo" field.
 func (jou *JobOwnerUpdate) ClearTcNo() *JobOwnerUpdate {
 	jou.mutation.ClearTcNo()
-	return jou
-}
-
-// SetAddress sets the "Address" field.
-func (jou *JobOwnerUpdate) SetAddress(s string) *JobOwnerUpdate {
-	jou.mutation.SetAddress(s)
-	return jou
-}
-
-// SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableAddress(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetAddress(*s)
-	}
-	return jou
-}
-
-// ClearAddress clears the value of the "Address" field.
-func (jou *JobOwnerUpdate) ClearAddress() *JobOwnerUpdate {
-	jou.mutation.ClearAddress()
 	return jou
 }
 
@@ -177,30 +177,44 @@ func (jou *JobOwnerUpdate) ClearEmail() *JobOwnerUpdate {
 	return jou
 }
 
-// SetYdsID sets the "yds_id" field.
-func (jou *JobOwnerUpdate) SetYdsID(i int) *JobOwnerUpdate {
-	jou.mutation.ResetYdsID()
-	jou.mutation.SetYdsID(i)
+// SetYDSID sets the "YDSID" field.
+func (jou *JobOwnerUpdate) SetYDSID(i int) *JobOwnerUpdate {
+	jou.mutation.ResetYDSID()
+	jou.mutation.SetYDSID(i)
 	return jou
 }
 
-// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableYdsID(i *int) *JobOwnerUpdate {
+// SetNillableYDSID sets the "YDSID" field if the given value is not nil.
+func (jou *JobOwnerUpdate) SetNillableYDSID(i *int) *JobOwnerUpdate {
 	if i != nil {
-		jou.SetYdsID(*i)
+		jou.SetYDSID(*i)
 	}
 	return jou
 }
 
-// AddYdsID adds i to the "yds_id" field.
-func (jou *JobOwnerUpdate) AddYdsID(i int) *JobOwnerUpdate {
-	jou.mutation.AddYdsID(i)
+// AddYDSID adds i to the "YDSID" field.
+func (jou *JobOwnerUpdate) AddYDSID(i int) *JobOwnerUpdate {
+	jou.mutation.AddYDSID(i)
 	return jou
 }
 
-// ClearYdsID clears the value of the "yds_id" field.
-func (jou *JobOwnerUpdate) ClearYdsID() *JobOwnerUpdate {
-	jou.mutation.ClearYdsID()
+// ClearYDSID clears the value of the "YDSID" field.
+func (jou *JobOwnerUpdate) ClearYDSID() *JobOwnerUpdate {
+	jou.mutation.ClearYDSID()
+	return jou
+}
+
+// SetShareholder sets the "Shareholder" field.
+func (jou *JobOwnerUpdate) SetShareholder(b bool) *JobOwnerUpdate {
+	jou.mutation.SetShareholder(b)
+	return jou
+}
+
+// SetNillableShareholder sets the "Shareholder" field if the given value is not nil.
+func (jou *JobOwnerUpdate) SetNillableShareholder(b *bool) *JobOwnerUpdate {
+	if b != nil {
+		jou.SetShareholder(*b)
+	}
 	return jou
 }
 
@@ -333,6 +347,12 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := jou.mutation.Name(); ok {
 		_spec.SetField(jobowner.FieldName, field.TypeString, value)
 	}
+	if value, ok := jou.mutation.Address(); ok {
+		_spec.SetField(jobowner.FieldAddress, field.TypeString, value)
+	}
+	if jou.mutation.AddressCleared() {
+		_spec.ClearField(jobowner.FieldAddress, field.TypeString)
+	}
 	if value, ok := jou.mutation.TcNo(); ok {
 		_spec.SetField(jobowner.FieldTcNo, field.TypeInt, value)
 	}
@@ -341,12 +361,6 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if jou.mutation.TcNoCleared() {
 		_spec.ClearField(jobowner.FieldTcNo, field.TypeInt)
-	}
-	if value, ok := jou.mutation.Address(); ok {
-		_spec.SetField(jobowner.FieldAddress, field.TypeString, value)
-	}
-	if jou.mutation.AddressCleared() {
-		_spec.ClearField(jobowner.FieldAddress, field.TypeString)
 	}
 	if value, ok := jou.mutation.TaxAdmin(); ok {
 		_spec.SetField(jobowner.FieldTaxAdmin, field.TypeString, value)
@@ -375,14 +389,17 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if jou.mutation.EmailCleared() {
 		_spec.ClearField(jobowner.FieldEmail, field.TypeString)
 	}
-	if value, ok := jou.mutation.YdsID(); ok {
-		_spec.SetField(jobowner.FieldYdsID, field.TypeInt, value)
+	if value, ok := jou.mutation.YDSID(); ok {
+		_spec.SetField(jobowner.FieldYDSID, field.TypeInt, value)
 	}
-	if value, ok := jou.mutation.AddedYdsID(); ok {
-		_spec.AddField(jobowner.FieldYdsID, field.TypeInt, value)
+	if value, ok := jou.mutation.AddedYDSID(); ok {
+		_spec.AddField(jobowner.FieldYDSID, field.TypeInt, value)
 	}
-	if jou.mutation.YdsIDCleared() {
-		_spec.ClearField(jobowner.FieldYdsID, field.TypeInt)
+	if jou.mutation.YDSIDCleared() {
+		_spec.ClearField(jobowner.FieldYDSID, field.TypeInt)
+	}
+	if value, ok := jou.mutation.Shareholder(); ok {
+		_spec.SetField(jobowner.FieldShareholder, field.TypeBool, value)
 	}
 	if value, ok := jou.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
@@ -475,6 +492,26 @@ func (jouo *JobOwnerUpdateOne) SetNillableName(s *string) *JobOwnerUpdateOne {
 	return jouo
 }
 
+// SetAddress sets the "Address" field.
+func (jouo *JobOwnerUpdateOne) SetAddress(s string) *JobOwnerUpdateOne {
+	jouo.mutation.SetAddress(s)
+	return jouo
+}
+
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (jouo *JobOwnerUpdateOne) SetNillableAddress(s *string) *JobOwnerUpdateOne {
+	if s != nil {
+		jouo.SetAddress(*s)
+	}
+	return jouo
+}
+
+// ClearAddress clears the value of the "Address" field.
+func (jouo *JobOwnerUpdateOne) ClearAddress() *JobOwnerUpdateOne {
+	jouo.mutation.ClearAddress()
+	return jouo
+}
+
 // SetTcNo sets the "TcNo" field.
 func (jouo *JobOwnerUpdateOne) SetTcNo(i int) *JobOwnerUpdateOne {
 	jouo.mutation.ResetTcNo()
@@ -499,26 +536,6 @@ func (jouo *JobOwnerUpdateOne) AddTcNo(i int) *JobOwnerUpdateOne {
 // ClearTcNo clears the value of the "TcNo" field.
 func (jouo *JobOwnerUpdateOne) ClearTcNo() *JobOwnerUpdateOne {
 	jouo.mutation.ClearTcNo()
-	return jouo
-}
-
-// SetAddress sets the "Address" field.
-func (jouo *JobOwnerUpdateOne) SetAddress(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetAddress(s)
-	return jouo
-}
-
-// SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableAddress(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetAddress(*s)
-	}
-	return jouo
-}
-
-// ClearAddress clears the value of the "Address" field.
-func (jouo *JobOwnerUpdateOne) ClearAddress() *JobOwnerUpdateOne {
-	jouo.mutation.ClearAddress()
 	return jouo
 }
 
@@ -609,30 +626,44 @@ func (jouo *JobOwnerUpdateOne) ClearEmail() *JobOwnerUpdateOne {
 	return jouo
 }
 
-// SetYdsID sets the "yds_id" field.
-func (jouo *JobOwnerUpdateOne) SetYdsID(i int) *JobOwnerUpdateOne {
-	jouo.mutation.ResetYdsID()
-	jouo.mutation.SetYdsID(i)
+// SetYDSID sets the "YDSID" field.
+func (jouo *JobOwnerUpdateOne) SetYDSID(i int) *JobOwnerUpdateOne {
+	jouo.mutation.ResetYDSID()
+	jouo.mutation.SetYDSID(i)
 	return jouo
 }
 
-// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableYdsID(i *int) *JobOwnerUpdateOne {
+// SetNillableYDSID sets the "YDSID" field if the given value is not nil.
+func (jouo *JobOwnerUpdateOne) SetNillableYDSID(i *int) *JobOwnerUpdateOne {
 	if i != nil {
-		jouo.SetYdsID(*i)
+		jouo.SetYDSID(*i)
 	}
 	return jouo
 }
 
-// AddYdsID adds i to the "yds_id" field.
-func (jouo *JobOwnerUpdateOne) AddYdsID(i int) *JobOwnerUpdateOne {
-	jouo.mutation.AddYdsID(i)
+// AddYDSID adds i to the "YDSID" field.
+func (jouo *JobOwnerUpdateOne) AddYDSID(i int) *JobOwnerUpdateOne {
+	jouo.mutation.AddYDSID(i)
 	return jouo
 }
 
-// ClearYdsID clears the value of the "yds_id" field.
-func (jouo *JobOwnerUpdateOne) ClearYdsID() *JobOwnerUpdateOne {
-	jouo.mutation.ClearYdsID()
+// ClearYDSID clears the value of the "YDSID" field.
+func (jouo *JobOwnerUpdateOne) ClearYDSID() *JobOwnerUpdateOne {
+	jouo.mutation.ClearYDSID()
+	return jouo
+}
+
+// SetShareholder sets the "Shareholder" field.
+func (jouo *JobOwnerUpdateOne) SetShareholder(b bool) *JobOwnerUpdateOne {
+	jouo.mutation.SetShareholder(b)
+	return jouo
+}
+
+// SetNillableShareholder sets the "Shareholder" field if the given value is not nil.
+func (jouo *JobOwnerUpdateOne) SetNillableShareholder(b *bool) *JobOwnerUpdateOne {
+	if b != nil {
+		jouo.SetShareholder(*b)
+	}
 	return jouo
 }
 
@@ -795,6 +826,12 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 	if value, ok := jouo.mutation.Name(); ok {
 		_spec.SetField(jobowner.FieldName, field.TypeString, value)
 	}
+	if value, ok := jouo.mutation.Address(); ok {
+		_spec.SetField(jobowner.FieldAddress, field.TypeString, value)
+	}
+	if jouo.mutation.AddressCleared() {
+		_spec.ClearField(jobowner.FieldAddress, field.TypeString)
+	}
 	if value, ok := jouo.mutation.TcNo(); ok {
 		_spec.SetField(jobowner.FieldTcNo, field.TypeInt, value)
 	}
@@ -803,12 +840,6 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 	}
 	if jouo.mutation.TcNoCleared() {
 		_spec.ClearField(jobowner.FieldTcNo, field.TypeInt)
-	}
-	if value, ok := jouo.mutation.Address(); ok {
-		_spec.SetField(jobowner.FieldAddress, field.TypeString, value)
-	}
-	if jouo.mutation.AddressCleared() {
-		_spec.ClearField(jobowner.FieldAddress, field.TypeString)
 	}
 	if value, ok := jouo.mutation.TaxAdmin(); ok {
 		_spec.SetField(jobowner.FieldTaxAdmin, field.TypeString, value)
@@ -837,14 +868,17 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 	if jouo.mutation.EmailCleared() {
 		_spec.ClearField(jobowner.FieldEmail, field.TypeString)
 	}
-	if value, ok := jouo.mutation.YdsID(); ok {
-		_spec.SetField(jobowner.FieldYdsID, field.TypeInt, value)
+	if value, ok := jouo.mutation.YDSID(); ok {
+		_spec.SetField(jobowner.FieldYDSID, field.TypeInt, value)
 	}
-	if value, ok := jouo.mutation.AddedYdsID(); ok {
-		_spec.AddField(jobowner.FieldYdsID, field.TypeInt, value)
+	if value, ok := jouo.mutation.AddedYDSID(); ok {
+		_spec.AddField(jobowner.FieldYDSID, field.TypeInt, value)
 	}
-	if jouo.mutation.YdsIDCleared() {
-		_spec.ClearField(jobowner.FieldYdsID, field.TypeInt)
+	if jouo.mutation.YDSIDCleared() {
+		_spec.ClearField(jobowner.FieldYDSID, field.TypeInt)
+	}
+	if value, ok := jouo.mutation.Shareholder(); ok {
+		_spec.SetField(jobowner.FieldShareholder, field.TypeBool, value)
 	}
 	if value, ok := jouo.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)

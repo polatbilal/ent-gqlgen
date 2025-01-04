@@ -1,6 +1,6 @@
 type JobPayments {
   id: ID!
-  Date: Date
+  Date: Time
   Amount: Int
   Description: String
   Status: String
@@ -8,7 +8,7 @@ type JobPayments {
 }
 
 input JobPaymentsInput {
-  Date: Date
+  Date: Time
   Amount: Int
   Description: String
   Status: String
