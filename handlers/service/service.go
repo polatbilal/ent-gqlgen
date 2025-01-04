@@ -96,25 +96,6 @@ type YDKEngineerResponse struct {
 	TotalCount int `json:"totalCount"`
 }
 
-type YIBFAuthorResponse struct {
-	Items []struct {
-		ID                             int    `json:"id"`
-		YibfId                         int    `json:"yibfId"`
-		UserId                         int    `json:"userId"`
-		PersonName                     string `json:"personName"`
-		PersonSurname                  string `json:"personSurname"`
-		TaskId                         int    `json:"taskId"`
-		TaskName                       string `json:"taskName"`
-		TitleId                        int    `json:"titleId"`
-		TitleName                      string `json:"titleName"`
-		TaskGroupId                    int    `json:"taskGroupId"`
-		TaskGroupName                  string `json:"taskGroupName"`
-		OccupationalRegistrationNumber string `json:"occupationalRegistrationNumber"`
-		MaksApproveSubjectId           int    `json:"maksApproveSubjectId"`
-		MaksApproveSubjectName         string `json:"maksApproveSubjectName"`
-	} `json:"items"`
-}
-
 type YIBFResponse struct {
 	ID               int     `json:"id"`
 	Island           string  `json:"island"`
@@ -216,4 +197,21 @@ type YIBFResponse struct {
 			TcNo          string `json:"tcNo"`
 		} `json:"yambis"`
 	} `json:"latestYibfYambis"`
+}
+
+type YIBFAuthorResponse struct {
+	Items []struct {
+		PersonName    string `json:"personName"`
+		PersonSurname string `json:"personSurname"`
+		TaskId        int    `json:"taskId"`
+		TitleId       int    `json:"titleId"`
+	} `json:"items"`
+}
+
+type YIBFInspectorResponse struct {
+	Items []struct {
+		UserId  int `json:"userId"`
+		TaskId  int `json:"taskId"`
+		TitleId int `json:"titleId"`
+	} `json:"items"`
 }

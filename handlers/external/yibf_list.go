@@ -345,6 +345,84 @@ func YibfList(c *gin.Context) {
 			"IsCompleted":      detail.IsCompleted,
 		}
 
+		// Inspector verilerini al
+		inspectorURL := fmt.Sprintf("%s%s", svc.BaseURL, service.ENDPOINT_YIBF_DEPARTMENT_EMPLOYEE)
+		log.Printf("Inspector URL: %s", inspectorURL)
+
+		// Inspector request body hazırla
+		inspectorRequestBody := map[string]interface{}{
+			"filter": [][]interface{}{
+				{"yibfId", "=", item.ID},
+			},
+		}
+
+		inspectorJsonBody, err := json.Marshal(inspectorRequestBody)
+		if err != nil {
+			log.Printf("ID %d için inspector request body oluşturma hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		inspectorReq, err := http.NewRequest("POST", inspectorURL, bytes.NewBuffer(inspectorJsonBody))
+		if err != nil {
+			log.Printf("ID %d için inspector request oluşturma hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		inspectorReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
+		inspectorReq.Header.Set("Content-Type", "application/json")
+
+		inspectorResp, err := svc.Client.Do(inspectorReq)
+		if err != nil {
+			log.Printf("ID %d için inspector isteği başarısız: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		inspectorBody, err := io.ReadAll(inspectorResp.Body)
+		inspectorResp.Body.Close()
+		if err != nil {
+			log.Printf("ID %d için inspector yanıtı okuma hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		var inspectorResponse service.YIBFInspectorResponse
+		if err := json.Unmarshal(inspectorBody, &inspectorResponse); err != nil {
+			log.Printf("ID %d için inspector parse hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		// Inspector verilerini job input'a ekle
+		for _, inspector := range inspectorResponse.Items {
+			switch inspector.TaskId {
+			case 1:
+				jobData["Inspector"] = inspector.UserId
+			case 2:
+				switch inspector.TitleId {
+				case 4:
+					jobData["Static"] = inspector.UserId
+				case 3:
+					jobData["Architect"] = inspector.UserId
+				case 2:
+					jobData["Mechanic"] = inspector.UserId
+				case 1:
+					jobData["Electric"] = inspector.UserId
+				}
+			case 14:
+				switch inspector.TitleId {
+				case 3, 4:
+					jobData["Controller"] = inspector.UserId
+				case 2:
+					jobData["MechanicController"] = inspector.UserId
+				case 1:
+					jobData["ElectricController"] = inspector.UserId
+				}
+			}
+		}
+
 		// Tarihleri sadece geçerli değer varsa ekle
 		if detail.ContractDate > 0 {
 			jobData["ContractDate"] = safeUnixToDate(detail.ContractDate)
@@ -448,11 +526,6 @@ func YibfList(c *gin.Context) {
 			failedIDs = append(failedIDs, item.ID)
 			continue
 		}
-
-		// Author yanıtını logla
-		log.Printf("ID %d için author yanıtı: %s", item.ID, string(authorBody))
-		log.Printf("Author yanıt status kodu: %d", authorResp.StatusCode)
-		log.Printf("Author yanıt headers: %v", authorResp.Header)
 
 		var authorResponse service.YIBFAuthorResponse
 		if err := json.Unmarshal(authorBody, &authorResponse); err != nil {
