@@ -48,7 +48,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateEngineer(id: ID!, input: CompanyEngineerInput!): CompanyEngineer!
+  updateEngineer(YDSID: Int!, input: CompanyEngineerInput!): CompanyEngineer!
     @goField(forceResolver: true)
     @auth
 }

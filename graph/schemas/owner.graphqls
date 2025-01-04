@@ -8,7 +8,7 @@ type JobOwner {
   TaxNo: Int
   Phone: String
   Email: String
-  YdsId: Int
+  YDSID: Int
   Shareholder: Boolean
   Note: String
 }
@@ -22,13 +22,14 @@ input JobOwnerInput {
   TaxNo: Int
   Phone: String
   Email: String
-  YdsId: Int
+  YDSID: Int
   Shareholder: Boolean
   Note: String
 }
 
 extend type Query {
   allOwner: [JobOwner]! @goField(forceResolver: true) @auth
+  getOwner(YDSID: Int!): JobOwner! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
@@ -36,7 +37,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateOwner(id: ID!, input: JobOwnerInput!): JobOwner!
+  updateOwner(YDSID: Int!, input: JobOwnerInput!): JobOwner!
     @goField(forceResolver: true)
     @auth
 }

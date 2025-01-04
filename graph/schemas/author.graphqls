@@ -1,0 +1,20 @@
+type JobAuthor {
+  id: ID!
+  Static: String
+  Mechanic: String
+  Electric: String
+  Architect: String
+  GeotechnicalEngineer: String
+  GeotechnicalGeologist: String
+  GeotechnicalGeophysicist: String
+}
+
+input JobAuthorInput {
+  Static: String
+  Mechanic: String
+  Electric: String
+  Architect: String
+  GeotechnicalEngineer: String
+  GeotechnicalGeologist: String
+  GeotechnicalGeophysicist: String
+}

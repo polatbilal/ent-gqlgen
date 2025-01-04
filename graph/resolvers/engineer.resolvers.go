@@ -67,15 +67,10 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 }
 
 // UpdateEngineer is the resolver for the updateEngineer field.
-func (r *mutationResolver) UpdateEngineer(ctx context.Context, id string, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
+func (r *mutationResolver) UpdateEngineer(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	engineerID, err := strconv.Atoi(id)
-	if err != nil {
-		return nil, fmt.Errorf("failed to convert engineer ID: %v", err)
-	}
-
-	engineer, err := client.CompanyEngineer.UpdateOneID(engineerID).
+	engineer, err := client.CompanyEngineer.UpdateOneID(ydsid).
 		SetNillableName(input.Name).
 		SetNillableAddress(input.Address).
 		SetNillableEmail(input.Email).

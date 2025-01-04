@@ -7,7 +7,6 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
@@ -40,13 +39,10 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 }
 
 // UpdateContractor is the resolver for the updateContractor field.
-func (r *mutationResolver) UpdateContractor(ctx context.Context, id string, input model.JobContractorInput) (*ent.JobContractor, error) {
+func (r *mutationResolver) UpdateContractor(ctx context.Context, ydsid int, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	contractorID, err := strconv.Atoi(id)
-	if err != nil {
-		return nil, fmt.Errorf("invalid contractor ID: %w", err)
-	}
-	contractor, err := client.JobContractor.UpdateOneID(contractorID).
+
+	contractor, err := client.JobContractor.UpdateOneID(ydsid).
 		SetName(input.Name).
 		SetNillableTcNo(input.TcNo).
 		SetNillableRegisterNo(input.RegisterNo).
@@ -78,8 +74,8 @@ func (r *queryResolver) Contractor(ctx context.Context, yibfNo int) (*ent.JobCon
 	return client.JobContractor.Query().Where(jobcontractor.HasContractorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
 }
 
-// ContractorByYdsid is the resolver for the contractorByYDSID field.
-func (r *queryResolver) ContractorByYdsid(ctx context.Context, ydsid int) (*ent.JobContractor, error) {
+// GetContractor is the resolver for the getContractor field.
+func (r *queryResolver) GetContractor(ctx context.Context, ydsid int) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	return client.JobContractor.Query().Where(jobcontractor.YDSID(ydsid)).Only(ctx)
 }

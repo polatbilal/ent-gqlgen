@@ -33,7 +33,7 @@ input JobContractorInput {
 extend type Query {
   allContractor: [JobContractor]! @goField(forceResolver: true) @auth
   contractor(YibfNo: Int!): JobContractor! @goField(forceResolver: true) @auth
-  contractorByYDSID(YDSID: Int!): JobContractor! @goField(forceResolver: true) @auth
+  getContractor(YDSID: Int!): JobContractor! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
@@ -41,7 +41,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateContractor(id: ID!, input: JobContractorInput!): JobContractor!
+  updateContractor(YDSID: Int!, input: JobContractorInput!): JobContractor!
     @goField(forceResolver: true)
     @auth
 }

@@ -158,7 +158,7 @@ type JobOwnerInput struct {
 	TaxNo       *int    `json:"TaxNo,omitempty"`
 	Phone       *string `json:"Phone,omitempty"`
 	Email       *string `json:"Email,omitempty"`
-	YdsID       *int    `json:"YdsId,omitempty"`
+	Ydsid       *int    `json:"YDSID,omitempty"`
 	Shareholder *bool   `json:"Shareholder,omitempty"`
 	Note        *string `json:"Note,omitempty"`
 }

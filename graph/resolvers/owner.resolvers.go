@@ -7,9 +7,9 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
@@ -24,7 +24,7 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 		SetNillableTaxNo(input.TaxNo).
 		SetNillablePhone(input.Phone).
 		SetNillableEmail(input.Email).
-		SetNillableYDSID(input.YdsID).
+		SetYDSID(*input.Ydsid).
 		SetNillableShareholder(input.Shareholder).
 		SetNillableNote(input.Note).
 		Save(ctx)
@@ -37,20 +37,16 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 }
 
 // UpdateOwner is the resolver for the updateOwner field.
-func (r *mutationResolver) UpdateOwner(ctx context.Context, id string, input model.JobOwnerInput) (*ent.JobOwner, error) {
+func (r *mutationResolver) UpdateOwner(ctx context.Context, ydsid int, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	ownerID, err := strconv.Atoi(id)
-	if err != nil {
-		return nil, fmt.Errorf("invalid owner ID: %w", err)
-	}
-	owner, err := client.JobOwner.UpdateOneID(ownerID).
+
+	owner, err := client.JobOwner.UpdateOneID(ydsid).
 		SetNillableName(input.Name).
 		SetNillableTcNo(input.TcNo).
 		SetNillableTaxAdmin(input.TaxAdmin).
 		SetNillableTaxNo(input.TaxNo).
 		SetNillablePhone(input.Phone).
 		SetNillableEmail(input.Email).
-		SetNillableYDSID(input.YdsID).
 		SetNillableShareholder(input.Shareholder).
 		SetNillableNote(input.Note).
 		Save(ctx)
@@ -66,4 +62,10 @@ func (r *mutationResolver) UpdateOwner(ctx context.Context, id string, input mod
 func (r *queryResolver) AllOwner(ctx context.Context) ([]*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	return client.JobOwner.Query().All(ctx)
+}
+
+// GetOwner is the resolver for the getOwner field.
+func (r *queryResolver) GetOwner(ctx context.Context, ydsid int) (*ent.JobOwner, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobOwner.Query().Where(jobowner.YDSID(ydsid)).Only(ctx)
 }
