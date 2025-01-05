@@ -179,8 +179,54 @@ func YDKCompanies(c *gin.Context) {
 		"OwnerCareer":               item.Title.Name,
 	}
 
+	// GraphQL sorgusu "not found" hatası döndürdüyse veya şirket bulunamadıysa
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			// Yeni şirket oluştur
+			mutation := `
+			mutation CreateCompany($input: CompanyDetailInput!) {
+				createCompany(input: $input) {
+					id
+					CompanyCode
+					Name
+				}
+			}
+			`
+
+			var result struct {
+				CreateCompany struct {
+					ID          int    `json:"id"`
+					CompanyCode int    `json:"CompanyCode"`
+					Name        string `json:"Name"`
+				} `json:"createCompany"`
+			}
+
+			if err := graphqlClient.Execute(mutation, map[string]interface{}{"input": companyData}, jwtToken, &result); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"error": fmt.Sprintf("Şirket kaydedilirken hata oluştu: %v", err),
+				})
+				return
+			}
+
+			c.JSON(http.StatusOK, gin.H{
+				"message": "Şirket başarıyla kaydedildi",
+				"company": gin.H{
+					"name": item.Department.Name,
+					"code": item.Department.FileNumber,
+				},
+			})
+			return
+		} else {
+			// Diğer GraphQL hataları için hata döndür
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": fmt.Sprintf("Şirket kontrolü sırasında hata oluştu: %v", err),
+			})
+			return
+		}
+	}
+
 	// Şirket var mı kontrolü
-	if err == nil && checkResult.CompanyByCode.CompanyCode > 0 {
+	if checkResult.CompanyByCode.CompanyCode > 0 {
 		// Mevcut şirket detaylarını al
 		detailQuery := `
 		query GetCompanyDetail($companyCode: Int!) {
@@ -328,73 +374,4 @@ func YDKCompanies(c *gin.Context) {
 		})
 		return
 	}
-
-	// Eğer hata varsa ve bu "not found" hatası değilse
-	if err != nil && !strings.Contains(err.Error(), "not found") {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": fmt.Sprintf("Şirket kontrolü sırasında hata oluştu: %v", err),
-		})
-		return
-	}
-
-	// Şirket yoksa, yeni kayıt oluştur
-	mutation := `
-	mutation CreateCompany($input: CompanyDetailInput!) {
-		createCompany(input: $input) {
-			id
-			CompanyCode
-			Name
-		}
-	}
-	`
-
-	variables := map[string]interface{}{
-		"input": map[string]interface{}{
-			"Name":                      item.Department.Name,
-			"CompanyCode":               item.Department.FileNumber,
-			"Address":                   item.Department.Person.AddressStr,
-			"Phone":                     item.Department.Person.LastPhoneNumber,
-			"Email":                     item.Department.Person.LastEPosta,
-			"Website":                   item.Department.Person.LastWebAddress,
-			"TaxAdmin":                  item.Department.Person.TaxAdministration,
-			"TaxNo":                     item.Department.Person.IdentityNumber,
-			"ChamberInfo":               item.Department.ChamberInfo,
-			"ChamberRegistrationNo":     item.Department.RegistrationNumber,
-			"VisaDate":                  visaDate,
-			"VisaEndDate":               visaEndDate,
-			"visa_finished_for_90days":  item.Department.VisaFinishedFor90Days,
-			"core_person_absent_90days": item.Department.CorePersonAbsent90Days,
-			"isClosed":                  item.Department.IsClosed,
-			"OwnerName":                 item.Person.FullName,
-			"OwnerTcNo":                 item.Person.IdentityNumber,
-			"OwnerAddress":              item.Person.AddressStr,
-			"OwnerPhone":                item.Person.LastPhoneNumber,
-			"OwnerEmail":                item.Person.LastEPosta,
-			"OwnerRegisterNo":           item.OccupationalRegistrationNumber,
-			"OwnerCareer":               item.Title.Name,
-		},
-	}
-
-	var result struct {
-		CreateCompany struct {
-			ID          int    `json:"id"`
-			CompanyCode int    `json:"CompanyCode"`
-			Name        string `json:"Name"`
-		} `json:"createCompany"`
-	}
-
-	if err := graphqlClient.Execute(mutation, variables, jwtToken, &result); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": fmt.Sprintf("Şirket kaydedilirken hata oluştu: %v", err),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Şirket başarıyla kaydedildi",
-		"company": gin.H{
-			"name": item.Department.Name,
-			"code": item.Department.FileNumber,
-		},
-	})
 }

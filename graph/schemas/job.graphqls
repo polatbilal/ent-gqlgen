@@ -35,11 +35,7 @@ type JobDetail {
   IsCompleted: Boolean
   Note: String
 
-  Owner: JobOwner
-  Contractor: JobContractor
-  Author: JobAuthor
   Progress: JobProgress
-  Supervisor: JobSupervisor
   Layer: [JobLayer]
 
   Inspector: CompanyEngineer
@@ -87,11 +83,6 @@ input JobInput {
   IsCompleted: Boolean
   Note: String
 
-  Owner: Int
-  Contractor: Int
-  Author: Int
-  Supervisor: Int
-
   Inspector: Int
   Static: Int
   Architect: Int
@@ -104,7 +95,7 @@ input JobInput {
 
 extend type Query {
   job(yibfNo: Int!): JobDetail @goField(forceResolver: true) @auth
-  jobs: JobDetail! @goField(forceResolver: true) @auth
+  jobs: [JobDetail!]! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {

@@ -123,10 +123,6 @@ type JobInput struct {
 	IsLicenseExpired   *bool      `json:"IsLicenseExpired,omitempty"`
 	IsCompleted        *bool      `json:"IsCompleted,omitempty"`
 	Note               *string    `json:"Note,omitempty"`
-	Owner              *int       `json:"Owner,omitempty"`
-	Contractor         *int       `json:"Contractor,omitempty"`
-	Author             *int       `json:"Author,omitempty"`
-	Supervisor         *int       `json:"Supervisor,omitempty"`
 	Inspector          *int       `json:"Inspector,omitempty"`
 	Static             *int       `json:"Static,omitempty"`
 	Architect          *int       `json:"Architect,omitempty"`

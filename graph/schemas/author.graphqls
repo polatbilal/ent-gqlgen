@@ -21,10 +21,10 @@ input JobAuthorInput {
 }
 
 extend type Query {
-  author(yibfNo: Int!): JobAuthor
+  author(yibfNo: Int!): JobAuthor @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
-  createAuthor(input: JobAuthorInput!): JobAuthor
-  updateAuthor(yibfNo: Int!, input: JobAuthorInput!): JobAuthor
+  createAuthor(input: JobAuthorInput!): JobAuthor @auth
+  updateAuthor(yibfNo: Int!, input: JobAuthorInput!): JobAuthor @auth
 }

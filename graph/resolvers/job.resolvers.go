@@ -233,9 +233,9 @@ func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, er
 }
 
 // Jobs is the resolver for the jobs field.
-func (r *queryResolver) Jobs(ctx context.Context) (*ent.JobDetail, error) {
+func (r *queryResolver) Jobs(ctx context.Context) ([]*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	jobs, err := client.JobDetail.Query().Only(ctx)
+	jobs, err := client.JobDetail.Query().All(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch jobs: %w", err)
 	}

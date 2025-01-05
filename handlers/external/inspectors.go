@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"math"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/polatbilal/gqlgen-ent/graph/helpers"
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
@@ -163,10 +163,11 @@ func YDKInspectors(c *gin.Context) {
 
 	// Her bir denetçi için GraphQL mutation'ı çalıştır
 	successCount := 0
+	skippedCount := 0
 	var processLogs []map[string]interface{}
 
 	for _, inspector := range simplifiedData {
-		log.Printf("Denetçi işleniyor: %s\n", inspector.Name)
+		log.Printf("Denetçi işleniyor: %s (YDSID: %d)\n", inspector.Name, inspector.YDSID)
 
 		processLog := map[string]interface{}{
 			"name": inspector.Name,
@@ -187,31 +188,10 @@ func YDKInspectors(c *gin.Context) {
 			continue
 		}
 
-		// Önce denetçinin var olup olmadığını kontrol et
-		checkQuery := `
-		query CheckEngineer($ydsid: Int!) {
-			engineer(filter: {YDSID: $ydsid}) {
-				id
-				YDSID
-				Name
-			}
-		}
-		`
-
-		checkVariables := map[string]interface{}{
-			"ydsid": inspector.YDSID,
-		}
-
-		var checkResult struct {
-			Engineer []map[string]interface{} `json:"engineer"`
-		}
-
-		err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResult)
-
 		// Denetçi verilerini hazırla
 		engineerData := map[string]interface{}{
 			"Name":        inspector.Name,
-			"TcNo":        inspector.TcNo,
+			"TcNo":        helpers.SafeStringToInt(inspector.TcNo),
 			"RegisterNo":  RegisterNoInt,
 			"Email":       inspector.Email,
 			"Phone":       inspector.Phone,
@@ -224,157 +204,225 @@ func YDKInspectors(c *gin.Context) {
 			"CompanyCode": inspector.CompanyCode,
 		}
 
-		// Eğer hata varsa ve bu "not found" hatası değilse
-		if err != nil && !strings.Contains(err.Error(), "not found") {
-			errMsg := fmt.Sprintf("Denetçi kontrolü sırasında hata oluştu: %v", err)
-			log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
-			processLog["status"] = "error"
-			processLog["error"] = errMsg
-			processLogs = append(processLogs, processLog)
-			continue
+		// Denetçiyi sorgula
+		detailQuery := `
+		query GetEngineerDetail($ydsid: Int!) {
+			engineerByYDSID(ydsid: $ydsid) {
+				id
+				Name
+				TcNo
+				RegisterNo
+				Email
+				Phone
+				Career
+				Position
+				Address
+				CertNo
+				YDSID
+				Employment
+				CompanyCode
+			}
+		}
+		`
+
+		var detailResult struct {
+			EngineerByYDSID struct {
+				ID          int    `json:"id"`
+				Name        string `json:"Name"`
+				TcNo        int    `json:"TcNo"`
+				RegisterNo  int    `json:"RegisterNo"`
+				Email       string `json:"Email"`
+				Phone       string `json:"Phone"`
+				Career      string `json:"Career"`
+				Position    string `json:"Position"`
+				Address     string `json:"Address"`
+				CertNo      int    `json:"CertNo"`
+				YDSID       int    `json:"YDSID"`
+				Employment  string `json:"Employment"`
+				CompanyCode int    `json:"CompanyCode"`
+			} `json:"engineerByYDSID"`
 		}
 
-		// Denetçi var mı kontrolü
-		if len(checkResult.Engineer) > 0 {
-			// Mevcut denetçi detaylarını al
-			detailQuery := `
-			query GetEngineerDetail($ydsid: Int!) {
-				engineer(filter: {YDSID: $ydsid}) {
+		err = graphqlClient.Execute(detailQuery, map[string]interface{}{"ydsid": inspector.YDSID}, jwtToken, &detailResult)
+
+		if err != nil {
+			// Hata mesajını kontrol et
+			errMsg := err.Error()
+
+			// Denetçi bulunamadı hatası (company_engineer not found)
+			if strings.Contains(errMsg, "company_engineer not found") {
+				// Denetçi yoksa ekle
+				createMutation := `
+				mutation CreateEngineer($input: CompanyEngineerInput!) {
+					createEngineer(input: $input) {
+						id
+						Name
+						YDSID
+						CompanyCode
+					}
+				}
+				`
+
+				var createResult struct {
+					CreateEngineer struct {
+						ID          int    `json:"id"`
+						Name        string `json:"Name"`
+						YDSID       int    `json:"YDSID"`
+						CompanyCode int    `json:"CompanyCode"`
+					} `json:"createEngineer"`
+				}
+
+				if err := graphqlClient.Execute(createMutation, map[string]interface{}{"input": engineerData}, jwtToken, &createResult); err != nil {
+					errMsg := fmt.Sprintf("Denetçi eklenirken hata oluştu: %v", err)
+					log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
+					processLog["status"] = "error"
+					processLog["error"] = errMsg
+					processLogs = append(processLogs, processLog)
+					continue
+				}
+
+				successCount++
+				processLog["status"] = "success"
+				processLog["message"] = "Denetçi başarıyla eklendi"
+				processLogs = append(processLogs, processLog)
+				continue
+
+				// Şirket bulunamadı hatası (company_detail not found)
+			} else if strings.Contains(errMsg, "company_detail not found") {
+				log.Printf("CompanyCode bulunamadı, güncelleme yapılacak - Denetçi: %s", inspector.Name)
+				updateMutation := `
+				mutation UpdateEngineer($ydsid: Int!, $input: CompanyEngineerInput!) {
+					updateEngineerByYDSID(ydsid: $ydsid, input: $input) {
+						id
+						Name
+						YDSID
+						CompanyCode
+					}
+				}
+				`
+
+				var updateResult struct {
+					UpdateEngineerByYDSID struct {
+						ID          int    `json:"id"`
+						Name        string `json:"Name"`
+						YDSID       int    `json:"YDSID"`
+						CompanyCode int    `json:"CompanyCode"`
+					} `json:"updateEngineerByYDSID"`
+				}
+
+				updateVariables := map[string]interface{}{
+					"ydsid": inspector.YDSID,
+					"input": engineerData,
+				}
+
+				if err := graphqlClient.Execute(updateMutation, updateVariables, jwtToken, &updateResult); err != nil {
+					errMsg := fmt.Sprintf("Denetçi güncellenirken hata oluştu: %v", err)
+					log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
+					processLog["status"] = "error"
+					processLog["error"] = errMsg
+					processLogs = append(processLogs, processLog)
+					continue
+				}
+
+				successCount++
+				processLog["status"] = "success"
+				processLog["message"] = "Denetçi başarıyla güncellendi (CompanyCode değişikliği)"
+				processLogs = append(processLogs, processLog)
+				continue
+			} else {
+				// Diğer hatalar
+				errMsg := fmt.Sprintf("Denetçi sorgulanırken hata oluştu: %v", err)
+				log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
+				processLog["status"] = "error"
+				processLog["error"] = errMsg
+				processLogs = append(processLogs, processLog)
+				continue
+			}
+		}
+
+		// Denetçi bulundu, değişiklikleri kontrol et
+		currentEngineer := detailResult.EngineerByYDSID
+		var changedFields []string
+		needsUpdate := false
+
+		// Alanları karşılaştır
+		if currentEngineer.CompanyCode != inspector.CompanyCode {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("CompanyCode: %v -> %v",
+				currentEngineer.CompanyCode, inspector.CompanyCode))
+		}
+		if currentEngineer.Name != inspector.Name {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("Name: %v -> %v",
+				currentEngineer.Name, inspector.Name))
+		}
+		if currentEngineer.TcNo != helpers.SafeStringToInt(inspector.TcNo) {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("TcNo: %v -> %v",
+				currentEngineer.TcNo, helpers.SafeStringToInt(inspector.TcNo)))
+		}
+		if currentEngineer.RegisterNo != RegisterNoInt {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("RegisterNo: %v -> %v",
+				currentEngineer.RegisterNo, RegisterNoInt))
+		}
+		if currentEngineer.Email != inspector.Email {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("Email: %v -> %v",
+				currentEngineer.Email, inspector.Email))
+		}
+		if currentEngineer.Phone != inspector.Phone {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("Phone: %v -> %v",
+				currentEngineer.Phone, inspector.Phone))
+		}
+		if currentEngineer.Career != inspector.Career {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("Career: %v -> %v",
+				currentEngineer.Career, inspector.Career))
+		}
+		if currentEngineer.Position != inspector.Position {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("Position: %v -> %v",
+				currentEngineer.Position, inspector.Position))
+		}
+		if currentEngineer.Address != inspector.Address {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("Address: %v -> %v",
+				currentEngineer.Address, inspector.Address))
+		}
+		if currentEngineer.CertNo != inspector.CertNo {
+			needsUpdate = true
+			changedFields = append(changedFields, fmt.Sprintf("CertNo: %v -> %v",
+				currentEngineer.CertNo, inspector.CertNo))
+		}
+
+		if needsUpdate {
+			// Değişiklik varsa güncelle
+			log.Printf("Denetçi için değişiklikler tespit edildi - YDSID: %d, İsim: %s",
+				inspector.YDSID, inspector.Name)
+			for _, change := range changedFields {
+				log.Printf("  - %s", change)
+			}
+
+			updateMutation := `
+			mutation UpdateEngineer($ydsid: Int!, $input: CompanyEngineerInput!) {
+				updateEngineerByYDSID(ydsid: $ydsid, input: $input) {
 					id
 					Name
-					TcNo
-					RegisterNo
-					Email
-					Phone
-					Career
-					Position
-					Address
-					CertNo
 					YDSID
-					Employment
 					CompanyCode
 				}
 			}
 			`
 
-			var detailResult struct {
-				Engineer []map[string]interface{} `json:"engineer"`
-			}
-
-			err = graphqlClient.Execute(detailQuery, checkVariables, jwtToken, &detailResult)
-			if err != nil {
-				errMsg := fmt.Sprintf("Denetçi detayları alınırken hata oluştu: %v", err)
-				log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
-				processLog["status"] = "error"
-				processLog["error"] = errMsg
-				processLogs = append(processLogs, processLog)
-				continue
-			}
-
-			if len(detailResult.Engineer) == 0 {
-				errMsg := "Denetçi detayları bulunamadı"
-				log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
-				processLog["status"] = "error"
-				processLog["error"] = errMsg
-				processLogs = append(processLogs, processLog)
-				continue
-			}
-
-			// Değişiklik var mı kontrol et
-			needsUpdate := false
-
-			// Sayısal alanların listesi
-			numericFields := map[string]bool{
-				"RegisterNo":  true,
-				"TcNo":        true,
-				"YDSID":       true,
-				"CertNo":      true,
-				"CompanyCode": true,
-			}
-
-			// Değerleri karşılaştır ve farklılıkları logla
-			for key, newValue := range engineerData {
-				if currentValue, exists := detailResult.Engineer[0][key]; exists {
-					// Nil değerleri kontrol et
-					if newValue == nil && currentValue == nil {
-						continue
-					}
-
-					// Sayısal alan kontrolü
-					if numericFields[key] {
-						// Sayısal değerlere çevir
-						var newFloat, currentFloat float64
-						switch v := newValue.(type) {
-						case float64:
-							newFloat = v
-						case int:
-							newFloat = float64(v)
-						case string:
-							if f, err := strconv.ParseFloat(v, 64); err == nil {
-								newFloat = f
-							}
-						}
-
-						switch v := currentValue.(type) {
-						case float64:
-							currentFloat = v
-						case int:
-							currentFloat = float64(v)
-						case string:
-							if f, err := strconv.ParseFloat(v, 64); err == nil {
-								currentFloat = f
-							}
-						}
-
-						if math.Abs(newFloat-currentFloat) > 0.001 {
-							needsUpdate = true
-							log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-						}
-					} else {
-						// String karşılaştırması
-						newStr := fmt.Sprintf("%v", newValue)
-						currentStr := fmt.Sprintf("%v", currentValue)
-						if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
-							needsUpdate = true
-							log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-						}
-					}
-				} else {
-					// Eğer alan mevcut değilse ve yeni değer boş değilse güncelleme gerekir
-					if newValue != nil && newValue != "" {
-						needsUpdate = true
-						log.Printf("Yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
-					}
-				}
-			}
-
-			if !needsUpdate {
-				log.Printf("Denetçi verileri güncel, güncelleme yapılmayacak: %s", inspector.Name)
-				processLog["status"] = "skipped"
-				processLog["message"] = "Denetçi verileri güncel"
-				processLogs = append(processLogs, processLog)
-				continue
-			}
-
-			log.Printf("Değişiklik tespit edildi, denetçi güncelleniyor...")
-
-			// Değişiklik varsa güncelle
-			updateMutation := `
-			mutation UpdateEngineer($ydsid: Int!, $input: CompanyEngineerInput!) {
-				updateEngineer(YDSID: $ydsid, input: $input) {
-					id
-					Name
-					YDSID
-				}
-			}
-			`
-
 			var updateResult struct {
-				UpdateEngineer struct {
-					ID    int    `json:"id"`
-					Name  string `json:"Name"`
-					YDSID int    `json:"YDSID"`
-				} `json:"updateEngineer"`
+				UpdateEngineerByYDSID struct {
+					ID          int    `json:"id"`
+					Name        string `json:"Name"`
+					YDSID       int    `json:"YDSID"`
+					CompanyCode int    `json:"CompanyCode"`
+				} `json:"updateEngineerByYDSID"`
 			}
 
 			updateVariables := map[string]interface{}{
@@ -395,56 +443,29 @@ func YDKInspectors(c *gin.Context) {
 			processLog["status"] = "success"
 			processLog["message"] = "Denetçi başarıyla güncellendi"
 			processLogs = append(processLogs, processLog)
-			continue
-		}
-
-		// Denetçi yoksa yeni kayıt oluştur
-		createMutation := `
-		mutation CreateEngineer($input: CompanyEngineerInput!) {
-			createEngineer(input: $input) {
-				id
-				Name
-				YDSID
-			}
-		}
-		`
-
-		var createResult struct {
-			CreateEngineer struct {
-				ID    int    `json:"id"`
-				Name  string `json:"Name"`
-				YDSID int    `json:"YDSID"`
-			} `json:"createEngineer"`
-		}
-
-		if err := graphqlClient.Execute(createMutation, map[string]interface{}{"input": engineerData}, jwtToken, &createResult); err != nil {
-			errMsg := fmt.Sprintf("Denetçi eklenirken hata oluştu: %v", err)
-			log.Printf("Hata: %s - Denetçi: %s\n", errMsg, inspector.Name)
-			processLog["status"] = "error"
-			processLog["error"] = errMsg
+		} else {
+			// Değişiklik yoksa atla
+			skippedCount++
+			processLog["status"] = "skipped"
+			processLog["message"] = "Denetçi verileri güncel, güncelleme yapılmadı"
 			processLogs = append(processLogs, processLog)
-			continue
+			log.Printf("Denetçi atlandı (değişiklik yok) - YDSID: %d, İsim: %s", inspector.YDSID, inspector.Name)
 		}
-
-		successCount++
-		processLog["status"] = "success"
-		processLog["message"] = "Denetçi başarıyla eklendi"
-		processLogs = append(processLogs, processLog)
 	}
 
 	log.Printf("İşlem tamamlandı. Toplam: %d, Başarılı: %d, Atlanan: %d\n",
 		len(simplifiedData),
 		successCount,
-		len(simplifiedData)-successCount)
+		skippedCount)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": fmt.Sprintf("%d adet denetçiden %d tanesi başarıyla eklendi/güncellendi, %d tanesi zaten güncel",
 			len(simplifiedData),
 			successCount,
-			len(simplifiedData)-successCount),
+			skippedCount),
 		"totalCount":   len(simplifiedData),
 		"successCount": successCount,
-		"skippedCount": len(simplifiedData) - successCount,
+		"skippedCount": skippedCount,
 		"logs":         processLogs,
 	})
 }

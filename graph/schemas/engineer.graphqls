@@ -14,6 +14,7 @@ type CompanyEngineer {
   Status: Int
   Note: String
   CompanyCode: Int
+  Company: CompanyDetail
 }
 
 input CompanyEngineerInput {
@@ -40,7 +41,8 @@ input EngineerFilterInput {
 }
 
 extend type Query {
-  engineer(filter: EngineerFilterInput): [CompanyEngineer]!
+  engineer(filter: EngineerFilterInput): [CompanyEngineer]! @goField(forceResolver: true)
+  engineerByYDSID(ydsid: Int!): CompanyEngineer @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
@@ -48,7 +50,11 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateEngineer(YDSID: Int!, input: CompanyEngineerInput!): CompanyEngineer!
+  updateEngineer(ydsid: Int!, input: CompanyEngineerInput!): CompanyEngineer!
+    @goField(forceResolver: true)
+    @auth
+
+  updateEngineerByYDSID(ydsid: Int!, input: CompanyEngineerInput!): CompanyEngineer!
     @goField(forceResolver: true)
     @auth
 }

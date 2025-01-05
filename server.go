@@ -52,7 +52,7 @@ func main() {
 	// YDK Inspectors endpoint'ini ekle
 	r.POST("/ydk/inspectors", external.YDKInspectors)
 	// YDK Companies endpoint'ini ekle
-	r.POST("/ydk/companies", external.YDKCompanies)
+	r.GET("/ydk/companies", external.YDKCompanies)
 	// YDK Sync endpoint'ini ekle
 	r.GET("/ydk/sync", sync.YDKSync)
 	// YDK FindById endpoint'ini ekle

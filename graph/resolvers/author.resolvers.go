@@ -64,13 +64,7 @@ func (r *mutationResolver) UpdateAuthor(ctx context.Context, yibfNo int, input m
 // Author is the resolver for the author field.
 func (r *queryResolver) Author(ctx context.Context, yibfNo int) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
-
-	jobAuthor, err := client.JobAuthor.Query().Where(jobauthor.HasAuthorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return jobAuthor, nil
+	return client.JobAuthor.Query().Where(jobauthor.HasAuthorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
 }
 
 // Query returns generated.QueryResolver implementation.

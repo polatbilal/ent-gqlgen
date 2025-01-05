@@ -101,6 +101,13 @@ var (
 				OnDelete:   schema.SetNull,
 			},
 		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "companyuser_user_id_company_id",
+				Unique:  true,
+				Columns: []*schema.Column{CompanyUsersColumns[2], CompanyUsersColumns[1]},
+			},
+		},
 	}
 	// JobAuthorsColumns holds the columns for the "job_authors" table.
 	JobAuthorsColumns = []*schema.Column{

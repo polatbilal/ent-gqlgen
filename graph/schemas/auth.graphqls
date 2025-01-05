@@ -2,7 +2,7 @@ scalar Time
 
 directive @goField(
   forceResolver: Boolean
-  name: String
+  Name: String
 ) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 directive @auth on FIELD_DEFINITION
