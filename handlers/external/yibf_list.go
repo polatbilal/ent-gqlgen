@@ -130,7 +130,7 @@ func YibfList(c *gin.Context) {
 		"searchOperation":   "contains",
 		"searchValue":       nil,
 		"skip":              20,
-		"take":              4, // Test için 4 kayıt
+		"take":              5, // Test için 4 kayıt
 		"userData":          struct{}{},
 		"sort": []map[string]interface{}{
 			{
@@ -345,14 +345,29 @@ func YibfList(c *gin.Context) {
 
 		// Input verilerini hazırla
 		jobData := map[string]interface{}{
-			"YibfNo":           detail.ID,
-			"CompanyCode":      detail.YDK.FileNumber,
-			"Title":            detail.Title,
-			"Administration":   detail.Administration.Name,
-			"State":            detail.State.Name,
-			"Island":           detail.Island,
-			"Parcel":           detail.Parcel,
-			"Sheet":            detail.Sheet,
+			"YibfNo":         detail.ID,
+			"CompanyCode":    detail.YDK.FileNumber,
+			"Title":          detail.Title,
+			"Administration": detail.Administration.Name,
+			"State":          detail.State.Name,
+			"Island": func() string {
+				if detail.Island == "" || detail.Island == "Mevcut Değil" {
+					return "-"
+				}
+				return detail.Island
+			}(),
+			"Parcel": func() string {
+				if detail.Parcel == "" || detail.Parcel == "Mevcut Değil" {
+					return "-"
+				}
+				return detail.Parcel
+			}(),
+			"Sheet": func() string {
+				if detail.Sheet == "" || detail.Sheet == "Mevcut Değil" {
+					return "-"
+				}
+				return detail.Sheet
+			}(),
 			"LicenseNo":        detail.LicenseNumber,
 			"LandArea":         detail.Megsis.Alan,
 			"TotalArea":        detail.YibfStructure.TotalArea,
@@ -803,8 +818,8 @@ func YibfList(c *gin.Context) {
 
 			// Detaylı loglama
 			// log.Printf("GraphQL Mutation: %s", createMutation)
-			variablesJSON, _ := json.MarshalIndent(createVariables, "", "  ")
-			log.Printf("GraphQL Variables: %s", string(variablesJSON))
+			// variablesJSON, _ := json.MarshalIndent(createVariables, "", "  ")
+			// log.Printf("GraphQL Variables: %s", string(variablesJSON))
 
 			var createResult struct {
 				CreateJob struct {
@@ -846,13 +861,6 @@ func YibfList(c *gin.Context) {
 			processedIDs = append(processedIDs, item.ID)
 		}
 
-		// Yapı Bilgileri loglaması
-		log.Printf("Yapı Bilgileri - YibfNo: %d, İdare: %s, Pafta: %s, Ada: %s, Parsel: %s",
-			detail.ID,
-			detail.Administration.Name,
-			detail.Sheet,
-			detail.Island,
-			detail.Parcel)
 	}
 
 	c.JSON(http.StatusOK, gin.H{
