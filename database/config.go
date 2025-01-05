@@ -34,13 +34,16 @@ func GetClient(companyCode string) (*ent.Client, error) {
 }
 
 func Connect(companyCode string) (*ent.Client, error) {
-	databaseURL := os.Getenv("DATABASE_URL")
-	if databaseURL == "" {
-		log.Printf("Error: DATABASE_URL environment variable is not set")
-		return nil, fmt.Errorf("DATABASE_URL environment variable is not set")
-	}
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASS")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	dbName := fmt.Sprintf("%s_%s", os.Getenv("DB_NAME"), "3")
+	sslmode := "disable"
 
-	client, err := ent.Open("postgres", databaseURL)
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbName, sslmode)
+
+	client, err := ent.Open("postgres", connStr)
 	if err != nil {
 		log.Printf("Error: postgres client: %v\n", err)
 		return nil, err

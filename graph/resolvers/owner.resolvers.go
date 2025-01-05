@@ -9,6 +9,8 @@ import (
 	"fmt"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
@@ -27,4 +29,16 @@ func (r *mutationResolver) UpdateOwner(ctx context.Context, id string, input mod
 func (r *queryResolver) AllOwner(ctx context.Context) ([]*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	return client.JobOwner.Query().All(ctx)
+}
+
+// AllOwnerByYdsID is the resolver for the allOwnerByYdsId field.
+func (r *queryResolver) AllOwnerByYdsID(ctx context.Context, ydsID int) ([]*ent.JobOwner, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobOwner.Query().Where(jobowner.YdsID(ydsID)).All(ctx)
+}
+
+// AllOwnerJob is the resolver for the allOwnerJob field.
+func (r *queryResolver) AllOwnerJob(ctx context.Context, yibfNo *int) ([]*ent.JobOwner, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobOwner.Query().Where(jobowner.HasOwnersWith(jobdetail.YibfNoEQ(*yibfNo))).All(ctx)
 }

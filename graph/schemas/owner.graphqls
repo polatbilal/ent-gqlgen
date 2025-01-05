@@ -26,6 +26,8 @@ input JobOwnerInput {
 
 extend type Query {
   allOwner: [JobOwner]! @goField(forceResolver: true) @auth
+  allOwnerByYdsId(ydsId: Int!): [JobOwner]! @goField(forceResolver: true) @auth
+  allOwnerJob(YibfNo: Int): [JobOwner]! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {

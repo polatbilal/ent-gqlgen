@@ -7,11 +7,12 @@ import (
 )
 
 type AuthPayload struct {
-	Token    string `json:"token"`
-	UserID   string `json:"userID"`
-	Username string `json:"username"`
-	Name     string `json:"name"`
-	Role     string `json:"role"`
+	Token       string `json:"token"`
+	UserID      string `json:"userID"`
+	Username    string `json:"username"`
+	Name        string `json:"name"`
+	CompanyCode string `json:"companyCode"`
+	Role        string `json:"role"`
 }
 
 type CompanyDetailInput struct {
