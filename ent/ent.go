@@ -14,6 +14,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
 	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
@@ -86,6 +87,7 @@ func checkColumn(table, column string) error {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			companydetail.Table:   companydetail.ValidColumn,
 			companyengineer.Table: companyengineer.ValidColumn,
+			companytoken.Table:    companytoken.ValidColumn,
 			companyuser.Table:     companyuser.ValidColumn,
 			jobauthor.Table:       jobauthor.ValidColumn,
 			jobcontractor.Table:   jobcontractor.ValidColumn,

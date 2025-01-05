@@ -47,6 +47,8 @@ type CompanyDetail struct {
 	CorePersonAbsent90Days bool `json:"CorePersonAbsent90Days,omitempty"`
 	// IsClosed holds the value of the "IsClosed" field.
 	IsClosed bool `json:"IsClosed,omitempty"`
+	// DepartmentId holds the value of the "DepartmentId" field.
+	DepartmentId int `json:"DepartmentId,omitempty"`
 	// OwnerName holds the value of the "OwnerName" field.
 	OwnerName string `json:"OwnerName,omitempty"`
 	// OwnerTcNo holds the value of the "OwnerTcNo" field.
@@ -73,30 +75,33 @@ type CompanyDetail struct {
 
 // CompanyDetailEdges holds the relations/edges for other nodes in the graph.
 type CompanyDetailEdges struct {
-	// Engineers holds the value of the engineers edge.
-	Engineers []*CompanyEngineer `json:"engineers,omitempty"`
-	// Users holds the value of the users edge.
-	Users []*CompanyUser `json:"users,omitempty"`
 	// Jobs holds the value of the jobs edge.
 	Jobs []*JobDetail `json:"jobs,omitempty"`
+	// Users holds the value of the users edge.
+	Users []*CompanyUser `json:"users,omitempty"`
+	// Tokens holds the value of the tokens edge.
+	Tokens []*CompanyToken `json:"tokens,omitempty"`
+	// Engineers holds the value of the engineers edge.
+	Engineers []*CompanyEngineer `json:"engineers,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [3]bool
+	loadedTypes [4]bool
 	// totalCount holds the count of the edges above.
-	totalCount [3]map[string]int
+	totalCount [4]map[string]int
 
-	namedEngineers map[string][]*CompanyEngineer
-	namedUsers     map[string][]*CompanyUser
 	namedJobs      map[string][]*JobDetail
+	namedUsers     map[string][]*CompanyUser
+	namedTokens    map[string][]*CompanyToken
+	namedEngineers map[string][]*CompanyEngineer
 }
 
-// EngineersOrErr returns the Engineers value or an error if the edge
+// JobsOrErr returns the Jobs value or an error if the edge
 // was not loaded in eager-loading.
-func (e CompanyDetailEdges) EngineersOrErr() ([]*CompanyEngineer, error) {
+func (e CompanyDetailEdges) JobsOrErr() ([]*JobDetail, error) {
 	if e.loadedTypes[0] {
-		return e.Engineers, nil
+		return e.Jobs, nil
 	}
-	return nil, &NotLoadedError{edge: "engineers"}
+	return nil, &NotLoadedError{edge: "jobs"}
 }
 
 // UsersOrErr returns the Users value or an error if the edge
@@ -108,13 +113,22 @@ func (e CompanyDetailEdges) UsersOrErr() ([]*CompanyUser, error) {
 	return nil, &NotLoadedError{edge: "users"}
 }
 
-// JobsOrErr returns the Jobs value or an error if the edge
+// TokensOrErr returns the Tokens value or an error if the edge
 // was not loaded in eager-loading.
-func (e CompanyDetailEdges) JobsOrErr() ([]*JobDetail, error) {
+func (e CompanyDetailEdges) TokensOrErr() ([]*CompanyToken, error) {
 	if e.loadedTypes[2] {
-		return e.Jobs, nil
+		return e.Tokens, nil
 	}
-	return nil, &NotLoadedError{edge: "jobs"}
+	return nil, &NotLoadedError{edge: "tokens"}
+}
+
+// EngineersOrErr returns the Engineers value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) EngineersOrErr() ([]*CompanyEngineer, error) {
+	if e.loadedTypes[3] {
+		return e.Engineers, nil
+	}
+	return nil, &NotLoadedError{edge: "engineers"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -124,7 +138,7 @@ func (*CompanyDetail) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case companydetail.FieldVisaFinishedFor90Days, companydetail.FieldCorePersonAbsent90Days, companydetail.FieldIsClosed:
 			values[i] = new(sql.NullBool)
-		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerRegisterNo:
+		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo, companydetail.FieldDepartmentId, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerRegisterNo:
 			values[i] = new(sql.NullInt64)
 		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerCareer:
 			values[i] = new(sql.NullString)
@@ -241,6 +255,12 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				cd.IsClosed = value.Bool
 			}
+		case companydetail.FieldDepartmentId:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field DepartmentId", values[i])
+			} else if value.Valid {
+				cd.DepartmentId = int(value.Int64)
+			}
 		case companydetail.FieldOwnerName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerName", values[i])
@@ -308,9 +328,9 @@ func (cd *CompanyDetail) Value(name string) (ent.Value, error) {
 	return cd.selectValues.Get(name)
 }
 
-// QueryEngineers queries the "engineers" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryEngineers() *CompanyEngineerQuery {
-	return NewCompanyDetailClient(cd.config).QueryEngineers(cd)
+// QueryJobs queries the "jobs" edge of the CompanyDetail entity.
+func (cd *CompanyDetail) QueryJobs() *JobDetailQuery {
+	return NewCompanyDetailClient(cd.config).QueryJobs(cd)
 }
 
 // QueryUsers queries the "users" edge of the CompanyDetail entity.
@@ -318,9 +338,14 @@ func (cd *CompanyDetail) QueryUsers() *CompanyUserQuery {
 	return NewCompanyDetailClient(cd.config).QueryUsers(cd)
 }
 
-// QueryJobs queries the "jobs" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryJobs() *JobDetailQuery {
-	return NewCompanyDetailClient(cd.config).QueryJobs(cd)
+// QueryTokens queries the "tokens" edge of the CompanyDetail entity.
+func (cd *CompanyDetail) QueryTokens() *CompanyTokenQuery {
+	return NewCompanyDetailClient(cd.config).QueryTokens(cd)
+}
+
+// QueryEngineers queries the "engineers" edge of the CompanyDetail entity.
+func (cd *CompanyDetail) QueryEngineers() *CompanyEngineerQuery {
+	return NewCompanyDetailClient(cd.config).QueryEngineers(cd)
 }
 
 // Update returns a builder for updating this CompanyDetail.
@@ -391,6 +416,9 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString("IsClosed=")
 	builder.WriteString(fmt.Sprintf("%v", cd.IsClosed))
 	builder.WriteString(", ")
+	builder.WriteString("DepartmentId=")
+	builder.WriteString(fmt.Sprintf("%v", cd.DepartmentId))
+	builder.WriteString(", ")
 	builder.WriteString("OwnerName=")
 	builder.WriteString(cd.OwnerName)
 	builder.WriteString(", ")
@@ -421,27 +449,27 @@ func (cd *CompanyDetail) String() string {
 	return builder.String()
 }
 
-// NamedEngineers returns the Engineers named value or an error if the edge was not
+// NamedJobs returns the Jobs named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (cd *CompanyDetail) NamedEngineers(name string) ([]*CompanyEngineer, error) {
-	if cd.Edges.namedEngineers == nil {
+func (cd *CompanyDetail) NamedJobs(name string) ([]*JobDetail, error) {
+	if cd.Edges.namedJobs == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := cd.Edges.namedEngineers[name]
+	nodes, ok := cd.Edges.namedJobs[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (cd *CompanyDetail) appendNamedEngineers(name string, edges ...*CompanyEngineer) {
-	if cd.Edges.namedEngineers == nil {
-		cd.Edges.namedEngineers = make(map[string][]*CompanyEngineer)
+func (cd *CompanyDetail) appendNamedJobs(name string, edges ...*JobDetail) {
+	if cd.Edges.namedJobs == nil {
+		cd.Edges.namedJobs = make(map[string][]*JobDetail)
 	}
 	if len(edges) == 0 {
-		cd.Edges.namedEngineers[name] = []*CompanyEngineer{}
+		cd.Edges.namedJobs[name] = []*JobDetail{}
 	} else {
-		cd.Edges.namedEngineers[name] = append(cd.Edges.namedEngineers[name], edges...)
+		cd.Edges.namedJobs[name] = append(cd.Edges.namedJobs[name], edges...)
 	}
 }
 
@@ -469,27 +497,51 @@ func (cd *CompanyDetail) appendNamedUsers(name string, edges ...*CompanyUser) {
 	}
 }
 
-// NamedJobs returns the Jobs named value or an error if the edge was not
+// NamedTokens returns the Tokens named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (cd *CompanyDetail) NamedJobs(name string) ([]*JobDetail, error) {
-	if cd.Edges.namedJobs == nil {
+func (cd *CompanyDetail) NamedTokens(name string) ([]*CompanyToken, error) {
+	if cd.Edges.namedTokens == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := cd.Edges.namedJobs[name]
+	nodes, ok := cd.Edges.namedTokens[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (cd *CompanyDetail) appendNamedJobs(name string, edges ...*JobDetail) {
-	if cd.Edges.namedJobs == nil {
-		cd.Edges.namedJobs = make(map[string][]*JobDetail)
+func (cd *CompanyDetail) appendNamedTokens(name string, edges ...*CompanyToken) {
+	if cd.Edges.namedTokens == nil {
+		cd.Edges.namedTokens = make(map[string][]*CompanyToken)
 	}
 	if len(edges) == 0 {
-		cd.Edges.namedJobs[name] = []*JobDetail{}
+		cd.Edges.namedTokens[name] = []*CompanyToken{}
 	} else {
-		cd.Edges.namedJobs[name] = append(cd.Edges.namedJobs[name], edges...)
+		cd.Edges.namedTokens[name] = append(cd.Edges.namedTokens[name], edges...)
+	}
+}
+
+// NamedEngineers returns the Engineers named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (cd *CompanyDetail) NamedEngineers(name string) ([]*CompanyEngineer, error) {
+	if cd.Edges.namedEngineers == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := cd.Edges.namedEngineers[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (cd *CompanyDetail) appendNamedEngineers(name string, edges ...*CompanyEngineer) {
+	if cd.Edges.namedEngineers == nil {
+		cd.Edges.namedEngineers = make(map[string][]*CompanyEngineer)
+	}
+	if len(edges) == 0 {
+		cd.Edges.namedEngineers[name] = []*CompanyEngineer{}
+	} else {
+		cd.Edges.namedEngineers[name] = append(cd.Edges.namedEngineers[name], edges...)
 	}
 }
 

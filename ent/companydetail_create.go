@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 )
@@ -225,6 +226,12 @@ func (cdc *CompanyDetailCreate) SetNillableIsClosed(b *bool) *CompanyDetailCreat
 	return cdc
 }
 
+// SetDepartmentId sets the "DepartmentId" field.
+func (cdc *CompanyDetailCreate) SetDepartmentId(i int) *CompanyDetailCreate {
+	cdc.mutation.SetDepartmentId(i)
+	return cdc
+}
+
 // SetOwnerName sets the "OwnerName" field.
 func (cdc *CompanyDetailCreate) SetOwnerName(s string) *CompanyDetailCreate {
 	cdc.mutation.SetOwnerName(s)
@@ -351,19 +358,19 @@ func (cdc *CompanyDetailCreate) SetNillableUpdatedAt(t *time.Time) *CompanyDetai
 	return cdc
 }
 
-// AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
-func (cdc *CompanyDetailCreate) AddEngineerIDs(ids ...int) *CompanyDetailCreate {
-	cdc.mutation.AddEngineerIDs(ids...)
+// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+func (cdc *CompanyDetailCreate) AddJobIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddJobIDs(ids...)
 	return cdc
 }
 
-// AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
-func (cdc *CompanyDetailCreate) AddEngineers(c ...*CompanyEngineer) *CompanyDetailCreate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+// AddJobs adds the "jobs" edges to the JobDetail entity.
+func (cdc *CompanyDetailCreate) AddJobs(j ...*JobDetail) *CompanyDetailCreate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
 	}
-	return cdc.AddEngineerIDs(ids...)
+	return cdc.AddJobIDs(ids...)
 }
 
 // AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
@@ -381,19 +388,34 @@ func (cdc *CompanyDetailCreate) AddUsers(c ...*CompanyUser) *CompanyDetailCreate
 	return cdc.AddUserIDs(ids...)
 }
 
-// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
-func (cdc *CompanyDetailCreate) AddJobIDs(ids ...int) *CompanyDetailCreate {
-	cdc.mutation.AddJobIDs(ids...)
+// AddTokenIDs adds the "tokens" edge to the CompanyToken entity by IDs.
+func (cdc *CompanyDetailCreate) AddTokenIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddTokenIDs(ids...)
 	return cdc
 }
 
-// AddJobs adds the "jobs" edges to the JobDetail entity.
-func (cdc *CompanyDetailCreate) AddJobs(j ...*JobDetail) *CompanyDetailCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+// AddTokens adds the "tokens" edges to the CompanyToken entity.
+func (cdc *CompanyDetailCreate) AddTokens(c ...*CompanyToken) *CompanyDetailCreate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
 	}
-	return cdc.AddJobIDs(ids...)
+	return cdc.AddTokenIDs(ids...)
+}
+
+// AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
+func (cdc *CompanyDetailCreate) AddEngineerIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddEngineerIDs(ids...)
+	return cdc
+}
+
+// AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
+func (cdc *CompanyDetailCreate) AddEngineers(c ...*CompanyEngineer) *CompanyDetailCreate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cdc.AddEngineerIDs(ids...)
 }
 
 // Mutation returns the CompanyDetailMutation object of the builder.
@@ -471,6 +493,9 @@ func (cdc *CompanyDetailCreate) check() error {
 	}
 	if _, ok := cdc.mutation.IsClosed(); !ok {
 		return &ValidationError{Name: "IsClosed", err: errors.New(`ent: missing required field "CompanyDetail.IsClosed"`)}
+	}
+	if _, ok := cdc.mutation.DepartmentId(); !ok {
+		return &ValidationError{Name: "DepartmentId", err: errors.New(`ent: missing required field "CompanyDetail.DepartmentId"`)}
 	}
 	if _, ok := cdc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "CompanyDetail.CreatedAt"`)}
@@ -564,6 +589,10 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
 		_node.IsClosed = value
 	}
+	if value, ok := cdc.mutation.DepartmentId(); ok {
+		_spec.SetField(companydetail.FieldDepartmentId, field.TypeInt, value)
+		_node.DepartmentId = value
+	}
 	if value, ok := cdc.mutation.OwnerName(); ok {
 		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)
 		_node.OwnerName = value
@@ -600,15 +629,15 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_spec.SetField(companydetail.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := cdc.mutation.EngineersIDs(); len(nodes) > 0 {
+	if nodes := cdc.mutation.JobsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   companydetail.EngineersTable,
-			Columns: []string{companydetail.EngineersColumn},
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -632,15 +661,31 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cdc.mutation.JobsIDs(); len(nodes) > 0 {
+	if nodes := cdc.mutation.TokensIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   companydetail.JobsTable,
-			Columns: []string{companydetail.JobsColumn},
+			Table:   companydetail.TokensTable,
+			Columns: []string{companydetail.TokensColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(companytoken.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cdc.mutation.EngineersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

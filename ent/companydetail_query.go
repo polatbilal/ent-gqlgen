@@ -14,6 +14,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
@@ -26,14 +27,16 @@ type CompanyDetailQuery struct {
 	order              []companydetail.OrderOption
 	inters             []Interceptor
 	predicates         []predicate.CompanyDetail
-	withEngineers      *CompanyEngineerQuery
-	withUsers          *CompanyUserQuery
 	withJobs           *JobDetailQuery
+	withUsers          *CompanyUserQuery
+	withTokens         *CompanyTokenQuery
+	withEngineers      *CompanyEngineerQuery
 	modifiers          []func(*sql.Selector)
 	loadTotal          []func(context.Context, []*CompanyDetail) error
-	withNamedEngineers map[string]*CompanyEngineerQuery
-	withNamedUsers     map[string]*CompanyUserQuery
 	withNamedJobs      map[string]*JobDetailQuery
+	withNamedUsers     map[string]*CompanyUserQuery
+	withNamedTokens    map[string]*CompanyTokenQuery
+	withNamedEngineers map[string]*CompanyEngineerQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -70,9 +73,9 @@ func (cdq *CompanyDetailQuery) Order(o ...companydetail.OrderOption) *CompanyDet
 	return cdq
 }
 
-// QueryEngineers chains the current query on the "engineers" edge.
-func (cdq *CompanyDetailQuery) QueryEngineers() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: cdq.config}).Query()
+// QueryJobs chains the current query on the "jobs" edge.
+func (cdq *CompanyDetailQuery) QueryJobs() *JobDetailQuery {
+	query := (&JobDetailClient{config: cdq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cdq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -83,8 +86,8 @@ func (cdq *CompanyDetailQuery) QueryEngineers() *CompanyEngineerQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
-			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
+			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.JobsTable, companydetail.JobsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cdq.driver.Dialect(), step)
 		return fromU, nil
@@ -114,9 +117,9 @@ func (cdq *CompanyDetailQuery) QueryUsers() *CompanyUserQuery {
 	return query
 }
 
-// QueryJobs chains the current query on the "jobs" edge.
-func (cdq *CompanyDetailQuery) QueryJobs() *JobDetailQuery {
-	query := (&JobDetailClient{config: cdq.config}).Query()
+// QueryTokens chains the current query on the "tokens" edge.
+func (cdq *CompanyDetailQuery) QueryTokens() *CompanyTokenQuery {
+	query := (&CompanyTokenClient{config: cdq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cdq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -127,8 +130,30 @@ func (cdq *CompanyDetailQuery) QueryJobs() *JobDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.JobsTable, companydetail.JobsColumn),
+			sqlgraph.To(companytoken.Table, companytoken.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.TokensTable, companydetail.TokensColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(cdq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryEngineers chains the current query on the "engineers" edge.
+func (cdq *CompanyDetailQuery) QueryEngineers() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: cdq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := cdq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := cdq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cdq.driver.Dialect(), step)
 		return fromU, nil
@@ -328,23 +353,24 @@ func (cdq *CompanyDetailQuery) Clone() *CompanyDetailQuery {
 		order:         append([]companydetail.OrderOption{}, cdq.order...),
 		inters:        append([]Interceptor{}, cdq.inters...),
 		predicates:    append([]predicate.CompanyDetail{}, cdq.predicates...),
-		withEngineers: cdq.withEngineers.Clone(),
-		withUsers:     cdq.withUsers.Clone(),
 		withJobs:      cdq.withJobs.Clone(),
+		withUsers:     cdq.withUsers.Clone(),
+		withTokens:    cdq.withTokens.Clone(),
+		withEngineers: cdq.withEngineers.Clone(),
 		// clone intermediate query.
 		sql:  cdq.sql.Clone(),
 		path: cdq.path,
 	}
 }
 
-// WithEngineers tells the query-builder to eager-load the nodes that are connected to
-// the "engineers" edge. The optional arguments are used to configure the query builder of the edge.
-func (cdq *CompanyDetailQuery) WithEngineers(opts ...func(*CompanyEngineerQuery)) *CompanyDetailQuery {
-	query := (&CompanyEngineerClient{config: cdq.config}).Query()
+// WithJobs tells the query-builder to eager-load the nodes that are connected to
+// the "jobs" edge. The optional arguments are used to configure the query builder of the edge.
+func (cdq *CompanyDetailQuery) WithJobs(opts ...func(*JobDetailQuery)) *CompanyDetailQuery {
+	query := (&JobDetailClient{config: cdq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cdq.withEngineers = query
+	cdq.withJobs = query
 	return cdq
 }
 
@@ -359,14 +385,25 @@ func (cdq *CompanyDetailQuery) WithUsers(opts ...func(*CompanyUserQuery)) *Compa
 	return cdq
 }
 
-// WithJobs tells the query-builder to eager-load the nodes that are connected to
-// the "jobs" edge. The optional arguments are used to configure the query builder of the edge.
-func (cdq *CompanyDetailQuery) WithJobs(opts ...func(*JobDetailQuery)) *CompanyDetailQuery {
-	query := (&JobDetailClient{config: cdq.config}).Query()
+// WithTokens tells the query-builder to eager-load the nodes that are connected to
+// the "tokens" edge. The optional arguments are used to configure the query builder of the edge.
+func (cdq *CompanyDetailQuery) WithTokens(opts ...func(*CompanyTokenQuery)) *CompanyDetailQuery {
+	query := (&CompanyTokenClient{config: cdq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cdq.withJobs = query
+	cdq.withTokens = query
+	return cdq
+}
+
+// WithEngineers tells the query-builder to eager-load the nodes that are connected to
+// the "engineers" edge. The optional arguments are used to configure the query builder of the edge.
+func (cdq *CompanyDetailQuery) WithEngineers(opts ...func(*CompanyEngineerQuery)) *CompanyDetailQuery {
+	query := (&CompanyEngineerClient{config: cdq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	cdq.withEngineers = query
 	return cdq
 }
 
@@ -448,10 +485,11 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	var (
 		nodes       = []*CompanyDetail{}
 		_spec       = cdq.querySpec()
-		loadedTypes = [3]bool{
-			cdq.withEngineers != nil,
-			cdq.withUsers != nil,
+		loadedTypes = [4]bool{
 			cdq.withJobs != nil,
+			cdq.withUsers != nil,
+			cdq.withTokens != nil,
+			cdq.withEngineers != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -475,10 +513,10 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := cdq.withEngineers; query != nil {
-		if err := cdq.loadEngineers(ctx, query, nodes,
-			func(n *CompanyDetail) { n.Edges.Engineers = []*CompanyEngineer{} },
-			func(n *CompanyDetail, e *CompanyEngineer) { n.Edges.Engineers = append(n.Edges.Engineers, e) }); err != nil {
+	if query := cdq.withJobs; query != nil {
+		if err := cdq.loadJobs(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.Jobs = []*JobDetail{} },
+			func(n *CompanyDetail, e *JobDetail) { n.Edges.Jobs = append(n.Edges.Jobs, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -489,17 +527,24 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 			return nil, err
 		}
 	}
-	if query := cdq.withJobs; query != nil {
-		if err := cdq.loadJobs(ctx, query, nodes,
-			func(n *CompanyDetail) { n.Edges.Jobs = []*JobDetail{} },
-			func(n *CompanyDetail, e *JobDetail) { n.Edges.Jobs = append(n.Edges.Jobs, e) }); err != nil {
+	if query := cdq.withTokens; query != nil {
+		if err := cdq.loadTokens(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.Tokens = []*CompanyToken{} },
+			func(n *CompanyDetail, e *CompanyToken) { n.Edges.Tokens = append(n.Edges.Tokens, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range cdq.withNamedEngineers {
+	if query := cdq.withEngineers; query != nil {
 		if err := cdq.loadEngineers(ctx, query, nodes,
-			func(n *CompanyDetail) { n.appendNamedEngineers(name) },
-			func(n *CompanyDetail, e *CompanyEngineer) { n.appendNamedEngineers(name, e) }); err != nil {
+			func(n *CompanyDetail) { n.Edges.Engineers = []*CompanyEngineer{} },
+			func(n *CompanyDetail, e *CompanyEngineer) { n.Edges.Engineers = append(n.Edges.Engineers, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range cdq.withNamedJobs {
+		if err := cdq.loadJobs(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedJobs(name) },
+			func(n *CompanyDetail, e *JobDetail) { n.appendNamedJobs(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -510,10 +555,17 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 			return nil, err
 		}
 	}
-	for name, query := range cdq.withNamedJobs {
-		if err := cdq.loadJobs(ctx, query, nodes,
-			func(n *CompanyDetail) { n.appendNamedJobs(name) },
-			func(n *CompanyDetail, e *JobDetail) { n.appendNamedJobs(name, e) }); err != nil {
+	for name, query := range cdq.withNamedTokens {
+		if err := cdq.loadTokens(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedTokens(name) },
+			func(n *CompanyDetail, e *CompanyToken) { n.appendNamedTokens(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range cdq.withNamedEngineers {
+		if err := cdq.loadEngineers(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedEngineers(name) },
+			func(n *CompanyDetail, e *CompanyEngineer) { n.appendNamedEngineers(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -525,7 +577,7 @@ func (cdq *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	return nodes, nil
 }
 
-func (cdq *CompanyDetailQuery) loadEngineers(ctx context.Context, query *CompanyEngineerQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *CompanyEngineer)) error {
+func (cdq *CompanyDetailQuery) loadJobs(ctx context.Context, query *JobDetailQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *JobDetail)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*CompanyDetail)
 	for i := range nodes {
@@ -536,8 +588,8 @@ func (cdq *CompanyDetailQuery) loadEngineers(ctx context.Context, query *Company
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.CompanyEngineer(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companydetail.EngineersColumn), fks...))
+	query.Where(predicate.JobDetail(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.JobsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -587,7 +639,7 @@ func (cdq *CompanyDetailQuery) loadUsers(ctx context.Context, query *CompanyUser
 	}
 	return nil
 }
-func (cdq *CompanyDetailQuery) loadJobs(ctx context.Context, query *JobDetailQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *JobDetail)) error {
+func (cdq *CompanyDetailQuery) loadTokens(ctx context.Context, query *CompanyTokenQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *CompanyToken)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*CompanyDetail)
 	for i := range nodes {
@@ -598,8 +650,39 @@ func (cdq *CompanyDetailQuery) loadJobs(ctx context.Context, query *JobDetailQue
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.JobDetail(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companydetail.JobsColumn), fks...))
+	query.Where(predicate.CompanyToken(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.TokensColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (cdq *CompanyDetailQuery) loadEngineers(ctx context.Context, query *CompanyEngineerQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *CompanyEngineer)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.CompanyEngineer(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.EngineersColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -703,17 +786,17 @@ func (cdq *CompanyDetailQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
-// WithNamedEngineers tells the query-builder to eager-load the nodes that are connected to the "engineers"
+// WithNamedJobs tells the query-builder to eager-load the nodes that are connected to the "jobs"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (cdq *CompanyDetailQuery) WithNamedEngineers(name string, opts ...func(*CompanyEngineerQuery)) *CompanyDetailQuery {
-	query := (&CompanyEngineerClient{config: cdq.config}).Query()
+func (cdq *CompanyDetailQuery) WithNamedJobs(name string, opts ...func(*JobDetailQuery)) *CompanyDetailQuery {
+	query := (&JobDetailClient{config: cdq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if cdq.withNamedEngineers == nil {
-		cdq.withNamedEngineers = make(map[string]*CompanyEngineerQuery)
+	if cdq.withNamedJobs == nil {
+		cdq.withNamedJobs = make(map[string]*JobDetailQuery)
 	}
-	cdq.withNamedEngineers[name] = query
+	cdq.withNamedJobs[name] = query
 	return cdq
 }
 
@@ -731,17 +814,31 @@ func (cdq *CompanyDetailQuery) WithNamedUsers(name string, opts ...func(*Company
 	return cdq
 }
 
-// WithNamedJobs tells the query-builder to eager-load the nodes that are connected to the "jobs"
+// WithNamedTokens tells the query-builder to eager-load the nodes that are connected to the "tokens"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (cdq *CompanyDetailQuery) WithNamedJobs(name string, opts ...func(*JobDetailQuery)) *CompanyDetailQuery {
-	query := (&JobDetailClient{config: cdq.config}).Query()
+func (cdq *CompanyDetailQuery) WithNamedTokens(name string, opts ...func(*CompanyTokenQuery)) *CompanyDetailQuery {
+	query := (&CompanyTokenClient{config: cdq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if cdq.withNamedJobs == nil {
-		cdq.withNamedJobs = make(map[string]*JobDetailQuery)
+	if cdq.withNamedTokens == nil {
+		cdq.withNamedTokens = make(map[string]*CompanyTokenQuery)
 	}
-	cdq.withNamedJobs[name] = query
+	cdq.withNamedTokens[name] = query
+	return cdq
+}
+
+// WithNamedEngineers tells the query-builder to eager-load the nodes that are connected to the "engineers"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (cdq *CompanyDetailQuery) WithNamedEngineers(name string, opts ...func(*CompanyEngineerQuery)) *CompanyDetailQuery {
+	query := (&CompanyEngineerClient{config: cdq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if cdq.withNamedEngineers == nil {
+		cdq.withNamedEngineers = make(map[string]*CompanyEngineerQuery)
+	}
+	cdq.withNamedEngineers[name] = query
 	return cdq
 }
 

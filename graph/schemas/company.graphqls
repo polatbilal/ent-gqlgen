@@ -22,6 +22,7 @@ type CompanyDetail {
   OwnerEmail: String
   OwnerRegisterNo: Int
   OwnerCareer: String
+  DepartmentId: Int
 }
 
 input CompanyDetailInput {
@@ -47,11 +48,25 @@ input CompanyDetailInput {
   OwnerEmail: String
   OwnerRegisterNo: Int
   OwnerCareer: String
+  DepartmentId: Int
+}
+
+type CompanyToken {
+  Token: String
+}
+
+input CompanyTokenInput {
+  DepartmentId: Int
+  Token: String
 }
 
 extend type Query {
   # company: CompanyDetail! @goField(forceResolver: true) @auth
   companyByCode(companyCode: Int!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
+
+  companyToken(DepartmentId: Int): CompanyToken!
     @goField(forceResolver: true)
     @auth
 }
@@ -62,6 +77,10 @@ extend type Mutation {
     @auth
 
   updateCompany(input: CompanyDetailInput!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
+
+  companyToken(DepartmentId: Int, input: CompanyTokenInput): CompanyToken!
     @goField(forceResolver: true)
     @auth
 }

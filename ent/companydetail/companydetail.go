@@ -44,6 +44,8 @@ const (
 	FieldCorePersonAbsent90Days = "core_person_absent90days"
 	// FieldIsClosed holds the string denoting the isclosed field in the database.
 	FieldIsClosed = "is_closed"
+	// FieldDepartmentId holds the string denoting the departmentid field in the database.
+	FieldDepartmentId = "department_id"
 	// FieldOwnerName holds the string denoting the ownername field in the database.
 	FieldOwnerName = "owner_name"
 	// FieldOwnerTcNo holds the string denoting the ownertcno field in the database.
@@ -62,28 +64,16 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
-	// EdgeEngineers holds the string denoting the engineers edge name in mutations.
-	EdgeEngineers = "engineers"
-	// EdgeUsers holds the string denoting the users edge name in mutations.
-	EdgeUsers = "users"
 	// EdgeJobs holds the string denoting the jobs edge name in mutations.
 	EdgeJobs = "jobs"
+	// EdgeUsers holds the string denoting the users edge name in mutations.
+	EdgeUsers = "users"
+	// EdgeTokens holds the string denoting the tokens edge name in mutations.
+	EdgeTokens = "tokens"
+	// EdgeEngineers holds the string denoting the engineers edge name in mutations.
+	EdgeEngineers = "engineers"
 	// Table holds the table name of the companydetail in the database.
 	Table = "company_details"
-	// EngineersTable is the table that holds the engineers relation/edge.
-	EngineersTable = "company_engineers"
-	// EngineersInverseTable is the table name for the CompanyEngineer entity.
-	// It exists in this package in order to avoid circular dependency with the "companyengineer" package.
-	EngineersInverseTable = "company_engineers"
-	// EngineersColumn is the table column denoting the engineers relation/edge.
-	EngineersColumn = "company_id"
-	// UsersTable is the table that holds the users relation/edge.
-	UsersTable = "company_users"
-	// UsersInverseTable is the table name for the CompanyUser entity.
-	// It exists in this package in order to avoid circular dependency with the "companyuser" package.
-	UsersInverseTable = "company_users"
-	// UsersColumn is the table column denoting the users relation/edge.
-	UsersColumn = "company_id"
 	// JobsTable is the table that holds the jobs relation/edge.
 	JobsTable = "job_details"
 	// JobsInverseTable is the table name for the JobDetail entity.
@@ -91,6 +81,27 @@ const (
 	JobsInverseTable = "job_details"
 	// JobsColumn is the table column denoting the jobs relation/edge.
 	JobsColumn = "company_id"
+	// UsersTable is the table that holds the users relation/edge.
+	UsersTable = "company_users"
+	// UsersInverseTable is the table name for the CompanyUser entity.
+	// It exists in this package in order to avoid circular dependency with the "companyuser" package.
+	UsersInverseTable = "company_users"
+	// UsersColumn is the table column denoting the users relation/edge.
+	UsersColumn = "company_id"
+	// TokensTable is the table that holds the tokens relation/edge.
+	TokensTable = "company_tokens"
+	// TokensInverseTable is the table name for the CompanyToken entity.
+	// It exists in this package in order to avoid circular dependency with the "companytoken" package.
+	TokensInverseTable = "company_tokens"
+	// TokensColumn is the table column denoting the tokens relation/edge.
+	TokensColumn = "company_id"
+	// EngineersTable is the table that holds the engineers relation/edge.
+	EngineersTable = "company_engineers"
+	// EngineersInverseTable is the table name for the CompanyEngineer entity.
+	// It exists in this package in order to avoid circular dependency with the "companyengineer" package.
+	EngineersInverseTable = "company_engineers"
+	// EngineersColumn is the table column denoting the engineers relation/edge.
+	EngineersColumn = "company_id"
 )
 
 // Columns holds all SQL columns for companydetail fields.
@@ -111,6 +122,7 @@ var Columns = []string{
 	FieldVisaFinishedFor90Days,
 	FieldCorePersonAbsent90Days,
 	FieldIsClosed,
+	FieldDepartmentId,
 	FieldOwnerName,
 	FieldOwnerTcNo,
 	FieldOwnerAddress,
@@ -234,6 +246,11 @@ func ByIsClosed(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldIsClosed, opts...).ToFunc()
 }
 
+// ByDepartmentId orders the results by the DepartmentId field.
+func ByDepartmentId(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDepartmentId, opts...).ToFunc()
+}
+
 // ByOwnerName orders the results by the OwnerName field.
 func ByOwnerName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOwnerName, opts...).ToFunc()
@@ -279,17 +296,17 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
-// ByEngineersCount orders the results by engineers count.
-func ByEngineersCount(opts ...sql.OrderTermOption) OrderOption {
+// ByJobsCount orders the results by jobs count.
+func ByJobsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newEngineersStep(), opts...)
+		sqlgraph.OrderByNeighborsCount(s, newJobsStep(), opts...)
 	}
 }
 
-// ByEngineers orders the results by engineers terms.
-func ByEngineers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByJobs orders the results by jobs terms.
+func ByJobs(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newEngineersStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newJobsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 
@@ -307,24 +324,38 @@ func ByUsers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	}
 }
 
-// ByJobsCount orders the results by jobs count.
-func ByJobsCount(opts ...sql.OrderTermOption) OrderOption {
+// ByTokensCount orders the results by tokens count.
+func ByTokensCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newJobsStep(), opts...)
+		sqlgraph.OrderByNeighborsCount(s, newTokensStep(), opts...)
 	}
 }
 
-// ByJobs orders the results by jobs terms.
-func ByJobs(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByTokens orders the results by tokens terms.
+func ByTokens(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newJobsStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newTokensStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
-func newEngineersStep() *sqlgraph.Step {
+
+// ByEngineersCount orders the results by engineers count.
+func ByEngineersCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newEngineersStep(), opts...)
+	}
+}
+
+// ByEngineers orders the results by engineers terms.
+func ByEngineers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newEngineersStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+func newJobsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(EngineersInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, EngineersTable, EngineersColumn),
+		sqlgraph.To(JobsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, JobsTable, JobsColumn),
 	)
 }
 func newUsersStep() *sqlgraph.Step {
@@ -334,10 +365,17 @@ func newUsersStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.O2M, false, UsersTable, UsersColumn),
 	)
 }
-func newJobsStep() *sqlgraph.Step {
+func newTokensStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(JobsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, JobsTable, JobsColumn),
+		sqlgraph.To(TokensInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, TokensTable, TokensColumn),
+	)
+}
+func newEngineersStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(EngineersInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, EngineersTable, EngineersColumn),
 	)
 }

@@ -59,16 +59,16 @@ type CompanyEngineer struct {
 type CompanyEngineerEdges struct {
 	// Company holds the value of the company edge.
 	Company *CompanyDetail `json:"company,omitempty"`
-	// Inspectors holds the value of the inspectors edge.
-	Inspectors []*JobDetail `json:"inspectors,omitempty"`
-	// Architects holds the value of the architects edge.
-	Architects []*JobDetail `json:"architects,omitempty"`
 	// Statics holds the value of the statics edge.
 	Statics []*JobDetail `json:"statics,omitempty"`
 	// Mechanics holds the value of the mechanics edge.
 	Mechanics []*JobDetail `json:"mechanics,omitempty"`
 	// Electrics holds the value of the electrics edge.
 	Electrics []*JobDetail `json:"electrics,omitempty"`
+	// Inspectors holds the value of the inspectors edge.
+	Inspectors []*JobDetail `json:"inspectors,omitempty"`
+	// Architects holds the value of the architects edge.
+	Architects []*JobDetail `json:"architects,omitempty"`
 	// Controllers holds the value of the controllers edge.
 	Controllers []*JobDetail `json:"controllers,omitempty"`
 	// Mechaniccontrollers holds the value of the mechaniccontrollers edge.
@@ -81,11 +81,11 @@ type CompanyEngineerEdges struct {
 	// totalCount holds the count of the edges above.
 	totalCount [9]map[string]int
 
-	namedInspectors          map[string][]*JobDetail
-	namedArchitects          map[string][]*JobDetail
 	namedStatics             map[string][]*JobDetail
 	namedMechanics           map[string][]*JobDetail
 	namedElectrics           map[string][]*JobDetail
+	namedInspectors          map[string][]*JobDetail
+	namedArchitects          map[string][]*JobDetail
 	namedControllers         map[string][]*JobDetail
 	namedMechaniccontrollers map[string][]*JobDetail
 	namedElectriccontrollers map[string][]*JobDetail
@@ -102,28 +102,10 @@ func (e CompanyEngineerEdges) CompanyOrErr() (*CompanyDetail, error) {
 	return nil, &NotLoadedError{edge: "company"}
 }
 
-// InspectorsOrErr returns the Inspectors value or an error if the edge
-// was not loaded in eager-loading.
-func (e CompanyEngineerEdges) InspectorsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[1] {
-		return e.Inspectors, nil
-	}
-	return nil, &NotLoadedError{edge: "inspectors"}
-}
-
-// ArchitectsOrErr returns the Architects value or an error if the edge
-// was not loaded in eager-loading.
-func (e CompanyEngineerEdges) ArchitectsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[2] {
-		return e.Architects, nil
-	}
-	return nil, &NotLoadedError{edge: "architects"}
-}
-
 // StaticsOrErr returns the Statics value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) StaticsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[3] {
+	if e.loadedTypes[1] {
 		return e.Statics, nil
 	}
 	return nil, &NotLoadedError{edge: "statics"}
@@ -132,7 +114,7 @@ func (e CompanyEngineerEdges) StaticsOrErr() ([]*JobDetail, error) {
 // MechanicsOrErr returns the Mechanics value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) MechanicsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[4] {
+	if e.loadedTypes[2] {
 		return e.Mechanics, nil
 	}
 	return nil, &NotLoadedError{edge: "mechanics"}
@@ -141,10 +123,28 @@ func (e CompanyEngineerEdges) MechanicsOrErr() ([]*JobDetail, error) {
 // ElectricsOrErr returns the Electrics value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) ElectricsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[5] {
+	if e.loadedTypes[3] {
 		return e.Electrics, nil
 	}
 	return nil, &NotLoadedError{edge: "electrics"}
+}
+
+// InspectorsOrErr returns the Inspectors value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyEngineerEdges) InspectorsOrErr() ([]*JobDetail, error) {
+	if e.loadedTypes[4] {
+		return e.Inspectors, nil
+	}
+	return nil, &NotLoadedError{edge: "inspectors"}
+}
+
+// ArchitectsOrErr returns the Architects value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyEngineerEdges) ArchitectsOrErr() ([]*JobDetail, error) {
+	if e.loadedTypes[5] {
+		return e.Architects, nil
+	}
+	return nil, &NotLoadedError{edge: "architects"}
 }
 
 // ControllersOrErr returns the Controllers value or an error if the edge
@@ -323,16 +323,6 @@ func (ce *CompanyEngineer) QueryCompany() *CompanyDetailQuery {
 	return NewCompanyEngineerClient(ce.config).QueryCompany(ce)
 }
 
-// QueryInspectors queries the "inspectors" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryInspectors() *JobDetailQuery {
-	return NewCompanyEngineerClient(ce.config).QueryInspectors(ce)
-}
-
-// QueryArchitects queries the "architects" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryArchitects() *JobDetailQuery {
-	return NewCompanyEngineerClient(ce.config).QueryArchitects(ce)
-}
-
 // QueryStatics queries the "statics" edge of the CompanyEngineer entity.
 func (ce *CompanyEngineer) QueryStatics() *JobDetailQuery {
 	return NewCompanyEngineerClient(ce.config).QueryStatics(ce)
@@ -346,6 +336,16 @@ func (ce *CompanyEngineer) QueryMechanics() *JobDetailQuery {
 // QueryElectrics queries the "electrics" edge of the CompanyEngineer entity.
 func (ce *CompanyEngineer) QueryElectrics() *JobDetailQuery {
 	return NewCompanyEngineerClient(ce.config).QueryElectrics(ce)
+}
+
+// QueryInspectors queries the "inspectors" edge of the CompanyEngineer entity.
+func (ce *CompanyEngineer) QueryInspectors() *JobDetailQuery {
+	return NewCompanyEngineerClient(ce.config).QueryInspectors(ce)
+}
+
+// QueryArchitects queries the "architects" edge of the CompanyEngineer entity.
+func (ce *CompanyEngineer) QueryArchitects() *JobDetailQuery {
+	return NewCompanyEngineerClient(ce.config).QueryArchitects(ce)
 }
 
 // QueryControllers queries the "controllers" edge of the CompanyEngineer entity.
@@ -434,54 +434,6 @@ func (ce *CompanyEngineer) String() string {
 	return builder.String()
 }
 
-// NamedInspectors returns the Inspectors named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedInspectors(name string) ([]*JobDetail, error) {
-	if ce.Edges.namedInspectors == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := ce.Edges.namedInspectors[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (ce *CompanyEngineer) appendNamedInspectors(name string, edges ...*JobDetail) {
-	if ce.Edges.namedInspectors == nil {
-		ce.Edges.namedInspectors = make(map[string][]*JobDetail)
-	}
-	if len(edges) == 0 {
-		ce.Edges.namedInspectors[name] = []*JobDetail{}
-	} else {
-		ce.Edges.namedInspectors[name] = append(ce.Edges.namedInspectors[name], edges...)
-	}
-}
-
-// NamedArchitects returns the Architects named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedArchitects(name string) ([]*JobDetail, error) {
-	if ce.Edges.namedArchitects == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := ce.Edges.namedArchitects[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (ce *CompanyEngineer) appendNamedArchitects(name string, edges ...*JobDetail) {
-	if ce.Edges.namedArchitects == nil {
-		ce.Edges.namedArchitects = make(map[string][]*JobDetail)
-	}
-	if len(edges) == 0 {
-		ce.Edges.namedArchitects[name] = []*JobDetail{}
-	} else {
-		ce.Edges.namedArchitects[name] = append(ce.Edges.namedArchitects[name], edges...)
-	}
-}
-
 // NamedStatics returns the Statics named value or an error if the edge was not
 // loaded in eager-loading with this name.
 func (ce *CompanyEngineer) NamedStatics(name string) ([]*JobDetail, error) {
@@ -551,6 +503,54 @@ func (ce *CompanyEngineer) appendNamedElectrics(name string, edges ...*JobDetail
 		ce.Edges.namedElectrics[name] = []*JobDetail{}
 	} else {
 		ce.Edges.namedElectrics[name] = append(ce.Edges.namedElectrics[name], edges...)
+	}
+}
+
+// NamedInspectors returns the Inspectors named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (ce *CompanyEngineer) NamedInspectors(name string) ([]*JobDetail, error) {
+	if ce.Edges.namedInspectors == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := ce.Edges.namedInspectors[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (ce *CompanyEngineer) appendNamedInspectors(name string, edges ...*JobDetail) {
+	if ce.Edges.namedInspectors == nil {
+		ce.Edges.namedInspectors = make(map[string][]*JobDetail)
+	}
+	if len(edges) == 0 {
+		ce.Edges.namedInspectors[name] = []*JobDetail{}
+	} else {
+		ce.Edges.namedInspectors[name] = append(ce.Edges.namedInspectors[name], edges...)
+	}
+}
+
+// NamedArchitects returns the Architects named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (ce *CompanyEngineer) NamedArchitects(name string) ([]*JobDetail, error) {
+	if ce.Edges.namedArchitects == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := ce.Edges.namedArchitects[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (ce *CompanyEngineer) appendNamedArchitects(name string, edges ...*JobDetail) {
+	if ce.Edges.namedArchitects == nil {
+		ce.Edges.namedArchitects = make(map[string][]*JobDetail)
+	}
+	if len(edges) == 0 {
+		ce.Edges.namedArchitects[name] = []*JobDetail{}
+	} else {
+		ce.Edges.namedArchitects[name] = append(ce.Edges.namedArchitects[name], edges...)
 	}
 }
 

@@ -754,25 +754,6 @@ func (jdu *JobDetailUpdate) SetUpdatedAt(t time.Time) *JobDetailUpdate {
 	return jdu
 }
 
-// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (jdu *JobDetailUpdate) SetCompanyID(id int) *JobDetailUpdate {
-	jdu.mutation.SetCompanyID(id)
-	return jdu
-}
-
-// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableCompanyID(id *int) *JobDetailUpdate {
-	if id != nil {
-		jdu = jdu.SetCompanyID(*id)
-	}
-	return jdu
-}
-
-// SetCompany sets the "company" edge to the CompanyDetail entity.
-func (jdu *JobDetailUpdate) SetCompany(c *CompanyDetail) *JobDetailUpdate {
-	return jdu.SetCompanyID(c.ID)
-}
-
 // SetOwnerID sets the "owner" edge to the JobOwner entity by ID.
 func (jdu *JobDetailUpdate) SetOwnerID(id int) *JobDetailUpdate {
 	jdu.mutation.SetOwnerID(id)
@@ -790,25 +771,6 @@ func (jdu *JobDetailUpdate) SetNillableOwnerID(id *int) *JobDetailUpdate {
 // SetOwner sets the "owner" edge to the JobOwner entity.
 func (jdu *JobDetailUpdate) SetOwner(j *JobOwner) *JobDetailUpdate {
 	return jdu.SetOwnerID(j.ID)
-}
-
-// SetContractorID sets the "contractor" edge to the JobContractor entity by ID.
-func (jdu *JobDetailUpdate) SetContractorID(id int) *JobDetailUpdate {
-	jdu.mutation.SetContractorID(id)
-	return jdu
-}
-
-// SetNillableContractorID sets the "contractor" edge to the JobContractor entity by ID if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableContractorID(id *int) *JobDetailUpdate {
-	if id != nil {
-		jdu = jdu.SetContractorID(*id)
-	}
-	return jdu
-}
-
-// SetContractor sets the "contractor" edge to the JobContractor entity.
-func (jdu *JobDetailUpdate) SetContractor(j *JobContractor) *JobDetailUpdate {
-	return jdu.SetContractorID(j.ID)
 }
 
 // SetAuthorID sets the "author" edge to the JobAuthor entity by ID.
@@ -830,6 +792,25 @@ func (jdu *JobDetailUpdate) SetAuthor(j *JobAuthor) *JobDetailUpdate {
 	return jdu.SetAuthorID(j.ID)
 }
 
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (jdu *JobDetailUpdate) SetCompanyID(id int) *JobDetailUpdate {
+	jdu.mutation.SetCompanyID(id)
+	return jdu
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableCompanyID(id *int) *JobDetailUpdate {
+	if id != nil {
+		jdu = jdu.SetCompanyID(*id)
+	}
+	return jdu
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (jdu *JobDetailUpdate) SetCompany(c *CompanyDetail) *JobDetailUpdate {
+	return jdu.SetCompanyID(c.ID)
+}
+
 // SetProgressID sets the "progress" edge to the JobProgress entity by ID.
 func (jdu *JobDetailUpdate) SetProgressID(id int) *JobDetailUpdate {
 	jdu.mutation.SetProgressID(id)
@@ -849,6 +830,25 @@ func (jdu *JobDetailUpdate) SetProgress(j *JobProgress) *JobDetailUpdate {
 	return jdu.SetProgressID(j.ID)
 }
 
+// SetContractorID sets the "contractor" edge to the JobContractor entity by ID.
+func (jdu *JobDetailUpdate) SetContractorID(id int) *JobDetailUpdate {
+	jdu.mutation.SetContractorID(id)
+	return jdu
+}
+
+// SetNillableContractorID sets the "contractor" edge to the JobContractor entity by ID if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableContractorID(id *int) *JobDetailUpdate {
+	if id != nil {
+		jdu = jdu.SetContractorID(*id)
+	}
+	return jdu
+}
+
+// SetContractor sets the "contractor" edge to the JobContractor entity.
+func (jdu *JobDetailUpdate) SetContractor(j *JobContractor) *JobDetailUpdate {
+	return jdu.SetContractorID(j.ID)
+}
+
 // SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID.
 func (jdu *JobDetailUpdate) SetSupervisorID(id int) *JobDetailUpdate {
 	jdu.mutation.SetSupervisorID(id)
@@ -866,44 +866,6 @@ func (jdu *JobDetailUpdate) SetNillableSupervisorID(id *int) *JobDetailUpdate {
 // SetSupervisor sets the "supervisor" edge to the JobSupervisor entity.
 func (jdu *JobDetailUpdate) SetSupervisor(j *JobSupervisor) *JobDetailUpdate {
 	return jdu.SetSupervisorID(j.ID)
-}
-
-// SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
-func (jdu *JobDetailUpdate) SetInspectorID(id int) *JobDetailUpdate {
-	jdu.mutation.SetInspectorID(id)
-	return jdu
-}
-
-// SetNillableInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableInspectorID(id *int) *JobDetailUpdate {
-	if id != nil {
-		jdu = jdu.SetInspectorID(*id)
-	}
-	return jdu
-}
-
-// SetInspector sets the "inspector" edge to the CompanyEngineer entity.
-func (jdu *JobDetailUpdate) SetInspector(c *CompanyEngineer) *JobDetailUpdate {
-	return jdu.SetInspectorID(c.ID)
-}
-
-// SetArchitectID sets the "architect" edge to the CompanyEngineer entity by ID.
-func (jdu *JobDetailUpdate) SetArchitectID(id int) *JobDetailUpdate {
-	jdu.mutation.SetArchitectID(id)
-	return jdu
-}
-
-// SetNillableArchitectID sets the "architect" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableArchitectID(id *int) *JobDetailUpdate {
-	if id != nil {
-		jdu = jdu.SetArchitectID(*id)
-	}
-	return jdu
-}
-
-// SetArchitect sets the "architect" edge to the CompanyEngineer entity.
-func (jdu *JobDetailUpdate) SetArchitect(c *CompanyEngineer) *JobDetailUpdate {
-	return jdu.SetArchitectID(c.ID)
 }
 
 // SetStaticID sets the "static" edge to the CompanyEngineer entity by ID.
@@ -961,6 +923,44 @@ func (jdu *JobDetailUpdate) SetNillableElectricID(id *int) *JobDetailUpdate {
 // SetElectric sets the "electric" edge to the CompanyEngineer entity.
 func (jdu *JobDetailUpdate) SetElectric(c *CompanyEngineer) *JobDetailUpdate {
 	return jdu.SetElectricID(c.ID)
+}
+
+// SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
+func (jdu *JobDetailUpdate) SetInspectorID(id int) *JobDetailUpdate {
+	jdu.mutation.SetInspectorID(id)
+	return jdu
+}
+
+// SetNillableInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableInspectorID(id *int) *JobDetailUpdate {
+	if id != nil {
+		jdu = jdu.SetInspectorID(*id)
+	}
+	return jdu
+}
+
+// SetInspector sets the "inspector" edge to the CompanyEngineer entity.
+func (jdu *JobDetailUpdate) SetInspector(c *CompanyEngineer) *JobDetailUpdate {
+	return jdu.SetInspectorID(c.ID)
+}
+
+// SetArchitectID sets the "architect" edge to the CompanyEngineer entity by ID.
+func (jdu *JobDetailUpdate) SetArchitectID(id int) *JobDetailUpdate {
+	jdu.mutation.SetArchitectID(id)
+	return jdu
+}
+
+// SetNillableArchitectID sets the "architect" edge to the CompanyEngineer entity by ID if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableArchitectID(id *int) *JobDetailUpdate {
+	if id != nil {
+		jdu = jdu.SetArchitectID(*id)
+	}
+	return jdu
+}
+
+// SetArchitect sets the "architect" edge to the CompanyEngineer entity.
+func (jdu *JobDetailUpdate) SetArchitect(c *CompanyEngineer) *JobDetailUpdate {
+	return jdu.SetArchitectID(c.ID)
 }
 
 // SetControllerID sets the "controller" edge to the CompanyEngineer entity by ID.
@@ -1055,21 +1055,9 @@ func (jdu *JobDetailUpdate) Mutation() *JobDetailMutation {
 	return jdu.mutation
 }
 
-// ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (jdu *JobDetailUpdate) ClearCompany() *JobDetailUpdate {
-	jdu.mutation.ClearCompany()
-	return jdu
-}
-
 // ClearOwner clears the "owner" edge to the JobOwner entity.
 func (jdu *JobDetailUpdate) ClearOwner() *JobDetailUpdate {
 	jdu.mutation.ClearOwner()
-	return jdu
-}
-
-// ClearContractor clears the "contractor" edge to the JobContractor entity.
-func (jdu *JobDetailUpdate) ClearContractor() *JobDetailUpdate {
-	jdu.mutation.ClearContractor()
 	return jdu
 }
 
@@ -1079,27 +1067,27 @@ func (jdu *JobDetailUpdate) ClearAuthor() *JobDetailUpdate {
 	return jdu
 }
 
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (jdu *JobDetailUpdate) ClearCompany() *JobDetailUpdate {
+	jdu.mutation.ClearCompany()
+	return jdu
+}
+
 // ClearProgress clears the "progress" edge to the JobProgress entity.
 func (jdu *JobDetailUpdate) ClearProgress() *JobDetailUpdate {
 	jdu.mutation.ClearProgress()
 	return jdu
 }
 
+// ClearContractor clears the "contractor" edge to the JobContractor entity.
+func (jdu *JobDetailUpdate) ClearContractor() *JobDetailUpdate {
+	jdu.mutation.ClearContractor()
+	return jdu
+}
+
 // ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
 func (jdu *JobDetailUpdate) ClearSupervisor() *JobDetailUpdate {
 	jdu.mutation.ClearSupervisor()
-	return jdu
-}
-
-// ClearInspector clears the "inspector" edge to the CompanyEngineer entity.
-func (jdu *JobDetailUpdate) ClearInspector() *JobDetailUpdate {
-	jdu.mutation.ClearInspector()
-	return jdu
-}
-
-// ClearArchitect clears the "architect" edge to the CompanyEngineer entity.
-func (jdu *JobDetailUpdate) ClearArchitect() *JobDetailUpdate {
-	jdu.mutation.ClearArchitect()
 	return jdu
 }
 
@@ -1118,6 +1106,18 @@ func (jdu *JobDetailUpdate) ClearMechanic() *JobDetailUpdate {
 // ClearElectric clears the "electric" edge to the CompanyEngineer entity.
 func (jdu *JobDetailUpdate) ClearElectric() *JobDetailUpdate {
 	jdu.mutation.ClearElectric()
+	return jdu
+}
+
+// ClearInspector clears the "inspector" edge to the CompanyEngineer entity.
+func (jdu *JobDetailUpdate) ClearInspector() *JobDetailUpdate {
+	jdu.mutation.ClearInspector()
+	return jdu
+}
+
+// ClearArchitect clears the "architect" edge to the CompanyEngineer entity.
+func (jdu *JobDetailUpdate) ClearArchitect() *JobDetailUpdate {
+	jdu.mutation.ClearArchitect()
 	return jdu
 }
 
@@ -1448,35 +1448,6 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := jdu.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobdetail.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jdu.mutation.CompanyCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.CompanyTable,
-			Columns: []string{jobdetail.CompanyColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := jdu.mutation.CompanyIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.CompanyTable,
-			Columns: []string{jobdetail.CompanyColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if jdu.mutation.OwnerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -1499,35 +1470,6 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if jdu.mutation.ContractorCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.ContractorTable,
-			Columns: []string{jobdetail.ContractorColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := jdu.mutation.ContractorIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.ContractorTable,
-			Columns: []string{jobdetail.ContractorColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1564,6 +1506,35 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if jdu.mutation.CompanyCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jdu.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if jdu.mutation.ProgressCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -1593,6 +1564,35 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if jdu.mutation.ContractorCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.ContractorTable,
+			Columns: []string{jobdetail.ContractorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jdu.mutation.ContractorIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.ContractorTable,
+			Columns: []string{jobdetail.ContractorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if jdu.mutation.SupervisorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -1615,64 +1615,6 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if jdu.mutation.InspectorCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.InspectorTable,
-			Columns: []string{jobdetail.InspectorColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := jdu.mutation.InspectorIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.InspectorTable,
-			Columns: []string{jobdetail.InspectorColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if jdu.mutation.ArchitectCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.ArchitectTable,
-			Columns: []string{jobdetail.ArchitectColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := jdu.mutation.ArchitectIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.ArchitectTable,
-			Columns: []string{jobdetail.ArchitectColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1757,6 +1699,64 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Inverse: true,
 			Table:   jobdetail.ElectricTable,
 			Columns: []string{jobdetail.ElectricColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if jdu.mutation.InspectorCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.InspectorTable,
+			Columns: []string{jobdetail.InspectorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jdu.mutation.InspectorIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.InspectorTable,
+			Columns: []string{jobdetail.InspectorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if jdu.mutation.ArchitectCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.ArchitectTable,
+			Columns: []string{jobdetail.ArchitectColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jdu.mutation.ArchitectIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.ArchitectTable,
+			Columns: []string{jobdetail.ArchitectColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
@@ -2681,25 +2681,6 @@ func (jduo *JobDetailUpdateOne) SetUpdatedAt(t time.Time) *JobDetailUpdateOne {
 	return jduo
 }
 
-// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (jduo *JobDetailUpdateOne) SetCompanyID(id int) *JobDetailUpdateOne {
-	jduo.mutation.SetCompanyID(id)
-	return jduo
-}
-
-// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableCompanyID(id *int) *JobDetailUpdateOne {
-	if id != nil {
-		jduo = jduo.SetCompanyID(*id)
-	}
-	return jduo
-}
-
-// SetCompany sets the "company" edge to the CompanyDetail entity.
-func (jduo *JobDetailUpdateOne) SetCompany(c *CompanyDetail) *JobDetailUpdateOne {
-	return jduo.SetCompanyID(c.ID)
-}
-
 // SetOwnerID sets the "owner" edge to the JobOwner entity by ID.
 func (jduo *JobDetailUpdateOne) SetOwnerID(id int) *JobDetailUpdateOne {
 	jduo.mutation.SetOwnerID(id)
@@ -2717,25 +2698,6 @@ func (jduo *JobDetailUpdateOne) SetNillableOwnerID(id *int) *JobDetailUpdateOne 
 // SetOwner sets the "owner" edge to the JobOwner entity.
 func (jduo *JobDetailUpdateOne) SetOwner(j *JobOwner) *JobDetailUpdateOne {
 	return jduo.SetOwnerID(j.ID)
-}
-
-// SetContractorID sets the "contractor" edge to the JobContractor entity by ID.
-func (jduo *JobDetailUpdateOne) SetContractorID(id int) *JobDetailUpdateOne {
-	jduo.mutation.SetContractorID(id)
-	return jduo
-}
-
-// SetNillableContractorID sets the "contractor" edge to the JobContractor entity by ID if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableContractorID(id *int) *JobDetailUpdateOne {
-	if id != nil {
-		jduo = jduo.SetContractorID(*id)
-	}
-	return jduo
-}
-
-// SetContractor sets the "contractor" edge to the JobContractor entity.
-func (jduo *JobDetailUpdateOne) SetContractor(j *JobContractor) *JobDetailUpdateOne {
-	return jduo.SetContractorID(j.ID)
 }
 
 // SetAuthorID sets the "author" edge to the JobAuthor entity by ID.
@@ -2757,6 +2719,25 @@ func (jduo *JobDetailUpdateOne) SetAuthor(j *JobAuthor) *JobDetailUpdateOne {
 	return jduo.SetAuthorID(j.ID)
 }
 
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (jduo *JobDetailUpdateOne) SetCompanyID(id int) *JobDetailUpdateOne {
+	jduo.mutation.SetCompanyID(id)
+	return jduo
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableCompanyID(id *int) *JobDetailUpdateOne {
+	if id != nil {
+		jduo = jduo.SetCompanyID(*id)
+	}
+	return jduo
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (jduo *JobDetailUpdateOne) SetCompany(c *CompanyDetail) *JobDetailUpdateOne {
+	return jduo.SetCompanyID(c.ID)
+}
+
 // SetProgressID sets the "progress" edge to the JobProgress entity by ID.
 func (jduo *JobDetailUpdateOne) SetProgressID(id int) *JobDetailUpdateOne {
 	jduo.mutation.SetProgressID(id)
@@ -2776,6 +2757,25 @@ func (jduo *JobDetailUpdateOne) SetProgress(j *JobProgress) *JobDetailUpdateOne 
 	return jduo.SetProgressID(j.ID)
 }
 
+// SetContractorID sets the "contractor" edge to the JobContractor entity by ID.
+func (jduo *JobDetailUpdateOne) SetContractorID(id int) *JobDetailUpdateOne {
+	jduo.mutation.SetContractorID(id)
+	return jduo
+}
+
+// SetNillableContractorID sets the "contractor" edge to the JobContractor entity by ID if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableContractorID(id *int) *JobDetailUpdateOne {
+	if id != nil {
+		jduo = jduo.SetContractorID(*id)
+	}
+	return jduo
+}
+
+// SetContractor sets the "contractor" edge to the JobContractor entity.
+func (jduo *JobDetailUpdateOne) SetContractor(j *JobContractor) *JobDetailUpdateOne {
+	return jduo.SetContractorID(j.ID)
+}
+
 // SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID.
 func (jduo *JobDetailUpdateOne) SetSupervisorID(id int) *JobDetailUpdateOne {
 	jduo.mutation.SetSupervisorID(id)
@@ -2793,44 +2793,6 @@ func (jduo *JobDetailUpdateOne) SetNillableSupervisorID(id *int) *JobDetailUpdat
 // SetSupervisor sets the "supervisor" edge to the JobSupervisor entity.
 func (jduo *JobDetailUpdateOne) SetSupervisor(j *JobSupervisor) *JobDetailUpdateOne {
 	return jduo.SetSupervisorID(j.ID)
-}
-
-// SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
-func (jduo *JobDetailUpdateOne) SetInspectorID(id int) *JobDetailUpdateOne {
-	jduo.mutation.SetInspectorID(id)
-	return jduo
-}
-
-// SetNillableInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableInspectorID(id *int) *JobDetailUpdateOne {
-	if id != nil {
-		jduo = jduo.SetInspectorID(*id)
-	}
-	return jduo
-}
-
-// SetInspector sets the "inspector" edge to the CompanyEngineer entity.
-func (jduo *JobDetailUpdateOne) SetInspector(c *CompanyEngineer) *JobDetailUpdateOne {
-	return jduo.SetInspectorID(c.ID)
-}
-
-// SetArchitectID sets the "architect" edge to the CompanyEngineer entity by ID.
-func (jduo *JobDetailUpdateOne) SetArchitectID(id int) *JobDetailUpdateOne {
-	jduo.mutation.SetArchitectID(id)
-	return jduo
-}
-
-// SetNillableArchitectID sets the "architect" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableArchitectID(id *int) *JobDetailUpdateOne {
-	if id != nil {
-		jduo = jduo.SetArchitectID(*id)
-	}
-	return jduo
-}
-
-// SetArchitect sets the "architect" edge to the CompanyEngineer entity.
-func (jduo *JobDetailUpdateOne) SetArchitect(c *CompanyEngineer) *JobDetailUpdateOne {
-	return jduo.SetArchitectID(c.ID)
 }
 
 // SetStaticID sets the "static" edge to the CompanyEngineer entity by ID.
@@ -2888,6 +2850,44 @@ func (jduo *JobDetailUpdateOne) SetNillableElectricID(id *int) *JobDetailUpdateO
 // SetElectric sets the "electric" edge to the CompanyEngineer entity.
 func (jduo *JobDetailUpdateOne) SetElectric(c *CompanyEngineer) *JobDetailUpdateOne {
 	return jduo.SetElectricID(c.ID)
+}
+
+// SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
+func (jduo *JobDetailUpdateOne) SetInspectorID(id int) *JobDetailUpdateOne {
+	jduo.mutation.SetInspectorID(id)
+	return jduo
+}
+
+// SetNillableInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableInspectorID(id *int) *JobDetailUpdateOne {
+	if id != nil {
+		jduo = jduo.SetInspectorID(*id)
+	}
+	return jduo
+}
+
+// SetInspector sets the "inspector" edge to the CompanyEngineer entity.
+func (jduo *JobDetailUpdateOne) SetInspector(c *CompanyEngineer) *JobDetailUpdateOne {
+	return jduo.SetInspectorID(c.ID)
+}
+
+// SetArchitectID sets the "architect" edge to the CompanyEngineer entity by ID.
+func (jduo *JobDetailUpdateOne) SetArchitectID(id int) *JobDetailUpdateOne {
+	jduo.mutation.SetArchitectID(id)
+	return jduo
+}
+
+// SetNillableArchitectID sets the "architect" edge to the CompanyEngineer entity by ID if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableArchitectID(id *int) *JobDetailUpdateOne {
+	if id != nil {
+		jduo = jduo.SetArchitectID(*id)
+	}
+	return jduo
+}
+
+// SetArchitect sets the "architect" edge to the CompanyEngineer entity.
+func (jduo *JobDetailUpdateOne) SetArchitect(c *CompanyEngineer) *JobDetailUpdateOne {
+	return jduo.SetArchitectID(c.ID)
 }
 
 // SetControllerID sets the "controller" edge to the CompanyEngineer entity by ID.
@@ -2982,21 +2982,9 @@ func (jduo *JobDetailUpdateOne) Mutation() *JobDetailMutation {
 	return jduo.mutation
 }
 
-// ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (jduo *JobDetailUpdateOne) ClearCompany() *JobDetailUpdateOne {
-	jduo.mutation.ClearCompany()
-	return jduo
-}
-
 // ClearOwner clears the "owner" edge to the JobOwner entity.
 func (jduo *JobDetailUpdateOne) ClearOwner() *JobDetailUpdateOne {
 	jduo.mutation.ClearOwner()
-	return jduo
-}
-
-// ClearContractor clears the "contractor" edge to the JobContractor entity.
-func (jduo *JobDetailUpdateOne) ClearContractor() *JobDetailUpdateOne {
-	jduo.mutation.ClearContractor()
 	return jduo
 }
 
@@ -3006,27 +2994,27 @@ func (jduo *JobDetailUpdateOne) ClearAuthor() *JobDetailUpdateOne {
 	return jduo
 }
 
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (jduo *JobDetailUpdateOne) ClearCompany() *JobDetailUpdateOne {
+	jduo.mutation.ClearCompany()
+	return jduo
+}
+
 // ClearProgress clears the "progress" edge to the JobProgress entity.
 func (jduo *JobDetailUpdateOne) ClearProgress() *JobDetailUpdateOne {
 	jduo.mutation.ClearProgress()
 	return jduo
 }
 
+// ClearContractor clears the "contractor" edge to the JobContractor entity.
+func (jduo *JobDetailUpdateOne) ClearContractor() *JobDetailUpdateOne {
+	jduo.mutation.ClearContractor()
+	return jduo
+}
+
 // ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
 func (jduo *JobDetailUpdateOne) ClearSupervisor() *JobDetailUpdateOne {
 	jduo.mutation.ClearSupervisor()
-	return jduo
-}
-
-// ClearInspector clears the "inspector" edge to the CompanyEngineer entity.
-func (jduo *JobDetailUpdateOne) ClearInspector() *JobDetailUpdateOne {
-	jduo.mutation.ClearInspector()
-	return jduo
-}
-
-// ClearArchitect clears the "architect" edge to the CompanyEngineer entity.
-func (jduo *JobDetailUpdateOne) ClearArchitect() *JobDetailUpdateOne {
-	jduo.mutation.ClearArchitect()
 	return jduo
 }
 
@@ -3045,6 +3033,18 @@ func (jduo *JobDetailUpdateOne) ClearMechanic() *JobDetailUpdateOne {
 // ClearElectric clears the "electric" edge to the CompanyEngineer entity.
 func (jduo *JobDetailUpdateOne) ClearElectric() *JobDetailUpdateOne {
 	jduo.mutation.ClearElectric()
+	return jduo
+}
+
+// ClearInspector clears the "inspector" edge to the CompanyEngineer entity.
+func (jduo *JobDetailUpdateOne) ClearInspector() *JobDetailUpdateOne {
+	jduo.mutation.ClearInspector()
+	return jduo
+}
+
+// ClearArchitect clears the "architect" edge to the CompanyEngineer entity.
+func (jduo *JobDetailUpdateOne) ClearArchitect() *JobDetailUpdateOne {
+	jduo.mutation.ClearArchitect()
 	return jduo
 }
 
@@ -3405,35 +3405,6 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	if value, ok := jduo.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobdetail.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jduo.mutation.CompanyCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.CompanyTable,
-			Columns: []string{jobdetail.CompanyColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := jduo.mutation.CompanyIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.CompanyTable,
-			Columns: []string{jobdetail.CompanyColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if jduo.mutation.OwnerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -3456,35 +3427,6 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if jduo.mutation.ContractorCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.ContractorTable,
-			Columns: []string{jobdetail.ContractorColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := jduo.mutation.ContractorIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.ContractorTable,
-			Columns: []string{jobdetail.ContractorColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -3521,6 +3463,35 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if jduo.mutation.CompanyCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jduo.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if jduo.mutation.ProgressCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -3550,6 +3521,35 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if jduo.mutation.ContractorCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.ContractorTable,
+			Columns: []string{jobdetail.ContractorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jduo.mutation.ContractorIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.ContractorTable,
+			Columns: []string{jobdetail.ContractorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if jduo.mutation.SupervisorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -3572,64 +3572,6 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if jduo.mutation.InspectorCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.InspectorTable,
-			Columns: []string{jobdetail.InspectorColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := jduo.mutation.InspectorIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.InspectorTable,
-			Columns: []string{jobdetail.InspectorColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if jduo.mutation.ArchitectCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.ArchitectTable,
-			Columns: []string{jobdetail.ArchitectColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := jduo.mutation.ArchitectIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   jobdetail.ArchitectTable,
-			Columns: []string{jobdetail.ArchitectColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -3714,6 +3656,64 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 			Inverse: true,
 			Table:   jobdetail.ElectricTable,
 			Columns: []string{jobdetail.ElectricColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if jduo.mutation.InspectorCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.InspectorTable,
+			Columns: []string{jobdetail.InspectorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jduo.mutation.InspectorIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.InspectorTable,
+			Columns: []string{jobdetail.InspectorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if jduo.mutation.ArchitectCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.ArchitectTable,
+			Columns: []string{jobdetail.ArchitectColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jduo.mutation.ArchitectIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.ArchitectTable,
+			Columns: []string{jobdetail.ArchitectColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),

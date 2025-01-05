@@ -251,36 +251,6 @@ func (cec *CompanyEngineerCreate) SetCompany(c *CompanyDetail) *CompanyEngineerC
 	return cec.SetCompanyID(c.ID)
 }
 
-// AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
-func (cec *CompanyEngineerCreate) AddInspectorIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddInspectorIDs(ids...)
-	return cec
-}
-
-// AddInspectors adds the "inspectors" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddInspectors(j ...*JobDetail) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return cec.AddInspectorIDs(ids...)
-}
-
-// AddArchitectIDs adds the "architects" edge to the JobDetail entity by IDs.
-func (cec *CompanyEngineerCreate) AddArchitectIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddArchitectIDs(ids...)
-	return cec
-}
-
-// AddArchitects adds the "architects" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddArchitects(j ...*JobDetail) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return cec.AddArchitectIDs(ids...)
-}
-
 // AddStaticIDs adds the "statics" edge to the JobDetail entity by IDs.
 func (cec *CompanyEngineerCreate) AddStaticIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddStaticIDs(ids...)
@@ -324,6 +294,36 @@ func (cec *CompanyEngineerCreate) AddElectrics(j ...*JobDetail) *CompanyEngineer
 		ids[i] = j[i].ID
 	}
 	return cec.AddElectricIDs(ids...)
+}
+
+// AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
+func (cec *CompanyEngineerCreate) AddInspectorIDs(ids ...int) *CompanyEngineerCreate {
+	cec.mutation.AddInspectorIDs(ids...)
+	return cec
+}
+
+// AddInspectors adds the "inspectors" edges to the JobDetail entity.
+func (cec *CompanyEngineerCreate) AddInspectors(j ...*JobDetail) *CompanyEngineerCreate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return cec.AddInspectorIDs(ids...)
+}
+
+// AddArchitectIDs adds the "architects" edge to the JobDetail entity by IDs.
+func (cec *CompanyEngineerCreate) AddArchitectIDs(ids ...int) *CompanyEngineerCreate {
+	cec.mutation.AddArchitectIDs(ids...)
+	return cec
+}
+
+// AddArchitects adds the "architects" edges to the JobDetail entity.
+func (cec *CompanyEngineerCreate) AddArchitects(j ...*JobDetail) *CompanyEngineerCreate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return cec.AddArchitectIDs(ids...)
 }
 
 // AddControllerIDs adds the "controllers" edge to the JobDetail entity by IDs.
@@ -541,38 +541,6 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.InspectorsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.InspectorsTable,
-			Columns: []string{companyengineer.InspectorsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := cec.mutation.ArchitectsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.ArchitectsTable,
-			Columns: []string{companyengineer.ArchitectsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
 	if nodes := cec.mutation.StaticsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -611,6 +579,38 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Inverse: false,
 			Table:   companyengineer.ElectricsTable,
 			Columns: []string{companyengineer.ElectricsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cec.mutation.InspectorsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.InspectorsTable,
+			Columns: []string{companyengineer.InspectorsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cec.mutation.ArchitectsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.ArchitectsTable,
+			Columns: []string{companyengineer.ArchitectsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),

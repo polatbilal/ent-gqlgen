@@ -46,16 +46,16 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// EdgeCompany holds the string denoting the company edge name in mutations.
 	EdgeCompany = "company"
-	// EdgeInspectors holds the string denoting the inspectors edge name in mutations.
-	EdgeInspectors = "inspectors"
-	// EdgeArchitects holds the string denoting the architects edge name in mutations.
-	EdgeArchitects = "architects"
 	// EdgeStatics holds the string denoting the statics edge name in mutations.
 	EdgeStatics = "statics"
 	// EdgeMechanics holds the string denoting the mechanics edge name in mutations.
 	EdgeMechanics = "mechanics"
 	// EdgeElectrics holds the string denoting the electrics edge name in mutations.
 	EdgeElectrics = "electrics"
+	// EdgeInspectors holds the string denoting the inspectors edge name in mutations.
+	EdgeInspectors = "inspectors"
+	// EdgeArchitects holds the string denoting the architects edge name in mutations.
+	EdgeArchitects = "architects"
 	// EdgeControllers holds the string denoting the controllers edge name in mutations.
 	EdgeControllers = "controllers"
 	// EdgeMechaniccontrollers holds the string denoting the mechaniccontrollers edge name in mutations.
@@ -71,20 +71,6 @@ const (
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
-	// InspectorsTable is the table that holds the inspectors relation/edge.
-	InspectorsTable = "job_details"
-	// InspectorsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	InspectorsInverseTable = "job_details"
-	// InspectorsColumn is the table column denoting the inspectors relation/edge.
-	InspectorsColumn = "inspector_id"
-	// ArchitectsTable is the table that holds the architects relation/edge.
-	ArchitectsTable = "job_details"
-	// ArchitectsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	ArchitectsInverseTable = "job_details"
-	// ArchitectsColumn is the table column denoting the architects relation/edge.
-	ArchitectsColumn = "architect_id"
 	// StaticsTable is the table that holds the statics relation/edge.
 	StaticsTable = "job_details"
 	// StaticsInverseTable is the table name for the JobDetail entity.
@@ -106,6 +92,20 @@ const (
 	ElectricsInverseTable = "job_details"
 	// ElectricsColumn is the table column denoting the electrics relation/edge.
 	ElectricsColumn = "electric_id"
+	// InspectorsTable is the table that holds the inspectors relation/edge.
+	InspectorsTable = "job_details"
+	// InspectorsInverseTable is the table name for the JobDetail entity.
+	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
+	InspectorsInverseTable = "job_details"
+	// InspectorsColumn is the table column denoting the inspectors relation/edge.
+	InspectorsColumn = "inspector_id"
+	// ArchitectsTable is the table that holds the architects relation/edge.
+	ArchitectsTable = "job_details"
+	// ArchitectsInverseTable is the table name for the JobDetail entity.
+	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
+	ArchitectsInverseTable = "job_details"
+	// ArchitectsColumn is the table column denoting the architects relation/edge.
+	ArchitectsColumn = "architect_id"
 	// ControllersTable is the table that holds the controllers relation/edge.
 	ControllersTable = "job_details"
 	// ControllersInverseTable is the table name for the JobDetail entity.
@@ -273,34 +273,6 @@ func ByCompanyField(field string, opts ...sql.OrderTermOption) OrderOption {
 	}
 }
 
-// ByInspectorsCount orders the results by inspectors count.
-func ByInspectorsCount(opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newInspectorsStep(), opts...)
-	}
-}
-
-// ByInspectors orders the results by inspectors terms.
-func ByInspectors(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newInspectorsStep(), append([]sql.OrderTerm{term}, terms...)...)
-	}
-}
-
-// ByArchitectsCount orders the results by architects count.
-func ByArchitectsCount(opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newArchitectsStep(), opts...)
-	}
-}
-
-// ByArchitects orders the results by architects terms.
-func ByArchitects(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newArchitectsStep(), append([]sql.OrderTerm{term}, terms...)...)
-	}
-}
-
 // ByStaticsCount orders the results by statics count.
 func ByStaticsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
@@ -340,6 +312,34 @@ func ByElectricsCount(opts ...sql.OrderTermOption) OrderOption {
 func ByElectrics(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
 		sqlgraph.OrderByNeighborTerms(s, newElectricsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByInspectorsCount orders the results by inspectors count.
+func ByInspectorsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newInspectorsStep(), opts...)
+	}
+}
+
+// ByInspectors orders the results by inspectors terms.
+func ByInspectors(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newInspectorsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByArchitectsCount orders the results by architects count.
+func ByArchitectsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newArchitectsStep(), opts...)
+	}
+}
+
+// ByArchitects orders the results by architects terms.
+func ByArchitects(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newArchitectsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 
@@ -391,20 +391,6 @@ func newCompanyStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 	)
 }
-func newInspectorsStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(InspectorsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, InspectorsTable, InspectorsColumn),
-	)
-}
-func newArchitectsStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(ArchitectsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, ArchitectsTable, ArchitectsColumn),
-	)
-}
 func newStaticsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -424,6 +410,20 @@ func newElectricsStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(ElectricsInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, ElectricsTable, ElectricsColumn),
+	)
+}
+func newInspectorsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(InspectorsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, InspectorsTable, InspectorsColumn),
+	)
+}
+func newArchitectsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ArchitectsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ArchitectsTable, ArchitectsColumn),
 	)
 }
 func newControllersStep() *sqlgraph.Step {

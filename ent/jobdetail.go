@@ -96,11 +96,11 @@ type JobDetail struct {
 	// The values are being populated by the JobDetailQuery when eager-loading is set.
 	Edges                 JobDetailEdges `json:"edges"`
 	company_id            *int
-	inspector_id          *int
-	architect_id          *int
 	static_id             *int
 	mechanic_id           *int
 	electric_id           *int
+	inspector_id          *int
+	architect_id          *int
 	controller_id         *int
 	mechaniccontroller_id *int
 	electriccontroller_id *int
@@ -114,28 +114,28 @@ type JobDetail struct {
 
 // JobDetailEdges holds the relations/edges for other nodes in the graph.
 type JobDetailEdges struct {
-	// Company holds the value of the company edge.
-	Company *CompanyDetail `json:"company,omitempty"`
 	// Owner holds the value of the owner edge.
 	Owner *JobOwner `json:"owner,omitempty"`
-	// Contractor holds the value of the contractor edge.
-	Contractor *JobContractor `json:"contractor,omitempty"`
 	// Author holds the value of the author edge.
 	Author *JobAuthor `json:"author,omitempty"`
+	// Company holds the value of the company edge.
+	Company *CompanyDetail `json:"company,omitempty"`
 	// Progress holds the value of the progress edge.
 	Progress *JobProgress `json:"progress,omitempty"`
+	// Contractor holds the value of the contractor edge.
+	Contractor *JobContractor `json:"contractor,omitempty"`
 	// Supervisor holds the value of the supervisor edge.
 	Supervisor *JobSupervisor `json:"supervisor,omitempty"`
-	// Inspector holds the value of the inspector edge.
-	Inspector *CompanyEngineer `json:"inspector,omitempty"`
-	// Architect holds the value of the architect edge.
-	Architect *CompanyEngineer `json:"architect,omitempty"`
 	// Static holds the value of the static edge.
 	Static *CompanyEngineer `json:"static,omitempty"`
 	// Mechanic holds the value of the mechanic edge.
 	Mechanic *CompanyEngineer `json:"mechanic,omitempty"`
 	// Electric holds the value of the electric edge.
 	Electric *CompanyEngineer `json:"electric,omitempty"`
+	// Inspector holds the value of the inspector edge.
+	Inspector *CompanyEngineer `json:"inspector,omitempty"`
+	// Architect holds the value of the architect edge.
+	Architect *CompanyEngineer `json:"architect,omitempty"`
 	// Controller holds the value of the controller edge.
 	Controller *CompanyEngineer `json:"controller,omitempty"`
 	// Mechaniccontroller holds the value of the mechaniccontroller edge.
@@ -156,37 +156,15 @@ type JobDetailEdges struct {
 	namedPayments map[string][]*JobPayments
 }
 
-// CompanyOrErr returns the Company value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e JobDetailEdges) CompanyOrErr() (*CompanyDetail, error) {
-	if e.Company != nil {
-		return e.Company, nil
-	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: companydetail.Label}
-	}
-	return nil, &NotLoadedError{edge: "company"}
-}
-
 // OwnerOrErr returns the Owner value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
 func (e JobDetailEdges) OwnerOrErr() (*JobOwner, error) {
 	if e.Owner != nil {
 		return e.Owner, nil
-	} else if e.loadedTypes[1] {
+	} else if e.loadedTypes[0] {
 		return nil, &NotFoundError{label: jobowner.Label}
 	}
 	return nil, &NotLoadedError{edge: "owner"}
-}
-
-// ContractorOrErr returns the Contractor value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e JobDetailEdges) ContractorOrErr() (*JobContractor, error) {
-	if e.Contractor != nil {
-		return e.Contractor, nil
-	} else if e.loadedTypes[2] {
-		return nil, &NotFoundError{label: jobcontractor.Label}
-	}
-	return nil, &NotLoadedError{edge: "contractor"}
 }
 
 // AuthorOrErr returns the Author value or an error if the edge
@@ -194,10 +172,21 @@ func (e JobDetailEdges) ContractorOrErr() (*JobContractor, error) {
 func (e JobDetailEdges) AuthorOrErr() (*JobAuthor, error) {
 	if e.Author != nil {
 		return e.Author, nil
-	} else if e.loadedTypes[3] {
+	} else if e.loadedTypes[1] {
 		return nil, &NotFoundError{label: jobauthor.Label}
 	}
 	return nil, &NotLoadedError{edge: "author"}
+}
+
+// CompanyOrErr returns the Company value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e JobDetailEdges) CompanyOrErr() (*CompanyDetail, error) {
+	if e.Company != nil {
+		return e.Company, nil
+	} else if e.loadedTypes[2] {
+		return nil, &NotFoundError{label: companydetail.Label}
+	}
+	return nil, &NotLoadedError{edge: "company"}
 }
 
 // ProgressOrErr returns the Progress value or an error if the edge
@@ -205,10 +194,21 @@ func (e JobDetailEdges) AuthorOrErr() (*JobAuthor, error) {
 func (e JobDetailEdges) ProgressOrErr() (*JobProgress, error) {
 	if e.Progress != nil {
 		return e.Progress, nil
-	} else if e.loadedTypes[4] {
+	} else if e.loadedTypes[3] {
 		return nil, &NotFoundError{label: jobprogress.Label}
 	}
 	return nil, &NotLoadedError{edge: "progress"}
+}
+
+// ContractorOrErr returns the Contractor value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e JobDetailEdges) ContractorOrErr() (*JobContractor, error) {
+	if e.Contractor != nil {
+		return e.Contractor, nil
+	} else if e.loadedTypes[4] {
+		return nil, &NotFoundError{label: jobcontractor.Label}
+	}
+	return nil, &NotLoadedError{edge: "contractor"}
 }
 
 // SupervisorOrErr returns the Supervisor value or an error if the edge
@@ -222,34 +222,12 @@ func (e JobDetailEdges) SupervisorOrErr() (*JobSupervisor, error) {
 	return nil, &NotLoadedError{edge: "supervisor"}
 }
 
-// InspectorOrErr returns the Inspector value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e JobDetailEdges) InspectorOrErr() (*CompanyEngineer, error) {
-	if e.Inspector != nil {
-		return e.Inspector, nil
-	} else if e.loadedTypes[6] {
-		return nil, &NotFoundError{label: companyengineer.Label}
-	}
-	return nil, &NotLoadedError{edge: "inspector"}
-}
-
-// ArchitectOrErr returns the Architect value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e JobDetailEdges) ArchitectOrErr() (*CompanyEngineer, error) {
-	if e.Architect != nil {
-		return e.Architect, nil
-	} else if e.loadedTypes[7] {
-		return nil, &NotFoundError{label: companyengineer.Label}
-	}
-	return nil, &NotLoadedError{edge: "architect"}
-}
-
 // StaticOrErr returns the Static value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
 func (e JobDetailEdges) StaticOrErr() (*CompanyEngineer, error) {
 	if e.Static != nil {
 		return e.Static, nil
-	} else if e.loadedTypes[8] {
+	} else if e.loadedTypes[6] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "static"}
@@ -260,7 +238,7 @@ func (e JobDetailEdges) StaticOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) MechanicOrErr() (*CompanyEngineer, error) {
 	if e.Mechanic != nil {
 		return e.Mechanic, nil
-	} else if e.loadedTypes[9] {
+	} else if e.loadedTypes[7] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "mechanic"}
@@ -271,10 +249,32 @@ func (e JobDetailEdges) MechanicOrErr() (*CompanyEngineer, error) {
 func (e JobDetailEdges) ElectricOrErr() (*CompanyEngineer, error) {
 	if e.Electric != nil {
 		return e.Electric, nil
-	} else if e.loadedTypes[10] {
+	} else if e.loadedTypes[8] {
 		return nil, &NotFoundError{label: companyengineer.Label}
 	}
 	return nil, &NotLoadedError{edge: "electric"}
+}
+
+// InspectorOrErr returns the Inspector value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e JobDetailEdges) InspectorOrErr() (*CompanyEngineer, error) {
+	if e.Inspector != nil {
+		return e.Inspector, nil
+	} else if e.loadedTypes[9] {
+		return nil, &NotFoundError{label: companyengineer.Label}
+	}
+	return nil, &NotLoadedError{edge: "inspector"}
+}
+
+// ArchitectOrErr returns the Architect value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e JobDetailEdges) ArchitectOrErr() (*CompanyEngineer, error) {
+	if e.Architect != nil {
+		return e.Architect, nil
+	} else if e.loadedTypes[10] {
+		return nil, &NotFoundError{label: companyengineer.Label}
+	}
+	return nil, &NotLoadedError{edge: "architect"}
 }
 
 // ControllerOrErr returns the Controller value or an error if the edge
@@ -345,15 +345,15 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullTime)
 		case jobdetail.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[1]: // inspector_id
+		case jobdetail.ForeignKeys[1]: // static_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[2]: // architect_id
+		case jobdetail.ForeignKeys[2]: // mechanic_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[3]: // static_id
+		case jobdetail.ForeignKeys[3]: // electric_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[4]: // mechanic_id
+		case jobdetail.ForeignKeys[4]: // inspector_id
 			values[i] = new(sql.NullInt64)
-		case jobdetail.ForeignKeys[5]: // electric_id
+		case jobdetail.ForeignKeys[5]: // architect_id
 			values[i] = new(sql.NullInt64)
 		case jobdetail.ForeignKeys[6]: // controller_id
 			values[i] = new(sql.NullInt64)
@@ -605,38 +605,38 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			}
 		case jobdetail.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field inspector_id", value)
-			} else if value.Valid {
-				jd.inspector_id = new(int)
-				*jd.inspector_id = int(value.Int64)
-			}
-		case jobdetail.ForeignKeys[2]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field architect_id", value)
-			} else if value.Valid {
-				jd.architect_id = new(int)
-				*jd.architect_id = int(value.Int64)
-			}
-		case jobdetail.ForeignKeys[3]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field static_id", value)
 			} else if value.Valid {
 				jd.static_id = new(int)
 				*jd.static_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[4]:
+		case jobdetail.ForeignKeys[2]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field mechanic_id", value)
 			} else if value.Valid {
 				jd.mechanic_id = new(int)
 				*jd.mechanic_id = int(value.Int64)
 			}
-		case jobdetail.ForeignKeys[5]:
+		case jobdetail.ForeignKeys[3]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field electric_id", value)
 			} else if value.Valid {
 				jd.electric_id = new(int)
 				*jd.electric_id = int(value.Int64)
+			}
+		case jobdetail.ForeignKeys[4]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field inspector_id", value)
+			} else if value.Valid {
+				jd.inspector_id = new(int)
+				*jd.inspector_id = int(value.Int64)
+			}
+		case jobdetail.ForeignKeys[5]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field architect_id", value)
+			} else if value.Valid {
+				jd.architect_id = new(int)
+				*jd.architect_id = int(value.Int64)
 			}
 		case jobdetail.ForeignKeys[6]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -707,19 +707,9 @@ func (jd *JobDetail) Value(name string) (ent.Value, error) {
 	return jd.selectValues.Get(name)
 }
 
-// QueryCompany queries the "company" edge of the JobDetail entity.
-func (jd *JobDetail) QueryCompany() *CompanyDetailQuery {
-	return NewJobDetailClient(jd.config).QueryCompany(jd)
-}
-
 // QueryOwner queries the "owner" edge of the JobDetail entity.
 func (jd *JobDetail) QueryOwner() *JobOwnerQuery {
 	return NewJobDetailClient(jd.config).QueryOwner(jd)
-}
-
-// QueryContractor queries the "contractor" edge of the JobDetail entity.
-func (jd *JobDetail) QueryContractor() *JobContractorQuery {
-	return NewJobDetailClient(jd.config).QueryContractor(jd)
 }
 
 // QueryAuthor queries the "author" edge of the JobDetail entity.
@@ -727,24 +717,24 @@ func (jd *JobDetail) QueryAuthor() *JobAuthorQuery {
 	return NewJobDetailClient(jd.config).QueryAuthor(jd)
 }
 
+// QueryCompany queries the "company" edge of the JobDetail entity.
+func (jd *JobDetail) QueryCompany() *CompanyDetailQuery {
+	return NewJobDetailClient(jd.config).QueryCompany(jd)
+}
+
 // QueryProgress queries the "progress" edge of the JobDetail entity.
 func (jd *JobDetail) QueryProgress() *JobProgressQuery {
 	return NewJobDetailClient(jd.config).QueryProgress(jd)
 }
 
+// QueryContractor queries the "contractor" edge of the JobDetail entity.
+func (jd *JobDetail) QueryContractor() *JobContractorQuery {
+	return NewJobDetailClient(jd.config).QueryContractor(jd)
+}
+
 // QuerySupervisor queries the "supervisor" edge of the JobDetail entity.
 func (jd *JobDetail) QuerySupervisor() *JobSupervisorQuery {
 	return NewJobDetailClient(jd.config).QuerySupervisor(jd)
-}
-
-// QueryInspector queries the "inspector" edge of the JobDetail entity.
-func (jd *JobDetail) QueryInspector() *CompanyEngineerQuery {
-	return NewJobDetailClient(jd.config).QueryInspector(jd)
-}
-
-// QueryArchitect queries the "architect" edge of the JobDetail entity.
-func (jd *JobDetail) QueryArchitect() *CompanyEngineerQuery {
-	return NewJobDetailClient(jd.config).QueryArchitect(jd)
 }
 
 // QueryStatic queries the "static" edge of the JobDetail entity.
@@ -760,6 +750,16 @@ func (jd *JobDetail) QueryMechanic() *CompanyEngineerQuery {
 // QueryElectric queries the "electric" edge of the JobDetail entity.
 func (jd *JobDetail) QueryElectric() *CompanyEngineerQuery {
 	return NewJobDetailClient(jd.config).QueryElectric(jd)
+}
+
+// QueryInspector queries the "inspector" edge of the JobDetail entity.
+func (jd *JobDetail) QueryInspector() *CompanyEngineerQuery {
+	return NewJobDetailClient(jd.config).QueryInspector(jd)
+}
+
+// QueryArchitect queries the "architect" edge of the JobDetail entity.
+func (jd *JobDetail) QueryArchitect() *CompanyEngineerQuery {
+	return NewJobDetailClient(jd.config).QueryArchitect(jd)
 }
 
 // QueryController queries the "controller" edge of the JobDetail entity.

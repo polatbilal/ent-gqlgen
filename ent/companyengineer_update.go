@@ -352,36 +352,6 @@ func (ceu *CompanyEngineerUpdate) SetCompany(c *CompanyDetail) *CompanyEngineerU
 	return ceu.SetCompanyID(c.ID)
 }
 
-// AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
-func (ceu *CompanyEngineerUpdate) AddInspectorIDs(ids ...int) *CompanyEngineerUpdate {
-	ceu.mutation.AddInspectorIDs(ids...)
-	return ceu
-}
-
-// AddInspectors adds the "inspectors" edges to the JobDetail entity.
-func (ceu *CompanyEngineerUpdate) AddInspectors(j ...*JobDetail) *CompanyEngineerUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return ceu.AddInspectorIDs(ids...)
-}
-
-// AddArchitectIDs adds the "architects" edge to the JobDetail entity by IDs.
-func (ceu *CompanyEngineerUpdate) AddArchitectIDs(ids ...int) *CompanyEngineerUpdate {
-	ceu.mutation.AddArchitectIDs(ids...)
-	return ceu
-}
-
-// AddArchitects adds the "architects" edges to the JobDetail entity.
-func (ceu *CompanyEngineerUpdate) AddArchitects(j ...*JobDetail) *CompanyEngineerUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return ceu.AddArchitectIDs(ids...)
-}
-
 // AddStaticIDs adds the "statics" edge to the JobDetail entity by IDs.
 func (ceu *CompanyEngineerUpdate) AddStaticIDs(ids ...int) *CompanyEngineerUpdate {
 	ceu.mutation.AddStaticIDs(ids...)
@@ -425,6 +395,36 @@ func (ceu *CompanyEngineerUpdate) AddElectrics(j ...*JobDetail) *CompanyEngineer
 		ids[i] = j[i].ID
 	}
 	return ceu.AddElectricIDs(ids...)
+}
+
+// AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
+func (ceu *CompanyEngineerUpdate) AddInspectorIDs(ids ...int) *CompanyEngineerUpdate {
+	ceu.mutation.AddInspectorIDs(ids...)
+	return ceu
+}
+
+// AddInspectors adds the "inspectors" edges to the JobDetail entity.
+func (ceu *CompanyEngineerUpdate) AddInspectors(j ...*JobDetail) *CompanyEngineerUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return ceu.AddInspectorIDs(ids...)
+}
+
+// AddArchitectIDs adds the "architects" edge to the JobDetail entity by IDs.
+func (ceu *CompanyEngineerUpdate) AddArchitectIDs(ids ...int) *CompanyEngineerUpdate {
+	ceu.mutation.AddArchitectIDs(ids...)
+	return ceu
+}
+
+// AddArchitects adds the "architects" edges to the JobDetail entity.
+func (ceu *CompanyEngineerUpdate) AddArchitects(j ...*JobDetail) *CompanyEngineerUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return ceu.AddArchitectIDs(ids...)
 }
 
 // AddControllerIDs adds the "controllers" edge to the JobDetail entity by IDs.
@@ -481,48 +481,6 @@ func (ceu *CompanyEngineerUpdate) Mutation() *CompanyEngineerMutation {
 func (ceu *CompanyEngineerUpdate) ClearCompany() *CompanyEngineerUpdate {
 	ceu.mutation.ClearCompany()
 	return ceu
-}
-
-// ClearInspectors clears all "inspectors" edges to the JobDetail entity.
-func (ceu *CompanyEngineerUpdate) ClearInspectors() *CompanyEngineerUpdate {
-	ceu.mutation.ClearInspectors()
-	return ceu
-}
-
-// RemoveInspectorIDs removes the "inspectors" edge to JobDetail entities by IDs.
-func (ceu *CompanyEngineerUpdate) RemoveInspectorIDs(ids ...int) *CompanyEngineerUpdate {
-	ceu.mutation.RemoveInspectorIDs(ids...)
-	return ceu
-}
-
-// RemoveInspectors removes "inspectors" edges to JobDetail entities.
-func (ceu *CompanyEngineerUpdate) RemoveInspectors(j ...*JobDetail) *CompanyEngineerUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return ceu.RemoveInspectorIDs(ids...)
-}
-
-// ClearArchitects clears all "architects" edges to the JobDetail entity.
-func (ceu *CompanyEngineerUpdate) ClearArchitects() *CompanyEngineerUpdate {
-	ceu.mutation.ClearArchitects()
-	return ceu
-}
-
-// RemoveArchitectIDs removes the "architects" edge to JobDetail entities by IDs.
-func (ceu *CompanyEngineerUpdate) RemoveArchitectIDs(ids ...int) *CompanyEngineerUpdate {
-	ceu.mutation.RemoveArchitectIDs(ids...)
-	return ceu
-}
-
-// RemoveArchitects removes "architects" edges to JobDetail entities.
-func (ceu *CompanyEngineerUpdate) RemoveArchitects(j ...*JobDetail) *CompanyEngineerUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return ceu.RemoveArchitectIDs(ids...)
 }
 
 // ClearStatics clears all "statics" edges to the JobDetail entity.
@@ -586,6 +544,48 @@ func (ceu *CompanyEngineerUpdate) RemoveElectrics(j ...*JobDetail) *CompanyEngin
 		ids[i] = j[i].ID
 	}
 	return ceu.RemoveElectricIDs(ids...)
+}
+
+// ClearInspectors clears all "inspectors" edges to the JobDetail entity.
+func (ceu *CompanyEngineerUpdate) ClearInspectors() *CompanyEngineerUpdate {
+	ceu.mutation.ClearInspectors()
+	return ceu
+}
+
+// RemoveInspectorIDs removes the "inspectors" edge to JobDetail entities by IDs.
+func (ceu *CompanyEngineerUpdate) RemoveInspectorIDs(ids ...int) *CompanyEngineerUpdate {
+	ceu.mutation.RemoveInspectorIDs(ids...)
+	return ceu
+}
+
+// RemoveInspectors removes "inspectors" edges to JobDetail entities.
+func (ceu *CompanyEngineerUpdate) RemoveInspectors(j ...*JobDetail) *CompanyEngineerUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return ceu.RemoveInspectorIDs(ids...)
+}
+
+// ClearArchitects clears all "architects" edges to the JobDetail entity.
+func (ceu *CompanyEngineerUpdate) ClearArchitects() *CompanyEngineerUpdate {
+	ceu.mutation.ClearArchitects()
+	return ceu
+}
+
+// RemoveArchitectIDs removes the "architects" edge to JobDetail entities by IDs.
+func (ceu *CompanyEngineerUpdate) RemoveArchitectIDs(ids ...int) *CompanyEngineerUpdate {
+	ceu.mutation.RemoveArchitectIDs(ids...)
+	return ceu
+}
+
+// RemoveArchitects removes "architects" edges to JobDetail entities.
+func (ceu *CompanyEngineerUpdate) RemoveArchitects(j ...*JobDetail) *CompanyEngineerUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return ceu.RemoveArchitectIDs(ids...)
 }
 
 // ClearControllers clears all "controllers" edges to the JobDetail entity.
@@ -818,96 +818,6 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if ceu.mutation.InspectorsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.InspectorsTable,
-			Columns: []string{companyengineer.InspectorsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceu.mutation.RemovedInspectorsIDs(); len(nodes) > 0 && !ceu.mutation.InspectorsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.InspectorsTable,
-			Columns: []string{companyengineer.InspectorsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceu.mutation.InspectorsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.InspectorsTable,
-			Columns: []string{companyengineer.InspectorsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if ceu.mutation.ArchitectsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.ArchitectsTable,
-			Columns: []string{companyengineer.ArchitectsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceu.mutation.RemovedArchitectsIDs(); len(nodes) > 0 && !ceu.mutation.ArchitectsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.ArchitectsTable,
-			Columns: []string{companyengineer.ArchitectsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceu.mutation.ArchitectsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.ArchitectsTable,
-			Columns: []string{companyengineer.ArchitectsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if ceu.mutation.StaticsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -1033,6 +943,96 @@ func (ceu *CompanyEngineerUpdate) sqlSave(ctx context.Context) (n int, err error
 			Inverse: false,
 			Table:   companyengineer.ElectricsTable,
 			Columns: []string{companyengineer.ElectricsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if ceu.mutation.InspectorsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.InspectorsTable,
+			Columns: []string{companyengineer.InspectorsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceu.mutation.RemovedInspectorsIDs(); len(nodes) > 0 && !ceu.mutation.InspectorsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.InspectorsTable,
+			Columns: []string{companyengineer.InspectorsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceu.mutation.InspectorsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.InspectorsTable,
+			Columns: []string{companyengineer.InspectorsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if ceu.mutation.ArchitectsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.ArchitectsTable,
+			Columns: []string{companyengineer.ArchitectsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceu.mutation.RemovedArchitectsIDs(); len(nodes) > 0 && !ceu.mutation.ArchitectsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.ArchitectsTable,
+			Columns: []string{companyengineer.ArchitectsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceu.mutation.ArchitectsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.ArchitectsTable,
+			Columns: []string{companyengineer.ArchitectsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
@@ -1520,36 +1520,6 @@ func (ceuo *CompanyEngineerUpdateOne) SetCompany(c *CompanyDetail) *CompanyEngin
 	return ceuo.SetCompanyID(c.ID)
 }
 
-// AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
-func (ceuo *CompanyEngineerUpdateOne) AddInspectorIDs(ids ...int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.AddInspectorIDs(ids...)
-	return ceuo
-}
-
-// AddInspectors adds the "inspectors" edges to the JobDetail entity.
-func (ceuo *CompanyEngineerUpdateOne) AddInspectors(j ...*JobDetail) *CompanyEngineerUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return ceuo.AddInspectorIDs(ids...)
-}
-
-// AddArchitectIDs adds the "architects" edge to the JobDetail entity by IDs.
-func (ceuo *CompanyEngineerUpdateOne) AddArchitectIDs(ids ...int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.AddArchitectIDs(ids...)
-	return ceuo
-}
-
-// AddArchitects adds the "architects" edges to the JobDetail entity.
-func (ceuo *CompanyEngineerUpdateOne) AddArchitects(j ...*JobDetail) *CompanyEngineerUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return ceuo.AddArchitectIDs(ids...)
-}
-
 // AddStaticIDs adds the "statics" edge to the JobDetail entity by IDs.
 func (ceuo *CompanyEngineerUpdateOne) AddStaticIDs(ids ...int) *CompanyEngineerUpdateOne {
 	ceuo.mutation.AddStaticIDs(ids...)
@@ -1593,6 +1563,36 @@ func (ceuo *CompanyEngineerUpdateOne) AddElectrics(j ...*JobDetail) *CompanyEngi
 		ids[i] = j[i].ID
 	}
 	return ceuo.AddElectricIDs(ids...)
+}
+
+// AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
+func (ceuo *CompanyEngineerUpdateOne) AddInspectorIDs(ids ...int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.AddInspectorIDs(ids...)
+	return ceuo
+}
+
+// AddInspectors adds the "inspectors" edges to the JobDetail entity.
+func (ceuo *CompanyEngineerUpdateOne) AddInspectors(j ...*JobDetail) *CompanyEngineerUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return ceuo.AddInspectorIDs(ids...)
+}
+
+// AddArchitectIDs adds the "architects" edge to the JobDetail entity by IDs.
+func (ceuo *CompanyEngineerUpdateOne) AddArchitectIDs(ids ...int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.AddArchitectIDs(ids...)
+	return ceuo
+}
+
+// AddArchitects adds the "architects" edges to the JobDetail entity.
+func (ceuo *CompanyEngineerUpdateOne) AddArchitects(j ...*JobDetail) *CompanyEngineerUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return ceuo.AddArchitectIDs(ids...)
 }
 
 // AddControllerIDs adds the "controllers" edge to the JobDetail entity by IDs.
@@ -1649,48 +1649,6 @@ func (ceuo *CompanyEngineerUpdateOne) Mutation() *CompanyEngineerMutation {
 func (ceuo *CompanyEngineerUpdateOne) ClearCompany() *CompanyEngineerUpdateOne {
 	ceuo.mutation.ClearCompany()
 	return ceuo
-}
-
-// ClearInspectors clears all "inspectors" edges to the JobDetail entity.
-func (ceuo *CompanyEngineerUpdateOne) ClearInspectors() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearInspectors()
-	return ceuo
-}
-
-// RemoveInspectorIDs removes the "inspectors" edge to JobDetail entities by IDs.
-func (ceuo *CompanyEngineerUpdateOne) RemoveInspectorIDs(ids ...int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.RemoveInspectorIDs(ids...)
-	return ceuo
-}
-
-// RemoveInspectors removes "inspectors" edges to JobDetail entities.
-func (ceuo *CompanyEngineerUpdateOne) RemoveInspectors(j ...*JobDetail) *CompanyEngineerUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return ceuo.RemoveInspectorIDs(ids...)
-}
-
-// ClearArchitects clears all "architects" edges to the JobDetail entity.
-func (ceuo *CompanyEngineerUpdateOne) ClearArchitects() *CompanyEngineerUpdateOne {
-	ceuo.mutation.ClearArchitects()
-	return ceuo
-}
-
-// RemoveArchitectIDs removes the "architects" edge to JobDetail entities by IDs.
-func (ceuo *CompanyEngineerUpdateOne) RemoveArchitectIDs(ids ...int) *CompanyEngineerUpdateOne {
-	ceuo.mutation.RemoveArchitectIDs(ids...)
-	return ceuo
-}
-
-// RemoveArchitects removes "architects" edges to JobDetail entities.
-func (ceuo *CompanyEngineerUpdateOne) RemoveArchitects(j ...*JobDetail) *CompanyEngineerUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
-	}
-	return ceuo.RemoveArchitectIDs(ids...)
 }
 
 // ClearStatics clears all "statics" edges to the JobDetail entity.
@@ -1754,6 +1712,48 @@ func (ceuo *CompanyEngineerUpdateOne) RemoveElectrics(j ...*JobDetail) *CompanyE
 		ids[i] = j[i].ID
 	}
 	return ceuo.RemoveElectricIDs(ids...)
+}
+
+// ClearInspectors clears all "inspectors" edges to the JobDetail entity.
+func (ceuo *CompanyEngineerUpdateOne) ClearInspectors() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearInspectors()
+	return ceuo
+}
+
+// RemoveInspectorIDs removes the "inspectors" edge to JobDetail entities by IDs.
+func (ceuo *CompanyEngineerUpdateOne) RemoveInspectorIDs(ids ...int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.RemoveInspectorIDs(ids...)
+	return ceuo
+}
+
+// RemoveInspectors removes "inspectors" edges to JobDetail entities.
+func (ceuo *CompanyEngineerUpdateOne) RemoveInspectors(j ...*JobDetail) *CompanyEngineerUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return ceuo.RemoveInspectorIDs(ids...)
+}
+
+// ClearArchitects clears all "architects" edges to the JobDetail entity.
+func (ceuo *CompanyEngineerUpdateOne) ClearArchitects() *CompanyEngineerUpdateOne {
+	ceuo.mutation.ClearArchitects()
+	return ceuo
+}
+
+// RemoveArchitectIDs removes the "architects" edge to JobDetail entities by IDs.
+func (ceuo *CompanyEngineerUpdateOne) RemoveArchitectIDs(ids ...int) *CompanyEngineerUpdateOne {
+	ceuo.mutation.RemoveArchitectIDs(ids...)
+	return ceuo
+}
+
+// RemoveArchitects removes "architects" edges to JobDetail entities.
+func (ceuo *CompanyEngineerUpdateOne) RemoveArchitects(j ...*JobDetail) *CompanyEngineerUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return ceuo.RemoveArchitectIDs(ids...)
 }
 
 // ClearControllers clears all "controllers" edges to the JobDetail entity.
@@ -2016,96 +2016,6 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if ceuo.mutation.InspectorsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.InspectorsTable,
-			Columns: []string{companyengineer.InspectorsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceuo.mutation.RemovedInspectorsIDs(); len(nodes) > 0 && !ceuo.mutation.InspectorsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.InspectorsTable,
-			Columns: []string{companyengineer.InspectorsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceuo.mutation.InspectorsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.InspectorsTable,
-			Columns: []string{companyengineer.InspectorsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if ceuo.mutation.ArchitectsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.ArchitectsTable,
-			Columns: []string{companyengineer.ArchitectsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceuo.mutation.RemovedArchitectsIDs(); len(nodes) > 0 && !ceuo.mutation.ArchitectsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.ArchitectsTable,
-			Columns: []string{companyengineer.ArchitectsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := ceuo.mutation.ArchitectsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.ArchitectsTable,
-			Columns: []string{companyengineer.ArchitectsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if ceuo.mutation.StaticsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -2231,6 +2141,96 @@ func (ceuo *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Compa
 			Inverse: false,
 			Table:   companyengineer.ElectricsTable,
 			Columns: []string{companyengineer.ElectricsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if ceuo.mutation.InspectorsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.InspectorsTable,
+			Columns: []string{companyengineer.InspectorsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceuo.mutation.RemovedInspectorsIDs(); len(nodes) > 0 && !ceuo.mutation.InspectorsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.InspectorsTable,
+			Columns: []string{companyengineer.InspectorsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceuo.mutation.InspectorsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.InspectorsTable,
+			Columns: []string{companyengineer.InspectorsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if ceuo.mutation.ArchitectsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.ArchitectsTable,
+			Columns: []string{companyengineer.ArchitectsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceuo.mutation.RemovedArchitectsIDs(); len(nodes) > 0 && !ceuo.mutation.ArchitectsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.ArchitectsTable,
+			Columns: []string{companyengineer.ArchitectsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ceuo.mutation.ArchitectsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.ArchitectsTable,
+			Columns: []string{companyengineer.ArchitectsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),

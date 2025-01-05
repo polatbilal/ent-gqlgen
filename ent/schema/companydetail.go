@@ -17,7 +17,7 @@ type CompanyDetail struct {
 func (CompanyDetail) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("CompanyCode").Unique(),
-		field.String("Name").Default(""),
+		field.Text("Name").Default(""),
 		field.String("Address").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
@@ -31,6 +31,7 @@ func (CompanyDetail) Fields() []ent.Field {
 		field.Bool("VisaFinishedFor90Days").Default(false).Optional(),
 		field.Bool("CorePersonAbsent90Days").Default(false).Optional(),
 		field.Bool("IsClosed").Default(false),
+		field.Int("DepartmentId").Unique(),
 
 		field.String("OwnerName").Optional(),
 		field.Int("OwnerTcNo").Optional(),
@@ -48,8 +49,9 @@ func (CompanyDetail) Fields() []ent.Field {
 // Edges of the CompanyDetail.
 func (CompanyDetail) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("engineers", CompanyEngineer.Type).StorageKey(edge.Column("company_id")),
-		edge.To("users", CompanyUser.Type).StorageKey(edge.Column("company_id")),
 		edge.To("jobs", JobDetail.Type).StorageKey(edge.Column("company_id")),
+		edge.To("users", CompanyUser.Type).StorageKey(edge.Column("company_id")),
+		edge.To("tokens", CompanyToken.Type).StorageKey(edge.Column("company_id")),
+		edge.To("engineers", CompanyEngineer.Type).StorageKey(edge.Column("company_id")),
 	}
 }

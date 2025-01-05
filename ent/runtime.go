@@ -46,11 +46,11 @@ func init() {
 	// companydetail.DefaultIsClosed holds the default value on creation for the IsClosed field.
 	companydetail.DefaultIsClosed = companydetailDescIsClosed.Default.(bool)
 	// companydetailDescCreatedAt is the schema descriptor for CreatedAt field.
-	companydetailDescCreatedAt := companydetailFields[22].Descriptor()
+	companydetailDescCreatedAt := companydetailFields[23].Descriptor()
 	// companydetail.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	companydetail.DefaultCreatedAt = companydetailDescCreatedAt.Default.(func() time.Time)
 	// companydetailDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	companydetailDescUpdatedAt := companydetailFields[23].Descriptor()
+	companydetailDescUpdatedAt := companydetailFields[24].Descriptor()
 	// companydetail.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	companydetail.DefaultUpdatedAt = companydetailDescUpdatedAt.Default.(func() time.Time)
 	// companydetail.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.

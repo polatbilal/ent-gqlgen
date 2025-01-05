@@ -13,6 +13,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/errcode"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
 	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
@@ -601,6 +602,255 @@ func (ce *CompanyEngineer) ToEdge(order *CompanyEngineerOrder) *CompanyEngineerE
 	return &CompanyEngineerEdge{
 		Node:   ce,
 		Cursor: order.Field.toCursor(ce),
+	}
+}
+
+// CompanyTokenEdge is the edge representation of CompanyToken.
+type CompanyTokenEdge struct {
+	Node   *CompanyToken `json:"node"`
+	Cursor Cursor        `json:"cursor"`
+}
+
+// CompanyTokenConnection is the connection containing edges to CompanyToken.
+type CompanyTokenConnection struct {
+	Edges      []*CompanyTokenEdge `json:"edges"`
+	PageInfo   PageInfo            `json:"pageInfo"`
+	TotalCount int                 `json:"totalCount"`
+}
+
+func (c *CompanyTokenConnection) build(nodes []*CompanyToken, pager *companytokenPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *CompanyToken
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *CompanyToken {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *CompanyToken {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*CompanyTokenEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &CompanyTokenEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// CompanyTokenPaginateOption enables pagination customization.
+type CompanyTokenPaginateOption func(*companytokenPager) error
+
+// WithCompanyTokenOrder configures pagination ordering.
+func WithCompanyTokenOrder(order *CompanyTokenOrder) CompanyTokenPaginateOption {
+	if order == nil {
+		order = DefaultCompanyTokenOrder
+	}
+	o := *order
+	return func(pager *companytokenPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultCompanyTokenOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithCompanyTokenFilter configures pagination filter.
+func WithCompanyTokenFilter(filter func(*CompanyTokenQuery) (*CompanyTokenQuery, error)) CompanyTokenPaginateOption {
+	return func(pager *companytokenPager) error {
+		if filter == nil {
+			return errors.New("CompanyTokenQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type companytokenPager struct {
+	reverse bool
+	order   *CompanyTokenOrder
+	filter  func(*CompanyTokenQuery) (*CompanyTokenQuery, error)
+}
+
+func newCompanyTokenPager(opts []CompanyTokenPaginateOption, reverse bool) (*companytokenPager, error) {
+	pager := &companytokenPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultCompanyTokenOrder
+	}
+	return pager, nil
+}
+
+func (p *companytokenPager) applyFilter(query *CompanyTokenQuery) (*CompanyTokenQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *companytokenPager) toCursor(ct *CompanyToken) Cursor {
+	return p.order.Field.toCursor(ct)
+}
+
+func (p *companytokenPager) applyCursors(query *CompanyTokenQuery, after, before *Cursor) (*CompanyTokenQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultCompanyTokenOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *companytokenPager) applyOrder(query *CompanyTokenQuery) *CompanyTokenQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultCompanyTokenOrder.Field {
+		query = query.Order(DefaultCompanyTokenOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *companytokenPager) orderExpr(query *CompanyTokenQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultCompanyTokenOrder.Field {
+			b.Comma().Ident(DefaultCompanyTokenOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to CompanyToken.
+func (ct *CompanyTokenQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...CompanyTokenPaginateOption,
+) (*CompanyTokenConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newCompanyTokenPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if ct, err = pager.applyFilter(ct); err != nil {
+		return nil, err
+	}
+	conn := &CompanyTokenConnection{Edges: []*CompanyTokenEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := ct.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if ct, err = pager.applyCursors(ct, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		ct.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := ct.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	ct = pager.applyOrder(ct)
+	nodes, err := ct.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// CompanyTokenOrderField defines the ordering field of CompanyToken.
+type CompanyTokenOrderField struct {
+	// Value extracts the ordering value from the given CompanyToken.
+	Value    func(*CompanyToken) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) companytoken.OrderOption
+	toCursor func(*CompanyToken) Cursor
+}
+
+// CompanyTokenOrder defines the ordering of CompanyToken.
+type CompanyTokenOrder struct {
+	Direction OrderDirection          `json:"direction"`
+	Field     *CompanyTokenOrderField `json:"field"`
+}
+
+// DefaultCompanyTokenOrder is the default ordering of CompanyToken.
+var DefaultCompanyTokenOrder = &CompanyTokenOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &CompanyTokenOrderField{
+		Value: func(ct *CompanyToken) (ent.Value, error) {
+			return ct.ID, nil
+		},
+		column: companytoken.FieldID,
+		toTerm: companytoken.ByID,
+		toCursor: func(ct *CompanyToken) Cursor {
+			return Cursor{ID: ct.ID}
+		},
+	},
+}
+
+// ToEdge converts CompanyToken into CompanyTokenEdge.
+func (ct *CompanyToken) ToEdge(order *CompanyTokenOrder) *CompanyTokenEdge {
+	if order == nil {
+		order = DefaultCompanyTokenOrder
+	}
+	return &CompanyTokenEdge{
+		Node:   ct,
+		Cursor: order.Field.toCursor(ct),
 	}
 }
 

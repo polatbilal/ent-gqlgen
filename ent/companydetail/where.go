@@ -130,6 +130,11 @@ func IsClosed(v bool) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldIsClosed, v))
 }
 
+// DepartmentId applies equality check predicate on the "DepartmentId" field. It's identical to DepartmentIdEQ.
+func DepartmentId(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldDepartmentId, v))
+}
+
 // OwnerName applies equality check predicate on the "OwnerName" field. It's identical to OwnerNameEQ.
 func OwnerName(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerName, v))
@@ -1005,6 +1010,46 @@ func IsClosedNEQ(v bool) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNEQ(FieldIsClosed, v))
 }
 
+// DepartmentIdEQ applies the EQ predicate on the "DepartmentId" field.
+func DepartmentIdEQ(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldDepartmentId, v))
+}
+
+// DepartmentIdNEQ applies the NEQ predicate on the "DepartmentId" field.
+func DepartmentIdNEQ(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldDepartmentId, v))
+}
+
+// DepartmentIdIn applies the In predicate on the "DepartmentId" field.
+func DepartmentIdIn(vs ...int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldDepartmentId, vs...))
+}
+
+// DepartmentIdNotIn applies the NotIn predicate on the "DepartmentId" field.
+func DepartmentIdNotIn(vs ...int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldDepartmentId, vs...))
+}
+
+// DepartmentIdGT applies the GT predicate on the "DepartmentId" field.
+func DepartmentIdGT(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldDepartmentId, v))
+}
+
+// DepartmentIdGTE applies the GTE predicate on the "DepartmentId" field.
+func DepartmentIdGTE(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldDepartmentId, v))
+}
+
+// DepartmentIdLT applies the LT predicate on the "DepartmentId" field.
+func DepartmentIdLT(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldDepartmentId, v))
+}
+
+// DepartmentIdLTE applies the LTE predicate on the "DepartmentId" field.
+func DepartmentIdLTE(v int) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldDepartmentId, v))
+}
+
 // OwnerNameEQ applies the EQ predicate on the "OwnerName" field.
 func OwnerNameEQ(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerName, v))
@@ -1560,21 +1605,21 @@ func UpdatedAtLTE(v time.Time) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
-// HasEngineers applies the HasEdge predicate on the "engineers" edge.
-func HasEngineers() predicate.CompanyDetail {
+// HasJobs applies the HasEdge predicate on the "jobs" edge.
+func HasJobs() predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, EngineersTable, EngineersColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, JobsTable, JobsColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasEngineersWith applies the HasEdge predicate on the "engineers" edge with a given conditions (other predicates).
-func HasEngineersWith(preds ...predicate.CompanyEngineer) predicate.CompanyDetail {
+// HasJobsWith applies the HasEdge predicate on the "jobs" edge with a given conditions (other predicates).
+func HasJobsWith(preds ...predicate.JobDetail) predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
-		step := newEngineersStep()
+		step := newJobsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -1606,21 +1651,44 @@ func HasUsersWith(preds ...predicate.CompanyUser) predicate.CompanyDetail {
 	})
 }
 
-// HasJobs applies the HasEdge predicate on the "jobs" edge.
-func HasJobs() predicate.CompanyDetail {
+// HasTokens applies the HasEdge predicate on the "tokens" edge.
+func HasTokens() predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, JobsTable, JobsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, TokensTable, TokensColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasJobsWith applies the HasEdge predicate on the "jobs" edge with a given conditions (other predicates).
-func HasJobsWith(preds ...predicate.JobDetail) predicate.CompanyDetail {
+// HasTokensWith applies the HasEdge predicate on the "tokens" edge with a given conditions (other predicates).
+func HasTokensWith(preds ...predicate.CompanyToken) predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
-		step := newJobsStep()
+		step := newTokensStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasEngineers applies the HasEdge predicate on the "engineers" edge.
+func HasEngineers() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, EngineersTable, EngineersColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasEngineersWith applies the HasEdge predicate on the "engineers" edge with a given conditions (other predicates).
+func HasEngineersWith(preds ...predicate.CompanyEngineer) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newEngineersStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

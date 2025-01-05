@@ -12,7 +12,7 @@ var (
 	CompanyDetailsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "company_code", Type: field.TypeInt, Unique: true},
-		{Name: "name", Type: field.TypeString, Default: ""},
+		{Name: "name", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "address", Type: field.TypeString, Nullable: true},
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
@@ -26,6 +26,7 @@ var (
 		{Name: "visa_finished_for90days", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "core_person_absent90days", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "is_closed", Type: field.TypeBool, Default: false},
+		{Name: "department_id", Type: field.TypeInt, Unique: true},
 		{Name: "owner_name", Type: field.TypeString, Nullable: true},
 		{Name: "owner_tc_no", Type: field.TypeInt, Nullable: true},
 		{Name: "owner_address", Type: field.TypeString, Nullable: true},
@@ -71,6 +72,26 @@ var (
 			{
 				Symbol:     "company_engineers_company_details_engineers",
 				Columns:    []*schema.Column{CompanyEngineersColumns[16]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// CompanyTokensColumns holds the columns for the "company_tokens" table.
+	CompanyTokensColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "token", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+	}
+	// CompanyTokensTable holds the schema information for the "company_tokens" table.
+	CompanyTokensTable = &schema.Table{
+		Name:       "company_tokens",
+		Columns:    CompanyTokensColumns,
+		PrimaryKey: []*schema.Column{CompanyTokensColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "company_tokens_company_details_tokens",
+				Columns:    []*schema.Column{CompanyTokensColumns[2]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -170,15 +191,15 @@ var (
 		{Name: "total_area", Type: field.TypeFloat64, Nullable: true},
 		{Name: "construction_area", Type: field.TypeFloat64, Nullable: true},
 		{Name: "left_area", Type: field.TypeFloat64, Nullable: true},
-		{Name: "yds_address", Type: field.TypeString, Nullable: true},
-		{Name: "address", Type: field.TypeString, Nullable: true},
+		{Name: "yds_address", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "address", Type: field.TypeString, Nullable: true, Size: 2147483647},
 		{Name: "building_class", Type: field.TypeString, Nullable: true},
 		{Name: "building_type", Type: field.TypeString, Nullable: true},
 		{Name: "level", Type: field.TypeFloat64, Nullable: true},
 		{Name: "unit_price", Type: field.TypeFloat64, Nullable: true},
 		{Name: "floor_count", Type: field.TypeInt, Nullable: true},
 		{Name: "bks_reference_no", Type: field.TypeInt, Nullable: true},
-		{Name: "coordinates", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "coordinates", Type: field.TypeString, Nullable: true},
 		{Name: "folder_no", Type: field.TypeString, Nullable: true},
 		{Name: "uploaded_file", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "industry_area", Type: field.TypeBool, Nullable: true, Default: false},
@@ -189,11 +210,11 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
-		{Name: "inspector_id", Type: field.TypeInt, Nullable: true},
-		{Name: "architect_id", Type: field.TypeInt, Nullable: true},
 		{Name: "static_id", Type: field.TypeInt, Nullable: true},
 		{Name: "mechanic_id", Type: field.TypeInt, Nullable: true},
 		{Name: "electric_id", Type: field.TypeInt, Nullable: true},
+		{Name: "inspector_id", Type: field.TypeInt, Nullable: true},
+		{Name: "architect_id", Type: field.TypeInt, Nullable: true},
 		{Name: "controller_id", Type: field.TypeInt, Nullable: true},
 		{Name: "mechaniccontroller_id", Type: field.TypeInt, Nullable: true},
 		{Name: "electriccontroller_id", Type: field.TypeInt, Nullable: true},
@@ -216,31 +237,31 @@ var (
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_inspectors",
+				Symbol:     "job_details_company_engineers_statics",
 				Columns:    []*schema.Column{JobDetailsColumns[36]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_architects",
+				Symbol:     "job_details_company_engineers_mechanics",
 				Columns:    []*schema.Column{JobDetailsColumns[37]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_statics",
+				Symbol:     "job_details_company_engineers_electrics",
 				Columns:    []*schema.Column{JobDetailsColumns[38]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_mechanics",
+				Symbol:     "job_details_company_engineers_inspectors",
 				Columns:    []*schema.Column{JobDetailsColumns[39]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "job_details_company_engineers_electrics",
+				Symbol:     "job_details_company_engineers_architects",
 				Columns:    []*schema.Column{JobDetailsColumns[40]},
 				RefColumns: []*schema.Column{CompanyEngineersColumns[0]},
 				OnDelete:   schema.SetNull,
@@ -435,6 +456,7 @@ var (
 	Tables = []*schema.Table{
 		CompanyDetailsTable,
 		CompanyEngineersTable,
+		CompanyTokensTable,
 		CompanyUsersTable,
 		JobAuthorsTable,
 		JobContractorsTable,
@@ -450,6 +472,7 @@ var (
 
 func init() {
 	CompanyEngineersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	CompanyTokensTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[1].RefTable = UsersTable
 	JobDetailsTable.ForeignKeys[0].RefTable = CompanyDetailsTable

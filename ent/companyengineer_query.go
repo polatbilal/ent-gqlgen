@@ -26,22 +26,22 @@ type CompanyEngineerQuery struct {
 	inters                       []Interceptor
 	predicates                   []predicate.CompanyEngineer
 	withCompany                  *CompanyDetailQuery
-	withInspectors               *JobDetailQuery
-	withArchitects               *JobDetailQuery
 	withStatics                  *JobDetailQuery
 	withMechanics                *JobDetailQuery
 	withElectrics                *JobDetailQuery
+	withInspectors               *JobDetailQuery
+	withArchitects               *JobDetailQuery
 	withControllers              *JobDetailQuery
 	withMechaniccontrollers      *JobDetailQuery
 	withElectriccontrollers      *JobDetailQuery
 	withFKs                      bool
 	modifiers                    []func(*sql.Selector)
 	loadTotal                    []func(context.Context, []*CompanyEngineer) error
-	withNamedInspectors          map[string]*JobDetailQuery
-	withNamedArchitects          map[string]*JobDetailQuery
 	withNamedStatics             map[string]*JobDetailQuery
 	withNamedMechanics           map[string]*JobDetailQuery
 	withNamedElectrics           map[string]*JobDetailQuery
+	withNamedInspectors          map[string]*JobDetailQuery
+	withNamedArchitects          map[string]*JobDetailQuery
 	withNamedControllers         map[string]*JobDetailQuery
 	withNamedMechaniccontrollers map[string]*JobDetailQuery
 	withNamedElectriccontrollers map[string]*JobDetailQuery
@@ -96,50 +96,6 @@ func (ceq *CompanyEngineerQuery) QueryCompany() *CompanyDetailQuery {
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.CompanyTable, companyengineer.CompanyColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryInspectors chains the current query on the "inspectors" edge.
-func (ceq *CompanyEngineerQuery) QueryInspectors() *JobDetailQuery {
-	query := (&JobDetailClient{config: ceq.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := ceq.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := ceq.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.InspectorsTable, companyengineer.InspectorsColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryArchitects chains the current query on the "architects" edge.
-func (ceq *CompanyEngineerQuery) QueryArchitects() *JobDetailQuery {
-	query := (&JobDetailClient{config: ceq.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := ceq.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := ceq.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ArchitectsTable, companyengineer.ArchitectsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
 		return fromU, nil
@@ -206,6 +162,50 @@ func (ceq *CompanyEngineerQuery) QueryElectrics() *JobDetailQuery {
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
 			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ElectricsTable, companyengineer.ElectricsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryInspectors chains the current query on the "inspectors" edge.
+func (ceq *CompanyEngineerQuery) QueryInspectors() *JobDetailQuery {
+	query := (&JobDetailClient{config: ceq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := ceq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := ceq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
+			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.InspectorsTable, companyengineer.InspectorsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryArchitects chains the current query on the "architects" edge.
+func (ceq *CompanyEngineerQuery) QueryArchitects() *JobDetailQuery {
+	query := (&JobDetailClient{config: ceq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := ceq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := ceq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
+			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ArchitectsTable, companyengineer.ArchitectsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
 		return fromU, nil
@@ -472,11 +472,11 @@ func (ceq *CompanyEngineerQuery) Clone() *CompanyEngineerQuery {
 		inters:                  append([]Interceptor{}, ceq.inters...),
 		predicates:              append([]predicate.CompanyEngineer{}, ceq.predicates...),
 		withCompany:             ceq.withCompany.Clone(),
-		withInspectors:          ceq.withInspectors.Clone(),
-		withArchitects:          ceq.withArchitects.Clone(),
 		withStatics:             ceq.withStatics.Clone(),
 		withMechanics:           ceq.withMechanics.Clone(),
 		withElectrics:           ceq.withElectrics.Clone(),
+		withInspectors:          ceq.withInspectors.Clone(),
+		withArchitects:          ceq.withArchitects.Clone(),
 		withControllers:         ceq.withControllers.Clone(),
 		withMechaniccontrollers: ceq.withMechaniccontrollers.Clone(),
 		withElectriccontrollers: ceq.withElectriccontrollers.Clone(),
@@ -494,28 +494,6 @@ func (ceq *CompanyEngineerQuery) WithCompany(opts ...func(*CompanyDetailQuery)) 
 		opt(query)
 	}
 	ceq.withCompany = query
-	return ceq
-}
-
-// WithInspectors tells the query-builder to eager-load the nodes that are connected to
-// the "inspectors" edge. The optional arguments are used to configure the query builder of the edge.
-func (ceq *CompanyEngineerQuery) WithInspectors(opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
-	query := (&JobDetailClient{config: ceq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	ceq.withInspectors = query
-	return ceq
-}
-
-// WithArchitects tells the query-builder to eager-load the nodes that are connected to
-// the "architects" edge. The optional arguments are used to configure the query builder of the edge.
-func (ceq *CompanyEngineerQuery) WithArchitects(opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
-	query := (&JobDetailClient{config: ceq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	ceq.withArchitects = query
 	return ceq
 }
 
@@ -549,6 +527,28 @@ func (ceq *CompanyEngineerQuery) WithElectrics(opts ...func(*JobDetailQuery)) *C
 		opt(query)
 	}
 	ceq.withElectrics = query
+	return ceq
+}
+
+// WithInspectors tells the query-builder to eager-load the nodes that are connected to
+// the "inspectors" edge. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithInspectors(opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
+	query := (&JobDetailClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	ceq.withInspectors = query
+	return ceq
+}
+
+// WithArchitects tells the query-builder to eager-load the nodes that are connected to
+// the "architects" edge. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithArchitects(opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
+	query := (&JobDetailClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	ceq.withArchitects = query
 	return ceq
 }
 
@@ -666,11 +666,11 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		_spec       = ceq.querySpec()
 		loadedTypes = [9]bool{
 			ceq.withCompany != nil,
-			ceq.withInspectors != nil,
-			ceq.withArchitects != nil,
 			ceq.withStatics != nil,
 			ceq.withMechanics != nil,
 			ceq.withElectrics != nil,
+			ceq.withInspectors != nil,
+			ceq.withArchitects != nil,
 			ceq.withControllers != nil,
 			ceq.withMechaniccontrollers != nil,
 			ceq.withElectriccontrollers != nil,
@@ -709,20 +709,6 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			return nil, err
 		}
 	}
-	if query := ceq.withInspectors; query != nil {
-		if err := ceq.loadInspectors(ctx, query, nodes,
-			func(n *CompanyEngineer) { n.Edges.Inspectors = []*JobDetail{} },
-			func(n *CompanyEngineer, e *JobDetail) { n.Edges.Inspectors = append(n.Edges.Inspectors, e) }); err != nil {
-			return nil, err
-		}
-	}
-	if query := ceq.withArchitects; query != nil {
-		if err := ceq.loadArchitects(ctx, query, nodes,
-			func(n *CompanyEngineer) { n.Edges.Architects = []*JobDetail{} },
-			func(n *CompanyEngineer, e *JobDetail) { n.Edges.Architects = append(n.Edges.Architects, e) }); err != nil {
-			return nil, err
-		}
-	}
 	if query := ceq.withStatics; query != nil {
 		if err := ceq.loadStatics(ctx, query, nodes,
 			func(n *CompanyEngineer) { n.Edges.Statics = []*JobDetail{} },
@@ -741,6 +727,20 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		if err := ceq.loadElectrics(ctx, query, nodes,
 			func(n *CompanyEngineer) { n.Edges.Electrics = []*JobDetail{} },
 			func(n *CompanyEngineer, e *JobDetail) { n.Edges.Electrics = append(n.Edges.Electrics, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := ceq.withInspectors; query != nil {
+		if err := ceq.loadInspectors(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.Edges.Inspectors = []*JobDetail{} },
+			func(n *CompanyEngineer, e *JobDetail) { n.Edges.Inspectors = append(n.Edges.Inspectors, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := ceq.withArchitects; query != nil {
+		if err := ceq.loadArchitects(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.Edges.Architects = []*JobDetail{} },
+			func(n *CompanyEngineer, e *JobDetail) { n.Edges.Architects = append(n.Edges.Architects, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -769,20 +769,6 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			return nil, err
 		}
 	}
-	for name, query := range ceq.withNamedInspectors {
-		if err := ceq.loadInspectors(ctx, query, nodes,
-			func(n *CompanyEngineer) { n.appendNamedInspectors(name) },
-			func(n *CompanyEngineer, e *JobDetail) { n.appendNamedInspectors(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range ceq.withNamedArchitects {
-		if err := ceq.loadArchitects(ctx, query, nodes,
-			func(n *CompanyEngineer) { n.appendNamedArchitects(name) },
-			func(n *CompanyEngineer, e *JobDetail) { n.appendNamedArchitects(name, e) }); err != nil {
-			return nil, err
-		}
-	}
 	for name, query := range ceq.withNamedStatics {
 		if err := ceq.loadStatics(ctx, query, nodes,
 			func(n *CompanyEngineer) { n.appendNamedStatics(name) },
@@ -801,6 +787,20 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		if err := ceq.loadElectrics(ctx, query, nodes,
 			func(n *CompanyEngineer) { n.appendNamedElectrics(name) },
 			func(n *CompanyEngineer, e *JobDetail) { n.appendNamedElectrics(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedInspectors {
+		if err := ceq.loadInspectors(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedInspectors(name) },
+			func(n *CompanyEngineer, e *JobDetail) { n.appendNamedInspectors(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedArchitects {
+		if err := ceq.loadArchitects(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedArchitects(name) },
+			func(n *CompanyEngineer, e *JobDetail) { n.appendNamedArchitects(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -862,68 +862,6 @@ func (ceq *CompanyEngineerQuery) loadCompany(ctx context.Context, query *Company
 		for i := range nodes {
 			assign(nodes[i], n)
 		}
-	}
-	return nil
-}
-func (ceq *CompanyEngineerQuery) loadInspectors(ctx context.Context, query *JobDetailQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *JobDetail)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*CompanyEngineer)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
-		if init != nil {
-			init(nodes[i])
-		}
-	}
-	query.withFKs = true
-	query.Where(predicate.JobDetail(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companyengineer.InspectorsColumn), fks...))
-	}))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		fk := n.inspector_id
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "inspector_id" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
-		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "inspector_id" returned %v for node %v`, *fk, n.ID)
-		}
-		assign(node, n)
-	}
-	return nil
-}
-func (ceq *CompanyEngineerQuery) loadArchitects(ctx context.Context, query *JobDetailQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *JobDetail)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*CompanyEngineer)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
-		if init != nil {
-			init(nodes[i])
-		}
-	}
-	query.withFKs = true
-	query.Where(predicate.JobDetail(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companyengineer.ArchitectsColumn), fks...))
-	}))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		fk := n.architect_id
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "architect_id" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
-		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "architect_id" returned %v for node %v`, *fk, n.ID)
-		}
-		assign(node, n)
 	}
 	return nil
 }
@@ -1015,6 +953,68 @@ func (ceq *CompanyEngineerQuery) loadElectrics(ctx context.Context, query *JobDe
 		node, ok := nodeids[*fk]
 		if !ok {
 			return fmt.Errorf(`unexpected referenced foreign-key "electric_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (ceq *CompanyEngineerQuery) loadInspectors(ctx context.Context, query *JobDetailQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *JobDetail)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyEngineer)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.JobDetail(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companyengineer.InspectorsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.inspector_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "inspector_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "inspector_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (ceq *CompanyEngineerQuery) loadArchitects(ctx context.Context, query *JobDetailQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *JobDetail)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyEngineer)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.JobDetail(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companyengineer.ArchitectsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.architect_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "architect_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "architect_id" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}
@@ -1198,34 +1198,6 @@ func (ceq *CompanyEngineerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
-// WithNamedInspectors tells the query-builder to eager-load the nodes that are connected to the "inspectors"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (ceq *CompanyEngineerQuery) WithNamedInspectors(name string, opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
-	query := (&JobDetailClient{config: ceq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if ceq.withNamedInspectors == nil {
-		ceq.withNamedInspectors = make(map[string]*JobDetailQuery)
-	}
-	ceq.withNamedInspectors[name] = query
-	return ceq
-}
-
-// WithNamedArchitects tells the query-builder to eager-load the nodes that are connected to the "architects"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (ceq *CompanyEngineerQuery) WithNamedArchitects(name string, opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
-	query := (&JobDetailClient{config: ceq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if ceq.withNamedArchitects == nil {
-		ceq.withNamedArchitects = make(map[string]*JobDetailQuery)
-	}
-	ceq.withNamedArchitects[name] = query
-	return ceq
-}
-
 // WithNamedStatics tells the query-builder to eager-load the nodes that are connected to the "statics"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
 func (ceq *CompanyEngineerQuery) WithNamedStatics(name string, opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
@@ -1265,6 +1237,34 @@ func (ceq *CompanyEngineerQuery) WithNamedElectrics(name string, opts ...func(*J
 		ceq.withNamedElectrics = make(map[string]*JobDetailQuery)
 	}
 	ceq.withNamedElectrics[name] = query
+	return ceq
+}
+
+// WithNamedInspectors tells the query-builder to eager-load the nodes that are connected to the "inspectors"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedInspectors(name string, opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
+	query := (&JobDetailClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedInspectors == nil {
+		ceq.withNamedInspectors = make(map[string]*JobDetailQuery)
+	}
+	ceq.withNamedInspectors[name] = query
+	return ceq
+}
+
+// WithNamedArchitects tells the query-builder to eager-load the nodes that are connected to the "architects"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedArchitects(name string, opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
+	query := (&JobDetailClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedArchitects == nil {
+		ceq.withNamedArchitects = make(map[string]*JobDetailQuery)
+	}
+	ceq.withNamedArchitects[name] = query
 	return ceq
 }
 

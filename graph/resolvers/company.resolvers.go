@@ -91,6 +91,27 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 	return updatedCompany, nil
 }
 
+// CompanyToken is the resolver for the CompanyToken field.
+func (r *mutationResolver) CompanyToken(ctx context.Context, departmentID *int, input *model.CompanyTokenInput) (*ent.CompanyToken, error) {
+	client := middlewares.GetClientFromContext(ctx)
+
+	company, err := client.CompanyDetail.Query().Where(companydetail.DepartmentIdEQ(*departmentID)).Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
+	}
+
+	createCompanyToken, err := client.CompanyToken.Create().
+		SetToken(*input.Token).
+		SetCompany(company).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("şirket token oluşturulamadı: %v", err)
+	}
+
+	return createCompanyToken, nil
+}
+
 // CompanyByCode is the resolver for the companyByCode field.
 func (r *queryResolver) CompanyByCode(ctx context.Context, companyCode int) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
@@ -99,4 +120,21 @@ func (r *queryResolver) CompanyByCode(ctx context.Context, companyCode int) (*en
 		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
 	}
 	return company, nil
+}
+
+// CompanyToken is the resolver for the companyToken field.
+func (r *queryResolver) CompanyToken(ctx context.Context, departmentID *int) (*ent.CompanyToken, error) {
+	client := middlewares.GetClientFromContext(ctx)
+
+	company, err := client.CompanyDetail.Query().Where(companydetail.DepartmentIdEQ(*departmentID)).Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
+	}
+
+	companyToken, err := company.QueryTokens().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket token bulunamadı: %v", err)
+	}
+
+	return companyToken, nil
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
 	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
@@ -41,16 +42,16 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
-		case "engineers":
+		case "jobs":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: cd.config}).Query()
+				query = (&JobDetailClient{config: cd.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
 				return err
 			}
-			cd.WithNamedEngineers(alias, func(wq *CompanyEngineerQuery) {
+			cd.WithNamedJobs(alias, func(wq *JobDetailQuery) {
 				*wq = *query
 			})
 
@@ -67,16 +68,29 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				*wq = *query
 			})
 
-		case "jobs":
+		case "tokens":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: cd.config}).Query()
+				query = (&CompanyTokenClient{config: cd.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companytokenImplementors)...); err != nil {
 				return err
 			}
-			cd.WithNamedJobs(alias, func(wq *JobDetailQuery) {
+			cd.WithNamedTokens(alias, func(wq *CompanyTokenQuery) {
+				*wq = *query
+			})
+
+		case "engineers":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: cd.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			cd.WithNamedEngineers(alias, func(wq *CompanyEngineerQuery) {
 				*wq = *query
 			})
 		case "companycode":
@@ -153,6 +167,11 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 			if _, ok := fieldSeen[companydetail.FieldIsClosed]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldIsClosed)
 				fieldSeen[companydetail.FieldIsClosed] = struct{}{}
+			}
+		case "departmentid":
+			if _, ok := fieldSeen[companydetail.FieldDepartmentId]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldDepartmentId)
+				fieldSeen[companydetail.FieldDepartmentId] = struct{}{}
 			}
 		case "ownername":
 			if _, ok := fieldSeen[companydetail.FieldOwnerName]; !ok {
@@ -270,32 +289,6 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			}
 			ce.withCompany = query
 
-		case "inspectors":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
-				return err
-			}
-			ce.WithNamedInspectors(alias, func(wq *JobDetailQuery) {
-				*wq = *query
-			})
-
-		case "architects":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
-				return err
-			}
-			ce.WithNamedArchitects(alias, func(wq *JobDetailQuery) {
-				*wq = *query
-			})
-
 		case "statics":
 			var (
 				alias = field.Alias
@@ -332,6 +325,32 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 				return err
 			}
 			ce.WithNamedElectrics(alias, func(wq *JobDetailQuery) {
+				*wq = *query
+			})
+
+		case "inspectors":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobDetailClient{config: ce.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+				return err
+			}
+			ce.WithNamedInspectors(alias, func(wq *JobDetailQuery) {
+				*wq = *query
+			})
+
+		case "architects":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobDetailClient{config: ce.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+				return err
+			}
+			ce.WithNamedArchitects(alias, func(wq *JobDetailQuery) {
 				*wq = *query
 			})
 
@@ -468,6 +487,81 @@ type companyengineerPaginateArgs struct {
 
 func newCompanyEngineerPaginateArgs(rv map[string]any) *companyengineerPaginateArgs {
 	args := &companyengineerPaginateArgs{}
+	if rv == nil {
+		return args
+	}
+	if v := rv[firstField]; v != nil {
+		args.first = v.(*int)
+	}
+	if v := rv[lastField]; v != nil {
+		args.last = v.(*int)
+	}
+	if v := rv[afterField]; v != nil {
+		args.after = v.(*Cursor)
+	}
+	if v := rv[beforeField]; v != nil {
+		args.before = v.(*Cursor)
+	}
+	return args
+}
+
+// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
+func (ct *CompanyTokenQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyTokenQuery, error) {
+	fc := graphql.GetFieldContext(ctx)
+	if fc == nil {
+		return ct, nil
+	}
+	if err := ct.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+		return nil, err
+	}
+	return ct, nil
+}
+
+func (ct *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+	path = append([]string(nil), path...)
+	var (
+		unknownSeen    bool
+		fieldSeen      = make(map[string]struct{}, len(companytoken.Columns))
+		selectedFields = []string{companytoken.FieldID}
+	)
+	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
+		switch field.Name {
+
+		case "company":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyDetailClient{config: ct.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
+				return err
+			}
+			ct.withCompany = query
+		case "token":
+			if _, ok := fieldSeen[companytoken.FieldToken]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldToken)
+				fieldSeen[companytoken.FieldToken] = struct{}{}
+			}
+		case "id":
+		case "__typename":
+		default:
+			unknownSeen = true
+		}
+	}
+	if !unknownSeen {
+		ct.Select(selectedFields...)
+	}
+	return nil
+}
+
+type companytokenPaginateArgs struct {
+	first, last   *int
+	after, before *Cursor
+	opts          []CompanyTokenPaginateOption
+}
+
+func newCompanyTokenPaginateArgs(rv map[string]any) *companytokenPaginateArgs {
+	args := &companytokenPaginateArgs{}
 	if rv == nil {
 		return args
 	}
@@ -831,17 +925,6 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
-		case "company":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
-				return err
-			}
-			jd.withCompany = query
-
 		case "owner":
 			var (
 				alias = field.Alias
@@ -852,17 +935,6 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				return err
 			}
 			jd.withOwner = query
-
-		case "contractor":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobContractorClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobcontractorImplementors)...); err != nil {
-				return err
-			}
-			jd.withContractor = query
 
 		case "author":
 			var (
@@ -875,6 +947,17 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			}
 			jd.withAuthor = query
 
+		case "company":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyDetailClient{config: jd.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
+				return err
+			}
+			jd.withCompany = query
+
 		case "progress":
 			var (
 				alias = field.Alias
@@ -886,6 +969,17 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			}
 			jd.withProgress = query
 
+		case "contractor":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobContractorClient{config: jd.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobcontractorImplementors)...); err != nil {
+				return err
+			}
+			jd.withContractor = query
+
 		case "supervisor":
 			var (
 				alias = field.Alias
@@ -896,28 +990,6 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				return err
 			}
 			jd.withSupervisor = query
-
-		case "inspector":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withInspector = query
-
-		case "architect":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withArchitect = query
 
 		case "static":
 			var (
@@ -951,6 +1023,28 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				return err
 			}
 			jd.withElectric = query
+
+		case "inspector":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jd.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jd.withInspector = query
+
+		case "architect":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jd.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jd.withArchitect = query
 
 		case "controller":
 			var (

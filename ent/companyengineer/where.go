@@ -1038,52 +1038,6 @@ func HasCompanyWith(preds ...predicate.CompanyDetail) predicate.CompanyEngineer 
 	})
 }
 
-// HasInspectors applies the HasEdge predicate on the "inspectors" edge.
-func HasInspectors() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, InspectorsTable, InspectorsColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasInspectorsWith applies the HasEdge predicate on the "inspectors" edge with a given conditions (other predicates).
-func HasInspectorsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(func(s *sql.Selector) {
-		step := newInspectorsStep()
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
-// HasArchitects applies the HasEdge predicate on the "architects" edge.
-func HasArchitects() predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, ArchitectsTable, ArchitectsColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasArchitectsWith applies the HasEdge predicate on the "architects" edge with a given conditions (other predicates).
-func HasArchitectsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(func(s *sql.Selector) {
-		step := newArchitectsStep()
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
 // HasStatics applies the HasEdge predicate on the "statics" edge.
 func HasStatics() predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
@@ -1145,6 +1099,52 @@ func HasElectrics() predicate.CompanyEngineer {
 func HasElectricsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newElectricsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasInspectors applies the HasEdge predicate on the "inspectors" edge.
+func HasInspectors() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, InspectorsTable, InspectorsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasInspectorsWith applies the HasEdge predicate on the "inspectors" edge with a given conditions (other predicates).
+func HasInspectorsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(func(s *sql.Selector) {
+		step := newInspectorsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasArchitects applies the HasEdge predicate on the "architects" edge.
+func HasArchitects() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, ArchitectsTable, ArchitectsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasArchitectsWith applies the HasEdge predicate on the "architects" edge with a given conditions (other predicates).
+func HasArchitectsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(func(s *sql.Selector) {
+		step := newArchitectsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

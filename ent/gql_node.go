@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/go-multierror"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
 	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
@@ -43,6 +44,11 @@ var companyengineerImplementors = []string{"CompanyEngineer", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
 func (*CompanyEngineer) IsNode() {}
+
+var companytokenImplementors = []string{"CompanyToken", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*CompanyToken) IsNode() {}
 
 var companyuserImplementors = []string{"CompanyUser", "Node"}
 
@@ -166,6 +172,15 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			Where(companyengineer.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
 			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companyengineerImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case companytoken.Table:
+		query := c.CompanyToken.Query().
+			Where(companytoken.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companytokenImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -353,6 +368,22 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 		query := c.CompanyEngineer.Query().
 			Where(companyengineer.IDIn(ids...))
 		query, err := query.CollectFields(ctx, companyengineerImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case companytoken.Table:
+		query := c.CompanyToken.Query().
+			Where(companytoken.IDIn(ids...))
+		query, err := query.CollectFields(ctx, companytokenImplementors...)
 		if err != nil {
 			return nil, err
 		}
