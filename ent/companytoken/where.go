@@ -3,6 +3,8 @@
 package companytoken
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
@@ -56,6 +58,21 @@ func IDLTE(id int) predicate.CompanyToken {
 // Token applies equality check predicate on the "token" field. It's identical to TokenEQ.
 func Token(v string) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldEQ(FieldToken, v))
+}
+
+// DepartmentId applies equality check predicate on the "DepartmentId" field. It's identical to DepartmentIdEQ.
+func DepartmentId(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldDepartmentId, v))
+}
+
+// CreatedAt applies equality check predicate on the "createdAt" field. It's identical to CreatedAtEQ.
+func CreatedAt(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldCreatedAt, v))
+}
+
+// UpdatedAt applies equality check predicate on the "updatedAt" field. It's identical to UpdatedAtEQ.
+func UpdatedAt(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
 // TokenEQ applies the EQ predicate on the "token" field.
@@ -131,6 +148,136 @@ func TokenEqualFold(v string) predicate.CompanyToken {
 // TokenContainsFold applies the ContainsFold predicate on the "token" field.
 func TokenContainsFold(v string) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldContainsFold(FieldToken, v))
+}
+
+// DepartmentIdEQ applies the EQ predicate on the "DepartmentId" field.
+func DepartmentIdEQ(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldDepartmentId, v))
+}
+
+// DepartmentIdNEQ applies the NEQ predicate on the "DepartmentId" field.
+func DepartmentIdNEQ(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNEQ(FieldDepartmentId, v))
+}
+
+// DepartmentIdIn applies the In predicate on the "DepartmentId" field.
+func DepartmentIdIn(vs ...int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIn(FieldDepartmentId, vs...))
+}
+
+// DepartmentIdNotIn applies the NotIn predicate on the "DepartmentId" field.
+func DepartmentIdNotIn(vs ...int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotIn(FieldDepartmentId, vs...))
+}
+
+// DepartmentIdGT applies the GT predicate on the "DepartmentId" field.
+func DepartmentIdGT(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGT(FieldDepartmentId, v))
+}
+
+// DepartmentIdGTE applies the GTE predicate on the "DepartmentId" field.
+func DepartmentIdGTE(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGTE(FieldDepartmentId, v))
+}
+
+// DepartmentIdLT applies the LT predicate on the "DepartmentId" field.
+func DepartmentIdLT(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLT(FieldDepartmentId, v))
+}
+
+// DepartmentIdLTE applies the LTE predicate on the "DepartmentId" field.
+func DepartmentIdLTE(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLTE(FieldDepartmentId, v))
+}
+
+// DepartmentIdIsNil applies the IsNil predicate on the "DepartmentId" field.
+func DepartmentIdIsNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIsNull(FieldDepartmentId))
+}
+
+// DepartmentIdNotNil applies the NotNil predicate on the "DepartmentId" field.
+func DepartmentIdNotNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotNull(FieldDepartmentId))
+}
+
+// CreatedAtEQ applies the EQ predicate on the "createdAt" field.
+func CreatedAtEQ(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldCreatedAt, v))
+}
+
+// CreatedAtNEQ applies the NEQ predicate on the "createdAt" field.
+func CreatedAtNEQ(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNEQ(FieldCreatedAt, v))
+}
+
+// CreatedAtIn applies the In predicate on the "createdAt" field.
+func CreatedAtIn(vs ...time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIn(FieldCreatedAt, vs...))
+}
+
+// CreatedAtNotIn applies the NotIn predicate on the "createdAt" field.
+func CreatedAtNotIn(vs ...time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotIn(FieldCreatedAt, vs...))
+}
+
+// CreatedAtGT applies the GT predicate on the "createdAt" field.
+func CreatedAtGT(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGT(FieldCreatedAt, v))
+}
+
+// CreatedAtGTE applies the GTE predicate on the "createdAt" field.
+func CreatedAtGTE(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGTE(FieldCreatedAt, v))
+}
+
+// CreatedAtLT applies the LT predicate on the "createdAt" field.
+func CreatedAtLT(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLT(FieldCreatedAt, v))
+}
+
+// CreatedAtLTE applies the LTE predicate on the "createdAt" field.
+func CreatedAtLTE(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLTE(FieldCreatedAt, v))
+}
+
+// UpdatedAtEQ applies the EQ predicate on the "updatedAt" field.
+func UpdatedAtEQ(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// UpdatedAtNEQ applies the NEQ predicate on the "updatedAt" field.
+func UpdatedAtNEQ(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNEQ(FieldUpdatedAt, v))
+}
+
+// UpdatedAtIn applies the In predicate on the "updatedAt" field.
+func UpdatedAtIn(vs ...time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIn(FieldUpdatedAt, vs...))
+}
+
+// UpdatedAtNotIn applies the NotIn predicate on the "updatedAt" field.
+func UpdatedAtNotIn(vs ...time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotIn(FieldUpdatedAt, vs...))
+}
+
+// UpdatedAtGT applies the GT predicate on the "updatedAt" field.
+func UpdatedAtGT(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGT(FieldUpdatedAt, v))
+}
+
+// UpdatedAtGTE applies the GTE predicate on the "updatedAt" field.
+func UpdatedAtGTE(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGTE(FieldUpdatedAt, v))
+}
+
+// UpdatedAtLT applies the LT predicate on the "updatedAt" field.
+func UpdatedAtLT(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLT(FieldUpdatedAt, v))
+}
+
+// UpdatedAtLTE applies the LTE predicate on the "updatedAt" field.
+func UpdatedAtLTE(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
 // HasCompany applies the HasEdge predicate on the "company" edge.

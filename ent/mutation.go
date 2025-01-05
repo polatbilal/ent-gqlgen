@@ -4752,16 +4752,20 @@ func (m *CompanyEngineerMutation) ResetEdge(name string) error {
 // CompanyTokenMutation represents an operation that mutates the CompanyToken nodes in the graph.
 type CompanyTokenMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *int
-	token          *string
-	clearedFields  map[string]struct{}
-	company        *int
-	clearedcompany bool
-	done           bool
-	oldValue       func(context.Context) (*CompanyToken, error)
-	predicates     []predicate.CompanyToken
+	op               Op
+	typ              string
+	id               *int
+	token            *string
+	_DepartmentId    *int
+	add_DepartmentId *int
+	createdAt        *time.Time
+	updatedAt        *time.Time
+	clearedFields    map[string]struct{}
+	company          *int
+	clearedcompany   bool
+	done             bool
+	oldValue         func(context.Context) (*CompanyToken, error)
+	predicates       []predicate.CompanyToken
 }
 
 var _ ent.Mutation = (*CompanyTokenMutation)(nil)
@@ -4911,6 +4915,148 @@ func (m *CompanyTokenMutation) ResetToken() {
 	delete(m.clearedFields, companytoken.FieldToken)
 }
 
+// SetDepartmentId sets the "DepartmentId" field.
+func (m *CompanyTokenMutation) SetDepartmentId(i int) {
+	m._DepartmentId = &i
+	m.add_DepartmentId = nil
+}
+
+// DepartmentId returns the value of the "DepartmentId" field in the mutation.
+func (m *CompanyTokenMutation) DepartmentId() (r int, exists bool) {
+	v := m._DepartmentId
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDepartmentId returns the old "DepartmentId" field's value of the CompanyToken entity.
+// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyTokenMutation) OldDepartmentId(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDepartmentId is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDepartmentId requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDepartmentId: %w", err)
+	}
+	return oldValue.DepartmentId, nil
+}
+
+// AddDepartmentId adds i to the "DepartmentId" field.
+func (m *CompanyTokenMutation) AddDepartmentId(i int) {
+	if m.add_DepartmentId != nil {
+		*m.add_DepartmentId += i
+	} else {
+		m.add_DepartmentId = &i
+	}
+}
+
+// AddedDepartmentId returns the value that was added to the "DepartmentId" field in this mutation.
+func (m *CompanyTokenMutation) AddedDepartmentId() (r int, exists bool) {
+	v := m.add_DepartmentId
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearDepartmentId clears the value of the "DepartmentId" field.
+func (m *CompanyTokenMutation) ClearDepartmentId() {
+	m._DepartmentId = nil
+	m.add_DepartmentId = nil
+	m.clearedFields[companytoken.FieldDepartmentId] = struct{}{}
+}
+
+// DepartmentIdCleared returns if the "DepartmentId" field was cleared in this mutation.
+func (m *CompanyTokenMutation) DepartmentIdCleared() bool {
+	_, ok := m.clearedFields[companytoken.FieldDepartmentId]
+	return ok
+}
+
+// ResetDepartmentId resets all changes to the "DepartmentId" field.
+func (m *CompanyTokenMutation) ResetDepartmentId() {
+	m._DepartmentId = nil
+	m.add_DepartmentId = nil
+	delete(m.clearedFields, companytoken.FieldDepartmentId)
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (m *CompanyTokenMutation) SetCreatedAt(t time.Time) {
+	m.createdAt = &t
+}
+
+// CreatedAt returns the value of the "createdAt" field in the mutation.
+func (m *CompanyTokenMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.createdAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "createdAt" field's value of the CompanyToken entity.
+// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyTokenMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "createdAt" field.
+func (m *CompanyTokenMutation) ResetCreatedAt() {
+	m.createdAt = nil
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (m *CompanyTokenMutation) SetUpdatedAt(t time.Time) {
+	m.updatedAt = &t
+}
+
+// UpdatedAt returns the value of the "updatedAt" field in the mutation.
+func (m *CompanyTokenMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updatedAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updatedAt" field's value of the CompanyToken entity.
+// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyTokenMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updatedAt" field.
+func (m *CompanyTokenMutation) ResetUpdatedAt() {
+	m.updatedAt = nil
+}
+
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by id.
 func (m *CompanyTokenMutation) SetCompanyID(id int) {
 	m.company = &id
@@ -4984,9 +5130,18 @@ func (m *CompanyTokenMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CompanyTokenMutation) Fields() []string {
-	fields := make([]string, 0, 1)
+	fields := make([]string, 0, 4)
 	if m.token != nil {
 		fields = append(fields, companytoken.FieldToken)
+	}
+	if m._DepartmentId != nil {
+		fields = append(fields, companytoken.FieldDepartmentId)
+	}
+	if m.createdAt != nil {
+		fields = append(fields, companytoken.FieldCreatedAt)
+	}
+	if m.updatedAt != nil {
+		fields = append(fields, companytoken.FieldUpdatedAt)
 	}
 	return fields
 }
@@ -4998,6 +5153,12 @@ func (m *CompanyTokenMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case companytoken.FieldToken:
 		return m.Token()
+	case companytoken.FieldDepartmentId:
+		return m.DepartmentId()
+	case companytoken.FieldCreatedAt:
+		return m.CreatedAt()
+	case companytoken.FieldUpdatedAt:
+		return m.UpdatedAt()
 	}
 	return nil, false
 }
@@ -5009,6 +5170,12 @@ func (m *CompanyTokenMutation) OldField(ctx context.Context, name string) (ent.V
 	switch name {
 	case companytoken.FieldToken:
 		return m.OldToken(ctx)
+	case companytoken.FieldDepartmentId:
+		return m.OldDepartmentId(ctx)
+	case companytoken.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case companytoken.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
 	}
 	return nil, fmt.Errorf("unknown CompanyToken field %s", name)
 }
@@ -5025,6 +5192,27 @@ func (m *CompanyTokenMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetToken(v)
 		return nil
+	case companytoken.FieldDepartmentId:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDepartmentId(v)
+		return nil
+	case companytoken.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case companytoken.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown CompanyToken field %s", name)
 }
@@ -5032,13 +5220,21 @@ func (m *CompanyTokenMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *CompanyTokenMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.add_DepartmentId != nil {
+		fields = append(fields, companytoken.FieldDepartmentId)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *CompanyTokenMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case companytoken.FieldDepartmentId:
+		return m.AddedDepartmentId()
+	}
 	return nil, false
 }
 
@@ -5047,6 +5243,13 @@ func (m *CompanyTokenMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *CompanyTokenMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case companytoken.FieldDepartmentId:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDepartmentId(v)
+		return nil
 	}
 	return fmt.Errorf("unknown CompanyToken numeric field %s", name)
 }
@@ -5057,6 +5260,9 @@ func (m *CompanyTokenMutation) ClearedFields() []string {
 	var fields []string
 	if m.FieldCleared(companytoken.FieldToken) {
 		fields = append(fields, companytoken.FieldToken)
+	}
+	if m.FieldCleared(companytoken.FieldDepartmentId) {
+		fields = append(fields, companytoken.FieldDepartmentId)
 	}
 	return fields
 }
@@ -5075,6 +5281,9 @@ func (m *CompanyTokenMutation) ClearField(name string) error {
 	case companytoken.FieldToken:
 		m.ClearToken()
 		return nil
+	case companytoken.FieldDepartmentId:
+		m.ClearDepartmentId()
+		return nil
 	}
 	return fmt.Errorf("unknown CompanyToken nullable field %s", name)
 }
@@ -5085,6 +5294,15 @@ func (m *CompanyTokenMutation) ResetField(name string) error {
 	switch name {
 	case companytoken.FieldToken:
 		m.ResetToken()
+		return nil
+	case companytoken.FieldDepartmentId:
+		m.ResetDepartmentId()
+		return nil
+	case companytoken.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case companytoken.FieldUpdatedAt:
+		m.ResetUpdatedAt()
 		return nil
 	}
 	return fmt.Errorf("unknown CompanyToken field %s", name)

@@ -542,6 +542,21 @@ func (ct *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opC
 				selectedFields = append(selectedFields, companytoken.FieldToken)
 				fieldSeen[companytoken.FieldToken] = struct{}{}
 			}
+		case "departmentid":
+			if _, ok := fieldSeen[companytoken.FieldDepartmentId]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldDepartmentId)
+				fieldSeen[companytoken.FieldDepartmentId] = struct{}{}
+			}
+		case "createdat":
+			if _, ok := fieldSeen[companytoken.FieldCreatedAt]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldCreatedAt)
+				fieldSeen[companytoken.FieldCreatedAt] = struct{}{}
+			}
+		case "updatedat":
+			if _, ok := fieldSeen[companytoken.FieldUpdatedAt]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldUpdatedAt)
+				fieldSeen[companytoken.FieldUpdatedAt] = struct{}{}
+			}
 		case "id":
 		case "__typename":
 		default:

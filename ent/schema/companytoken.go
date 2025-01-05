@@ -1,6 +1,8 @@
 package schema
 
 import (
+	"time"
+
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
@@ -15,6 +17,10 @@ type CompanyToken struct {
 func (CompanyToken) Fields() []ent.Field {
 	return []ent.Field{
 		field.Text("token").Optional(),
+		field.Int("DepartmentId").Optional().Unique(),
+
+		field.Time("createdAt").Default(time.Now),
+		field.Time("updatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}
 }
 

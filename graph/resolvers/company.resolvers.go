@@ -96,15 +96,16 @@ func (r *mutationResolver) CompanyToken(ctx context.Context, departmentID *int, 
 	client := middlewares.GetClientFromContext(ctx)
 
 	company, err := client.CompanyDetail.Query().Where(companydetail.DepartmentIdEQ(*departmentID)).Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
+
+	tokenCreate := client.CompanyToken.Create().
+		SetToken(*input.Token).
+		SetDepartmentId(*departmentID)
+
+	if err == nil {
+		tokenCreate.SetCompany(company)
 	}
 
-	createCompanyToken, err := client.CompanyToken.Create().
-		SetToken(*input.Token).
-		SetCompany(company).
-		Save(ctx)
-
+	createCompanyToken, err := tokenCreate.Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("şirket token oluşturulamadı: %v", err)
 	}

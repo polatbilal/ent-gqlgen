@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -48,6 +49,53 @@ func (ctu *CompanyTokenUpdate) ClearToken() *CompanyTokenUpdate {
 	return ctu
 }
 
+// SetDepartmentId sets the "DepartmentId" field.
+func (ctu *CompanyTokenUpdate) SetDepartmentId(i int) *CompanyTokenUpdate {
+	ctu.mutation.ResetDepartmentId()
+	ctu.mutation.SetDepartmentId(i)
+	return ctu
+}
+
+// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
+func (ctu *CompanyTokenUpdate) SetNillableDepartmentId(i *int) *CompanyTokenUpdate {
+	if i != nil {
+		ctu.SetDepartmentId(*i)
+	}
+	return ctu
+}
+
+// AddDepartmentId adds i to the "DepartmentId" field.
+func (ctu *CompanyTokenUpdate) AddDepartmentId(i int) *CompanyTokenUpdate {
+	ctu.mutation.AddDepartmentId(i)
+	return ctu
+}
+
+// ClearDepartmentId clears the value of the "DepartmentId" field.
+func (ctu *CompanyTokenUpdate) ClearDepartmentId() *CompanyTokenUpdate {
+	ctu.mutation.ClearDepartmentId()
+	return ctu
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (ctu *CompanyTokenUpdate) SetCreatedAt(t time.Time) *CompanyTokenUpdate {
+	ctu.mutation.SetCreatedAt(t)
+	return ctu
+}
+
+// SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
+func (ctu *CompanyTokenUpdate) SetNillableCreatedAt(t *time.Time) *CompanyTokenUpdate {
+	if t != nil {
+		ctu.SetCreatedAt(*t)
+	}
+	return ctu
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (ctu *CompanyTokenUpdate) SetUpdatedAt(t time.Time) *CompanyTokenUpdate {
+	ctu.mutation.SetUpdatedAt(t)
+	return ctu
+}
+
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
 func (ctu *CompanyTokenUpdate) SetCompanyID(id int) *CompanyTokenUpdate {
 	ctu.mutation.SetCompanyID(id)
@@ -80,6 +128,7 @@ func (ctu *CompanyTokenUpdate) ClearCompany() *CompanyTokenUpdate {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (ctu *CompanyTokenUpdate) Save(ctx context.Context) (int, error) {
+	ctu.defaults()
 	return withHooks(ctx, ctu.sqlSave, ctu.mutation, ctu.hooks)
 }
 
@@ -105,6 +154,14 @@ func (ctu *CompanyTokenUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (ctu *CompanyTokenUpdate) defaults() {
+	if _, ok := ctu.mutation.UpdatedAt(); !ok {
+		v := companytoken.UpdateDefaultUpdatedAt()
+		ctu.mutation.SetUpdatedAt(v)
+	}
+}
+
 func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(companytoken.Table, companytoken.Columns, sqlgraph.NewFieldSpec(companytoken.FieldID, field.TypeInt))
 	if ps := ctu.mutation.predicates; len(ps) > 0 {
@@ -119,6 +176,21 @@ func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if ctu.mutation.TokenCleared() {
 		_spec.ClearField(companytoken.FieldToken, field.TypeString)
+	}
+	if value, ok := ctu.mutation.DepartmentId(); ok {
+		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
+	}
+	if value, ok := ctu.mutation.AddedDepartmentId(); ok {
+		_spec.AddField(companytoken.FieldDepartmentId, field.TypeInt, value)
+	}
+	if ctu.mutation.DepartmentIdCleared() {
+		_spec.ClearField(companytoken.FieldDepartmentId, field.TypeInt)
+	}
+	if value, ok := ctu.mutation.CreatedAt(); ok {
+		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
+	}
+	if value, ok := ctu.mutation.UpdatedAt(); ok {
+		_spec.SetField(companytoken.FieldUpdatedAt, field.TypeTime, value)
 	}
 	if ctu.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -189,6 +261,53 @@ func (ctuo *CompanyTokenUpdateOne) ClearToken() *CompanyTokenUpdateOne {
 	return ctuo
 }
 
+// SetDepartmentId sets the "DepartmentId" field.
+func (ctuo *CompanyTokenUpdateOne) SetDepartmentId(i int) *CompanyTokenUpdateOne {
+	ctuo.mutation.ResetDepartmentId()
+	ctuo.mutation.SetDepartmentId(i)
+	return ctuo
+}
+
+// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
+func (ctuo *CompanyTokenUpdateOne) SetNillableDepartmentId(i *int) *CompanyTokenUpdateOne {
+	if i != nil {
+		ctuo.SetDepartmentId(*i)
+	}
+	return ctuo
+}
+
+// AddDepartmentId adds i to the "DepartmentId" field.
+func (ctuo *CompanyTokenUpdateOne) AddDepartmentId(i int) *CompanyTokenUpdateOne {
+	ctuo.mutation.AddDepartmentId(i)
+	return ctuo
+}
+
+// ClearDepartmentId clears the value of the "DepartmentId" field.
+func (ctuo *CompanyTokenUpdateOne) ClearDepartmentId() *CompanyTokenUpdateOne {
+	ctuo.mutation.ClearDepartmentId()
+	return ctuo
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (ctuo *CompanyTokenUpdateOne) SetCreatedAt(t time.Time) *CompanyTokenUpdateOne {
+	ctuo.mutation.SetCreatedAt(t)
+	return ctuo
+}
+
+// SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
+func (ctuo *CompanyTokenUpdateOne) SetNillableCreatedAt(t *time.Time) *CompanyTokenUpdateOne {
+	if t != nil {
+		ctuo.SetCreatedAt(*t)
+	}
+	return ctuo
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (ctuo *CompanyTokenUpdateOne) SetUpdatedAt(t time.Time) *CompanyTokenUpdateOne {
+	ctuo.mutation.SetUpdatedAt(t)
+	return ctuo
+}
+
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
 func (ctuo *CompanyTokenUpdateOne) SetCompanyID(id int) *CompanyTokenUpdateOne {
 	ctuo.mutation.SetCompanyID(id)
@@ -234,6 +353,7 @@ func (ctuo *CompanyTokenUpdateOne) Select(field string, fields ...string) *Compa
 
 // Save executes the query and returns the updated CompanyToken entity.
 func (ctuo *CompanyTokenUpdateOne) Save(ctx context.Context) (*CompanyToken, error) {
+	ctuo.defaults()
 	return withHooks(ctx, ctuo.sqlSave, ctuo.mutation, ctuo.hooks)
 }
 
@@ -256,6 +376,14 @@ func (ctuo *CompanyTokenUpdateOne) Exec(ctx context.Context) error {
 func (ctuo *CompanyTokenUpdateOne) ExecX(ctx context.Context) {
 	if err := ctuo.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (ctuo *CompanyTokenUpdateOne) defaults() {
+	if _, ok := ctuo.mutation.UpdatedAt(); !ok {
+		v := companytoken.UpdateDefaultUpdatedAt()
+		ctuo.mutation.SetUpdatedAt(v)
 	}
 }
 
@@ -290,6 +418,21 @@ func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyT
 	}
 	if ctuo.mutation.TokenCleared() {
 		_spec.ClearField(companytoken.FieldToken, field.TypeString)
+	}
+	if value, ok := ctuo.mutation.DepartmentId(); ok {
+		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
+	}
+	if value, ok := ctuo.mutation.AddedDepartmentId(); ok {
+		_spec.AddField(companytoken.FieldDepartmentId, field.TypeInt, value)
+	}
+	if ctuo.mutation.DepartmentIdCleared() {
+		_spec.ClearField(companytoken.FieldDepartmentId, field.TypeInt)
+	}
+	if value, ok := ctuo.mutation.CreatedAt(); ok {
+		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
+	}
+	if value, ok := ctuo.mutation.UpdatedAt(); ok {
+		_spec.SetField(companytoken.FieldUpdatedAt, field.TypeTime, value)
 	}
 	if ctuo.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{

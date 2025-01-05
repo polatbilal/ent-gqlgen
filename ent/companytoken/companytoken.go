@@ -3,6 +3,8 @@
 package companytoken
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 )
@@ -14,6 +16,12 @@ const (
 	FieldID = "id"
 	// FieldToken holds the string denoting the token field in the database.
 	FieldToken = "token"
+	// FieldDepartmentId holds the string denoting the departmentid field in the database.
+	FieldDepartmentId = "department_id"
+	// FieldCreatedAt holds the string denoting the createdat field in the database.
+	FieldCreatedAt = "created_at"
+	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
+	FieldUpdatedAt = "updated_at"
 	// EdgeCompany holds the string denoting the company edge name in mutations.
 	EdgeCompany = "company"
 	// Table holds the table name of the companytoken in the database.
@@ -31,6 +39,9 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldToken,
+	FieldDepartmentId,
+	FieldCreatedAt,
+	FieldUpdatedAt,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the "company_tokens"
@@ -54,6 +65,15 @@ func ValidColumn(column string) bool {
 	return false
 }
 
+var (
+	// DefaultCreatedAt holds the default value on creation for the "createdAt" field.
+	DefaultCreatedAt func() time.Time
+	// DefaultUpdatedAt holds the default value on creation for the "updatedAt" field.
+	DefaultUpdatedAt func() time.Time
+	// UpdateDefaultUpdatedAt holds the default value on update for the "updatedAt" field.
+	UpdateDefaultUpdatedAt func() time.Time
+)
+
 // OrderOption defines the ordering options for the CompanyToken queries.
 type OrderOption func(*sql.Selector)
 
@@ -65,6 +85,21 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByToken orders the results by the token field.
 func ByToken(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldToken, opts...).ToFunc()
+}
+
+// ByDepartmentId orders the results by the DepartmentId field.
+func ByDepartmentId(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDepartmentId, opts...).ToFunc()
+}
+
+// ByCreatedAt orders the results by the createdAt field.
+func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
+}
+
+// ByUpdatedAt orders the results by the updatedAt field.
+func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
 // ByCompanyField orders the results by company field.

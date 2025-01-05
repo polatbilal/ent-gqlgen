@@ -109,7 +109,8 @@ type ComplexityRoot struct {
 	}
 
 	CompanyToken struct {
-		Token func(childComplexity int) int
+		DepartmentId func(childComplexity int) int
+		Token        func(childComplexity int) int
 	}
 
 	JobAuthor struct {
@@ -713,6 +714,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CompanyEngineer.YDSID(childComplexity), true
+
+	case "CompanyToken.DepartmentId":
+		if e.complexity.CompanyToken.DepartmentId == nil {
+			break
+		}
+
+		return e.complexity.CompanyToken.DepartmentId(childComplexity), true
 
 	case "CompanyToken.Token":
 		if e.complexity.CompanyToken.Token == nil {
@@ -2345,11 +2353,12 @@ input CompanyDetailInput {
 
 type CompanyToken {
   Token: String
+  DepartmentId: Int
 }
 
 input CompanyTokenInput {
-  DepartmentId: Int
   Token: String
+  DepartmentId: Int
 }
 
 extend type Query {
@@ -6476,6 +6485,47 @@ func (ec *executionContext) fieldContext_CompanyToken_Token(_ context.Context, f
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyToken_DepartmentId(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyToken) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyToken_DepartmentId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DepartmentId, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyToken_DepartmentId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyToken",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -12053,6 +12103,8 @@ func (ec *executionContext) fieldContext_Mutation_companyToken(ctx context.Conte
 			switch field.Name {
 			case "Token":
 				return ec.fieldContext_CompanyToken_Token(ctx, field)
+			case "DepartmentId":
+				return ec.fieldContext_CompanyToken_DepartmentId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyToken", field.Name)
 		},
@@ -14568,6 +14620,8 @@ func (ec *executionContext) fieldContext_Query_companyToken(ctx context.Context,
 			switch field.Name {
 			case "Token":
 				return ec.fieldContext_CompanyToken_Token(ctx, field)
+			case "DepartmentId":
+				return ec.fieldContext_CompanyToken_DepartmentId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyToken", field.Name)
 		},
@@ -18986,20 +19040,13 @@ func (ec *executionContext) unmarshalInputCompanyTokenInput(ctx context.Context,
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"DepartmentId", "Token"}
+	fieldsInOrder := [...]string{"Token", "DepartmentId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "DepartmentId":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.DepartmentID = data
 		case "Token":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Token"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -19007,6 +19054,13 @@ func (ec *executionContext) unmarshalInputCompanyTokenInput(ctx context.Context,
 				return it, err
 			}
 			it.Token = data
+		case "DepartmentId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DepartmentID = data
 		}
 	}
 
@@ -20341,6 +20395,8 @@ func (ec *executionContext) _CompanyToken(ctx context.Context, sel ast.Selection
 			out.Values[i] = graphql.MarshalString("CompanyToken")
 		case "Token":
 			out.Values[i] = ec._CompanyToken_Token(ctx, field, obj)
+		case "DepartmentId":
+			out.Values[i] = ec._CompanyToken_DepartmentId(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

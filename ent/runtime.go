@@ -7,6 +7,7 @@ import (
 
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
 	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
@@ -75,6 +76,18 @@ func init() {
 	companyengineer.DefaultUpdatedAt = companyengineerDescUpdatedAt.Default.(func() time.Time)
 	// companyengineer.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	companyengineer.UpdateDefaultUpdatedAt = companyengineerDescUpdatedAt.UpdateDefault.(func() time.Time)
+	companytokenFields := schema.CompanyToken{}.Fields()
+	_ = companytokenFields
+	// companytokenDescCreatedAt is the schema descriptor for createdAt field.
+	companytokenDescCreatedAt := companytokenFields[2].Descriptor()
+	// companytoken.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	companytoken.DefaultCreatedAt = companytokenDescCreatedAt.Default.(func() time.Time)
+	// companytokenDescUpdatedAt is the schema descriptor for updatedAt field.
+	companytokenDescUpdatedAt := companytokenFields[3].Descriptor()
+	// companytoken.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	companytoken.DefaultUpdatedAt = companytokenDescUpdatedAt.Default.(func() time.Time)
+	// companytoken.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
+	companytoken.UpdateDefaultUpdatedAt = companytokenDescUpdatedAt.UpdateDefault.(func() time.Time)
 	jobauthorFields := schema.JobAuthor{}.Fields()
 	_ = jobauthorFields
 	// jobauthorDescCreatedAt is the schema descriptor for CreatedAt field.

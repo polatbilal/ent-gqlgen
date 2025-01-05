@@ -4,7 +4,9 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -29,6 +31,48 @@ func (ctc *CompanyTokenCreate) SetToken(s string) *CompanyTokenCreate {
 func (ctc *CompanyTokenCreate) SetNillableToken(s *string) *CompanyTokenCreate {
 	if s != nil {
 		ctc.SetToken(*s)
+	}
+	return ctc
+}
+
+// SetDepartmentId sets the "DepartmentId" field.
+func (ctc *CompanyTokenCreate) SetDepartmentId(i int) *CompanyTokenCreate {
+	ctc.mutation.SetDepartmentId(i)
+	return ctc
+}
+
+// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableDepartmentId(i *int) *CompanyTokenCreate {
+	if i != nil {
+		ctc.SetDepartmentId(*i)
+	}
+	return ctc
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (ctc *CompanyTokenCreate) SetCreatedAt(t time.Time) *CompanyTokenCreate {
+	ctc.mutation.SetCreatedAt(t)
+	return ctc
+}
+
+// SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableCreatedAt(t *time.Time) *CompanyTokenCreate {
+	if t != nil {
+		ctc.SetCreatedAt(*t)
+	}
+	return ctc
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (ctc *CompanyTokenCreate) SetUpdatedAt(t time.Time) *CompanyTokenCreate {
+	ctc.mutation.SetUpdatedAt(t)
+	return ctc
+}
+
+// SetNillableUpdatedAt sets the "updatedAt" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableUpdatedAt(t *time.Time) *CompanyTokenCreate {
+	if t != nil {
+		ctc.SetUpdatedAt(*t)
 	}
 	return ctc
 }
@@ -59,6 +103,7 @@ func (ctc *CompanyTokenCreate) Mutation() *CompanyTokenMutation {
 
 // Save creates the CompanyToken in the database.
 func (ctc *CompanyTokenCreate) Save(ctx context.Context) (*CompanyToken, error) {
+	ctc.defaults()
 	return withHooks(ctx, ctc.sqlSave, ctc.mutation, ctc.hooks)
 }
 
@@ -84,8 +129,26 @@ func (ctc *CompanyTokenCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (ctc *CompanyTokenCreate) defaults() {
+	if _, ok := ctc.mutation.CreatedAt(); !ok {
+		v := companytoken.DefaultCreatedAt()
+		ctc.mutation.SetCreatedAt(v)
+	}
+	if _, ok := ctc.mutation.UpdatedAt(); !ok {
+		v := companytoken.DefaultUpdatedAt()
+		ctc.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (ctc *CompanyTokenCreate) check() error {
+	if _, ok := ctc.mutation.CreatedAt(); !ok {
+		return &ValidationError{Name: "createdAt", err: errors.New(`ent: missing required field "CompanyToken.createdAt"`)}
+	}
+	if _, ok := ctc.mutation.UpdatedAt(); !ok {
+		return &ValidationError{Name: "updatedAt", err: errors.New(`ent: missing required field "CompanyToken.updatedAt"`)}
+	}
 	return nil
 }
 
@@ -115,6 +178,18 @@ func (ctc *CompanyTokenCreate) createSpec() (*CompanyToken, *sqlgraph.CreateSpec
 	if value, ok := ctc.mutation.Token(); ok {
 		_spec.SetField(companytoken.FieldToken, field.TypeString, value)
 		_node.Token = value
+	}
+	if value, ok := ctc.mutation.DepartmentId(); ok {
+		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
+		_node.DepartmentId = value
+	}
+	if value, ok := ctc.mutation.CreatedAt(); ok {
+		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := ctc.mutation.UpdatedAt(); ok {
+		_spec.SetField(companytoken.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	if nodes := ctc.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -154,6 +229,7 @@ func (ctcb *CompanyTokenCreateBulk) Save(ctx context.Context) ([]*CompanyToken, 
 	for i := range ctcb.builders {
 		func(i int, root context.Context) {
 			builder := ctcb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CompanyTokenMutation)
 				if !ok {

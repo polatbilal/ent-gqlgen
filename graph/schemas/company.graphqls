@@ -53,11 +53,12 @@ input CompanyDetailInput {
 
 type CompanyToken {
   Token: String
+  DepartmentId: Int
 }
 
 input CompanyTokenInput {
-  DepartmentId: Int
   Token: String
+  DepartmentId: Int
 }
 
 extend type Query {

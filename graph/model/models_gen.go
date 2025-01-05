@@ -59,8 +59,8 @@ type CompanyEngineerInput struct {
 }
 
 type CompanyTokenInput struct {
-	DepartmentID *int    `json:"DepartmentId,omitempty"`
 	Token        *string `json:"Token,omitempty"`
+	DepartmentID *int    `json:"DepartmentId,omitempty"`
 }
 
 type EngineerFilterInput struct {

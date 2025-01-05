@@ -5,6 +5,7 @@ package ent
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -19,6 +20,12 @@ type CompanyToken struct {
 	ID int `json:"id,omitempty"`
 	// Token holds the value of the "token" field.
 	Token string `json:"token,omitempty"`
+	// DepartmentId holds the value of the "DepartmentId" field.
+	DepartmentId int `json:"DepartmentId,omitempty"`
+	// CreatedAt holds the value of the "createdAt" field.
+	CreatedAt time.Time `json:"createdAt,omitempty"`
+	// UpdatedAt holds the value of the "updatedAt" field.
+	UpdatedAt time.Time `json:"updatedAt,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the CompanyTokenQuery when eager-loading is set.
 	Edges        CompanyTokenEdges `json:"edges"`
@@ -53,10 +60,12 @@ func (*CompanyToken) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case companytoken.FieldID:
+		case companytoken.FieldID, companytoken.FieldDepartmentId:
 			values[i] = new(sql.NullInt64)
 		case companytoken.FieldToken:
 			values[i] = new(sql.NullString)
+		case companytoken.FieldCreatedAt, companytoken.FieldUpdatedAt:
+			values[i] = new(sql.NullTime)
 		case companytoken.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
 		default:
@@ -85,6 +94,24 @@ func (ct *CompanyToken) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field token", values[i])
 			} else if value.Valid {
 				ct.Token = value.String
+			}
+		case companytoken.FieldDepartmentId:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field DepartmentId", values[i])
+			} else if value.Valid {
+				ct.DepartmentId = int(value.Int64)
+			}
+		case companytoken.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field createdAt", values[i])
+			} else if value.Valid {
+				ct.CreatedAt = value.Time
+			}
+		case companytoken.FieldUpdatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field updatedAt", values[i])
+			} else if value.Valid {
+				ct.UpdatedAt = value.Time
 			}
 		case companytoken.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -136,6 +163,15 @@ func (ct *CompanyToken) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v, ", ct.ID))
 	builder.WriteString("token=")
 	builder.WriteString(ct.Token)
+	builder.WriteString(", ")
+	builder.WriteString("DepartmentId=")
+	builder.WriteString(fmt.Sprintf("%v", ct.DepartmentId))
+	builder.WriteString(", ")
+	builder.WriteString("createdAt=")
+	builder.WriteString(ct.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("updatedAt=")
+	builder.WriteString(ct.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
