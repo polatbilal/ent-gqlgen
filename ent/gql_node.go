@@ -5,17 +5,6 @@ package ent
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent/companycareer"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobprogress"
-	"gqlgen-ent/ent/user"
 	"sync"
 	"sync/atomic"
 
@@ -25,6 +14,18 @@ import (
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/hashicorp/go-multierror"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 	"golang.org/x/sync/semaphore"
 )
 
@@ -32,11 +33,6 @@ import (
 type Noder interface {
 	IsNode()
 }
-
-var companycareerImplementors = []string{"CompanyCareer", "Node"}
-
-// IsNode implements the Node interface check for GQLGen.
-func (*CompanyCareer) IsNode() {}
 
 var companydetailImplementors = []string{"CompanyDetail", "Node"}
 
@@ -48,10 +44,10 @@ var companyengineerImplementors = []string{"CompanyEngineer", "Node"}
 // IsNode implements the Node interface check for GQLGen.
 func (*CompanyEngineer) IsNode() {}
 
-var companypositionImplementors = []string{"CompanyPosition", "Node"}
+var companyuserImplementors = []string{"CompanyUser", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
-func (*CompanyPosition) IsNode() {}
+func (*CompanyUser) IsNode() {}
 
 var jobauthorImplementors = []string{"JobAuthor", "Node"}
 
@@ -78,10 +74,20 @@ var jobownerImplementors = []string{"JobOwner", "Node"}
 // IsNode implements the Node interface check for GQLGen.
 func (*JobOwner) IsNode() {}
 
+var jobpaymentsImplementors = []string{"JobPayments", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*JobPayments) IsNode() {}
+
 var jobprogressImplementors = []string{"JobProgress", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
 func (*JobProgress) IsNode() {}
+
+var jobsupervisorImplementors = []string{"JobSuperVisor", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*JobSuperVisor) IsNode() {}
 
 var userImplementors = []string{"User", "Node"}
 
@@ -146,15 +152,6 @@ func (c *Client) Noder(ctx context.Context, id int, opts ...NodeOption) (_ Noder
 
 func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error) {
 	switch table {
-	case companycareer.Table:
-		query := c.CompanyCareer.Query().
-			Where(companycareer.ID(id))
-		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companycareerImplementors...); err != nil {
-				return nil, err
-			}
-		}
-		return query.Only(ctx)
 	case companydetail.Table:
 		query := c.CompanyDetail.Query().
 			Where(companydetail.ID(id))
@@ -173,11 +170,11 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			}
 		}
 		return query.Only(ctx)
-	case companyposition.Table:
-		query := c.CompanyPosition.Query().
-			Where(companyposition.ID(id))
+	case companyuser.Table:
+		query := c.CompanyUser.Query().
+			Where(companyuser.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companypositionImplementors...); err != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companyuserImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -227,11 +224,29 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			}
 		}
 		return query.Only(ctx)
+	case jobpayments.Table:
+		query := c.JobPayments.Query().
+			Where(jobpayments.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobpaymentsImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
 	case jobprogress.Table:
 		query := c.JobProgress.Query().
 			Where(jobprogress.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
 			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobprogressImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case jobsupervisor.Table:
+		query := c.JobSuperVisor.Query().
+			Where(jobsupervisor.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobsupervisorImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -318,22 +333,6 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 		idmap[id] = append(idmap[id], &noders[i])
 	}
 	switch table {
-	case companycareer.Table:
-		query := c.CompanyCareer.Query().
-			Where(companycareer.IDIn(ids...))
-		query, err := query.CollectFields(ctx, companycareerImplementors...)
-		if err != nil {
-			return nil, err
-		}
-		nodes, err := query.All(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, node := range nodes {
-			for _, noder := range idmap[node.ID] {
-				*noder = node
-			}
-		}
 	case companydetail.Table:
 		query := c.CompanyDetail.Query().
 			Where(companydetail.IDIn(ids...))
@@ -366,10 +365,10 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
-	case companyposition.Table:
-		query := c.CompanyPosition.Query().
-			Where(companyposition.IDIn(ids...))
-		query, err := query.CollectFields(ctx, companypositionImplementors...)
+	case companyuser.Table:
+		query := c.CompanyUser.Query().
+			Where(companyuser.IDIn(ids...))
+		query, err := query.CollectFields(ctx, companyuserImplementors...)
 		if err != nil {
 			return nil, err
 		}
@@ -462,10 +461,42 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
+	case jobpayments.Table:
+		query := c.JobPayments.Query().
+			Where(jobpayments.IDIn(ids...))
+		query, err := query.CollectFields(ctx, jobpaymentsImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
 	case jobprogress.Table:
 		query := c.JobProgress.Query().
 			Where(jobprogress.IDIn(ids...))
 		query, err := query.CollectFields(ctx, jobprogressImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case jobsupervisor.Table:
+		query := c.JobSuperVisor.Query().
+			Where(jobsupervisor.IDIn(ids...))
+		query, err := query.CollectFields(ctx, jobsupervisorImplementors...)
 		if err != nil {
 			return nil, err
 		}

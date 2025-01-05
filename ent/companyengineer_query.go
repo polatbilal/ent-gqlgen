@@ -6,17 +6,16 @@ import (
 	"context"
 	"database/sql/driver"
 	"fmt"
-	"gqlgen-ent/ent/companycareer"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/predicate"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
 // CompanyEngineerQuery is the builder for querying CompanyEngineer entities.
@@ -26,9 +25,7 @@ type CompanyEngineerQuery struct {
 	order                        []companyengineer.OrderOption
 	inters                       []Interceptor
 	predicates                   []predicate.CompanyEngineer
-	withEngineerCareer           *CompanyCareerQuery
-	withEngineerPosition         *CompanyPositionQuery
-	withCompanyOwners            *CompanyDetailQuery
+	withCompany                  *CompanyDetailQuery
 	withInspectors               *JobDetailQuery
 	withArchitects               *JobDetailQuery
 	withStatics                  *JobDetailQuery
@@ -40,7 +37,6 @@ type CompanyEngineerQuery struct {
 	withFKs                      bool
 	modifiers                    []func(*sql.Selector)
 	loadTotal                    []func(context.Context, []*CompanyEngineer) error
-	withNamedCompanyOwners       map[string]*CompanyDetailQuery
 	withNamedInspectors          map[string]*JobDetailQuery
 	withNamedArchitects          map[string]*JobDetailQuery
 	withNamedStatics             map[string]*JobDetailQuery
@@ -85,52 +81,8 @@ func (ceq *CompanyEngineerQuery) Order(o ...companyengineer.OrderOption) *Compan
 	return ceq
 }
 
-// QueryEngineerCareer chains the current query on the "engineerCareer" edge.
-func (ceq *CompanyEngineerQuery) QueryEngineerCareer() *CompanyCareerQuery {
-	query := (&CompanyCareerClient{config: ceq.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := ceq.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := ceq.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
-			sqlgraph.To(companycareer.Table, companycareer.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.EngineerCareerTable, companyengineer.EngineerCareerColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryEngineerPosition chains the current query on the "engineerPosition" edge.
-func (ceq *CompanyEngineerQuery) QueryEngineerPosition() *CompanyPositionQuery {
-	query := (&CompanyPositionClient{config: ceq.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := ceq.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := ceq.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
-			sqlgraph.To(companyposition.Table, companyposition.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.EngineerPositionTable, companyengineer.EngineerPositionColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryCompanyOwners chains the current query on the "companyOwners" edge.
-func (ceq *CompanyEngineerQuery) QueryCompanyOwners() *CompanyDetailQuery {
+// QueryCompany chains the current query on the "company" edge.
+func (ceq *CompanyEngineerQuery) QueryCompany() *CompanyDetailQuery {
 	query := (&CompanyDetailClient{config: ceq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := ceq.prepareQuery(ctx); err != nil {
@@ -143,7 +95,7 @@ func (ceq *CompanyEngineerQuery) QueryCompanyOwners() *CompanyDetailQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, selector),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.CompanyOwnersTable, companyengineer.CompanyOwnersColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.CompanyTable, companyengineer.CompanyColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(ceq.driver.Dialect(), step)
 		return fromU, nil
@@ -330,7 +282,7 @@ func (ceq *CompanyEngineerQuery) QueryElectriccontrollers() *JobDetailQuery {
 // First returns the first CompanyEngineer entity from the query.
 // Returns a *NotFoundError when no CompanyEngineer was found.
 func (ceq *CompanyEngineerQuery) First(ctx context.Context) (*CompanyEngineer, error) {
-	nodes, err := ceq.Limit(1).All(setContextOp(ctx, ceq.ctx, "First"))
+	nodes, err := ceq.Limit(1).All(setContextOp(ctx, ceq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -353,7 +305,7 @@ func (ceq *CompanyEngineerQuery) FirstX(ctx context.Context) *CompanyEngineer {
 // Returns a *NotFoundError when no CompanyEngineer ID was found.
 func (ceq *CompanyEngineerQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = ceq.Limit(1).IDs(setContextOp(ctx, ceq.ctx, "FirstID")); err != nil {
+	if ids, err = ceq.Limit(1).IDs(setContextOp(ctx, ceq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -376,7 +328,7 @@ func (ceq *CompanyEngineerQuery) FirstIDX(ctx context.Context) int {
 // Returns a *NotSingularError when more than one CompanyEngineer entity is found.
 // Returns a *NotFoundError when no CompanyEngineer entities are found.
 func (ceq *CompanyEngineerQuery) Only(ctx context.Context) (*CompanyEngineer, error) {
-	nodes, err := ceq.Limit(2).All(setContextOp(ctx, ceq.ctx, "Only"))
+	nodes, err := ceq.Limit(2).All(setContextOp(ctx, ceq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -404,7 +356,7 @@ func (ceq *CompanyEngineerQuery) OnlyX(ctx context.Context) *CompanyEngineer {
 // Returns a *NotFoundError when no entities are found.
 func (ceq *CompanyEngineerQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = ceq.Limit(2).IDs(setContextOp(ctx, ceq.ctx, "OnlyID")); err != nil {
+	if ids, err = ceq.Limit(2).IDs(setContextOp(ctx, ceq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -429,7 +381,7 @@ func (ceq *CompanyEngineerQuery) OnlyIDX(ctx context.Context) int {
 
 // All executes the query and returns a list of CompanyEngineers.
 func (ceq *CompanyEngineerQuery) All(ctx context.Context) ([]*CompanyEngineer, error) {
-	ctx = setContextOp(ctx, ceq.ctx, "All")
+	ctx = setContextOp(ctx, ceq.ctx, ent.OpQueryAll)
 	if err := ceq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -451,7 +403,7 @@ func (ceq *CompanyEngineerQuery) IDs(ctx context.Context) (ids []int, err error)
 	if ceq.ctx.Unique == nil && ceq.path != nil {
 		ceq.Unique(true)
 	}
-	ctx = setContextOp(ctx, ceq.ctx, "IDs")
+	ctx = setContextOp(ctx, ceq.ctx, ent.OpQueryIDs)
 	if err = ceq.Select(companyengineer.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -469,7 +421,7 @@ func (ceq *CompanyEngineerQuery) IDsX(ctx context.Context) []int {
 
 // Count returns the count of the given query.
 func (ceq *CompanyEngineerQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, ceq.ctx, "Count")
+	ctx = setContextOp(ctx, ceq.ctx, ent.OpQueryCount)
 	if err := ceq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -487,7 +439,7 @@ func (ceq *CompanyEngineerQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (ceq *CompanyEngineerQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, ceq.ctx, "Exist")
+	ctx = setContextOp(ctx, ceq.ctx, ent.OpQueryExist)
 	switch _, err := ceq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -519,9 +471,7 @@ func (ceq *CompanyEngineerQuery) Clone() *CompanyEngineerQuery {
 		order:                   append([]companyengineer.OrderOption{}, ceq.order...),
 		inters:                  append([]Interceptor{}, ceq.inters...),
 		predicates:              append([]predicate.CompanyEngineer{}, ceq.predicates...),
-		withEngineerCareer:      ceq.withEngineerCareer.Clone(),
-		withEngineerPosition:    ceq.withEngineerPosition.Clone(),
-		withCompanyOwners:       ceq.withCompanyOwners.Clone(),
+		withCompany:             ceq.withCompany.Clone(),
 		withInspectors:          ceq.withInspectors.Clone(),
 		withArchitects:          ceq.withArchitects.Clone(),
 		withStatics:             ceq.withStatics.Clone(),
@@ -536,36 +486,14 @@ func (ceq *CompanyEngineerQuery) Clone() *CompanyEngineerQuery {
 	}
 }
 
-// WithEngineerCareer tells the query-builder to eager-load the nodes that are connected to
-// the "engineerCareer" edge. The optional arguments are used to configure the query builder of the edge.
-func (ceq *CompanyEngineerQuery) WithEngineerCareer(opts ...func(*CompanyCareerQuery)) *CompanyEngineerQuery {
-	query := (&CompanyCareerClient{config: ceq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	ceq.withEngineerCareer = query
-	return ceq
-}
-
-// WithEngineerPosition tells the query-builder to eager-load the nodes that are connected to
-// the "engineerPosition" edge. The optional arguments are used to configure the query builder of the edge.
-func (ceq *CompanyEngineerQuery) WithEngineerPosition(opts ...func(*CompanyPositionQuery)) *CompanyEngineerQuery {
-	query := (&CompanyPositionClient{config: ceq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	ceq.withEngineerPosition = query
-	return ceq
-}
-
-// WithCompanyOwners tells the query-builder to eager-load the nodes that are connected to
-// the "companyOwners" edge. The optional arguments are used to configure the query builder of the edge.
-func (ceq *CompanyEngineerQuery) WithCompanyOwners(opts ...func(*CompanyDetailQuery)) *CompanyEngineerQuery {
+// WithCompany tells the query-builder to eager-load the nodes that are connected to
+// the "company" edge. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *CompanyEngineerQuery {
 	query := (&CompanyDetailClient{config: ceq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	ceq.withCompanyOwners = query
+	ceq.withCompany = query
 	return ceq
 }
 
@@ -736,10 +664,8 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		nodes       = []*CompanyEngineer{}
 		withFKs     = ceq.withFKs
 		_spec       = ceq.querySpec()
-		loadedTypes = [11]bool{
-			ceq.withEngineerCareer != nil,
-			ceq.withEngineerPosition != nil,
-			ceq.withCompanyOwners != nil,
+		loadedTypes = [9]bool{
+			ceq.withCompany != nil,
 			ceq.withInspectors != nil,
 			ceq.withArchitects != nil,
 			ceq.withStatics != nil,
@@ -750,7 +676,7 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			ceq.withElectriccontrollers != nil,
 		}
 	)
-	if ceq.withEngineerCareer != nil || ceq.withEngineerPosition != nil {
+	if ceq.withCompany != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -777,22 +703,9 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := ceq.withEngineerCareer; query != nil {
-		if err := ceq.loadEngineerCareer(ctx, query, nodes, nil,
-			func(n *CompanyEngineer, e *CompanyCareer) { n.Edges.EngineerCareer = e }); err != nil {
-			return nil, err
-		}
-	}
-	if query := ceq.withEngineerPosition; query != nil {
-		if err := ceq.loadEngineerPosition(ctx, query, nodes, nil,
-			func(n *CompanyEngineer, e *CompanyPosition) { n.Edges.EngineerPosition = e }); err != nil {
-			return nil, err
-		}
-	}
-	if query := ceq.withCompanyOwners; query != nil {
-		if err := ceq.loadCompanyOwners(ctx, query, nodes,
-			func(n *CompanyEngineer) { n.Edges.CompanyOwners = []*CompanyDetail{} },
-			func(n *CompanyEngineer, e *CompanyDetail) { n.Edges.CompanyOwners = append(n.Edges.CompanyOwners, e) }); err != nil {
+	if query := ceq.withCompany; query != nil {
+		if err := ceq.loadCompany(ctx, query, nodes, nil,
+			func(n *CompanyEngineer, e *CompanyDetail) { n.Edges.Company = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -853,13 +766,6 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			func(n *CompanyEngineer, e *JobDetail) {
 				n.Edges.Electriccontrollers = append(n.Edges.Electriccontrollers, e)
 			}); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range ceq.withNamedCompanyOwners {
-		if err := ceq.loadCompanyOwners(ctx, query, nodes,
-			func(n *CompanyEngineer) { n.appendNamedCompanyOwners(name) },
-			func(n *CompanyEngineer, e *CompanyDetail) { n.appendNamedCompanyOwners(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -927,14 +833,14 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	return nodes, nil
 }
 
-func (ceq *CompanyEngineerQuery) loadEngineerCareer(ctx context.Context, query *CompanyCareerQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *CompanyCareer)) error {
+func (ceq *CompanyEngineerQuery) loadCompany(ctx context.Context, query *CompanyDetailQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *CompanyDetail)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*CompanyEngineer)
 	for i := range nodes {
-		if nodes[i].career_id == nil {
+		if nodes[i].company_id == nil {
 			continue
 		}
-		fk := *nodes[i].career_id
+		fk := *nodes[i].company_id
 		if _, ok := nodeids[fk]; !ok {
 			ids = append(ids, fk)
 		}
@@ -943,7 +849,7 @@ func (ceq *CompanyEngineerQuery) loadEngineerCareer(ctx context.Context, query *
 	if len(ids) == 0 {
 		return nil
 	}
-	query.Where(companycareer.IDIn(ids...))
+	query.Where(companydetail.IDIn(ids...))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
@@ -951,74 +857,11 @@ func (ceq *CompanyEngineerQuery) loadEngineerCareer(ctx context.Context, query *
 	for _, n := range neighbors {
 		nodes, ok := nodeids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "career_id" returned %v`, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "company_id" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)
 		}
-	}
-	return nil
-}
-func (ceq *CompanyEngineerQuery) loadEngineerPosition(ctx context.Context, query *CompanyPositionQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *CompanyPosition)) error {
-	ids := make([]int, 0, len(nodes))
-	nodeids := make(map[int][]*CompanyEngineer)
-	for i := range nodes {
-		if nodes[i].position_id == nil {
-			continue
-		}
-		fk := *nodes[i].position_id
-		if _, ok := nodeids[fk]; !ok {
-			ids = append(ids, fk)
-		}
-		nodeids[fk] = append(nodeids[fk], nodes[i])
-	}
-	if len(ids) == 0 {
-		return nil
-	}
-	query.Where(companyposition.IDIn(ids...))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		nodes, ok := nodeids[n.ID]
-		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "position_id" returned %v`, n.ID)
-		}
-		for i := range nodes {
-			assign(nodes[i], n)
-		}
-	}
-	return nil
-}
-func (ceq *CompanyEngineerQuery) loadCompanyOwners(ctx context.Context, query *CompanyDetailQuery, nodes []*CompanyEngineer, init func(*CompanyEngineer), assign func(*CompanyEngineer, *CompanyDetail)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*CompanyEngineer)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
-		if init != nil {
-			init(nodes[i])
-		}
-	}
-	query.withFKs = true
-	query.Where(predicate.CompanyDetail(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companyengineer.CompanyOwnersColumn), fks...))
-	}))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		fk := n.owner_id
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "owner_id" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
-		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "owner_id" returned %v for node %v`, *fk, n.ID)
-		}
-		assign(node, n)
 	}
 	return nil
 }
@@ -1355,20 +1198,6 @@ func (ceq *CompanyEngineerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
-// WithNamedCompanyOwners tells the query-builder to eager-load the nodes that are connected to the "companyOwners"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (ceq *CompanyEngineerQuery) WithNamedCompanyOwners(name string, opts ...func(*CompanyDetailQuery)) *CompanyEngineerQuery {
-	query := (&CompanyDetailClient{config: ceq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if ceq.withNamedCompanyOwners == nil {
-		ceq.withNamedCompanyOwners = make(map[string]*CompanyDetailQuery)
-	}
-	ceq.withNamedCompanyOwners[name] = query
-	return ceq
-}
-
 // WithNamedInspectors tells the query-builder to eager-load the nodes that are connected to the "inspectors"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
 func (ceq *CompanyEngineerQuery) WithNamedInspectors(name string, opts ...func(*JobDetailQuery)) *CompanyEngineerQuery {
@@ -1495,7 +1324,7 @@ func (cegb *CompanyEngineerGroupBy) Aggregate(fns ...AggregateFunc) *CompanyEngi
 
 // Scan applies the selector query and scans the result into the given value.
 func (cegb *CompanyEngineerGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cegb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, cegb.build.ctx, ent.OpQueryGroupBy)
 	if err := cegb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -1543,7 +1372,7 @@ func (ces *CompanyEngineerSelect) Aggregate(fns ...AggregateFunc) *CompanyEngine
 
 // Scan applies the selector query and scans the result into the given value.
 func (ces *CompanyEngineerSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ces.ctx, "Select")
+	ctx = setContextOp(ctx, ces.ctx, ent.OpQuerySelect)
 	if err := ces.prepareQuery(ctx); err != nil {
 		return err
 	}

@@ -6,12 +6,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 )
 
 // CompanyDetailCreate is the builder for creating a CompanyDetail entity.
@@ -55,34 +57,6 @@ func (cdc *CompanyDetailCreate) SetNillableAddress(s *string) *CompanyDetailCrea
 	return cdc
 }
 
-// SetCity sets the "City" field.
-func (cdc *CompanyDetailCreate) SetCity(s string) *CompanyDetailCreate {
-	cdc.mutation.SetCity(s)
-	return cdc
-}
-
-// SetNillableCity sets the "City" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableCity(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetCity(*s)
-	}
-	return cdc
-}
-
-// SetState sets the "State" field.
-func (cdc *CompanyDetailCreate) SetState(s string) *CompanyDetailCreate {
-	cdc.mutation.SetState(s)
-	return cdc
-}
-
-// SetNillableState sets the "State" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableState(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetState(*s)
-	}
-	return cdc
-}
-
 // SetPhone sets the "Phone" field.
 func (cdc *CompanyDetailCreate) SetPhone(s string) *CompanyDetailCreate {
 	cdc.mutation.SetPhone(s)
@@ -93,34 +67,6 @@ func (cdc *CompanyDetailCreate) SetPhone(s string) *CompanyDetailCreate {
 func (cdc *CompanyDetailCreate) SetNillablePhone(s *string) *CompanyDetailCreate {
 	if s != nil {
 		cdc.SetPhone(*s)
-	}
-	return cdc
-}
-
-// SetFax sets the "Fax" field.
-func (cdc *CompanyDetailCreate) SetFax(s string) *CompanyDetailCreate {
-	cdc.mutation.SetFax(s)
-	return cdc
-}
-
-// SetNillableFax sets the "Fax" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableFax(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetFax(*s)
-	}
-	return cdc
-}
-
-// SetMobile sets the "Mobile" field.
-func (cdc *CompanyDetailCreate) SetMobile(s string) *CompanyDetailCreate {
-	cdc.mutation.SetMobile(s)
-	return cdc
-}
-
-// SetNillableMobile sets the "Mobile" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableMobile(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetMobile(*s)
 	}
 	return cdc
 }
@@ -181,30 +127,30 @@ func (cdc *CompanyDetailCreate) SetNillableTaxNo(i *int) *CompanyDetailCreate {
 	return cdc
 }
 
-// SetCommerce sets the "Commerce" field.
-func (cdc *CompanyDetailCreate) SetCommerce(s string) *CompanyDetailCreate {
-	cdc.mutation.SetCommerce(s)
+// SetChamberInfo sets the "ChamberInfo" field.
+func (cdc *CompanyDetailCreate) SetChamberInfo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetChamberInfo(s)
 	return cdc
 }
 
-// SetNillableCommerce sets the "Commerce" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableCommerce(s *string) *CompanyDetailCreate {
+// SetNillableChamberInfo sets the "ChamberInfo" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableChamberInfo(s *string) *CompanyDetailCreate {
 	if s != nil {
-		cdc.SetCommerce(*s)
+		cdc.SetChamberInfo(*s)
 	}
 	return cdc
 }
 
-// SetCommerceReg sets the "CommerceReg" field.
-func (cdc *CompanyDetailCreate) SetCommerceReg(s string) *CompanyDetailCreate {
-	cdc.mutation.SetCommerceReg(s)
+// SetChamberRegNo sets the "ChamberRegNo" field.
+func (cdc *CompanyDetailCreate) SetChamberRegNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetChamberRegNo(s)
 	return cdc
 }
 
-// SetNillableCommerceReg sets the "CommerceReg" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableCommerceReg(s *string) *CompanyDetailCreate {
+// SetNillableChamberRegNo sets the "ChamberRegNo" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableChamberRegNo(s *string) *CompanyDetailCreate {
 	if s != nil {
-		cdc.SetCommerceReg(*s)
+		cdc.SetChamberRegNo(*s)
 	}
 	return cdc
 }
@@ -223,16 +169,170 @@ func (cdc *CompanyDetailCreate) SetNillableVisaDate(t *time.Time) *CompanyDetail
 	return cdc
 }
 
-// SetDeleted sets the "Deleted" field.
-func (cdc *CompanyDetailCreate) SetDeleted(i int) *CompanyDetailCreate {
-	cdc.mutation.SetDeleted(i)
+// SetVisaEndDate sets the "VisaEndDate" field.
+func (cdc *CompanyDetailCreate) SetVisaEndDate(t time.Time) *CompanyDetailCreate {
+	cdc.mutation.SetVisaEndDate(t)
 	return cdc
 }
 
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableDeleted(i *int) *CompanyDetailCreate {
-	if i != nil {
-		cdc.SetDeleted(*i)
+// SetNillableVisaEndDate sets the "VisaEndDate" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableVisaEndDate(t *time.Time) *CompanyDetailCreate {
+	if t != nil {
+		cdc.SetVisaEndDate(*t)
+	}
+	return cdc
+}
+
+// SetOwnerName sets the "OwnerName" field.
+func (cdc *CompanyDetailCreate) SetOwnerName(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerName(s)
+	return cdc
+}
+
+// SetNillableOwnerName sets the "OwnerName" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerName(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerName(*s)
+	}
+	return cdc
+}
+
+// SetOwnerTcNo sets the "OwnerTcNo" field.
+func (cdc *CompanyDetailCreate) SetOwnerTcNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerTcNo(s)
+	return cdc
+}
+
+// SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerTcNo(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerTcNo(*s)
+	}
+	return cdc
+}
+
+// SetOwnerAddress sets the "OwnerAddress" field.
+func (cdc *CompanyDetailCreate) SetOwnerAddress(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerAddress(s)
+	return cdc
+}
+
+// SetNillableOwnerAddress sets the "OwnerAddress" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerAddress(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerAddress(*s)
+	}
+	return cdc
+}
+
+// SetOwnerPhone sets the "OwnerPhone" field.
+func (cdc *CompanyDetailCreate) SetOwnerPhone(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerPhone(s)
+	return cdc
+}
+
+// SetNillableOwnerPhone sets the "OwnerPhone" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerPhone(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerPhone(*s)
+	}
+	return cdc
+}
+
+// SetOwnerEmail sets the "OwnerEmail" field.
+func (cdc *CompanyDetailCreate) SetOwnerEmail(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerEmail(s)
+	return cdc
+}
+
+// SetNillableOwnerEmail sets the "OwnerEmail" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerEmail(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerEmail(*s)
+	}
+	return cdc
+}
+
+// SetOwnerRegNo sets the "OwnerRegNo" field.
+func (cdc *CompanyDetailCreate) SetOwnerRegNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerRegNo(s)
+	return cdc
+}
+
+// SetNillableOwnerRegNo sets the "OwnerRegNo" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerRegNo(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerRegNo(*s)
+	}
+	return cdc
+}
+
+// SetOwnerCareer sets the "OwnerCareer" field.
+func (cdc *CompanyDetailCreate) SetOwnerCareer(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerCareer(s)
+	return cdc
+}
+
+// SetNillableOwnerCareer sets the "OwnerCareer" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerCareer(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerCareer(*s)
+	}
+	return cdc
+}
+
+// SetOwnerBirthDate sets the "OwnerBirthDate" field.
+func (cdc *CompanyDetailCreate) SetOwnerBirthDate(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerBirthDate(s)
+	return cdc
+}
+
+// SetNillableOwnerBirthDate sets the "OwnerBirthDate" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableOwnerBirthDate(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerBirthDate(*s)
+	}
+	return cdc
+}
+
+// SetVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field.
+func (cdc *CompanyDetailCreate) SetVisaFinishedFor90Days(b bool) *CompanyDetailCreate {
+	cdc.mutation.SetVisaFinishedFor90Days(b)
+	return cdc
+}
+
+// SetNillableVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableVisaFinishedFor90Days(b *bool) *CompanyDetailCreate {
+	if b != nil {
+		cdc.SetVisaFinishedFor90Days(*b)
+	}
+	return cdc
+}
+
+// SetCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field.
+func (cdc *CompanyDetailCreate) SetCorePersonAbsent90Days(b bool) *CompanyDetailCreate {
+	cdc.mutation.SetCorePersonAbsent90Days(b)
+	return cdc
+}
+
+// SetNillableCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableCorePersonAbsent90Days(b *bool) *CompanyDetailCreate {
+	if b != nil {
+		cdc.SetCorePersonAbsent90Days(*b)
+	}
+	return cdc
+}
+
+// SetIsClosed sets the "IsClosed" field.
+func (cdc *CompanyDetailCreate) SetIsClosed(b bool) *CompanyDetailCreate {
+	cdc.mutation.SetIsClosed(b)
+	return cdc
+}
+
+// SetNillableIsClosed sets the "IsClosed" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableIsClosed(b *bool) *CompanyDetailCreate {
+	if b != nil {
+		cdc.SetIsClosed(*b)
 	}
 	return cdc
 }
@@ -265,23 +365,49 @@ func (cdc *CompanyDetailCreate) SetNillableUpdatedAt(t *time.Time) *CompanyDetai
 	return cdc
 }
 
-// SetCompanyOwnerID sets the "companyOwner" edge to the CompanyEngineer entity by ID.
-func (cdc *CompanyDetailCreate) SetCompanyOwnerID(id int) *CompanyDetailCreate {
-	cdc.mutation.SetCompanyOwnerID(id)
+// AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
+func (cdc *CompanyDetailCreate) AddEngineerIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddEngineerIDs(ids...)
 	return cdc
 }
 
-// SetNillableCompanyOwnerID sets the "companyOwner" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableCompanyOwnerID(id *int) *CompanyDetailCreate {
-	if id != nil {
-		cdc = cdc.SetCompanyOwnerID(*id)
+// AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
+func (cdc *CompanyDetailCreate) AddEngineers(c ...*CompanyEngineer) *CompanyDetailCreate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
 	}
+	return cdc.AddEngineerIDs(ids...)
+}
+
+// AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
+func (cdc *CompanyDetailCreate) AddUserIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddUserIDs(ids...)
 	return cdc
 }
 
-// SetCompanyOwner sets the "companyOwner" edge to the CompanyEngineer entity.
-func (cdc *CompanyDetailCreate) SetCompanyOwner(c *CompanyEngineer) *CompanyDetailCreate {
-	return cdc.SetCompanyOwnerID(c.ID)
+// AddUsers adds the "users" edges to the CompanyUser entity.
+func (cdc *CompanyDetailCreate) AddUsers(c ...*CompanyUser) *CompanyDetailCreate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cdc.AddUserIDs(ids...)
+}
+
+// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+func (cdc *CompanyDetailCreate) AddJobIDs(ids ...int) *CompanyDetailCreate {
+	cdc.mutation.AddJobIDs(ids...)
+	return cdc
+}
+
+// AddJobs adds the "jobs" edges to the JobDetail entity.
+func (cdc *CompanyDetailCreate) AddJobs(j ...*JobDetail) *CompanyDetailCreate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return cdc.AddJobIDs(ids...)
 }
 
 // Mutation returns the CompanyDetailMutation object of the builder.
@@ -327,9 +453,17 @@ func (cdc *CompanyDetailCreate) defaults() {
 		v := companydetail.DefaultTaxNo
 		cdc.mutation.SetTaxNo(v)
 	}
-	if _, ok := cdc.mutation.Deleted(); !ok {
-		v := companydetail.DefaultDeleted
-		cdc.mutation.SetDeleted(v)
+	if _, ok := cdc.mutation.VisaFinishedFor90Days(); !ok {
+		v := companydetail.DefaultVisaFinishedFor90Days
+		cdc.mutation.SetVisaFinishedFor90Days(v)
+	}
+	if _, ok := cdc.mutation.CorePersonAbsent90Days(); !ok {
+		v := companydetail.DefaultCorePersonAbsent90Days
+		cdc.mutation.SetCorePersonAbsent90Days(v)
+	}
+	if _, ok := cdc.mutation.IsClosed(); !ok {
+		v := companydetail.DefaultIsClosed
+		cdc.mutation.SetIsClosed(v)
 	}
 	if _, ok := cdc.mutation.CreatedAt(); !ok {
 		v := companydetail.DefaultCreatedAt()
@@ -349,8 +483,8 @@ func (cdc *CompanyDetailCreate) check() error {
 	if _, ok := cdc.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "CompanyDetail.Name"`)}
 	}
-	if _, ok := cdc.mutation.Deleted(); !ok {
-		return &ValidationError{Name: "Deleted", err: errors.New(`ent: missing required field "CompanyDetail.Deleted"`)}
+	if _, ok := cdc.mutation.IsClosed(); !ok {
+		return &ValidationError{Name: "IsClosed", err: errors.New(`ent: missing required field "CompanyDetail.IsClosed"`)}
 	}
 	if _, ok := cdc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "CompanyDetail.CreatedAt"`)}
@@ -396,25 +530,9 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_spec.SetField(companydetail.FieldAddress, field.TypeString, value)
 		_node.Address = value
 	}
-	if value, ok := cdc.mutation.City(); ok {
-		_spec.SetField(companydetail.FieldCity, field.TypeString, value)
-		_node.City = value
-	}
-	if value, ok := cdc.mutation.State(); ok {
-		_spec.SetField(companydetail.FieldState, field.TypeString, value)
-		_node.State = value
-	}
 	if value, ok := cdc.mutation.Phone(); ok {
 		_spec.SetField(companydetail.FieldPhone, field.TypeString, value)
 		_node.Phone = value
-	}
-	if value, ok := cdc.mutation.Fax(); ok {
-		_spec.SetField(companydetail.FieldFax, field.TypeString, value)
-		_node.Fax = value
-	}
-	if value, ok := cdc.mutation.Mobile(); ok {
-		_spec.SetField(companydetail.FieldMobile, field.TypeString, value)
-		_node.Mobile = value
 	}
 	if value, ok := cdc.mutation.Email(); ok {
 		_spec.SetField(companydetail.FieldEmail, field.TypeString, value)
@@ -432,21 +550,65 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_spec.SetField(companydetail.FieldTaxNo, field.TypeInt, value)
 		_node.TaxNo = value
 	}
-	if value, ok := cdc.mutation.Commerce(); ok {
-		_spec.SetField(companydetail.FieldCommerce, field.TypeString, value)
-		_node.Commerce = value
+	if value, ok := cdc.mutation.ChamberInfo(); ok {
+		_spec.SetField(companydetail.FieldChamberInfo, field.TypeString, value)
+		_node.ChamberInfo = value
 	}
-	if value, ok := cdc.mutation.CommerceReg(); ok {
-		_spec.SetField(companydetail.FieldCommerceReg, field.TypeString, value)
-		_node.CommerceReg = value
+	if value, ok := cdc.mutation.ChamberRegNo(); ok {
+		_spec.SetField(companydetail.FieldChamberRegNo, field.TypeString, value)
+		_node.ChamberRegNo = value
 	}
 	if value, ok := cdc.mutation.VisaDate(); ok {
 		_spec.SetField(companydetail.FieldVisaDate, field.TypeTime, value)
 		_node.VisaDate = value
 	}
-	if value, ok := cdc.mutation.Deleted(); ok {
-		_spec.SetField(companydetail.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
+	if value, ok := cdc.mutation.VisaEndDate(); ok {
+		_spec.SetField(companydetail.FieldVisaEndDate, field.TypeTime, value)
+		_node.VisaEndDate = value
+	}
+	if value, ok := cdc.mutation.OwnerName(); ok {
+		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)
+		_node.OwnerName = value
+	}
+	if value, ok := cdc.mutation.OwnerTcNo(); ok {
+		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
+		_node.OwnerTcNo = value
+	}
+	if value, ok := cdc.mutation.OwnerAddress(); ok {
+		_spec.SetField(companydetail.FieldOwnerAddress, field.TypeString, value)
+		_node.OwnerAddress = value
+	}
+	if value, ok := cdc.mutation.OwnerPhone(); ok {
+		_spec.SetField(companydetail.FieldOwnerPhone, field.TypeString, value)
+		_node.OwnerPhone = value
+	}
+	if value, ok := cdc.mutation.OwnerEmail(); ok {
+		_spec.SetField(companydetail.FieldOwnerEmail, field.TypeString, value)
+		_node.OwnerEmail = value
+	}
+	if value, ok := cdc.mutation.OwnerRegNo(); ok {
+		_spec.SetField(companydetail.FieldOwnerRegNo, field.TypeString, value)
+		_node.OwnerRegNo = value
+	}
+	if value, ok := cdc.mutation.OwnerCareer(); ok {
+		_spec.SetField(companydetail.FieldOwnerCareer, field.TypeString, value)
+		_node.OwnerCareer = value
+	}
+	if value, ok := cdc.mutation.OwnerBirthDate(); ok {
+		_spec.SetField(companydetail.FieldOwnerBirthDate, field.TypeString, value)
+		_node.OwnerBirthDate = value
+	}
+	if value, ok := cdc.mutation.VisaFinishedFor90Days(); ok {
+		_spec.SetField(companydetail.FieldVisaFinishedFor90Days, field.TypeBool, value)
+		_node.VisaFinishedFor90Days = value
+	}
+	if value, ok := cdc.mutation.CorePersonAbsent90Days(); ok {
+		_spec.SetField(companydetail.FieldCorePersonAbsent90Days, field.TypeBool, value)
+		_node.CorePersonAbsent90Days = value
+	}
+	if value, ok := cdc.mutation.IsClosed(); ok {
+		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
+		_node.IsClosed = value
 	}
 	if value, ok := cdc.mutation.CreatedAt(); ok {
 		_spec.SetField(companydetail.FieldCreatedAt, field.TypeTime, value)
@@ -456,12 +618,12 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_spec.SetField(companydetail.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := cdc.mutation.CompanyOwnerIDs(); len(nodes) > 0 {
+	if nodes := cdc.mutation.EngineersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   companydetail.CompanyOwnerTable,
-			Columns: []string{companydetail.CompanyOwnerColumn},
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.EngineersTable,
+			Columns: []string{companydetail.EngineersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
@@ -470,7 +632,38 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.owner_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cdc.mutation.UsersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.UsersTable,
+			Columns: []string{companydetail.UsersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cdc.mutation.JobsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

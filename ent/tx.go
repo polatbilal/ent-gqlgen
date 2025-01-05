@@ -12,14 +12,12 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
-	// CompanyCareer is the client for interacting with the CompanyCareer builders.
-	CompanyCareer *CompanyCareerClient
 	// CompanyDetail is the client for interacting with the CompanyDetail builders.
 	CompanyDetail *CompanyDetailClient
 	// CompanyEngineer is the client for interacting with the CompanyEngineer builders.
 	CompanyEngineer *CompanyEngineerClient
-	// CompanyPosition is the client for interacting with the CompanyPosition builders.
-	CompanyPosition *CompanyPositionClient
+	// CompanyUser is the client for interacting with the CompanyUser builders.
+	CompanyUser *CompanyUserClient
 	// JobAuthor is the client for interacting with the JobAuthor builders.
 	JobAuthor *JobAuthorClient
 	// JobContractor is the client for interacting with the JobContractor builders.
@@ -30,8 +28,12 @@ type Tx struct {
 	JobLayer *JobLayerClient
 	// JobOwner is the client for interacting with the JobOwner builders.
 	JobOwner *JobOwnerClient
+	// JobPayments is the client for interacting with the JobPayments builders.
+	JobPayments *JobPaymentsClient
 	// JobProgress is the client for interacting with the JobProgress builders.
 	JobProgress *JobProgressClient
+	// JobSuperVisor is the client for interacting with the JobSuperVisor builders.
+	JobSuperVisor *JobSuperVisorClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 
@@ -165,16 +167,17 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
-	tx.CompanyCareer = NewCompanyCareerClient(tx.config)
 	tx.CompanyDetail = NewCompanyDetailClient(tx.config)
 	tx.CompanyEngineer = NewCompanyEngineerClient(tx.config)
-	tx.CompanyPosition = NewCompanyPositionClient(tx.config)
+	tx.CompanyUser = NewCompanyUserClient(tx.config)
 	tx.JobAuthor = NewJobAuthorClient(tx.config)
 	tx.JobContractor = NewJobContractorClient(tx.config)
 	tx.JobDetail = NewJobDetailClient(tx.config)
 	tx.JobLayer = NewJobLayerClient(tx.config)
 	tx.JobOwner = NewJobOwnerClient(tx.config)
+	tx.JobPayments = NewJobPaymentsClient(tx.config)
 	tx.JobProgress = NewJobProgressClient(tx.config)
+	tx.JobSuperVisor = NewJobSuperVisorClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 }
 
@@ -185,7 +188,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: CompanyCareer.QueryXXX(), the query will be executed
+// applies a query, for example: CompanyDetail.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

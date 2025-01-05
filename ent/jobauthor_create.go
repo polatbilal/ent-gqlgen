@@ -6,12 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobdetail"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 )
 
 // JobAuthorCreate is the builder for creating a JobAuthor entity.
@@ -87,20 +87,6 @@ func (jac *JobAuthorCreate) SetFloor(s string) *JobAuthorCreate {
 func (jac *JobAuthorCreate) SetNillableFloor(s *string) *JobAuthorCreate {
 	if s != nil {
 		jac.SetFloor(*s)
-	}
-	return jac
-}
-
-// SetDeleted sets the "Deleted" field.
-func (jac *JobAuthorCreate) SetDeleted(i int) *JobAuthorCreate {
-	jac.mutation.SetDeleted(i)
-	return jac
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableDeleted(i *int) *JobAuthorCreate {
-	if i != nil {
-		jac.SetDeleted(*i)
 	}
 	return jac
 }
@@ -203,10 +189,6 @@ func (jac *JobAuthorCreate) defaults() {
 		v := jobauthor.DefaultFloor
 		jac.mutation.SetFloor(v)
 	}
-	if _, ok := jac.mutation.Deleted(); !ok {
-		v := jobauthor.DefaultDeleted
-		jac.mutation.SetDeleted(v)
-	}
 	if _, ok := jac.mutation.CreatedAt(); !ok {
 		v := jobauthor.DefaultCreatedAt()
 		jac.mutation.SetCreatedAt(v)
@@ -219,9 +201,6 @@ func (jac *JobAuthorCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (jac *JobAuthorCreate) check() error {
-	if _, ok := jac.mutation.Deleted(); !ok {
-		return &ValidationError{Name: "Deleted", err: errors.New(`ent: missing required field "JobAuthor.Deleted"`)}
-	}
 	if _, ok := jac.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobAuthor.CreatedAt"`)}
 	}
@@ -273,10 +252,6 @@ func (jac *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
 	if value, ok := jac.mutation.Floor(); ok {
 		_spec.SetField(jobauthor.FieldFloor, field.TypeString, value)
 		_node.Floor = value
-	}
-	if value, ok := jac.mutation.Deleted(); ok {
-		_spec.SetField(jobauthor.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
 	}
 	if value, ok := jac.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)

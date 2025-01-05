@@ -6,14 +6,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
 // JobAuthorUpdate is the builder for updating JobAuthor entities.
@@ -126,27 +126,6 @@ func (jau *JobAuthorUpdate) SetNillableFloor(s *string) *JobAuthorUpdate {
 // ClearFloor clears the value of the "Floor" field.
 func (jau *JobAuthorUpdate) ClearFloor() *JobAuthorUpdate {
 	jau.mutation.ClearFloor()
-	return jau
-}
-
-// SetDeleted sets the "Deleted" field.
-func (jau *JobAuthorUpdate) SetDeleted(i int) *JobAuthorUpdate {
-	jau.mutation.ResetDeleted()
-	jau.mutation.SetDeleted(i)
-	return jau
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableDeleted(i *int) *JobAuthorUpdate {
-	if i != nil {
-		jau.SetDeleted(*i)
-	}
-	return jau
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jau *JobAuthorUpdate) AddDeleted(i int) *JobAuthorUpdate {
-	jau.mutation.AddDeleted(i)
 	return jau
 }
 
@@ -285,12 +264,6 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if jau.mutation.FloorCleared() {
 		_spec.ClearField(jobauthor.FieldFloor, field.TypeString)
-	}
-	if value, ok := jau.mutation.Deleted(); ok {
-		_spec.SetField(jobauthor.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jau.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobauthor.FieldDeleted, field.TypeInt, value)
 	}
 	if value, ok := jau.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)
@@ -463,27 +436,6 @@ func (jauo *JobAuthorUpdateOne) ClearFloor() *JobAuthorUpdateOne {
 	return jauo
 }
 
-// SetDeleted sets the "Deleted" field.
-func (jauo *JobAuthorUpdateOne) SetDeleted(i int) *JobAuthorUpdateOne {
-	jauo.mutation.ResetDeleted()
-	jauo.mutation.SetDeleted(i)
-	return jauo
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableDeleted(i *int) *JobAuthorUpdateOne {
-	if i != nil {
-		jauo.SetDeleted(*i)
-	}
-	return jauo
-}
-
-// AddDeleted adds i to the "Deleted" field.
-func (jauo *JobAuthorUpdateOne) AddDeleted(i int) *JobAuthorUpdateOne {
-	jauo.mutation.AddDeleted(i)
-	return jauo
-}
-
 // SetCreatedAt sets the "CreatedAt" field.
 func (jauo *JobAuthorUpdateOne) SetCreatedAt(t time.Time) *JobAuthorUpdateOne {
 	jauo.mutation.SetCreatedAt(t)
@@ -649,12 +601,6 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 	}
 	if jauo.mutation.FloorCleared() {
 		_spec.ClearField(jobauthor.FieldFloor, field.TypeString)
-	}
-	if value, ok := jauo.mutation.Deleted(); ok {
-		_spec.SetField(jobauthor.FieldDeleted, field.TypeInt, value)
-	}
-	if value, ok := jauo.mutation.AddedDeleted(); ok {
-		_spec.AddField(jobauthor.FieldDeleted, field.TypeInt, value)
 	}
 	if value, ok := jauo.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)

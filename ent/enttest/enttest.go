@@ -4,13 +4,13 @@ package enttest
 
 import (
 	"context"
-	"gqlgen-ent/ent"
-	// required by schema hooks.
-	_ "gqlgen-ent/ent/runtime"
 
-	"gqlgen-ent/ent/migrate"
+	"github.com/polatbilal/gqlgen-ent/ent"
+	// required by schema hooks.
+	_ "github.com/polatbilal/gqlgen-ent/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
+	"github.com/polatbilal/gqlgen-ent/ent/migrate"
 )
 
 type (

@@ -6,17 +6,14 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// CompanyCareer is the predicate function for companycareer builders.
-type CompanyCareer func(*sql.Selector)
-
 // CompanyDetail is the predicate function for companydetail builders.
 type CompanyDetail func(*sql.Selector)
 
 // CompanyEngineer is the predicate function for companyengineer builders.
 type CompanyEngineer func(*sql.Selector)
 
-// CompanyPosition is the predicate function for companyposition builders.
-type CompanyPosition func(*sql.Selector)
+// CompanyUser is the predicate function for companyuser builders.
+type CompanyUser func(*sql.Selector)
 
 // JobAuthor is the predicate function for jobauthor builders.
 type JobAuthor func(*sql.Selector)
@@ -33,8 +30,14 @@ type JobLayer func(*sql.Selector)
 // JobOwner is the predicate function for jobowner builders.
 type JobOwner func(*sql.Selector)
 
+// JobPayments is the predicate function for jobpayments builders.
+type JobPayments func(*sql.Selector)
+
 // JobProgress is the predicate function for jobprogress builders.
 type JobProgress func(*sql.Selector)
+
+// JobSuperVisor is the predicate function for jobsupervisor builders.
+type JobSuperVisor func(*sql.Selector)
 
 // User is the predicate function for user builders.
 type User func(*sql.Selector)

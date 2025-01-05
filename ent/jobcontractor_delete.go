@@ -4,12 +4,12 @@ package ent
 
 import (
 	"context"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
 // JobContractorDelete is the builder for deleting a JobContractor entity.

@@ -5,20 +5,9 @@ package hook
 import (
 	"context"
 	"fmt"
-	"gqlgen-ent/ent"
+
+	"github.com/polatbilal/gqlgen-ent/ent"
 )
-
-// The CompanyCareerFunc type is an adapter to allow the use of ordinary
-// function as CompanyCareer mutator.
-type CompanyCareerFunc func(context.Context, *ent.CompanyCareerMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f CompanyCareerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.CompanyCareerMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyCareerMutation", m)
-}
 
 // The CompanyDetailFunc type is an adapter to allow the use of ordinary
 // function as CompanyDetail mutator.
@@ -44,16 +33,16 @@ func (f CompanyEngineerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Va
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyEngineerMutation", m)
 }
 
-// The CompanyPositionFunc type is an adapter to allow the use of ordinary
-// function as CompanyPosition mutator.
-type CompanyPositionFunc func(context.Context, *ent.CompanyPositionMutation) (ent.Value, error)
+// The CompanyUserFunc type is an adapter to allow the use of ordinary
+// function as CompanyUser mutator.
+type CompanyUserFunc func(context.Context, *ent.CompanyUserMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f CompanyPositionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.CompanyPositionMutation); ok {
+func (f CompanyUserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.CompanyUserMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyPositionMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyUserMutation", m)
 }
 
 // The JobAuthorFunc type is an adapter to allow the use of ordinary
@@ -116,6 +105,18 @@ func (f JobOwnerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, er
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobOwnerMutation", m)
 }
 
+// The JobPaymentsFunc type is an adapter to allow the use of ordinary
+// function as JobPayments mutator.
+type JobPaymentsFunc func(context.Context, *ent.JobPaymentsMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f JobPaymentsFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.JobPaymentsMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobPaymentsMutation", m)
+}
+
 // The JobProgressFunc type is an adapter to allow the use of ordinary
 // function as JobProgress mutator.
 type JobProgressFunc func(context.Context, *ent.JobProgressMutation) (ent.Value, error)
@@ -126,6 +127,18 @@ func (f JobProgressFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobProgressMutation", m)
+}
+
+// The JobSuperVisorFunc type is an adapter to allow the use of ordinary
+// function as JobSuperVisor mutator.
+type JobSuperVisorFunc func(context.Context, *ent.JobSuperVisorMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f JobSuperVisorFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.JobSuperVisorMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobSuperVisorMutation", m)
 }
 
 // The UserFunc type is an adapter to allow the use of ordinary

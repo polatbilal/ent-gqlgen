@@ -2,52 +2,68 @@
 
 package model
 
+import (
+	"github.com/polatbilal/gqlgen-ent/ent"
+)
+
 type AuthPayload struct {
 	Token       string `json:"token"`
 	UserID      string `json:"userID"`
 	Username    string `json:"username"`
+	Name        string `json:"name"`
 	CompanyCode string `json:"companyCode"`
+	Role        string `json:"role"`
 }
 
 type CompanyDetailInput struct {
-	Name        string  `json:"Name"`
-	Address     *string `json:"Address,omitempty"`
-	City        *string `json:"City,omitempty"`
-	State       *string `json:"State,omitempty"`
-	Phone       *string `json:"Phone,omitempty"`
-	Fax         *string `json:"Fax,omitempty"`
-	Mobile      *string `json:"Mobile,omitempty"`
-	Email       *string `json:"Email,omitempty"`
-	Website     *string `json:"Website,omitempty"`
-	TaxAdmin    *string `json:"TaxAdmin,omitempty"`
-	TaxNo       *int    `json:"TaxNo,omitempty"`
-	Commerce    *string `json:"Commerce,omitempty"`
-	CommerceReg *string `json:"CommerceReg,omitempty"`
-	VisaDate    *string `json:"VisaDate,omitempty"`
-	Deleted     *int    `json:"Deleted,omitempty"`
-	OwnerID     *int    `json:"OwnerID,omitempty"`
+	CompanyCode            int     `json:"CompanyCode"`
+	Name                   string  `json:"Name"`
+	Address                *string `json:"Address,omitempty"`
+	Phone                  *string `json:"Phone,omitempty"`
+	Email                  *string `json:"Email,omitempty"`
+	Website                *string `json:"Website,omitempty"`
+	TaxAdmin               *string `json:"TaxAdmin,omitempty"`
+	TaxNo                  *int    `json:"TaxNo,omitempty"`
+	ChamberInfo            *string `json:"ChamberInfo,omitempty"`
+	ChamberRegNo           *string `json:"ChamberRegNo,omitempty"`
+	VisaDate               *string `json:"VisaDate,omitempty"`
+	VisaEndDate            *string `json:"VisaEndDate,omitempty"`
+	VisaFinishedFor90days  *bool   `json:"visa_finished_for_90days,omitempty"`
+	CorePersonAbsent90days *bool   `json:"core_person_absent_90days,omitempty"`
+	IsClosed               *bool   `json:"isClosed,omitempty"`
+	OwnerName              *string `json:"OwnerName,omitempty"`
+	OwnerTcNo              *string `json:"OwnerTcNo,omitempty"`
+	OwnerAddress           *string `json:"OwnerAddress,omitempty"`
+	OwnerPhone             *string `json:"OwnerPhone,omitempty"`
+	OwnerEmail             *string `json:"OwnerEmail,omitempty"`
+	OwnerRegNo             *string `json:"OwnerRegNo,omitempty"`
+	OwnerBirthDate         *string `json:"OwnerBirthDate,omitempty"`
+	OwnerCareer            *string `json:"OwnerCareer,omitempty"`
 }
 
 type CompanyEngineerInput struct {
-	Name       string  `json:"Name"`
-	Address    *string `json:"Address,omitempty"`
-	Email      *string `json:"Email,omitempty"`
-	TcNo       *int    `json:"TcNo,omitempty"`
-	Phone      *string `json:"Phone,omitempty"`
-	RegNo      *int    `json:"RegNo,omitempty"`
-	CertNo     *int    `json:"CertNo,omitempty"`
-	Note       *string `json:"Note,omitempty"`
-	Status     *int    `json:"Status,omitempty"`
-	Deleted    *int    `json:"Deleted,omitempty"`
-	Employment *string `json:"Employment,omitempty"`
-	Dismissal  *string `json:"Dismissal,omitempty"`
-	Career     int     `json:"Career"`
-	Position   int     `json:"Position"`
+	Ydsid       *int    `json:"YDSID,omitempty"`
+	Name        string  `json:"Name"`
+	CompanyCode int     `json:"CompanyCode"`
+	Address     *string `json:"Address,omitempty"`
+	Email       *string `json:"Email,omitempty"`
+	TcNo        *int    `json:"TcNo,omitempty"`
+	Phone       *string `json:"Phone,omitempty"`
+	RegNo       *int    `json:"RegNo,omitempty"`
+	CertNo      *int    `json:"CertNo,omitempty"`
+	Career      *string `json:"Career,omitempty"`
+	Position    *string `json:"Position,omitempty"`
+	Employment  *string `json:"Employment,omitempty"`
+	Dismissal   *string `json:"Dismissal,omitempty"`
+	Note        *string `json:"Note,omitempty"`
+	Status      *int    `json:"Status,omitempty"`
 }
 
 type EngineerFilterInput struct {
-	Career   *int `json:"career,omitempty"`
-	Position *int `json:"position,omitempty"`
+	ID       *string `json:"id,omitempty"`
+	Ydsid    *int    `json:"YDSID,omitempty"`
+	Career   *string `json:"career,omitempty"`
+	Position *string `json:"position,omitempty"`
 }
 
 type JobAuthorInput struct {
@@ -56,10 +72,10 @@ type JobAuthorInput struct {
 	Mechanic  *string `json:"Mechanic,omitempty"`
 	Electric  *string `json:"Electric,omitempty"`
 	Floor     *string `json:"Floor,omitempty"`
-	Deleted   *int    `json:"Deleted,omitempty"`
 }
 
 type JobContractorInput struct {
+	ID         *string `json:"id,omitempty"`
 	Name       *string `json:"Name,omitempty"`
 	TcNo       *int    `json:"TcNo,omitempty"`
 	Address    *string `json:"Address,omitempty"`
@@ -68,36 +84,35 @@ type JobContractorInput struct {
 	TaxNo      *int    `json:"TaxNo,omitempty"`
 	Phone      *string `json:"Phone,omitempty"`
 	Email      *string `json:"Email,omitempty"`
+	YdsID      *int    `json:"YdsId,omitempty"`
 	Note       *string `json:"Note,omitempty"`
-	Deleted    *int    `json:"Deleted,omitempty"`
 }
 
 type JobInput struct {
 	YibfNo             *int                  `json:"YibfNo,omitempty"`
-	Province           *string               `json:"Province,omitempty"`
+	CompanyCode        int                   `json:"CompanyCode"`
 	Idare              *string               `json:"Idare,omitempty"`
 	Pafta              *string               `json:"Pafta,omitempty"`
 	Ada                *string               `json:"Ada,omitempty"`
 	Parsel             *string               `json:"Parsel,omitempty"`
 	FolderNo           *string               `json:"FolderNo,omitempty"`
 	Status             *int                  `json:"Status,omitempty"`
+	State              *string               `json:"State,omitempty"`
 	ContractDate       *string               `json:"ContractDate,omitempty"`
 	StartDate          *string               `json:"StartDate,omitempty"`
+	CompletionDate     *string               `json:"CompletionDate,omitempty"`
 	LicenseDate        *string               `json:"LicenseDate,omitempty"`
 	LicenseNo          *string               `json:"LicenseNo,omitempty"`
 	ConstructionArea   *string               `json:"ConstructionArea,omitempty"`
 	LandArea           *string               `json:"LandArea,omitempty"`
-	District           *string               `json:"District,omitempty"`
-	Village            *string               `json:"Village,omitempty"`
-	Street             *string               `json:"Street,omitempty"`
+	Address            *string               `json:"Address,omitempty"`
 	BuildingClass      *string               `json:"BuildingClass,omitempty"`
 	BuildingType       *string               `json:"BuildingType,omitempty"`
-	BuildingBlock      *string               `json:"BuildingBlock,omitempty"`
 	Floors             *int                  `json:"Floors,omitempty"`
+	Level              *float64              `json:"Level,omitempty"`
 	Note               *string               `json:"Note,omitempty"`
 	Started            *int                  `json:"Started,omitempty"`
 	UsagePurpose       *string               `json:"UsagePurpose,omitempty"`
-	Deleted            *int                  `json:"Deleted,omitempty"`
 	Owner              []*JobOwnerInput      `json:"Owner,omitempty"`
 	Contractor         []*JobContractorInput `json:"Contractor,omitempty"`
 	Author             []*JobAuthorInput     `json:"Author,omitempty"`
@@ -110,6 +125,7 @@ type JobInput struct {
 	Controller         *int                  `json:"Controller,omitempty"`
 	MechanicController *int                  `json:"MechanicController,omitempty"`
 	ElectricController *int                  `json:"ElectricController,omitempty"`
+	Supervisor         *SupervisorInput      `json:"Supervisor,omitempty"`
 }
 
 type JobLayerInput struct {
@@ -132,8 +148,16 @@ type JobOwnerInput struct {
 	TaxNo    *int    `json:"TaxNo,omitempty"`
 	Phone    *string `json:"Phone,omitempty"`
 	Email    *string `json:"Email,omitempty"`
+	YdsID    *int    `json:"YdsId,omitempty"`
 	Note     *string `json:"Note,omitempty"`
-	Deleted  *int    `json:"Deleted,omitempty"`
+}
+
+type JobPaymentsInput struct {
+	Date        *string  `json:"Date,omitempty"`
+	Amount      *int     `json:"Amount,omitempty"`
+	Description *string  `json:"Description,omitempty"`
+	Status      *string  `json:"Status,omitempty"`
+	Percentage  *float64 `json:"Percentage,omitempty"`
 }
 
 type JobProgressInput struct {
@@ -148,4 +172,44 @@ type JobProgressInput struct {
 type LayerFilterInput struct {
 	ID     *int `json:"id,omitempty"`
 	YibfNo *int `json:"yibfNo,omitempty"`
+}
+
+type Supervisor struct {
+	ID               string           `json:"id"`
+	Name             *string          `json:"Name,omitempty"`
+	Address          *string          `json:"Address,omitempty"`
+	Phone            *string          `json:"Phone,omitempty"`
+	Email            *string          `json:"Email,omitempty"`
+	Tcno             *int             `json:"TCNO,omitempty"`
+	Position         *string          `json:"Position,omitempty"`
+	Career           *string          `json:"Career,omitempty"`
+	RegNo            *int             `json:"RegNo,omitempty"`
+	SocialSecurityNo *int             `json:"SocialSecurityNo,omitempty"`
+	SchoolGraduation *string          `json:"SchoolGraduation,omitempty"`
+	Ydsid            *int             `json:"YDSID,omitempty"`
+	Job              []*ent.JobDetail `json:"Job,omitempty"`
+}
+
+type SupervisorInput struct {
+	Name             *string `json:"Name,omitempty"`
+	Address          *string `json:"Address,omitempty"`
+	Phone            *string `json:"Phone,omitempty"`
+	Email            *string `json:"Email,omitempty"`
+	Tcno             *int    `json:"TCNO,omitempty"`
+	Position         *string `json:"Position,omitempty"`
+	Career           *string `json:"Career,omitempty"`
+	RegNo            *int    `json:"RegNo,omitempty"`
+	SocialSecurityNo *int    `json:"SocialSecurityNo,omitempty"`
+	SchoolGraduation *string `json:"SchoolGraduation,omitempty"`
+	Ydsid            *int    `json:"YDSID,omitempty"`
+}
+
+type UserInput struct {
+	Username   string `json:"username"`
+	Name       string `json:"name"`
+	Email      string `json:"email"`
+	Phone      int    `json:"phone"`
+	Password   string `json:"password"`
+	Role       string `json:"role"`
+	CompanyIDs []int  `json:"companyIDs,omitempty"`
 }

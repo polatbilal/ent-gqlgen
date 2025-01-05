@@ -23,8 +23,8 @@ func (JobProgress) Fields() []ent.Field {
 		field.Int("Five").Optional().Default(0),
 		field.Int("Six").Optional().Default(0),
 
-		field.Time("created_at").Default(time.Now),
-		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
+		field.Time("CreatedAt").Default(time.Now),
+		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}
 }
 

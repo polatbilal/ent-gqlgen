@@ -4,14 +4,13 @@ package ent
 
 import (
 	"fmt"
-	"gqlgen-ent/ent/companycareer"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
 	"strings"
 	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
 )
 
 // CompanyEngineer is the model entity for the CompanyEngineer schema.
@@ -21,28 +20,32 @@ type CompanyEngineer struct {
 	ID int `json:"id,omitempty"`
 	// Name holds the value of the "Name" field.
 	Name string `json:"Name,omitempty"`
-	// Address holds the value of the "Address" field.
-	Address string `json:"Address,omitempty"`
-	// Email holds the value of the "Email" field.
-	Email string `json:"Email,omitempty"`
 	// TcNo holds the value of the "TcNo" field.
 	TcNo int `json:"TcNo,omitempty"`
 	// Phone holds the value of the "Phone" field.
 	Phone string `json:"Phone,omitempty"`
+	// Email holds the value of the "Email" field.
+	Email string `json:"Email,omitempty"`
+	// Address holds the value of the "Address" field.
+	Address string `json:"Address,omitempty"`
+	// Career holds the value of the "Career" field.
+	Career string `json:"Career,omitempty"`
+	// Position holds the value of the "Position" field.
+	Position string `json:"Position,omitempty"`
 	// RegNo holds the value of the "RegNo" field.
 	RegNo int `json:"RegNo,omitempty"`
 	// CertNo holds the value of the "CertNo" field.
 	CertNo int `json:"CertNo,omitempty"`
-	// Note holds the value of the "Note" field.
-	Note string `json:"Note,omitempty"`
-	// Status holds the value of the "Status" field.
-	Status int `json:"Status,omitempty"`
-	// Deleted holds the value of the "Deleted" field.
-	Deleted int `json:"Deleted,omitempty"`
+	// YdsID holds the value of the "yds_id" field.
+	YdsID int `json:"yds_id,omitempty"`
 	// Employment holds the value of the "Employment" field.
 	Employment time.Time `json:"Employment,omitempty"`
 	// Dismissal holds the value of the "Dismissal" field.
 	Dismissal time.Time `json:"Dismissal,omitempty"`
+	// Status holds the value of the "Status" field.
+	Status int `json:"Status,omitempty"`
+	// Note holds the value of the "Note" field.
+	Note string `json:"Note,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -50,19 +53,14 @@ type CompanyEngineer struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the CompanyEngineerQuery when eager-loading is set.
 	Edges        CompanyEngineerEdges `json:"edges"`
-	career_id    *int
-	position_id  *int
+	company_id   *int
 	selectValues sql.SelectValues
 }
 
 // CompanyEngineerEdges holds the relations/edges for other nodes in the graph.
 type CompanyEngineerEdges struct {
-	// EngineerCareer holds the value of the engineerCareer edge.
-	EngineerCareer *CompanyCareer `json:"engineerCareer,omitempty"`
-	// EngineerPosition holds the value of the engineerPosition edge.
-	EngineerPosition *CompanyPosition `json:"engineerPosition,omitempty"`
-	// CompanyOwners holds the value of the companyOwners edge.
-	CompanyOwners []*CompanyDetail `json:"companyOwners,omitempty"`
+	// Company holds the value of the company edge.
+	Company *CompanyDetail `json:"company,omitempty"`
 	// Inspectors holds the value of the inspectors edge.
 	Inspectors []*JobDetail `json:"inspectors,omitempty"`
 	// Architects holds the value of the architects edge.
@@ -81,11 +79,10 @@ type CompanyEngineerEdges struct {
 	Electriccontrollers []*JobDetail `json:"electriccontrollers,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [11]bool
+	loadedTypes [9]bool
 	// totalCount holds the count of the edges above.
-	totalCount [11]map[string]int
+	totalCount [9]map[string]int
 
-	namedCompanyOwners       map[string][]*CompanyDetail
 	namedInspectors          map[string][]*JobDetail
 	namedArchitects          map[string][]*JobDetail
 	namedStatics             map[string][]*JobDetail
@@ -96,41 +93,21 @@ type CompanyEngineerEdges struct {
 	namedElectriccontrollers map[string][]*JobDetail
 }
 
-// EngineerCareerOrErr returns the EngineerCareer value or an error if the edge
+// CompanyOrErr returns the Company value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e CompanyEngineerEdges) EngineerCareerOrErr() (*CompanyCareer, error) {
-	if e.EngineerCareer != nil {
-		return e.EngineerCareer, nil
+func (e CompanyEngineerEdges) CompanyOrErr() (*CompanyDetail, error) {
+	if e.Company != nil {
+		return e.Company, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: companycareer.Label}
+		return nil, &NotFoundError{label: companydetail.Label}
 	}
-	return nil, &NotLoadedError{edge: "engineerCareer"}
-}
-
-// EngineerPositionOrErr returns the EngineerPosition value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e CompanyEngineerEdges) EngineerPositionOrErr() (*CompanyPosition, error) {
-	if e.EngineerPosition != nil {
-		return e.EngineerPosition, nil
-	} else if e.loadedTypes[1] {
-		return nil, &NotFoundError{label: companyposition.Label}
-	}
-	return nil, &NotLoadedError{edge: "engineerPosition"}
-}
-
-// CompanyOwnersOrErr returns the CompanyOwners value or an error if the edge
-// was not loaded in eager-loading.
-func (e CompanyEngineerEdges) CompanyOwnersOrErr() ([]*CompanyDetail, error) {
-	if e.loadedTypes[2] {
-		return e.CompanyOwners, nil
-	}
-	return nil, &NotLoadedError{edge: "companyOwners"}
+	return nil, &NotLoadedError{edge: "company"}
 }
 
 // InspectorsOrErr returns the Inspectors value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) InspectorsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[3] {
+	if e.loadedTypes[1] {
 		return e.Inspectors, nil
 	}
 	return nil, &NotLoadedError{edge: "inspectors"}
@@ -139,7 +116,7 @@ func (e CompanyEngineerEdges) InspectorsOrErr() ([]*JobDetail, error) {
 // ArchitectsOrErr returns the Architects value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) ArchitectsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[4] {
+	if e.loadedTypes[2] {
 		return e.Architects, nil
 	}
 	return nil, &NotLoadedError{edge: "architects"}
@@ -148,7 +125,7 @@ func (e CompanyEngineerEdges) ArchitectsOrErr() ([]*JobDetail, error) {
 // StaticsOrErr returns the Statics value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) StaticsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[5] {
+	if e.loadedTypes[3] {
 		return e.Statics, nil
 	}
 	return nil, &NotLoadedError{edge: "statics"}
@@ -157,7 +134,7 @@ func (e CompanyEngineerEdges) StaticsOrErr() ([]*JobDetail, error) {
 // MechanicsOrErr returns the Mechanics value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) MechanicsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[6] {
+	if e.loadedTypes[4] {
 		return e.Mechanics, nil
 	}
 	return nil, &NotLoadedError{edge: "mechanics"}
@@ -166,7 +143,7 @@ func (e CompanyEngineerEdges) MechanicsOrErr() ([]*JobDetail, error) {
 // ElectricsOrErr returns the Electrics value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) ElectricsOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[7] {
+	if e.loadedTypes[5] {
 		return e.Electrics, nil
 	}
 	return nil, &NotLoadedError{edge: "electrics"}
@@ -175,7 +152,7 @@ func (e CompanyEngineerEdges) ElectricsOrErr() ([]*JobDetail, error) {
 // ControllersOrErr returns the Controllers value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) ControllersOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[8] {
+	if e.loadedTypes[6] {
 		return e.Controllers, nil
 	}
 	return nil, &NotLoadedError{edge: "controllers"}
@@ -184,7 +161,7 @@ func (e CompanyEngineerEdges) ControllersOrErr() ([]*JobDetail, error) {
 // MechaniccontrollersOrErr returns the Mechaniccontrollers value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) MechaniccontrollersOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[9] {
+	if e.loadedTypes[7] {
 		return e.Mechaniccontrollers, nil
 	}
 	return nil, &NotLoadedError{edge: "mechaniccontrollers"}
@@ -193,7 +170,7 @@ func (e CompanyEngineerEdges) MechaniccontrollersOrErr() ([]*JobDetail, error) {
 // ElectriccontrollersOrErr returns the Electriccontrollers value or an error if the edge
 // was not loaded in eager-loading.
 func (e CompanyEngineerEdges) ElectriccontrollersOrErr() ([]*JobDetail, error) {
-	if e.loadedTypes[10] {
+	if e.loadedTypes[8] {
 		return e.Electriccontrollers, nil
 	}
 	return nil, &NotLoadedError{edge: "electriccontrollers"}
@@ -204,15 +181,13 @@ func (*CompanyEngineer) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case companyengineer.FieldID, companyengineer.FieldTcNo, companyengineer.FieldRegNo, companyengineer.FieldCertNo, companyengineer.FieldStatus, companyengineer.FieldDeleted:
+		case companyengineer.FieldID, companyengineer.FieldTcNo, companyengineer.FieldRegNo, companyengineer.FieldCertNo, companyengineer.FieldYdsID, companyengineer.FieldStatus:
 			values[i] = new(sql.NullInt64)
-		case companyengineer.FieldName, companyengineer.FieldAddress, companyengineer.FieldEmail, companyengineer.FieldPhone, companyengineer.FieldNote:
+		case companyengineer.FieldName, companyengineer.FieldPhone, companyengineer.FieldEmail, companyengineer.FieldAddress, companyengineer.FieldCareer, companyengineer.FieldPosition, companyengineer.FieldNote:
 			values[i] = new(sql.NullString)
 		case companyengineer.FieldEmployment, companyengineer.FieldDismissal, companyengineer.FieldCreatedAt, companyengineer.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case companyengineer.ForeignKeys[0]: // career_id
-			values[i] = new(sql.NullInt64)
-		case companyengineer.ForeignKeys[1]: // position_id
+		case companyengineer.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -241,18 +216,6 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				ce.Name = value.String
 			}
-		case companyengineer.FieldAddress:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Address", values[i])
-			} else if value.Valid {
-				ce.Address = value.String
-			}
-		case companyengineer.FieldEmail:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Email", values[i])
-			} else if value.Valid {
-				ce.Email = value.String
-			}
 		case companyengineer.FieldTcNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
@@ -264,6 +227,30 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Phone", values[i])
 			} else if value.Valid {
 				ce.Phone = value.String
+			}
+		case companyengineer.FieldEmail:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Email", values[i])
+			} else if value.Valid {
+				ce.Email = value.String
+			}
+		case companyengineer.FieldAddress:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Address", values[i])
+			} else if value.Valid {
+				ce.Address = value.String
+			}
+		case companyengineer.FieldCareer:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Career", values[i])
+			} else if value.Valid {
+				ce.Career = value.String
+			}
+		case companyengineer.FieldPosition:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Position", values[i])
+			} else if value.Valid {
+				ce.Position = value.String
 			}
 		case companyengineer.FieldRegNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -277,23 +264,11 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				ce.CertNo = int(value.Int64)
 			}
-		case companyengineer.FieldNote:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Note", values[i])
-			} else if value.Valid {
-				ce.Note = value.String
-			}
-		case companyengineer.FieldStatus:
+		case companyengineer.FieldYdsID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Status", values[i])
+				return fmt.Errorf("unexpected type %T for field yds_id", values[i])
 			} else if value.Valid {
-				ce.Status = int(value.Int64)
-			}
-		case companyengineer.FieldDeleted:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Deleted", values[i])
-			} else if value.Valid {
-				ce.Deleted = int(value.Int64)
+				ce.YdsID = int(value.Int64)
 			}
 		case companyengineer.FieldEmployment:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -306,6 +281,18 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Dismissal", values[i])
 			} else if value.Valid {
 				ce.Dismissal = value.Time
+			}
+		case companyengineer.FieldStatus:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field Status", values[i])
+			} else if value.Valid {
+				ce.Status = int(value.Int64)
+			}
+		case companyengineer.FieldNote:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Note", values[i])
+			} else if value.Valid {
+				ce.Note = value.String
 			}
 		case companyengineer.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -321,17 +308,10 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 			}
 		case companyengineer.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field career_id", value)
+				return fmt.Errorf("unexpected type %T for edge-field company_id", value)
 			} else if value.Valid {
-				ce.career_id = new(int)
-				*ce.career_id = int(value.Int64)
-			}
-		case companyengineer.ForeignKeys[1]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field position_id", value)
-			} else if value.Valid {
-				ce.position_id = new(int)
-				*ce.position_id = int(value.Int64)
+				ce.company_id = new(int)
+				*ce.company_id = int(value.Int64)
 			}
 		default:
 			ce.selectValues.Set(columns[i], values[i])
@@ -346,19 +326,9 @@ func (ce *CompanyEngineer) Value(name string) (ent.Value, error) {
 	return ce.selectValues.Get(name)
 }
 
-// QueryEngineerCareer queries the "engineerCareer" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryEngineerCareer() *CompanyCareerQuery {
-	return NewCompanyEngineerClient(ce.config).QueryEngineerCareer(ce)
-}
-
-// QueryEngineerPosition queries the "engineerPosition" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryEngineerPosition() *CompanyPositionQuery {
-	return NewCompanyEngineerClient(ce.config).QueryEngineerPosition(ce)
-}
-
-// QueryCompanyOwners queries the "companyOwners" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryCompanyOwners() *CompanyDetailQuery {
-	return NewCompanyEngineerClient(ce.config).QueryCompanyOwners(ce)
+// QueryCompany queries the "company" edge of the CompanyEngineer entity.
+func (ce *CompanyEngineer) QueryCompany() *CompanyDetailQuery {
+	return NewCompanyEngineerClient(ce.config).QueryCompany(ce)
 }
 
 // QueryInspectors queries the "inspectors" edge of the CompanyEngineer entity.
@@ -427,17 +397,23 @@ func (ce *CompanyEngineer) String() string {
 	builder.WriteString("Name=")
 	builder.WriteString(ce.Name)
 	builder.WriteString(", ")
-	builder.WriteString("Address=")
-	builder.WriteString(ce.Address)
-	builder.WriteString(", ")
-	builder.WriteString("Email=")
-	builder.WriteString(ce.Email)
-	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
 	builder.WriteString(fmt.Sprintf("%v", ce.TcNo))
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
 	builder.WriteString(ce.Phone)
+	builder.WriteString(", ")
+	builder.WriteString("Email=")
+	builder.WriteString(ce.Email)
+	builder.WriteString(", ")
+	builder.WriteString("Address=")
+	builder.WriteString(ce.Address)
+	builder.WriteString(", ")
+	builder.WriteString("Career=")
+	builder.WriteString(ce.Career)
+	builder.WriteString(", ")
+	builder.WriteString("Position=")
+	builder.WriteString(ce.Position)
 	builder.WriteString(", ")
 	builder.WriteString("RegNo=")
 	builder.WriteString(fmt.Sprintf("%v", ce.RegNo))
@@ -445,20 +421,20 @@ func (ce *CompanyEngineer) String() string {
 	builder.WriteString("CertNo=")
 	builder.WriteString(fmt.Sprintf("%v", ce.CertNo))
 	builder.WriteString(", ")
-	builder.WriteString("Note=")
-	builder.WriteString(ce.Note)
-	builder.WriteString(", ")
-	builder.WriteString("Status=")
-	builder.WriteString(fmt.Sprintf("%v", ce.Status))
-	builder.WriteString(", ")
-	builder.WriteString("Deleted=")
-	builder.WriteString(fmt.Sprintf("%v", ce.Deleted))
+	builder.WriteString("yds_id=")
+	builder.WriteString(fmt.Sprintf("%v", ce.YdsID))
 	builder.WriteString(", ")
 	builder.WriteString("Employment=")
 	builder.WriteString(ce.Employment.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("Dismissal=")
 	builder.WriteString(ce.Dismissal.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("Status=")
+	builder.WriteString(fmt.Sprintf("%v", ce.Status))
+	builder.WriteString(", ")
+	builder.WriteString("Note=")
+	builder.WriteString(ce.Note)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(ce.CreatedAt.Format(time.ANSIC))
@@ -467,30 +443,6 @@ func (ce *CompanyEngineer) String() string {
 	builder.WriteString(ce.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedCompanyOwners returns the CompanyOwners named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedCompanyOwners(name string) ([]*CompanyDetail, error) {
-	if ce.Edges.namedCompanyOwners == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := ce.Edges.namedCompanyOwners[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (ce *CompanyEngineer) appendNamedCompanyOwners(name string, edges ...*CompanyDetail) {
-	if ce.Edges.namedCompanyOwners == nil {
-		ce.Edges.namedCompanyOwners = make(map[string][]*CompanyDetail)
-	}
-	if len(edges) == 0 {
-		ce.Edges.namedCompanyOwners[name] = []*CompanyDetail{}
-	} else {
-		ce.Edges.namedCompanyOwners[name] = append(ce.Edges.namedCompanyOwners[name], edges...)
-	}
 }
 
 // NamedInspectors returns the Inspectors named value or an error if the edge was not

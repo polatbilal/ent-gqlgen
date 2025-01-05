@@ -2,7 +2,9 @@ type AuthPayload {
   token: String!
   userID: ID!
   username: String!
+  name: String!
   companyCode: String!
+  role: String!
 }
 
 type Mutation {

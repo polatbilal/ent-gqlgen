@@ -16,38 +16,38 @@ const (
 	FieldID = "id"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
-	// FieldAddress holds the string denoting the address field in the database.
-	FieldAddress = "address"
-	// FieldEmail holds the string denoting the email field in the database.
-	FieldEmail = "email"
 	// FieldTcNo holds the string denoting the tcno field in the database.
 	FieldTcNo = "tc_no"
 	// FieldPhone holds the string denoting the phone field in the database.
 	FieldPhone = "phone"
+	// FieldEmail holds the string denoting the email field in the database.
+	FieldEmail = "email"
+	// FieldAddress holds the string denoting the address field in the database.
+	FieldAddress = "address"
+	// FieldCareer holds the string denoting the career field in the database.
+	FieldCareer = "career"
+	// FieldPosition holds the string denoting the position field in the database.
+	FieldPosition = "position"
 	// FieldRegNo holds the string denoting the regno field in the database.
 	FieldRegNo = "reg_no"
 	// FieldCertNo holds the string denoting the certno field in the database.
 	FieldCertNo = "cert_no"
-	// FieldNote holds the string denoting the note field in the database.
-	FieldNote = "note"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
-	// FieldDeleted holds the string denoting the deleted field in the database.
-	FieldDeleted = "deleted"
+	// FieldYdsID holds the string denoting the yds_id field in the database.
+	FieldYdsID = "yds_id"
 	// FieldEmployment holds the string denoting the employment field in the database.
 	FieldEmployment = "employment"
 	// FieldDismissal holds the string denoting the dismissal field in the database.
 	FieldDismissal = "dismissal"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
+	// FieldNote holds the string denoting the note field in the database.
+	FieldNote = "note"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
-	// EdgeEngineerCareer holds the string denoting the engineercareer edge name in mutations.
-	EdgeEngineerCareer = "engineerCareer"
-	// EdgeEngineerPosition holds the string denoting the engineerposition edge name in mutations.
-	EdgeEngineerPosition = "engineerPosition"
-	// EdgeCompanyOwners holds the string denoting the companyowners edge name in mutations.
-	EdgeCompanyOwners = "companyOwners"
+	// EdgeCompany holds the string denoting the company edge name in mutations.
+	EdgeCompany = "company"
 	// EdgeInspectors holds the string denoting the inspectors edge name in mutations.
 	EdgeInspectors = "inspectors"
 	// EdgeArchitects holds the string denoting the architects edge name in mutations.
@@ -66,27 +66,13 @@ const (
 	EdgeElectriccontrollers = "electriccontrollers"
 	// Table holds the table name of the companyengineer in the database.
 	Table = "company_engineers"
-	// EngineerCareerTable is the table that holds the engineerCareer relation/edge.
-	EngineerCareerTable = "company_engineers"
-	// EngineerCareerInverseTable is the table name for the CompanyCareer entity.
-	// It exists in this package in order to avoid circular dependency with the "companycareer" package.
-	EngineerCareerInverseTable = "company_careers"
-	// EngineerCareerColumn is the table column denoting the engineerCareer relation/edge.
-	EngineerCareerColumn = "career_id"
-	// EngineerPositionTable is the table that holds the engineerPosition relation/edge.
-	EngineerPositionTable = "company_engineers"
-	// EngineerPositionInverseTable is the table name for the CompanyPosition entity.
-	// It exists in this package in order to avoid circular dependency with the "companyposition" package.
-	EngineerPositionInverseTable = "company_positions"
-	// EngineerPositionColumn is the table column denoting the engineerPosition relation/edge.
-	EngineerPositionColumn = "position_id"
-	// CompanyOwnersTable is the table that holds the companyOwners relation/edge.
-	CompanyOwnersTable = "company_details"
-	// CompanyOwnersInverseTable is the table name for the CompanyDetail entity.
+	// CompanyTable is the table that holds the company relation/edge.
+	CompanyTable = "company_engineers"
+	// CompanyInverseTable is the table name for the CompanyDetail entity.
 	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
-	CompanyOwnersInverseTable = "company_details"
-	// CompanyOwnersColumn is the table column denoting the companyOwners relation/edge.
-	CompanyOwnersColumn = "owner_id"
+	CompanyInverseTable = "company_details"
+	// CompanyColumn is the table column denoting the company relation/edge.
+	CompanyColumn = "company_id"
 	// InspectorsTable is the table that holds the inspectors relation/edge.
 	InspectorsTable = "job_details"
 	// InspectorsInverseTable is the table name for the JobDetail entity.
@@ -149,17 +135,19 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldName,
-	FieldAddress,
-	FieldEmail,
 	FieldTcNo,
 	FieldPhone,
+	FieldEmail,
+	FieldAddress,
+	FieldCareer,
+	FieldPosition,
 	FieldRegNo,
 	FieldCertNo,
-	FieldNote,
-	FieldStatus,
-	FieldDeleted,
+	FieldYdsID,
 	FieldEmployment,
 	FieldDismissal,
+	FieldStatus,
+	FieldNote,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -167,8 +155,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "company_engineers"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"career_id",
-	"position_id",
+	"company_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -191,8 +178,6 @@ var (
 	DefaultName string
 	// DefaultStatus holds the default value on creation for the "Status" field.
 	DefaultStatus int
-	// DefaultDeleted holds the default value on creation for the "Deleted" field.
-	DefaultDeleted int
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -214,16 +199,6 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
-// ByAddress orders the results by the Address field.
-func ByAddress(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAddress, opts...).ToFunc()
-}
-
-// ByEmail orders the results by the Email field.
-func ByEmail(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldEmail, opts...).ToFunc()
-}
-
 // ByTcNo orders the results by the TcNo field.
 func ByTcNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTcNo, opts...).ToFunc()
@@ -232,6 +207,26 @@ func ByTcNo(opts ...sql.OrderTermOption) OrderOption {
 // ByPhone orders the results by the Phone field.
 func ByPhone(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPhone, opts...).ToFunc()
+}
+
+// ByEmail orders the results by the Email field.
+func ByEmail(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldEmail, opts...).ToFunc()
+}
+
+// ByAddress orders the results by the Address field.
+func ByAddress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAddress, opts...).ToFunc()
+}
+
+// ByCareer orders the results by the Career field.
+func ByCareer(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCareer, opts...).ToFunc()
+}
+
+// ByPosition orders the results by the Position field.
+func ByPosition(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPosition, opts...).ToFunc()
 }
 
 // ByRegNo orders the results by the RegNo field.
@@ -244,19 +239,9 @@ func ByCertNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCertNo, opts...).ToFunc()
 }
 
-// ByNote orders the results by the Note field.
-func ByNote(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldNote, opts...).ToFunc()
-}
-
-// ByStatus orders the results by the Status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
-}
-
-// ByDeleted orders the results by the Deleted field.
-func ByDeleted(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleted, opts...).ToFunc()
+// ByYdsID orders the results by the yds_id field.
+func ByYdsID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYdsID, opts...).ToFunc()
 }
 
 // ByEmployment orders the results by the Employment field.
@@ -269,6 +254,16 @@ func ByDismissal(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDismissal, opts...).ToFunc()
 }
 
+// ByStatus orders the results by the Status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByNote orders the results by the Note field.
+func ByNote(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldNote, opts...).ToFunc()
+}
+
 // ByCreatedAt orders the results by the CreatedAt field.
 func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
@@ -279,31 +274,10 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
-// ByEngineerCareerField orders the results by engineerCareer field.
-func ByEngineerCareerField(field string, opts ...sql.OrderTermOption) OrderOption {
+// ByCompanyField orders the results by company field.
+func ByCompanyField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newEngineerCareerStep(), sql.OrderByField(field, opts...))
-	}
-}
-
-// ByEngineerPositionField orders the results by engineerPosition field.
-func ByEngineerPositionField(field string, opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newEngineerPositionStep(), sql.OrderByField(field, opts...))
-	}
-}
-
-// ByCompanyOwnersCount orders the results by companyOwners count.
-func ByCompanyOwnersCount(opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newCompanyOwnersStep(), opts...)
-	}
-}
-
-// ByCompanyOwners orders the results by companyOwners terms.
-func ByCompanyOwners(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newCompanyOwnersStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newCompanyStep(), sql.OrderByField(field, opts...))
 	}
 }
 
@@ -418,25 +392,11 @@ func ByElectriccontrollers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOpti
 		sqlgraph.OrderByNeighborTerms(s, newElectriccontrollersStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
-func newEngineerCareerStep() *sqlgraph.Step {
+func newCompanyStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(EngineerCareerInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, EngineerCareerTable, EngineerCareerColumn),
-	)
-}
-func newEngineerPositionStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(EngineerPositionInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, EngineerPositionTable, EngineerPositionColumn),
-	)
-}
-func newCompanyOwnersStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(CompanyOwnersInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, CompanyOwnersTable, CompanyOwnersColumn),
+		sqlgraph.To(CompanyInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 	)
 }
 func newInspectorsStep() *sqlgraph.Step {

@@ -5,28 +5,68 @@ package main
 import (
 	"context"
 	"errors"
-	"gqlgen-ent/database"
-	"gqlgen-ent/graph/resolvers"
-	"gqlgen-ent/middlewares"
 	"log"
 	"net/http"
+	"time"
+
+	"github.com/polatbilal/gqlgen-ent/database"
+	"github.com/polatbilal/gqlgen-ent/ent/migrate"
+	"github.com/polatbilal/gqlgen-ent/graph/resolvers"
+	"github.com/polatbilal/gqlgen-ent/handlers/external"
+	"github.com/polatbilal/gqlgen-ent/handlers/sync"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 
 func main() {
-	e := echo.New()
+	r := gin.Default()
 
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-	e.Use(middlewares.AuthMiddleware)
+	// CORS ayarlarını middleware'den önce yapılandırın
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true // Tüm originlere izin ver
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
+	config.AllowHeaders = []string{
+		"Origin",
+		"Content-Length",
+		"Content-Type",
+		"Authorization",
+		"YDK-Token",
+		"Accept",
+		"X-Requested-With",
+		"Access-Control-Allow-Origin",
+		"Access-Control-Allow-Headers",
+		"Access-Control-Allow-Methods",
+	}
+	config.ExposeHeaders = []string{"Authorization", "Content-Length"}
+	config.MaxAge = 12 * time.Hour
+
+	r.Use(cors.New(config))
+	r.Use(middlewares.AuthMiddleware())
+
+	// YDK Inspectors endpoint'ini ekle
+	r.POST("/ydk/inspectors", external.YDKInspectors)
+	// YDK Companies endpoint'ini ekle
+	r.POST("/ydk/companies", external.YDKCompanies)
+	// YDK Sync endpoint'ini ekle
+	r.GET("/ydk/sync", sync.YDKSync)
+	// YDK FindById endpoint'ini ekle
+	r.GET("/ydk/findById/:id", external.YibfDetail)
+	// YDK FindAll endpoint'ini ekle
+	r.GET("/ydk/findAll", external.YibfList)
+
+	// Load .env file
+	if err := godotenv.Load(); err != nil {
+		log.Printf("Warning: .env file not found")
+	}
 
 	// Database connection
-	companyCode := "0"
+	companyCode := "3"
 	client, err := database.GetClient(companyCode)
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
@@ -34,35 +74,68 @@ func main() {
 	defer client.Close()
 
 	// Run the migration here
-	if err := client.Schema.Create(context.Background()); !errors.Is(err, nil) {
+	if err := client.Schema.Create(
+		context.Background(),
+		migrate.WithDropIndex(true),
+		migrate.WithDropColumn(true),
+		migrate.WithForeignKeys(true),
+	); !errors.Is(err, nil) {
 		log.Fatalf("Error: failed creating schema resources %v\n", err)
 	}
+
+	// Redis bağlantısını başlat
+	if err := database.InitRedis(); err != nil {
+		log.Fatalf("Redis başlatma hatası: %v", err)
+	}
+	defer database.RedisClient.Close()
 
 	// Configure the GraphQL server and start
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))
 	{
-		e.POST("/graphql", func(c echo.Context) error {
-			srv.ServeHTTP(c.Response(), c.Request())
+		r.POST("/graphql", func(c *gin.Context) {
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 
-			// Handler'ın döndürdüğü hata nesnesini al
-			err := c.Get("error")
-			if err != nil {
-				// GQLGen'den gelen hata varsa işle
-				gqlErr, ok := err.(gqlerror.List)
-				if ok && len(gqlErr) > 0 {
-					// İlk hatayı al ve isteğe özel yanıt döndür
-					return c.String(http.StatusInternalServerError, gqlErr[0].Message)
-				}
+			if c.Request.Method == "OPTIONS" {
+				c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+				c.Writer.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
+				c.Writer.Header().Set("Access-Control-Max-Age", "86400")
+				c.AbortWithStatus(http.StatusNoContent)
+				return
 			}
 
-			return nil
+			srv.ServeHTTP(c.Writer, c.Request)
+
+			// Handler'ın döndürdüğü hata nesnesini al
+			err := c.Errors.Last()
+			if err != nil {
+				log.Printf("GraphQL Error: %v\n", err)
+
+				gqlErr, ok := err.Err.(gqlerror.List)
+				if ok && len(gqlErr) > 0 {
+					c.JSON(http.StatusBadRequest, gin.H{
+						"errors": gqlErr,
+					})
+					return
+				}
+
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"error": err.Error(),
+				})
+			}
 		})
 
-		e.GET("/playground", func(c echo.Context) error {
-			playground.Handler("Graphql", "/graphql").ServeHTTP(c.Response(), c.Request())
-			return nil
+		r.GET("/playground", func(c *gin.Context) {
+			playground.Handler("Graphql", "/graphql").ServeHTTP(c.Writer, c.Request)
 		})
 	}
 
-	e.Logger.Fatal(e.Start(":4000"))
+	r.OPTIONS("/*path", func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
+		c.Writer.Header().Set("Access-Control-Max-Age", "86400")
+		c.AbortWithStatus(http.StatusNoContent)
+	})
+
+	r.Run("127.0.0.1:4000")
 }

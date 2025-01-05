@@ -5,23 +5,24 @@ package ent
 import (
 	"context"
 	"errors"
-	"gqlgen-ent/ent/companycareer"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobprogress"
-	"gqlgen-ent/ent/user"
 
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/errcode"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 
@@ -103,255 +104,6 @@ func paginateLimit(first, last *int) int {
 		limit = *last + 1
 	}
 	return limit
-}
-
-// CompanyCareerEdge is the edge representation of CompanyCareer.
-type CompanyCareerEdge struct {
-	Node   *CompanyCareer `json:"node"`
-	Cursor Cursor         `json:"cursor"`
-}
-
-// CompanyCareerConnection is the connection containing edges to CompanyCareer.
-type CompanyCareerConnection struct {
-	Edges      []*CompanyCareerEdge `json:"edges"`
-	PageInfo   PageInfo             `json:"pageInfo"`
-	TotalCount int                  `json:"totalCount"`
-}
-
-func (c *CompanyCareerConnection) build(nodes []*CompanyCareer, pager *companycareerPager, after *Cursor, first *int, before *Cursor, last *int) {
-	c.PageInfo.HasNextPage = before != nil
-	c.PageInfo.HasPreviousPage = after != nil
-	if first != nil && *first+1 == len(nodes) {
-		c.PageInfo.HasNextPage = true
-		nodes = nodes[:len(nodes)-1]
-	} else if last != nil && *last+1 == len(nodes) {
-		c.PageInfo.HasPreviousPage = true
-		nodes = nodes[:len(nodes)-1]
-	}
-	var nodeAt func(int) *CompanyCareer
-	if last != nil {
-		n := len(nodes) - 1
-		nodeAt = func(i int) *CompanyCareer {
-			return nodes[n-i]
-		}
-	} else {
-		nodeAt = func(i int) *CompanyCareer {
-			return nodes[i]
-		}
-	}
-	c.Edges = make([]*CompanyCareerEdge, len(nodes))
-	for i := range nodes {
-		node := nodeAt(i)
-		c.Edges[i] = &CompanyCareerEdge{
-			Node:   node,
-			Cursor: pager.toCursor(node),
-		}
-	}
-	if l := len(c.Edges); l > 0 {
-		c.PageInfo.StartCursor = &c.Edges[0].Cursor
-		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
-	}
-	if c.TotalCount == 0 {
-		c.TotalCount = len(nodes)
-	}
-}
-
-// CompanyCareerPaginateOption enables pagination customization.
-type CompanyCareerPaginateOption func(*companycareerPager) error
-
-// WithCompanyCareerOrder configures pagination ordering.
-func WithCompanyCareerOrder(order *CompanyCareerOrder) CompanyCareerPaginateOption {
-	if order == nil {
-		order = DefaultCompanyCareerOrder
-	}
-	o := *order
-	return func(pager *companycareerPager) error {
-		if err := o.Direction.Validate(); err != nil {
-			return err
-		}
-		if o.Field == nil {
-			o.Field = DefaultCompanyCareerOrder.Field
-		}
-		pager.order = &o
-		return nil
-	}
-}
-
-// WithCompanyCareerFilter configures pagination filter.
-func WithCompanyCareerFilter(filter func(*CompanyCareerQuery) (*CompanyCareerQuery, error)) CompanyCareerPaginateOption {
-	return func(pager *companycareerPager) error {
-		if filter == nil {
-			return errors.New("CompanyCareerQuery filter cannot be nil")
-		}
-		pager.filter = filter
-		return nil
-	}
-}
-
-type companycareerPager struct {
-	reverse bool
-	order   *CompanyCareerOrder
-	filter  func(*CompanyCareerQuery) (*CompanyCareerQuery, error)
-}
-
-func newCompanyCareerPager(opts []CompanyCareerPaginateOption, reverse bool) (*companycareerPager, error) {
-	pager := &companycareerPager{reverse: reverse}
-	for _, opt := range opts {
-		if err := opt(pager); err != nil {
-			return nil, err
-		}
-	}
-	if pager.order == nil {
-		pager.order = DefaultCompanyCareerOrder
-	}
-	return pager, nil
-}
-
-func (p *companycareerPager) applyFilter(query *CompanyCareerQuery) (*CompanyCareerQuery, error) {
-	if p.filter != nil {
-		return p.filter(query)
-	}
-	return query, nil
-}
-
-func (p *companycareerPager) toCursor(cc *CompanyCareer) Cursor {
-	return p.order.Field.toCursor(cc)
-}
-
-func (p *companycareerPager) applyCursors(query *CompanyCareerQuery, after, before *Cursor) (*CompanyCareerQuery, error) {
-	direction := p.order.Direction
-	if p.reverse {
-		direction = direction.Reverse()
-	}
-	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultCompanyCareerOrder.Field.column, p.order.Field.column, direction) {
-		query = query.Where(predicate)
-	}
-	return query, nil
-}
-
-func (p *companycareerPager) applyOrder(query *CompanyCareerQuery) *CompanyCareerQuery {
-	direction := p.order.Direction
-	if p.reverse {
-		direction = direction.Reverse()
-	}
-	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
-	if p.order.Field != DefaultCompanyCareerOrder.Field {
-		query = query.Order(DefaultCompanyCareerOrder.Field.toTerm(direction.OrderTermOption()))
-	}
-	if len(query.ctx.Fields) > 0 {
-		query.ctx.AppendFieldOnce(p.order.Field.column)
-	}
-	return query
-}
-
-func (p *companycareerPager) orderExpr(query *CompanyCareerQuery) sql.Querier {
-	direction := p.order.Direction
-	if p.reverse {
-		direction = direction.Reverse()
-	}
-	if len(query.ctx.Fields) > 0 {
-		query.ctx.AppendFieldOnce(p.order.Field.column)
-	}
-	return sql.ExprFunc(func(b *sql.Builder) {
-		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
-		if p.order.Field != DefaultCompanyCareerOrder.Field {
-			b.Comma().Ident(DefaultCompanyCareerOrder.Field.column).Pad().WriteString(string(direction))
-		}
-	})
-}
-
-// Paginate executes the query and returns a relay based cursor connection to CompanyCareer.
-func (cc *CompanyCareerQuery) Paginate(
-	ctx context.Context, after *Cursor, first *int,
-	before *Cursor, last *int, opts ...CompanyCareerPaginateOption,
-) (*CompanyCareerConnection, error) {
-	if err := validateFirstLast(first, last); err != nil {
-		return nil, err
-	}
-	pager, err := newCompanyCareerPager(opts, last != nil)
-	if err != nil {
-		return nil, err
-	}
-	if cc, err = pager.applyFilter(cc); err != nil {
-		return nil, err
-	}
-	conn := &CompanyCareerConnection{Edges: []*CompanyCareerEdge{}}
-	ignoredEdges := !hasCollectedField(ctx, edgesField)
-	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
-		hasPagination := after != nil || first != nil || before != nil || last != nil
-		if hasPagination || ignoredEdges {
-			c := cc.Clone()
-			c.ctx.Fields = nil
-			if conn.TotalCount, err = c.Count(ctx); err != nil {
-				return nil, err
-			}
-			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
-			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
-		}
-	}
-	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
-		return conn, nil
-	}
-	if cc, err = pager.applyCursors(cc, after, before); err != nil {
-		return nil, err
-	}
-	limit := paginateLimit(first, last)
-	if limit != 0 {
-		cc.Limit(limit)
-	}
-	if field := collectedField(ctx, edgesField, nodeField); field != nil {
-		if err := cc.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
-			return nil, err
-		}
-	}
-	cc = pager.applyOrder(cc)
-	nodes, err := cc.All(ctx)
-	if err != nil {
-		return nil, err
-	}
-	conn.build(nodes, pager, after, first, before, last)
-	return conn, nil
-}
-
-// CompanyCareerOrderField defines the ordering field of CompanyCareer.
-type CompanyCareerOrderField struct {
-	// Value extracts the ordering value from the given CompanyCareer.
-	Value    func(*CompanyCareer) (ent.Value, error)
-	column   string // field or computed.
-	toTerm   func(...sql.OrderTermOption) companycareer.OrderOption
-	toCursor func(*CompanyCareer) Cursor
-}
-
-// CompanyCareerOrder defines the ordering of CompanyCareer.
-type CompanyCareerOrder struct {
-	Direction OrderDirection           `json:"direction"`
-	Field     *CompanyCareerOrderField `json:"field"`
-}
-
-// DefaultCompanyCareerOrder is the default ordering of CompanyCareer.
-var DefaultCompanyCareerOrder = &CompanyCareerOrder{
-	Direction: entgql.OrderDirectionAsc,
-	Field: &CompanyCareerOrderField{
-		Value: func(cc *CompanyCareer) (ent.Value, error) {
-			return cc.ID, nil
-		},
-		column: companycareer.FieldID,
-		toTerm: companycareer.ByID,
-		toCursor: func(cc *CompanyCareer) Cursor {
-			return Cursor{ID: cc.ID}
-		},
-	},
-}
-
-// ToEdge converts CompanyCareer into CompanyCareerEdge.
-func (cc *CompanyCareer) ToEdge(order *CompanyCareerOrder) *CompanyCareerEdge {
-	if order == nil {
-		order = DefaultCompanyCareerOrder
-	}
-	return &CompanyCareerEdge{
-		Node:   cc,
-		Cursor: order.Field.toCursor(cc),
-	}
 }
 
 // CompanyDetailEdge is the edge representation of CompanyDetail.
@@ -852,20 +604,20 @@ func (ce *CompanyEngineer) ToEdge(order *CompanyEngineerOrder) *CompanyEngineerE
 	}
 }
 
-// CompanyPositionEdge is the edge representation of CompanyPosition.
-type CompanyPositionEdge struct {
-	Node   *CompanyPosition `json:"node"`
-	Cursor Cursor           `json:"cursor"`
+// CompanyUserEdge is the edge representation of CompanyUser.
+type CompanyUserEdge struct {
+	Node   *CompanyUser `json:"node"`
+	Cursor Cursor       `json:"cursor"`
 }
 
-// CompanyPositionConnection is the connection containing edges to CompanyPosition.
-type CompanyPositionConnection struct {
-	Edges      []*CompanyPositionEdge `json:"edges"`
-	PageInfo   PageInfo               `json:"pageInfo"`
-	TotalCount int                    `json:"totalCount"`
+// CompanyUserConnection is the connection containing edges to CompanyUser.
+type CompanyUserConnection struct {
+	Edges      []*CompanyUserEdge `json:"edges"`
+	PageInfo   PageInfo           `json:"pageInfo"`
+	TotalCount int                `json:"totalCount"`
 }
 
-func (c *CompanyPositionConnection) build(nodes []*CompanyPosition, pager *companypositionPager, after *Cursor, first *int, before *Cursor, last *int) {
+func (c *CompanyUserConnection) build(nodes []*CompanyUser, pager *companyuserPager, after *Cursor, first *int, before *Cursor, last *int) {
 	c.PageInfo.HasNextPage = before != nil
 	c.PageInfo.HasPreviousPage = after != nil
 	if first != nil && *first+1 == len(nodes) {
@@ -875,21 +627,21 @@ func (c *CompanyPositionConnection) build(nodes []*CompanyPosition, pager *compa
 		c.PageInfo.HasPreviousPage = true
 		nodes = nodes[:len(nodes)-1]
 	}
-	var nodeAt func(int) *CompanyPosition
+	var nodeAt func(int) *CompanyUser
 	if last != nil {
 		n := len(nodes) - 1
-		nodeAt = func(i int) *CompanyPosition {
+		nodeAt = func(i int) *CompanyUser {
 			return nodes[n-i]
 		}
 	} else {
-		nodeAt = func(i int) *CompanyPosition {
+		nodeAt = func(i int) *CompanyUser {
 			return nodes[i]
 		}
 	}
-	c.Edges = make([]*CompanyPositionEdge, len(nodes))
+	c.Edges = make([]*CompanyUserEdge, len(nodes))
 	for i := range nodes {
 		node := nodeAt(i)
-		c.Edges[i] = &CompanyPositionEdge{
+		c.Edges[i] = &CompanyUserEdge{
 			Node:   node,
 			Cursor: pager.toCursor(node),
 		}
@@ -903,87 +655,87 @@ func (c *CompanyPositionConnection) build(nodes []*CompanyPosition, pager *compa
 	}
 }
 
-// CompanyPositionPaginateOption enables pagination customization.
-type CompanyPositionPaginateOption func(*companypositionPager) error
+// CompanyUserPaginateOption enables pagination customization.
+type CompanyUserPaginateOption func(*companyuserPager) error
 
-// WithCompanyPositionOrder configures pagination ordering.
-func WithCompanyPositionOrder(order *CompanyPositionOrder) CompanyPositionPaginateOption {
+// WithCompanyUserOrder configures pagination ordering.
+func WithCompanyUserOrder(order *CompanyUserOrder) CompanyUserPaginateOption {
 	if order == nil {
-		order = DefaultCompanyPositionOrder
+		order = DefaultCompanyUserOrder
 	}
 	o := *order
-	return func(pager *companypositionPager) error {
+	return func(pager *companyuserPager) error {
 		if err := o.Direction.Validate(); err != nil {
 			return err
 		}
 		if o.Field == nil {
-			o.Field = DefaultCompanyPositionOrder.Field
+			o.Field = DefaultCompanyUserOrder.Field
 		}
 		pager.order = &o
 		return nil
 	}
 }
 
-// WithCompanyPositionFilter configures pagination filter.
-func WithCompanyPositionFilter(filter func(*CompanyPositionQuery) (*CompanyPositionQuery, error)) CompanyPositionPaginateOption {
-	return func(pager *companypositionPager) error {
+// WithCompanyUserFilter configures pagination filter.
+func WithCompanyUserFilter(filter func(*CompanyUserQuery) (*CompanyUserQuery, error)) CompanyUserPaginateOption {
+	return func(pager *companyuserPager) error {
 		if filter == nil {
-			return errors.New("CompanyPositionQuery filter cannot be nil")
+			return errors.New("CompanyUserQuery filter cannot be nil")
 		}
 		pager.filter = filter
 		return nil
 	}
 }
 
-type companypositionPager struct {
+type companyuserPager struct {
 	reverse bool
-	order   *CompanyPositionOrder
-	filter  func(*CompanyPositionQuery) (*CompanyPositionQuery, error)
+	order   *CompanyUserOrder
+	filter  func(*CompanyUserQuery) (*CompanyUserQuery, error)
 }
 
-func newCompanyPositionPager(opts []CompanyPositionPaginateOption, reverse bool) (*companypositionPager, error) {
-	pager := &companypositionPager{reverse: reverse}
+func newCompanyUserPager(opts []CompanyUserPaginateOption, reverse bool) (*companyuserPager, error) {
+	pager := &companyuserPager{reverse: reverse}
 	for _, opt := range opts {
 		if err := opt(pager); err != nil {
 			return nil, err
 		}
 	}
 	if pager.order == nil {
-		pager.order = DefaultCompanyPositionOrder
+		pager.order = DefaultCompanyUserOrder
 	}
 	return pager, nil
 }
 
-func (p *companypositionPager) applyFilter(query *CompanyPositionQuery) (*CompanyPositionQuery, error) {
+func (p *companyuserPager) applyFilter(query *CompanyUserQuery) (*CompanyUserQuery, error) {
 	if p.filter != nil {
 		return p.filter(query)
 	}
 	return query, nil
 }
 
-func (p *companypositionPager) toCursor(cp *CompanyPosition) Cursor {
-	return p.order.Field.toCursor(cp)
+func (p *companyuserPager) toCursor(cu *CompanyUser) Cursor {
+	return p.order.Field.toCursor(cu)
 }
 
-func (p *companypositionPager) applyCursors(query *CompanyPositionQuery, after, before *Cursor) (*CompanyPositionQuery, error) {
+func (p *companyuserPager) applyCursors(query *CompanyUserQuery, after, before *Cursor) (*CompanyUserQuery, error) {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
-	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultCompanyPositionOrder.Field.column, p.order.Field.column, direction) {
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultCompanyUserOrder.Field.column, p.order.Field.column, direction) {
 		query = query.Where(predicate)
 	}
 	return query, nil
 }
 
-func (p *companypositionPager) applyOrder(query *CompanyPositionQuery) *CompanyPositionQuery {
+func (p *companyuserPager) applyOrder(query *CompanyUserQuery) *CompanyUserQuery {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
 	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
-	if p.order.Field != DefaultCompanyPositionOrder.Field {
-		query = query.Order(DefaultCompanyPositionOrder.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultCompanyUserOrder.Field {
+		query = query.Order(DefaultCompanyUserOrder.Field.toTerm(direction.OrderTermOption()))
 	}
 	if len(query.ctx.Fields) > 0 {
 		query.ctx.AppendFieldOnce(p.order.Field.column)
@@ -991,7 +743,7 @@ func (p *companypositionPager) applyOrder(query *CompanyPositionQuery) *CompanyP
 	return query
 }
 
-func (p *companypositionPager) orderExpr(query *CompanyPositionQuery) sql.Querier {
+func (p *companyuserPager) orderExpr(query *CompanyUserQuery) sql.Querier {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
@@ -1001,33 +753,33 @@ func (p *companypositionPager) orderExpr(query *CompanyPositionQuery) sql.Querie
 	}
 	return sql.ExprFunc(func(b *sql.Builder) {
 		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
-		if p.order.Field != DefaultCompanyPositionOrder.Field {
-			b.Comma().Ident(DefaultCompanyPositionOrder.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultCompanyUserOrder.Field {
+			b.Comma().Ident(DefaultCompanyUserOrder.Field.column).Pad().WriteString(string(direction))
 		}
 	})
 }
 
-// Paginate executes the query and returns a relay based cursor connection to CompanyPosition.
-func (cp *CompanyPositionQuery) Paginate(
+// Paginate executes the query and returns a relay based cursor connection to CompanyUser.
+func (cu *CompanyUserQuery) Paginate(
 	ctx context.Context, after *Cursor, first *int,
-	before *Cursor, last *int, opts ...CompanyPositionPaginateOption,
-) (*CompanyPositionConnection, error) {
+	before *Cursor, last *int, opts ...CompanyUserPaginateOption,
+) (*CompanyUserConnection, error) {
 	if err := validateFirstLast(first, last); err != nil {
 		return nil, err
 	}
-	pager, err := newCompanyPositionPager(opts, last != nil)
+	pager, err := newCompanyUserPager(opts, last != nil)
 	if err != nil {
 		return nil, err
 	}
-	if cp, err = pager.applyFilter(cp); err != nil {
+	if cu, err = pager.applyFilter(cu); err != nil {
 		return nil, err
 	}
-	conn := &CompanyPositionConnection{Edges: []*CompanyPositionEdge{}}
+	conn := &CompanyUserConnection{Edges: []*CompanyUserEdge{}}
 	ignoredEdges := !hasCollectedField(ctx, edgesField)
 	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
 		hasPagination := after != nil || first != nil || before != nil || last != nil
 		if hasPagination || ignoredEdges {
-			c := cp.Clone()
+			c := cu.Clone()
 			c.ctx.Fields = nil
 			if conn.TotalCount, err = c.Count(ctx); err != nil {
 				return nil, err
@@ -1039,20 +791,20 @@ func (cp *CompanyPositionQuery) Paginate(
 	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
 		return conn, nil
 	}
-	if cp, err = pager.applyCursors(cp, after, before); err != nil {
+	if cu, err = pager.applyCursors(cu, after, before); err != nil {
 		return nil, err
 	}
 	limit := paginateLimit(first, last)
 	if limit != 0 {
-		cp.Limit(limit)
+		cu.Limit(limit)
 	}
 	if field := collectedField(ctx, edgesField, nodeField); field != nil {
-		if err := cp.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+		if err := cu.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
 			return nil, err
 		}
 	}
-	cp = pager.applyOrder(cp)
-	nodes, err := cp.All(ctx)
+	cu = pager.applyOrder(cu)
+	nodes, err := cu.All(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1060,44 +812,44 @@ func (cp *CompanyPositionQuery) Paginate(
 	return conn, nil
 }
 
-// CompanyPositionOrderField defines the ordering field of CompanyPosition.
-type CompanyPositionOrderField struct {
-	// Value extracts the ordering value from the given CompanyPosition.
-	Value    func(*CompanyPosition) (ent.Value, error)
+// CompanyUserOrderField defines the ordering field of CompanyUser.
+type CompanyUserOrderField struct {
+	// Value extracts the ordering value from the given CompanyUser.
+	Value    func(*CompanyUser) (ent.Value, error)
 	column   string // field or computed.
-	toTerm   func(...sql.OrderTermOption) companyposition.OrderOption
-	toCursor func(*CompanyPosition) Cursor
+	toTerm   func(...sql.OrderTermOption) companyuser.OrderOption
+	toCursor func(*CompanyUser) Cursor
 }
 
-// CompanyPositionOrder defines the ordering of CompanyPosition.
-type CompanyPositionOrder struct {
-	Direction OrderDirection             `json:"direction"`
-	Field     *CompanyPositionOrderField `json:"field"`
+// CompanyUserOrder defines the ordering of CompanyUser.
+type CompanyUserOrder struct {
+	Direction OrderDirection         `json:"direction"`
+	Field     *CompanyUserOrderField `json:"field"`
 }
 
-// DefaultCompanyPositionOrder is the default ordering of CompanyPosition.
-var DefaultCompanyPositionOrder = &CompanyPositionOrder{
+// DefaultCompanyUserOrder is the default ordering of CompanyUser.
+var DefaultCompanyUserOrder = &CompanyUserOrder{
 	Direction: entgql.OrderDirectionAsc,
-	Field: &CompanyPositionOrderField{
-		Value: func(cp *CompanyPosition) (ent.Value, error) {
-			return cp.ID, nil
+	Field: &CompanyUserOrderField{
+		Value: func(cu *CompanyUser) (ent.Value, error) {
+			return cu.ID, nil
 		},
-		column: companyposition.FieldID,
-		toTerm: companyposition.ByID,
-		toCursor: func(cp *CompanyPosition) Cursor {
-			return Cursor{ID: cp.ID}
+		column: companyuser.FieldID,
+		toTerm: companyuser.ByID,
+		toCursor: func(cu *CompanyUser) Cursor {
+			return Cursor{ID: cu.ID}
 		},
 	},
 }
 
-// ToEdge converts CompanyPosition into CompanyPositionEdge.
-func (cp *CompanyPosition) ToEdge(order *CompanyPositionOrder) *CompanyPositionEdge {
+// ToEdge converts CompanyUser into CompanyUserEdge.
+func (cu *CompanyUser) ToEdge(order *CompanyUserOrder) *CompanyUserEdge {
 	if order == nil {
-		order = DefaultCompanyPositionOrder
+		order = DefaultCompanyUserOrder
 	}
-	return &CompanyPositionEdge{
-		Node:   cp,
-		Cursor: order.Field.toCursor(cp),
+	return &CompanyUserEdge{
+		Node:   cu,
+		Cursor: order.Field.toCursor(cu),
 	}
 }
 
@@ -2346,6 +2098,255 @@ func (jo *JobOwner) ToEdge(order *JobOwnerOrder) *JobOwnerEdge {
 	}
 }
 
+// JobPaymentsEdge is the edge representation of JobPayments.
+type JobPaymentsEdge struct {
+	Node   *JobPayments `json:"node"`
+	Cursor Cursor       `json:"cursor"`
+}
+
+// JobPaymentsConnection is the connection containing edges to JobPayments.
+type JobPaymentsConnection struct {
+	Edges      []*JobPaymentsEdge `json:"edges"`
+	PageInfo   PageInfo           `json:"pageInfo"`
+	TotalCount int                `json:"totalCount"`
+}
+
+func (c *JobPaymentsConnection) build(nodes []*JobPayments, pager *jobpaymentsPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *JobPayments
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *JobPayments {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *JobPayments {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*JobPaymentsEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &JobPaymentsEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// JobPaymentsPaginateOption enables pagination customization.
+type JobPaymentsPaginateOption func(*jobpaymentsPager) error
+
+// WithJobPaymentsOrder configures pagination ordering.
+func WithJobPaymentsOrder(order *JobPaymentsOrder) JobPaymentsPaginateOption {
+	if order == nil {
+		order = DefaultJobPaymentsOrder
+	}
+	o := *order
+	return func(pager *jobpaymentsPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultJobPaymentsOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithJobPaymentsFilter configures pagination filter.
+func WithJobPaymentsFilter(filter func(*JobPaymentsQuery) (*JobPaymentsQuery, error)) JobPaymentsPaginateOption {
+	return func(pager *jobpaymentsPager) error {
+		if filter == nil {
+			return errors.New("JobPaymentsQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type jobpaymentsPager struct {
+	reverse bool
+	order   *JobPaymentsOrder
+	filter  func(*JobPaymentsQuery) (*JobPaymentsQuery, error)
+}
+
+func newJobPaymentsPager(opts []JobPaymentsPaginateOption, reverse bool) (*jobpaymentsPager, error) {
+	pager := &jobpaymentsPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultJobPaymentsOrder
+	}
+	return pager, nil
+}
+
+func (p *jobpaymentsPager) applyFilter(query *JobPaymentsQuery) (*JobPaymentsQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *jobpaymentsPager) toCursor(jp *JobPayments) Cursor {
+	return p.order.Field.toCursor(jp)
+}
+
+func (p *jobpaymentsPager) applyCursors(query *JobPaymentsQuery, after, before *Cursor) (*JobPaymentsQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultJobPaymentsOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *jobpaymentsPager) applyOrder(query *JobPaymentsQuery) *JobPaymentsQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultJobPaymentsOrder.Field {
+		query = query.Order(DefaultJobPaymentsOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *jobpaymentsPager) orderExpr(query *JobPaymentsQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultJobPaymentsOrder.Field {
+			b.Comma().Ident(DefaultJobPaymentsOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to JobPayments.
+func (jp *JobPaymentsQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...JobPaymentsPaginateOption,
+) (*JobPaymentsConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newJobPaymentsPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if jp, err = pager.applyFilter(jp); err != nil {
+		return nil, err
+	}
+	conn := &JobPaymentsConnection{Edges: []*JobPaymentsEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := jp.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if jp, err = pager.applyCursors(jp, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		jp.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := jp.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	jp = pager.applyOrder(jp)
+	nodes, err := jp.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// JobPaymentsOrderField defines the ordering field of JobPayments.
+type JobPaymentsOrderField struct {
+	// Value extracts the ordering value from the given JobPayments.
+	Value    func(*JobPayments) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) jobpayments.OrderOption
+	toCursor func(*JobPayments) Cursor
+}
+
+// JobPaymentsOrder defines the ordering of JobPayments.
+type JobPaymentsOrder struct {
+	Direction OrderDirection         `json:"direction"`
+	Field     *JobPaymentsOrderField `json:"field"`
+}
+
+// DefaultJobPaymentsOrder is the default ordering of JobPayments.
+var DefaultJobPaymentsOrder = &JobPaymentsOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &JobPaymentsOrderField{
+		Value: func(jp *JobPayments) (ent.Value, error) {
+			return jp.ID, nil
+		},
+		column: jobpayments.FieldID,
+		toTerm: jobpayments.ByID,
+		toCursor: func(jp *JobPayments) Cursor {
+			return Cursor{ID: jp.ID}
+		},
+	},
+}
+
+// ToEdge converts JobPayments into JobPaymentsEdge.
+func (jp *JobPayments) ToEdge(order *JobPaymentsOrder) *JobPaymentsEdge {
+	if order == nil {
+		order = DefaultJobPaymentsOrder
+	}
+	return &JobPaymentsEdge{
+		Node:   jp,
+		Cursor: order.Field.toCursor(jp),
+	}
+}
+
 // JobProgressEdge is the edge representation of JobProgress.
 type JobProgressEdge struct {
 	Node   *JobProgress `json:"node"`
@@ -2592,6 +2593,255 @@ func (jp *JobProgress) ToEdge(order *JobProgressOrder) *JobProgressEdge {
 	return &JobProgressEdge{
 		Node:   jp,
 		Cursor: order.Field.toCursor(jp),
+	}
+}
+
+// JobSuperVisorEdge is the edge representation of JobSuperVisor.
+type JobSuperVisorEdge struct {
+	Node   *JobSuperVisor `json:"node"`
+	Cursor Cursor         `json:"cursor"`
+}
+
+// JobSuperVisorConnection is the connection containing edges to JobSuperVisor.
+type JobSuperVisorConnection struct {
+	Edges      []*JobSuperVisorEdge `json:"edges"`
+	PageInfo   PageInfo             `json:"pageInfo"`
+	TotalCount int                  `json:"totalCount"`
+}
+
+func (c *JobSuperVisorConnection) build(nodes []*JobSuperVisor, pager *jobsupervisorPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *JobSuperVisor
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *JobSuperVisor {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *JobSuperVisor {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*JobSuperVisorEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &JobSuperVisorEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// JobSuperVisorPaginateOption enables pagination customization.
+type JobSuperVisorPaginateOption func(*jobsupervisorPager) error
+
+// WithJobSuperVisorOrder configures pagination ordering.
+func WithJobSuperVisorOrder(order *JobSuperVisorOrder) JobSuperVisorPaginateOption {
+	if order == nil {
+		order = DefaultJobSuperVisorOrder
+	}
+	o := *order
+	return func(pager *jobsupervisorPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultJobSuperVisorOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithJobSuperVisorFilter configures pagination filter.
+func WithJobSuperVisorFilter(filter func(*JobSuperVisorQuery) (*JobSuperVisorQuery, error)) JobSuperVisorPaginateOption {
+	return func(pager *jobsupervisorPager) error {
+		if filter == nil {
+			return errors.New("JobSuperVisorQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type jobsupervisorPager struct {
+	reverse bool
+	order   *JobSuperVisorOrder
+	filter  func(*JobSuperVisorQuery) (*JobSuperVisorQuery, error)
+}
+
+func newJobSuperVisorPager(opts []JobSuperVisorPaginateOption, reverse bool) (*jobsupervisorPager, error) {
+	pager := &jobsupervisorPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultJobSuperVisorOrder
+	}
+	return pager, nil
+}
+
+func (p *jobsupervisorPager) applyFilter(query *JobSuperVisorQuery) (*JobSuperVisorQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *jobsupervisorPager) toCursor(jsv *JobSuperVisor) Cursor {
+	return p.order.Field.toCursor(jsv)
+}
+
+func (p *jobsupervisorPager) applyCursors(query *JobSuperVisorQuery, after, before *Cursor) (*JobSuperVisorQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultJobSuperVisorOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *jobsupervisorPager) applyOrder(query *JobSuperVisorQuery) *JobSuperVisorQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultJobSuperVisorOrder.Field {
+		query = query.Order(DefaultJobSuperVisorOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *jobsupervisorPager) orderExpr(query *JobSuperVisorQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultJobSuperVisorOrder.Field {
+			b.Comma().Ident(DefaultJobSuperVisorOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to JobSuperVisor.
+func (jsv *JobSuperVisorQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...JobSuperVisorPaginateOption,
+) (*JobSuperVisorConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newJobSuperVisorPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if jsv, err = pager.applyFilter(jsv); err != nil {
+		return nil, err
+	}
+	conn := &JobSuperVisorConnection{Edges: []*JobSuperVisorEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := jsv.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if jsv, err = pager.applyCursors(jsv, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		jsv.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := jsv.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	jsv = pager.applyOrder(jsv)
+	nodes, err := jsv.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// JobSuperVisorOrderField defines the ordering field of JobSuperVisor.
+type JobSuperVisorOrderField struct {
+	// Value extracts the ordering value from the given JobSuperVisor.
+	Value    func(*JobSuperVisor) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) jobsupervisor.OrderOption
+	toCursor func(*JobSuperVisor) Cursor
+}
+
+// JobSuperVisorOrder defines the ordering of JobSuperVisor.
+type JobSuperVisorOrder struct {
+	Direction OrderDirection           `json:"direction"`
+	Field     *JobSuperVisorOrderField `json:"field"`
+}
+
+// DefaultJobSuperVisorOrder is the default ordering of JobSuperVisor.
+var DefaultJobSuperVisorOrder = &JobSuperVisorOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &JobSuperVisorOrderField{
+		Value: func(jsv *JobSuperVisor) (ent.Value, error) {
+			return jsv.ID, nil
+		},
+		column: jobsupervisor.FieldID,
+		toTerm: jobsupervisor.ByID,
+		toCursor: func(jsv *JobSuperVisor) Cursor {
+			return Cursor{ID: jsv.ID}
+		},
+	},
+}
+
+// ToEdge converts JobSuperVisor into JobSuperVisorEdge.
+func (jsv *JobSuperVisor) ToEdge(order *JobSuperVisorOrder) *JobSuperVisorEdge {
+	if order == nil {
+		order = DefaultJobSuperVisorOrder
+	}
+	return &JobSuperVisorEdge{
+		Node:   jsv,
+		Cursor: order.Field.toCursor(jsv),
 	}
 }
 

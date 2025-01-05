@@ -6,13 +6,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/predicate"
-	"gqlgen-ent/ent/user"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 )
 
 // UserUpdate is the builder for updating User entities.
@@ -76,6 +77,33 @@ func (uu *UserUpdate) ClearEmail() *UserUpdate {
 	return uu
 }
 
+// SetPhone sets the "phone" field.
+func (uu *UserUpdate) SetPhone(i int) *UserUpdate {
+	uu.mutation.ResetPhone()
+	uu.mutation.SetPhone(i)
+	return uu
+}
+
+// SetNillablePhone sets the "phone" field if the given value is not nil.
+func (uu *UserUpdate) SetNillablePhone(i *int) *UserUpdate {
+	if i != nil {
+		uu.SetPhone(*i)
+	}
+	return uu
+}
+
+// AddPhone adds i to the "phone" field.
+func (uu *UserUpdate) AddPhone(i int) *UserUpdate {
+	uu.mutation.AddPhone(i)
+	return uu
+}
+
+// ClearPhone clears the value of the "phone" field.
+func (uu *UserUpdate) ClearPhone() *UserUpdate {
+	uu.mutation.ClearPhone()
+	return uu
+}
+
 // SetPassword sets the "password" field.
 func (uu *UserUpdate) SetPassword(s string) *UserUpdate {
 	uu.mutation.SetPassword(s)
@@ -124,9 +152,45 @@ func (uu *UserUpdate) SetUpdatedAt(t time.Time) *UserUpdate {
 	return uu
 }
 
+// AddCompanyIDs adds the "companies" edge to the CompanyUser entity by IDs.
+func (uu *UserUpdate) AddCompanyIDs(ids ...int) *UserUpdate {
+	uu.mutation.AddCompanyIDs(ids...)
+	return uu
+}
+
+// AddCompanies adds the "companies" edges to the CompanyUser entity.
+func (uu *UserUpdate) AddCompanies(c ...*CompanyUser) *UserUpdate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return uu.AddCompanyIDs(ids...)
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uu *UserUpdate) Mutation() *UserMutation {
 	return uu.mutation
+}
+
+// ClearCompanies clears all "companies" edges to the CompanyUser entity.
+func (uu *UserUpdate) ClearCompanies() *UserUpdate {
+	uu.mutation.ClearCompanies()
+	return uu
+}
+
+// RemoveCompanyIDs removes the "companies" edge to CompanyUser entities by IDs.
+func (uu *UserUpdate) RemoveCompanyIDs(ids ...int) *UserUpdate {
+	uu.mutation.RemoveCompanyIDs(ids...)
+	return uu
+}
+
+// RemoveCompanies removes "companies" edges to CompanyUser entities.
+func (uu *UserUpdate) RemoveCompanies(c ...*CompanyUser) *UserUpdate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return uu.RemoveCompanyIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -186,6 +250,15 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.EmailCleared() {
 		_spec.ClearField(user.FieldEmail, field.TypeString)
 	}
+	if value, ok := uu.mutation.Phone(); ok {
+		_spec.SetField(user.FieldPhone, field.TypeInt, value)
+	}
+	if value, ok := uu.mutation.AddedPhone(); ok {
+		_spec.AddField(user.FieldPhone, field.TypeInt, value)
+	}
+	if uu.mutation.PhoneCleared() {
+		_spec.ClearField(user.FieldPhone, field.TypeInt)
+	}
 	if value, ok := uu.mutation.Password(); ok {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)
 	}
@@ -197,6 +270,51 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := uu.mutation.UpdatedAt(); ok {
 		_spec.SetField(user.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if uu.mutation.CompaniesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   user.CompaniesTable,
+			Columns: []string{user.CompaniesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := uu.mutation.RemovedCompaniesIDs(); len(nodes) > 0 && !uu.mutation.CompaniesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   user.CompaniesTable,
+			Columns: []string{user.CompaniesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := uu.mutation.CompaniesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   user.CompaniesTable,
+			Columns: []string{user.CompaniesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -266,6 +384,33 @@ func (uuo *UserUpdateOne) ClearEmail() *UserUpdateOne {
 	return uuo
 }
 
+// SetPhone sets the "phone" field.
+func (uuo *UserUpdateOne) SetPhone(i int) *UserUpdateOne {
+	uuo.mutation.ResetPhone()
+	uuo.mutation.SetPhone(i)
+	return uuo
+}
+
+// SetNillablePhone sets the "phone" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillablePhone(i *int) *UserUpdateOne {
+	if i != nil {
+		uuo.SetPhone(*i)
+	}
+	return uuo
+}
+
+// AddPhone adds i to the "phone" field.
+func (uuo *UserUpdateOne) AddPhone(i int) *UserUpdateOne {
+	uuo.mutation.AddPhone(i)
+	return uuo
+}
+
+// ClearPhone clears the value of the "phone" field.
+func (uuo *UserUpdateOne) ClearPhone() *UserUpdateOne {
+	uuo.mutation.ClearPhone()
+	return uuo
+}
+
 // SetPassword sets the "password" field.
 func (uuo *UserUpdateOne) SetPassword(s string) *UserUpdateOne {
 	uuo.mutation.SetPassword(s)
@@ -314,9 +459,45 @@ func (uuo *UserUpdateOne) SetUpdatedAt(t time.Time) *UserUpdateOne {
 	return uuo
 }
 
+// AddCompanyIDs adds the "companies" edge to the CompanyUser entity by IDs.
+func (uuo *UserUpdateOne) AddCompanyIDs(ids ...int) *UserUpdateOne {
+	uuo.mutation.AddCompanyIDs(ids...)
+	return uuo
+}
+
+// AddCompanies adds the "companies" edges to the CompanyUser entity.
+func (uuo *UserUpdateOne) AddCompanies(c ...*CompanyUser) *UserUpdateOne {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return uuo.AddCompanyIDs(ids...)
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uuo *UserUpdateOne) Mutation() *UserMutation {
 	return uuo.mutation
+}
+
+// ClearCompanies clears all "companies" edges to the CompanyUser entity.
+func (uuo *UserUpdateOne) ClearCompanies() *UserUpdateOne {
+	uuo.mutation.ClearCompanies()
+	return uuo
+}
+
+// RemoveCompanyIDs removes the "companies" edge to CompanyUser entities by IDs.
+func (uuo *UserUpdateOne) RemoveCompanyIDs(ids ...int) *UserUpdateOne {
+	uuo.mutation.RemoveCompanyIDs(ids...)
+	return uuo
+}
+
+// RemoveCompanies removes "companies" edges to CompanyUser entities.
+func (uuo *UserUpdateOne) RemoveCompanies(c ...*CompanyUser) *UserUpdateOne {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return uuo.RemoveCompanyIDs(ids...)
 }
 
 // Where appends a list predicates to the UserUpdate builder.
@@ -406,6 +587,15 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if uuo.mutation.EmailCleared() {
 		_spec.ClearField(user.FieldEmail, field.TypeString)
 	}
+	if value, ok := uuo.mutation.Phone(); ok {
+		_spec.SetField(user.FieldPhone, field.TypeInt, value)
+	}
+	if value, ok := uuo.mutation.AddedPhone(); ok {
+		_spec.AddField(user.FieldPhone, field.TypeInt, value)
+	}
+	if uuo.mutation.PhoneCleared() {
+		_spec.ClearField(user.FieldPhone, field.TypeInt)
+	}
 	if value, ok := uuo.mutation.Password(); ok {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)
 	}
@@ -417,6 +607,51 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if value, ok := uuo.mutation.UpdatedAt(); ok {
 		_spec.SetField(user.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if uuo.mutation.CompaniesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   user.CompaniesTable,
+			Columns: []string{user.CompaniesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := uuo.mutation.RemovedCompaniesIDs(); len(nodes) > 0 && !uuo.mutation.CompaniesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   user.CompaniesTable,
+			Columns: []string{user.CompaniesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := uuo.mutation.CompaniesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   user.CompaniesTable,
+			Columns: []string{user.CompaniesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_node = &User{config: uuo.config}
 	_spec.Assign = _node.assignValues

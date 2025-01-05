@@ -16,8 +16,6 @@ const (
 	FieldID = "id"
 	// FieldYibfNo holds the string denoting the yibfno field in the database.
 	FieldYibfNo = "yibf_no"
-	// FieldProvince holds the string denoting the province field in the database.
-	FieldProvince = "province"
 	// FieldIdare holds the string denoting the idare field in the database.
 	FieldIdare = "idare"
 	// FieldPafta holds the string denoting the pafta field in the database.
@@ -30,8 +28,12 @@ const (
 	FieldFolderNo = "folder_no"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
+	// FieldState holds the string denoting the state field in the database.
+	FieldState = "state"
 	// FieldContractDate holds the string denoting the contractdate field in the database.
 	FieldContractDate = "contract_date"
+	// FieldCompletionDate holds the string denoting the completiondate field in the database.
+	FieldCompletionDate = "completion_date"
 	// FieldStartDate holds the string denoting the startdate field in the database.
 	FieldStartDate = "start_date"
 	// FieldLicenseDate holds the string denoting the licensedate field in the database.
@@ -40,34 +42,36 @@ const (
 	FieldLicenseNo = "license_no"
 	// FieldConstructionArea holds the string denoting the constructionarea field in the database.
 	FieldConstructionArea = "construction_area"
-	// FieldDistrict holds the string denoting the district field in the database.
-	FieldDistrict = "district"
-	// FieldVillage holds the string denoting the village field in the database.
-	FieldVillage = "village"
-	// FieldStreet holds the string denoting the street field in the database.
-	FieldStreet = "street"
+	// FieldYDSAddress holds the string denoting the ydsaddress field in the database.
+	FieldYDSAddress = "yds_address"
+	// FieldAddress holds the string denoting the address field in the database.
+	FieldAddress = "address"
 	// FieldBuildingClass holds the string denoting the buildingclass field in the database.
 	FieldBuildingClass = "building_class"
 	// FieldBuildingType holds the string denoting the buildingtype field in the database.
 	FieldBuildingType = "building_type"
-	// FieldBuildingBlock holds the string denoting the buildingblock field in the database.
-	FieldBuildingBlock = "building_block"
+	// FieldLevel holds the string denoting the level field in the database.
+	FieldLevel = "level"
+	// FieldUnitPrice holds the string denoting the unitprice field in the database.
+	FieldUnitPrice = "unit_price"
 	// FieldLandArea holds the string denoting the landarea field in the database.
 	FieldLandArea = "land_area"
 	// FieldFloors holds the string denoting the floors field in the database.
 	FieldFloors = "floors"
-	// FieldNote holds the string denoting the note field in the database.
-	FieldNote = "note"
-	// FieldStarted holds the string denoting the started field in the database.
-	FieldStarted = "started"
 	// FieldUsagePurpose holds the string denoting the usagepurpose field in the database.
 	FieldUsagePurpose = "usage_purpose"
-	// FieldDeleted holds the string denoting the deleted field in the database.
-	FieldDeleted = "deleted"
-	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	// FieldNote holds the string denoting the note field in the database.
+	FieldNote = "note"
+	// FieldCoordinates holds the string denoting the coordinates field in the database.
+	FieldCoordinates = "coordinates"
+	// FieldStarted holds the string denoting the started field in the database.
+	FieldStarted = "started"
+	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
-	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
+	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
+	// EdgeCompany holds the string denoting the company edge name in mutations.
+	EdgeCompany = "company"
 	// EdgeOwner holds the string denoting the owner edge name in mutations.
 	EdgeOwner = "owner"
 	// EdgeContractor holds the string denoting the contractor edge name in mutations.
@@ -76,6 +80,8 @@ const (
 	EdgeAuthor = "author"
 	// EdgeProgress holds the string denoting the progress edge name in mutations.
 	EdgeProgress = "progress"
+	// EdgeSupervisor holds the string denoting the supervisor edge name in mutations.
+	EdgeSupervisor = "supervisor"
 	// EdgeInspector holds the string denoting the inspector edge name in mutations.
 	EdgeInspector = "inspector"
 	// EdgeArchitect holds the string denoting the architect edge name in mutations.
@@ -94,8 +100,17 @@ const (
 	EdgeElectriccontroller = "electriccontroller"
 	// EdgeLayers holds the string denoting the layers edge name in mutations.
 	EdgeLayers = "layers"
+	// EdgePayments holds the string denoting the payments edge name in mutations.
+	EdgePayments = "payments"
 	// Table holds the table name of the jobdetail in the database.
 	Table = "job_details"
+	// CompanyTable is the table that holds the company relation/edge.
+	CompanyTable = "job_details"
+	// CompanyInverseTable is the table name for the CompanyDetail entity.
+	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
+	CompanyInverseTable = "company_details"
+	// CompanyColumn is the table column denoting the company relation/edge.
+	CompanyColumn = "company_id"
 	// OwnerTable is the table that holds the owner relation/edge.
 	OwnerTable = "job_details"
 	// OwnerInverseTable is the table name for the JobOwner entity.
@@ -124,6 +139,13 @@ const (
 	ProgressInverseTable = "job_progresses"
 	// ProgressColumn is the table column denoting the progress relation/edge.
 	ProgressColumn = "progress_id"
+	// SupervisorTable is the table that holds the supervisor relation/edge.
+	SupervisorTable = "job_details"
+	// SupervisorInverseTable is the table name for the JobSuperVisor entity.
+	// It exists in this package in order to avoid circular dependency with the "jobsupervisor" package.
+	SupervisorInverseTable = "job_super_visors"
+	// SupervisorColumn is the table column denoting the supervisor relation/edge.
+	SupervisorColumn = "supervisor_id"
 	// InspectorTable is the table that holds the inspector relation/edge.
 	InspectorTable = "job_details"
 	// InspectorInverseTable is the table name for the CompanyEngineer entity.
@@ -187,36 +209,44 @@ const (
 	LayersInverseTable = "job_layers"
 	// LayersColumn is the table column denoting the layers relation/edge.
 	LayersColumn = "job_id"
+	// PaymentsTable is the table that holds the payments relation/edge.
+	PaymentsTable = "job_payments"
+	// PaymentsInverseTable is the table name for the JobPayments entity.
+	// It exists in this package in order to avoid circular dependency with the "jobpayments" package.
+	PaymentsInverseTable = "job_payments"
+	// PaymentsColumn is the table column denoting the payments relation/edge.
+	PaymentsColumn = "payments_id"
 )
 
 // Columns holds all SQL columns for jobdetail fields.
 var Columns = []string{
 	FieldID,
 	FieldYibfNo,
-	FieldProvince,
 	FieldIdare,
 	FieldPafta,
 	FieldAda,
 	FieldParsel,
 	FieldFolderNo,
 	FieldStatus,
+	FieldState,
 	FieldContractDate,
+	FieldCompletionDate,
 	FieldStartDate,
 	FieldLicenseDate,
 	FieldLicenseNo,
 	FieldConstructionArea,
-	FieldDistrict,
-	FieldVillage,
-	FieldStreet,
+	FieldYDSAddress,
+	FieldAddress,
 	FieldBuildingClass,
 	FieldBuildingType,
-	FieldBuildingBlock,
+	FieldLevel,
+	FieldUnitPrice,
 	FieldLandArea,
 	FieldFloors,
-	FieldNote,
-	FieldStarted,
 	FieldUsagePurpose,
-	FieldDeleted,
+	FieldNote,
+	FieldCoordinates,
+	FieldStarted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -224,6 +254,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "job_details"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
+	"company_id",
 	"inspector_id",
 	"architect_id",
 	"static_id",
@@ -236,6 +267,7 @@ var ForeignKeys = []string{
 	"contractor_id",
 	"owner_id",
 	"progress_id",
+	"supervisor_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -256,45 +288,15 @@ func ValidColumn(column string) bool {
 var (
 	// YibfNoValidator is a validator for the "YibfNo" field. It is called by the builders before save.
 	YibfNoValidator func(int) error
-	// DefaultProvince holds the default value on creation for the "Province" field.
-	DefaultProvince string
-	// DefaultIdare holds the default value on creation for the "Idare" field.
-	DefaultIdare string
-	// DefaultPafta holds the default value on creation for the "Pafta" field.
-	DefaultPafta string
-	// DefaultAda holds the default value on creation for the "Ada" field.
-	DefaultAda string
-	// DefaultParsel holds the default value on creation for the "Parsel" field.
-	DefaultParsel string
-	// DefaultFolderNo holds the default value on creation for the "FolderNo" field.
-	DefaultFolderNo string
 	// DefaultStatus holds the default value on creation for the "Status" field.
 	DefaultStatus int
-	// DefaultLicenseNo holds the default value on creation for the "LicenseNo" field.
-	DefaultLicenseNo string
-	// DefaultDistrict holds the default value on creation for the "District" field.
-	DefaultDistrict string
-	// DefaultVillage holds the default value on creation for the "Village" field.
-	DefaultVillage string
-	// DefaultStreet holds the default value on creation for the "Street" field.
-	DefaultStreet string
-	// DefaultBuildingClass holds the default value on creation for the "BuildingClass" field.
-	DefaultBuildingClass string
-	// DefaultBuildingType holds the default value on creation for the "BuildingType" field.
-	DefaultBuildingType string
-	// DefaultBuildingBlock holds the default value on creation for the "BuildingBlock" field.
-	DefaultBuildingBlock string
 	// DefaultStarted holds the default value on creation for the "Started" field.
 	DefaultStarted int
-	// DefaultUsagePurpose holds the default value on creation for the "UsagePurpose" field.
-	DefaultUsagePurpose string
-	// DefaultDeleted holds the default value on creation for the "Deleted" field.
-	DefaultDeleted int
-	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
+	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
-	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
+	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
 	DefaultUpdatedAt func() time.Time
-	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
+	// UpdateDefaultUpdatedAt holds the default value on update for the "UpdatedAt" field.
 	UpdateDefaultUpdatedAt func() time.Time
 )
 
@@ -309,11 +311,6 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByYibfNo orders the results by the YibfNo field.
 func ByYibfNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldYibfNo, opts...).ToFunc()
-}
-
-// ByProvince orders the results by the Province field.
-func ByProvince(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldProvince, opts...).ToFunc()
 }
 
 // ByIdare orders the results by the Idare field.
@@ -346,9 +343,19 @@ func ByStatus(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
+// ByState orders the results by the State field.
+func ByState(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldState, opts...).ToFunc()
+}
+
 // ByContractDate orders the results by the ContractDate field.
 func ByContractDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldContractDate, opts...).ToFunc()
+}
+
+// ByCompletionDate orders the results by the CompletionDate field.
+func ByCompletionDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCompletionDate, opts...).ToFunc()
 }
 
 // ByStartDate orders the results by the StartDate field.
@@ -371,19 +378,14 @@ func ByConstructionArea(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldConstructionArea, opts...).ToFunc()
 }
 
-// ByDistrict orders the results by the District field.
-func ByDistrict(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDistrict, opts...).ToFunc()
+// ByYDSAddress orders the results by the YDSAddress field.
+func ByYDSAddress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSAddress, opts...).ToFunc()
 }
 
-// ByVillage orders the results by the Village field.
-func ByVillage(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldVillage, opts...).ToFunc()
-}
-
-// ByStreet orders the results by the Street field.
-func ByStreet(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStreet, opts...).ToFunc()
+// ByAddress orders the results by the Address field.
+func ByAddress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAddress, opts...).ToFunc()
 }
 
 // ByBuildingClass orders the results by the BuildingClass field.
@@ -396,9 +398,14 @@ func ByBuildingType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldBuildingType, opts...).ToFunc()
 }
 
-// ByBuildingBlock orders the results by the BuildingBlock field.
-func ByBuildingBlock(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldBuildingBlock, opts...).ToFunc()
+// ByLevel orders the results by the Level field.
+func ByLevel(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLevel, opts...).ToFunc()
+}
+
+// ByUnitPrice orders the results by the UnitPrice field.
+func ByUnitPrice(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUnitPrice, opts...).ToFunc()
 }
 
 // ByLandArea orders the results by the LandArea field.
@@ -411,9 +418,19 @@ func ByFloors(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldFloors, opts...).ToFunc()
 }
 
+// ByUsagePurpose orders the results by the UsagePurpose field.
+func ByUsagePurpose(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUsagePurpose, opts...).ToFunc()
+}
+
 // ByNote orders the results by the Note field.
 func ByNote(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldNote, opts...).ToFunc()
+}
+
+// ByCoordinates orders the results by the Coordinates field.
+func ByCoordinates(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCoordinates, opts...).ToFunc()
 }
 
 // ByStarted orders the results by the Started field.
@@ -421,24 +438,21 @@ func ByStarted(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStarted, opts...).ToFunc()
 }
 
-// ByUsagePurpose orders the results by the UsagePurpose field.
-func ByUsagePurpose(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUsagePurpose, opts...).ToFunc()
-}
-
-// ByDeleted orders the results by the Deleted field.
-func ByDeleted(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleted, opts...).ToFunc()
-}
-
-// ByCreatedAt orders the results by the created_at field.
+// ByCreatedAt orders the results by the CreatedAt field.
 func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
-// ByUpdatedAt orders the results by the updated_at field.
+// ByUpdatedAt orders the results by the UpdatedAt field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
+}
+
+// ByCompanyField orders the results by company field.
+func ByCompanyField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newCompanyStep(), sql.OrderByField(field, opts...))
+	}
 }
 
 // ByOwnerField orders the results by owner field.
@@ -466,6 +480,13 @@ func ByAuthorField(field string, opts ...sql.OrderTermOption) OrderOption {
 func ByProgressField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
 		sqlgraph.OrderByNeighborTerms(s, newProgressStep(), sql.OrderByField(field, opts...))
+	}
+}
+
+// BySupervisorField orders the results by supervisor field.
+func BySupervisorField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newSupervisorStep(), sql.OrderByField(field, opts...))
 	}
 }
 
@@ -538,6 +559,27 @@ func ByLayers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newLayersStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByPaymentsCount orders the results by payments count.
+func ByPaymentsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newPaymentsStep(), opts...)
+	}
+}
+
+// ByPayments orders the results by payments terms.
+func ByPayments(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newPaymentsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+func newCompanyStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(CompanyInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
+	)
+}
 func newOwnerStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -564,6 +606,13 @@ func newProgressStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(ProgressInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.M2O, true, ProgressTable, ProgressColumn),
+	)
+}
+func newSupervisorStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(SupervisorInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, SupervisorTable, SupervisorColumn),
 	)
 }
 func newInspectorStep() *sqlgraph.Step {
@@ -627,5 +676,12 @@ func newLayersStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(LayersInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, LayersTable, LayersColumn),
+	)
+}
+func newPaymentsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(PaymentsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, PaymentsTable, PaymentsColumn),
 	)
 }

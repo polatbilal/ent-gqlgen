@@ -6,7 +6,7 @@ import (
 	"os"
 	"sync"
 
-	"gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent"
 
 	_ "github.com/lib/pq" // PostgreSQL driver
 )
@@ -38,7 +38,7 @@ func Connect(companyCode string) (*ent.Client, error) {
 	password := os.Getenv("DB_PASS")
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
-	dbName := fmt.Sprintf("%s_%s", os.Getenv("DB_NAME"), companyCode)
+	dbName := fmt.Sprintf("%s_%s", os.Getenv("DB_NAME"), "3")
 	sslmode := "disable"
 
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbName, sslmode)

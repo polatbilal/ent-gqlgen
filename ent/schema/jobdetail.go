@@ -17,42 +17,46 @@ type JobDetail struct {
 func (JobDetail) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("YibfNo").Positive().Unique(),
-		field.String("Province").Default("").Optional(),
-		field.String("Idare").Default("").Optional(),
-		field.String("Pafta").Default("").Optional(),
-		field.String("Ada").Default("").Optional(),
-		field.String("Parsel").Default("").Optional(),
-		field.String("FolderNo").Default("").Optional(),
+		field.String("Idare").Optional(),
+		field.String("Pafta").Optional(),
+		field.String("Ada").Optional(),
+		field.String("Parsel").Optional(),
+		field.String("FolderNo").Optional(),
 		field.Int("Status").Default(0),
+		field.String("State").Optional(),
 		field.Time("ContractDate").Optional(),
+		field.Time("CompletionDate").Optional(),
 		field.Time("StartDate").Optional(),
 		field.Time("LicenseDate").Optional(),
-		field.String("LicenseNo").Default("").Optional(),
+		field.String("LicenseNo").Optional(),
 		field.String("ConstructionArea").Optional(),
-		field.String("District").Default("").Optional(),
-		field.String("Village").Default("").Optional(),
-		field.String("Street").Default("").Optional(),
-		field.String("BuildingClass").Default("").Optional(),
-		field.String("BuildingType").Default("").Optional(),
-		field.String("BuildingBlock").Default("").Optional(),
+		field.String("YDSAddress").Optional(),
+		field.String("Address").Optional(),
+		field.String("BuildingClass").Optional(),
+		field.String("BuildingType").Optional(),
+		field.Float("Level").Optional(),
+		field.Float("UnitPrice").Optional(),
 		field.String("LandArea").Optional(),
 		field.Int("Floors").Optional(),
+		field.String("UsagePurpose").Optional(),
 		field.Text("Note").Optional(),
+		field.String("Coordinates").Optional(),
 		field.Int("Started").Default(0),
-		field.String("UsagePurpose").Default("").Optional(),
-		field.Int("Deleted").Default(0),
-		field.Time("created_at").Default(time.Now),
-		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
+
+		field.Time("CreatedAt").Default(time.Now),
+		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}
 }
 
 // Edges of the JobDetail.
 func (JobDetail) Edges() []ent.Edge {
 	return []ent.Edge{
+		edge.From("company", CompanyDetail.Type).Ref("jobs").Unique(),
 		edge.From("owner", JobOwner.Type).Ref("owners").Unique(),
 		edge.From("contractor", JobContractor.Type).Ref("contractors").Unique(),
 		edge.From("author", JobAuthor.Type).Ref("authors").Unique(),
 		edge.From("progress", JobProgress.Type).Ref("progress").Unique(),
+		edge.From("supervisor", JobSuperVisor.Type).Ref("supervisors").Unique(),
 
 		edge.From("inspector", CompanyEngineer.Type).Ref("inspectors").Unique(),
 		edge.From("architect", CompanyEngineer.Type).Ref("architects").Unique(),
@@ -65,5 +69,6 @@ func (JobDetail) Edges() []ent.Edge {
 		edge.From("electriccontroller", CompanyEngineer.Type).Ref("electriccontrollers").Unique(),
 
 		edge.To("layers", JobLayer.Type).StorageKey(edge.Column("job_id")),
+		edge.To("payments", JobPayments.Type).StorageKey(edge.Column("payments_id")),
 	}
 }

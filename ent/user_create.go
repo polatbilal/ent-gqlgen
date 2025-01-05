@@ -6,11 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/user"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 )
 
 // UserCreate is the builder for creating a User entity.
@@ -50,6 +51,20 @@ func (uc *UserCreate) SetEmail(s string) *UserCreate {
 func (uc *UserCreate) SetNillableEmail(s *string) *UserCreate {
 	if s != nil {
 		uc.SetEmail(*s)
+	}
+	return uc
+}
+
+// SetPhone sets the "phone" field.
+func (uc *UserCreate) SetPhone(i int) *UserCreate {
+	uc.mutation.SetPhone(i)
+	return uc
+}
+
+// SetNillablePhone sets the "phone" field if the given value is not nil.
+func (uc *UserCreate) SetNillablePhone(i *int) *UserCreate {
+	if i != nil {
+		uc.SetPhone(*i)
 	}
 	return uc
 }
@@ -102,6 +117,21 @@ func (uc *UserCreate) SetNillableUpdatedAt(t *time.Time) *UserCreate {
 	return uc
 }
 
+// AddCompanyIDs adds the "companies" edge to the CompanyUser entity by IDs.
+func (uc *UserCreate) AddCompanyIDs(ids ...int) *UserCreate {
+	uc.mutation.AddCompanyIDs(ids...)
+	return uc
+}
+
+// AddCompanies adds the "companies" edges to the CompanyUser entity.
+func (uc *UserCreate) AddCompanies(c ...*CompanyUser) *UserCreate {
+	ids := make([]int, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return uc.AddCompanyIDs(ids...)
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uc *UserCreate) Mutation() *UserMutation {
 	return uc.mutation
@@ -140,10 +170,6 @@ func (uc *UserCreate) defaults() {
 	if _, ok := uc.mutation.Name(); !ok {
 		v := user.DefaultName
 		uc.mutation.SetName(v)
-	}
-	if _, ok := uc.mutation.Email(); !ok {
-		v := user.DefaultEmail
-		uc.mutation.SetEmail(v)
 	}
 	if _, ok := uc.mutation.Role(); !ok {
 		v := user.DefaultRole
@@ -217,6 +243,10 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
+	if value, ok := uc.mutation.Phone(); ok {
+		_spec.SetField(user.FieldPhone, field.TypeInt, value)
+		_node.Phone = value
+	}
 	if value, ok := uc.mutation.Password(); ok {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)
 		_node.Password = value
@@ -232,6 +262,22 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.UpdatedAt(); ok {
 		_spec.SetField(user.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
+	}
+	if nodes := uc.mutation.CompaniesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   user.CompaniesTable,
+			Columns: []string{user.CompaniesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }

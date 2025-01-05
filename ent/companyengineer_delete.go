@@ -4,12 +4,12 @@ package ent
 
 import (
 	"context"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
 // CompanyEngineerDelete is the builder for deleting a CompanyEngineer entity.

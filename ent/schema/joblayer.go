@@ -25,8 +25,8 @@ func (JobLayer) Fields() []ent.Field {
 		field.String("WeekResult").Optional(),
 		field.String("MonthResult").Optional(),
 
-		field.Time("created_at").Default(time.Now),
-		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
+		field.Time("CreatedAt").Default(time.Now),
+		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}
 }
 

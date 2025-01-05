@@ -3,11 +3,11 @@
 package jobauthor
 
 import (
-	"gqlgen-ent/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.
@@ -78,11 +78,6 @@ func Electric(v string) predicate.JobAuthor {
 // Floor applies equality check predicate on the "Floor" field. It's identical to FloorEQ.
 func Floor(v string) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldEQ(FieldFloor, v))
-}
-
-// Deleted applies equality check predicate on the "Deleted" field. It's identical to DeletedEQ.
-func Deleted(v int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldEQ(FieldDeleted, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
@@ -468,46 +463,6 @@ func FloorEqualFold(v string) predicate.JobAuthor {
 // FloorContainsFold applies the ContainsFold predicate on the "Floor" field.
 func FloorContainsFold(v string) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldContainsFold(FieldFloor, v))
-}
-
-// DeletedEQ applies the EQ predicate on the "Deleted" field.
-func DeletedEQ(v int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldEQ(FieldDeleted, v))
-}
-
-// DeletedNEQ applies the NEQ predicate on the "Deleted" field.
-func DeletedNEQ(v int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldNEQ(FieldDeleted, v))
-}
-
-// DeletedIn applies the In predicate on the "Deleted" field.
-func DeletedIn(vs ...int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldIn(FieldDeleted, vs...))
-}
-
-// DeletedNotIn applies the NotIn predicate on the "Deleted" field.
-func DeletedNotIn(vs ...int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldNotIn(FieldDeleted, vs...))
-}
-
-// DeletedGT applies the GT predicate on the "Deleted" field.
-func DeletedGT(v int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldGT(FieldDeleted, v))
-}
-
-// DeletedGTE applies the GTE predicate on the "Deleted" field.
-func DeletedGTE(v int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldGTE(FieldDeleted, v))
-}
-
-// DeletedLT applies the LT predicate on the "Deleted" field.
-func DeletedLT(v int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldLT(FieldDeleted, v))
-}
-
-// DeletedLTE applies the LTE predicate on the "Deleted" field.
-func DeletedLTE(v int) predicate.JobAuthor {
-	return predicate.JobAuthor(sql.FieldLTE(FieldDeleted, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

@@ -6,17 +6,20 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobprogress"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 )
 
 // JobDetailCreate is the builder for creating a JobDetail entity.
@@ -29,20 +32,6 @@ type JobDetailCreate struct {
 // SetYibfNo sets the "YibfNo" field.
 func (jdc *JobDetailCreate) SetYibfNo(i int) *JobDetailCreate {
 	jdc.mutation.SetYibfNo(i)
-	return jdc
-}
-
-// SetProvince sets the "Province" field.
-func (jdc *JobDetailCreate) SetProvince(s string) *JobDetailCreate {
-	jdc.mutation.SetProvince(s)
-	return jdc
-}
-
-// SetNillableProvince sets the "Province" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableProvince(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetProvince(*s)
-	}
 	return jdc
 }
 
@@ -130,6 +119,20 @@ func (jdc *JobDetailCreate) SetNillableStatus(i *int) *JobDetailCreate {
 	return jdc
 }
 
+// SetState sets the "State" field.
+func (jdc *JobDetailCreate) SetState(s string) *JobDetailCreate {
+	jdc.mutation.SetState(s)
+	return jdc
+}
+
+// SetNillableState sets the "State" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableState(s *string) *JobDetailCreate {
+	if s != nil {
+		jdc.SetState(*s)
+	}
+	return jdc
+}
+
 // SetContractDate sets the "ContractDate" field.
 func (jdc *JobDetailCreate) SetContractDate(t time.Time) *JobDetailCreate {
 	jdc.mutation.SetContractDate(t)
@@ -140,6 +143,20 @@ func (jdc *JobDetailCreate) SetContractDate(t time.Time) *JobDetailCreate {
 func (jdc *JobDetailCreate) SetNillableContractDate(t *time.Time) *JobDetailCreate {
 	if t != nil {
 		jdc.SetContractDate(*t)
+	}
+	return jdc
+}
+
+// SetCompletionDate sets the "CompletionDate" field.
+func (jdc *JobDetailCreate) SetCompletionDate(t time.Time) *JobDetailCreate {
+	jdc.mutation.SetCompletionDate(t)
+	return jdc
+}
+
+// SetNillableCompletionDate sets the "CompletionDate" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableCompletionDate(t *time.Time) *JobDetailCreate {
+	if t != nil {
+		jdc.SetCompletionDate(*t)
 	}
 	return jdc
 }
@@ -200,44 +217,30 @@ func (jdc *JobDetailCreate) SetNillableConstructionArea(s *string) *JobDetailCre
 	return jdc
 }
 
-// SetDistrict sets the "District" field.
-func (jdc *JobDetailCreate) SetDistrict(s string) *JobDetailCreate {
-	jdc.mutation.SetDistrict(s)
+// SetYDSAddress sets the "YDSAddress" field.
+func (jdc *JobDetailCreate) SetYDSAddress(s string) *JobDetailCreate {
+	jdc.mutation.SetYDSAddress(s)
 	return jdc
 }
 
-// SetNillableDistrict sets the "District" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableDistrict(s *string) *JobDetailCreate {
+// SetNillableYDSAddress sets the "YDSAddress" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableYDSAddress(s *string) *JobDetailCreate {
 	if s != nil {
-		jdc.SetDistrict(*s)
+		jdc.SetYDSAddress(*s)
 	}
 	return jdc
 }
 
-// SetVillage sets the "Village" field.
-func (jdc *JobDetailCreate) SetVillage(s string) *JobDetailCreate {
-	jdc.mutation.SetVillage(s)
+// SetAddress sets the "Address" field.
+func (jdc *JobDetailCreate) SetAddress(s string) *JobDetailCreate {
+	jdc.mutation.SetAddress(s)
 	return jdc
 }
 
-// SetNillableVillage sets the "Village" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableVillage(s *string) *JobDetailCreate {
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableAddress(s *string) *JobDetailCreate {
 	if s != nil {
-		jdc.SetVillage(*s)
-	}
-	return jdc
-}
-
-// SetStreet sets the "Street" field.
-func (jdc *JobDetailCreate) SetStreet(s string) *JobDetailCreate {
-	jdc.mutation.SetStreet(s)
-	return jdc
-}
-
-// SetNillableStreet sets the "Street" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableStreet(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetStreet(*s)
+		jdc.SetAddress(*s)
 	}
 	return jdc
 }
@@ -270,16 +273,30 @@ func (jdc *JobDetailCreate) SetNillableBuildingType(s *string) *JobDetailCreate 
 	return jdc
 }
 
-// SetBuildingBlock sets the "BuildingBlock" field.
-func (jdc *JobDetailCreate) SetBuildingBlock(s string) *JobDetailCreate {
-	jdc.mutation.SetBuildingBlock(s)
+// SetLevel sets the "Level" field.
+func (jdc *JobDetailCreate) SetLevel(f float64) *JobDetailCreate {
+	jdc.mutation.SetLevel(f)
 	return jdc
 }
 
-// SetNillableBuildingBlock sets the "BuildingBlock" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableBuildingBlock(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetBuildingBlock(*s)
+// SetNillableLevel sets the "Level" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableLevel(f *float64) *JobDetailCreate {
+	if f != nil {
+		jdc.SetLevel(*f)
+	}
+	return jdc
+}
+
+// SetUnitPrice sets the "UnitPrice" field.
+func (jdc *JobDetailCreate) SetUnitPrice(f float64) *JobDetailCreate {
+	jdc.mutation.SetUnitPrice(f)
+	return jdc
+}
+
+// SetNillableUnitPrice sets the "UnitPrice" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableUnitPrice(f *float64) *JobDetailCreate {
+	if f != nil {
+		jdc.SetUnitPrice(*f)
 	}
 	return jdc
 }
@@ -312,6 +329,20 @@ func (jdc *JobDetailCreate) SetNillableFloors(i *int) *JobDetailCreate {
 	return jdc
 }
 
+// SetUsagePurpose sets the "UsagePurpose" field.
+func (jdc *JobDetailCreate) SetUsagePurpose(s string) *JobDetailCreate {
+	jdc.mutation.SetUsagePurpose(s)
+	return jdc
+}
+
+// SetNillableUsagePurpose sets the "UsagePurpose" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableUsagePurpose(s *string) *JobDetailCreate {
+	if s != nil {
+		jdc.SetUsagePurpose(*s)
+	}
+	return jdc
+}
+
 // SetNote sets the "Note" field.
 func (jdc *JobDetailCreate) SetNote(s string) *JobDetailCreate {
 	jdc.mutation.SetNote(s)
@@ -322,6 +353,20 @@ func (jdc *JobDetailCreate) SetNote(s string) *JobDetailCreate {
 func (jdc *JobDetailCreate) SetNillableNote(s *string) *JobDetailCreate {
 	if s != nil {
 		jdc.SetNote(*s)
+	}
+	return jdc
+}
+
+// SetCoordinates sets the "Coordinates" field.
+func (jdc *JobDetailCreate) SetCoordinates(s string) *JobDetailCreate {
+	jdc.mutation.SetCoordinates(s)
+	return jdc
+}
+
+// SetNillableCoordinates sets the "Coordinates" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableCoordinates(s *string) *JobDetailCreate {
+	if s != nil {
+		jdc.SetCoordinates(*s)
 	}
 	return jdc
 }
@@ -340,41 +385,13 @@ func (jdc *JobDetailCreate) SetNillableStarted(i *int) *JobDetailCreate {
 	return jdc
 }
 
-// SetUsagePurpose sets the "UsagePurpose" field.
-func (jdc *JobDetailCreate) SetUsagePurpose(s string) *JobDetailCreate {
-	jdc.mutation.SetUsagePurpose(s)
-	return jdc
-}
-
-// SetNillableUsagePurpose sets the "UsagePurpose" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableUsagePurpose(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetUsagePurpose(*s)
-	}
-	return jdc
-}
-
-// SetDeleted sets the "Deleted" field.
-func (jdc *JobDetailCreate) SetDeleted(i int) *JobDetailCreate {
-	jdc.mutation.SetDeleted(i)
-	return jdc
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableDeleted(i *int) *JobDetailCreate {
-	if i != nil {
-		jdc.SetDeleted(*i)
-	}
-	return jdc
-}
-
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (jdc *JobDetailCreate) SetCreatedAt(t time.Time) *JobDetailCreate {
 	jdc.mutation.SetCreatedAt(t)
 	return jdc
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (jdc *JobDetailCreate) SetNillableCreatedAt(t *time.Time) *JobDetailCreate {
 	if t != nil {
 		jdc.SetCreatedAt(*t)
@@ -382,18 +399,37 @@ func (jdc *JobDetailCreate) SetNillableCreatedAt(t *time.Time) *JobDetailCreate 
 	return jdc
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (jdc *JobDetailCreate) SetUpdatedAt(t time.Time) *JobDetailCreate {
 	jdc.mutation.SetUpdatedAt(t)
 	return jdc
 }
 
-// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+// SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
 func (jdc *JobDetailCreate) SetNillableUpdatedAt(t *time.Time) *JobDetailCreate {
 	if t != nil {
 		jdc.SetUpdatedAt(*t)
 	}
 	return jdc
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
+func (jdc *JobDetailCreate) SetCompanyID(id int) *JobDetailCreate {
+	jdc.mutation.SetCompanyID(id)
+	return jdc
+}
+
+// SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableCompanyID(id *int) *JobDetailCreate {
+	if id != nil {
+		jdc = jdc.SetCompanyID(*id)
+	}
+	return jdc
+}
+
+// SetCompany sets the "company" edge to the CompanyDetail entity.
+func (jdc *JobDetailCreate) SetCompany(c *CompanyDetail) *JobDetailCreate {
+	return jdc.SetCompanyID(c.ID)
 }
 
 // SetOwnerID sets the "owner" edge to the JobOwner entity by ID.
@@ -470,6 +506,25 @@ func (jdc *JobDetailCreate) SetNillableProgressID(id *int) *JobDetailCreate {
 // SetProgress sets the "progress" edge to the JobProgress entity.
 func (jdc *JobDetailCreate) SetProgress(j *JobProgress) *JobDetailCreate {
 	return jdc.SetProgressID(j.ID)
+}
+
+// SetSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID.
+func (jdc *JobDetailCreate) SetSupervisorID(id int) *JobDetailCreate {
+	jdc.mutation.SetSupervisorID(id)
+	return jdc
+}
+
+// SetNillableSupervisorID sets the "supervisor" edge to the JobSuperVisor entity by ID if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableSupervisorID(id *int) *JobDetailCreate {
+	if id != nil {
+		jdc = jdc.SetSupervisorID(*id)
+	}
+	return jdc
+}
+
+// SetSupervisor sets the "supervisor" edge to the JobSuperVisor entity.
+func (jdc *JobDetailCreate) SetSupervisor(j *JobSuperVisor) *JobDetailCreate {
+	return jdc.SetSupervisorID(j.ID)
 }
 
 // SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
@@ -639,6 +694,21 @@ func (jdc *JobDetailCreate) AddLayers(j ...*JobLayer) *JobDetailCreate {
 	return jdc.AddLayerIDs(ids...)
 }
 
+// AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
+func (jdc *JobDetailCreate) AddPaymentIDs(ids ...int) *JobDetailCreate {
+	jdc.mutation.AddPaymentIDs(ids...)
+	return jdc
+}
+
+// AddPayments adds the "payments" edges to the JobPayments entity.
+func (jdc *JobDetailCreate) AddPayments(j ...*JobPayments) *JobDetailCreate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jdc.AddPaymentIDs(ids...)
+}
+
 // Mutation returns the JobDetailMutation object of the builder.
 func (jdc *JobDetailCreate) Mutation() *JobDetailMutation {
 	return jdc.mutation
@@ -674,73 +744,13 @@ func (jdc *JobDetailCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (jdc *JobDetailCreate) defaults() {
-	if _, ok := jdc.mutation.Province(); !ok {
-		v := jobdetail.DefaultProvince
-		jdc.mutation.SetProvince(v)
-	}
-	if _, ok := jdc.mutation.Idare(); !ok {
-		v := jobdetail.DefaultIdare
-		jdc.mutation.SetIdare(v)
-	}
-	if _, ok := jdc.mutation.Pafta(); !ok {
-		v := jobdetail.DefaultPafta
-		jdc.mutation.SetPafta(v)
-	}
-	if _, ok := jdc.mutation.Ada(); !ok {
-		v := jobdetail.DefaultAda
-		jdc.mutation.SetAda(v)
-	}
-	if _, ok := jdc.mutation.Parsel(); !ok {
-		v := jobdetail.DefaultParsel
-		jdc.mutation.SetParsel(v)
-	}
-	if _, ok := jdc.mutation.FolderNo(); !ok {
-		v := jobdetail.DefaultFolderNo
-		jdc.mutation.SetFolderNo(v)
-	}
 	if _, ok := jdc.mutation.Status(); !ok {
 		v := jobdetail.DefaultStatus
 		jdc.mutation.SetStatus(v)
 	}
-	if _, ok := jdc.mutation.LicenseNo(); !ok {
-		v := jobdetail.DefaultLicenseNo
-		jdc.mutation.SetLicenseNo(v)
-	}
-	if _, ok := jdc.mutation.District(); !ok {
-		v := jobdetail.DefaultDistrict
-		jdc.mutation.SetDistrict(v)
-	}
-	if _, ok := jdc.mutation.Village(); !ok {
-		v := jobdetail.DefaultVillage
-		jdc.mutation.SetVillage(v)
-	}
-	if _, ok := jdc.mutation.Street(); !ok {
-		v := jobdetail.DefaultStreet
-		jdc.mutation.SetStreet(v)
-	}
-	if _, ok := jdc.mutation.BuildingClass(); !ok {
-		v := jobdetail.DefaultBuildingClass
-		jdc.mutation.SetBuildingClass(v)
-	}
-	if _, ok := jdc.mutation.BuildingType(); !ok {
-		v := jobdetail.DefaultBuildingType
-		jdc.mutation.SetBuildingType(v)
-	}
-	if _, ok := jdc.mutation.BuildingBlock(); !ok {
-		v := jobdetail.DefaultBuildingBlock
-		jdc.mutation.SetBuildingBlock(v)
-	}
 	if _, ok := jdc.mutation.Started(); !ok {
 		v := jobdetail.DefaultStarted
 		jdc.mutation.SetStarted(v)
-	}
-	if _, ok := jdc.mutation.UsagePurpose(); !ok {
-		v := jobdetail.DefaultUsagePurpose
-		jdc.mutation.SetUsagePurpose(v)
-	}
-	if _, ok := jdc.mutation.Deleted(); !ok {
-		v := jobdetail.DefaultDeleted
-		jdc.mutation.SetDeleted(v)
 	}
 	if _, ok := jdc.mutation.CreatedAt(); !ok {
 		v := jobdetail.DefaultCreatedAt()
@@ -768,14 +778,11 @@ func (jdc *JobDetailCreate) check() error {
 	if _, ok := jdc.mutation.Started(); !ok {
 		return &ValidationError{Name: "Started", err: errors.New(`ent: missing required field "JobDetail.Started"`)}
 	}
-	if _, ok := jdc.mutation.Deleted(); !ok {
-		return &ValidationError{Name: "Deleted", err: errors.New(`ent: missing required field "JobDetail.Deleted"`)}
-	}
 	if _, ok := jdc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "JobDetail.created_at"`)}
+		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobDetail.CreatedAt"`)}
 	}
 	if _, ok := jdc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "JobDetail.updated_at"`)}
+		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobDetail.UpdatedAt"`)}
 	}
 	return nil
 }
@@ -807,10 +814,6 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
 	}
-	if value, ok := jdc.mutation.Province(); ok {
-		_spec.SetField(jobdetail.FieldProvince, field.TypeString, value)
-		_node.Province = value
-	}
 	if value, ok := jdc.mutation.Idare(); ok {
 		_spec.SetField(jobdetail.FieldIdare, field.TypeString, value)
 		_node.Idare = value
@@ -835,9 +838,17 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
+	if value, ok := jdc.mutation.State(); ok {
+		_spec.SetField(jobdetail.FieldState, field.TypeString, value)
+		_node.State = value
+	}
 	if value, ok := jdc.mutation.ContractDate(); ok {
 		_spec.SetField(jobdetail.FieldContractDate, field.TypeTime, value)
 		_node.ContractDate = value
+	}
+	if value, ok := jdc.mutation.CompletionDate(); ok {
+		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)
+		_node.CompletionDate = value
 	}
 	if value, ok := jdc.mutation.StartDate(); ok {
 		_spec.SetField(jobdetail.FieldStartDate, field.TypeTime, value)
@@ -855,17 +866,13 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldConstructionArea, field.TypeString, value)
 		_node.ConstructionArea = value
 	}
-	if value, ok := jdc.mutation.District(); ok {
-		_spec.SetField(jobdetail.FieldDistrict, field.TypeString, value)
-		_node.District = value
+	if value, ok := jdc.mutation.YDSAddress(); ok {
+		_spec.SetField(jobdetail.FieldYDSAddress, field.TypeString, value)
+		_node.YDSAddress = value
 	}
-	if value, ok := jdc.mutation.Village(); ok {
-		_spec.SetField(jobdetail.FieldVillage, field.TypeString, value)
-		_node.Village = value
-	}
-	if value, ok := jdc.mutation.Street(); ok {
-		_spec.SetField(jobdetail.FieldStreet, field.TypeString, value)
-		_node.Street = value
+	if value, ok := jdc.mutation.Address(); ok {
+		_spec.SetField(jobdetail.FieldAddress, field.TypeString, value)
+		_node.Address = value
 	}
 	if value, ok := jdc.mutation.BuildingClass(); ok {
 		_spec.SetField(jobdetail.FieldBuildingClass, field.TypeString, value)
@@ -875,9 +882,13 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldBuildingType, field.TypeString, value)
 		_node.BuildingType = value
 	}
-	if value, ok := jdc.mutation.BuildingBlock(); ok {
-		_spec.SetField(jobdetail.FieldBuildingBlock, field.TypeString, value)
-		_node.BuildingBlock = value
+	if value, ok := jdc.mutation.Level(); ok {
+		_spec.SetField(jobdetail.FieldLevel, field.TypeFloat64, value)
+		_node.Level = value
+	}
+	if value, ok := jdc.mutation.UnitPrice(); ok {
+		_spec.SetField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)
+		_node.UnitPrice = value
 	}
 	if value, ok := jdc.mutation.LandArea(); ok {
 		_spec.SetField(jobdetail.FieldLandArea, field.TypeString, value)
@@ -887,21 +898,21 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobdetail.FieldFloors, field.TypeInt, value)
 		_node.Floors = value
 	}
-	if value, ok := jdc.mutation.Note(); ok {
-		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
-		_node.Note = value
-	}
-	if value, ok := jdc.mutation.Started(); ok {
-		_spec.SetField(jobdetail.FieldStarted, field.TypeInt, value)
-		_node.Started = value
-	}
 	if value, ok := jdc.mutation.UsagePurpose(); ok {
 		_spec.SetField(jobdetail.FieldUsagePurpose, field.TypeString, value)
 		_node.UsagePurpose = value
 	}
-	if value, ok := jdc.mutation.Deleted(); ok {
-		_spec.SetField(jobdetail.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
+	if value, ok := jdc.mutation.Note(); ok {
+		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
+		_node.Note = value
+	}
+	if value, ok := jdc.mutation.Coordinates(); ok {
+		_spec.SetField(jobdetail.FieldCoordinates, field.TypeString, value)
+		_node.Coordinates = value
+	}
+	if value, ok := jdc.mutation.Started(); ok {
+		_spec.SetField(jobdetail.FieldStarted, field.TypeInt, value)
+		_node.Started = value
 	}
 	if value, ok := jdc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobdetail.FieldCreatedAt, field.TypeTime, value)
@@ -910,6 +921,23 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := jdc.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobdetail.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
+	}
+	if nodes := jdc.mutation.CompanyIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.CompanyTable,
+			Columns: []string{jobdetail.CompanyColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.company_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := jdc.mutation.OwnerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -977,6 +1005,23 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.progress_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := jdc.mutation.SupervisorIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   jobdetail.SupervisorTable,
+			Columns: []string{jobdetail.SupervisorColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.supervisor_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := jdc.mutation.InspectorIDs(); len(nodes) > 0 {
@@ -1124,6 +1169,22 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := jdc.mutation.PaymentsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobdetail.PaymentsTable,
+			Columns: []string{jobdetail.PaymentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

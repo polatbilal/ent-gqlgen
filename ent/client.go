@@ -9,24 +9,24 @@ import (
 	"log"
 	"reflect"
 
-	"gqlgen-ent/ent/migrate"
-
-	"gqlgen-ent/ent/companycareer"
-	"gqlgen-ent/ent/companydetail"
-	"gqlgen-ent/ent/companyengineer"
-	"gqlgen-ent/ent/companyposition"
-	"gqlgen-ent/ent/jobauthor"
-	"gqlgen-ent/ent/jobcontractor"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/joblayer"
-	"gqlgen-ent/ent/jobowner"
-	"gqlgen-ent/ent/jobprogress"
-	"gqlgen-ent/ent/user"
+	"github.com/polatbilal/gqlgen-ent/ent/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
+	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 )
 
 // Client is the client that holds all ent builders.
@@ -34,14 +34,12 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
-	// CompanyCareer is the client for interacting with the CompanyCareer builders.
-	CompanyCareer *CompanyCareerClient
 	// CompanyDetail is the client for interacting with the CompanyDetail builders.
 	CompanyDetail *CompanyDetailClient
 	// CompanyEngineer is the client for interacting with the CompanyEngineer builders.
 	CompanyEngineer *CompanyEngineerClient
-	// CompanyPosition is the client for interacting with the CompanyPosition builders.
-	CompanyPosition *CompanyPositionClient
+	// CompanyUser is the client for interacting with the CompanyUser builders.
+	CompanyUser *CompanyUserClient
 	// JobAuthor is the client for interacting with the JobAuthor builders.
 	JobAuthor *JobAuthorClient
 	// JobContractor is the client for interacting with the JobContractor builders.
@@ -52,8 +50,12 @@ type Client struct {
 	JobLayer *JobLayerClient
 	// JobOwner is the client for interacting with the JobOwner builders.
 	JobOwner *JobOwnerClient
+	// JobPayments is the client for interacting with the JobPayments builders.
+	JobPayments *JobPaymentsClient
 	// JobProgress is the client for interacting with the JobProgress builders.
 	JobProgress *JobProgressClient
+	// JobSuperVisor is the client for interacting with the JobSuperVisor builders.
+	JobSuperVisor *JobSuperVisorClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 	// additional fields for node api
@@ -69,16 +71,17 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
-	c.CompanyCareer = NewCompanyCareerClient(c.config)
 	c.CompanyDetail = NewCompanyDetailClient(c.config)
 	c.CompanyEngineer = NewCompanyEngineerClient(c.config)
-	c.CompanyPosition = NewCompanyPositionClient(c.config)
+	c.CompanyUser = NewCompanyUserClient(c.config)
 	c.JobAuthor = NewJobAuthorClient(c.config)
 	c.JobContractor = NewJobContractorClient(c.config)
 	c.JobDetail = NewJobDetailClient(c.config)
 	c.JobLayer = NewJobLayerClient(c.config)
 	c.JobOwner = NewJobOwnerClient(c.config)
+	c.JobPayments = NewJobPaymentsClient(c.config)
 	c.JobProgress = NewJobProgressClient(c.config)
+	c.JobSuperVisor = NewJobSuperVisorClient(c.config)
 	c.User = NewUserClient(c.config)
 }
 
@@ -172,16 +175,17 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	return &Tx{
 		ctx:             ctx,
 		config:          cfg,
-		CompanyCareer:   NewCompanyCareerClient(cfg),
 		CompanyDetail:   NewCompanyDetailClient(cfg),
 		CompanyEngineer: NewCompanyEngineerClient(cfg),
-		CompanyPosition: NewCompanyPositionClient(cfg),
+		CompanyUser:     NewCompanyUserClient(cfg),
 		JobAuthor:       NewJobAuthorClient(cfg),
 		JobContractor:   NewJobContractorClient(cfg),
 		JobDetail:       NewJobDetailClient(cfg),
 		JobLayer:        NewJobLayerClient(cfg),
 		JobOwner:        NewJobOwnerClient(cfg),
+		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
+		JobSuperVisor:   NewJobSuperVisorClient(cfg),
 		User:            NewUserClient(cfg),
 	}, nil
 }
@@ -202,16 +206,17 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	return &Tx{
 		ctx:             ctx,
 		config:          cfg,
-		CompanyCareer:   NewCompanyCareerClient(cfg),
 		CompanyDetail:   NewCompanyDetailClient(cfg),
 		CompanyEngineer: NewCompanyEngineerClient(cfg),
-		CompanyPosition: NewCompanyPositionClient(cfg),
+		CompanyUser:     NewCompanyUserClient(cfg),
 		JobAuthor:       NewJobAuthorClient(cfg),
 		JobContractor:   NewJobContractorClient(cfg),
 		JobDetail:       NewJobDetailClient(cfg),
 		JobLayer:        NewJobLayerClient(cfg),
 		JobOwner:        NewJobOwnerClient(cfg),
+		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
+		JobSuperVisor:   NewJobSuperVisorClient(cfg),
 		User:            NewUserClient(cfg),
 	}, nil
 }
@@ -219,7 +224,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		CompanyCareer.
+//		CompanyDetail.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -242,9 +247,9 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.CompanyCareer, c.CompanyDetail, c.CompanyEngineer, c.CompanyPosition,
-		c.JobAuthor, c.JobContractor, c.JobDetail, c.JobLayer, c.JobOwner,
-		c.JobProgress, c.User,
+		c.CompanyDetail, c.CompanyEngineer, c.CompanyUser, c.JobAuthor, c.JobContractor,
+		c.JobDetail, c.JobLayer, c.JobOwner, c.JobPayments, c.JobProgress,
+		c.JobSuperVisor, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -254,9 +259,9 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.CompanyCareer, c.CompanyDetail, c.CompanyEngineer, c.CompanyPosition,
-		c.JobAuthor, c.JobContractor, c.JobDetail, c.JobLayer, c.JobOwner,
-		c.JobProgress, c.User,
+		c.CompanyDetail, c.CompanyEngineer, c.CompanyUser, c.JobAuthor, c.JobContractor,
+		c.JobDetail, c.JobLayer, c.JobOwner, c.JobPayments, c.JobProgress,
+		c.JobSuperVisor, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -265,14 +270,12 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
-	case *CompanyCareerMutation:
-		return c.CompanyCareer.mutate(ctx, m)
 	case *CompanyDetailMutation:
 		return c.CompanyDetail.mutate(ctx, m)
 	case *CompanyEngineerMutation:
 		return c.CompanyEngineer.mutate(ctx, m)
-	case *CompanyPositionMutation:
-		return c.CompanyPosition.mutate(ctx, m)
+	case *CompanyUserMutation:
+		return c.CompanyUser.mutate(ctx, m)
 	case *JobAuthorMutation:
 		return c.JobAuthor.mutate(ctx, m)
 	case *JobContractorMutation:
@@ -283,161 +286,16 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.JobLayer.mutate(ctx, m)
 	case *JobOwnerMutation:
 		return c.JobOwner.mutate(ctx, m)
+	case *JobPaymentsMutation:
+		return c.JobPayments.mutate(ctx, m)
 	case *JobProgressMutation:
 		return c.JobProgress.mutate(ctx, m)
+	case *JobSuperVisorMutation:
+		return c.JobSuperVisor.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
-	}
-}
-
-// CompanyCareerClient is a client for the CompanyCareer schema.
-type CompanyCareerClient struct {
-	config
-}
-
-// NewCompanyCareerClient returns a client for the CompanyCareer from the given config.
-func NewCompanyCareerClient(c config) *CompanyCareerClient {
-	return &CompanyCareerClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `companycareer.Hooks(f(g(h())))`.
-func (c *CompanyCareerClient) Use(hooks ...Hook) {
-	c.hooks.CompanyCareer = append(c.hooks.CompanyCareer, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `companycareer.Intercept(f(g(h())))`.
-func (c *CompanyCareerClient) Intercept(interceptors ...Interceptor) {
-	c.inters.CompanyCareer = append(c.inters.CompanyCareer, interceptors...)
-}
-
-// Create returns a builder for creating a CompanyCareer entity.
-func (c *CompanyCareerClient) Create() *CompanyCareerCreate {
-	mutation := newCompanyCareerMutation(c.config, OpCreate)
-	return &CompanyCareerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of CompanyCareer entities.
-func (c *CompanyCareerClient) CreateBulk(builders ...*CompanyCareerCreate) *CompanyCareerCreateBulk {
-	return &CompanyCareerCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *CompanyCareerClient) MapCreateBulk(slice any, setFunc func(*CompanyCareerCreate, int)) *CompanyCareerCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &CompanyCareerCreateBulk{err: fmt.Errorf("calling to CompanyCareerClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*CompanyCareerCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &CompanyCareerCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for CompanyCareer.
-func (c *CompanyCareerClient) Update() *CompanyCareerUpdate {
-	mutation := newCompanyCareerMutation(c.config, OpUpdate)
-	return &CompanyCareerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *CompanyCareerClient) UpdateOne(cc *CompanyCareer) *CompanyCareerUpdateOne {
-	mutation := newCompanyCareerMutation(c.config, OpUpdateOne, withCompanyCareer(cc))
-	return &CompanyCareerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *CompanyCareerClient) UpdateOneID(id int) *CompanyCareerUpdateOne {
-	mutation := newCompanyCareerMutation(c.config, OpUpdateOne, withCompanyCareerID(id))
-	return &CompanyCareerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for CompanyCareer.
-func (c *CompanyCareerClient) Delete() *CompanyCareerDelete {
-	mutation := newCompanyCareerMutation(c.config, OpDelete)
-	return &CompanyCareerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *CompanyCareerClient) DeleteOne(cc *CompanyCareer) *CompanyCareerDeleteOne {
-	return c.DeleteOneID(cc.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *CompanyCareerClient) DeleteOneID(id int) *CompanyCareerDeleteOne {
-	builder := c.Delete().Where(companycareer.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &CompanyCareerDeleteOne{builder}
-}
-
-// Query returns a query builder for CompanyCareer.
-func (c *CompanyCareerClient) Query() *CompanyCareerQuery {
-	return &CompanyCareerQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeCompanyCareer},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a CompanyCareer entity by its id.
-func (c *CompanyCareerClient) Get(ctx context.Context, id int) (*CompanyCareer, error) {
-	return c.Query().Where(companycareer.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *CompanyCareerClient) GetX(ctx context.Context, id int) *CompanyCareer {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryEngineerCareers queries the engineerCareers edge of a CompanyCareer.
-func (c *CompanyCareerClient) QueryEngineerCareers(cc *CompanyCareer) *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cc.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companycareer.Table, companycareer.FieldID, id),
-			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companycareer.EngineerCareersTable, companycareer.EngineerCareersColumn),
-		)
-		fromV = sqlgraph.Neighbors(cc.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *CompanyCareerClient) Hooks() []Hook {
-	return c.hooks.CompanyCareer
-}
-
-// Interceptors returns the client interceptors.
-func (c *CompanyCareerClient) Interceptors() []Interceptor {
-	return c.inters.CompanyCareer
-}
-
-func (c *CompanyCareerClient) mutate(ctx context.Context, m *CompanyCareerMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&CompanyCareerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&CompanyCareerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&CompanyCareerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&CompanyCareerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown CompanyCareer mutation op: %q", m.Op())
 	}
 }
 
@@ -549,15 +407,47 @@ func (c *CompanyDetailClient) GetX(ctx context.Context, id int) *CompanyDetail {
 	return obj
 }
 
-// QueryCompanyOwner queries the companyOwner edge of a CompanyDetail.
-func (c *CompanyDetailClient) QueryCompanyOwner(cd *CompanyDetail) *CompanyEngineerQuery {
+// QueryEngineers queries the engineers edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryEngineers(cd *CompanyDetail) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := cd.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, companydetail.CompanyOwnerTable, companydetail.CompanyOwnerColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
+		)
+		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryUsers queries the users edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryUsers(cd *CompanyDetail) *CompanyUserQuery {
+	query := (&CompanyUserClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := cd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
+			sqlgraph.To(companyuser.Table, companyuser.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.UsersTable, companydetail.UsersColumn),
+		)
+		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryJobs queries the jobs edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryJobs(cd *CompanyDetail) *JobDetailQuery {
+	query := (&JobDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := cd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
+			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.JobsTable, companydetail.JobsColumn),
 		)
 		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
 		return fromV, nil
@@ -698,47 +588,15 @@ func (c *CompanyEngineerClient) GetX(ctx context.Context, id int) *CompanyEngine
 	return obj
 }
 
-// QueryEngineerCareer queries the engineerCareer edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryEngineerCareer(ce *CompanyEngineer) *CompanyCareerQuery {
-	query := (&CompanyCareerClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
-			sqlgraph.To(companycareer.Table, companycareer.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.EngineerCareerTable, companyengineer.EngineerCareerColumn),
-		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryEngineerPosition queries the engineerPosition edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryEngineerPosition(ce *CompanyEngineer) *CompanyPositionQuery {
-	query := (&CompanyPositionClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
-			sqlgraph.To(companyposition.Table, companyposition.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.EngineerPositionTable, companyengineer.EngineerPositionColumn),
-		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryCompanyOwners queries the companyOwners edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryCompanyOwners(ce *CompanyEngineer) *CompanyDetailQuery {
+// QueryCompany queries the company edge of a CompanyEngineer.
+func (c *CompanyEngineerClient) QueryCompany(ce *CompanyEngineer) *CompanyDetailQuery {
 	query := (&CompanyDetailClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := ce.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.CompanyOwnersTable, companyengineer.CompanyOwnersColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.CompanyTable, companyengineer.CompanyColumn),
 		)
 		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
 		return fromV, nil
@@ -899,107 +757,107 @@ func (c *CompanyEngineerClient) mutate(ctx context.Context, m *CompanyEngineerMu
 	}
 }
 
-// CompanyPositionClient is a client for the CompanyPosition schema.
-type CompanyPositionClient struct {
+// CompanyUserClient is a client for the CompanyUser schema.
+type CompanyUserClient struct {
 	config
 }
 
-// NewCompanyPositionClient returns a client for the CompanyPosition from the given config.
-func NewCompanyPositionClient(c config) *CompanyPositionClient {
-	return &CompanyPositionClient{config: c}
+// NewCompanyUserClient returns a client for the CompanyUser from the given config.
+func NewCompanyUserClient(c config) *CompanyUserClient {
+	return &CompanyUserClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `companyposition.Hooks(f(g(h())))`.
-func (c *CompanyPositionClient) Use(hooks ...Hook) {
-	c.hooks.CompanyPosition = append(c.hooks.CompanyPosition, hooks...)
+// A call to `Use(f, g, h)` equals to `companyuser.Hooks(f(g(h())))`.
+func (c *CompanyUserClient) Use(hooks ...Hook) {
+	c.hooks.CompanyUser = append(c.hooks.CompanyUser, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `companyposition.Intercept(f(g(h())))`.
-func (c *CompanyPositionClient) Intercept(interceptors ...Interceptor) {
-	c.inters.CompanyPosition = append(c.inters.CompanyPosition, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `companyuser.Intercept(f(g(h())))`.
+func (c *CompanyUserClient) Intercept(interceptors ...Interceptor) {
+	c.inters.CompanyUser = append(c.inters.CompanyUser, interceptors...)
 }
 
-// Create returns a builder for creating a CompanyPosition entity.
-func (c *CompanyPositionClient) Create() *CompanyPositionCreate {
-	mutation := newCompanyPositionMutation(c.config, OpCreate)
-	return &CompanyPositionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a CompanyUser entity.
+func (c *CompanyUserClient) Create() *CompanyUserCreate {
+	mutation := newCompanyUserMutation(c.config, OpCreate)
+	return &CompanyUserCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of CompanyPosition entities.
-func (c *CompanyPositionClient) CreateBulk(builders ...*CompanyPositionCreate) *CompanyPositionCreateBulk {
-	return &CompanyPositionCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of CompanyUser entities.
+func (c *CompanyUserClient) CreateBulk(builders ...*CompanyUserCreate) *CompanyUserCreateBulk {
+	return &CompanyUserCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *CompanyPositionClient) MapCreateBulk(slice any, setFunc func(*CompanyPositionCreate, int)) *CompanyPositionCreateBulk {
+func (c *CompanyUserClient) MapCreateBulk(slice any, setFunc func(*CompanyUserCreate, int)) *CompanyUserCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &CompanyPositionCreateBulk{err: fmt.Errorf("calling to CompanyPositionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &CompanyUserCreateBulk{err: fmt.Errorf("calling to CompanyUserClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*CompanyPositionCreate, rv.Len())
+	builders := make([]*CompanyUserCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &CompanyPositionCreateBulk{config: c.config, builders: builders}
+	return &CompanyUserCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for CompanyPosition.
-func (c *CompanyPositionClient) Update() *CompanyPositionUpdate {
-	mutation := newCompanyPositionMutation(c.config, OpUpdate)
-	return &CompanyPositionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for CompanyUser.
+func (c *CompanyUserClient) Update() *CompanyUserUpdate {
+	mutation := newCompanyUserMutation(c.config, OpUpdate)
+	return &CompanyUserUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CompanyPositionClient) UpdateOne(cp *CompanyPosition) *CompanyPositionUpdateOne {
-	mutation := newCompanyPositionMutation(c.config, OpUpdateOne, withCompanyPosition(cp))
-	return &CompanyPositionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *CompanyUserClient) UpdateOne(cu *CompanyUser) *CompanyUserUpdateOne {
+	mutation := newCompanyUserMutation(c.config, OpUpdateOne, withCompanyUser(cu))
+	return &CompanyUserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *CompanyPositionClient) UpdateOneID(id int) *CompanyPositionUpdateOne {
-	mutation := newCompanyPositionMutation(c.config, OpUpdateOne, withCompanyPositionID(id))
-	return &CompanyPositionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *CompanyUserClient) UpdateOneID(id int) *CompanyUserUpdateOne {
+	mutation := newCompanyUserMutation(c.config, OpUpdateOne, withCompanyUserID(id))
+	return &CompanyUserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for CompanyPosition.
-func (c *CompanyPositionClient) Delete() *CompanyPositionDelete {
-	mutation := newCompanyPositionMutation(c.config, OpDelete)
-	return &CompanyPositionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for CompanyUser.
+func (c *CompanyUserClient) Delete() *CompanyUserDelete {
+	mutation := newCompanyUserMutation(c.config, OpDelete)
+	return &CompanyUserDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CompanyPositionClient) DeleteOne(cp *CompanyPosition) *CompanyPositionDeleteOne {
-	return c.DeleteOneID(cp.ID)
+func (c *CompanyUserClient) DeleteOne(cu *CompanyUser) *CompanyUserDeleteOne {
+	return c.DeleteOneID(cu.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *CompanyPositionClient) DeleteOneID(id int) *CompanyPositionDeleteOne {
-	builder := c.Delete().Where(companyposition.ID(id))
+func (c *CompanyUserClient) DeleteOneID(id int) *CompanyUserDeleteOne {
+	builder := c.Delete().Where(companyuser.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &CompanyPositionDeleteOne{builder}
+	return &CompanyUserDeleteOne{builder}
 }
 
-// Query returns a query builder for CompanyPosition.
-func (c *CompanyPositionClient) Query() *CompanyPositionQuery {
-	return &CompanyPositionQuery{
+// Query returns a query builder for CompanyUser.
+func (c *CompanyUserClient) Query() *CompanyUserQuery {
+	return &CompanyUserQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeCompanyPosition},
+		ctx:    &QueryContext{Type: TypeCompanyUser},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a CompanyPosition entity by its id.
-func (c *CompanyPositionClient) Get(ctx context.Context, id int) (*CompanyPosition, error) {
-	return c.Query().Where(companyposition.ID(id)).Only(ctx)
+// Get returns a CompanyUser entity by its id.
+func (c *CompanyUserClient) Get(ctx context.Context, id int) (*CompanyUser, error) {
+	return c.Query().Where(companyuser.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *CompanyPositionClient) GetX(ctx context.Context, id int) *CompanyPosition {
+func (c *CompanyUserClient) GetX(ctx context.Context, id int) *CompanyUser {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -1007,44 +865,60 @@ func (c *CompanyPositionClient) GetX(ctx context.Context, id int) *CompanyPositi
 	return obj
 }
 
-// QueryEngineerPositions queries the engineerPositions edge of a CompanyPosition.
-func (c *CompanyPositionClient) QueryEngineerPositions(cp *CompanyPosition) *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: c.config}).Query()
+// QueryCompany queries the company edge of a CompanyUser.
+func (c *CompanyUserClient) QueryCompany(cu *CompanyUser) *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cp.ID
+		id := cu.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(companyposition.Table, companyposition.FieldID, id),
-			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companyposition.EngineerPositionsTable, companyposition.EngineerPositionsColumn),
+			sqlgraph.From(companyuser.Table, companyuser.FieldID, id),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.CompanyTable, companyuser.CompanyColumn),
 		)
-		fromV = sqlgraph.Neighbors(cp.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(cu.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryUser queries the user edge of a CompanyUser.
+func (c *CompanyUserClient) QueryUser(cu *CompanyUser) *UserQuery {
+	query := (&UserClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := cu.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companyuser.Table, companyuser.FieldID, id),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.UserTable, companyuser.UserColumn),
+		)
+		fromV = sqlgraph.Neighbors(cu.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *CompanyPositionClient) Hooks() []Hook {
-	return c.hooks.CompanyPosition
+func (c *CompanyUserClient) Hooks() []Hook {
+	return c.hooks.CompanyUser
 }
 
 // Interceptors returns the client interceptors.
-func (c *CompanyPositionClient) Interceptors() []Interceptor {
-	return c.inters.CompanyPosition
+func (c *CompanyUserClient) Interceptors() []Interceptor {
+	return c.inters.CompanyUser
 }
 
-func (c *CompanyPositionClient) mutate(ctx context.Context, m *CompanyPositionMutation) (Value, error) {
+func (c *CompanyUserClient) mutate(ctx context.Context, m *CompanyUserMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&CompanyPositionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&CompanyUserCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&CompanyPositionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&CompanyUserUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&CompanyPositionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&CompanyUserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&CompanyPositionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&CompanyUserDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown CompanyPosition mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown CompanyUser mutation op: %q", m.Op())
 	}
 }
 
@@ -1454,6 +1328,22 @@ func (c *JobDetailClient) GetX(ctx context.Context, id int) *JobDetail {
 	return obj
 }
 
+// QueryCompany queries the company edge of a JobDetail.
+func (c *JobDetailClient) QueryCompany(jd *JobDetail) *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, jobdetail.CompanyTable, jobdetail.CompanyColumn),
+		)
+		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // QueryOwner queries the owner edge of a JobDetail.
 func (c *JobDetailClient) QueryOwner(jd *JobDetail) *JobOwnerQuery {
 	query := (&JobOwnerClient{config: c.config}).Query()
@@ -1511,6 +1401,22 @@ func (c *JobDetailClient) QueryProgress(jd *JobDetail) *JobProgressQuery {
 			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
 			sqlgraph.To(jobprogress.Table, jobprogress.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobdetail.ProgressTable, jobdetail.ProgressColumn),
+		)
+		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QuerySupervisor queries the supervisor edge of a JobDetail.
+func (c *JobDetailClient) QuerySupervisor(jd *JobDetail) *JobSuperVisorQuery {
+	query := (&JobSuperVisorClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
+			sqlgraph.To(jobsupervisor.Table, jobsupervisor.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, jobdetail.SupervisorTable, jobdetail.SupervisorColumn),
 		)
 		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
 		return fromV, nil
@@ -1655,6 +1561,22 @@ func (c *JobDetailClient) QueryLayers(jd *JobDetail) *JobLayerQuery {
 			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
 			sqlgraph.To(joblayer.Table, joblayer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobdetail.LayersTable, jobdetail.LayersColumn),
+		)
+		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryPayments queries the payments edge of a JobDetail.
+func (c *JobDetailClient) QueryPayments(jd *JobDetail) *JobPaymentsQuery {
+	query := (&JobPaymentsClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jd.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
+			sqlgraph.To(jobpayments.Table, jobpayments.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, jobdetail.PaymentsTable, jobdetail.PaymentsColumn),
 		)
 		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
 		return fromV, nil
@@ -1985,6 +1907,155 @@ func (c *JobOwnerClient) mutate(ctx context.Context, m *JobOwnerMutation) (Value
 	}
 }
 
+// JobPaymentsClient is a client for the JobPayments schema.
+type JobPaymentsClient struct {
+	config
+}
+
+// NewJobPaymentsClient returns a client for the JobPayments from the given config.
+func NewJobPaymentsClient(c config) *JobPaymentsClient {
+	return &JobPaymentsClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `jobpayments.Hooks(f(g(h())))`.
+func (c *JobPaymentsClient) Use(hooks ...Hook) {
+	c.hooks.JobPayments = append(c.hooks.JobPayments, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `jobpayments.Intercept(f(g(h())))`.
+func (c *JobPaymentsClient) Intercept(interceptors ...Interceptor) {
+	c.inters.JobPayments = append(c.inters.JobPayments, interceptors...)
+}
+
+// Create returns a builder for creating a JobPayments entity.
+func (c *JobPaymentsClient) Create() *JobPaymentsCreate {
+	mutation := newJobPaymentsMutation(c.config, OpCreate)
+	return &JobPaymentsCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of JobPayments entities.
+func (c *JobPaymentsClient) CreateBulk(builders ...*JobPaymentsCreate) *JobPaymentsCreateBulk {
+	return &JobPaymentsCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *JobPaymentsClient) MapCreateBulk(slice any, setFunc func(*JobPaymentsCreate, int)) *JobPaymentsCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &JobPaymentsCreateBulk{err: fmt.Errorf("calling to JobPaymentsClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*JobPaymentsCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &JobPaymentsCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for JobPayments.
+func (c *JobPaymentsClient) Update() *JobPaymentsUpdate {
+	mutation := newJobPaymentsMutation(c.config, OpUpdate)
+	return &JobPaymentsUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *JobPaymentsClient) UpdateOne(jp *JobPayments) *JobPaymentsUpdateOne {
+	mutation := newJobPaymentsMutation(c.config, OpUpdateOne, withJobPayments(jp))
+	return &JobPaymentsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *JobPaymentsClient) UpdateOneID(id int) *JobPaymentsUpdateOne {
+	mutation := newJobPaymentsMutation(c.config, OpUpdateOne, withJobPaymentsID(id))
+	return &JobPaymentsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for JobPayments.
+func (c *JobPaymentsClient) Delete() *JobPaymentsDelete {
+	mutation := newJobPaymentsMutation(c.config, OpDelete)
+	return &JobPaymentsDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *JobPaymentsClient) DeleteOne(jp *JobPayments) *JobPaymentsDeleteOne {
+	return c.DeleteOneID(jp.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *JobPaymentsClient) DeleteOneID(id int) *JobPaymentsDeleteOne {
+	builder := c.Delete().Where(jobpayments.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &JobPaymentsDeleteOne{builder}
+}
+
+// Query returns a query builder for JobPayments.
+func (c *JobPaymentsClient) Query() *JobPaymentsQuery {
+	return &JobPaymentsQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeJobPayments},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a JobPayments entity by its id.
+func (c *JobPaymentsClient) Get(ctx context.Context, id int) (*JobPayments, error) {
+	return c.Query().Where(jobpayments.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *JobPaymentsClient) GetX(ctx context.Context, id int) *JobPayments {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryPayments queries the payments edge of a JobPayments.
+func (c *JobPaymentsClient) QueryPayments(jp *JobPayments) *JobDetailQuery {
+	query := (&JobDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jp.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobpayments.Table, jobpayments.FieldID, id),
+			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, jobpayments.PaymentsTable, jobpayments.PaymentsColumn),
+		)
+		fromV = sqlgraph.Neighbors(jp.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *JobPaymentsClient) Hooks() []Hook {
+	return c.hooks.JobPayments
+}
+
+// Interceptors returns the client interceptors.
+func (c *JobPaymentsClient) Interceptors() []Interceptor {
+	return c.inters.JobPayments
+}
+
+func (c *JobPaymentsClient) mutate(ctx context.Context, m *JobPaymentsMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&JobPaymentsCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&JobPaymentsUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&JobPaymentsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&JobPaymentsDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown JobPayments mutation op: %q", m.Op())
+	}
+}
+
 // JobProgressClient is a client for the JobProgress schema.
 type JobProgressClient struct {
 	config
@@ -2134,6 +2205,155 @@ func (c *JobProgressClient) mutate(ctx context.Context, m *JobProgressMutation) 
 	}
 }
 
+// JobSuperVisorClient is a client for the JobSuperVisor schema.
+type JobSuperVisorClient struct {
+	config
+}
+
+// NewJobSuperVisorClient returns a client for the JobSuperVisor from the given config.
+func NewJobSuperVisorClient(c config) *JobSuperVisorClient {
+	return &JobSuperVisorClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `jobsupervisor.Hooks(f(g(h())))`.
+func (c *JobSuperVisorClient) Use(hooks ...Hook) {
+	c.hooks.JobSuperVisor = append(c.hooks.JobSuperVisor, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `jobsupervisor.Intercept(f(g(h())))`.
+func (c *JobSuperVisorClient) Intercept(interceptors ...Interceptor) {
+	c.inters.JobSuperVisor = append(c.inters.JobSuperVisor, interceptors...)
+}
+
+// Create returns a builder for creating a JobSuperVisor entity.
+func (c *JobSuperVisorClient) Create() *JobSuperVisorCreate {
+	mutation := newJobSuperVisorMutation(c.config, OpCreate)
+	return &JobSuperVisorCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of JobSuperVisor entities.
+func (c *JobSuperVisorClient) CreateBulk(builders ...*JobSuperVisorCreate) *JobSuperVisorCreateBulk {
+	return &JobSuperVisorCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *JobSuperVisorClient) MapCreateBulk(slice any, setFunc func(*JobSuperVisorCreate, int)) *JobSuperVisorCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &JobSuperVisorCreateBulk{err: fmt.Errorf("calling to JobSuperVisorClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*JobSuperVisorCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &JobSuperVisorCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for JobSuperVisor.
+func (c *JobSuperVisorClient) Update() *JobSuperVisorUpdate {
+	mutation := newJobSuperVisorMutation(c.config, OpUpdate)
+	return &JobSuperVisorUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *JobSuperVisorClient) UpdateOne(jsv *JobSuperVisor) *JobSuperVisorUpdateOne {
+	mutation := newJobSuperVisorMutation(c.config, OpUpdateOne, withJobSuperVisor(jsv))
+	return &JobSuperVisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *JobSuperVisorClient) UpdateOneID(id int) *JobSuperVisorUpdateOne {
+	mutation := newJobSuperVisorMutation(c.config, OpUpdateOne, withJobSuperVisorID(id))
+	return &JobSuperVisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for JobSuperVisor.
+func (c *JobSuperVisorClient) Delete() *JobSuperVisorDelete {
+	mutation := newJobSuperVisorMutation(c.config, OpDelete)
+	return &JobSuperVisorDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *JobSuperVisorClient) DeleteOne(jsv *JobSuperVisor) *JobSuperVisorDeleteOne {
+	return c.DeleteOneID(jsv.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *JobSuperVisorClient) DeleteOneID(id int) *JobSuperVisorDeleteOne {
+	builder := c.Delete().Where(jobsupervisor.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &JobSuperVisorDeleteOne{builder}
+}
+
+// Query returns a query builder for JobSuperVisor.
+func (c *JobSuperVisorClient) Query() *JobSuperVisorQuery {
+	return &JobSuperVisorQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeJobSuperVisor},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a JobSuperVisor entity by its id.
+func (c *JobSuperVisorClient) Get(ctx context.Context, id int) (*JobSuperVisor, error) {
+	return c.Query().Where(jobsupervisor.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *JobSuperVisorClient) GetX(ctx context.Context, id int) *JobSuperVisor {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QuerySupervisors queries the supervisors edge of a JobSuperVisor.
+func (c *JobSuperVisorClient) QuerySupervisors(jsv *JobSuperVisor) *JobDetailQuery {
+	query := (&JobDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jsv.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobsupervisor.Table, jobsupervisor.FieldID, id),
+			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, jobsupervisor.SupervisorsTable, jobsupervisor.SupervisorsColumn),
+		)
+		fromV = sqlgraph.Neighbors(jsv.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *JobSuperVisorClient) Hooks() []Hook {
+	return c.hooks.JobSuperVisor
+}
+
+// Interceptors returns the client interceptors.
+func (c *JobSuperVisorClient) Interceptors() []Interceptor {
+	return c.inters.JobSuperVisor
+}
+
+func (c *JobSuperVisorClient) mutate(ctx context.Context, m *JobSuperVisorMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&JobSuperVisorCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&JobSuperVisorUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&JobSuperVisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&JobSuperVisorDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown JobSuperVisor mutation op: %q", m.Op())
+	}
+}
+
 // UserClient is a client for the User schema.
 type UserClient struct {
 	config
@@ -2242,6 +2462,22 @@ func (c *UserClient) GetX(ctx context.Context, id int) *User {
 	return obj
 }
 
+// QueryCompanies queries the companies edge of a User.
+func (c *UserClient) QueryCompanies(u *User) *CompanyUserQuery {
+	query := (&CompanyUserClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := u.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, id),
+			sqlgraph.To(companyuser.Table, companyuser.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.CompaniesTable, user.CompaniesColumn),
+		)
+		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *UserClient) Hooks() []Hook {
 	return c.hooks.User
@@ -2270,12 +2506,13 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		CompanyCareer, CompanyDetail, CompanyEngineer, CompanyPosition, JobAuthor,
-		JobContractor, JobDetail, JobLayer, JobOwner, JobProgress, User []ent.Hook
+		CompanyDetail, CompanyEngineer, CompanyUser, JobAuthor, JobContractor,
+		JobDetail, JobLayer, JobOwner, JobPayments, JobProgress, JobSuperVisor,
+		User []ent.Hook
 	}
 	inters struct {
-		CompanyCareer, CompanyDetail, CompanyEngineer, CompanyPosition, JobAuthor,
-		JobContractor, JobDetail, JobLayer, JobOwner, JobProgress,
+		CompanyDetail, CompanyEngineer, CompanyUser, JobAuthor, JobContractor,
+		JobDetail, JobLayer, JobOwner, JobPayments, JobProgress, JobSuperVisor,
 		User []ent.Interceptor
 	}
 )

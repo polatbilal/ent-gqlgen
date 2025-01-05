@@ -6,12 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gqlgen-ent/ent/jobdetail"
-	"gqlgen-ent/ent/jobowner"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 )
 
 // JobOwnerCreate is the builder for creating a JobOwner entity.
@@ -119,6 +119,20 @@ func (joc *JobOwnerCreate) SetNillableEmail(s *string) *JobOwnerCreate {
 	return joc
 }
 
+// SetYdsID sets the "yds_id" field.
+func (joc *JobOwnerCreate) SetYdsID(i int) *JobOwnerCreate {
+	joc.mutation.SetYdsID(i)
+	return joc
+}
+
+// SetNillableYdsID sets the "yds_id" field if the given value is not nil.
+func (joc *JobOwnerCreate) SetNillableYdsID(i *int) *JobOwnerCreate {
+	if i != nil {
+		joc.SetYdsID(*i)
+	}
+	return joc
+}
+
 // SetNote sets the "Note" field.
 func (joc *JobOwnerCreate) SetNote(s string) *JobOwnerCreate {
 	joc.mutation.SetNote(s)
@@ -133,27 +147,13 @@ func (joc *JobOwnerCreate) SetNillableNote(s *string) *JobOwnerCreate {
 	return joc
 }
 
-// SetDeleted sets the "Deleted" field.
-func (joc *JobOwnerCreate) SetDeleted(i int) *JobOwnerCreate {
-	joc.mutation.SetDeleted(i)
-	return joc
-}
-
-// SetNillableDeleted sets the "Deleted" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableDeleted(i *int) *JobOwnerCreate {
-	if i != nil {
-		joc.SetDeleted(*i)
-	}
-	return joc
-}
-
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (joc *JobOwnerCreate) SetCreatedAt(t time.Time) *JobOwnerCreate {
 	joc.mutation.SetCreatedAt(t)
 	return joc
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (joc *JobOwnerCreate) SetNillableCreatedAt(t *time.Time) *JobOwnerCreate {
 	if t != nil {
 		joc.SetCreatedAt(*t)
@@ -161,13 +161,13 @@ func (joc *JobOwnerCreate) SetNillableCreatedAt(t *time.Time) *JobOwnerCreate {
 	return joc
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (joc *JobOwnerCreate) SetUpdatedAt(t time.Time) *JobOwnerCreate {
 	joc.mutation.SetUpdatedAt(t)
 	return joc
 }
 
-// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+// SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
 func (joc *JobOwnerCreate) SetNillableUpdatedAt(t *time.Time) *JobOwnerCreate {
 	if t != nil {
 		joc.SetUpdatedAt(*t)
@@ -229,10 +229,6 @@ func (joc *JobOwnerCreate) defaults() {
 		v := jobowner.DefaultName
 		joc.mutation.SetName(v)
 	}
-	if _, ok := joc.mutation.Deleted(); !ok {
-		v := jobowner.DefaultDeleted
-		joc.mutation.SetDeleted(v)
-	}
 	if _, ok := joc.mutation.CreatedAt(); !ok {
 		v := jobowner.DefaultCreatedAt()
 		joc.mutation.SetCreatedAt(v)
@@ -248,14 +244,11 @@ func (joc *JobOwnerCreate) check() error {
 	if _, ok := joc.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "JobOwner.Name"`)}
 	}
-	if _, ok := joc.mutation.Deleted(); !ok {
-		return &ValidationError{Name: "Deleted", err: errors.New(`ent: missing required field "JobOwner.Deleted"`)}
-	}
 	if _, ok := joc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "JobOwner.created_at"`)}
+		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobOwner.CreatedAt"`)}
 	}
 	if _, ok := joc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "JobOwner.updated_at"`)}
+		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobOwner.UpdatedAt"`)}
 	}
 	return nil
 }
@@ -311,13 +304,13 @@ func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobowner.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
+	if value, ok := joc.mutation.YdsID(); ok {
+		_spec.SetField(jobowner.FieldYdsID, field.TypeInt, value)
+		_node.YdsID = value
+	}
 	if value, ok := joc.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
 		_node.Note = value
-	}
-	if value, ok := joc.mutation.Deleted(); ok {
-		_spec.SetField(jobowner.FieldDeleted, field.TypeInt, value)
-		_node.Deleted = value
 	}
 	if value, ok := joc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)

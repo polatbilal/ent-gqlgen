@@ -2,30 +2,28 @@
 type JobDetail {
   id: ID!
   YibfNo: Int!
-  Province: String
   Idare: String
   Pafta: String
   Ada: String
   Parsel: String
   FolderNo: String
   Status: Int
+  State: String
   ContractDate: String
   StartDate: String
+  CompletionDate: String
   LicenseDate: String
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
-  District: String
-  Village: String
-  Street: String
+  Address: String
   BuildingClass: String
   BuildingType: String
-  BuildingBlock: String
+  Level: Float
   Floors: Int
   Note: String
   Started: Int
   UsagePurpose: String
-  Deleted: Int
   Owner: JobOwner
   Contractor: JobContractor
   Author: JobAuthor
@@ -40,34 +38,34 @@ type JobDetail {
   ElectricController: CompanyEngineer
   CreatedAt: String
   Layer: [JobLayer]
+  Supervisor: Supervisor
 }
 
 input JobInput {
   YibfNo: Int
-  Province: String
+  CompanyCode: Int!
   Idare: String
   Pafta: String
   Ada: String
   Parsel: String
   FolderNo: String
   Status: Int
+  State: String
   ContractDate: String
   StartDate: String
+  CompletionDate: String
   LicenseDate: String
   LicenseNo: String
   ConstructionArea: String
   LandArea: String
-  District: String
-  Village: String
-  Street: String
+  Address: String
   BuildingClass: String
   BuildingType: String
-  BuildingBlock: String
   Floors: Int
+  Level: Float
   Note: String
   Started: Int
   UsagePurpose: String
-  Deleted: Int
   Owner: [JobOwnerInput]
   Contractor: [JobContractorInput]
   Author: [JobAuthorInput]
@@ -80,6 +78,7 @@ input JobInput {
   Controller: Int
   MechanicController: Int
   ElectricController: Int
+  Supervisor: SupervisorInput
 }
 
 # Job Author
@@ -90,7 +89,6 @@ type JobAuthor {
   Mechanic: String
   Electric: String
   Floor: String
-  Deleted: Int
 }
 
 input JobAuthorInput {
@@ -99,7 +97,36 @@ input JobAuthorInput {
   Mechanic: String
   Electric: String
   Floor: String
-  Deleted: Int
+}
+
+type Supervisor {
+  id: ID!
+  Name: String
+  Address: String
+  Phone: String
+  Email: String
+  TCNO: Int
+  Position: String
+  Career: String
+  RegNo: Int
+  SocialSecurityNo: Int
+  SchoolGraduation: String
+  YDSID: Int
+  Job: [JobDetail]
+}
+
+input SupervisorInput {
+  Name: String
+  Address: String
+  Phone: String
+  Email: String
+  TCNO: Int
+  Position: String
+  Career: String
+  RegNo: Int
+  SocialSecurityNo: Int
+  SchoolGraduation: String
+  YDSID: Int
 }
 
 # Job Progress
@@ -123,13 +150,8 @@ input JobProgressInput {
 }
 
 extend type Query {
-  job(
-    yibfNo: Int
-    district: String
-    ada: String
-    parsel: String
-    ownerName: String
-  ): [JobDetail]! @goField(forceResolver: true) @auth
+  job(yibfNo: Int!): JobDetail
+  jobs: [JobDetail!]!
 }
 
 extend type Mutation {
@@ -138,6 +160,4 @@ extend type Mutation {
   updateJob(YibfNo: Int!, input: JobInput!): JobDetail!
     @goField(forceResolver: true)
     @auth
-
-  deleteJob(YibfNo: Int!): Boolean! @goField(forceResolver: true) @auth
 }

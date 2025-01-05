@@ -23,11 +23,11 @@ func (JobOwner) Fields() []ent.Field {
 		field.Int("TaxNo").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
+		field.Int("yds_id").Optional(),
 		field.String("Note").Optional(),
-		field.Int("Deleted").Default(0),
 
-		field.Time("created_at").Default(time.Now),
-		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
+		field.Time("CreatedAt").Default(time.Now),
+		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}
 }
 
