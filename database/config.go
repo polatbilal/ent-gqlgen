@@ -12,28 +12,24 @@ import (
 )
 
 var (
-	dbClients = make(map[string]*ent.Client)
-	mu        sync.Mutex
+	client *ent.Client
+	once   sync.Once
 )
 
-func GetClient(companyCode string) (*ent.Client, error) {
-	mu.Lock()
-	defer mu.Unlock()
+func GetClient() (*ent.Client, error) {
+	var err error
+	once.Do(func() {
+		client, err = Connect()
+	})
 
-	if client, exists := dbClients[companyCode]; exists {
-		return client, nil
-	}
-
-	client, err := Connect(companyCode)
 	if err != nil {
 		return nil, err
 	}
 
-	dbClients[companyCode] = client
 	return client, nil
 }
 
-func Connect(companyCode string) (*ent.Client, error) {
+func Connect() (*ent.Client, error) {
 	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL == "" {
 		log.Printf("Error: DATABASE_URL environment variable is not set")

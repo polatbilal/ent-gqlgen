@@ -66,8 +66,7 @@ func main() {
 	}
 
 	// Database connection
-	companyCode := "3"
-	client, err := database.GetClient(companyCode)
+	client, err := database.GetClient()
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}

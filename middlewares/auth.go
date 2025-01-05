@@ -63,7 +63,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		costumClaim, _ := validate.Claims.(*services.JwtCustomClaim)
 
 		// Veritabanına bağlan
-		client, err := database.GetClient("")
+		client, err := database.GetClient()
 		if err != nil {
 			fmt.Println("veritabanına bağlanırken hata oluştu")
 			c.Next() // Devam et
@@ -84,7 +84,7 @@ func CtxValue(ctx context.Context) *services.JwtCustomClaim {
 }
 
 func GetClientFromContext(ctx context.Context) *ent.Client {
-	client, err := database.GetClient("")
+	client, err := database.GetClient()
 	if err != nil {
 		return nil
 	}
