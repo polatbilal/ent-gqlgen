@@ -69,7 +69,8 @@ func (r *mutationResolver) CompanyToken(ctx context.Context, departmentID *int, 
 	// 1. Önce token'ı kaydet
 	tokenCreate := client.CompanyToken.Create().
 		SetToken(*input.Token).
-		SetDepartmentID(*departmentID)
+		SetDepartmentID(*departmentID).
+		SetExpireDate(*input.ExpireDate)
 
 	createCompanyToken, err := tokenCreate.Save(ctx)
 	if err != nil {
