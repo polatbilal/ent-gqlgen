@@ -31,7 +31,6 @@ func (CompanyDetail) Fields() []ent.Field {
 		field.Bool("VisaFinishedFor90Days").Default(false).Optional(),
 		field.Bool("CorePersonAbsent90Days").Default(false).Optional(),
 		field.Bool("IsClosed").Default(false),
-		field.Int("DepartmentId").Unique(),
 
 		field.String("OwnerName").Optional(),
 		field.Int("OwnerTcNo").Optional(),

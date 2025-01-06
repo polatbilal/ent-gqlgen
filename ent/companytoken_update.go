@@ -49,30 +49,50 @@ func (ctu *CompanyTokenUpdate) ClearToken() *CompanyTokenUpdate {
 	return ctu
 }
 
-// SetDepartmentId sets the "DepartmentId" field.
-func (ctu *CompanyTokenUpdate) SetDepartmentId(i int) *CompanyTokenUpdate {
-	ctu.mutation.ResetDepartmentId()
-	ctu.mutation.SetDepartmentId(i)
+// SetDepartmentID sets the "department_id" field.
+func (ctu *CompanyTokenUpdate) SetDepartmentID(i int) *CompanyTokenUpdate {
+	ctu.mutation.ResetDepartmentID()
+	ctu.mutation.SetDepartmentID(i)
 	return ctu
 }
 
-// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableDepartmentId(i *int) *CompanyTokenUpdate {
+// SetNillableDepartmentID sets the "department_id" field if the given value is not nil.
+func (ctu *CompanyTokenUpdate) SetNillableDepartmentID(i *int) *CompanyTokenUpdate {
 	if i != nil {
-		ctu.SetDepartmentId(*i)
+		ctu.SetDepartmentID(*i)
 	}
 	return ctu
 }
 
-// AddDepartmentId adds i to the "DepartmentId" field.
-func (ctu *CompanyTokenUpdate) AddDepartmentId(i int) *CompanyTokenUpdate {
-	ctu.mutation.AddDepartmentId(i)
+// AddDepartmentID adds i to the "department_id" field.
+func (ctu *CompanyTokenUpdate) AddDepartmentID(i int) *CompanyTokenUpdate {
+	ctu.mutation.AddDepartmentID(i)
 	return ctu
 }
 
-// ClearDepartmentId clears the value of the "DepartmentId" field.
-func (ctu *CompanyTokenUpdate) ClearDepartmentId() *CompanyTokenUpdate {
-	ctu.mutation.ClearDepartmentId()
+// ClearDepartmentID clears the value of the "department_id" field.
+func (ctu *CompanyTokenUpdate) ClearDepartmentID() *CompanyTokenUpdate {
+	ctu.mutation.ClearDepartmentID()
+	return ctu
+}
+
+// SetExpireDate sets the "expire_date" field.
+func (ctu *CompanyTokenUpdate) SetExpireDate(t time.Time) *CompanyTokenUpdate {
+	ctu.mutation.SetExpireDate(t)
+	return ctu
+}
+
+// SetNillableExpireDate sets the "expire_date" field if the given value is not nil.
+func (ctu *CompanyTokenUpdate) SetNillableExpireDate(t *time.Time) *CompanyTokenUpdate {
+	if t != nil {
+		ctu.SetExpireDate(*t)
+	}
+	return ctu
+}
+
+// ClearExpireDate clears the value of the "expire_date" field.
+func (ctu *CompanyTokenUpdate) ClearExpireDate() *CompanyTokenUpdate {
+	ctu.mutation.ClearExpireDate()
 	return ctu
 }
 
@@ -177,14 +197,20 @@ func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ctu.mutation.TokenCleared() {
 		_spec.ClearField(companytoken.FieldToken, field.TypeString)
 	}
-	if value, ok := ctu.mutation.DepartmentId(); ok {
-		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
+	if value, ok := ctu.mutation.DepartmentID(); ok {
+		_spec.SetField(companytoken.FieldDepartmentID, field.TypeInt, value)
 	}
-	if value, ok := ctu.mutation.AddedDepartmentId(); ok {
-		_spec.AddField(companytoken.FieldDepartmentId, field.TypeInt, value)
+	if value, ok := ctu.mutation.AddedDepartmentID(); ok {
+		_spec.AddField(companytoken.FieldDepartmentID, field.TypeInt, value)
 	}
-	if ctu.mutation.DepartmentIdCleared() {
-		_spec.ClearField(companytoken.FieldDepartmentId, field.TypeInt)
+	if ctu.mutation.DepartmentIDCleared() {
+		_spec.ClearField(companytoken.FieldDepartmentID, field.TypeInt)
+	}
+	if value, ok := ctu.mutation.ExpireDate(); ok {
+		_spec.SetField(companytoken.FieldExpireDate, field.TypeTime, value)
+	}
+	if ctu.mutation.ExpireDateCleared() {
+		_spec.ClearField(companytoken.FieldExpireDate, field.TypeTime)
 	}
 	if value, ok := ctu.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
@@ -261,30 +287,50 @@ func (ctuo *CompanyTokenUpdateOne) ClearToken() *CompanyTokenUpdateOne {
 	return ctuo
 }
 
-// SetDepartmentId sets the "DepartmentId" field.
-func (ctuo *CompanyTokenUpdateOne) SetDepartmentId(i int) *CompanyTokenUpdateOne {
-	ctuo.mutation.ResetDepartmentId()
-	ctuo.mutation.SetDepartmentId(i)
+// SetDepartmentID sets the "department_id" field.
+func (ctuo *CompanyTokenUpdateOne) SetDepartmentID(i int) *CompanyTokenUpdateOne {
+	ctuo.mutation.ResetDepartmentID()
+	ctuo.mutation.SetDepartmentID(i)
 	return ctuo
 }
 
-// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableDepartmentId(i *int) *CompanyTokenUpdateOne {
+// SetNillableDepartmentID sets the "department_id" field if the given value is not nil.
+func (ctuo *CompanyTokenUpdateOne) SetNillableDepartmentID(i *int) *CompanyTokenUpdateOne {
 	if i != nil {
-		ctuo.SetDepartmentId(*i)
+		ctuo.SetDepartmentID(*i)
 	}
 	return ctuo
 }
 
-// AddDepartmentId adds i to the "DepartmentId" field.
-func (ctuo *CompanyTokenUpdateOne) AddDepartmentId(i int) *CompanyTokenUpdateOne {
-	ctuo.mutation.AddDepartmentId(i)
+// AddDepartmentID adds i to the "department_id" field.
+func (ctuo *CompanyTokenUpdateOne) AddDepartmentID(i int) *CompanyTokenUpdateOne {
+	ctuo.mutation.AddDepartmentID(i)
 	return ctuo
 }
 
-// ClearDepartmentId clears the value of the "DepartmentId" field.
-func (ctuo *CompanyTokenUpdateOne) ClearDepartmentId() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearDepartmentId()
+// ClearDepartmentID clears the value of the "department_id" field.
+func (ctuo *CompanyTokenUpdateOne) ClearDepartmentID() *CompanyTokenUpdateOne {
+	ctuo.mutation.ClearDepartmentID()
+	return ctuo
+}
+
+// SetExpireDate sets the "expire_date" field.
+func (ctuo *CompanyTokenUpdateOne) SetExpireDate(t time.Time) *CompanyTokenUpdateOne {
+	ctuo.mutation.SetExpireDate(t)
+	return ctuo
+}
+
+// SetNillableExpireDate sets the "expire_date" field if the given value is not nil.
+func (ctuo *CompanyTokenUpdateOne) SetNillableExpireDate(t *time.Time) *CompanyTokenUpdateOne {
+	if t != nil {
+		ctuo.SetExpireDate(*t)
+	}
+	return ctuo
+}
+
+// ClearExpireDate clears the value of the "expire_date" field.
+func (ctuo *CompanyTokenUpdateOne) ClearExpireDate() *CompanyTokenUpdateOne {
+	ctuo.mutation.ClearExpireDate()
 	return ctuo
 }
 
@@ -419,14 +465,20 @@ func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyT
 	if ctuo.mutation.TokenCleared() {
 		_spec.ClearField(companytoken.FieldToken, field.TypeString)
 	}
-	if value, ok := ctuo.mutation.DepartmentId(); ok {
-		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
+	if value, ok := ctuo.mutation.DepartmentID(); ok {
+		_spec.SetField(companytoken.FieldDepartmentID, field.TypeInt, value)
 	}
-	if value, ok := ctuo.mutation.AddedDepartmentId(); ok {
-		_spec.AddField(companytoken.FieldDepartmentId, field.TypeInt, value)
+	if value, ok := ctuo.mutation.AddedDepartmentID(); ok {
+		_spec.AddField(companytoken.FieldDepartmentID, field.TypeInt, value)
 	}
-	if ctuo.mutation.DepartmentIdCleared() {
-		_spec.ClearField(companytoken.FieldDepartmentId, field.TypeInt)
+	if ctuo.mutation.DepartmentIDCleared() {
+		_spec.ClearField(companytoken.FieldDepartmentID, field.TypeInt)
+	}
+	if value, ok := ctuo.mutation.ExpireDate(); ok {
+		_spec.SetField(companytoken.FieldExpireDate, field.TypeTime, value)
+	}
+	if ctuo.mutation.ExpireDateCleared() {
+		_spec.ClearField(companytoken.FieldExpireDate, field.TypeTime)
 	}
 	if value, ok := ctuo.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)

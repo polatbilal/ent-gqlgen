@@ -20,8 +20,10 @@ type CompanyToken struct {
 	ID int `json:"id,omitempty"`
 	// Token holds the value of the "token" field.
 	Token string `json:"token,omitempty"`
-	// DepartmentId holds the value of the "DepartmentId" field.
-	DepartmentId int `json:"DepartmentId,omitempty"`
+	// DepartmentID holds the value of the "department_id" field.
+	DepartmentID int `json:"department_id,omitempty"`
+	// ExpireDate holds the value of the "expire_date" field.
+	ExpireDate time.Time `json:"expire_date,omitempty"`
 	// CreatedAt holds the value of the "createdAt" field.
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 	// UpdatedAt holds the value of the "updatedAt" field.
@@ -60,11 +62,11 @@ func (*CompanyToken) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case companytoken.FieldID, companytoken.FieldDepartmentId:
+		case companytoken.FieldID, companytoken.FieldDepartmentID:
 			values[i] = new(sql.NullInt64)
 		case companytoken.FieldToken:
 			values[i] = new(sql.NullString)
-		case companytoken.FieldCreatedAt, companytoken.FieldUpdatedAt:
+		case companytoken.FieldExpireDate, companytoken.FieldCreatedAt, companytoken.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case companytoken.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
@@ -95,11 +97,17 @@ func (ct *CompanyToken) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				ct.Token = value.String
 			}
-		case companytoken.FieldDepartmentId:
+		case companytoken.FieldDepartmentID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field DepartmentId", values[i])
+				return fmt.Errorf("unexpected type %T for field department_id", values[i])
 			} else if value.Valid {
-				ct.DepartmentId = int(value.Int64)
+				ct.DepartmentID = int(value.Int64)
+			}
+		case companytoken.FieldExpireDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field expire_date", values[i])
+			} else if value.Valid {
+				ct.ExpireDate = value.Time
 			}
 		case companytoken.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -164,8 +172,11 @@ func (ct *CompanyToken) String() string {
 	builder.WriteString("token=")
 	builder.WriteString(ct.Token)
 	builder.WriteString(", ")
-	builder.WriteString("DepartmentId=")
-	builder.WriteString(fmt.Sprintf("%v", ct.DepartmentId))
+	builder.WriteString("department_id=")
+	builder.WriteString(fmt.Sprintf("%v", ct.DepartmentID))
+	builder.WriteString(", ")
+	builder.WriteString("expire_date=")
+	builder.WriteString(ct.ExpireDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("createdAt=")
 	builder.WriteString(ct.CreatedAt.Format(time.ANSIC))

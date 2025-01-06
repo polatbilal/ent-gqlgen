@@ -47,8 +47,6 @@ type CompanyDetail struct {
 	CorePersonAbsent90Days bool `json:"CorePersonAbsent90Days,omitempty"`
 	// IsClosed holds the value of the "IsClosed" field.
 	IsClosed bool `json:"IsClosed,omitempty"`
-	// DepartmentId holds the value of the "DepartmentId" field.
-	DepartmentId int `json:"DepartmentId,omitempty"`
 	// OwnerName holds the value of the "OwnerName" field.
 	OwnerName string `json:"OwnerName,omitempty"`
 	// OwnerTcNo holds the value of the "OwnerTcNo" field.
@@ -138,7 +136,7 @@ func (*CompanyDetail) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case companydetail.FieldVisaFinishedFor90Days, companydetail.FieldCorePersonAbsent90Days, companydetail.FieldIsClosed:
 			values[i] = new(sql.NullBool)
-		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo, companydetail.FieldDepartmentId, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerRegisterNo:
+		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerRegisterNo:
 			values[i] = new(sql.NullInt64)
 		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerCareer:
 			values[i] = new(sql.NullString)
@@ -254,12 +252,6 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field IsClosed", values[i])
 			} else if value.Valid {
 				cd.IsClosed = value.Bool
-			}
-		case companydetail.FieldDepartmentId:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field DepartmentId", values[i])
-			} else if value.Valid {
-				cd.DepartmentId = int(value.Int64)
 			}
 		case companydetail.FieldOwnerName:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -415,9 +407,6 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("IsClosed=")
 	builder.WriteString(fmt.Sprintf("%v", cd.IsClosed))
-	builder.WriteString(", ")
-	builder.WriteString("DepartmentId=")
-	builder.WriteString(fmt.Sprintf("%v", cd.DepartmentId))
 	builder.WriteString(", ")
 	builder.WriteString("OwnerName=")
 	builder.WriteString(cd.OwnerName)

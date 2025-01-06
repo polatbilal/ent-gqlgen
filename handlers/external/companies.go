@@ -11,8 +11,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 
+	"github.com/polatbilal/gqlgen-ent/database"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
@@ -27,19 +28,50 @@ func YDKCompanies(c *gin.Context) {
 		return
 	}
 
-	// YDK API için token
-	ydkTokenStr := c.GetHeader("YDK-Token")
-	if ydkTokenStr == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "YDK Token gerekli"})
+	// CompanyCode parametresini al
+	companyCode := c.Query("companyCode")
+	if companyCode == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode parametresi gerekli"})
 		return
 	}
 
-	// YDK token'ı JSON'dan parse et
-	var ydkToken service.YDKTokenResponse
-	if err := json.Unmarshal([]byte(ydkTokenStr), &ydkToken); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK Token parse hatası: " + err.Error()})
+	// CompanyCode'u integer'a çevir
+	companyCodeInt, err := strconv.Atoi(companyCode)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçersiz CompanyCode formatı"})
 		return
 	}
+
+	// Veritabanı bağlantısını al
+	dbClient, err := database.GetClient()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Veritabanı bağlantısı kurulamadı: " + err.Error()})
+		return
+	}
+
+	// Önce CompanyDetail'den şirketi bul
+	company, err := dbClient.CompanyDetail.Query().
+		Where(companydetail.CompanyCode(companyCodeInt)).
+		First(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Şirket bulunamadı: " + err.Error()})
+		return
+	}
+
+	// Şirketin token bilgisini al
+	companyToken, err := company.QueryTokens().
+		First(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token bilgisi bulunamadı: " + err.Error()})
+		return
+	}
+
+	if companyToken.Token == "" || companyToken.DepartmentID == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçerli token veya department ID bulunamadı"})
+		return
+	}
+
+	log.Printf("Token: %s, DepartmentID: %d", companyToken.Token, companyToken.DepartmentID)
 
 	svc := &service.ExternalService{
 		BaseURL: os.Getenv("YDK_BASE_URL"),
@@ -52,7 +84,7 @@ func YDKCompanies(c *gin.Context) {
 	}
 
 	requestBody := map[string]interface{}{
-		"id": ydkToken.DepartmentID,
+		"id": companyToken.DepartmentID,
 	}
 
 	jsonBody, err := json.Marshal(requestBody)
@@ -68,7 +100,7 @@ func YDKCompanies(c *gin.Context) {
 		return
 	}
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := svc.Client.Do(req)
@@ -105,8 +137,8 @@ func YDKCompanies(c *gin.Context) {
 	}
 
 	if len(ydkResponse.Items) == 0 {
-		log.Printf("ydkToken.AccessToken: %s", ydkToken.AccessToken)
-		log.Printf("ydkToken.DepartmentID: %d", ydkToken.DepartmentID)
+		log.Printf("ydkToken.AccessToken: %s", companyToken.Token)
+		log.Printf("ydkToken.DepartmentID: %d", companyToken.DepartmentID)
 		log.Printf("Şirket bilgisi bulunamadı. Ham yanıt: %s\n", string(body))
 		c.JSON(http.StatusNotFound, gin.H{"error": "Şirket bilgisi bulunamadı"})
 		return
@@ -116,8 +148,8 @@ func YDKCompanies(c *gin.Context) {
 	item := ydkResponse.Items[0]
 
 	// Unix timestamp'i tarihe çevir
-	visaDate := time.Unix(item.Department.VisaDate/1000, 0).Local().Format("2006-01-02")
-	visaEndDate := time.Unix(item.Department.VisaEndDate/1000, 0).Local().Format("2006-01-02")
+	visaDate := service.SafeUnixToDate(item.Department.VisaDate)
+	visaEndDate := service.SafeUnixToDate(item.Department.VisaEndDate)
 
 	// GraphQL client oluştur
 	scheme := "http"
@@ -127,31 +159,6 @@ func YDKCompanies(c *gin.Context) {
 	graphqlClient := client.GraphQLClient{
 		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Request.Host),
 	}
-
-	// Önce şirketin var olup olmadığını kontrol et
-	checkQuery := `
-	query CheckCompany($companyCode: Int!) {
-		companyByCode(companyCode: $companyCode) {
-			id
-			CompanyCode
-			Name
-		}
-	}
-	`
-
-	checkVariables := map[string]interface{}{
-		"companyCode": item.Department.FileNumber,
-	}
-
-	var checkResult struct {
-		CompanyByCode struct {
-			ID          int    `json:"id"`
-			CompanyCode int    `json:"CompanyCode"`
-			Name        string `json:"Name"`
-		} `json:"companyByCode"`
-	}
-
-	err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResult)
 
 	// Şirket verilerini hazırla
 	companyData := map[string]interface{}{
@@ -179,199 +186,154 @@ func YDKCompanies(c *gin.Context) {
 		"OwnerCareer":               item.Title.Name,
 	}
 
-	// GraphQL sorgusu "not found" hatası döndürdüyse veya şirket bulunamadıysa
-	if err != nil {
-		if strings.Contains(err.Error(), "not found") {
-			// Yeni şirket oluştur
-			mutation := `
-			mutation CreateCompany($input: CompanyDetailInput!) {
-				createCompany(input: $input) {
-					id
-					CompanyCode
-					Name
-				}
-			}
-			`
-
-			var result struct {
-				CreateCompany struct {
-					ID          int    `json:"id"`
-					CompanyCode int    `json:"CompanyCode"`
-					Name        string `json:"Name"`
-				} `json:"createCompany"`
-			}
-
-			if err := graphqlClient.Execute(mutation, map[string]interface{}{"input": companyData}, jwtToken, &result); err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{
-					"error": fmt.Sprintf("Şirket kaydedilirken hata oluştu: %v", err),
-				})
-				return
-			}
-
-			c.JSON(http.StatusOK, gin.H{
-				"message": "Şirket başarıyla kaydedildi",
-				"company": gin.H{
-					"name": item.Department.Name,
-					"code": item.Department.FileNumber,
-				},
-			})
-			return
-		} else {
-			// Diğer GraphQL hataları için hata döndür
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": fmt.Sprintf("Şirket kontrolü sırasında hata oluştu: %v", err),
-			})
-			return
+	// Şirket detaylarını al
+	detailQuery := `
+	query GetCompanyDetail($companyCode: Int!) {
+		companyByCode(companyCode: $companyCode) {
+			id
+			CompanyCode
+			Name
+			Address
+			Phone
+			Email
+			Website
+			TaxAdmin
+			TaxNo
+			ChamberInfo
+			ChamberRegisterNo
+			VisaDate
+			VisaEndDate
+			visa_finished_for_90days
+			core_person_absent_90days
+			isClosed
+			OwnerName
+			OwnerTcNo
+			OwnerAddress
+			OwnerPhone
+			OwnerEmail
+			OwnerRegisterNo
+			OwnerCareer
 		}
 	}
+	`
 
-	// Şirket var mı kontrolü
-	if checkResult.CompanyByCode.CompanyCode > 0 {
-		// Mevcut şirket detaylarını al
-		detailQuery := `
-		query GetCompanyDetail($companyCode: Int!) {
-			companyByCode(companyCode: $companyCode) {
-				id
-				CompanyCode
-				Name
-				Address
-				Phone
-				Email
-				Website
-				TaxAdmin
-				TaxNo
-				ChamberInfo
-				ChamberRegisterNo
-				VisaDate
-				VisaEndDate
-				visa_finished_for_90days
-				core_person_absent_90days
-				isClosed
-				OwnerName
-				OwnerTcNo
-				OwnerAddress
-				OwnerPhone
-				OwnerEmail
-				OwnerRegisterNo
-				OwnerCareer
-			}
-		}
-		`
+	checkVariables := map[string]interface{}{
+		"companyCode": item.Department.FileNumber,
+	}
 
-		var detailResult struct {
-			CompanyByCode map[string]interface{} `json:"companyByCode"`
-		}
+	var detailResult struct {
+		CompanyByCode map[string]interface{} `json:"companyByCode"`
+	}
 
-		err = graphqlClient.Execute(detailQuery, checkVariables, jwtToken, &detailResult)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": fmt.Sprintf("Şirket detayları alınırken hata oluştu: %v", err),
-			})
-			return
-		}
-
-		// Değişiklik var mı kontrol et
-		needsUpdate := false
-
-		// Değerleri karşılaştır ve farklılıkları logla
-		for key, newValue := range companyData {
-			if currentValue, exists := detailResult.CompanyByCode[key]; exists {
-				// Nil değerleri kontrol et
-				if newValue == nil && currentValue == nil {
-					continue
-				}
-
-				// Sayısal alanların listesi
-				numericFields := map[string]bool{
-					"CompanyCode": true,
-					"TaxNo":       true,
-				}
-
-				// Sayısal alan kontrolü
-				if numericFields[key] {
-					// Sayısal değerlere çevir
-					var newFloat, currentFloat float64
-					switch v := newValue.(type) {
-					case float64:
-						newFloat = v
-					case int:
-						newFloat = float64(v)
-					case string:
-						if f, err := strconv.ParseFloat(v, 64); err == nil {
-							newFloat = f
-						}
-					}
-
-					switch v := currentValue.(type) {
-					case float64:
-						currentFloat = v
-					case int:
-						currentFloat = float64(v)
-					case string:
-						if f, err := strconv.ParseFloat(v, 64); err == nil {
-							currentFloat = f
-						}
-					}
-
-					if math.Abs(newFloat-currentFloat) > 0.001 {
-						needsUpdate = true
-						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-					}
-				} else {
-					// String karşılaştırması
-					newStr := fmt.Sprintf("%v", newValue)
-					currentStr := fmt.Sprintf("%v", currentValue)
-					if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
-						needsUpdate = true
-						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-					}
-				}
-			}
-		}
-
-		if !needsUpdate {
-			c.JSON(http.StatusOK, gin.H{
-				"status":  "success",
-				"message": "Şirket bilgileri güncel, güncelleme gerekmedi",
-			})
-			return
-		}
-
-		log.Printf("Değişiklik tespit edildi, şirket güncelleniyor...")
-
-		// Değişiklik varsa güncelle
-		updateMutation := `
-		mutation UpdateCompany($input: CompanyDetailInput!) {
-			updateCompany(input: $input) {
-				id
-				CompanyCode
-				Name
-			}
-		}
-		`
-
-		var updateResult struct {
-			UpdateCompany struct {
-				ID          int    `json:"id"`
-				CompanyCode int    `json:"CompanyCode"`
-				Name        string `json:"Name"`
-			} `json:"updateCompany"`
-		}
-
-		if err := graphqlClient.Execute(updateMutation, map[string]interface{}{"input": companyData}, jwtToken, &updateResult); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": fmt.Sprintf("Şirket güncellenirken hata oluştu: %v", err),
-			})
-			return
-		}
-
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Şirket başarıyla güncellendi",
-			"company": gin.H{
-				"name": item.Department.Name,
-				"code": item.Department.FileNumber,
-			},
+	err = graphqlClient.Execute(detailQuery, checkVariables, jwtToken, &detailResult)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": fmt.Sprintf("Şirket detayları alınırken hata oluştu: %v", err),
 		})
 		return
 	}
+
+	// Değişiklik var mı kontrol et
+	needsUpdate := false
+
+	// Değerleri karşılaştır ve farklılıkları logla
+	for key, newValue := range companyData {
+		if currentValue, exists := detailResult.CompanyByCode[key]; exists {
+			// Nil değerleri kontrol et
+			if newValue == nil && currentValue == nil {
+				continue
+			}
+
+			// Sayısal alanların listesi
+			numericFields := map[string]bool{
+				"CompanyCode": true,
+				"TaxNo":       true,
+			}
+
+			// Sayısal alan kontrolü
+			if numericFields[key] {
+				// Sayısal değerlere çevir
+				var newFloat, currentFloat float64
+				switch v := newValue.(type) {
+				case float64:
+					newFloat = v
+				case int:
+					newFloat = float64(v)
+				case string:
+					if f, err := strconv.ParseFloat(v, 64); err == nil {
+						newFloat = f
+					}
+				}
+
+				switch v := currentValue.(type) {
+				case float64:
+					currentFloat = v
+				case int:
+					currentFloat = float64(v)
+				case string:
+					if f, err := strconv.ParseFloat(v, 64); err == nil {
+						currentFloat = f
+					}
+				}
+
+				if math.Abs(newFloat-currentFloat) > 0.001 {
+					needsUpdate = true
+					log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+				}
+			} else {
+				// String karşılaştırması
+				newStr := fmt.Sprintf("%v", newValue)
+				currentStr := fmt.Sprintf("%v", currentValue)
+				if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+					needsUpdate = true
+					log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+				}
+			}
+		}
+	}
+
+	if !needsUpdate {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  "success",
+			"message": "Şirket bilgileri güncel, güncelleme gerekmedi",
+		})
+		return
+	}
+
+	log.Printf("Değişiklik tespit edildi, şirket güncelleniyor...")
+
+	// Değişiklik varsa güncelle
+	updateMutation := `
+	mutation UpdateCompany($input: CompanyDetailInput!) {
+		updateCompany(input: $input) {
+			id
+			CompanyCode
+			Name
+		}
+	}
+	`
+
+	var updateResult struct {
+		UpdateCompany struct {
+			ID          int    `json:"id"`
+			CompanyCode int    `json:"CompanyCode"`
+			Name        string `json:"Name"`
+		} `json:"updateCompany"`
+	}
+
+	if err := graphqlClient.Execute(updateMutation, map[string]interface{}{"input": companyData}, jwtToken, &updateResult); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": fmt.Sprintf("Şirket güncellenirken hata oluştu: %v", err),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Şirket başarıyla güncellendi",
+		"company": gin.H{
+			"name": item.Department.Name,
+			"code": item.Department.FileNumber,
+		},
+	})
+	return
 }

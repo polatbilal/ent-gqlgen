@@ -44,8 +44,6 @@ const (
 	FieldCorePersonAbsent90Days = "core_person_absent90days"
 	// FieldIsClosed holds the string denoting the isclosed field in the database.
 	FieldIsClosed = "is_closed"
-	// FieldDepartmentId holds the string denoting the departmentid field in the database.
-	FieldDepartmentId = "department_id"
 	// FieldOwnerName holds the string denoting the ownername field in the database.
 	FieldOwnerName = "owner_name"
 	// FieldOwnerTcNo holds the string denoting the ownertcno field in the database.
@@ -122,7 +120,6 @@ var Columns = []string{
 	FieldVisaFinishedFor90Days,
 	FieldCorePersonAbsent90Days,
 	FieldIsClosed,
-	FieldDepartmentId,
 	FieldOwnerName,
 	FieldOwnerTcNo,
 	FieldOwnerAddress,
@@ -244,11 +241,6 @@ func ByCorePersonAbsent90Days(opts ...sql.OrderTermOption) OrderOption {
 // ByIsClosed orders the results by the IsClosed field.
 func ByIsClosed(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldIsClosed, opts...).ToFunc()
-}
-
-// ByDepartmentId orders the results by the DepartmentId field.
-func ByDepartmentId(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDepartmentId, opts...).ToFunc()
 }
 
 // ByOwnerName orders the results by the OwnerName field.

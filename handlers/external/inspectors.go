@@ -12,7 +12,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/polatbilal/gqlgen-ent/graph/helpers"
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
@@ -191,7 +190,7 @@ func YDKInspectors(c *gin.Context) {
 		// Denetçi verilerini hazırla
 		engineerData := map[string]interface{}{
 			"Name":        inspector.Name,
-			"TcNo":        helpers.SafeStringToInt(inspector.TcNo),
+			"TcNo":        service.SafeStringToInt(inspector.TcNo),
 			"RegisterNo":  RegisterNoInt,
 			"Email":       inspector.Email,
 			"Phone":       inspector.Phone,
@@ -356,10 +355,10 @@ func YDKInspectors(c *gin.Context) {
 			changedFields = append(changedFields, fmt.Sprintf("Name: %v -> %v",
 				currentEngineer.Name, inspector.Name))
 		}
-		if currentEngineer.TcNo != helpers.SafeStringToInt(inspector.TcNo) {
+		if currentEngineer.TcNo != service.SafeStringToInt(inspector.TcNo) {
 			needsUpdate = true
 			changedFields = append(changedFields, fmt.Sprintf("TcNo: %v -> %v",
-				currentEngineer.TcNo, helpers.SafeStringToInt(inspector.TcNo)))
+				currentEngineer.TcNo, service.SafeStringToInt(inspector.TcNo)))
 		}
 		if currentEngineer.RegisterNo != RegisterNoInt {
 			needsUpdate = true

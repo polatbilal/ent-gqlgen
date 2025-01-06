@@ -16,8 +16,10 @@ const (
 	FieldID = "id"
 	// FieldToken holds the string denoting the token field in the database.
 	FieldToken = "token"
-	// FieldDepartmentId holds the string denoting the departmentid field in the database.
-	FieldDepartmentId = "department_id"
+	// FieldDepartmentID holds the string denoting the department_id field in the database.
+	FieldDepartmentID = "department_id"
+	// FieldExpireDate holds the string denoting the expire_date field in the database.
+	FieldExpireDate = "expire_date"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -39,7 +41,8 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldToken,
-	FieldDepartmentId,
+	FieldDepartmentID,
+	FieldExpireDate,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -87,9 +90,14 @@ func ByToken(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldToken, opts...).ToFunc()
 }
 
-// ByDepartmentId orders the results by the DepartmentId field.
-func ByDepartmentId(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDepartmentId, opts...).ToFunc()
+// ByDepartmentID orders the results by the department_id field.
+func ByDepartmentID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDepartmentID, opts...).ToFunc()
+}
+
+// ByExpireDate orders the results by the expire_date field.
+func ByExpireDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldExpireDate, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the createdAt field.

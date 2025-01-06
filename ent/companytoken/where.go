@@ -60,9 +60,14 @@ func Token(v string) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldEQ(FieldToken, v))
 }
 
-// DepartmentId applies equality check predicate on the "DepartmentId" field. It's identical to DepartmentIdEQ.
-func DepartmentId(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldDepartmentId, v))
+// DepartmentID applies equality check predicate on the "department_id" field. It's identical to DepartmentIDEQ.
+func DepartmentID(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldDepartmentID, v))
+}
+
+// ExpireDate applies equality check predicate on the "expire_date" field. It's identical to ExpireDateEQ.
+func ExpireDate(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldExpireDate, v))
 }
 
 // CreatedAt applies equality check predicate on the "createdAt" field. It's identical to CreatedAtEQ.
@@ -150,54 +155,104 @@ func TokenContainsFold(v string) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldContainsFold(FieldToken, v))
 }
 
-// DepartmentIdEQ applies the EQ predicate on the "DepartmentId" field.
-func DepartmentIdEQ(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldDepartmentId, v))
+// DepartmentIDEQ applies the EQ predicate on the "department_id" field.
+func DepartmentIDEQ(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldDepartmentID, v))
 }
 
-// DepartmentIdNEQ applies the NEQ predicate on the "DepartmentId" field.
-func DepartmentIdNEQ(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNEQ(FieldDepartmentId, v))
+// DepartmentIDNEQ applies the NEQ predicate on the "department_id" field.
+func DepartmentIDNEQ(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNEQ(FieldDepartmentID, v))
 }
 
-// DepartmentIdIn applies the In predicate on the "DepartmentId" field.
-func DepartmentIdIn(vs ...int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIn(FieldDepartmentId, vs...))
+// DepartmentIDIn applies the In predicate on the "department_id" field.
+func DepartmentIDIn(vs ...int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIn(FieldDepartmentID, vs...))
 }
 
-// DepartmentIdNotIn applies the NotIn predicate on the "DepartmentId" field.
-func DepartmentIdNotIn(vs ...int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotIn(FieldDepartmentId, vs...))
+// DepartmentIDNotIn applies the NotIn predicate on the "department_id" field.
+func DepartmentIDNotIn(vs ...int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotIn(FieldDepartmentID, vs...))
 }
 
-// DepartmentIdGT applies the GT predicate on the "DepartmentId" field.
-func DepartmentIdGT(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGT(FieldDepartmentId, v))
+// DepartmentIDGT applies the GT predicate on the "department_id" field.
+func DepartmentIDGT(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGT(FieldDepartmentID, v))
 }
 
-// DepartmentIdGTE applies the GTE predicate on the "DepartmentId" field.
-func DepartmentIdGTE(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGTE(FieldDepartmentId, v))
+// DepartmentIDGTE applies the GTE predicate on the "department_id" field.
+func DepartmentIDGTE(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGTE(FieldDepartmentID, v))
 }
 
-// DepartmentIdLT applies the LT predicate on the "DepartmentId" field.
-func DepartmentIdLT(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLT(FieldDepartmentId, v))
+// DepartmentIDLT applies the LT predicate on the "department_id" field.
+func DepartmentIDLT(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLT(FieldDepartmentID, v))
 }
 
-// DepartmentIdLTE applies the LTE predicate on the "DepartmentId" field.
-func DepartmentIdLTE(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLTE(FieldDepartmentId, v))
+// DepartmentIDLTE applies the LTE predicate on the "department_id" field.
+func DepartmentIDLTE(v int) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLTE(FieldDepartmentID, v))
 }
 
-// DepartmentIdIsNil applies the IsNil predicate on the "DepartmentId" field.
-func DepartmentIdIsNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIsNull(FieldDepartmentId))
+// DepartmentIDIsNil applies the IsNil predicate on the "department_id" field.
+func DepartmentIDIsNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIsNull(FieldDepartmentID))
 }
 
-// DepartmentIdNotNil applies the NotNil predicate on the "DepartmentId" field.
-func DepartmentIdNotNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotNull(FieldDepartmentId))
+// DepartmentIDNotNil applies the NotNil predicate on the "department_id" field.
+func DepartmentIDNotNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotNull(FieldDepartmentID))
+}
+
+// ExpireDateEQ applies the EQ predicate on the "expire_date" field.
+func ExpireDateEQ(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldExpireDate, v))
+}
+
+// ExpireDateNEQ applies the NEQ predicate on the "expire_date" field.
+func ExpireDateNEQ(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNEQ(FieldExpireDate, v))
+}
+
+// ExpireDateIn applies the In predicate on the "expire_date" field.
+func ExpireDateIn(vs ...time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIn(FieldExpireDate, vs...))
+}
+
+// ExpireDateNotIn applies the NotIn predicate on the "expire_date" field.
+func ExpireDateNotIn(vs ...time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotIn(FieldExpireDate, vs...))
+}
+
+// ExpireDateGT applies the GT predicate on the "expire_date" field.
+func ExpireDateGT(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGT(FieldExpireDate, v))
+}
+
+// ExpireDateGTE applies the GTE predicate on the "expire_date" field.
+func ExpireDateGTE(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGTE(FieldExpireDate, v))
+}
+
+// ExpireDateLT applies the LT predicate on the "expire_date" field.
+func ExpireDateLT(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLT(FieldExpireDate, v))
+}
+
+// ExpireDateLTE applies the LTE predicate on the "expire_date" field.
+func ExpireDateLTE(v time.Time) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLTE(FieldExpireDate, v))
+}
+
+// ExpireDateIsNil applies the IsNil predicate on the "expire_date" field.
+func ExpireDateIsNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIsNull(FieldExpireDate))
+}
+
+// ExpireDateNotNil applies the NotNil predicate on the "expire_date" field.
+func ExpireDateNotNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotNull(FieldExpireDate))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "createdAt" field.

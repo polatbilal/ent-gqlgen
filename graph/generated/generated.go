@@ -68,7 +68,6 @@ type ComplexityRoot struct {
 		ChamberRegisterNo      func(childComplexity int) int
 		CompanyCode            func(childComplexity int) int
 		CorePersonAbsent90Days func(childComplexity int) int
-		DepartmentId           func(childComplexity int) int
 		Email                  func(childComplexity int) int
 		ID                     func(childComplexity int) int
 		IsClosed               func(childComplexity int) int
@@ -109,7 +108,8 @@ type ComplexityRoot struct {
 	}
 
 	CompanyToken struct {
-		DepartmentId func(childComplexity int) int
+		DepartmentID func(childComplexity int) int
+		ExpireDate   func(childComplexity int) int
 		Token        func(childComplexity int) int
 	}
 
@@ -250,7 +250,6 @@ type ComplexityRoot struct {
 	Mutation struct {
 		CompanyToken          func(childComplexity int, departmentID *int, input *model.CompanyTokenInput) int
 		CreateAuthor          func(childComplexity int, input model.JobAuthorInput) int
-		CreateCompany         func(childComplexity int, input model.CompanyDetailInput) int
 		CreateContractor      func(childComplexity int, input model.JobContractorInput) int
 		CreateEngineer        func(childComplexity int, input model.CompanyEngineerInput) int
 		CreateJob             func(childComplexity int, input model.JobInput) int
@@ -284,7 +283,7 @@ type ComplexityRoot struct {
 		AllUsers          func(childComplexity int) int
 		Author            func(childComplexity int, yibfNo int) int
 		CompanyByCode     func(childComplexity int, companyCode int) int
-		CompanyToken      func(childComplexity int, departmentID *int) int
+		CompanyToken      func(childComplexity int, companyCode *int) int
 		Contractor        func(childComplexity int, yibfNo int) int
 		Engineer          func(childComplexity int, filter *model.EngineerFilterInput) int
 		EngineerByYdsid   func(childComplexity int, ydsid int) int
@@ -330,7 +329,6 @@ type MutationResolver interface {
 	Login(ctx context.Context, username string, password string) (*model.AuthPayload, error)
 	CreateAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error)
 	UpdateAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error)
-	CreateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	CompanyToken(ctx context.Context, departmentID *int, input *model.CompanyTokenInput) (*ent.CompanyToken, error)
 	CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error)
@@ -358,7 +356,7 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Author(ctx context.Context, yibfNo int) (*ent.JobAuthor, error)
 	CompanyByCode(ctx context.Context, companyCode int) (*ent.CompanyDetail, error)
-	CompanyToken(ctx context.Context, departmentID *int) (*ent.CompanyToken, error)
+	CompanyToken(ctx context.Context, companyCode *int) (*ent.CompanyToken, error)
 	AllContractor(ctx context.Context) ([]*ent.JobContractor, error)
 	Contractor(ctx context.Context, yibfNo int) (*ent.JobContractor, error)
 	GetContractor(ctx context.Context, ydsid int) (*ent.JobContractor, error)
@@ -469,13 +467,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.CompanyDetail.CorePersonAbsent90Days(childComplexity), true
-
-	case "CompanyDetail.DepartmentId":
-		if e.complexity.CompanyDetail.DepartmentId == nil {
-			break
-		}
-
-		return e.complexity.CompanyDetail.DepartmentId(childComplexity), true
 
 	case "CompanyDetail.Email":
 		if e.complexity.CompanyDetail.Email == nil {
@@ -716,11 +707,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		return e.complexity.CompanyEngineer.YDSID(childComplexity), true
 
 	case "CompanyToken.DepartmentId":
-		if e.complexity.CompanyToken.DepartmentId == nil {
+		if e.complexity.CompanyToken.DepartmentID == nil {
 			break
 		}
 
-		return e.complexity.CompanyToken.DepartmentId(childComplexity), true
+		return e.complexity.CompanyToken.DepartmentID(childComplexity), true
+
+	case "CompanyToken.ExpireDate":
+		if e.complexity.CompanyToken.ExpireDate == nil {
+			break
+		}
+
+		return e.complexity.CompanyToken.ExpireDate(childComplexity), true
 
 	case "CompanyToken.Token":
 		if e.complexity.CompanyToken.Token == nil {
@@ -1523,18 +1521,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateAuthor(childComplexity, args["input"].(model.JobAuthorInput)), true
 
-	case "Mutation.createCompany":
-		if e.complexity.Mutation.CreateCompany == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createCompany_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateCompany(childComplexity, args["input"].(model.CompanyDetailInput)), true
-
 	case "Mutation.createContractor":
 		if e.complexity.Mutation.CreateContractor == nil {
 			break
@@ -1890,7 +1876,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.CompanyToken(childComplexity, args["DepartmentId"].(*int)), true
+		return e.complexity.Query.CompanyToken(childComplexity, args["CompanyCode"].(*int)), true
 
 	case "Query.contractor":
 		if e.complexity.Query.Contractor == nil {
@@ -2322,7 +2308,6 @@ extend type Mutation {
   OwnerEmail: String
   OwnerRegisterNo: Int
   OwnerCareer: String
-  DepartmentId: Int
 }
 
 input CompanyDetailInput {
@@ -2348,17 +2333,18 @@ input CompanyDetailInput {
   OwnerEmail: String
   OwnerRegisterNo: Int
   OwnerCareer: String
-  DepartmentId: Int
 }
 
 type CompanyToken {
   Token: String
   DepartmentId: Int
+  ExpireDate: Time
 }
 
 input CompanyTokenInput {
   Token: String
   DepartmentId: Int
+  ExpireDate: Time
 }
 
 extend type Query {
@@ -2367,16 +2353,12 @@ extend type Query {
     @goField(forceResolver: true)
     @auth
 
-  companyToken(DepartmentId: Int): CompanyToken!
+  companyToken(CompanyCode: Int): CompanyToken!
     @goField(forceResolver: true)
     @auth
 }
 
 extend type Mutation {
-  createCompany(input: CompanyDetailInput!): CompanyDetail!
-    @goField(forceResolver: true)
-    @auth
-
   updateCompany(input: CompanyDetailInput!): CompanyDetail!
     @goField(forceResolver: true)
     @auth
@@ -2917,34 +2899,6 @@ func (ec *executionContext) field_Mutation_createAuthor_argsInput(
 	}
 
 	var zeroVal model.JobAuthorInput
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_createCompany_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createCompany_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg0
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_createCompany_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyDetailInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyDetailInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyDetailInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐCompanyDetailInput(ctx, tmp)
-	}
-
-	var zeroVal model.CompanyDetailInput
 	return zeroVal, nil
 }
 
@@ -4108,24 +4062,24 @@ func (ec *executionContext) field_Query_companyByCode_argsCompanyCode(
 func (ec *executionContext) field_Query_companyToken_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_companyToken_argsDepartmentID(ctx, rawArgs)
+	arg0, err := ec.field_Query_companyToken_argsCompanyCode(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["DepartmentId"] = arg0
+	args["CompanyCode"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_companyToken_argsDepartmentID(
+func (ec *executionContext) field_Query_companyToken_argsCompanyCode(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (*int, error) {
-	if _, ok := rawArgs["DepartmentId"]; !ok {
+	if _, ok := rawArgs["CompanyCode"]; !ok {
 		var zeroVal *int
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
-	if tmp, ok := rawArgs["DepartmentId"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("CompanyCode"))
+	if tmp, ok := rawArgs["CompanyCode"]; ok {
 		return ec.unmarshalOInt2ᚖint(ctx, tmp)
 	}
 
@@ -5699,47 +5653,6 @@ func (ec *executionContext) fieldContext_CompanyDetail_OwnerCareer(_ context.Con
 	return fc, nil
 }
 
-func (ec *executionContext) _CompanyDetail_DepartmentId(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_DepartmentId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DepartmentId, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CompanyDetail_DepartmentId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CompanyDetail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _CompanyEngineer_id(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_CompanyEngineer_id(ctx, field)
 	if err != nil {
@@ -6440,8 +6353,6 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Conte
 				return ec.fieldContext_CompanyDetail_OwnerRegisterNo(ctx, field)
 			case "OwnerCareer":
 				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
-			case "DepartmentId":
-				return ec.fieldContext_CompanyDetail_DepartmentId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
@@ -6504,7 +6415,7 @@ func (ec *executionContext) _CompanyToken_DepartmentId(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.DepartmentId, nil
+		return obj.DepartmentID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6526,6 +6437,47 @@ func (ec *executionContext) fieldContext_CompanyToken_DepartmentId(_ context.Con
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyToken_ExpireDate(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyToken) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CompanyToken_ExpireDate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExpireDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CompanyToken_ExpireDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyToken",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -11786,133 +11738,6 @@ func (ec *executionContext) fieldContext_Mutation_updateAuthor(ctx context.Conte
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_createCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createCompany(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateCompany(rctx, fc.Args["input"].(model.CompanyDetailInput))
-		}
-
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyDetail
-				return zeroVal, errors.New("directive auth is not implemented")
-			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyDetail); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.CompanyDetail`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyDetail)
-	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐCompanyDetail(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createCompany(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyDetail_id(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyDetail_CompanyCode(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyDetail_Name(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyDetail_Address(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyDetail_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyDetail_Email(ctx, field)
-			case "Website":
-				return ec.fieldContext_CompanyDetail_Website(ctx, field)
-			case "TaxAdmin":
-				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
-			case "TaxNo":
-				return ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
-			case "ChamberInfo":
-				return ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
-			case "ChamberRegisterNo":
-				return ec.fieldContext_CompanyDetail_ChamberRegisterNo(ctx, field)
-			case "VisaDate":
-				return ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
-			case "VisaEndDate":
-				return ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
-			case "visa_finished_for_90days":
-				return ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
-			case "core_person_absent_90days":
-				return ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
-			case "isClosed":
-				return ec.fieldContext_CompanyDetail_isClosed(ctx, field)
-			case "OwnerName":
-				return ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
-			case "OwnerTcNo":
-				return ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
-			case "OwnerAddress":
-				return ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
-			case "OwnerPhone":
-				return ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
-			case "OwnerEmail":
-				return ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
-			case "OwnerRegisterNo":
-				return ec.fieldContext_CompanyDetail_OwnerRegisterNo(ctx, field)
-			case "OwnerCareer":
-				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
-			case "DepartmentId":
-				return ec.fieldContext_CompanyDetail_DepartmentId(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createCompany_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Mutation_updateCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_updateCompany(ctx, field)
 	if err != nil {
@@ -12020,8 +11845,6 @@ func (ec *executionContext) fieldContext_Mutation_updateCompany(ctx context.Cont
 				return ec.fieldContext_CompanyDetail_OwnerRegisterNo(ctx, field)
 			case "OwnerCareer":
 				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
-			case "DepartmentId":
-				return ec.fieldContext_CompanyDetail_DepartmentId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
@@ -12105,6 +11928,8 @@ func (ec *executionContext) fieldContext_Mutation_companyToken(ctx context.Conte
 				return ec.fieldContext_CompanyToken_Token(ctx, field)
 			case "DepartmentId":
 				return ec.fieldContext_CompanyToken_DepartmentId(ctx, field)
+			case "ExpireDate":
+				return ec.fieldContext_CompanyToken_ExpireDate(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyToken", field.Name)
 		},
@@ -14537,8 +14362,6 @@ func (ec *executionContext) fieldContext_Query_companyByCode(ctx context.Context
 				return ec.fieldContext_CompanyDetail_OwnerRegisterNo(ctx, field)
 			case "OwnerCareer":
 				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
-			case "DepartmentId":
-				return ec.fieldContext_CompanyDetail_DepartmentId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
@@ -14572,7 +14395,7 @@ func (ec *executionContext) _Query_companyToken(ctx context.Context, field graph
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CompanyToken(rctx, fc.Args["DepartmentId"].(*int))
+			return ec.resolvers.Query().CompanyToken(rctx, fc.Args["CompanyCode"].(*int))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -14622,6 +14445,8 @@ func (ec *executionContext) fieldContext_Query_companyToken(ctx context.Context,
 				return ec.fieldContext_CompanyToken_Token(ctx, field)
 			case "DepartmentId":
 				return ec.fieldContext_CompanyToken_DepartmentId(ctx, field)
+			case "ExpireDate":
+				return ec.fieldContext_CompanyToken_ExpireDate(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyToken", field.Name)
 		},
@@ -16945,8 +16770,6 @@ func (ec *executionContext) fieldContext_User_Companies(_ context.Context, field
 				return ec.fieldContext_CompanyDetail_OwnerRegisterNo(ctx, field)
 			case "OwnerCareer":
 				return ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
-			case "DepartmentId":
-				return ec.fieldContext_CompanyDetail_DepartmentId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type CompanyDetail", field.Name)
 		},
@@ -18734,7 +18557,7 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"CompanyCode", "Name", "Address", "Phone", "Email", "Website", "TaxAdmin", "TaxNo", "ChamberInfo", "ChamberRegisterNo", "VisaDate", "VisaEndDate", "visa_finished_for_90days", "core_person_absent_90days", "isClosed", "OwnerName", "OwnerTcNo", "OwnerAddress", "OwnerPhone", "OwnerEmail", "OwnerRegisterNo", "OwnerCareer", "DepartmentId"}
+	fieldsInOrder := [...]string{"CompanyCode", "Name", "Address", "Phone", "Email", "Website", "TaxAdmin", "TaxNo", "ChamberInfo", "ChamberRegisterNo", "VisaDate", "VisaEndDate", "visa_finished_for_90days", "core_person_absent_90days", "isClosed", "OwnerName", "OwnerTcNo", "OwnerAddress", "OwnerPhone", "OwnerEmail", "OwnerRegisterNo", "OwnerCareer"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -18895,13 +18718,6 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 				return it, err
 			}
 			it.OwnerCareer = data
-		case "DepartmentId":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.DepartmentID = data
 		}
 	}
 
@@ -19040,7 +18856,7 @@ func (ec *executionContext) unmarshalInputCompanyTokenInput(ctx context.Context,
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Token", "DepartmentId"}
+	fieldsInOrder := [...]string{"Token", "DepartmentId", "ExpireDate"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -19061,6 +18877,13 @@ func (ec *executionContext) unmarshalInputCompanyTokenInput(ctx context.Context,
 				return it, err
 			}
 			it.DepartmentID = data
+		case "ExpireDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ExpireDate"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ExpireDate = data
 		}
 	}
 
@@ -20226,8 +20049,6 @@ func (ec *executionContext) _CompanyDetail(ctx context.Context, sel ast.Selectio
 			out.Values[i] = ec._CompanyDetail_OwnerRegisterNo(ctx, field, obj)
 		case "OwnerCareer":
 			out.Values[i] = ec._CompanyDetail_OwnerCareer(ctx, field, obj)
-		case "DepartmentId":
-			out.Values[i] = ec._CompanyDetail_DepartmentId(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -20397,6 +20218,8 @@ func (ec *executionContext) _CompanyToken(ctx context.Context, sel ast.Selection
 			out.Values[i] = ec._CompanyToken_Token(ctx, field, obj)
 		case "DepartmentId":
 			out.Values[i] = ec._CompanyToken_DepartmentId(ctx, field, obj)
+		case "ExpireDate":
+			out.Values[i] = ec._CompanyToken_ExpireDate(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -21352,13 +21175,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateAuthor(ctx, field)
 			})
-		case "createCompany":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createCompany(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "updateCompany":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateCompany(ctx, field)

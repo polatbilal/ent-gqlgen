@@ -328,27 +328,6 @@ func (cdu *CompanyDetailUpdate) SetNillableIsClosed(b *bool) *CompanyDetailUpdat
 	return cdu
 }
 
-// SetDepartmentId sets the "DepartmentId" field.
-func (cdu *CompanyDetailUpdate) SetDepartmentId(i int) *CompanyDetailUpdate {
-	cdu.mutation.ResetDepartmentId()
-	cdu.mutation.SetDepartmentId(i)
-	return cdu
-}
-
-// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableDepartmentId(i *int) *CompanyDetailUpdate {
-	if i != nil {
-		cdu.SetDepartmentId(*i)
-	}
-	return cdu
-}
-
-// AddDepartmentId adds i to the "DepartmentId" field.
-func (cdu *CompanyDetailUpdate) AddDepartmentId(i int) *CompanyDetailUpdate {
-	cdu.mutation.AddDepartmentId(i)
-	return cdu
-}
-
 // SetOwnerName sets the "OwnerName" field.
 func (cdu *CompanyDetailUpdate) SetOwnerName(s string) *CompanyDetailUpdate {
 	cdu.mutation.SetOwnerName(s)
@@ -803,12 +782,6 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	}
 	if value, ok := cdu.mutation.IsClosed(); ok {
 		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
-	}
-	if value, ok := cdu.mutation.DepartmentId(); ok {
-		_spec.SetField(companydetail.FieldDepartmentId, field.TypeInt, value)
-	}
-	if value, ok := cdu.mutation.AddedDepartmentId(); ok {
-		_spec.AddField(companydetail.FieldDepartmentId, field.TypeInt, value)
 	}
 	if value, ok := cdu.mutation.OwnerName(); ok {
 		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)
@@ -1360,27 +1333,6 @@ func (cduo *CompanyDetailUpdateOne) SetNillableIsClosed(b *bool) *CompanyDetailU
 	return cduo
 }
 
-// SetDepartmentId sets the "DepartmentId" field.
-func (cduo *CompanyDetailUpdateOne) SetDepartmentId(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.ResetDepartmentId()
-	cduo.mutation.SetDepartmentId(i)
-	return cduo
-}
-
-// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableDepartmentId(i *int) *CompanyDetailUpdateOne {
-	if i != nil {
-		cduo.SetDepartmentId(*i)
-	}
-	return cduo
-}
-
-// AddDepartmentId adds i to the "DepartmentId" field.
-func (cduo *CompanyDetailUpdateOne) AddDepartmentId(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddDepartmentId(i)
-	return cduo
-}
-
 // SetOwnerName sets the "OwnerName" field.
 func (cduo *CompanyDetailUpdateOne) SetOwnerName(s string) *CompanyDetailUpdateOne {
 	cduo.mutation.SetOwnerName(s)
@@ -1865,12 +1817,6 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 	}
 	if value, ok := cduo.mutation.IsClosed(); ok {
 		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
-	}
-	if value, ok := cduo.mutation.DepartmentId(); ok {
-		_spec.SetField(companydetail.FieldDepartmentId, field.TypeInt, value)
-	}
-	if value, ok := cduo.mutation.AddedDepartmentId(); ok {
-		_spec.AddField(companydetail.FieldDepartmentId, field.TypeInt, value)
 	}
 	if value, ok := cduo.mutation.OwnerName(); ok {
 		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)

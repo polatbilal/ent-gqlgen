@@ -130,11 +130,6 @@ func IsClosed(v bool) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldIsClosed, v))
 }
 
-// DepartmentId applies equality check predicate on the "DepartmentId" field. It's identical to DepartmentIdEQ.
-func DepartmentId(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldDepartmentId, v))
-}
-
 // OwnerName applies equality check predicate on the "OwnerName" field. It's identical to OwnerNameEQ.
 func OwnerName(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerName, v))
@@ -1008,46 +1003,6 @@ func IsClosedEQ(v bool) predicate.CompanyDetail {
 // IsClosedNEQ applies the NEQ predicate on the "IsClosed" field.
 func IsClosedNEQ(v bool) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNEQ(FieldIsClosed, v))
-}
-
-// DepartmentIdEQ applies the EQ predicate on the "DepartmentId" field.
-func DepartmentIdEQ(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldEQ(FieldDepartmentId, v))
-}
-
-// DepartmentIdNEQ applies the NEQ predicate on the "DepartmentId" field.
-func DepartmentIdNEQ(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNEQ(FieldDepartmentId, v))
-}
-
-// DepartmentIdIn applies the In predicate on the "DepartmentId" field.
-func DepartmentIdIn(vs ...int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldIn(FieldDepartmentId, vs...))
-}
-
-// DepartmentIdNotIn applies the NotIn predicate on the "DepartmentId" field.
-func DepartmentIdNotIn(vs ...int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldNotIn(FieldDepartmentId, vs...))
-}
-
-// DepartmentIdGT applies the GT predicate on the "DepartmentId" field.
-func DepartmentIdGT(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGT(FieldDepartmentId, v))
-}
-
-// DepartmentIdGTE applies the GTE predicate on the "DepartmentId" field.
-func DepartmentIdGTE(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldGTE(FieldDepartmentId, v))
-}
-
-// DepartmentIdLT applies the LT predicate on the "DepartmentId" field.
-func DepartmentIdLT(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLT(FieldDepartmentId, v))
-}
-
-// DepartmentIdLTE applies the LTE predicate on the "DepartmentId" field.
-func DepartmentIdLTE(v int) predicate.CompanyDetail {
-	return predicate.CompanyDetail(sql.FieldLTE(FieldDepartmentId, v))
 }
 
 // OwnerNameEQ applies the EQ predicate on the "OwnerName" field.

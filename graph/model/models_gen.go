@@ -37,7 +37,6 @@ type CompanyDetailInput struct {
 	OwnerEmail             *string    `json:"OwnerEmail,omitempty"`
 	OwnerRegisterNo        *int       `json:"OwnerRegisterNo,omitempty"`
 	OwnerCareer            *string    `json:"OwnerCareer,omitempty"`
-	DepartmentID           *int       `json:"DepartmentId,omitempty"`
 }
 
 type CompanyEngineerInput struct {
@@ -59,8 +58,9 @@ type CompanyEngineerInput struct {
 }
 
 type CompanyTokenInput struct {
-	Token        *string `json:"Token,omitempty"`
-	DepartmentID *int    `json:"DepartmentId,omitempty"`
+	Token        *string    `json:"Token,omitempty"`
+	DepartmentID *int       `json:"DepartmentId,omitempty"`
+	ExpireDate   *time.Time `json:"ExpireDate,omitempty"`
 }
 
 type EngineerFilterInput struct {

@@ -226,12 +226,6 @@ func (cdc *CompanyDetailCreate) SetNillableIsClosed(b *bool) *CompanyDetailCreat
 	return cdc
 }
 
-// SetDepartmentId sets the "DepartmentId" field.
-func (cdc *CompanyDetailCreate) SetDepartmentId(i int) *CompanyDetailCreate {
-	cdc.mutation.SetDepartmentId(i)
-	return cdc
-}
-
 // SetOwnerName sets the "OwnerName" field.
 func (cdc *CompanyDetailCreate) SetOwnerName(s string) *CompanyDetailCreate {
 	cdc.mutation.SetOwnerName(s)
@@ -494,9 +488,6 @@ func (cdc *CompanyDetailCreate) check() error {
 	if _, ok := cdc.mutation.IsClosed(); !ok {
 		return &ValidationError{Name: "IsClosed", err: errors.New(`ent: missing required field "CompanyDetail.IsClosed"`)}
 	}
-	if _, ok := cdc.mutation.DepartmentId(); !ok {
-		return &ValidationError{Name: "DepartmentId", err: errors.New(`ent: missing required field "CompanyDetail.DepartmentId"`)}
-	}
 	if _, ok := cdc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "CompanyDetail.CreatedAt"`)}
 	}
@@ -588,10 +579,6 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 	if value, ok := cdc.mutation.IsClosed(); ok {
 		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
 		_node.IsClosed = value
-	}
-	if value, ok := cdc.mutation.DepartmentId(); ok {
-		_spec.SetField(companydetail.FieldDepartmentId, field.TypeInt, value)
-		_node.DepartmentId = value
 	}
 	if value, ok := cdc.mutation.OwnerName(); ok {
 		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)

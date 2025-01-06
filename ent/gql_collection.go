@@ -168,11 +168,6 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, companydetail.FieldIsClosed)
 				fieldSeen[companydetail.FieldIsClosed] = struct{}{}
 			}
-		case "departmentid":
-			if _, ok := fieldSeen[companydetail.FieldDepartmentId]; !ok {
-				selectedFields = append(selectedFields, companydetail.FieldDepartmentId)
-				fieldSeen[companydetail.FieldDepartmentId] = struct{}{}
-			}
 		case "ownername":
 			if _, ok := fieldSeen[companydetail.FieldOwnerName]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldOwnerName)
@@ -542,10 +537,15 @@ func (ct *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opC
 				selectedFields = append(selectedFields, companytoken.FieldToken)
 				fieldSeen[companytoken.FieldToken] = struct{}{}
 			}
-		case "departmentid":
-			if _, ok := fieldSeen[companytoken.FieldDepartmentId]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldDepartmentId)
-				fieldSeen[companytoken.FieldDepartmentId] = struct{}{}
+		case "departmentID":
+			if _, ok := fieldSeen[companytoken.FieldDepartmentID]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldDepartmentID)
+				fieldSeen[companytoken.FieldDepartmentID] = struct{}{}
+			}
+		case "expireDate":
+			if _, ok := fieldSeen[companytoken.FieldExpireDate]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldExpireDate)
+				fieldSeen[companytoken.FieldExpireDate] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[companytoken.FieldCreatedAt]; !ok {

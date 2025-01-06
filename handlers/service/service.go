@@ -14,6 +14,7 @@ type YDKTokenResponse struct {
 	TokenType      string         `json:"token_type"`
 	RefreshToken   string         `json:"refresh_token"`
 	DepartmentID   int            `json:"department_id"`
+	ExpireDate     int64          `json:"expires_in"`
 	ResponseSecret ResponseSecret `json:"response_secret"`
 }
 

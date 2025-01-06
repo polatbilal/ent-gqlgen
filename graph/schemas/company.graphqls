@@ -22,7 +22,6 @@ type CompanyDetail {
   OwnerEmail: String
   OwnerRegisterNo: Int
   OwnerCareer: String
-  DepartmentId: Int
 }
 
 input CompanyDetailInput {
@@ -48,17 +47,18 @@ input CompanyDetailInput {
   OwnerEmail: String
   OwnerRegisterNo: Int
   OwnerCareer: String
-  DepartmentId: Int
 }
 
 type CompanyToken {
   Token: String
   DepartmentId: Int
+  ExpireDate: Time
 }
 
 input CompanyTokenInput {
   Token: String
   DepartmentId: Int
+  ExpireDate: Time
 }
 
 extend type Query {
@@ -67,16 +67,12 @@ extend type Query {
     @goField(forceResolver: true)
     @auth
 
-  companyToken(DepartmentId: Int): CompanyToken!
+  companyToken(CompanyCode: Int): CompanyToken!
     @goField(forceResolver: true)
     @auth
 }
 
 extend type Mutation {
-  createCompany(input: CompanyDetailInput!): CompanyDetail!
-    @goField(forceResolver: true)
-    @auth
-
   updateCompany(input: CompanyDetailInput!): CompanyDetail!
     @goField(forceResolver: true)
     @auth

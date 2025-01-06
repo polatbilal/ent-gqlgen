@@ -35,16 +35,30 @@ func (ctc *CompanyTokenCreate) SetNillableToken(s *string) *CompanyTokenCreate {
 	return ctc
 }
 
-// SetDepartmentId sets the "DepartmentId" field.
-func (ctc *CompanyTokenCreate) SetDepartmentId(i int) *CompanyTokenCreate {
-	ctc.mutation.SetDepartmentId(i)
+// SetDepartmentID sets the "department_id" field.
+func (ctc *CompanyTokenCreate) SetDepartmentID(i int) *CompanyTokenCreate {
+	ctc.mutation.SetDepartmentID(i)
 	return ctc
 }
 
-// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableDepartmentId(i *int) *CompanyTokenCreate {
+// SetNillableDepartmentID sets the "department_id" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableDepartmentID(i *int) *CompanyTokenCreate {
 	if i != nil {
-		ctc.SetDepartmentId(*i)
+		ctc.SetDepartmentID(*i)
+	}
+	return ctc
+}
+
+// SetExpireDate sets the "expire_date" field.
+func (ctc *CompanyTokenCreate) SetExpireDate(t time.Time) *CompanyTokenCreate {
+	ctc.mutation.SetExpireDate(t)
+	return ctc
+}
+
+// SetNillableExpireDate sets the "expire_date" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableExpireDate(t *time.Time) *CompanyTokenCreate {
+	if t != nil {
+		ctc.SetExpireDate(*t)
 	}
 	return ctc
 }
@@ -179,9 +193,13 @@ func (ctc *CompanyTokenCreate) createSpec() (*CompanyToken, *sqlgraph.CreateSpec
 		_spec.SetField(companytoken.FieldToken, field.TypeString, value)
 		_node.Token = value
 	}
-	if value, ok := ctc.mutation.DepartmentId(); ok {
-		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
-		_node.DepartmentId = value
+	if value, ok := ctc.mutation.DepartmentID(); ok {
+		_spec.SetField(companytoken.FieldDepartmentID, field.TypeInt, value)
+		_node.DepartmentID = value
+	}
+	if value, ok := ctc.mutation.ExpireDate(); ok {
+		_spec.SetField(companytoken.FieldExpireDate, field.TypeTime, value)
+		_node.ExpireDate = value
 	}
 	if value, ok := ctc.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
