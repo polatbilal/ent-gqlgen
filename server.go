@@ -136,5 +136,5 @@ func main() {
 		c.AbortWithStatus(http.StatusNoContent)
 	})
 
-	r.Run("127.0.0.1:4000")
+	r.Run(":4000")
 }

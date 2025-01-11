@@ -19,6 +19,8 @@ type CompanyDetailInput struct {
 	Name                   string     `json:"Name"`
 	Address                *string    `json:"Address,omitempty"`
 	Phone                  *string    `json:"Phone,omitempty"`
+	Fax                    *string    `json:"Fax,omitempty"`
+	MobilePhone            *string    `json:"MobilePhone,omitempty"`
 	Email                  *string    `json:"Email,omitempty"`
 	Website                *string    `json:"Website,omitempty"`
 	TaxAdmin               *string    `json:"TaxAdmin,omitempty"`
@@ -58,9 +60,14 @@ type CompanyEngineerInput struct {
 }
 
 type CompanyTokenInput struct {
-	Token        *string    `json:"Token,omitempty"`
-	DepartmentID *int       `json:"DepartmentId,omitempty"`
-	ExpireDate   *time.Time `json:"ExpireDate,omitempty"`
+	Token           *string `json:"Token,omitempty"`
+	DepartmentID    *int    `json:"DepartmentId,omitempty"`
+	Expire          *int    `json:"Expire,omitempty"`
+	CompanyCode     *int    `json:"CompanyCode,omitempty"`
+	RefreshToken    *string `json:"RefreshToken,omitempty"`
+	SecretKey       *string `json:"SecretKey,omitempty"`
+	SecureSecretKey *string `json:"SecureSecretKey,omitempty"`
+	OtpURI          *string `json:"OtpUri,omitempty"`
 }
 
 type EngineerFilterInput struct {

@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/user"
 	"github.com/polatbilal/gqlgen-ent/graph/generated"
@@ -23,7 +24,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput
 
 	// Kullanıcı adının daha önce kullanılıp kullanılmadığını kontrol et
 	exists, err := client.User.Query().
-		Where(user.Username(input.Username)).
+		Where(user.UsernameEQ(input.Username)).
 		Exist(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("kullanıcı kontrolü yapılırken hata: %v", err)
@@ -155,10 +156,48 @@ func (r *queryResolver) User(ctx context.Context, id string) (*ent.User, error) 
 	return client.User.Query().Where(user.IDEQ(intID)).Only(ctx)
 }
 
-// AllUsers is the resolver for the allUsers field.
-func (r *queryResolver) AllUsers(ctx context.Context) ([]*ent.User, error) {
+// CompanyUsers is the resolver for the companyUsers field.
+func (r *queryResolver) CompanyUsers(ctx context.Context) ([]*ent.User, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	return client.User.Query().All(ctx)
+
+	// JWT'den kullanıcı ID'sini al
+	claims := middlewares.CtxValue(ctx)
+	if claims == nil {
+		return nil, fmt.Errorf("kullanıcı kimliği bulunamadı")
+	}
+	userID := claims.ID
+
+	// Kullanıcının bağlı olduğu şirketleri bul
+	companies, err := client.User.Query().
+		Where(user.IDEQ(userID)).
+		QueryCompanies().
+		QueryCompany().
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcının şirketleri alınırken hata: %v", err)
+	}
+
+	// Şirket ID'lerini topla
+	companyIDs := make([]int, len(companies))
+	for i, company := range companies {
+		companyIDs[i] = company.ID
+	}
+
+	// Bu şirketlere bağlı tüm kullanıcıları al
+	users, err := client.User.Query().
+		Where(
+			user.HasCompaniesWith(
+				companyuser.HasCompanyWith(
+					companydetail.IDIn(companyIDs...),
+				),
+			),
+		).All(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("şirket kullanıcıları alınırken hata: %v", err)
+	}
+
+	return users, nil
 }
 
 // Companies is the resolver for the companies field.

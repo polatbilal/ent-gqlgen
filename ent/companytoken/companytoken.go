@@ -16,10 +16,18 @@ const (
 	FieldID = "id"
 	// FieldToken holds the string denoting the token field in the database.
 	FieldToken = "token"
-	// FieldDepartmentID holds the string denoting the department_id field in the database.
-	FieldDepartmentID = "department_id"
-	// FieldExpireDate holds the string denoting the expire_date field in the database.
-	FieldExpireDate = "expire_date"
+	// FieldDepartmentId holds the string denoting the departmentid field in the database.
+	FieldDepartmentId = "department_id"
+	// FieldExpire holds the string denoting the expire field in the database.
+	FieldExpire = "expire"
+	// FieldRefreshToken holds the string denoting the refreshtoken field in the database.
+	FieldRefreshToken = "refresh_token"
+	// FieldSecretKey holds the string denoting the secretkey field in the database.
+	FieldSecretKey = "secret_key"
+	// FieldSecureSecretKey holds the string denoting the securesecretkey field in the database.
+	FieldSecureSecretKey = "secure_secret_key"
+	// FieldOtpUri holds the string denoting the otpuri field in the database.
+	FieldOtpUri = "otp_uri"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -41,8 +49,12 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldToken,
-	FieldDepartmentID,
-	FieldExpireDate,
+	FieldDepartmentId,
+	FieldExpire,
+	FieldRefreshToken,
+	FieldSecretKey,
+	FieldSecureSecretKey,
+	FieldOtpUri,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -85,19 +97,39 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByToken orders the results by the token field.
+// ByToken orders the results by the Token field.
 func ByToken(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldToken, opts...).ToFunc()
 }
 
-// ByDepartmentID orders the results by the department_id field.
-func ByDepartmentID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDepartmentID, opts...).ToFunc()
+// ByDepartmentId orders the results by the DepartmentId field.
+func ByDepartmentId(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDepartmentId, opts...).ToFunc()
 }
 
-// ByExpireDate orders the results by the expire_date field.
-func ByExpireDate(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldExpireDate, opts...).ToFunc()
+// ByExpire orders the results by the Expire field.
+func ByExpire(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldExpire, opts...).ToFunc()
+}
+
+// ByRefreshToken orders the results by the RefreshToken field.
+func ByRefreshToken(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRefreshToken, opts...).ToFunc()
+}
+
+// BySecretKey orders the results by the SecretKey field.
+func BySecretKey(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSecretKey, opts...).ToFunc()
+}
+
+// BySecureSecretKey orders the results by the SecureSecretKey field.
+func BySecureSecretKey(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSecureSecretKey, opts...).ToFunc()
+}
+
+// ByOtpUri orders the results by the OtpUri field.
+func ByOtpUri(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOtpUri, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the createdAt field.

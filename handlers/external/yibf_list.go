@@ -19,35 +19,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// String'i int'e dönüştürür, hata durumunda 0 döner
-func safeStringToInt(s string) int {
-	if s == "" {
-		return 0
-	}
-	if val, err := strconv.Atoi(s); err == nil {
-		return val
-	}
-	return 0
-}
-
-// Unix timestamp'i tarihe dönüştürür, geçersiz timestamp için boş string döner
-func safeUnixToDate(timestamp int64) string {
-	if timestamp > 0 {
-		// Milisaniyeyi saniyeye çevir
-		seconds := timestamp / 1000
-		return time.Unix(seconds, 0).Local().Format("2006-01-02")
-	}
-	return ""
-}
-
-// Koordinat array'ini string'e dönüştürür
-func coordinatesToString(coords []float64) string {
-	if len(coords) >= 2 {
-		return fmt.Sprintf("%.6f, %.6f", coords[0], coords[1])
-	}
-	return ""
-}
-
 // Hata loglarını dosyaya yazar
 func logError(message string) {
 	logDir := "logs"
@@ -100,20 +71,29 @@ func YibfList(c *gin.Context) {
 		return
 	}
 
-	// YDK API için token
-	ydkTokenStr := c.GetHeader("YDK-Token")
-	if ydkTokenStr == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "YDK Token gerekli"})
+	// CompanyCode parametresini al
+	companyCode := c.Query("companyCode")
+	if companyCode == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode parametresi gerekli"})
 		return
 	}
 
-	log.Printf("YDK Token alındı: %s", ydkTokenStr)
+	// CompanyCode'u integer'a çevir
+	companyCodeInt, err := strconv.Atoi(companyCode)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçersiz CompanyCode formatı"})
+		return
+	}
 
-	// YDK token'ı JSON'dan parse et
-	var ydkToken service.YDKTokenResponse
-	if err := json.Unmarshal([]byte(ydkTokenStr), &ydkToken); err != nil {
-		log.Printf("YDK Token parse hatası: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK Token parse hatası: " + err.Error()})
+	// Token bilgisini veritabanından al
+	companyToken, err := service.GetCompanyTokenFromDB(c.Request.Context(), companyCodeInt)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if companyToken.Token == "" || companyToken.DepartmentId == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçerli token veya department ID bulunamadı"})
 		return
 	}
 
@@ -158,7 +138,7 @@ func YibfList(c *gin.Context) {
 		return
 	}
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
 	req.Header.Set("Content-Type", "application/json")
 
 	log.Printf("İstek gönderiliyor: %s", svc.BaseURL+service.ENDPOINT_YIBF_ALL)
@@ -318,7 +298,7 @@ func YibfList(c *gin.Context) {
 			continue
 		}
 
-		detailReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
+		detailReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
 		detailResp, err := svc.Client.Do(detailReq)
 		if err != nil {
 			log.Printf("ID %d için detay isteği başarısız: %v", item.ID, err)
@@ -380,7 +360,7 @@ func YibfList(c *gin.Context) {
 			"UnitPrice":        detail.YibfStructure.UnitPrice,
 			"FloorCount":       detail.YibfStructure.FloorCount,
 			"BKSReferenceNo":   detail.ReferenceNumber,
-			"Coordinates":      coordinatesToString(detail.Position.Coordinates),
+			"Coordinates":      service.CoordinatesToString(detail.Position.Coordinates),
 			"UploadedFile":     detail.UploadedFile,
 			"IndustryArea":     detail.YibfStructure.IndustryArea,
 			"ClusterStructure": detail.ClusterStructure,
@@ -413,7 +393,7 @@ func YibfList(c *gin.Context) {
 			continue
 		}
 
-		inspectorReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
+		inspectorReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
 		inspectorReq.Header.Set("Content-Type", "application/json")
 
 		inspectorResp, err := svc.Client.Do(inspectorReq)
@@ -468,13 +448,13 @@ func YibfList(c *gin.Context) {
 
 		// Tarihleri sadece geçerli değer varsa ekle
 		if detail.ContractDate > 0 {
-			jobData["ContractDate"] = safeUnixToDate(detail.ContractDate)
+			jobData["ContractDate"] = service.SafeUnixToDate(detail.ContractDate)
 		}
 		if detail.LicenseDate > 0 {
-			jobData["LicenseDate"] = safeUnixToDate(detail.LicenseDate)
+			jobData["LicenseDate"] = service.SafeUnixToDate(detail.LicenseDate)
 		}
 		if detail.CompleteDate > 0 {
-			jobData["CompletionDate"] = safeUnixToDate(detail.CompleteDate)
+			jobData["CompletionDate"] = service.SafeUnixToDate(detail.CompleteDate)
 		}
 
 		// Owner verilerini hazırla
@@ -483,11 +463,11 @@ func YibfList(c *gin.Context) {
 				"YibfNo":      detail.ID,
 				"YDSID":       detail.YibfOwner.Person.ID,
 				"Name":        detail.YibfOwner.Person.FullName,
-				"TcNo":        safeStringToInt(detail.YibfOwner.Person.IdentityNumber),
+				"TcNo":        service.SafeStringToInt(detail.YibfOwner.Person.IdentityNumber),
 				"Address":     detail.YibfOwner.Person.LastAddress,
 				"Phone":       detail.YibfOwner.Person.LastPhoneNumber,
 				"TaxAdmin":    detail.YibfOwner.Person.TaxAdministration,
-				"TaxNo":       safeStringToInt(detail.YibfOwner.Person.TaxAdministrationCode),
+				"TaxNo":       service.SafeStringToInt(detail.YibfOwner.Person.TaxAdministrationCode),
 				"Shareholder": detail.YibfOwner.ExistsShareholder,
 			}
 		}
@@ -498,14 +478,14 @@ func YibfList(c *gin.Context) {
 				"YibfNo":      detail.ID,
 				"YDSID":       detail.LatestYibfYambis.Yambis.ID,
 				"Name":        detail.LatestYibfYambis.Yambis.AdSoyadUnvan,
-				"TaxNo":       safeStringToInt(detail.LatestYibfYambis.Yambis.VergiKimlikNo),
+				"TaxNo":       service.SafeStringToInt(detail.LatestYibfYambis.Yambis.VergiKimlikNo),
 				"Phone":       detail.LatestYibfYambis.Yambis.Telefon,
 				"MobilePhone": detail.LatestYibfYambis.Yambis.CepTelefon,
 				"Email":       detail.LatestYibfYambis.Yambis.Eposta,
 				"Address":     detail.LatestYibfYambis.Yambis.Adres,
-				"RegisterNo":  safeStringToInt(detail.LatestYibfYambis.Yambis.Ybno),
+				"RegisterNo":  service.SafeStringToInt(detail.LatestYibfYambis.Yambis.Ybno),
 				"PersonType":  detail.LatestYibfYambis.Yambis.KisiTuru,
-				"TcNo":        safeStringToInt(detail.LatestYibfYambis.Yambis.TcNo),
+				"TcNo":        service.SafeStringToInt(detail.LatestYibfYambis.Yambis.TcNo),
 			}
 		}
 
@@ -518,11 +498,11 @@ func YibfList(c *gin.Context) {
 				"Address":          detail.LatestYibfSiteSupervisor.Application.User.Person.LastAddress,
 				"Phone":            detail.LatestYibfSiteSupervisor.Application.User.Person.LastPhoneNumber,
 				"Email":            detail.LatestYibfSiteSupervisor.Application.User.Person.LastEPosta,
-				"TcNo":             safeStringToInt(detail.LatestYibfSiteSupervisor.Application.User.Person.IdentityNumber),
+				"TcNo":             service.SafeStringToInt(detail.LatestYibfSiteSupervisor.Application.User.Person.IdentityNumber),
 				"Position":         detail.LatestYibfSiteSupervisor.Application.Tasks.Name,
 				"Career":           detail.LatestYibfSiteSupervisor.Application.Title.Name,
-				"RegisterNo":       safeStringToInt(detail.LatestYibfSiteSupervisor.Application.OccupationalRegistrationNumber),
-				"SocialSecurityNo": safeStringToInt(detail.LatestYibfSiteSupervisor.Application.SocialSecurityNo),
+				"RegisterNo":       service.SafeStringToInt(detail.LatestYibfSiteSupervisor.Application.OccupationalRegistrationNumber),
+				"SocialSecurityNo": service.SafeStringToInt(detail.LatestYibfSiteSupervisor.Application.SocialSecurityNo),
 				"SchoolGraduation": detail.LatestYibfSiteSupervisor.Application.SchoolGraduation,
 			}
 		}
@@ -552,7 +532,7 @@ func YibfList(c *gin.Context) {
 			continue
 		}
 
-		authorReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
+		authorReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
 		authorReq.Header.Set("Content-Type", "application/json")
 
 		authorResp, err := svc.Client.Do(authorReq)
@@ -705,25 +685,113 @@ func YibfList(c *gin.Context) {
 			}
 
 			// Değişiklik varsa güncelle
-			updateMutation := `
-			mutation UpdateJob($yibfNo: Int!, $input: JobInput!) {
-				updateJob(yibfNo: $yibfNo, input: $input) {
+			var mutationParts []string
+			updateVariables := map[string]interface{}{
+				"yibfNo":   item.ID,
+				"jobInput": jobData,
+			}
+
+			// Job mutation'ı her zaman ekle
+			mutationParts = append(mutationParts, `
+				updateJob(yibfNo: $yibfNo, input: $jobInput) {
 					id
 					YibfNo
-				}
-			}
-			`
+				}`)
 
-			updateVariables := map[string]interface{}{
-				"yibfNo": item.ID,
-				"input":  jobData,
+			// Owner verisi varsa ekle
+			if ownerData != nil {
+				mutationParts = append(mutationParts, `
+				updateOwner(yibfNo: $yibfNo, input: $ownerInput) {
+					Name
+					YDSID
+				}`)
+				updateVariables["ownerInput"] = ownerData
 			}
+
+			// Contractor verisi varsa ekle
+			if contractorData != nil {
+				mutationParts = append(mutationParts, `
+				updateContractor(yibfNo: $yibfNo, input: $contractorInput) {
+					Name
+					YDSID
+				}`)
+				updateVariables["contractorInput"] = contractorData
+			}
+
+			// Supervisor verisi varsa ekle
+			if supervisorData != nil {
+				mutationParts = append(mutationParts, `
+				updateSupervisor(yibfNo: $yibfNo, input: $supervisorInput) {
+					Name
+					YDSID
+				}`)
+				updateVariables["supervisorInput"] = supervisorData
+			}
+
+			// Author verisi varsa ekle
+			if authorData != nil {
+				mutationParts = append(mutationParts, `
+				updateAuthor(yibfNo: $yibfNo, input: $authorInput) {
+					Static
+					Mechanic
+					Electric
+					Architect
+					GeotechnicalEngineer
+					GeotechnicalGeologist
+					GeotechnicalGeophysicist
+				}`)
+				updateVariables["authorInput"] = authorData
+			}
+
+			// Mutation parametrelerini oluştur
+			var paramParts []string
+			paramParts = append(paramParts, "$yibfNo: Int!", "$jobInput: JobInput!")
+			if ownerData != nil {
+				paramParts = append(paramParts, "$ownerInput: JobOwnerInput!")
+			}
+			if contractorData != nil {
+				paramParts = append(paramParts, "$contractorInput: JobContractorInput!")
+			}
+			if supervisorData != nil {
+				paramParts = append(paramParts, "$supervisorInput: JobSupervisorInput!")
+			}
+			if authorData != nil {
+				paramParts = append(paramParts, "$authorInput: JobAuthorInput!")
+			}
+
+			// Tam mutation string'ini oluştur
+			updateMutation := fmt.Sprintf(`
+			mutation UpdateJob(%s) {
+				%s
+			}
+			`, strings.Join(paramParts, ", "), strings.Join(mutationParts, "\n"))
 
 			var updateResult struct {
 				UpdateJob struct {
 					ID     int `json:"id"`
 					YibfNo int `json:"YibfNo"`
 				} `json:"updateJob"`
+				UpdateOwner *struct {
+					Name  string `json:"Name"`
+					YDSID int    `json:"YDSID"`
+				} `json:"updateOwner,omitempty"`
+				UpdateContractor *struct {
+					Name  string `json:"Name"`
+					YDSID int    `json:"YDSID"`
+				} `json:"updateContractor,omitempty"`
+				UpdateSupervisor *struct {
+					Name  string `json:"Name"`
+					YDSID int    `json:"YDSID"`
+				} `json:"updateSupervisor,omitempty"`
+				UpdateAuthor *struct {
+					Static                   string `json:"Static"`
+					Mechanic                 string `json:"Mechanic"`
+					Electric                 string `json:"Electric"`
+					Architect                string `json:"Architect"`
+					GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
+					GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
+					GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
+				} `json:"updateAuthor,omitempty"`
 			}
 
 			if err := graphqlClient.Execute(updateMutation, updateVariables, jwtToken, &updateResult); err != nil {

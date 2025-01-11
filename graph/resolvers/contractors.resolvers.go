@@ -36,6 +36,7 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 			SetNillableAddress(input.Address).
 			SetNillableTaxNo(input.TaxNo).
 			SetNillableMobilePhone(input.MobilePhone).
+			SetNillableAddress(input.Address).
 			SetNillablePhone(input.Phone).
 			SetNillableEmail(input.Email).
 			SetNillablePersonType(input.PersonType).
@@ -72,6 +73,7 @@ func (r *mutationResolver) UpdateContractor(ctx context.Context, ydsid int, inpu
 		SetNillableAddress(input.Address).
 		SetNillableTaxNo(input.TaxNo).
 		SetNillableMobilePhone(input.MobilePhone).
+		SetNillableAddress(input.Address).
 		SetNillablePhone(input.Phone).
 		SetNillableEmail(input.Email).
 		SetNillablePersonType(input.PersonType).

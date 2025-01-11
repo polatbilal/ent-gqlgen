@@ -75,6 +75,16 @@ func Phone(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldPhone, v))
 }
 
+// Fax applies equality check predicate on the "Fax" field. It's identical to FaxEQ.
+func Fax(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldFax, v))
+}
+
+// MobilePhone applies equality check predicate on the "MobilePhone" field. It's identical to MobilePhoneEQ.
+func MobilePhone(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldMobilePhone, v))
+}
+
 // Email applies equality check predicate on the "Email" field. It's identical to EmailEQ.
 func Email(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldEmail, v))
@@ -428,6 +438,156 @@ func PhoneEqualFold(v string) predicate.CompanyDetail {
 // PhoneContainsFold applies the ContainsFold predicate on the "Phone" field.
 func PhoneContainsFold(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldContainsFold(FieldPhone, v))
+}
+
+// FaxEQ applies the EQ predicate on the "Fax" field.
+func FaxEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldFax, v))
+}
+
+// FaxNEQ applies the NEQ predicate on the "Fax" field.
+func FaxNEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldFax, v))
+}
+
+// FaxIn applies the In predicate on the "Fax" field.
+func FaxIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldFax, vs...))
+}
+
+// FaxNotIn applies the NotIn predicate on the "Fax" field.
+func FaxNotIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldFax, vs...))
+}
+
+// FaxGT applies the GT predicate on the "Fax" field.
+func FaxGT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldFax, v))
+}
+
+// FaxGTE applies the GTE predicate on the "Fax" field.
+func FaxGTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldFax, v))
+}
+
+// FaxLT applies the LT predicate on the "Fax" field.
+func FaxLT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldFax, v))
+}
+
+// FaxLTE applies the LTE predicate on the "Fax" field.
+func FaxLTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldFax, v))
+}
+
+// FaxContains applies the Contains predicate on the "Fax" field.
+func FaxContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldFax, v))
+}
+
+// FaxHasPrefix applies the HasPrefix predicate on the "Fax" field.
+func FaxHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldFax, v))
+}
+
+// FaxHasSuffix applies the HasSuffix predicate on the "Fax" field.
+func FaxHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldFax, v))
+}
+
+// FaxIsNil applies the IsNil predicate on the "Fax" field.
+func FaxIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldFax))
+}
+
+// FaxNotNil applies the NotNil predicate on the "Fax" field.
+func FaxNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldFax))
+}
+
+// FaxEqualFold applies the EqualFold predicate on the "Fax" field.
+func FaxEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldFax, v))
+}
+
+// FaxContainsFold applies the ContainsFold predicate on the "Fax" field.
+func FaxContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldFax, v))
+}
+
+// MobilePhoneEQ applies the EQ predicate on the "MobilePhone" field.
+func MobilePhoneEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldMobilePhone, v))
+}
+
+// MobilePhoneNEQ applies the NEQ predicate on the "MobilePhone" field.
+func MobilePhoneNEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldMobilePhone, v))
+}
+
+// MobilePhoneIn applies the In predicate on the "MobilePhone" field.
+func MobilePhoneIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldMobilePhone, vs...))
+}
+
+// MobilePhoneNotIn applies the NotIn predicate on the "MobilePhone" field.
+func MobilePhoneNotIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldMobilePhone, vs...))
+}
+
+// MobilePhoneGT applies the GT predicate on the "MobilePhone" field.
+func MobilePhoneGT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldMobilePhone, v))
+}
+
+// MobilePhoneGTE applies the GTE predicate on the "MobilePhone" field.
+func MobilePhoneGTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldMobilePhone, v))
+}
+
+// MobilePhoneLT applies the LT predicate on the "MobilePhone" field.
+func MobilePhoneLT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldMobilePhone, v))
+}
+
+// MobilePhoneLTE applies the LTE predicate on the "MobilePhone" field.
+func MobilePhoneLTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldMobilePhone, v))
+}
+
+// MobilePhoneContains applies the Contains predicate on the "MobilePhone" field.
+func MobilePhoneContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldMobilePhone, v))
+}
+
+// MobilePhoneHasPrefix applies the HasPrefix predicate on the "MobilePhone" field.
+func MobilePhoneHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldMobilePhone, v))
+}
+
+// MobilePhoneHasSuffix applies the HasSuffix predicate on the "MobilePhone" field.
+func MobilePhoneHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldMobilePhone, v))
+}
+
+// MobilePhoneIsNil applies the IsNil predicate on the "MobilePhone" field.
+func MobilePhoneIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldMobilePhone))
+}
+
+// MobilePhoneNotNil applies the NotNil predicate on the "MobilePhone" field.
+func MobilePhoneNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldMobilePhone))
+}
+
+// MobilePhoneEqualFold applies the EqualFold predicate on the "MobilePhone" field.
+func MobilePhoneEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldMobilePhone, v))
+}
+
+// MobilePhoneContainsFold applies the ContainsFold predicate on the "MobilePhone" field.
+func MobilePhoneContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldMobilePhone, v))
 }
 
 // EmailEQ applies the EQ predicate on the "Email" field.

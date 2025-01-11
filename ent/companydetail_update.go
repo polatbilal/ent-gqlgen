@@ -107,6 +107,46 @@ func (cdu *CompanyDetailUpdate) ClearPhone() *CompanyDetailUpdate {
 	return cdu
 }
 
+// SetFax sets the "Fax" field.
+func (cdu *CompanyDetailUpdate) SetFax(s string) *CompanyDetailUpdate {
+	cdu.mutation.SetFax(s)
+	return cdu
+}
+
+// SetNillableFax sets the "Fax" field if the given value is not nil.
+func (cdu *CompanyDetailUpdate) SetNillableFax(s *string) *CompanyDetailUpdate {
+	if s != nil {
+		cdu.SetFax(*s)
+	}
+	return cdu
+}
+
+// ClearFax clears the value of the "Fax" field.
+func (cdu *CompanyDetailUpdate) ClearFax() *CompanyDetailUpdate {
+	cdu.mutation.ClearFax()
+	return cdu
+}
+
+// SetMobilePhone sets the "MobilePhone" field.
+func (cdu *CompanyDetailUpdate) SetMobilePhone(s string) *CompanyDetailUpdate {
+	cdu.mutation.SetMobilePhone(s)
+	return cdu
+}
+
+// SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
+func (cdu *CompanyDetailUpdate) SetNillableMobilePhone(s *string) *CompanyDetailUpdate {
+	if s != nil {
+		cdu.SetMobilePhone(*s)
+	}
+	return cdu
+}
+
+// ClearMobilePhone clears the value of the "MobilePhone" field.
+func (cdu *CompanyDetailUpdate) ClearMobilePhone() *CompanyDetailUpdate {
+	cdu.mutation.ClearMobilePhone()
+	return cdu
+}
+
 // SetEmail sets the "Email" field.
 func (cdu *CompanyDetailUpdate) SetEmail(s string) *CompanyDetailUpdate {
 	cdu.mutation.SetEmail(s)
@@ -717,6 +757,18 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	if cdu.mutation.PhoneCleared() {
 		_spec.ClearField(companydetail.FieldPhone, field.TypeString)
 	}
+	if value, ok := cdu.mutation.Fax(); ok {
+		_spec.SetField(companydetail.FieldFax, field.TypeString, value)
+	}
+	if cdu.mutation.FaxCleared() {
+		_spec.ClearField(companydetail.FieldFax, field.TypeString)
+	}
+	if value, ok := cdu.mutation.MobilePhone(); ok {
+		_spec.SetField(companydetail.FieldMobilePhone, field.TypeString, value)
+	}
+	if cdu.mutation.MobilePhoneCleared() {
+		_spec.ClearField(companydetail.FieldMobilePhone, field.TypeString)
+	}
 	if value, ok := cdu.mutation.Email(); ok {
 		_spec.SetField(companydetail.FieldEmail, field.TypeString, value)
 	}
@@ -1109,6 +1161,46 @@ func (cduo *CompanyDetailUpdateOne) SetNillablePhone(s *string) *CompanyDetailUp
 // ClearPhone clears the value of the "Phone" field.
 func (cduo *CompanyDetailUpdateOne) ClearPhone() *CompanyDetailUpdateOne {
 	cduo.mutation.ClearPhone()
+	return cduo
+}
+
+// SetFax sets the "Fax" field.
+func (cduo *CompanyDetailUpdateOne) SetFax(s string) *CompanyDetailUpdateOne {
+	cduo.mutation.SetFax(s)
+	return cduo
+}
+
+// SetNillableFax sets the "Fax" field if the given value is not nil.
+func (cduo *CompanyDetailUpdateOne) SetNillableFax(s *string) *CompanyDetailUpdateOne {
+	if s != nil {
+		cduo.SetFax(*s)
+	}
+	return cduo
+}
+
+// ClearFax clears the value of the "Fax" field.
+func (cduo *CompanyDetailUpdateOne) ClearFax() *CompanyDetailUpdateOne {
+	cduo.mutation.ClearFax()
+	return cduo
+}
+
+// SetMobilePhone sets the "MobilePhone" field.
+func (cduo *CompanyDetailUpdateOne) SetMobilePhone(s string) *CompanyDetailUpdateOne {
+	cduo.mutation.SetMobilePhone(s)
+	return cduo
+}
+
+// SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
+func (cduo *CompanyDetailUpdateOne) SetNillableMobilePhone(s *string) *CompanyDetailUpdateOne {
+	if s != nil {
+		cduo.SetMobilePhone(*s)
+	}
+	return cduo
+}
+
+// ClearMobilePhone clears the value of the "MobilePhone" field.
+func (cduo *CompanyDetailUpdateOne) ClearMobilePhone() *CompanyDetailUpdateOne {
+	cduo.mutation.ClearMobilePhone()
 	return cduo
 }
 
@@ -1751,6 +1843,18 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 	}
 	if cduo.mutation.PhoneCleared() {
 		_spec.ClearField(companydetail.FieldPhone, field.TypeString)
+	}
+	if value, ok := cduo.mutation.Fax(); ok {
+		_spec.SetField(companydetail.FieldFax, field.TypeString, value)
+	}
+	if cduo.mutation.FaxCleared() {
+		_spec.ClearField(companydetail.FieldFax, field.TypeString)
+	}
+	if value, ok := cduo.mutation.MobilePhone(); ok {
+		_spec.SetField(companydetail.FieldMobilePhone, field.TypeString, value)
+	}
+	if cduo.mutation.MobilePhoneCleared() {
+		_spec.ClearField(companydetail.FieldMobilePhone, field.TypeString)
 	}
 	if value, ok := cduo.mutation.Email(); ok {
 		_spec.SetField(companydetail.FieldEmail, field.TypeString, value)

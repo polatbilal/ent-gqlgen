@@ -301,7 +301,7 @@ func (ctq *CompanyTokenQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *Co
 // Example:
 //
 //	var v []struct {
-//		Token string `json:"token,omitempty"`
+//		Token string `json:"Token,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -324,7 +324,7 @@ func (ctq *CompanyTokenQuery) GroupBy(field string, fields ...string) *CompanyTo
 // Example:
 //
 //	var v []struct {
-//		Token string `json:"token,omitempty"`
+//		Token string `json:"Token,omitempty"`
 //	}
 //
 //	client.CompanyToken.Query().

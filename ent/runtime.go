@@ -31,27 +31,27 @@ func init() {
 	// companydetail.DefaultName holds the default value on creation for the Name field.
 	companydetail.DefaultName = companydetailDescName.Default.(string)
 	// companydetailDescTaxNo is the schema descriptor for TaxNo field.
-	companydetailDescTaxNo := companydetailFields[7].Descriptor()
+	companydetailDescTaxNo := companydetailFields[9].Descriptor()
 	// companydetail.DefaultTaxNo holds the default value on creation for the TaxNo field.
 	companydetail.DefaultTaxNo = companydetailDescTaxNo.Default.(int)
 	// companydetailDescVisaFinishedFor90Days is the schema descriptor for VisaFinishedFor90Days field.
-	companydetailDescVisaFinishedFor90Days := companydetailFields[12].Descriptor()
+	companydetailDescVisaFinishedFor90Days := companydetailFields[14].Descriptor()
 	// companydetail.DefaultVisaFinishedFor90Days holds the default value on creation for the VisaFinishedFor90Days field.
 	companydetail.DefaultVisaFinishedFor90Days = companydetailDescVisaFinishedFor90Days.Default.(bool)
 	// companydetailDescCorePersonAbsent90Days is the schema descriptor for CorePersonAbsent90Days field.
-	companydetailDescCorePersonAbsent90Days := companydetailFields[13].Descriptor()
+	companydetailDescCorePersonAbsent90Days := companydetailFields[15].Descriptor()
 	// companydetail.DefaultCorePersonAbsent90Days holds the default value on creation for the CorePersonAbsent90Days field.
 	companydetail.DefaultCorePersonAbsent90Days = companydetailDescCorePersonAbsent90Days.Default.(bool)
 	// companydetailDescIsClosed is the schema descriptor for IsClosed field.
-	companydetailDescIsClosed := companydetailFields[14].Descriptor()
+	companydetailDescIsClosed := companydetailFields[16].Descriptor()
 	// companydetail.DefaultIsClosed holds the default value on creation for the IsClosed field.
 	companydetail.DefaultIsClosed = companydetailDescIsClosed.Default.(bool)
 	// companydetailDescCreatedAt is the schema descriptor for CreatedAt field.
-	companydetailDescCreatedAt := companydetailFields[22].Descriptor()
+	companydetailDescCreatedAt := companydetailFields[24].Descriptor()
 	// companydetail.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	companydetail.DefaultCreatedAt = companydetailDescCreatedAt.Default.(func() time.Time)
 	// companydetailDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	companydetailDescUpdatedAt := companydetailFields[23].Descriptor()
+	companydetailDescUpdatedAt := companydetailFields[25].Descriptor()
 	// companydetail.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	companydetail.DefaultUpdatedAt = companydetailDescUpdatedAt.Default.(func() time.Time)
 	// companydetail.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
@@ -79,11 +79,11 @@ func init() {
 	companytokenFields := schema.CompanyToken{}.Fields()
 	_ = companytokenFields
 	// companytokenDescCreatedAt is the schema descriptor for createdAt field.
-	companytokenDescCreatedAt := companytokenFields[3].Descriptor()
+	companytokenDescCreatedAt := companytokenFields[7].Descriptor()
 	// companytoken.DefaultCreatedAt holds the default value on creation for the createdAt field.
 	companytoken.DefaultCreatedAt = companytokenDescCreatedAt.Default.(func() time.Time)
 	// companytokenDescUpdatedAt is the schema descriptor for updatedAt field.
-	companytokenDescUpdatedAt := companytokenFields[4].Descriptor()
+	companytokenDescUpdatedAt := companytokenFields[8].Descriptor()
 	// companytoken.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
 	companytoken.DefaultUpdatedAt = companytokenDescUpdatedAt.Default.(func() time.Time)
 	// companytoken.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.

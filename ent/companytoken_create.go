@@ -21,13 +21,13 @@ type CompanyTokenCreate struct {
 	hooks    []Hook
 }
 
-// SetToken sets the "token" field.
+// SetToken sets the "Token" field.
 func (ctc *CompanyTokenCreate) SetToken(s string) *CompanyTokenCreate {
 	ctc.mutation.SetToken(s)
 	return ctc
 }
 
-// SetNillableToken sets the "token" field if the given value is not nil.
+// SetNillableToken sets the "Token" field if the given value is not nil.
 func (ctc *CompanyTokenCreate) SetNillableToken(s *string) *CompanyTokenCreate {
 	if s != nil {
 		ctc.SetToken(*s)
@@ -35,30 +35,86 @@ func (ctc *CompanyTokenCreate) SetNillableToken(s *string) *CompanyTokenCreate {
 	return ctc
 }
 
-// SetDepartmentID sets the "department_id" field.
-func (ctc *CompanyTokenCreate) SetDepartmentID(i int) *CompanyTokenCreate {
-	ctc.mutation.SetDepartmentID(i)
+// SetDepartmentId sets the "DepartmentId" field.
+func (ctc *CompanyTokenCreate) SetDepartmentId(i int) *CompanyTokenCreate {
+	ctc.mutation.SetDepartmentId(i)
 	return ctc
 }
 
-// SetNillableDepartmentID sets the "department_id" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableDepartmentID(i *int) *CompanyTokenCreate {
+// SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableDepartmentId(i *int) *CompanyTokenCreate {
 	if i != nil {
-		ctc.SetDepartmentID(*i)
+		ctc.SetDepartmentId(*i)
 	}
 	return ctc
 }
 
-// SetExpireDate sets the "expire_date" field.
-func (ctc *CompanyTokenCreate) SetExpireDate(t time.Time) *CompanyTokenCreate {
-	ctc.mutation.SetExpireDate(t)
+// SetExpire sets the "Expire" field.
+func (ctc *CompanyTokenCreate) SetExpire(i int) *CompanyTokenCreate {
+	ctc.mutation.SetExpire(i)
 	return ctc
 }
 
-// SetNillableExpireDate sets the "expire_date" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableExpireDate(t *time.Time) *CompanyTokenCreate {
-	if t != nil {
-		ctc.SetExpireDate(*t)
+// SetNillableExpire sets the "Expire" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableExpire(i *int) *CompanyTokenCreate {
+	if i != nil {
+		ctc.SetExpire(*i)
+	}
+	return ctc
+}
+
+// SetRefreshToken sets the "RefreshToken" field.
+func (ctc *CompanyTokenCreate) SetRefreshToken(s string) *CompanyTokenCreate {
+	ctc.mutation.SetRefreshToken(s)
+	return ctc
+}
+
+// SetNillableRefreshToken sets the "RefreshToken" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableRefreshToken(s *string) *CompanyTokenCreate {
+	if s != nil {
+		ctc.SetRefreshToken(*s)
+	}
+	return ctc
+}
+
+// SetSecretKey sets the "SecretKey" field.
+func (ctc *CompanyTokenCreate) SetSecretKey(s string) *CompanyTokenCreate {
+	ctc.mutation.SetSecretKey(s)
+	return ctc
+}
+
+// SetNillableSecretKey sets the "SecretKey" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableSecretKey(s *string) *CompanyTokenCreate {
+	if s != nil {
+		ctc.SetSecretKey(*s)
+	}
+	return ctc
+}
+
+// SetSecureSecretKey sets the "SecureSecretKey" field.
+func (ctc *CompanyTokenCreate) SetSecureSecretKey(s string) *CompanyTokenCreate {
+	ctc.mutation.SetSecureSecretKey(s)
+	return ctc
+}
+
+// SetNillableSecureSecretKey sets the "SecureSecretKey" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableSecureSecretKey(s *string) *CompanyTokenCreate {
+	if s != nil {
+		ctc.SetSecureSecretKey(*s)
+	}
+	return ctc
+}
+
+// SetOtpUri sets the "OtpUri" field.
+func (ctc *CompanyTokenCreate) SetOtpUri(s string) *CompanyTokenCreate {
+	ctc.mutation.SetOtpUri(s)
+	return ctc
+}
+
+// SetNillableOtpUri sets the "OtpUri" field if the given value is not nil.
+func (ctc *CompanyTokenCreate) SetNillableOtpUri(s *string) *CompanyTokenCreate {
+	if s != nil {
+		ctc.SetOtpUri(*s)
 	}
 	return ctc
 }
@@ -193,13 +249,29 @@ func (ctc *CompanyTokenCreate) createSpec() (*CompanyToken, *sqlgraph.CreateSpec
 		_spec.SetField(companytoken.FieldToken, field.TypeString, value)
 		_node.Token = value
 	}
-	if value, ok := ctc.mutation.DepartmentID(); ok {
-		_spec.SetField(companytoken.FieldDepartmentID, field.TypeInt, value)
-		_node.DepartmentID = value
+	if value, ok := ctc.mutation.DepartmentId(); ok {
+		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
+		_node.DepartmentId = value
 	}
-	if value, ok := ctc.mutation.ExpireDate(); ok {
-		_spec.SetField(companytoken.FieldExpireDate, field.TypeTime, value)
-		_node.ExpireDate = value
+	if value, ok := ctc.mutation.Expire(); ok {
+		_spec.SetField(companytoken.FieldExpire, field.TypeInt, value)
+		_node.Expire = value
+	}
+	if value, ok := ctc.mutation.RefreshToken(); ok {
+		_spec.SetField(companytoken.FieldRefreshToken, field.TypeString, value)
+		_node.RefreshToken = value
+	}
+	if value, ok := ctc.mutation.SecretKey(); ok {
+		_spec.SetField(companytoken.FieldSecretKey, field.TypeString, value)
+		_node.SecretKey = value
+	}
+	if value, ok := ctc.mutation.SecureSecretKey(); ok {
+		_spec.SetField(companytoken.FieldSecureSecretKey, field.TypeString, value)
+		_node.SecureSecretKey = value
+	}
+	if value, ok := ctc.mutation.OtpUri(); ok {
+		_spec.SetField(companytoken.FieldOtpUri, field.TypeString, value)
+		_node.OtpUri = value
 	}
 	if value, ok := ctc.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)

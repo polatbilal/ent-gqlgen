@@ -36,6 +36,7 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 			SetNillableTaxNo(input.TaxNo).
 			SetNillablePhone(input.Phone).
 			SetNillableEmail(input.Email).
+			SetNillableAddress(input.Address).
 			SetYDSID(*input.Ydsid).
 			SetNillableShareholder(input.Shareholder).
 			SetNillableNote(input.Note).
@@ -71,6 +72,7 @@ func (r *mutationResolver) UpdateOwner(ctx context.Context, ydsid int, input mod
 		SetNillableTaxNo(input.TaxNo).
 		SetNillablePhone(input.Phone).
 		SetNillableEmail(input.Email).
+		SetNillableAddress(input.Address).
 		SetNillableShareholder(input.Shareholder).
 		SetNillableNote(input.Note).
 		Save(ctx)

@@ -161,22 +161,23 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 
 	// Mevcut iş detayını güncelle
 	jobDetailUpdate := client.JobDetail.UpdateOne(jobDetail).
-		SetNillableYibfNo(input.YibfNo).
-		SetNillableTitle(input.Title).
+		SetYibfNo(*input.YibfNo).
+		SetTitle(*input.Title).
 		SetNillableAdministration(input.Administration).
 		SetNillableState(input.State).
 		SetNillableIsland(input.Island).
 		SetNillableParcel(input.Parcel).
 		SetNillableSheet(input.Sheet).
-		SetNillableFolderNo(input.FolderNo).
 		SetNillableContractDate(input.ContractDate).
 		SetNillableStartDate(input.StartDate).
 		SetNillableLicenseDate(input.LicenseDate).
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableCompletionDate(input.CompletionDate).
-		SetNillableConstructionArea(input.ConstructionArea).
 		SetNillableLandArea(input.LandArea).
 		SetNillableTotalArea(input.TotalArea).
+		SetNillableConstructionArea(input.ConstructionArea).
+		SetNillableLeftArea(input.LeftArea).
+		SetNillableYDSAddress(input.YDSAddress).
 		SetNillableAddress(input.Address).
 		SetNillableBuildingClass(input.BuildingClass).
 		SetNillableBuildingType(input.BuildingType).

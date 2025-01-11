@@ -22,11 +22,13 @@ input UserInput {
 
 extend type Query {
   user(id: ID!): User! @goField(forceResolver: true) @auth
-  allUsers: [User!]! @goField(forceResolver: true) @auth
+  companyUsers: [User!]! @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {
   createUser(input: UserInput!): User! @goField(forceResolver: true) @auth
-  updateUser(id: ID!, input: UserInput!): User! @goField(forceResolver: true) @auth
+  updateUser(id: ID!, input: UserInput!): User!
+    @goField(forceResolver: true)
+    @auth
   deleteUser(id: ID!): Boolean! @goField(forceResolver: true) @auth
 }

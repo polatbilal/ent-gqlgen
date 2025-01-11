@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
@@ -22,17 +23,24 @@ func YibfDetail(c *gin.Context) {
 		return
 	}
 
-	// YDK API için token
-	ydkTokenStr := c.GetHeader("YDK-Token")
-	if ydkTokenStr == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "YDK Token gerekli"})
+	// CompanyCode parametresini al
+	companyCode := c.Query("companyCode")
+	if companyCode == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode parametresi gerekli"})
 		return
 	}
 
-	// YDK token'ı JSON'dan parse et
-	var ydkToken service.YDKTokenResponse
-	if err := json.Unmarshal([]byte(ydkTokenStr), &ydkToken); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK Token parse hatası: " + err.Error()})
+	// CompanyCode'u integer'a çevir
+	companyCodeInt, err := strconv.Atoi(companyCode)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçersiz CompanyCode formatı"})
+		return
+	}
+
+	// Token bilgisini veritabanından al
+	companyToken, err := service.GetCompanyTokenFromDB(c.Request.Context(), companyCodeInt)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -56,7 +64,7 @@ func YibfDetail(c *gin.Context) {
 		return
 	}
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkToken.AccessToken))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
 
 	resp, err := svc.Client.Do(req)
 	if err != nil {

@@ -5,106 +5,161 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/polatbilal/gqlgen-ent/handlers/external"
-	"github.com/polatbilal/gqlgen-ent/handlers/service"
-
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
+	"github.com/polatbilal/gqlgen-ent/handlers/external"
 )
 
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true // Geliştirme ortamı için tüm originlere izin veriyoruz
+	},
+}
+
 func YDKSync(c *gin.Context) {
-	// CORS ve SSE header'larını ayarla
-	c.Writer.Header().Set("Content-Type", "text/event-stream")
-	c.Writer.Header().Set("Cache-Control", "no-cache")
-	c.Writer.Header().Set("Connection", "keep-alive")
-	c.Writer.Header().Set("Transfer-Encoding", "chunked")
-	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, YDK-Token")
-
-	// OPTIONS isteğine yanıt ver
-	if c.Request.Method == "OPTIONS" {
-		c.AbortWithStatus(204)
+	// Token'ı query parametresinden al
+	token := c.Query("token")
+	if token == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token bulunamadı"})
 		return
 	}
 
-	// Senkronizasyon başladı bildirimi
-	sendNotification(c, "info", "Senkronizasyon başladı")
+	// Token'ı request header'a ekle
+	c.Request.Header.Set("Authorization", "Bearer "+token)
 
-	// Token bilgilerini header veya query'den al
-	jwtToken := c.GetHeader("Authorization")
-	if jwtToken == "" {
-		jwtToken = c.Query("jwt")
-	}
-	if jwtToken == "" {
-		sendNotification(c, "error", "JWT Token gerekli")
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "JWT Token gerekli"})
+	// WebSocket bağlantısını yükselt
+	ws, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "WebSocket bağlantısı kurulamadı"})
 		return
 	}
-
-	// YDK token bilgisini header veya query'den al
-	ydkTokenStr := c.GetHeader("YDK-Token")
-	if ydkTokenStr == "" {
-		ydkTokenStr = c.Query("ydk")
-	}
-	if ydkTokenStr == "" {
-		sendNotification(c, "error", "YDK Token gerekli")
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "YDK Token gerekli"})
-		return
-	}
-
-	// YDK token'ı JSON'dan parse et
-	var ydkToken service.YDKTokenResponse
-	if err := json.Unmarshal([]byte(ydkTokenStr), &ydkToken); err != nil {
-		sendNotification(c, "error", "YDK Token parse hatası: "+err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK Token parse hatası: " + err.Error()})
-		return
-	}
+	defer ws.Close()
 
 	// Yanıtları yakalamak için ResponseWriter'ı wrap et
 	companyWriter := &ResponseCapturer{ResponseWriter: c.Writer}
-	inspectorWriter := &ResponseCapturer{ResponseWriter: c.Writer}
 
-	// Context'leri kopyala
+	// Token kontrolü için önce companies'e istek at
 	companyCtx := &gin.Context{
-		Request: c.Request,
+		Request: c.Request.Clone(c.Request.Context()),
 		Writer:  companyWriter,
+		Params:  c.Params,
+		Keys:    c.Keys,
 	}
-	inspectorCtx := &gin.Context{
-		Request: c.Request,
-		Writer:  inspectorWriter,
-	}
+	companyCtx.Request.Header = c.Request.Header.Clone()
 
-	// Şirket senkronizasyonu başladı bildirimi
-	sendNotification(c, "info", "Şirket bilgileri senkronizasyonu başladı")
+	// Token kontrolü için companies'e istek at
 	external.YDKCompanies(companyCtx)
 
-	// Şirket yanıtını parse et
-	var companyResponse map[string]interface{}
-	if err := json.Unmarshal(companyWriter.body, &companyResponse); err != nil {
-		sendNotification(c, "error", "Şirket bilgileri senkronizasyonu başarısız")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Şirket yanıtı parse edilemedi"})
+	// Token kontrolü için yanıtı parse et
+	var tokenCheckResponse map[string]interface{}
+	if err := json.Unmarshal(companyWriter.body, &tokenCheckResponse); err != nil {
+		sendWSNotification(ws, "error", "Token kontrolü başarısız")
 		return
 	}
 
-	// Şirket senkronizasyonu tamamlandı bildirimi
-	sendNotification(c, "success", "Şirket bilgileri senkronizasyonu tamamlandı")
+	// Token hatası varsa işlemi başlatma
+	if _, hasError := tokenCheckResponse["error"]; hasError {
+		// YDK API'den gelen JSON yanıtını kontrol et
+		if errType, ok := tokenCheckResponse["error"].(string); ok {
+			if errType == "invalid_token" {
+				sendWSNotification(ws, "error", "YDS Token süresi dolmuş. Lütfen YDS Token'ı yenileyiniz.")
+				return
+			}
+		}
+		// Diğer hatalar için genel mesaj
+		sendWSNotification(ws, "error", "Token hatası oluştu")
+		return
+	}
+
+	// Token geçerliyse senkronizasyonu başlat
+	sendWSNotification(ws, "info", "Senkronizasyon başladı")
+
+	// Şirket yanıtını kullan
+	companyResponse := tokenCheckResponse
+
+	// Şirket yanıtında hata varsa işlemi sonlandır
+	if errMsg, hasError := companyResponse["error"]; hasError {
+		errorMessage := errMsg.(string)
+		sendWSNotification(ws, "error", "Şirket bilgileri senkronizasyonu başarısız: "+errorMessage)
+		return
+	}
+
+	// Diğer writer'ları hazırla
+	inspectorWriter := &ResponseCapturer{ResponseWriter: c.Writer}
+	yibfWriter := &ResponseCapturer{ResponseWriter: c.Writer}
+
+	// Diğer context'leri hazırla
+	inspectorCtx := &gin.Context{
+		Request: c.Request.Clone(c.Request.Context()),
+		Writer:  inspectorWriter,
+		Params:  c.Params,
+		Keys:    c.Keys,
+	}
+	inspectorCtx.Request.Header = c.Request.Header.Clone()
+
+	yibfCtx := &gin.Context{
+		Request: c.Request.Clone(c.Request.Context()),
+		Writer:  yibfWriter,
+		Params:  c.Params,
+		Keys:    c.Keys,
+	}
+	yibfCtx.Request.Header = c.Request.Header.Clone()
 
 	// Denetçi senkronizasyonu başladı bildirimi
-	sendNotification(c, "info", "Denetçi bilgileri senkronizasyonu başladı")
+	sendWSNotification(ws, "info", "Denetçi bilgileri senkronizasyonu başladı")
 	external.YDKInspectors(inspectorCtx)
 
 	// Denetçi yanıtını parse et
 	var inspectorResponse map[string]interface{}
 	if err := json.Unmarshal(inspectorWriter.body, &inspectorResponse); err != nil {
-		sendNotification(c, "error", "Denetçi bilgileri senkronizasyonu başarısız")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Denetçi yanıtı parse edilemedi"})
+		sendWSNotification(ws, "error", "Denetçi bilgileri senkronizasyonu başarısız")
+		return
+	}
+
+	// Denetçi yanıtında hata varsa işlemi sonlandır
+	if errMsg, hasError := inspectorResponse["error"]; hasError {
+		errorMessage := errMsg.(string)
+		if inspectorResponse["status"] == float64(401) || inspectorResponse["status"] == float64(http.StatusUnauthorized) {
+			sendWSNotification(ws, "error", "Token süresi dolmuş veya geçersiz. Lütfen yeniden giriş yapın.")
+			return
+		}
+		sendWSNotification(ws, "error", "Denetçi bilgileri senkronizasyonu başarısız: "+errorMessage)
 		return
 	}
 
 	// Denetçi senkronizasyonu tamamlandı bildirimi
-	sendNotification(c, "success", "Denetçi bilgileri senkronizasyonu tamamlandı")
+	sendWSNotification(ws, "success", "Denetçi bilgileri senkronizasyonu tamamlandı")
+
+	// YİBF senkronizasyonu başladı bildirimi
+	sendWSNotification(ws, "info", "YİBF bilgileri senkronizasyonu başladı")
+	external.YibfList(yibfCtx)
+
+	// YİBF yanıtını parse et
+	var yibfResponse map[string]interface{}
+	if err := json.Unmarshal(yibfWriter.body, &yibfResponse); err != nil {
+		sendWSNotification(ws, "error", "YİBF bilgileri senkronizasyonu başarısız")
+		return
+	}
+
+	// YİBF yanıtında hata varsa işlemi sonlandır
+	if errMsg, hasError := yibfResponse["error"]; hasError {
+		errorMessage := errMsg.(string)
+		if yibfResponse["status"] == float64(401) || yibfResponse["status"] == float64(http.StatusUnauthorized) {
+			sendWSNotification(ws, "error", "Token süresi dolmuş veya geçersiz. Lütfen yeniden giriş yapın.")
+			return
+		}
+		sendWSNotification(ws, "error", "YİBF bilgileri senkronizasyonu başarısız: "+errorMessage)
+		return
+	}
+
+	// YİBF senkronizasyonu tamamlandı bildirimi
+	sendWSNotification(ws, "success", "YİBF bilgileri senkronizasyonu tamamlandı")
 
 	// Birleştirilmiş yanıtı hazırla
 	response := gin.H{
+		"type":    "result",
 		"status":  "success",
 		"message": "Senkronizasyon tamamlandı",
 		"details": gin.H{
@@ -115,14 +170,20 @@ func YDKSync(c *gin.Context) {
 				"skippedCount": inspectorResponse["skippedCount"],
 				"message":      inspectorResponse["message"],
 			},
+			"yibf": gin.H{
+				"total":           yibfResponse["total"],
+				"processed_count": yibfResponse["processed_count"],
+				"failed_count":    yibfResponse["failed_count"],
+				"success":         yibfResponse["success"],
+			},
 		},
 	}
 
 	// Senkronizasyon tamamlandı bildirimi
-	sendNotification(c, "success", "Senkronizasyon başarıyla tamamlandı")
+	sendWSNotification(ws, "success", "Senkronizasyon başarıyla tamamlandı")
 
-	// Yanıtı gönder
-	c.JSON(http.StatusOK, response)
+	// Son yanıtı gönder
+	ws.WriteJSON(response)
 }
 
 // ResponseCapturer yanıtları yakalamak için kullanılır
@@ -136,8 +197,8 @@ func (w *ResponseCapturer) Write(b []byte) (int, error) {
 	return len(b), nil
 }
 
-// Bildirim gönderme fonksiyonu
-func sendNotification(c *gin.Context, status string, message string) {
+// WebSocket üzerinden bildirim gönderme fonksiyonu
+func sendWSNotification(ws *websocket.Conn, status string, message string) {
 	notification := gin.H{
 		"type":    "notification",
 		"status":  status,
@@ -145,7 +206,5 @@ func sendNotification(c *gin.Context, status string, message string) {
 		"time":    time.Now().Format(time.RFC3339),
 	}
 
-	// SSE formatında bildirim gönder
-	c.SSEvent("message", notification)
-	c.Writer.Flush()
+	ws.WriteJSON(notification)
 }

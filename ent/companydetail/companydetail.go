@@ -22,6 +22,10 @@ const (
 	FieldAddress = "address"
 	// FieldPhone holds the string denoting the phone field in the database.
 	FieldPhone = "phone"
+	// FieldFax holds the string denoting the fax field in the database.
+	FieldFax = "fax"
+	// FieldMobilePhone holds the string denoting the mobilephone field in the database.
+	FieldMobilePhone = "mobile_phone"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
 	// FieldWebsite holds the string denoting the website field in the database.
@@ -109,6 +113,8 @@ var Columns = []string{
 	FieldName,
 	FieldAddress,
 	FieldPhone,
+	FieldFax,
+	FieldMobilePhone,
 	FieldEmail,
 	FieldWebsite,
 	FieldTaxAdmin,
@@ -186,6 +192,16 @@ func ByAddress(opts ...sql.OrderTermOption) OrderOption {
 // ByPhone orders the results by the Phone field.
 func ByPhone(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPhone, opts...).ToFunc()
+}
+
+// ByFax orders the results by the Fax field.
+func ByFax(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFax, opts...).ToFunc()
+}
+
+// ByMobilePhone orders the results by the MobilePhone field.
+func ByMobilePhone(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldMobilePhone, opts...).ToFunc()
 }
 
 // ByEmail orders the results by the Email field.

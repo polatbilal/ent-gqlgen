@@ -29,16 +29,18 @@ input JobSupervisorInput {
 }
 
 extend type Query {
-  supervisor(yibfNo: Int!): JobSupervisor! @goField(forceResolver: true) @auth
-  supervisorByYDSID(ydsid: Int!): JobSupervisor! @goField(forceResolver: true) @auth
+  supervisor(yibfNo: Int!): JobSupervisor @goField(forceResolver: true) @auth
+  supervisorByYDSID(ydsid: Int!): JobSupervisor
+    @goField(forceResolver: true)
+    @auth
 }
 
 extend type Mutation {
-  createSupervisor(input: JobSupervisorInput!): JobSupervisor! 
-  @goField(forceResolver: true)
-  @auth
-  
+  createSupervisor(input: JobSupervisorInput!): JobSupervisor!
+    @goField(forceResolver: true)
+    @auth
+
   updateSupervisor(yibfNo: Int!, input: JobSupervisorInput!): JobSupervisor!
-  @goField(forceResolver: true)
-  @auth
+    @goField(forceResolver: true)
+    @auth
 }

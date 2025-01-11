@@ -20,6 +20,8 @@ func (CompanyDetail) Fields() []ent.Field {
 		field.Text("Name").Default(""),
 		field.String("Address").Optional(),
 		field.String("Phone").Optional(),
+		field.String("Fax").Optional(),
+		field.String("MobilePhone").Optional(),
 		field.String("Email").Optional(),
 		field.String("Website").Optional(),
 		field.String("TaxAdmin").Optional(),

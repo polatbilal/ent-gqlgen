@@ -26,7 +26,7 @@ func JwtGenerate(ctx context.Context, userID int, username string, name string, 
 		Name:     name,
 		Role:     role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 			IssuedAt:  time.Now().Unix(),
 		},
 	}

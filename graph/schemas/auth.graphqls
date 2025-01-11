@@ -1,11 +1,11 @@
-scalar Time
-
 directive @goField(
   forceResolver: Boolean
   Name: String
 ) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 directive @auth on FIELD_DEFINITION
+
+scalar Time
 
 type AuthPayload {
   token: String!
@@ -22,8 +22,5 @@ type Mutation {
     email: String
     password: String!
   ): AuthPayload!
-  login(
-    username: String!
-    password: String!
-  ): AuthPayload!
+  login(username: String!, password: String!): AuthPayload!
 }

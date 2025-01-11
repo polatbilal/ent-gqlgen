@@ -25,6 +25,10 @@ type CompanyDetail struct {
 	Address string `json:"Address,omitempty"`
 	// Phone holds the value of the "Phone" field.
 	Phone string `json:"Phone,omitempty"`
+	// Fax holds the value of the "Fax" field.
+	Fax string `json:"Fax,omitempty"`
+	// MobilePhone holds the value of the "MobilePhone" field.
+	MobilePhone string `json:"MobilePhone,omitempty"`
 	// Email holds the value of the "Email" field.
 	Email string `json:"Email,omitempty"`
 	// Website holds the value of the "Website" field.
@@ -138,7 +142,7 @@ func (*CompanyDetail) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerRegisterNo:
 			values[i] = new(sql.NullInt64)
-		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerCareer:
+		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldFax, companydetail.FieldMobilePhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerCareer:
 			values[i] = new(sql.NullString)
 		case companydetail.FieldVisaDate, companydetail.FieldVisaEndDate, companydetail.FieldCreatedAt, companydetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -186,6 +190,18 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Phone", values[i])
 			} else if value.Valid {
 				cd.Phone = value.String
+			}
+		case companydetail.FieldFax:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Fax", values[i])
+			} else if value.Valid {
+				cd.Fax = value.String
+			}
+		case companydetail.FieldMobilePhone:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field MobilePhone", values[i])
+			} else if value.Valid {
+				cd.MobilePhone = value.String
 			}
 		case companydetail.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -374,6 +390,12 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
 	builder.WriteString(cd.Phone)
+	builder.WriteString(", ")
+	builder.WriteString("Fax=")
+	builder.WriteString(cd.Fax)
+	builder.WriteString(", ")
+	builder.WriteString("MobilePhone=")
+	builder.WriteString(cd.MobilePhone)
 	builder.WriteString(", ")
 	builder.WriteString("Email=")
 	builder.WriteString(cd.Email)

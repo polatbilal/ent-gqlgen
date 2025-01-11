@@ -18,12 +18,20 @@ type CompanyToken struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Token holds the value of the "token" field.
-	Token string `json:"token,omitempty"`
-	// DepartmentID holds the value of the "department_id" field.
-	DepartmentID int `json:"department_id,omitempty"`
-	// ExpireDate holds the value of the "expire_date" field.
-	ExpireDate time.Time `json:"expire_date,omitempty"`
+	// Token holds the value of the "Token" field.
+	Token string `json:"Token,omitempty"`
+	// DepartmentId holds the value of the "DepartmentId" field.
+	DepartmentId int `json:"DepartmentId,omitempty"`
+	// Expire holds the value of the "Expire" field.
+	Expire int `json:"Expire,omitempty"`
+	// RefreshToken holds the value of the "RefreshToken" field.
+	RefreshToken string `json:"RefreshToken,omitempty"`
+	// SecretKey holds the value of the "SecretKey" field.
+	SecretKey string `json:"SecretKey,omitempty"`
+	// SecureSecretKey holds the value of the "SecureSecretKey" field.
+	SecureSecretKey string `json:"SecureSecretKey,omitempty"`
+	// OtpUri holds the value of the "OtpUri" field.
+	OtpUri string `json:"OtpUri,omitempty"`
 	// CreatedAt holds the value of the "createdAt" field.
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 	// UpdatedAt holds the value of the "updatedAt" field.
@@ -62,11 +70,11 @@ func (*CompanyToken) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case companytoken.FieldID, companytoken.FieldDepartmentID:
+		case companytoken.FieldID, companytoken.FieldDepartmentId, companytoken.FieldExpire:
 			values[i] = new(sql.NullInt64)
-		case companytoken.FieldToken:
+		case companytoken.FieldToken, companytoken.FieldRefreshToken, companytoken.FieldSecretKey, companytoken.FieldSecureSecretKey, companytoken.FieldOtpUri:
 			values[i] = new(sql.NullString)
-		case companytoken.FieldExpireDate, companytoken.FieldCreatedAt, companytoken.FieldUpdatedAt:
+		case companytoken.FieldCreatedAt, companytoken.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case companytoken.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
@@ -93,21 +101,45 @@ func (ct *CompanyToken) assignValues(columns []string, values []any) error {
 			ct.ID = int(value.Int64)
 		case companytoken.FieldToken:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field token", values[i])
+				return fmt.Errorf("unexpected type %T for field Token", values[i])
 			} else if value.Valid {
 				ct.Token = value.String
 			}
-		case companytoken.FieldDepartmentID:
+		case companytoken.FieldDepartmentId:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field department_id", values[i])
+				return fmt.Errorf("unexpected type %T for field DepartmentId", values[i])
 			} else if value.Valid {
-				ct.DepartmentID = int(value.Int64)
+				ct.DepartmentId = int(value.Int64)
 			}
-		case companytoken.FieldExpireDate:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field expire_date", values[i])
+		case companytoken.FieldExpire:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field Expire", values[i])
 			} else if value.Valid {
-				ct.ExpireDate = value.Time
+				ct.Expire = int(value.Int64)
+			}
+		case companytoken.FieldRefreshToken:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field RefreshToken", values[i])
+			} else if value.Valid {
+				ct.RefreshToken = value.String
+			}
+		case companytoken.FieldSecretKey:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field SecretKey", values[i])
+			} else if value.Valid {
+				ct.SecretKey = value.String
+			}
+		case companytoken.FieldSecureSecretKey:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field SecureSecretKey", values[i])
+			} else if value.Valid {
+				ct.SecureSecretKey = value.String
+			}
+		case companytoken.FieldOtpUri:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field OtpUri", values[i])
+			} else if value.Valid {
+				ct.OtpUri = value.String
 			}
 		case companytoken.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -169,14 +201,26 @@ func (ct *CompanyToken) String() string {
 	var builder strings.Builder
 	builder.WriteString("CompanyToken(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", ct.ID))
-	builder.WriteString("token=")
+	builder.WriteString("Token=")
 	builder.WriteString(ct.Token)
 	builder.WriteString(", ")
-	builder.WriteString("department_id=")
-	builder.WriteString(fmt.Sprintf("%v", ct.DepartmentID))
+	builder.WriteString("DepartmentId=")
+	builder.WriteString(fmt.Sprintf("%v", ct.DepartmentId))
 	builder.WriteString(", ")
-	builder.WriteString("expire_date=")
-	builder.WriteString(ct.ExpireDate.Format(time.ANSIC))
+	builder.WriteString("Expire=")
+	builder.WriteString(fmt.Sprintf("%v", ct.Expire))
+	builder.WriteString(", ")
+	builder.WriteString("RefreshToken=")
+	builder.WriteString(ct.RefreshToken)
+	builder.WriteString(", ")
+	builder.WriteString("SecretKey=")
+	builder.WriteString(ct.SecretKey)
+	builder.WriteString(", ")
+	builder.WriteString("SecureSecretKey=")
+	builder.WriteString(ct.SecureSecretKey)
+	builder.WriteString(", ")
+	builder.WriteString("OtpUri=")
+	builder.WriteString(ct.OtpUri)
 	builder.WriteString(", ")
 	builder.WriteString("createdAt=")
 	builder.WriteString(ct.CreatedAt.Format(time.ANSIC))

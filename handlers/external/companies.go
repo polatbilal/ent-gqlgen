@@ -12,8 +12,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/polatbilal/gqlgen-ent/database"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
 
@@ -42,36 +40,19 @@ func YDKCompanies(c *gin.Context) {
 		return
 	}
 
-	// Veritabanı bağlantısını al
-	dbClient, err := database.GetClient()
+	// Token bilgisini veritabanından al
+	companyToken, err := service.GetCompanyTokenFromDB(c.Request.Context(), companyCodeInt)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Veritabanı bağlantısı kurulamadı: " + err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Önce CompanyDetail'den şirketi bul
-	company, err := dbClient.CompanyDetail.Query().
-		Where(companydetail.CompanyCode(companyCodeInt)).
-		First(c.Request.Context())
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Şirket bulunamadı: " + err.Error()})
-		return
-	}
-
-	// Şirketin token bilgisini al
-	companyToken, err := company.QueryTokens().
-		First(c.Request.Context())
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token bilgisi bulunamadı: " + err.Error()})
-		return
-	}
-
-	if companyToken.Token == "" || companyToken.DepartmentID == 0 {
+	if companyToken.Token == "" || companyToken.DepartmentId == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçerli token veya department ID bulunamadı"})
 		return
 	}
 
-	log.Printf("Token: %s, DepartmentID: %d", companyToken.Token, companyToken.DepartmentID)
+	log.Printf("Token: %s, DepartmentID: %d", companyToken.Token, companyToken.DepartmentId)
 
 	svc := &service.ExternalService{
 		BaseURL: os.Getenv("YDK_BASE_URL"),
@@ -84,7 +65,7 @@ func YDKCompanies(c *gin.Context) {
 	}
 
 	requestBody := map[string]interface{}{
-		"id": companyToken.DepartmentID,
+		"id": companyToken.DepartmentId,
 	}
 
 	jsonBody, err := json.Marshal(requestBody)
@@ -120,8 +101,18 @@ func YDKCompanies(c *gin.Context) {
 
 	// HTTP yanıt kodunu kontrol et
 	if resp.StatusCode != http.StatusOK {
-		log.Printf("YDK API hata döndürdü. Status: %d, Body: %s\n", resp.StatusCode, string(body))
-		c.JSON(resp.StatusCode, gin.H{"error": fmt.Sprintf("YDK API hatası: %s", string(body))})
+		var ydkError struct {
+			Error            string `json:"error"`
+			ErrorDescription string `json:"error_description"`
+		}
+
+		if err := json.Unmarshal(body, &ydkError); err != nil {
+			c.JSON(resp.StatusCode, gin.H{"error": fmt.Sprintf("YDK API hatası: %s", string(body))})
+			return
+		}
+
+		// Hata yanıtını doğrudan ilet
+		c.JSON(resp.StatusCode, ydkError)
 		return
 	}
 
@@ -138,7 +129,7 @@ func YDKCompanies(c *gin.Context) {
 
 	if len(ydkResponse.Items) == 0 {
 		log.Printf("ydkToken.AccessToken: %s", companyToken.Token)
-		log.Printf("ydkToken.DepartmentID: %d", companyToken.DepartmentID)
+		log.Printf("ydkToken.DepartmentID: %d", companyToken.DepartmentId)
 		log.Printf("Şirket bilgisi bulunamadı. Ham yanıt: %s\n", string(body))
 		c.JSON(http.StatusNotFound, gin.H{"error": "Şirket bilgisi bulunamadı"})
 		return
@@ -165,7 +156,7 @@ func YDKCompanies(c *gin.Context) {
 		"CompanyCode":               item.Department.FileNumber,
 		"Name":                      item.Department.Name,
 		"Address":                   item.Department.Person.AddressStr,
-		"Phone":                     item.Department.Person.LastPhoneNumber,
+		"MobilePhone":               item.Department.Person.LastPhoneNumber,
 		"Email":                     item.Department.Person.LastEPosta,
 		"Website":                   item.Department.Person.LastWebAddress,
 		"TaxAdmin":                  item.Department.Person.TaxAdministration,
@@ -195,6 +186,8 @@ func YDKCompanies(c *gin.Context) {
 			Name
 			Address
 			Phone
+			Fax
+			MobilePhone
 			Email
 			Website
 			TaxAdmin
@@ -335,5 +328,4 @@ func YDKCompanies(c *gin.Context) {
 			"code": item.Department.FileNumber,
 		},
 	})
-	return
 }

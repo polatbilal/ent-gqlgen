@@ -26,29 +26,24 @@ func YDKInspectors(c *gin.Context) {
 		return
 	}
 
-	// YDK API için token
-	ydkTokenJSON := c.GetHeader("YDK-Token")
-	if ydkTokenJSON == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "YDK Token gerekli"})
+	// CompanyCode parametresini al
+	companyCode := c.Query("companyCode")
+	if companyCode == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode parametresi gerekli"})
 		return
 	}
 
-	// [object Object] kontrolü
-	if ydkTokenJSON == "[object Object]" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK Token JSON formatında gönderilmelidir, JavaScript objesi olarak değil"})
+	// CompanyCode'u integer'a çevir
+	companyCodeInt, err := strconv.Atoi(companyCode)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçersiz CompanyCode formatı"})
 		return
 	}
 
-	// YDK Token'ı JSON'dan parse et
-	var ydkTokenResp service.YDKTokenResponse
-	if err := json.Unmarshal([]byte(ydkTokenJSON), &ydkTokenResp); err != nil {
-		log.Printf("Parse hatası detayı: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("YDK Token JSON parse hatası: %v - Gelen veri: %s", err, ydkTokenJSON)})
-		return
-	}
-
-	if ydkTokenResp.AccessToken == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "YDK Token içinde access_token bulunamadı"})
+	// Token bilgisini veritabanından al
+	companyToken, err := service.GetCompanyTokenFromDB(c.Request.Context(), companyCodeInt)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -88,7 +83,7 @@ func YDKInspectors(c *gin.Context) {
 		return
 	}
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", ydkTokenResp.AccessToken))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := svc.Client.Do(req)

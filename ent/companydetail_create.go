@@ -72,6 +72,34 @@ func (cdc *CompanyDetailCreate) SetNillablePhone(s *string) *CompanyDetailCreate
 	return cdc
 }
 
+// SetFax sets the "Fax" field.
+func (cdc *CompanyDetailCreate) SetFax(s string) *CompanyDetailCreate {
+	cdc.mutation.SetFax(s)
+	return cdc
+}
+
+// SetNillableFax sets the "Fax" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableFax(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetFax(*s)
+	}
+	return cdc
+}
+
+// SetMobilePhone sets the "MobilePhone" field.
+func (cdc *CompanyDetailCreate) SetMobilePhone(s string) *CompanyDetailCreate {
+	cdc.mutation.SetMobilePhone(s)
+	return cdc
+}
+
+// SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
+func (cdc *CompanyDetailCreate) SetNillableMobilePhone(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetMobilePhone(*s)
+	}
+	return cdc
+}
+
 // SetEmail sets the "Email" field.
 func (cdc *CompanyDetailCreate) SetEmail(s string) *CompanyDetailCreate {
 	cdc.mutation.SetEmail(s)
@@ -535,6 +563,14 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 	if value, ok := cdc.mutation.Phone(); ok {
 		_spec.SetField(companydetail.FieldPhone, field.TypeString, value)
 		_node.Phone = value
+	}
+	if value, ok := cdc.mutation.Fax(); ok {
+		_spec.SetField(companydetail.FieldFax, field.TypeString, value)
+		_node.Fax = value
+	}
+	if value, ok := cdc.mutation.MobilePhone(); ok {
+		_spec.SetField(companydetail.FieldMobilePhone, field.TypeString, value)
+		_node.MobilePhone = value
 	}
 	if value, ok := cdc.mutation.Email(); ok {
 		_spec.SetField(companydetail.FieldEmail, field.TypeString, value)

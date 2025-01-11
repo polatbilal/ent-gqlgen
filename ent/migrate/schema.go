@@ -15,6 +15,8 @@ var (
 		{Name: "name", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "address", Type: field.TypeString, Nullable: true},
 		{Name: "phone", Type: field.TypeString, Nullable: true},
+		{Name: "fax", Type: field.TypeString, Nullable: true},
+		{Name: "mobile_phone", Type: field.TypeString, Nullable: true},
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "website", Type: field.TypeString, Nullable: true},
 		{Name: "tax_admin", Type: field.TypeString, Nullable: true},
@@ -79,9 +81,13 @@ var (
 	// CompanyTokensColumns holds the columns for the "company_tokens" table.
 	CompanyTokensColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "token", Type: field.TypeString, Nullable: true, Size: 2147483647},
-		{Name: "department_id", Type: field.TypeInt, Nullable: true},
-		{Name: "expire_date", Type: field.TypeTime, Nullable: true},
+		{Name: "token", Type: field.TypeString, Nullable: true},
+		{Name: "department_id", Type: field.TypeInt, Unique: true, Nullable: true},
+		{Name: "expire", Type: field.TypeInt, Nullable: true},
+		{Name: "refresh_token", Type: field.TypeString, Nullable: true},
+		{Name: "secret_key", Type: field.TypeString, Nullable: true},
+		{Name: "secure_secret_key", Type: field.TypeString, Nullable: true},
+		{Name: "otp_uri", Type: field.TypeString, Nullable: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
@@ -94,7 +100,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "company_tokens_company_details_tokens",
-				Columns:    []*schema.Column{CompanyTokensColumns[6]},
+				Columns:    []*schema.Column{CompanyTokensColumns[10]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

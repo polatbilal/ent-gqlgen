@@ -93,7 +93,9 @@ func (r *queryResolver) Supervisor(ctx context.Context, yibfNo int) (*ent.JobSup
 	client := middlewares.GetClientFromContext(ctx)
 
 	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.HasSupervisorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
-
+	if ent.IsNotFound(err) {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to get supervisor: %w", err)
 	}
@@ -104,5 +106,12 @@ func (r *queryResolver) Supervisor(ctx context.Context, yibfNo int) (*ent.JobSup
 // SupervisorByYdsid is the resolver for the supervisorByYDSID field.
 func (r *queryResolver) SupervisorByYdsid(ctx context.Context, ydsid int) (*ent.JobSupervisor, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	return client.JobSupervisor.Query().Where(jobsupervisor.YDSID(ydsid)).Only(ctx)
+	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.YDSID(ydsid)).Only(ctx)
+	if ent.IsNotFound(err) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to get supervisor: %w", err)
+	}
+	return supervisor, nil
 }
