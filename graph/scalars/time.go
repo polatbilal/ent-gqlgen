@@ -13,7 +13,7 @@ func MarshalTime(t time.Time) graphql.Marshaler {
 		// Sadece tarih formatı: YYYY-MM-DD
 		// io.WriteString(w, t.Format(`"2006-01-02"`))
 		// Alternatif format (DD-MM-YYYY) için:
-		io.WriteString(w, t.Format(`"02.01.2006"`))
+		io.WriteString(w, t.Format(`"02/01/2006"`))
 	})
 }
 

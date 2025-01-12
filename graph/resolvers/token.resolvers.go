@@ -47,8 +47,7 @@ func (r *mutationResolver) CreateToken(ctx context.Context, departmentID int, in
 		SetExpire(*input.Expire).
 		SetRefreshToken(*input.RefreshToken).
 		SetSecretKey(*input.SecretKey).
-		SetSecureSecretKey(*input.SecureSecretKey).
-		SetOtpUri(*input.OtpURI)
+		SetSecureSecretKey(*input.SecureSecretKey)
 
 	createCompanyToken, err := tokenCreate.Save(ctx)
 	if err != nil {

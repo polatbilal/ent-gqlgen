@@ -35,7 +35,33 @@ func SafeIntToString(i int) string {
 // Koordinat array'ini string'e dönüştürür
 func CoordinatesToString(coords []float64) string {
 	if len(coords) >= 2 {
-		return fmt.Sprintf("%.6f, %.6f", coords[0], coords[1])
+		return fmt.Sprintf("%v,%v", coords[0], coords[1])
 	}
 	return ""
+}
+
+// Tarihleri karşılaştırmak için yardımcı fonksiyon
+func CompareDates(date1, date2 string) bool {
+	// İlk tarihi parse et (dd/MM/yyyy formatı)
+	t1, err1 := time.Parse("02/01/2006", date1)
+	if err1 != nil {
+		// yyyy-MM-dd formatını dene
+		t1, err1 = time.Parse("2006-01-02", date1)
+		if err1 != nil {
+			return false
+		}
+	}
+
+	// İkinci tarihi parse et
+	t2, err2 := time.Parse("02/01/2006", date2)
+	if err2 != nil {
+		// yyyy-MM-dd formatını dene
+		t2, err2 = time.Parse("2006-01-02", date2)
+		if err2 != nil {
+			return false
+		}
+	}
+
+	// Unix timestamp'lerini karşılaştır
+	return t1.Unix() == t2.Unix()
 }

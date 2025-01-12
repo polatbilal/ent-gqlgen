@@ -23,7 +23,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  createToken(departmentId: Int!, input: CompanyTokenInput!): CompanyToken!
+  createToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken!
 
   updateToken(DepartmentId: Int, input: CompanyTokenInput): CompanyToken!
     @goField(forceResolver: true)

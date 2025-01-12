@@ -109,8 +109,9 @@ func YibfList(c *gin.Context) {
 		"requireTotalCount": true,
 		"searchOperation":   "contains",
 		"searchValue":       nil,
-		"skip":              20,
-		"take":              5, // Test için 4 kayıt
+		"skip":              0,
+		"take":              10,
+		"filter":            []interface{}{"state.id", "=", 6},
 		"userData":          struct{}{},
 		"sort": []map[string]interface{}{
 			{
@@ -281,7 +282,7 @@ func YibfList(c *gin.Context) {
 		}
 
 		err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResult)
-		if err != nil && !strings.Contains(err.Error(), "not found") {
+		if err != nil && !strings.Contains(err.Error(), "iş bulunamadı veya bu işe erişim yetkiniz yok") {
 			log.Printf("ID %d için iş kontrolü sırasında hata oluştu: %v", item.ID, err)
 			failedIDs = append(failedIDs, item.ID)
 			continue
@@ -314,8 +315,63 @@ func YibfList(c *gin.Context) {
 			continue
 		}
 
+		// Önce raw JSON'ı map olarak parse et
+		var rawDetail map[string]interface{}
+		if err := json.Unmarshal(detailBody, &rawDetail); err != nil {
+			log.Printf("ID %d için raw JSON parse hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		// Position ve coordinates kontrolü
+		if position, ok := rawDetail["position"].(map[string]interface{}); ok {
+			if coords, exists := position["coordinates"]; exists {
+				// İlk koordinat çiftini al
+				var firstCoords []float64
+				switch v := coords.(type) {
+				case []interface{}:
+					// Tek boyutlu array durumu
+					if len(v) >= 2 {
+						if f1, ok := v[0].(float64); ok {
+							if f2, ok := v[1].(float64); ok {
+								firstCoords = []float64{f1, f2}
+							}
+						}
+					} else if len(v) > 0 {
+						// İç içe array durumu
+						if innerArray, ok := v[0].([]interface{}); ok {
+							if len(innerArray) > 0 {
+								if deepArray, ok := innerArray[0].([]interface{}); ok {
+									if len(deepArray) >= 2 {
+										if f1, ok := deepArray[0].(float64); ok {
+											if f2, ok := deepArray[1].(float64); ok {
+												firstCoords = []float64{f1, f2}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				if len(firstCoords) == 2 {
+					position["coordinates"] = firstCoords
+				} else {
+					position["coordinates"] = []float64{}
+				}
+			}
+		}
+
+		// Şimdi struct'a parse et
 		var detail service.YIBFResponse
-		if err := json.Unmarshal(detailBody, &detail); err != nil {
+		updatedJSON, err := json.Marshal(rawDetail)
+		if err != nil {
+			log.Printf("ID %d için JSON marshal hatası: %v", item.ID, err)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		if err := json.Unmarshal(updatedJSON, &detail); err != nil {
 			log.Printf("ID %d için detay parse hatası: %v", item.ID, err)
 			failedIDs = append(failedIDs, item.ID)
 			continue
@@ -659,6 +715,24 @@ func YibfList(c *gin.Context) {
 						needsUpdate = true
 						log.Printf("Inspector değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
 						continue
+					}
+
+					// Tarihleri karşılaştır
+					if strings.Contains(key, "Date") {
+						currentStr := fmt.Sprintf("%v", currentValue)
+						newStr := fmt.Sprintf("%v", newValue)
+						if service.CompareDates(currentStr, newStr) {
+							continue
+						}
+					}
+
+					// Koordinatları karşılaştır
+					if key == "Coordinates" {
+						currentStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", currentValue), " ", ""), ",", ".")
+						newStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", newValue), " ", ""), ",", ".")
+						if currentStr == newStr {
+							continue
+						}
 					}
 
 					// Diğer alanlar için normal karşılaştırma

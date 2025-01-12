@@ -1672,7 +1672,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateToken(childComplexity, args["departmentId"].(int), args["input"].(model.CompanyTokenInput)), true
+		return e.complexity.Mutation.CreateToken(childComplexity, args["DepartmentId"].(int), args["input"].(model.CompanyTokenInput)), true
 
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
@@ -2906,7 +2906,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  createToken(departmentId: Int!, input: CompanyTokenInput!): CompanyToken!
+  createToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken!
 
   updateToken(DepartmentId: Int, input: CompanyTokenInput): CompanyToken!
     @goField(forceResolver: true)
@@ -3186,7 +3186,7 @@ func (ec *executionContext) field_Mutation_createToken_args(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
-	args["departmentId"] = arg0
+	args["DepartmentId"] = arg0
 	arg1, err := ec.field_Mutation_createToken_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -3198,13 +3198,13 @@ func (ec *executionContext) field_Mutation_createToken_argsDepartmentID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (int, error) {
-	if _, ok := rawArgs["departmentId"]; !ok {
+	if _, ok := rawArgs["DepartmentId"]; !ok {
 		var zeroVal int
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("departmentId"))
-	if tmp, ok := rawArgs["departmentId"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
+	if tmp, ok := rawArgs["DepartmentId"]; ok {
 		return ec.unmarshalNInt2int(ctx, tmp)
 	}
 
@@ -14355,7 +14355,7 @@ func (ec *executionContext) _Mutation_createToken(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateToken(rctx, fc.Args["departmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
+		return ec.resolvers.Mutation().CreateToken(rctx, fc.Args["DepartmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
