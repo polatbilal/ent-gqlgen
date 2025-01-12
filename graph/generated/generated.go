@@ -276,13 +276,13 @@ type ComplexityRoot struct {
 		Register              func(childComplexity int, username string, name *string, email *string, password string) int
 		UpdateAuthor          func(childComplexity int, yibfNo int, input model.JobAuthorInput) int
 		UpdateCompany         func(childComplexity int, input model.CompanyDetailInput) int
-		UpdateContractor      func(childComplexity int, ydsid int, input model.JobContractorInput) int
+		UpdateContractor      func(childComplexity int, yibfNo int, input model.JobContractorInput) int
 		UpdateEngineer        func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
 		UpdateEngineerByYdsid func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
 		UpdateJob             func(childComplexity int, yibfNo int, input model.JobInput) int
 		UpdateJobPayments     func(childComplexity int, yibfNo int, input model.JobPaymentsInput) int
 		UpdateLayer           func(childComplexity int, id string, input model.JobLayerInput) int
-		UpdateOwner           func(childComplexity int, ydsid int, input model.JobOwnerInput) int
+		UpdateOwner           func(childComplexity int, yibfNo int, input model.JobOwnerInput) int
 		UpdateProgress        func(childComplexity int, yibfNo int, input model.JobProgressInput) int
 		UpdateSupervisor      func(childComplexity int, yibfNo int, input model.JobSupervisorInput) int
 		UpdateToken           func(childComplexity int, departmentID *int, input *model.CompanyTokenInput) int
@@ -348,7 +348,7 @@ type MutationResolver interface {
 	UpdateAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error)
 	UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error)
-	UpdateContractor(ctx context.Context, ydsid int, input model.JobContractorInput) (*ent.JobContractor, error)
+	UpdateContractor(ctx context.Context, yibfNo int, input model.JobContractorInput) (*ent.JobContractor, error)
 	CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	UpdateEngineer(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	UpdateEngineerByYdsid(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
@@ -358,7 +358,7 @@ type MutationResolver interface {
 	UpdateLayer(ctx context.Context, id string, input model.JobLayerInput) (*ent.JobLayer, error)
 	DeleteLayer(ctx context.Context, id string) (*ent.JobLayer, error)
 	CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error)
-	UpdateOwner(ctx context.Context, ydsid int, input model.JobOwnerInput) (*ent.JobOwner, error)
+	UpdateOwner(ctx context.Context, yibfNo int, input model.JobOwnerInput) (*ent.JobOwner, error)
 	CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	UpdateJobPayments(ctx context.Context, yibfNo int, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	DeleteJobPayments(ctx context.Context, yibfNo int) (*ent.JobPayments, error)
@@ -1780,7 +1780,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateContractor(childComplexity, args["YDSID"].(int), args["input"].(model.JobContractorInput)), true
+		return e.complexity.Mutation.UpdateContractor(childComplexity, args["yibfNo"].(int), args["input"].(model.JobContractorInput)), true
 
 	case "Mutation.updateEngineer":
 		if e.complexity.Mutation.UpdateEngineer == nil {
@@ -1852,7 +1852,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateOwner(childComplexity, args["YDSID"].(int), args["input"].(model.JobOwnerInput)), true
+		return e.complexity.Mutation.UpdateOwner(childComplexity, args["yibfNo"].(int), args["input"].(model.JobOwnerInput)), true
 
 	case "Mutation.updateProgress":
 		if e.complexity.Mutation.UpdateProgress == nil {
@@ -2497,7 +2497,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateContractor(YDSID: Int!, input: JobContractorInput!): JobContractor!
+  updateContractor(yibfNo: Int!, input: JobContractorInput!): JobContractor!
     @goField(forceResolver: true)
     @auth
 }
@@ -2767,7 +2767,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateOwner(YDSID: Int!, input: JobOwnerInput!): JobOwner!
+  updateOwner(yibfNo: Int!, input: JobOwnerInput!): JobOwner!
     @goField(forceResolver: true)
     @auth
 }
@@ -3572,11 +3572,11 @@ func (ec *executionContext) field_Mutation_updateCompany_argsInput(
 func (ec *executionContext) field_Mutation_updateContractor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateContractor_argsYdsid(ctx, rawArgs)
+	arg0, err := ec.field_Mutation_updateContractor_argsYibfNo(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["YDSID"] = arg0
+	args["yibfNo"] = arg0
 	arg1, err := ec.field_Mutation_updateContractor_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -3584,17 +3584,17 @@ func (ec *executionContext) field_Mutation_updateContractor_args(ctx context.Con
 	args["input"] = arg1
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_updateContractor_argsYdsid(
+func (ec *executionContext) field_Mutation_updateContractor_argsYibfNo(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (int, error) {
-	if _, ok := rawArgs["YDSID"]; !ok {
+	if _, ok := rawArgs["yibfNo"]; !ok {
 		var zeroVal int
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
-	if tmp, ok := rawArgs["YDSID"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
+	if tmp, ok := rawArgs["yibfNo"]; ok {
 		return ec.unmarshalNInt2int(ctx, tmp)
 	}
 
@@ -3878,11 +3878,11 @@ func (ec *executionContext) field_Mutation_updateLayer_argsInput(
 func (ec *executionContext) field_Mutation_updateOwner_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateOwner_argsYdsid(ctx, rawArgs)
+	arg0, err := ec.field_Mutation_updateOwner_argsYibfNo(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["YDSID"] = arg0
+	args["yibfNo"] = arg0
 	arg1, err := ec.field_Mutation_updateOwner_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -3890,17 +3890,17 @@ func (ec *executionContext) field_Mutation_updateOwner_args(ctx context.Context,
 	args["input"] = arg1
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_updateOwner_argsYdsid(
+func (ec *executionContext) field_Mutation_updateOwner_argsYibfNo(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (int, error) {
-	if _, ok := rawArgs["YDSID"]; !ok {
+	if _, ok := rawArgs["yibfNo"]; !ok {
 		var zeroVal int
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
-	if tmp, ok := rawArgs["YDSID"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
+	if tmp, ok := rawArgs["yibfNo"]; ok {
 		return ec.unmarshalNInt2int(ctx, tmp)
 	}
 
@@ -12527,7 +12527,7 @@ func (ec *executionContext) _Mutation_updateContractor(ctx context.Context, fiel
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateContractor(rctx, fc.Args["YDSID"].(int), fc.Args["input"].(model.JobContractorInput))
+			return ec.resolvers.Mutation().UpdateContractor(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobContractorInput))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -13695,7 +13695,7 @@ func (ec *executionContext) _Mutation_updateOwner(ctx context.Context, field gra
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateOwner(rctx, fc.Args["YDSID"].(int), fc.Args["input"].(model.JobOwnerInput))
+			return ec.resolvers.Mutation().UpdateOwner(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobOwnerInput))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {

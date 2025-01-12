@@ -6,6 +6,7 @@ package resolvers
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
@@ -45,7 +46,13 @@ func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuth
 func (r *mutationResolver) UpdateAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobAuthor, err := client.JobAuthor.UpdateOneID(yibfNo).
+	jobAuthor, err := client.JobAuthor.Query().Where(jobauthor.HasAuthorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get author: %w", err)
+	}
+
+	author, err := jobAuthor.Update().
 		SetNillableStatic(input.Static).
 		SetNillableMechanic(input.Mechanic).
 		SetNillableElectric(input.Electric).
@@ -58,7 +65,7 @@ func (r *mutationResolver) UpdateAuthor(ctx context.Context, yibfNo int, input m
 		return nil, err
 	}
 
-	return jobAuthor, nil
+	return author, nil
 }
 
 // Author is the resolver for the author field.

@@ -62,10 +62,16 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 }
 
 // UpdateOwner is the resolver for the updateOwner field.
-func (r *mutationResolver) UpdateOwner(ctx context.Context, ydsid int, input model.JobOwnerInput) (*ent.JobOwner, error) {
+func (r *mutationResolver) UpdateOwner(ctx context.Context, yibfNo int, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	owner, err := client.JobOwner.UpdateOneID(ydsid).
+	jobOwner, err := client.JobOwner.Query().Where(jobowner.HasOwnersWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get owner: %w", err)
+	}
+
+	owner, err := jobOwner.Update().
 		SetNillableName(input.Name).
 		SetNillableTcNo(input.TcNo).
 		SetNillableTaxAdmin(input.TaxAdmin).

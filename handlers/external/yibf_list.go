@@ -109,10 +109,10 @@ func YibfList(c *gin.Context) {
 		"requireTotalCount": true,
 		"searchOperation":   "contains",
 		"searchValue":       nil,
-		"skip":              0,
-		"take":              10,
-		"filter":            []interface{}{"state.id", "=", 6},
-		"userData":          struct{}{},
+		// "skip":              0,
+		// "take":              10,
+		"filter":   []interface{}{"state.id", "=", 6},
+		"userData": struct{}{},
 		"sort": []map[string]interface{}{
 			{
 				"selector": "distributiondate",
@@ -415,7 +415,7 @@ func YibfList(c *gin.Context) {
 			"Level":            detail.Level,
 			"UnitPrice":        detail.YibfStructure.UnitPrice,
 			"FloorCount":       detail.YibfStructure.FloorCount,
-			"BKSReferenceNo":   detail.ReferenceNumber,
+			"BKSReferenceNo":   service.SafeStringToInt(detail.ReferenceNumber),
 			"Coordinates":      service.CoordinatesToString(detail.Position.Coordinates),
 			"UploadedFile":     detail.UploadedFile,
 			"IndustryArea":     detail.YibfStructure.IndustryArea,
@@ -632,377 +632,388 @@ func YibfList(c *gin.Context) {
 					authorData["Static"] = fullName
 				case 8:
 					switch author.TitleId {
-					case 7:
-						authorData["GeotechnicalGeophysicist"] = fullName
-					case 6:
-						authorData["GeotechnicalGeologist"] = fullName
 					case 4:
 						authorData["GeotechnicalEngineer"] = fullName
+					case 6:
+						authorData["GeotechnicalGeologist"] = fullName
+					case 7:
+						authorData["GeotechnicalGeophysicist"] = fullName
 					}
 				}
 			}
 		}
 
-		if checkResult.Job != nil {
-			// Kayıt var, değişiklik kontrolü yap
-			needsUpdate := false
+		// Her entity için ayrı kontrol ve güncelleme yap
+		var mutations []string
+		updateVariables := make(map[string]interface{})
 
-			// Değerleri karşılaştır ve farklılıkları logla
+		// Job kontrolü ve güncellemesi
+		if checkResult.Job != nil {
+			needsUpdate := false
+			// Değerleri karşılaştır
 			for key, newValue := range jobData {
 				if currentValue, exists := checkResult.Job[key]; exists {
-					// Nil değerleri kontrol et
-					if newValue == nil || currentValue == nil {
-						continue
-					}
-
-					// YibfNo ve CompanyCode için özel karşılaştırma
-					if key == "YibfNo" || key == "CompanyCode" {
-						// Float to int conversion
-						var currentIDInt int
-						switch v := currentValue.(type) {
-						case float64:
-							currentIDInt = int(v)
-						case int:
-							currentIDInt = v
-						}
-
-						// Yeni değeri int'e çevir
-						var newIDInt int
-						switch v := newValue.(type) {
-						case float64:
-							newIDInt = int(v)
-						case int:
-							newIDInt = v
-						}
-
-						if currentIDInt == newIDInt {
-							continue // Değerler eşleşiyorsa değişiklik yok
-						}
-						log.Printf("%s değişikliği tespit edildi - Eski: %v, Yeni: %v", key, currentValue, newValue)
-						needsUpdate = true
-						continue
-					}
-
-					// Inspector alanlarını özel olarak karşılaştır
+					// Denetçi alanları için özel karşılaştırma
 					if isInspectorField(key) {
-						// Mevcut değer bir map ise (GraphQL'den gelen nested yapı)
 						if currentMap, ok := currentValue.(map[string]interface{}); ok {
-							// YDSID'yi kontrol et
 							if currentYDSID, exists := currentMap["YDSID"]; exists {
-								// Float to int conversion
-								var currentIDInt int
-								switch v := currentYDSID.(type) {
-								case float64:
-									currentIDInt = int(v)
-								case int:
-									currentIDInt = v
-								}
-
-								// Yeni değeri int'e çevir
-								var newIDInt int
-								switch v := newValue.(type) {
-								case float64:
-									newIDInt = int(v)
-								case int:
-									newIDInt = v
-								}
-
-								if currentIDInt == newIDInt {
-									continue // YDSID'ler eşleşiyorsa değişiklik yok
+								if !service.CompareValues(currentYDSID, newValue) {
+									log.Printf("Job değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+									needsUpdate = true
 								}
 							}
 						}
-						needsUpdate = true
-						log.Printf("Inspector değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
 						continue
 					}
 
-					// Tarihleri karşılaştır
+					// Tarih alanları için özel karşılaştırma
 					if strings.Contains(key, "Date") {
-						currentStr := fmt.Sprintf("%v", currentValue)
-						newStr := fmt.Sprintf("%v", newValue)
-						if service.CompareDates(currentStr, newStr) {
-							continue
+						if !service.CompareDates(fmt.Sprintf("%v", currentValue), fmt.Sprintf("%v", newValue)) {
+							log.Printf("Job değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+							needsUpdate = true
 						}
-					}
-
-					// Koordinatları karşılaştır
-					if key == "Coordinates" {
-						currentStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", currentValue), " ", ""), ",", ".")
-						newStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", newValue), " ", ""), ",", ".")
-						if currentStr == newStr {
-							continue
-						}
+						continue
 					}
 
 					// Diğer alanlar için normal karşılaştırma
-					newStr := fmt.Sprintf("%v", newValue)
-					currentStr := fmt.Sprintf("%v", currentValue)
-
-					if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
-						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-						needsUpdate = true
-					}
-				} else {
-					// Eğer alan mevcut değilse ve yeni değer boş değilse güncelleme gerekir
-					if newValue != nil && newValue != "" {
-						log.Printf("Yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
+					if !service.CompareValues(currentValue, newValue) {
+						log.Printf("Job değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
 						needsUpdate = true
 					}
 				}
 			}
-
-			if !needsUpdate {
-				log.Printf("YİBF verileri güncel, güncelleme yapılmayacak: YibfNo %d", item.ID)
-				processedIDs = append(processedIDs, item.ID)
-				continue
+			if needsUpdate {
+				mutations = append(mutations, `
+					updateJob(yibfNo: $yibfNo, input: $jobInput) {
+						id
+						YibfNo
+					}`)
+				updateVariables["jobInput"] = jobData
+				updateVariables["yibfNo"] = item.ID
 			}
-
-			// Değişiklik varsa güncelle
-			var mutationParts []string
-			updateVariables := map[string]interface{}{
-				"yibfNo":   item.ID,
-				"jobInput": jobData,
-			}
-
-			// Job mutation'ı her zaman ekle
-			mutationParts = append(mutationParts, `
-				updateJob(yibfNo: $yibfNo, input: $jobInput) {
+		} else {
+			// Job yoksa create mutation ekle
+			mutations = append(mutations, `
+				createJob(input: $jobInput) {
 					id
 					YibfNo
 				}`)
-
-			// Owner verisi varsa ekle
-			if ownerData != nil {
-				mutationParts = append(mutationParts, `
-				updateOwner(yibfNo: $yibfNo, input: $ownerInput) {
-					Name
-					YDSID
-				}`)
-				updateVariables["ownerInput"] = ownerData
-			}
-
-			// Contractor verisi varsa ekle
-			if contractorData != nil {
-				mutationParts = append(mutationParts, `
-				updateContractor(yibfNo: $yibfNo, input: $contractorInput) {
-					Name
-					YDSID
-				}`)
-				updateVariables["contractorInput"] = contractorData
-			}
-
-			// Supervisor verisi varsa ekle
-			if supervisorData != nil {
-				mutationParts = append(mutationParts, `
-				updateSupervisor(yibfNo: $yibfNo, input: $supervisorInput) {
-					Name
-					YDSID
-				}`)
-				updateVariables["supervisorInput"] = supervisorData
-			}
-
-			// Author verisi varsa ekle
-			if authorData != nil {
-				mutationParts = append(mutationParts, `
-				updateAuthor(yibfNo: $yibfNo, input: $authorInput) {
-					Static
-					Mechanic
-					Electric
-					Architect
-					GeotechnicalEngineer
-					GeotechnicalGeologist
-					GeotechnicalGeophysicist
-				}`)
-				updateVariables["authorInput"] = authorData
-			}
-
-			// Mutation parametrelerini oluştur
-			var paramParts []string
-			paramParts = append(paramParts, "$yibfNo: Int!", "$jobInput: JobInput!")
-			if ownerData != nil {
-				paramParts = append(paramParts, "$ownerInput: JobOwnerInput!")
-			}
-			if contractorData != nil {
-				paramParts = append(paramParts, "$contractorInput: JobContractorInput!")
-			}
-			if supervisorData != nil {
-				paramParts = append(paramParts, "$supervisorInput: JobSupervisorInput!")
-			}
-			if authorData != nil {
-				paramParts = append(paramParts, "$authorInput: JobAuthorInput!")
-			}
-
-			// Tam mutation string'ini oluştur
-			updateMutation := fmt.Sprintf(`
-			mutation UpdateJob(%s) {
-				%s
-			}
-			`, strings.Join(paramParts, ", "), strings.Join(mutationParts, "\n"))
-
-			var updateResult struct {
-				UpdateJob struct {
-					ID     int `json:"id"`
-					YibfNo int `json:"YibfNo"`
-				} `json:"updateJob"`
-				UpdateOwner *struct {
-					Name  string `json:"Name"`
-					YDSID int    `json:"YDSID"`
-				} `json:"updateOwner,omitempty"`
-				UpdateContractor *struct {
-					Name  string `json:"Name"`
-					YDSID int    `json:"YDSID"`
-				} `json:"updateContractor,omitempty"`
-				UpdateSupervisor *struct {
-					Name  string `json:"Name"`
-					YDSID int    `json:"YDSID"`
-				} `json:"updateSupervisor,omitempty"`
-				UpdateAuthor *struct {
-					Static                   string `json:"Static"`
-					Mechanic                 string `json:"Mechanic"`
-					Electric                 string `json:"Electric"`
-					Architect                string `json:"Architect"`
-					GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
-					GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
-					GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
-				} `json:"updateAuthor,omitempty"`
-			}
-
-			if err := graphqlClient.Execute(updateMutation, updateVariables, jwtToken, &updateResult); err != nil {
-				log.Printf("ID %d için güncelleme hatası: %v", item.ID, err)
-				failedIDs = append(failedIDs, item.ID)
-				continue
-			}
-
-			log.Printf("ID %d başarıyla güncellendi", item.ID)
-			processedIDs = append(processedIDs, item.ID)
-		} else {
-			// Kayıt yok, yeni kayıt oluştur
-			var mutationParts []string
-			createVariables := map[string]interface{}{
-				"jobInput": jobData,
-			}
-
-			// Job mutation'ı her zaman ekle
-			mutationParts = append(mutationParts, `
-				createJob(input: $jobInput) {
-					YibfNo
-					Title
-				}`)
-
-			// Owner verisi varsa ekle
-			if ownerData != nil {
-				mutationParts = append(mutationParts, `
-				createOwner(input: $ownerInput) {
-					Name
-					YDSID
-				}`)
-				createVariables["ownerInput"] = ownerData
-			}
-
-			// Contractor verisi varsa ekle
-			if contractorData != nil {
-				mutationParts = append(mutationParts, `
-				createContractor(input: $contractorInput) {
-					Name
-					YDSID
-				}`)
-				createVariables["contractorInput"] = contractorData
-			}
-
-			// Supervisor verisi varsa ekle
-			if supervisorData != nil {
-				mutationParts = append(mutationParts, `
-				createSupervisor(input: $supervisorInput) {
-					Name
-					YDSID
-				}`)
-				createVariables["supervisorInput"] = supervisorData
-			}
-
-			// Author verisi varsa ekle
-			if authorData != nil {
-				mutationParts = append(mutationParts, `
-				createAuthor(input: $authorInput) {
-					Static
-					Mechanic
-					Electric
-					Architect
-					GeotechnicalEngineer
-					GeotechnicalGeologist
-					GeotechnicalGeophysicist
-				}`)
-				createVariables["authorInput"] = authorData
-			}
-
-			// Mutation parametrelerini oluştur
-			var paramParts []string
-			paramParts = append(paramParts, "$jobInput: JobInput!")
-			if ownerData != nil {
-				paramParts = append(paramParts, "$ownerInput: JobOwnerInput!")
-			}
-			if contractorData != nil {
-				paramParts = append(paramParts, "$contractorInput: JobContractorInput!")
-			}
-			if supervisorData != nil {
-				paramParts = append(paramParts, "$supervisorInput: JobSupervisorInput!")
-			}
-			if authorData != nil {
-				paramParts = append(paramParts, "$authorInput: JobAuthorInput!")
-			}
-
-			// Tam mutation string'ini oluştur
-			createMutation := fmt.Sprintf(`
-			mutation CreateJob(%s) {
-				%s
-			}
-			`, strings.Join(paramParts, ", "), strings.Join(mutationParts, "\n"))
-
-			// Detaylı loglama
-			// log.Printf("GraphQL Mutation: %s", createMutation)
-			// variablesJSON, _ := json.MarshalIndent(createVariables, "", "  ")
-			// log.Printf("GraphQL Variables: %s", string(variablesJSON))
-
-			var createResult struct {
-				CreateJob struct {
-					YibfNo int    `json:"YibfNo"`
-					Title  string `json:"Title"`
-				} `json:"createJob"`
-				CreateOwner *struct {
-					Name  string `json:"Name"`
-					YDSID int    `json:"YDSID"`
-				} `json:"createOwner,omitempty"`
-				CreateContractor *struct {
-					Name  string `json:"Name"`
-					YDSID int    `json:"YDSID"`
-				} `json:"createContractor,omitempty"`
-				CreateSupervisor *struct {
-					Name  string `json:"Name"`
-					YDSID int    `json:"YDSID"`
-				} `json:"createSupervisor,omitempty"`
-				CreateAuthor *struct {
-					Static                   string `json:"Static"`
-					Mechanic                 string `json:"Mechanic"`
-					Electric                 string `json:"Electric"`
-					Architect                string `json:"Architect"`
-					GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
-					GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
-					GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
-				} `json:"createAuthor,omitempty"`
-			}
-
-			if err := graphqlClient.Execute(createMutation, createVariables, jwtToken, &createResult); err != nil {
-				errMsg := fmt.Sprintf("ID %d için oluşturma hatası: %v", item.ID, err)
-				log.Printf("%s", errMsg)
-				logError(errMsg)
-				failedIDs = append(failedIDs, item.ID)
-				continue
-			}
-
-			log.Printf("ID %d başarıyla oluşturuldu", item.ID)
-			processedIDs = append(processedIDs, item.ID)
+			updateVariables["jobInput"] = jobData
 		}
 
+		// Owner kontrolü
+		if ownerData != nil {
+			ownerQuery := `
+			query CheckOwner($yibfNo: Int!) {
+					owner(yibfNo: $yibfNo) {
+						Name
+						YDSID
+						TcNo
+						Address
+						TaxAdmin
+						TaxNo
+						Phone
+						Shareholder
+					}
+				}`
+
+			var ownerResult struct {
+				Owner map[string]interface{} `json:"owner"`
+			}
+
+			err = graphqlClient.Execute(ownerQuery, map[string]interface{}{"yibfNo": item.ID}, jwtToken, &ownerResult)
+			if err == nil && ownerResult.Owner != nil {
+				needsUpdate := false
+				for key, newValue := range ownerData {
+					if currentValue, exists := ownerResult.Owner[key]; exists {
+						if !service.CompareValues(currentValue, newValue) {
+							log.Printf("Owner değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+							needsUpdate = true
+						}
+					}
+				}
+				if needsUpdate {
+					mutations = append(mutations, `
+						updateOwner(yibfNo: $yibfNo, input: $ownerInput) {
+							Name
+							YDSID
+						}`)
+					updateVariables["ownerInput"] = ownerData
+				}
+			} else {
+				// Owner yoksa create mutation ekle
+				mutations = append(mutations, `
+					createOwner(input: $ownerInput) {
+						Name
+						YDSID
+					}`)
+				updateVariables["ownerInput"] = ownerData
+			}
+		}
+
+		// Contractor kontrolü
+		if contractorData != nil {
+			contractorQuery := `
+			query CheckContractor($yibfNo: Int!) {
+				contractor(yibfNo: $yibfNo) {
+					Name
+					YDSID
+					TcNo
+					RegisterNo
+					Address
+					TaxNo
+					MobilePhone
+					Phone
+					Email
+					PersonType
+				}
+			}`
+
+			var contractorResult struct {
+				Contractor map[string]interface{} `json:"contractor"`
+			}
+
+			err = graphqlClient.Execute(contractorQuery, map[string]interface{}{"yibfNo": item.ID}, jwtToken, &contractorResult)
+			if err == nil && contractorResult.Contractor != nil {
+				needsUpdate := false
+				for key, newValue := range contractorData {
+					if currentValue, exists := contractorResult.Contractor[key]; exists {
+						if !service.CompareValues(currentValue, newValue) {
+							log.Printf("Contractor değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+							needsUpdate = true
+						}
+					}
+				}
+				if needsUpdate {
+					mutations = append(mutations, `
+						updateContractor(yibfNo: $yibfNo, input: $contractorInput) {
+							Name
+							YDSID
+						}`)
+					updateVariables["contractorInput"] = contractorData
+				}
+			} else {
+				// Contractor yoksa create mutation ekle
+				mutations = append(mutations, `
+					createContractor(input: $contractorInput) {
+						Name
+						YDSID
+					}`)
+				updateVariables["contractorInput"] = contractorData
+			}
+		}
+
+		// Supervisor kontrolü
+		if supervisorData != nil {
+			supervisorQuery := `
+			query CheckSupervisor($yibfNo: Int!) {
+				supervisor(yibfNo: $yibfNo) {
+					Name
+					YDSID
+					Address
+					Phone
+					Email
+					TcNo
+					Position
+					Career
+					RegisterNo
+					SocialSecurityNo
+					SchoolGraduation
+				}
+			}`
+
+			var supervisorResult struct {
+				Supervisor map[string]interface{} `json:"supervisor"`
+			}
+
+			err = graphqlClient.Execute(supervisorQuery, map[string]interface{}{"yibfNo": item.ID}, jwtToken, &supervisorResult)
+			if err == nil && supervisorResult.Supervisor != nil {
+				needsUpdate := false
+				for key, newValue := range supervisorData {
+					if currentValue, exists := supervisorResult.Supervisor[key]; exists {
+						if !service.CompareValues(currentValue, newValue) {
+							log.Printf("Supervisor değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+							needsUpdate = true
+						}
+					}
+				}
+				if needsUpdate {
+					mutations = append(mutations, `
+						updateSupervisor(yibfNo: $yibfNo, input: $supervisorInput) {
+							Name
+							YDSID
+						}`)
+					updateVariables["supervisorInput"] = supervisorData
+				}
+			} else {
+				// Supervisor yoksa create mutation ekle
+				mutations = append(mutations, `
+					createSupervisor(input: $supervisorInput) {
+						Name
+						YDSID
+					}`)
+				updateVariables["supervisorInput"] = supervisorData
+			}
+		}
+
+		// Author kontrolü
+		if authorData != nil {
+			authorQuery := `
+			query CheckAuthor($yibfNo: Int!) {
+				author(yibfNo: $yibfNo) {
+					Static
+					Mechanic
+					Electric
+					Architect
+					GeotechnicalEngineer
+					GeotechnicalGeologist
+					GeotechnicalGeophysicist
+				}
+			}`
+
+			var authorResult struct {
+				Author map[string]interface{} `json:"author"`
+			}
+
+			err = graphqlClient.Execute(authorQuery, map[string]interface{}{"yibfNo": item.ID}, jwtToken, &authorResult)
+			if err == nil && authorResult.Author != nil {
+				needsUpdate := false
+				for key, newValue := range authorData {
+					if currentValue, exists := authorResult.Author[key]; exists {
+						if !service.CompareValues(currentValue, newValue) {
+							log.Printf("Author değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+							needsUpdate = true
+						}
+					}
+				}
+				if needsUpdate {
+					mutations = append(mutations, `
+						updateAuthor(yibfNo: $yibfNo, input: $authorInput) {
+							Static
+							Mechanic
+							Electric
+							Architect
+							GeotechnicalEngineer
+							GeotechnicalGeologist
+							GeotechnicalGeophysicist
+						}`)
+					updateVariables["authorInput"] = authorData
+				}
+			} else {
+				// Author yoksa create mutation ekle
+				mutations = append(mutations, `
+					createAuthor(input: $authorInput) {
+						Static
+						Mechanic
+						Electric
+						Architect
+						GeotechnicalEngineer
+						GeotechnicalGeologist
+						GeotechnicalGeophysicist
+					}`)
+				updateVariables["authorInput"] = authorData
+			}
+		}
+
+		// Eğer hiç mutation yoksa, işlem yapma
+		if len(mutations) == 0 {
+			log.Printf("ID %d için değişiklik yok, güncelleme yapılmayacak", item.ID)
+			processedIDs = append(processedIDs, item.ID)
+			continue
+		}
+
+		// Mutation parametrelerini oluştur
+		var paramParts []string
+		if checkResult.Job != nil {
+			paramParts = append(paramParts, "$yibfNo: Int!")
+		}
+		if _, ok := updateVariables["jobInput"]; ok {
+			paramParts = append(paramParts, "$jobInput: JobInput!")
+		}
+		if _, ok := updateVariables["ownerInput"]; ok {
+			paramParts = append(paramParts, "$ownerInput: JobOwnerInput!")
+		}
+		if _, ok := updateVariables["contractorInput"]; ok {
+			paramParts = append(paramParts, "$contractorInput: JobContractorInput!")
+		}
+		if _, ok := updateVariables["supervisorInput"]; ok {
+			paramParts = append(paramParts, "$supervisorInput: JobSupervisorInput!")
+		}
+		if _, ok := updateVariables["authorInput"]; ok {
+			paramParts = append(paramParts, "$authorInput: JobAuthorInput!")
+		}
+
+		// Tam mutation string'ini oluştur
+		updateMutation := fmt.Sprintf(`
+		mutation UpdateJob(%s) {
+			%s
+		}
+		`, strings.Join(paramParts, ", "), strings.Join(mutations, "\n"))
+
+		// Mutation'ı çalıştır
+		var updateResult struct {
+			UpdateJob *struct {
+				ID     int `json:"id"`
+				YibfNo int `json:"YibfNo"`
+			} `json:"updateJob,omitempty"`
+			CreateJob *struct {
+				ID     int `json:"id"`
+				YibfNo int `json:"YibfNo"`
+			} `json:"createJob,omitempty"`
+			UpdateOwner *struct {
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"updateOwner,omitempty"`
+			CreateOwner *struct {
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"createOwner,omitempty"`
+			UpdateContractor *struct {
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"updateContractor,omitempty"`
+			CreateContractor *struct {
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"createContractor,omitempty"`
+			UpdateSupervisor *struct {
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"updateSupervisor,omitempty"`
+			CreateSupervisor *struct {
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"createSupervisor,omitempty"`
+			UpdateAuthor *struct {
+				Static                   string `json:"Static"`
+				Mechanic                 string `json:"Mechanic"`
+				Electric                 string `json:"Electric"`
+				Architect                string `json:"Architect"`
+				GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
+				GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
+				GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
+			} `json:"updateAuthor,omitempty"`
+			CreateAuthor *struct {
+				Static                   string `json:"Static"`
+				Mechanic                 string `json:"Mechanic"`
+				Electric                 string `json:"Electric"`
+				Architect                string `json:"Architect"`
+				GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
+				GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
+				GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
+			} `json:"createAuthor,omitempty"`
+		}
+
+		if err := graphqlClient.Execute(updateMutation, updateVariables, jwtToken, &updateResult); err != nil {
+			errMsg := fmt.Sprintf("ID %d için güncelleme hatası: %v", item.ID, err)
+			log.Printf("%s", errMsg)
+			logError(errMsg)
+			failedIDs = append(failedIDs, item.ID)
+			continue
+		}
+
+		log.Printf("ID %d başarıyla güncellendi", item.ID)
+		processedIDs = append(processedIDs, item.ID)
 	}
 
 	c.JSON(http.StatusOK, gin.H{

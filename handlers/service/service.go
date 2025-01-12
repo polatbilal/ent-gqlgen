@@ -109,7 +109,7 @@ type YIBFResponse struct {
 	LicenseNumber    string  `json:"licenseNumber"`
 	LicenseDate      int64   `json:"licenseDate"`
 	CompleteDate     int64   `json:"completeDate"`
-	ReferenceNumber  int     `json:"referenceNumber"`
+	ReferenceNumber  string  `json:"referenceNumber"`
 	IsCompleted      bool    `json:"isCompleted"`
 	UploadedFile     bool    `json:"hasUploadedProjectDocument"`
 	Level            float64 `json:"level"`

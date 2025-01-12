@@ -63,10 +63,16 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 }
 
 // UpdateContractor is the resolver for the updateContractor field.
-func (r *mutationResolver) UpdateContractor(ctx context.Context, ydsid int, input model.JobContractorInput) (*ent.JobContractor, error) {
+func (r *mutationResolver) UpdateContractor(ctx context.Context, yibfNo int, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	contractor, err := client.JobContractor.UpdateOneID(ydsid).
+	jobContractor, err := client.JobContractor.Query().Where(jobcontractor.HasContractorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get contractor: %w", err)
+	}
+
+	contractor, err := jobContractor.Update().
 		SetName(input.Name).
 		SetNillableTcNo(input.TcNo).
 		SetNillableRegisterNo(input.RegisterNo).

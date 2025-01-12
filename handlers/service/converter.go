@@ -2,7 +2,9 @@ package service
 
 import (
 	"fmt"
+	"math"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -11,10 +13,11 @@ func SafeStringToInt(s string) int {
 	if s == "" {
 		return 0
 	}
-	if val, err := strconv.Atoi(s); err == nil {
-		return val
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		return 0
 	}
-	return 0
+	return i
 }
 
 // Unix timestamp'i tarihe dönüştürür, geçersiz timestamp için boş string döner
@@ -64,4 +67,51 @@ func CompareDates(date1, date2 string) bool {
 
 	// Unix timestamp'lerini karşılaştır
 	return t1.Unix() == t2.Unix()
+}
+
+// Sayısal değerleri karşılaştırmak için yardımcı fonksiyon
+func CompareValues(v1, v2 interface{}) bool {
+	// Nil kontrolü
+	if v1 == nil || v2 == nil {
+		return v1 == v2
+	}
+
+	// String karşılaştırması
+	s1, ok1 := v1.(string)
+	s2, ok2 := v2.(string)
+	if ok1 && ok2 {
+		return strings.TrimSpace(s1) == strings.TrimSpace(s2)
+	}
+
+	// Sayısal değer karşılaştırması
+	n1, err1 := ConvertToFloat64(v1)
+	n2, err2 := ConvertToFloat64(v2)
+	if err1 == nil && err2 == nil {
+		return math.Abs(n1-n2) < 0.000001 // Küçük farkları göz ardı et
+	}
+
+	// Diğer tipleri string'e çevirip karşılaştır
+	return fmt.Sprintf("%v", v1) == fmt.Sprintf("%v", v2)
+}
+
+// Herhangi bir değeri float64'e çevirmeye çalışır
+func ConvertToFloat64(v interface{}) (float64, error) {
+	switch val := v.(type) {
+	case float64:
+		return val, nil
+	case float32:
+		return float64(val), nil
+	case int:
+		return float64(val), nil
+	case int32:
+		return float64(val), nil
+	case int64:
+		return float64(val), nil
+	case string:
+		// Bilimsel notasyonu ve normal sayıları parse et
+		return strconv.ParseFloat(strings.TrimSpace(val), 64)
+	}
+	// Diğer tipleri string'e çevirip parse etmeyi dene
+	str := fmt.Sprintf("%v", v)
+	return strconv.ParseFloat(strings.TrimSpace(str), 64)
 }
