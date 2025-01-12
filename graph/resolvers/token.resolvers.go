@@ -83,7 +83,6 @@ func (r *mutationResolver) CreateToken(ctx context.Context, departmentID int, in
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *input.Token))
 	req.Header.Set("Content-Type", "application/json")
 
-	fmt.Printf("İstek gönderiliyor: %+v\n", req)
 	resp, err := svc.Client.Do(req)
 	if err != nil {
 		fmt.Printf("HTTP isteği hatası: %v\n", err)

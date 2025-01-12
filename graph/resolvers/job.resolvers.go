@@ -257,6 +257,7 @@ func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, er
 				companydetail.CompanyCodeIn(companyCodes...),
 			),
 		).
+		WithProgress().
 		Only(ctx)
 
 	if err != nil {
@@ -296,6 +297,7 @@ func (r *queryResolver) Jobs(ctx context.Context) ([]*ent.JobDetail, error) {
 				companydetail.CompanyCodeIn(companyCodes...),
 			),
 		).
+		WithProgress().
 		All(ctx)
 
 	if err != nil {
@@ -319,80 +321,61 @@ func (r *queryResolver) JobCounts(ctx context.Context, companyCode *int) (*model
 		return nil, fmt.Errorf("kullanıcı şirketleri alınamadı: %v", err)
 	}
 
-	// Temel sorgu oluşturucu
-	baseQuery := client.JobDetail.Query()
-
-	// Eğer belirli bir şirket kodu geldiyse
+	// Şirket kodlarını ve erişim kontrolünü yap
+	var companyCodes []int
 	if companyCode != nil {
-		// Kullanıcının bu şirkete erişim yetkisi var mı kontrol et
 		hasAccess := false
 		for _, company := range userCompanies {
 			if company.CompanyCode == *companyCode {
 				hasAccess = true
+				companyCodes = []int{*companyCode}
 				break
 			}
 		}
 		if !hasAccess {
 			return nil, fmt.Errorf("bu şirkete erişim yetkiniz yok")
 		}
-
-		baseQuery = baseQuery.Where(
-			jobdetail.HasCompanyWith(
-				companydetail.CompanyCodeEQ(*companyCode),
-			),
-		)
 	} else {
-		// Kullanıcının yetkili olduğu tüm şirketler için
-		var companyCodes []int
 		for _, company := range userCompanies {
 			companyCodes = append(companyCodes, company.CompanyCode)
 		}
+	}
 
-		if len(companyCodes) > 0 {
-			baseQuery = baseQuery.Where(
-				jobdetail.HasCompanyWith(
-					companydetail.CompanyCodeIn(companyCodes...),
-				),
-			)
+	// Tek bir sorgu ile tüm durumları say
+	jobs, err := client.JobDetail.Query().
+		Where(jobdetail.HasCompanyWith(companydetail.CompanyCodeIn(companyCodes...))).
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("işler sorgulanırken hata oluştu: %v", err)
+	}
+
+	// Durumları say
+	var current, pending, completed int
+	for _, job := range jobs {
+		switch job.State {
+		case "Güncel":
+			current++
+		case "Ruhsat Bekleyen":
+			pending++
+		case "Bitmiş":
+			completed++
 		}
-	}
-
-	// "Güncel" durumundaki işlerin sayısı
-	current, err := baseQuery.Clone().
-		Where(jobdetail.StateEQ("Güncel")).
-		Count(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	// "Ruhsat Bekleyen" durumundaki işlerin sayısı
-	pending, err := baseQuery.Clone().
-		Where(jobdetail.StateEQ("Ruhsat Bekleyen")).
-		Count(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	// "Bitmiş" durumundaki işlerin sayısı
-	completed, err := baseQuery.Clone().
-		Where(jobdetail.StateEQ("Bitmiş")).
-		Count(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	// Toplam iş sayısı
-	total, err := baseQuery.Count(ctx)
-	if err != nil {
-		return nil, err
 	}
 
 	return &model.JobCounts{
 		Current:   current,
 		Pending:   pending,
 		Completed: completed,
-		Total:     total,
+		Total:     len(jobs),
 	}, nil
+}
+
+// Progress is the resolver for the Progress field.
+func (r *jobDetailResolver) Progress(ctx context.Context, obj *ent.JobDetail) (*ent.JobProgress, error) {
+	if obj.Edges.Progress != nil {
+		return obj.Edges.Progress, nil
+	}
+	return obj.QueryProgress().Only(ctx)
 }
 
 // JobDetail returns generated.JobDetailResolver implementation.
