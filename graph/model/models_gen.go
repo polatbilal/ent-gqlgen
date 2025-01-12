@@ -102,6 +102,13 @@ type JobContractorInput struct {
 	Note        *string `json:"Note,omitempty"`
 }
 
+type JobCounts struct {
+	Current   int `json:"current"`
+	Pending   int `json:"pending"`
+	Completed int `json:"completed"`
+	Total     int `json:"total"`
+}
+
 type JobInput struct {
 	CompanyCode        int        `json:"CompanyCode"`
 	YibfNo             *int       `json:"YibfNo,omitempty"`

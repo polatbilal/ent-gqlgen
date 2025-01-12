@@ -93,9 +93,17 @@ input JobInput {
   ElectricController: Int
 }
 
+type JobCounts {
+  current: Int!
+  pending: Int!
+  completed: Int!
+  total: Int!
+}
+
 extend type Query {
   job(yibfNo: Int!): JobDetail @goField(forceResolver: true) @auth
   jobs: [JobDetail!]! @goField(forceResolver: true) @auth
+  jobCounts(companyCode: Int): JobCounts! @auth
 }
 
 extend type Mutation {

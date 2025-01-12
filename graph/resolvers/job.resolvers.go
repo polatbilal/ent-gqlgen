@@ -10,8 +10,10 @@ import (
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/user"
 	"github.com/polatbilal/gqlgen-ent/graph/generated"
 	"github.com/polatbilal/gqlgen-ent/graph/helpers"
 	"github.com/polatbilal/gqlgen-ent/graph/model"
@@ -230,18 +232,167 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 // Job is the resolver for the job field.
 func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	return client.JobDetail.Query().Where(jobdetail.YibfNo(yibfNo)).Only(ctx)
+	customClaim := middlewares.CtxValue(ctx)
+
+	// Kullanıcının şirketlerini al
+	userCompanies, err := client.CompanyUser.Query().
+		Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
+		QueryCompany().
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı şirketleri alınamadı: %v", err)
+	}
+
+	// Kullanıcının yetkili olduğu şirket kodlarını topla
+	var companyCodes []int
+	for _, company := range userCompanies {
+		companyCodes = append(companyCodes, company.CompanyCode)
+	}
+
+	// İşi sorgula ve kullanıcının yetkili olduğu şirketlerle filtrele
+	job, err := client.JobDetail.Query().
+		Where(
+			jobdetail.YibfNoEQ(yibfNo),
+			jobdetail.HasCompanyWith(
+				companydetail.CompanyCodeIn(companyCodes...),
+			),
+		).
+		Only(ctx)
+
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, fmt.Errorf("iş bulunamadı veya bu işe erişim yetkiniz yok")
+		}
+		return nil, fmt.Errorf("iş sorgulanırken hata oluştu: %v", err)
+	}
+
+	return job, nil
 }
 
 // Jobs is the resolver for the jobs field.
 func (r *queryResolver) Jobs(ctx context.Context) ([]*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	jobs, err := client.JobDetail.Query().All(ctx)
+	customClaim := middlewares.CtxValue(ctx)
+
+	// Kullanıcının şirketlerini al
+	userCompanies, err := client.CompanyUser.Query().
+		Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
+		QueryCompany().
+		All(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch jobs: %w", err)
+		return nil, fmt.Errorf("kullanıcı şirketleri alınamadı: %v", err)
+	}
+
+	// Kullanıcının yetkili olduğu şirket kodlarını topla
+	var companyCodes []int
+	for _, company := range userCompanies {
+		companyCodes = append(companyCodes, company.CompanyCode)
+	}
+
+	// İşleri sorgula ve kullanıcının yetkili olduğu şirketlerle filtrele
+	jobs, err := client.JobDetail.Query().
+		Where(
+			jobdetail.HasCompanyWith(
+				companydetail.CompanyCodeIn(companyCodes...),
+			),
+		).
+		All(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("işler sorgulanırken hata oluştu: %v", err)
 	}
 
 	return jobs, nil
+}
+
+// JobCounts is the resolver for the jobCounts field.
+func (r *queryResolver) JobCounts(ctx context.Context, companyCode *int) (*model.JobCounts, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	customClaim := middlewares.CtxValue(ctx)
+
+	// Kullanıcının şirketlerini al
+	userCompanies, err := client.CompanyUser.Query().
+		Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
+		QueryCompany().
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı şirketleri alınamadı: %v", err)
+	}
+
+	// Temel sorgu oluşturucu
+	baseQuery := client.JobDetail.Query()
+
+	// Eğer belirli bir şirket kodu geldiyse
+	if companyCode != nil {
+		// Kullanıcının bu şirkete erişim yetkisi var mı kontrol et
+		hasAccess := false
+		for _, company := range userCompanies {
+			if company.CompanyCode == *companyCode {
+				hasAccess = true
+				break
+			}
+		}
+		if !hasAccess {
+			return nil, fmt.Errorf("bu şirkete erişim yetkiniz yok")
+		}
+
+		baseQuery = baseQuery.Where(
+			jobdetail.HasCompanyWith(
+				companydetail.CompanyCodeEQ(*companyCode),
+			),
+		)
+	} else {
+		// Kullanıcının yetkili olduğu tüm şirketler için
+		var companyCodes []int
+		for _, company := range userCompanies {
+			companyCodes = append(companyCodes, company.CompanyCode)
+		}
+
+		if len(companyCodes) > 0 {
+			baseQuery = baseQuery.Where(
+				jobdetail.HasCompanyWith(
+					companydetail.CompanyCodeIn(companyCodes...),
+				),
+			)
+		}
+	}
+
+	// "Güncel" durumundaki işlerin sayısı
+	current, err := baseQuery.Clone().
+		Where(jobdetail.StateEQ("Güncel")).
+		Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// "Ruhsat Bekleyen" durumundaki işlerin sayısı
+	pending, err := baseQuery.Clone().
+		Where(jobdetail.StateEQ("Ruhsat Bekleyen")).
+		Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// "Bitmiş" durumundaki işlerin sayısı
+	completed, err := baseQuery.Clone().
+		Where(jobdetail.StateEQ("Bitmiş")).
+		Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// Toplam iş sayısı
+	total, err := baseQuery.Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.JobCounts{
+		Current:   current,
+		Pending:   pending,
+		Completed: completed,
+		Total:     total,
+	}, nil
 }
 
 // JobDetail returns generated.JobDetailResolver implementation.

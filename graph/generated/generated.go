@@ -143,6 +143,13 @@ type ComplexityRoot struct {
 		YDSID       func(childComplexity int) int
 	}
 
+	JobCounts struct {
+		Completed func(childComplexity int) int
+		Current   func(childComplexity int) int
+		Pending   func(childComplexity int) int
+		Total     func(childComplexity int) int
+	}
+
 	JobDetail struct {
 		Address            func(childComplexity int) int
 		Administration     func(childComplexity int) int
@@ -297,6 +304,7 @@ type ComplexityRoot struct {
 		GetOwner          func(childComplexity int, ydsid int) int
 		GetProgress       func(childComplexity int, yibfNo int) int
 		Job               func(childComplexity int, yibfNo int) int
+		JobCounts         func(childComplexity int, companyCode *int) int
 		JobPayments       func(childComplexity int, yibfNo int) int
 		Jobs              func(childComplexity int) int
 		Layer             func(childComplexity int, filter *model.LayerFilterInput) int
@@ -374,6 +382,7 @@ type QueryResolver interface {
 	EngineerByYdsid(ctx context.Context, ydsid int) (*ent.CompanyEngineer, error)
 	Job(ctx context.Context, yibfNo int) (*ent.JobDetail, error)
 	Jobs(ctx context.Context) ([]*ent.JobDetail, error)
+	JobCounts(ctx context.Context, companyCode *int) (*model.JobCounts, error)
 	Layer(ctx context.Context, filter *model.LayerFilterInput) ([]*ent.JobLayer, error)
 	AllOwner(ctx context.Context) ([]*ent.JobOwner, error)
 	Owner(ctx context.Context, yibfNo int) (*ent.JobOwner, error)
@@ -898,6 +907,34 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobContractor.YDSID(childComplexity), true
+
+	case "JobCounts.completed":
+		if e.complexity.JobCounts.Completed == nil {
+			break
+		}
+
+		return e.complexity.JobCounts.Completed(childComplexity), true
+
+	case "JobCounts.current":
+		if e.complexity.JobCounts.Current == nil {
+			break
+		}
+
+		return e.complexity.JobCounts.Current(childComplexity), true
+
+	case "JobCounts.pending":
+		if e.complexity.JobCounts.Pending == nil {
+			break
+		}
+
+		return e.complexity.JobCounts.Pending(childComplexity), true
+
+	case "JobCounts.total":
+		if e.complexity.JobCounts.Total == nil {
+			break
+		}
+
+		return e.complexity.JobCounts.Total(childComplexity), true
 
 	case "JobDetail.Address":
 		if e.complexity.JobDetail.Address == nil {
@@ -2018,6 +2055,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Job(childComplexity, args["yibfNo"].(int)), true
 
+	case "Query.jobCounts":
+		if e.complexity.Query.JobCounts == nil {
+			break
+		}
+
+		args, err := ec.field_Query_jobCounts_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.JobCounts(childComplexity, args["companyCode"].(*int)), true
+
 	case "Query.jobPayments":
 		if e.complexity.Query.JobPayments == nil {
 			break
@@ -2609,9 +2658,17 @@ input JobInput {
   ElectricController: Int
 }
 
+type JobCounts {
+  current: Int!
+  pending: Int!
+  completed: Int!
+  total: Int!
+}
+
 extend type Query {
   job(yibfNo: Int!): JobDetail @goField(forceResolver: true) @auth
   jobs: [JobDetail!]! @goField(forceResolver: true) @auth
+  jobCounts(companyCode: Int): JobCounts! @auth
 }
 
 extend type Mutation {
@@ -4406,6 +4463,34 @@ func (ec *executionContext) field_Query_getProgress_argsYibfNo(
 	}
 
 	var zeroVal int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_jobCounts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_jobCounts_argsCompanyCode(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["companyCode"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_jobCounts_argsCompanyCode(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["companyCode"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("companyCode"))
+	if tmp, ok := rawArgs["companyCode"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -7582,6 +7667,182 @@ func (ec *executionContext) fieldContext_JobContractor_Note(_ context.Context, f
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobCounts_current(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobCounts_current(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Current, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobCounts_current(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobCounts",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobCounts_pending(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobCounts_pending(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Pending, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobCounts_pending(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobCounts",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobCounts_completed(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobCounts_completed(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Completed, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobCounts_completed(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobCounts",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobCounts_total(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobCounts_total(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Total, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobCounts_total(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobCounts",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -15659,6 +15920,93 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_jobCounts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_jobCounts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().JobCounts(rctx, fc.Args["companyCode"].(*int))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *model.JobCounts
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.JobCounts); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/graph/model.JobCounts`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobCounts)
+	fc.Result = res
+	return ec.marshalNJobCounts2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobCounts(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_jobCounts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "current":
+				return ec.fieldContext_JobCounts_current(ctx, field)
+			case "pending":
+				return ec.fieldContext_JobCounts_pending(ctx, field)
+			case "completed":
+				return ec.fieldContext_JobCounts_completed(ctx, field)
+			case "total":
+				return ec.fieldContext_JobCounts_total(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobCounts", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_jobCounts_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_Layer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_Layer(ctx, field)
 	if err != nil {
@@ -20889,6 +21237,60 @@ func (ec *executionContext) _JobContractor(ctx context.Context, sel ast.Selectio
 	return out
 }
 
+var jobCountsImplementors = []string{"JobCounts"}
+
+func (ec *executionContext) _JobCounts(ctx context.Context, sel ast.SelectionSet, obj *model.JobCounts) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, jobCountsImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("JobCounts")
+		case "current":
+			out.Values[i] = ec._JobCounts_current(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "pending":
+			out.Values[i] = ec._JobCounts_pending(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "completed":
+			out.Values[i] = ec._JobCounts_completed(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "total":
+			out.Values[i] = ec._JobCounts_total(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var jobDetailImplementors = []string{"JobDetail"}
 
 func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet, obj *ent.JobDetail) graphql.Marshaler {
@@ -22110,6 +22512,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "jobCounts":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_jobCounts(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "Layer":
 			field := field
 
@@ -23015,6 +23439,20 @@ func (ec *executionContext) marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilal�
 func (ec *executionContext) unmarshalNJobContractorInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobContractorInput(ctx context.Context, v any) (model.JobContractorInput, error) {
 	res, err := ec.unmarshalInputJobContractorInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNJobCounts2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobCounts(ctx context.Context, sel ast.SelectionSet, v model.JobCounts) graphql.Marshaler {
+	return ec._JobCounts(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNJobCounts2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphᚋmodelᚐJobCounts(ctx context.Context, sel ast.SelectionSet, v *model.JobCounts) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._JobCounts(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNJobDetail2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v ent.JobDetail) graphql.Marshaler {
