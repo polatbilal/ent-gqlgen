@@ -15,6 +15,12 @@ func SafeStringToInt(s string) int {
 	}
 	i, err := strconv.Atoi(s)
 	if err != nil {
+		// Bilimsel gösterimden normal formata çevir
+		if strings.Contains(s, "e+") {
+			if f, err := strconv.ParseFloat(s, 64); err == nil {
+				return int(f)
+			}
+		}
 		return 0
 	}
 	return i
@@ -114,4 +120,97 @@ func ConvertToFloat64(v interface{}) (float64, error) {
 	// Diğer tipleri string'e çevirip parse etmeyi dene
 	str := fmt.Sprintf("%v", v)
 	return strconv.ParseFloat(strings.TrimSpace(str), 64)
+}
+
+// Tarih formatını dönüştürür (YYYY-MM-DD -> DD/MM/YYYY)
+func ConvertDateFormat(date string) string {
+	if date == "" {
+		return ""
+	}
+	parts := strings.Split(date, "-")
+	if len(parts) == 3 {
+		return fmt.Sprintf("%s/%s/%s", parts[2], parts[1], parts[0])
+	}
+	return date
+}
+
+// Alan tipini kontrol eden yardımcı fonksiyonlar
+func IsDateField(field string) bool {
+	dateFields := map[string]bool{
+		"VisaDate":       true,
+		"VisaEndDate":    true,
+		"ContractDate":   true,
+		"LicenseDate":    true,
+		"CompletionDate": true,
+		"StartDate":      true,
+	}
+	return dateFields[field]
+}
+
+func IsNumericField(field string) bool {
+	numericFields := map[string]bool{
+		"CompanyCode": true,
+	}
+	return numericFields[field]
+}
+
+func IsStringNumericField(field string) bool {
+	stringNumericFields := map[string]bool{
+		"TaxNo":     true,
+		"OwnerTcNo": true,
+		"TcNo":      true,
+	}
+	return stringNumericFields[field]
+}
+
+// Değer karşılaştırma fonksiyonu
+func CompareFieldValues(key string, currentValue, newValue interface{}) (bool, string) {
+	if newValue == nil && currentValue == nil {
+		return false, ""
+	}
+
+	if IsDateField(key) {
+		newDateStr := fmt.Sprintf("%v", newValue)
+		currentDateStr := fmt.Sprintf("%v", currentValue)
+
+		if newValue != nil && newDateStr != "" {
+			newDateStr = ConvertDateFormat(newDateStr)
+		}
+
+		if !CompareDates(currentDateStr, newDateStr) {
+			return true, fmt.Sprintf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+		}
+		return false, ""
+	}
+
+	if IsStringNumericField(key) {
+		newStr := fmt.Sprintf("%v", newValue)
+		currentStr := fmt.Sprintf("%v", currentValue)
+
+		if strings.Contains(currentStr, "e+") {
+			if f, err := strconv.ParseFloat(currentStr, 64); err == nil {
+				currentStr = fmt.Sprintf("%.0f", f)
+			}
+		}
+
+		if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+			return true, fmt.Sprintf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+		}
+		return false, ""
+	}
+
+	if IsNumericField(key) {
+		n1, err1 := ConvertToFloat64(currentValue)
+		n2, err2 := ConvertToFloat64(newValue)
+		if err1 == nil && err2 == nil && math.Abs(n1-n2) > 0.001 {
+			return true, fmt.Sprintf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+		}
+		return false, ""
+	}
+
+	// Diğer alanlar için string karşılaştırması
+	if !CompareValues(currentValue, newValue) {
+		return true, fmt.Sprintf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+	}
+	return false, ""
 }

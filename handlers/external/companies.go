@@ -6,11 +6,9 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"math"
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
@@ -52,7 +50,7 @@ func YDKCompanies(c *gin.Context) {
 		return
 	}
 
-	log.Printf("Token: %s, DepartmentID: %d", companyToken.Token, companyToken.DepartmentId)
+	log.Printf("Şirket bilgileri alınıyor... DepartmentID: %d", companyToken.DepartmentId)
 
 	svc := &service.ExternalService{
 		BaseURL: os.Getenv("YDK_BASE_URL"),
@@ -116,9 +114,6 @@ func YDKCompanies(c *gin.Context) {
 		return
 	}
 
-	// Ham veriyi logla
-	// log.Printf("YDK API Ham Yanıt: %s\n", string(body))
-
 	// Struct'a parse et
 	var ydkResponse service.YDKCompanyResponse
 	if err := json.Unmarshal(body, &ydkResponse); err != nil {
@@ -128,7 +123,6 @@ func YDKCompanies(c *gin.Context) {
 	}
 
 	if len(ydkResponse.Items) == 0 {
-		log.Printf("ydkToken.AccessToken: %s", companyToken.Token)
 		log.Printf("ydkToken.DepartmentID: %d", companyToken.DepartmentId)
 		log.Printf("Şirket bilgisi bulunamadı. Ham yanıt: %s\n", string(body))
 		c.JSON(http.StatusNotFound, gin.H{"error": "Şirket bilgisi bulunamadı"})
@@ -232,55 +226,9 @@ func YDKCompanies(c *gin.Context) {
 	// Değerleri karşılaştır ve farklılıkları logla
 	for key, newValue := range companyData {
 		if currentValue, exists := detailResult.CompanyByCode[key]; exists {
-			// Nil değerleri kontrol et
-			if newValue == nil && currentValue == nil {
-				continue
-			}
-
-			// Sayısal alanların listesi
-			numericFields := map[string]bool{
-				"CompanyCode": true,
-				"TaxNo":       true,
-			}
-
-			// Sayısal alan kontrolü
-			if numericFields[key] {
-				// Sayısal değerlere çevir
-				var newFloat, currentFloat float64
-				switch v := newValue.(type) {
-				case float64:
-					newFloat = v
-				case int:
-					newFloat = float64(v)
-				case string:
-					if f, err := strconv.ParseFloat(v, 64); err == nil {
-						newFloat = f
-					}
-				}
-
-				switch v := currentValue.(type) {
-				case float64:
-					currentFloat = v
-				case int:
-					currentFloat = float64(v)
-				case string:
-					if f, err := strconv.ParseFloat(v, 64); err == nil {
-						currentFloat = f
-					}
-				}
-
-				if math.Abs(newFloat-currentFloat) > 0.001 {
-					needsUpdate = true
-					log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-				}
-			} else {
-				// String karşılaştırması
-				newStr := fmt.Sprintf("%v", newValue)
-				currentStr := fmt.Sprintf("%v", currentValue)
-				if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
-					needsUpdate = true
-					log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-				}
+			if changed, logMessage := service.CompareFieldValues(key, currentValue, newValue); changed {
+				needsUpdate = true
+				log.Printf("Değişiklik: %s", logMessage)
 			}
 		}
 	}

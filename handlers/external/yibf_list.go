@@ -666,19 +666,9 @@ func YibfList(c *gin.Context) {
 						continue
 					}
 
-					// Tarih alanları için özel karşılaştırma
-					if strings.Contains(key, "Date") {
-						if !service.CompareDates(fmt.Sprintf("%v", currentValue), fmt.Sprintf("%v", newValue)) {
-							log.Printf("Job değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-							needsUpdate = true
-						}
-						continue
-					}
-
-					// Diğer alanlar için normal karşılaştırma
-					if !service.CompareValues(currentValue, newValue) {
-						log.Printf("Job değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+					if changed, logMessage := service.CompareFieldValues(key, currentValue, newValue); changed {
 						needsUpdate = true
+						log.Printf("Değişiklik: %s", logMessage)
 					}
 				}
 			}
@@ -726,9 +716,9 @@ func YibfList(c *gin.Context) {
 				needsUpdate := false
 				for key, newValue := range ownerData {
 					if currentValue, exists := ownerResult.Owner[key]; exists {
-						if !service.CompareValues(currentValue, newValue) {
-							log.Printf("Owner değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+						if changed, logMessage := service.CompareFieldValues(key, currentValue, newValue); changed {
 							needsUpdate = true
+							log.Printf("Değişiklik: %s", logMessage)
 						}
 					}
 				}
@@ -778,9 +768,9 @@ func YibfList(c *gin.Context) {
 				needsUpdate := false
 				for key, newValue := range contractorData {
 					if currentValue, exists := contractorResult.Contractor[key]; exists {
-						if !service.CompareValues(currentValue, newValue) {
-							log.Printf("Contractor değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+						if changed, logMessage := service.CompareFieldValues(key, currentValue, newValue); changed {
 							needsUpdate = true
+							log.Printf("Değişiklik: %s", logMessage)
 						}
 					}
 				}
@@ -831,9 +821,9 @@ func YibfList(c *gin.Context) {
 				needsUpdate := false
 				for key, newValue := range supervisorData {
 					if currentValue, exists := supervisorResult.Supervisor[key]; exists {
-						if !service.CompareValues(currentValue, newValue) {
-							log.Printf("Supervisor değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+						if changed, logMessage := service.CompareFieldValues(key, currentValue, newValue); changed {
 							needsUpdate = true
+							log.Printf("Değişiklik: %s", logMessage)
 						}
 					}
 				}
@@ -880,9 +870,9 @@ func YibfList(c *gin.Context) {
 				needsUpdate := false
 				for key, newValue := range authorData {
 					if currentValue, exists := authorResult.Author[key]; exists {
-						if !service.CompareValues(currentValue, newValue) {
-							log.Printf("Author değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
+						if changed, logMessage := service.CompareFieldValues(key, currentValue, newValue); changed {
 							needsUpdate = true
+							log.Printf("Değişiklik: %s", logMessage)
 						}
 					}
 				}

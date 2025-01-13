@@ -29,6 +29,8 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 		SetCompanyCode(input.CompanyCode).
 		SetNillableAddress(input.Address).
 		SetNillablePhone(input.Phone).
+		SetNillableFax(input.Fax).
+		SetNillableMobilePhone(input.MobilePhone).
 		SetNillableEmail(input.Email).
 		SetNillableWebsite(input.Website).
 		SetNillableTaxAdmin(input.TaxAdmin).
