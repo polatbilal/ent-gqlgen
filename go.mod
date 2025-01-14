@@ -3,20 +3,15 @@ module github.com/polatbilal/gqlgen-ent
 go 1.23.4
 
 require (
+	entgo.io/contrib v0.6.0
 	entgo.io/ent v0.14.1
 	github.com/99designs/gqlgen v0.17.62
-	github.com/vektah/gqlparser/v2 v2.5.21
-)
-
-require github.com/joho/godotenv v1.5.1
-
-require (
-	entgo.io/contrib v0.6.0
 	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/lib/pq v1.10.9
+	github.com/joho/godotenv v1.5.1
+	github.com/vektah/gqlparser/v2 v2.5.21
 	golang.org/x/sync v0.10.0
 )
 
