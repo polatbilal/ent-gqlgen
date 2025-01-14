@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 directive @goField(
   forceResolver: Boolean
   Name: String
@@ -24,3 +25,28 @@ type Mutation {
   ): AuthPayload!
   login(username: String!, password: String!): AuthPayload!
 }
+=======
+type AuthPayload {
+  token: String!
+  userID: ID!
+  username: String!
+  name: String!
+  companyCode: String!
+  role: String!
+}
+
+type Mutation {
+  register(
+    companyCode: String!
+    username: String!
+    name: String
+    email: String
+    password: String!
+  ): AuthPayload!
+  login(
+    companyCode: String!
+    username: String!
+    password: String!
+  ): AuthPayload!
+}
+>>>>>>> d2192e3 (wip)

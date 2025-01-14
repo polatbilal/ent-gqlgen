@@ -96,6 +96,7 @@ func (r *queryResolver) AllOwner(ctx context.Context) ([]*ent.JobOwner, error) {
 	return client.JobOwner.Query().All(ctx)
 }
 
+<<<<<<< HEAD
 // Owner is the resolver for the owner field.
 func (r *queryResolver) Owner(ctx context.Context, yibfNo int) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
@@ -106,4 +107,16 @@ func (r *queryResolver) Owner(ctx context.Context, yibfNo int) (*ent.JobOwner, e
 func (r *queryResolver) GetOwner(ctx context.Context, ydsid int) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	return client.JobOwner.Query().Where(jobowner.YDSID(ydsid)).Only(ctx)
+=======
+// AllOwnerByYdsID is the resolver for the allOwnerByYdsId field.
+func (r *queryResolver) AllOwnerByYdsID(ctx context.Context, ydsID int) ([]*ent.JobOwner, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobOwner.Query().Where(jobowner.YdsID(ydsID)).All(ctx)
+}
+
+// AllOwnerJob is the resolver for the allOwnerJob field.
+func (r *queryResolver) AllOwnerJob(ctx context.Context, yibfNo *int) ([]*ent.JobOwner, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobOwner.Query().Where(jobowner.HasOwnersWith(jobdetail.YibfNoEQ(*yibfNo))).All(ctx)
+>>>>>>> d2192e3 (wip)
 }

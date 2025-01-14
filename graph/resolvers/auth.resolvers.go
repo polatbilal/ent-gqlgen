@@ -22,7 +22,7 @@ import (
 )
 
 // Register is the resolver for the register field.
-func (r *mutationResolver) Register(ctx context.Context, username string, name *string, email *string, password string) (*model.AuthPayload, error) {
+func (r *mutationResolver) Register(ctx context.Context, companyCode string, username string, name *string, email *string, password string) (*model.AuthPayload, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	_, err := client.User.Query().Where(user.UsernameEQ(username)).Only(ctx)
 	if err == nil {
@@ -43,28 +43,28 @@ func (r *mutationResolver) Register(ctx context.Context, username string, name *
 
 	var userID = strconv.Itoa(user.ID)
 
-	token, err := services.JwtGenerate(ctx, user.ID, username, user.Name, user.Role)
+	token, err := services.JwtGenerate(ctx, user.ID, username, user.Name, companyCode)
 	if err != nil {
 		return nil, err
 	}
 
 	return &model.AuthPayload{
-		Token:    token,
-		UserID:   userID,
-		Username: user.Username,
-		Name:     user.Name,
-		Role:     user.Role,
+		Token:       token,
+		UserID:      userID,
+		Username:    user.Username,
+		Name:        user.Name,
+		CompanyCode: companyCode,
+		Role:        user.Role,
 	}, nil
 }
 
 // Login is the resolver for the login field.
-func (r *mutationResolver) Login(ctx context.Context, username string, password string) (*model.AuthPayload, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	if client == nil {
-		log.Printf("Failed to get DB client from context")
-		return nil, fmt.Errorf("veritabanı bağlantısı başarısız")
+func (r *mutationResolver) Login(ctx context.Context, companyCode string, username string, password string) (*model.AuthPayload, error) {
+	client, err := database.GetClient(companyCode)
+	if err != nil {
+		log.Printf("Failed to get DB client: %v", err)
+		return nil, err
 	}
-
 	user, err := client.User.Query().
 		Where(user.UsernameEQ(username)).
 		Only(ctx)
@@ -78,7 +78,7 @@ func (r *mutationResolver) Login(ctx context.Context, username string, password 
 
 	var userID = strconv.Itoa(user.ID)
 
-	token, err := services.JwtGenerate(ctx, user.ID, username, user.Name, user.Role)
+	token, err := services.JwtGenerate(ctx, user.ID, username, user.Name, companyCode)
 	if err != nil {
 		return nil, err
 	}
@@ -90,11 +90,12 @@ func (r *mutationResolver) Login(ctx context.Context, username string, password 
 	}
 
 	return &model.AuthPayload{
-		Token:    token,
-		UserID:   userID,
-		Username: username,
-		Name:     user.Name,
-		Role:     user.Role,
+		Token:       token,
+		UserID:      userID,
+		Username:    username,
+		Name:        user.Name,
+		CompanyCode: companyCode,
+		Role:        user.Role,
 	}, nil
 }
 
