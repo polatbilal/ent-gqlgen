@@ -30,6 +30,7 @@ func main() {
 	// CORS ayarlarını middleware'den önce yapılandırın
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true // Tüm originlere izin ver
+	config.AllowCredentials = true
 	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
 	config.AllowHeaders = []string{
 		"Origin",
@@ -92,9 +93,9 @@ func main() {
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))
 	{
 		r.POST("/graphql", func(c *gin.Context) {
-			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 
 			if c.Request.Method == "OPTIONS" {
+				c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 				c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 				c.Writer.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
 				c.Writer.Header().Set("Access-Control-Max-Age", "86400")

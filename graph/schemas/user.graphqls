@@ -3,21 +3,22 @@ type User {
   Username: String!
   Name: String
   Email: String
-  Phone: Int
-  Password: String
+  Phone: String
   Role: String!
   CreatedAt: Time
-  Companies: [CompanyDetail!]! @goField(forceResolver: true)
+  Companies: [CompanyDetail!]
 }
 
 input UserInput {
-  Username: String!
-  Name: String!
-  Email: String!
-  Phone: Int
-  Password: String!
+  id: Int
+  Username: String
+  Name: String
+  Email: String
+  Phone: String
+  Password: String
+  NewPassword: String
   Role: String
-  CompanyIDs: [Int!]
+  CompanyIDs: [Int]
 }
 
 extend type Query {

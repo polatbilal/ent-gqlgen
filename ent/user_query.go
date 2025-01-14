@@ -302,7 +302,7 @@ func (uq *UserQuery) WithCompanies(opts ...func(*CompanyUserQuery)) *UserQuery {
 // Example:
 //
 //	var v []struct {
-//		Username string `json:"username,omitempty"`
+//		Username string `json:"Username,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -325,7 +325,7 @@ func (uq *UserQuery) GroupBy(field string, fields ...string) *UserGroupBy {
 // Example:
 //
 //	var v []struct {
-//		Username string `json:"username,omitempty"`
+//		Username string `json:"Username,omitempty"`
 //	}
 //
 //	client.User.Query().

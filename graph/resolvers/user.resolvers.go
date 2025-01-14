@@ -24,22 +24,22 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput
 
 	// Kullanıcı adının daha önce kullanılıp kullanılmadığını kontrol et
 	exists, err := client.User.Query().
-		Where(user.UsernameEQ(input.Username)).
+		Where(user.UsernameEQ(*input.Username)).
 		Exist(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("kullanıcı kontrolü yapılırken hata: %v", err)
 	}
 	if exists {
-		return nil, fmt.Errorf("bu kullanıcı adı zaten kullanımda: %s", input.Username)
+		return nil, fmt.Errorf("bu kullanıcı adı zaten kullanımda: %s", *input.Username)
 	}
 
 	// Önce kullanıcıyı oluştur
 	user, err := client.User.Create().
-		SetUsername(input.Username).
-		SetName(input.Name).
-		SetEmail(input.Email).
+		SetUsername(*input.Username).
+		SetName(*input.Name).
+		SetEmail(*input.Email).
 		SetNillablePhone(input.Phone).
-		SetPassword(input.Password).
+		SetPassword(*input.Password).
 		SetNillableRole(input.Role).
 		Save(ctx)
 
@@ -53,7 +53,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput
 			// CompanyUser oluştur
 			_, err = client.CompanyUser.Create().
 				SetUser(user).
-				SetCompanyID(companyID).
+				SetCompanyID(*companyID).
 				Save(ctx)
 
 			if err != nil {
@@ -79,12 +79,17 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input mode
 		return nil, fmt.Errorf("kullanıcı bulunurken hata: %v", err)
 	}
 
-	user, err := client.User.UpdateOneID(getUser.ID).
-		SetUsername(input.Username).
-		SetName(input.Name).
-		SetEmail(input.Email).
+	if input.NewPassword != nil && *input.NewPassword != "" {
+		if getUser.Password != *input.Password {
+			return nil, fmt.Errorf("mevcut şifre yanlış")
+		}
+	}
+
+	user, err := client.User.UpdateOneID(*input.ID).
+		SetNillableName(input.Name).
+		SetNillableEmail(input.Email).
 		SetNillablePhone(input.Phone).
-		SetPassword(input.Password).
+		SetNillablePassword(input.NewPassword).
 		SetNillableRole(input.Role).
 		Save(ctx)
 	if err != nil {
@@ -108,14 +113,14 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input mode
 		// Sadece yeni şirketler için bağlantı oluştur
 		for _, companyID := range input.CompanyIDs {
 			// Eğer bu şirket bağlantısı zaten varsa, atla
-			if existingCompanyMap[companyID] {
+			if existingCompanyMap[*companyID] {
 				continue
 			}
 
 			// CompanyUser oluştur
 			_, err = client.CompanyUser.Create().
 				SetUser(user).
-				SetCompanyID(companyID).
+				SetCompanyID(*companyID).
 				Save(ctx)
 
 			if err != nil {

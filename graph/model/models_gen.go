@@ -217,11 +217,13 @@ type LayerFilterInput struct {
 }
 
 type UserInput struct {
-	Username   string  `json:"Username"`
-	Name       string  `json:"Name"`
-	Email      string  `json:"Email"`
-	Phone      *int    `json:"Phone,omitempty"`
-	Password   string  `json:"Password"`
-	Role       *string `json:"Role,omitempty"`
-	CompanyIDs []int   `json:"CompanyIDs,omitempty"`
+	ID          *int    `json:"id,omitempty"`
+	Username    *string `json:"Username,omitempty"`
+	Name        *string `json:"Name,omitempty"`
+	Email       *string `json:"Email,omitempty"`
+	Phone       *string `json:"Phone,omitempty"`
+	Password    *string `json:"Password,omitempty"`
+	NewPassword *string `json:"NewPassword,omitempty"`
+	Role        *string `json:"Role,omitempty"`
+	CompanyIDs  []*int  `json:"CompanyIDs,omitempty"`
 }

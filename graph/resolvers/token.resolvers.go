@@ -47,8 +47,8 @@ func (r *mutationResolver) CreateToken(ctx context.Context, departmentID int, in
 		SetExpire(*input.Expire).
 		SetRefreshToken(*input.RefreshToken).
 		SetSecretKey(*input.SecretKey).
-		SetSecureSecretKey(*input.SecureSecretKey)
-
+		SetSecureSecretKey(*input.SecureSecretKey).
+		SetNillableOtpUri(input.OtpURI)
 	createCompanyToken, err := tokenCreate.Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("şirket token oluşturulamadı: %v", err)
@@ -189,7 +189,7 @@ func (r *mutationResolver) UpdateToken(ctx context.Context, departmentID *int, i
 				SetRefreshToken(*input.RefreshToken).
 				SetSecretKey(*input.SecretKey).
 				SetSecureSecretKey(*input.SecureSecretKey).
-				SetOtpUri(*input.OtpURI).
+				SetNillableOtpUri(input.OtpURI).
 				SetCompany(company)
 
 			return newToken.Save(ctx)
@@ -204,7 +204,7 @@ func (r *mutationResolver) UpdateToken(ctx context.Context, departmentID *int, i
 		SetRefreshToken(*input.RefreshToken).
 		SetSecretKey(*input.SecretKey).
 		SetSecureSecretKey(*input.SecureSecretKey).
-		SetOtpUri(*input.OtpURI).
+		SetNillableOtpUri(input.OtpURI).
 		Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("şirket token güncellenemedi: %v", err)

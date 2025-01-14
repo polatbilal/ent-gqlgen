@@ -26,9 +26,9 @@ const (
 	FieldPassword = "password"
 	// FieldRole holds the string denoting the role field in the database.
 	FieldRole = "role"
-	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
-	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
+	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
 	// EdgeCompanies holds the string denoting the companies edge name in mutations.
 	EdgeCompanies = "companies"
@@ -67,15 +67,17 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultName holds the default value on creation for the "name" field.
+	// DefaultName holds the default value on creation for the "Name" field.
 	DefaultName string
+	// DefaultEmail holds the default value on creation for the "Email" field.
+	DefaultEmail string
 	// DefaultRole holds the default value on creation for the "Role" field.
 	DefaultRole string
-	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
+	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
-	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
+	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
 	DefaultUpdatedAt func() time.Time
-	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
+	// UpdateDefaultUpdatedAt holds the default value on update for the "UpdatedAt" field.
 	UpdateDefaultUpdatedAt func() time.Time
 )
 
@@ -87,27 +89,27 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByUsername orders the results by the username field.
+// ByUsername orders the results by the Username field.
 func ByUsername(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUsername, opts...).ToFunc()
 }
 
-// ByName orders the results by the name field.
+// ByName orders the results by the Name field.
 func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
-// ByEmail orders the results by the email field.
+// ByEmail orders the results by the Email field.
 func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEmail, opts...).ToFunc()
 }
 
-// ByPhone orders the results by the phone field.
+// ByPhone orders the results by the Phone field.
 func ByPhone(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPhone, opts...).ToFunc()
 }
 
-// ByPassword orders the results by the password field.
+// ByPassword orders the results by the Password field.
 func ByPassword(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPassword, opts...).ToFunc()
 }
@@ -117,12 +119,12 @@ func ByRole(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRole, opts...).ToFunc()
 }
 
-// ByCreatedAt orders the results by the created_at field.
+// ByCreatedAt orders the results by the CreatedAt field.
 func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
-// ByUpdatedAt orders the results by the updated_at field.
+// ByUpdatedAt orders the results by the UpdatedAt field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }

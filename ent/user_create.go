@@ -21,19 +21,19 @@ type UserCreate struct {
 	hooks    []Hook
 }
 
-// SetUsername sets the "username" field.
+// SetUsername sets the "Username" field.
 func (uc *UserCreate) SetUsername(s string) *UserCreate {
 	uc.mutation.SetUsername(s)
 	return uc
 }
 
-// SetName sets the "name" field.
+// SetName sets the "Name" field.
 func (uc *UserCreate) SetName(s string) *UserCreate {
 	uc.mutation.SetName(s)
 	return uc
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
+// SetNillableName sets the "Name" field if the given value is not nil.
 func (uc *UserCreate) SetNillableName(s *string) *UserCreate {
 	if s != nil {
 		uc.SetName(*s)
@@ -41,13 +41,13 @@ func (uc *UserCreate) SetNillableName(s *string) *UserCreate {
 	return uc
 }
 
-// SetEmail sets the "email" field.
+// SetEmail sets the "Email" field.
 func (uc *UserCreate) SetEmail(s string) *UserCreate {
 	uc.mutation.SetEmail(s)
 	return uc
 }
 
-// SetNillableEmail sets the "email" field if the given value is not nil.
+// SetNillableEmail sets the "Email" field if the given value is not nil.
 func (uc *UserCreate) SetNillableEmail(s *string) *UserCreate {
 	if s != nil {
 		uc.SetEmail(*s)
@@ -55,21 +55,21 @@ func (uc *UserCreate) SetNillableEmail(s *string) *UserCreate {
 	return uc
 }
 
-// SetPhone sets the "phone" field.
-func (uc *UserCreate) SetPhone(i int) *UserCreate {
-	uc.mutation.SetPhone(i)
+// SetPhone sets the "Phone" field.
+func (uc *UserCreate) SetPhone(s string) *UserCreate {
+	uc.mutation.SetPhone(s)
 	return uc
 }
 
-// SetNillablePhone sets the "phone" field if the given value is not nil.
-func (uc *UserCreate) SetNillablePhone(i *int) *UserCreate {
-	if i != nil {
-		uc.SetPhone(*i)
+// SetNillablePhone sets the "Phone" field if the given value is not nil.
+func (uc *UserCreate) SetNillablePhone(s *string) *UserCreate {
+	if s != nil {
+		uc.SetPhone(*s)
 	}
 	return uc
 }
 
-// SetPassword sets the "password" field.
+// SetPassword sets the "Password" field.
 func (uc *UserCreate) SetPassword(s string) *UserCreate {
 	uc.mutation.SetPassword(s)
 	return uc
@@ -89,13 +89,13 @@ func (uc *UserCreate) SetNillableRole(s *string) *UserCreate {
 	return uc
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (uc *UserCreate) SetCreatedAt(t time.Time) *UserCreate {
 	uc.mutation.SetCreatedAt(t)
 	return uc
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (uc *UserCreate) SetNillableCreatedAt(t *time.Time) *UserCreate {
 	if t != nil {
 		uc.SetCreatedAt(*t)
@@ -103,13 +103,13 @@ func (uc *UserCreate) SetNillableCreatedAt(t *time.Time) *UserCreate {
 	return uc
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (uc *UserCreate) SetUpdatedAt(t time.Time) *UserCreate {
 	uc.mutation.SetUpdatedAt(t)
 	return uc
 }
 
-// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+// SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
 func (uc *UserCreate) SetNillableUpdatedAt(t *time.Time) *UserCreate {
 	if t != nil {
 		uc.SetUpdatedAt(*t)
@@ -171,6 +171,10 @@ func (uc *UserCreate) defaults() {
 		v := user.DefaultName
 		uc.mutation.SetName(v)
 	}
+	if _, ok := uc.mutation.Email(); !ok {
+		v := user.DefaultEmail
+		uc.mutation.SetEmail(v)
+	}
 	if _, ok := uc.mutation.Role(); !ok {
 		v := user.DefaultRole
 		uc.mutation.SetRole(v)
@@ -188,22 +192,25 @@ func (uc *UserCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (uc *UserCreate) check() error {
 	if _, ok := uc.mutation.Username(); !ok {
-		return &ValidationError{Name: "username", err: errors.New(`ent: missing required field "User.username"`)}
+		return &ValidationError{Name: "Username", err: errors.New(`ent: missing required field "User.Username"`)}
 	}
 	if _, ok := uc.mutation.Name(); !ok {
-		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "User.name"`)}
+		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "User.Name"`)}
+	}
+	if _, ok := uc.mutation.Email(); !ok {
+		return &ValidationError{Name: "Email", err: errors.New(`ent: missing required field "User.Email"`)}
 	}
 	if _, ok := uc.mutation.Password(); !ok {
-		return &ValidationError{Name: "password", err: errors.New(`ent: missing required field "User.password"`)}
+		return &ValidationError{Name: "Password", err: errors.New(`ent: missing required field "User.Password"`)}
 	}
 	if _, ok := uc.mutation.Role(); !ok {
 		return &ValidationError{Name: "Role", err: errors.New(`ent: missing required field "User.Role"`)}
 	}
 	if _, ok := uc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "User.created_at"`)}
+		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "User.CreatedAt"`)}
 	}
 	if _, ok := uc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "User.updated_at"`)}
+		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "User.UpdatedAt"`)}
 	}
 	return nil
 }
@@ -244,7 +251,7 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_node.Email = value
 	}
 	if value, ok := uc.mutation.Phone(); ok {
-		_spec.SetField(user.FieldPhone, field.TypeInt, value)
+		_spec.SetField(user.FieldPhone, field.TypeString, value)
 		_node.Phone = value
 	}
 	if value, ok := uc.mutation.Password(); ok {

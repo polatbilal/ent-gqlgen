@@ -270,22 +270,26 @@ func init() {
 	jobsupervisor.UpdateDefaultUpdatedAt = jobsupervisorDescUpdatedAt.UpdateDefault.(func() time.Time)
 	userFields := schema.User{}.Fields()
 	_ = userFields
-	// userDescName is the schema descriptor for name field.
+	// userDescName is the schema descriptor for Name field.
 	userDescName := userFields[1].Descriptor()
-	// user.DefaultName holds the default value on creation for the name field.
+	// user.DefaultName holds the default value on creation for the Name field.
 	user.DefaultName = userDescName.Default.(string)
+	// userDescEmail is the schema descriptor for Email field.
+	userDescEmail := userFields[2].Descriptor()
+	// user.DefaultEmail holds the default value on creation for the Email field.
+	user.DefaultEmail = userDescEmail.Default.(string)
 	// userDescRole is the schema descriptor for Role field.
 	userDescRole := userFields[5].Descriptor()
 	// user.DefaultRole holds the default value on creation for the Role field.
 	user.DefaultRole = userDescRole.Default.(string)
-	// userDescCreatedAt is the schema descriptor for created_at field.
+	// userDescCreatedAt is the schema descriptor for CreatedAt field.
 	userDescCreatedAt := userFields[6].Descriptor()
-	// user.DefaultCreatedAt holds the default value on creation for the created_at field.
+	// user.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() time.Time)
-	// userDescUpdatedAt is the schema descriptor for updated_at field.
+	// userDescUpdatedAt is the schema descriptor for UpdatedAt field.
 	userDescUpdatedAt := userFields[7].Descriptor()
-	// user.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	// user.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	user.DefaultUpdatedAt = userDescUpdatedAt.Default.(func() time.Time)
-	// user.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	// user.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	user.UpdateDefaultUpdatedAt = userDescUpdatedAt.UpdateDefault.(func() time.Time)
 }

@@ -64,7 +64,7 @@ func YDKSync(c *gin.Context) {
 		// YDK API'den gelen JSON yanıtını kontrol et
 		if errType, ok := tokenCheckResponse["error"].(string); ok {
 			if errType == "invalid_token" {
-				sendWSNotification(ws, "error", "YDS Token süresi dolmuş. Lütfen YDS Token'ı yenileyiniz.")
+				sendWSNotification(ws, "error", "YDS Oturum süresi dolmuş. Lütfen YDS Oturumunuzu yenileyiniz.")
 				return
 			}
 		}

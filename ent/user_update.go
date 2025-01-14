@@ -29,13 +29,13 @@ func (uu *UserUpdate) Where(ps ...predicate.User) *UserUpdate {
 	return uu
 }
 
-// SetUsername sets the "username" field.
+// SetUsername sets the "Username" field.
 func (uu *UserUpdate) SetUsername(s string) *UserUpdate {
 	uu.mutation.SetUsername(s)
 	return uu
 }
 
-// SetNillableUsername sets the "username" field if the given value is not nil.
+// SetNillableUsername sets the "Username" field if the given value is not nil.
 func (uu *UserUpdate) SetNillableUsername(s *string) *UserUpdate {
 	if s != nil {
 		uu.SetUsername(*s)
@@ -43,13 +43,13 @@ func (uu *UserUpdate) SetNillableUsername(s *string) *UserUpdate {
 	return uu
 }
 
-// SetName sets the "name" field.
+// SetName sets the "Name" field.
 func (uu *UserUpdate) SetName(s string) *UserUpdate {
 	uu.mutation.SetName(s)
 	return uu
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
+// SetNillableName sets the "Name" field if the given value is not nil.
 func (uu *UserUpdate) SetNillableName(s *string) *UserUpdate {
 	if s != nil {
 		uu.SetName(*s)
@@ -57,13 +57,13 @@ func (uu *UserUpdate) SetNillableName(s *string) *UserUpdate {
 	return uu
 }
 
-// SetEmail sets the "email" field.
+// SetEmail sets the "Email" field.
 func (uu *UserUpdate) SetEmail(s string) *UserUpdate {
 	uu.mutation.SetEmail(s)
 	return uu
 }
 
-// SetNillableEmail sets the "email" field if the given value is not nil.
+// SetNillableEmail sets the "Email" field if the given value is not nil.
 func (uu *UserUpdate) SetNillableEmail(s *string) *UserUpdate {
 	if s != nil {
 		uu.SetEmail(*s)
@@ -71,46 +71,33 @@ func (uu *UserUpdate) SetNillableEmail(s *string) *UserUpdate {
 	return uu
 }
 
-// ClearEmail clears the value of the "email" field.
-func (uu *UserUpdate) ClearEmail() *UserUpdate {
-	uu.mutation.ClearEmail()
+// SetPhone sets the "Phone" field.
+func (uu *UserUpdate) SetPhone(s string) *UserUpdate {
+	uu.mutation.SetPhone(s)
 	return uu
 }
 
-// SetPhone sets the "phone" field.
-func (uu *UserUpdate) SetPhone(i int) *UserUpdate {
-	uu.mutation.ResetPhone()
-	uu.mutation.SetPhone(i)
-	return uu
-}
-
-// SetNillablePhone sets the "phone" field if the given value is not nil.
-func (uu *UserUpdate) SetNillablePhone(i *int) *UserUpdate {
-	if i != nil {
-		uu.SetPhone(*i)
+// SetNillablePhone sets the "Phone" field if the given value is not nil.
+func (uu *UserUpdate) SetNillablePhone(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetPhone(*s)
 	}
 	return uu
 }
 
-// AddPhone adds i to the "phone" field.
-func (uu *UserUpdate) AddPhone(i int) *UserUpdate {
-	uu.mutation.AddPhone(i)
-	return uu
-}
-
-// ClearPhone clears the value of the "phone" field.
+// ClearPhone clears the value of the "Phone" field.
 func (uu *UserUpdate) ClearPhone() *UserUpdate {
 	uu.mutation.ClearPhone()
 	return uu
 }
 
-// SetPassword sets the "password" field.
+// SetPassword sets the "Password" field.
 func (uu *UserUpdate) SetPassword(s string) *UserUpdate {
 	uu.mutation.SetPassword(s)
 	return uu
 }
 
-// SetNillablePassword sets the "password" field if the given value is not nil.
+// SetNillablePassword sets the "Password" field if the given value is not nil.
 func (uu *UserUpdate) SetNillablePassword(s *string) *UserUpdate {
 	if s != nil {
 		uu.SetPassword(*s)
@@ -132,13 +119,13 @@ func (uu *UserUpdate) SetNillableRole(s *string) *UserUpdate {
 	return uu
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (uu *UserUpdate) SetCreatedAt(t time.Time) *UserUpdate {
 	uu.mutation.SetCreatedAt(t)
 	return uu
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (uu *UserUpdate) SetNillableCreatedAt(t *time.Time) *UserUpdate {
 	if t != nil {
 		uu.SetCreatedAt(*t)
@@ -146,7 +133,7 @@ func (uu *UserUpdate) SetNillableCreatedAt(t *time.Time) *UserUpdate {
 	return uu
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (uu *UserUpdate) SetUpdatedAt(t time.Time) *UserUpdate {
 	uu.mutation.SetUpdatedAt(t)
 	return uu
@@ -247,17 +234,11 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := uu.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
 	}
-	if uu.mutation.EmailCleared() {
-		_spec.ClearField(user.FieldEmail, field.TypeString)
-	}
 	if value, ok := uu.mutation.Phone(); ok {
-		_spec.SetField(user.FieldPhone, field.TypeInt, value)
-	}
-	if value, ok := uu.mutation.AddedPhone(); ok {
-		_spec.AddField(user.FieldPhone, field.TypeInt, value)
+		_spec.SetField(user.FieldPhone, field.TypeString, value)
 	}
 	if uu.mutation.PhoneCleared() {
-		_spec.ClearField(user.FieldPhone, field.TypeInt)
+		_spec.ClearField(user.FieldPhone, field.TypeString)
 	}
 	if value, ok := uu.mutation.Password(); ok {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)
@@ -336,13 +317,13 @@ type UserUpdateOne struct {
 	mutation *UserMutation
 }
 
-// SetUsername sets the "username" field.
+// SetUsername sets the "Username" field.
 func (uuo *UserUpdateOne) SetUsername(s string) *UserUpdateOne {
 	uuo.mutation.SetUsername(s)
 	return uuo
 }
 
-// SetNillableUsername sets the "username" field if the given value is not nil.
+// SetNillableUsername sets the "Username" field if the given value is not nil.
 func (uuo *UserUpdateOne) SetNillableUsername(s *string) *UserUpdateOne {
 	if s != nil {
 		uuo.SetUsername(*s)
@@ -350,13 +331,13 @@ func (uuo *UserUpdateOne) SetNillableUsername(s *string) *UserUpdateOne {
 	return uuo
 }
 
-// SetName sets the "name" field.
+// SetName sets the "Name" field.
 func (uuo *UserUpdateOne) SetName(s string) *UserUpdateOne {
 	uuo.mutation.SetName(s)
 	return uuo
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
+// SetNillableName sets the "Name" field if the given value is not nil.
 func (uuo *UserUpdateOne) SetNillableName(s *string) *UserUpdateOne {
 	if s != nil {
 		uuo.SetName(*s)
@@ -364,13 +345,13 @@ func (uuo *UserUpdateOne) SetNillableName(s *string) *UserUpdateOne {
 	return uuo
 }
 
-// SetEmail sets the "email" field.
+// SetEmail sets the "Email" field.
 func (uuo *UserUpdateOne) SetEmail(s string) *UserUpdateOne {
 	uuo.mutation.SetEmail(s)
 	return uuo
 }
 
-// SetNillableEmail sets the "email" field if the given value is not nil.
+// SetNillableEmail sets the "Email" field if the given value is not nil.
 func (uuo *UserUpdateOne) SetNillableEmail(s *string) *UserUpdateOne {
 	if s != nil {
 		uuo.SetEmail(*s)
@@ -378,46 +359,33 @@ func (uuo *UserUpdateOne) SetNillableEmail(s *string) *UserUpdateOne {
 	return uuo
 }
 
-// ClearEmail clears the value of the "email" field.
-func (uuo *UserUpdateOne) ClearEmail() *UserUpdateOne {
-	uuo.mutation.ClearEmail()
+// SetPhone sets the "Phone" field.
+func (uuo *UserUpdateOne) SetPhone(s string) *UserUpdateOne {
+	uuo.mutation.SetPhone(s)
 	return uuo
 }
 
-// SetPhone sets the "phone" field.
-func (uuo *UserUpdateOne) SetPhone(i int) *UserUpdateOne {
-	uuo.mutation.ResetPhone()
-	uuo.mutation.SetPhone(i)
-	return uuo
-}
-
-// SetNillablePhone sets the "phone" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillablePhone(i *int) *UserUpdateOne {
-	if i != nil {
-		uuo.SetPhone(*i)
+// SetNillablePhone sets the "Phone" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillablePhone(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetPhone(*s)
 	}
 	return uuo
 }
 
-// AddPhone adds i to the "phone" field.
-func (uuo *UserUpdateOne) AddPhone(i int) *UserUpdateOne {
-	uuo.mutation.AddPhone(i)
-	return uuo
-}
-
-// ClearPhone clears the value of the "phone" field.
+// ClearPhone clears the value of the "Phone" field.
 func (uuo *UserUpdateOne) ClearPhone() *UserUpdateOne {
 	uuo.mutation.ClearPhone()
 	return uuo
 }
 
-// SetPassword sets the "password" field.
+// SetPassword sets the "Password" field.
 func (uuo *UserUpdateOne) SetPassword(s string) *UserUpdateOne {
 	uuo.mutation.SetPassword(s)
 	return uuo
 }
 
-// SetNillablePassword sets the "password" field if the given value is not nil.
+// SetNillablePassword sets the "Password" field if the given value is not nil.
 func (uuo *UserUpdateOne) SetNillablePassword(s *string) *UserUpdateOne {
 	if s != nil {
 		uuo.SetPassword(*s)
@@ -439,13 +407,13 @@ func (uuo *UserUpdateOne) SetNillableRole(s *string) *UserUpdateOne {
 	return uuo
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "CreatedAt" field.
 func (uuo *UserUpdateOne) SetCreatedAt(t time.Time) *UserUpdateOne {
 	uuo.mutation.SetCreatedAt(t)
 	return uuo
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
 func (uuo *UserUpdateOne) SetNillableCreatedAt(t *time.Time) *UserUpdateOne {
 	if t != nil {
 		uuo.SetCreatedAt(*t)
@@ -453,7 +421,7 @@ func (uuo *UserUpdateOne) SetNillableCreatedAt(t *time.Time) *UserUpdateOne {
 	return uuo
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "UpdatedAt" field.
 func (uuo *UserUpdateOne) SetUpdatedAt(t time.Time) *UserUpdateOne {
 	uuo.mutation.SetUpdatedAt(t)
 	return uuo
@@ -584,17 +552,11 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if value, ok := uuo.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
 	}
-	if uuo.mutation.EmailCleared() {
-		_spec.ClearField(user.FieldEmail, field.TypeString)
-	}
 	if value, ok := uuo.mutation.Phone(); ok {
-		_spec.SetField(user.FieldPhone, field.TypeInt, value)
-	}
-	if value, ok := uuo.mutation.AddedPhone(); ok {
-		_spec.AddField(user.FieldPhone, field.TypeInt, value)
+		_spec.SetField(user.FieldPhone, field.TypeString, value)
 	}
 	if uuo.mutation.PhoneCleared() {
-		_spec.ClearField(user.FieldPhone, field.TypeInt)
+		_spec.ClearField(user.FieldPhone, field.TypeString)
 	}
 	if value, ok := uuo.mutation.Password(); ok {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)

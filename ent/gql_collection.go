@@ -2027,12 +2027,12 @@ func (u *UserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graph
 				selectedFields = append(selectedFields, user.FieldRole)
 				fieldSeen[user.FieldRole] = struct{}{}
 			}
-		case "createdAt":
+		case "createdat":
 			if _, ok := fieldSeen[user.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, user.FieldCreatedAt)
 				fieldSeen[user.FieldCreatedAt] = struct{}{}
 			}
-		case "updatedAt":
+		case "updatedat":
 			if _, ok := fieldSeen[user.FieldUpdatedAt]; !ok {
 				selectedFields = append(selectedFields, user.FieldUpdatedAt)
 				fieldSeen[user.FieldUpdatedAt] = struct{}{}

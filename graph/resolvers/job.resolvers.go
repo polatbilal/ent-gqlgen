@@ -370,14 +370,6 @@ func (r *queryResolver) JobCounts(ctx context.Context, companyCode *int) (*model
 	}, nil
 }
 
-// Progress is the resolver for the Progress field.
-func (r *jobDetailResolver) Progress(ctx context.Context, obj *ent.JobDetail) (*ent.JobProgress, error) {
-	if obj.Edges.Progress != nil {
-		return obj.Edges.Progress, nil
-	}
-	return obj.QueryProgress().Only(ctx)
-}
-
 // JobDetail returns generated.JobDetailResolver implementation.
 func (r *Resolver) JobDetail() generated.JobDetailResolver { return &jobDetailResolver{r} }
 
