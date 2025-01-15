@@ -85,7 +85,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input mode
 		}
 	}
 
-	user, err := client.User.UpdateOneID(*input.ID).
+	user, err := client.User.UpdateOneID(intID).
 		SetNillableName(input.Name).
 		SetNillableEmail(input.Email).
 		SetNillablePhone(input.Phone).

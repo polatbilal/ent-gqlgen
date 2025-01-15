@@ -18,7 +18,7 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func YDKSync(c *gin.Context) {
+func CompanySync(c *gin.Context) {
 	// Token'ı query parametresinden al
 	token := c.Query("token")
 	if token == "" {
@@ -88,7 +88,7 @@ func YDKSync(c *gin.Context) {
 
 	// Diğer writer'ları hazırla
 	inspectorWriter := &ResponseCapturer{ResponseWriter: c.Writer}
-	yibfWriter := &ResponseCapturer{ResponseWriter: c.Writer}
+	// yibfWriter := &ResponseCapturer{ResponseWriter: c.Writer}
 
 	// Diğer context'leri hazırla
 	inspectorCtx := &gin.Context{
@@ -99,13 +99,13 @@ func YDKSync(c *gin.Context) {
 	}
 	inspectorCtx.Request.Header = c.Request.Header.Clone()
 
-	yibfCtx := &gin.Context{
-		Request: c.Request.Clone(c.Request.Context()),
-		Writer:  yibfWriter,
-		Params:  c.Params,
-		Keys:    c.Keys,
-	}
-	yibfCtx.Request.Header = c.Request.Header.Clone()
+	// yibfCtx := &gin.Context{
+	// 	Request: c.Request.Clone(c.Request.Context()),
+	// 	Writer:  yibfWriter,
+	// 	Params:  c.Params,
+	// 	Keys:    c.Keys,
+	// }
+	// yibfCtx.Request.Header = c.Request.Header.Clone()
 
 	// Denetçi senkronizasyonu başladı bildirimi
 	sendWSNotification(ws, "info", "Denetçi bilgileri senkronizasyonu başladı")
@@ -134,25 +134,25 @@ func YDKSync(c *gin.Context) {
 
 	// YİBF senkronizasyonu başladı bildirimi
 	sendWSNotification(ws, "info", "YİBF bilgileri senkronizasyonu başladı")
-	external.YibfList(yibfCtx)
+	// external.YibfList(yibfCtx)
 
 	// YİBF yanıtını parse et
-	var yibfResponse map[string]interface{}
-	if err := json.Unmarshal(yibfWriter.body, &yibfResponse); err != nil {
-		sendWSNotification(ws, "error", "YİBF bilgileri senkronizasyonu başarısız")
-		return
-	}
+	// var yibfResponse map[string]interface{}
+	// if err := json.Unmarshal(yibfWriter.body, &yibfResponse); err != nil {
+	// 	sendWSNotification(ws, "error", "YİBF bilgileri senkronizasyonu başarısız")
+	// 	return
+	// }
 
 	// YİBF yanıtında hata varsa işlemi sonlandır
-	if errMsg, hasError := yibfResponse["error"]; hasError {
-		errorMessage := errMsg.(string)
-		if yibfResponse["status"] == float64(401) || yibfResponse["status"] == float64(http.StatusUnauthorized) {
-			sendWSNotification(ws, "error", "Token süresi dolmuş veya geçersiz. Lütfen yeniden giriş yapın.")
-			return
-		}
-		sendWSNotification(ws, "error", "YİBF bilgileri senkronizasyonu başarısız: "+errorMessage)
-		return
-	}
+	// if errMsg, hasError := yibfResponse["error"]; hasError {
+	// 	errorMessage := errMsg.(string)
+	// 	if yibfResponse["status"] == float64(401) || yibfResponse["status"] == float64(http.StatusUnauthorized) {
+	// 		sendWSNotification(ws, "error", "Token süresi dolmuş veya geçersiz. Lütfen yeniden giriş yapın.")
+	// 		return
+	// 	}
+	// 	sendWSNotification(ws, "error", "YİBF bilgileri senkronizasyonu başarısız: "+errorMessage)
+	// 	return
+	// }
 
 	// YİBF senkronizasyonu tamamlandı bildirimi
 	sendWSNotification(ws, "success", "YİBF bilgileri senkronizasyonu tamamlandı")
@@ -170,12 +170,12 @@ func YDKSync(c *gin.Context) {
 				"skippedCount": inspectorResponse["skippedCount"],
 				"message":      inspectorResponse["message"],
 			},
-			"yibf": gin.H{
-				"total":           yibfResponse["total"],
-				"processed_count": yibfResponse["processed_count"],
-				"failed_count":    yibfResponse["failed_count"],
-				"success":         yibfResponse["success"],
-			},
+			// "yibf": gin.H{
+			// 	"total":           yibfResponse["total"],
+			// 	"processed_count": yibfResponse["processed_count"],
+			// 	"failed_count":    yibfResponse["failed_count"],
+			// 	"success":         yibfResponse["success"],
+			// },
 		},
 	}
 

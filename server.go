@@ -12,8 +12,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/database"
 	"github.com/polatbilal/gqlgen-ent/ent/migrate"
 	"github.com/polatbilal/gqlgen-ent/graph/resolvers"
-	"github.com/polatbilal/gqlgen-ent/handlers/external"
-	"github.com/polatbilal/gqlgen-ent/handlers/sync"
+	"github.com/polatbilal/gqlgen-ent/handlers"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 
 	"github.com/99designs/gqlgen/graphql/handler"
@@ -50,16 +49,8 @@ func main() {
 	r.Use(cors.New(config))
 	r.Use(middlewares.AuthMiddleware())
 
-	// YDK Inspectors endpoint'ini ekle
-	r.POST("/ydk/inspectors", external.YDKInspectors)
-	// YDK Companies endpoint'ini ekle
-	r.GET("/ydk/companies", external.YDKCompanies)
-	// YDK Sync endpoint'ini ekle
-	r.GET("/ydk/sync", sync.YDKSync)
-	// YDK FindById endpoint'ini ekle
-	r.GET("/ydk/findById/:id", external.YibfDetail)
-	// YDK FindAll endpoint'ini ekle
-	r.GET("/ydk/findAll", external.YibfList)
+	// Handlers API endpoint'lerini yapılandır
+	handlers.SetupRoutes(r)
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
@@ -137,5 +128,5 @@ func main() {
 		c.AbortWithStatus(http.StatusNoContent)
 	})
 
-	r.Run(":4000")
+	r.Run("127.0.0.1:4000")
 }
