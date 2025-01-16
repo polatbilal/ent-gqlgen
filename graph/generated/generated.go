@@ -2359,7 +2359,7 @@ type Mutation {
 }
 
 input JobAuthorInput {
-  YibfNo: Int!
+  YibfNo: Int
   Static: String
   Mechanic: String
   Electric: String
@@ -2464,8 +2464,8 @@ type JobContractor {
 
 input JobContractorInput {
   id: ID
-  YibfNo: Int!
-  Name: String!
+  YibfNo: Int
+  Name: String
   TcNo: Int
   RegisterNo: Int
   Address: String
@@ -2606,7 +2606,7 @@ type JobDetail {
 }
 
 input JobInput {
-  CompanyCode: Int!
+  CompanyCode: Int
   YibfNo: Int
   Title: String
   Administration: String
@@ -2735,7 +2735,8 @@ type JobOwner {
 }
 
 input JobOwnerInput {
-  YibfNo: Int!
+  id: ID
+  YibfNo: Int
   Name: String
   TcNo: Int
   Address: String
@@ -19727,7 +19728,7 @@ func (ec *executionContext) unmarshalInputJobAuthorInput(ctx context.Context, ob
 		switch k {
 		case "YibfNo":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -19810,14 +19811,14 @@ func (ec *executionContext) unmarshalInputJobContractorInput(ctx context.Context
 			it.ID = data
 		case "YibfNo":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.YibfNo = data
 		case "Name":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Name"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -19914,7 +19915,7 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 		switch k {
 		case "CompanyCode":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CompanyCode"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -20295,16 +20296,23 @@ func (ec *executionContext) unmarshalInputJobOwnerInput(ctx context.Context, obj
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "Name", "TcNo", "Address", "TaxAdmin", "TaxNo", "Phone", "Email", "YDSID", "Shareholder", "Note"}
+	fieldsInOrder := [...]string{"id", "YibfNo", "Name", "TcNo", "Address", "TaxAdmin", "TaxNo", "Phone", "Email", "YDSID", "Shareholder", "Note"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
 		case "YibfNo":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}

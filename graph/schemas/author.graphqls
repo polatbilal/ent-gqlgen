@@ -10,7 +10,7 @@ type JobAuthor {
 }
 
 input JobAuthorInput {
-  YibfNo: Int!
+  YibfNo: Int
   Static: String
   Mechanic: String
   Electric: String

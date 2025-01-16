@@ -52,7 +52,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 
 	// CompanyCode ile şirketi bul
 	company, err := client.CompanyDetail.Query().
-		Where(companydetail.CompanyCodeEQ(input.CompanyCode)).
+		Where(companydetail.CompanyCodeEQ(*input.CompanyCode)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %v", input.CompanyCode, err)
@@ -163,8 +163,8 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 
 	// Mevcut iş detayını güncelle
 	jobDetailUpdate := client.JobDetail.UpdateOne(jobDetail).
-		SetYibfNo(*input.YibfNo).
-		SetTitle(*input.Title).
+		SetNillableYibfNo(input.YibfNo).
+		SetNillableTitle(input.Title).
 		SetNillableAdministration(input.Administration).
 		SetNillableState(input.State).
 		SetNillableIsland(input.Island).

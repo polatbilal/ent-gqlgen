@@ -16,8 +16,8 @@ type JobContractor {
 
 input JobContractorInput {
   id: ID
-  YibfNo: Int!
-  Name: String!
+  YibfNo: Int
+  Name: String
   TcNo: Int
   RegisterNo: Int
   Address: String

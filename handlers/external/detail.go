@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"time"
 
@@ -39,26 +40,6 @@ func logError(message string) {
 	if _, err := f.WriteString(logMessage); err != nil {
 		log.Printf("Log yazılamadı: %v", err)
 	}
-}
-
-// Inspector alanlarını kontrol eden yardımcı fonksiyon
-func isInspectorField(field string) bool {
-	inspectorFields := []string{
-		"Inspector",
-		"Static",
-		"Architect",
-		"Mechanic",
-		"Electric",
-		"Controller",
-		"MechanicController",
-		"ElectricController",
-	}
-	for _, f := range inspectorFields {
-		if field == f {
-			return true
-		}
-	}
-	return false
 }
 
 type YibfDetailRequest struct {
@@ -116,98 +97,321 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 	for _, yibfID := range yibfNumbers {
 		// Önce mevcut kaydı kontrol et
 		checkQuery := `
-		query CheckJob($yibfNo: Int!) {
-			job(yibfNo: $yibfNo) {
-				id
-				CompanyCode
-				YibfNo
-				Title
-				Administration
-				State
-				Island
-				Parcel
-				Sheet
-				ContractDate
-				StartDate
-				LicenseDate
-				LicenseNo
-				CompletionDate
-				LandArea
-				TotalArea
-				ConstructionArea
-				LeftArea
-				YDSAddress
-				Address
-				BuildingClass
-				BuildingType
-				Level
-				UnitPrice
-				FloorCount
-				BKSReferenceNo
-				Coordinates
-				FolderNo
-				UploadedFile
-				IndustryArea
-				ClusterStructure
-				IsLicenseExpired
-				IsCompleted
-				Note
-				Inspector {
+			query CheckJobWithRelations($yibfNo: Int!) {
+				job(yibfNo: $yibfNo) {
+					id
+					CompanyCode
+					YibfNo
+					Title
+					Administration
+					State
+					Island
+					Parcel
+					Sheet
+					ContractDate
+					StartDate
+					LicenseDate
+					LicenseNo
+					CompletionDate
+					LandArea
+					TotalArea
+					ConstructionArea
+					LeftArea
+					YDSAddress
+					Address
+					BuildingClass
+					BuildingType
+					Level
+					UnitPrice
+					FloorCount
+					BKSReferenceNo
+					Coordinates
+					FolderNo
+					UploadedFile
+					IndustryArea
+					ClusterStructure
+					IsLicenseExpired
+					IsCompleted
+					Note
+					Inspector {
+						id
+						YDSID
+						Name
+					}
+					Static {
+						id
+						YDSID
+						Name
+					}
+					Architect {
+						id
+						YDSID
+						Name
+					}
+					Mechanic {
+						id
+						YDSID
+						Name
+					}
+					Electric {
+						id
+						YDSID
+						Name
+					}
+					Controller {
+						id
+						YDSID
+						Name
+					}
+					MechanicController {
+						id
+						YDSID
+						Name
+					}
+					ElectricController {
+						id
+						YDSID
+						Name
+					}
+				}
+				owner(yibfNo: $yibfNo) {
 					id
 					YDSID
 					Name
+					TcNo
+					Address
+					Phone
+					TaxAdmin
+					TaxNo
+					Shareholder
 				}
-				Static {
+				contractor(yibfNo: $yibfNo) {
 					id
 					YDSID
 					Name
+					TaxNo
+					Phone
+					MobilePhone
+					Email
+					Address
+					RegisterNo
+					PersonType
+					TcNo
 				}
-				Architect {
+				supervisor(yibfNo: $yibfNo) {
 					id
 					YDSID
 					Name
+					Address
+					Phone
+					Email
+					TcNo
+					Position
+					Career
+					RegisterNo
+					SocialSecurityNo
+					SchoolGraduation
 				}
-				Mechanic {
+				author(yibfNo: $yibfNo) {
 					id
-					YDSID
-					Name
+					Static
+					Mechanic
+					Electric
+					Architect
+					GeotechnicalEngineer
+					GeotechnicalGeologist
+					GeotechnicalGeophysicist
 				}
-				Electric {
-					id
-					YDSID
-					Name
-				}
-				Controller {
-					id
-					YDSID
-					Name
-				}
-				MechanicController {
-					id
-					YDSID
-					Name
-				}
-				ElectricController {
-					id
-					YDSID
-					Name
-				}
-			}
-		}`
+			}`
 
 		checkVariables := map[string]interface{}{
 			"yibfNo": yibfID,
 		}
 
 		var checkResult struct {
-			Job map[string]interface{} `json:"job"`
+			Job *struct {
+				ID               int     `json:"id"`
+				YibfNo           int     `json:"YibfNo"`
+				CompanyCode      int     `json:"CompanyCode"`
+				Title            string  `json:"Title"`
+				Administration   string  `json:"Administration"`
+				State            string  `json:"State"`
+				Island           string  `json:"Island"`
+				Parcel           string  `json:"Parcel"`
+				Sheet            string  `json:"Sheet"`
+				ContractDate     string  `json:"ContractDate"`
+				StartDate        string  `json:"StartDate"`
+				LicenseDate      string  `json:"LicenseDate"`
+				LicenseNo        string  `json:"LicenseNo"`
+				CompletionDate   string  `json:"CompletionDate"`
+				LandArea         float64 `json:"LandArea"`
+				TotalArea        float64 `json:"TotalArea"`
+				ConstructionArea float64 `json:"ConstructionArea"`
+				LeftArea         float64 `json:"LeftArea"`
+				YDSAddress       string  `json:"YDSAddress"`
+				Address          string  `json:"Address"`
+				BuildingClass    string  `json:"BuildingClass"`
+				BuildingType     string  `json:"BuildingType"`
+				Level            int     `json:"Level"`
+				UnitPrice        float64 `json:"UnitPrice"`
+				FloorCount       int     `json:"FloorCount"`
+				BKSReferenceNo   int     `json:"BKSReferenceNo"`
+				Coordinates      string  `json:"Coordinates"`
+				FolderNo         string  `json:"FolderNo"`
+				UploadedFile     bool    `json:"UploadedFile"`
+				IndustryArea     bool    `json:"IndustryArea"`
+				ClusterStructure bool    `json:"ClusterStructure"`
+				IsLicenseExpired bool    `json:"IsLicenseExpired"`
+				IsCompleted      bool    `json:"IsCompleted"`
+				Note             string  `json:"Note"`
+				Inspector        struct {
+					ID    int    `json:"id"`
+					YDSID int    `json:"YDSID"`
+					Name  string `json:"Name"`
+				} `json:"Inspector"`
+				Static struct {
+					ID    int    `json:"id"`
+					YDSID int    `json:"YDSID"`
+					Name  string `json:"Name"`
+				} `json:"Static"`
+				Architect struct {
+					ID    int    `json:"id"`
+					YDSID int    `json:"YDSID"`
+					Name  string `json:"Name"`
+				} `json:"Architect"`
+				Mechanic struct {
+					ID    int    `json:"id"`
+					YDSID int    `json:"YDSID"`
+					Name  string `json:"Name"`
+				} `json:"Mechanic"`
+				Electric struct {
+					ID    int    `json:"id"`
+					YDSID int    `json:"YDSID"`
+					Name  string `json:"Name"`
+				} `json:"Electric"`
+				Controller struct {
+					ID    int    `json:"id"`
+					YDSID int    `json:"YDSID"`
+					Name  string `json:"Name"`
+				} `json:"Controller"`
+				MechanicController struct {
+					ID    int    `json:"id"`
+					YDSID int    `json:"YDSID"`
+					Name  string `json:"Name"`
+				} `json:"MechanicController"`
+				ElectricController struct {
+					ID    int    `json:"id"`
+					YDSID int    `json:"YDSID"`
+					Name  string `json:"Name"`
+				} `json:"ElectricController"`
+			} `json:"job"`
+			Owner *struct {
+				ID          int    `json:"id"`
+				YDSID       int    `json:"YDSID"`
+				Name        string `json:"Name"`
+				TcNo        int    `json:"TcNo"`
+				Address     string `json:"Address"`
+				Phone       string `json:"Phone"`
+				TaxAdmin    string `json:"TaxAdmin"`
+				TaxNo       int    `json:"TaxNo"`
+				Shareholder bool   `json:"Shareholder"`
+			} `json:"owner"`
+			Contractor *struct {
+				ID          int    `json:"id"`
+				YDSID       int    `json:"YDSID"`
+				Name        string `json:"Name"`
+				TaxNo       int    `json:"TaxNo"`
+				Phone       string `json:"Phone"`
+				MobilePhone string `json:"MobilePhone"`
+				Email       string `json:"Email"`
+				Address     string `json:"Address"`
+				RegisterNo  int    `json:"RegisterNo"`
+				PersonType  string `json:"PersonType"`
+				TcNo        int    `json:"TcNo"`
+			} `json:"contractor"`
+			Supervisor *struct {
+				ID               int    `json:"id"`
+				YDSID            int    `json:"YDSID"`
+				Name             string `json:"Name"`
+				Address          string `json:"Address"`
+				Phone            string `json:"Phone"`
+				Email            string `json:"Email"`
+				TcNo             int    `json:"TcNo"`
+				Position         string `json:"Position"`
+				Career           string `json:"Career"`
+				RegisterNo       int    `json:"RegisterNo"`
+				SocialSecurityNo int    `json:"SocialSecurityNo"`
+				SchoolGraduation string `json:"SchoolGraduation"`
+			} `json:"supervisor"`
+			Author *struct {
+				ID                       int    `json:"id"`
+				Static                   string `json:"Static"`
+				Mechanic                 string `json:"Mechanic"`
+				Electric                 string `json:"Electric"`
+				Architect                string `json:"Architect"`
+				GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
+				GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
+				GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
+			} `json:"author"`
 		}
 
 		err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResult)
-		if err != nil && !strings.Contains(err.Error(), "iş bulunamadı veya bu işe erişim yetkiniz yok") {
-			log.Printf("ID %d için iş kontrolü sırasında hata oluştu: %v", yibfID, err)
-			failedIDs = append(failedIDs, yibfID)
-			continue
+		var notFoundTables []string
+
+		if err != nil {
+			log.Printf("ID %d için GraphQL sorgusu:\n%s", yibfID, checkQuery)
+			checkVariablesJSON, _ := json.MarshalIndent(checkVariables, "", "  ")
+			log.Printf("Variables:\n%s", string(checkVariablesJSON))
+			log.Printf("Ham hata mesajı: %v", err)
+
+			errStr := err.Error()
+			// Önce ham hata mesajını kontrol et
+			if strings.Contains(errStr, "job_contractor not found") {
+				notFoundTables = append(notFoundTables, "contractor")
+			}
+			if strings.Contains(errStr, "job_owner not found") {
+				notFoundTables = append(notFoundTables, "owner")
+			}
+			if strings.Contains(errStr, "job_supervisor not found") {
+				notFoundTables = append(notFoundTables, "supervisor")
+			}
+			if strings.Contains(errStr, "job_author not found") {
+				notFoundTables = append(notFoundTables, "author")
+			}
+			if strings.Contains(errStr, "iş bulunamadı veya bu işe erişim yetkiniz yok") {
+				notFoundTables = []string{"job", "owner", "contractor", "supervisor", "author"}
+				log.Printf("İş bulunamadı, tüm tablolar için create işlemi yapılacak")
+			}
+
+			// GraphQL hata mesajını parse etmeyi dene
+			var errResp struct {
+				Errors []struct {
+					Message string   `json:"message"`
+					Path    []string `json:"path"`
+				} `json:"errors"`
+			}
+
+			if strings.HasPrefix(errStr, "{") {
+				if err := json.Unmarshal([]byte(errStr), &errResp); err == nil {
+					for _, e := range errResp.Errors {
+						log.Printf("GraphQL Hata Detayı - Path: %v, Message: %s", e.Path, e.Message)
+
+						// Job tablosu için özel kontrol
+						if len(e.Path) > 0 && e.Path[0] == "job" && strings.Contains(e.Message, "iş bulunamadı veya bu işe erişim yetkiniz yok") {
+							notFoundTables = []string{"job", "owner", "contractor", "supervisor", "author"}
+							log.Printf("İş bulunamadı, tüm tablolar için create işlemi yapılacak")
+							break
+						}
+
+						// Diğer tablolar için not found kontrolü
+						if strings.Contains(e.Message, "not found") && len(e.Path) > 0 {
+							notFoundTables = append(notFoundTables, e.Path[0])
+						}
+					}
+				}
+			}
+
+			log.Printf("Not found tabloları: %v", notFoundTables)
 		}
 
 		// YDK'dan detay bilgilerini çek
@@ -471,15 +675,13 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 				case 6:
 					authorData["Architect"] = fullName
 				case 7:
-					authorData["Static"] = fullName
-				case 8:
 					switch author.TitleId {
-					case 7:
-						authorData["GeotechnicalGeophysicist"] = fullName
-					case 6:
-						authorData["GeotechnicalGeologist"] = fullName
 					case 4:
 						authorData["GeotechnicalEngineer"] = fullName
+					case 6:
+						authorData["GeotechnicalGeologist"] = fullName
+					case 7:
+						authorData["GeotechnicalGeophysicist"] = fullName
 					}
 				}
 			}
@@ -488,436 +690,498 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 
 		results = append(results, result)
 
-		// Verileri hazırla
-		jobData := result["job"].(map[string]interface{})
-		ownerData := result["owner"].(map[string]interface{})
-		contractorData := result["contractor"].(map[string]interface{})
-		supervisorData := result["supervisor"].(map[string]interface{})
-		authorData := result["author"].(map[string]interface{})
+		// Verileri hazırla ve değişiklikleri kontrol et
+		var jobChanges map[string]interface{}
+		var ownerChanges map[string]interface{}
+		var contractorChanges map[string]interface{}
+		var supervisorChanges map[string]interface{}
+		var authorChanges map[string]interface{}
 
-		// Job kontrolü ve güncellemesi
-		if checkResult.Job != nil {
-			// Kayıt var, değişiklik kontrolü yap
-			needsUpdate := false
+		// Job değişikliklerini kontrol et
+		if job, ok := result["job"].(map[string]interface{}); ok && checkResult.Job != nil {
+			jobChanges = make(map[string]interface{})
+			jobObj := reflect.ValueOf(checkResult.Job).Elem()
 
-			// Job verilerini karşılaştır
-			for key, newValue := range jobData {
-				if currentValue, exists := checkResult.Job[key]; exists {
-					if newValue == nil || currentValue == nil {
-						continue
-					}
+			for key, newValue := range job {
+				if key == "YibfNo" || key == "CompanyCode" {
+					continue // Bu alanları güncellemeye gerek yok
+				}
 
-					if key == "YibfNo" || key == "CompanyCode" {
-						var currentIDInt int
-						switch v := currentValue.(type) {
-						case float64:
-							currentIDInt = int(v)
-						case int:
-							currentIDInt = v
-						}
-
-						var newIDInt int
-						switch v := newValue.(type) {
-						case float64:
-							newIDInt = int(v)
-						case int:
-							newIDInt = v
-						}
-
-						if currentIDInt == newIDInt {
-							continue
-						}
-						log.Printf("%s değişikliği tespit edildi - Eski: %v, Yeni: %v", key, currentValue, newValue)
-						needsUpdate = true
-						continue
-					}
-
-					if isInspectorField(key) {
-						if currentMap, ok := currentValue.(map[string]interface{}); ok {
-							if currentYDSID, exists := currentMap["YDSID"]; exists {
-								var currentIDInt int
-								switch v := currentYDSID.(type) {
-								case float64:
-									currentIDInt = int(v)
-								case int:
-									currentIDInt = v
-								}
-
-								var newIDInt int
-								switch v := newValue.(type) {
-								case float64:
-									newIDInt = int(v)
-								case int:
-									newIDInt = v
-								}
-
-								if currentIDInt == newIDInt {
-									continue
-								}
-							}
-						}
-						needsUpdate = true
-						log.Printf("Inspector değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-						continue
-					}
-
-					if strings.Contains(key, "Date") {
-						currentStr := fmt.Sprintf("%v", currentValue)
-						newStr := fmt.Sprintf("%v", newValue)
-						if service.CompareDates(currentStr, newStr) {
-							continue
-						}
-					}
-
-					if key == "Coordinates" {
-						currentStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", currentValue), " ", ""), ",", ".")
-						newStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", newValue), " ", ""), ",", ".")
-						if currentStr == newStr {
-							continue
-						}
-					}
-
+				if strings.Contains(key, "Date") {
+					currentValue := jobObj.FieldByName(key).String()
 					newStr := fmt.Sprintf("%v", newValue)
-					currentStr := fmt.Sprintf("%v", currentValue)
-
-					if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
-						log.Printf("Değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
-						needsUpdate = true
+					if !service.CompareDates(currentValue, newStr) {
+						jobChanges[key] = newValue
+						log.Printf("Job tarih değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
 					}
-				} else {
-					if newValue != nil && newValue != "" {
-						log.Printf("Yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
-						needsUpdate = true
+					continue
+				}
+
+				if key == "Coordinates" {
+					currentValue := jobObj.FieldByName(key).String()
+					currentStr := strings.ReplaceAll(strings.ReplaceAll(currentValue, " ", ""), ",", ".")
+					newStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", newValue), " ", ""), ",", ".")
+					if currentStr != newStr {
+						jobChanges[key] = newValue
+						log.Printf("Job koordinat değişikliği tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentValue, newValue)
 					}
+					continue
+				}
+
+				field := jobObj.FieldByName(key)
+				if !field.IsValid() {
+					jobChanges[key] = newValue
+					log.Printf("Job yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
+					continue
+				}
+
+				newStr := fmt.Sprintf("%v", newValue)
+				currentStr := fmt.Sprintf("%v", field.Interface())
+				if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+					jobChanges[key] = newValue
+					log.Printf("Job değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentStr, newStr)
 				}
 			}
-
-			if !needsUpdate {
-				log.Printf("YİBF verileri güncel, güncelleme yapılmayacak: YibfNo %d", yibfID)
-				processedIDs = append(processedIDs, yibfID)
-				continue
-			}
-
-			// Job güncelleme
-			jobMutation := `
-			mutation UpdateJob($yibfNo: Int!, $jobInput: JobInput!) {
-				updateJob(yibfNo: $yibfNo, input: $jobInput) {
-					id
-					YibfNo
-					CompanyCode
-					Title
-					Administration
-					State
-				}
-			}`
-
-			jobVariables := map[string]interface{}{
-				"yibfNo":   yibfID,
-				"jobInput": jobData,
-			}
-
-			var jobResult struct {
-				UpdateJob struct {
-					ID          int    `json:"id"`
-					YibfNo      int    `json:"YibfNo"`
-					CompanyCode int    `json:"CompanyCode"`
-					Title       string `json:"Title"`
-				} `json:"updateJob"`
-			}
-
-			if err := graphqlClient.Execute(jobMutation, jobVariables, jwtToken, &jobResult); err != nil {
-				log.Printf("ID %d için job güncelleme hatası: %v", yibfID, err)
-				failedIDs = append(failedIDs, yibfID)
-				continue
-			}
-
-			// Owner güncelleme
-			if ownerData != nil {
-				ownerMutation := `
-				mutation UpdateOwner($yibfNo: Int!, $ownerInput: JobOwnerInput!) {
-					updateOwner(yibfNo: $yibfNo, input: $ownerInput) {
-						id
-						Name
-						YDSID
-					}
-				}`
-
-				ownerVariables := map[string]interface{}{
-					"yibfNo":     yibfID,
-					"ownerInput": ownerData,
-				}
-
-				var ownerResult struct {
-					UpdateOwner struct {
-						ID    int    `json:"id"`
-						Name  string `json:"Name"`
-						YDSID int    `json:"YDSID"`
-					} `json:"updateOwner"`
-				}
-
-				if err := graphqlClient.Execute(ownerMutation, ownerVariables, jwtToken, &ownerResult); err != nil {
-					log.Printf("ID %d için owner güncelleme hatası: %v", yibfID, err)
-				}
-			}
-
-			// Contractor güncelleme
-			if contractorData != nil {
-				contractorMutation := `
-				mutation UpdateContractor($yibfNo: Int!, $contractorInput: JobContractorInput!) {
-					updateContractor(yibfNo: $yibfNo, input: $contractorInput) {
-						id
-						Name
-						YDSID
-					}
-				}`
-
-				contractorVariables := map[string]interface{}{
-					"yibfNo":          yibfID,
-					"contractorInput": contractorData,
-				}
-
-				var contractorResult struct {
-					UpdateContractor struct {
-						ID    int    `json:"id"`
-						Name  string `json:"Name"`
-						YDSID int    `json:"YDSID"`
-					} `json:"updateContractor"`
-				}
-
-				if err := graphqlClient.Execute(contractorMutation, contractorVariables, jwtToken, &contractorResult); err != nil {
-					log.Printf("ID %d için contractor güncelleme hatası: %v", yibfID, err)
-				}
-			}
-
-			// Supervisor güncelleme
-			if supervisorData != nil {
-				supervisorMutation := `
-				mutation UpdateSupervisor($yibfNo: Int!, $supervisorInput: JobSupervisorInput!) {
-					updateSupervisor(yibfNo: $yibfNo, input: $supervisorInput) {
-						id
-						Name
-						YDSID
-					}
-				}`
-
-				supervisorVariables := map[string]interface{}{
-					"yibfNo":          yibfID,
-					"supervisorInput": supervisorData,
-				}
-
-				var supervisorResult struct {
-					UpdateSupervisor struct {
-						ID    int    `json:"id"`
-						Name  string `json:"Name"`
-						YDSID int    `json:"YDSID"`
-					} `json:"updateSupervisor"`
-				}
-
-				if err := graphqlClient.Execute(supervisorMutation, supervisorVariables, jwtToken, &supervisorResult); err != nil {
-					log.Printf("ID %d için supervisor güncelleme hatası: %v", yibfID, err)
-				}
-			}
-
-			// Author güncelleme
-			if authorData != nil {
-				authorMutation := `
-				mutation UpdateAuthor($yibfNo: Int!, $authorInput: JobAuthorInput!) {
-					updateAuthor(yibfNo: $yibfNo, input: $authorInput) {
-						id
-						Static
-						Mechanic
-						Electric
-						Architect
-						GeotechnicalEngineer
-						GeotechnicalGeologist
-						GeotechnicalGeophysicist
-					}
-				}`
-
-				authorVariables := map[string]interface{}{
-					"yibfNo":      yibfID,
-					"authorInput": authorData,
-				}
-
-				var authorResult struct {
-					UpdateAuthor struct {
-						ID                       int    `json:"id"`
-						Static                   string `json:"Static"`
-						Mechanic                 string `json:"Mechanic"`
-						Electric                 string `json:"Electric"`
-						Architect                string `json:"Architect"`
-						GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
-						GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
-						GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
-					} `json:"updateAuthor"`
-				}
-
-				if err := graphqlClient.Execute(authorMutation, authorVariables, jwtToken, &authorResult); err != nil {
-					log.Printf("ID %d için author güncelleme hatası: %v", yibfID, err)
-				}
-			}
-
-			log.Printf("ID %d başarıyla güncellendi", yibfID)
-			processedIDs = append(processedIDs, yibfID)
-		} else {
-			// Kayıt yok, yeni kayıt oluştur
-			// Job oluşturma
-			jobMutation := `
-			mutation CreateJob($jobInput: JobInput!) {
-				createJob(input: $jobInput) {
-					id
-					YibfNo
-					CompanyCode
-					Title
-				}
-			}`
-
-			jobVariables := map[string]interface{}{
-				"jobInput": jobData,
-			}
-
-			var jobResult struct {
-				CreateJob struct {
-					ID          int    `json:"id"`
-					YibfNo      int    `json:"YibfNo"`
-					CompanyCode int    `json:"CompanyCode"`
-					Title       string `json:"Title"`
-				} `json:"createJob"`
-			}
-
-			if err := graphqlClient.Execute(jobMutation, jobVariables, jwtToken, &jobResult); err != nil {
-				errMsg := fmt.Sprintf("ID %d için job oluşturma hatası: %v", yibfID, err)
-				log.Printf("%s", errMsg)
-				logError(errMsg)
-				failedIDs = append(failedIDs, yibfID)
-				continue
-			}
-
-			// Owner oluşturma
-			if ownerData != nil {
-				ownerMutation := `
-				mutation CreateOwner($ownerInput: JobOwnerInput!) {
-					createOwner(input: $ownerInput) {
-						id
-						Name
-						YDSID
-					}
-				}`
-
-				ownerVariables := map[string]interface{}{
-					"ownerInput": ownerData,
-				}
-
-				var ownerResult struct {
-					CreateOwner struct {
-						ID    int    `json:"id"`
-						Name  string `json:"Name"`
-						YDSID int    `json:"YDSID"`
-					} `json:"createOwner"`
-				}
-
-				if err := graphqlClient.Execute(ownerMutation, ownerVariables, jwtToken, &ownerResult); err != nil {
-					log.Printf("ID %d için owner oluşturma hatası: %v", yibfID, err)
-				}
-			}
-
-			// Contractor oluşturma
-			if contractorData != nil {
-				contractorMutation := `
-				mutation CreateContractor($contractorInput: JobContractorInput!) {
-					createContractor(input: $contractorInput) {
-						id
-						Name
-						YDSID
-					}
-				}`
-
-				contractorVariables := map[string]interface{}{
-					"contractorInput": contractorData,
-				}
-
-				var contractorResult struct {
-					CreateContractor struct {
-						ID    int    `json:"id"`
-						Name  string `json:"Name"`
-						YDSID int    `json:"YDSID"`
-					} `json:"createContractor"`
-				}
-
-				if err := graphqlClient.Execute(contractorMutation, contractorVariables, jwtToken, &contractorResult); err != nil {
-					log.Printf("ID %d için contractor oluşturma hatası: %v", yibfID, err)
-				}
-			}
-
-			// Supervisor oluşturma
-			if supervisorData != nil {
-				supervisorMutation := `
-				mutation CreateSupervisor($supervisorInput: JobSupervisorInput!) {
-					createSupervisor(input: $supervisorInput) {
-						id
-						Name
-						YDSID
-					}
-				}`
-
-				supervisorVariables := map[string]interface{}{
-					"supervisorInput": supervisorData,
-				}
-
-				var supervisorResult struct {
-					CreateSupervisor struct {
-						ID    int    `json:"id"`
-						Name  string `json:"Name"`
-						YDSID int    `json:"YDSID"`
-					} `json:"createSupervisor"`
-				}
-
-				if err := graphqlClient.Execute(supervisorMutation, supervisorVariables, jwtToken, &supervisorResult); err != nil {
-					log.Printf("ID %d için supervisor oluşturma hatası: %v", yibfID, err)
-				}
-			}
-
-			// Author oluşturma
-			if authorData != nil {
-				authorMutation := `
-				mutation CreateAuthor($authorInput: JobAuthorInput!) {
-					createAuthor(input: $authorInput) {
-						id
-						Static
-						Mechanic
-						Electric
-						Architect
-						GeotechnicalEngineer
-						GeotechnicalGeologist
-						GeotechnicalGeophysicist
-					}
-				}`
-
-				authorVariables := map[string]interface{}{
-					"authorInput": authorData,
-				}
-
-				var authorResult struct {
-					CreateAuthor struct {
-						ID                       int    `json:"id"`
-						Static                   string `json:"Static"`
-						Mechanic                 string `json:"Mechanic"`
-						Electric                 string `json:"Electric"`
-						Architect                string `json:"Architect"`
-						GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
-						GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
-						GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
-					} `json:"createAuthor"`
-				}
-
-				if err := graphqlClient.Execute(authorMutation, authorVariables, jwtToken, &authorResult); err != nil {
-					log.Printf("ID %d için author oluşturma hatası: %v", yibfID, err)
-				}
-			}
-
-			log.Printf("ID %d başarıyla oluşturuldu", yibfID)
-			processedIDs = append(processedIDs, yibfID)
 		}
+
+		// Owner değişikliklerini kontrol et
+		if owner, ok := result["owner"].(map[string]interface{}); ok && checkResult.Owner != nil {
+			ownerChanges = make(map[string]interface{})
+			ownerObj := reflect.ValueOf(checkResult.Owner).Elem()
+
+			for key, newValue := range owner {
+				if key == "YibfNo" {
+					continue
+				}
+
+				field := ownerObj.FieldByName(key)
+				if !field.IsValid() {
+					ownerChanges[key] = newValue
+					log.Printf("Owner yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
+					continue
+				}
+
+				newStr := fmt.Sprintf("%v", newValue)
+				currentStr := fmt.Sprintf("%v", field.Interface())
+				if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+					ownerChanges[key] = newValue
+					log.Printf("Owner değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentStr, newStr)
+				}
+			}
+		}
+
+		// Contractor değişikliklerini kontrol et
+		if contractor, ok := result["contractor"].(map[string]interface{}); ok && checkResult.Contractor != nil {
+			contractorChanges = make(map[string]interface{})
+			contractorObj := reflect.ValueOf(checkResult.Contractor).Elem()
+
+			for key, newValue := range contractor {
+				if key == "YibfNo" {
+					continue
+				}
+
+				field := contractorObj.FieldByName(key)
+				if !field.IsValid() {
+					contractorChanges[key] = newValue
+					log.Printf("Contractor yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
+					continue
+				}
+
+				newStr := fmt.Sprintf("%v", newValue)
+				currentStr := fmt.Sprintf("%v", field.Interface())
+				if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+					contractorChanges[key] = newValue
+					log.Printf("Contractor değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentStr, newStr)
+				}
+			}
+		}
+
+		// Supervisor değişikliklerini kontrol et
+		if supervisor, ok := result["supervisor"].(map[string]interface{}); ok && checkResult.Supervisor != nil {
+			supervisorChanges = make(map[string]interface{})
+			supervisorObj := reflect.ValueOf(checkResult.Supervisor).Elem()
+
+			for key, newValue := range supervisor {
+				if key == "YibfNo" {
+					continue
+				}
+
+				field := supervisorObj.FieldByName(key)
+				if !field.IsValid() {
+					supervisorChanges[key] = newValue
+					log.Printf("Supervisor yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
+					continue
+				}
+
+				newStr := fmt.Sprintf("%v", newValue)
+				currentStr := fmt.Sprintf("%v", field.Interface())
+				if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+					supervisorChanges[key] = newValue
+					log.Printf("Supervisor değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentStr, newStr)
+				}
+			}
+		}
+
+		// Author değişikliklerini kontrol et
+		if author, ok := result["author"].(map[string]interface{}); ok && checkResult.Author != nil {
+			authorChanges = make(map[string]interface{})
+			authorObj := reflect.ValueOf(checkResult.Author).Elem()
+
+			for key, newValue := range author {
+				if key == "YibfNo" {
+					continue
+				}
+
+				field := authorObj.FieldByName(key)
+				if !field.IsValid() {
+					authorChanges[key] = newValue
+					log.Printf("Author yeni alan eklendi - Alan: %s, Değer: %v", key, newValue)
+					continue
+				}
+
+				newStr := fmt.Sprintf("%v", newValue)
+				currentStr := fmt.Sprintf("%v", field.Interface())
+				if strings.TrimSpace(newStr) != strings.TrimSpace(currentStr) {
+					authorChanges[key] = newValue
+					log.Printf("Author değişiklik tespit edildi - Alan: %s, Eski: %v, Yeni: %v", key, currentStr, newStr)
+				}
+			}
+		}
+
+		// Mutation parçalarını oluştur
+		var mutationParts []string
+		var mutationFields []string
+		var hasUpdate bool
+
+		// Job mutation'ı
+		if len(jobChanges) > 0 {
+			hasUpdate = true
+			mutationParts = append(mutationParts, `$jobInput: JobInput!`)
+			mutationFields = append(mutationFields, `
+				job: updateJob(yibfNo: $yibfNo, input: $jobInput) {
+					id
+					YibfNo
+					CompanyCode
+					Title
+				}`)
+		}
+
+		// Owner mutation'ı
+		if len(ownerChanges) > 0 {
+			hasUpdate = true
+			mutationParts = append(mutationParts, `$ownerInput: JobOwnerInput!`)
+			mutationFields = append(mutationFields, `
+				owner: updateOwner(yibfNo: $yibfNo, input: $ownerInput) {
+					id
+					Name
+					YDSID
+				}`)
+		} else if result["owner"] != nil {
+			for _, table := range notFoundTables {
+				if table == "owner" {
+					if owner, ok := result["owner"].(map[string]interface{}); ok {
+						mutationParts = append(mutationParts, `$ownerInput: JobOwnerInput!`)
+						mutationFields = append(mutationFields, `
+							owner: createOwner(input: $ownerInput) {
+								id
+								Name
+								YDSID
+							}`)
+						ownerChanges = owner
+					}
+					break
+				}
+			}
+		}
+
+		// Contractor mutation'ı
+		if len(contractorChanges) > 0 {
+			hasUpdate = true
+			mutationParts = append(mutationParts, `$contractorInput: JobContractorInput!`)
+			mutationFields = append(mutationFields, `
+				contractor: updateContractor(yibfNo: $yibfNo, input: $contractorInput) {
+					id
+					Name
+					YDSID
+				}`)
+		} else if result["contractor"] != nil {
+			for _, table := range notFoundTables {
+				if table == "contractor" {
+					if contractor, ok := result["contractor"].(map[string]interface{}); ok {
+						mutationParts = append(mutationParts, `$contractorInput: JobContractorInput!`)
+						mutationFields = append(mutationFields, `
+							contractor: createContractor(input: $contractorInput) {
+								id
+								Name
+								YDSID
+							}`)
+						contractorChanges = contractor
+						break
+					}
+				}
+			}
+		}
+
+		// Supervisor mutation'ı
+		if len(supervisorChanges) > 0 {
+			hasUpdate = true
+			mutationParts = append(mutationParts, `$supervisorInput: JobSupervisorInput!`)
+			mutationFields = append(mutationFields, `
+				supervisor: updateSupervisor(yibfNo: $yibfNo, input: $supervisorInput) {
+					id
+					Name
+					YDSID
+				}`)
+		} else if result["supervisor"] != nil {
+			for _, table := range notFoundTables {
+				if table == "supervisor" {
+					if supervisor, ok := result["supervisor"].(map[string]interface{}); ok {
+						mutationParts = append(mutationParts, `$supervisorInput: JobSupervisorInput!`)
+						mutationFields = append(mutationFields, `
+							supervisor: createSupervisor(input: $supervisorInput) {
+								id
+								Name
+								YDSID
+							}`)
+						supervisorChanges = supervisor
+						break
+					}
+				}
+			}
+		}
+
+		// Author mutation'ı
+		if len(authorChanges) > 0 {
+			hasUpdate = true
+			mutationParts = append(mutationParts, `$authorInput: JobAuthorInput!`)
+			mutationFields = append(mutationFields, `
+				author: updateAuthor(yibfNo: $yibfNo, input: $authorInput) {
+					id
+					Static
+					Mechanic
+					Electric
+					Architect
+					GeotechnicalEngineer
+					GeotechnicalGeologist
+					GeotechnicalGeophysicist
+				}`)
+		} else if result["author"] != nil {
+			for _, table := range notFoundTables {
+				if table == "author" {
+					if author, ok := result["author"].(map[string]interface{}); ok {
+						mutationParts = append(mutationParts, `$authorInput: JobAuthorInput!`)
+						mutationFields = append(mutationFields, `
+							author: createAuthor(input: $authorInput) {
+								id
+								Static
+								Mechanic
+								Electric
+								Architect
+								GeotechnicalEngineer
+								GeotechnicalGeologist
+								GeotechnicalGeophysicist
+							}`)
+						authorChanges = author
+						break
+					}
+				}
+			}
+		}
+
+		// Eğer hiç değişiklik yoksa devam et
+		if len(mutationParts) == 0 {
+			log.Printf("ID %d için değişiklik yok, güncelleme yapılmayacak", yibfID)
+			processedIDs = append(processedIDs, yibfID)
+			continue
+		}
+
+		// Mutation string'ini oluştur
+		var updateMutation string
+		if hasUpdate {
+			updateMutation = fmt.Sprintf(`
+			mutation UpsertJobWithRelations(
+				$yibfNo: Int!
+				%s
+			) {
+				%s
+			}`, strings.Join(mutationParts, "\n\t\t\t\t"), strings.Join(mutationFields, "\n"))
+		} else {
+			// Tüm tablolarda not found hatası var mı kontrol et
+			allTablesNotFound := len(notFoundTables) >= 5 && // En az 5 tablo (job, owner, contractor, supervisor, author)
+				contains(notFoundTables, "job") &&
+				contains(notFoundTables, "owner") &&
+				contains(notFoundTables, "contractor") &&
+				contains(notFoundTables, "supervisor") &&
+				contains(notFoundTables, "author")
+
+			if allTablesNotFound {
+				log.Printf("Tüm tablolarda not found hatası var, create mutation'ı çalıştırılacak")
+				// Create mutation'ı için tüm verileri ekle
+				if job, ok := result["job"].(map[string]interface{}); ok {
+					jobChanges = job
+					mutationParts = append(mutationParts, `$jobInput: JobInput!`)
+					mutationFields = append(mutationFields, `
+						job: createJob(input: $jobInput) {
+							id
+							YibfNo
+							CompanyCode
+							Title
+						}`)
+				}
+				if owner, ok := result["owner"].(map[string]interface{}); ok {
+					ownerChanges = owner
+					mutationParts = append(mutationParts, `$ownerInput: JobOwnerInput!`)
+					mutationFields = append(mutationFields, `
+						owner: createOwner(input: $ownerInput) {
+							id
+							Name
+							YDSID
+						}`)
+				}
+				if contractor, ok := result["contractor"].(map[string]interface{}); ok {
+					contractorChanges = contractor
+					mutationParts = append(mutationParts, `$contractorInput: JobContractorInput!`)
+					mutationFields = append(mutationFields, `
+						contractor: createContractor(input: $contractorInput) {
+							id
+							Name
+							YDSID
+						}`)
+				}
+				if supervisor, ok := result["supervisor"].(map[string]interface{}); ok {
+					supervisorChanges = supervisor
+					mutationParts = append(mutationParts, `$supervisorInput: JobSupervisorInput!`)
+					mutationFields = append(mutationFields, `
+						supervisor: createSupervisor(input: $supervisorInput) {
+							id
+							Name
+							YDSID
+						}`)
+				}
+				if author, ok := result["author"].(map[string]interface{}); ok {
+					authorChanges = author
+					mutationParts = append(mutationParts, `$authorInput: JobAuthorInput!`)
+					mutationFields = append(mutationFields, `
+						author: createAuthor(input: $authorInput) {
+							id
+							Static
+							Mechanic
+							Electric
+							Architect
+							GeotechnicalEngineer
+							GeotechnicalGeologist
+							GeotechnicalGeophysicist
+						}`)
+				}
+			}
+
+			updateMutation = fmt.Sprintf(`
+			mutation CreateJobWithRelations(
+				%s
+			) {
+				%s
+			}`, strings.Join(mutationParts, "\n\t\t\t\t"), strings.Join(mutationFields, "\n"))
+		}
+
+		// Variables'ı hazırla
+		variables := map[string]interface{}{
+			"yibfNo": yibfID,
+		}
+
+		if len(jobChanges) > 0 {
+			variables["jobInput"] = jobChanges
+		}
+		if len(ownerChanges) > 0 {
+			variables["ownerInput"] = ownerChanges
+		}
+		if len(contractorChanges) > 0 {
+			variables["contractorInput"] = contractorChanges
+		}
+		if len(supervisorChanges) > 0 {
+			variables["supervisorInput"] = supervisorChanges
+		}
+		if len(authorChanges) > 0 {
+			variables["authorInput"] = authorChanges
+		}
+
+		// Log mutation ve variables
+		log.Printf("Mutation sorgusu:\n%s", updateMutation)
+		variablesJSON, _ := json.MarshalIndent(variables, "", "  ")
+		log.Printf("Variables:\n%s", string(variablesJSON))
+
+		var upsertResult struct {
+			Job *struct {
+				ID          int    `json:"id"`
+				YibfNo      int    `json:"YibfNo"`
+				CompanyCode int    `json:"CompanyCode"`
+				Title       string `json:"Title"`
+			} `json:"job"`
+			Owner *struct {
+				ID    int    `json:"id"`
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"owner"`
+			Contractor *struct {
+				ID    int    `json:"id"`
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"contractor"`
+			Supervisor *struct {
+				ID    int    `json:"id"`
+				Name  string `json:"Name"`
+				YDSID int    `json:"YDSID"`
+			} `json:"supervisor"`
+			Author *struct {
+				ID                       int    `json:"id"`
+				Static                   string `json:"Static"`
+				Mechanic                 string `json:"Mechanic"`
+				Electric                 string `json:"Electric"`
+				Architect                string `json:"Architect"`
+				GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
+				GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
+				GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
+			} `json:"author"`
+		}
+
+		if err := graphqlClient.Execute(updateMutation, variables, jwtToken, &upsertResult); err != nil {
+			log.Printf("GraphQL mutation hatası - YİBF No: %d", yibfID)
+			log.Printf("Mutation sorgusu:\n%s", updateMutation)
+			log.Printf("Variables:\n%s", string(variablesJSON))
+
+			// GraphQL hata detaylarını parse et
+			var graphqlError struct {
+				Errors []struct {
+					Message string   `json:"message"`
+					Path    []string `json:"path"`
+				} `json:"errors"`
+			}
+
+			if jsonErr := json.Unmarshal([]byte(err.Error()), &graphqlError); jsonErr == nil {
+				for _, e := range graphqlError.Errors {
+					log.Printf("GraphQL Hata Detayı - Path: %v, Message: %s", e.Path, e.Message)
+					errMsg := fmt.Sprintf("YİBF %d için GraphQL hatası - Path: %v, Message: %s", yibfID, e.Path, e.Message)
+					logError(errMsg)
+				}
+			} else {
+				log.Printf("Ham hata mesajı: %v", err)
+				errMsg := fmt.Sprintf("YİBF %d için işlem hatası: %v", yibfID, err)
+				logError(errMsg)
+			}
+
+			// Hata durumunda bile başarılı olan işlemleri kontrol et
+			if upsertResult.Job != nil || upsertResult.Owner != nil || upsertResult.Contractor != nil ||
+				upsertResult.Supervisor != nil || upsertResult.Author != nil {
+				log.Printf("ID %d için bazı veriler başarıyla işlendi, ancak hata oluştu", yibfID)
+				processedIDs = append(processedIDs, yibfID)
+			} else {
+				log.Printf("ID %d için hiçbir veri işlenemedi", yibfID)
+				failedIDs = append(failedIDs, yibfID)
+			}
+			continue
+		}
+
+		log.Printf("ID %d için tüm veriler başarıyla işlendi", yibfID)
+		processedIDs = append(processedIDs, yibfID)
 	}
 
 	result := gin.H{
@@ -933,4 +1197,14 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 
 	c.Set("response", result)
 	c.JSON(http.StatusOK, result)
+}
+
+// contains yardımcı fonksiyonu
+func contains(slice []string, item string) bool {
+	for _, s := range slice {
+		if s == item {
+			return true
+		}
+	}
+	return false
 }

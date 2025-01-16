@@ -20,7 +20,7 @@ import (
 func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobdetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(input.YibfNo)).Only(ctx)
+	jobdetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).Only(ctx)
 	if err != nil {
 		return nil, err
 	}

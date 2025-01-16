@@ -19,7 +19,7 @@ import (
 func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(input.YibfNo)).Only(ctx)
+	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(int(*input.YibfNo))).Only(ctx)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to get job detail: %w", err)
@@ -98,10 +98,12 @@ func (r *queryResolver) AllOwner(ctx context.Context) ([]*ent.JobOwner, error) {
 
 // Owner is the resolver for the owner field.
 func (r *queryResolver) Owner(ctx context.Context, yibfNo int) (*ent.JobOwner, error) {
-	panic(fmt.Errorf("not implemented: Owner - owner"))
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobOwner.Query().Where(jobowner.HasOwnersWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
 }
 
 // GetOwner is the resolver for the getOwner field.
 func (r *queryResolver) GetOwner(ctx context.Context, ydsid int) (*ent.JobOwner, error) {
-	panic(fmt.Errorf("not implemented: GetOwner - getOwner"))
+	client := middlewares.GetClientFromContext(ctx)
+	return client.JobOwner.Query().Where(jobowner.YDSID(ydsid)).Only(ctx)
 }

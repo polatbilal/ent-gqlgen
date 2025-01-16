@@ -76,7 +76,7 @@ type EngineerFilterInput struct {
 }
 
 type JobAuthorInput struct {
-	YibfNo                   int     `json:"YibfNo"`
+	YibfNo                   *int    `json:"YibfNo,omitempty"`
 	Static                   *string `json:"Static,omitempty"`
 	Mechanic                 *string `json:"Mechanic,omitempty"`
 	Electric                 *string `json:"Electric,omitempty"`
@@ -88,8 +88,8 @@ type JobAuthorInput struct {
 
 type JobContractorInput struct {
 	ID          *string `json:"id,omitempty"`
-	YibfNo      int     `json:"YibfNo"`
-	Name        string  `json:"Name"`
+	YibfNo      *int    `json:"YibfNo,omitempty"`
+	Name        *string `json:"Name,omitempty"`
 	TcNo        *int    `json:"TcNo,omitempty"`
 	RegisterNo  *int    `json:"RegisterNo,omitempty"`
 	Address     *string `json:"Address,omitempty"`
@@ -110,7 +110,7 @@ type JobCounts struct {
 }
 
 type JobInput struct {
-	CompanyCode        int        `json:"CompanyCode"`
+	CompanyCode        *int       `json:"CompanyCode,omitempty"`
 	YibfNo             *int       `json:"YibfNo,omitempty"`
 	Title              *string    `json:"Title,omitempty"`
 	Administration     *string    `json:"Administration,omitempty"`
@@ -166,7 +166,8 @@ type JobLayerInput struct {
 }
 
 type JobOwnerInput struct {
-	YibfNo      int     `json:"YibfNo"`
+	ID          *string `json:"id,omitempty"`
+	YibfNo      *int    `json:"YibfNo,omitempty"`
 	Name        *string `json:"Name,omitempty"`
 	TcNo        *int    `json:"TcNo,omitempty"`
 	Address     *string `json:"Address,omitempty"`

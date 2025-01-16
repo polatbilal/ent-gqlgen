@@ -19,7 +19,7 @@ import (
 func (r *mutationResolver) CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(input.YibfNo)).Only(ctx)
+	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).Only(ctx)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to get job detail: %w", err)
@@ -30,7 +30,7 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 	if ent.IsNotFound(err) {
 		// Contractor yoksa yeni oluşturalım
 		contractor, err = client.JobContractor.Create().
-			SetName(input.Name).
+			SetName(*input.Name).
 			SetNillableTcNo(input.TcNo).
 			SetNillableRegisterNo(input.RegisterNo).
 			SetNillableAddress(input.Address).
@@ -73,7 +73,7 @@ func (r *mutationResolver) UpdateContractor(ctx context.Context, yibfNo int, inp
 	}
 
 	contractor, err := jobContractor.Update().
-		SetName(input.Name).
+		SetNillableName(input.Name).
 		SetNillableTcNo(input.TcNo).
 		SetNillableRegisterNo(input.RegisterNo).
 		SetNillableAddress(input.Address).

@@ -14,7 +14,8 @@ type JobOwner {
 }
 
 input JobOwnerInput {
-  YibfNo: Int!
+  id: ID
+  YibfNo: Int
   Name: String
   TcNo: Int
   Address: String

@@ -59,8 +59,8 @@ func YibfList(c *gin.Context) {
 		"requireTotalCount": true,
 		"searchOperation":   "contains",
 		"searchValue":       nil,
-		"skip":              0,
-		"take":              10,
+		"skip":              5,
+		"take":              4,
 		"filter":            []interface{}{"state.id", "=", 6},
 		"userData":          struct{}{},
 		"sort": []map[string]interface{}{
