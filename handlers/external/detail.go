@@ -923,7 +923,6 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 			if err := graphqlClient.Execute(mutation, variables, jwtToken, &upsertResult); err != nil {
 				errMsg := fmt.Sprintf("YİBF %d için GraphQL mutation hatası: %v\nMutation: %s\nVariables: %+v",
 					yibfID, err, mutation, variables)
-				log.Printf(errMsg)
 				logError(errMsg)
 				failedIDs = append(failedIDs, yibfID)
 				continue
@@ -952,14 +951,4 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 
 	c.Set("response", result)
 	c.JSON(http.StatusOK, result)
-}
-
-// contains yardımcı fonksiyonu
-func contains(slice []string, item string) bool {
-	for _, s := range slice {
-		if s == item {
-			return true
-		}
-	}
-	return false
 }
