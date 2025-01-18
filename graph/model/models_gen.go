@@ -189,12 +189,13 @@ type JobPaymentsInput struct {
 }
 
 type JobProgressInput struct {
-	One   *int `json:"One,omitempty"`
-	Two   *int `json:"Two,omitempty"`
-	Three *int `json:"Three,omitempty"`
-	Four  *int `json:"Four,omitempty"`
-	Five  *int `json:"Five,omitempty"`
-	Six   *int `json:"Six,omitempty"`
+	ID    *string `json:"id,omitempty"`
+	One   *int    `json:"One,omitempty"`
+	Two   *int    `json:"Two,omitempty"`
+	Three *int    `json:"Three,omitempty"`
+	Four  *int    `json:"Four,omitempty"`
+	Five  *int    `json:"Five,omitempty"`
+	Six   *int    `json:"Six,omitempty"`
 }
 
 type JobSupervisorInput struct {

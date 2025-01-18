@@ -9,6 +9,7 @@ type JobProgress {
 }
 
 input JobProgressInput {
+  id: ID
   One: Int
   Two: Int
   Three: Int
@@ -22,7 +23,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  updateProgress(yibfNo: Int!, input: JobProgressInput!): JobProgress
+  updateProgress(input: JobProgressInput!): JobProgress
     @goField(forceResolver: true)
     @auth
 }

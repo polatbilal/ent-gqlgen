@@ -17,7 +17,7 @@ input CompanyTokenInput {
 }
 
 extend type Query {
-  companyToken(CompanyCode: Int): CompanyToken!
+  companyToken(companyCode: Int): CompanyToken!
     @goField(forceResolver: true)
     @auth
 }

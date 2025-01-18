@@ -283,7 +283,7 @@ type ComplexityRoot struct {
 		UpdateJobPayments     func(childComplexity int, yibfNo int, input model.JobPaymentsInput) int
 		UpdateLayer           func(childComplexity int, id string, input model.JobLayerInput) int
 		UpdateOwner           func(childComplexity int, yibfNo int, input model.JobOwnerInput) int
-		UpdateProgress        func(childComplexity int, yibfNo int, input model.JobProgressInput) int
+		UpdateProgress        func(childComplexity int, input model.JobProgressInput) int
 		UpdateSupervisor      func(childComplexity int, yibfNo int, input model.JobSupervisorInput) int
 		UpdateToken           func(childComplexity int, departmentID *int, input *model.CompanyTokenInput) int
 		UpdateUser            func(childComplexity int, id string, input model.UserInput) int
@@ -361,7 +361,7 @@ type MutationResolver interface {
 	CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	UpdateJobPayments(ctx context.Context, yibfNo int, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	DeleteJobPayments(ctx context.Context, yibfNo int) (*ent.JobPayments, error)
-	UpdateProgress(ctx context.Context, yibfNo int, input model.JobProgressInput) (*ent.JobProgress, error)
+	UpdateProgress(ctx context.Context, input model.JobProgressInput) (*ent.JobProgress, error)
 	CreateSupervisor(ctx context.Context, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
 	UpdateSupervisor(ctx context.Context, yibfNo int, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
 	CreateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error)
@@ -1863,7 +1863,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateProgress(childComplexity, args["yibfNo"].(int), args["input"].(model.JobProgressInput)), true
+		return e.complexity.Mutation.UpdateProgress(childComplexity, args["input"].(model.JobProgressInput)), true
 
 	case "Mutation.updateSupervisor":
 		if e.complexity.Mutation.UpdateSupervisor == nil {
@@ -1961,7 +1961,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.CompanyToken(childComplexity, args["CompanyCode"].(*int)), true
+		return e.complexity.Query.CompanyToken(childComplexity, args["companyCode"].(*int)), true
 
 	case "Query.companyUsers":
 		if e.complexity.Query.CompanyUsers == nil {
@@ -2809,6 +2809,7 @@ extend type Mutation {
 }
 
 input JobProgressInput {
+  id: ID
   One: Int
   Two: Int
   Three: Int
@@ -2822,7 +2823,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  updateProgress(yibfNo: Int!, input: JobProgressInput!): JobProgress
+  updateProgress(input: JobProgressInput!): JobProgress
     @goField(forceResolver: true)
     @auth
 }
@@ -2893,7 +2894,7 @@ input CompanyTokenInput {
 }
 
 extend type Query {
-  companyToken(CompanyCode: Int): CompanyToken!
+  companyToken(companyCode: Int): CompanyToken!
     @goField(forceResolver: true)
     @auth
 }
@@ -3923,36 +3924,13 @@ func (ec *executionContext) field_Mutation_updateOwner_argsInput(
 func (ec *executionContext) field_Mutation_updateProgress_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateProgress_argsYibfNo(ctx, rawArgs)
+	arg0, err := ec.field_Mutation_updateProgress_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["yibfNo"] = arg0
-	arg1, err := ec.field_Mutation_updateProgress_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg1
+	args["input"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_updateProgress_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
 func (ec *executionContext) field_Mutation_updateProgress_argsInput(
 	ctx context.Context,
 	rawArgs map[string]any,
@@ -4243,20 +4221,20 @@ func (ec *executionContext) field_Query_companyToken_args(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
-	args["CompanyCode"] = arg0
+	args["companyCode"] = arg0
 	return args, nil
 }
 func (ec *executionContext) field_Query_companyToken_argsCompanyCode(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (*int, error) {
-	if _, ok := rawArgs["CompanyCode"]; !ok {
+	if _, ok := rawArgs["companyCode"]; !ok {
 		var zeroVal *int
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("CompanyCode"))
-	if tmp, ok := rawArgs["CompanyCode"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("companyCode"))
+	if tmp, ok := rawArgs["companyCode"]; ok {
 		return ec.unmarshalOInt2ᚖint(ctx, tmp)
 	}
 
@@ -14054,7 +14032,7 @@ func (ec *executionContext) _Mutation_updateProgress(ctx context.Context, field 
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateProgress(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobProgressInput))
+			return ec.resolvers.Mutation().UpdateProgress(rctx, fc.Args["input"].(model.JobProgressInput))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -16750,7 +16728,7 @@ func (ec *executionContext) _Query_companyToken(ctx context.Context, field graph
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CompanyToken(rctx, fc.Args["CompanyCode"].(*int))
+			return ec.resolvers.Query().CompanyToken(rctx, fc.Args["companyCode"].(*int))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -20455,13 +20433,20 @@ func (ec *executionContext) unmarshalInputJobProgressInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"One", "Two", "Three", "Four", "Five", "Six"}
+	fieldsInOrder := [...]string{"id", "One", "Two", "Three", "Four", "Five", "Six"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
 		case "One":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("One"))
 			data, err := ec.unmarshalOInt2ᚖint(ctx, v)

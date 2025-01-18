@@ -6,7 +6,7 @@ package resolvers
 
 import (
 	"context"
-	"fmt"
+	"strconv"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
@@ -16,8 +16,13 @@ import (
 )
 
 // UpdateProgress is the resolver for the updateProgress field.
-func (r *mutationResolver) UpdateProgress(ctx context.Context, yibfNo int, input model.JobProgressInput) (*ent.JobProgress, error) {
-	panic(fmt.Errorf("not implemented: UpdateProgress - updateProgress"))
+func (r *mutationResolver) UpdateProgress(ctx context.Context, input model.JobProgressInput) (*ent.JobProgress, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	id, err := strconv.Atoi(*input.ID)
+	if err != nil {
+		return nil, err
+	}
+	return client.JobProgress.UpdateOneID(id).SetOne(*input.One).SetTwo(*input.Two).SetThree(*input.Three).SetFour(*input.Four).SetFive(*input.Five).SetSix(*input.Six).Save(ctx)
 }
 
 // GetProgress is the resolver for the getProgress field.

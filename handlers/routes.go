@@ -23,7 +23,7 @@ func SetupRoutes(r *gin.Engine) {
 		jobsGroup := ydkGroup.Group("/jobs")
 		{
 			// Liste ve detay endpoint'leri
-			// jobsGroup.GET("/list", external.YibfList) // Sadece liste çeker
+			jobsGroup.GET("/list", external.YibfList) // Sadece liste çeker
 			// jobsGroup.GET("/detail/:id", external.YibfDetail) // Tek bir işin detayını çeker
 
 			// Senkronizasyon endpoint'i
