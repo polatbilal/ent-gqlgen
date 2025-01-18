@@ -8,56 +8,47 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/services"
 
-	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
+	"github.com/gofiber/fiber/v2"
 )
 
 type authString string
 
-func AuthMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		auth := c.Request.Header.Get("Authorization")
+func AuthMiddleware() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		auth := c.Get("Authorization")
 
 		if auth == "" {
 			fmt.Println("Authorization hatası")
-			c.Next() // Devam et
-			return
+			return c.Next()
 		}
 
 		bearer := "Bearer "
 		if len(auth) > len(bearer) && auth[:len(bearer)] == bearer {
 			auth = auth[len(bearer):]
 		} else {
-			c.JSON(403, map[string]string{
+			return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
 				"error": "Invalid token",
 			})
-			c.Abort() // İşlemi durdur
-			return
 		}
 
 		// Redis'ten token'ı kontrol et
-		_, err := database.RedisClient.Get(c.Request.Context(), auth).Result()
+		_, err := database.RedisClient.Get(c.Context(), auth).Result()
 		if err == redis.Nil {
-			c.JSON(401, map[string]string{
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"error": "Token has expired",
 			})
-			c.Abort() // İşlemi durdur
-			return
 		} else if err != nil {
-			c.JSON(403, map[string]string{
+			return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
 				"error": "Invalid token",
 			})
-			c.Abort() // İşlemi durdur
-			return
 		}
 
-		validate, err := services.JwtValidate(c.Request.Context(), auth)
+		validate, err := services.JwtValidate(c.Context(), auth)
 		if err != nil {
-			c.JSON(403, map[string]string{
+			return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
 				"error": "Invalid token",
 			})
-			c.Abort() // İşlemi durdur
-			return
 		}
 
 		costumClaim, _ := validate.Claims.(*services.JwtCustomClaim)
@@ -66,15 +57,14 @@ func AuthMiddleware() gin.HandlerFunc {
 		client, err := database.GetClient()
 		if err != nil {
 			fmt.Println("veritabanına bağlanırken hata oluştu")
-			c.Next() // Devam et
-			return
+			return c.Next()
 		}
 
-		ctx := context.WithValue(c.Request.Context(), "dbClient", client)
-		ctx = context.WithValue(ctx, authString("auth"), costumClaim) // Auth bilgisini de ekle
-		c.Request = c.Request.WithContext(ctx)
+		ctx := context.WithValue(c.Context(), "dbClient", client)
+		ctx = context.WithValue(ctx, authString("auth"), costumClaim)
+		c.SetUserContext(ctx)
 
-		c.Next() // Devam et
+		return c.Next()
 	}
 }
 

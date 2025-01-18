@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -12,44 +13,101 @@ import (
 	"github.com/polatbilal/gqlgen-ent/database"
 	"github.com/polatbilal/gqlgen-ent/ent/migrate"
 	"github.com/polatbilal/gqlgen-ent/graph/resolvers"
-	"github.com/polatbilal/gqlgen-ent/handlers"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
-	"github.com/vektah/gqlparser/v2/gqlerror"
+	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
 
-func main() {
-	r := gin.Default()
+// HTTP handler'ı Fiber'a adapte eden yardımcı fonksiyon
+func adaptHandler(h http.Handler) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		// Fiber context'inden auth bilgisini al
+		ctx := c.UserContext()
+		// HTTP request'i auth context'i ile oluştur
+		req := c.Request()
+		req.Header.SetCanonical([]byte("Authorization"), []byte(c.Get("Authorization")))
 
-	// CORS ayarlarını middleware'den önce yapılandırın
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true // Tüm originlere izin ver
-	config.AllowCredentials = true
-	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
-	config.AllowHeaders = []string{
-		"Origin",
-		"Content-Length",
-		"Content-Type",
-		"Authorization",
-		"Accept",
-		"X-Requested-With",
-		"Access-Control-Allow-Origin",
-		"Access-Control-Allow-Headers",
-		"Access-Control-Allow-Methods",
+		handler := fasthttpadaptor.NewFastHTTPHandlerFunc(
+			func(w http.ResponseWriter, r *http.Request) {
+				// Context'i aktar
+				r = r.WithContext(ctx)
+				h.ServeHTTP(w, r)
+			},
+		)
+		handler(c.Context())
+		return nil
 	}
-	config.ExposeHeaders = []string{"Authorization", "Content-Length"}
-	config.MaxAge = 12 * time.Hour
+}
 
-	r.Use(cors.New(config))
-	r.Use(middlewares.AuthMiddleware())
+func main() {
+	app := fiber.New(fiber.Config{
+		EnablePrintRoutes: true,
+	})
 
-	// Handlers API endpoint'lerini yapılandır
-	handlers.SetupRoutes(r)
+	// Logger middleware'i ekle
+	app.Use(func(c *fiber.Ctx) error {
+		fmt.Printf("\n[REQUEST] Method: %s, Path: %s\n", c.Method(), c.Path())
+		fmt.Printf("[HEADERS] Origin: %s\n", c.Get("Origin"))
+		fmt.Printf("[HEADERS] Referer: %s\n", c.Get("Referer"))
+		fmt.Printf("[HEADERS] Host: %s\n", c.Get("Host"))
+		fmt.Printf("[HEADERS] User-Agent: %s\n", c.Get("User-Agent"))
+
+		start := time.Now()
+		err := c.Next()
+		log.Printf("[%s] %s - %v", c.Method(), c.Path(), time.Since(start))
+		return err
+	})
+
+	// CORS ayarları
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "*",
+		AllowMethods:     "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH",
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Requested-With, Referer, Sec-Fetch-Site",
+		ExposeHeaders:    "Content-Length, Authorization",
+		AllowCredentials: false,
+	}))
+
+	// Her istek için header'ları ekle
+	app.Use(func(c *fiber.Ctx) error {
+		// Debug için tüm header'ları logla
+		c.Request().Header.VisitAll(func(key, value []byte) {
+			fmt.Printf("[HEADER] %s: %s\n", string(key), string(value))
+		})
+
+		// Sec-Fetch-Site header'ını kontrol et
+		secFetchSite := string(c.Request().Header.Peek("Sec-Fetch-Site"))
+		fmt.Printf("[DEBUG] Sec-Fetch-Site: %s\n", secFetchSite)
+
+		var origin string
+		if c.Get("Origin") != "" {
+			origin = c.Get("Origin")
+		} else if secFetchSite == "cross-site" {
+			// Cross-site request ise ve origin yoksa, production URL'yi kullan
+			origin = "https://dev.bilalpolat.tr"
+		} else {
+			// Local development için IP adresini kullan
+			origin = "http://192.168.1.105:4000"
+		}
+
+		// CORS header'larını ayarla
+		c.Set("Access-Control-Allow-Origin", origin)
+		c.Set("Access-Control-Allow-Credentials", "true")
+		c.Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH")
+		c.Set("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, X-Requested-With, Referer, Sec-Fetch-Site")
+
+		if c.Method() == "OPTIONS" {
+			return c.SendStatus(fiber.StatusNoContent)
+		}
+
+		return c.Next()
+	})
+
+	app.Use(middlewares.AuthMiddleware())
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
@@ -79,53 +137,19 @@ func main() {
 	}
 	defer database.RedisClient.Close()
 
-	// Configure the GraphQL server and start
+	// Configure the GraphQL server
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))
-	{
-		r.POST("/graphql", func(c *gin.Context) {
 
-			if c.Request.Method == "OPTIONS" {
-				c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-				c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-				c.Writer.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
-				c.Writer.Header().Set("Access-Control-Max-Age", "86400")
-				c.AbortWithStatus(http.StatusNoContent)
-				return
-			}
+	// GraphQL endpoint
+	app.Post("/graphql", adaptHandler(srv))
 
-			srv.ServeHTTP(c.Writer, c.Request)
+	// GraphQL Playground
+	app.Get("/playground", adaptHandler(playground.Handler("GraphQL", "/graphql")))
 
-			// Handler'ın döndürdüğü hata nesnesini al
-			err := c.Errors.Last()
-			if err != nil {
-				log.Printf("GraphQL Error: %v\n", err)
-
-				gqlErr, ok := err.Err.(gqlerror.List)
-				if ok && len(gqlErr) > 0 {
-					c.JSON(http.StatusBadRequest, gin.H{
-						"errors": gqlErr,
-					})
-					return
-				}
-
-				c.JSON(http.StatusInternalServerError, gin.H{
-					"error": err.Error(),
-				})
-			}
-		})
-
-		r.GET("/playground", func(c *gin.Context) {
-			playground.Handler("Graphql", "/graphql").ServeHTTP(c.Writer, c.Request)
-		})
-	}
-
-	r.OPTIONS("/*path", func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
-		c.Writer.Header().Set("Access-Control-Max-Age", "86400")
-		c.AbortWithStatus(http.StatusNoContent)
+	// OPTIONS handler
+	app.Options("/*", func(c *fiber.Ctx) error {
+		return c.SendStatus(fiber.StatusNoContent)
 	})
 
-	r.Run(":4000")
+	log.Fatal(app.Listen(":4000"))
 }
