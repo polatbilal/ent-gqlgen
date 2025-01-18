@@ -12,39 +12,38 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
-
-	"github.com/gin-gonic/gin"
 )
 
-func YDKInspectors(c *gin.Context) {
+func YDKInspectors(c *fiber.Ctx) error {
 	// GraphQL için JWT token
-	jwtToken := c.GetHeader("Authorization")
+	jwtToken := c.Get("Authorization")
 	if jwtToken == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "JWT Token gerekli"})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
 	// CompanyCode parametresini al
 	companyCode := c.Query("companyCode")
 	if companyCode == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode parametresi gerekli"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
 	}
 
 	// CompanyCode'u integer'a çevir
 	companyCodeInt, err := strconv.Atoi(companyCode)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçersiz CompanyCode formatı"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçersiz CompanyCode formatı"})
 	}
 
 	// Token bilgisini veritabanından al
-	companyToken, err := service.GetCompanyTokenFromDB(c.Request.Context(), companyCodeInt)
+	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCodeInt)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	if companyToken.Token == "" || companyToken.DepartmentId == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçerli token veya department ID bulunamadı"})
 	}
 
 	svc := &service.ExternalService{
@@ -53,8 +52,7 @@ func YDKInspectors(c *gin.Context) {
 	}
 
 	if svc.BaseURL == "" {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "YDK_BASE_URL environment variable is not set"})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "YDK_BASE_URL environment variable is not set"})
 	}
 
 	requestBody := map[string]interface{}{
@@ -72,15 +70,13 @@ func YDKInspectors(c *gin.Context) {
 
 	jsonBody, err := json.Marshal(requestBody)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Request body oluşturma hatası: " + err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Request body oluşturma hatası: " + err.Error()})
 	}
 
 	url := svc.BaseURL + service.ENDPOINT_COMPANY_ENGİNNER
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
@@ -88,28 +84,20 @@ func YDKInspectors(c *gin.Context) {
 
 	resp, err := svc.Client.Do(req)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
-
-	// Ham veriyi logla
-	// log.Printf("YDK API Ham Yanıt: %+v\n", string(body))
 
 	// Struct'a parse et
 	var inspectorResponse service.YDKEngineerResponse
 	if err := json.Unmarshal(body, &inspectorResponse); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Parse hatası: " + err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Parse hatası: " + err.Error()})
 	}
-
-	// log.Printf("Toplam denetçi sayısı: %d\n", inspectorResponse.TotalCount)
 
 	// Struct'tan gelen verileri sadeleştir
 	type SimplifiedInspector struct {
@@ -148,11 +136,11 @@ func YDKInspectors(c *gin.Context) {
 
 	// GraphQL client oluştur
 	scheme := "http"
-	if c.Request.TLS != nil {
+	if c.Protocol() == "https" {
 		scheme = "https"
 	}
 	graphqlClient := client.GraphQLClient{
-		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Request.Host),
+		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Hostname()),
 	}
 
 	// Her bir denetçi için GraphQL mutation'ı çalıştır
@@ -281,7 +269,6 @@ func YDKInspectors(c *gin.Context) {
 				processLogs = append(processLogs, processLog)
 				continue
 
-				// Şirket bulunamadı hatası (company_detail not found)
 			} else if strings.Contains(errMsg, "company_detail not found") {
 				log.Printf("CompanyCode bulunamadı, güncelleme yapılacak - Denetçi: %s", inspector.Name)
 				updateMutation := `
@@ -452,7 +439,7 @@ func YDKInspectors(c *gin.Context) {
 		successCount,
 		skippedCount)
 
-	c.JSON(http.StatusOK, gin.H{
+	result := fiber.Map{
 		"message": fmt.Sprintf("%d adet denetçiden %d tanesi başarıyla eklendi/güncellendi, %d tanesi zaten güncel",
 			len(simplifiedData),
 			successCount,
@@ -461,5 +448,8 @@ func YDKInspectors(c *gin.Context) {
 		"successCount": successCount,
 		"skippedCount": skippedCount,
 		"logs":         processLogs,
-	})
+	}
+
+	c.Locals("response", result)
+	return c.JSON(result)
 }

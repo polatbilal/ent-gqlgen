@@ -1,33 +1,28 @@
 package handlers
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers/external"
 	"github.com/polatbilal/gqlgen-ent/handlers/sync"
 )
 
 // SetupRoutes tüm API endpoint'lerini yapılandırır
-func SetupRoutes(r *gin.Engine) {
+func SetupRoutes(app *fiber.App) {
 	// YDK API ana grubu
-	ydkGroup := r.Group("/ydk")
-	{
-		// Company ile ilgili endpoint'ler
-		companyGroup := ydkGroup.Group("/company")
-		{
-			companyGroup.POST("/inspectors", external.YDKInspectors)
-			companyGroup.GET("/list", external.YDKCompanies)
-			companyGroup.GET("/sync", sync.CompanySync)
-		}
+	ydkGroup := app.Group("/ydk")
 
-		// İş ile ilgili endpoint'ler
-		jobsGroup := ydkGroup.Group("/jobs")
-		{
-			// Liste ve detay endpoint'leri
-			jobsGroup.GET("/list", external.YibfList) // Sadece liste çeker
-			// jobsGroup.GET("/detail/:id", external.YibfDetail) // Tek bir işin detayını çeker
+	// Company ile ilgili endpoint'ler
+	companyGroup := ydkGroup.Group("/company")
+	companyGroup.Post("/inspectors", external.YDKInspectors)
+	companyGroup.Get("/list", external.YDKCompanies)
+	companyGroup.Get("/sync", sync.CompanySync)
 
-			// Senkronizasyon endpoint'i
-			jobsGroup.GET("/sync", sync.SyncYibf) // Liste + detay + DB kayıt
-		}
-	}
+	// İş ile ilgili endpoint'ler
+	jobsGroup := ydkGroup.Group("/jobs")
+	// Liste ve detay endpoint'leri
+	jobsGroup.Get("/list", external.YibfList) // Sadece liste çeker
+	// jobsGroup.Get("/detail/:id", external.YibfDetail) // Tek bir işin detayını çeker
+
+	// Senkronizasyon endpoint'i
+	jobsGroup.Get("/sync", sync.SyncYibf) // Liste + detay + DB kayıt
 }

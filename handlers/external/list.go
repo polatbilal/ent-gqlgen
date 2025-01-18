@@ -10,42 +10,31 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
 )
 
-func YibfList(c *gin.Context) {
-	// GraphQL için JWT token
-	// jwtToken := c.GetHeader("Authorization")
-	// if jwtToken == "" {
-	// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "JWT Token gerekli"})
-	// 	return
-	// }
-
+func YibfList(c *fiber.Ctx) error {
 	// CompanyCode parametresini al
 	companyCode := c.Query("companyCode")
 	if companyCode == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode parametresi gerekli"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
 	}
 
 	// CompanyCode'u integer'a çevir
 	companyCodeInt, err := strconv.Atoi(companyCode)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçersiz CompanyCode formatı"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçersiz CompanyCode formatı"})
 	}
 
 	// Token bilgisini veritabanından al
-	companyToken, err := service.GetCompanyTokenFromDB(c.Request.Context(), companyCodeInt)
+	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCodeInt)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	if companyToken.Token == "" || companyToken.DepartmentId == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçerli token veya department ID bulunamadı"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçerli token veya department ID bulunamadı"})
 	}
 
 	svc := &service.ExternalService{
@@ -187,14 +176,12 @@ func YibfList(c *gin.Context) {
 	for _, requestBody := range requestBodies {
 		jsonBody, err := json.Marshal(requestBody)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Request body oluşturma hatası: %v", err)})
-			return
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": fmt.Sprintf("Request body oluşturma hatası: %v", err)})
 		}
 
 		req, err := http.NewRequest("POST", svc.BaseURL+service.ENDPOINT_YIBF_ALL, bytes.NewBuffer(jsonBody))
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Request oluşturma hatası: %v", err)})
-			return
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": fmt.Sprintf("Request oluşturma hatası: %v", err)})
 		}
 
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
@@ -202,21 +189,18 @@ func YibfList(c *gin.Context) {
 
 		resp, err := svc.Client.Do(req)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("FindAll isteği başarısız: %v", err)})
-			return
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": fmt.Sprintf("FindAll isteği başarısız: %v", err)})
 		}
 		defer resp.Body.Close()
 
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Response body okuma hatası: %v", err)})
-			return
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": fmt.Sprintf("Response body okuma hatası: %v", err)})
 		}
 
 		var response responseStruct
 		if err := json.Unmarshal(body, &response); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("FindAll yanıt parse hatası: %v", err)})
-			return
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": fmt.Sprintf("FindAll yanıt parse hatası: %v", err)})
 		}
 
 		// ID'leri topla
@@ -229,14 +213,14 @@ func YibfList(c *gin.Context) {
 	log.Printf("Toplam kayıt sayısı: %d", totalCount)
 	log.Printf("Dönen kayıt sayısı: %d", len(allYibfIDs))
 
-	result := gin.H{
+	result := fiber.Map{
 		"success": true,
-		"data": map[string]interface{}{
+		"data": fiber.Map{
 			"total": totalCount,
 			"items": allYibfIDs,
 		},
 	}
 
-	c.Set("response", result)
-	c.JSON(http.StatusOK, result)
+	c.Locals("response", result)
+	return c.JSON(result)
 }

@@ -1,60 +1,37 @@
 package sync
 
 import (
-	"fmt"
 	"log"
-	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers/external"
 )
 
-func SyncYibf(c *gin.Context) {
+func SyncYibf(c *fiber.Ctx) error {
 	// JWT token kontrolü
-	jwtToken := c.GetHeader("Authorization")
+	jwtToken := c.Get("Authorization")
 	if jwtToken == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "JWT Token gerekli"})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
 	// CompanyCode parametresini al
 	companyCode := c.Query("companyCode")
 	if companyCode == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode parametresi gerekli"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
 	}
 
 	// YİBF listesini al
-	listContext := &gin.Context{
-		Request: c.Request.Clone(c.Request.Context()),
-		Writer:  c.Writer,
-		Keys:    make(map[string]interface{}),
-	}
-	listContext.Request.Header.Set("Authorization", jwtToken)
-
-	// YibfList fonksiyonunu çağır
-	external.YibfList(listContext)
-
-	// Yanıtı kontrol et
-	if len(listContext.Errors) > 0 {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Liste alınamadı: %v", listContext.Errors)})
-		return
+	if err := external.YibfList(c); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Liste alınamadı"})
 	}
 
 	// Liste yanıtını al
-	listResult, exists := listContext.Get("response")
-	if !exists {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Liste yanıtı bulunamadı"})
-		return
+	listMap := c.Locals("response").(fiber.Map)
+	if !listMap["success"].(bool) {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Liste alınamadı"})
 	}
 
-	listResponse := listResult.(gin.H)
-	if !listResponse["success"].(bool) {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Liste alınamadı"})
-		return
-	}
-
-	data := listResponse["data"].(map[string]interface{})
+	data := listMap["data"].(fiber.Map)
 	yibfIDs := data["items"].([]int)
 	total := data["total"].(int)
 
@@ -62,40 +39,21 @@ func SyncYibf(c *gin.Context) {
 	log.Printf("İşlenecek YİBF sayısı: %d", len(yibfIDs))
 
 	// Detay bilgilerini al
-	detailContext := &gin.Context{
-		Request: c.Request.Clone(c.Request.Context()),
-		Writer:  c.Writer,
-		Keys:    make(map[string]interface{}),
-	}
-	detailContext.Request.Header.Set("Authorization", jwtToken)
-
-	// YibfDetail fonksiyonunu çağır
-	external.YibfDetail(detailContext, yibfIDs, companyCode)
-
-	// Yanıtı kontrol et
-	if len(detailContext.Errors) > 0 {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Detaylar alınamadı: %v", detailContext.Errors)})
-		return
+	if err := external.YibfDetail(c, yibfIDs, companyCode); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Detaylar alınamadı"})
 	}
 
 	// Detay yanıtını al
-	detailResult, exists := detailContext.Get("response")
-	if !exists {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Detay yanıtı bulunamadı"})
-		return
+	detailMap := c.Locals("response").(fiber.Map)
+	if !detailMap["success"].(bool) {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Detaylar işlenemedi"})
 	}
 
-	detailResponse := detailResult.(gin.H)
-	if !detailResponse["success"].(bool) {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Detaylar işlenemedi"})
-		return
-	}
+	detailData := detailMap["data"].(fiber.Map)
 
-	detailData := detailResponse["data"].(map[string]interface{})
-
-	c.JSON(http.StatusOK, gin.H{
+	return c.JSON(fiber.Map{
 		"success": true,
-		"data": map[string]interface{}{
+		"data": fiber.Map{
 			"total_yibf":      total,
 			"processed_count": detailData["processed_count"],
 			"processed_ids":   detailData["processed_ids"],

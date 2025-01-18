@@ -10,44 +10,38 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
-
-	"github.com/gin-gonic/gin"
 )
 
-func YDKCompanies(c *gin.Context) {
+func YDKCompanies(c *fiber.Ctx) error {
 	// GraphQL için JWT token
-	jwtToken := c.GetHeader("Authorization")
+	jwtToken := c.Get("Authorization")
 	if jwtToken == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "JWT Token gerekli"})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
 	// CompanyCode parametresini al
 	companyCode := c.Query("companyCode")
 	if companyCode == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode parametresi gerekli"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
 	}
 
 	// CompanyCode'u integer'a çevir
 	companyCodeInt, err := strconv.Atoi(companyCode)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçersiz CompanyCode formatı"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçersiz CompanyCode formatı"})
 	}
 
 	// Token bilgisini veritabanından al
-	companyToken, err := service.GetCompanyTokenFromDB(c.Request.Context(), companyCodeInt)
+	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCodeInt)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	if companyToken.Token == "" || companyToken.DepartmentId == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçerli token veya department ID bulunamadı"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçerli token veya department ID bulunamadı"})
 	}
 
 	log.Printf("Şirket bilgileri alınıyor... DepartmentID: %d", companyToken.DepartmentId)
@@ -58,8 +52,7 @@ func YDKCompanies(c *gin.Context) {
 	}
 
 	if svc.BaseURL == "" {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "YDK_BASE_URL environment variable is not set"})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "YDK_BASE_URL environment variable is not set"})
 	}
 
 	requestBody := map[string]interface{}{
@@ -68,15 +61,13 @@ func YDKCompanies(c *gin.Context) {
 
 	jsonBody, err := json.Marshal(requestBody)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Request body oluşturma hatası: " + err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Request body oluşturma hatası: " + err.Error()})
 	}
 
 	url := svc.BaseURL + service.ENDPOINT_COMPANY
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
@@ -85,16 +76,14 @@ func YDKCompanies(c *gin.Context) {
 	resp, err := svc.Client.Do(req)
 	if err != nil {
 		log.Printf("YDK API isteği başarısız: %v\n", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "YDK API isteği başarısız: " + err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "YDK API isteği başarısız: " + err.Error()})
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Printf("Yanıt body okuma hatası: %v\n", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Yanıt okuma hatası: " + err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Yanıt okuma hatası: " + err.Error()})
 	}
 
 	// HTTP yanıt kodunu kontrol et
@@ -105,28 +94,24 @@ func YDKCompanies(c *gin.Context) {
 		}
 
 		if err := json.Unmarshal(body, &ydkError); err != nil {
-			c.JSON(resp.StatusCode, gin.H{"error": fmt.Sprintf("YDK API hatası: %s", string(body))})
-			return
+			return c.Status(resp.StatusCode).JSON(fiber.Map{"error": fmt.Sprintf("YDK API hatası: %s", string(body))})
 		}
 
 		// Hata yanıtını doğrudan ilet
-		c.JSON(resp.StatusCode, ydkError)
-		return
+		return c.Status(resp.StatusCode).JSON(ydkError)
 	}
 
 	// Struct'a parse et
 	var ydkResponse service.YDKCompanyResponse
 	if err := json.Unmarshal(body, &ydkResponse); err != nil {
 		log.Printf("JSON parse hatası: %v\nHam veri: %s\n", err, string(body))
-		c.JSON(http.StatusBadRequest, gin.H{"error": "JSON parse hatası: " + err.Error()})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "JSON parse hatası: " + err.Error()})
 	}
 
 	if len(ydkResponse.Items) == 0 {
 		log.Printf("ydkToken.DepartmentID: %d", companyToken.DepartmentId)
 		log.Printf("Şirket bilgisi bulunamadı. Ham yanıt: %s\n", string(body))
-		c.JSON(http.StatusNotFound, gin.H{"error": "Şirket bilgisi bulunamadı"})
-		return
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Şirket bilgisi bulunamadı"})
 	}
 
 	// İlk şirketi al
@@ -138,11 +123,11 @@ func YDKCompanies(c *gin.Context) {
 
 	// GraphQL client oluştur
 	scheme := "http"
-	if c.Request.TLS != nil {
+	if c.Protocol() == "https" {
 		scheme = "https"
 	}
 	graphqlClient := client.GraphQLClient{
-		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Request.Host),
+		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Hostname()),
 	}
 
 	// Şirket verilerini hazırla
@@ -214,10 +199,9 @@ func YDKCompanies(c *gin.Context) {
 
 	err = graphqlClient.Execute(detailQuery, checkVariables, jwtToken, &detailResult)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": fmt.Sprintf("Şirket detayları alınırken hata oluştu: %v", err),
 		})
-		return
 	}
 
 	// Değişiklik var mı kontrol et
@@ -234,11 +218,12 @@ func YDKCompanies(c *gin.Context) {
 	}
 
 	if !needsUpdate {
-		c.JSON(http.StatusOK, gin.H{
+		result := fiber.Map{
 			"status":  "success",
 			"message": "Şirket bilgileri güncel, güncelleme gerekmedi",
-		})
-		return
+		}
+		c.Locals("response", result)
+		return c.JSON(result)
 	}
 
 	log.Printf("Değişiklik tespit edildi, şirket güncelleniyor...")
@@ -263,17 +248,18 @@ func YDKCompanies(c *gin.Context) {
 	}
 
 	if err := graphqlClient.Execute(updateMutation, map[string]interface{}{"input": companyData}, jwtToken, &updateResult); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": fmt.Sprintf("Şirket güncellenirken hata oluştu: %v", err),
 		})
-		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	result := fiber.Map{
 		"message": "Şirket başarıyla güncellendi",
-		"company": gin.H{
+		"company": fiber.Map{
 			"name": item.Department.Name,
 			"code": item.Department.FileNumber,
 		},
-	})
+	}
+	c.Locals("response", result)
+	return c.JSON(result)
 }

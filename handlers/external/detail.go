@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
 )
@@ -269,33 +269,28 @@ func compareValues(current, new interface{}, fieldName string) bool {
 	return fmt.Sprintf("%v", current) == fmt.Sprintf("%v", new)
 }
 
-func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
-	jwtToken := c.GetHeader("Authorization")
+func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
+	jwtToken := c.Get("Authorization")
 	if jwtToken == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "JWT Token gerekli"})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
 	if len(yibfNumbers) == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "YİBF numaraları gerekli"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "YİBF numaraları gerekli"})
 	}
 
 	companyCode := service.SafeStringToInt(companyCodeStr)
 	if companyCode == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "CompanyCode gerekli"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode gerekli"})
 	}
 
-	companyToken, err := service.GetCompanyTokenFromDB(c.Request.Context(), companyCode)
+	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCode)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	if companyToken.Token == "" || companyToken.DepartmentId == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Geçerli token veya department ID bulunamadı"})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçerli token veya department ID bulunamadı"})
 	}
 
 	svc := &service.ExternalService{
@@ -308,12 +303,12 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 	var results []map[string]interface{}
 
 	scheme := "http"
-	if c.Request.TLS != nil {
+	if c.Protocol() == "https" {
 		scheme = "https"
 	}
 
 	graphqlClient := client.GraphQLClient{
-		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Request.Host),
+		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Hostname()),
 	}
 
 	for _, yibfID := range yibfNumbers {
@@ -938,9 +933,9 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 		results = append(results, currentResult)
 	}
 
-	result := gin.H{
+	result := fiber.Map{
 		"success": true,
-		"data": map[string]interface{}{
+		"data": fiber.Map{
 			"processed_count": len(processedIDs),
 			"processed_ids":   processedIDs,
 			"failed_count":    len(failedIDs),
@@ -949,6 +944,6 @@ func YibfDetail(c *gin.Context, yibfNumbers []int, companyCodeStr string) {
 		},
 	}
 
-	c.Set("response", result)
-	c.JSON(http.StatusOK, result)
+	c.Locals("response", result)
+	return c.JSON(result)
 }

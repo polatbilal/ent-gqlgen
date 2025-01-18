@@ -5,14 +5,13 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/polatbilal/gqlgen-ent/database"
 	"github.com/polatbilal/gqlgen-ent/ent/migrate"
 	"github.com/polatbilal/gqlgen-ent/graph/resolvers"
+	"github.com/polatbilal/gqlgen-ent/handlers"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 
 	"github.com/99designs/gqlgen/graphql/handler"
@@ -49,20 +48,6 @@ func main() {
 		EnablePrintRoutes: true,
 	})
 
-	// Logger middleware'i ekle
-	app.Use(func(c *fiber.Ctx) error {
-		fmt.Printf("\n[REQUEST] Method: %s, Path: %s\n", c.Method(), c.Path())
-		fmt.Printf("[HEADERS] Origin: %s\n", c.Get("Origin"))
-		fmt.Printf("[HEADERS] Referer: %s\n", c.Get("Referer"))
-		fmt.Printf("[HEADERS] Host: %s\n", c.Get("Host"))
-		fmt.Printf("[HEADERS] User-Agent: %s\n", c.Get("User-Agent"))
-
-		start := time.Now()
-		err := c.Next()
-		log.Printf("[%s] %s - %v", c.Method(), c.Path(), time.Since(start))
-		return err
-	})
-
 	// CORS ayarları
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "*",
@@ -74,14 +59,8 @@ func main() {
 
 	// Her istek için header'ları ekle
 	app.Use(func(c *fiber.Ctx) error {
-		// Debug için tüm header'ları logla
-		c.Request().Header.VisitAll(func(key, value []byte) {
-			fmt.Printf("[HEADER] %s: %s\n", string(key), string(value))
-		})
-
 		// Sec-Fetch-Site header'ını kontrol et
 		secFetchSite := string(c.Request().Header.Peek("Sec-Fetch-Site"))
-		fmt.Printf("[DEBUG] Sec-Fetch-Site: %s\n", secFetchSite)
 
 		var origin string
 		if c.Get("Origin") != "" {
@@ -108,6 +87,9 @@ func main() {
 	})
 
 	app.Use(middlewares.AuthMiddleware())
+
+	// Rotaları ayarla
+	handlers.SetupRoutes(app)
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
@@ -138,7 +120,7 @@ func main() {
 	defer database.RedisClient.Close()
 
 	// Configure the GraphQL server
-	srv := handler.NewDefaultServer(resolvers.NewSchema(client))
+	srv := handler.New(resolvers.NewSchema(client))
 
 	// GraphQL endpoint
 	app.Post("/graphql", adaptHandler(srv))
