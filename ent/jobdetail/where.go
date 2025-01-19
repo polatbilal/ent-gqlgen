@@ -110,6 +110,11 @@ func LicenseNo(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldLicenseNo, v))
 }
 
+// DistributionDate applies equality check predicate on the "DistributionDate" field. It's identical to DistributionDateEQ.
+func DistributionDate(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldDistributionDate, v))
+}
+
 // CompletionDate applies equality check predicate on the "CompletionDate" field. It's identical to CompletionDateEQ.
 func CompletionDate(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldCompletionDate, v))
@@ -938,6 +943,56 @@ func LicenseNoEqualFold(v string) predicate.JobDetail {
 // LicenseNoContainsFold applies the ContainsFold predicate on the "LicenseNo" field.
 func LicenseNoContainsFold(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldContainsFold(FieldLicenseNo, v))
+}
+
+// DistributionDateEQ applies the EQ predicate on the "DistributionDate" field.
+func DistributionDateEQ(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldDistributionDate, v))
+}
+
+// DistributionDateNEQ applies the NEQ predicate on the "DistributionDate" field.
+func DistributionDateNEQ(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldDistributionDate, v))
+}
+
+// DistributionDateIn applies the In predicate on the "DistributionDate" field.
+func DistributionDateIn(vs ...time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldDistributionDate, vs...))
+}
+
+// DistributionDateNotIn applies the NotIn predicate on the "DistributionDate" field.
+func DistributionDateNotIn(vs ...time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldDistributionDate, vs...))
+}
+
+// DistributionDateGT applies the GT predicate on the "DistributionDate" field.
+func DistributionDateGT(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldDistributionDate, v))
+}
+
+// DistributionDateGTE applies the GTE predicate on the "DistributionDate" field.
+func DistributionDateGTE(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldDistributionDate, v))
+}
+
+// DistributionDateLT applies the LT predicate on the "DistributionDate" field.
+func DistributionDateLT(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldDistributionDate, v))
+}
+
+// DistributionDateLTE applies the LTE predicate on the "DistributionDate" field.
+func DistributionDateLTE(v time.Time) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldDistributionDate, v))
+}
+
+// DistributionDateIsNil applies the IsNil predicate on the "DistributionDate" field.
+func DistributionDateIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldDistributionDate))
+}
+
+// DistributionDateNotNil applies the NotNil predicate on the "DistributionDate" field.
+func DistributionDateNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldDistributionDate))
 }
 
 // CompletionDateEQ applies the EQ predicate on the "CompletionDate" field.

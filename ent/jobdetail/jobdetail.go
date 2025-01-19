@@ -36,6 +36,8 @@ const (
 	FieldLicenseDate = "license_date"
 	// FieldLicenseNo holds the string denoting the licenseno field in the database.
 	FieldLicenseNo = "license_no"
+	// FieldDistributionDate holds the string denoting the distributiondate field in the database.
+	FieldDistributionDate = "distribution_date"
 	// FieldCompletionDate holds the string denoting the completiondate field in the database.
 	FieldCompletionDate = "completion_date"
 	// FieldLandArea holds the string denoting the landarea field in the database.
@@ -244,6 +246,7 @@ var Columns = []string{
 	FieldStartDate,
 	FieldLicenseDate,
 	FieldLicenseNo,
+	FieldDistributionDate,
 	FieldCompletionDate,
 	FieldLandArea,
 	FieldTotalArea,
@@ -383,6 +386,11 @@ func ByLicenseDate(opts ...sql.OrderTermOption) OrderOption {
 // ByLicenseNo orders the results by the LicenseNo field.
 func ByLicenseNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldLicenseNo, opts...).ToFunc()
+}
+
+// ByDistributionDate orders the results by the DistributionDate field.
+func ByDistributionDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDistributionDate, opts...).ToFunc()
 }
 
 // ByCompletionDate orders the results by the CompletionDate field.

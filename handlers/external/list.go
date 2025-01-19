@@ -50,10 +50,10 @@ func YibfList(c *fiber.Ctx) error {
 			"requireTotalCount": true,
 			"searchOperation":   "contains",
 			"searchValue":       nil,
-			"skip":              5,
-			"take":              4,
-			"filter":            []interface{}{"state.id", "=", 1},
-			"userData":          struct{}{},
+			// "skip":              5,
+			// "take":              4,
+			"filter":   []interface{}{"state.id", "=", 1},
+			"userData": struct{}{},
 			"sort": []map[string]interface{}{
 				{
 					"selector": "distributiondate",
@@ -69,10 +69,10 @@ func YibfList(c *fiber.Ctx) error {
 			"requireTotalCount": true,
 			"searchOperation":   "contains",
 			"searchValue":       nil,
-			"skip":              5,
-			"take":              4,
-			"filter":            []interface{}{"state.id", "=", 2},
-			"userData":          struct{}{},
+			// "skip":              5,
+			// "take":              4,
+			"filter":   []interface{}{"state.id", "=", 2},
+			"userData": struct{}{},
 			"sort": []map[string]interface{}{
 				{
 					"selector": "distributiondate",
@@ -88,10 +88,10 @@ func YibfList(c *fiber.Ctx) error {
 			"requireTotalCount": true,
 			"searchOperation":   "contains",
 			"searchValue":       nil,
-			"skip":              5,
-			"take":              4,
-			"filter":            []interface{}{"state.id", "=", 3},
-			"userData":          struct{}{},
+			// "skip":              5,
+			// "take":              4,
+			"filter":   []interface{}{"state.id", "=", 3},
+			"userData": struct{}{},
 			"sort": []map[string]interface{}{
 				{
 					"selector": "distributiondate",
@@ -107,10 +107,10 @@ func YibfList(c *fiber.Ctx) error {
 			"requireTotalCount": true,
 			"searchOperation":   "contains",
 			"searchValue":       nil,
-			"skip":              5,
-			"take":              4,
-			"filter":            []interface{}{"state.id", "=", 4},
-			"userData":          struct{}{},
+			// "skip":              5,
+			// "take":              4,
+			"filter":   []interface{}{"state.id", "=", 4},
+			"userData": struct{}{},
 			"sort": []map[string]interface{}{
 				{
 					"selector": "distributiondate",
@@ -126,10 +126,10 @@ func YibfList(c *fiber.Ctx) error {
 			"requireTotalCount": true,
 			"searchOperation":   "contains",
 			"searchValue":       nil,
-			"skip":              5,
-			"take":              4,
-			"filter":            []interface{}{"state.id", "=", 5},
-			"userData":          struct{}{},
+			// "skip":              5,
+			// "take":              4,
+			"filter":   []interface{}{"state.id", "=", 5},
+			"userData": struct{}{},
 			"sort": []map[string]interface{}{
 				{
 					"selector": "distributiondate",
@@ -145,10 +145,10 @@ func YibfList(c *fiber.Ctx) error {
 			"requireTotalCount": true,
 			"searchOperation":   "contains",
 			"searchValue":       nil,
-			"skip":              5,
-			"take":              4,
-			"filter":            []interface{}{"state.id", "=", 6},
-			"userData":          struct{}{},
+			// "skip":              5,
+			// "take":              4,
+			"filter":   []interface{}{"state.id", "=", 6},
+			"userData": struct{}{},
 			"sort": []map[string]interface{}{
 				{
 					"selector": "distributiondate",

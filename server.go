@@ -18,6 +18,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
@@ -46,15 +47,34 @@ func adaptHandler(h http.Handler) fiber.Handler {
 func main() {
 	app := fiber.New(fiber.Config{
 		EnablePrintRoutes: true,
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			// Hata detaylarını loglama
+			log.Printf("Error: %v", err)
+			code := fiber.StatusInternalServerError
+			
+			if e, ok := err.(*fiber.Error); ok {
+				code = e.Code
+			}
+			
+			return c.Status(code).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		},
 	})
+
+	// Logger middleware'ini ekliyoruz
+	app.Use(logger.New(logger.Config{
+		Format: "[${time}] ${status} - ${latency} ${method} ${path}\n",
+	}))
 
 	// CORS ayarları
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "*",
-		AllowMethods:     "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH",
-		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Requested-With, Referer, Sec-Fetch-Site",
-		ExposeHeaders:    "Content-Length, Authorization",
-		AllowCredentials: false,
+		AllowOrigins:     "http://localhost:3000, http://localhost:4000, http://192.168.1.105:4000, https://dev.bilalpolat.tr",
+		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Requested-With",
+		ExposeHeaders:    "Content-Length",
+		AllowCredentials: true,
+		MaxAge:           300,
 	}))
 
 	// Her istek için header'ları ekle
@@ -120,10 +140,19 @@ func main() {
 	defer database.RedisClient.Close()
 
 	// Configure the GraphQL server
-	srv := handler.New(resolvers.NewSchema(client))
+	srv := handler.NewDefaultServer(resolvers.NewSchema(client))
 
 	// GraphQL endpoint
-	app.Post("/graphql", adaptHandler(srv))
+	app.Post("/graphql", func(c *fiber.Ctx) error {
+		// Content-Type header'ını kontrol et
+		if !c.Is("json") {
+			return c.Status(400).JSON(fiber.Map{
+				"error": "Content-Type must be application/json",
+			})
+		}
+
+		return adaptHandler(srv)(c)
+	})
 
 	// GraphQL Playground
 	app.Get("/playground", adaptHandler(playground.Handler("GraphQL", "/graphql")))

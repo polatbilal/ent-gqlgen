@@ -175,6 +175,20 @@ func (jdc *JobDetailCreate) SetNillableLicenseNo(s *string) *JobDetailCreate {
 	return jdc
 }
 
+// SetDistributionDate sets the "DistributionDate" field.
+func (jdc *JobDetailCreate) SetDistributionDate(t time.Time) *JobDetailCreate {
+	jdc.mutation.SetDistributionDate(t)
+	return jdc
+}
+
+// SetNillableDistributionDate sets the "DistributionDate" field if the given value is not nil.
+func (jdc *JobDetailCreate) SetNillableDistributionDate(t *time.Time) *JobDetailCreate {
+	if t != nil {
+		jdc.SetDistributionDate(*t)
+	}
+	return jdc
+}
+
 // SetCompletionDate sets the "CompletionDate" field.
 func (jdc *JobDetailCreate) SetCompletionDate(t time.Time) *JobDetailCreate {
 	jdc.mutation.SetCompletionDate(t)
@@ -938,6 +952,10 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := jdc.mutation.LicenseNo(); ok {
 		_spec.SetField(jobdetail.FieldLicenseNo, field.TypeString, value)
 		_node.LicenseNo = value
+	}
+	if value, ok := jdc.mutation.DistributionDate(); ok {
+		_spec.SetField(jobdetail.FieldDistributionDate, field.TypeTime, value)
+		_node.DistributionDate = value
 	}
 	if value, ok := jdc.mutation.CompletionDate(); ok {
 		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)

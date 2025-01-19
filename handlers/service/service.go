@@ -105,6 +105,7 @@ type YIBFResponse struct {
 	Title            string  `json:"title"`
 	ClusterStructure bool    `json:"clusterStructure"`
 	IsLicenseExpired bool    `json:"isLicenseExpired"`
+	DistributionDate int64   `json:"distributionDate"`
 	ContractDate     int64   `json:"contractDate"`
 	LicenseNumber    string  `json:"licenseNumber"`
 	LicenseDate      int64   `json:"licenseDate"`

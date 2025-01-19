@@ -118,6 +118,7 @@ type JobInput struct {
 	Island             *string    `json:"Island,omitempty"`
 	Parcel             *string    `json:"Parcel,omitempty"`
 	Sheet              *string    `json:"Sheet,omitempty"`
+	DistributionDate   *time.Time `json:"DistributionDate,omitempty"`
 	ContractDate       *time.Time `json:"ContractDate,omitempty"`
 	StartDate          *time.Time `json:"StartDate,omitempty"`
 	LicenseDate        *time.Time `json:"LicenseDate,omitempty"`

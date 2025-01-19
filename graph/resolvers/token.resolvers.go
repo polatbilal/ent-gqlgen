@@ -167,11 +167,11 @@ func (r *mutationResolver) CreateToken(ctx context.Context, departmentID int, in
 }
 
 // UpdateToken is the resolver for the updateToken field.
-func (r *mutationResolver) UpdateToken(ctx context.Context, departmentID *int, input *model.CompanyTokenInput) (*ent.CompanyToken, error) {
+func (r *mutationResolver) UpdateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// Önce token'ı bul
-	companyToken, err := client.CompanyToken.Query().Where(companytoken.DepartmentIdEQ(*departmentID)).Only(ctx)
+	companyToken, err := client.CompanyToken.Query().Where(companytoken.DepartmentIdEQ(departmentID)).Only(ctx)
 	if err != nil {
 		// Token bulunamadıysa ve CompanyCode varsa, yeni token oluştur
 		if ent.IsNotFound(err) && input.CompanyCode != nil {
@@ -184,7 +184,7 @@ func (r *mutationResolver) UpdateToken(ctx context.Context, departmentID *int, i
 			// Yeni token oluştur ve şirketle ilişkilendir
 			newToken := client.CompanyToken.Create().
 				SetToken(*input.Token).
-				SetDepartmentId(*departmentID).
+				SetDepartmentId(departmentID).
 				SetExpire(*input.Expire).
 				SetRefreshToken(*input.RefreshToken).
 				SetSecretKey(*input.SecretKey).

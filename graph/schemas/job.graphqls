@@ -9,6 +9,7 @@ type JobDetail {
   Island: String
   Parcel: String
   Sheet: String
+  DistributionDate: Time
   ContractDate: Time
   StartDate: Time
   LicenseDate: Time
@@ -57,6 +58,7 @@ input JobInput {
   Island: String
   Parcel: String
   Sheet: String
+  DistributionDate: Time
   ContractDate: Time
   StartDate: Time
   LicenseDate: Time

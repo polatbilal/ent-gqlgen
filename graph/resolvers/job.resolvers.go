@@ -74,6 +74,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableIsland(input.Island).
 		SetNillableParcel(input.Parcel).
 		SetNillableSheet(input.Sheet).
+		SetNillableDistributionDate(input.DistributionDate).
 		SetNillableContractDate(input.ContractDate).
 		SetNillableStartDate(input.StartDate).
 		SetNillableLicenseDate(input.LicenseDate).
@@ -170,6 +171,7 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		SetNillableIsland(input.Island).
 		SetNillableParcel(input.Parcel).
 		SetNillableSheet(input.Sheet).
+		SetNillableDistributionDate(input.DistributionDate).
 		SetNillableContractDate(input.ContractDate).
 		SetNillableStartDate(input.StartDate).
 		SetNillableLicenseDate(input.LicenseDate).

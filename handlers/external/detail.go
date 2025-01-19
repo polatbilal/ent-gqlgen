@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/polatbilal/gqlgen-ent/graph/model"
 	"github.com/polatbilal/gqlgen-ent/handlers/client"
 	"github.com/polatbilal/gqlgen-ent/handlers/service"
 )
@@ -47,102 +48,8 @@ type YibfDetailRequest struct {
 	CompanyCode int   `json:"companyCode"`
 }
 
-// Job yapısı
-type Job struct {
-	ID               int     `json:"id"`
-	YibfNo           int     `json:"YibfNo"`
-	CompanyCode      int     `json:"CompanyCode"`
-	Title            string  `json:"Title"`
-	Administration   string  `json:"Administration"`
-	State            string  `json:"State"`
-	Island           string  `json:"Island"`
-	Parcel           string  `json:"Parcel"`
-	Sheet            string  `json:"Sheet"`
-	ContractDate     string  `json:"ContractDate"`
-	StartDate        string  `json:"StartDate"`
-	LicenseDate      string  `json:"LicenseDate"`
-	LicenseNo        string  `json:"LicenseNo"`
-	CompletionDate   string  `json:"CompletionDate"`
-	LandArea         float64 `json:"LandArea"`
-	TotalArea        float64 `json:"TotalArea"`
-	ConstructionArea float64 `json:"ConstructionArea"`
-	LeftArea         float64 `json:"LeftArea"`
-	YDSAddress       string  `json:"YDSAddress"`
-	Address          string  `json:"Address"`
-	BuildingClass    string  `json:"BuildingClass"`
-	BuildingType     string  `json:"BuildingType"`
-	Level            int     `json:"Level"`
-	UnitPrice        float64 `json:"UnitPrice"`
-	FloorCount       int     `json:"FloorCount"`
-	BKSReferenceNo   int     `json:"BKSReferenceNo"`
-	Coordinates      string  `json:"Coordinates"`
-	FolderNo         string  `json:"FolderNo"`
-	UploadedFile     bool    `json:"UploadedFile"`
-	IndustryArea     bool    `json:"IndustryArea"`
-	ClusterStructure bool    `json:"ClusterStructure"`
-	IsLicenseExpired bool    `json:"IsLicenseExpired"`
-	IsCompleted      bool    `json:"IsCompleted"`
-	Note             string  `json:"Note"`
-}
-
-// Owner yapısı
-type Owner struct {
-	ID          int    `json:"id"`
-	YDSID       int    `json:"YDSID"`
-	Name        string `json:"Name"`
-	TcNo        int    `json:"TcNo"`
-	Address     string `json:"Address"`
-	Phone       string `json:"Phone"`
-	TaxAdmin    string `json:"TaxAdmin"`
-	TaxNo       int    `json:"TaxNo"`
-	Shareholder bool   `json:"Shareholder"`
-}
-
-// Contractor yapısı
-type Contractor struct {
-	ID          int    `json:"id"`
-	YDSID       int    `json:"YDSID"`
-	Name        string `json:"Name"`
-	TaxNo       int    `json:"TaxNo"`
-	Phone       string `json:"Phone"`
-	MobilePhone string `json:"MobilePhone"`
-	Email       string `json:"Email"`
-	Address     string `json:"Address"`
-	RegisterNo  int    `json:"RegisterNo"`
-	PersonType  string `json:"PersonType"`
-	TcNo        int    `json:"TcNo"`
-}
-
-// Supervisor yapısı
-type Supervisor struct {
-	ID               int    `json:"id"`
-	YDSID            int    `json:"YDSID"`
-	Name             string `json:"Name"`
-	Address          string `json:"Address"`
-	Phone            string `json:"Phone"`
-	Email            string `json:"Email"`
-	TcNo             int    `json:"TcNo"`
-	Position         string `json:"Position"`
-	Career           string `json:"Career"`
-	RegisterNo       int    `json:"RegisterNo"`
-	SocialSecurityNo int    `json:"SocialSecurityNo"`
-	SchoolGraduation string `json:"SchoolGraduation"`
-}
-
-// Author yapısı
-type Author struct {
-	ID                       int    `json:"id"`
-	Static                   string `json:"Static"`
-	Mechanic                 string `json:"Mechanic"`
-	Electric                 string `json:"Electric"`
-	Architect                string `json:"Architect"`
-	GeotechnicalEngineer     string `json:"GeotechnicalEngineer"`
-	GeotechnicalGeologist    string `json:"GeotechnicalGeologist"`
-	GeotechnicalGeophysicist string `json:"GeotechnicalGeophysicist"`
-}
-
 // Veri karşılaştırma fonksiyonları
-func compareJobData(current *Job, new map[string]interface{}) map[string]interface{} {
+func compareJobData(current *model.JobInput, new map[string]interface{}) map[string]interface{} {
 	changes := make(map[string]interface{})
 
 	for key, newValue := range new {
@@ -159,7 +66,7 @@ func compareJobData(current *Job, new map[string]interface{}) map[string]interfa
 	return changes
 }
 
-func compareOwnerData(current *Owner, new map[string]interface{}) map[string]interface{} {
+func compareOwnerData(current *model.JobOwnerInput, new map[string]interface{}) map[string]interface{} {
 	changes := make(map[string]interface{})
 
 	for key, newValue := range new {
@@ -176,7 +83,7 @@ func compareOwnerData(current *Owner, new map[string]interface{}) map[string]int
 	return changes
 }
 
-func compareContractorData(current *Contractor, new map[string]interface{}) map[string]interface{} {
+func compareContractorData(current *model.JobContractorInput, new map[string]interface{}) map[string]interface{} {
 	changes := make(map[string]interface{})
 
 	for key, newValue := range new {
@@ -193,7 +100,7 @@ func compareContractorData(current *Contractor, new map[string]interface{}) map[
 	return changes
 }
 
-func compareSupervisorData(current *Supervisor, new map[string]interface{}) map[string]interface{} {
+func compareSupervisorData(current *model.JobSupervisorInput, new map[string]interface{}) map[string]interface{} {
 	changes := make(map[string]interface{})
 
 	for key, newValue := range new {
@@ -210,7 +117,7 @@ func compareSupervisorData(current *Supervisor, new map[string]interface{}) map[
 	return changes
 }
 
-func compareAuthorData(current *Author, new map[string]interface{}) map[string]interface{} {
+func compareAuthorData(current *model.JobAuthorInput, new map[string]interface{}) map[string]interface{} {
 	changes := make(map[string]interface{})
 
 	for key, newValue := range new {
@@ -325,6 +232,7 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 					Island
 					Parcel
 					Sheet
+					DistributionDate
 					ContractDate
 					StartDate
 					LicenseDate
@@ -446,11 +354,11 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 		}
 
 		var checkResult struct {
-			Job        *Job        `json:"job"`
-			Owner      *Owner      `json:"owner"`
-			Contractor *Contractor `json:"contractor"`
-			Supervisor *Supervisor `json:"supervisor"`
-			Author     *Author     `json:"author"`
+			Job        *model.JobInput           `json:"job"`
+			Owner      *model.JobOwnerInput      `json:"owner"`
+			Contractor *model.JobContractorInput `json:"contractor"`
+			Supervisor *model.JobSupervisorInput `json:"supervisor"`
+			Author     *model.JobAuthorInput     `json:"author"`
 		}
 
 		err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResult)
@@ -606,6 +514,9 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 		}
 
 		// Tarihleri ekle
+		if detail.DistributionDate > 0 {
+			currentResult["job"].(map[string]interface{})["DistributionDate"] = service.SafeUnixToDate(detail.DistributionDate)
+		}
 		if detail.ContractDate > 0 {
 			currentResult["job"].(map[string]interface{})["ContractDate"] = service.SafeUnixToDate(detail.ContractDate)
 		}
@@ -902,9 +813,9 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 
 			// Debug logları
 			log.Printf("YİBF No: %d için mutation parçaları: %v", yibfID, mutationParts)
-			log.Printf("YİBF No: %d için mutation alanları: %v", yibfID, mutationFields)
-			log.Printf("YİBF No: %d için variables: %+v", yibfID, variables)
-			log.Printf("YİBF No: %d için oluşturulan mutation:\n%s", yibfID, mutation)
+			// log.Printf("YİBF No: %d için mutation alanları: %v", yibfID, mutationFields)
+			// log.Printf("YİBF No: %d için variables: %+v", yibfID, variables)
+			// log.Printf("YİBF No: %d için oluşturulan mutation:\n%s", yibfID, mutation)
 
 			// Mutation'ı çalıştır
 			var upsertResult struct {

@@ -27,6 +27,7 @@ func (JobDetail) Fields() []ent.Field {
 		field.Time("StartDate").Optional(),
 		field.Time("LicenseDate").Optional(),
 		field.String("LicenseNo").Optional(),
+		field.Time("DistributionDate").Optional(),
 		field.Time("CompletionDate").Optional(),
 		field.Float("LandArea").Optional(),
 		field.Float("TotalArea").Optional(),

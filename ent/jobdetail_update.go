@@ -258,6 +258,26 @@ func (jdu *JobDetailUpdate) ClearLicenseNo() *JobDetailUpdate {
 	return jdu
 }
 
+// SetDistributionDate sets the "DistributionDate" field.
+func (jdu *JobDetailUpdate) SetDistributionDate(t time.Time) *JobDetailUpdate {
+	jdu.mutation.SetDistributionDate(t)
+	return jdu
+}
+
+// SetNillableDistributionDate sets the "DistributionDate" field if the given value is not nil.
+func (jdu *JobDetailUpdate) SetNillableDistributionDate(t *time.Time) *JobDetailUpdate {
+	if t != nil {
+		jdu.SetDistributionDate(*t)
+	}
+	return jdu
+}
+
+// ClearDistributionDate clears the value of the "DistributionDate" field.
+func (jdu *JobDetailUpdate) ClearDistributionDate() *JobDetailUpdate {
+	jdu.mutation.ClearDistributionDate()
+	return jdu
+}
+
 // SetCompletionDate sets the "CompletionDate" field.
 func (jdu *JobDetailUpdate) SetCompletionDate(t time.Time) *JobDetailUpdate {
 	jdu.mutation.SetCompletionDate(t)
@@ -1292,6 +1312,12 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if jdu.mutation.LicenseNoCleared() {
 		_spec.ClearField(jobdetail.FieldLicenseNo, field.TypeString)
 	}
+	if value, ok := jdu.mutation.DistributionDate(); ok {
+		_spec.SetField(jobdetail.FieldDistributionDate, field.TypeTime, value)
+	}
+	if jdu.mutation.DistributionDateCleared() {
+		_spec.ClearField(jobdetail.FieldDistributionDate, field.TypeTime)
+	}
 	if value, ok := jdu.mutation.CompletionDate(); ok {
 		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)
 	}
@@ -2182,6 +2208,26 @@ func (jduo *JobDetailUpdateOne) SetNillableLicenseNo(s *string) *JobDetailUpdate
 // ClearLicenseNo clears the value of the "LicenseNo" field.
 func (jduo *JobDetailUpdateOne) ClearLicenseNo() *JobDetailUpdateOne {
 	jduo.mutation.ClearLicenseNo()
+	return jduo
+}
+
+// SetDistributionDate sets the "DistributionDate" field.
+func (jduo *JobDetailUpdateOne) SetDistributionDate(t time.Time) *JobDetailUpdateOne {
+	jduo.mutation.SetDistributionDate(t)
+	return jduo
+}
+
+// SetNillableDistributionDate sets the "DistributionDate" field if the given value is not nil.
+func (jduo *JobDetailUpdateOne) SetNillableDistributionDate(t *time.Time) *JobDetailUpdateOne {
+	if t != nil {
+		jduo.SetDistributionDate(*t)
+	}
+	return jduo
+}
+
+// ClearDistributionDate clears the value of the "DistributionDate" field.
+func (jduo *JobDetailUpdateOne) ClearDistributionDate() *JobDetailUpdateOne {
+	jduo.mutation.ClearDistributionDate()
 	return jduo
 }
 
@@ -3248,6 +3294,12 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 	}
 	if jduo.mutation.LicenseNoCleared() {
 		_spec.ClearField(jobdetail.FieldLicenseNo, field.TypeString)
+	}
+	if value, ok := jduo.mutation.DistributionDate(); ok {
+		_spec.SetField(jobdetail.FieldDistributionDate, field.TypeTime, value)
+	}
+	if jduo.mutation.DistributionDateCleared() {
+		_spec.ClearField(jobdetail.FieldDistributionDate, field.TypeTime)
 	}
 	if value, ok := jduo.mutation.CompletionDate(); ok {
 		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)

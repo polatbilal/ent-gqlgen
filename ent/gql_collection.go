@@ -1204,6 +1204,11 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldLicenseNo)
 				fieldSeen[jobdetail.FieldLicenseNo] = struct{}{}
 			}
+		case "distributiondate":
+			if _, ok := fieldSeen[jobdetail.FieldDistributionDate]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldDistributionDate)
+				fieldSeen[jobdetail.FieldDistributionDate] = struct{}{}
+			}
 		case "completiondate":
 			if _, ok := fieldSeen[jobdetail.FieldCompletionDate]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldCompletionDate)

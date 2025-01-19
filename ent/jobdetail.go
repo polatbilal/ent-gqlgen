@@ -46,6 +46,8 @@ type JobDetail struct {
 	LicenseDate time.Time `json:"LicenseDate,omitempty"`
 	// LicenseNo holds the value of the "LicenseNo" field.
 	LicenseNo string `json:"LicenseNo,omitempty"`
+	// DistributionDate holds the value of the "DistributionDate" field.
+	DistributionDate time.Time `json:"DistributionDate,omitempty"`
 	// CompletionDate holds the value of the "CompletionDate" field.
 	CompletionDate time.Time `json:"CompletionDate,omitempty"`
 	// LandArea holds the value of the "LandArea" field.
@@ -341,7 +343,7 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case jobdetail.FieldTitle, jobdetail.FieldAdministration, jobdetail.FieldState, jobdetail.FieldIsland, jobdetail.FieldParcel, jobdetail.FieldSheet, jobdetail.FieldLicenseNo, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldCoordinates, jobdetail.FieldFolderNo, jobdetail.FieldNote:
 			values[i] = new(sql.NullString)
-		case jobdetail.FieldContractDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldCompletionDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
+		case jobdetail.FieldContractDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldDistributionDate, jobdetail.FieldCompletionDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case jobdetail.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
@@ -457,6 +459,12 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field LicenseNo", values[i])
 			} else if value.Valid {
 				jd.LicenseNo = value.String
+			}
+		case jobdetail.FieldDistributionDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field DistributionDate", values[i])
+			} else if value.Valid {
+				jd.DistributionDate = value.Time
 			}
 		case jobdetail.FieldCompletionDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -842,6 +850,9 @@ func (jd *JobDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("LicenseNo=")
 	builder.WriteString(jd.LicenseNo)
+	builder.WriteString(", ")
+	builder.WriteString("DistributionDate=")
+	builder.WriteString(jd.DistributionDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("CompletionDate=")
 	builder.WriteString(jd.CompletionDate.Format(time.ANSIC))
