@@ -18414,24 +18414,27 @@ func (m *JobSupervisorMutation) ResetEdge(name string) error {
 // UserMutation represents an operation that mutates the User nodes in the graph.
 type UserMutation struct {
 	config
-	op               Op
-	typ              string
-	id               *int
-	_Username        *string
-	_Name            *string
-	_Email           *string
-	_Phone           *string
-	_Password        *string
-	_Role            *string
-	_CreatedAt       *time.Time
-	_UpdatedAt       *time.Time
-	clearedFields    map[string]struct{}
-	companies        map[int]struct{}
-	removedcompanies map[int]struct{}
-	clearedcompanies bool
-	done             bool
-	oldValue         func(context.Context) (*User, error)
-	predicates       []predicate.User
+	op                 Op
+	typ                string
+	id                 *int
+	_Username          *string
+	_Name              *string
+	_Email             *string
+	_Phone             *string
+	_Password          *string
+	_Role              *string
+	_LicenseExpireDate *time.Time
+	_LastLogin         *time.Time
+	_Active            *bool
+	_CreatedAt         *time.Time
+	_UpdatedAt         *time.Time
+	clearedFields      map[string]struct{}
+	companies          map[int]struct{}
+	removedcompanies   map[int]struct{}
+	clearedcompanies   bool
+	done               bool
+	oldValue           func(context.Context) (*User, error)
+	predicates         []predicate.User
 }
 
 var _ ent.Mutation = (*UserMutation)(nil)
@@ -18761,6 +18764,140 @@ func (m *UserMutation) ResetRole() {
 	m._Role = nil
 }
 
+// SetLicenseExpireDate sets the "LicenseExpireDate" field.
+func (m *UserMutation) SetLicenseExpireDate(t time.Time) {
+	m._LicenseExpireDate = &t
+}
+
+// LicenseExpireDate returns the value of the "LicenseExpireDate" field in the mutation.
+func (m *UserMutation) LicenseExpireDate() (r time.Time, exists bool) {
+	v := m._LicenseExpireDate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLicenseExpireDate returns the old "LicenseExpireDate" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldLicenseExpireDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLicenseExpireDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLicenseExpireDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLicenseExpireDate: %w", err)
+	}
+	return oldValue.LicenseExpireDate, nil
+}
+
+// ClearLicenseExpireDate clears the value of the "LicenseExpireDate" field.
+func (m *UserMutation) ClearLicenseExpireDate() {
+	m._LicenseExpireDate = nil
+	m.clearedFields[user.FieldLicenseExpireDate] = struct{}{}
+}
+
+// LicenseExpireDateCleared returns if the "LicenseExpireDate" field was cleared in this mutation.
+func (m *UserMutation) LicenseExpireDateCleared() bool {
+	_, ok := m.clearedFields[user.FieldLicenseExpireDate]
+	return ok
+}
+
+// ResetLicenseExpireDate resets all changes to the "LicenseExpireDate" field.
+func (m *UserMutation) ResetLicenseExpireDate() {
+	m._LicenseExpireDate = nil
+	delete(m.clearedFields, user.FieldLicenseExpireDate)
+}
+
+// SetLastLogin sets the "LastLogin" field.
+func (m *UserMutation) SetLastLogin(t time.Time) {
+	m._LastLogin = &t
+}
+
+// LastLogin returns the value of the "LastLogin" field in the mutation.
+func (m *UserMutation) LastLogin() (r time.Time, exists bool) {
+	v := m._LastLogin
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastLogin returns the old "LastLogin" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldLastLogin(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastLogin is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastLogin requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastLogin: %w", err)
+	}
+	return oldValue.LastLogin, nil
+}
+
+// ClearLastLogin clears the value of the "LastLogin" field.
+func (m *UserMutation) ClearLastLogin() {
+	m._LastLogin = nil
+	m.clearedFields[user.FieldLastLogin] = struct{}{}
+}
+
+// LastLoginCleared returns if the "LastLogin" field was cleared in this mutation.
+func (m *UserMutation) LastLoginCleared() bool {
+	_, ok := m.clearedFields[user.FieldLastLogin]
+	return ok
+}
+
+// ResetLastLogin resets all changes to the "LastLogin" field.
+func (m *UserMutation) ResetLastLogin() {
+	m._LastLogin = nil
+	delete(m.clearedFields, user.FieldLastLogin)
+}
+
+// SetActive sets the "Active" field.
+func (m *UserMutation) SetActive(b bool) {
+	m._Active = &b
+}
+
+// Active returns the value of the "Active" field in the mutation.
+func (m *UserMutation) Active() (r bool, exists bool) {
+	v := m._Active
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldActive returns the old "Active" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldActive(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldActive is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldActive requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldActive: %w", err)
+	}
+	return oldValue.Active, nil
+}
+
+// ResetActive resets all changes to the "Active" field.
+func (m *UserMutation) ResetActive() {
+	m._Active = nil
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (m *UserMutation) SetCreatedAt(t time.Time) {
 	m._CreatedAt = &t
@@ -18921,7 +19058,7 @@ func (m *UserMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 11)
 	if m._Username != nil {
 		fields = append(fields, user.FieldUsername)
 	}
@@ -18939,6 +19076,15 @@ func (m *UserMutation) Fields() []string {
 	}
 	if m._Role != nil {
 		fields = append(fields, user.FieldRole)
+	}
+	if m._LicenseExpireDate != nil {
+		fields = append(fields, user.FieldLicenseExpireDate)
+	}
+	if m._LastLogin != nil {
+		fields = append(fields, user.FieldLastLogin)
+	}
+	if m._Active != nil {
+		fields = append(fields, user.FieldActive)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, user.FieldCreatedAt)
@@ -18966,6 +19112,12 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.Password()
 	case user.FieldRole:
 		return m.Role()
+	case user.FieldLicenseExpireDate:
+		return m.LicenseExpireDate()
+	case user.FieldLastLogin:
+		return m.LastLogin()
+	case user.FieldActive:
+		return m.Active()
 	case user.FieldCreatedAt:
 		return m.CreatedAt()
 	case user.FieldUpdatedAt:
@@ -18991,6 +19143,12 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldPassword(ctx)
 	case user.FieldRole:
 		return m.OldRole(ctx)
+	case user.FieldLicenseExpireDate:
+		return m.OldLicenseExpireDate(ctx)
+	case user.FieldLastLogin:
+		return m.OldLastLogin(ctx)
+	case user.FieldActive:
+		return m.OldActive(ctx)
 	case user.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case user.FieldUpdatedAt:
@@ -19046,6 +19204,27 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetRole(v)
 		return nil
+	case user.FieldLicenseExpireDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLicenseExpireDate(v)
+		return nil
+	case user.FieldLastLogin:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastLogin(v)
+		return nil
+	case user.FieldActive:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetActive(v)
+		return nil
 	case user.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -19093,6 +19272,12 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldPhone) {
 		fields = append(fields, user.FieldPhone)
 	}
+	if m.FieldCleared(user.FieldLicenseExpireDate) {
+		fields = append(fields, user.FieldLicenseExpireDate)
+	}
+	if m.FieldCleared(user.FieldLastLogin) {
+		fields = append(fields, user.FieldLastLogin)
+	}
 	return fields
 }
 
@@ -19109,6 +19294,12 @@ func (m *UserMutation) ClearField(name string) error {
 	switch name {
 	case user.FieldPhone:
 		m.ClearPhone()
+		return nil
+	case user.FieldLicenseExpireDate:
+		m.ClearLicenseExpireDate()
+		return nil
+	case user.FieldLastLogin:
+		m.ClearLastLogin()
 		return nil
 	}
 	return fmt.Errorf("unknown User nullable field %s", name)
@@ -19135,6 +19326,15 @@ func (m *UserMutation) ResetField(name string) error {
 		return nil
 	case user.FieldRole:
 		m.ResetRole()
+		return nil
+	case user.FieldLicenseExpireDate:
+		m.ResetLicenseExpireDate()
+		return nil
+	case user.FieldLastLogin:
+		m.ResetLastLogin()
+		return nil
+	case user.FieldActive:
+		m.ResetActive()
 		return nil
 	case user.FieldCreatedAt:
 		m.ResetCreatedAt()

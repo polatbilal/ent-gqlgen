@@ -119,6 +119,60 @@ func (uu *UserUpdate) SetNillableRole(s *string) *UserUpdate {
 	return uu
 }
 
+// SetLicenseExpireDate sets the "LicenseExpireDate" field.
+func (uu *UserUpdate) SetLicenseExpireDate(t time.Time) *UserUpdate {
+	uu.mutation.SetLicenseExpireDate(t)
+	return uu
+}
+
+// SetNillableLicenseExpireDate sets the "LicenseExpireDate" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableLicenseExpireDate(t *time.Time) *UserUpdate {
+	if t != nil {
+		uu.SetLicenseExpireDate(*t)
+	}
+	return uu
+}
+
+// ClearLicenseExpireDate clears the value of the "LicenseExpireDate" field.
+func (uu *UserUpdate) ClearLicenseExpireDate() *UserUpdate {
+	uu.mutation.ClearLicenseExpireDate()
+	return uu
+}
+
+// SetLastLogin sets the "LastLogin" field.
+func (uu *UserUpdate) SetLastLogin(t time.Time) *UserUpdate {
+	uu.mutation.SetLastLogin(t)
+	return uu
+}
+
+// SetNillableLastLogin sets the "LastLogin" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableLastLogin(t *time.Time) *UserUpdate {
+	if t != nil {
+		uu.SetLastLogin(*t)
+	}
+	return uu
+}
+
+// ClearLastLogin clears the value of the "LastLogin" field.
+func (uu *UserUpdate) ClearLastLogin() *UserUpdate {
+	uu.mutation.ClearLastLogin()
+	return uu
+}
+
+// SetActive sets the "Active" field.
+func (uu *UserUpdate) SetActive(b bool) *UserUpdate {
+	uu.mutation.SetActive(b)
+	return uu
+}
+
+// SetNillableActive sets the "Active" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableActive(b *bool) *UserUpdate {
+	if b != nil {
+		uu.SetActive(*b)
+	}
+	return uu
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (uu *UserUpdate) SetCreatedAt(t time.Time) *UserUpdate {
 	uu.mutation.SetCreatedAt(t)
@@ -245,6 +299,21 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := uu.mutation.Role(); ok {
 		_spec.SetField(user.FieldRole, field.TypeString, value)
+	}
+	if value, ok := uu.mutation.LicenseExpireDate(); ok {
+		_spec.SetField(user.FieldLicenseExpireDate, field.TypeTime, value)
+	}
+	if uu.mutation.LicenseExpireDateCleared() {
+		_spec.ClearField(user.FieldLicenseExpireDate, field.TypeTime)
+	}
+	if value, ok := uu.mutation.LastLogin(); ok {
+		_spec.SetField(user.FieldLastLogin, field.TypeTime, value)
+	}
+	if uu.mutation.LastLoginCleared() {
+		_spec.ClearField(user.FieldLastLogin, field.TypeTime)
+	}
+	if value, ok := uu.mutation.Active(); ok {
+		_spec.SetField(user.FieldActive, field.TypeBool, value)
 	}
 	if value, ok := uu.mutation.CreatedAt(); ok {
 		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)
@@ -407,6 +476,60 @@ func (uuo *UserUpdateOne) SetNillableRole(s *string) *UserUpdateOne {
 	return uuo
 }
 
+// SetLicenseExpireDate sets the "LicenseExpireDate" field.
+func (uuo *UserUpdateOne) SetLicenseExpireDate(t time.Time) *UserUpdateOne {
+	uuo.mutation.SetLicenseExpireDate(t)
+	return uuo
+}
+
+// SetNillableLicenseExpireDate sets the "LicenseExpireDate" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableLicenseExpireDate(t *time.Time) *UserUpdateOne {
+	if t != nil {
+		uuo.SetLicenseExpireDate(*t)
+	}
+	return uuo
+}
+
+// ClearLicenseExpireDate clears the value of the "LicenseExpireDate" field.
+func (uuo *UserUpdateOne) ClearLicenseExpireDate() *UserUpdateOne {
+	uuo.mutation.ClearLicenseExpireDate()
+	return uuo
+}
+
+// SetLastLogin sets the "LastLogin" field.
+func (uuo *UserUpdateOne) SetLastLogin(t time.Time) *UserUpdateOne {
+	uuo.mutation.SetLastLogin(t)
+	return uuo
+}
+
+// SetNillableLastLogin sets the "LastLogin" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableLastLogin(t *time.Time) *UserUpdateOne {
+	if t != nil {
+		uuo.SetLastLogin(*t)
+	}
+	return uuo
+}
+
+// ClearLastLogin clears the value of the "LastLogin" field.
+func (uuo *UserUpdateOne) ClearLastLogin() *UserUpdateOne {
+	uuo.mutation.ClearLastLogin()
+	return uuo
+}
+
+// SetActive sets the "Active" field.
+func (uuo *UserUpdateOne) SetActive(b bool) *UserUpdateOne {
+	uuo.mutation.SetActive(b)
+	return uuo
+}
+
+// SetNillableActive sets the "Active" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableActive(b *bool) *UserUpdateOne {
+	if b != nil {
+		uuo.SetActive(*b)
+	}
+	return uuo
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (uuo *UserUpdateOne) SetCreatedAt(t time.Time) *UserUpdateOne {
 	uuo.mutation.SetCreatedAt(t)
@@ -563,6 +686,21 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if value, ok := uuo.mutation.Role(); ok {
 		_spec.SetField(user.FieldRole, field.TypeString, value)
+	}
+	if value, ok := uuo.mutation.LicenseExpireDate(); ok {
+		_spec.SetField(user.FieldLicenseExpireDate, field.TypeTime, value)
+	}
+	if uuo.mutation.LicenseExpireDateCleared() {
+		_spec.ClearField(user.FieldLicenseExpireDate, field.TypeTime)
+	}
+	if value, ok := uuo.mutation.LastLogin(); ok {
+		_spec.SetField(user.FieldLastLogin, field.TypeTime, value)
+	}
+	if uuo.mutation.LastLoginCleared() {
+		_spec.ClearField(user.FieldLastLogin, field.TypeTime)
+	}
+	if value, ok := uuo.mutation.Active(); ok {
+		_spec.SetField(user.FieldActive, field.TypeBool, value)
 	}
 	if value, ok := uuo.mutation.CreatedAt(); ok {
 		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)

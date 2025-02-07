@@ -13,6 +13,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/graph/resolvers"
 	"github.com/polatbilal/gqlgen-ent/handlers"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/gqlgen-ent/services"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -51,11 +52,11 @@ func main() {
 			// Hata detaylarını loglama
 			log.Printf("Error: %v", err)
 			code := fiber.StatusInternalServerError
-			
+
 			if e, ok := err.(*fiber.Error); ok {
 				code = e.Code
 			}
-			
+
 			return c.Status(code).JSON(fiber.Map{
 				"error": err.Error(),
 			})
@@ -69,7 +70,7 @@ func main() {
 
 	// CORS ayarları
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000, http://localhost:4000, http://192.168.1.105:4000, https://dev.bilalpolat.tr",
+		AllowOrigins:     "http://localhost:3000, http://localhost:4000, http://192.168.1.105:4000, https://dev.bilalpolat.tr, https://main.bilalpolat.tr, https://yds.endoplazmikretikulum.keenetic.pro, https://yds.bilalpolat.tr",
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Requested-With",
 		ExposeHeaders:    "Content-Length",
@@ -122,6 +123,11 @@ func main() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 	defer client.Close()
+
+	// Lisans kontrolü job'ını başlat
+	licenseChecker := services.NewLicenseChecker(client)
+	licenseChecker.Start()
+	defer licenseChecker.Stop()
 
 	// Run the migration here
 	if err := client.Schema.Create(

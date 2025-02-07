@@ -453,6 +453,9 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "password", Type: field.TypeString},
 		{Name: "role", Type: field.TypeString, Default: "User"},
+		{Name: "license_expire_date", Type: field.TypeTime, Nullable: true},
+		{Name: "last_login", Type: field.TypeTime, Nullable: true},
+		{Name: "active", Type: field.TypeBool, Default: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}

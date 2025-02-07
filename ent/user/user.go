@@ -26,6 +26,12 @@ const (
 	FieldPassword = "password"
 	// FieldRole holds the string denoting the role field in the database.
 	FieldRole = "role"
+	// FieldLicenseExpireDate holds the string denoting the licenseexpiredate field in the database.
+	FieldLicenseExpireDate = "license_expire_date"
+	// FieldLastLogin holds the string denoting the lastlogin field in the database.
+	FieldLastLogin = "last_login"
+	// FieldActive holds the string denoting the active field in the database.
+	FieldActive = "active"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -52,6 +58,9 @@ var Columns = []string{
 	FieldPhone,
 	FieldPassword,
 	FieldRole,
+	FieldLicenseExpireDate,
+	FieldLastLogin,
+	FieldActive,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -73,6 +82,8 @@ var (
 	DefaultEmail string
 	// DefaultRole holds the default value on creation for the "Role" field.
 	DefaultRole string
+	// DefaultActive holds the default value on creation for the "Active" field.
+	DefaultActive bool
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -117,6 +128,21 @@ func ByPassword(opts ...sql.OrderTermOption) OrderOption {
 // ByRole orders the results by the Role field.
 func ByRole(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRole, opts...).ToFunc()
+}
+
+// ByLicenseExpireDate orders the results by the LicenseExpireDate field.
+func ByLicenseExpireDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLicenseExpireDate, opts...).ToFunc()
+}
+
+// ByLastLogin orders the results by the LastLogin field.
+func ByLastLogin(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLastLogin, opts...).ToFunc()
+}
+
+// ByActive orders the results by the Active field.
+func ByActive(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldActive, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

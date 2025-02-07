@@ -89,6 +89,48 @@ func (uc *UserCreate) SetNillableRole(s *string) *UserCreate {
 	return uc
 }
 
+// SetLicenseExpireDate sets the "LicenseExpireDate" field.
+func (uc *UserCreate) SetLicenseExpireDate(t time.Time) *UserCreate {
+	uc.mutation.SetLicenseExpireDate(t)
+	return uc
+}
+
+// SetNillableLicenseExpireDate sets the "LicenseExpireDate" field if the given value is not nil.
+func (uc *UserCreate) SetNillableLicenseExpireDate(t *time.Time) *UserCreate {
+	if t != nil {
+		uc.SetLicenseExpireDate(*t)
+	}
+	return uc
+}
+
+// SetLastLogin sets the "LastLogin" field.
+func (uc *UserCreate) SetLastLogin(t time.Time) *UserCreate {
+	uc.mutation.SetLastLogin(t)
+	return uc
+}
+
+// SetNillableLastLogin sets the "LastLogin" field if the given value is not nil.
+func (uc *UserCreate) SetNillableLastLogin(t *time.Time) *UserCreate {
+	if t != nil {
+		uc.SetLastLogin(*t)
+	}
+	return uc
+}
+
+// SetActive sets the "Active" field.
+func (uc *UserCreate) SetActive(b bool) *UserCreate {
+	uc.mutation.SetActive(b)
+	return uc
+}
+
+// SetNillableActive sets the "Active" field if the given value is not nil.
+func (uc *UserCreate) SetNillableActive(b *bool) *UserCreate {
+	if b != nil {
+		uc.SetActive(*b)
+	}
+	return uc
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (uc *UserCreate) SetCreatedAt(t time.Time) *UserCreate {
 	uc.mutation.SetCreatedAt(t)
@@ -179,6 +221,10 @@ func (uc *UserCreate) defaults() {
 		v := user.DefaultRole
 		uc.mutation.SetRole(v)
 	}
+	if _, ok := uc.mutation.Active(); !ok {
+		v := user.DefaultActive
+		uc.mutation.SetActive(v)
+	}
 	if _, ok := uc.mutation.CreatedAt(); !ok {
 		v := user.DefaultCreatedAt()
 		uc.mutation.SetCreatedAt(v)
@@ -205,6 +251,9 @@ func (uc *UserCreate) check() error {
 	}
 	if _, ok := uc.mutation.Role(); !ok {
 		return &ValidationError{Name: "Role", err: errors.New(`ent: missing required field "User.Role"`)}
+	}
+	if _, ok := uc.mutation.Active(); !ok {
+		return &ValidationError{Name: "Active", err: errors.New(`ent: missing required field "User.Active"`)}
 	}
 	if _, ok := uc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "User.CreatedAt"`)}
@@ -261,6 +310,18 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.Role(); ok {
 		_spec.SetField(user.FieldRole, field.TypeString, value)
 		_node.Role = value
+	}
+	if value, ok := uc.mutation.LicenseExpireDate(); ok {
+		_spec.SetField(user.FieldLicenseExpireDate, field.TypeTime, value)
+		_node.LicenseExpireDate = value
+	}
+	if value, ok := uc.mutation.LastLogin(); ok {
+		_spec.SetField(user.FieldLastLogin, field.TypeTime, value)
+		_node.LastLogin = value
+	}
+	if value, ok := uc.mutation.Active(); ok {
+		_spec.SetField(user.FieldActive, field.TypeBool, value)
+		_node.Active = value
 	}
 	if value, ok := uc.mutation.CreatedAt(); ok {
 		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)

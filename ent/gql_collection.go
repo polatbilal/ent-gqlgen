@@ -2032,6 +2032,21 @@ func (u *UserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graph
 				selectedFields = append(selectedFields, user.FieldRole)
 				fieldSeen[user.FieldRole] = struct{}{}
 			}
+		case "licenseexpiredate":
+			if _, ok := fieldSeen[user.FieldLicenseExpireDate]; !ok {
+				selectedFields = append(selectedFields, user.FieldLicenseExpireDate)
+				fieldSeen[user.FieldLicenseExpireDate] = struct{}{}
+			}
+		case "lastlogin":
+			if _, ok := fieldSeen[user.FieldLastLogin]; !ok {
+				selectedFields = append(selectedFields, user.FieldLastLogin)
+				fieldSeen[user.FieldLastLogin] = struct{}{}
+			}
+		case "active":
+			if _, ok := fieldSeen[user.FieldActive]; !ok {
+				selectedFields = append(selectedFields, user.FieldActive)
+				fieldSeen[user.FieldActive] = struct{}{}
+			}
 		case "createdat":
 			if _, ok := fieldSeen[user.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, user.FieldCreatedAt)

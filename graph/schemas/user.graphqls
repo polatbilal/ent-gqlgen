@@ -32,4 +32,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
   deleteUser(id: ID!): Boolean! @goField(forceResolver: true) @auth
+  activateCompanyUsers(adminId: ID!): [User!]!
+    @goField(forceResolver: true)
+    @auth
 }

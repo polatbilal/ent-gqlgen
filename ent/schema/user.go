@@ -22,6 +22,9 @@ func (User) Fields() []ent.Field {
 		field.String("Phone").Optional(),
 		field.String("Password"),
 		field.String("Role").Default("User"),
+		field.Time("LicenseExpireDate").Optional(),
+		field.Time("LastLogin").Optional(),
+		field.Bool("Active").Default(true),
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}

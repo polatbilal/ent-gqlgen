@@ -151,6 +151,78 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (bool, err
 	return err == nil, err
 }
 
+// ActivateCompanyUsers is the resolver for the activateCompanyUsers field.
+func (r *mutationResolver) ActivateCompanyUsers(ctx context.Context, adminID string) ([]*ent.User, error) {
+	client := middlewares.GetClientFromContext(ctx)
+
+	// Yetkili kullanıcıyı kontrol et
+	if userRole := middlewares.CtxValue(ctx); userRole == nil || userRole.Role != "Manager" {
+		return nil, fmt.Errorf("Yetkiniz yok")
+	}
+
+	// Admin ID'yi int'e çevir
+	adminIDInt, err := strconv.Atoi(adminID)
+	if err != nil {
+		return nil, fmt.Errorf("geçersiz admin ID: %v", err)
+	}
+
+	// Admin'i bul ve rolünü kontrol et
+	admin, err := client.User.Get(ctx, adminIDInt)
+	if err != nil {
+		return nil, fmt.Errorf("admin bulunamadı: %v", err)
+	}
+
+	if admin.Role != "Admin" {
+		return nil, fmt.Errorf("kullanıcı admin değil")
+	}
+
+	// Admin'in şirketlerini bul
+	companies, err := admin.QueryCompanies().QueryCompany().All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirketler alınamadı: %v", err)
+	}
+
+	if len(companies) == 0 {
+		return nil, fmt.Errorf("admin'e bağlı şirket bulunamadı")
+	}
+
+	// Şirket ID'lerini topla
+	companyIDs := make([]int, len(companies))
+	for i, company := range companies {
+		companyIDs[i] = company.ID
+	}
+
+	// Bu şirketlere bağlı tüm deaktif kullanıcıları bul
+	users, err := client.User.Query().
+		Where(
+			user.And(
+				user.HasCompaniesWith(
+					companyuser.HasCompanyWith(
+						companydetail.IDIn(companyIDs...),
+					),
+				),
+				user.ActiveEQ(false),
+			),
+		).All(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcılar alınamadı: %v", err)
+	}
+
+	// Kullanıcıları aktif et
+	for _, u := range users {
+		_, err := client.User.UpdateOne(u).
+			SetActive(true).
+			Save(ctx)
+
+		if err != nil {
+			return nil, fmt.Errorf("kullanıcı ID %d aktif edilemedi: %v", u.ID, err)
+		}
+	}
+
+	return users, nil
+}
+
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, id string) (*ent.User, error) {
 	client := middlewares.GetClientFromContext(ctx)

@@ -85,6 +85,21 @@ func Role(v string) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldRole, v))
 }
 
+// LicenseExpireDate applies equality check predicate on the "LicenseExpireDate" field. It's identical to LicenseExpireDateEQ.
+func LicenseExpireDate(v time.Time) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldLicenseExpireDate, v))
+}
+
+// LastLogin applies equality check predicate on the "LastLogin" field. It's identical to LastLoginEQ.
+func LastLogin(v time.Time) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldLastLogin, v))
+}
+
+// Active applies equality check predicate on the "Active" field. It's identical to ActiveEQ.
+func Active(v bool) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldActive, v))
+}
+
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldCreatedAt, v))
@@ -493,6 +508,116 @@ func RoleEqualFold(v string) predicate.User {
 // RoleContainsFold applies the ContainsFold predicate on the "Role" field.
 func RoleContainsFold(v string) predicate.User {
 	return predicate.User(sql.FieldContainsFold(FieldRole, v))
+}
+
+// LicenseExpireDateEQ applies the EQ predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateEQ(v time.Time) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldLicenseExpireDate, v))
+}
+
+// LicenseExpireDateNEQ applies the NEQ predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateNEQ(v time.Time) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldLicenseExpireDate, v))
+}
+
+// LicenseExpireDateIn applies the In predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateIn(vs ...time.Time) predicate.User {
+	return predicate.User(sql.FieldIn(FieldLicenseExpireDate, vs...))
+}
+
+// LicenseExpireDateNotIn applies the NotIn predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateNotIn(vs ...time.Time) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldLicenseExpireDate, vs...))
+}
+
+// LicenseExpireDateGT applies the GT predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateGT(v time.Time) predicate.User {
+	return predicate.User(sql.FieldGT(FieldLicenseExpireDate, v))
+}
+
+// LicenseExpireDateGTE applies the GTE predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateGTE(v time.Time) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldLicenseExpireDate, v))
+}
+
+// LicenseExpireDateLT applies the LT predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateLT(v time.Time) predicate.User {
+	return predicate.User(sql.FieldLT(FieldLicenseExpireDate, v))
+}
+
+// LicenseExpireDateLTE applies the LTE predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateLTE(v time.Time) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldLicenseExpireDate, v))
+}
+
+// LicenseExpireDateIsNil applies the IsNil predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldLicenseExpireDate))
+}
+
+// LicenseExpireDateNotNil applies the NotNil predicate on the "LicenseExpireDate" field.
+func LicenseExpireDateNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldLicenseExpireDate))
+}
+
+// LastLoginEQ applies the EQ predicate on the "LastLogin" field.
+func LastLoginEQ(v time.Time) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldLastLogin, v))
+}
+
+// LastLoginNEQ applies the NEQ predicate on the "LastLogin" field.
+func LastLoginNEQ(v time.Time) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldLastLogin, v))
+}
+
+// LastLoginIn applies the In predicate on the "LastLogin" field.
+func LastLoginIn(vs ...time.Time) predicate.User {
+	return predicate.User(sql.FieldIn(FieldLastLogin, vs...))
+}
+
+// LastLoginNotIn applies the NotIn predicate on the "LastLogin" field.
+func LastLoginNotIn(vs ...time.Time) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldLastLogin, vs...))
+}
+
+// LastLoginGT applies the GT predicate on the "LastLogin" field.
+func LastLoginGT(v time.Time) predicate.User {
+	return predicate.User(sql.FieldGT(FieldLastLogin, v))
+}
+
+// LastLoginGTE applies the GTE predicate on the "LastLogin" field.
+func LastLoginGTE(v time.Time) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldLastLogin, v))
+}
+
+// LastLoginLT applies the LT predicate on the "LastLogin" field.
+func LastLoginLT(v time.Time) predicate.User {
+	return predicate.User(sql.FieldLT(FieldLastLogin, v))
+}
+
+// LastLoginLTE applies the LTE predicate on the "LastLogin" field.
+func LastLoginLTE(v time.Time) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldLastLogin, v))
+}
+
+// LastLoginIsNil applies the IsNil predicate on the "LastLogin" field.
+func LastLoginIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldLastLogin))
+}
+
+// LastLoginNotNil applies the NotNil predicate on the "LastLogin" field.
+func LastLoginNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldLastLogin))
+}
+
+// ActiveEQ applies the EQ predicate on the "Active" field.
+func ActiveEQ(v bool) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldActive, v))
+}
+
+// ActiveNEQ applies the NEQ predicate on the "Active" field.
+func ActiveNEQ(v bool) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldActive, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

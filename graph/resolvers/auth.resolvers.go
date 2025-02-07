@@ -71,6 +71,10 @@ func (r *mutationResolver) Login(ctx context.Context, username string, password 
 		return nil, err
 	}
 
+	if user.Active != true {
+		return nil, fmt.Errorf("Hesabınız devre dışı bırakılmış")
+	}
+
 	if err := tools.ComparePassword(user.Password, password); err != nil {
 		return nil, err
 	}

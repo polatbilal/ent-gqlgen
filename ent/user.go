@@ -29,6 +29,12 @@ type User struct {
 	Password string `json:"Password,omitempty"`
 	// Role holds the value of the "Role" field.
 	Role string `json:"Role,omitempty"`
+	// LicenseExpireDate holds the value of the "LicenseExpireDate" field.
+	LicenseExpireDate time.Time `json:"LicenseExpireDate,omitempty"`
+	// LastLogin holds the value of the "LastLogin" field.
+	LastLogin time.Time `json:"LastLogin,omitempty"`
+	// Active holds the value of the "Active" field.
+	Active bool `json:"Active,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -66,11 +72,13 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case user.FieldActive:
+			values[i] = new(sql.NullBool)
 		case user.FieldID:
 			values[i] = new(sql.NullInt64)
 		case user.FieldUsername, user.FieldName, user.FieldEmail, user.FieldPhone, user.FieldPassword, user.FieldRole:
 			values[i] = new(sql.NullString)
-		case user.FieldCreatedAt, user.FieldUpdatedAt:
+		case user.FieldLicenseExpireDate, user.FieldLastLogin, user.FieldCreatedAt, user.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -128,6 +136,24 @@ func (u *User) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Role", values[i])
 			} else if value.Valid {
 				u.Role = value.String
+			}
+		case user.FieldLicenseExpireDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field LicenseExpireDate", values[i])
+			} else if value.Valid {
+				u.LicenseExpireDate = value.Time
+			}
+		case user.FieldLastLogin:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field LastLogin", values[i])
+			} else if value.Valid {
+				u.LastLogin = value.Time
+			}
+		case user.FieldActive:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field Active", values[i])
+			} else if value.Valid {
+				u.Active = value.Bool
 			}
 		case user.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -199,6 +225,15 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("Role=")
 	builder.WriteString(u.Role)
+	builder.WriteString(", ")
+	builder.WriteString("LicenseExpireDate=")
+	builder.WriteString(u.LicenseExpireDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("LastLogin=")
+	builder.WriteString(u.LastLogin.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("Active=")
+	builder.WriteString(fmt.Sprintf("%v", u.Active))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(u.CreatedAt.Format(time.ANSIC))
