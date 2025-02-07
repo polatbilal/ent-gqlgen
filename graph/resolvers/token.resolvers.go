@@ -40,6 +40,11 @@ func (r *companyTokenResolver) CompanyCode(ctx context.Context, obj *ent.Company
 func (r *mutationResolver) CreateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
+	// Yetkili kullanıcıyı kontrol et
+	if userRole := middlewares.CtxValue(ctx); userRole == nil || userRole.Role != "Admin" {
+		return nil, fmt.Errorf("Yetkiniz yok")
+	}
+
 	// 1. Önce token'ı kaydet
 	tokenCreate := client.CompanyToken.Create().
 		SetToken(*input.Token).
