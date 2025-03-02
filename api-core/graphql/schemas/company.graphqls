@@ -1,0 +1,67 @@
+type CompanyDetail {
+  id: ID
+  CompanyCode: Int
+  Name: String!
+  Address: String
+  Phone: String
+  Fax: String
+  MobilePhone: String
+  Email: String
+  Website: String
+  TaxAdmin: String
+  TaxNo: Int
+  ChamberInfo: String
+  ChamberRegisterNo: String
+  VisaDate: Time
+  VisaEndDate: Time
+  visa_finished_for_90days: Boolean
+  core_person_absent_90days: Boolean
+  isClosed: Boolean
+  OwnerName: String
+  OwnerTcNo: Int
+  OwnerAddress: String
+  OwnerPhone: String
+  OwnerEmail: String
+  OwnerRegisterNo: Int
+  OwnerCareer: String
+}
+
+input CompanyDetailInput {
+  CompanyCode: Int!
+  Name: String!
+  Address: String
+  Phone: String
+  Fax: String
+  MobilePhone: String
+  Email: String
+  Website: String
+  TaxAdmin: String
+  TaxNo: Int
+  ChamberInfo: String
+  ChamberRegisterNo: String
+  VisaDate: Time
+  VisaEndDate: Time
+  visa_finished_for_90days: Boolean
+  core_person_absent_90days: Boolean
+  isClosed: Boolean
+  OwnerName: String
+  OwnerTcNo: Int
+  OwnerAddress: String
+  OwnerPhone: String
+  OwnerEmail: String
+  OwnerRegisterNo: Int
+  OwnerCareer: String
+}
+
+extend type Query {
+  company(yibfNo: Int!): CompanyDetail! @goField(forceResolver: true) @auth
+  companyByCode(companyCode: Int!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
+}
+
+extend type Mutation {
+  updateCompany(input: CompanyDetailInput!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
+}

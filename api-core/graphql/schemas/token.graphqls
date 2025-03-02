@@ -1,0 +1,31 @@
+type CompanyToken {
+  Token: String
+  DepartmentId: Int
+  Expire: Int
+  CompanyCode: Int
+}
+
+input CompanyTokenInput {
+  Token: String
+  DepartmentId: Int
+  Expire: Int
+  CompanyCode: Int
+  RefreshToken: String
+  SecretKey: String
+  SecureSecretKey: String
+  OtpUri: String
+}
+
+extend type Query {
+  companyToken(companyCode: Int): CompanyToken!
+    @goField(forceResolver: true)
+    @auth
+}
+
+extend type Mutation {
+  createToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken!
+
+  updateToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken
+    @goField(forceResolver: true)
+    @auth
+}

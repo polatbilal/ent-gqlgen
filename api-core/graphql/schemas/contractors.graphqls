@@ -1,0 +1,47 @@
+# Job Contractor
+type JobContractor {
+  id: ID
+  Name: String
+  TcNo: Int
+  RegisterNo: Int
+  Address: String
+  TaxNo: Int
+  MobilePhone: String
+  Phone: String
+  Email: String
+  PersonType: String
+  YDSID: Int
+  Note: String
+}
+
+input JobContractorInput {
+  id: ID
+  YibfNo: Int
+  Name: String
+  TcNo: Int
+  RegisterNo: Int
+  Address: String
+  TaxNo: Int
+  MobilePhone: String
+  Phone: String
+  Email: String
+  PersonType: String
+  YDSID: Int
+  Note: String
+}
+
+extend type Query {
+  allContractor: [JobContractor] @goField(forceResolver: true) @auth
+  contractor(yibfNo: Int!): JobContractor @goField(forceResolver: true) @auth
+  getContractor(YDSID: Int!): JobContractor @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  createContractor(input: JobContractorInput!): JobContractor!
+    @goField(forceResolver: true)
+    @auth
+
+  updateContractor(yibfNo: Int!, input: JobContractorInput!): JobContractor!
+    @goField(forceResolver: true)
+    @auth
+}

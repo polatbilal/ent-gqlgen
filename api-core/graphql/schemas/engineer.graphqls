@@ -1,0 +1,60 @@
+type CompanyEngineer {
+  id: ID!
+  Name: String
+  TcNo: Int
+  Phone: String
+  Email: String
+  Address: String
+  Career: String
+  Position: String
+  RegisterNo: Int
+  CertNo: Int
+  YDSID: Int
+  Employment: Time
+  Status: Int
+  Note: String
+  CompanyCode: Int
+  Company: CompanyDetail
+}
+
+input CompanyEngineerInput {
+  CompanyCode: Int
+  YibfNo: Int
+  YDSID: Int
+  Name: String
+  TcNo: Int
+  Phone: String
+  Email: String
+  Address: String
+  Career: String
+  Position: String
+  RegisterNo: Int
+  CertNo: Int
+  Employment: Time
+  Status: Int
+  Note: String
+}
+
+input EngineerFilterInput {
+  id: ID
+  YDSID: Int
+}
+
+extend type Query {
+  engineer(filter: EngineerFilterInput): [CompanyEngineer]! @goField(forceResolver: true)
+  engineerByYDSID(ydsid: Int!): CompanyEngineer @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  createEngineer(input: CompanyEngineerInput!): CompanyEngineer!
+    @goField(forceResolver: true)
+    @auth
+
+  updateEngineer(ydsid: Int!, input: CompanyEngineerInput!): CompanyEngineer!
+    @goField(forceResolver: true)
+    @auth
+
+  updateEngineerByYDSID(ydsid: Int!, input: CompanyEngineerInput!): CompanyEngineer!
+    @goField(forceResolver: true)
+    @auth
+}

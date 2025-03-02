@@ -1,7 +1,7 @@
 start server
 
 ```
-go run server.go
+go run main.go
 ```
 
 if you edit graphql schema file, you need to generate graphql schema
@@ -15,9 +15,9 @@ go run github.com/99designs/gqlgen generate
 if you edit ent schema file, you need to generate ent schema
 
 ```
-go run entgo.io/ent/cmd/ent generate ./ent/schema
+go run entgo.io/ent/cmd/ent generate ./api-core/ent/schema
 
 OR
 
-go run ent/entc.go (recommended)
+go run api-core/ent/entc.go (recommended)
 ```
