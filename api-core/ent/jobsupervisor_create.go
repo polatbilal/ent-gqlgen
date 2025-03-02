@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobsupervisor"
 )
 
@@ -203,14 +203,14 @@ func (jsc *JobSupervisorCreate) SetNillableUpdatedAt(t *time.Time) *JobSuperviso
 	return jsc
 }
 
-// AddSupervisorIDs adds the "supervisors" edge to the JobDetail entity by IDs.
+// AddSupervisorIDs adds the "supervisors" edge to the JobRelations entity by IDs.
 func (jsc *JobSupervisorCreate) AddSupervisorIDs(ids ...int) *JobSupervisorCreate {
 	jsc.mutation.AddSupervisorIDs(ids...)
 	return jsc
 }
 
-// AddSupervisors adds the "supervisors" edges to the JobDetail entity.
-func (jsc *JobSupervisorCreate) AddSupervisors(j ...*JobDetail) *JobSupervisorCreate {
+// AddSupervisors adds the "supervisors" edges to the JobRelations entity.
+func (jsc *JobSupervisorCreate) AddSupervisors(j ...*JobRelations) *JobSupervisorCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -357,7 +357,7 @@ func (jsc *JobSupervisorCreate) createSpec() (*JobSupervisor, *sqlgraph.CreateSp
 			Columns: []string{jobsupervisor.SupervisorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

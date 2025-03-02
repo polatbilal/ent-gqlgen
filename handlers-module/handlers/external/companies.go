@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/client"
@@ -22,20 +21,33 @@ func YDKCompanies(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
-	// CompanyCode parametresini al
-	companyCode := c.Query("companyCode")
-	if companyCode == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
+	// // CompanyCode parametresini al
+	// companyCode := c.Query("companyCode")
+	// if companyCode == "" {
+	// 	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
+	// }
+
+	// // CompanyCode'u integer'a çevir
+	// companyCodeInt, err := strconv.Atoi(companyCode)
+	// if err != nil {
+	// 	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçersiz CompanyCode formatı"})
+	// }
+
+	// Request body'den parametreleri al
+	var requestParams service.ProgressPaymentRequest
+	if err := c.BodyParser(&requestParams); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Geçersiz request body: " + err.Error(),
+		})
 	}
 
-	// CompanyCode'u integer'a çevir
-	companyCodeInt, err := strconv.Atoi(companyCode)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçersiz CompanyCode formatı"})
+	// Parametreleri kontrol et
+	if requestParams.CompanyCode == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "companyCode parametresi gerekli"})
 	}
 
 	// Token bilgisini veritabanından al
-	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCodeInt)
+	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), requestParams.CompanyCode)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -126,9 +138,7 @@ func YDKCompanies(c *fiber.Ctx) error {
 	if c.Protocol() == "https" {
 		scheme = "https"
 	}
-	graphqlClient := client.GraphQLClient{
-		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Hostname()),
-	}
+	graphqlClient := client.NewGraphQLClient(scheme)
 
 	// Şirket verilerini hazırla
 	companyData := map[string]interface{}{

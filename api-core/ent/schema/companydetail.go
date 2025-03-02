@@ -50,7 +50,8 @@ func (CompanyDetail) Fields() []ent.Field {
 // Edges of the CompanyDetail.
 func (CompanyDetail) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("jobs", JobDetail.Type).StorageKey(edge.Column("company_id")),
+		// edge.To("jobs", JobDetail.Type).StorageKey(edge.Column("company_id")),
+		edge.To("jobs", JobRelations.Type).StorageKey(edge.Column("company_id")),
 		edge.To("users", CompanyUser.Type).StorageKey(edge.Column("company_id")),
 		edge.To("tokens", CompanyToken.Type).StorageKey(edge.Column("company_id")),
 		edge.To("engineers", CompanyEngineer.Type).StorageKey(edge.Column("company_id")),

@@ -61,11 +61,30 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 // Company is the resolver for the company field.
 func (r *queryResolver) Company(ctx context.Context, yibfNo int) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	jobCompany, err := client.CompanyDetail.Query().Where(companydetail.HasJobsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+
+	// Önce JobDetail'i bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
+	}
+
+	// JobRelations üzerinden company'i bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	company, err := relations.QueryCompany().Only(ctx)
+	if ent.IsNotFound(err) {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
 	}
-	return jobCompany, nil
+
+	return company, nil
 }
 
 // CompanyByCode is the resolver for the companyByCode field.

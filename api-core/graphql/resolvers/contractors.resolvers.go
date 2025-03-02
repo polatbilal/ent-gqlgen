@@ -20,7 +20,6 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 	client := middlewares.GetClientFromContext(ctx)
 
 	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).Only(ctx)
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to get job detail: %w", err)
 	}
@@ -50,13 +49,19 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 		return nil, fmt.Errorf("failed to check contractor: %w", err)
 	}
 
-	// Contractor'ı job'a ekleyelim
-	err = contractor.Update().
-		AddContractors(jobDetail).
-		Exec(ctx)
+	// JobRelations'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	// Contractor'ı JobRelations'a ekle
+	_, err = relations.Update().
+		SetContractor(contractor).
+		Save(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to add contractor to job detail: %w", err)
+		return nil, fmt.Errorf("failed to add contractor to job relations: %w", err)
 	}
 
 	return contractor, nil
@@ -66,13 +71,26 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 func (r *mutationResolver) UpdateContractor(ctx context.Context, yibfNo int, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobContractor, err := client.JobContractor.Query().Where(jobcontractor.HasContractorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
-
+	// Önce JobDetail'i bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get contractor: %w", err)
+		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
 	}
 
-	contractor, err := jobContractor.Update().
+	// JobRelations üzerinden contractor'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	contractor, err := relations.QueryContractor().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("contractor bulunamadı: %v", err)
+	}
+
+	contractor, err = contractor.Update().
 		SetNillableName(input.Name).
 		SetNillableTcNo(input.TcNo).
 		SetNillableRegisterNo(input.RegisterNo).
@@ -102,7 +120,30 @@ func (r *queryResolver) AllContractor(ctx context.Context) ([]*ent.JobContractor
 // Contractor is the resolver for the contractor field.
 func (r *queryResolver) Contractor(ctx context.Context, yibfNo int) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	return client.JobContractor.Query().Where(jobcontractor.HasContractorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+
+	// Önce JobDetail'i bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
+	}
+
+	// JobRelations üzerinden contractor'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	contractor, err := relations.QueryContractor().Only(ctx)
+	if ent.IsNotFound(err) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to get contractor: %w", err)
+	}
+
+	return contractor, nil
 }
 
 // GetContractor is the resolver for the getContractor field.

@@ -682,7 +682,7 @@ func HasPayments() predicate.JobPayments {
 }
 
 // HasPaymentsWith applies the HasEdge predicate on the "payments" edge with a given conditions (other predicates).
-func HasPaymentsWith(preds ...predicate.JobDetail) predicate.JobPayments {
+func HasPaymentsWith(preds ...predicate.JobRelations) predicate.JobPayments {
 	return predicate.JobPayments(func(s *sql.Selector) {
 		step := newPaymentsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

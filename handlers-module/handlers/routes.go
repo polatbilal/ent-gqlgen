@@ -14,7 +14,7 @@ func SetupRoutes(app *fiber.App) {
 	// Company ile ilgili endpoint'ler
 	companyGroup := ydkGroup.Group("/company")
 	companyGroup.Post("/inspectors", external.YDKInspectors)
-	companyGroup.Get("/list", external.YDKCompanies)
+	companyGroup.Post("/list", external.YDKCompanies)
 	companyGroup.Get("/sync", sync.CompanySync)
 
 	// İş ile ilgili endpoint'ler

@@ -58,24 +58,6 @@ func (JobDetail) Fields() []ent.Field {
 // Edges of the JobDetail.
 func (JobDetail) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("owner", JobOwner.Type).Ref("owners").Unique(),
-		edge.From("author", JobAuthor.Type).Ref("authors").Unique(),
-		edge.From("company", CompanyDetail.Type).Ref("jobs").Unique(),
-		edge.From("progress", JobProgress.Type).Ref("progress").Unique(),
-		edge.From("contractor", JobContractor.Type).Ref("contractors").Unique(),
-		edge.From("supervisor", JobSupervisor.Type).Ref("supervisors").Unique(),
-
-		edge.From("static", CompanyEngineer.Type).Ref("statics").Unique(),
-		edge.From("mechanic", CompanyEngineer.Type).Ref("mechanics").Unique(),
-		edge.From("electric", CompanyEngineer.Type).Ref("electrics").Unique(),
-		edge.From("inspector", CompanyEngineer.Type).Ref("inspectors").Unique(),
-		edge.From("architect", CompanyEngineer.Type).Ref("architects").Unique(),
-
-		edge.From("controller", CompanyEngineer.Type).Ref("controllers").Unique(),
-		edge.From("mechaniccontroller", CompanyEngineer.Type).Ref("mechaniccontrollers").Unique(),
-		edge.From("electriccontroller", CompanyEngineer.Type).Ref("electriccontrollers").Unique(),
-
-		edge.To("layers", JobLayer.Type).StorageKey(edge.Column("job_id")),
-		edge.To("payments", JobPayments.Type).StorageKey(edge.Column("job_id")),
+		edge.To("relations", JobRelations.Type).Unique().StorageKey(edge.Column("job_id")),
 	}
 }

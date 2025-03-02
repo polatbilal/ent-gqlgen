@@ -1050,7 +1050,7 @@ func HasStatics() predicate.CompanyEngineer {
 }
 
 // HasStaticsWith applies the HasEdge predicate on the "statics" edge with a given conditions (other predicates).
-func HasStaticsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+func HasStaticsWith(preds ...predicate.JobRelations) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newStaticsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
@@ -1073,7 +1073,7 @@ func HasMechanics() predicate.CompanyEngineer {
 }
 
 // HasMechanicsWith applies the HasEdge predicate on the "mechanics" edge with a given conditions (other predicates).
-func HasMechanicsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+func HasMechanicsWith(preds ...predicate.JobRelations) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newMechanicsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
@@ -1096,7 +1096,7 @@ func HasElectrics() predicate.CompanyEngineer {
 }
 
 // HasElectricsWith applies the HasEdge predicate on the "electrics" edge with a given conditions (other predicates).
-func HasElectricsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+func HasElectricsWith(preds ...predicate.JobRelations) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newElectricsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
@@ -1119,7 +1119,7 @@ func HasInspectors() predicate.CompanyEngineer {
 }
 
 // HasInspectorsWith applies the HasEdge predicate on the "inspectors" edge with a given conditions (other predicates).
-func HasInspectorsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+func HasInspectorsWith(preds ...predicate.JobRelations) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newInspectorsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
@@ -1142,7 +1142,7 @@ func HasArchitects() predicate.CompanyEngineer {
 }
 
 // HasArchitectsWith applies the HasEdge predicate on the "architects" edge with a given conditions (other predicates).
-func HasArchitectsWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+func HasArchitectsWith(preds ...predicate.JobRelations) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newArchitectsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
@@ -1165,7 +1165,7 @@ func HasControllers() predicate.CompanyEngineer {
 }
 
 // HasControllersWith applies the HasEdge predicate on the "controllers" edge with a given conditions (other predicates).
-func HasControllersWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+func HasControllersWith(preds ...predicate.JobRelations) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newControllersStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
@@ -1188,7 +1188,7 @@ func HasMechaniccontrollers() predicate.CompanyEngineer {
 }
 
 // HasMechaniccontrollersWith applies the HasEdge predicate on the "mechaniccontrollers" edge with a given conditions (other predicates).
-func HasMechaniccontrollersWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+func HasMechaniccontrollersWith(preds ...predicate.JobRelations) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newMechaniccontrollersStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
@@ -1211,7 +1211,7 @@ func HasElectriccontrollers() predicate.CompanyEngineer {
 }
 
 // HasElectriccontrollersWith applies the HasEdge predicate on the "electriccontrollers" edge with a given conditions (other predicates).
-func HasElectriccontrollersWith(preds ...predicate.JobDetail) predicate.CompanyEngineer {
+func HasElectriccontrollersWith(preds ...predicate.JobRelations) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(func(s *sql.Selector) {
 		step := newElectriccontrollersStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

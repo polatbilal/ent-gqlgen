@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
@@ -24,10 +24,10 @@ type JobSupervisorQuery struct {
 	order                []jobsupervisor.OrderOption
 	inters               []Interceptor
 	predicates           []predicate.JobSupervisor
-	withSupervisors      *JobDetailQuery
+	withSupervisors      *JobRelationsQuery
 	modifiers            []func(*sql.Selector)
 	loadTotal            []func(context.Context, []*JobSupervisor) error
-	withNamedSupervisors map[string]*JobDetailQuery
+	withNamedSupervisors map[string]*JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -65,8 +65,8 @@ func (jsq *JobSupervisorQuery) Order(o ...jobsupervisor.OrderOption) *JobSupervi
 }
 
 // QuerySupervisors chains the current query on the "supervisors" edge.
-func (jsq *JobSupervisorQuery) QuerySupervisors() *JobDetailQuery {
-	query := (&JobDetailClient{config: jsq.config}).Query()
+func (jsq *JobSupervisorQuery) QuerySupervisors() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: jsq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := jsq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -77,7 +77,7 @@ func (jsq *JobSupervisorQuery) QuerySupervisors() *JobDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobsupervisor.Table, jobsupervisor.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobsupervisor.SupervisorsTable, jobsupervisor.SupervisorsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(jsq.driver.Dialect(), step)
@@ -287,8 +287,8 @@ func (jsq *JobSupervisorQuery) Clone() *JobSupervisorQuery {
 
 // WithSupervisors tells the query-builder to eager-load the nodes that are connected to
 // the "supervisors" edge. The optional arguments are used to configure the query builder of the edge.
-func (jsq *JobSupervisorQuery) WithSupervisors(opts ...func(*JobDetailQuery)) *JobSupervisorQuery {
-	query := (&JobDetailClient{config: jsq.config}).Query()
+func (jsq *JobSupervisorQuery) WithSupervisors(opts ...func(*JobRelationsQuery)) *JobSupervisorQuery {
+	query := (&JobRelationsClient{config: jsq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -401,15 +401,15 @@ func (jsq *JobSupervisorQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	}
 	if query := jsq.withSupervisors; query != nil {
 		if err := jsq.loadSupervisors(ctx, query, nodes,
-			func(n *JobSupervisor) { n.Edges.Supervisors = []*JobDetail{} },
-			func(n *JobSupervisor, e *JobDetail) { n.Edges.Supervisors = append(n.Edges.Supervisors, e) }); err != nil {
+			func(n *JobSupervisor) { n.Edges.Supervisors = []*JobRelations{} },
+			func(n *JobSupervisor, e *JobRelations) { n.Edges.Supervisors = append(n.Edges.Supervisors, e) }); err != nil {
 			return nil, err
 		}
 	}
 	for name, query := range jsq.withNamedSupervisors {
 		if err := jsq.loadSupervisors(ctx, query, nodes,
 			func(n *JobSupervisor) { n.appendNamedSupervisors(name) },
-			func(n *JobSupervisor, e *JobDetail) { n.appendNamedSupervisors(name, e) }); err != nil {
+			func(n *JobSupervisor, e *JobRelations) { n.appendNamedSupervisors(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -421,7 +421,7 @@ func (jsq *JobSupervisorQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	return nodes, nil
 }
 
-func (jsq *JobSupervisorQuery) loadSupervisors(ctx context.Context, query *JobDetailQuery, nodes []*JobSupervisor, init func(*JobSupervisor), assign func(*JobSupervisor, *JobDetail)) error {
+func (jsq *JobSupervisorQuery) loadSupervisors(ctx context.Context, query *JobRelationsQuery, nodes []*JobSupervisor, init func(*JobSupervisor), assign func(*JobSupervisor, *JobRelations)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobSupervisor)
 	for i := range nodes {
@@ -432,7 +432,7 @@ func (jsq *JobSupervisorQuery) loadSupervisors(ctx context.Context, query *JobDe
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.JobDetail(func(s *sql.Selector) {
+	query.Where(predicate.JobRelations(func(s *sql.Selector) {
 		s.Where(sql.InValues(s.C(jobsupervisor.SupervisorsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
@@ -539,13 +539,13 @@ func (jsq *JobSupervisorQuery) sqlQuery(ctx context.Context) *sql.Selector {
 
 // WithNamedSupervisors tells the query-builder to eager-load the nodes that are connected to the "supervisors"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jsq *JobSupervisorQuery) WithNamedSupervisors(name string, opts ...func(*JobDetailQuery)) *JobSupervisorQuery {
-	query := (&JobDetailClient{config: jsq.config}).Query()
+func (jsq *JobSupervisorQuery) WithNamedSupervisors(name string, opts ...func(*JobRelationsQuery)) *JobSupervisorQuery {
+	query := (&JobRelationsClient{config: jsq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
 	if jsq.withNamedSupervisors == nil {
-		jsq.withNamedSupervisors = make(map[string]*JobDetailQuery)
+		jsq.withNamedSupervisors = make(map[string]*JobRelationsQuery)
 	}
 	jsq.withNamedSupervisors[name] = query
 	return jsq

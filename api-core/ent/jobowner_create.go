@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 )
 
 // JobOwnerCreate is the builder for creating a JobOwner entity.
@@ -189,14 +189,14 @@ func (joc *JobOwnerCreate) SetNillableUpdatedAt(t *time.Time) *JobOwnerCreate {
 	return joc
 }
 
-// AddOwnerIDs adds the "owners" edge to the JobDetail entity by IDs.
+// AddOwnerIDs adds the "owners" edge to the JobRelations entity by IDs.
 func (joc *JobOwnerCreate) AddOwnerIDs(ids ...int) *JobOwnerCreate {
 	joc.mutation.AddOwnerIDs(ids...)
 	return joc
 }
 
-// AddOwners adds the "owners" edges to the JobDetail entity.
-func (joc *JobOwnerCreate) AddOwners(j ...*JobDetail) *JobOwnerCreate {
+// AddOwners adds the "owners" edges to the JobRelations entity.
+func (joc *JobOwnerCreate) AddOwners(j ...*JobRelations) *JobOwnerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -353,7 +353,7 @@ func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

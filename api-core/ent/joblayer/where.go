@@ -55,6 +55,11 @@ func IDLTE(id int) predicate.JobLayer {
 	return predicate.JobLayer(sql.FieldLTE(FieldID, id))
 }
 
+// YibfNo applies equality check predicate on the "yibfNo" field. It's identical to YibfNoEQ.
+func YibfNo(v int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldEQ(FieldYibfNo, v))
+}
+
 // Name applies equality check predicate on the "Name" field. It's identical to NameEQ.
 func Name(v string) predicate.JobLayer {
 	return predicate.JobLayer(sql.FieldEQ(FieldName, v))
@@ -103,6 +108,46 @@ func CreatedAt(v time.Time) predicate.JobLayer {
 // UpdatedAt applies equality check predicate on the "UpdatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.JobLayer {
 	return predicate.JobLayer(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// YibfNoEQ applies the EQ predicate on the "yibfNo" field.
+func YibfNoEQ(v int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldEQ(FieldYibfNo, v))
+}
+
+// YibfNoNEQ applies the NEQ predicate on the "yibfNo" field.
+func YibfNoNEQ(v int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldNEQ(FieldYibfNo, v))
+}
+
+// YibfNoIn applies the In predicate on the "yibfNo" field.
+func YibfNoIn(vs ...int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldIn(FieldYibfNo, vs...))
+}
+
+// YibfNoNotIn applies the NotIn predicate on the "yibfNo" field.
+func YibfNoNotIn(vs ...int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldNotIn(FieldYibfNo, vs...))
+}
+
+// YibfNoGT applies the GT predicate on the "yibfNo" field.
+func YibfNoGT(v int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldGT(FieldYibfNo, v))
+}
+
+// YibfNoGTE applies the GTE predicate on the "yibfNo" field.
+func YibfNoGTE(v int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldGTE(FieldYibfNo, v))
+}
+
+// YibfNoLT applies the LT predicate on the "yibfNo" field.
+func YibfNoLT(v int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldLT(FieldYibfNo, v))
+}
+
+// YibfNoLTE applies the LTE predicate on the "yibfNo" field.
+func YibfNoLTE(v int) predicate.JobLayer {
+	return predicate.JobLayer(sql.FieldLTE(FieldYibfNo, v))
 }
 
 // NameEQ applies the EQ predicate on the "Name" field.
@@ -702,7 +747,7 @@ func HasLayer() predicate.JobLayer {
 }
 
 // HasLayerWith applies the HasEdge predicate on the "layer" edge with a given conditions (other predicates).
-func HasLayerWith(preds ...predicate.JobDetail) predicate.JobLayer {
+func HasLayerWith(preds ...predicate.JobRelations) predicate.JobLayer {
 	return predicate.JobLayer(func(s *sql.Selector) {
 		step := newLayerStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

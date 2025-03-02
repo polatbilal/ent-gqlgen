@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 )
 
 // JobPayments is the model entity for the JobPayments schema.
@@ -50,7 +50,7 @@ type JobPayments struct {
 // JobPaymentsEdges holds the relations/edges for other nodes in the graph.
 type JobPaymentsEdges struct {
 	// Payments holds the value of the payments edge.
-	Payments *JobDetail `json:"payments,omitempty"`
+	Payments *JobRelations `json:"payments,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
@@ -60,11 +60,11 @@ type JobPaymentsEdges struct {
 
 // PaymentsOrErr returns the Payments value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e JobPaymentsEdges) PaymentsOrErr() (*JobDetail, error) {
+func (e JobPaymentsEdges) PaymentsOrErr() (*JobRelations, error) {
 	if e.Payments != nil {
 		return e.Payments, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: jobdetail.Label}
+		return nil, &NotFoundError{label: jobrelations.Label}
 	}
 	return nil, &NotLoadedError{edge: "payments"}
 }
@@ -192,7 +192,7 @@ func (jp *JobPayments) Value(name string) (ent.Value, error) {
 }
 
 // QueryPayments queries the "payments" edge of the JobPayments entity.
-func (jp *JobPayments) QueryPayments() *JobDetailQuery {
+func (jp *JobPayments) QueryPayments() *JobRelationsQuery {
 	return NewJobPaymentsClient(jp.config).QueryPayments(jp)
 }
 

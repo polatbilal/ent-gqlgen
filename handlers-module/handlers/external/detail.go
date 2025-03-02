@@ -214,9 +214,7 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 		scheme = "https"
 	}
 
-	graphqlClient := client.GraphQLClient{
-		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Hostname()),
-	}
+	graphqlClient := client.NewGraphQLClient(scheme)
 
 	for _, yibfID := range yibfNumbers {
 		// Önce mevcut kaydı kontrol et

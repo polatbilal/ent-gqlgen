@@ -16,6 +16,7 @@ type JobAuthor struct {
 // Fields of the Job_Author.
 func (JobAuthor) Fields() []ent.Field {
 	return []ent.Field{
+		field.Int("yibfNo").Optional().Unique(),
 		field.String("Static").Optional(),
 		field.String("Mechanic").Optional(),
 		field.String("Electric").Optional(),
@@ -32,6 +33,6 @@ func (JobAuthor) Fields() []ent.Field {
 // Edges of the Job_Author.
 func (JobAuthor) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("authors", JobDetail.Type).StorageKey(edge.Column("author_id")),
+		edge.To("authors", JobRelations.Type).StorageKey(edge.Column("author_id")),
 	}
 }

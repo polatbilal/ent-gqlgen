@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
 
@@ -291,14 +291,14 @@ func (jcu *JobContractorUpdate) SetUpdatedAt(t time.Time) *JobContractorUpdate {
 	return jcu
 }
 
-// AddContractorIDs adds the "contractors" edge to the JobDetail entity by IDs.
+// AddContractorIDs adds the "contractors" edge to the JobRelations entity by IDs.
 func (jcu *JobContractorUpdate) AddContractorIDs(ids ...int) *JobContractorUpdate {
 	jcu.mutation.AddContractorIDs(ids...)
 	return jcu
 }
 
-// AddContractors adds the "contractors" edges to the JobDetail entity.
-func (jcu *JobContractorUpdate) AddContractors(j ...*JobDetail) *JobContractorUpdate {
+// AddContractors adds the "contractors" edges to the JobRelations entity.
+func (jcu *JobContractorUpdate) AddContractors(j ...*JobRelations) *JobContractorUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -311,20 +311,20 @@ func (jcu *JobContractorUpdate) Mutation() *JobContractorMutation {
 	return jcu.mutation
 }
 
-// ClearContractors clears all "contractors" edges to the JobDetail entity.
+// ClearContractors clears all "contractors" edges to the JobRelations entity.
 func (jcu *JobContractorUpdate) ClearContractors() *JobContractorUpdate {
 	jcu.mutation.ClearContractors()
 	return jcu
 }
 
-// RemoveContractorIDs removes the "contractors" edge to JobDetail entities by IDs.
+// RemoveContractorIDs removes the "contractors" edge to JobRelations entities by IDs.
 func (jcu *JobContractorUpdate) RemoveContractorIDs(ids ...int) *JobContractorUpdate {
 	jcu.mutation.RemoveContractorIDs(ids...)
 	return jcu
 }
 
-// RemoveContractors removes "contractors" edges to JobDetail entities.
-func (jcu *JobContractorUpdate) RemoveContractors(j ...*JobDetail) *JobContractorUpdate {
+// RemoveContractors removes "contractors" edges to JobRelations entities.
+func (jcu *JobContractorUpdate) RemoveContractors(j ...*JobRelations) *JobContractorUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -466,7 +466,7 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{jobcontractor.ContractorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -479,7 +479,7 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{jobcontractor.ContractorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -495,7 +495,7 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{jobcontractor.ContractorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -785,14 +785,14 @@ func (jcuo *JobContractorUpdateOne) SetUpdatedAt(t time.Time) *JobContractorUpda
 	return jcuo
 }
 
-// AddContractorIDs adds the "contractors" edge to the JobDetail entity by IDs.
+// AddContractorIDs adds the "contractors" edge to the JobRelations entity by IDs.
 func (jcuo *JobContractorUpdateOne) AddContractorIDs(ids ...int) *JobContractorUpdateOne {
 	jcuo.mutation.AddContractorIDs(ids...)
 	return jcuo
 }
 
-// AddContractors adds the "contractors" edges to the JobDetail entity.
-func (jcuo *JobContractorUpdateOne) AddContractors(j ...*JobDetail) *JobContractorUpdateOne {
+// AddContractors adds the "contractors" edges to the JobRelations entity.
+func (jcuo *JobContractorUpdateOne) AddContractors(j ...*JobRelations) *JobContractorUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -805,20 +805,20 @@ func (jcuo *JobContractorUpdateOne) Mutation() *JobContractorMutation {
 	return jcuo.mutation
 }
 
-// ClearContractors clears all "contractors" edges to the JobDetail entity.
+// ClearContractors clears all "contractors" edges to the JobRelations entity.
 func (jcuo *JobContractorUpdateOne) ClearContractors() *JobContractorUpdateOne {
 	jcuo.mutation.ClearContractors()
 	return jcuo
 }
 
-// RemoveContractorIDs removes the "contractors" edge to JobDetail entities by IDs.
+// RemoveContractorIDs removes the "contractors" edge to JobRelations entities by IDs.
 func (jcuo *JobContractorUpdateOne) RemoveContractorIDs(ids ...int) *JobContractorUpdateOne {
 	jcuo.mutation.RemoveContractorIDs(ids...)
 	return jcuo
 }
 
-// RemoveContractors removes "contractors" edges to JobDetail entities.
-func (jcuo *JobContractorUpdateOne) RemoveContractors(j ...*JobDetail) *JobContractorUpdateOne {
+// RemoveContractors removes "contractors" edges to JobRelations entities.
+func (jcuo *JobContractorUpdateOne) RemoveContractors(j ...*JobRelations) *JobContractorUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -990,7 +990,7 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 			Columns: []string{jobcontractor.ContractorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1003,7 +1003,7 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 			Columns: []string{jobcontractor.ContractorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1019,7 +1019,7 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 			Columns: []string{jobcontractor.ContractorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

@@ -13,7 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
 
@@ -24,10 +24,10 @@ type JobContractorQuery struct {
 	order                []jobcontractor.OrderOption
 	inters               []Interceptor
 	predicates           []predicate.JobContractor
-	withContractors      *JobDetailQuery
+	withContractors      *JobRelationsQuery
 	modifiers            []func(*sql.Selector)
 	loadTotal            []func(context.Context, []*JobContractor) error
-	withNamedContractors map[string]*JobDetailQuery
+	withNamedContractors map[string]*JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -65,8 +65,8 @@ func (jcq *JobContractorQuery) Order(o ...jobcontractor.OrderOption) *JobContrac
 }
 
 // QueryContractors chains the current query on the "contractors" edge.
-func (jcq *JobContractorQuery) QueryContractors() *JobDetailQuery {
-	query := (&JobDetailClient{config: jcq.config}).Query()
+func (jcq *JobContractorQuery) QueryContractors() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: jcq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := jcq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -77,7 +77,7 @@ func (jcq *JobContractorQuery) QueryContractors() *JobDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobcontractor.Table, jobcontractor.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobcontractor.ContractorsTable, jobcontractor.ContractorsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(jcq.driver.Dialect(), step)
@@ -287,8 +287,8 @@ func (jcq *JobContractorQuery) Clone() *JobContractorQuery {
 
 // WithContractors tells the query-builder to eager-load the nodes that are connected to
 // the "contractors" edge. The optional arguments are used to configure the query builder of the edge.
-func (jcq *JobContractorQuery) WithContractors(opts ...func(*JobDetailQuery)) *JobContractorQuery {
-	query := (&JobDetailClient{config: jcq.config}).Query()
+func (jcq *JobContractorQuery) WithContractors(opts ...func(*JobRelationsQuery)) *JobContractorQuery {
+	query := (&JobRelationsClient{config: jcq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -401,15 +401,15 @@ func (jcq *JobContractorQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	}
 	if query := jcq.withContractors; query != nil {
 		if err := jcq.loadContractors(ctx, query, nodes,
-			func(n *JobContractor) { n.Edges.Contractors = []*JobDetail{} },
-			func(n *JobContractor, e *JobDetail) { n.Edges.Contractors = append(n.Edges.Contractors, e) }); err != nil {
+			func(n *JobContractor) { n.Edges.Contractors = []*JobRelations{} },
+			func(n *JobContractor, e *JobRelations) { n.Edges.Contractors = append(n.Edges.Contractors, e) }); err != nil {
 			return nil, err
 		}
 	}
 	for name, query := range jcq.withNamedContractors {
 		if err := jcq.loadContractors(ctx, query, nodes,
 			func(n *JobContractor) { n.appendNamedContractors(name) },
-			func(n *JobContractor, e *JobDetail) { n.appendNamedContractors(name, e) }); err != nil {
+			func(n *JobContractor, e *JobRelations) { n.appendNamedContractors(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -421,7 +421,7 @@ func (jcq *JobContractorQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	return nodes, nil
 }
 
-func (jcq *JobContractorQuery) loadContractors(ctx context.Context, query *JobDetailQuery, nodes []*JobContractor, init func(*JobContractor), assign func(*JobContractor, *JobDetail)) error {
+func (jcq *JobContractorQuery) loadContractors(ctx context.Context, query *JobRelationsQuery, nodes []*JobContractor, init func(*JobContractor), assign func(*JobContractor, *JobRelations)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobContractor)
 	for i := range nodes {
@@ -432,7 +432,7 @@ func (jcq *JobContractorQuery) loadContractors(ctx context.Context, query *JobDe
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.JobDetail(func(s *sql.Selector) {
+	query.Where(predicate.JobRelations(func(s *sql.Selector) {
 		s.Where(sql.InValues(s.C(jobcontractor.ContractorsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
@@ -539,13 +539,13 @@ func (jcq *JobContractorQuery) sqlQuery(ctx context.Context) *sql.Selector {
 
 // WithNamedContractors tells the query-builder to eager-load the nodes that are connected to the "contractors"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jcq *JobContractorQuery) WithNamedContractors(name string, opts ...func(*JobDetailQuery)) *JobContractorQuery {
-	query := (&JobDetailClient{config: jcq.config}).Query()
+func (jcq *JobContractorQuery) WithNamedContractors(name string, opts ...func(*JobRelationsQuery)) *JobContractorQuery {
+	query := (&JobRelationsClient{config: jcq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
 	if jcq.withNamedContractors == nil {
-		jcq.withNamedContractors = make(map[string]*JobDetailQuery)
+		jcq.withNamedContractors = make(map[string]*JobRelationsQuery)
 	}
 	jcq.withNamedContractors[name] = query
 	return jcq

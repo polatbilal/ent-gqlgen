@@ -11,7 +11,6 @@ import (
 
 	"github.com/polatbilal/gqlgen-ent/api-core/ent"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/api-core/middlewares"
 )
@@ -20,12 +19,21 @@ import (
 func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	findPayment, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).Only(ctx)
+	// İş detayını bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(*input.YibfNo)).
+		Only(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Println("findPayment", findPayment.ID)
+	// JobRelations'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Println("jobDetail", jobDetail.ID)
 
 	var totalPayment float64
 	if *input.TotalPayment == 0 && *input.Amount > 0 {
@@ -36,7 +44,6 @@ func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.Jo
 	}
 
 	payment, err := client.JobPayments.Create().
-		SetPaymentsID(findPayment.ID).
 		SetPaymentNo(input.PaymentNo).
 		SetPaymentDate(*input.PaymentDate).
 		SetPaymentType(*input.PaymentType).
@@ -50,6 +57,15 @@ func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.Jo
 	if err != nil {
 		return nil, err
 	}
+
+	// Payment'ı JobRelations'a ekle
+	_, err = relations.Update().
+		AddPayments(payment).
+		Save(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return payment, nil
 }
 
@@ -93,9 +109,25 @@ func (r *mutationResolver) DeleteJobPayments(ctx context.Context, id int) (*ent.
 // JobPayments is the resolver for the jobPayments field.
 func (r *queryResolver) JobPayments(ctx context.Context, yibfNo int) ([]*ent.JobPayments, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	payments, err := client.JobPayments.Query().Where(jobpayments.HasPaymentsWith(jobdetail.YibfNo(yibfNo))).All(ctx)
+
+	// İş detayını bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
 	if err != nil {
 		return nil, err
 	}
+
+	// JobRelations üzerinden ödemeleri getir
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	payments, err := relations.QueryPayments().All(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return payments, nil
 }

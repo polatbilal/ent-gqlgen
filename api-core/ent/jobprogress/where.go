@@ -55,6 +55,11 @@ func IDLTE(id int) predicate.JobProgress {
 	return predicate.JobProgress(sql.FieldLTE(FieldID, id))
 }
 
+// YibfNo applies equality check predicate on the "yibfNo" field. It's identical to YibfNoEQ.
+func YibfNo(v int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldEQ(FieldYibfNo, v))
+}
+
 // One applies equality check predicate on the "One" field. It's identical to OneEQ.
 func One(v int) predicate.JobProgress {
 	return predicate.JobProgress(sql.FieldEQ(FieldOne, v))
@@ -93,6 +98,46 @@ func CreatedAt(v time.Time) predicate.JobProgress {
 // UpdatedAt applies equality check predicate on the "UpdatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.JobProgress {
 	return predicate.JobProgress(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// YibfNoEQ applies the EQ predicate on the "yibfNo" field.
+func YibfNoEQ(v int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldEQ(FieldYibfNo, v))
+}
+
+// YibfNoNEQ applies the NEQ predicate on the "yibfNo" field.
+func YibfNoNEQ(v int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldNEQ(FieldYibfNo, v))
+}
+
+// YibfNoIn applies the In predicate on the "yibfNo" field.
+func YibfNoIn(vs ...int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldIn(FieldYibfNo, vs...))
+}
+
+// YibfNoNotIn applies the NotIn predicate on the "yibfNo" field.
+func YibfNoNotIn(vs ...int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldNotIn(FieldYibfNo, vs...))
+}
+
+// YibfNoGT applies the GT predicate on the "yibfNo" field.
+func YibfNoGT(v int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldGT(FieldYibfNo, v))
+}
+
+// YibfNoGTE applies the GTE predicate on the "yibfNo" field.
+func YibfNoGTE(v int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldGTE(FieldYibfNo, v))
+}
+
+// YibfNoLT applies the LT predicate on the "yibfNo" field.
+func YibfNoLT(v int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldLT(FieldYibfNo, v))
+}
+
+// YibfNoLTE applies the LTE predicate on the "yibfNo" field.
+func YibfNoLTE(v int) predicate.JobProgress {
+	return predicate.JobProgress(sql.FieldLTE(FieldYibfNo, v))
 }
 
 // OneEQ applies the EQ predicate on the "One" field.
@@ -487,7 +532,7 @@ func HasProgress() predicate.JobProgress {
 }
 
 // HasProgressWith applies the HasEdge predicate on the "progress" edge with a given conditions (other predicates).
-func HasProgressWith(preds ...predicate.JobDetail) predicate.JobProgress {
+func HasProgressWith(preds ...predicate.JobRelations) predicate.JobProgress {
 	return predicate.JobProgress(func(s *sql.Selector) {
 		step := newProgressStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

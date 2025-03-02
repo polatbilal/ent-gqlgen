@@ -35,6 +35,6 @@ func (JobOwner) Fields() []ent.Field {
 // Edges of the JobOwner.
 func (JobOwner) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("owners", JobDetail.Type).StorageKey(edge.Column("owner_id")),
+		edge.To("owners", JobRelations.Type).StorageKey(edge.Column("owner_id")),
 	}
 }

@@ -55,6 +55,11 @@ func IDLTE(id int) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldLTE(FieldID, id))
 }
 
+// YibfNo applies equality check predicate on the "yibfNo" field. It's identical to YibfNoEQ.
+func YibfNo(v int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldYibfNo, v))
+}
+
 // Static applies equality check predicate on the "Static" field. It's identical to StaticEQ.
 func Static(v string) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldEQ(FieldStatic, v))
@@ -98,6 +103,56 @@ func CreatedAt(v time.Time) predicate.JobAuthor {
 // UpdatedAt applies equality check predicate on the "UpdatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.JobAuthor {
 	return predicate.JobAuthor(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// YibfNoEQ applies the EQ predicate on the "yibfNo" field.
+func YibfNoEQ(v int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldEQ(FieldYibfNo, v))
+}
+
+// YibfNoNEQ applies the NEQ predicate on the "yibfNo" field.
+func YibfNoNEQ(v int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNEQ(FieldYibfNo, v))
+}
+
+// YibfNoIn applies the In predicate on the "yibfNo" field.
+func YibfNoIn(vs ...int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIn(FieldYibfNo, vs...))
+}
+
+// YibfNoNotIn applies the NotIn predicate on the "yibfNo" field.
+func YibfNoNotIn(vs ...int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotIn(FieldYibfNo, vs...))
+}
+
+// YibfNoGT applies the GT predicate on the "yibfNo" field.
+func YibfNoGT(v int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGT(FieldYibfNo, v))
+}
+
+// YibfNoGTE applies the GTE predicate on the "yibfNo" field.
+func YibfNoGTE(v int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldGTE(FieldYibfNo, v))
+}
+
+// YibfNoLT applies the LT predicate on the "yibfNo" field.
+func YibfNoLT(v int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLT(FieldYibfNo, v))
+}
+
+// YibfNoLTE applies the LTE predicate on the "yibfNo" field.
+func YibfNoLTE(v int) predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldLTE(FieldYibfNo, v))
+}
+
+// YibfNoIsNil applies the IsNil predicate on the "yibfNo" field.
+func YibfNoIsNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldIsNull(FieldYibfNo))
+}
+
+// YibfNoNotNil applies the NotNil predicate on the "yibfNo" field.
+func YibfNoNotNil() predicate.JobAuthor {
+	return predicate.JobAuthor(sql.FieldNotNull(FieldYibfNo))
 }
 
 // StaticEQ applies the EQ predicate on the "Static" field.
@@ -717,7 +772,7 @@ func HasAuthors() predicate.JobAuthor {
 }
 
 // HasAuthorsWith applies the HasEdge predicate on the "authors" edge with a given conditions (other predicates).
-func HasAuthorsWith(preds ...predicate.JobDetail) predicate.JobAuthor {
+func HasAuthorsWith(preds ...predicate.JobRelations) predicate.JobAuthor {
 	return predicate.JobAuthor(func(s *sql.Selector) {
 		step := newAuthorsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

@@ -12,6 +12,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companyuser"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/user"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/generated"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/helpers"
@@ -21,12 +22,64 @@ import (
 
 // CompanyCode is the resolver for the CompanyCode field.
 func (r *jobDetailResolver) CompanyCode(ctx context.Context, obj *ent.JobDetail) (int, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	company, err := client.CompanyDetail.Query().Where(companydetail.HasJobsWith(jobdetail.IDEQ(obj.ID))).Only(ctx)
+	// Önce JobRelations'ı bul
+	relations, err := obj.QueryRelations().Only(ctx)
+	if err != nil {
+		return 0, fmt.Errorf("ilişkiler bulunamadı: %v", err)
+	}
+
+	// Sonra Company'i bul
+	company, err := relations.QueryCompany().Only(ctx)
 	if err != nil {
 		return 0, fmt.Errorf("şirket bulunamadı: %v", err)
 	}
+
 	return int(company.CompanyCode), nil
+}
+
+// Progress is the resolver for the Progress field.
+func (r *jobDetailResolver) Progress(ctx context.Context, obj *ent.JobDetail) (*ent.JobProgress, error) {
+	panic(fmt.Errorf("not implemented: Progress - Progress"))
+}
+
+// Inspector is the resolver for the Inspector field.
+func (r *jobDetailResolver) Inspector(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
+	panic(fmt.Errorf("not implemented: Inspector - Inspector"))
+}
+
+// Static is the resolver for the Static field.
+func (r *jobDetailResolver) Static(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
+	panic(fmt.Errorf("not implemented: Static - Static"))
+}
+
+// Architect is the resolver for the Architect field.
+func (r *jobDetailResolver) Architect(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
+	panic(fmt.Errorf("not implemented: Architect - Architect"))
+}
+
+// Mechanic is the resolver for the Mechanic field.
+func (r *jobDetailResolver) Mechanic(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
+	panic(fmt.Errorf("not implemented: Mechanic - Mechanic"))
+}
+
+// Electric is the resolver for the Electric field.
+func (r *jobDetailResolver) Electric(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
+	panic(fmt.Errorf("not implemented: Electric - Electric"))
+}
+
+// Controller is the resolver for the Controller field.
+func (r *jobDetailResolver) Controller(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
+	panic(fmt.Errorf("not implemented: Controller - Controller"))
+}
+
+// MechanicController is the resolver for the MechanicController field.
+func (r *jobDetailResolver) MechanicController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
+	panic(fmt.Errorf("not implemented: MechanicController - MechanicController"))
+}
+
+// ElectricController is the resolver for the ElectricController field.
+func (r *jobDetailResolver) ElectricController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error) {
+	panic(fmt.Errorf("not implemented: ElectricController - ElectricController"))
 }
 
 // CreateJob is the resolver for the createJob field.
@@ -58,8 +111,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 	}
 
 	// İş detayını oluştur
-	jobDetailCreate := client.JobDetail.Create().
-		SetCompany(company).
+	jobDetail, err := client.JobDetail.Create().
 		SetYibfNo(*input.YibfNo).
 		SetTitle(*input.Title).
 		SetNillableAdministration(input.Administration).
@@ -92,36 +144,46 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableClusterStructure(input.ClusterStructure).
 		SetNillableIsLicenseExpired(input.IsLicenseExpired).
 		SetNillableIsCompleted(input.IsCompleted).
-		SetNillableNote(input.Note)
+		SetNillableNote(input.Note).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("iş detayı oluşturulamadı: %v", err)
+	}
+
+	// İlişkileri oluştur
+	jobRelations := client.JobRelations.Create().
+		SetJob(jobDetail).
+		SetCompany(company)
 
 	if inspector, ok := engineers["inspector"]; ok {
-		jobDetailCreate = jobDetailCreate.SetInspector(inspector)
+		jobRelations = jobRelations.SetInspector(inspector)
 	}
 	if static, ok := engineers["static"]; ok {
-		jobDetailCreate = jobDetailCreate.SetStatic(static)
+		jobRelations = jobRelations.SetStatic(static)
 	}
 	if architect, ok := engineers["architect"]; ok {
-		jobDetailCreate = jobDetailCreate.SetArchitect(architect)
+		jobRelations = jobRelations.SetArchitect(architect)
 	}
 	if mechanic, ok := engineers["mechanic"]; ok {
-		jobDetailCreate = jobDetailCreate.SetMechanic(mechanic)
+		jobRelations = jobRelations.SetMechanic(mechanic)
 	}
 	if electric, ok := engineers["electric"]; ok {
-		jobDetailCreate = jobDetailCreate.SetElectric(electric)
+		jobRelations = jobRelations.SetElectric(electric)
 	}
 	if controller, ok := engineers["controller"]; ok {
-		jobDetailCreate = jobDetailCreate.SetController(controller)
+		jobRelations = jobRelations.SetController(controller)
 	}
 	if mechanicController, ok := engineers["mechanicController"]; ok {
-		jobDetailCreate = jobDetailCreate.SetMechaniccontroller(mechanicController)
+		jobRelations = jobRelations.SetMechaniccontroller(mechanicController)
 	}
 	if electricController, ok := engineers["electricController"]; ok {
-		jobDetailCreate = jobDetailCreate.SetElectriccontroller(electricController)
+		jobRelations = jobRelations.SetElectriccontroller(electricController)
 	}
 
-	newJobDetail, err := jobDetailCreate.Save(ctx)
+	_, err = jobRelations.Save(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("iş ayrıntısı oluşturulamadı: %v", err)
+		return nil, fmt.Errorf("iş ilişkileri oluşturulamadı: %v", err)
 	}
 
 	// Progress bilgilerini iş ayrıntısına ekle
@@ -132,21 +194,42 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetFour(0).
 		SetFive(0).
 		SetSix(0).
-		AddProgress(newJobDetail).
 		Save(ctx)
 
 	if err != nil {
 		return nil, fmt.Errorf("progress oluşturulamadı: %v, %s", err, p)
 	}
-	return newJobDetail, nil
+
+	// Progress'i JobRelations ile ilişkilendir
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("ilişkiler bulunamadı: %v", err)
+	}
+
+	_, err = relations.Update().SetProgress(p).Save(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("progress ilişkilendirilemedi: %v", err)
+	}
+
+	return jobDetail, nil
 }
 
 // UpdateJob is the resolver for the updateJob field.
 func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input model.JobInput) (*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
+
+	// İş detayını bul
 	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(yibfNo)).Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("iş ayrıntısı bulunamadı: %v", err)
+	}
+
+	// CompanyCode ile şirketi bul
+	company, err := client.CompanyDetail.Query().
+		Where(companydetail.CompanyCodeEQ(*input.CompanyCode)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %v", input.CompanyCode, err)
 	}
 
 	// Mühendisleri kontrol et ve getir
@@ -155,8 +238,8 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		return nil, err
 	}
 
-	// Mevcut iş detayını güncelle
-	jobDetailUpdate := client.JobDetail.UpdateOne(jobDetail).
+	// İş detayını güncelle
+	jobDetail, err = client.JobDetail.UpdateOne(jobDetail).
 		SetNillableYibfNo(input.YibfNo).
 		SetNillableTitle(input.Title).
 		SetNillableAdministration(input.Administration).
@@ -189,39 +272,96 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		SetNillableClusterStructure(input.ClusterStructure).
 		SetNillableIsLicenseExpired(input.IsLicenseExpired).
 		SetNillableIsCompleted(input.IsCompleted).
-		SetNillableNote(input.Note)
+		SetNillableNote(input.Note).
+		Save(ctx)
 
-	if inspector, ok := engineers["inspector"]; ok {
-		jobDetailUpdate = jobDetailUpdate.SetInspector(inspector)
-	}
-	if static, ok := engineers["static"]; ok {
-		jobDetailUpdate = jobDetailUpdate.SetStatic(static)
-	}
-	if architect, ok := engineers["architect"]; ok {
-		jobDetailUpdate = jobDetailUpdate.SetArchitect(architect)
-	}
-	if mechanic, ok := engineers["mechanic"]; ok {
-		jobDetailUpdate = jobDetailUpdate.SetMechanic(mechanic)
-	}
-	if electric, ok := engineers["electric"]; ok {
-		jobDetailUpdate = jobDetailUpdate.SetElectric(electric)
-	}
-	if controller, ok := engineers["controller"]; ok {
-		jobDetailUpdate = jobDetailUpdate.SetController(controller)
-	}
-	if mechanicController, ok := engineers["mechanicController"]; ok {
-		jobDetailUpdate = jobDetailUpdate.SetMechaniccontroller(mechanicController)
-	}
-	if electricController, ok := engineers["electricController"]; ok {
-		jobDetailUpdate = jobDetailUpdate.SetElectriccontroller(electricController)
-	}
-
-	newJobDetail, err := jobDetailUpdate.Save(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("iş ayrıntısı güncellenemedi: %v", err)
+		return nil, fmt.Errorf("iş detayı güncellenemedi: %v", err)
 	}
 
-	return newJobDetail, nil
+	// İlişkileri bul ve güncelle
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			// İlişki yoksa oluştur
+			jobRelations := client.JobRelations.Create().
+				SetJob(jobDetail).
+				SetCompany(company)
+
+			if inspector, ok := engineers["inspector"]; ok {
+				jobRelations = jobRelations.SetInspector(inspector)
+			}
+			if static, ok := engineers["static"]; ok {
+				jobRelations = jobRelations.SetStatic(static)
+			}
+			if architect, ok := engineers["architect"]; ok {
+				jobRelations = jobRelations.SetArchitect(architect)
+			}
+			if mechanic, ok := engineers["mechanic"]; ok {
+				jobRelations = jobRelations.SetMechanic(mechanic)
+			}
+			if electric, ok := engineers["electric"]; ok {
+				jobRelations = jobRelations.SetElectric(electric)
+			}
+			if controller, ok := engineers["controller"]; ok {
+				jobRelations = jobRelations.SetController(controller)
+			}
+			if mechanicController, ok := engineers["mechanicController"]; ok {
+				jobRelations = jobRelations.SetMechaniccontroller(mechanicController)
+			}
+			if electricController, ok := engineers["electricController"]; ok {
+				jobRelations = jobRelations.SetElectriccontroller(electricController)
+			}
+
+			_, err = jobRelations.Save(ctx)
+			if err != nil {
+				return nil, fmt.Errorf("iş ilişkileri oluşturulamadı: %v", err)
+			}
+		} else {
+			return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+		}
+	} else {
+		// İlişkileri güncelle
+		jobRelations := client.JobRelations.UpdateOne(relations).
+			SetCompany(company)
+
+		if inspector, ok := engineers["inspector"]; ok {
+			jobRelations = jobRelations.SetInspector(inspector)
+		}
+		if static, ok := engineers["static"]; ok {
+			jobRelations = jobRelations.SetStatic(static)
+		}
+		if architect, ok := engineers["architect"]; ok {
+			jobRelations = jobRelations.SetArchitect(architect)
+		}
+		if mechanic, ok := engineers["mechanic"]; ok {
+			jobRelations = jobRelations.SetMechanic(mechanic)
+		}
+		if electric, ok := engineers["electric"]; ok {
+			jobRelations = jobRelations.SetElectric(electric)
+		}
+		if controller, ok := engineers["controller"]; ok {
+			jobRelations = jobRelations.SetController(controller)
+		}
+		if mechanicController, ok := engineers["mechanicController"]; ok {
+			jobRelations = jobRelations.SetMechaniccontroller(mechanicController)
+		}
+		if electricController, ok := engineers["electricController"]; ok {
+			jobRelations = jobRelations.SetElectriccontroller(electricController)
+		}
+
+		_, err = jobRelations.Save(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("iş ilişkileri güncellenemedi: %v", err)
+		}
+	}
+
+	return jobDetail, nil
+}
+
+// UpdateJobEngineer is the resolver for the updateJobEngineer field.
+func (r *mutationResolver) UpdateJobEngineer(ctx context.Context, yibfNo int, input model.JobEngineerInput) (*model.JobEngineer, error) {
+	panic(fmt.Errorf("not implemented: UpdateJobEngineer - updateJobEngineer"))
 }
 
 // Job is the resolver for the job field.
@@ -244,15 +384,16 @@ func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, er
 		companyCodes = append(companyCodes, company.CompanyCode)
 	}
 
-	// İşi sorgula ve kullanıcının yetkili olduğu şirketlerle filtrele
+	// İşi sorgula
 	job, err := client.JobDetail.Query().
-		Where(
-			jobdetail.YibfNoEQ(yibfNo),
-			jobdetail.HasCompanyWith(
-				companydetail.CompanyCodeIn(companyCodes...),
-			),
-		).
-		WithProgress().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		WithRelations(func(q *ent.JobRelationsQuery) {
+			q.Where(
+				jobrelations.HasCompanyWith(
+					companydetail.CompanyCodeIn(companyCodes...),
+				),
+			)
+		}).
 		Only(ctx)
 
 	if err != nil {
@@ -285,14 +426,15 @@ func (r *queryResolver) Jobs(ctx context.Context) ([]*ent.JobDetail, error) {
 		companyCodes = append(companyCodes, company.CompanyCode)
 	}
 
-	// İşleri sorgula ve kullanıcının yetkili olduğu şirketlerle filtrele
+	// İşleri sorgula
 	jobs, err := client.JobDetail.Query().
-		Where(
-			jobdetail.HasCompanyWith(
-				companydetail.CompanyCodeIn(companyCodes...),
-			),
-		).
-		WithProgress().
+		WithRelations(func(q *ent.JobRelationsQuery) {
+			q.Where(
+				jobrelations.HasCompanyWith(
+					companydetail.CompanyCodeIn(companyCodes...),
+				),
+			)
+		}).
 		All(ctx)
 
 	if err != nil {
@@ -336,10 +478,17 @@ func (r *queryResolver) JobCounts(ctx context.Context, companyCode *int) (*model
 		}
 	}
 
-	// Tek bir sorgu ile tüm durumları say
+	// İşleri sorgula
 	jobs, err := client.JobDetail.Query().
-		Where(jobdetail.HasCompanyWith(companydetail.CompanyCodeIn(companyCodes...))).
+		WithRelations(func(q *ent.JobRelationsQuery) {
+			q.Where(
+				jobrelations.HasCompanyWith(
+					companydetail.CompanyCodeIn(companyCodes...),
+				),
+			)
+		}).
 		All(ctx)
+
 	if err != nil {
 		return nil, fmt.Errorf("işler sorgulanırken hata oluştu: %v", err)
 	}
@@ -363,6 +512,11 @@ func (r *queryResolver) JobCounts(ctx context.Context, companyCode *int) (*model
 		Completed: completed,
 		Total:     len(jobs),
 	}, nil
+}
+
+// JobEngineer is the resolver for the jobEngineer field.
+func (r *queryResolver) JobEngineer(ctx context.Context, yibfNo int) (*model.JobEngineer, error) {
+	panic(fmt.Errorf("not implemented: JobEngineer - jobEngineer"))
 }
 
 // JobDetail returns generated.JobDetailResolver implementation.

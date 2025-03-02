@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
 
@@ -26,6 +26,33 @@ type JobAuthorUpdate struct {
 // Where appends a list predicates to the JobAuthorUpdate builder.
 func (jau *JobAuthorUpdate) Where(ps ...predicate.JobAuthor) *JobAuthorUpdate {
 	jau.mutation.Where(ps...)
+	return jau
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jau *JobAuthorUpdate) SetYibfNo(i int) *JobAuthorUpdate {
+	jau.mutation.ResetYibfNo()
+	jau.mutation.SetYibfNo(i)
+	return jau
+}
+
+// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+func (jau *JobAuthorUpdate) SetNillableYibfNo(i *int) *JobAuthorUpdate {
+	if i != nil {
+		jau.SetYibfNo(*i)
+	}
+	return jau
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (jau *JobAuthorUpdate) AddYibfNo(i int) *JobAuthorUpdate {
+	jau.mutation.AddYibfNo(i)
+	return jau
+}
+
+// ClearYibfNo clears the value of the "yibfNo" field.
+func (jau *JobAuthorUpdate) ClearYibfNo() *JobAuthorUpdate {
+	jau.mutation.ClearYibfNo()
 	return jau
 }
 
@@ -189,14 +216,14 @@ func (jau *JobAuthorUpdate) SetUpdatedAt(t time.Time) *JobAuthorUpdate {
 	return jau
 }
 
-// AddAuthorIDs adds the "authors" edge to the JobDetail entity by IDs.
+// AddAuthorIDs adds the "authors" edge to the JobRelations entity by IDs.
 func (jau *JobAuthorUpdate) AddAuthorIDs(ids ...int) *JobAuthorUpdate {
 	jau.mutation.AddAuthorIDs(ids...)
 	return jau
 }
 
-// AddAuthors adds the "authors" edges to the JobDetail entity.
-func (jau *JobAuthorUpdate) AddAuthors(j ...*JobDetail) *JobAuthorUpdate {
+// AddAuthors adds the "authors" edges to the JobRelations entity.
+func (jau *JobAuthorUpdate) AddAuthors(j ...*JobRelations) *JobAuthorUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -209,20 +236,20 @@ func (jau *JobAuthorUpdate) Mutation() *JobAuthorMutation {
 	return jau.mutation
 }
 
-// ClearAuthors clears all "authors" edges to the JobDetail entity.
+// ClearAuthors clears all "authors" edges to the JobRelations entity.
 func (jau *JobAuthorUpdate) ClearAuthors() *JobAuthorUpdate {
 	jau.mutation.ClearAuthors()
 	return jau
 }
 
-// RemoveAuthorIDs removes the "authors" edge to JobDetail entities by IDs.
+// RemoveAuthorIDs removes the "authors" edge to JobRelations entities by IDs.
 func (jau *JobAuthorUpdate) RemoveAuthorIDs(ids ...int) *JobAuthorUpdate {
 	jau.mutation.RemoveAuthorIDs(ids...)
 	return jau
 }
 
-// RemoveAuthors removes "authors" edges to JobDetail entities.
-func (jau *JobAuthorUpdate) RemoveAuthors(j ...*JobDetail) *JobAuthorUpdate {
+// RemoveAuthors removes "authors" edges to JobRelations entities.
+func (jau *JobAuthorUpdate) RemoveAuthors(j ...*JobRelations) *JobAuthorUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -274,6 +301,15 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := jau.mutation.YibfNo(); ok {
+		_spec.SetField(jobauthor.FieldYibfNo, field.TypeInt, value)
+	}
+	if value, ok := jau.mutation.AddedYibfNo(); ok {
+		_spec.AddField(jobauthor.FieldYibfNo, field.TypeInt, value)
+	}
+	if jau.mutation.YibfNoCleared() {
+		_spec.ClearField(jobauthor.FieldYibfNo, field.TypeInt)
 	}
 	if value, ok := jau.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
@@ -331,7 +367,7 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobauthor.AuthorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -344,7 +380,7 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobauthor.AuthorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -360,7 +396,7 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobauthor.AuthorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -386,6 +422,33 @@ type JobAuthorUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *JobAuthorMutation
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jauo *JobAuthorUpdateOne) SetYibfNo(i int) *JobAuthorUpdateOne {
+	jauo.mutation.ResetYibfNo()
+	jauo.mutation.SetYibfNo(i)
+	return jauo
+}
+
+// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+func (jauo *JobAuthorUpdateOne) SetNillableYibfNo(i *int) *JobAuthorUpdateOne {
+	if i != nil {
+		jauo.SetYibfNo(*i)
+	}
+	return jauo
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (jauo *JobAuthorUpdateOne) AddYibfNo(i int) *JobAuthorUpdateOne {
+	jauo.mutation.AddYibfNo(i)
+	return jauo
+}
+
+// ClearYibfNo clears the value of the "yibfNo" field.
+func (jauo *JobAuthorUpdateOne) ClearYibfNo() *JobAuthorUpdateOne {
+	jauo.mutation.ClearYibfNo()
+	return jauo
 }
 
 // SetStatic sets the "Static" field.
@@ -548,14 +611,14 @@ func (jauo *JobAuthorUpdateOne) SetUpdatedAt(t time.Time) *JobAuthorUpdateOne {
 	return jauo
 }
 
-// AddAuthorIDs adds the "authors" edge to the JobDetail entity by IDs.
+// AddAuthorIDs adds the "authors" edge to the JobRelations entity by IDs.
 func (jauo *JobAuthorUpdateOne) AddAuthorIDs(ids ...int) *JobAuthorUpdateOne {
 	jauo.mutation.AddAuthorIDs(ids...)
 	return jauo
 }
 
-// AddAuthors adds the "authors" edges to the JobDetail entity.
-func (jauo *JobAuthorUpdateOne) AddAuthors(j ...*JobDetail) *JobAuthorUpdateOne {
+// AddAuthors adds the "authors" edges to the JobRelations entity.
+func (jauo *JobAuthorUpdateOne) AddAuthors(j ...*JobRelations) *JobAuthorUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -568,20 +631,20 @@ func (jauo *JobAuthorUpdateOne) Mutation() *JobAuthorMutation {
 	return jauo.mutation
 }
 
-// ClearAuthors clears all "authors" edges to the JobDetail entity.
+// ClearAuthors clears all "authors" edges to the JobRelations entity.
 func (jauo *JobAuthorUpdateOne) ClearAuthors() *JobAuthorUpdateOne {
 	jauo.mutation.ClearAuthors()
 	return jauo
 }
 
-// RemoveAuthorIDs removes the "authors" edge to JobDetail entities by IDs.
+// RemoveAuthorIDs removes the "authors" edge to JobRelations entities by IDs.
 func (jauo *JobAuthorUpdateOne) RemoveAuthorIDs(ids ...int) *JobAuthorUpdateOne {
 	jauo.mutation.RemoveAuthorIDs(ids...)
 	return jauo
 }
 
-// RemoveAuthors removes "authors" edges to JobDetail entities.
-func (jauo *JobAuthorUpdateOne) RemoveAuthors(j ...*JobDetail) *JobAuthorUpdateOne {
+// RemoveAuthors removes "authors" edges to JobRelations entities.
+func (jauo *JobAuthorUpdateOne) RemoveAuthors(j ...*JobRelations) *JobAuthorUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -664,6 +727,15 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 			}
 		}
 	}
+	if value, ok := jauo.mutation.YibfNo(); ok {
+		_spec.SetField(jobauthor.FieldYibfNo, field.TypeInt, value)
+	}
+	if value, ok := jauo.mutation.AddedYibfNo(); ok {
+		_spec.AddField(jobauthor.FieldYibfNo, field.TypeInt, value)
+	}
+	if jauo.mutation.YibfNoCleared() {
+		_spec.ClearField(jobauthor.FieldYibfNo, field.TypeInt)
+	}
 	if value, ok := jauo.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
 	}
@@ -720,7 +792,7 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 			Columns: []string{jobauthor.AuthorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -733,7 +805,7 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 			Columns: []string{jobauthor.AuthorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -749,7 +821,7 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 			Columns: []string{jobauthor.AuthorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

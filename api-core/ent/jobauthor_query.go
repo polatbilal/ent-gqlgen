@@ -13,7 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
 
@@ -24,10 +24,10 @@ type JobAuthorQuery struct {
 	order            []jobauthor.OrderOption
 	inters           []Interceptor
 	predicates       []predicate.JobAuthor
-	withAuthors      *JobDetailQuery
+	withAuthors      *JobRelationsQuery
 	modifiers        []func(*sql.Selector)
 	loadTotal        []func(context.Context, []*JobAuthor) error
-	withNamedAuthors map[string]*JobDetailQuery
+	withNamedAuthors map[string]*JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -65,8 +65,8 @@ func (jaq *JobAuthorQuery) Order(o ...jobauthor.OrderOption) *JobAuthorQuery {
 }
 
 // QueryAuthors chains the current query on the "authors" edge.
-func (jaq *JobAuthorQuery) QueryAuthors() *JobDetailQuery {
-	query := (&JobDetailClient{config: jaq.config}).Query()
+func (jaq *JobAuthorQuery) QueryAuthors() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: jaq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := jaq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -77,7 +77,7 @@ func (jaq *JobAuthorQuery) QueryAuthors() *JobDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobauthor.Table, jobauthor.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobauthor.AuthorsTable, jobauthor.AuthorsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(jaq.driver.Dialect(), step)
@@ -287,8 +287,8 @@ func (jaq *JobAuthorQuery) Clone() *JobAuthorQuery {
 
 // WithAuthors tells the query-builder to eager-load the nodes that are connected to
 // the "authors" edge. The optional arguments are used to configure the query builder of the edge.
-func (jaq *JobAuthorQuery) WithAuthors(opts ...func(*JobDetailQuery)) *JobAuthorQuery {
-	query := (&JobDetailClient{config: jaq.config}).Query()
+func (jaq *JobAuthorQuery) WithAuthors(opts ...func(*JobRelationsQuery)) *JobAuthorQuery {
+	query := (&JobRelationsClient{config: jaq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -302,12 +302,12 @@ func (jaq *JobAuthorQuery) WithAuthors(opts ...func(*JobDetailQuery)) *JobAuthor
 // Example:
 //
 //	var v []struct {
-//		Static string `json:"Static,omitempty"`
+//		YibfNo int `json:"yibfNo,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.JobAuthor.Query().
-//		GroupBy(jobauthor.FieldStatic).
+//		GroupBy(jobauthor.FieldYibfNo).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (jaq *JobAuthorQuery) GroupBy(field string, fields ...string) *JobAuthorGroupBy {
@@ -325,11 +325,11 @@ func (jaq *JobAuthorQuery) GroupBy(field string, fields ...string) *JobAuthorGro
 // Example:
 //
 //	var v []struct {
-//		Static string `json:"Static,omitempty"`
+//		YibfNo int `json:"yibfNo,omitempty"`
 //	}
 //
 //	client.JobAuthor.Query().
-//		Select(jobauthor.FieldStatic).
+//		Select(jobauthor.FieldYibfNo).
 //		Scan(ctx, &v)
 func (jaq *JobAuthorQuery) Select(fields ...string) *JobAuthorSelect {
 	jaq.ctx.Fields = append(jaq.ctx.Fields, fields...)
@@ -401,15 +401,15 @@ func (jaq *JobAuthorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 	}
 	if query := jaq.withAuthors; query != nil {
 		if err := jaq.loadAuthors(ctx, query, nodes,
-			func(n *JobAuthor) { n.Edges.Authors = []*JobDetail{} },
-			func(n *JobAuthor, e *JobDetail) { n.Edges.Authors = append(n.Edges.Authors, e) }); err != nil {
+			func(n *JobAuthor) { n.Edges.Authors = []*JobRelations{} },
+			func(n *JobAuthor, e *JobRelations) { n.Edges.Authors = append(n.Edges.Authors, e) }); err != nil {
 			return nil, err
 		}
 	}
 	for name, query := range jaq.withNamedAuthors {
 		if err := jaq.loadAuthors(ctx, query, nodes,
 			func(n *JobAuthor) { n.appendNamedAuthors(name) },
-			func(n *JobAuthor, e *JobDetail) { n.appendNamedAuthors(name, e) }); err != nil {
+			func(n *JobAuthor, e *JobRelations) { n.appendNamedAuthors(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -421,7 +421,7 @@ func (jaq *JobAuthorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 	return nodes, nil
 }
 
-func (jaq *JobAuthorQuery) loadAuthors(ctx context.Context, query *JobDetailQuery, nodes []*JobAuthor, init func(*JobAuthor), assign func(*JobAuthor, *JobDetail)) error {
+func (jaq *JobAuthorQuery) loadAuthors(ctx context.Context, query *JobRelationsQuery, nodes []*JobAuthor, init func(*JobAuthor), assign func(*JobAuthor, *JobRelations)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobAuthor)
 	for i := range nodes {
@@ -432,7 +432,7 @@ func (jaq *JobAuthorQuery) loadAuthors(ctx context.Context, query *JobDetailQuer
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.JobDetail(func(s *sql.Selector) {
+	query.Where(predicate.JobRelations(func(s *sql.Selector) {
 		s.Where(sql.InValues(s.C(jobauthor.AuthorsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
@@ -539,13 +539,13 @@ func (jaq *JobAuthorQuery) sqlQuery(ctx context.Context) *sql.Selector {
 
 // WithNamedAuthors tells the query-builder to eager-load the nodes that are connected to the "authors"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jaq *JobAuthorQuery) WithNamedAuthors(name string, opts ...func(*JobDetailQuery)) *JobAuthorQuery {
-	query := (&JobDetailClient{config: jaq.config}).Query()
+func (jaq *JobAuthorQuery) WithNamedAuthors(name string, opts ...func(*JobRelationsQuery)) *JobAuthorQuery {
+	query := (&JobRelationsClient{config: jaq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
 	if jaq.withNamedAuthors == nil {
-		jaq.withNamedAuthors = make(map[string]*JobDetailQuery)
+		jaq.withNamedAuthors = make(map[string]*JobRelationsQuery)
 	}
 	jaq.withNamedAuthors[name] = query
 	return jaq

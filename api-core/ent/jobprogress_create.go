@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 )
 
 // JobProgressCreate is the builder for creating a JobProgress entity.
@@ -19,6 +19,12 @@ type JobProgressCreate struct {
 	config
 	mutation *JobProgressMutation
 	hooks    []Hook
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jpc *JobProgressCreate) SetYibfNo(i int) *JobProgressCreate {
+	jpc.mutation.SetYibfNo(i)
+	return jpc
 }
 
 // SetOne sets the "One" field.
@@ -133,14 +139,14 @@ func (jpc *JobProgressCreate) SetNillableUpdatedAt(t *time.Time) *JobProgressCre
 	return jpc
 }
 
-// AddProgresIDs adds the "progress" edge to the JobDetail entity by IDs.
+// AddProgresIDs adds the "progress" edge to the JobRelations entity by IDs.
 func (jpc *JobProgressCreate) AddProgresIDs(ids ...int) *JobProgressCreate {
 	jpc.mutation.AddProgresIDs(ids...)
 	return jpc
 }
 
-// AddProgress adds the "progress" edges to the JobDetail entity.
-func (jpc *JobProgressCreate) AddProgress(j ...*JobDetail) *JobProgressCreate {
+// AddProgress adds the "progress" edges to the JobRelations entity.
+func (jpc *JobProgressCreate) AddProgress(j ...*JobRelations) *JobProgressCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -219,6 +225,9 @@ func (jpc *JobProgressCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (jpc *JobProgressCreate) check() error {
+	if _, ok := jpc.mutation.YibfNo(); !ok {
+		return &ValidationError{Name: "yibfNo", err: errors.New(`ent: missing required field "JobProgress.yibfNo"`)}
+	}
 	if _, ok := jpc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobProgress.CreatedAt"`)}
 	}
@@ -251,6 +260,10 @@ func (jpc *JobProgressCreate) createSpec() (*JobProgress, *sqlgraph.CreateSpec) 
 		_node = &JobProgress{config: jpc.config}
 		_spec = sqlgraph.NewCreateSpec(jobprogress.Table, sqlgraph.NewFieldSpec(jobprogress.FieldID, field.TypeInt))
 	)
+	if value, ok := jpc.mutation.YibfNo(); ok {
+		_spec.SetField(jobprogress.FieldYibfNo, field.TypeInt, value)
+		_node.YibfNo = value
+	}
 	if value, ok := jpc.mutation.One(); ok {
 		_spec.SetField(jobprogress.FieldOne, field.TypeInt, value)
 		_node.One = value
@@ -291,7 +304,7 @@ func (jpc *JobProgressCreate) createSpec() (*JobProgress, *sqlgraph.CreateSpec) 
 			Columns: []string{jobprogress.ProgressColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

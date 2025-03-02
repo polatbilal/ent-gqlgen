@@ -36,6 +36,6 @@ func (JobSupervisor) Fields() []ent.Field {
 // Edges of the JobSupervisor.
 func (JobSupervisor) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("supervisors", JobDetail.Type).StorageKey(edge.Column("supervisor_id")),
+		edge.To("supervisors", JobRelations.Type).StorageKey(edge.Column("supervisor_id")),
 	}
 }

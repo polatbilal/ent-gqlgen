@@ -114,9 +114,7 @@ func ProgressPayments(c *fiber.Ctx) error {
 	if c.Protocol() == "https" {
 		scheme = "https"
 	}
-	graphqlClient := client.GraphQLClient{
-		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Hostname()),
-	}
+	graphqlClient := client.NewGraphQLClient(scheme)
 
 	successCount := 0
 	skippedCount := 0

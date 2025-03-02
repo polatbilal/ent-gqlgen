@@ -14,7 +14,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companyengineer"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 )
 
 // CompanyDetailCreate is the builder for creating a CompanyDetail entity.
@@ -380,14 +380,14 @@ func (cdc *CompanyDetailCreate) SetNillableUpdatedAt(t *time.Time) *CompanyDetai
 	return cdc
 }
 
-// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+// AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
 func (cdc *CompanyDetailCreate) AddJobIDs(ids ...int) *CompanyDetailCreate {
 	cdc.mutation.AddJobIDs(ids...)
 	return cdc
 }
 
-// AddJobs adds the "jobs" edges to the JobDetail entity.
-func (cdc *CompanyDetailCreate) AddJobs(j ...*JobDetail) *CompanyDetailCreate {
+// AddJobs adds the "jobs" edges to the JobRelations entity.
+func (cdc *CompanyDetailCreate) AddJobs(j ...*JobRelations) *CompanyDetailCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -660,7 +660,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

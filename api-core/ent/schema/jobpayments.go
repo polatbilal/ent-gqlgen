@@ -34,6 +34,6 @@ func (JobPayments) Fields() []ent.Field {
 // Edges of the JobProgress.
 func (JobPayments) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("payments", JobDetail.Type).Ref("payments").Unique(),
+		edge.From("payments", JobRelations.Type).Ref("payments").Unique(),
 	}
 }

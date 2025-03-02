@@ -25,6 +25,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/user"
 	"golang.org/x/sync/semaphore"
@@ -89,6 +90,11 @@ var jobprogressImplementors = []string{"JobProgress", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
 func (*JobProgress) IsNode() {}
+
+var jobrelationsImplementors = []string{"JobRelations", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*JobRelations) IsNode() {}
 
 var jobsupervisorImplementors = []string{"JobSupervisor", "Node"}
 
@@ -253,6 +259,15 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			Where(jobprogress.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
 			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobprogressImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case jobrelations.Table:
+		query := c.JobRelations.Query().
+			Where(jobrelations.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobrelationsImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -512,6 +527,22 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 		query := c.JobProgress.Query().
 			Where(jobprogress.IDIn(ids...))
 		query, err := query.CollectFields(ctx, jobprogressImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case jobrelations.Table:
+		query := c.JobRelations.Query().
+			Where(jobrelations.IDIn(ids...))
+		query, err := query.CollectFields(ctx, jobrelationsImplementors...)
 		if err != nil {
 			return nil, err
 		}

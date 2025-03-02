@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
 
@@ -259,13 +259,13 @@ func (jpu *JobPaymentsUpdate) SetUpdatedAt(t time.Time) *JobPaymentsUpdate {
 	return jpu
 }
 
-// SetPaymentsID sets the "payments" edge to the JobDetail entity by ID.
+// SetPaymentsID sets the "payments" edge to the JobRelations entity by ID.
 func (jpu *JobPaymentsUpdate) SetPaymentsID(id int) *JobPaymentsUpdate {
 	jpu.mutation.SetPaymentsID(id)
 	return jpu
 }
 
-// SetNillablePaymentsID sets the "payments" edge to the JobDetail entity by ID if the given value is not nil.
+// SetNillablePaymentsID sets the "payments" edge to the JobRelations entity by ID if the given value is not nil.
 func (jpu *JobPaymentsUpdate) SetNillablePaymentsID(id *int) *JobPaymentsUpdate {
 	if id != nil {
 		jpu = jpu.SetPaymentsID(*id)
@@ -273,8 +273,8 @@ func (jpu *JobPaymentsUpdate) SetNillablePaymentsID(id *int) *JobPaymentsUpdate 
 	return jpu
 }
 
-// SetPayments sets the "payments" edge to the JobDetail entity.
-func (jpu *JobPaymentsUpdate) SetPayments(j *JobDetail) *JobPaymentsUpdate {
+// SetPayments sets the "payments" edge to the JobRelations entity.
+func (jpu *JobPaymentsUpdate) SetPayments(j *JobRelations) *JobPaymentsUpdate {
 	return jpu.SetPaymentsID(j.ID)
 }
 
@@ -283,7 +283,7 @@ func (jpu *JobPaymentsUpdate) Mutation() *JobPaymentsMutation {
 	return jpu.mutation
 }
 
-// ClearPayments clears the "payments" edge to the JobDetail entity.
+// ClearPayments clears the "payments" edge to the JobRelations entity.
 func (jpu *JobPaymentsUpdate) ClearPayments() *JobPaymentsUpdate {
 	jpu.mutation.ClearPayments()
 	return jpu
@@ -414,7 +414,7 @@ func (jpu *JobPaymentsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobpayments.PaymentsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -427,7 +427,7 @@ func (jpu *JobPaymentsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobpayments.PaymentsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -685,13 +685,13 @@ func (jpuo *JobPaymentsUpdateOne) SetUpdatedAt(t time.Time) *JobPaymentsUpdateOn
 	return jpuo
 }
 
-// SetPaymentsID sets the "payments" edge to the JobDetail entity by ID.
+// SetPaymentsID sets the "payments" edge to the JobRelations entity by ID.
 func (jpuo *JobPaymentsUpdateOne) SetPaymentsID(id int) *JobPaymentsUpdateOne {
 	jpuo.mutation.SetPaymentsID(id)
 	return jpuo
 }
 
-// SetNillablePaymentsID sets the "payments" edge to the JobDetail entity by ID if the given value is not nil.
+// SetNillablePaymentsID sets the "payments" edge to the JobRelations entity by ID if the given value is not nil.
 func (jpuo *JobPaymentsUpdateOne) SetNillablePaymentsID(id *int) *JobPaymentsUpdateOne {
 	if id != nil {
 		jpuo = jpuo.SetPaymentsID(*id)
@@ -699,8 +699,8 @@ func (jpuo *JobPaymentsUpdateOne) SetNillablePaymentsID(id *int) *JobPaymentsUpd
 	return jpuo
 }
 
-// SetPayments sets the "payments" edge to the JobDetail entity.
-func (jpuo *JobPaymentsUpdateOne) SetPayments(j *JobDetail) *JobPaymentsUpdateOne {
+// SetPayments sets the "payments" edge to the JobRelations entity.
+func (jpuo *JobPaymentsUpdateOne) SetPayments(j *JobRelations) *JobPaymentsUpdateOne {
 	return jpuo.SetPaymentsID(j.ID)
 }
 
@@ -709,7 +709,7 @@ func (jpuo *JobPaymentsUpdateOne) Mutation() *JobPaymentsMutation {
 	return jpuo.mutation
 }
 
-// ClearPayments clears the "payments" edge to the JobDetail entity.
+// ClearPayments clears the "payments" edge to the JobRelations entity.
 func (jpuo *JobPaymentsUpdateOne) ClearPayments() *JobPaymentsUpdateOne {
 	jpuo.mutation.ClearPayments()
 	return jpuo
@@ -870,7 +870,7 @@ func (jpuo *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPaymen
 			Columns: []string{jobpayments.PaymentsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -883,7 +883,7 @@ func (jpuo *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPaymen
 			Columns: []string{jobpayments.PaymentsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

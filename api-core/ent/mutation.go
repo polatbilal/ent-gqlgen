@@ -22,6 +22,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/user"
@@ -47,6 +48,7 @@ const (
 	TypeJobOwner        = "JobOwner"
 	TypeJobPayments     = "JobPayments"
 	TypeJobProgress     = "JobProgress"
+	TypeJobRelations    = "JobRelations"
 	TypeJobSupervisor   = "JobSupervisor"
 	TypeUser            = "User"
 )
@@ -1495,7 +1497,7 @@ func (m *CompanyDetailMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// AddJobIDs adds the "jobs" edge to the JobDetail entity by ids.
+// AddJobIDs adds the "jobs" edge to the JobRelations entity by ids.
 func (m *CompanyDetailMutation) AddJobIDs(ids ...int) {
 	if m.jobs == nil {
 		m.jobs = make(map[int]struct{})
@@ -1505,17 +1507,17 @@ func (m *CompanyDetailMutation) AddJobIDs(ids ...int) {
 	}
 }
 
-// ClearJobs clears the "jobs" edge to the JobDetail entity.
+// ClearJobs clears the "jobs" edge to the JobRelations entity.
 func (m *CompanyDetailMutation) ClearJobs() {
 	m.clearedjobs = true
 }
 
-// JobsCleared reports if the "jobs" edge to the JobDetail entity was cleared.
+// JobsCleared reports if the "jobs" edge to the JobRelations entity was cleared.
 func (m *CompanyDetailMutation) JobsCleared() bool {
 	return m.clearedjobs
 }
 
-// RemoveJobIDs removes the "jobs" edge to the JobDetail entity by IDs.
+// RemoveJobIDs removes the "jobs" edge to the JobRelations entity by IDs.
 func (m *CompanyDetailMutation) RemoveJobIDs(ids ...int) {
 	if m.removedjobs == nil {
 		m.removedjobs = make(map[int]struct{})
@@ -1526,7 +1528,7 @@ func (m *CompanyDetailMutation) RemoveJobIDs(ids ...int) {
 	}
 }
 
-// RemovedJobs returns the removed IDs of the "jobs" edge to the JobDetail entity.
+// RemovedJobs returns the removed IDs of the "jobs" edge to the JobRelations entity.
 func (m *CompanyDetailMutation) RemovedJobsIDs() (ids []int) {
 	for id := range m.removedjobs {
 		ids = append(ids, id)
@@ -3591,7 +3593,7 @@ func (m *CompanyEngineerMutation) ResetCompany() {
 	m.clearedcompany = false
 }
 
-// AddStaticIDs adds the "statics" edge to the JobDetail entity by ids.
+// AddStaticIDs adds the "statics" edge to the JobRelations entity by ids.
 func (m *CompanyEngineerMutation) AddStaticIDs(ids ...int) {
 	if m.statics == nil {
 		m.statics = make(map[int]struct{})
@@ -3601,17 +3603,17 @@ func (m *CompanyEngineerMutation) AddStaticIDs(ids ...int) {
 	}
 }
 
-// ClearStatics clears the "statics" edge to the JobDetail entity.
+// ClearStatics clears the "statics" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) ClearStatics() {
 	m.clearedstatics = true
 }
 
-// StaticsCleared reports if the "statics" edge to the JobDetail entity was cleared.
+// StaticsCleared reports if the "statics" edge to the JobRelations entity was cleared.
 func (m *CompanyEngineerMutation) StaticsCleared() bool {
 	return m.clearedstatics
 }
 
-// RemoveStaticIDs removes the "statics" edge to the JobDetail entity by IDs.
+// RemoveStaticIDs removes the "statics" edge to the JobRelations entity by IDs.
 func (m *CompanyEngineerMutation) RemoveStaticIDs(ids ...int) {
 	if m.removedstatics == nil {
 		m.removedstatics = make(map[int]struct{})
@@ -3622,7 +3624,7 @@ func (m *CompanyEngineerMutation) RemoveStaticIDs(ids ...int) {
 	}
 }
 
-// RemovedStatics returns the removed IDs of the "statics" edge to the JobDetail entity.
+// RemovedStatics returns the removed IDs of the "statics" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) RemovedStaticsIDs() (ids []int) {
 	for id := range m.removedstatics {
 		ids = append(ids, id)
@@ -3645,7 +3647,7 @@ func (m *CompanyEngineerMutation) ResetStatics() {
 	m.removedstatics = nil
 }
 
-// AddMechanicIDs adds the "mechanics" edge to the JobDetail entity by ids.
+// AddMechanicIDs adds the "mechanics" edge to the JobRelations entity by ids.
 func (m *CompanyEngineerMutation) AddMechanicIDs(ids ...int) {
 	if m.mechanics == nil {
 		m.mechanics = make(map[int]struct{})
@@ -3655,17 +3657,17 @@ func (m *CompanyEngineerMutation) AddMechanicIDs(ids ...int) {
 	}
 }
 
-// ClearMechanics clears the "mechanics" edge to the JobDetail entity.
+// ClearMechanics clears the "mechanics" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) ClearMechanics() {
 	m.clearedmechanics = true
 }
 
-// MechanicsCleared reports if the "mechanics" edge to the JobDetail entity was cleared.
+// MechanicsCleared reports if the "mechanics" edge to the JobRelations entity was cleared.
 func (m *CompanyEngineerMutation) MechanicsCleared() bool {
 	return m.clearedmechanics
 }
 
-// RemoveMechanicIDs removes the "mechanics" edge to the JobDetail entity by IDs.
+// RemoveMechanicIDs removes the "mechanics" edge to the JobRelations entity by IDs.
 func (m *CompanyEngineerMutation) RemoveMechanicIDs(ids ...int) {
 	if m.removedmechanics == nil {
 		m.removedmechanics = make(map[int]struct{})
@@ -3676,7 +3678,7 @@ func (m *CompanyEngineerMutation) RemoveMechanicIDs(ids ...int) {
 	}
 }
 
-// RemovedMechanics returns the removed IDs of the "mechanics" edge to the JobDetail entity.
+// RemovedMechanics returns the removed IDs of the "mechanics" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) RemovedMechanicsIDs() (ids []int) {
 	for id := range m.removedmechanics {
 		ids = append(ids, id)
@@ -3699,7 +3701,7 @@ func (m *CompanyEngineerMutation) ResetMechanics() {
 	m.removedmechanics = nil
 }
 
-// AddElectricIDs adds the "electrics" edge to the JobDetail entity by ids.
+// AddElectricIDs adds the "electrics" edge to the JobRelations entity by ids.
 func (m *CompanyEngineerMutation) AddElectricIDs(ids ...int) {
 	if m.electrics == nil {
 		m.electrics = make(map[int]struct{})
@@ -3709,17 +3711,17 @@ func (m *CompanyEngineerMutation) AddElectricIDs(ids ...int) {
 	}
 }
 
-// ClearElectrics clears the "electrics" edge to the JobDetail entity.
+// ClearElectrics clears the "electrics" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) ClearElectrics() {
 	m.clearedelectrics = true
 }
 
-// ElectricsCleared reports if the "electrics" edge to the JobDetail entity was cleared.
+// ElectricsCleared reports if the "electrics" edge to the JobRelations entity was cleared.
 func (m *CompanyEngineerMutation) ElectricsCleared() bool {
 	return m.clearedelectrics
 }
 
-// RemoveElectricIDs removes the "electrics" edge to the JobDetail entity by IDs.
+// RemoveElectricIDs removes the "electrics" edge to the JobRelations entity by IDs.
 func (m *CompanyEngineerMutation) RemoveElectricIDs(ids ...int) {
 	if m.removedelectrics == nil {
 		m.removedelectrics = make(map[int]struct{})
@@ -3730,7 +3732,7 @@ func (m *CompanyEngineerMutation) RemoveElectricIDs(ids ...int) {
 	}
 }
 
-// RemovedElectrics returns the removed IDs of the "electrics" edge to the JobDetail entity.
+// RemovedElectrics returns the removed IDs of the "electrics" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) RemovedElectricsIDs() (ids []int) {
 	for id := range m.removedelectrics {
 		ids = append(ids, id)
@@ -3753,7 +3755,7 @@ func (m *CompanyEngineerMutation) ResetElectrics() {
 	m.removedelectrics = nil
 }
 
-// AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by ids.
+// AddInspectorIDs adds the "inspectors" edge to the JobRelations entity by ids.
 func (m *CompanyEngineerMutation) AddInspectorIDs(ids ...int) {
 	if m.inspectors == nil {
 		m.inspectors = make(map[int]struct{})
@@ -3763,17 +3765,17 @@ func (m *CompanyEngineerMutation) AddInspectorIDs(ids ...int) {
 	}
 }
 
-// ClearInspectors clears the "inspectors" edge to the JobDetail entity.
+// ClearInspectors clears the "inspectors" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) ClearInspectors() {
 	m.clearedinspectors = true
 }
 
-// InspectorsCleared reports if the "inspectors" edge to the JobDetail entity was cleared.
+// InspectorsCleared reports if the "inspectors" edge to the JobRelations entity was cleared.
 func (m *CompanyEngineerMutation) InspectorsCleared() bool {
 	return m.clearedinspectors
 }
 
-// RemoveInspectorIDs removes the "inspectors" edge to the JobDetail entity by IDs.
+// RemoveInspectorIDs removes the "inspectors" edge to the JobRelations entity by IDs.
 func (m *CompanyEngineerMutation) RemoveInspectorIDs(ids ...int) {
 	if m.removedinspectors == nil {
 		m.removedinspectors = make(map[int]struct{})
@@ -3784,7 +3786,7 @@ func (m *CompanyEngineerMutation) RemoveInspectorIDs(ids ...int) {
 	}
 }
 
-// RemovedInspectors returns the removed IDs of the "inspectors" edge to the JobDetail entity.
+// RemovedInspectors returns the removed IDs of the "inspectors" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) RemovedInspectorsIDs() (ids []int) {
 	for id := range m.removedinspectors {
 		ids = append(ids, id)
@@ -3807,7 +3809,7 @@ func (m *CompanyEngineerMutation) ResetInspectors() {
 	m.removedinspectors = nil
 }
 
-// AddArchitectIDs adds the "architects" edge to the JobDetail entity by ids.
+// AddArchitectIDs adds the "architects" edge to the JobRelations entity by ids.
 func (m *CompanyEngineerMutation) AddArchitectIDs(ids ...int) {
 	if m.architects == nil {
 		m.architects = make(map[int]struct{})
@@ -3817,17 +3819,17 @@ func (m *CompanyEngineerMutation) AddArchitectIDs(ids ...int) {
 	}
 }
 
-// ClearArchitects clears the "architects" edge to the JobDetail entity.
+// ClearArchitects clears the "architects" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) ClearArchitects() {
 	m.clearedarchitects = true
 }
 
-// ArchitectsCleared reports if the "architects" edge to the JobDetail entity was cleared.
+// ArchitectsCleared reports if the "architects" edge to the JobRelations entity was cleared.
 func (m *CompanyEngineerMutation) ArchitectsCleared() bool {
 	return m.clearedarchitects
 }
 
-// RemoveArchitectIDs removes the "architects" edge to the JobDetail entity by IDs.
+// RemoveArchitectIDs removes the "architects" edge to the JobRelations entity by IDs.
 func (m *CompanyEngineerMutation) RemoveArchitectIDs(ids ...int) {
 	if m.removedarchitects == nil {
 		m.removedarchitects = make(map[int]struct{})
@@ -3838,7 +3840,7 @@ func (m *CompanyEngineerMutation) RemoveArchitectIDs(ids ...int) {
 	}
 }
 
-// RemovedArchitects returns the removed IDs of the "architects" edge to the JobDetail entity.
+// RemovedArchitects returns the removed IDs of the "architects" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) RemovedArchitectsIDs() (ids []int) {
 	for id := range m.removedarchitects {
 		ids = append(ids, id)
@@ -3861,7 +3863,7 @@ func (m *CompanyEngineerMutation) ResetArchitects() {
 	m.removedarchitects = nil
 }
 
-// AddControllerIDs adds the "controllers" edge to the JobDetail entity by ids.
+// AddControllerIDs adds the "controllers" edge to the JobRelations entity by ids.
 func (m *CompanyEngineerMutation) AddControllerIDs(ids ...int) {
 	if m.controllers == nil {
 		m.controllers = make(map[int]struct{})
@@ -3871,17 +3873,17 @@ func (m *CompanyEngineerMutation) AddControllerIDs(ids ...int) {
 	}
 }
 
-// ClearControllers clears the "controllers" edge to the JobDetail entity.
+// ClearControllers clears the "controllers" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) ClearControllers() {
 	m.clearedcontrollers = true
 }
 
-// ControllersCleared reports if the "controllers" edge to the JobDetail entity was cleared.
+// ControllersCleared reports if the "controllers" edge to the JobRelations entity was cleared.
 func (m *CompanyEngineerMutation) ControllersCleared() bool {
 	return m.clearedcontrollers
 }
 
-// RemoveControllerIDs removes the "controllers" edge to the JobDetail entity by IDs.
+// RemoveControllerIDs removes the "controllers" edge to the JobRelations entity by IDs.
 func (m *CompanyEngineerMutation) RemoveControllerIDs(ids ...int) {
 	if m.removedcontrollers == nil {
 		m.removedcontrollers = make(map[int]struct{})
@@ -3892,7 +3894,7 @@ func (m *CompanyEngineerMutation) RemoveControllerIDs(ids ...int) {
 	}
 }
 
-// RemovedControllers returns the removed IDs of the "controllers" edge to the JobDetail entity.
+// RemovedControllers returns the removed IDs of the "controllers" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) RemovedControllersIDs() (ids []int) {
 	for id := range m.removedcontrollers {
 		ids = append(ids, id)
@@ -3915,7 +3917,7 @@ func (m *CompanyEngineerMutation) ResetControllers() {
 	m.removedcontrollers = nil
 }
 
-// AddMechaniccontrollerIDs adds the "mechaniccontrollers" edge to the JobDetail entity by ids.
+// AddMechaniccontrollerIDs adds the "mechaniccontrollers" edge to the JobRelations entity by ids.
 func (m *CompanyEngineerMutation) AddMechaniccontrollerIDs(ids ...int) {
 	if m.mechaniccontrollers == nil {
 		m.mechaniccontrollers = make(map[int]struct{})
@@ -3925,17 +3927,17 @@ func (m *CompanyEngineerMutation) AddMechaniccontrollerIDs(ids ...int) {
 	}
 }
 
-// ClearMechaniccontrollers clears the "mechaniccontrollers" edge to the JobDetail entity.
+// ClearMechaniccontrollers clears the "mechaniccontrollers" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) ClearMechaniccontrollers() {
 	m.clearedmechaniccontrollers = true
 }
 
-// MechaniccontrollersCleared reports if the "mechaniccontrollers" edge to the JobDetail entity was cleared.
+// MechaniccontrollersCleared reports if the "mechaniccontrollers" edge to the JobRelations entity was cleared.
 func (m *CompanyEngineerMutation) MechaniccontrollersCleared() bool {
 	return m.clearedmechaniccontrollers
 }
 
-// RemoveMechaniccontrollerIDs removes the "mechaniccontrollers" edge to the JobDetail entity by IDs.
+// RemoveMechaniccontrollerIDs removes the "mechaniccontrollers" edge to the JobRelations entity by IDs.
 func (m *CompanyEngineerMutation) RemoveMechaniccontrollerIDs(ids ...int) {
 	if m.removedmechaniccontrollers == nil {
 		m.removedmechaniccontrollers = make(map[int]struct{})
@@ -3946,7 +3948,7 @@ func (m *CompanyEngineerMutation) RemoveMechaniccontrollerIDs(ids ...int) {
 	}
 }
 
-// RemovedMechaniccontrollers returns the removed IDs of the "mechaniccontrollers" edge to the JobDetail entity.
+// RemovedMechaniccontrollers returns the removed IDs of the "mechaniccontrollers" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) RemovedMechaniccontrollersIDs() (ids []int) {
 	for id := range m.removedmechaniccontrollers {
 		ids = append(ids, id)
@@ -3969,7 +3971,7 @@ func (m *CompanyEngineerMutation) ResetMechaniccontrollers() {
 	m.removedmechaniccontrollers = nil
 }
 
-// AddElectriccontrollerIDs adds the "electriccontrollers" edge to the JobDetail entity by ids.
+// AddElectriccontrollerIDs adds the "electriccontrollers" edge to the JobRelations entity by ids.
 func (m *CompanyEngineerMutation) AddElectriccontrollerIDs(ids ...int) {
 	if m.electriccontrollers == nil {
 		m.electriccontrollers = make(map[int]struct{})
@@ -3979,17 +3981,17 @@ func (m *CompanyEngineerMutation) AddElectriccontrollerIDs(ids ...int) {
 	}
 }
 
-// ClearElectriccontrollers clears the "electriccontrollers" edge to the JobDetail entity.
+// ClearElectriccontrollers clears the "electriccontrollers" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) ClearElectriccontrollers() {
 	m.clearedelectriccontrollers = true
 }
 
-// ElectriccontrollersCleared reports if the "electriccontrollers" edge to the JobDetail entity was cleared.
+// ElectriccontrollersCleared reports if the "electriccontrollers" edge to the JobRelations entity was cleared.
 func (m *CompanyEngineerMutation) ElectriccontrollersCleared() bool {
 	return m.clearedelectriccontrollers
 }
 
-// RemoveElectriccontrollerIDs removes the "electriccontrollers" edge to the JobDetail entity by IDs.
+// RemoveElectriccontrollerIDs removes the "electriccontrollers" edge to the JobRelations entity by IDs.
 func (m *CompanyEngineerMutation) RemoveElectriccontrollerIDs(ids ...int) {
 	if m.removedelectriccontrollers == nil {
 		m.removedelectriccontrollers = make(map[int]struct{})
@@ -4000,7 +4002,7 @@ func (m *CompanyEngineerMutation) RemoveElectriccontrollerIDs(ids ...int) {
 	}
 }
 
-// RemovedElectriccontrollers returns the removed IDs of the "electriccontrollers" edge to the JobDetail entity.
+// RemovedElectriccontrollers returns the removed IDs of the "electriccontrollers" edge to the JobRelations entity.
 func (m *CompanyEngineerMutation) RemovedElectriccontrollersIDs() (ids []int) {
 	for id := range m.removedelectriccontrollers {
 		ids = append(ids, id)
@@ -6236,6 +6238,8 @@ type JobAuthorMutation struct {
 	op                        Op
 	typ                       string
 	id                        *int
+	yibfNo                    *int
+	addyibfNo                 *int
 	_Static                   *string
 	_Mechanic                 *string
 	_Electric                 *string
@@ -6350,6 +6354,76 @@ func (m *JobAuthorMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (m *JobAuthorMutation) SetYibfNo(i int) {
+	m.yibfNo = &i
+	m.addyibfNo = nil
+}
+
+// YibfNo returns the value of the "yibfNo" field in the mutation.
+func (m *JobAuthorMutation) YibfNo() (r int, exists bool) {
+	v := m.yibfNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYibfNo returns the old "yibfNo" field's value of the JobAuthor entity.
+// If the JobAuthor object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobAuthorMutation) OldYibfNo(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYibfNo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYibfNo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYibfNo: %w", err)
+	}
+	return oldValue.YibfNo, nil
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (m *JobAuthorMutation) AddYibfNo(i int) {
+	if m.addyibfNo != nil {
+		*m.addyibfNo += i
+	} else {
+		m.addyibfNo = &i
+	}
+}
+
+// AddedYibfNo returns the value that was added to the "yibfNo" field in this mutation.
+func (m *JobAuthorMutation) AddedYibfNo() (r int, exists bool) {
+	v := m.addyibfNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearYibfNo clears the value of the "yibfNo" field.
+func (m *JobAuthorMutation) ClearYibfNo() {
+	m.yibfNo = nil
+	m.addyibfNo = nil
+	m.clearedFields[jobauthor.FieldYibfNo] = struct{}{}
+}
+
+// YibfNoCleared returns if the "yibfNo" field was cleared in this mutation.
+func (m *JobAuthorMutation) YibfNoCleared() bool {
+	_, ok := m.clearedFields[jobauthor.FieldYibfNo]
+	return ok
+}
+
+// ResetYibfNo resets all changes to the "yibfNo" field.
+func (m *JobAuthorMutation) ResetYibfNo() {
+	m.yibfNo = nil
+	m.addyibfNo = nil
+	delete(m.clearedFields, jobauthor.FieldYibfNo)
 }
 
 // SetStatic sets the "Static" field.
@@ -6767,7 +6841,7 @@ func (m *JobAuthorMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// AddAuthorIDs adds the "authors" edge to the JobDetail entity by ids.
+// AddAuthorIDs adds the "authors" edge to the JobRelations entity by ids.
 func (m *JobAuthorMutation) AddAuthorIDs(ids ...int) {
 	if m.authors == nil {
 		m.authors = make(map[int]struct{})
@@ -6777,17 +6851,17 @@ func (m *JobAuthorMutation) AddAuthorIDs(ids ...int) {
 	}
 }
 
-// ClearAuthors clears the "authors" edge to the JobDetail entity.
+// ClearAuthors clears the "authors" edge to the JobRelations entity.
 func (m *JobAuthorMutation) ClearAuthors() {
 	m.clearedauthors = true
 }
 
-// AuthorsCleared reports if the "authors" edge to the JobDetail entity was cleared.
+// AuthorsCleared reports if the "authors" edge to the JobRelations entity was cleared.
 func (m *JobAuthorMutation) AuthorsCleared() bool {
 	return m.clearedauthors
 }
 
-// RemoveAuthorIDs removes the "authors" edge to the JobDetail entity by IDs.
+// RemoveAuthorIDs removes the "authors" edge to the JobRelations entity by IDs.
 func (m *JobAuthorMutation) RemoveAuthorIDs(ids ...int) {
 	if m.removedauthors == nil {
 		m.removedauthors = make(map[int]struct{})
@@ -6798,7 +6872,7 @@ func (m *JobAuthorMutation) RemoveAuthorIDs(ids ...int) {
 	}
 }
 
-// RemovedAuthors returns the removed IDs of the "authors" edge to the JobDetail entity.
+// RemovedAuthors returns the removed IDs of the "authors" edge to the JobRelations entity.
 func (m *JobAuthorMutation) RemovedAuthorsIDs() (ids []int) {
 	for id := range m.removedauthors {
 		ids = append(ids, id)
@@ -6855,7 +6929,10 @@ func (m *JobAuthorMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobAuthorMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 10)
+	if m.yibfNo != nil {
+		fields = append(fields, jobauthor.FieldYibfNo)
+	}
 	if m._Static != nil {
 		fields = append(fields, jobauthor.FieldStatic)
 	}
@@ -6891,6 +6968,8 @@ func (m *JobAuthorMutation) Fields() []string {
 // schema.
 func (m *JobAuthorMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case jobauthor.FieldYibfNo:
+		return m.YibfNo()
 	case jobauthor.FieldStatic:
 		return m.Static()
 	case jobauthor.FieldMechanic:
@@ -6918,6 +6997,8 @@ func (m *JobAuthorMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *JobAuthorMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case jobauthor.FieldYibfNo:
+		return m.OldYibfNo(ctx)
 	case jobauthor.FieldStatic:
 		return m.OldStatic(ctx)
 	case jobauthor.FieldMechanic:
@@ -6945,6 +7026,13 @@ func (m *JobAuthorMutation) OldField(ctx context.Context, name string) (ent.Valu
 // type.
 func (m *JobAuthorMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case jobauthor.FieldYibfNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYibfNo(v)
+		return nil
 	case jobauthor.FieldStatic:
 		v, ok := value.(string)
 		if !ok {
@@ -7015,13 +7103,21 @@ func (m *JobAuthorMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *JobAuthorMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addyibfNo != nil {
+		fields = append(fields, jobauthor.FieldYibfNo)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *JobAuthorMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case jobauthor.FieldYibfNo:
+		return m.AddedYibfNo()
+	}
 	return nil, false
 }
 
@@ -7030,6 +7126,13 @@ func (m *JobAuthorMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *JobAuthorMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case jobauthor.FieldYibfNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddYibfNo(v)
+		return nil
 	}
 	return fmt.Errorf("unknown JobAuthor numeric field %s", name)
 }
@@ -7038,6 +7141,9 @@ func (m *JobAuthorMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *JobAuthorMutation) ClearedFields() []string {
 	var fields []string
+	if m.FieldCleared(jobauthor.FieldYibfNo) {
+		fields = append(fields, jobauthor.FieldYibfNo)
+	}
 	if m.FieldCleared(jobauthor.FieldStatic) {
 		fields = append(fields, jobauthor.FieldStatic)
 	}
@@ -7073,6 +7179,9 @@ func (m *JobAuthorMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *JobAuthorMutation) ClearField(name string) error {
 	switch name {
+	case jobauthor.FieldYibfNo:
+		m.ClearYibfNo()
+		return nil
 	case jobauthor.FieldStatic:
 		m.ClearStatic()
 		return nil
@@ -7102,6 +7211,9 @@ func (m *JobAuthorMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *JobAuthorMutation) ResetField(name string) error {
 	switch name {
+	case jobauthor.FieldYibfNo:
+		m.ResetYibfNo()
+		return nil
 	case jobauthor.FieldStatic:
 		m.ResetStatic()
 		return nil
@@ -8029,7 +8141,7 @@ func (m *JobContractorMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// AddContractorIDs adds the "contractors" edge to the JobDetail entity by ids.
+// AddContractorIDs adds the "contractors" edge to the JobRelations entity by ids.
 func (m *JobContractorMutation) AddContractorIDs(ids ...int) {
 	if m.contractors == nil {
 		m.contractors = make(map[int]struct{})
@@ -8039,17 +8151,17 @@ func (m *JobContractorMutation) AddContractorIDs(ids ...int) {
 	}
 }
 
-// ClearContractors clears the "contractors" edge to the JobDetail entity.
+// ClearContractors clears the "contractors" edge to the JobRelations entity.
 func (m *JobContractorMutation) ClearContractors() {
 	m.clearedcontractors = true
 }
 
-// ContractorsCleared reports if the "contractors" edge to the JobDetail entity was cleared.
+// ContractorsCleared reports if the "contractors" edge to the JobRelations entity was cleared.
 func (m *JobContractorMutation) ContractorsCleared() bool {
 	return m.clearedcontractors
 }
 
-// RemoveContractorIDs removes the "contractors" edge to the JobDetail entity by IDs.
+// RemoveContractorIDs removes the "contractors" edge to the JobRelations entity by IDs.
 func (m *JobContractorMutation) RemoveContractorIDs(ids ...int) {
 	if m.removedcontractors == nil {
 		m.removedcontractors = make(map[int]struct{})
@@ -8060,7 +8172,7 @@ func (m *JobContractorMutation) RemoveContractorIDs(ids ...int) {
 	}
 }
 
-// RemovedContractors returns the removed IDs of the "contractors" edge to the JobDetail entity.
+// RemovedContractors returns the removed IDs of the "contractors" edge to the JobRelations entity.
 func (m *JobContractorMutation) RemovedContractorsIDs() (ids []int) {
 	for id := range m.removedcontractors {
 		ids = append(ids, id)
@@ -8619,91 +8731,59 @@ func (m *JobContractorMutation) ResetEdge(name string) error {
 // JobDetailMutation represents an operation that mutates the JobDetail nodes in the graph.
 type JobDetailMutation struct {
 	config
-	op                        Op
-	typ                       string
-	id                        *int
-	_YibfNo                   *int
-	add_YibfNo                *int
-	_Title                    *string
-	_Administration           *string
-	_State                    *string
-	_Island                   *string
-	_Parcel                   *string
-	_Sheet                    *string
-	_ContractDate             *time.Time
-	_StartDate                *time.Time
-	_LicenseDate              *time.Time
-	_LicenseNo                *string
-	_DistributionDate         *time.Time
-	_CompletionDate           *time.Time
-	_LandArea                 *float64
-	add_LandArea              *float64
-	_TotalArea                *float64
-	add_TotalArea             *float64
-	_ConstructionArea         *float64
-	add_ConstructionArea      *float64
-	_LeftArea                 *float64
-	add_LeftArea              *float64
-	_YDSAddress               *string
-	_Address                  *string
-	_BuildingClass            *string
-	_BuildingType             *string
-	_Level                    *float64
-	add_Level                 *float64
-	_UnitPrice                *float64
-	add_UnitPrice             *float64
-	_FloorCount               *int
-	add_FloorCount            *int
-	_BKSReferenceNo           *int
-	add_BKSReferenceNo        *int
-	_Coordinates              *string
-	_FolderNo                 *string
-	_UploadedFile             *bool
-	_IndustryArea             *bool
-	_ClusterStructure         *bool
-	_IsLicenseExpired         *bool
-	_IsCompleted              *bool
-	_Note                     *string
-	_CreatedAt                *time.Time
-	_UpdatedAt                *time.Time
-	clearedFields             map[string]struct{}
-	owner                     *int
-	clearedowner              bool
-	author                    *int
-	clearedauthor             bool
-	company                   *int
-	clearedcompany            bool
-	progress                  *int
-	clearedprogress           bool
-	contractor                *int
-	clearedcontractor         bool
-	supervisor                *int
-	clearedsupervisor         bool
-	static                    *int
-	clearedstatic             bool
-	mechanic                  *int
-	clearedmechanic           bool
-	electric                  *int
-	clearedelectric           bool
-	inspector                 *int
-	clearedinspector          bool
-	architect                 *int
-	clearedarchitect          bool
-	controller                *int
-	clearedcontroller         bool
-	mechaniccontroller        *int
-	clearedmechaniccontroller bool
-	electriccontroller        *int
-	clearedelectriccontroller bool
-	layers                    map[int]struct{}
-	removedlayers             map[int]struct{}
-	clearedlayers             bool
-	payments                  map[int]struct{}
-	removedpayments           map[int]struct{}
-	clearedpayments           bool
-	done                      bool
-	oldValue                  func(context.Context) (*JobDetail, error)
-	predicates                []predicate.JobDetail
+	op                   Op
+	typ                  string
+	id                   *int
+	_YibfNo              *int
+	add_YibfNo           *int
+	_Title               *string
+	_Administration      *string
+	_State               *string
+	_Island              *string
+	_Parcel              *string
+	_Sheet               *string
+	_ContractDate        *time.Time
+	_StartDate           *time.Time
+	_LicenseDate         *time.Time
+	_LicenseNo           *string
+	_DistributionDate    *time.Time
+	_CompletionDate      *time.Time
+	_LandArea            *float64
+	add_LandArea         *float64
+	_TotalArea           *float64
+	add_TotalArea        *float64
+	_ConstructionArea    *float64
+	add_ConstructionArea *float64
+	_LeftArea            *float64
+	add_LeftArea         *float64
+	_YDSAddress          *string
+	_Address             *string
+	_BuildingClass       *string
+	_BuildingType        *string
+	_Level               *float64
+	add_Level            *float64
+	_UnitPrice           *float64
+	add_UnitPrice        *float64
+	_FloorCount          *int
+	add_FloorCount       *int
+	_BKSReferenceNo      *int
+	add_BKSReferenceNo   *int
+	_Coordinates         *string
+	_FolderNo            *string
+	_UploadedFile        *bool
+	_IndustryArea        *bool
+	_ClusterStructure    *bool
+	_IsLicenseExpired    *bool
+	_IsCompleted         *bool
+	_Note                *string
+	_CreatedAt           *time.Time
+	_UpdatedAt           *time.Time
+	clearedFields        map[string]struct{}
+	relations            *int
+	clearedrelations     bool
+	done                 bool
+	oldValue             func(context.Context) (*JobDetail, error)
+	predicates           []predicate.JobDetail
 }
 
 var _ ent.Mutation = (*JobDetailMutation)(nil)
@@ -10668,658 +10748,43 @@ func (m *JobDetailMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// SetOwnerID sets the "owner" edge to the JobOwner entity by id.
-func (m *JobDetailMutation) SetOwnerID(id int) {
-	m.owner = &id
+// SetRelationsID sets the "relations" edge to the JobRelations entity by id.
+func (m *JobDetailMutation) SetRelationsID(id int) {
+	m.relations = &id
 }
 
-// ClearOwner clears the "owner" edge to the JobOwner entity.
-func (m *JobDetailMutation) ClearOwner() {
-	m.clearedowner = true
+// ClearRelations clears the "relations" edge to the JobRelations entity.
+func (m *JobDetailMutation) ClearRelations() {
+	m.clearedrelations = true
 }
 
-// OwnerCleared reports if the "owner" edge to the JobOwner entity was cleared.
-func (m *JobDetailMutation) OwnerCleared() bool {
-	return m.clearedowner
+// RelationsCleared reports if the "relations" edge to the JobRelations entity was cleared.
+func (m *JobDetailMutation) RelationsCleared() bool {
+	return m.clearedrelations
 }
 
-// OwnerID returns the "owner" edge ID in the mutation.
-func (m *JobDetailMutation) OwnerID() (id int, exists bool) {
-	if m.owner != nil {
-		return *m.owner, true
+// RelationsID returns the "relations" edge ID in the mutation.
+func (m *JobDetailMutation) RelationsID() (id int, exists bool) {
+	if m.relations != nil {
+		return *m.relations, true
 	}
 	return
 }
 
-// OwnerIDs returns the "owner" edge IDs in the mutation.
+// RelationsIDs returns the "relations" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// OwnerID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) OwnerIDs() (ids []int) {
-	if id := m.owner; id != nil {
+// RelationsID instead. It exists only for internal usage by the builders.
+func (m *JobDetailMutation) RelationsIDs() (ids []int) {
+	if id := m.relations; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetOwner resets all changes to the "owner" edge.
-func (m *JobDetailMutation) ResetOwner() {
-	m.owner = nil
-	m.clearedowner = false
-}
-
-// SetAuthorID sets the "author" edge to the JobAuthor entity by id.
-func (m *JobDetailMutation) SetAuthorID(id int) {
-	m.author = &id
-}
-
-// ClearAuthor clears the "author" edge to the JobAuthor entity.
-func (m *JobDetailMutation) ClearAuthor() {
-	m.clearedauthor = true
-}
-
-// AuthorCleared reports if the "author" edge to the JobAuthor entity was cleared.
-func (m *JobDetailMutation) AuthorCleared() bool {
-	return m.clearedauthor
-}
-
-// AuthorID returns the "author" edge ID in the mutation.
-func (m *JobDetailMutation) AuthorID() (id int, exists bool) {
-	if m.author != nil {
-		return *m.author, true
-	}
-	return
-}
-
-// AuthorIDs returns the "author" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// AuthorID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) AuthorIDs() (ids []int) {
-	if id := m.author; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetAuthor resets all changes to the "author" edge.
-func (m *JobDetailMutation) ResetAuthor() {
-	m.author = nil
-	m.clearedauthor = false
-}
-
-// SetCompanyID sets the "company" edge to the CompanyDetail entity by id.
-func (m *JobDetailMutation) SetCompanyID(id int) {
-	m.company = &id
-}
-
-// ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (m *JobDetailMutation) ClearCompany() {
-	m.clearedcompany = true
-}
-
-// CompanyCleared reports if the "company" edge to the CompanyDetail entity was cleared.
-func (m *JobDetailMutation) CompanyCleared() bool {
-	return m.clearedcompany
-}
-
-// CompanyID returns the "company" edge ID in the mutation.
-func (m *JobDetailMutation) CompanyID() (id int, exists bool) {
-	if m.company != nil {
-		return *m.company, true
-	}
-	return
-}
-
-// CompanyIDs returns the "company" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// CompanyID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) CompanyIDs() (ids []int) {
-	if id := m.company; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetCompany resets all changes to the "company" edge.
-func (m *JobDetailMutation) ResetCompany() {
-	m.company = nil
-	m.clearedcompany = false
-}
-
-// SetProgressID sets the "progress" edge to the JobProgress entity by id.
-func (m *JobDetailMutation) SetProgressID(id int) {
-	m.progress = &id
-}
-
-// ClearProgress clears the "progress" edge to the JobProgress entity.
-func (m *JobDetailMutation) ClearProgress() {
-	m.clearedprogress = true
-}
-
-// ProgressCleared reports if the "progress" edge to the JobProgress entity was cleared.
-func (m *JobDetailMutation) ProgressCleared() bool {
-	return m.clearedprogress
-}
-
-// ProgressID returns the "progress" edge ID in the mutation.
-func (m *JobDetailMutation) ProgressID() (id int, exists bool) {
-	if m.progress != nil {
-		return *m.progress, true
-	}
-	return
-}
-
-// ProgressIDs returns the "progress" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ProgressID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) ProgressIDs() (ids []int) {
-	if id := m.progress; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetProgress resets all changes to the "progress" edge.
-func (m *JobDetailMutation) ResetProgress() {
-	m.progress = nil
-	m.clearedprogress = false
-}
-
-// SetContractorID sets the "contractor" edge to the JobContractor entity by id.
-func (m *JobDetailMutation) SetContractorID(id int) {
-	m.contractor = &id
-}
-
-// ClearContractor clears the "contractor" edge to the JobContractor entity.
-func (m *JobDetailMutation) ClearContractor() {
-	m.clearedcontractor = true
-}
-
-// ContractorCleared reports if the "contractor" edge to the JobContractor entity was cleared.
-func (m *JobDetailMutation) ContractorCleared() bool {
-	return m.clearedcontractor
-}
-
-// ContractorID returns the "contractor" edge ID in the mutation.
-func (m *JobDetailMutation) ContractorID() (id int, exists bool) {
-	if m.contractor != nil {
-		return *m.contractor, true
-	}
-	return
-}
-
-// ContractorIDs returns the "contractor" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ContractorID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) ContractorIDs() (ids []int) {
-	if id := m.contractor; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetContractor resets all changes to the "contractor" edge.
-func (m *JobDetailMutation) ResetContractor() {
-	m.contractor = nil
-	m.clearedcontractor = false
-}
-
-// SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by id.
-func (m *JobDetailMutation) SetSupervisorID(id int) {
-	m.supervisor = &id
-}
-
-// ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
-func (m *JobDetailMutation) ClearSupervisor() {
-	m.clearedsupervisor = true
-}
-
-// SupervisorCleared reports if the "supervisor" edge to the JobSupervisor entity was cleared.
-func (m *JobDetailMutation) SupervisorCleared() bool {
-	return m.clearedsupervisor
-}
-
-// SupervisorID returns the "supervisor" edge ID in the mutation.
-func (m *JobDetailMutation) SupervisorID() (id int, exists bool) {
-	if m.supervisor != nil {
-		return *m.supervisor, true
-	}
-	return
-}
-
-// SupervisorIDs returns the "supervisor" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// SupervisorID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) SupervisorIDs() (ids []int) {
-	if id := m.supervisor; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetSupervisor resets all changes to the "supervisor" edge.
-func (m *JobDetailMutation) ResetSupervisor() {
-	m.supervisor = nil
-	m.clearedsupervisor = false
-}
-
-// SetStaticID sets the "static" edge to the CompanyEngineer entity by id.
-func (m *JobDetailMutation) SetStaticID(id int) {
-	m.static = &id
-}
-
-// ClearStatic clears the "static" edge to the CompanyEngineer entity.
-func (m *JobDetailMutation) ClearStatic() {
-	m.clearedstatic = true
-}
-
-// StaticCleared reports if the "static" edge to the CompanyEngineer entity was cleared.
-func (m *JobDetailMutation) StaticCleared() bool {
-	return m.clearedstatic
-}
-
-// StaticID returns the "static" edge ID in the mutation.
-func (m *JobDetailMutation) StaticID() (id int, exists bool) {
-	if m.static != nil {
-		return *m.static, true
-	}
-	return
-}
-
-// StaticIDs returns the "static" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// StaticID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) StaticIDs() (ids []int) {
-	if id := m.static; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetStatic resets all changes to the "static" edge.
-func (m *JobDetailMutation) ResetStatic() {
-	m.static = nil
-	m.clearedstatic = false
-}
-
-// SetMechanicID sets the "mechanic" edge to the CompanyEngineer entity by id.
-func (m *JobDetailMutation) SetMechanicID(id int) {
-	m.mechanic = &id
-}
-
-// ClearMechanic clears the "mechanic" edge to the CompanyEngineer entity.
-func (m *JobDetailMutation) ClearMechanic() {
-	m.clearedmechanic = true
-}
-
-// MechanicCleared reports if the "mechanic" edge to the CompanyEngineer entity was cleared.
-func (m *JobDetailMutation) MechanicCleared() bool {
-	return m.clearedmechanic
-}
-
-// MechanicID returns the "mechanic" edge ID in the mutation.
-func (m *JobDetailMutation) MechanicID() (id int, exists bool) {
-	if m.mechanic != nil {
-		return *m.mechanic, true
-	}
-	return
-}
-
-// MechanicIDs returns the "mechanic" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// MechanicID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) MechanicIDs() (ids []int) {
-	if id := m.mechanic; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetMechanic resets all changes to the "mechanic" edge.
-func (m *JobDetailMutation) ResetMechanic() {
-	m.mechanic = nil
-	m.clearedmechanic = false
-}
-
-// SetElectricID sets the "electric" edge to the CompanyEngineer entity by id.
-func (m *JobDetailMutation) SetElectricID(id int) {
-	m.electric = &id
-}
-
-// ClearElectric clears the "electric" edge to the CompanyEngineer entity.
-func (m *JobDetailMutation) ClearElectric() {
-	m.clearedelectric = true
-}
-
-// ElectricCleared reports if the "electric" edge to the CompanyEngineer entity was cleared.
-func (m *JobDetailMutation) ElectricCleared() bool {
-	return m.clearedelectric
-}
-
-// ElectricID returns the "electric" edge ID in the mutation.
-func (m *JobDetailMutation) ElectricID() (id int, exists bool) {
-	if m.electric != nil {
-		return *m.electric, true
-	}
-	return
-}
-
-// ElectricIDs returns the "electric" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ElectricID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) ElectricIDs() (ids []int) {
-	if id := m.electric; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetElectric resets all changes to the "electric" edge.
-func (m *JobDetailMutation) ResetElectric() {
-	m.electric = nil
-	m.clearedelectric = false
-}
-
-// SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by id.
-func (m *JobDetailMutation) SetInspectorID(id int) {
-	m.inspector = &id
-}
-
-// ClearInspector clears the "inspector" edge to the CompanyEngineer entity.
-func (m *JobDetailMutation) ClearInspector() {
-	m.clearedinspector = true
-}
-
-// InspectorCleared reports if the "inspector" edge to the CompanyEngineer entity was cleared.
-func (m *JobDetailMutation) InspectorCleared() bool {
-	return m.clearedinspector
-}
-
-// InspectorID returns the "inspector" edge ID in the mutation.
-func (m *JobDetailMutation) InspectorID() (id int, exists bool) {
-	if m.inspector != nil {
-		return *m.inspector, true
-	}
-	return
-}
-
-// InspectorIDs returns the "inspector" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// InspectorID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) InspectorIDs() (ids []int) {
-	if id := m.inspector; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetInspector resets all changes to the "inspector" edge.
-func (m *JobDetailMutation) ResetInspector() {
-	m.inspector = nil
-	m.clearedinspector = false
-}
-
-// SetArchitectID sets the "architect" edge to the CompanyEngineer entity by id.
-func (m *JobDetailMutation) SetArchitectID(id int) {
-	m.architect = &id
-}
-
-// ClearArchitect clears the "architect" edge to the CompanyEngineer entity.
-func (m *JobDetailMutation) ClearArchitect() {
-	m.clearedarchitect = true
-}
-
-// ArchitectCleared reports if the "architect" edge to the CompanyEngineer entity was cleared.
-func (m *JobDetailMutation) ArchitectCleared() bool {
-	return m.clearedarchitect
-}
-
-// ArchitectID returns the "architect" edge ID in the mutation.
-func (m *JobDetailMutation) ArchitectID() (id int, exists bool) {
-	if m.architect != nil {
-		return *m.architect, true
-	}
-	return
-}
-
-// ArchitectIDs returns the "architect" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ArchitectID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) ArchitectIDs() (ids []int) {
-	if id := m.architect; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetArchitect resets all changes to the "architect" edge.
-func (m *JobDetailMutation) ResetArchitect() {
-	m.architect = nil
-	m.clearedarchitect = false
-}
-
-// SetControllerID sets the "controller" edge to the CompanyEngineer entity by id.
-func (m *JobDetailMutation) SetControllerID(id int) {
-	m.controller = &id
-}
-
-// ClearController clears the "controller" edge to the CompanyEngineer entity.
-func (m *JobDetailMutation) ClearController() {
-	m.clearedcontroller = true
-}
-
-// ControllerCleared reports if the "controller" edge to the CompanyEngineer entity was cleared.
-func (m *JobDetailMutation) ControllerCleared() bool {
-	return m.clearedcontroller
-}
-
-// ControllerID returns the "controller" edge ID in the mutation.
-func (m *JobDetailMutation) ControllerID() (id int, exists bool) {
-	if m.controller != nil {
-		return *m.controller, true
-	}
-	return
-}
-
-// ControllerIDs returns the "controller" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ControllerID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) ControllerIDs() (ids []int) {
-	if id := m.controller; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetController resets all changes to the "controller" edge.
-func (m *JobDetailMutation) ResetController() {
-	m.controller = nil
-	m.clearedcontroller = false
-}
-
-// SetMechaniccontrollerID sets the "mechaniccontroller" edge to the CompanyEngineer entity by id.
-func (m *JobDetailMutation) SetMechaniccontrollerID(id int) {
-	m.mechaniccontroller = &id
-}
-
-// ClearMechaniccontroller clears the "mechaniccontroller" edge to the CompanyEngineer entity.
-func (m *JobDetailMutation) ClearMechaniccontroller() {
-	m.clearedmechaniccontroller = true
-}
-
-// MechaniccontrollerCleared reports if the "mechaniccontroller" edge to the CompanyEngineer entity was cleared.
-func (m *JobDetailMutation) MechaniccontrollerCleared() bool {
-	return m.clearedmechaniccontroller
-}
-
-// MechaniccontrollerID returns the "mechaniccontroller" edge ID in the mutation.
-func (m *JobDetailMutation) MechaniccontrollerID() (id int, exists bool) {
-	if m.mechaniccontroller != nil {
-		return *m.mechaniccontroller, true
-	}
-	return
-}
-
-// MechaniccontrollerIDs returns the "mechaniccontroller" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// MechaniccontrollerID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) MechaniccontrollerIDs() (ids []int) {
-	if id := m.mechaniccontroller; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetMechaniccontroller resets all changes to the "mechaniccontroller" edge.
-func (m *JobDetailMutation) ResetMechaniccontroller() {
-	m.mechaniccontroller = nil
-	m.clearedmechaniccontroller = false
-}
-
-// SetElectriccontrollerID sets the "electriccontroller" edge to the CompanyEngineer entity by id.
-func (m *JobDetailMutation) SetElectriccontrollerID(id int) {
-	m.electriccontroller = &id
-}
-
-// ClearElectriccontroller clears the "electriccontroller" edge to the CompanyEngineer entity.
-func (m *JobDetailMutation) ClearElectriccontroller() {
-	m.clearedelectriccontroller = true
-}
-
-// ElectriccontrollerCleared reports if the "electriccontroller" edge to the CompanyEngineer entity was cleared.
-func (m *JobDetailMutation) ElectriccontrollerCleared() bool {
-	return m.clearedelectriccontroller
-}
-
-// ElectriccontrollerID returns the "electriccontroller" edge ID in the mutation.
-func (m *JobDetailMutation) ElectriccontrollerID() (id int, exists bool) {
-	if m.electriccontroller != nil {
-		return *m.electriccontroller, true
-	}
-	return
-}
-
-// ElectriccontrollerIDs returns the "electriccontroller" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ElectriccontrollerID instead. It exists only for internal usage by the builders.
-func (m *JobDetailMutation) ElectriccontrollerIDs() (ids []int) {
-	if id := m.electriccontroller; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetElectriccontroller resets all changes to the "electriccontroller" edge.
-func (m *JobDetailMutation) ResetElectriccontroller() {
-	m.electriccontroller = nil
-	m.clearedelectriccontroller = false
-}
-
-// AddLayerIDs adds the "layers" edge to the JobLayer entity by ids.
-func (m *JobDetailMutation) AddLayerIDs(ids ...int) {
-	if m.layers == nil {
-		m.layers = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.layers[ids[i]] = struct{}{}
-	}
-}
-
-// ClearLayers clears the "layers" edge to the JobLayer entity.
-func (m *JobDetailMutation) ClearLayers() {
-	m.clearedlayers = true
-}
-
-// LayersCleared reports if the "layers" edge to the JobLayer entity was cleared.
-func (m *JobDetailMutation) LayersCleared() bool {
-	return m.clearedlayers
-}
-
-// RemoveLayerIDs removes the "layers" edge to the JobLayer entity by IDs.
-func (m *JobDetailMutation) RemoveLayerIDs(ids ...int) {
-	if m.removedlayers == nil {
-		m.removedlayers = make(map[int]struct{})
-	}
-	for i := range ids {
-		delete(m.layers, ids[i])
-		m.removedlayers[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedLayers returns the removed IDs of the "layers" edge to the JobLayer entity.
-func (m *JobDetailMutation) RemovedLayersIDs() (ids []int) {
-	for id := range m.removedlayers {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// LayersIDs returns the "layers" edge IDs in the mutation.
-func (m *JobDetailMutation) LayersIDs() (ids []int) {
-	for id := range m.layers {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetLayers resets all changes to the "layers" edge.
-func (m *JobDetailMutation) ResetLayers() {
-	m.layers = nil
-	m.clearedlayers = false
-	m.removedlayers = nil
-}
-
-// AddPaymentIDs adds the "payments" edge to the JobPayments entity by ids.
-func (m *JobDetailMutation) AddPaymentIDs(ids ...int) {
-	if m.payments == nil {
-		m.payments = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.payments[ids[i]] = struct{}{}
-	}
-}
-
-// ClearPayments clears the "payments" edge to the JobPayments entity.
-func (m *JobDetailMutation) ClearPayments() {
-	m.clearedpayments = true
-}
-
-// PaymentsCleared reports if the "payments" edge to the JobPayments entity was cleared.
-func (m *JobDetailMutation) PaymentsCleared() bool {
-	return m.clearedpayments
-}
-
-// RemovePaymentIDs removes the "payments" edge to the JobPayments entity by IDs.
-func (m *JobDetailMutation) RemovePaymentIDs(ids ...int) {
-	if m.removedpayments == nil {
-		m.removedpayments = make(map[int]struct{})
-	}
-	for i := range ids {
-		delete(m.payments, ids[i])
-		m.removedpayments[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedPayments returns the removed IDs of the "payments" edge to the JobPayments entity.
-func (m *JobDetailMutation) RemovedPaymentsIDs() (ids []int) {
-	for id := range m.removedpayments {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// PaymentsIDs returns the "payments" edge IDs in the mutation.
-func (m *JobDetailMutation) PaymentsIDs() (ids []int) {
-	for id := range m.payments {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetPayments resets all changes to the "payments" edge.
-func (m *JobDetailMutation) ResetPayments() {
-	m.payments = nil
-	m.clearedpayments = false
-	m.removedpayments = nil
+// ResetRelations resets all changes to the "relations" edge.
+func (m *JobDetailMutation) ResetRelations() {
+	m.relations = nil
+	m.clearedrelations = false
 }
 
 // Where appends a list predicates to the JobDetailMutation builder.
@@ -12339,54 +11804,9 @@ func (m *JobDetailMutation) ResetField(name string) error {
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *JobDetailMutation) AddedEdges() []string {
-	edges := make([]string, 0, 16)
-	if m.owner != nil {
-		edges = append(edges, jobdetail.EdgeOwner)
-	}
-	if m.author != nil {
-		edges = append(edges, jobdetail.EdgeAuthor)
-	}
-	if m.company != nil {
-		edges = append(edges, jobdetail.EdgeCompany)
-	}
-	if m.progress != nil {
-		edges = append(edges, jobdetail.EdgeProgress)
-	}
-	if m.contractor != nil {
-		edges = append(edges, jobdetail.EdgeContractor)
-	}
-	if m.supervisor != nil {
-		edges = append(edges, jobdetail.EdgeSupervisor)
-	}
-	if m.static != nil {
-		edges = append(edges, jobdetail.EdgeStatic)
-	}
-	if m.mechanic != nil {
-		edges = append(edges, jobdetail.EdgeMechanic)
-	}
-	if m.electric != nil {
-		edges = append(edges, jobdetail.EdgeElectric)
-	}
-	if m.inspector != nil {
-		edges = append(edges, jobdetail.EdgeInspector)
-	}
-	if m.architect != nil {
-		edges = append(edges, jobdetail.EdgeArchitect)
-	}
-	if m.controller != nil {
-		edges = append(edges, jobdetail.EdgeController)
-	}
-	if m.mechaniccontroller != nil {
-		edges = append(edges, jobdetail.EdgeMechaniccontroller)
-	}
-	if m.electriccontroller != nil {
-		edges = append(edges, jobdetail.EdgeElectriccontroller)
-	}
-	if m.layers != nil {
-		edges = append(edges, jobdetail.EdgeLayers)
-	}
-	if m.payments != nil {
-		edges = append(edges, jobdetail.EdgePayments)
+	edges := make([]string, 0, 1)
+	if m.relations != nil {
+		edges = append(edges, jobdetail.EdgeRelations)
 	}
 	return edges
 }
@@ -12395,160 +11815,31 @@ func (m *JobDetailMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *JobDetailMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case jobdetail.EdgeOwner:
-		if id := m.owner; id != nil {
+	case jobdetail.EdgeRelations:
+		if id := m.relations; id != nil {
 			return []ent.Value{*id}
 		}
-	case jobdetail.EdgeAuthor:
-		if id := m.author; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeCompany:
-		if id := m.company; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeProgress:
-		if id := m.progress; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeContractor:
-		if id := m.contractor; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeSupervisor:
-		if id := m.supervisor; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeStatic:
-		if id := m.static; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeMechanic:
-		if id := m.mechanic; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeElectric:
-		if id := m.electric; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeInspector:
-		if id := m.inspector; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeArchitect:
-		if id := m.architect; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeController:
-		if id := m.controller; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeMechaniccontroller:
-		if id := m.mechaniccontroller; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeElectriccontroller:
-		if id := m.electriccontroller; id != nil {
-			return []ent.Value{*id}
-		}
-	case jobdetail.EdgeLayers:
-		ids := make([]ent.Value, 0, len(m.layers))
-		for id := range m.layers {
-			ids = append(ids, id)
-		}
-		return ids
-	case jobdetail.EdgePayments:
-		ids := make([]ent.Value, 0, len(m.payments))
-		for id := range m.payments {
-			ids = append(ids, id)
-		}
-		return ids
 	}
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *JobDetailMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 16)
-	if m.removedlayers != nil {
-		edges = append(edges, jobdetail.EdgeLayers)
-	}
-	if m.removedpayments != nil {
-		edges = append(edges, jobdetail.EdgePayments)
-	}
+	edges := make([]string, 0, 1)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
 func (m *JobDetailMutation) RemovedIDs(name string) []ent.Value {
-	switch name {
-	case jobdetail.EdgeLayers:
-		ids := make([]ent.Value, 0, len(m.removedlayers))
-		for id := range m.removedlayers {
-			ids = append(ids, id)
-		}
-		return ids
-	case jobdetail.EdgePayments:
-		ids := make([]ent.Value, 0, len(m.removedpayments))
-		for id := range m.removedpayments {
-			ids = append(ids, id)
-		}
-		return ids
-	}
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *JobDetailMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 16)
-	if m.clearedowner {
-		edges = append(edges, jobdetail.EdgeOwner)
-	}
-	if m.clearedauthor {
-		edges = append(edges, jobdetail.EdgeAuthor)
-	}
-	if m.clearedcompany {
-		edges = append(edges, jobdetail.EdgeCompany)
-	}
-	if m.clearedprogress {
-		edges = append(edges, jobdetail.EdgeProgress)
-	}
-	if m.clearedcontractor {
-		edges = append(edges, jobdetail.EdgeContractor)
-	}
-	if m.clearedsupervisor {
-		edges = append(edges, jobdetail.EdgeSupervisor)
-	}
-	if m.clearedstatic {
-		edges = append(edges, jobdetail.EdgeStatic)
-	}
-	if m.clearedmechanic {
-		edges = append(edges, jobdetail.EdgeMechanic)
-	}
-	if m.clearedelectric {
-		edges = append(edges, jobdetail.EdgeElectric)
-	}
-	if m.clearedinspector {
-		edges = append(edges, jobdetail.EdgeInspector)
-	}
-	if m.clearedarchitect {
-		edges = append(edges, jobdetail.EdgeArchitect)
-	}
-	if m.clearedcontroller {
-		edges = append(edges, jobdetail.EdgeController)
-	}
-	if m.clearedmechaniccontroller {
-		edges = append(edges, jobdetail.EdgeMechaniccontroller)
-	}
-	if m.clearedelectriccontroller {
-		edges = append(edges, jobdetail.EdgeElectriccontroller)
-	}
-	if m.clearedlayers {
-		edges = append(edges, jobdetail.EdgeLayers)
-	}
-	if m.clearedpayments {
-		edges = append(edges, jobdetail.EdgePayments)
+	edges := make([]string, 0, 1)
+	if m.clearedrelations {
+		edges = append(edges, jobdetail.EdgeRelations)
 	}
 	return edges
 }
@@ -12557,38 +11848,8 @@ func (m *JobDetailMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *JobDetailMutation) EdgeCleared(name string) bool {
 	switch name {
-	case jobdetail.EdgeOwner:
-		return m.clearedowner
-	case jobdetail.EdgeAuthor:
-		return m.clearedauthor
-	case jobdetail.EdgeCompany:
-		return m.clearedcompany
-	case jobdetail.EdgeProgress:
-		return m.clearedprogress
-	case jobdetail.EdgeContractor:
-		return m.clearedcontractor
-	case jobdetail.EdgeSupervisor:
-		return m.clearedsupervisor
-	case jobdetail.EdgeStatic:
-		return m.clearedstatic
-	case jobdetail.EdgeMechanic:
-		return m.clearedmechanic
-	case jobdetail.EdgeElectric:
-		return m.clearedelectric
-	case jobdetail.EdgeInspector:
-		return m.clearedinspector
-	case jobdetail.EdgeArchitect:
-		return m.clearedarchitect
-	case jobdetail.EdgeController:
-		return m.clearedcontroller
-	case jobdetail.EdgeMechaniccontroller:
-		return m.clearedmechaniccontroller
-	case jobdetail.EdgeElectriccontroller:
-		return m.clearedelectriccontroller
-	case jobdetail.EdgeLayers:
-		return m.clearedlayers
-	case jobdetail.EdgePayments:
-		return m.clearedpayments
+	case jobdetail.EdgeRelations:
+		return m.clearedrelations
 	}
 	return false
 }
@@ -12597,47 +11858,8 @@ func (m *JobDetailMutation) EdgeCleared(name string) bool {
 // if that edge is not defined in the schema.
 func (m *JobDetailMutation) ClearEdge(name string) error {
 	switch name {
-	case jobdetail.EdgeOwner:
-		m.ClearOwner()
-		return nil
-	case jobdetail.EdgeAuthor:
-		m.ClearAuthor()
-		return nil
-	case jobdetail.EdgeCompany:
-		m.ClearCompany()
-		return nil
-	case jobdetail.EdgeProgress:
-		m.ClearProgress()
-		return nil
-	case jobdetail.EdgeContractor:
-		m.ClearContractor()
-		return nil
-	case jobdetail.EdgeSupervisor:
-		m.ClearSupervisor()
-		return nil
-	case jobdetail.EdgeStatic:
-		m.ClearStatic()
-		return nil
-	case jobdetail.EdgeMechanic:
-		m.ClearMechanic()
-		return nil
-	case jobdetail.EdgeElectric:
-		m.ClearElectric()
-		return nil
-	case jobdetail.EdgeInspector:
-		m.ClearInspector()
-		return nil
-	case jobdetail.EdgeArchitect:
-		m.ClearArchitect()
-		return nil
-	case jobdetail.EdgeController:
-		m.ClearController()
-		return nil
-	case jobdetail.EdgeMechaniccontroller:
-		m.ClearMechaniccontroller()
-		return nil
-	case jobdetail.EdgeElectriccontroller:
-		m.ClearElectriccontroller()
+	case jobdetail.EdgeRelations:
+		m.ClearRelations()
 		return nil
 	}
 	return fmt.Errorf("unknown JobDetail unique edge %s", name)
@@ -12647,53 +11869,8 @@ func (m *JobDetailMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *JobDetailMutation) ResetEdge(name string) error {
 	switch name {
-	case jobdetail.EdgeOwner:
-		m.ResetOwner()
-		return nil
-	case jobdetail.EdgeAuthor:
-		m.ResetAuthor()
-		return nil
-	case jobdetail.EdgeCompany:
-		m.ResetCompany()
-		return nil
-	case jobdetail.EdgeProgress:
-		m.ResetProgress()
-		return nil
-	case jobdetail.EdgeContractor:
-		m.ResetContractor()
-		return nil
-	case jobdetail.EdgeSupervisor:
-		m.ResetSupervisor()
-		return nil
-	case jobdetail.EdgeStatic:
-		m.ResetStatic()
-		return nil
-	case jobdetail.EdgeMechanic:
-		m.ResetMechanic()
-		return nil
-	case jobdetail.EdgeElectric:
-		m.ResetElectric()
-		return nil
-	case jobdetail.EdgeInspector:
-		m.ResetInspector()
-		return nil
-	case jobdetail.EdgeArchitect:
-		m.ResetArchitect()
-		return nil
-	case jobdetail.EdgeController:
-		m.ResetController()
-		return nil
-	case jobdetail.EdgeMechaniccontroller:
-		m.ResetMechaniccontroller()
-		return nil
-	case jobdetail.EdgeElectriccontroller:
-		m.ResetElectriccontroller()
-		return nil
-	case jobdetail.EdgeLayers:
-		m.ResetLayers()
-		return nil
-	case jobdetail.EdgePayments:
-		m.ResetPayments()
+	case jobdetail.EdgeRelations:
+		m.ResetRelations()
 		return nil
 	}
 	return fmt.Errorf("unknown JobDetail edge %s", name)
@@ -12705,6 +11882,8 @@ type JobLayerMutation struct {
 	op             Op
 	typ            string
 	id             *int
+	yibfNo         *int
+	addyibfNo      *int
 	_Name          *string
 	_Metre         *string
 	_MoldDate      *time.Time
@@ -12820,6 +11999,62 @@ func (m *JobLayerMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (m *JobLayerMutation) SetYibfNo(i int) {
+	m.yibfNo = &i
+	m.addyibfNo = nil
+}
+
+// YibfNo returns the value of the "yibfNo" field in the mutation.
+func (m *JobLayerMutation) YibfNo() (r int, exists bool) {
+	v := m.yibfNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYibfNo returns the old "yibfNo" field's value of the JobLayer entity.
+// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobLayerMutation) OldYibfNo(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYibfNo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYibfNo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYibfNo: %w", err)
+	}
+	return oldValue.YibfNo, nil
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (m *JobLayerMutation) AddYibfNo(i int) {
+	if m.addyibfNo != nil {
+		*m.addyibfNo += i
+	} else {
+		m.addyibfNo = &i
+	}
+}
+
+// AddedYibfNo returns the value that was added to the "yibfNo" field in this mutation.
+func (m *JobLayerMutation) AddedYibfNo() (r int, exists bool) {
+	v := m.addyibfNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetYibfNo resets all changes to the "yibfNo" field.
+func (m *JobLayerMutation) ResetYibfNo() {
+	m.yibfNo = nil
+	m.addyibfNo = nil
 }
 
 // SetName sets the "Name" field.
@@ -13281,17 +12516,17 @@ func (m *JobLayerMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// SetLayerID sets the "layer" edge to the JobDetail entity by id.
+// SetLayerID sets the "layer" edge to the JobRelations entity by id.
 func (m *JobLayerMutation) SetLayerID(id int) {
 	m.layer = &id
 }
 
-// ClearLayer clears the "layer" edge to the JobDetail entity.
+// ClearLayer clears the "layer" edge to the JobRelations entity.
 func (m *JobLayerMutation) ClearLayer() {
 	m.clearedlayer = true
 }
 
-// LayerCleared reports if the "layer" edge to the JobDetail entity was cleared.
+// LayerCleared reports if the "layer" edge to the JobRelations entity was cleared.
 func (m *JobLayerMutation) LayerCleared() bool {
 	return m.clearedlayer
 }
@@ -13354,7 +12589,10 @@ func (m *JobLayerMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobLayerMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 11)
+	if m.yibfNo != nil {
+		fields = append(fields, joblayer.FieldYibfNo)
+	}
 	if m._Name != nil {
 		fields = append(fields, joblayer.FieldName)
 	}
@@ -13393,6 +12631,8 @@ func (m *JobLayerMutation) Fields() []string {
 // schema.
 func (m *JobLayerMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case joblayer.FieldYibfNo:
+		return m.YibfNo()
 	case joblayer.FieldName:
 		return m.Name()
 	case joblayer.FieldMetre:
@@ -13422,6 +12662,8 @@ func (m *JobLayerMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *JobLayerMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case joblayer.FieldYibfNo:
+		return m.OldYibfNo(ctx)
 	case joblayer.FieldName:
 		return m.OldName(ctx)
 	case joblayer.FieldMetre:
@@ -13451,6 +12693,13 @@ func (m *JobLayerMutation) OldField(ctx context.Context, name string) (ent.Value
 // type.
 func (m *JobLayerMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case joblayer.FieldYibfNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYibfNo(v)
+		return nil
 	case joblayer.FieldName:
 		v, ok := value.(string)
 		if !ok {
@@ -13529,6 +12778,9 @@ func (m *JobLayerMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *JobLayerMutation) AddedFields() []string {
 	var fields []string
+	if m.addyibfNo != nil {
+		fields = append(fields, joblayer.FieldYibfNo)
+	}
 	if m.add_Samples != nil {
 		fields = append(fields, joblayer.FieldSamples)
 	}
@@ -13540,6 +12792,8 @@ func (m *JobLayerMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *JobLayerMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
+	case joblayer.FieldYibfNo:
+		return m.AddedYibfNo()
 	case joblayer.FieldSamples:
 		return m.AddedSamples()
 	}
@@ -13551,6 +12805,13 @@ func (m *JobLayerMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *JobLayerMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case joblayer.FieldYibfNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddYibfNo(v)
+		return nil
 	case joblayer.FieldSamples:
 		v, ok := value.(int)
 		if !ok {
@@ -13624,6 +12885,9 @@ func (m *JobLayerMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *JobLayerMutation) ResetField(name string) error {
 	switch name {
+	case joblayer.FieldYibfNo:
+		m.ResetYibfNo()
+		return nil
 	case joblayer.FieldName:
 		m.ResetName()
 		return nil
@@ -14459,7 +13723,7 @@ func (m *JobOwnerMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// AddOwnerIDs adds the "owners" edge to the JobDetail entity by ids.
+// AddOwnerIDs adds the "owners" edge to the JobRelations entity by ids.
 func (m *JobOwnerMutation) AddOwnerIDs(ids ...int) {
 	if m.owners == nil {
 		m.owners = make(map[int]struct{})
@@ -14469,17 +13733,17 @@ func (m *JobOwnerMutation) AddOwnerIDs(ids ...int) {
 	}
 }
 
-// ClearOwners clears the "owners" edge to the JobDetail entity.
+// ClearOwners clears the "owners" edge to the JobRelations entity.
 func (m *JobOwnerMutation) ClearOwners() {
 	m.clearedowners = true
 }
 
-// OwnersCleared reports if the "owners" edge to the JobDetail entity was cleared.
+// OwnersCleared reports if the "owners" edge to the JobRelations entity was cleared.
 func (m *JobOwnerMutation) OwnersCleared() bool {
 	return m.clearedowners
 }
 
-// RemoveOwnerIDs removes the "owners" edge to the JobDetail entity by IDs.
+// RemoveOwnerIDs removes the "owners" edge to the JobRelations entity by IDs.
 func (m *JobOwnerMutation) RemoveOwnerIDs(ids ...int) {
 	if m.removedowners == nil {
 		m.removedowners = make(map[int]struct{})
@@ -14490,7 +13754,7 @@ func (m *JobOwnerMutation) RemoveOwnerIDs(ids ...int) {
 	}
 }
 
-// RemovedOwners returns the removed IDs of the "owners" edge to the JobDetail entity.
+// RemovedOwners returns the removed IDs of the "owners" edge to the JobRelations entity.
 func (m *JobOwnerMutation) RemovedOwnersIDs() (ids []int) {
 	for id := range m.removedowners {
 		ids = append(ids, id)
@@ -15746,17 +15010,17 @@ func (m *JobPaymentsMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// SetPaymentsID sets the "payments" edge to the JobDetail entity by id.
+// SetPaymentsID sets the "payments" edge to the JobRelations entity by id.
 func (m *JobPaymentsMutation) SetPaymentsID(id int) {
 	m.payments = &id
 }
 
-// ClearPayments clears the "payments" edge to the JobDetail entity.
+// ClearPayments clears the "payments" edge to the JobRelations entity.
 func (m *JobPaymentsMutation) ClearPayments() {
 	m.clearedpayments = true
 }
 
-// PaymentsCleared reports if the "payments" edge to the JobDetail entity was cleared.
+// PaymentsCleared reports if the "payments" edge to the JobRelations entity was cleared.
 func (m *JobPaymentsMutation) PaymentsCleared() bool {
 	return m.clearedpayments
 }
@@ -16286,6 +15550,8 @@ type JobProgressMutation struct {
 	op              Op
 	typ             string
 	id              *int
+	yibfNo          *int
+	addyibfNo       *int
 	_One            *int
 	add_One         *int
 	_Two            *int
@@ -16405,6 +15671,62 @@ func (m *JobProgressMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (m *JobProgressMutation) SetYibfNo(i int) {
+	m.yibfNo = &i
+	m.addyibfNo = nil
+}
+
+// YibfNo returns the value of the "yibfNo" field in the mutation.
+func (m *JobProgressMutation) YibfNo() (r int, exists bool) {
+	v := m.yibfNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYibfNo returns the old "yibfNo" field's value of the JobProgress entity.
+// If the JobProgress object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobProgressMutation) OldYibfNo(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYibfNo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYibfNo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYibfNo: %w", err)
+	}
+	return oldValue.YibfNo, nil
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (m *JobProgressMutation) AddYibfNo(i int) {
+	if m.addyibfNo != nil {
+		*m.addyibfNo += i
+	} else {
+		m.addyibfNo = &i
+	}
+}
+
+// AddedYibfNo returns the value that was added to the "yibfNo" field in this mutation.
+func (m *JobProgressMutation) AddedYibfNo() (r int, exists bool) {
+	v := m.addyibfNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetYibfNo resets all changes to the "yibfNo" field.
+func (m *JobProgressMutation) ResetYibfNo() {
+	m.yibfNo = nil
+	m.addyibfNo = nil
 }
 
 // SetOne sets the "One" field.
@@ -16899,7 +16221,7 @@ func (m *JobProgressMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// AddProgresIDs adds the "progress" edge to the JobDetail entity by ids.
+// AddProgresIDs adds the "progress" edge to the JobRelations entity by ids.
 func (m *JobProgressMutation) AddProgresIDs(ids ...int) {
 	if m.progress == nil {
 		m.progress = make(map[int]struct{})
@@ -16909,17 +16231,17 @@ func (m *JobProgressMutation) AddProgresIDs(ids ...int) {
 	}
 }
 
-// ClearProgress clears the "progress" edge to the JobDetail entity.
+// ClearProgress clears the "progress" edge to the JobRelations entity.
 func (m *JobProgressMutation) ClearProgress() {
 	m.clearedprogress = true
 }
 
-// ProgressCleared reports if the "progress" edge to the JobDetail entity was cleared.
+// ProgressCleared reports if the "progress" edge to the JobRelations entity was cleared.
 func (m *JobProgressMutation) ProgressCleared() bool {
 	return m.clearedprogress
 }
 
-// RemoveProgresIDs removes the "progress" edge to the JobDetail entity by IDs.
+// RemoveProgresIDs removes the "progress" edge to the JobRelations entity by IDs.
 func (m *JobProgressMutation) RemoveProgresIDs(ids ...int) {
 	if m.removedprogress == nil {
 		m.removedprogress = make(map[int]struct{})
@@ -16930,7 +16252,7 @@ func (m *JobProgressMutation) RemoveProgresIDs(ids ...int) {
 	}
 }
 
-// RemovedProgress returns the removed IDs of the "progress" edge to the JobDetail entity.
+// RemovedProgress returns the removed IDs of the "progress" edge to the JobRelations entity.
 func (m *JobProgressMutation) RemovedProgressIDs() (ids []int) {
 	for id := range m.removedprogress {
 		ids = append(ids, id)
@@ -16987,7 +16309,10 @@ func (m *JobProgressMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobProgressMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
+	if m.yibfNo != nil {
+		fields = append(fields, jobprogress.FieldYibfNo)
+	}
 	if m._One != nil {
 		fields = append(fields, jobprogress.FieldOne)
 	}
@@ -17020,6 +16345,8 @@ func (m *JobProgressMutation) Fields() []string {
 // schema.
 func (m *JobProgressMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case jobprogress.FieldYibfNo:
+		return m.YibfNo()
 	case jobprogress.FieldOne:
 		return m.One()
 	case jobprogress.FieldTwo:
@@ -17045,6 +16372,8 @@ func (m *JobProgressMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *JobProgressMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case jobprogress.FieldYibfNo:
+		return m.OldYibfNo(ctx)
 	case jobprogress.FieldOne:
 		return m.OldOne(ctx)
 	case jobprogress.FieldTwo:
@@ -17070,6 +16399,13 @@ func (m *JobProgressMutation) OldField(ctx context.Context, name string) (ent.Va
 // type.
 func (m *JobProgressMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case jobprogress.FieldYibfNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYibfNo(v)
+		return nil
 	case jobprogress.FieldOne:
 		v, ok := value.(int)
 		if !ok {
@@ -17134,6 +16470,9 @@ func (m *JobProgressMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *JobProgressMutation) AddedFields() []string {
 	var fields []string
+	if m.addyibfNo != nil {
+		fields = append(fields, jobprogress.FieldYibfNo)
+	}
 	if m.add_One != nil {
 		fields = append(fields, jobprogress.FieldOne)
 	}
@@ -17160,6 +16499,8 @@ func (m *JobProgressMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *JobProgressMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
+	case jobprogress.FieldYibfNo:
+		return m.AddedYibfNo()
 	case jobprogress.FieldOne:
 		return m.AddedOne()
 	case jobprogress.FieldTwo:
@@ -17181,6 +16522,13 @@ func (m *JobProgressMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *JobProgressMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case jobprogress.FieldYibfNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddYibfNo(v)
+		return nil
 	case jobprogress.FieldOne:
 		v, ok := value.(int)
 		if !ok {
@@ -17289,6 +16637,9 @@ func (m *JobProgressMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *JobProgressMutation) ResetField(name string) error {
 	switch name {
+	case jobprogress.FieldYibfNo:
+		m.ResetYibfNo()
+		return nil
 	case jobprogress.FieldOne:
 		m.ResetOne()
 		return nil
@@ -17399,6 +16750,1537 @@ func (m *JobProgressMutation) ResetEdge(name string) error {
 		return nil
 	}
 	return fmt.Errorf("unknown JobProgress edge %s", name)
+}
+
+// JobRelationsMutation represents an operation that mutates the JobRelations nodes in the graph.
+type JobRelationsMutation struct {
+	config
+	op                        Op
+	typ                       string
+	id                        *int
+	yibfNo                    *int
+	addyibfNo                 *int
+	_CreatedAt                *time.Time
+	_UpdatedAt                *time.Time
+	clearedFields             map[string]struct{}
+	job                       *int
+	clearedjob                bool
+	owner                     *int
+	clearedowner              bool
+	author                    *int
+	clearedauthor             bool
+	company                   *int
+	clearedcompany            bool
+	progress                  *int
+	clearedprogress           bool
+	contractor                *int
+	clearedcontractor         bool
+	supervisor                *int
+	clearedsupervisor         bool
+	static                    *int
+	clearedstatic             bool
+	mechanic                  *int
+	clearedmechanic           bool
+	electric                  *int
+	clearedelectric           bool
+	inspector                 *int
+	clearedinspector          bool
+	architect                 *int
+	clearedarchitect          bool
+	controller                *int
+	clearedcontroller         bool
+	mechaniccontroller        *int
+	clearedmechaniccontroller bool
+	electriccontroller        *int
+	clearedelectriccontroller bool
+	layers                    map[int]struct{}
+	removedlayers             map[int]struct{}
+	clearedlayers             bool
+	payments                  map[int]struct{}
+	removedpayments           map[int]struct{}
+	clearedpayments           bool
+	done                      bool
+	oldValue                  func(context.Context) (*JobRelations, error)
+	predicates                []predicate.JobRelations
+}
+
+var _ ent.Mutation = (*JobRelationsMutation)(nil)
+
+// jobrelationsOption allows management of the mutation configuration using functional options.
+type jobrelationsOption func(*JobRelationsMutation)
+
+// newJobRelationsMutation creates new mutation for the JobRelations entity.
+func newJobRelationsMutation(c config, op Op, opts ...jobrelationsOption) *JobRelationsMutation {
+	m := &JobRelationsMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeJobRelations,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withJobRelationsID sets the ID field of the mutation.
+func withJobRelationsID(id int) jobrelationsOption {
+	return func(m *JobRelationsMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *JobRelations
+		)
+		m.oldValue = func(ctx context.Context) (*JobRelations, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().JobRelations.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withJobRelations sets the old JobRelations of the mutation.
+func withJobRelations(node *JobRelations) jobrelationsOption {
+	return func(m *JobRelationsMutation) {
+		m.oldValue = func(context.Context) (*JobRelations, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m JobRelationsMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m JobRelationsMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *JobRelationsMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *JobRelationsMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().JobRelations.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (m *JobRelationsMutation) SetYibfNo(i int) {
+	m.yibfNo = &i
+	m.addyibfNo = nil
+}
+
+// YibfNo returns the value of the "yibfNo" field in the mutation.
+func (m *JobRelationsMutation) YibfNo() (r int, exists bool) {
+	v := m.yibfNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYibfNo returns the old "yibfNo" field's value of the JobRelations entity.
+// If the JobRelations object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobRelationsMutation) OldYibfNo(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYibfNo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYibfNo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYibfNo: %w", err)
+	}
+	return oldValue.YibfNo, nil
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (m *JobRelationsMutation) AddYibfNo(i int) {
+	if m.addyibfNo != nil {
+		*m.addyibfNo += i
+	} else {
+		m.addyibfNo = &i
+	}
+}
+
+// AddedYibfNo returns the value that was added to the "yibfNo" field in this mutation.
+func (m *JobRelationsMutation) AddedYibfNo() (r int, exists bool) {
+	v := m.addyibfNo
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetYibfNo resets all changes to the "yibfNo" field.
+func (m *JobRelationsMutation) ResetYibfNo() {
+	m.yibfNo = nil
+	m.addyibfNo = nil
+}
+
+// SetCreatedAt sets the "CreatedAt" field.
+func (m *JobRelationsMutation) SetCreatedAt(t time.Time) {
+	m._CreatedAt = &t
+}
+
+// CreatedAt returns the value of the "CreatedAt" field in the mutation.
+func (m *JobRelationsMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m._CreatedAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "CreatedAt" field's value of the JobRelations entity.
+// If the JobRelations object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobRelationsMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "CreatedAt" field.
+func (m *JobRelationsMutation) ResetCreatedAt() {
+	m._CreatedAt = nil
+}
+
+// SetUpdatedAt sets the "UpdatedAt" field.
+func (m *JobRelationsMutation) SetUpdatedAt(t time.Time) {
+	m._UpdatedAt = &t
+}
+
+// UpdatedAt returns the value of the "UpdatedAt" field in the mutation.
+func (m *JobRelationsMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m._UpdatedAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "UpdatedAt" field's value of the JobRelations entity.
+// If the JobRelations object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobRelationsMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "UpdatedAt" field.
+func (m *JobRelationsMutation) ResetUpdatedAt() {
+	m._UpdatedAt = nil
+}
+
+// SetJobID sets the "job" edge to the JobDetail entity by id.
+func (m *JobRelationsMutation) SetJobID(id int) {
+	m.job = &id
+}
+
+// ClearJob clears the "job" edge to the JobDetail entity.
+func (m *JobRelationsMutation) ClearJob() {
+	m.clearedjob = true
+}
+
+// JobCleared reports if the "job" edge to the JobDetail entity was cleared.
+func (m *JobRelationsMutation) JobCleared() bool {
+	return m.clearedjob
+}
+
+// JobID returns the "job" edge ID in the mutation.
+func (m *JobRelationsMutation) JobID() (id int, exists bool) {
+	if m.job != nil {
+		return *m.job, true
+	}
+	return
+}
+
+// JobIDs returns the "job" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// JobID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) JobIDs() (ids []int) {
+	if id := m.job; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetJob resets all changes to the "job" edge.
+func (m *JobRelationsMutation) ResetJob() {
+	m.job = nil
+	m.clearedjob = false
+}
+
+// SetOwnerID sets the "owner" edge to the JobOwner entity by id.
+func (m *JobRelationsMutation) SetOwnerID(id int) {
+	m.owner = &id
+}
+
+// ClearOwner clears the "owner" edge to the JobOwner entity.
+func (m *JobRelationsMutation) ClearOwner() {
+	m.clearedowner = true
+}
+
+// OwnerCleared reports if the "owner" edge to the JobOwner entity was cleared.
+func (m *JobRelationsMutation) OwnerCleared() bool {
+	return m.clearedowner
+}
+
+// OwnerID returns the "owner" edge ID in the mutation.
+func (m *JobRelationsMutation) OwnerID() (id int, exists bool) {
+	if m.owner != nil {
+		return *m.owner, true
+	}
+	return
+}
+
+// OwnerIDs returns the "owner" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// OwnerID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) OwnerIDs() (ids []int) {
+	if id := m.owner; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetOwner resets all changes to the "owner" edge.
+func (m *JobRelationsMutation) ResetOwner() {
+	m.owner = nil
+	m.clearedowner = false
+}
+
+// SetAuthorID sets the "author" edge to the JobAuthor entity by id.
+func (m *JobRelationsMutation) SetAuthorID(id int) {
+	m.author = &id
+}
+
+// ClearAuthor clears the "author" edge to the JobAuthor entity.
+func (m *JobRelationsMutation) ClearAuthor() {
+	m.clearedauthor = true
+}
+
+// AuthorCleared reports if the "author" edge to the JobAuthor entity was cleared.
+func (m *JobRelationsMutation) AuthorCleared() bool {
+	return m.clearedauthor
+}
+
+// AuthorID returns the "author" edge ID in the mutation.
+func (m *JobRelationsMutation) AuthorID() (id int, exists bool) {
+	if m.author != nil {
+		return *m.author, true
+	}
+	return
+}
+
+// AuthorIDs returns the "author" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// AuthorID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) AuthorIDs() (ids []int) {
+	if id := m.author; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetAuthor resets all changes to the "author" edge.
+func (m *JobRelationsMutation) ResetAuthor() {
+	m.author = nil
+	m.clearedauthor = false
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by id.
+func (m *JobRelationsMutation) SetCompanyID(id int) {
+	m.company = &id
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (m *JobRelationsMutation) ClearCompany() {
+	m.clearedcompany = true
+}
+
+// CompanyCleared reports if the "company" edge to the CompanyDetail entity was cleared.
+func (m *JobRelationsMutation) CompanyCleared() bool {
+	return m.clearedcompany
+}
+
+// CompanyID returns the "company" edge ID in the mutation.
+func (m *JobRelationsMutation) CompanyID() (id int, exists bool) {
+	if m.company != nil {
+		return *m.company, true
+	}
+	return
+}
+
+// CompanyIDs returns the "company" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// CompanyID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) CompanyIDs() (ids []int) {
+	if id := m.company; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetCompany resets all changes to the "company" edge.
+func (m *JobRelationsMutation) ResetCompany() {
+	m.company = nil
+	m.clearedcompany = false
+}
+
+// SetProgressID sets the "progress" edge to the JobProgress entity by id.
+func (m *JobRelationsMutation) SetProgressID(id int) {
+	m.progress = &id
+}
+
+// ClearProgress clears the "progress" edge to the JobProgress entity.
+func (m *JobRelationsMutation) ClearProgress() {
+	m.clearedprogress = true
+}
+
+// ProgressCleared reports if the "progress" edge to the JobProgress entity was cleared.
+func (m *JobRelationsMutation) ProgressCleared() bool {
+	return m.clearedprogress
+}
+
+// ProgressID returns the "progress" edge ID in the mutation.
+func (m *JobRelationsMutation) ProgressID() (id int, exists bool) {
+	if m.progress != nil {
+		return *m.progress, true
+	}
+	return
+}
+
+// ProgressIDs returns the "progress" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ProgressID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) ProgressIDs() (ids []int) {
+	if id := m.progress; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetProgress resets all changes to the "progress" edge.
+func (m *JobRelationsMutation) ResetProgress() {
+	m.progress = nil
+	m.clearedprogress = false
+}
+
+// SetContractorID sets the "contractor" edge to the JobContractor entity by id.
+func (m *JobRelationsMutation) SetContractorID(id int) {
+	m.contractor = &id
+}
+
+// ClearContractor clears the "contractor" edge to the JobContractor entity.
+func (m *JobRelationsMutation) ClearContractor() {
+	m.clearedcontractor = true
+}
+
+// ContractorCleared reports if the "contractor" edge to the JobContractor entity was cleared.
+func (m *JobRelationsMutation) ContractorCleared() bool {
+	return m.clearedcontractor
+}
+
+// ContractorID returns the "contractor" edge ID in the mutation.
+func (m *JobRelationsMutation) ContractorID() (id int, exists bool) {
+	if m.contractor != nil {
+		return *m.contractor, true
+	}
+	return
+}
+
+// ContractorIDs returns the "contractor" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ContractorID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) ContractorIDs() (ids []int) {
+	if id := m.contractor; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetContractor resets all changes to the "contractor" edge.
+func (m *JobRelationsMutation) ResetContractor() {
+	m.contractor = nil
+	m.clearedcontractor = false
+}
+
+// SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by id.
+func (m *JobRelationsMutation) SetSupervisorID(id int) {
+	m.supervisor = &id
+}
+
+// ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
+func (m *JobRelationsMutation) ClearSupervisor() {
+	m.clearedsupervisor = true
+}
+
+// SupervisorCleared reports if the "supervisor" edge to the JobSupervisor entity was cleared.
+func (m *JobRelationsMutation) SupervisorCleared() bool {
+	return m.clearedsupervisor
+}
+
+// SupervisorID returns the "supervisor" edge ID in the mutation.
+func (m *JobRelationsMutation) SupervisorID() (id int, exists bool) {
+	if m.supervisor != nil {
+		return *m.supervisor, true
+	}
+	return
+}
+
+// SupervisorIDs returns the "supervisor" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// SupervisorID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) SupervisorIDs() (ids []int) {
+	if id := m.supervisor; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetSupervisor resets all changes to the "supervisor" edge.
+func (m *JobRelationsMutation) ResetSupervisor() {
+	m.supervisor = nil
+	m.clearedsupervisor = false
+}
+
+// SetStaticID sets the "static" edge to the CompanyEngineer entity by id.
+func (m *JobRelationsMutation) SetStaticID(id int) {
+	m.static = &id
+}
+
+// ClearStatic clears the "static" edge to the CompanyEngineer entity.
+func (m *JobRelationsMutation) ClearStatic() {
+	m.clearedstatic = true
+}
+
+// StaticCleared reports if the "static" edge to the CompanyEngineer entity was cleared.
+func (m *JobRelationsMutation) StaticCleared() bool {
+	return m.clearedstatic
+}
+
+// StaticID returns the "static" edge ID in the mutation.
+func (m *JobRelationsMutation) StaticID() (id int, exists bool) {
+	if m.static != nil {
+		return *m.static, true
+	}
+	return
+}
+
+// StaticIDs returns the "static" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// StaticID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) StaticIDs() (ids []int) {
+	if id := m.static; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetStatic resets all changes to the "static" edge.
+func (m *JobRelationsMutation) ResetStatic() {
+	m.static = nil
+	m.clearedstatic = false
+}
+
+// SetMechanicID sets the "mechanic" edge to the CompanyEngineer entity by id.
+func (m *JobRelationsMutation) SetMechanicID(id int) {
+	m.mechanic = &id
+}
+
+// ClearMechanic clears the "mechanic" edge to the CompanyEngineer entity.
+func (m *JobRelationsMutation) ClearMechanic() {
+	m.clearedmechanic = true
+}
+
+// MechanicCleared reports if the "mechanic" edge to the CompanyEngineer entity was cleared.
+func (m *JobRelationsMutation) MechanicCleared() bool {
+	return m.clearedmechanic
+}
+
+// MechanicID returns the "mechanic" edge ID in the mutation.
+func (m *JobRelationsMutation) MechanicID() (id int, exists bool) {
+	if m.mechanic != nil {
+		return *m.mechanic, true
+	}
+	return
+}
+
+// MechanicIDs returns the "mechanic" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// MechanicID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) MechanicIDs() (ids []int) {
+	if id := m.mechanic; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetMechanic resets all changes to the "mechanic" edge.
+func (m *JobRelationsMutation) ResetMechanic() {
+	m.mechanic = nil
+	m.clearedmechanic = false
+}
+
+// SetElectricID sets the "electric" edge to the CompanyEngineer entity by id.
+func (m *JobRelationsMutation) SetElectricID(id int) {
+	m.electric = &id
+}
+
+// ClearElectric clears the "electric" edge to the CompanyEngineer entity.
+func (m *JobRelationsMutation) ClearElectric() {
+	m.clearedelectric = true
+}
+
+// ElectricCleared reports if the "electric" edge to the CompanyEngineer entity was cleared.
+func (m *JobRelationsMutation) ElectricCleared() bool {
+	return m.clearedelectric
+}
+
+// ElectricID returns the "electric" edge ID in the mutation.
+func (m *JobRelationsMutation) ElectricID() (id int, exists bool) {
+	if m.electric != nil {
+		return *m.electric, true
+	}
+	return
+}
+
+// ElectricIDs returns the "electric" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ElectricID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) ElectricIDs() (ids []int) {
+	if id := m.electric; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetElectric resets all changes to the "electric" edge.
+func (m *JobRelationsMutation) ResetElectric() {
+	m.electric = nil
+	m.clearedelectric = false
+}
+
+// SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by id.
+func (m *JobRelationsMutation) SetInspectorID(id int) {
+	m.inspector = &id
+}
+
+// ClearInspector clears the "inspector" edge to the CompanyEngineer entity.
+func (m *JobRelationsMutation) ClearInspector() {
+	m.clearedinspector = true
+}
+
+// InspectorCleared reports if the "inspector" edge to the CompanyEngineer entity was cleared.
+func (m *JobRelationsMutation) InspectorCleared() bool {
+	return m.clearedinspector
+}
+
+// InspectorID returns the "inspector" edge ID in the mutation.
+func (m *JobRelationsMutation) InspectorID() (id int, exists bool) {
+	if m.inspector != nil {
+		return *m.inspector, true
+	}
+	return
+}
+
+// InspectorIDs returns the "inspector" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// InspectorID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) InspectorIDs() (ids []int) {
+	if id := m.inspector; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetInspector resets all changes to the "inspector" edge.
+func (m *JobRelationsMutation) ResetInspector() {
+	m.inspector = nil
+	m.clearedinspector = false
+}
+
+// SetArchitectID sets the "architect" edge to the CompanyEngineer entity by id.
+func (m *JobRelationsMutation) SetArchitectID(id int) {
+	m.architect = &id
+}
+
+// ClearArchitect clears the "architect" edge to the CompanyEngineer entity.
+func (m *JobRelationsMutation) ClearArchitect() {
+	m.clearedarchitect = true
+}
+
+// ArchitectCleared reports if the "architect" edge to the CompanyEngineer entity was cleared.
+func (m *JobRelationsMutation) ArchitectCleared() bool {
+	return m.clearedarchitect
+}
+
+// ArchitectID returns the "architect" edge ID in the mutation.
+func (m *JobRelationsMutation) ArchitectID() (id int, exists bool) {
+	if m.architect != nil {
+		return *m.architect, true
+	}
+	return
+}
+
+// ArchitectIDs returns the "architect" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ArchitectID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) ArchitectIDs() (ids []int) {
+	if id := m.architect; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetArchitect resets all changes to the "architect" edge.
+func (m *JobRelationsMutation) ResetArchitect() {
+	m.architect = nil
+	m.clearedarchitect = false
+}
+
+// SetControllerID sets the "controller" edge to the CompanyEngineer entity by id.
+func (m *JobRelationsMutation) SetControllerID(id int) {
+	m.controller = &id
+}
+
+// ClearController clears the "controller" edge to the CompanyEngineer entity.
+func (m *JobRelationsMutation) ClearController() {
+	m.clearedcontroller = true
+}
+
+// ControllerCleared reports if the "controller" edge to the CompanyEngineer entity was cleared.
+func (m *JobRelationsMutation) ControllerCleared() bool {
+	return m.clearedcontroller
+}
+
+// ControllerID returns the "controller" edge ID in the mutation.
+func (m *JobRelationsMutation) ControllerID() (id int, exists bool) {
+	if m.controller != nil {
+		return *m.controller, true
+	}
+	return
+}
+
+// ControllerIDs returns the "controller" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ControllerID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) ControllerIDs() (ids []int) {
+	if id := m.controller; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetController resets all changes to the "controller" edge.
+func (m *JobRelationsMutation) ResetController() {
+	m.controller = nil
+	m.clearedcontroller = false
+}
+
+// SetMechaniccontrollerID sets the "mechaniccontroller" edge to the CompanyEngineer entity by id.
+func (m *JobRelationsMutation) SetMechaniccontrollerID(id int) {
+	m.mechaniccontroller = &id
+}
+
+// ClearMechaniccontroller clears the "mechaniccontroller" edge to the CompanyEngineer entity.
+func (m *JobRelationsMutation) ClearMechaniccontroller() {
+	m.clearedmechaniccontroller = true
+}
+
+// MechaniccontrollerCleared reports if the "mechaniccontroller" edge to the CompanyEngineer entity was cleared.
+func (m *JobRelationsMutation) MechaniccontrollerCleared() bool {
+	return m.clearedmechaniccontroller
+}
+
+// MechaniccontrollerID returns the "mechaniccontroller" edge ID in the mutation.
+func (m *JobRelationsMutation) MechaniccontrollerID() (id int, exists bool) {
+	if m.mechaniccontroller != nil {
+		return *m.mechaniccontroller, true
+	}
+	return
+}
+
+// MechaniccontrollerIDs returns the "mechaniccontroller" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// MechaniccontrollerID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) MechaniccontrollerIDs() (ids []int) {
+	if id := m.mechaniccontroller; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetMechaniccontroller resets all changes to the "mechaniccontroller" edge.
+func (m *JobRelationsMutation) ResetMechaniccontroller() {
+	m.mechaniccontroller = nil
+	m.clearedmechaniccontroller = false
+}
+
+// SetElectriccontrollerID sets the "electriccontroller" edge to the CompanyEngineer entity by id.
+func (m *JobRelationsMutation) SetElectriccontrollerID(id int) {
+	m.electriccontroller = &id
+}
+
+// ClearElectriccontroller clears the "electriccontroller" edge to the CompanyEngineer entity.
+func (m *JobRelationsMutation) ClearElectriccontroller() {
+	m.clearedelectriccontroller = true
+}
+
+// ElectriccontrollerCleared reports if the "electriccontroller" edge to the CompanyEngineer entity was cleared.
+func (m *JobRelationsMutation) ElectriccontrollerCleared() bool {
+	return m.clearedelectriccontroller
+}
+
+// ElectriccontrollerID returns the "electriccontroller" edge ID in the mutation.
+func (m *JobRelationsMutation) ElectriccontrollerID() (id int, exists bool) {
+	if m.electriccontroller != nil {
+		return *m.electriccontroller, true
+	}
+	return
+}
+
+// ElectriccontrollerIDs returns the "electriccontroller" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ElectriccontrollerID instead. It exists only for internal usage by the builders.
+func (m *JobRelationsMutation) ElectriccontrollerIDs() (ids []int) {
+	if id := m.electriccontroller; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetElectriccontroller resets all changes to the "electriccontroller" edge.
+func (m *JobRelationsMutation) ResetElectriccontroller() {
+	m.electriccontroller = nil
+	m.clearedelectriccontroller = false
+}
+
+// AddLayerIDs adds the "layers" edge to the JobLayer entity by ids.
+func (m *JobRelationsMutation) AddLayerIDs(ids ...int) {
+	if m.layers == nil {
+		m.layers = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.layers[ids[i]] = struct{}{}
+	}
+}
+
+// ClearLayers clears the "layers" edge to the JobLayer entity.
+func (m *JobRelationsMutation) ClearLayers() {
+	m.clearedlayers = true
+}
+
+// LayersCleared reports if the "layers" edge to the JobLayer entity was cleared.
+func (m *JobRelationsMutation) LayersCleared() bool {
+	return m.clearedlayers
+}
+
+// RemoveLayerIDs removes the "layers" edge to the JobLayer entity by IDs.
+func (m *JobRelationsMutation) RemoveLayerIDs(ids ...int) {
+	if m.removedlayers == nil {
+		m.removedlayers = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.layers, ids[i])
+		m.removedlayers[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedLayers returns the removed IDs of the "layers" edge to the JobLayer entity.
+func (m *JobRelationsMutation) RemovedLayersIDs() (ids []int) {
+	for id := range m.removedlayers {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// LayersIDs returns the "layers" edge IDs in the mutation.
+func (m *JobRelationsMutation) LayersIDs() (ids []int) {
+	for id := range m.layers {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetLayers resets all changes to the "layers" edge.
+func (m *JobRelationsMutation) ResetLayers() {
+	m.layers = nil
+	m.clearedlayers = false
+	m.removedlayers = nil
+}
+
+// AddPaymentIDs adds the "payments" edge to the JobPayments entity by ids.
+func (m *JobRelationsMutation) AddPaymentIDs(ids ...int) {
+	if m.payments == nil {
+		m.payments = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.payments[ids[i]] = struct{}{}
+	}
+}
+
+// ClearPayments clears the "payments" edge to the JobPayments entity.
+func (m *JobRelationsMutation) ClearPayments() {
+	m.clearedpayments = true
+}
+
+// PaymentsCleared reports if the "payments" edge to the JobPayments entity was cleared.
+func (m *JobRelationsMutation) PaymentsCleared() bool {
+	return m.clearedpayments
+}
+
+// RemovePaymentIDs removes the "payments" edge to the JobPayments entity by IDs.
+func (m *JobRelationsMutation) RemovePaymentIDs(ids ...int) {
+	if m.removedpayments == nil {
+		m.removedpayments = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.payments, ids[i])
+		m.removedpayments[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedPayments returns the removed IDs of the "payments" edge to the JobPayments entity.
+func (m *JobRelationsMutation) RemovedPaymentsIDs() (ids []int) {
+	for id := range m.removedpayments {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// PaymentsIDs returns the "payments" edge IDs in the mutation.
+func (m *JobRelationsMutation) PaymentsIDs() (ids []int) {
+	for id := range m.payments {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetPayments resets all changes to the "payments" edge.
+func (m *JobRelationsMutation) ResetPayments() {
+	m.payments = nil
+	m.clearedpayments = false
+	m.removedpayments = nil
+}
+
+// Where appends a list predicates to the JobRelationsMutation builder.
+func (m *JobRelationsMutation) Where(ps ...predicate.JobRelations) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the JobRelationsMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *JobRelationsMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.JobRelations, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *JobRelationsMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *JobRelationsMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (JobRelations).
+func (m *JobRelationsMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *JobRelationsMutation) Fields() []string {
+	fields := make([]string, 0, 3)
+	if m.yibfNo != nil {
+		fields = append(fields, jobrelations.FieldYibfNo)
+	}
+	if m._CreatedAt != nil {
+		fields = append(fields, jobrelations.FieldCreatedAt)
+	}
+	if m._UpdatedAt != nil {
+		fields = append(fields, jobrelations.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *JobRelationsMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case jobrelations.FieldYibfNo:
+		return m.YibfNo()
+	case jobrelations.FieldCreatedAt:
+		return m.CreatedAt()
+	case jobrelations.FieldUpdatedAt:
+		return m.UpdatedAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *JobRelationsMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case jobrelations.FieldYibfNo:
+		return m.OldYibfNo(ctx)
+	case jobrelations.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case jobrelations.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown JobRelations field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *JobRelationsMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case jobrelations.FieldYibfNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYibfNo(v)
+		return nil
+	case jobrelations.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case jobrelations.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown JobRelations field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *JobRelationsMutation) AddedFields() []string {
+	var fields []string
+	if m.addyibfNo != nil {
+		fields = append(fields, jobrelations.FieldYibfNo)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *JobRelationsMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case jobrelations.FieldYibfNo:
+		return m.AddedYibfNo()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *JobRelationsMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case jobrelations.FieldYibfNo:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddYibfNo(v)
+		return nil
+	}
+	return fmt.Errorf("unknown JobRelations numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *JobRelationsMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *JobRelationsMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *JobRelationsMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown JobRelations nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *JobRelationsMutation) ResetField(name string) error {
+	switch name {
+	case jobrelations.FieldYibfNo:
+		m.ResetYibfNo()
+		return nil
+	case jobrelations.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case jobrelations.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown JobRelations field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *JobRelationsMutation) AddedEdges() []string {
+	edges := make([]string, 0, 17)
+	if m.job != nil {
+		edges = append(edges, jobrelations.EdgeJob)
+	}
+	if m.owner != nil {
+		edges = append(edges, jobrelations.EdgeOwner)
+	}
+	if m.author != nil {
+		edges = append(edges, jobrelations.EdgeAuthor)
+	}
+	if m.company != nil {
+		edges = append(edges, jobrelations.EdgeCompany)
+	}
+	if m.progress != nil {
+		edges = append(edges, jobrelations.EdgeProgress)
+	}
+	if m.contractor != nil {
+		edges = append(edges, jobrelations.EdgeContractor)
+	}
+	if m.supervisor != nil {
+		edges = append(edges, jobrelations.EdgeSupervisor)
+	}
+	if m.static != nil {
+		edges = append(edges, jobrelations.EdgeStatic)
+	}
+	if m.mechanic != nil {
+		edges = append(edges, jobrelations.EdgeMechanic)
+	}
+	if m.electric != nil {
+		edges = append(edges, jobrelations.EdgeElectric)
+	}
+	if m.inspector != nil {
+		edges = append(edges, jobrelations.EdgeInspector)
+	}
+	if m.architect != nil {
+		edges = append(edges, jobrelations.EdgeArchitect)
+	}
+	if m.controller != nil {
+		edges = append(edges, jobrelations.EdgeController)
+	}
+	if m.mechaniccontroller != nil {
+		edges = append(edges, jobrelations.EdgeMechaniccontroller)
+	}
+	if m.electriccontroller != nil {
+		edges = append(edges, jobrelations.EdgeElectriccontroller)
+	}
+	if m.layers != nil {
+		edges = append(edges, jobrelations.EdgeLayers)
+	}
+	if m.payments != nil {
+		edges = append(edges, jobrelations.EdgePayments)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *JobRelationsMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case jobrelations.EdgeJob:
+		if id := m.job; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeOwner:
+		if id := m.owner; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeAuthor:
+		if id := m.author; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeCompany:
+		if id := m.company; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeProgress:
+		if id := m.progress; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeContractor:
+		if id := m.contractor; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeSupervisor:
+		if id := m.supervisor; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeStatic:
+		if id := m.static; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeMechanic:
+		if id := m.mechanic; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeElectric:
+		if id := m.electric; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeInspector:
+		if id := m.inspector; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeArchitect:
+		if id := m.architect; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeController:
+		if id := m.controller; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeMechaniccontroller:
+		if id := m.mechaniccontroller; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeElectriccontroller:
+		if id := m.electriccontroller; id != nil {
+			return []ent.Value{*id}
+		}
+	case jobrelations.EdgeLayers:
+		ids := make([]ent.Value, 0, len(m.layers))
+		for id := range m.layers {
+			ids = append(ids, id)
+		}
+		return ids
+	case jobrelations.EdgePayments:
+		ids := make([]ent.Value, 0, len(m.payments))
+		for id := range m.payments {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *JobRelationsMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 17)
+	if m.removedlayers != nil {
+		edges = append(edges, jobrelations.EdgeLayers)
+	}
+	if m.removedpayments != nil {
+		edges = append(edges, jobrelations.EdgePayments)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *JobRelationsMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case jobrelations.EdgeLayers:
+		ids := make([]ent.Value, 0, len(m.removedlayers))
+		for id := range m.removedlayers {
+			ids = append(ids, id)
+		}
+		return ids
+	case jobrelations.EdgePayments:
+		ids := make([]ent.Value, 0, len(m.removedpayments))
+		for id := range m.removedpayments {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *JobRelationsMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 17)
+	if m.clearedjob {
+		edges = append(edges, jobrelations.EdgeJob)
+	}
+	if m.clearedowner {
+		edges = append(edges, jobrelations.EdgeOwner)
+	}
+	if m.clearedauthor {
+		edges = append(edges, jobrelations.EdgeAuthor)
+	}
+	if m.clearedcompany {
+		edges = append(edges, jobrelations.EdgeCompany)
+	}
+	if m.clearedprogress {
+		edges = append(edges, jobrelations.EdgeProgress)
+	}
+	if m.clearedcontractor {
+		edges = append(edges, jobrelations.EdgeContractor)
+	}
+	if m.clearedsupervisor {
+		edges = append(edges, jobrelations.EdgeSupervisor)
+	}
+	if m.clearedstatic {
+		edges = append(edges, jobrelations.EdgeStatic)
+	}
+	if m.clearedmechanic {
+		edges = append(edges, jobrelations.EdgeMechanic)
+	}
+	if m.clearedelectric {
+		edges = append(edges, jobrelations.EdgeElectric)
+	}
+	if m.clearedinspector {
+		edges = append(edges, jobrelations.EdgeInspector)
+	}
+	if m.clearedarchitect {
+		edges = append(edges, jobrelations.EdgeArchitect)
+	}
+	if m.clearedcontroller {
+		edges = append(edges, jobrelations.EdgeController)
+	}
+	if m.clearedmechaniccontroller {
+		edges = append(edges, jobrelations.EdgeMechaniccontroller)
+	}
+	if m.clearedelectriccontroller {
+		edges = append(edges, jobrelations.EdgeElectriccontroller)
+	}
+	if m.clearedlayers {
+		edges = append(edges, jobrelations.EdgeLayers)
+	}
+	if m.clearedpayments {
+		edges = append(edges, jobrelations.EdgePayments)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *JobRelationsMutation) EdgeCleared(name string) bool {
+	switch name {
+	case jobrelations.EdgeJob:
+		return m.clearedjob
+	case jobrelations.EdgeOwner:
+		return m.clearedowner
+	case jobrelations.EdgeAuthor:
+		return m.clearedauthor
+	case jobrelations.EdgeCompany:
+		return m.clearedcompany
+	case jobrelations.EdgeProgress:
+		return m.clearedprogress
+	case jobrelations.EdgeContractor:
+		return m.clearedcontractor
+	case jobrelations.EdgeSupervisor:
+		return m.clearedsupervisor
+	case jobrelations.EdgeStatic:
+		return m.clearedstatic
+	case jobrelations.EdgeMechanic:
+		return m.clearedmechanic
+	case jobrelations.EdgeElectric:
+		return m.clearedelectric
+	case jobrelations.EdgeInspector:
+		return m.clearedinspector
+	case jobrelations.EdgeArchitect:
+		return m.clearedarchitect
+	case jobrelations.EdgeController:
+		return m.clearedcontroller
+	case jobrelations.EdgeMechaniccontroller:
+		return m.clearedmechaniccontroller
+	case jobrelations.EdgeElectriccontroller:
+		return m.clearedelectriccontroller
+	case jobrelations.EdgeLayers:
+		return m.clearedlayers
+	case jobrelations.EdgePayments:
+		return m.clearedpayments
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *JobRelationsMutation) ClearEdge(name string) error {
+	switch name {
+	case jobrelations.EdgeJob:
+		m.ClearJob()
+		return nil
+	case jobrelations.EdgeOwner:
+		m.ClearOwner()
+		return nil
+	case jobrelations.EdgeAuthor:
+		m.ClearAuthor()
+		return nil
+	case jobrelations.EdgeCompany:
+		m.ClearCompany()
+		return nil
+	case jobrelations.EdgeProgress:
+		m.ClearProgress()
+		return nil
+	case jobrelations.EdgeContractor:
+		m.ClearContractor()
+		return nil
+	case jobrelations.EdgeSupervisor:
+		m.ClearSupervisor()
+		return nil
+	case jobrelations.EdgeStatic:
+		m.ClearStatic()
+		return nil
+	case jobrelations.EdgeMechanic:
+		m.ClearMechanic()
+		return nil
+	case jobrelations.EdgeElectric:
+		m.ClearElectric()
+		return nil
+	case jobrelations.EdgeInspector:
+		m.ClearInspector()
+		return nil
+	case jobrelations.EdgeArchitect:
+		m.ClearArchitect()
+		return nil
+	case jobrelations.EdgeController:
+		m.ClearController()
+		return nil
+	case jobrelations.EdgeMechaniccontroller:
+		m.ClearMechaniccontroller()
+		return nil
+	case jobrelations.EdgeElectriccontroller:
+		m.ClearElectriccontroller()
+		return nil
+	}
+	return fmt.Errorf("unknown JobRelations unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *JobRelationsMutation) ResetEdge(name string) error {
+	switch name {
+	case jobrelations.EdgeJob:
+		m.ResetJob()
+		return nil
+	case jobrelations.EdgeOwner:
+		m.ResetOwner()
+		return nil
+	case jobrelations.EdgeAuthor:
+		m.ResetAuthor()
+		return nil
+	case jobrelations.EdgeCompany:
+		m.ResetCompany()
+		return nil
+	case jobrelations.EdgeProgress:
+		m.ResetProgress()
+		return nil
+	case jobrelations.EdgeContractor:
+		m.ResetContractor()
+		return nil
+	case jobrelations.EdgeSupervisor:
+		m.ResetSupervisor()
+		return nil
+	case jobrelations.EdgeStatic:
+		m.ResetStatic()
+		return nil
+	case jobrelations.EdgeMechanic:
+		m.ResetMechanic()
+		return nil
+	case jobrelations.EdgeElectric:
+		m.ResetElectric()
+		return nil
+	case jobrelations.EdgeInspector:
+		m.ResetInspector()
+		return nil
+	case jobrelations.EdgeArchitect:
+		m.ResetArchitect()
+		return nil
+	case jobrelations.EdgeController:
+		m.ResetController()
+		return nil
+	case jobrelations.EdgeMechaniccontroller:
+		m.ResetMechaniccontroller()
+		return nil
+	case jobrelations.EdgeElectriccontroller:
+		m.ResetElectriccontroller()
+		return nil
+	case jobrelations.EdgeLayers:
+		m.ResetLayers()
+		return nil
+	case jobrelations.EdgePayments:
+		m.ResetPayments()
+		return nil
+	}
+	return fmt.Errorf("unknown JobRelations edge %s", name)
 }
 
 // JobSupervisorMutation represents an operation that mutates the JobSupervisor nodes in the graph.
@@ -18226,7 +19108,7 @@ func (m *JobSupervisorMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// AddSupervisorIDs adds the "supervisors" edge to the JobDetail entity by ids.
+// AddSupervisorIDs adds the "supervisors" edge to the JobRelations entity by ids.
 func (m *JobSupervisorMutation) AddSupervisorIDs(ids ...int) {
 	if m.supervisors == nil {
 		m.supervisors = make(map[int]struct{})
@@ -18236,17 +19118,17 @@ func (m *JobSupervisorMutation) AddSupervisorIDs(ids ...int) {
 	}
 }
 
-// ClearSupervisors clears the "supervisors" edge to the JobDetail entity.
+// ClearSupervisors clears the "supervisors" edge to the JobRelations entity.
 func (m *JobSupervisorMutation) ClearSupervisors() {
 	m.clearedsupervisors = true
 }
 
-// SupervisorsCleared reports if the "supervisors" edge to the JobDetail entity was cleared.
+// SupervisorsCleared reports if the "supervisors" edge to the JobRelations entity was cleared.
 func (m *JobSupervisorMutation) SupervisorsCleared() bool {
 	return m.clearedsupervisors
 }
 
-// RemoveSupervisorIDs removes the "supervisors" edge to the JobDetail entity by IDs.
+// RemoveSupervisorIDs removes the "supervisors" edge to the JobRelations entity by IDs.
 func (m *JobSupervisorMutation) RemoveSupervisorIDs(ids ...int) {
 	if m.removedsupervisors == nil {
 		m.removedsupervisors = make(map[int]struct{})
@@ -18257,7 +19139,7 @@ func (m *JobSupervisorMutation) RemoveSupervisorIDs(ids ...int) {
 	}
 }
 
-// RemovedSupervisors returns the removed IDs of the "supervisors" edge to the JobDetail entity.
+// RemovedSupervisors returns the removed IDs of the "supervisors" edge to the JobRelations entity.
 func (m *JobSupervisorMutation) RemovedSupervisorsIDs() (ids []int) {
 	for id := range m.removedsupervisors {
 		ids = append(ids, id)

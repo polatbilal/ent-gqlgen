@@ -927,7 +927,7 @@ func HasContractors() predicate.JobContractor {
 }
 
 // HasContractorsWith applies the HasEdge predicate on the "contractors" edge with a given conditions (other predicates).
-func HasContractorsWith(preds ...predicate.JobDetail) predicate.JobContractor {
+func HasContractorsWith(preds ...predicate.JobRelations) predicate.JobContractor {
 	return predicate.JobContractor(func(s *sql.Selector) {
 		step := newContractorsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

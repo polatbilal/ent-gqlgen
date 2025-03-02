@@ -10,7 +10,6 @@ import (
 
 	"github.com/polatbilal/gqlgen-ent/api-core/ent"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobprogress"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/api-core/middlewares"
 )
@@ -22,11 +21,38 @@ func (r *mutationResolver) UpdateProgress(ctx context.Context, input model.JobPr
 	if err != nil {
 		return nil, err
 	}
-	return client.JobProgress.UpdateOneID(id).SetOne(*input.One).SetTwo(*input.Two).SetThree(*input.Three).SetFour(*input.Four).SetFive(*input.Five).SetSix(*input.Six).Save(ctx)
+	return client.JobProgress.UpdateOneID(id).
+		SetOne(*input.One).
+		SetTwo(*input.Two).
+		SetThree(*input.Three).
+		SetFour(*input.Four).
+		SetFive(*input.Five).
+		SetSix(*input.Six).
+		Save(ctx)
 }
 
 // GetProgress is the resolver for the getProgress field.
 func (r *queryResolver) GetProgress(ctx context.Context, yibfNo int) (*ent.JobProgress, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	return client.JobProgress.Query().Where(jobprogress.HasProgressWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+
+	// Önce JobDetail'i bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// JobRelations üzerinden Progress'i bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	progress, err := relations.QueryProgress().Only(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return progress, nil
 }

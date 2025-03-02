@@ -50,6 +50,7 @@ func GetCompanyCodeFromYibf(ctx context.Context, yibfNo int) (int, error) {
 	// İş kaydını bul ve şirket kodunu al
 	job, err := dbClient.JobDetail.Query().
 		Where(jobdetail.YibfNoEQ(yibfNo)).
+		QueryRelations().
 		QueryCompany().
 		Select(companydetail.FieldCompanyCode).
 		First(ctx)

@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 )
 
 // JobPaymentsCreate is the builder for creating a JobPayments entity.
@@ -175,13 +175,13 @@ func (jpc *JobPaymentsCreate) SetNillableUpdatedAt(t *time.Time) *JobPaymentsCre
 	return jpc
 }
 
-// SetPaymentsID sets the "payments" edge to the JobDetail entity by ID.
+// SetPaymentsID sets the "payments" edge to the JobRelations entity by ID.
 func (jpc *JobPaymentsCreate) SetPaymentsID(id int) *JobPaymentsCreate {
 	jpc.mutation.SetPaymentsID(id)
 	return jpc
 }
 
-// SetNillablePaymentsID sets the "payments" edge to the JobDetail entity by ID if the given value is not nil.
+// SetNillablePaymentsID sets the "payments" edge to the JobRelations entity by ID if the given value is not nil.
 func (jpc *JobPaymentsCreate) SetNillablePaymentsID(id *int) *JobPaymentsCreate {
 	if id != nil {
 		jpc = jpc.SetPaymentsID(*id)
@@ -189,8 +189,8 @@ func (jpc *JobPaymentsCreate) SetNillablePaymentsID(id *int) *JobPaymentsCreate 
 	return jpc
 }
 
-// SetPayments sets the "payments" edge to the JobDetail entity.
-func (jpc *JobPaymentsCreate) SetPayments(j *JobDetail) *JobPaymentsCreate {
+// SetPayments sets the "payments" edge to the JobRelations entity.
+func (jpc *JobPaymentsCreate) SetPayments(j *JobRelations) *JobPaymentsCreate {
 	return jpc.SetPaymentsID(j.ID)
 }
 
@@ -367,7 +367,7 @@ func (jpc *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) 
 			Columns: []string{jobpayments.PaymentsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

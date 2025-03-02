@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companydetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 )
 
 // CompanyEngineerCreate is the builder for creating a CompanyEngineer entity.
@@ -251,14 +251,14 @@ func (cec *CompanyEngineerCreate) SetCompany(c *CompanyDetail) *CompanyEngineerC
 	return cec.SetCompanyID(c.ID)
 }
 
-// AddStaticIDs adds the "statics" edge to the JobDetail entity by IDs.
+// AddStaticIDs adds the "statics" edge to the JobRelations entity by IDs.
 func (cec *CompanyEngineerCreate) AddStaticIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddStaticIDs(ids...)
 	return cec
 }
 
-// AddStatics adds the "statics" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddStatics(j ...*JobDetail) *CompanyEngineerCreate {
+// AddStatics adds the "statics" edges to the JobRelations entity.
+func (cec *CompanyEngineerCreate) AddStatics(j ...*JobRelations) *CompanyEngineerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -266,14 +266,14 @@ func (cec *CompanyEngineerCreate) AddStatics(j ...*JobDetail) *CompanyEngineerCr
 	return cec.AddStaticIDs(ids...)
 }
 
-// AddMechanicIDs adds the "mechanics" edge to the JobDetail entity by IDs.
+// AddMechanicIDs adds the "mechanics" edge to the JobRelations entity by IDs.
 func (cec *CompanyEngineerCreate) AddMechanicIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddMechanicIDs(ids...)
 	return cec
 }
 
-// AddMechanics adds the "mechanics" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddMechanics(j ...*JobDetail) *CompanyEngineerCreate {
+// AddMechanics adds the "mechanics" edges to the JobRelations entity.
+func (cec *CompanyEngineerCreate) AddMechanics(j ...*JobRelations) *CompanyEngineerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -281,14 +281,14 @@ func (cec *CompanyEngineerCreate) AddMechanics(j ...*JobDetail) *CompanyEngineer
 	return cec.AddMechanicIDs(ids...)
 }
 
-// AddElectricIDs adds the "electrics" edge to the JobDetail entity by IDs.
+// AddElectricIDs adds the "electrics" edge to the JobRelations entity by IDs.
 func (cec *CompanyEngineerCreate) AddElectricIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddElectricIDs(ids...)
 	return cec
 }
 
-// AddElectrics adds the "electrics" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddElectrics(j ...*JobDetail) *CompanyEngineerCreate {
+// AddElectrics adds the "electrics" edges to the JobRelations entity.
+func (cec *CompanyEngineerCreate) AddElectrics(j ...*JobRelations) *CompanyEngineerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -296,14 +296,14 @@ func (cec *CompanyEngineerCreate) AddElectrics(j ...*JobDetail) *CompanyEngineer
 	return cec.AddElectricIDs(ids...)
 }
 
-// AddInspectorIDs adds the "inspectors" edge to the JobDetail entity by IDs.
+// AddInspectorIDs adds the "inspectors" edge to the JobRelations entity by IDs.
 func (cec *CompanyEngineerCreate) AddInspectorIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddInspectorIDs(ids...)
 	return cec
 }
 
-// AddInspectors adds the "inspectors" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddInspectors(j ...*JobDetail) *CompanyEngineerCreate {
+// AddInspectors adds the "inspectors" edges to the JobRelations entity.
+func (cec *CompanyEngineerCreate) AddInspectors(j ...*JobRelations) *CompanyEngineerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -311,14 +311,14 @@ func (cec *CompanyEngineerCreate) AddInspectors(j ...*JobDetail) *CompanyEnginee
 	return cec.AddInspectorIDs(ids...)
 }
 
-// AddArchitectIDs adds the "architects" edge to the JobDetail entity by IDs.
+// AddArchitectIDs adds the "architects" edge to the JobRelations entity by IDs.
 func (cec *CompanyEngineerCreate) AddArchitectIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddArchitectIDs(ids...)
 	return cec
 }
 
-// AddArchitects adds the "architects" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddArchitects(j ...*JobDetail) *CompanyEngineerCreate {
+// AddArchitects adds the "architects" edges to the JobRelations entity.
+func (cec *CompanyEngineerCreate) AddArchitects(j ...*JobRelations) *CompanyEngineerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -326,14 +326,14 @@ func (cec *CompanyEngineerCreate) AddArchitects(j ...*JobDetail) *CompanyEnginee
 	return cec.AddArchitectIDs(ids...)
 }
 
-// AddControllerIDs adds the "controllers" edge to the JobDetail entity by IDs.
+// AddControllerIDs adds the "controllers" edge to the JobRelations entity by IDs.
 func (cec *CompanyEngineerCreate) AddControllerIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddControllerIDs(ids...)
 	return cec
 }
 
-// AddControllers adds the "controllers" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddControllers(j ...*JobDetail) *CompanyEngineerCreate {
+// AddControllers adds the "controllers" edges to the JobRelations entity.
+func (cec *CompanyEngineerCreate) AddControllers(j ...*JobRelations) *CompanyEngineerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -341,14 +341,14 @@ func (cec *CompanyEngineerCreate) AddControllers(j ...*JobDetail) *CompanyEngine
 	return cec.AddControllerIDs(ids...)
 }
 
-// AddMechaniccontrollerIDs adds the "mechaniccontrollers" edge to the JobDetail entity by IDs.
+// AddMechaniccontrollerIDs adds the "mechaniccontrollers" edge to the JobRelations entity by IDs.
 func (cec *CompanyEngineerCreate) AddMechaniccontrollerIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddMechaniccontrollerIDs(ids...)
 	return cec
 }
 
-// AddMechaniccontrollers adds the "mechaniccontrollers" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddMechaniccontrollers(j ...*JobDetail) *CompanyEngineerCreate {
+// AddMechaniccontrollers adds the "mechaniccontrollers" edges to the JobRelations entity.
+func (cec *CompanyEngineerCreate) AddMechaniccontrollers(j ...*JobRelations) *CompanyEngineerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -356,14 +356,14 @@ func (cec *CompanyEngineerCreate) AddMechaniccontrollers(j ...*JobDetail) *Compa
 	return cec.AddMechaniccontrollerIDs(ids...)
 }
 
-// AddElectriccontrollerIDs adds the "electriccontrollers" edge to the JobDetail entity by IDs.
+// AddElectriccontrollerIDs adds the "electriccontrollers" edge to the JobRelations entity by IDs.
 func (cec *CompanyEngineerCreate) AddElectriccontrollerIDs(ids ...int) *CompanyEngineerCreate {
 	cec.mutation.AddElectriccontrollerIDs(ids...)
 	return cec
 }
 
-// AddElectriccontrollers adds the "electriccontrollers" edges to the JobDetail entity.
-func (cec *CompanyEngineerCreate) AddElectriccontrollers(j ...*JobDetail) *CompanyEngineerCreate {
+// AddElectriccontrollers adds the "electriccontrollers" edges to the JobRelations entity.
+func (cec *CompanyEngineerCreate) AddElectriccontrollers(j ...*JobRelations) *CompanyEngineerCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -549,7 +549,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Columns: []string{companyengineer.StaticsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -565,7 +565,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Columns: []string{companyengineer.MechanicsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -581,7 +581,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Columns: []string{companyengineer.ElectricsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -597,7 +597,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Columns: []string{companyengineer.InspectorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -613,7 +613,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Columns: []string{companyengineer.ArchitectsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -629,7 +629,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Columns: []string{companyengineer.ControllersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -645,7 +645,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Columns: []string{companyengineer.MechaniccontrollersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -661,7 +661,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 			Columns: []string{companyengineer.ElectriccontrollersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

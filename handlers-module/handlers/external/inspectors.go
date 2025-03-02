@@ -139,9 +139,7 @@ func YDKInspectors(c *fiber.Ctx) error {
 	if c.Protocol() == "https" {
 		scheme = "https"
 	}
-	graphqlClient := client.GraphQLClient{
-		URL: fmt.Sprintf("%s://%s/graphql", scheme, c.Hostname()),
-	}
+	graphqlClient := client.NewGraphQLClient(scheme)
 
 	// Her bir denetçi için GraphQL mutation'ı çalıştır
 	successCount := 0

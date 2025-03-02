@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
 type GraphQLClient struct {
@@ -15,6 +16,18 @@ type GraphQLClient struct {
 type graphQLRequest struct {
 	Query     string                 `json:"query"`
 	Variables map[string]interface{} `json:"variables,omitempty"`
+}
+
+// NewGraphQLClient creates a new GraphQL client with the configured URL
+func NewGraphQLClient(scheme string) *GraphQLClient {
+	port := os.Getenv("GRAPHQL_PORT")
+	if port == "" {
+		port = "4000" // varsayılan port
+	}
+
+	return &GraphQLClient{
+		URL: fmt.Sprintf("%s://localhost:%s/graphql", scheme, port),
+	}
 }
 
 func (c *GraphQLClient) Execute(query string, variables map[string]interface{}, token string, result interface{}) error {

@@ -50,19 +50,19 @@ type JobOwner struct {
 // JobOwnerEdges holds the relations/edges for other nodes in the graph.
 type JobOwnerEdges struct {
 	// Owners holds the value of the owners edge.
-	Owners []*JobDetail `json:"owners,omitempty"`
+	Owners []*JobRelations `json:"owners,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 	// totalCount holds the count of the edges above.
 	totalCount [1]map[string]int
 
-	namedOwners map[string][]*JobDetail
+	namedOwners map[string][]*JobRelations
 }
 
 // OwnersOrErr returns the Owners value or an error if the edge
 // was not loaded in eager-loading.
-func (e JobOwnerEdges) OwnersOrErr() ([]*JobDetail, error) {
+func (e JobOwnerEdges) OwnersOrErr() ([]*JobRelations, error) {
 	if e.loadedTypes[0] {
 		return e.Owners, nil
 	}
@@ -189,7 +189,7 @@ func (jo *JobOwner) Value(name string) (ent.Value, error) {
 }
 
 // QueryOwners queries the "owners" edge of the JobOwner entity.
-func (jo *JobOwner) QueryOwners() *JobDetailQuery {
+func (jo *JobOwner) QueryOwners() *JobRelationsQuery {
 	return NewJobOwnerClient(jo.config).QueryOwners(jo)
 }
 
@@ -257,7 +257,7 @@ func (jo *JobOwner) String() string {
 
 // NamedOwners returns the Owners named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jo *JobOwner) NamedOwners(name string) ([]*JobDetail, error) {
+func (jo *JobOwner) NamedOwners(name string) ([]*JobRelations, error) {
 	if jo.Edges.namedOwners == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
@@ -268,12 +268,12 @@ func (jo *JobOwner) NamedOwners(name string) ([]*JobDetail, error) {
 	return nodes, nil
 }
 
-func (jo *JobOwner) appendNamedOwners(name string, edges ...*JobDetail) {
+func (jo *JobOwner) appendNamedOwners(name string, edges ...*JobRelations) {
 	if jo.Edges.namedOwners == nil {
-		jo.Edges.namedOwners = make(map[string][]*JobDetail)
+		jo.Edges.namedOwners = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		jo.Edges.namedOwners[name] = []*JobDetail{}
+		jo.Edges.namedOwners[name] = []*JobRelations{}
 	} else {
 		jo.Edges.namedOwners[name] = append(jo.Edges.namedOwners[name], edges...)
 	}

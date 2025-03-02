@@ -52,19 +52,19 @@ type JobSupervisor struct {
 // JobSupervisorEdges holds the relations/edges for other nodes in the graph.
 type JobSupervisorEdges struct {
 	// Supervisors holds the value of the supervisors edge.
-	Supervisors []*JobDetail `json:"supervisors,omitempty"`
+	Supervisors []*JobRelations `json:"supervisors,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 	// totalCount holds the count of the edges above.
 	totalCount [1]map[string]int
 
-	namedSupervisors map[string][]*JobDetail
+	namedSupervisors map[string][]*JobRelations
 }
 
 // SupervisorsOrErr returns the Supervisors value or an error if the edge
 // was not loaded in eager-loading.
-func (e JobSupervisorEdges) SupervisorsOrErr() ([]*JobDetail, error) {
+func (e JobSupervisorEdges) SupervisorsOrErr() ([]*JobRelations, error) {
 	if e.loadedTypes[0] {
 		return e.Supervisors, nil
 	}
@@ -195,7 +195,7 @@ func (js *JobSupervisor) Value(name string) (ent.Value, error) {
 }
 
 // QuerySupervisors queries the "supervisors" edge of the JobSupervisor entity.
-func (js *JobSupervisor) QuerySupervisors() *JobDetailQuery {
+func (js *JobSupervisor) QuerySupervisors() *JobRelationsQuery {
 	return NewJobSupervisorClient(js.config).QuerySupervisors(js)
 }
 
@@ -266,7 +266,7 @@ func (js *JobSupervisor) String() string {
 
 // NamedSupervisors returns the Supervisors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (js *JobSupervisor) NamedSupervisors(name string) ([]*JobDetail, error) {
+func (js *JobSupervisor) NamedSupervisors(name string) ([]*JobRelations, error) {
 	if js.Edges.namedSupervisors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
@@ -277,12 +277,12 @@ func (js *JobSupervisor) NamedSupervisors(name string) ([]*JobDetail, error) {
 	return nodes, nil
 }
 
-func (js *JobSupervisor) appendNamedSupervisors(name string, edges ...*JobDetail) {
+func (js *JobSupervisor) appendNamedSupervisors(name string, edges ...*JobRelations) {
 	if js.Edges.namedSupervisors == nil {
-		js.Edges.namedSupervisors = make(map[string][]*JobDetail)
+		js.Edges.namedSupervisors = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		js.Edges.namedSupervisors[name] = []*JobDetail{}
+		js.Edges.namedSupervisors[name] = []*JobRelations{}
 	} else {
 		js.Edges.namedSupervisors[name] = append(js.Edges.namedSupervisors[name], edges...)
 	}

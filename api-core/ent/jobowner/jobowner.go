@@ -43,10 +43,10 @@ const (
 	// Table holds the table name of the jobowner in the database.
 	Table = "job_owners"
 	// OwnersTable is the table that holds the owners relation/edge.
-	OwnersTable = "job_details"
-	// OwnersInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	OwnersInverseTable = "job_details"
+	OwnersTable = "job_relations"
+	// OwnersInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	OwnersInverseTable = "job_relations"
 	// OwnersColumn is the table column denoting the owners relation/edge.
 	OwnersColumn = "owner_id"
 )

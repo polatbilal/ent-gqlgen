@@ -42,9 +42,9 @@ const (
 	Table = "job_payments"
 	// PaymentsTable is the table that holds the payments relation/edge.
 	PaymentsTable = "job_payments"
-	// PaymentsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	PaymentsInverseTable = "job_details"
+	// PaymentsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	PaymentsInverseTable = "job_relations"
 	// PaymentsColumn is the table column denoting the payments relation/edge.
 	PaymentsColumn = "job_id"
 )

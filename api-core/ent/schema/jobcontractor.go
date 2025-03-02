@@ -36,6 +36,6 @@ func (JobContractor) Fields() []ent.Field {
 // Edges of the JobContractor.
 func (JobContractor) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("contractors", JobDetail.Type).StorageKey(edge.Column("contractor_id")),
+		edge.To("contractors", JobRelations.Type).StorageKey(edge.Column("contractor_id")),
 	}
 }

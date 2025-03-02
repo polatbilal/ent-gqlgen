@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
 
@@ -23,7 +23,7 @@ type JobPaymentsQuery struct {
 	order        []jobpayments.OrderOption
 	inters       []Interceptor
 	predicates   []predicate.JobPayments
-	withPayments *JobDetailQuery
+	withPayments *JobRelationsQuery
 	withFKs      bool
 	modifiers    []func(*sql.Selector)
 	loadTotal    []func(context.Context, []*JobPayments) error
@@ -64,8 +64,8 @@ func (jpq *JobPaymentsQuery) Order(o ...jobpayments.OrderOption) *JobPaymentsQue
 }
 
 // QueryPayments chains the current query on the "payments" edge.
-func (jpq *JobPaymentsQuery) QueryPayments() *JobDetailQuery {
-	query := (&JobDetailClient{config: jpq.config}).Query()
+func (jpq *JobPaymentsQuery) QueryPayments() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: jpq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := jpq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -76,7 +76,7 @@ func (jpq *JobPaymentsQuery) QueryPayments() *JobDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobpayments.Table, jobpayments.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobpayments.PaymentsTable, jobpayments.PaymentsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(jpq.driver.Dialect(), step)
@@ -286,8 +286,8 @@ func (jpq *JobPaymentsQuery) Clone() *JobPaymentsQuery {
 
 // WithPayments tells the query-builder to eager-load the nodes that are connected to
 // the "payments" edge. The optional arguments are used to configure the query builder of the edge.
-func (jpq *JobPaymentsQuery) WithPayments(opts ...func(*JobDetailQuery)) *JobPaymentsQuery {
-	query := (&JobDetailClient{config: jpq.config}).Query()
+func (jpq *JobPaymentsQuery) WithPayments(opts ...func(*JobRelationsQuery)) *JobPaymentsQuery {
+	query := (&JobRelationsClient{config: jpq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -407,7 +407,7 @@ func (jpq *JobPaymentsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	}
 	if query := jpq.withPayments; query != nil {
 		if err := jpq.loadPayments(ctx, query, nodes, nil,
-			func(n *JobPayments, e *JobDetail) { n.Edges.Payments = e }); err != nil {
+			func(n *JobPayments, e *JobRelations) { n.Edges.Payments = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -419,7 +419,7 @@ func (jpq *JobPaymentsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	return nodes, nil
 }
 
-func (jpq *JobPaymentsQuery) loadPayments(ctx context.Context, query *JobDetailQuery, nodes []*JobPayments, init func(*JobPayments), assign func(*JobPayments, *JobDetail)) error {
+func (jpq *JobPaymentsQuery) loadPayments(ctx context.Context, query *JobRelationsQuery, nodes []*JobPayments, init func(*JobPayments), assign func(*JobPayments, *JobRelations)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobPayments)
 	for i := range nodes {
@@ -435,7 +435,7 @@ func (jpq *JobPaymentsQuery) loadPayments(ctx context.Context, query *JobDetailQ
 	if len(ids) == 0 {
 		return nil
 	}
-	query.Where(jobdetail.IDIn(ids...))
+	query.Where(jobrelations.IDIn(ids...))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err

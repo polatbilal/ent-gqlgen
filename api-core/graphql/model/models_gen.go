@@ -4,6 +4,8 @@ package model
 
 import (
 	"time"
+
+	"github.com/polatbilal/gqlgen-ent/api-core/ent"
 )
 
 type AuthPayload struct {
@@ -107,6 +109,30 @@ type JobCounts struct {
 	Pending   int `json:"pending"`
 	Completed int `json:"completed"`
 	Total     int `json:"total"`
+}
+
+type JobEngineer struct {
+	YibfNo             *int                 `json:"yibfNo,omitempty"`
+	Inspector          *ent.CompanyEngineer `json:"Inspector,omitempty"`
+	Static             *ent.CompanyEngineer `json:"Static,omitempty"`
+	Architect          *ent.CompanyEngineer `json:"Architect,omitempty"`
+	Mechanic           *ent.CompanyEngineer `json:"Mechanic,omitempty"`
+	Electric           *ent.CompanyEngineer `json:"Electric,omitempty"`
+	Controller         *ent.CompanyEngineer `json:"Controller,omitempty"`
+	MechanicController *ent.CompanyEngineer `json:"MechanicController,omitempty"`
+	ElectricController *ent.CompanyEngineer `json:"ElectricController,omitempty"`
+}
+
+type JobEngineerInput struct {
+	YibfNo             *int `json:"yibfNo,omitempty"`
+	Inspector          *int `json:"Inspector,omitempty"`
+	Static             *int `json:"Static,omitempty"`
+	Architect          *int `json:"Architect,omitempty"`
+	Mechanic           *int `json:"Mechanic,omitempty"`
+	Electric           *int `json:"Electric,omitempty"`
+	Controller         *int `json:"Controller,omitempty"`
+	MechanicController *int `json:"MechanicController,omitempty"`
+	ElectricController *int `json:"ElectricController,omitempty"`
 }
 
 type JobInput struct {

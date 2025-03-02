@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
 
@@ -258,14 +258,14 @@ func (jou *JobOwnerUpdate) SetUpdatedAt(t time.Time) *JobOwnerUpdate {
 	return jou
 }
 
-// AddOwnerIDs adds the "owners" edge to the JobDetail entity by IDs.
+// AddOwnerIDs adds the "owners" edge to the JobRelations entity by IDs.
 func (jou *JobOwnerUpdate) AddOwnerIDs(ids ...int) *JobOwnerUpdate {
 	jou.mutation.AddOwnerIDs(ids...)
 	return jou
 }
 
-// AddOwners adds the "owners" edges to the JobDetail entity.
-func (jou *JobOwnerUpdate) AddOwners(j ...*JobDetail) *JobOwnerUpdate {
+// AddOwners adds the "owners" edges to the JobRelations entity.
+func (jou *JobOwnerUpdate) AddOwners(j ...*JobRelations) *JobOwnerUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -278,20 +278,20 @@ func (jou *JobOwnerUpdate) Mutation() *JobOwnerMutation {
 	return jou.mutation
 }
 
-// ClearOwners clears all "owners" edges to the JobDetail entity.
+// ClearOwners clears all "owners" edges to the JobRelations entity.
 func (jou *JobOwnerUpdate) ClearOwners() *JobOwnerUpdate {
 	jou.mutation.ClearOwners()
 	return jou
 }
 
-// RemoveOwnerIDs removes the "owners" edge to JobDetail entities by IDs.
+// RemoveOwnerIDs removes the "owners" edge to JobRelations entities by IDs.
 func (jou *JobOwnerUpdate) RemoveOwnerIDs(ids ...int) *JobOwnerUpdate {
 	jou.mutation.RemoveOwnerIDs(ids...)
 	return jou
 }
 
-// RemoveOwners removes "owners" edges to JobDetail entities.
-func (jou *JobOwnerUpdate) RemoveOwners(j ...*JobDetail) *JobOwnerUpdate {
+// RemoveOwners removes "owners" edges to JobRelations entities.
+func (jou *JobOwnerUpdate) RemoveOwners(j ...*JobRelations) *JobOwnerUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -421,7 +421,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -434,7 +434,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -450,7 +450,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -707,14 +707,14 @@ func (jouo *JobOwnerUpdateOne) SetUpdatedAt(t time.Time) *JobOwnerUpdateOne {
 	return jouo
 }
 
-// AddOwnerIDs adds the "owners" edge to the JobDetail entity by IDs.
+// AddOwnerIDs adds the "owners" edge to the JobRelations entity by IDs.
 func (jouo *JobOwnerUpdateOne) AddOwnerIDs(ids ...int) *JobOwnerUpdateOne {
 	jouo.mutation.AddOwnerIDs(ids...)
 	return jouo
 }
 
-// AddOwners adds the "owners" edges to the JobDetail entity.
-func (jouo *JobOwnerUpdateOne) AddOwners(j ...*JobDetail) *JobOwnerUpdateOne {
+// AddOwners adds the "owners" edges to the JobRelations entity.
+func (jouo *JobOwnerUpdateOne) AddOwners(j ...*JobRelations) *JobOwnerUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -727,20 +727,20 @@ func (jouo *JobOwnerUpdateOne) Mutation() *JobOwnerMutation {
 	return jouo.mutation
 }
 
-// ClearOwners clears all "owners" edges to the JobDetail entity.
+// ClearOwners clears all "owners" edges to the JobRelations entity.
 func (jouo *JobOwnerUpdateOne) ClearOwners() *JobOwnerUpdateOne {
 	jouo.mutation.ClearOwners()
 	return jouo
 }
 
-// RemoveOwnerIDs removes the "owners" edge to JobDetail entities by IDs.
+// RemoveOwnerIDs removes the "owners" edge to JobRelations entities by IDs.
 func (jouo *JobOwnerUpdateOne) RemoveOwnerIDs(ids ...int) *JobOwnerUpdateOne {
 	jouo.mutation.RemoveOwnerIDs(ids...)
 	return jouo
 }
 
-// RemoveOwners removes "owners" edges to JobDetail entities.
-func (jouo *JobOwnerUpdateOne) RemoveOwners(j ...*JobDetail) *JobOwnerUpdateOne {
+// RemoveOwners removes "owners" edges to JobRelations entities.
+func (jouo *JobOwnerUpdateOne) RemoveOwners(j ...*JobRelations) *JobOwnerUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -900,7 +900,7 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -913,7 +913,7 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -929,7 +929,7 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

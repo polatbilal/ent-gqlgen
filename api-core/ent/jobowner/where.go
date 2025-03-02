@@ -807,7 +807,7 @@ func HasOwners() predicate.JobOwner {
 }
 
 // HasOwnersWith applies the HasEdge predicate on the "owners" edge with a given conditions (other predicates).
-func HasOwnersWith(preds ...predicate.JobDetail) predicate.JobOwner {
+func HasOwnersWith(preds ...predicate.JobRelations) predicate.JobOwner {
 	return predicate.JobOwner(func(s *sql.Selector) {
 		step := newOwnersStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

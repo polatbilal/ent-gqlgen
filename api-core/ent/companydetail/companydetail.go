@@ -77,10 +77,10 @@ const (
 	// Table holds the table name of the companydetail in the database.
 	Table = "company_details"
 	// JobsTable is the table that holds the jobs relation/edge.
-	JobsTable = "job_details"
-	// JobsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	JobsInverseTable = "job_details"
+	JobsTable = "job_relations"
+	// JobsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	JobsInverseTable = "job_relations"
 	// JobsColumn is the table column denoting the jobs relation/edge.
 	JobsColumn = "company_id"
 	// UsersTable is the table that holds the users relation/edge.

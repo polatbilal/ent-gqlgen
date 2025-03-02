@@ -40,14 +40,14 @@ func (CompanyEngineer) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("company", CompanyDetail.Type).Ref("engineers").Unique(),
 
-		edge.To("statics", JobDetail.Type).StorageKey(edge.Column("static_id")),
-		edge.To("mechanics", JobDetail.Type).StorageKey(edge.Column("mechanic_id")),
-		edge.To("electrics", JobDetail.Type).StorageKey(edge.Column("electric_id")),
-		edge.To("inspectors", JobDetail.Type).StorageKey(edge.Column("inspector_id")),
-		edge.To("architects", JobDetail.Type).StorageKey(edge.Column("architect_id")),
+		edge.To("statics", JobRelations.Type).StorageKey(edge.Column("static_id")),
+		edge.To("mechanics", JobRelations.Type).StorageKey(edge.Column("mechanic_id")),
+		edge.To("electrics", JobRelations.Type).StorageKey(edge.Column("electric_id")),
+		edge.To("inspectors", JobRelations.Type).StorageKey(edge.Column("inspector_id")),
+		edge.To("architects", JobRelations.Type).StorageKey(edge.Column("architect_id")),
 
-		edge.To("controllers", JobDetail.Type).StorageKey(edge.Column("controller_id")),
-		edge.To("mechaniccontrollers", JobDetail.Type).StorageKey(edge.Column("mechaniccontroller_id")),
-		edge.To("electriccontrollers", JobDetail.Type).StorageKey(edge.Column("electriccontroller_id")),
+		edge.To("controllers", JobRelations.Type).StorageKey(edge.Column("controller_id")),
+		edge.To("mechaniccontrollers", JobRelations.Type).StorageKey(edge.Column("mechaniccontroller_id")),
+		edge.To("electriccontrollers", JobRelations.Type).StorageKey(edge.Column("electriccontroller_id")),
 	}
 }

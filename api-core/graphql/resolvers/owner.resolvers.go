@@ -19,8 +19,10 @@ import (
 func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(int(*input.YibfNo))).Only(ctx)
-
+	// İş detayını bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(int(*input.YibfNo))).
+		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get job detail: %w", err)
 	}
@@ -49,10 +51,16 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 		return nil, fmt.Errorf("failed to check owner: %w", err)
 	}
 
-	// Owner'ı job'a ekleyelim
-	err = owner.Update().
-		AddOwners(jobDetail).
-		Exec(ctx)
+	// JobRelations'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	// Owner'ı JobRelations'a ekle
+	_, err = relations.Update().
+		SetOwner(owner).
+		Save(ctx)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to add owner to job detail: %w", err)
@@ -65,13 +73,26 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 func (r *mutationResolver) UpdateOwner(ctx context.Context, yibfNo int, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobOwner, err := client.JobOwner.Query().Where(jobowner.HasOwnersWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
-
+	// Önce JobDetail'i bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get owner: %w", err)
+		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
 	}
 
-	owner, err := jobOwner.Update().
+	// JobRelations üzerinden owner'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	owner, err := relations.QueryOwner().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("owner bulunamadı: %v", err)
+	}
+
+	owner, err = owner.Update().
 		SetNillableName(input.Name).
 		SetNillableTcNo(input.TcNo).
 		SetNillableTaxAdmin(input.TaxAdmin).
@@ -99,7 +120,30 @@ func (r *queryResolver) AllOwner(ctx context.Context) ([]*ent.JobOwner, error) {
 // Owner is the resolver for the owner field.
 func (r *queryResolver) Owner(ctx context.Context, yibfNo int) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	return client.JobOwner.Query().Where(jobowner.HasOwnersWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+
+	// Önce JobDetail'i bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
+	}
+
+	// JobRelations üzerinden owner'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	owner, err := relations.QueryOwner().Only(ctx)
+	if ent.IsNotFound(err) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to get owner: %w", err)
+	}
+
+	return owner, nil
 }
 
 // GetOwner is the resolver for the getOwner field.

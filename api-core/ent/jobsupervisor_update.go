@@ -11,7 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
@@ -297,14 +297,14 @@ func (jsu *JobSupervisorUpdate) SetUpdatedAt(t time.Time) *JobSupervisorUpdate {
 	return jsu
 }
 
-// AddSupervisorIDs adds the "supervisors" edge to the JobDetail entity by IDs.
+// AddSupervisorIDs adds the "supervisors" edge to the JobRelations entity by IDs.
 func (jsu *JobSupervisorUpdate) AddSupervisorIDs(ids ...int) *JobSupervisorUpdate {
 	jsu.mutation.AddSupervisorIDs(ids...)
 	return jsu
 }
 
-// AddSupervisors adds the "supervisors" edges to the JobDetail entity.
-func (jsu *JobSupervisorUpdate) AddSupervisors(j ...*JobDetail) *JobSupervisorUpdate {
+// AddSupervisors adds the "supervisors" edges to the JobRelations entity.
+func (jsu *JobSupervisorUpdate) AddSupervisors(j ...*JobRelations) *JobSupervisorUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -317,20 +317,20 @@ func (jsu *JobSupervisorUpdate) Mutation() *JobSupervisorMutation {
 	return jsu.mutation
 }
 
-// ClearSupervisors clears all "supervisors" edges to the JobDetail entity.
+// ClearSupervisors clears all "supervisors" edges to the JobRelations entity.
 func (jsu *JobSupervisorUpdate) ClearSupervisors() *JobSupervisorUpdate {
 	jsu.mutation.ClearSupervisors()
 	return jsu
 }
 
-// RemoveSupervisorIDs removes the "supervisors" edge to JobDetail entities by IDs.
+// RemoveSupervisorIDs removes the "supervisors" edge to JobRelations entities by IDs.
 func (jsu *JobSupervisorUpdate) RemoveSupervisorIDs(ids ...int) *JobSupervisorUpdate {
 	jsu.mutation.RemoveSupervisorIDs(ids...)
 	return jsu
 }
 
-// RemoveSupervisors removes "supervisors" edges to JobDetail entities.
-func (jsu *JobSupervisorUpdate) RemoveSupervisors(j ...*JobDetail) *JobSupervisorUpdate {
+// RemoveSupervisors removes "supervisors" edges to JobRelations entities.
+func (jsu *JobSupervisorUpdate) RemoveSupervisors(j ...*JobRelations) *JobSupervisorUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -475,7 +475,7 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{jobsupervisor.SupervisorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -488,7 +488,7 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{jobsupervisor.SupervisorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -504,7 +504,7 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{jobsupervisor.SupervisorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -800,14 +800,14 @@ func (jsuo *JobSupervisorUpdateOne) SetUpdatedAt(t time.Time) *JobSupervisorUpda
 	return jsuo
 }
 
-// AddSupervisorIDs adds the "supervisors" edge to the JobDetail entity by IDs.
+// AddSupervisorIDs adds the "supervisors" edge to the JobRelations entity by IDs.
 func (jsuo *JobSupervisorUpdateOne) AddSupervisorIDs(ids ...int) *JobSupervisorUpdateOne {
 	jsuo.mutation.AddSupervisorIDs(ids...)
 	return jsuo
 }
 
-// AddSupervisors adds the "supervisors" edges to the JobDetail entity.
-func (jsuo *JobSupervisorUpdateOne) AddSupervisors(j ...*JobDetail) *JobSupervisorUpdateOne {
+// AddSupervisors adds the "supervisors" edges to the JobRelations entity.
+func (jsuo *JobSupervisorUpdateOne) AddSupervisors(j ...*JobRelations) *JobSupervisorUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -820,20 +820,20 @@ func (jsuo *JobSupervisorUpdateOne) Mutation() *JobSupervisorMutation {
 	return jsuo.mutation
 }
 
-// ClearSupervisors clears all "supervisors" edges to the JobDetail entity.
+// ClearSupervisors clears all "supervisors" edges to the JobRelations entity.
 func (jsuo *JobSupervisorUpdateOne) ClearSupervisors() *JobSupervisorUpdateOne {
 	jsuo.mutation.ClearSupervisors()
 	return jsuo
 }
 
-// RemoveSupervisorIDs removes the "supervisors" edge to JobDetail entities by IDs.
+// RemoveSupervisorIDs removes the "supervisors" edge to JobRelations entities by IDs.
 func (jsuo *JobSupervisorUpdateOne) RemoveSupervisorIDs(ids ...int) *JobSupervisorUpdateOne {
 	jsuo.mutation.RemoveSupervisorIDs(ids...)
 	return jsuo
 }
 
-// RemoveSupervisors removes "supervisors" edges to JobDetail entities.
-func (jsuo *JobSupervisorUpdateOne) RemoveSupervisors(j ...*JobDetail) *JobSupervisorUpdateOne {
+// RemoveSupervisors removes "supervisors" edges to JobRelations entities.
+func (jsuo *JobSupervisorUpdateOne) RemoveSupervisors(j ...*JobRelations) *JobSupervisorUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -1008,7 +1008,7 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 			Columns: []string{jobsupervisor.SupervisorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1021,7 +1021,7 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 			Columns: []string{jobsupervisor.SupervisorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1037,7 +1037,7 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 			Columns: []string{jobsupervisor.SupervisorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

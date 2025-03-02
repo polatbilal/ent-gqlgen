@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 )
 
 // JobLayerCreate is the builder for creating a JobLayer entity.
@@ -19,6 +19,12 @@ type JobLayerCreate struct {
 	config
 	mutation *JobLayerMutation
 	hooks    []Hook
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jlc *JobLayerCreate) SetYibfNo(i int) *JobLayerCreate {
+	jlc.mutation.SetYibfNo(i)
+	return jlc
 }
 
 // SetName sets the "Name" field.
@@ -161,13 +167,13 @@ func (jlc *JobLayerCreate) SetNillableUpdatedAt(t *time.Time) *JobLayerCreate {
 	return jlc
 }
 
-// SetLayerID sets the "layer" edge to the JobDetail entity by ID.
+// SetLayerID sets the "layer" edge to the JobRelations entity by ID.
 func (jlc *JobLayerCreate) SetLayerID(id int) *JobLayerCreate {
 	jlc.mutation.SetLayerID(id)
 	return jlc
 }
 
-// SetNillableLayerID sets the "layer" edge to the JobDetail entity by ID if the given value is not nil.
+// SetNillableLayerID sets the "layer" edge to the JobRelations entity by ID if the given value is not nil.
 func (jlc *JobLayerCreate) SetNillableLayerID(id *int) *JobLayerCreate {
 	if id != nil {
 		jlc = jlc.SetLayerID(*id)
@@ -175,8 +181,8 @@ func (jlc *JobLayerCreate) SetNillableLayerID(id *int) *JobLayerCreate {
 	return jlc
 }
 
-// SetLayer sets the "layer" edge to the JobDetail entity.
-func (jlc *JobLayerCreate) SetLayer(j *JobDetail) *JobLayerCreate {
+// SetLayer sets the "layer" edge to the JobRelations entity.
+func (jlc *JobLayerCreate) SetLayer(j *JobRelations) *JobLayerCreate {
 	return jlc.SetLayerID(j.ID)
 }
 
@@ -235,6 +241,9 @@ func (jlc *JobLayerCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (jlc *JobLayerCreate) check() error {
+	if _, ok := jlc.mutation.YibfNo(); !ok {
+		return &ValidationError{Name: "yibfNo", err: errors.New(`ent: missing required field "JobLayer.yibfNo"`)}
+	}
 	if _, ok := jlc.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "JobLayer.Name"`)}
 	}
@@ -273,6 +282,10 @@ func (jlc *JobLayerCreate) createSpec() (*JobLayer, *sqlgraph.CreateSpec) {
 		_node = &JobLayer{config: jlc.config}
 		_spec = sqlgraph.NewCreateSpec(joblayer.Table, sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt))
 	)
+	if value, ok := jlc.mutation.YibfNo(); ok {
+		_spec.SetField(joblayer.FieldYibfNo, field.TypeInt, value)
+		_node.YibfNo = value
+	}
 	if value, ok := jlc.mutation.Name(); ok {
 		_spec.SetField(joblayer.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -321,7 +334,7 @@ func (jlc *JobLayerCreate) createSpec() (*JobLayer, *sqlgraph.CreateSpec) {
 			Columns: []string{joblayer.LayerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

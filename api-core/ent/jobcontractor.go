@@ -52,19 +52,19 @@ type JobContractor struct {
 // JobContractorEdges holds the relations/edges for other nodes in the graph.
 type JobContractorEdges struct {
 	// Contractors holds the value of the contractors edge.
-	Contractors []*JobDetail `json:"contractors,omitempty"`
+	Contractors []*JobRelations `json:"contractors,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 	// totalCount holds the count of the edges above.
 	totalCount [1]map[string]int
 
-	namedContractors map[string][]*JobDetail
+	namedContractors map[string][]*JobRelations
 }
 
 // ContractorsOrErr returns the Contractors value or an error if the edge
 // was not loaded in eager-loading.
-func (e JobContractorEdges) ContractorsOrErr() ([]*JobDetail, error) {
+func (e JobContractorEdges) ContractorsOrErr() ([]*JobRelations, error) {
 	if e.loadedTypes[0] {
 		return e.Contractors, nil
 	}
@@ -195,7 +195,7 @@ func (jc *JobContractor) Value(name string) (ent.Value, error) {
 }
 
 // QueryContractors queries the "contractors" edge of the JobContractor entity.
-func (jc *JobContractor) QueryContractors() *JobDetailQuery {
+func (jc *JobContractor) QueryContractors() *JobRelationsQuery {
 	return NewJobContractorClient(jc.config).QueryContractors(jc)
 }
 
@@ -266,7 +266,7 @@ func (jc *JobContractor) String() string {
 
 // NamedContractors returns the Contractors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jc *JobContractor) NamedContractors(name string) ([]*JobDetail, error) {
+func (jc *JobContractor) NamedContractors(name string) ([]*JobRelations, error) {
 	if jc.Edges.namedContractors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
@@ -277,12 +277,12 @@ func (jc *JobContractor) NamedContractors(name string) ([]*JobDetail, error) {
 	return nodes, nil
 }
 
-func (jc *JobContractor) appendNamedContractors(name string, edges ...*JobDetail) {
+func (jc *JobContractor) appendNamedContractors(name string, edges ...*JobRelations) {
 	if jc.Edges.namedContractors == nil {
-		jc.Edges.namedContractors = make(map[string][]*JobDetail)
+		jc.Edges.namedContractors = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		jc.Edges.namedContractors[name] = []*JobDetail{}
+		jc.Edges.namedContractors[name] = []*JobRelations{}
 	} else {
 		jc.Edges.namedContractors[name] = append(jc.Edges.namedContractors[name], edges...)
 	}

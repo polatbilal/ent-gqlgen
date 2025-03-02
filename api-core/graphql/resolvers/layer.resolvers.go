@@ -13,6 +13,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/api-core/ent"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/generated"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/api-core/middlewares"
@@ -21,12 +22,17 @@ import (
 // Job is the resolver for the Job field.
 func (r *jobLayerResolver) Job(ctx context.Context, obj *ent.JobLayer) (*ent.JobDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	return client.JobDetail.Query().Where(jobdetail.HasLayersWith(joblayer.IDEQ(obj.ID))).Only(ctx)
+	relations, err := client.JobRelations.Query().
+		Where(jobrelations.HasLayersWith(joblayer.IDEQ(obj.ID))).
+		Only(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return relations.QueryJob().Only(ctx)
 }
 
 // CreateLayer is the resolver for the createLayer field.
 func (r *mutationResolver) CreateLayer(ctx context.Context, input model.JobLayerInput) (*ent.JobLayer, error) {
-	// panic(fmt.Errorf("not implemented: CreateLayer - createLayer"))
 	client := middlewares.GetClientFromContext(ctx)
 
 	uppercaseName := strings.ToUpper(*input.Name)
@@ -46,18 +52,25 @@ func (r *mutationResolver) CreateLayer(ctx context.Context, input model.JobLayer
 	}
 
 	// İş detayını bul
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(*input.YibfNo)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
 	}
 
-	// İş detayına katmanı ekle
-	_, err = client.JobDetail.UpdateOneID(jobDetail.ID).
+	// JobRelations'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	// Layer'ı JobRelations'a ekle
+	_, err = relations.Update().
 		AddLayers(layer).
 		Save(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("katman iş ayrıntısına eklenemedi: %v", err)
+		return nil, fmt.Errorf("katman iş ilişkilerine eklenemedi: %v", err)
 	}
 
 	return layer, nil
@@ -128,7 +141,14 @@ func (r *queryResolver) Layer(ctx context.Context, filter *model.LayerFilterInpu
 			query = query.Where(joblayer.IDEQ(*filter.ID))
 		}
 		if filter.YibfNo != nil {
-			query = query.Where(joblayer.HasLayerWith(jobdetail.YibfNoEQ(*filter.YibfNo)))
+			// JobDetail -> JobRelations -> JobLayer ilişkisini kullan
+			query = query.Where(
+				joblayer.HasLayerWith(
+					jobrelations.HasJobWith(
+						jobdetail.YibfNoEQ(*filter.YibfNo),
+					),
+				),
+			)
 		}
 	}
 

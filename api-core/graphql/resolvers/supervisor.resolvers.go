@@ -26,7 +26,7 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 	}
 
 	// YDSID ile supervisor var mı kontrol edelim
-	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.YDSID(*input.Ydsid)).Only(ctx)
+	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.YDSIDEQ(*input.Ydsid)).Only(ctx)
 	if ent.IsNotFound(err) {
 		// Supervisor yoksa yeni oluşturalım
 		supervisor, err = client.JobSupervisor.Create().
@@ -50,10 +50,16 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 		return nil, fmt.Errorf("failed to check supervisor: %w", err)
 	}
 
-	// Supervisor'ı job'a ekleyelim
-	err = supervisor.Update().
-		AddSupervisors(jobDetail).
-		Exec(ctx)
+	// JobRelations'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	// Supervisor'ı JobRelations'a ekle
+	_, err = relations.Update().
+		SetSupervisor(supervisor).
+		Save(ctx)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to add supervisor to job detail: %w", err)
@@ -66,10 +72,23 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 func (r *mutationResolver) UpdateSupervisor(ctx context.Context, yibfNo int, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.HasSupervisorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
-
+	// Önce JobDetail'i bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get supervisor: %w", err)
+		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
+	}
+
+	// JobRelations üzerinden supervisor'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	supervisor, err := relations.QuerySupervisor().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("supervisor bulunamadı: %v", err)
 	}
 
 	supervisor, err = supervisor.Update().
@@ -92,7 +111,21 @@ func (r *mutationResolver) UpdateSupervisor(ctx context.Context, yibfNo int, inp
 func (r *queryResolver) Supervisor(ctx context.Context, yibfNo int) (*ent.JobSupervisor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.HasSupervisorsWith(jobdetail.YibfNoEQ(yibfNo))).Only(ctx)
+	// Önce JobDetail'i bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(yibfNo)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
+	}
+
+	// JobRelations üzerinden supervisor'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	supervisor, err := relations.QuerySupervisor().Only(ctx)
 	if ent.IsNotFound(err) {
 		return nil, nil
 	}

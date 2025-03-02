@@ -45,10 +45,10 @@ const (
 	// Table holds the table name of the jobsupervisor in the database.
 	Table = "job_supervisors"
 	// SupervisorsTable is the table that holds the supervisors relation/edge.
-	SupervisorsTable = "job_details"
-	// SupervisorsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	SupervisorsInverseTable = "job_details"
+	SupervisorsTable = "job_relations"
+	// SupervisorsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	SupervisorsInverseTable = "job_relations"
 	// SupervisorsColumn is the table column denoting the supervisors relation/edge.
 	SupervisorsColumn = "supervisor_id"
 )

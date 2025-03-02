@@ -11,7 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 )
 
 // JobContractorCreate is the builder for creating a JobContractor entity.
@@ -203,14 +203,14 @@ func (jcc *JobContractorCreate) SetNillableUpdatedAt(t *time.Time) *JobContracto
 	return jcc
 }
 
-// AddContractorIDs adds the "contractors" edge to the JobDetail entity by IDs.
+// AddContractorIDs adds the "contractors" edge to the JobRelations entity by IDs.
 func (jcc *JobContractorCreate) AddContractorIDs(ids ...int) *JobContractorCreate {
 	jcc.mutation.AddContractorIDs(ids...)
 	return jcc
 }
 
-// AddContractors adds the "contractors" edges to the JobDetail entity.
-func (jcc *JobContractorCreate) AddContractors(j ...*JobDetail) *JobContractorCreate {
+// AddContractors adds the "contractors" edges to the JobRelations entity.
+func (jcc *JobContractorCreate) AddContractors(j ...*JobRelations) *JobContractorCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -364,7 +364,7 @@ func (jcc *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSp
 			Columns: []string{jobcontractor.ContractorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

@@ -78,7 +78,7 @@ type CompanyDetail struct {
 // CompanyDetailEdges holds the relations/edges for other nodes in the graph.
 type CompanyDetailEdges struct {
 	// Jobs holds the value of the jobs edge.
-	Jobs []*JobDetail `json:"jobs,omitempty"`
+	Jobs []*JobRelations `json:"jobs,omitempty"`
 	// Users holds the value of the users edge.
 	Users []*CompanyUser `json:"users,omitempty"`
 	// Tokens holds the value of the tokens edge.
@@ -91,7 +91,7 @@ type CompanyDetailEdges struct {
 	// totalCount holds the count of the edges above.
 	totalCount [4]map[string]int
 
-	namedJobs      map[string][]*JobDetail
+	namedJobs      map[string][]*JobRelations
 	namedUsers     map[string][]*CompanyUser
 	namedTokens    map[string][]*CompanyToken
 	namedEngineers map[string][]*CompanyEngineer
@@ -99,7 +99,7 @@ type CompanyDetailEdges struct {
 
 // JobsOrErr returns the Jobs value or an error if the edge
 // was not loaded in eager-loading.
-func (e CompanyDetailEdges) JobsOrErr() ([]*JobDetail, error) {
+func (e CompanyDetailEdges) JobsOrErr() ([]*JobRelations, error) {
 	if e.loadedTypes[0] {
 		return e.Jobs, nil
 	}
@@ -337,7 +337,7 @@ func (cd *CompanyDetail) Value(name string) (ent.Value, error) {
 }
 
 // QueryJobs queries the "jobs" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryJobs() *JobDetailQuery {
+func (cd *CompanyDetail) QueryJobs() *JobRelationsQuery {
 	return NewCompanyDetailClient(cd.config).QueryJobs(cd)
 }
 
@@ -462,7 +462,7 @@ func (cd *CompanyDetail) String() string {
 
 // NamedJobs returns the Jobs named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (cd *CompanyDetail) NamedJobs(name string) ([]*JobDetail, error) {
+func (cd *CompanyDetail) NamedJobs(name string) ([]*JobRelations, error) {
 	if cd.Edges.namedJobs == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
@@ -473,12 +473,12 @@ func (cd *CompanyDetail) NamedJobs(name string) ([]*JobDetail, error) {
 	return nodes, nil
 }
 
-func (cd *CompanyDetail) appendNamedJobs(name string, edges ...*JobDetail) {
+func (cd *CompanyDetail) appendNamedJobs(name string, edges ...*JobRelations) {
 	if cd.Edges.namedJobs == nil {
-		cd.Edges.namedJobs = make(map[string][]*JobDetail)
+		cd.Edges.namedJobs = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		cd.Edges.namedJobs[name] = []*JobDetail{}
+		cd.Edges.namedJobs[name] = []*JobRelations{}
 	} else {
 		cd.Edges.namedJobs[name] = append(cd.Edges.namedJobs[name], edges...)
 	}

@@ -15,7 +15,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companyengineer"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/predicate"
 )
 
@@ -542,14 +542,14 @@ func (cdu *CompanyDetailUpdate) SetUpdatedAt(t time.Time) *CompanyDetailUpdate {
 	return cdu
 }
 
-// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+// AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
 func (cdu *CompanyDetailUpdate) AddJobIDs(ids ...int) *CompanyDetailUpdate {
 	cdu.mutation.AddJobIDs(ids...)
 	return cdu
 }
 
-// AddJobs adds the "jobs" edges to the JobDetail entity.
-func (cdu *CompanyDetailUpdate) AddJobs(j ...*JobDetail) *CompanyDetailUpdate {
+// AddJobs adds the "jobs" edges to the JobRelations entity.
+func (cdu *CompanyDetailUpdate) AddJobs(j ...*JobRelations) *CompanyDetailUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -607,20 +607,20 @@ func (cdu *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
 	return cdu.mutation
 }
 
-// ClearJobs clears all "jobs" edges to the JobDetail entity.
+// ClearJobs clears all "jobs" edges to the JobRelations entity.
 func (cdu *CompanyDetailUpdate) ClearJobs() *CompanyDetailUpdate {
 	cdu.mutation.ClearJobs()
 	return cdu
 }
 
-// RemoveJobIDs removes the "jobs" edge to JobDetail entities by IDs.
+// RemoveJobIDs removes the "jobs" edge to JobRelations entities by IDs.
 func (cdu *CompanyDetailUpdate) RemoveJobIDs(ids ...int) *CompanyDetailUpdate {
 	cdu.mutation.RemoveJobIDs(ids...)
 	return cdu
 }
 
-// RemoveJobs removes "jobs" edges to JobDetail entities.
-func (cdu *CompanyDetailUpdate) RemoveJobs(j ...*JobDetail) *CompanyDetailUpdate {
+// RemoveJobs removes "jobs" edges to JobRelations entities.
+func (cdu *CompanyDetailUpdate) RemoveJobs(j ...*JobRelations) *CompanyDetailUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -897,7 +897,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -910,7 +910,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -926,7 +926,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1599,14 +1599,14 @@ func (cduo *CompanyDetailUpdateOne) SetUpdatedAt(t time.Time) *CompanyDetailUpda
 	return cduo
 }
 
-// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+// AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
 func (cduo *CompanyDetailUpdateOne) AddJobIDs(ids ...int) *CompanyDetailUpdateOne {
 	cduo.mutation.AddJobIDs(ids...)
 	return cduo
 }
 
-// AddJobs adds the "jobs" edges to the JobDetail entity.
-func (cduo *CompanyDetailUpdateOne) AddJobs(j ...*JobDetail) *CompanyDetailUpdateOne {
+// AddJobs adds the "jobs" edges to the JobRelations entity.
+func (cduo *CompanyDetailUpdateOne) AddJobs(j ...*JobRelations) *CompanyDetailUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -1664,20 +1664,20 @@ func (cduo *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
 	return cduo.mutation
 }
 
-// ClearJobs clears all "jobs" edges to the JobDetail entity.
+// ClearJobs clears all "jobs" edges to the JobRelations entity.
 func (cduo *CompanyDetailUpdateOne) ClearJobs() *CompanyDetailUpdateOne {
 	cduo.mutation.ClearJobs()
 	return cduo
 }
 
-// RemoveJobIDs removes the "jobs" edge to JobDetail entities by IDs.
+// RemoveJobIDs removes the "jobs" edge to JobRelations entities by IDs.
 func (cduo *CompanyDetailUpdateOne) RemoveJobIDs(ids ...int) *CompanyDetailUpdateOne {
 	cduo.mutation.RemoveJobIDs(ids...)
 	return cduo
 }
 
-// RemoveJobs removes "jobs" edges to JobDetail entities.
-func (cduo *CompanyDetailUpdateOne) RemoveJobs(j ...*JobDetail) *CompanyDetailUpdateOne {
+// RemoveJobs removes "jobs" edges to JobRelations entities.
+func (cduo *CompanyDetailUpdateOne) RemoveJobs(j ...*JobRelations) *CompanyDetailUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -1984,7 +1984,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1997,7 +1997,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -2013,7 +2013,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
