@@ -5,6 +5,7 @@ type JobBatchResult {
   author: JobAuthor
   supervisor: JobSupervisor
   engineer: JobEngineer
+  progress: JobProgress
 }
 
 input JobBatchInput {
@@ -18,21 +19,13 @@ input JobBatchInput {
 }
 
 extend type Query {
-  jobBatchQuery(yibfNo: Int!): JobBatchResult!
+  jobBatchQuery(yibfNo: Int): [JobBatchResult!]!
     @goField(forceResolver: true)
     @auth
 }
 
 extend type Mutation {
   jobBatch(input: JobBatchInput!): JobBatchResult!
-    @goField(forceResolver: true)
-    @auth
-
-  createJobBatch(input: JobBatchInput!): JobBatchResult!
-    @goField(forceResolver: true)
-    @auth
-
-  updateJobBatch(input: JobBatchInput!): JobBatchResult!
     @goField(forceResolver: true)
     @auth
 }

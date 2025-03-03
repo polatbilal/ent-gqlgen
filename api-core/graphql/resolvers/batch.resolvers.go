@@ -9,9 +9,7 @@ import (
 	"fmt"
 
 	"github.com/polatbilal/gqlgen-ent/api-core/ent"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobauthor"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/helpers"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/api-core/middlewares"
@@ -461,556 +459,21 @@ func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInp
 	}, nil
 }
 
-// CreateJobBatch is the resolver for the createJobBatch field.
-func (r *mutationResolver) CreateJobBatch(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	if client == nil {
-		return nil, fmt.Errorf("client nil")
-	}
-
-	fmt.Printf("JobInput: %+v\n", input.JobInput)
-	fmt.Printf("OwnerInput: %+v\n", input.OwnerInput)
-	fmt.Printf("ContractorInput: %+v\n", input.ContractorInput)
-	fmt.Printf("AuthorInput: %+v\n", input.AuthorInput)
-	fmt.Printf("SupervisorInput: %+v\n", input.SupervisorInput)
-	fmt.Printf("EngineerInput: %+v\n", input.EngineerInput)
-
-	tx, err := client.Tx(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("transaction başlatılırken hata oluştu: %w", err)
-	}
-
-	// Transaction'ı rollback etmek için defer kullanıyoruz
-	defer func() {
-		if v := recover(); v != nil {
-			fmt.Printf("Panic oluştu: %v\n", v)
-			_ = tx.Rollback()
-			panic(v)
-		}
-	}()
-
-	// Context'e transaction'ı ekle
-	txCtx := ent.NewContext(ctx, tx.Client())
-
-	// İş oluşturma
-	fmt.Println("İş oluşturma başlıyor...")
-	jobInput := *input.JobInput
-	jobInput.YibfNo = &input.YibfNo
-	job, err := r.CreateJob(txCtx, jobInput)
-	if err != nil {
-		fmt.Printf("İş oluşturma hatası: %v\n", err)
-		_ = tx.Rollback()
-		return nil, fmt.Errorf("iş oluşturulurken hata: %w", err)
-	}
-	fmt.Printf("İş başarıyla oluşturuldu: %+v\n", job)
-
-	// Owner oluşturma (opsiyonel)
-	var owner *ent.JobOwner
-	if input.OwnerInput != nil {
-		fmt.Println("Owner oluşturma başlıyor...")
-		ownerInput := *input.OwnerInput
-		ownerInput.YibfNo = &input.YibfNo
-		owner, err = r.CreateOwner(txCtx, ownerInput)
-		if err != nil {
-			fmt.Printf("Owner oluşturma hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("mal sahibi oluşturulurken hata: %w", err)
-		}
-		fmt.Printf("Owner başarıyla oluşturuldu: %+v\n", owner)
-	}
-
-	// Contractor oluşturma (opsiyonel)
-	var contractor *ent.JobContractor
-	if input.ContractorInput != nil {
-		fmt.Println("Contractor oluşturma başlıyor...")
-		contractorInput := *input.ContractorInput
-		contractorInput.YibfNo = &input.YibfNo
-		contractor, err = r.CreateContractor(txCtx, contractorInput)
-		if err != nil {
-			fmt.Printf("Contractor oluşturma hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("yüklenici oluşturulurken hata: %w", err)
-		}
-		fmt.Printf("Contractor başarıyla oluşturuldu: %+v\n", contractor)
-	}
-
-	// Author oluşturma (opsiyonel)
-	var author *ent.JobAuthor
-	if input.AuthorInput != nil {
-		fmt.Println("Author oluşturma başlıyor...")
-		authorInput := *input.AuthorInput
-		authorInput.YibfNo = &input.YibfNo
-		author, err = r.CreateAuthor(txCtx, authorInput)
-		if err != nil {
-			fmt.Printf("Author oluşturma hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("proje müellifi oluşturulurken hata: %w", err)
-		}
-		fmt.Printf("Author başarıyla oluşturuldu: %+v\n", author)
-	}
-
-	// Supervisor oluşturma (opsiyonel)
-	var supervisor *ent.JobSupervisor
-	if input.SupervisorInput != nil {
-		fmt.Println("Supervisor oluşturma başlıyor...")
-		supervisorInput := *input.SupervisorInput
-		supervisorInput.YibfNo = &input.YibfNo
-		supervisor, err = r.CreateSupervisor(txCtx, supervisorInput)
-		if err != nil {
-			fmt.Printf("Supervisor oluşturma hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("şantiye şefi oluşturulurken hata: %w", err)
-		}
-		fmt.Printf("Supervisor başarıyla oluşturuldu: %+v\n", supervisor)
-	}
-
-	// JobRelations oluşturma ve ilişkilendirme
-	fmt.Println("JobRelations oluşturma başlıyor...")
-
-	// Önce mevcut bir JobRelations kaydı var mı kontrol et
-	existingRelations, err := tx.JobRelations.Query().
-		Where(jobrelations.YibfNo(input.YibfNo)).
-		First(txCtx)
-
-	if err != nil && !ent.IsNotFound(err) {
-		fmt.Printf("JobRelations sorgulama hatası: %v\n", err)
-		_ = tx.Rollback()
-		return nil, fmt.Errorf("iş ilişkileri sorgulanırken hata: %w", err)
-	}
-
-	var relations *ent.JobRelations
-	if existingRelations != nil {
-		// Mevcut kaydı güncelle
-		update := tx.JobRelations.UpdateOne(existingRelations).
-			SetYibfNo(input.YibfNo).
-			SetJob(job)
-
-		if owner != nil {
-			update.SetOwner(owner)
-		}
-		if contractor != nil {
-			update.SetContractor(contractor)
-		}
-		if author != nil {
-			update.SetAuthor(author)
-		}
-		if supervisor != nil {
-			update.SetSupervisor(supervisor)
-		}
-
-		relations, err = update.Save(txCtx)
-	} else {
-		// Yeni kayıt oluştur
-		create := tx.JobRelations.Create().
-			SetYibfNo(input.YibfNo).
-			SetJob(job)
-
-		if owner != nil {
-			create.SetOwner(owner)
-		}
-		if contractor != nil {
-			create.SetContractor(contractor)
-		}
-		if author != nil {
-			create.SetAuthor(author)
-		}
-		if supervisor != nil {
-			create.SetSupervisor(supervisor)
-		}
-
-		relations, err = create.Save(txCtx)
-	}
-
-	if err != nil {
-		fmt.Printf("JobRelations işlem hatası: %v\n", err)
-		_ = tx.Rollback()
-		return nil, fmt.Errorf("iş ilişkileri işlenirken hata: %w", err)
-	}
-	fmt.Printf("JobRelations başarıyla işlendi: %+v\n", relations)
-
-	// Mühendis ilişkilerini güncelle (opsiyonel)
-	var jobEngineer *model.JobEngineer
-	if input.EngineerInput != nil {
-		fmt.Println("Mühendis ilişkileri güncelleme başlıyor...")
-		engineerInput := *input.EngineerInput
-		engineerInput.YibfNo = &input.YibfNo
-		engineers, err := helpers.ValidateAndGetEngineers(txCtx, engineerInput)
-		if err != nil {
-			fmt.Printf("Mühendis doğrulama hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("mühendisler doğrulanırken hata: %w", err)
-		}
-		fmt.Printf("Mühendisler başarıyla doğrulandı: %+v\n", engineers)
-
-		update := tx.JobRelations.UpdateOne(relations)
-		if inspector, ok := engineers["inspector"]; ok {
-			update.SetInspector(inspector)
-		}
-		if static, ok := engineers["static"]; ok {
-			update.SetStatic(static)
-		}
-		if architect, ok := engineers["architect"]; ok {
-			update.SetArchitect(architect)
-		}
-		if mechanic, ok := engineers["mechanic"]; ok {
-			update.SetMechanic(mechanic)
-		}
-		if electric, ok := engineers["electric"]; ok {
-			update.SetElectric(electric)
-		}
-		if controller, ok := engineers["controller"]; ok {
-			update.SetController(controller)
-		}
-		if mechanicController, ok := engineers["mechanicController"]; ok {
-			update.SetMechaniccontroller(mechanicController)
-		}
-		if electricController, ok := engineers["electricController"]; ok {
-			update.SetElectriccontroller(electricController)
-		}
-
-		if relations, err = update.Save(txCtx); err != nil {
-			fmt.Printf("Mühendis ilişkileri güncelleme hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("mühendis ilişkileri güncellenirken hata: %w", err)
-		}
-		fmt.Println("Mühendis ilişkileri başarıyla güncellendi")
-
-		// JobEngineer bilgilerini al
-		jobEngineer = &model.JobEngineer{
-			YibfNo:             &relations.YibfNo,
-			Inspector:          relations.Edges.Inspector,
-			Static:             relations.Edges.Static,
-			Architect:          relations.Edges.Architect,
-			Mechanic:           relations.Edges.Mechanic,
-			Electric:           relations.Edges.Electric,
-			Controller:         relations.Edges.Controller,
-			MechanicController: relations.Edges.Mechaniccontroller,
-			ElectricController: relations.Edges.Electriccontroller,
-		}
-	}
-
-	// Transaction'ı commit et
-	fmt.Println("Transaction commit ediliyor...")
-	if err := tx.Commit(); err != nil {
-		fmt.Printf("Transaction commit hatası: %v\n", err)
-		return nil, fmt.Errorf("değişiklikler kaydedilirken hata: %w", err)
-	}
-	fmt.Println("Transaction başarıyla commit edildi")
-
-	return &model.JobBatchResult{
-		Job:        job,
-		Owner:      owner,
-		Contractor: contractor,
-		Author:     author,
-		Supervisor: supervisor,
-		Engineer:   jobEngineer,
-	}, nil
-}
-
-// UpdateJobBatch is the resolver for the updateJobBatch field.
-func (r *mutationResolver) UpdateJobBatch(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	if client == nil {
-		return nil, fmt.Errorf("client nil")
-	}
-
-	fmt.Printf("JobInput: %+v\n", input.JobInput)
-	fmt.Printf("OwnerInput: %+v\n", input.OwnerInput)
-	fmt.Printf("ContractorInput: %+v\n", input.ContractorInput)
-	fmt.Printf("AuthorInput: %+v\n", input.AuthorInput)
-	fmt.Printf("SupervisorInput: %+v\n", input.SupervisorInput)
-	fmt.Printf("EngineerInput: %+v\n", input.EngineerInput)
-
-	tx, err := client.Tx(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("transaction başlatılırken hata oluştu: %w", err)
-	}
-
-	// Transaction'ı rollback etmek için defer kullanıyoruz
-	defer func() {
-		if v := recover(); v != nil {
-			fmt.Printf("Panic oluştu: %v\n", v)
-			_ = tx.Rollback()
-			panic(v)
-		}
-	}()
-
-	// Context'e transaction'ı ekle
-	txCtx := ent.NewContext(ctx, tx.Client())
-
-	// Önce mevcut JobRelations kaydını bul
-	relations, err := tx.JobRelations.Query().
-		Where(jobrelations.YibfNo(input.YibfNo)).
-		WithJob().
-		WithOwner().
-		WithContractor().
-		WithAuthor().
-		WithSupervisor().
-		WithInspector().
-		WithStatic().
-		WithArchitect().
-		WithMechanic().
-		WithElectric().
-		WithController().
-		WithMechaniccontroller().
-		WithElectriccontroller().
-		First(txCtx)
-
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, fmt.Errorf("yibf no %d için kayıt bulunamadı", input.YibfNo)
-		}
-		return nil, fmt.Errorf("kayıt aranırken hata oluştu: %w", err)
-	}
-
-	// İş güncelleme
-	var job *ent.JobDetail
-	if input.JobInput != nil {
-		fmt.Println("İş güncelleme başlıyor...")
-		jobInput := *input.JobInput
-		jobInput.YibfNo = &input.YibfNo
-		job, err = r.UpdateJob(txCtx, relations.Edges.Job.YibfNo, jobInput)
-		if err != nil {
-			fmt.Printf("İş güncelleme hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("iş güncellenirken hata: %w", err)
-		}
-		fmt.Printf("İş başarıyla güncellendi: %+v\n", job)
-	} else {
-		job = relations.Edges.Job
-	}
-
-	// Owner işlemi
-	var owner *ent.JobOwner
-	if input.OwnerInput != nil {
-		fmt.Println("Owner güncelleme başlıyor...")
-		ownerInput := *input.OwnerInput
-		ownerInput.YibfNo = &input.YibfNo
-		owner, err = r.UpdateOwner(txCtx, input.YibfNo, ownerInput)
-		if err != nil {
-			fmt.Printf("Owner güncelleme hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("mal sahibi güncellenirken hata: %w", err)
-		}
-		fmt.Printf("Owner başarıyla güncellendi: %+v\n", owner)
-	} else {
-		owner = relations.Edges.Owner
-	}
-
-	// Contractor işlemi
-	var contractor *ent.JobContractor
-	if input.ContractorInput != nil {
-		fmt.Println("Contractor güncelleme başlıyor...")
-		contractorInput := *input.ContractorInput
-		contractorInput.YibfNo = &input.YibfNo
-		contractor, err = r.UpdateContractor(txCtx, input.YibfNo, contractorInput)
-		if err != nil {
-			fmt.Printf("Contractor güncelleme hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("yüklenici güncellenirken hata: %w", err)
-		}
-		fmt.Printf("Contractor başarıyla güncellendi: %+v\n", contractor)
-	} else {
-		contractor = relations.Edges.Contractor
-	}
-
-	// Author işlemi
-	var author *ent.JobAuthor
-	if input.AuthorInput != nil {
-		fmt.Println("Author işlemi başlıyor...")
-		authorInput := *input.AuthorInput
-		authorInput.YibfNo = &input.YibfNo
-
-		// Önce tabloda kayıt var mı kontrol et
-		existingAuthor, err := tx.JobAuthor.Query().
-			Where(jobauthor.YibfNo(input.YibfNo)).
-			Only(txCtx)
-
-		if err != nil {
-			if !ent.IsNotFound(err) {
-				fmt.Printf("Author sorgulama hatası: %v\n", err)
-				_ = tx.Rollback()
-				return nil, fmt.Errorf("proje müellifi sorgulanırken hata: %w", err)
-			}
-			// Kayıt bulunamadı, yeni oluştur ve ilişkilendir
-			author, err = r.CreateAuthor(txCtx, authorInput)
-			if err != nil {
-				fmt.Printf("Author oluşturma hatası: %v\n", err)
-				_ = tx.Rollback()
-				return nil, fmt.Errorf("proje müellifi oluşturulurken hata: %w", err)
-			}
-			fmt.Printf("Author başarıyla oluşturuldu: %+v\n", author)
-		} else {
-			// Kayıt bulundu, sadece ilişkilendir
-			author = existingAuthor
-			fmt.Printf("Mevcut Author ilişkilendirildi: %+v\n", author)
-		}
-
-		// İlişkilendirmeyi güncelle
-		update := tx.JobRelations.UpdateOne(relations)
-		update.SetAuthor(author)
-		if _, err = update.Save(txCtx); err != nil {
-			fmt.Printf("Author ilişkilendirme hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("proje müellifi ilişkilendirilirken hata: %w", err)
-		}
-		fmt.Println("Author ilişkilendirmesi başarıyla güncellendi")
-	} else {
-		author = relations.Edges.Author
-	}
-
-	// Supervisor işlemi
-	var supervisor *ent.JobSupervisor
-	if input.SupervisorInput != nil {
-		fmt.Println("Supervisor işlemi başlıyor...")
-		supervisorInput := *input.SupervisorInput
-		supervisorInput.YibfNo = &input.YibfNo
-
-		// Önce tabloda kayıt var mı kontrol et
-		existingSupervisor, err := tx.JobSupervisor.Query().
-			Where(jobsupervisor.YDSIDEQ(input.SupervisorInput.Ydsid)).
-			Only(txCtx)
-
-		if err != nil {
-			if !ent.IsNotFound(err) {
-				fmt.Printf("Supervisor sorgulama hatası: %v\n", err)
-				_ = tx.Rollback()
-				return nil, fmt.Errorf("şantiye şefi sorgulanırken hata: %w", err)
-			}
-			// Kayıt bulunamadı, yeni oluştur ve ilişkilendir
-			supervisor, err = r.CreateSupervisor(txCtx, supervisorInput)
-			if err != nil {
-				fmt.Printf("Supervisor oluşturma hatası: %v\n", err)
-				_ = tx.Rollback()
-				return nil, fmt.Errorf("şantiye şefi oluşturulurken hata: %w", err)
-			}
-			fmt.Printf("Supervisor başarıyla oluşturuldu: %+v\n", supervisor)
-		} else {
-			// Kayıt bulundu, sadece ilişkilendir
-			supervisor = existingSupervisor
-			fmt.Printf("Mevcut Supervisor ilişkilendirildi: %+v\n", supervisor)
-		}
-
-		// İlişkilendirmeyi güncelle
-		update := tx.JobRelations.UpdateOne(relations)
-		update.SetSupervisor(supervisor)
-		if _, err = update.Save(txCtx); err != nil {
-			fmt.Printf("Supervisor ilişkilendirme hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("şantiye şefi ilişkilendirilirken hata: %w", err)
-		}
-		fmt.Println("Supervisor ilişkilendirmesi başarıyla güncellendi")
-	} else {
-		supervisor = relations.Edges.Supervisor
-	}
-
-	// Mühendis ilişkilerini güncelle (opsiyonel)
-	var jobEngineer *model.JobEngineer
-	if input.EngineerInput != nil {
-		fmt.Println("Mühendis ilişkileri güncelleme başlıyor...")
-		engineerInput := *input.EngineerInput
-		engineerInput.YibfNo = &input.YibfNo
-		engineers, err := helpers.ValidateAndGetEngineers(txCtx, engineerInput)
-		if err != nil {
-			fmt.Printf("Mühendis doğrulama hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("mühendisler doğrulanırken hata: %w", err)
-		}
-		fmt.Printf("Mühendisler başarıyla doğrulandı: %+v\n", engineers)
-
-		update := tx.JobRelations.UpdateOne(relations)
-		if inspector, ok := engineers["inspector"]; ok {
-			update.SetInspector(inspector)
-		}
-		if static, ok := engineers["static"]; ok {
-			update.SetStatic(static)
-		}
-		if architect, ok := engineers["architect"]; ok {
-			update.SetArchitect(architect)
-		}
-		if mechanic, ok := engineers["mechanic"]; ok {
-			update.SetMechanic(mechanic)
-		}
-		if electric, ok := engineers["electric"]; ok {
-			update.SetElectric(electric)
-		}
-		if controller, ok := engineers["controller"]; ok {
-			update.SetController(controller)
-		}
-		if mechanicController, ok := engineers["mechanicController"]; ok {
-			update.SetMechaniccontroller(mechanicController)
-		}
-		if electricController, ok := engineers["electricController"]; ok {
-			update.SetElectriccontroller(electricController)
-		}
-
-		if relations, err = update.Save(txCtx); err != nil {
-			fmt.Printf("Mühendis ilişkileri güncelleme hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("mühendis ilişkileri güncellenirken hata: %w", err)
-		}
-		fmt.Println("Mühendis ilişkileri başarıyla güncellendi")
-
-		// JobEngineer bilgilerini al
-		jobEngineer = &model.JobEngineer{
-			YibfNo:             &relations.YibfNo,
-			Inspector:          relations.Edges.Inspector,
-			Static:             relations.Edges.Static,
-			Architect:          relations.Edges.Architect,
-			Mechanic:           relations.Edges.Mechanic,
-			Electric:           relations.Edges.Electric,
-			Controller:         relations.Edges.Controller,
-			MechanicController: relations.Edges.Mechaniccontroller,
-			ElectricController: relations.Edges.Electriccontroller,
-		}
-	} else {
-		// Mevcut mühendis bilgilerini al
-		jobEngineer = &model.JobEngineer{
-			YibfNo:             &relations.YibfNo,
-			Inspector:          relations.Edges.Inspector,
-			Static:             relations.Edges.Static,
-			Architect:          relations.Edges.Architect,
-			Mechanic:           relations.Edges.Mechanic,
-			Electric:           relations.Edges.Electric,
-			Controller:         relations.Edges.Controller,
-			MechanicController: relations.Edges.Mechaniccontroller,
-			ElectricController: relations.Edges.Electriccontroller,
-		}
-	}
-
-	// Transaction'ı commit et
-	fmt.Println("Transaction commit ediliyor...")
-	if err := tx.Commit(); err != nil {
-		fmt.Printf("Transaction commit hatası: %v\n", err)
-		return nil, fmt.Errorf("değişiklikler kaydedilirken hata: %w", err)
-	}
-	fmt.Println("Transaction başarıyla commit edildi")
-
-	return &model.JobBatchResult{
-		Job:        job,
-		Owner:      owner,
-		Contractor: contractor,
-		Author:     author,
-		Supervisor: supervisor,
-		Engineer:   jobEngineer,
-	}, nil
-}
-
 // JobBatchQuery is the resolver for the jobBatchQuery field.
-func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo int) (*model.JobBatchResult, error) {
+func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int) ([]*model.JobBatchResult, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	if client == nil {
 		return nil, fmt.Errorf("client nil")
 	}
 
-	// JobRelations ve ilişkili tüm verileri sorgula
-	relations, err := client.JobRelations.Query().
-		Where(jobrelations.YibfNo(yibfNo)).
+	// Query builder'ı başlat
+	query := client.JobRelations.Query().
 		WithJob().
 		WithOwner().
 		WithContractor().
 		WithAuthor().
 		WithSupervisor().
+		WithProgress().
 		WithInspector().
 		WithStatic().
 		WithArchitect().
@@ -1018,36 +481,55 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo int) (*model.J
 		WithElectric().
 		WithController().
 		WithMechaniccontroller().
-		WithElectriccontroller().
-		Only(ctx)
+		WithElectriccontroller()
 
+	// Eğer yibfNo belirtilmişse filtreleme yap
+	if yibfNo != nil {
+		query = query.Where(jobrelations.YibfNo(*yibfNo))
+	}
+
+	// Tüm kayıtları getir
+	relations, err := query.All(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, fmt.Errorf("yibf no %d için kayıt bulunamadı", yibfNo)
+		return nil, fmt.Errorf("kayıtlar aranırken hata oluştu: %w", err)
+	}
+
+	// Sonuçları dönüştür
+	var results []*model.JobBatchResult
+	for _, relation := range relations {
+		// JobEngineer bilgilerini hazırla
+		jobEngineer := &model.JobEngineer{
+			YibfNo:             &relation.YibfNo,
+			Inspector:          relation.Edges.Inspector,
+			Static:             relation.Edges.Static,
+			Architect:          relation.Edges.Architect,
+			Mechanic:           relation.Edges.Mechanic,
+			Electric:           relation.Edges.Electric,
+			Controller:         relation.Edges.Controller,
+			MechanicController: relation.Edges.Mechaniccontroller,
+			ElectricController: relation.Edges.Electriccontroller,
 		}
-		return nil, fmt.Errorf("kayıt aranırken hata oluştu: %w", err)
+
+		// Her bir kaydı JobBatchResult'a dönüştür
+		result := &model.JobBatchResult{
+			Job:        relation.Edges.Job,
+			Owner:      relation.Edges.Owner,
+			Contractor: relation.Edges.Contractor,
+			Author:     relation.Edges.Author,
+			Supervisor: relation.Edges.Supervisor,
+			Engineer:   jobEngineer,
+			Progress:   relation.Edges.Progress,
+		}
+
+		results = append(results, result)
 	}
 
-	// JobEngineer bilgilerini hazırla
-	jobEngineer := &model.JobEngineer{
-		YibfNo:             &relations.YibfNo,
-		Inspector:          relations.Edges.Inspector,
-		Static:             relations.Edges.Static,
-		Architect:          relations.Edges.Architect,
-		Mechanic:           relations.Edges.Mechanic,
-		Electric:           relations.Edges.Electric,
-		Controller:         relations.Edges.Controller,
-		MechanicController: relations.Edges.Mechaniccontroller,
-		ElectricController: relations.Edges.Electriccontroller,
+	if len(results) == 0 {
+		if yibfNo != nil {
+			return nil, fmt.Errorf("yibf no %d için kayıt bulunamadı", *yibfNo)
+		}
+		return []*model.JobBatchResult{}, nil
 	}
 
-	// Tüm ilişkili verileri içeren sonucu döndür
-	return &model.JobBatchResult{
-		Job:        relations.Edges.Job,
-		Owner:      relations.Edges.Owner,
-		Contractor: relations.Edges.Contractor,
-		Author:     relations.Edges.Author,
-		Supervisor: relations.Edges.Supervisor,
-		Engineer:   jobEngineer,
-	}, nil
+	return results, nil
 }
