@@ -89,22 +89,22 @@ type JobAuthorInput struct {
 }
 
 type JobBatchInput struct {
-	YibfNo           int                 `json:"YibfNo"`
-	JobInput         *JobInput           `json:"jobInput"`
-	OwnerInput       *JobOwnerInput      `json:"ownerInput,omitempty"`
-	ContractorInput  *JobContractorInput `json:"contractorInput,omitempty"`
-	AuthorInput      *JobAuthorInput     `json:"authorInput,omitempty"`
-	SupervisorInput  *JobSupervisorInput `json:"supervisorInput,omitempty"`
-	JobEngineerInput *JobEngineerInput   `json:"jobEngineerInput,omitempty"`
+	YibfNo          int                 `json:"YibfNo"`
+	JobInput        *JobInput           `json:"jobInput"`
+	OwnerInput      *JobOwnerInput      `json:"ownerInput,omitempty"`
+	ContractorInput *JobContractorInput `json:"contractorInput,omitempty"`
+	AuthorInput     *JobAuthorInput     `json:"authorInput,omitempty"`
+	SupervisorInput *JobSupervisorInput `json:"supervisorInput,omitempty"`
+	EngineerInput   *JobEngineerInput   `json:"engineerInput,omitempty"`
 }
 
 type JobBatchResult struct {
-	Job         *ent.JobDetail     `json:"job,omitempty"`
-	Owner       *ent.JobOwner      `json:"owner,omitempty"`
-	Contractor  *ent.JobContractor `json:"contractor,omitempty"`
-	Author      *ent.JobAuthor     `json:"author,omitempty"`
-	Supervisor  *ent.JobSupervisor `json:"supervisor,omitempty"`
-	JobEngineer *JobEngineer       `json:"jobEngineer,omitempty"`
+	Job        *ent.JobDetail     `json:"job,omitempty"`
+	Owner      *ent.JobOwner      `json:"owner,omitempty"`
+	Contractor *ent.JobContractor `json:"contractor,omitempty"`
+	Author     *ent.JobAuthor     `json:"author,omitempty"`
+	Supervisor *ent.JobSupervisor `json:"supervisor,omitempty"`
+	Engineer   *JobEngineer       `json:"engineer,omitempty"`
 }
 
 type JobContractorInput struct {

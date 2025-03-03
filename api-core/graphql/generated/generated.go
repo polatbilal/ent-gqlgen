@@ -129,12 +129,12 @@ type ComplexityRoot struct {
 	}
 
 	JobBatchResult struct {
-		Author      func(childComplexity int) int
-		Contractor  func(childComplexity int) int
-		Job         func(childComplexity int) int
-		JobEngineer func(childComplexity int) int
-		Owner       func(childComplexity int) int
-		Supervisor  func(childComplexity int) int
+		Author     func(childComplexity int) int
+		Contractor func(childComplexity int) int
+		Engineer   func(childComplexity int) int
+		Job        func(childComplexity int) int
+		Owner      func(childComplexity int) int
+		Supervisor func(childComplexity int) int
 	}
 
 	JobContractor struct {
@@ -865,19 +865,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobBatchResult.Contractor(childComplexity), true
 
+	case "JobBatchResult.engineer":
+		if e.complexity.JobBatchResult.Engineer == nil {
+			break
+		}
+
+		return e.complexity.JobBatchResult.Engineer(childComplexity), true
+
 	case "JobBatchResult.job":
 		if e.complexity.JobBatchResult.Job == nil {
 			break
 		}
 
 		return e.complexity.JobBatchResult.Job(childComplexity), true
-
-	case "JobBatchResult.jobEngineer":
-		if e.complexity.JobBatchResult.JobEngineer == nil {
-			break
-		}
-
-		return e.complexity.JobBatchResult.JobEngineer(childComplexity), true
 
 	case "JobBatchResult.owner":
 		if e.complexity.JobBatchResult.Owner == nil {
@@ -2568,7 +2568,7 @@ extend type Mutation {
   contractor: JobContractor
   author: JobAuthor
   supervisor: JobSupervisor
-  jobEngineer: JobEngineer
+  engineer: JobEngineer
 }
 
 input JobBatchInput {
@@ -2578,7 +2578,7 @@ input JobBatchInput {
   contractorInput: JobContractorInput
   authorInput: JobAuthorInput
   supervisorInput: JobSupervisorInput
-  jobEngineerInput: JobEngineerInput
+  engineerInput: JobEngineerInput
 }
 
 extend type Query {
@@ -7961,8 +7961,8 @@ func (ec *executionContext) fieldContext_JobBatchResult_supervisor(_ context.Con
 	return fc, nil
 }
 
-func (ec *executionContext) _JobBatchResult_jobEngineer(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+func (ec *executionContext) _JobBatchResult_engineer(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobBatchResult_engineer(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -7975,7 +7975,7 @@ func (ec *executionContext) _JobBatchResult_jobEngineer(ctx context.Context, fie
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.JobEngineer, nil
+		return obj.Engineer, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7989,7 +7989,7 @@ func (ec *executionContext) _JobBatchResult_jobEngineer(ctx context.Context, fie
 	return ec.marshalOJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobEngineer(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_JobBatchResult_jobEngineer(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_JobBatchResult_engineer(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "JobBatchResult",
 		Field:      field,
@@ -13298,8 +13298,8 @@ func (ec *executionContext) fieldContext_Mutation_jobBatch(ctx context.Context, 
 				return ec.fieldContext_JobBatchResult_author(ctx, field)
 			case "supervisor":
 				return ec.fieldContext_JobBatchResult_supervisor(ctx, field)
-			case "jobEngineer":
-				return ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+			case "engineer":
+				return ec.fieldContext_JobBatchResult_engineer(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobBatchResult", field.Name)
 		},
@@ -13389,8 +13389,8 @@ func (ec *executionContext) fieldContext_Mutation_createJobBatch(ctx context.Con
 				return ec.fieldContext_JobBatchResult_author(ctx, field)
 			case "supervisor":
 				return ec.fieldContext_JobBatchResult_supervisor(ctx, field)
-			case "jobEngineer":
-				return ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+			case "engineer":
+				return ec.fieldContext_JobBatchResult_engineer(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobBatchResult", field.Name)
 		},
@@ -13480,8 +13480,8 @@ func (ec *executionContext) fieldContext_Mutation_updateJobBatch(ctx context.Con
 				return ec.fieldContext_JobBatchResult_author(ctx, field)
 			case "supervisor":
 				return ec.fieldContext_JobBatchResult_supervisor(ctx, field)
-			case "jobEngineer":
-				return ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+			case "engineer":
+				return ec.fieldContext_JobBatchResult_engineer(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobBatchResult", field.Name)
 		},
@@ -16320,8 +16320,8 @@ func (ec *executionContext) fieldContext_Query_jobBatchQuery(ctx context.Context
 				return ec.fieldContext_JobBatchResult_author(ctx, field)
 			case "supervisor":
 				return ec.fieldContext_JobBatchResult_supervisor(ctx, field)
-			case "jobEngineer":
-				return ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+			case "engineer":
+				return ec.fieldContext_JobBatchResult_engineer(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobBatchResult", field.Name)
 		},
@@ -21380,7 +21380,7 @@ func (ec *executionContext) unmarshalInputJobBatchInput(ctx context.Context, obj
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "jobInput", "ownerInput", "contractorInput", "authorInput", "supervisorInput", "jobEngineerInput"}
+	fieldsInOrder := [...]string{"YibfNo", "jobInput", "ownerInput", "contractorInput", "authorInput", "supervisorInput", "engineerInput"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -21429,13 +21429,13 @@ func (ec *executionContext) unmarshalInputJobBatchInput(ctx context.Context, obj
 				return it, err
 			}
 			it.SupervisorInput = data
-		case "jobEngineerInput":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("jobEngineerInput"))
+		case "engineerInput":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("engineerInput"))
 			data, err := ec.unmarshalOJobEngineerInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobEngineerInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.JobEngineerInput = data
+			it.EngineerInput = data
 		}
 	}
 
@@ -22886,8 +22886,8 @@ func (ec *executionContext) _JobBatchResult(ctx context.Context, sel ast.Selecti
 			out.Values[i] = ec._JobBatchResult_author(ctx, field, obj)
 		case "supervisor":
 			out.Values[i] = ec._JobBatchResult_supervisor(ctx, field, obj)
-		case "jobEngineer":
-			out.Values[i] = ec._JobBatchResult_jobEngineer(ctx, field, obj)
+		case "engineer":
+			out.Values[i] = ec._JobBatchResult_engineer(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

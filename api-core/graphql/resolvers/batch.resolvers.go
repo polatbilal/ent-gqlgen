@@ -29,7 +29,7 @@ func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInp
 	fmt.Printf("ContractorInput: %+v\n", input.ContractorInput)
 	fmt.Printf("AuthorInput: %+v\n", input.AuthorInput)
 	fmt.Printf("SupervisorInput: %+v\n", input.SupervisorInput)
-	fmt.Printf("JobEngineerInput: %+v\n", input.JobEngineerInput)
+	fmt.Printf("EngineerInput: %+v\n", input.EngineerInput)
 
 	tx, err := client.Tx(ctx)
 	if err != nil {
@@ -384,9 +384,9 @@ func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInp
 
 	// Mühendis ilişkilerini güncelle (opsiyonel)
 	var jobEngineer *model.JobEngineer
-	if input.JobEngineerInput != nil {
+	if input.EngineerInput != nil {
 		fmt.Println("Mühendis ilişkileri güncelleme başlıyor...")
-		engineerInput := *input.JobEngineerInput
+		engineerInput := *input.EngineerInput
 		engineerInput.YibfNo = &input.YibfNo
 		engineers, err := helpers.ValidateAndGetEngineers(txCtx, engineerInput)
 		if err != nil {
@@ -452,12 +452,12 @@ func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInp
 	fmt.Println("Transaction başarıyla commit edildi")
 
 	return &model.JobBatchResult{
-		Job:         job,
-		Owner:       owner,
-		Contractor:  contractor,
-		Author:      author,
-		Supervisor:  supervisor,
-		JobEngineer: jobEngineer,
+		Job:        job,
+		Owner:      owner,
+		Contractor: contractor,
+		Author:     author,
+		Supervisor: supervisor,
+		Engineer:   jobEngineer,
 	}, nil
 }
 
@@ -473,7 +473,7 @@ func (r *mutationResolver) CreateJobBatch(ctx context.Context, input model.JobBa
 	fmt.Printf("ContractorInput: %+v\n", input.ContractorInput)
 	fmt.Printf("AuthorInput: %+v\n", input.AuthorInput)
 	fmt.Printf("SupervisorInput: %+v\n", input.SupervisorInput)
-	fmt.Printf("JobEngineerInput: %+v\n", input.JobEngineerInput)
+	fmt.Printf("EngineerInput: %+v\n", input.EngineerInput)
 
 	tx, err := client.Tx(ctx)
 	if err != nil {
@@ -630,9 +630,9 @@ func (r *mutationResolver) CreateJobBatch(ctx context.Context, input model.JobBa
 
 	// Mühendis ilişkilerini güncelle (opsiyonel)
 	var jobEngineer *model.JobEngineer
-	if input.JobEngineerInput != nil {
+	if input.EngineerInput != nil {
 		fmt.Println("Mühendis ilişkileri güncelleme başlıyor...")
-		engineerInput := *input.JobEngineerInput
+		engineerInput := *input.EngineerInput
 		engineerInput.YibfNo = &input.YibfNo
 		engineers, err := helpers.ValidateAndGetEngineers(txCtx, engineerInput)
 		if err != nil {
@@ -698,12 +698,12 @@ func (r *mutationResolver) CreateJobBatch(ctx context.Context, input model.JobBa
 	fmt.Println("Transaction başarıyla commit edildi")
 
 	return &model.JobBatchResult{
-		Job:         job,
-		Owner:       owner,
-		Contractor:  contractor,
-		Author:      author,
-		Supervisor:  supervisor,
-		JobEngineer: jobEngineer,
+		Job:        job,
+		Owner:      owner,
+		Contractor: contractor,
+		Author:     author,
+		Supervisor: supervisor,
+		Engineer:   jobEngineer,
 	}, nil
 }
 
@@ -719,7 +719,7 @@ func (r *mutationResolver) UpdateJobBatch(ctx context.Context, input model.JobBa
 	fmt.Printf("ContractorInput: %+v\n", input.ContractorInput)
 	fmt.Printf("AuthorInput: %+v\n", input.AuthorInput)
 	fmt.Printf("SupervisorInput: %+v\n", input.SupervisorInput)
-	fmt.Printf("JobEngineerInput: %+v\n", input.JobEngineerInput)
+	fmt.Printf("EngineerInput: %+v\n", input.EngineerInput)
 
 	tx, err := client.Tx(ctx)
 	if err != nil {
@@ -906,9 +906,9 @@ func (r *mutationResolver) UpdateJobBatch(ctx context.Context, input model.JobBa
 
 	// Mühendis ilişkilerini güncelle (opsiyonel)
 	var jobEngineer *model.JobEngineer
-	if input.JobEngineerInput != nil {
+	if input.EngineerInput != nil {
 		fmt.Println("Mühendis ilişkileri güncelleme başlıyor...")
-		engineerInput := *input.JobEngineerInput
+		engineerInput := *input.EngineerInput
 		engineerInput.YibfNo = &input.YibfNo
 		engineers, err := helpers.ValidateAndGetEngineers(txCtx, engineerInput)
 		if err != nil {
@@ -987,12 +987,12 @@ func (r *mutationResolver) UpdateJobBatch(ctx context.Context, input model.JobBa
 	fmt.Println("Transaction başarıyla commit edildi")
 
 	return &model.JobBatchResult{
-		Job:         job,
-		Owner:       owner,
-		Contractor:  contractor,
-		Author:      author,
-		Supervisor:  supervisor,
-		JobEngineer: jobEngineer,
+		Job:        job,
+		Owner:      owner,
+		Contractor: contractor,
+		Author:     author,
+		Supervisor: supervisor,
+		Engineer:   jobEngineer,
 	}, nil
 }
 
@@ -1043,11 +1043,11 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo int) (*model.J
 
 	// Tüm ilişkili verileri içeren sonucu döndür
 	return &model.JobBatchResult{
-		Job:         relations.Edges.Job,
-		Owner:       relations.Edges.Owner,
-		Contractor:  relations.Edges.Contractor,
-		Author:      relations.Edges.Author,
-		Supervisor:  relations.Edges.Supervisor,
-		JobEngineer: jobEngineer,
+		Job:        relations.Edges.Job,
+		Owner:      relations.Edges.Owner,
+		Contractor: relations.Edges.Contractor,
+		Author:     relations.Edges.Author,
+		Supervisor: relations.Edges.Supervisor,
+		Engineer:   jobEngineer,
 	}, nil
 }

@@ -4,7 +4,7 @@ type JobBatchResult {
   contractor: JobContractor
   author: JobAuthor
   supervisor: JobSupervisor
-  jobEngineer: JobEngineer
+  engineer: JobEngineer
 }
 
 input JobBatchInput {
@@ -14,7 +14,7 @@ input JobBatchInput {
   contractorInput: JobContractorInput
   authorInput: JobAuthorInput
   supervisorInput: JobSupervisorInput
-  jobEngineerInput: JobEngineerInput
+  engineerInput: JobEngineerInput
 }
 
 extend type Query {
