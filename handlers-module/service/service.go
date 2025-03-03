@@ -217,9 +217,10 @@ type YIBFAuthorResponse struct {
 
 type YIBFInspectorResponse struct {
 	Items []struct {
-		UserId  int `json:"userId"`
-		TaskId  int `json:"taskId"`
-		TitleId int `json:"titleId"`
+		UserId  int  `json:"userId"`
+		TaskId  int  `json:"taskId"`
+		TitleId int  `json:"titleId"`
+		Udim    bool `json:"udim"`
 	} `json:"items"`
 }
 

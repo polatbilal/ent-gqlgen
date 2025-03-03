@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"reflect"
 	"strings"
 	"time"
 
@@ -43,140 +42,7 @@ func logError(message string) {
 	}
 }
 
-type YibfDetailRequest struct {
-	YibfNumbers []int `json:"yibfNumbers"`
-	CompanyCode int   `json:"companyCode"`
-}
-
-// Veri karşılaştırma fonksiyonları
-func compareJobData(current *model.JobInput, new map[string]interface{}) map[string]interface{} {
-	changes := make(map[string]interface{})
-
-	for key, newValue := range new {
-		if key == "YibfNo" || key == "CompanyCode" {
-			continue
-		}
-
-		currentValue := getFieldValue(current, key)
-		if !compareValues(currentValue, newValue, key) {
-			changes[key] = newValue
-		}
-	}
-
-	return changes
-}
-
-func compareOwnerData(current *model.JobOwnerInput, new map[string]interface{}) map[string]interface{} {
-	changes := make(map[string]interface{})
-
-	for key, newValue := range new {
-		if key == "YibfNo" {
-			continue
-		}
-
-		currentValue := getFieldValue(current, key)
-		if !compareValues(currentValue, newValue, key) {
-			changes[key] = newValue
-		}
-	}
-
-	return changes
-}
-
-func compareContractorData(current *model.JobContractorInput, new map[string]interface{}) map[string]interface{} {
-	changes := make(map[string]interface{})
-
-	for key, newValue := range new {
-		if key == "YibfNo" {
-			continue
-		}
-
-		currentValue := getFieldValue(current, key)
-		if !compareValues(currentValue, newValue, key) {
-			changes[key] = newValue
-		}
-	}
-
-	return changes
-}
-
-func compareSupervisorData(current *model.JobSupervisorInput, new map[string]interface{}) map[string]interface{} {
-	changes := make(map[string]interface{})
-
-	for key, newValue := range new {
-		if key == "YibfNo" {
-			continue
-		}
-
-		currentValue := getFieldValue(current, key)
-		if !compareValues(currentValue, newValue, key) {
-			changes[key] = newValue
-		}
-	}
-
-	return changes
-}
-
-func compareAuthorData(current *model.JobAuthorInput, new map[string]interface{}) map[string]interface{} {
-	changes := make(map[string]interface{})
-
-	for key, newValue := range new {
-		if key == "YibfNo" {
-			continue
-		}
-
-		currentValue := getFieldValue(current, key)
-		if !compareValues(currentValue, newValue, key) {
-			changes[key] = newValue
-		}
-	}
-
-	return changes
-}
-
-// Yardımcı fonksiyonlar
-func getFieldValue(obj interface{}, fieldName string) interface{} {
-	val := reflect.ValueOf(obj)
-	if val.Kind() == reflect.Ptr {
-		val = val.Elem()
-	}
-
-	field := val.FieldByName(fieldName)
-	if !field.IsValid() {
-		return nil
-	}
-
-	return field.Interface()
-}
-
-func compareValues(current, new interface{}, fieldName string) bool {
-	if current == nil && new == nil {
-		return true
-	}
-	if current == nil || new == nil {
-		return false
-	}
-
-	// Tarih karşılaştırması
-	if currentStr, ok := current.(string); ok {
-		if strings.Contains(fieldName, "Date") {
-			newStr := fmt.Sprintf("%v", new)
-			return service.CompareDates(currentStr, newStr)
-		}
-	}
-
-	// Koordinat karşılaştırması
-	if fieldName == "Coordinates" {
-		currentStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", current), " ", ""), ",", ".")
-		newStr := strings.ReplaceAll(strings.ReplaceAll(fmt.Sprintf("%v", new), " ", ""), ",", ".")
-		return currentStr == newStr
-	}
-
-	// Genel karşılaştırma
-	return fmt.Sprintf("%v", current) == fmt.Sprintf("%v", new)
-}
-
-func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
+func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCode int) error {
 	jwtToken := c.Get("Authorization")
 	if jwtToken == "" {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
@@ -186,7 +52,7 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "YİBF numaraları gerekli"})
 	}
 
-	companyCode := service.SafeStringToInt(companyCodeStr)
+	// companyCode := service.SafeStringToInt(companyCodeStr)
 	if companyCode == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode gerekli"})
 	}
@@ -219,131 +85,135 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 	for _, yibfID := range yibfNumbers {
 		// Önce mevcut kaydı kontrol et
 		checkQuery := `
-			query CheckJobWithRelations($yibfNo: Int!) {
-				job(yibfNo: $yibfNo) {
-					id
-					CompanyCode
-					YibfNo
-					Title
-					Administration
-					State
-					Island
-					Parcel
-					Sheet
-					DistributionDate
-					ContractDate
-					StartDate
-					LicenseDate
-					LicenseNo
-					CompletionDate
-					LandArea
-					TotalArea
-					ConstructionArea
-					LeftArea
-					YDSAddress
-					Address
-					BuildingClass
-					BuildingType
-					Level
-					UnitPrice
-					FloorCount
-					BKSReferenceNo
-					Coordinates
-					FolderNo
-					UploadedFile
-					IndustryArea
-					ClusterStructure
-					IsLicenseExpired
-					IsCompleted
-					Note
-					Inspector {
+			query CheckJobBatch($yibfNo: Int!) {
+				jobBatchQuery(yibfNo: $yibfNo) {
+					job {
+						id
+						CompanyCode
+						YibfNo
+						Title
+						Administration
+						State
+						Island
+						Parcel
+						Sheet
+						DistributionDate
+						ContractDate
+						StartDate
+						LicenseDate
+						LicenseNo
+						CompletionDate
+						LandArea
+						TotalArea
+						ConstructionArea
+						LeftArea
+						YDSAddress
+						Address
+						BuildingClass
+						BuildingType
+						Level
+						UnitPrice
+						FloorCount
+						BKSReferenceNo
+						Coordinates
+						FolderNo
+						UploadedFile
+						IndustryArea
+						ClusterStructure
+						IsLicenseExpired
+						IsCompleted
+						Note
+					}
+					owner {
 						id
 						YDSID
 						Name
+						TcNo
+						Address
+						Phone
+						TaxAdmin
+						TaxNo
+						Shareholder
 					}
-					Static {
+					contractor {
 						id
 						YDSID
 						Name
+						TaxNo
+						Phone
+						MobilePhone
+						Email
+						Address
+						RegisterNo
+						PersonType
+						TcNo
 					}
-					Architect {
+					supervisor {
 						id
 						YDSID
 						Name
+						Address
+						Phone
+						Email
+						TcNo
+						Position
+						Career
+						RegisterNo
+						SocialSecurityNo
+						SchoolGraduation
 					}
-					Mechanic {
+					author {
 						id
-						YDSID
-						Name
+						Static
+						Mechanic
+						Electric
+						Architect
+						GeotechnicalEngineer
+						GeotechnicalGeologist
+						GeotechnicalGeophysicist
 					}
-					Electric {
-						id
-						YDSID
-						Name
+					engineer {
+						Inspector {
+							id
+							YDSID
+							Name
+						}
+						Static {
+							id
+							YDSID
+							Name
+						}
+						Architect {
+							id
+							YDSID
+							Name
+						}
+						Mechanic {
+							id
+							YDSID
+							Name
+						}
+						Electric {
+							id
+							YDSID
+							Name
+						}
+						Controller {
+							id
+							YDSID
+							Name
+						}
+						MechanicController {
+							id
+							YDSID
+							Name
+						}
+						ElectricController {
+							id
+							YDSID
+							Name
+						}
 					}
-					Controller {
-						id
-						YDSID
-						Name
-					}
-					MechanicController {
-						id
-						YDSID
-						Name
-					}
-					ElectricController {
-						id
-						YDSID
-						Name
-					}
-				}
-				owner(yibfNo: $yibfNo) {
-					id
-					YDSID
-					Name
-					TcNo
-					Address
-					Phone
-					TaxAdmin
-					TaxNo
-					Shareholder
-				}
-				contractor(yibfNo: $yibfNo) {
-					id
-					YDSID
-					Name
-					TaxNo
-					Phone
-					MobilePhone
-					Email
-					Address
-					RegisterNo
-					PersonType
-					TcNo
-				}
-				supervisor(yibfNo: $yibfNo) {
-					id
-					YDSID
-					Name
-					Address
-					Phone
-					Email
-					TcNo
-					Position
-					Career
-					RegisterNo
-					SocialSecurityNo
-					SchoolGraduation
-				}
-				author(yibfNo: $yibfNo) {
-					id
-					Static
-					Mechanic
-					Electric
-					Architect
-					GeotechnicalEngineer
-					GeotechnicalGeologist
-					GeotechnicalGeophysicist
 				}
 			}`
 
@@ -351,27 +221,36 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 			"yibfNo": yibfID,
 		}
 
-		var checkResult struct {
-			Job        *model.JobInput           `json:"job"`
-			Owner      *model.JobOwnerInput      `json:"owner"`
-			Contractor *model.JobContractorInput `json:"contractor"`
-			Supervisor *model.JobSupervisorInput `json:"supervisor"`
-			Author     *model.JobAuthorInput     `json:"author"`
+		var checkResponse struct {
+			JobBatchQuery struct {
+				Job        *model.JobInput           `json:"job"`
+				Owner      *model.JobOwnerInput      `json:"owner"`
+				Contractor *model.JobContractorInput `json:"contractor"`
+				Supervisor *model.JobSupervisorInput `json:"supervisor"`
+				Author     *model.JobAuthorInput     `json:"author"`
+				Engineer   *model.JobEngineerInput   `json:"engineer"`
+			} `json:"jobBatchQuery"`
 		}
 
-		err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResult)
+		log.Printf("YİBF %d için mevcut durum kontrolü yapılıyor...", yibfID)
+		err = graphqlClient.Execute(checkQuery, checkVariables, jwtToken, &checkResponse)
 
-		// Job ve ilişkili verilerin durumunu belirle
-		isNewJob := checkResult.Job == nil
-		isNewOwner := checkResult.Owner == nil
-		isNewContractor := checkResult.Contractor == nil
-		isNewSupervisor := checkResult.Supervisor == nil
-		isNewAuthor := checkResult.Author == nil
+		var checkResult = checkResponse.JobBatchQuery
 
-		// Değişiklikleri topla
-		var mutationParts []string
-		var mutationFields []string
-		var variables = make(map[string]interface{})
+		if err != nil {
+			if strings.Contains(err.Error(), "kayıt bulunamadı") || strings.Contains(err.Error(), "parsing time") {
+				log.Printf("YİBF %d için kayıt bulunamadı veya tarih parse hatası, yeni kayıt oluşturulacak", yibfID)
+			} else {
+				errMsg := fmt.Sprintf("YİBF %d için mevcut durum kontrolü başarısız: %v", yibfID, err)
+				logError(errMsg)
+				failedIDs = append(failedIDs, yibfID)
+				continue
+			}
+		} else if checkResult.Job != nil {
+			log.Printf("YİBF %d için mevcut durum kontrolü başarılı, güncelleme yapılacak", yibfID)
+		} else {
+			log.Printf("YİBF %d için kayıt bulunamadı, yeni kayıt oluşturulacak", yibfID)
+		}
 
 		// YDK'dan detay bilgilerini çek
 		detailURL := fmt.Sprintf("%s%s%d", svc.BaseURL, service.ENDPOINT_YIBF_BY_ID, yibfID)
@@ -463,67 +342,73 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 			continue
 		}
 
-		// Detay verilerini hazırla
-		currentResult := map[string]interface{}{
-			"yibfNo": yibfID,
-			"job": map[string]interface{}{
-				"YibfNo":         detail.ID,
-				"CompanyCode":    detail.YDK.FileNumber,
-				"Title":          detail.Title,
-				"Administration": detail.Administration.Name,
-				"State":          detail.State.Name,
-				"Island": func() string {
-					if detail.Island == "" || detail.Island == "Mevcut Değil" {
-						return "-"
-					}
-					return detail.Island
-				}(),
-				"Parcel": func() string {
-					if detail.Parcel == "" || detail.Parcel == "Mevcut Değil" {
-						return "-"
-					}
-					return detail.Parcel
-				}(),
-				"Sheet": func() string {
-					if detail.Sheet == "" || detail.Sheet == "Mevcut Değil" {
-						return "-"
-					}
-					return detail.Sheet
-				}(),
-				"LicenseNo":        detail.LicenseNumber,
-				"LandArea":         detail.Megsis.Alan,
-				"TotalArea":        detail.YibfStructure.TotalArea,
-				"ConstructionArea": detail.YibfStructure.ConstructionArea,
-				"LeftArea":         detail.YibfStructure.LeftArea,
-				"YDSAddress":       detail.YibfStructure.BuildingAddress,
-				"BuildingClass":    detail.YibfStructure.BuildingClass.Name,
-				"BuildingType":     detail.YibfStructure.CarrierSystemType.Name,
-				"Level":            detail.Level,
-				"UnitPrice":        detail.YibfStructure.UnitPrice,
-				"FloorCount":       detail.YibfStructure.FloorCount,
-				"BKSReferenceNo":   service.SafeStringToInt(detail.ReferenceNumber),
-				"Coordinates":      service.CoordinatesToString(detail.Position.Coordinates),
-				"UploadedFile":     detail.UploadedFile,
-				"IndustryArea":     detail.YibfStructure.IndustryArea,
-				"ClusterStructure": detail.ClusterStructure,
-				"IsLicenseExpired": detail.IsLicenseExpired,
-				"IsCompleted":      detail.IsCompleted,
-			},
+		// currentResult map'ini oluştur
+		currentResult := make(map[string]interface{})
+
+		// Job verilerini hazırla
+		jobData := map[string]interface{}{
+			"YibfNo":         detail.ID,
+			"CompanyCode":    detail.YDK.FileNumber,
+			"Title":          detail.Title,
+			"Administration": detail.Administration.Name,
+			"State":          detail.State.Name,
+			"Island": func() string {
+				if detail.Island == "" || detail.Island == "Mevcut Değil" {
+					return "-"
+				}
+				return detail.Island
+			}(),
+			"Parcel": func() string {
+				if detail.Parcel == "" || detail.Parcel == "Mevcut Değil" {
+					return "-"
+				}
+				return detail.Parcel
+			}(),
+			"Sheet": func() string {
+				if detail.Sheet == "" || detail.Sheet == "Mevcut Değil" {
+					return "-"
+				}
+				return detail.Sheet
+			}(),
+			"LicenseNo":        detail.LicenseNumber,
+			"LandArea":         detail.Megsis.Alan,
+			"TotalArea":        detail.YibfStructure.TotalArea,
+			"ConstructionArea": detail.YibfStructure.ConstructionArea,
+			"LeftArea":         detail.YibfStructure.LeftArea,
+			"YDSAddress":       detail.YibfStructure.BuildingAddress,
+			"BuildingClass":    detail.YibfStructure.BuildingClass.Name,
+			"BuildingType":     detail.YibfStructure.CarrierSystemType.Name,
+			"Level":            detail.Level,
+			"UnitPrice":        detail.YibfStructure.UnitPrice,
+			"FloorCount":       detail.YibfStructure.FloorCount,
+			"BKSReferenceNo":   service.SafeStringToInt(detail.ReferenceNumber),
+			"Coordinates":      service.CoordinatesToString(detail.Position.Coordinates),
+			"UploadedFile":     detail.UploadedFile,
+			"IndustryArea":     detail.YibfStructure.IndustryArea,
+			"ClusterStructure": detail.ClusterStructure,
+			"IsLicenseExpired": detail.IsLicenseExpired,
+			"IsCompleted":      detail.IsCompleted,
 		}
 
-		// Tarihleri ekle
+		// Unix timestamp'ten YYYY-MM-DD formatına çevir
 		if detail.DistributionDate > 0 {
-			currentResult["job"].(map[string]interface{})["DistributionDate"] = service.SafeUnixToDate(detail.DistributionDate)
+			date := time.Unix(detail.DistributionDate/1000, 0)
+			jobData["DistributionDate"] = date.Format("2006-01-02")
 		}
 		if detail.ContractDate > 0 {
-			currentResult["job"].(map[string]interface{})["ContractDate"] = service.SafeUnixToDate(detail.ContractDate)
+			date := time.Unix(detail.ContractDate/1000, 0)
+			jobData["ContractDate"] = date.Format("2006-01-02")
 		}
 		if detail.LicenseDate > 0 {
-			currentResult["job"].(map[string]interface{})["LicenseDate"] = service.SafeUnixToDate(detail.LicenseDate)
+			date := time.Unix(detail.LicenseDate/1000, 0)
+			jobData["LicenseDate"] = date.Format("2006-01-02")
 		}
 		if detail.CompleteDate > 0 {
-			currentResult["job"].(map[string]interface{})["CompletionDate"] = service.SafeUnixToDate(detail.CompleteDate)
+			date := time.Unix(detail.CompleteDate/1000, 0)
+			jobData["CompletionDate"] = date.Format("2006-01-02")
 		}
+
+		currentResult["job"] = jobData
 
 		// Owner verilerini ekle
 		if detail.YibfOwner.Person.ID > 0 {
@@ -638,6 +523,8 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 				case 6:
 					authorData["Architect"] = fullName
 				case 7:
+					authorData["Static"] = fullName
+				case 8:
 					switch author.TitleId {
 					case 4:
 						authorData["GeotechnicalEngineer"] = fullName
@@ -651,118 +538,167 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 			currentResult["author"] = authorData
 		}
 
-		// Job verilerini hazırla
-		if job, ok := currentResult["job"].(map[string]interface{}); ok {
-			if isNewJob {
-				mutationParts = append(mutationParts, `$jobInput: JobInput!`)
-				mutationFields = append(mutationFields, `
-					createJob(input: $jobInput) {
+		// Engineer verilerini al
+		engineerURL := fmt.Sprintf("%s%s", svc.BaseURL, service.ENDPOINT_YIBF_ENGINEER)
+		engineerRequestBody := map[string]interface{}{
+			"filter": [][]interface{}{
+				{"yibfId", "=", yibfID},
+			},
+		}
+
+		engineerJsonBody, err := json.Marshal(engineerRequestBody)
+		if err != nil {
+			errMsg := fmt.Sprintf("YİBF %d için engineer request body oluşturma hatası: %v", yibfID, err)
+			logError(errMsg)
+			continue
+		}
+
+		engineerReq, err := http.NewRequest("POST", engineerURL, bytes.NewBuffer(engineerJsonBody))
+		if err != nil {
+			errMsg := fmt.Sprintf("YİBF %d için engineer request oluşturma hatası: %v", yibfID, err)
+			logError(errMsg)
+			continue
+		}
+
+		engineerReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", companyToken.Token))
+		engineerReq.Header.Set("Content-Type", "application/json")
+
+		engineerResp, err := svc.Client.Do(engineerReq)
+		if err != nil {
+			errMsg := fmt.Sprintf("YİBF %d için engineer isteği başarısız: %v", yibfID, err)
+			logError(errMsg)
+			continue
+		}
+
+		engineerBody, err := io.ReadAll(engineerResp.Body)
+		engineerResp.Body.Close()
+		if err != nil {
+			errMsg := fmt.Sprintf("YİBF %d için engineer yanıtı okuma hatası: %v", yibfID, err)
+			logError(errMsg)
+			continue
+		}
+
+		var engineerResponse service.YIBFInspectorResponse
+		if err := json.Unmarshal(engineerBody, &engineerResponse); err != nil {
+			errMsg := fmt.Sprintf("YİBF %d için engineer parse hatası: %v", yibfID, err)
+			logError(errMsg)
+			continue
+		}
+
+		// Engineer verilerini ekle
+		if len(engineerResponse.Items) > 0 {
+			engineerData := make(map[string]interface{})
+			engineerData["YibfNo"] = yibfID
+
+			for _, engineer := range engineerResponse.Items {
+				// UDIM true ise Inspector olarak ata
+				if engineer.Udim {
+					engineerData["Inspector"] = engineer.UserId
+					engineerData["Static"] = engineer.UserId
+					continue
+				}
+
+				switch engineer.TaskId {
+				case 1:
+					engineerData["Inspector"] = engineer.UserId
+				case 2:
+					switch engineer.TitleId {
+					case 1:
+						engineerData["Electric"] = engineer.UserId
+					case 2:
+						engineerData["Mechanic"] = engineer.UserId
+					case 3:
+						engineerData["Architect"] = engineer.UserId
+					case 4:
+						engineerData["Static"] = engineer.UserId
+					}
+
+				case 14:
+					switch engineer.TitleId {
+					case 1:
+						engineerData["ElectricController"] = engineer.UserId
+					case 2:
+						engineerData["MechanicController"] = engineer.UserId
+					case 3, 4:
+						engineerData["Controller"] = engineer.UserId
+					}
+				}
+			}
+
+			// Eğer en az bir değer varsa engineer verilerini ekle
+			if len(engineerData) > 1 { // YibfNo dışında en az bir değer varsa
+				currentResult["engineer"] = engineerData
+			}
+		}
+
+		// Batch mutation için verileri hazırla
+		jobInput := currentResult["job"].(map[string]interface{})
+		batchInput := map[string]interface{}{
+			"YibfNo":   yibfID,
+			"jobInput": jobInput,
+		}
+
+		if owner, ok := currentResult["owner"].(map[string]interface{}); ok {
+			batchInput["ownerInput"] = owner
+		}
+		if contractor, ok := currentResult["contractor"].(map[string]interface{}); ok {
+			batchInput["contractorInput"] = contractor
+		}
+		if supervisor, ok := currentResult["supervisor"].(map[string]interface{}); ok {
+			batchInput["supervisorInput"] = supervisor
+		}
+		if author, ok := currentResult["author"].(map[string]interface{}); ok {
+			batchInput["authorInput"] = author
+		}
+		if engineer, ok := currentResult["engineer"].(map[string]interface{}); ok {
+			batchInput["engineerInput"] = engineer
+		}
+
+		// Debug logları
+		log.Printf("YİBF No: %d için hazırlanan veriler:", yibfID)
+		log.Printf("Job verisi: %+v", jobInput)
+		if owner, ok := currentResult["owner"].(map[string]interface{}); ok {
+			log.Printf("Owner verisi: %+v", owner)
+		}
+		if contractor, ok := currentResult["contractor"].(map[string]interface{}); ok {
+			log.Printf("Contractor verisi: %+v", contractor)
+		}
+		if supervisor, ok := currentResult["supervisor"].(map[string]interface{}); ok {
+			log.Printf("Supervisor verisi: %+v", supervisor)
+		}
+		if author, ok := currentResult["author"].(map[string]interface{}); ok {
+			log.Printf("Author verisi: %+v", author)
+		}
+		if engineer, ok := currentResult["engineer"].(map[string]interface{}); ok {
+			log.Printf("Engineer verisi: %+v", engineer)
+		}
+
+		// Batch mutation'ı çalıştır
+		mutation := `
+			mutation JobBatch($input: JobBatchInput!) {
+				jobBatch(input: $input) {
+					job {
 						id
 						YibfNo
 						CompanyCode
 						Title
-					}`)
-				variables["jobInput"] = job
-			} else {
-				jobChanges := compareJobData(checkResult.Job, job)
-				if len(jobChanges) > 0 {
-					mutationParts = append(mutationParts, `$jobInput: JobInput!`)
-					mutationFields = append(mutationFields, `
-						updateJob(yibfNo: $yibfNo, input: $jobInput) {
-							id
-							YibfNo
-							CompanyCode
-							Title
-						}`)
-					variables["jobInput"] = jobChanges
-				}
-			}
-		}
-
-		// Owner verilerini hazırla
-		if owner, ok := currentResult["owner"].(map[string]interface{}); ok {
-			if isNewOwner {
-				mutationParts = append(mutationParts, `$ownerInput: JobOwnerInput!`)
-				mutationFields = append(mutationFields, `
-					createOwner(input: $ownerInput) {
+					}
+					owner {
 						id
 						Name
 						YDSID
-					}`)
-				variables["ownerInput"] = owner
-			} else {
-				ownerChanges := compareOwnerData(checkResult.Owner, owner)
-				if len(ownerChanges) > 0 {
-					mutationParts = append(mutationParts, `$ownerInput: JobOwnerInput!`)
-					mutationFields = append(mutationFields, `
-						updateOwner(yibfNo: $yibfNo, input: $ownerInput) {
-							id
-							Name
-							YDSID
-						}`)
-					variables["ownerInput"] = ownerChanges
-				}
-			}
-		}
-
-		// Contractor verilerini hazırla
-		if contractor, ok := currentResult["contractor"].(map[string]interface{}); ok {
-			if isNewContractor {
-				mutationParts = append(mutationParts, `$contractorInput: JobContractorInput!`)
-				mutationFields = append(mutationFields, `
-					createContractor(input: $contractorInput) {
+					}
+					contractor {
 						id
 						Name
 						YDSID
-					}`)
-				variables["contractorInput"] = contractor
-			} else {
-				contractorChanges := compareContractorData(checkResult.Contractor, contractor)
-				if len(contractorChanges) > 0 {
-					mutationParts = append(mutationParts, `$contractorInput: JobContractorInput!`)
-					mutationFields = append(mutationFields, `
-						updateContractor(yibfNo: $yibfNo, input: $contractorInput) {
-							id
-							Name
-							YDSID
-						}`)
-					variables["contractorInput"] = contractorChanges
-				}
-			}
-		}
-
-		// Supervisor verilerini hazırla
-		if supervisor, ok := currentResult["supervisor"].(map[string]interface{}); ok {
-			if isNewSupervisor {
-				mutationParts = append(mutationParts, `$supervisorInput: JobSupervisorInput!`)
-				mutationFields = append(mutationFields, `
-					createSupervisor(input: $supervisorInput) {
+					}
+					supervisor {
 						id
 						Name
 						YDSID
-					}`)
-				variables["supervisorInput"] = supervisor
-			} else {
-				supervisorChanges := compareSupervisorData(checkResult.Supervisor, supervisor)
-				if len(supervisorChanges) > 0 {
-					mutationParts = append(mutationParts, `$supervisorInput: JobSupervisorInput!`)
-					mutationFields = append(mutationFields, `
-						updateSupervisor(yibfNo: $yibfNo, input: $supervisorInput) {
-							id
-							Name
-							YDSID
-						}`)
-					variables["supervisorInput"] = supervisorChanges
-				}
-			}
-		}
-
-		// Author verilerini hazırla
-		if author, ok := currentResult["author"].(map[string]interface{}); ok {
-			if isNewAuthor {
-				mutationParts = append(mutationParts, `$authorInput: JobAuthorInput!`)
-				mutationFields = append(mutationFields, `
-					createAuthor(input: $authorInput) {
+					}
+					author {
 						id
 						Static
 						Mechanic
@@ -771,71 +707,123 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 						GeotechnicalEngineer
 						GeotechnicalGeologist
 						GeotechnicalGeophysicist
-					}`)
-				variables["authorInput"] = author
-			} else {
-				authorChanges := compareAuthorData(checkResult.Author, author)
-				if len(authorChanges) > 0 {
-					mutationParts = append(mutationParts, `$authorInput: JobAuthorInput!`)
-					mutationFields = append(mutationFields, `
-						updateAuthor(yibfNo: $yibfNo, input: $authorInput) {
+					}
+					engineer {
+						Inspector {
 							id
-							Static
-							Mechanic
-							Electric
-							Architect
-							GeotechnicalEngineer
-							GeotechnicalGeologist
-							GeotechnicalGeophysicist
-						}`)
-					variables["authorInput"] = authorChanges
+							YDSID
+							Name
+						}
+						Static {
+							id
+							YDSID
+							Name
+						}
+						Architect {
+							id
+							YDSID
+							Name
+						}
+						Mechanic {
+							id
+							YDSID
+							Name
+						}
+						Electric {
+							id
+							YDSID
+							Name
+						}
+						Controller {
+							id
+							YDSID
+							Name
+						}
+						MechanicController {
+							id
+							YDSID
+							Name
+						}
+						ElectricController {
+							id
+							YDSID
+							Name
+						}
+					}
 				}
-			}
+			}`
+
+		variables := map[string]interface{}{
+			"input": batchInput,
 		}
 
-		// Mutation oluştur
-		var mutation string
-		if len(mutationParts) > 0 {
-			if isNewJob {
-				mutation = fmt.Sprintf(`
-					mutation CreateJobWithRelations(%s) {
-						%s
-					}`, strings.Join(mutationParts, ", "), strings.Join(mutationFields, "\n"))
-			} else {
-				variables["yibfNo"] = yibfID
-				mutation = fmt.Sprintf(`
-					mutation UpdateJobWithRelations($yibfNo: Int!, %s) {
-						%s
-					}`, strings.Join(mutationParts, ", "), strings.Join(mutationFields, "\n"))
-			}
+		// Debug logları
+		log.Printf("YİBF No: %d için mutation çalıştırılıyor", yibfID)
+		// log.Printf("Mutation: %s", mutation)
+		// log.Printf("Variables: %+v", variables)
 
-			// Debug logları
-			log.Printf("YİBF No: %d için mutation parçaları: %v", yibfID, mutationParts)
-			// log.Printf("YİBF No: %d için mutation alanları: %v", yibfID, mutationFields)
-			// log.Printf("YİBF No: %d için variables: %+v", yibfID, variables)
-			// log.Printf("YİBF No: %d için oluşturulan mutation:\n%s", yibfID, mutation)
+		// Mutation'ı çalıştır
+		var batchResponse struct {
+			JobBatch struct {
+				Job struct {
+					ID          int    `json:"id"`
+					YibfNo      int    `json:"yibfNo"`
+					CompanyCode int    `json:"companyCode"`
+					Title       string `json:"title"`
+				} `json:"job"`
+				Owner struct {
+					ID    int    `json:"id"`
+					Name  string `json:"name"`
+					YDSID int    `json:"ydsid"`
+				} `json:"owner"`
+				Contractor struct {
+					ID    int    `json:"id"`
+					Name  string `json:"name"`
+					YDSID int    `json:"ydsid"`
+				} `json:"contractor"`
+				Supervisor struct {
+					ID    int    `json:"id"`
+					Name  string `json:"name"`
+					YDSID int    `json:"ydsid"`
+				} `json:"supervisor"`
+				Author struct {
+					ID                       int    `json:"id"`
+					Static                   string `json:"static"`
+					Mechanic                 string `json:"mechanic"`
+					Electric                 string `json:"electric"`
+					Architect                string `json:"architect"`
+					GeotechnicalEngineer     string `json:"geotechnicalEngineer"`
+					GeotechnicalGeologist    string `json:"geotechnicalGeologist"`
+					GeotechnicalGeophysicist string `json:"geotechnicalGeophysicist"`
+				} `json:"author"`
+				Engineer struct {
+					Inspector          string `json:"inspector"`
+					Static             string `json:"static"`
+					Architect          string `json:"architect"`
+					Mechanic           string `json:"mechanic"`
+					Electric           string `json:"electric"`
+					Controller         string `json:"controller"`
+					MechanicController string `json:"mechanicController"`
+					ElectricController string `json:"electricController"`
+				} `json:"engineer"`
+			} `json:"jobBatch"`
+		}
 
-			// Mutation'ı çalıştır
-			var upsertResult struct {
-				Job        *struct{ ID int }
-				Owner      *struct{ ID int }
-				Contractor *struct{ ID int }
-				Supervisor *struct{ ID int }
-				Author     *struct{ ID int }
-			}
+		if err := graphqlClient.Execute(mutation, variables, jwtToken, &batchResponse); err != nil {
+			errMsg := fmt.Sprintf("YİBF %d için GraphQL batch mutation hatası: %v", yibfID, err)
+			logError(errMsg)
+			log.Printf("Hata detayı - Mutation: %s", mutation)
+			log.Printf("Hata detayı - Variables: %+v", variables)
+			failedIDs = append(failedIDs, yibfID)
+			continue
+		}
 
-			if err := graphqlClient.Execute(mutation, variables, jwtToken, &upsertResult); err != nil {
-				errMsg := fmt.Sprintf("YİBF %d için GraphQL mutation hatası: %v\nMutation: %s\nVariables: %+v",
-					yibfID, err, mutation, variables)
-				logError(errMsg)
-				failedIDs = append(failedIDs, yibfID)
-				continue
-			}
+		// Başarılı işlem logu
+		log.Printf("YİBF %d için mutation başarılı", yibfID)
 
-			// Başarılı işlem logu
-			log.Printf("YİBF %d için mutation başarıyla çalıştırıldı. Sonuç: %+v", yibfID, upsertResult)
-		} else {
-			log.Printf("YİBF %d için değişiklik yok, mutation çalıştırılmayacak", yibfID)
+		// Response verilerini logla
+		if batchResponse.JobBatch.Job.ID > 0 {
+			logBatchResponse(yibfID, batchResponse.JobBatch)
 		}
 
 		processedIDs = append(processedIDs, yibfID)
@@ -855,4 +843,59 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCodeStr string) error {
 
 	c.Locals("response", result)
 	return c.JSON(result)
+}
+
+// Response verilerini loglama fonksiyonu
+func logBatchResponse(yibfID int, response interface{}) {
+	if response == nil {
+		return
+	}
+
+	// Response verilerini map'e dönüştür
+	responseBytes, err := json.Marshal(response)
+	if err != nil {
+		log.Printf("YİBF %d response marshal hatası: %v", yibfID, err)
+		return
+	}
+
+	var responseMap map[string]interface{}
+	if err := json.Unmarshal(responseBytes, &responseMap); err != nil {
+		log.Printf("YİBF %d response unmarshal hatası: %v", yibfID, err)
+		return
+	}
+
+	// Her bir alanı kontrol et ve logla
+	for key, value := range responseMap {
+		if value != nil {
+			log.Printf("- %s: %+v", key, value)
+		}
+	}
+}
+
+// YibfDetailHandler, fiber.Handler uyumlu bir wrapper fonksiyondur
+func YibfDetailHandler(c *fiber.Ctx) error {
+	var request struct {
+		YibfNumber  int `json:"yibfNo"`
+		CompanyCode int `json:"companyCode"`
+	}
+
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Geçersiz istek formatı",
+		})
+	}
+
+	if request.YibfNumber == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "YİBF numarası gerekli",
+		})
+	}
+
+	if request.CompanyCode == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Şirket kodu gerekli",
+		})
+	}
+
+	return YibfDetail(c, []int{request.YibfNumber}, request.CompanyCode)
 }

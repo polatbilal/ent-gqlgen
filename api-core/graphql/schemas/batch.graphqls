@@ -9,7 +9,7 @@ type JobBatchResult {
 
 input JobBatchInput {
   YibfNo: Int!
-  jobInput: JobInput!
+  jobInput: JobInput
   ownerInput: JobOwnerInput
   contractorInput: JobContractorInput
   authorInput: JobAuthorInput

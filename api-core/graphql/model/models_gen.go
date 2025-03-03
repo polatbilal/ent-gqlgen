@@ -90,7 +90,7 @@ type JobAuthorInput struct {
 
 type JobBatchInput struct {
 	YibfNo          int                 `json:"YibfNo"`
-	JobInput        *JobInput           `json:"jobInput"`
+	JobInput        *JobInput           `json:"jobInput,omitempty"`
 	OwnerInput      *JobOwnerInput      `json:"ownerInput,omitempty"`
 	ContractorInput *JobContractorInput `json:"contractorInput,omitempty"`
 	AuthorInput     *JobAuthorInput     `json:"authorInput,omitempty"`

@@ -2573,7 +2573,7 @@ extend type Mutation {
 
 input JobBatchInput {
   YibfNo: Int!
-  jobInput: JobInput!
+  jobInput: JobInput
   ownerInput: JobOwnerInput
   contractorInput: JobContractorInput
   authorInput: JobAuthorInput
@@ -21396,7 +21396,7 @@ func (ec *executionContext) unmarshalInputJobBatchInput(ctx context.Context, obj
 			it.YibfNo = data
 		case "jobInput":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("jobInput"))
-			data, err := ec.unmarshalNJobInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobInput(ctx, v)
+			data, err := ec.unmarshalOJobInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -25044,11 +25044,6 @@ func (ec *executionContext) unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋgqlge
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNJobInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobInput(ctx context.Context, v any) (*model.JobInput, error) {
-	res, err := ec.unmarshalInputJobInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) marshalNJobLayer2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v ent.JobLayer) graphql.Marshaler {
 	return ec._JobLayer(ctx, sel, &v)
 }
@@ -25803,6 +25798,14 @@ func (ec *executionContext) unmarshalOJobEngineerInput2ᚖgithubᚗcomᚋpolatbi
 		return nil, nil
 	}
 	res, err := ec.unmarshalInputJobEngineerInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOJobInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobInput(ctx context.Context, v any) (*model.JobInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputJobInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 

@@ -2,7 +2,6 @@ package sync
 
 import (
 	"log"
-	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers-module/external"
@@ -48,7 +47,7 @@ func SyncYibf(c *fiber.Ctx) error {
 	log.Printf("İşlenecek YİBF sayısı: %d", len(yibfIDs))
 
 	// Detay bilgilerini al
-	if err := external.YibfDetail(c, yibfIDs, strconv.Itoa(requestParams.CompanyCode)); err != nil {
+	if err := external.YibfDetail(c, yibfIDs, requestParams.CompanyCode); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Detaylar alınamadı"})
 	}
 

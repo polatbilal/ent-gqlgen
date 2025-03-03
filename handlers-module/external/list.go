@@ -53,7 +53,7 @@ func YibfList(c *fiber.Ctx) error {
 			"requireTotalCount": true,
 			"searchOperation":   "contains",
 			"searchValue":       nil,
-			"skip":              20,
+			"skip":              40,
 			"take":              4,
 			"filter":            []interface{}{"state.id", "=", stateID},
 			"userData":          struct{}{},
