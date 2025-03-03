@@ -2,12 +2,17 @@ package handlers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/external"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/sync"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/external"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/sync"
 )
 
 // SetupRoutes tüm API endpoint'lerini yapılandırır
 func SetupRoutes(app *fiber.App) {
+	// Route'ları burada tanımlayın
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.SendString("OK")
+	})
+
 	// YDK API ana grubu
 	ydkGroup := app.Group("/ydk")
 

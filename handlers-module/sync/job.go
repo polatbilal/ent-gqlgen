@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/external"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/service"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/external"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/service"
 )
 
 func SyncYibf(c *fiber.Ctx) error {

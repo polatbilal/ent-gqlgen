@@ -7,17 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers"
 )
-
-func SetupRoutes(app *fiber.App) {
-	// Route'ları burada tanımlayın
-	app.Get("/health", func(c *fiber.Ctx) error {
-		return c.SendString("OK")
-	})
-
-	handlers.SetupRoutes(app)
-}
 
 func StartServer(ctx context.Context) error {
 	app := fiber.New(fiber.Config{

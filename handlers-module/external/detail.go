@@ -15,8 +15,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/model"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/client"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/service"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/client"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/service"
 )
 
 // Hata loglarını dosyaya yazar

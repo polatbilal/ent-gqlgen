@@ -20,7 +20,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/generated"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/api-core/middlewares"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/service"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/service"
 )
 
 // CompanyCode is the resolver for the CompanyCode field.

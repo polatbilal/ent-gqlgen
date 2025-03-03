@@ -20,7 +20,7 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 	client := middlewares.GetClientFromContext(ctx)
 
 	// YDSID ile Owner var mı kontrol edelim
-	owner, err := client.JobOwner.Query().Where(jobowner.YDSID(*input.Ydsid)).Only(ctx)
+	owner, err := client.JobOwner.Query().Where(jobowner.YDSIDEQ(input.Ydsid)).Only(ctx)
 	if ent.IsNotFound(err) {
 		// Owner yoksa yeni oluşturalım
 		owner, err = client.JobOwner.Create().
@@ -31,7 +31,7 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 			SetNillablePhone(input.Phone).
 			SetNillableEmail(input.Email).
 			SetNillableAddress(input.Address).
-			SetYDSID(*input.Ydsid).
+			SetYDSID(input.Ydsid).
 			SetNillableShareholder(input.Shareholder).
 			SetNillableNote(input.Note).
 			Save(ctx)
@@ -47,12 +47,12 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 }
 
 // UpdateOwner is the resolver for the updateOwner field.
-func (r *mutationResolver) UpdateOwner(ctx context.Context, ydsid int, input model.JobOwnerInput) (*ent.JobOwner, error) {
+func (r *mutationResolver) UpdateOwner(ctx context.Context, yibfNo int, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// Owner'ı doğrudan ydsid ile bul
 	owner, err := client.JobOwner.Query().
-		Where(jobowner.YDSIDEQ(*input.Ydsid)).
+		Where(jobowner.YDSIDEQ(input.Ydsid)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("owner bulunamadı: %v", err)

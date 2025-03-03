@@ -39,7 +39,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateOwner(YDSID: Int!, input: JobOwnerInput!): JobOwner!
+  updateOwner(yibfNo: Int!, input: JobOwnerInput!): JobOwner!
     @goField(forceResolver: true)
     @auth
 }

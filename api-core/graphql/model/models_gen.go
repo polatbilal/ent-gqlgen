@@ -119,7 +119,7 @@ type JobContractorInput struct {
 	Phone       *string `json:"Phone,omitempty"`
 	Email       *string `json:"Email,omitempty"`
 	PersonType  *string `json:"PersonType,omitempty"`
-	Ydsid       *int    `json:"YDSID,omitempty"`
+	Ydsid       int     `json:"YDSID"`
 	Note        *string `json:"Note,omitempty"`
 }
 
@@ -213,7 +213,7 @@ type JobOwnerInput struct {
 	TaxNo       *int    `json:"TaxNo,omitempty"`
 	Phone       *string `json:"Phone,omitempty"`
 	Email       *string `json:"Email,omitempty"`
-	Ydsid       *int    `json:"YDSID,omitempty"`
+	Ydsid       int     `json:"YDSID"`
 	Shareholder *bool   `json:"Shareholder,omitempty"`
 	Note        *string `json:"Note,omitempty"`
 }
@@ -252,7 +252,7 @@ type JobSupervisorInput struct {
 	RegisterNo       *int    `json:"RegisterNo,omitempty"`
 	SocialSecurityNo *int    `json:"SocialSecurityNo,omitempty"`
 	SchoolGraduation *string `json:"SchoolGraduation,omitempty"`
-	Ydsid            *int    `json:"YDSID,omitempty"`
+	Ydsid            int     `json:"YDSID"`
 }
 
 type LayerFilterInput struct {

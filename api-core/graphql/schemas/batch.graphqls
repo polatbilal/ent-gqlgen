@@ -17,6 +17,12 @@ input JobBatchInput {
   jobEngineerInput: JobEngineerInput
 }
 
+extend type Query {
+  jobBatchQuery(yibfNo: Int!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+}
+
 extend type Mutation {
   jobBatch(input: JobBatchInput!): JobBatchResult!
     @goField(forceResolver: true)

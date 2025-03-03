@@ -6,7 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket/v2"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/external"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/external"
 )
 
 func CompanySync(c *fiber.Ctx) error {

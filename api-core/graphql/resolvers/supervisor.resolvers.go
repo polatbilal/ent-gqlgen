@@ -20,7 +20,7 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 	client := middlewares.GetClientFromContext(ctx)
 
 	// YDSID ile supervisor var mı kontrol edelim
-	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.YDSIDEQ(*input.Ydsid)).Only(ctx)
+	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.YDSIDEQ(input.Ydsid)).Only(ctx)
 	if ent.IsNotFound(err) {
 		// Supervisor yoksa yeni oluşturalım
 		supervisor, err = client.JobSupervisor.Create().
@@ -34,7 +34,7 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 			SetNillableRegisterNo(input.RegisterNo).
 			SetNillableSocialSecurityNo(input.SocialSecurityNo).
 			SetNillableSchoolGraduation(input.SchoolGraduation).
-			SetYDSID(*input.Ydsid).
+			SetYDSID(input.Ydsid).
 			Save(ctx)
 
 		if err != nil {
@@ -48,12 +48,12 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 }
 
 // UpdateSupervisor is the resolver for the updateSupervisor field.
-func (r *mutationResolver) UpdateSupervisor(ctx context.Context, ydsid int, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
+func (r *mutationResolver) UpdateSupervisor(ctx context.Context, yibfNo int, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// Owner'ı doğrudan ydsid ile bul
 	supervisor, err := client.JobSupervisor.Query().
-		Where(jobsupervisor.YDSIDEQ(*input.Ydsid)).
+		Where(jobsupervisor.YDSIDEQ(input.Ydsid)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("supervisor bulunamadı: %v", err)

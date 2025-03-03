@@ -20,7 +20,7 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 	client := middlewares.GetClientFromContext(ctx)
 
 	// YDSID ile Contractor var mı kontrol edelim
-	contractor, err := client.JobContractor.Query().Where(jobcontractor.YDSID(*input.Ydsid)).Only(ctx)
+	contractor, err := client.JobContractor.Query().Where(jobcontractor.YDSIDEQ(input.Ydsid)).Only(ctx)
 	if ent.IsNotFound(err) {
 		// Contractor yoksa yeni oluşturalım
 		contractor, err = client.JobContractor.Create().
@@ -34,7 +34,7 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 			SetNillablePhone(input.Phone).
 			SetNillableEmail(input.Email).
 			SetNillablePersonType(input.PersonType).
-			SetNillableYDSID(input.Ydsid).
+			SetYDSID(input.Ydsid).
 			Save(ctx)
 
 		if err != nil {
@@ -48,12 +48,12 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 }
 
 // UpdateContractor is the resolver for the updateContractor field.
-func (r *mutationResolver) UpdateContractor(ctx context.Context, ydsid int, input model.JobContractorInput) (*ent.JobContractor, error) {
+func (r *mutationResolver) UpdateContractor(ctx context.Context, yibfNo int, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// YDSID ile contractor'ı bul
 	contractor, err := client.JobContractor.Query().
-		Where(jobcontractor.YDSIDEQ(*input.Ydsid)).
+		Where(jobcontractor.YDSIDEQ(input.Ydsid)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("yüklenici bulunamadı: %v", err)
@@ -71,7 +71,6 @@ func (r *mutationResolver) UpdateContractor(ctx context.Context, ydsid int, inpu
 		SetNillablePhone(input.Phone).
 		SetNillableEmail(input.Email).
 		SetNillablePersonType(input.PersonType).
-		SetNillableYDSID(input.Ydsid).
 		SetNillableNote(input.Note).
 		Save(ctx)
 

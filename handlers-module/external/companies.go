@@ -10,8 +10,8 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/client"
-	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/service"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/client"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/service"
 )
 
 func YDKCompanies(c *fiber.Ctx) error {

@@ -868,7 +868,7 @@ func (r *mutationResolver) UpdateJobBatch(ctx context.Context, input model.JobBa
 
 		// Önce tabloda kayıt var mı kontrol et
 		existingSupervisor, err := tx.JobSupervisor.Query().
-			Where(jobsupervisor.YDSID(*input.SupervisorInput.Ydsid)).
+			Where(jobsupervisor.YDSIDEQ(input.SupervisorInput.Ydsid)).
 			Only(txCtx)
 
 		if err != nil {
@@ -992,6 +992,62 @@ func (r *mutationResolver) UpdateJobBatch(ctx context.Context, input model.JobBa
 		Contractor:  contractor,
 		Author:      author,
 		Supervisor:  supervisor,
+		JobEngineer: jobEngineer,
+	}, nil
+}
+
+// JobBatchQuery is the resolver for the jobBatchQuery field.
+func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo int) (*model.JobBatchResult, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	if client == nil {
+		return nil, fmt.Errorf("client nil")
+	}
+
+	// JobRelations ve ilişkili tüm verileri sorgula
+	relations, err := client.JobRelations.Query().
+		Where(jobrelations.YibfNo(yibfNo)).
+		WithJob().
+		WithOwner().
+		WithContractor().
+		WithAuthor().
+		WithSupervisor().
+		WithInspector().
+		WithStatic().
+		WithArchitect().
+		WithMechanic().
+		WithElectric().
+		WithController().
+		WithMechaniccontroller().
+		WithElectriccontroller().
+		Only(ctx)
+
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, fmt.Errorf("yibf no %d için kayıt bulunamadı", yibfNo)
+		}
+		return nil, fmt.Errorf("kayıt aranırken hata oluştu: %w", err)
+	}
+
+	// JobEngineer bilgilerini hazırla
+	jobEngineer := &model.JobEngineer{
+		YibfNo:             &relations.YibfNo,
+		Inspector:          relations.Edges.Inspector,
+		Static:             relations.Edges.Static,
+		Architect:          relations.Edges.Architect,
+		Mechanic:           relations.Edges.Mechanic,
+		Electric:           relations.Edges.Electric,
+		Controller:         relations.Edges.Controller,
+		MechanicController: relations.Edges.Mechaniccontroller,
+		ElectricController: relations.Edges.Electriccontroller,
+	}
+
+	// Tüm ilişkili verileri içeren sonucu döndür
+	return &model.JobBatchResult{
+		Job:         relations.Edges.Job,
+		Owner:       relations.Edges.Owner,
+		Contractor:  relations.Edges.Contractor,
+		Author:      relations.Edges.Author,
+		Supervisor:  relations.Edges.Supervisor,
 		JobEngineer: jobEngineer,
 	}, nil
 }
