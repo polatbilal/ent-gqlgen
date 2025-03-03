@@ -19,11 +19,6 @@ import (
 func (r *mutationResolver) CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get job detail: %w", err)
-	}
-
 	// YDSID ile Contractor var mı kontrol edelim
 	contractor, err := client.JobContractor.Query().Where(jobcontractor.YDSID(*input.Ydsid)).Only(ctx)
 	if ent.IsNotFound(err) {
@@ -49,47 +44,22 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 		return nil, fmt.Errorf("failed to check contractor: %w", err)
 	}
 
-	// JobRelations'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	// Contractor'ı JobRelations'a ekle
-	_, err = relations.Update().
-		SetContractor(contractor).
-		Save(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to add contractor to job relations: %w", err)
-	}
-
 	return contractor, nil
 }
 
 // UpdateContractor is the resolver for the updateContractor field.
-func (r *mutationResolver) UpdateContractor(ctx context.Context, yibfNo int, input model.JobContractorInput) (*ent.JobContractor, error) {
+func (r *mutationResolver) UpdateContractor(ctx context.Context, ydsid int, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Önce JobDetail'i bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
+	// YDSID ile contractor'ı bul
+	contractor, err := client.JobContractor.Query().
+		Where(jobcontractor.YDSIDEQ(*input.Ydsid)).
 		Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
+		return nil, fmt.Errorf("yüklenici bulunamadı: %v", err)
 	}
 
-	// JobRelations üzerinden contractor'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	contractor, err := relations.QueryContractor().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("contractor bulunamadı: %v", err)
-	}
-
+	// Contractor'ı güncelle
 	contractor, err = contractor.Update().
 		SetNillableName(input.Name).
 		SetNillableTcNo(input.TcNo).
@@ -102,10 +72,11 @@ func (r *mutationResolver) UpdateContractor(ctx context.Context, yibfNo int, inp
 		SetNillableEmail(input.Email).
 		SetNillablePersonType(input.PersonType).
 		SetNillableYDSID(input.Ydsid).
+		SetNillableNote(input.Note).
 		Save(ctx)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to update contractor: %w", err)
+		return nil, fmt.Errorf("yüklenici güncellenemedi: %w", err)
 	}
 
 	return contractor, nil

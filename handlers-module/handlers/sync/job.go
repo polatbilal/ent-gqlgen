@@ -2,9 +2,11 @@ package sync
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/external"
+	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/service"
 )
 
 func SyncYibf(c *fiber.Ctx) error {
@@ -14,10 +16,17 @@ func SyncYibf(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
-	// CompanyCode parametresini al
-	companyCode := c.Query("companyCode")
-	if companyCode == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
+	// Request body'den parametreleri al
+	var requestParams service.FrontendRequest
+	if err := c.BodyParser(&requestParams); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Geçersiz request body: " + err.Error(),
+		})
+	}
+
+	// Parametreleri kontrol et
+	if requestParams.CompanyCode == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "companyCode parametresi gerekli"})
 	}
 
 	// YİBF listesini al
@@ -39,7 +48,7 @@ func SyncYibf(c *fiber.Ctx) error {
 	log.Printf("İşlenecek YİBF sayısı: %d", len(yibfIDs))
 
 	// Detay bilgilerini al
-	if err := external.YibfDetail(c, yibfIDs, companyCode); err != nil {
+	if err := external.YibfDetail(c, yibfIDs, strconv.Itoa(requestParams.CompanyCode)); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Detaylar alınamadı"})
 	}
 

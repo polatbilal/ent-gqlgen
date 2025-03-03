@@ -35,17 +35,6 @@ type JobDetail {
   IsLicenseExpired: Boolean
   IsCompleted: Boolean
   Note: String
-
-  Progress: JobProgress
-
-  Inspector: CompanyEngineer
-  Static: CompanyEngineer
-  Architect: CompanyEngineer
-  Mechanic: CompanyEngineer
-  Electric: CompanyEngineer
-  Controller: CompanyEngineer
-  MechanicController: CompanyEngineer
-  ElectricController: CompanyEngineer
 }
 
 input JobInput {
@@ -83,19 +72,10 @@ input JobInput {
   IsLicenseExpired: Boolean
   IsCompleted: Boolean
   Note: String
-
-  Inspector: Int
-  Static: Int
-  Architect: Int
-  Mechanic: Int
-  Electric: Int
-  Controller: Int
-  MechanicController: Int
-  ElectricController: Int
 }
 
 type JobEngineer {
-  yibfNo: Int
+  YibfNo: Int
   Inspector: CompanyEngineer
   Static: CompanyEngineer
   Architect: CompanyEngineer
@@ -107,7 +87,7 @@ type JobEngineer {
 }
 
 input JobEngineerInput {
-  yibfNo: Int
+  YibfNo: Int
   Inspector: Int
   Static: Int
   Architect: Int
@@ -139,7 +119,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateJobEngineer(yibfNo: Int!, input: JobEngineerInput!): JobEngineer!
+  updateJobEngineer(input: JobEngineerInput!): JobEngineer!
     @goField(forceResolver: true)
     @auth
 }

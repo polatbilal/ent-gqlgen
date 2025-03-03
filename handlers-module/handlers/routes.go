@@ -19,10 +19,10 @@ func SetupRoutes(app *fiber.App) {
 
 	// İş ile ilgili endpoint'ler
 	jobsGroup := ydkGroup.Group("/jobs")
-	jobsGroup.Get("/list", external.YibfList) // Sadece liste çeker
+	jobsGroup.Post("/list", external.YibfList) // Sadece liste çeker
 	// jobsGroup.Get("/detail/:id", external.YibfDetail) // Tek bir işin detayını çeker
 	jobsGroup.Post("/payments", external.ProgressPayments) // Tek bir işin detayını çeker
 
 	// Senkronizasyon endpoint'i
-	jobsGroup.Get("/sync", sync.SyncYibf) // Liste + detay + DB kayıt
+	jobsGroup.Post("/sync", sync.SyncYibf) // Liste + detay + DB kayıt
 }

@@ -19,12 +19,6 @@ import (
 func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Önce job detail'i bulalım
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(input.YibfNo)).Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get job detail: %w", err)
-	}
-
 	// YDSID ile supervisor var mı kontrol edelim
 	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.YDSIDEQ(*input.Ydsid)).Only(ctx)
 	if ent.IsNotFound(err) {
@@ -50,54 +44,32 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 		return nil, fmt.Errorf("failed to check supervisor: %w", err)
 	}
 
-	// JobRelations'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	// Supervisor'ı JobRelations'a ekle
-	_, err = relations.Update().
-		SetSupervisor(supervisor).
-		Save(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to add supervisor to job detail: %w", err)
-	}
-
 	return supervisor, nil
 }
 
 // UpdateSupervisor is the resolver for the updateSupervisor field.
-func (r *mutationResolver) UpdateSupervisor(ctx context.Context, yibfNo int, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
+func (r *mutationResolver) UpdateSupervisor(ctx context.Context, ydsid int, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Önce JobDetail'i bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
+	// Owner'ı doğrudan ydsid ile bul
+	supervisor, err := client.JobSupervisor.Query().
+		Where(jobsupervisor.YDSIDEQ(*input.Ydsid)).
 		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
-	}
-
-	// JobRelations üzerinden supervisor'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	supervisor, err := relations.QuerySupervisor().Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("supervisor bulunamadı: %v", err)
 	}
 
 	supervisor, err = supervisor.Update().
-		SetName(*input.Name).
+		SetNillableName(input.Name).
 		SetNillableAddress(input.Address).
 		SetNillablePhone(input.Phone).
 		SetNillableEmail(input.Email).
 		SetNillableTcNo(input.TcNo).
 		SetNillablePosition(input.Position).
+		SetNillableCareer(input.Career).
+		SetNillableRegisterNo(input.RegisterNo).
+		SetNillableSocialSecurityNo(input.SocialSecurityNo).
+		SetNillableSchoolGraduation(input.SchoolGraduation).
 		Save(ctx)
 
 	if err != nil {

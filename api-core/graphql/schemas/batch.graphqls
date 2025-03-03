@@ -1,0 +1,32 @@
+type JobBatchResult {
+  job: JobDetail
+  owner: JobOwner
+  contractor: JobContractor
+  author: JobAuthor
+  supervisor: JobSupervisor
+  jobEngineer: JobEngineer
+}
+
+input JobBatchInput {
+  YibfNo: Int!
+  jobInput: JobInput!
+  ownerInput: JobOwnerInput
+  contractorInput: JobContractorInput
+  authorInput: JobAuthorInput
+  supervisorInput: JobSupervisorInput
+  jobEngineerInput: JobEngineerInput
+}
+
+extend type Mutation {
+  jobBatch(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+
+  createJobBatch(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+
+  updateJobBatch(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+}

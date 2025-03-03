@@ -14,7 +14,7 @@ type JobSupervisor {
 }
 
 input JobSupervisorInput {
-  YibfNo: Int!
+  YibfNo: Int
   Name: String
   Address: String
   Phone: String
@@ -40,7 +40,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateSupervisor(yibfNo: Int!, input: JobSupervisorInput!): JobSupervisor!
+  updateSupervisor(YDSID: Int!, input: JobSupervisorInput!): JobSupervisor!
     @goField(forceResolver: true)
     @auth
 }

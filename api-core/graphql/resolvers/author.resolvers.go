@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/polatbilal/gqlgen-ent/api-core/ent"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobauthor"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/generated"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/model"
@@ -19,13 +20,9 @@ import (
 func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get job detail: %w", err)
-	}
-
 	// Yeni author oluştur
 	author, err := client.JobAuthor.Create().
+		SetYibfNo(*input.YibfNo).
 		SetNillableStatic(input.Static).
 		SetNillableMechanic(input.Mechanic).
 		SetNillableElectric(input.Electric).
@@ -38,21 +35,6 @@ func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuth
 		return nil, fmt.Errorf("failed to create author: %w", err)
 	}
 
-	// JobRelations'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	// Author'ı JobRelations'a ekle
-	_, err = relations.Update().
-		SetAuthor(author).
-		Save(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to add author to job relations: %w", err)
-	}
-
 	return author, nil
 }
 
@@ -60,21 +42,10 @@ func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuth
 func (r *mutationResolver) UpdateAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Önce JobDetail'i bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
+	// Doğrudan yibfNo ile author'ı bul
+	author, err := client.JobAuthor.Query().
+		Where(jobauthor.YibfNoEQ(yibfNo)).
 		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
-	}
-
-	// JobRelations üzerinden author'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	author, err := relations.QueryAuthor().Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("author bulunamadı: %v", err)
 	}

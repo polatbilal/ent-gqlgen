@@ -8,7 +8,7 @@ type JobPayments {
   LevelApprove: Float
   Amount: Float
   State: String
-  yibfNo: Int
+  YibfNo: Int
 }
 
 input JobPaymentsInput {
@@ -19,7 +19,7 @@ input JobPaymentsInput {
   LevelRequest: Float
   LevelApprove: Float
   Amount: Float
-  yibfNo: Int
+  YibfNo: Int
   State: String
 }
 

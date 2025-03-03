@@ -22,7 +22,7 @@ func ProgressPayments(c *fiber.Ctx) error {
 	}
 
 	// Request body'den parametreleri al
-	var requestParams service.ProgressPaymentRequest
+	var requestParams service.FrontendRequest
 	if err := c.BodyParser(&requestParams); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Geçersiz request body: " + err.Error(),

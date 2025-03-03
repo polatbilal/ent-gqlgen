@@ -88,6 +88,25 @@ type JobAuthorInput struct {
 	GeotechnicalGeophysicist *string `json:"GeotechnicalGeophysicist,omitempty"`
 }
 
+type JobBatchInput struct {
+	YibfNo           int                 `json:"YibfNo"`
+	JobInput         *JobInput           `json:"jobInput"`
+	OwnerInput       *JobOwnerInput      `json:"ownerInput,omitempty"`
+	ContractorInput  *JobContractorInput `json:"contractorInput,omitempty"`
+	AuthorInput      *JobAuthorInput     `json:"authorInput,omitempty"`
+	SupervisorInput  *JobSupervisorInput `json:"supervisorInput,omitempty"`
+	JobEngineerInput *JobEngineerInput   `json:"jobEngineerInput,omitempty"`
+}
+
+type JobBatchResult struct {
+	Job         *ent.JobDetail     `json:"job,omitempty"`
+	Owner       *ent.JobOwner      `json:"owner,omitempty"`
+	Contractor  *ent.JobContractor `json:"contractor,omitempty"`
+	Author      *ent.JobAuthor     `json:"author,omitempty"`
+	Supervisor  *ent.JobSupervisor `json:"supervisor,omitempty"`
+	JobEngineer *JobEngineer       `json:"jobEngineer,omitempty"`
+}
+
 type JobContractorInput struct {
 	ID          *string `json:"id,omitempty"`
 	YibfNo      *int    `json:"YibfNo,omitempty"`
@@ -112,7 +131,7 @@ type JobCounts struct {
 }
 
 type JobEngineer struct {
-	YibfNo             *int                 `json:"yibfNo,omitempty"`
+	YibfNo             *int                 `json:"YibfNo,omitempty"`
 	Inspector          *ent.CompanyEngineer `json:"Inspector,omitempty"`
 	Static             *ent.CompanyEngineer `json:"Static,omitempty"`
 	Architect          *ent.CompanyEngineer `json:"Architect,omitempty"`
@@ -124,7 +143,7 @@ type JobEngineer struct {
 }
 
 type JobEngineerInput struct {
-	YibfNo             *int `json:"yibfNo,omitempty"`
+	YibfNo             *int `json:"YibfNo,omitempty"`
 	Inspector          *int `json:"Inspector,omitempty"`
 	Static             *int `json:"Static,omitempty"`
 	Architect          *int `json:"Architect,omitempty"`
@@ -136,48 +155,40 @@ type JobEngineerInput struct {
 }
 
 type JobInput struct {
-	CompanyCode        *int       `json:"CompanyCode,omitempty"`
-	YibfNo             *int       `json:"YibfNo,omitempty"`
-	Title              *string    `json:"Title,omitempty"`
-	Administration     *string    `json:"Administration,omitempty"`
-	State              *string    `json:"State,omitempty"`
-	Island             *string    `json:"Island,omitempty"`
-	Parcel             *string    `json:"Parcel,omitempty"`
-	Sheet              *string    `json:"Sheet,omitempty"`
-	DistributionDate   *time.Time `json:"DistributionDate,omitempty"`
-	ContractDate       *time.Time `json:"ContractDate,omitempty"`
-	StartDate          *time.Time `json:"StartDate,omitempty"`
-	LicenseDate        *time.Time `json:"LicenseDate,omitempty"`
-	LicenseNo          *string    `json:"LicenseNo,omitempty"`
-	CompletionDate     *time.Time `json:"CompletionDate,omitempty"`
-	LandArea           *float64   `json:"LandArea,omitempty"`
-	TotalArea          *float64   `json:"TotalArea,omitempty"`
-	ConstructionArea   *float64   `json:"ConstructionArea,omitempty"`
-	LeftArea           *float64   `json:"LeftArea,omitempty"`
-	YDSAddress         *string    `json:"YDSAddress,omitempty"`
-	Address            *string    `json:"Address,omitempty"`
-	BuildingClass      *string    `json:"BuildingClass,omitempty"`
-	BuildingType       *string    `json:"BuildingType,omitempty"`
-	Level              *float64   `json:"Level,omitempty"`
-	UnitPrice          *float64   `json:"UnitPrice,omitempty"`
-	FloorCount         *int       `json:"FloorCount,omitempty"`
-	BKSReferenceNo     *int       `json:"BKSReferenceNo,omitempty"`
-	Coordinates        *string    `json:"Coordinates,omitempty"`
-	FolderNo           *string    `json:"FolderNo,omitempty"`
-	UploadedFile       *bool      `json:"UploadedFile,omitempty"`
-	IndustryArea       *bool      `json:"IndustryArea,omitempty"`
-	ClusterStructure   *bool      `json:"ClusterStructure,omitempty"`
-	IsLicenseExpired   *bool      `json:"IsLicenseExpired,omitempty"`
-	IsCompleted        *bool      `json:"IsCompleted,omitempty"`
-	Note               *string    `json:"Note,omitempty"`
-	Inspector          *int       `json:"Inspector,omitempty"`
-	Static             *int       `json:"Static,omitempty"`
-	Architect          *int       `json:"Architect,omitempty"`
-	Mechanic           *int       `json:"Mechanic,omitempty"`
-	Electric           *int       `json:"Electric,omitempty"`
-	Controller         *int       `json:"Controller,omitempty"`
-	MechanicController *int       `json:"MechanicController,omitempty"`
-	ElectricController *int       `json:"ElectricController,omitempty"`
+	CompanyCode      *int       `json:"CompanyCode,omitempty"`
+	YibfNo           *int       `json:"YibfNo,omitempty"`
+	Title            *string    `json:"Title,omitempty"`
+	Administration   *string    `json:"Administration,omitempty"`
+	State            *string    `json:"State,omitempty"`
+	Island           *string    `json:"Island,omitempty"`
+	Parcel           *string    `json:"Parcel,omitempty"`
+	Sheet            *string    `json:"Sheet,omitempty"`
+	DistributionDate *time.Time `json:"DistributionDate,omitempty"`
+	ContractDate     *time.Time `json:"ContractDate,omitempty"`
+	StartDate        *time.Time `json:"StartDate,omitempty"`
+	LicenseDate      *time.Time `json:"LicenseDate,omitempty"`
+	LicenseNo        *string    `json:"LicenseNo,omitempty"`
+	CompletionDate   *time.Time `json:"CompletionDate,omitempty"`
+	LandArea         *float64   `json:"LandArea,omitempty"`
+	TotalArea        *float64   `json:"TotalArea,omitempty"`
+	ConstructionArea *float64   `json:"ConstructionArea,omitempty"`
+	LeftArea         *float64   `json:"LeftArea,omitempty"`
+	YDSAddress       *string    `json:"YDSAddress,omitempty"`
+	Address          *string    `json:"Address,omitempty"`
+	BuildingClass    *string    `json:"BuildingClass,omitempty"`
+	BuildingType     *string    `json:"BuildingType,omitempty"`
+	Level            *float64   `json:"Level,omitempty"`
+	UnitPrice        *float64   `json:"UnitPrice,omitempty"`
+	FloorCount       *int       `json:"FloorCount,omitempty"`
+	BKSReferenceNo   *int       `json:"BKSReferenceNo,omitempty"`
+	Coordinates      *string    `json:"Coordinates,omitempty"`
+	FolderNo         *string    `json:"FolderNo,omitempty"`
+	UploadedFile     *bool      `json:"UploadedFile,omitempty"`
+	IndustryArea     *bool      `json:"IndustryArea,omitempty"`
+	ClusterStructure *bool      `json:"ClusterStructure,omitempty"`
+	IsLicenseExpired *bool      `json:"IsLicenseExpired,omitempty"`
+	IsCompleted      *bool      `json:"IsCompleted,omitempty"`
+	Note             *string    `json:"Note,omitempty"`
 }
 
 type JobLayerInput struct {
@@ -215,7 +226,7 @@ type JobPaymentsInput struct {
 	LevelRequest *float64   `json:"LevelRequest,omitempty"`
 	LevelApprove *float64   `json:"LevelApprove,omitempty"`
 	Amount       *float64   `json:"Amount,omitempty"`
-	YibfNo       *int       `json:"yibfNo,omitempty"`
+	YibfNo       *int       `json:"YibfNo,omitempty"`
 	State        *string    `json:"State,omitempty"`
 }
 
@@ -230,7 +241,7 @@ type JobProgressInput struct {
 }
 
 type JobSupervisorInput struct {
-	YibfNo           int     `json:"YibfNo"`
+	YibfNo           *int    `json:"YibfNo,omitempty"`
 	Name             *string `json:"Name,omitempty"`
 	Address          *string `json:"Address,omitempty"`
 	Phone            *string `json:"Phone,omitempty"`

@@ -128,6 +128,15 @@ type ComplexityRoot struct {
 		Static                   func(childComplexity int) int
 	}
 
+	JobBatchResult struct {
+		Author      func(childComplexity int) int
+		Contractor  func(childComplexity int) int
+		Job         func(childComplexity int) int
+		JobEngineer func(childComplexity int) int
+		Owner       func(childComplexity int) int
+		Supervisor  func(childComplexity int) int
+	}
+
 	JobContractor struct {
 		Address     func(childComplexity int) int
 		Email       func(childComplexity int) int
@@ -151,50 +160,41 @@ type ComplexityRoot struct {
 	}
 
 	JobDetail struct {
-		Address            func(childComplexity int) int
-		Administration     func(childComplexity int) int
-		Architect          func(childComplexity int) int
-		BKSReferenceNo     func(childComplexity int) int
-		BuildingClass      func(childComplexity int) int
-		BuildingType       func(childComplexity int) int
-		ClusterStructure   func(childComplexity int) int
-		CompanyCode        func(childComplexity int) int
-		CompletionDate     func(childComplexity int) int
-		ConstructionArea   func(childComplexity int) int
-		ContractDate       func(childComplexity int) int
-		Controller         func(childComplexity int) int
-		Coordinates        func(childComplexity int) int
-		DistributionDate   func(childComplexity int) int
-		Electric           func(childComplexity int) int
-		ElectricController func(childComplexity int) int
-		FloorCount         func(childComplexity int) int
-		FolderNo           func(childComplexity int) int
-		ID                 func(childComplexity int) int
-		IndustryArea       func(childComplexity int) int
-		Inspector          func(childComplexity int) int
-		IsCompleted        func(childComplexity int) int
-		IsLicenseExpired   func(childComplexity int) int
-		Island             func(childComplexity int) int
-		LandArea           func(childComplexity int) int
-		LeftArea           func(childComplexity int) int
-		Level              func(childComplexity int) int
-		LicenseDate        func(childComplexity int) int
-		LicenseNo          func(childComplexity int) int
-		Mechanic           func(childComplexity int) int
-		MechanicController func(childComplexity int) int
-		Note               func(childComplexity int) int
-		Parcel             func(childComplexity int) int
-		Progress           func(childComplexity int) int
-		Sheet              func(childComplexity int) int
-		StartDate          func(childComplexity int) int
-		State              func(childComplexity int) int
-		Static             func(childComplexity int) int
-		Title              func(childComplexity int) int
-		TotalArea          func(childComplexity int) int
-		UnitPrice          func(childComplexity int) int
-		UploadedFile       func(childComplexity int) int
-		YDSAddress         func(childComplexity int) int
-		YibfNo             func(childComplexity int) int
+		Address          func(childComplexity int) int
+		Administration   func(childComplexity int) int
+		BKSReferenceNo   func(childComplexity int) int
+		BuildingClass    func(childComplexity int) int
+		BuildingType     func(childComplexity int) int
+		ClusterStructure func(childComplexity int) int
+		CompanyCode      func(childComplexity int) int
+		CompletionDate   func(childComplexity int) int
+		ConstructionArea func(childComplexity int) int
+		ContractDate     func(childComplexity int) int
+		Coordinates      func(childComplexity int) int
+		DistributionDate func(childComplexity int) int
+		FloorCount       func(childComplexity int) int
+		FolderNo         func(childComplexity int) int
+		ID               func(childComplexity int) int
+		IndustryArea     func(childComplexity int) int
+		IsCompleted      func(childComplexity int) int
+		IsLicenseExpired func(childComplexity int) int
+		Island           func(childComplexity int) int
+		LandArea         func(childComplexity int) int
+		LeftArea         func(childComplexity int) int
+		Level            func(childComplexity int) int
+		LicenseDate      func(childComplexity int) int
+		LicenseNo        func(childComplexity int) int
+		Note             func(childComplexity int) int
+		Parcel           func(childComplexity int) int
+		Sheet            func(childComplexity int) int
+		StartDate        func(childComplexity int) int
+		State            func(childComplexity int) int
+		Title            func(childComplexity int) int
+		TotalArea        func(childComplexity int) int
+		UnitPrice        func(childComplexity int) int
+		UploadedFile     func(childComplexity int) int
+		YDSAddress       func(childComplexity int) int
+		YibfNo           func(childComplexity int) int
 	}
 
 	JobEngineer struct {
@@ -280,6 +280,7 @@ type ComplexityRoot struct {
 		CreateContractor      func(childComplexity int, input model.JobContractorInput) int
 		CreateEngineer        func(childComplexity int, input model.CompanyEngineerInput) int
 		CreateJob             func(childComplexity int, input model.JobInput) int
+		CreateJobBatch        func(childComplexity int, input model.JobBatchInput) int
 		CreateJobPayments     func(childComplexity int, input model.JobPaymentsInput) int
 		CreateLayer           func(childComplexity int, input model.JobLayerInput) int
 		CreateOwner           func(childComplexity int, input model.JobOwnerInput) int
@@ -289,20 +290,22 @@ type ComplexityRoot struct {
 		DeleteJobPayments     func(childComplexity int, id int) int
 		DeleteLayer           func(childComplexity int, id string) int
 		DeleteUser            func(childComplexity int, id string) int
+		JobBatch              func(childComplexity int, input model.JobBatchInput) int
 		Login                 func(childComplexity int, username string, password string) int
 		Register              func(childComplexity int, username string, name *string, email *string, password string) int
 		UpdateAuthor          func(childComplexity int, yibfNo int, input model.JobAuthorInput) int
 		UpdateCompany         func(childComplexity int, input model.CompanyDetailInput) int
-		UpdateContractor      func(childComplexity int, yibfNo int, input model.JobContractorInput) int
+		UpdateContractor      func(childComplexity int, ydsid int, input model.JobContractorInput) int
 		UpdateEngineer        func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
 		UpdateEngineerByYdsid func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
 		UpdateJob             func(childComplexity int, yibfNo int, input model.JobInput) int
-		UpdateJobEngineer     func(childComplexity int, yibfNo int, input model.JobEngineerInput) int
+		UpdateJobBatch        func(childComplexity int, input model.JobBatchInput) int
+		UpdateJobEngineer     func(childComplexity int, input model.JobEngineerInput) int
 		UpdateJobPayments     func(childComplexity int, id int, input model.JobPaymentsInput) int
 		UpdateLayer           func(childComplexity int, id string, input model.JobLayerInput) int
-		UpdateOwner           func(childComplexity int, yibfNo int, input model.JobOwnerInput) int
+		UpdateOwner           func(childComplexity int, ydsid int, input model.JobOwnerInput) int
 		UpdateProgress        func(childComplexity int, input model.JobProgressInput) int
-		UpdateSupervisor      func(childComplexity int, yibfNo int, input model.JobSupervisorInput) int
+		UpdateSupervisor      func(childComplexity int, ydsid int, input model.JobSupervisorInput) int
 		UpdateToken           func(childComplexity int, departmentID int, input model.CompanyTokenInput) int
 		UpdateUser            func(childComplexity int, id string, input model.UserInput) int
 	}
@@ -353,16 +356,6 @@ type CompanyTokenResolver interface {
 }
 type JobDetailResolver interface {
 	CompanyCode(ctx context.Context, obj *ent.JobDetail) (int, error)
-
-	Progress(ctx context.Context, obj *ent.JobDetail) (*ent.JobProgress, error)
-	Inspector(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Static(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Architect(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Mechanic(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Electric(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	Controller(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	MechanicController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
-	ElectricController(ctx context.Context, obj *ent.JobDetail) (*ent.CompanyEngineer, error)
 }
 type JobLayerResolver interface {
 	Job(ctx context.Context, obj *ent.JobLayer) (*ent.JobDetail, error)
@@ -372,26 +365,29 @@ type MutationResolver interface {
 	Login(ctx context.Context, username string, password string) (*model.AuthPayload, error)
 	CreateAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error)
 	UpdateAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error)
+	JobBatch(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error)
+	CreateJobBatch(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error)
+	UpdateJobBatch(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error)
 	UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error)
-	UpdateContractor(ctx context.Context, yibfNo int, input model.JobContractorInput) (*ent.JobContractor, error)
+	UpdateContractor(ctx context.Context, ydsid int, input model.JobContractorInput) (*ent.JobContractor, error)
 	CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	UpdateEngineer(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	UpdateEngineerByYdsid(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	CreateJob(ctx context.Context, input model.JobInput) (*ent.JobDetail, error)
 	UpdateJob(ctx context.Context, yibfNo int, input model.JobInput) (*ent.JobDetail, error)
-	UpdateJobEngineer(ctx context.Context, yibfNo int, input model.JobEngineerInput) (*model.JobEngineer, error)
+	UpdateJobEngineer(ctx context.Context, input model.JobEngineerInput) (*model.JobEngineer, error)
 	CreateLayer(ctx context.Context, input model.JobLayerInput) (*ent.JobLayer, error)
 	UpdateLayer(ctx context.Context, id string, input model.JobLayerInput) (*ent.JobLayer, error)
 	DeleteLayer(ctx context.Context, id string) (*ent.JobLayer, error)
 	CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error)
-	UpdateOwner(ctx context.Context, yibfNo int, input model.JobOwnerInput) (*ent.JobOwner, error)
+	UpdateOwner(ctx context.Context, ydsid int, input model.JobOwnerInput) (*ent.JobOwner, error)
 	CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	UpdateJobPayments(ctx context.Context, id int, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	DeleteJobPayments(ctx context.Context, id int) (*ent.JobPayments, error)
 	UpdateProgress(ctx context.Context, input model.JobProgressInput) (*ent.JobProgress, error)
 	CreateSupervisor(ctx context.Context, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
-	UpdateSupervisor(ctx context.Context, yibfNo int, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
+	UpdateSupervisor(ctx context.Context, ydsid int, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
 	CreateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error)
 	UpdateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error)
 	CreateUser(ctx context.Context, input model.UserInput) (*ent.User, error)
@@ -853,6 +849,48 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobAuthor.Static(childComplexity), true
 
+	case "JobBatchResult.author":
+		if e.complexity.JobBatchResult.Author == nil {
+			break
+		}
+
+		return e.complexity.JobBatchResult.Author(childComplexity), true
+
+	case "JobBatchResult.contractor":
+		if e.complexity.JobBatchResult.Contractor == nil {
+			break
+		}
+
+		return e.complexity.JobBatchResult.Contractor(childComplexity), true
+
+	case "JobBatchResult.job":
+		if e.complexity.JobBatchResult.Job == nil {
+			break
+		}
+
+		return e.complexity.JobBatchResult.Job(childComplexity), true
+
+	case "JobBatchResult.jobEngineer":
+		if e.complexity.JobBatchResult.JobEngineer == nil {
+			break
+		}
+
+		return e.complexity.JobBatchResult.JobEngineer(childComplexity), true
+
+	case "JobBatchResult.owner":
+		if e.complexity.JobBatchResult.Owner == nil {
+			break
+		}
+
+		return e.complexity.JobBatchResult.Owner(childComplexity), true
+
+	case "JobBatchResult.supervisor":
+		if e.complexity.JobBatchResult.Supervisor == nil {
+			break
+		}
+
+		return e.complexity.JobBatchResult.Supervisor(childComplexity), true
+
 	case "JobContractor.Address":
 		if e.complexity.JobContractor.Address == nil {
 			break
@@ -979,13 +1017,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobDetail.Administration(childComplexity), true
 
-	case "JobDetail.Architect":
-		if e.complexity.JobDetail.Architect == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Architect(childComplexity), true
-
 	case "JobDetail.BKSReferenceNo":
 		if e.complexity.JobDetail.BKSReferenceNo == nil {
 			break
@@ -1042,13 +1073,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobDetail.ContractDate(childComplexity), true
 
-	case "JobDetail.Controller":
-		if e.complexity.JobDetail.Controller == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Controller(childComplexity), true
-
 	case "JobDetail.Coordinates":
 		if e.complexity.JobDetail.Coordinates == nil {
 			break
@@ -1062,20 +1086,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.DistributionDate(childComplexity), true
-
-	case "JobDetail.Electric":
-		if e.complexity.JobDetail.Electric == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Electric(childComplexity), true
-
-	case "JobDetail.ElectricController":
-		if e.complexity.JobDetail.ElectricController == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.ElectricController(childComplexity), true
 
 	case "JobDetail.FloorCount":
 		if e.complexity.JobDetail.FloorCount == nil {
@@ -1104,13 +1114,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.IndustryArea(childComplexity), true
-
-	case "JobDetail.Inspector":
-		if e.complexity.JobDetail.Inspector == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Inspector(childComplexity), true
 
 	case "JobDetail.IsCompleted":
 		if e.complexity.JobDetail.IsCompleted == nil {
@@ -1168,20 +1171,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobDetail.LicenseNo(childComplexity), true
 
-	case "JobDetail.Mechanic":
-		if e.complexity.JobDetail.Mechanic == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Mechanic(childComplexity), true
-
-	case "JobDetail.MechanicController":
-		if e.complexity.JobDetail.MechanicController == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.MechanicController(childComplexity), true
-
 	case "JobDetail.Note":
 		if e.complexity.JobDetail.Note == nil {
 			break
@@ -1195,13 +1184,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.Parcel(childComplexity), true
-
-	case "JobDetail.Progress":
-		if e.complexity.JobDetail.Progress == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Progress(childComplexity), true
 
 	case "JobDetail.Sheet":
 		if e.complexity.JobDetail.Sheet == nil {
@@ -1223,13 +1205,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobDetail.State(childComplexity), true
-
-	case "JobDetail.Static":
-		if e.complexity.JobDetail.Static == nil {
-			break
-		}
-
-		return e.complexity.JobDetail.Static(childComplexity), true
 
 	case "JobDetail.Title":
 		if e.complexity.JobDetail.Title == nil {
@@ -1329,7 +1304,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobEngineer.Static(childComplexity), true
 
-	case "JobEngineer.yibfNo":
+	case "JobEngineer.YibfNo":
 		if e.complexity.JobEngineer.YibfNo == nil {
 			break
 		}
@@ -1546,7 +1521,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.JobPayments.TotalPayment(childComplexity), true
 
-	case "JobPayments.yibfNo":
+	case "JobPayments.YibfNo":
 		if e.complexity.JobPayments.YibfNo == nil {
 			break
 		}
@@ -1746,6 +1721,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateJob(childComplexity, args["input"].(model.JobInput)), true
 
+	case "Mutation.createJobBatch":
+		if e.complexity.Mutation.CreateJobBatch == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createJobBatch_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateJobBatch(childComplexity, args["input"].(model.JobBatchInput)), true
+
 	case "Mutation.createJobPayments":
 		if e.complexity.Mutation.CreateJobPayments == nil {
 			break
@@ -1854,6 +1841,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.DeleteUser(childComplexity, args["id"].(string)), true
 
+	case "Mutation.jobBatch":
+		if e.complexity.Mutation.JobBatch == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_jobBatch_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.JobBatch(childComplexity, args["input"].(model.JobBatchInput)), true
+
 	case "Mutation.login":
 		if e.complexity.Mutation.Login == nil {
 			break
@@ -1912,7 +1911,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateContractor(childComplexity, args["yibfNo"].(int), args["input"].(model.JobContractorInput)), true
+		return e.complexity.Mutation.UpdateContractor(childComplexity, args["YDSID"].(int), args["input"].(model.JobContractorInput)), true
 
 	case "Mutation.updateEngineer":
 		if e.complexity.Mutation.UpdateEngineer == nil {
@@ -1950,6 +1949,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateJob(childComplexity, args["yibfNo"].(int), args["input"].(model.JobInput)), true
 
+	case "Mutation.updateJobBatch":
+		if e.complexity.Mutation.UpdateJobBatch == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateJobBatch_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateJobBatch(childComplexity, args["input"].(model.JobBatchInput)), true
+
 	case "Mutation.updateJobEngineer":
 		if e.complexity.Mutation.UpdateJobEngineer == nil {
 			break
@@ -1960,7 +1971,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateJobEngineer(childComplexity, args["yibfNo"].(int), args["input"].(model.JobEngineerInput)), true
+		return e.complexity.Mutation.UpdateJobEngineer(childComplexity, args["input"].(model.JobEngineerInput)), true
 
 	case "Mutation.updateJobPayments":
 		if e.complexity.Mutation.UpdateJobPayments == nil {
@@ -1996,7 +2007,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateOwner(childComplexity, args["yibfNo"].(int), args["input"].(model.JobOwnerInput)), true
+		return e.complexity.Mutation.UpdateOwner(childComplexity, args["YDSID"].(int), args["input"].(model.JobOwnerInput)), true
 
 	case "Mutation.updateProgress":
 		if e.complexity.Mutation.UpdateProgress == nil {
@@ -2020,7 +2031,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateSupervisor(childComplexity, args["yibfNo"].(int), args["input"].(model.JobSupervisorInput)), true
+		return e.complexity.Mutation.UpdateSupervisor(childComplexity, args["YDSID"].(int), args["input"].(model.JobSupervisorInput)), true
 
 	case "Mutation.updateToken":
 		if e.complexity.Mutation.UpdateToken == nil {
@@ -2371,6 +2382,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCompanyTokenInput,
 		ec.unmarshalInputEngineerFilterInput,
 		ec.unmarshalInputJobAuthorInput,
+		ec.unmarshalInputJobBatchInput,
 		ec.unmarshalInputJobContractorInput,
 		ec.unmarshalInputJobEngineerInput,
 		ec.unmarshalInputJobInput,
@@ -2536,6 +2548,39 @@ extend type Mutation {
   updateAuthor(yibfNo: Int!, input: JobAuthorInput!): JobAuthor @auth
 }
 `, BuiltIn: false},
+	{Name: "../schemas/batch.graphqls", Input: `type JobBatchResult {
+  job: JobDetail
+  owner: JobOwner
+  contractor: JobContractor
+  author: JobAuthor
+  supervisor: JobSupervisor
+  jobEngineer: JobEngineer
+}
+
+input JobBatchInput {
+  YibfNo: Int!
+  jobInput: JobInput!
+  ownerInput: JobOwnerInput
+  contractorInput: JobContractorInput
+  authorInput: JobAuthorInput
+  supervisorInput: JobSupervisorInput
+  jobEngineerInput: JobEngineerInput
+}
+
+extend type Mutation {
+  jobBatch(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+
+  createJobBatch(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+
+  updateJobBatch(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+}
+`, BuiltIn: false},
 	{Name: "../schemas/company.graphqls", Input: `type CompanyDetail {
   id: ID
   CompanyCode: Int
@@ -2647,7 +2692,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateContractor(yibfNo: Int!, input: JobContractorInput!): JobContractor!
+  updateContractor(YDSID: Int!, input: JobContractorInput!): JobContractor!
     @goField(forceResolver: true)
     @auth
 }
@@ -2750,17 +2795,6 @@ type JobDetail {
   IsLicenseExpired: Boolean
   IsCompleted: Boolean
   Note: String
-
-  Progress: JobProgress
-
-  Inspector: CompanyEngineer
-  Static: CompanyEngineer
-  Architect: CompanyEngineer
-  Mechanic: CompanyEngineer
-  Electric: CompanyEngineer
-  Controller: CompanyEngineer
-  MechanicController: CompanyEngineer
-  ElectricController: CompanyEngineer
 }
 
 input JobInput {
@@ -2798,19 +2832,10 @@ input JobInput {
   IsLicenseExpired: Boolean
   IsCompleted: Boolean
   Note: String
-
-  Inspector: Int
-  Static: Int
-  Architect: Int
-  Mechanic: Int
-  Electric: Int
-  Controller: Int
-  MechanicController: Int
-  ElectricController: Int
 }
 
 type JobEngineer {
-  yibfNo: Int
+  YibfNo: Int
   Inspector: CompanyEngineer
   Static: CompanyEngineer
   Architect: CompanyEngineer
@@ -2822,7 +2847,7 @@ type JobEngineer {
 }
 
 input JobEngineerInput {
-  yibfNo: Int
+  YibfNo: Int
   Inspector: Int
   Static: Int
   Architect: Int
@@ -2854,7 +2879,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateJobEngineer(yibfNo: Int!, input: JobEngineerInput!): JobEngineer!
+  updateJobEngineer(input: JobEngineerInput!): JobEngineer!
     @goField(forceResolver: true)
     @auth
 }
@@ -2948,7 +2973,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateOwner(yibfNo: Int!, input: JobOwnerInput!): JobOwner!
+  updateOwner(YDSID: Int!, input: JobOwnerInput!): JobOwner!
     @goField(forceResolver: true)
     @auth
 }
@@ -2963,7 +2988,7 @@ extend type Mutation {
   LevelApprove: Float
   Amount: Float
   State: String
-  yibfNo: Int
+  YibfNo: Int
 }
 
 input JobPaymentsInput {
@@ -2974,7 +2999,7 @@ input JobPaymentsInput {
   LevelRequest: Float
   LevelApprove: Float
   Amount: Float
-  yibfNo: Int
+  YibfNo: Int
   State: String
 }
 
@@ -3038,7 +3063,7 @@ extend type Mutation {
 }
 
 input JobSupervisorInput {
-  YibfNo: Int!
+  YibfNo: Int
   Name: String
   Address: String
   Phone: String
@@ -3064,7 +3089,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateSupervisor(yibfNo: Int!, input: JobSupervisorInput!): JobSupervisor!
+  updateSupervisor(YDSID: Int!, input: JobSupervisorInput!): JobSupervisor!
     @goField(forceResolver: true)
     @auth
 }
@@ -3256,6 +3281,34 @@ func (ec *executionContext) field_Mutation_createEngineer_argsInput(
 	}
 
 	var zeroVal model.CompanyEngineerInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createJobBatch_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createJobBatch_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createJobBatch_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.JobBatchInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.JobBatchInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchInput(ctx, tmp)
+	}
+
+	var zeroVal model.JobBatchInput
 	return zeroVal, nil
 }
 
@@ -3562,6 +3615,34 @@ func (ec *executionContext) field_Mutation_deleteUser_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_jobBatch_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_jobBatch_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_jobBatch_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.JobBatchInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.JobBatchInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchInput(ctx, tmp)
+	}
+
+	var zeroVal model.JobBatchInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3792,11 +3873,11 @@ func (ec *executionContext) field_Mutation_updateCompany_argsInput(
 func (ec *executionContext) field_Mutation_updateContractor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateContractor_argsYibfNo(ctx, rawArgs)
+	arg0, err := ec.field_Mutation_updateContractor_argsYdsid(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["yibfNo"] = arg0
+	args["YDSID"] = arg0
 	arg1, err := ec.field_Mutation_updateContractor_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -3804,17 +3885,17 @@ func (ec *executionContext) field_Mutation_updateContractor_args(ctx context.Con
 	args["input"] = arg1
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_updateContractor_argsYibfNo(
+func (ec *executionContext) field_Mutation_updateContractor_argsYdsid(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
+	if _, ok := rawArgs["YDSID"]; !ok {
 		var zeroVal int
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
+	if tmp, ok := rawArgs["YDSID"]; ok {
 		return ec.unmarshalNInt2int(ctx, tmp)
 	}
 
@@ -3942,39 +4023,44 @@ func (ec *executionContext) field_Mutation_updateEngineer_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_updateJobEngineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+func (ec *executionContext) field_Mutation_updateJobBatch_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateJobEngineer_argsYibfNo(ctx, rawArgs)
+	arg0, err := ec.field_Mutation_updateJobBatch_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["yibfNo"] = arg0
-	arg1, err := ec.field_Mutation_updateJobEngineer_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg1
+	args["input"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_updateJobEngineer_argsYibfNo(
+func (ec *executionContext) field_Mutation_updateJobBatch_argsInput(
 	ctx context.Context,
 	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
+) (model.JobBatchInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.JobBatchInput
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchInput(ctx, tmp)
 	}
 
-	var zeroVal int
+	var zeroVal model.JobBatchInput
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_updateJobEngineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateJobEngineer_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
 func (ec *executionContext) field_Mutation_updateJobEngineer_argsInput(
 	ctx context.Context,
 	rawArgs map[string]any,
@@ -4149,11 +4235,11 @@ func (ec *executionContext) field_Mutation_updateLayer_argsInput(
 func (ec *executionContext) field_Mutation_updateOwner_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateOwner_argsYibfNo(ctx, rawArgs)
+	arg0, err := ec.field_Mutation_updateOwner_argsYdsid(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["yibfNo"] = arg0
+	args["YDSID"] = arg0
 	arg1, err := ec.field_Mutation_updateOwner_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -4161,17 +4247,17 @@ func (ec *executionContext) field_Mutation_updateOwner_args(ctx context.Context,
 	args["input"] = arg1
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_updateOwner_argsYibfNo(
+func (ec *executionContext) field_Mutation_updateOwner_argsYdsid(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
+	if _, ok := rawArgs["YDSID"]; !ok {
 		var zeroVal int
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
+	if tmp, ok := rawArgs["YDSID"]; ok {
 		return ec.unmarshalNInt2int(ctx, tmp)
 	}
 
@@ -4228,11 +4314,11 @@ func (ec *executionContext) field_Mutation_updateProgress_argsInput(
 func (ec *executionContext) field_Mutation_updateSupervisor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateSupervisor_argsYibfNo(ctx, rawArgs)
+	arg0, err := ec.field_Mutation_updateSupervisor_argsYdsid(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["yibfNo"] = arg0
+	args["YDSID"] = arg0
 	arg1, err := ec.field_Mutation_updateSupervisor_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -4240,17 +4326,17 @@ func (ec *executionContext) field_Mutation_updateSupervisor_args(ctx context.Con
 	args["input"] = arg1
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_updateSupervisor_argsYibfNo(
+func (ec *executionContext) field_Mutation_updateSupervisor_argsYdsid(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
+	if _, ok := rawArgs["YDSID"]; !ok {
 		var zeroVal int
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
+	if tmp, ok := rawArgs["YDSID"]; ok {
 		return ec.unmarshalNInt2int(ctx, tmp)
 	}
 
@@ -7456,6 +7542,438 @@ func (ec *executionContext) fieldContext_JobAuthor_GeotechnicalGeophysicist(_ co
 	return fc, nil
 }
 
+func (ec *executionContext) _JobBatchResult_job(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobBatchResult_job(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Job, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobDetail)
+	fc.Result = res
+	return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobDetail(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobBatchResult_job(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobBatchResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobDetail_id(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_JobDetail_CompanyCode(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
+			case "Title":
+				return ec.fieldContext_JobDetail_Title(ctx, field)
+			case "Administration":
+				return ec.fieldContext_JobDetail_Administration(ctx, field)
+			case "State":
+				return ec.fieldContext_JobDetail_State(ctx, field)
+			case "Island":
+				return ec.fieldContext_JobDetail_Island(ctx, field)
+			case "Parcel":
+				return ec.fieldContext_JobDetail_Parcel(ctx, field)
+			case "Sheet":
+				return ec.fieldContext_JobDetail_Sheet(ctx, field)
+			case "DistributionDate":
+				return ec.fieldContext_JobDetail_DistributionDate(ctx, field)
+			case "ContractDate":
+				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
+			case "StartDate":
+				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "LicenseDate":
+				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
+			case "LicenseNo":
+				return ec.fieldContext_JobDetail_LicenseNo(ctx, field)
+			case "CompletionDate":
+				return ec.fieldContext_JobDetail_CompletionDate(ctx, field)
+			case "LandArea":
+				return ec.fieldContext_JobDetail_LandArea(ctx, field)
+			case "TotalArea":
+				return ec.fieldContext_JobDetail_TotalArea(ctx, field)
+			case "ConstructionArea":
+				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
+			case "LeftArea":
+				return ec.fieldContext_JobDetail_LeftArea(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_JobDetail_YDSAddress(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobDetail_Address(ctx, field)
+			case "BuildingClass":
+				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
+			case "BuildingType":
+				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
+			case "Level":
+				return ec.fieldContext_JobDetail_Level(ctx, field)
+			case "UnitPrice":
+				return ec.fieldContext_JobDetail_UnitPrice(ctx, field)
+			case "FloorCount":
+				return ec.fieldContext_JobDetail_FloorCount(ctx, field)
+			case "BKSReferenceNo":
+				return ec.fieldContext_JobDetail_BKSReferenceNo(ctx, field)
+			case "Coordinates":
+				return ec.fieldContext_JobDetail_Coordinates(ctx, field)
+			case "FolderNo":
+				return ec.fieldContext_JobDetail_FolderNo(ctx, field)
+			case "UploadedFile":
+				return ec.fieldContext_JobDetail_UploadedFile(ctx, field)
+			case "IndustryArea":
+				return ec.fieldContext_JobDetail_IndustryArea(ctx, field)
+			case "ClusterStructure":
+				return ec.fieldContext_JobDetail_ClusterStructure(ctx, field)
+			case "IsLicenseExpired":
+				return ec.fieldContext_JobDetail_IsLicenseExpired(ctx, field)
+			case "IsCompleted":
+				return ec.fieldContext_JobDetail_IsCompleted(ctx, field)
+			case "Note":
+				return ec.fieldContext_JobDetail_Note(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobBatchResult_owner(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobBatchResult_owner(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Owner, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobOwner)
+	fc.Result = res
+	return ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobOwner(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobBatchResult_owner(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobBatchResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobOwner_id(ctx, field)
+			case "Name":
+				return ec.fieldContext_JobOwner_Name(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_JobOwner_TcNo(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobOwner_Address(ctx, field)
+			case "TaxAdmin":
+				return ec.fieldContext_JobOwner_TaxAdmin(ctx, field)
+			case "TaxNo":
+				return ec.fieldContext_JobOwner_TaxNo(ctx, field)
+			case "Phone":
+				return ec.fieldContext_JobOwner_Phone(ctx, field)
+			case "Email":
+				return ec.fieldContext_JobOwner_Email(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_JobOwner_YDSID(ctx, field)
+			case "Shareholder":
+				return ec.fieldContext_JobOwner_Shareholder(ctx, field)
+			case "Note":
+				return ec.fieldContext_JobOwner_Note(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobOwner", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobBatchResult_contractor(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobBatchResult_contractor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Contractor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobContractor)
+	fc.Result = res
+	return ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobContractor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobBatchResult_contractor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobBatchResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobContractor_id(ctx, field)
+			case "Name":
+				return ec.fieldContext_JobContractor_Name(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_JobContractor_TcNo(ctx, field)
+			case "RegisterNo":
+				return ec.fieldContext_JobContractor_RegisterNo(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobContractor_Address(ctx, field)
+			case "TaxNo":
+				return ec.fieldContext_JobContractor_TaxNo(ctx, field)
+			case "MobilePhone":
+				return ec.fieldContext_JobContractor_MobilePhone(ctx, field)
+			case "Phone":
+				return ec.fieldContext_JobContractor_Phone(ctx, field)
+			case "Email":
+				return ec.fieldContext_JobContractor_Email(ctx, field)
+			case "PersonType":
+				return ec.fieldContext_JobContractor_PersonType(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_JobContractor_YDSID(ctx, field)
+			case "Note":
+				return ec.fieldContext_JobContractor_Note(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobContractor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobBatchResult_author(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobBatchResult_author(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Author, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobAuthor)
+	fc.Result = res
+	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobAuthor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobBatchResult_author(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobBatchResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobAuthor_id(ctx, field)
+			case "Static":
+				return ec.fieldContext_JobAuthor_Static(ctx, field)
+			case "Mechanic":
+				return ec.fieldContext_JobAuthor_Mechanic(ctx, field)
+			case "Electric":
+				return ec.fieldContext_JobAuthor_Electric(ctx, field)
+			case "Architect":
+				return ec.fieldContext_JobAuthor_Architect(ctx, field)
+			case "GeotechnicalEngineer":
+				return ec.fieldContext_JobAuthor_GeotechnicalEngineer(ctx, field)
+			case "GeotechnicalGeologist":
+				return ec.fieldContext_JobAuthor_GeotechnicalGeologist(ctx, field)
+			case "GeotechnicalGeophysicist":
+				return ec.fieldContext_JobAuthor_GeotechnicalGeophysicist(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobAuthor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobBatchResult_supervisor(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobBatchResult_supervisor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Supervisor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobSupervisor)
+	fc.Result = res
+	return ec.marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobSupervisor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobBatchResult_supervisor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobBatchResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobSupervisor_id(ctx, field)
+			case "Name":
+				return ec.fieldContext_JobSupervisor_Name(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobSupervisor_Address(ctx, field)
+			case "Phone":
+				return ec.fieldContext_JobSupervisor_Phone(ctx, field)
+			case "Email":
+				return ec.fieldContext_JobSupervisor_Email(ctx, field)
+			case "TcNo":
+				return ec.fieldContext_JobSupervisor_TcNo(ctx, field)
+			case "Position":
+				return ec.fieldContext_JobSupervisor_Position(ctx, field)
+			case "Career":
+				return ec.fieldContext_JobSupervisor_Career(ctx, field)
+			case "RegisterNo":
+				return ec.fieldContext_JobSupervisor_RegisterNo(ctx, field)
+			case "SocialSecurityNo":
+				return ec.fieldContext_JobSupervisor_SocialSecurityNo(ctx, field)
+			case "SchoolGraduation":
+				return ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
+			case "YDSID":
+				return ec.fieldContext_JobSupervisor_YDSID(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobSupervisor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobBatchResult_jobEngineer(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.JobEngineer, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobEngineer)
+	fc.Result = res
+	return ec.marshalOJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobEngineer(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobBatchResult_jobEngineer(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobBatchResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "YibfNo":
+				return ec.fieldContext_JobEngineer_YibfNo(ctx, field)
+			case "Inspector":
+				return ec.fieldContext_JobEngineer_Inspector(ctx, field)
+			case "Static":
+				return ec.fieldContext_JobEngineer_Static(ctx, field)
+			case "Architect":
+				return ec.fieldContext_JobEngineer_Architect(ctx, field)
+			case "Mechanic":
+				return ec.fieldContext_JobEngineer_Mechanic(ctx, field)
+			case "Electric":
+				return ec.fieldContext_JobEngineer_Electric(ctx, field)
+			case "Controller":
+				return ec.fieldContext_JobEngineer_Controller(ctx, field)
+			case "MechanicController":
+				return ec.fieldContext_JobEngineer_MechanicController(ctx, field)
+			case "ElectricController":
+				return ec.fieldContext_JobEngineer_ElectricController(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobEngineer", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _JobContractor_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_JobContractor_id(ctx, field)
 	if err != nil {
@@ -9568,665 +10086,8 @@ func (ec *executionContext) fieldContext_JobDetail_Note(_ context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _JobDetail_Progress(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Progress(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Progress(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobProgress)
-	fc.Result = res
-	return ec.marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobProgress(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Progress(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_JobProgress_id(ctx, field)
-			case "One":
-				return ec.fieldContext_JobProgress_One(ctx, field)
-			case "Two":
-				return ec.fieldContext_JobProgress_Two(ctx, field)
-			case "Three":
-				return ec.fieldContext_JobProgress_Three(ctx, field)
-			case "Four":
-				return ec.fieldContext_JobProgress_Four(ctx, field)
-			case "Five":
-				return ec.fieldContext_JobProgress_Five(ctx, field)
-			case "Six":
-				return ec.fieldContext_JobProgress_Six(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type JobProgress", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_Inspector(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Inspector(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Inspector(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyEngineer(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Inspector(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_Static(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Static(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Static(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyEngineer(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Static(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_Architect(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Architect(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Architect(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyEngineer(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Architect(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_Mechanic(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Mechanic(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Mechanic(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyEngineer(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Mechanic(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_Electric(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Electric(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Electric(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyEngineer(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Electric(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_Controller(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Controller(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().Controller(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyEngineer(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_Controller(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_MechanicController(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_MechanicController(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().MechanicController(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyEngineer(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_MechanicController(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobDetail_ElectricController(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_ElectricController(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().ElectricController(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyEngineer(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_JobDetail_ElectricController(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobDetail",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CompanyEngineer_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_CompanyEngineer_Name(ctx, field)
-			case "TcNo":
-				return ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-			case "Phone":
-				return ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-			case "Email":
-				return ec.fieldContext_CompanyEngineer_Email(ctx, field)
-			case "Address":
-				return ec.fieldContext_CompanyEngineer_Address(ctx, field)
-			case "Career":
-				return ec.fieldContext_CompanyEngineer_Career(ctx, field)
-			case "Position":
-				return ec.fieldContext_CompanyEngineer_Position(ctx, field)
-			case "RegisterNo":
-				return ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-			case "CertNo":
-				return ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-			case "YDSID":
-				return ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-			case "Employment":
-				return ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-			case "Status":
-				return ec.fieldContext_CompanyEngineer_Status(ctx, field)
-			case "Note":
-				return ec.fieldContext_CompanyEngineer_Note(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-			case "Company":
-				return ec.fieldContext_CompanyEngineer_Company(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyEngineer", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _JobEngineer_yibfNo(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_yibfNo(ctx, field)
+func (ec *executionContext) _JobEngineer_YibfNo(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobEngineer_YibfNo(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -10253,7 +10114,7 @@ func (ec *executionContext) _JobEngineer_yibfNo(ctx context.Context, field graph
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_JobEngineer_yibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_JobEngineer_YibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "JobEngineer",
 		Field:      field,
@@ -11344,24 +11205,6 @@ func (ec *executionContext) fieldContext_JobLayer_Job(_ context.Context, field g
 				return ec.fieldContext_JobDetail_IsCompleted(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobDetail_Note(ctx, field)
-			case "Progress":
-				return ec.fieldContext_JobDetail_Progress(ctx, field)
-			case "Inspector":
-				return ec.fieldContext_JobDetail_Inspector(ctx, field)
-			case "Static":
-				return ec.fieldContext_JobDetail_Static(ctx, field)
-			case "Architect":
-				return ec.fieldContext_JobDetail_Architect(ctx, field)
-			case "Mechanic":
-				return ec.fieldContext_JobDetail_Mechanic(ctx, field)
-			case "Electric":
-				return ec.fieldContext_JobDetail_Electric(ctx, field)
-			case "Controller":
-				return ec.fieldContext_JobDetail_Controller(ctx, field)
-			case "MechanicController":
-				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
-			case "ElectricController":
-				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -12192,8 +12035,8 @@ func (ec *executionContext) fieldContext_JobPayments_State(_ context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _JobPayments_yibfNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_yibfNo(ctx, field)
+func (ec *executionContext) _JobPayments_YibfNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobPayments_YibfNo(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -12220,7 +12063,7 @@ func (ec *executionContext) _JobPayments_yibfNo(ctx context.Context, field graph
 	return ec.marshalOInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_JobPayments_yibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_JobPayments_YibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "JobPayments",
 		Field:      field,
@@ -13336,6 +13179,279 @@ func (ec *executionContext) fieldContext_Mutation_updateAuthor(ctx context.Conte
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_jobBatch(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_jobBatch(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().JobBatch(rctx, fc.Args["input"].(model.JobBatchInput))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *model.JobBatchResult
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.JobBatchResult); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/api-core/graphql/model.JobBatchResult`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobBatchResult)
+	fc.Result = res
+	return ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_jobBatch(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "job":
+				return ec.fieldContext_JobBatchResult_job(ctx, field)
+			case "owner":
+				return ec.fieldContext_JobBatchResult_owner(ctx, field)
+			case "contractor":
+				return ec.fieldContext_JobBatchResult_contractor(ctx, field)
+			case "author":
+				return ec.fieldContext_JobBatchResult_author(ctx, field)
+			case "supervisor":
+				return ec.fieldContext_JobBatchResult_supervisor(ctx, field)
+			case "jobEngineer":
+				return ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobBatchResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_jobBatch_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createJobBatch(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createJobBatch(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateJobBatch(rctx, fc.Args["input"].(model.JobBatchInput))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *model.JobBatchResult
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.JobBatchResult); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/api-core/graphql/model.JobBatchResult`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobBatchResult)
+	fc.Result = res
+	return ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createJobBatch(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "job":
+				return ec.fieldContext_JobBatchResult_job(ctx, field)
+			case "owner":
+				return ec.fieldContext_JobBatchResult_owner(ctx, field)
+			case "contractor":
+				return ec.fieldContext_JobBatchResult_contractor(ctx, field)
+			case "author":
+				return ec.fieldContext_JobBatchResult_author(ctx, field)
+			case "supervisor":
+				return ec.fieldContext_JobBatchResult_supervisor(ctx, field)
+			case "jobEngineer":
+				return ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobBatchResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createJobBatch_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateJobBatch(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateJobBatch(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateJobBatch(rctx, fc.Args["input"].(model.JobBatchInput))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *model.JobBatchResult
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.JobBatchResult); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/api-core/graphql/model.JobBatchResult`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobBatchResult)
+	fc.Result = res
+	return ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateJobBatch(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "job":
+				return ec.fieldContext_JobBatchResult_job(ctx, field)
+			case "owner":
+				return ec.fieldContext_JobBatchResult_owner(ctx, field)
+			case "contractor":
+				return ec.fieldContext_JobBatchResult_contractor(ctx, field)
+			case "author":
+				return ec.fieldContext_JobBatchResult_author(ctx, field)
+			case "supervisor":
+				return ec.fieldContext_JobBatchResult_supervisor(ctx, field)
+			case "jobEngineer":
+				return ec.fieldContext_JobBatchResult_jobEngineer(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobBatchResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateJobBatch_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_updateCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_updateCompany(ctx, field)
 	if err != nil {
@@ -13583,7 +13699,7 @@ func (ec *executionContext) _Mutation_updateContractor(ctx context.Context, fiel
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateContractor(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobContractorInput))
+			return ec.resolvers.Mutation().UpdateContractor(rctx, fc.Args["YDSID"].(int), fc.Args["input"].(model.JobContractorInput))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -14135,24 +14251,6 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_IsCompleted(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobDetail_Note(ctx, field)
-			case "Progress":
-				return ec.fieldContext_JobDetail_Progress(ctx, field)
-			case "Inspector":
-				return ec.fieldContext_JobDetail_Inspector(ctx, field)
-			case "Static":
-				return ec.fieldContext_JobDetail_Static(ctx, field)
-			case "Architect":
-				return ec.fieldContext_JobDetail_Architect(ctx, field)
-			case "Mechanic":
-				return ec.fieldContext_JobDetail_Mechanic(ctx, field)
-			case "Electric":
-				return ec.fieldContext_JobDetail_Electric(ctx, field)
-			case "Controller":
-				return ec.fieldContext_JobDetail_Controller(ctx, field)
-			case "MechanicController":
-				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
-			case "ElectricController":
-				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -14302,24 +14400,6 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_IsCompleted(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobDetail_Note(ctx, field)
-			case "Progress":
-				return ec.fieldContext_JobDetail_Progress(ctx, field)
-			case "Inspector":
-				return ec.fieldContext_JobDetail_Inspector(ctx, field)
-			case "Static":
-				return ec.fieldContext_JobDetail_Static(ctx, field)
-			case "Architect":
-				return ec.fieldContext_JobDetail_Architect(ctx, field)
-			case "Mechanic":
-				return ec.fieldContext_JobDetail_Mechanic(ctx, field)
-			case "Electric":
-				return ec.fieldContext_JobDetail_Electric(ctx, field)
-			case "Controller":
-				return ec.fieldContext_JobDetail_Controller(ctx, field)
-			case "MechanicController":
-				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
-			case "ElectricController":
-				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -14353,7 +14433,7 @@ func (ec *executionContext) _Mutation_updateJobEngineer(ctx context.Context, fie
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateJobEngineer(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobEngineerInput))
+			return ec.resolvers.Mutation().UpdateJobEngineer(rctx, fc.Args["input"].(model.JobEngineerInput))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -14399,8 +14479,8 @@ func (ec *executionContext) fieldContext_Mutation_updateJobEngineer(ctx context.
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "yibfNo":
-				return ec.fieldContext_JobEngineer_yibfNo(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobEngineer_YibfNo(ctx, field)
 			case "Inspector":
 				return ec.fieldContext_JobEngineer_Inspector(ctx, field)
 			case "Static":
@@ -14848,7 +14928,7 @@ func (ec *executionContext) _Mutation_updateOwner(ctx context.Context, field gra
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateOwner(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobOwnerInput))
+			return ec.resolvers.Mutation().UpdateOwner(rctx, fc.Args["YDSID"].(int), fc.Args["input"].(model.JobOwnerInput))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -15010,8 +15090,8 @@ func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.
 				return ec.fieldContext_JobPayments_Amount(ctx, field)
 			case "State":
 				return ec.fieldContext_JobPayments_State(ctx, field)
-			case "yibfNo":
-				return ec.fieldContext_JobPayments_yibfNo(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobPayments", field.Name)
 		},
@@ -15106,8 +15186,8 @@ func (ec *executionContext) fieldContext_Mutation_updateJobPayments(ctx context.
 				return ec.fieldContext_JobPayments_Amount(ctx, field)
 			case "State":
 				return ec.fieldContext_JobPayments_State(ctx, field)
-			case "yibfNo":
-				return ec.fieldContext_JobPayments_yibfNo(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobPayments", field.Name)
 		},
@@ -15202,8 +15282,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteJobPayments(ctx context.
 				return ec.fieldContext_JobPayments_Amount(ctx, field)
 			case "State":
 				return ec.fieldContext_JobPayments_State(ctx, field)
-			case "yibfNo":
-				return ec.fieldContext_JobPayments_yibfNo(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobPayments", field.Name)
 		},
@@ -15430,7 +15510,7 @@ func (ec *executionContext) _Mutation_updateSupervisor(ctx context.Context, fiel
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		directive0 := func(rctx context.Context) (any, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateSupervisor(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobSupervisorInput))
+			return ec.resolvers.Mutation().UpdateSupervisor(rctx, fc.Args["YDSID"].(int), fc.Args["input"].(model.JobSupervisorInput))
 		}
 
 		directive1 := func(ctx context.Context) (any, error) {
@@ -16993,24 +17073,6 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_JobDetail_IsCompleted(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobDetail_Note(ctx, field)
-			case "Progress":
-				return ec.fieldContext_JobDetail_Progress(ctx, field)
-			case "Inspector":
-				return ec.fieldContext_JobDetail_Inspector(ctx, field)
-			case "Static":
-				return ec.fieldContext_JobDetail_Static(ctx, field)
-			case "Architect":
-				return ec.fieldContext_JobDetail_Architect(ctx, field)
-			case "Mechanic":
-				return ec.fieldContext_JobDetail_Mechanic(ctx, field)
-			case "Electric":
-				return ec.fieldContext_JobDetail_Electric(ctx, field)
-			case "Controller":
-				return ec.fieldContext_JobDetail_Controller(ctx, field)
-			case "MechanicController":
-				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
-			case "ElectricController":
-				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -17160,24 +17222,6 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 				return ec.fieldContext_JobDetail_IsCompleted(ctx, field)
 			case "Note":
 				return ec.fieldContext_JobDetail_Note(ctx, field)
-			case "Progress":
-				return ec.fieldContext_JobDetail_Progress(ctx, field)
-			case "Inspector":
-				return ec.fieldContext_JobDetail_Inspector(ctx, field)
-			case "Static":
-				return ec.fieldContext_JobDetail_Static(ctx, field)
-			case "Architect":
-				return ec.fieldContext_JobDetail_Architect(ctx, field)
-			case "Mechanic":
-				return ec.fieldContext_JobDetail_Mechanic(ctx, field)
-			case "Electric":
-				return ec.fieldContext_JobDetail_Electric(ctx, field)
-			case "Controller":
-				return ec.fieldContext_JobDetail_Controller(ctx, field)
-			case "MechanicController":
-				return ec.fieldContext_JobDetail_MechanicController(ctx, field)
-			case "ElectricController":
-				return ec.fieldContext_JobDetail_ElectricController(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
 		},
@@ -17333,8 +17377,8 @@ func (ec *executionContext) fieldContext_Query_jobEngineer(ctx context.Context, 
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "yibfNo":
-				return ec.fieldContext_JobEngineer_yibfNo(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobEngineer_YibfNo(ctx, field)
 			case "Inspector":
 				return ec.fieldContext_JobEngineer_Inspector(ctx, field)
 			case "Static":
@@ -17827,8 +17871,8 @@ func (ec *executionContext) fieldContext_Query_jobPayments(ctx context.Context, 
 				return ec.fieldContext_JobPayments_Amount(ctx, field)
 			case "State":
 				return ec.fieldContext_JobPayments_State(ctx, field)
-			case "yibfNo":
-				return ec.fieldContext_JobPayments_yibfNo(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobPayments", field.Name)
 		},
@@ -21190,6 +21234,75 @@ func (ec *executionContext) unmarshalInputJobAuthorInput(ctx context.Context, ob
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputJobBatchInput(ctx context.Context, obj any) (model.JobBatchInput, error) {
+	var it model.JobBatchInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"YibfNo", "jobInput", "ownerInput", "contractorInput", "authorInput", "supervisorInput", "jobEngineerInput"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "YibfNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YibfNo = data
+		case "jobInput":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("jobInput"))
+			data, err := ec.unmarshalNJobInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.JobInput = data
+		case "ownerInput":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ownerInput"))
+			data, err := ec.unmarshalOJobOwnerInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobOwnerInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OwnerInput = data
+		case "contractorInput":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contractorInput"))
+			data, err := ec.unmarshalOJobContractorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobContractorInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ContractorInput = data
+		case "authorInput":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("authorInput"))
+			data, err := ec.unmarshalOJobAuthorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobAuthorInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AuthorInput = data
+		case "supervisorInput":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("supervisorInput"))
+			data, err := ec.unmarshalOJobSupervisorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobSupervisorInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SupervisorInput = data
+		case "jobEngineerInput":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("jobEngineerInput"))
+			data, err := ec.unmarshalOJobEngineerInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobEngineerInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.JobEngineerInput = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputJobContractorInput(ctx context.Context, obj any) (model.JobContractorInput, error) {
 	var it model.JobContractorInput
 	asMap := map[string]any{}
@@ -21308,15 +21421,15 @@ func (ec *executionContext) unmarshalInputJobEngineerInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"yibfNo", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
+	fieldsInOrder := [...]string{"YibfNo", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "yibfNo":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
+		case "YibfNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
 			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
@@ -21391,7 +21504,7 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"CompanyCode", "YibfNo", "Title", "Administration", "State", "Island", "Parcel", "Sheet", "DistributionDate", "ContractDate", "StartDate", "LicenseDate", "LicenseNo", "CompletionDate", "LandArea", "TotalArea", "ConstructionArea", "LeftArea", "YDSAddress", "Address", "BuildingClass", "BuildingType", "Level", "UnitPrice", "FloorCount", "BKSReferenceNo", "Coordinates", "FolderNo", "UploadedFile", "IndustryArea", "ClusterStructure", "IsLicenseExpired", "IsCompleted", "Note", "Inspector", "Static", "Architect", "Mechanic", "Electric", "Controller", "MechanicController", "ElectricController"}
+	fieldsInOrder := [...]string{"CompanyCode", "YibfNo", "Title", "Administration", "State", "Island", "Parcel", "Sheet", "DistributionDate", "ContractDate", "StartDate", "LicenseDate", "LicenseNo", "CompletionDate", "LandArea", "TotalArea", "ConstructionArea", "LeftArea", "YDSAddress", "Address", "BuildingClass", "BuildingType", "Level", "UnitPrice", "FloorCount", "BKSReferenceNo", "Coordinates", "FolderNo", "UploadedFile", "IndustryArea", "ClusterStructure", "IsLicenseExpired", "IsCompleted", "Note"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -21636,62 +21749,6 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.Note = data
-		case "Inspector":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Inspector"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Inspector = data
-		case "Static":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Static"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Static = data
-		case "Architect":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Architect"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Architect = data
-		case "Mechanic":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Mechanic"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Mechanic = data
-		case "Electric":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Electric"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Electric = data
-		case "Controller":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Controller"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Controller = data
-		case "MechanicController":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("MechanicController"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.MechanicController = data
-		case "ElectricController":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ElectricController"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ElectricController = data
 		}
 	}
 
@@ -21892,7 +21949,7 @@ func (ec *executionContext) unmarshalInputJobPaymentsInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"PaymentNo", "PaymentDate", "PaymentType", "TotalPayment", "LevelRequest", "LevelApprove", "Amount", "yibfNo", "State"}
+	fieldsInOrder := [...]string{"PaymentNo", "PaymentDate", "PaymentType", "TotalPayment", "LevelRequest", "LevelApprove", "Amount", "YibfNo", "State"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -21948,8 +22005,8 @@ func (ec *executionContext) unmarshalInputJobPaymentsInput(ctx context.Context, 
 				return it, err
 			}
 			it.Amount = data
-		case "yibfNo":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
+		case "YibfNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
 			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
@@ -22053,7 +22110,7 @@ func (ec *executionContext) unmarshalInputJobSupervisorInput(ctx context.Context
 		switch k {
 		case "YibfNo":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -22669,6 +22726,52 @@ func (ec *executionContext) _JobAuthor(ctx context.Context, sel ast.SelectionSet
 	return out
 }
 
+var jobBatchResultImplementors = []string{"JobBatchResult"}
+
+func (ec *executionContext) _JobBatchResult(ctx context.Context, sel ast.SelectionSet, obj *model.JobBatchResult) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, jobBatchResultImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("JobBatchResult")
+		case "job":
+			out.Values[i] = ec._JobBatchResult_job(ctx, field, obj)
+		case "owner":
+			out.Values[i] = ec._JobBatchResult_owner(ctx, field, obj)
+		case "contractor":
+			out.Values[i] = ec._JobBatchResult_contractor(ctx, field, obj)
+		case "author":
+			out.Values[i] = ec._JobBatchResult_author(ctx, field, obj)
+		case "supervisor":
+			out.Values[i] = ec._JobBatchResult_supervisor(ctx, field, obj)
+		case "jobEngineer":
+			out.Values[i] = ec._JobBatchResult_jobEngineer(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var jobContractorImplementors = []string{"JobContractor"}
 
 func (ec *executionContext) _JobContractor(ctx context.Context, sel ast.SelectionSet, obj *ent.JobContractor) graphql.Marshaler {
@@ -22902,303 +23005,6 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 			out.Values[i] = ec._JobDetail_IsCompleted(ctx, field, obj)
 		case "Note":
 			out.Values[i] = ec._JobDetail_Note(ctx, field, obj)
-		case "Progress":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_Progress(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "Inspector":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_Inspector(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "Static":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_Static(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "Architect":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_Architect(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "Mechanic":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_Mechanic(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "Electric":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_Electric(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "Controller":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_Controller(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "MechanicController":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_MechanicController(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "ElectricController":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._JobDetail_ElectricController(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -23233,8 +23039,8 @@ func (ec *executionContext) _JobEngineer(ctx context.Context, sel ast.SelectionS
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("JobEngineer")
-		case "yibfNo":
-			out.Values[i] = ec._JobEngineer_yibfNo(ctx, field, obj)
+		case "YibfNo":
+			out.Values[i] = ec._JobEngineer_YibfNo(ctx, field, obj)
 		case "Inspector":
 			out.Values[i] = ec._JobEngineer_Inspector(ctx, field, obj)
 		case "Static":
@@ -23450,8 +23256,8 @@ func (ec *executionContext) _JobPayments(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._JobPayments_Amount(ctx, field, obj)
 		case "State":
 			out.Values[i] = ec._JobPayments_State(ctx, field, obj)
-		case "yibfNo":
-			out.Values[i] = ec._JobPayments_yibfNo(ctx, field, obj)
+		case "YibfNo":
+			out.Values[i] = ec._JobPayments_YibfNo(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -23628,6 +23434,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateAuthor(ctx, field)
 			})
+		case "jobBatch":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_jobBatch(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createJobBatch":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createJobBatch(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateJobBatch":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateJobBatch(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "updateCompany":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateCompany(ctx, field)
@@ -24922,6 +24749,25 @@ func (ec *executionContext) unmarshalNJobAuthorInput2githubᚗcomᚋpolatbilal�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchInput(ctx context.Context, v any) (model.JobBatchInput, error) {
+	res, err := ec.unmarshalInputJobBatchInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNJobBatchResult2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchResult(ctx context.Context, sel ast.SelectionSet, v model.JobBatchResult) graphql.Marshaler {
+	return ec._JobBatchResult(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchResult(ctx context.Context, sel ast.SelectionSet, v *model.JobBatchResult) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._JobBatchResult(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNJobContractor2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v ent.JobContractor) graphql.Marshaler {
 	return ec._JobContractor(ctx, sel, &v)
 }
@@ -25035,6 +24881,11 @@ func (ec *executionContext) unmarshalNJobEngineerInput2githubᚗcomᚋpolatbilal
 func (ec *executionContext) unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobInput(ctx context.Context, v any) (model.JobInput, error) {
 	res, err := ec.unmarshalInputJobInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNJobInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobInput(ctx context.Context, v any) (*model.JobInput, error) {
+	res, err := ec.unmarshalInputJobInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNJobLayer2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobLayer(ctx context.Context, sel ast.SelectionSet, v ent.JobLayer) graphql.Marshaler {
@@ -25708,6 +25559,14 @@ func (ec *executionContext) marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋgql
 	return ec._JobAuthor(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalOJobAuthorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobAuthorInput(ctx context.Context, v any) (*model.JobAuthorInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputJobAuthorInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalOJobContractor2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v []*ent.JobContractor) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -25756,11 +25615,34 @@ func (ec *executionContext) marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilal�
 	return ec._JobContractor(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalOJobContractorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobContractorInput(ctx context.Context, v any) (*model.JobContractorInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputJobContractorInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v *ent.JobDetail) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._JobDetail(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobEngineer(ctx context.Context, sel ast.SelectionSet, v *model.JobEngineer) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._JobEngineer(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOJobEngineerInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobEngineerInput(ctx context.Context, v any) (*model.JobEngineerInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputJobEngineerInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOJobOwner2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v []*ent.JobOwner) graphql.Marshaler {
@@ -25809,6 +25691,14 @@ func (ec *executionContext) marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋgqlg
 		return graphql.Null
 	}
 	return ec._JobOwner(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOJobOwnerInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobOwnerInput(ctx context.Context, v any) (*model.JobOwnerInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputJobOwnerInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOJobPayments2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐJobPaymentsᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobPayments) graphql.Marshaler {
@@ -25877,6 +25767,14 @@ func (ec *executionContext) marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilal�
 		return graphql.Null
 	}
 	return ec._JobSupervisor(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOJobSupervisorInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobSupervisorInput(ctx context.Context, v any) (*model.JobSupervisorInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputJobSupervisorInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOLayerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐLayerFilterInput(ctx context.Context, v any) (*model.LayerFilterInput, error) {

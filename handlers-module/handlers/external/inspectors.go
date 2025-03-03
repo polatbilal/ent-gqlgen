@@ -24,20 +24,21 @@ func YDKInspectors(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
-	// CompanyCode parametresini al
-	companyCode := c.Query("companyCode")
-	if companyCode == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
+	// Request body'den parametreleri al
+	var requestParams service.FrontendRequest
+	if err := c.BodyParser(&requestParams); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Geçersiz request body: " + err.Error(),
+		})
 	}
 
-	// CompanyCode'u integer'a çevir
-	companyCodeInt, err := strconv.Atoi(companyCode)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçersiz CompanyCode formatı"})
+	// Parametreleri kontrol et
+	if requestParams.CompanyCode == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "companyCode parametresi gerekli"})
 	}
 
 	// Token bilgisini veritabanından al
-	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCodeInt)
+	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), requestParams.CompanyCode)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}

@@ -8,27 +8,28 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/handlers-module/handlers/service"
 )
 
 func YibfList(c *fiber.Ctx) error {
-	// CompanyCode parametresini al
-	companyCode := c.Query("companyCode")
-	if companyCode == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
+
+	// Request body'den parametreleri al
+	var requestParams service.FrontendRequest
+	if err := c.BodyParser(&requestParams); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Geçersiz request body: " + err.Error(),
+		})
 	}
 
-	// CompanyCode'u integer'a çevir
-	companyCodeInt, err := strconv.Atoi(companyCode)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçersiz CompanyCode formatı"})
+	// Parametreleri kontrol et
+	if requestParams.CompanyCode == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "companyCode parametresi gerekli"})
 	}
 
 	// Token bilgisini veritabanından al
-	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCodeInt)
+	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), requestParams.CompanyCode)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -44,16 +45,18 @@ func YibfList(c *fiber.Ctx) error {
 
 	log.Printf("YDK Base URL: %s", svc.BaseURL)
 
-	// İki farklı durum için sorgu yapıları
-	requestBodies := []map[string]interface{}{
-		{
+	requestBodies := make([]map[string]interface{}, 0)
+
+	// State ID'leri için döngü
+	for stateID := 1; stateID <= 6; stateID++ {
+		requestBody := map[string]interface{}{
 			"requireTotalCount": true,
 			"searchOperation":   "contains",
 			"searchValue":       nil,
-			// "skip":              5,
-			// "take":              4,
-			"filter":   []interface{}{"state.id", "=", 1},
-			"userData": struct{}{},
+			"skip":              20,
+			"take":              4,
+			"filter":            []interface{}{"state.id", "=", stateID},
+			"userData":          struct{}{},
 			"sort": []map[string]interface{}{
 				{
 					"selector": "distributiondate",
@@ -64,102 +67,8 @@ func YibfList(c *fiber.Ctx) error {
 					"desc":     true,
 				},
 			},
-		},
-		{
-			"requireTotalCount": true,
-			"searchOperation":   "contains",
-			"searchValue":       nil,
-			// "skip":              5,
-			// "take":              4,
-			"filter":   []interface{}{"state.id", "=", 2},
-			"userData": struct{}{},
-			"sort": []map[string]interface{}{
-				{
-					"selector": "distributiondate",
-					"desc":     true,
-				},
-				{
-					"selector": "id",
-					"desc":     true,
-				},
-			},
-		},
-		{
-			"requireTotalCount": true,
-			"searchOperation":   "contains",
-			"searchValue":       nil,
-			// "skip":              5,
-			// "take":              4,
-			"filter":   []interface{}{"state.id", "=", 3},
-			"userData": struct{}{},
-			"sort": []map[string]interface{}{
-				{
-					"selector": "distributiondate",
-					"desc":     true,
-				},
-				{
-					"selector": "id",
-					"desc":     true,
-				},
-			},
-		},
-		{
-			"requireTotalCount": true,
-			"searchOperation":   "contains",
-			"searchValue":       nil,
-			// "skip":              5,
-			// "take":              4,
-			"filter":   []interface{}{"state.id", "=", 4},
-			"userData": struct{}{},
-			"sort": []map[string]interface{}{
-				{
-					"selector": "distributiondate",
-					"desc":     true,
-				},
-				{
-					"selector": "id",
-					"desc":     true,
-				},
-			},
-		},
-		{
-			"requireTotalCount": true,
-			"searchOperation":   "contains",
-			"searchValue":       nil,
-			// "skip":              5,
-			// "take":              4,
-			"filter":   []interface{}{"state.id", "=", 5},
-			"userData": struct{}{},
-			"sort": []map[string]interface{}{
-				{
-					"selector": "distributiondate",
-					"desc":     true,
-				},
-				{
-					"selector": "id",
-					"desc":     true,
-				},
-			},
-		},
-		{
-			"requireTotalCount": true,
-			"searchOperation":   "contains",
-			"searchValue":       nil,
-			// "skip":              5,
-			// "take":              4,
-			"filter":   []interface{}{"state.id", "=", 6},
-			"userData": struct{}{},
-			"sort": []map[string]interface{}{
-				{
-					"selector": "distributiondate",
-					"desc":     true,
-				},
-				{
-					"selector": "id",
-					"desc":     true,
-				},
-			},
-		},
+		}
+		requestBodies = append(requestBodies, requestBody)
 	}
 
 	type responseStruct struct {

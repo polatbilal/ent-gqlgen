@@ -9,6 +9,11 @@ type ExternalService struct {
 	Client  *http.Client
 }
 
+type FrontendRequest struct {
+	YibfNo      int `json:"yibfNo"`
+	CompanyCode int `json:"companyCode"`
+}
+
 type YDKTokenResponse struct {
 	AccessToken    string         `json:"access_token"`
 	TokenType      string         `json:"token_type"`
@@ -240,9 +245,4 @@ type ProgressPayment struct {
 
 type ProgressPaymentResponse struct {
 	Items []ProgressPayment `json:"items"`
-}
-
-type ProgressPaymentRequest struct {
-	YibfNo      int `json:"yibfNo"`
-	CompanyCode int `json:"companyCode"`
 }

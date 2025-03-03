@@ -19,14 +19,6 @@ import (
 func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// İş detayını bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(int(*input.YibfNo))).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get job detail: %w", err)
-	}
-
 	// YDSID ile Owner var mı kontrol edelim
 	owner, err := client.JobOwner.Query().Where(jobowner.YDSID(*input.Ydsid)).Only(ctx)
 	if ent.IsNotFound(err) {
@@ -51,47 +43,22 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 		return nil, fmt.Errorf("failed to check owner: %w", err)
 	}
 
-	// JobRelations'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	// Owner'ı JobRelations'a ekle
-	_, err = relations.Update().
-		SetOwner(owner).
-		Save(ctx)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to add owner to job detail: %w", err)
-	}
-
 	return owner, nil
 }
 
 // UpdateOwner is the resolver for the updateOwner field.
-func (r *mutationResolver) UpdateOwner(ctx context.Context, yibfNo int, input model.JobOwnerInput) (*ent.JobOwner, error) {
+func (r *mutationResolver) UpdateOwner(ctx context.Context, ydsid int, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Önce JobDetail'i bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
+	// Owner'ı doğrudan ydsid ile bul
+	owner, err := client.JobOwner.Query().
+		Where(jobowner.YDSIDEQ(*input.Ydsid)).
 		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
-	}
-
-	// JobRelations üzerinden owner'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	owner, err := relations.QueryOwner().Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("owner bulunamadı: %v", err)
 	}
 
+	// Owner'ı güncelle
 	owner, err = owner.Update().
 		SetNillableName(input.Name).
 		SetNillableTcNo(input.TcNo).

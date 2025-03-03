@@ -41,7 +41,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateContractor(yibfNo: Int!, input: JobContractorInput!): JobContractor!
+  updateContractor(YDSID: Int!, input: JobContractorInput!): JobContractor!
     @goField(forceResolver: true)
     @auth
 }

@@ -21,20 +21,8 @@ func YDKCompanies(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
-	// // CompanyCode parametresini al
-	// companyCode := c.Query("companyCode")
-	// if companyCode == "" {
-	// 	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "CompanyCode parametresi gerekli"})
-	// }
-
-	// // CompanyCode'u integer'a çevir
-	// companyCodeInt, err := strconv.Atoi(companyCode)
-	// if err != nil {
-	// 	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçersiz CompanyCode formatı"})
-	// }
-
 	// Request body'den parametreleri al
-	var requestParams service.ProgressPaymentRequest
+	var requestParams service.FrontendRequest
 	if err := c.BodyParser(&requestParams); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Geçersiz request body: " + err.Error(),
