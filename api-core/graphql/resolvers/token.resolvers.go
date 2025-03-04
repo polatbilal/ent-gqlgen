@@ -42,7 +42,7 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 
 	// Yetkili kullanıcıyı kontrol et
 	if userRole := middlewares.CtxValue(ctx); userRole == nil || userRole.Role != "Admin" {
-		return nil, fmt.Errorf("Yetkiniz yok")
+		return nil, fmt.Errorf("yetkiniz yok")
 	}
 
 	// Önce token'ı kontrol et

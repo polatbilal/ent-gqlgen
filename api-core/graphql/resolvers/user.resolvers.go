@@ -157,7 +157,7 @@ func (r *mutationResolver) ActivateCompanyUsers(ctx context.Context, adminID str
 
 	// Yetkili kullanıcıyı kontrol et
 	if userRole := middlewares.CtxValue(ctx); userRole == nil || userRole.Role != "Manager" {
-		return nil, fmt.Errorf("Yetkiniz yok")
+		return nil, fmt.Errorf("yetkiniz yok")
 	}
 
 	// Admin ID'yi int'e çevir

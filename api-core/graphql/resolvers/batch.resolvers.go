@@ -61,6 +61,9 @@ func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInp
 		WithMechaniccontroller().
 		WithElectriccontroller().
 		First(txCtx)
+	if err != nil && !ent.IsNotFound(err) {
+		return nil, fmt.Errorf("kayıt aranırken hata oluştu: %w", err)
+	}
 
 	var (
 		job        *ent.JobDetail
