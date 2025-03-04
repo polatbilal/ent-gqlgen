@@ -285,7 +285,6 @@ type ComplexityRoot struct {
 		CreateLayer           func(childComplexity int, input model.JobLayerInput) int
 		CreateOwner           func(childComplexity int, input model.JobOwnerInput) int
 		CreateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
-		CreateToken           func(childComplexity int, departmentID int, input model.CompanyTokenInput) int
 		CreateUser            func(childComplexity int, input model.UserInput) int
 		DeleteJobPayments     func(childComplexity int, id int) int
 		DeleteLayer           func(childComplexity int, id string) int
@@ -305,8 +304,8 @@ type ComplexityRoot struct {
 		UpdateOwner           func(childComplexity int, yibfNo int, input model.JobOwnerInput) int
 		UpdateProgress        func(childComplexity int, input model.JobProgressInput) int
 		UpdateSupervisor      func(childComplexity int, yibfNo int, input model.JobSupervisorInput) int
-		UpdateToken           func(childComplexity int, departmentID int, input model.CompanyTokenInput) int
 		UpdateUser            func(childComplexity int, id string, input model.UserInput) int
+		UpsertToken           func(childComplexity int, departmentID int, input model.CompanyTokenInput) int
 	}
 
 	Query struct {
@@ -386,8 +385,7 @@ type MutationResolver interface {
 	UpdateProgress(ctx context.Context, input model.JobProgressInput) (*ent.JobProgress, error)
 	CreateSupervisor(ctx context.Context, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
 	UpdateSupervisor(ctx context.Context, yibfNo int, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
-	CreateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error)
-	UpdateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error)
+	UpsertToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error)
 	CreateUser(ctx context.Context, input model.UserInput) (*ent.User, error)
 	UpdateUser(ctx context.Context, id string, input model.UserInput) (*ent.User, error)
 	DeleteUser(ctx context.Context, id string) (bool, error)
@@ -1775,18 +1773,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateSupervisor(childComplexity, args["input"].(model.JobSupervisorInput)), true
 
-	case "Mutation.createToken":
-		if e.complexity.Mutation.CreateToken == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createToken_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateToken(childComplexity, args["DepartmentId"].(int), args["input"].(model.CompanyTokenInput)), true
-
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
 			break
@@ -2015,18 +2001,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateSupervisor(childComplexity, args["yibfNo"].(int), args["input"].(model.JobSupervisorInput)), true
 
-	case "Mutation.updateToken":
-		if e.complexity.Mutation.UpdateToken == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateToken_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateToken(childComplexity, args["DepartmentId"].(int), args["input"].(model.CompanyTokenInput)), true
-
 	case "Mutation.updateUser":
 		if e.complexity.Mutation.UpdateUser == nil {
 			break
@@ -2038,6 +2012,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(string), args["input"].(model.UserInput)), true
+
+	case "Mutation.upsertToken":
+		if e.complexity.Mutation.UpsertToken == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_upsertToken_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpsertToken(childComplexity, args["DepartmentId"].(int), args["input"].(model.CompanyTokenInput)), true
 
 	case "Query.allContractor":
 		if e.complexity.Query.AllContractor == nil {
@@ -3112,11 +3098,12 @@ extend type Query {
 }
 
 extend type Mutation {
-  createToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken!
+  upsertToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken!
+  # createToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken!
 
-  updateToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken
-    @goField(forceResolver: true)
-    @auth
+  # updateToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken
+  #   @goField(forceResolver: true)
+  #   @auth
 }
 `, BuiltIn: false},
 	{Name: "../schemas/user.graphqls", Input: `type User {
@@ -3414,57 +3401,6 @@ func (ec *executionContext) field_Mutation_createSupervisor_argsInput(
 	}
 
 	var zeroVal model.JobSupervisorInput
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_createToken_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createToken_argsDepartmentID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["DepartmentId"] = arg0
-	arg1, err := ec.field_Mutation_createToken_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg1
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_createToken_argsDepartmentID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["DepartmentId"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
-	if tmp, ok := rawArgs["DepartmentId"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_createToken_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyTokenInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyTokenInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyTokenInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐCompanyTokenInput(ctx, tmp)
-	}
-
-	var zeroVal model.CompanyTokenInput
 	return zeroVal, nil
 }
 
@@ -4299,57 +4235,6 @@ func (ec *executionContext) field_Mutation_updateSupervisor_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_updateToken_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateToken_argsDepartmentID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["DepartmentId"] = arg0
-	arg1, err := ec.field_Mutation_updateToken_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg1
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateToken_argsDepartmentID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["DepartmentId"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
-	if tmp, ok := rawArgs["DepartmentId"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateToken_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyTokenInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyTokenInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyTokenInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐCompanyTokenInput(ctx, tmp)
-	}
-
-	var zeroVal model.CompanyTokenInput
-	return zeroVal, nil
-}
-
 func (ec *executionContext) field_Mutation_updateUser_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -4398,6 +4283,57 @@ func (ec *executionContext) field_Mutation_updateUser_argsInput(
 	}
 
 	var zeroVal model.UserInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_upsertToken_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_upsertToken_argsDepartmentID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["DepartmentId"] = arg0
+	arg1, err := ec.field_Mutation_upsertToken_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_upsertToken_argsDepartmentID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (int, error) {
+	if _, ok := rawArgs["DepartmentId"]; !ok {
+		var zeroVal int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
+	if tmp, ok := rawArgs["DepartmentId"]; ok {
+		return ec.unmarshalNInt2int(ctx, tmp)
+	}
+
+	var zeroVal int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_upsertToken_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CompanyTokenInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CompanyTokenInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCompanyTokenInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐCompanyTokenInput(ctx, tmp)
+	}
+
+	var zeroVal model.CompanyTokenInput
 	return zeroVal, nil
 }
 
@@ -15440,8 +15376,8 @@ func (ec *executionContext) fieldContext_Mutation_updateSupervisor(ctx context.C
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_createToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createToken(ctx, field)
+func (ec *executionContext) _Mutation_upsertToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_upsertToken(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -15454,7 +15390,7 @@ func (ec *executionContext) _Mutation_createToken(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateToken(rctx, fc.Args["DepartmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
+		return ec.resolvers.Mutation().UpsertToken(rctx, fc.Args["DepartmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -15471,7 +15407,7 @@ func (ec *executionContext) _Mutation_createToken(ctx context.Context, field gra
 	return ec.marshalNCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyToken(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_createToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_upsertToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -15498,91 +15434,7 @@ func (ec *executionContext) fieldContext_Mutation_createToken(ctx context.Contex
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateToken(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateToken(rctx, fc.Args["DepartmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
-		}
-
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyToken
-				return zeroVal, errors.New("directive auth is not implemented")
-			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyToken); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/api-core/ent.CompanyToken`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyToken)
-	fc.Result = res
-	return ec.marshalOCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyToken(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "Token":
-				return ec.fieldContext_CompanyToken_Token(ctx, field)
-			case "DepartmentId":
-				return ec.fieldContext_CompanyToken_DepartmentId(ctx, field)
-			case "Expire":
-				return ec.fieldContext_CompanyToken_Expire(ctx, field)
-			case "CompanyCode":
-				return ec.fieldContext_CompanyToken_CompanyCode(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CompanyToken", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_upsertToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -23506,17 +23358,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "createToken":
+		case "upsertToken":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createToken(ctx, field)
+				return ec._Mutation_upsertToken(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "updateToken":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateToken(ctx, field)
-			})
 		case "createUser":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createUser(ctx, field)
@@ -25409,13 +25257,6 @@ func (ec *executionContext) marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilal
 		return graphql.Null
 	}
 	return ec._CompanyEngineer(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalOCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋentᚐCompanyToken(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyToken) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._CompanyToken(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOEngineerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐEngineerFilterInput(ctx context.Context, v any) (*model.EngineerFilterInput, error) {

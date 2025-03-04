@@ -36,8 +36,8 @@ func (r *companyTokenResolver) CompanyCode(ctx context.Context, obj *ent.Company
 	return &company.CompanyCode, nil
 }
 
-// CreateToken is the resolver for the createToken field.
-func (r *mutationResolver) CreateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error) {
+// UpsertToken, token yoksa oluşturur varsa günceller
+func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// Yetkili kullanıcıyı kontrol et
@@ -45,165 +45,141 @@ func (r *mutationResolver) CreateToken(ctx context.Context, departmentID int, in
 		return nil, fmt.Errorf("Yetkiniz yok")
 	}
 
-	// 1. Önce token'ı kaydet
-	tokenCreate := client.CompanyToken.Create().
-		SetToken(*input.Token).
-		SetDepartmentId(departmentID).
-		SetExpire(*input.Expire).
-		SetRefreshToken(*input.RefreshToken).
-		SetSecretKey(*input.SecretKey).
-		SetSecureSecretKey(*input.SecureSecretKey).
-		SetNillableOtpUri(input.OtpURI)
-	createCompanyToken, err := tokenCreate.Save(ctx)
+	// Önce token'ı kontrol et
+	existingToken, err := client.CompanyToken.Query().Where(companytoken.DepartmentIdEQ(departmentID)).Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("şirket token oluşturulamadı: %v", err)
-	}
-
-	// 2. YDK API'den şirket verisini çek
-	svc := &service.ExternalService{
-		BaseURL: os.Getenv("YDK_BASE_URL"),
-		Client:  &http.Client{},
-	}
-
-	// Şirket verisini çek
-	requestBody := map[string]interface{}{
-		"id": departmentID,
-	}
-
-	jsonBody, err := json.Marshal(requestBody)
-	if err != nil {
-		fmt.Printf("JSON marshal hatası: %v\n", err)
-		return createCompanyToken, nil
-	}
-
-	url := svc.BaseURL + service.ENDPOINT_COMPANY
-	fmt.Printf("İstek URL: %s\n", url)
-
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
-	if err != nil {
-		fmt.Printf("HTTP request oluşturma hatası: %v\n", err)
-		return createCompanyToken, nil
-	}
-
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *input.Token))
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := svc.Client.Do(req)
-	if err != nil {
-		fmt.Printf("HTTP isteği hatası: %v\n", err)
-		return createCompanyToken, nil
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Printf("Response body okuma hatası: %v\n", err)
-		return createCompanyToken, nil
-	}
-
-	fmt.Printf("API Yanıtı: %s\n", string(body))
-
-	var ydkResponse service.YDKCompanyResponse
-	if err := json.Unmarshal(body, &ydkResponse); err != nil {
-		fmt.Printf("JSON parse hatası: %v\n", err)
-		return createCompanyToken, nil
-	}
-
-	if len(ydkResponse.Items) > 0 {
-		item := ydkResponse.Items[0]
-
-		// 3. Şirket verisini kaydet
-		taxNo, _ := strconv.Atoi(item.Department.Person.IdentityNumber)
-		tcNo, _ := strconv.Atoi(item.Person.IdentityNumber)
-		registerNo, _ := strconv.Atoi(item.OccupationalRegistrationNumber)
-
-		company, err := client.CompanyDetail.Create().
-			SetCompanyCode(item.Department.FileNumber).
-			SetName(item.Department.Name).
-			SetNillableAddress(&item.Department.Person.AddressStr).
-			SetNillablePhone(&item.Department.Person.LastPhoneNumber).
-			SetNillableEmail(&item.Department.Person.LastEPosta).
-			SetNillableWebsite(&item.Department.Person.LastWebAddress).
-			SetNillableTaxAdmin(&item.Department.Person.TaxAdministration).
-			SetNillableTaxNo(&taxNo).
-			SetNillableChamberInfo(&item.Department.ChamberInfo).
-			SetNillableChamberRegisterNo(&item.Department.RegistrationNumber).
-			SetNillableVisaFinishedFor90Days(&item.Department.VisaFinishedFor90Days).
-			SetNillableCorePersonAbsent90Days(&item.Department.CorePersonAbsent90Days).
-			SetNillableIsClosed(&item.Department.IsClosed).
-			SetNillableOwnerName(&item.Person.FullName).
-			SetNillableOwnerTcNo(&tcNo).
-			SetNillableOwnerAddress(&item.Person.AddressStr).
-			SetNillableOwnerPhone(&item.Person.LastPhoneNumber).
-			SetNillableOwnerEmail(&item.Person.LastEPosta).
-			SetNillableOwnerRegisterNo(&registerNo).
-			SetNillableOwnerCareer(&item.Title.Name).
-			Save(ctx)
-
-		if err != nil {
-			fmt.Printf("Şirket oluşturma hatası: %v\n", err)
-			return createCompanyToken, nil
-		}
-
-		fmt.Printf("Şirket başarıyla oluşturuldu: ID=%d\n", company.ID)
-
-		// 4. Token ile şirketi ilişkilendir
-		if _, err := createCompanyToken.Update().
-			SetCompany(company).
-			Save(ctx); err != nil {
-			fmt.Printf("Token ile şirket ilişkilendirilemedi: %v\n", err)
-		}
-
-		// Kullanıcı ID'sini context'ten al
-		claims := middlewares.CtxValue(ctx)
-		userID := claims.ID
-
-		// CompanyUser ilişkisini oluştur
-		_, err = client.CompanyUser.Create().
-			SetCompanyID(company.ID).
-			SetUserID(userID).
-			Save(ctx)
-		if err != nil {
-			fmt.Printf("Kullanıcı-şirket ilişkisi oluşturulamadı: %v\n", err)
-		}
-	}
-
-	return createCompanyToken, nil
-}
-
-// UpdateToken is the resolver for the updateToken field.
-func (r *mutationResolver) UpdateToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error) {
-	client := middlewares.GetClientFromContext(ctx)
-
-	// Önce token'ı bul
-	companyToken, err := client.CompanyToken.Query().Where(companytoken.DepartmentIdEQ(departmentID)).Only(ctx)
-	if err != nil {
-		// Token bulunamadıysa ve CompanyCode varsa, yeni token oluştur
-		if ent.IsNotFound(err) && input.CompanyCode != nil {
-			// Şirketi bul
-			company, err := client.CompanyDetail.Query().Where(companydetail.CompanyCodeEQ(*input.CompanyCode)).Only(ctx)
-			if err != nil {
-				return nil, fmt.Errorf("şirket bulunamadı: %v", err)
-			}
-
-			// Yeni token oluştur ve şirketle ilişkilendir
-			newToken := client.CompanyToken.Create().
+		if ent.IsNotFound(err) {
+			// Token bulunamadı, yeni token oluştur
+			// 1. Önce token'ı kaydet
+			tokenCreate := client.CompanyToken.Create().
 				SetToken(*input.Token).
 				SetDepartmentId(departmentID).
 				SetExpire(*input.Expire).
 				SetRefreshToken(*input.RefreshToken).
 				SetSecretKey(*input.SecretKey).
 				SetSecureSecretKey(*input.SecureSecretKey).
-				SetNillableOtpUri(input.OtpURI).
-				SetCompany(company)
+				SetNillableOtpUri(input.OtpURI)
+			createCompanyToken, err := tokenCreate.Save(ctx)
+			if err != nil {
+				return nil, fmt.Errorf("şirket token oluşturulamadı: %v", err)
+			}
 
-			return newToken.Save(ctx)
+			// 2. YDK API'den şirket verisini çek
+			svc := &service.ExternalService{
+				BaseURL: os.Getenv("YDK_BASE_URL"),
+				Client:  &http.Client{},
+			}
+
+			// Şirket verisini çek
+			requestBody := map[string]interface{}{
+				"id": departmentID,
+			}
+
+			jsonBody, err := json.Marshal(requestBody)
+			if err != nil {
+				fmt.Printf("JSON marshal hatası: %v\n", err)
+				return createCompanyToken, nil
+			}
+
+			url := svc.BaseURL + service.ENDPOINT_COMPANY
+			fmt.Printf("İstek URL: %s\n", url)
+
+			req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
+			if err != nil {
+				fmt.Printf("HTTP request oluşturma hatası: %v\n", err)
+				return createCompanyToken, nil
+			}
+
+			req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *input.Token))
+			req.Header.Set("Content-Type", "application/json")
+
+			resp, err := svc.Client.Do(req)
+			if err != nil {
+				fmt.Printf("HTTP isteği hatası: %v\n", err)
+				return createCompanyToken, nil
+			}
+			defer resp.Body.Close()
+
+			body, err := io.ReadAll(resp.Body)
+			if err != nil {
+				fmt.Printf("Response body okuma hatası: %v\n", err)
+				return createCompanyToken, nil
+			}
+
+			fmt.Printf("API Yanıtı: %s\n", string(body))
+
+			var ydkResponse service.YDKCompanyResponse
+			if err := json.Unmarshal(body, &ydkResponse); err != nil {
+				fmt.Printf("JSON parse hatası: %v\n", err)
+				return createCompanyToken, nil
+			}
+
+			if len(ydkResponse.Items) > 0 {
+				item := ydkResponse.Items[0]
+
+				// 3. Şirket verisini kaydet
+				taxNo, _ := strconv.Atoi(item.Department.Person.IdentityNumber)
+				tcNo, _ := strconv.Atoi(item.Person.IdentityNumber)
+				registerNo, _ := strconv.Atoi(item.OccupationalRegistrationNumber)
+
+				company, err := client.CompanyDetail.Create().
+					SetCompanyCode(item.Department.FileNumber).
+					SetName(item.Department.Name).
+					SetNillableAddress(&item.Department.Person.AddressStr).
+					SetNillablePhone(&item.Department.Person.LastPhoneNumber).
+					SetNillableEmail(&item.Department.Person.LastEPosta).
+					SetNillableWebsite(&item.Department.Person.LastWebAddress).
+					SetNillableTaxAdmin(&item.Department.Person.TaxAdministration).
+					SetNillableTaxNo(&taxNo).
+					SetNillableChamberInfo(&item.Department.ChamberInfo).
+					SetNillableChamberRegisterNo(&item.Department.RegistrationNumber).
+					SetNillableVisaFinishedFor90Days(&item.Department.VisaFinishedFor90Days).
+					SetNillableCorePersonAbsent90Days(&item.Department.CorePersonAbsent90Days).
+					SetNillableIsClosed(&item.Department.IsClosed).
+					SetNillableOwnerName(&item.Person.FullName).
+					SetNillableOwnerTcNo(&tcNo).
+					SetNillableOwnerAddress(&item.Person.AddressStr).
+					SetNillableOwnerPhone(&item.Person.LastPhoneNumber).
+					SetNillableOwnerEmail(&item.Person.LastEPosta).
+					SetNillableOwnerRegisterNo(&registerNo).
+					SetNillableOwnerCareer(&item.Title.Name).
+					Save(ctx)
+
+				if err != nil {
+					fmt.Printf("Şirket oluşturma hatası: %v\n", err)
+					return createCompanyToken, nil
+				}
+
+				fmt.Printf("Şirket başarıyla oluşturuldu: ID=%d\n", company.ID)
+
+				// 4. Token ile şirketi ilişkilendir
+				if _, err := createCompanyToken.Update().
+					SetCompany(company).
+					Save(ctx); err != nil {
+					fmt.Printf("Token ile şirket ilişkilendirilemedi: %v\n", err)
+				}
+
+				// Kullanıcı ID'sini context'ten al
+				claims := middlewares.CtxValue(ctx)
+				userID := claims.ID
+
+				// CompanyUser ilişkisini oluştur
+				_, err = client.CompanyUser.Create().
+					SetCompanyID(company.ID).
+					SetUserID(userID).
+					Save(ctx)
+				if err != nil {
+					fmt.Printf("Kullanıcı-şirket ilişkisi oluşturulamadı: %v\n", err)
+				}
+			}
+
+			return createCompanyToken, nil
 		}
 		return nil, fmt.Errorf("token sorgulama hatası: %v", err)
 	}
 
-	// Token bulunduysa sadece token bilgilerini güncelle
-	updatedCompanyToken, err := companyToken.Update().
+	// Token bulunduysa güncelle
+	updatedCompanyToken, err := existingToken.Update().
 		SetToken(*input.Token).
 		SetExpire(*input.Expire).
 		SetRefreshToken(*input.RefreshToken).
