@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -14,38 +15,91 @@ import (
 	"github.com/polatbilal/gqlgen-ent/handlers-module/service"
 )
 
+var (
+	infoLogger  *log.Logger
+	errorLogger *log.Logger
+)
+
+func init() {
+	// Log dosyaları için klasör oluştur
+	logDir := "logs"
+	if err := os.MkdirAll(logDir, 0755); err != nil {
+		log.Fatal("Log klasörü oluşturulamadı:", err)
+	}
+
+	// Tarih formatını oluştur
+	currentDate := time.Now().Format("2006-01-02")
+
+	// Info logları için dosya
+	infoLogFile, err := os.OpenFile(
+		filepath.Join(logDir, fmt.Sprintf("payments_info_%s.log", currentDate)),
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY,
+		0644,
+	)
+	if err != nil {
+		log.Fatal("Info log dosyası açılamadı:", err)
+	}
+
+	// Hata logları için dosya
+	errorLogFile, err := os.OpenFile(
+		filepath.Join(logDir, fmt.Sprintf("payments_error_%s.log", currentDate)),
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY,
+		0644,
+	)
+	if err != nil {
+		log.Fatal("Error log dosyası açılamadı:", err)
+	}
+
+	// Logger'ları yapılandır
+	infoLogger = log.New(infoLogFile, "", log.Ldate|log.Ltime|log.Lmicroseconds)
+	errorLogger = log.New(errorLogFile, "ERROR: ", log.Ldate|log.Ltime|log.Lmicroseconds|log.Lshortfile)
+}
+
 func ProgressPayments(c *fiber.Ctx) error {
+	requestStartTime := time.Now()
+	infoLogger.Printf("[BAŞLANGIÇ] Hakediş işlemi başlatıldı - IP: %s", c.IP())
+
 	// GraphQL için JWT token
 	jwtToken := c.Get("Authorization")
 	if jwtToken == "" {
+		errorLogger.Printf("[HATA] JWT Token eksik - IP: %s", c.IP())
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "JWT Token gerekli"})
 	}
 
 	// Request body'den parametreleri al
 	var requestParams service.FrontendRequest
 	if err := c.BodyParser(&requestParams); err != nil {
+		errorLogger.Printf("[HATA] Request body parse hatası: %v - IP: %s", err, c.IP())
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Geçersiz request body: " + err.Error(),
 		})
 	}
 
+	infoLogger.Printf("[PARAMETRE] YibfNo: %d", requestParams.YibfNo)
+
 	// Parametreleri kontrol et
 	if requestParams.YibfNo == 0 {
+		errorLogger.Printf("[HATA] YibfNo parametresi eksik - IP: %s", c.IP())
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "yibfNo parametresi gerekli"})
 	}
 
 	// İş kaydından şirket kodunu al
 	companyCode, err := service.GetCompanyCodeFromYibf(c.Context(), requestParams.YibfNo)
 	if err != nil {
+		errorLogger.Printf("[HATA] Şirket kodu alınamadı - YibfNo: %d, Hata: %v", requestParams.YibfNo, err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
+	infoLogger.Printf("[BİLGİ] Şirket kodu alındı - YibfNo: %d, Kod: %s", requestParams.YibfNo, companyCode)
+
 	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCode)
 	if err != nil {
+		errorLogger.Printf("[HATA] Şirket tokeni alınamadı - Kod: %s, Hata: %v", companyCode, err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	if companyToken.Token == "" || companyToken.DepartmentId == 0 {
+		errorLogger.Printf("[HATA] Geçersiz token veya department ID - Kod: %s", companyCode)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçerli token veya department ID bulunamadı"})
 	}
 
@@ -64,8 +118,6 @@ func ProgressPayments(c *fiber.Ctx) error {
 		"requireTotalCount": true,
 		"searchOperation":   "contains",
 		"searchValue":       nil,
-		"skip":              0,
-		"take":              100,
 		"userData":          map[string]interface{}{},
 		"sort": []map[string]interface{}{
 			{
@@ -110,11 +162,7 @@ func ProgressPayments(c *fiber.Ctx) error {
 	}
 
 	// GraphQL client oluştur
-	scheme := "http"
-	if c.Protocol() == "https" {
-		scheme = "https"
-	}
-	graphqlClient := client.NewGraphQLClient(scheme)
+	graphqlClient := client.NewGraphQLClient("")
 
 	successCount := 0
 	skippedCount := 0
@@ -139,7 +187,7 @@ func ProgressPayments(c *fiber.Ctx) error {
 			"LevelApprove": payment.LevelApprove,
 			"Amount":       payment.Amount,
 			"State":        payment.State.Name,
-			"yibfNo":       requestParams.YibfNo,
+			"YibfNo":       requestParams.YibfNo,
 		}
 
 		// Önce hakediş kaydını sorgula
@@ -203,9 +251,9 @@ func ProgressPayments(c *fiber.Ctx) error {
 					}
 
 					if needsUpdate {
-						log.Printf("  Tespit edilen değişiklikler:")
+						infoLogger.Printf("[DEĞIŞIKLIK] Hakediş #%d için değişiklikler tespit edildi", payment.ProgressPaymentNumber)
 						for _, change := range changes {
-							log.Printf("    - %s", change)
+							infoLogger.Printf("[DEĞIŞIKLIK DETAY] Hakediş #%d: %s", payment.ProgressPaymentNumber, change)
 						}
 
 						updateMutation := `
@@ -241,19 +289,20 @@ func ProgressPayments(c *fiber.Ctx) error {
 
 						if err := graphqlClient.Execute(updateMutation, updateVariables, jwtToken, &updateResult); err != nil {
 							errMsg := fmt.Sprintf("Hakediş güncellenirken hata oluştu: %v", err)
-							log.Printf("Hata: %s - Hakediş #%d\n", errMsg, payment.ProgressPaymentNumber)
+							errorLogger.Printf("[HATA] %s - Hakediş #%d", errMsg, payment.ProgressPaymentNumber)
 							processLog["status"] = "error"
 							processLog["error"] = errMsg
 							processLogs = append(processLogs, processLog)
 							continue
 						}
 
-						log.Printf("Hakediş başarıyla güncellendi - ID: %d, PaymentNo: %d", updateResult.UpdateJobPayments.ID, updateResult.UpdateJobPayments.PaymentNo)
+						infoLogger.Printf("[BAŞARILI] Hakediş güncellendi - ID: %d, PaymentNo: %d", updateResult.UpdateJobPayments.ID, updateResult.UpdateJobPayments.PaymentNo)
 						successCount++
 						processLog["status"] = "success"
 						processLog["message"] = "Hakediş başarıyla güncellendi"
 						processLog["data"] = updateResult.UpdateJobPayments
 					} else {
+						infoLogger.Printf("[ATLANDI] Hakediş #%d için değişiklik yok", payment.ProgressPaymentNumber)
 						skippedCount++
 						processLog["status"] = "skipped"
 						processLog["message"] = "Hakediş verileri güncel"
@@ -292,15 +341,16 @@ func ProgressPayments(c *fiber.Ctx) error {
 			}
 
 			if err := graphqlClient.Execute(createMutation, map[string]interface{}{"input": paymentData}, jwtToken, &createResult); err != nil {
-				errMsg := fmt.Sprintf("Hakediş eklenirken hata oluştu: %v", err)
-				log.Printf("Hata: %s - Hakediş #%d\n", errMsg, payment.ProgressPaymentNumber)
+				errMsg := fmt.Sprintf("Hakediş eklenirken hata oluştu: %+v\nInput Data: %+v\nMutation: %s", err, paymentData, createMutation)
+				errorLogger.Printf("[HATA] %s - Hakediş #%d", errMsg, payment.ProgressPaymentNumber)
 				processLog["status"] = "error"
 				processLog["error"] = errMsg
+				processLog["input_data"] = paymentData
 				processLogs = append(processLogs, processLog)
 				continue
 			}
 
-			log.Printf("Hakediş başarıyla eklendi - ID: %d, PaymentNo: %d", createResult.CreateJobPayments.ID, createResult.CreateJobPayments.PaymentNo)
+			infoLogger.Printf("[BAŞARILI] Yeni hakediş eklendi - ID: %d, PaymentNo: %d", createResult.CreateJobPayments.ID, createResult.CreateJobPayments.PaymentNo)
 			successCount++
 			processLog["status"] = "success"
 			processLog["message"] = "Hakediş başarıyla eklendi"
@@ -309,6 +359,13 @@ func ProgressPayments(c *fiber.Ctx) error {
 
 		processLogs = append(processLogs, processLog)
 	}
+
+	executionTime := time.Since(requestStartTime)
+	infoLogger.Printf("[BİTİŞ] İşlem tamamlandı - Süre: %v, Başarılı: %d, Atlanan: %d, Toplam: %d",
+		executionTime,
+		successCount,
+		skippedCount,
+		len(progressPaymentResponse.Items))
 
 	result := fiber.Map{
 		"yibfNo":      requestParams.YibfNo,

@@ -20,13 +20,8 @@ type graphQLRequest struct {
 
 // NewGraphQLClient creates a new GraphQL client with the configured URL
 func NewGraphQLClient(scheme string) *GraphQLClient {
-	host := os.Getenv("GRAPHQL_URL")
-	if host == "" {
-		host = "localhost:4000" // varsayılan host
-	}
-
 	return &GraphQLClient{
-		URL: fmt.Sprintf("%s://%s/graphql", scheme, host),
+		URL: os.Getenv("GRAPHQL_URL"),
 	}
 }
 
