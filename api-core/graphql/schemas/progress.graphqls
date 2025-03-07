@@ -19,7 +19,7 @@ input JobProgressInput {
 }
 
 extend type Query {
-  getProgress(yibfNo: Int!): JobProgress @goField(forceResolver: true) @auth
+  progress(yibfNo: Int!): JobProgress @goField(forceResolver: true) @auth
 }
 
 extend type Mutation {

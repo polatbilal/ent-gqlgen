@@ -27,10 +27,8 @@ extend type Query {
 }
 
 extend type Mutation {
-  createUser(input: UserInput!): User! @goField(forceResolver: true) @auth
-  updateUser(id: ID!, input: UserInput!): User!
-    @goField(forceResolver: true)
-    @auth
+  upsertUser(input: UserInput!): User! @goField(forceResolver: true) @auth
+
   deleteUser(id: ID!): Boolean! @goField(forceResolver: true) @auth
   activateCompanyUsers(adminId: ID!): [User!]!
     @goField(forceResolver: true)

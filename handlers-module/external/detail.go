@@ -875,8 +875,8 @@ func logBatchResponse(yibfID int, response interface{}) {
 // YibfDetailHandler, fiber.Handler uyumlu bir wrapper fonksiyondur
 func YibfDetailHandler(c *fiber.Ctx) error {
 	var request struct {
-		YibfNumber  int `json:"yibfNo"`
-		CompanyCode int `json:"companyCode"`
+		YibfNumbers []int `json:"yibfNo"`
+		CompanyCode int   `json:"companyCode"`
 	}
 
 	if err := c.BodyParser(&request); err != nil {
@@ -885,9 +885,9 @@ func YibfDetailHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	if request.YibfNumber == 0 {
+	if len(request.YibfNumbers) == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "YİBF numarası gerekli",
+			"error": "En az bir YİBF numarası gerekli",
 		})
 	}
 
@@ -897,5 +897,5 @@ func YibfDetailHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	return YibfDetail(c, []int{request.YibfNumber}, request.CompanyCode)
+	return YibfDetail(c, request.YibfNumbers, request.CompanyCode)
 }

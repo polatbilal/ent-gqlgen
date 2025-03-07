@@ -6,6 +6,7 @@ type JobBatchResult {
   supervisor: JobSupervisor
   engineer: JobEngineer
   progress: JobProgress
+  company: CompanyDetail
 }
 
 input JobBatchInput {

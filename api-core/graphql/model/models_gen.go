@@ -106,6 +106,7 @@ type JobBatchResult struct {
 	Supervisor *ent.JobSupervisor `json:"supervisor,omitempty"`
 	Engineer   *JobEngineer       `json:"engineer,omitempty"`
 	Progress   *ent.JobProgress   `json:"progress,omitempty"`
+	Company    *ent.CompanyDetail `json:"company,omitempty"`
 }
 
 type JobContractorInput struct {
