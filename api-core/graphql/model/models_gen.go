@@ -62,14 +62,11 @@ type CompanyEngineerInput struct {
 }
 
 type CompanyTokenInput struct {
-	Token           *string `json:"Token,omitempty"`
-	DepartmentID    *int    `json:"DepartmentId,omitempty"`
-	Expire          *int    `json:"Expire,omitempty"`
-	CompanyCode     *int    `json:"CompanyCode,omitempty"`
-	RefreshToken    *string `json:"RefreshToken,omitempty"`
-	SecretKey       *string `json:"SecretKey,omitempty"`
-	SecureSecretKey *string `json:"SecureSecretKey,omitempty"`
-	OtpURI          *string `json:"OtpUri,omitempty"`
+	Token        *string `json:"Token,omitempty"`
+	DepartmentID *int    `json:"DepartmentId,omitempty"`
+	CompanyCode  *int    `json:"CompanyCode,omitempty"`
+	YDKUsername  *string `json:"YDKUsername,omitempty"`
+	YDKPassword  *string `json:"YDKPassword,omitempty"`
 }
 
 type EngineerFilterInput struct {

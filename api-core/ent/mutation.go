@@ -4816,15 +4816,11 @@ type CompanyTokenMutation struct {
 	op               Op
 	typ              string
 	id               *int
+	_YDKUsername     *string
+	_YDKPassword     *string
 	_Token           *string
 	_DepartmentId    *int
 	add_DepartmentId *int
-	_Expire          *int
-	add_Expire       *int
-	_RefreshToken    *string
-	_SecretKey       *string
-	_SecureSecretKey *string
-	_OtpUri          *string
 	createdAt        *time.Time
 	updatedAt        *time.Time
 	clearedFields    map[string]struct{}
@@ -4931,6 +4927,104 @@ func (m *CompanyTokenMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetYDKUsername sets the "YDKUsername" field.
+func (m *CompanyTokenMutation) SetYDKUsername(s string) {
+	m._YDKUsername = &s
+}
+
+// YDKUsername returns the value of the "YDKUsername" field in the mutation.
+func (m *CompanyTokenMutation) YDKUsername() (r string, exists bool) {
+	v := m._YDKUsername
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYDKUsername returns the old "YDKUsername" field's value of the CompanyToken entity.
+// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyTokenMutation) OldYDKUsername(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYDKUsername is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYDKUsername requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYDKUsername: %w", err)
+	}
+	return oldValue.YDKUsername, nil
+}
+
+// ClearYDKUsername clears the value of the "YDKUsername" field.
+func (m *CompanyTokenMutation) ClearYDKUsername() {
+	m._YDKUsername = nil
+	m.clearedFields[companytoken.FieldYDKUsername] = struct{}{}
+}
+
+// YDKUsernameCleared returns if the "YDKUsername" field was cleared in this mutation.
+func (m *CompanyTokenMutation) YDKUsernameCleared() bool {
+	_, ok := m.clearedFields[companytoken.FieldYDKUsername]
+	return ok
+}
+
+// ResetYDKUsername resets all changes to the "YDKUsername" field.
+func (m *CompanyTokenMutation) ResetYDKUsername() {
+	m._YDKUsername = nil
+	delete(m.clearedFields, companytoken.FieldYDKUsername)
+}
+
+// SetYDKPassword sets the "YDKPassword" field.
+func (m *CompanyTokenMutation) SetYDKPassword(s string) {
+	m._YDKPassword = &s
+}
+
+// YDKPassword returns the value of the "YDKPassword" field in the mutation.
+func (m *CompanyTokenMutation) YDKPassword() (r string, exists bool) {
+	v := m._YDKPassword
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYDKPassword returns the old "YDKPassword" field's value of the CompanyToken entity.
+// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyTokenMutation) OldYDKPassword(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYDKPassword is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYDKPassword requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYDKPassword: %w", err)
+	}
+	return oldValue.YDKPassword, nil
+}
+
+// ClearYDKPassword clears the value of the "YDKPassword" field.
+func (m *CompanyTokenMutation) ClearYDKPassword() {
+	m._YDKPassword = nil
+	m.clearedFields[companytoken.FieldYDKPassword] = struct{}{}
+}
+
+// YDKPasswordCleared returns if the "YDKPassword" field was cleared in this mutation.
+func (m *CompanyTokenMutation) YDKPasswordCleared() bool {
+	_, ok := m.clearedFields[companytoken.FieldYDKPassword]
+	return ok
+}
+
+// ResetYDKPassword resets all changes to the "YDKPassword" field.
+func (m *CompanyTokenMutation) ResetYDKPassword() {
+	m._YDKPassword = nil
+	delete(m.clearedFields, companytoken.FieldYDKPassword)
 }
 
 // SetToken sets the "Token" field.
@@ -5050,272 +5144,6 @@ func (m *CompanyTokenMutation) ResetDepartmentId() {
 	m._DepartmentId = nil
 	m.add_DepartmentId = nil
 	delete(m.clearedFields, companytoken.FieldDepartmentId)
-}
-
-// SetExpire sets the "Expire" field.
-func (m *CompanyTokenMutation) SetExpire(i int) {
-	m._Expire = &i
-	m.add_Expire = nil
-}
-
-// Expire returns the value of the "Expire" field in the mutation.
-func (m *CompanyTokenMutation) Expire() (r int, exists bool) {
-	v := m._Expire
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldExpire returns the old "Expire" field's value of the CompanyToken entity.
-// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyTokenMutation) OldExpire(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldExpire is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldExpire requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldExpire: %w", err)
-	}
-	return oldValue.Expire, nil
-}
-
-// AddExpire adds i to the "Expire" field.
-func (m *CompanyTokenMutation) AddExpire(i int) {
-	if m.add_Expire != nil {
-		*m.add_Expire += i
-	} else {
-		m.add_Expire = &i
-	}
-}
-
-// AddedExpire returns the value that was added to the "Expire" field in this mutation.
-func (m *CompanyTokenMutation) AddedExpire() (r int, exists bool) {
-	v := m.add_Expire
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearExpire clears the value of the "Expire" field.
-func (m *CompanyTokenMutation) ClearExpire() {
-	m._Expire = nil
-	m.add_Expire = nil
-	m.clearedFields[companytoken.FieldExpire] = struct{}{}
-}
-
-// ExpireCleared returns if the "Expire" field was cleared in this mutation.
-func (m *CompanyTokenMutation) ExpireCleared() bool {
-	_, ok := m.clearedFields[companytoken.FieldExpire]
-	return ok
-}
-
-// ResetExpire resets all changes to the "Expire" field.
-func (m *CompanyTokenMutation) ResetExpire() {
-	m._Expire = nil
-	m.add_Expire = nil
-	delete(m.clearedFields, companytoken.FieldExpire)
-}
-
-// SetRefreshToken sets the "RefreshToken" field.
-func (m *CompanyTokenMutation) SetRefreshToken(s string) {
-	m._RefreshToken = &s
-}
-
-// RefreshToken returns the value of the "RefreshToken" field in the mutation.
-func (m *CompanyTokenMutation) RefreshToken() (r string, exists bool) {
-	v := m._RefreshToken
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldRefreshToken returns the old "RefreshToken" field's value of the CompanyToken entity.
-// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyTokenMutation) OldRefreshToken(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldRefreshToken is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldRefreshToken requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldRefreshToken: %w", err)
-	}
-	return oldValue.RefreshToken, nil
-}
-
-// ClearRefreshToken clears the value of the "RefreshToken" field.
-func (m *CompanyTokenMutation) ClearRefreshToken() {
-	m._RefreshToken = nil
-	m.clearedFields[companytoken.FieldRefreshToken] = struct{}{}
-}
-
-// RefreshTokenCleared returns if the "RefreshToken" field was cleared in this mutation.
-func (m *CompanyTokenMutation) RefreshTokenCleared() bool {
-	_, ok := m.clearedFields[companytoken.FieldRefreshToken]
-	return ok
-}
-
-// ResetRefreshToken resets all changes to the "RefreshToken" field.
-func (m *CompanyTokenMutation) ResetRefreshToken() {
-	m._RefreshToken = nil
-	delete(m.clearedFields, companytoken.FieldRefreshToken)
-}
-
-// SetSecretKey sets the "SecretKey" field.
-func (m *CompanyTokenMutation) SetSecretKey(s string) {
-	m._SecretKey = &s
-}
-
-// SecretKey returns the value of the "SecretKey" field in the mutation.
-func (m *CompanyTokenMutation) SecretKey() (r string, exists bool) {
-	v := m._SecretKey
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSecretKey returns the old "SecretKey" field's value of the CompanyToken entity.
-// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyTokenMutation) OldSecretKey(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSecretKey is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSecretKey requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSecretKey: %w", err)
-	}
-	return oldValue.SecretKey, nil
-}
-
-// ClearSecretKey clears the value of the "SecretKey" field.
-func (m *CompanyTokenMutation) ClearSecretKey() {
-	m._SecretKey = nil
-	m.clearedFields[companytoken.FieldSecretKey] = struct{}{}
-}
-
-// SecretKeyCleared returns if the "SecretKey" field was cleared in this mutation.
-func (m *CompanyTokenMutation) SecretKeyCleared() bool {
-	_, ok := m.clearedFields[companytoken.FieldSecretKey]
-	return ok
-}
-
-// ResetSecretKey resets all changes to the "SecretKey" field.
-func (m *CompanyTokenMutation) ResetSecretKey() {
-	m._SecretKey = nil
-	delete(m.clearedFields, companytoken.FieldSecretKey)
-}
-
-// SetSecureSecretKey sets the "SecureSecretKey" field.
-func (m *CompanyTokenMutation) SetSecureSecretKey(s string) {
-	m._SecureSecretKey = &s
-}
-
-// SecureSecretKey returns the value of the "SecureSecretKey" field in the mutation.
-func (m *CompanyTokenMutation) SecureSecretKey() (r string, exists bool) {
-	v := m._SecureSecretKey
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSecureSecretKey returns the old "SecureSecretKey" field's value of the CompanyToken entity.
-// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyTokenMutation) OldSecureSecretKey(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSecureSecretKey is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSecureSecretKey requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSecureSecretKey: %w", err)
-	}
-	return oldValue.SecureSecretKey, nil
-}
-
-// ClearSecureSecretKey clears the value of the "SecureSecretKey" field.
-func (m *CompanyTokenMutation) ClearSecureSecretKey() {
-	m._SecureSecretKey = nil
-	m.clearedFields[companytoken.FieldSecureSecretKey] = struct{}{}
-}
-
-// SecureSecretKeyCleared returns if the "SecureSecretKey" field was cleared in this mutation.
-func (m *CompanyTokenMutation) SecureSecretKeyCleared() bool {
-	_, ok := m.clearedFields[companytoken.FieldSecureSecretKey]
-	return ok
-}
-
-// ResetSecureSecretKey resets all changes to the "SecureSecretKey" field.
-func (m *CompanyTokenMutation) ResetSecureSecretKey() {
-	m._SecureSecretKey = nil
-	delete(m.clearedFields, companytoken.FieldSecureSecretKey)
-}
-
-// SetOtpUri sets the "OtpUri" field.
-func (m *CompanyTokenMutation) SetOtpUri(s string) {
-	m._OtpUri = &s
-}
-
-// OtpUri returns the value of the "OtpUri" field in the mutation.
-func (m *CompanyTokenMutation) OtpUri() (r string, exists bool) {
-	v := m._OtpUri
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldOtpUri returns the old "OtpUri" field's value of the CompanyToken entity.
-// If the CompanyToken object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyTokenMutation) OldOtpUri(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldOtpUri is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldOtpUri requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldOtpUri: %w", err)
-	}
-	return oldValue.OtpUri, nil
-}
-
-// ClearOtpUri clears the value of the "OtpUri" field.
-func (m *CompanyTokenMutation) ClearOtpUri() {
-	m._OtpUri = nil
-	m.clearedFields[companytoken.FieldOtpUri] = struct{}{}
-}
-
-// OtpUriCleared returns if the "OtpUri" field was cleared in this mutation.
-func (m *CompanyTokenMutation) OtpUriCleared() bool {
-	_, ok := m.clearedFields[companytoken.FieldOtpUri]
-	return ok
-}
-
-// ResetOtpUri resets all changes to the "OtpUri" field.
-func (m *CompanyTokenMutation) ResetOtpUri() {
-	m._OtpUri = nil
-	delete(m.clearedFields, companytoken.FieldOtpUri)
 }
 
 // SetCreatedAt sets the "createdAt" field.
@@ -5463,27 +5291,18 @@ func (m *CompanyTokenMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CompanyTokenMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 6)
+	if m._YDKUsername != nil {
+		fields = append(fields, companytoken.FieldYDKUsername)
+	}
+	if m._YDKPassword != nil {
+		fields = append(fields, companytoken.FieldYDKPassword)
+	}
 	if m._Token != nil {
 		fields = append(fields, companytoken.FieldToken)
 	}
 	if m._DepartmentId != nil {
 		fields = append(fields, companytoken.FieldDepartmentId)
-	}
-	if m._Expire != nil {
-		fields = append(fields, companytoken.FieldExpire)
-	}
-	if m._RefreshToken != nil {
-		fields = append(fields, companytoken.FieldRefreshToken)
-	}
-	if m._SecretKey != nil {
-		fields = append(fields, companytoken.FieldSecretKey)
-	}
-	if m._SecureSecretKey != nil {
-		fields = append(fields, companytoken.FieldSecureSecretKey)
-	}
-	if m._OtpUri != nil {
-		fields = append(fields, companytoken.FieldOtpUri)
 	}
 	if m.createdAt != nil {
 		fields = append(fields, companytoken.FieldCreatedAt)
@@ -5499,20 +5318,14 @@ func (m *CompanyTokenMutation) Fields() []string {
 // schema.
 func (m *CompanyTokenMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case companytoken.FieldYDKUsername:
+		return m.YDKUsername()
+	case companytoken.FieldYDKPassword:
+		return m.YDKPassword()
 	case companytoken.FieldToken:
 		return m.Token()
 	case companytoken.FieldDepartmentId:
 		return m.DepartmentId()
-	case companytoken.FieldExpire:
-		return m.Expire()
-	case companytoken.FieldRefreshToken:
-		return m.RefreshToken()
-	case companytoken.FieldSecretKey:
-		return m.SecretKey()
-	case companytoken.FieldSecureSecretKey:
-		return m.SecureSecretKey()
-	case companytoken.FieldOtpUri:
-		return m.OtpUri()
 	case companytoken.FieldCreatedAt:
 		return m.CreatedAt()
 	case companytoken.FieldUpdatedAt:
@@ -5526,20 +5339,14 @@ func (m *CompanyTokenMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *CompanyTokenMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case companytoken.FieldYDKUsername:
+		return m.OldYDKUsername(ctx)
+	case companytoken.FieldYDKPassword:
+		return m.OldYDKPassword(ctx)
 	case companytoken.FieldToken:
 		return m.OldToken(ctx)
 	case companytoken.FieldDepartmentId:
 		return m.OldDepartmentId(ctx)
-	case companytoken.FieldExpire:
-		return m.OldExpire(ctx)
-	case companytoken.FieldRefreshToken:
-		return m.OldRefreshToken(ctx)
-	case companytoken.FieldSecretKey:
-		return m.OldSecretKey(ctx)
-	case companytoken.FieldSecureSecretKey:
-		return m.OldSecureSecretKey(ctx)
-	case companytoken.FieldOtpUri:
-		return m.OldOtpUri(ctx)
 	case companytoken.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case companytoken.FieldUpdatedAt:
@@ -5553,6 +5360,20 @@ func (m *CompanyTokenMutation) OldField(ctx context.Context, name string) (ent.V
 // type.
 func (m *CompanyTokenMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case companytoken.FieldYDKUsername:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYDKUsername(v)
+		return nil
+	case companytoken.FieldYDKPassword:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYDKPassword(v)
+		return nil
 	case companytoken.FieldToken:
 		v, ok := value.(string)
 		if !ok {
@@ -5566,41 +5387,6 @@ func (m *CompanyTokenMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDepartmentId(v)
-		return nil
-	case companytoken.FieldExpire:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetExpire(v)
-		return nil
-	case companytoken.FieldRefreshToken:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetRefreshToken(v)
-		return nil
-	case companytoken.FieldSecretKey:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSecretKey(v)
-		return nil
-	case companytoken.FieldSecureSecretKey:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSecureSecretKey(v)
-		return nil
-	case companytoken.FieldOtpUri:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetOtpUri(v)
 		return nil
 	case companytoken.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -5627,9 +5413,6 @@ func (m *CompanyTokenMutation) AddedFields() []string {
 	if m.add_DepartmentId != nil {
 		fields = append(fields, companytoken.FieldDepartmentId)
 	}
-	if m.add_Expire != nil {
-		fields = append(fields, companytoken.FieldExpire)
-	}
 	return fields
 }
 
@@ -5640,8 +5423,6 @@ func (m *CompanyTokenMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case companytoken.FieldDepartmentId:
 		return m.AddedDepartmentId()
-	case companytoken.FieldExpire:
-		return m.AddedExpire()
 	}
 	return nil, false
 }
@@ -5658,13 +5439,6 @@ func (m *CompanyTokenMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddDepartmentId(v)
 		return nil
-	case companytoken.FieldExpire:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddExpire(v)
-		return nil
 	}
 	return fmt.Errorf("unknown CompanyToken numeric field %s", name)
 }
@@ -5673,26 +5447,17 @@ func (m *CompanyTokenMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *CompanyTokenMutation) ClearedFields() []string {
 	var fields []string
+	if m.FieldCleared(companytoken.FieldYDKUsername) {
+		fields = append(fields, companytoken.FieldYDKUsername)
+	}
+	if m.FieldCleared(companytoken.FieldYDKPassword) {
+		fields = append(fields, companytoken.FieldYDKPassword)
+	}
 	if m.FieldCleared(companytoken.FieldToken) {
 		fields = append(fields, companytoken.FieldToken)
 	}
 	if m.FieldCleared(companytoken.FieldDepartmentId) {
 		fields = append(fields, companytoken.FieldDepartmentId)
-	}
-	if m.FieldCleared(companytoken.FieldExpire) {
-		fields = append(fields, companytoken.FieldExpire)
-	}
-	if m.FieldCleared(companytoken.FieldRefreshToken) {
-		fields = append(fields, companytoken.FieldRefreshToken)
-	}
-	if m.FieldCleared(companytoken.FieldSecretKey) {
-		fields = append(fields, companytoken.FieldSecretKey)
-	}
-	if m.FieldCleared(companytoken.FieldSecureSecretKey) {
-		fields = append(fields, companytoken.FieldSecureSecretKey)
-	}
-	if m.FieldCleared(companytoken.FieldOtpUri) {
-		fields = append(fields, companytoken.FieldOtpUri)
 	}
 	return fields
 }
@@ -5708,26 +5473,17 @@ func (m *CompanyTokenMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *CompanyTokenMutation) ClearField(name string) error {
 	switch name {
+	case companytoken.FieldYDKUsername:
+		m.ClearYDKUsername()
+		return nil
+	case companytoken.FieldYDKPassword:
+		m.ClearYDKPassword()
+		return nil
 	case companytoken.FieldToken:
 		m.ClearToken()
 		return nil
 	case companytoken.FieldDepartmentId:
 		m.ClearDepartmentId()
-		return nil
-	case companytoken.FieldExpire:
-		m.ClearExpire()
-		return nil
-	case companytoken.FieldRefreshToken:
-		m.ClearRefreshToken()
-		return nil
-	case companytoken.FieldSecretKey:
-		m.ClearSecretKey()
-		return nil
-	case companytoken.FieldSecureSecretKey:
-		m.ClearSecureSecretKey()
-		return nil
-	case companytoken.FieldOtpUri:
-		m.ClearOtpUri()
 		return nil
 	}
 	return fmt.Errorf("unknown CompanyToken nullable field %s", name)
@@ -5737,26 +5493,17 @@ func (m *CompanyTokenMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *CompanyTokenMutation) ResetField(name string) error {
 	switch name {
+	case companytoken.FieldYDKUsername:
+		m.ResetYDKUsername()
+		return nil
+	case companytoken.FieldYDKPassword:
+		m.ResetYDKPassword()
+		return nil
 	case companytoken.FieldToken:
 		m.ResetToken()
 		return nil
 	case companytoken.FieldDepartmentId:
 		m.ResetDepartmentId()
-		return nil
-	case companytoken.FieldExpire:
-		m.ResetExpire()
-		return nil
-	case companytoken.FieldRefreshToken:
-		m.ResetRefreshToken()
-		return nil
-	case companytoken.FieldSecretKey:
-		m.ResetSecretKey()
-		return nil
-	case companytoken.FieldSecureSecretKey:
-		m.ResetSecureSecretKey()
-		return nil
-	case companytoken.FieldOtpUri:
-		m.ResetOtpUri()
 		return nil
 	case companytoken.FieldCreatedAt:
 		m.ResetCreatedAt()

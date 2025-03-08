@@ -15,8 +15,8 @@ import (
 	"github.com/polatbilal/gqlgen-ent/api-core/middlewares"
 )
 
-// JobBatch is the resolver for the jobBatch field.
-func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
+// JobBatchMutation is the resolver for the jobBatchMutation field.
+func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	if client == nil {
 		return nil, fmt.Errorf("client nil")
@@ -113,7 +113,7 @@ func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInp
 
 			if existingRelations.Edges.Owner != nil {
 				// Mevcut owner'ı güncelle
-				owner, err = r.UpdateOwner(txCtx, input.YibfNo, ownerInput)
+				owner, err = r.UpdateOwner(txCtx, ownerInput)
 				if err != nil {
 					fmt.Printf("Owner güncelleme hatası: %v\n", err)
 					_ = tx.Rollback()
@@ -152,7 +152,7 @@ func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInp
 
 			if existingRelations.Edges.Contractor != nil {
 				// Mevcut contractor'ı güncelle
-				contractor, err = r.UpdateContractor(txCtx, input.YibfNo, contractorInput)
+				contractor, err = r.UpdateContractor(txCtx, contractorInput)
 				if err != nil {
 					fmt.Printf("Contractor güncelleme hatası: %v\n", err)
 					_ = tx.Rollback()
@@ -230,7 +230,7 @@ func (r *mutationResolver) JobBatch(ctx context.Context, input model.JobBatchInp
 
 			if existingRelations.Edges.Supervisor != nil {
 				// Mevcut supervisor'ı güncelle
-				supervisor, err = r.UpdateSupervisor(txCtx, input.YibfNo, supervisorInput)
+				supervisor, err = r.UpdateSupervisor(txCtx, supervisorInput)
 				if err != nil {
 					fmt.Printf("Supervisor güncelleme hatası: %v\n", err)
 					_ = tx.Rollback()

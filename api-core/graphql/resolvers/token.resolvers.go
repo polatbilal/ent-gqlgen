@@ -52,13 +52,9 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 			// Token bulunamadı, yeni token oluştur
 			// 1. Önce token'ı kaydet
 			tokenCreate := client.CompanyToken.Create().
+				SetYDKUsername(*input.YDKUsername).
 				SetToken(*input.Token).
-				SetDepartmentId(departmentID).
-				SetExpire(*input.Expire).
-				SetRefreshToken(*input.RefreshToken).
-				SetSecretKey(*input.SecretKey).
-				SetSecureSecretKey(*input.SecureSecretKey).
-				SetNillableOtpUri(input.OtpURI)
+				SetDepartmentId(departmentID)
 			createCompanyToken, err := tokenCreate.Save(ctx)
 			if err != nil {
 				return nil, fmt.Errorf("şirket token oluşturulamadı: %v", err)
@@ -181,11 +177,6 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 	// Token bulunduysa güncelle
 	updatedCompanyToken, err := existingToken.Update().
 		SetToken(*input.Token).
-		SetExpire(*input.Expire).
-		SetRefreshToken(*input.RefreshToken).
-		SetSecretKey(*input.SecretKey).
-		SetSecureSecretKey(*input.SecureSecretKey).
-		SetNillableOtpUri(input.OtpURI).
 		Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("şirket token güncellenemedi: %v", err)

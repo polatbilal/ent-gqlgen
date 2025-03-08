@@ -20,7 +20,33 @@ import (
 func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Yeni author oluştur
+	// Önce mevcut author'ı kontrol et
+	existingAuthor, err := client.JobAuthor.Query().
+		Where(jobauthor.YibfNo(*input.YibfNo)).
+		First(ctx)
+
+	if err != nil && !ent.IsNotFound(err) {
+		return nil, fmt.Errorf("failed to query author: %w", err)
+	}
+
+	if existingAuthor != nil {
+		// Mevcut author varsa güncelle
+		author, err := existingAuthor.Update().
+			SetNillableStatic(input.Static).
+			SetNillableMechanic(input.Mechanic).
+			SetNillableElectric(input.Electric).
+			SetNillableArchitect(input.Architect).
+			SetNillableGeotechnicalEngineer(input.GeotechnicalEngineer).
+			SetNillableGeotechnicalGeologist(input.GeotechnicalGeologist).
+			SetNillableGeotechnicalGeophysicist(input.GeotechnicalGeophysicist).
+			Save(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("failed to update author: %w", err)
+		}
+		return author, nil
+	}
+
+	// Mevcut author yoksa yeni oluştur
 	author, err := client.JobAuthor.Create().
 		SetYibfNo(*input.YibfNo).
 		SetNillableStatic(input.Static).
@@ -47,7 +73,7 @@ func (r *mutationResolver) UpdateAuthor(ctx context.Context, yibfNo int, input m
 		Where(jobauthor.YibfNoEQ(yibfNo)).
 		Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("author bulunamadı: %v", err)
+		return nil, fmt.Errorf("failed to query author: %w", err)
 	}
 
 	author, err = author.Update().
@@ -75,13 +101,13 @@ func (r *queryResolver) Author(ctx context.Context, yibfNo int) (*ent.JobAuthor,
 		Where(jobdetail.YibfNoEQ(yibfNo)).
 		Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
+		return nil, fmt.Errorf("failed to query job detail: %w", err)
 	}
 
 	// JobRelations üzerinden author'ı bul
 	relations, err := jobDetail.QueryRelations().Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+		return nil, fmt.Errorf("failed to query job relations: %w", err)
 	}
 
 	author, err := relations.QueryAuthor().Only(ctx)

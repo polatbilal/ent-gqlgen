@@ -1,19 +1,17 @@
 type CompanyToken {
   Token: String
   DepartmentId: Int
-  Expire: Int
   CompanyCode: Int
+  YDKUsername: String
+  YDKPassword: String
 }
 
 input CompanyTokenInput {
   Token: String
   DepartmentId: Int
-  Expire: Int
   CompanyCode: Int
-  RefreshToken: String
-  SecretKey: String
-  SecureSecretKey: String
-  OtpUri: String
+  YDKUsername: String
+  YDKPassword: String
 }
 
 extend type Query {

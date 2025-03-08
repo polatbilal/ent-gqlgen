@@ -48,7 +48,7 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 }
 
 // UpdateSupervisor is the resolver for the updateSupervisor field.
-func (r *mutationResolver) UpdateSupervisor(ctx context.Context, yibfNo int, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
+func (r *mutationResolver) UpdateSupervisor(ctx context.Context, input model.JobSupervisorInput) (*ent.JobSupervisor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// Owner'ı doğrudan ydsid ile bul

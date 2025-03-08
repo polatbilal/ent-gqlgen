@@ -29,6 +29,46 @@ func (ctu *CompanyTokenUpdate) Where(ps ...predicate.CompanyToken) *CompanyToken
 	return ctu
 }
 
+// SetYDKUsername sets the "YDKUsername" field.
+func (ctu *CompanyTokenUpdate) SetYDKUsername(s string) *CompanyTokenUpdate {
+	ctu.mutation.SetYDKUsername(s)
+	return ctu
+}
+
+// SetNillableYDKUsername sets the "YDKUsername" field if the given value is not nil.
+func (ctu *CompanyTokenUpdate) SetNillableYDKUsername(s *string) *CompanyTokenUpdate {
+	if s != nil {
+		ctu.SetYDKUsername(*s)
+	}
+	return ctu
+}
+
+// ClearYDKUsername clears the value of the "YDKUsername" field.
+func (ctu *CompanyTokenUpdate) ClearYDKUsername() *CompanyTokenUpdate {
+	ctu.mutation.ClearYDKUsername()
+	return ctu
+}
+
+// SetYDKPassword sets the "YDKPassword" field.
+func (ctu *CompanyTokenUpdate) SetYDKPassword(s string) *CompanyTokenUpdate {
+	ctu.mutation.SetYDKPassword(s)
+	return ctu
+}
+
+// SetNillableYDKPassword sets the "YDKPassword" field if the given value is not nil.
+func (ctu *CompanyTokenUpdate) SetNillableYDKPassword(s *string) *CompanyTokenUpdate {
+	if s != nil {
+		ctu.SetYDKPassword(*s)
+	}
+	return ctu
+}
+
+// ClearYDKPassword clears the value of the "YDKPassword" field.
+func (ctu *CompanyTokenUpdate) ClearYDKPassword() *CompanyTokenUpdate {
+	ctu.mutation.ClearYDKPassword()
+	return ctu
+}
+
 // SetToken sets the "Token" field.
 func (ctu *CompanyTokenUpdate) SetToken(s string) *CompanyTokenUpdate {
 	ctu.mutation.SetToken(s)
@@ -73,113 +113,6 @@ func (ctu *CompanyTokenUpdate) AddDepartmentId(i int) *CompanyTokenUpdate {
 // ClearDepartmentId clears the value of the "DepartmentId" field.
 func (ctu *CompanyTokenUpdate) ClearDepartmentId() *CompanyTokenUpdate {
 	ctu.mutation.ClearDepartmentId()
-	return ctu
-}
-
-// SetExpire sets the "Expire" field.
-func (ctu *CompanyTokenUpdate) SetExpire(i int) *CompanyTokenUpdate {
-	ctu.mutation.ResetExpire()
-	ctu.mutation.SetExpire(i)
-	return ctu
-}
-
-// SetNillableExpire sets the "Expire" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableExpire(i *int) *CompanyTokenUpdate {
-	if i != nil {
-		ctu.SetExpire(*i)
-	}
-	return ctu
-}
-
-// AddExpire adds i to the "Expire" field.
-func (ctu *CompanyTokenUpdate) AddExpire(i int) *CompanyTokenUpdate {
-	ctu.mutation.AddExpire(i)
-	return ctu
-}
-
-// ClearExpire clears the value of the "Expire" field.
-func (ctu *CompanyTokenUpdate) ClearExpire() *CompanyTokenUpdate {
-	ctu.mutation.ClearExpire()
-	return ctu
-}
-
-// SetRefreshToken sets the "RefreshToken" field.
-func (ctu *CompanyTokenUpdate) SetRefreshToken(s string) *CompanyTokenUpdate {
-	ctu.mutation.SetRefreshToken(s)
-	return ctu
-}
-
-// SetNillableRefreshToken sets the "RefreshToken" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableRefreshToken(s *string) *CompanyTokenUpdate {
-	if s != nil {
-		ctu.SetRefreshToken(*s)
-	}
-	return ctu
-}
-
-// ClearRefreshToken clears the value of the "RefreshToken" field.
-func (ctu *CompanyTokenUpdate) ClearRefreshToken() *CompanyTokenUpdate {
-	ctu.mutation.ClearRefreshToken()
-	return ctu
-}
-
-// SetSecretKey sets the "SecretKey" field.
-func (ctu *CompanyTokenUpdate) SetSecretKey(s string) *CompanyTokenUpdate {
-	ctu.mutation.SetSecretKey(s)
-	return ctu
-}
-
-// SetNillableSecretKey sets the "SecretKey" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableSecretKey(s *string) *CompanyTokenUpdate {
-	if s != nil {
-		ctu.SetSecretKey(*s)
-	}
-	return ctu
-}
-
-// ClearSecretKey clears the value of the "SecretKey" field.
-func (ctu *CompanyTokenUpdate) ClearSecretKey() *CompanyTokenUpdate {
-	ctu.mutation.ClearSecretKey()
-	return ctu
-}
-
-// SetSecureSecretKey sets the "SecureSecretKey" field.
-func (ctu *CompanyTokenUpdate) SetSecureSecretKey(s string) *CompanyTokenUpdate {
-	ctu.mutation.SetSecureSecretKey(s)
-	return ctu
-}
-
-// SetNillableSecureSecretKey sets the "SecureSecretKey" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableSecureSecretKey(s *string) *CompanyTokenUpdate {
-	if s != nil {
-		ctu.SetSecureSecretKey(*s)
-	}
-	return ctu
-}
-
-// ClearSecureSecretKey clears the value of the "SecureSecretKey" field.
-func (ctu *CompanyTokenUpdate) ClearSecureSecretKey() *CompanyTokenUpdate {
-	ctu.mutation.ClearSecureSecretKey()
-	return ctu
-}
-
-// SetOtpUri sets the "OtpUri" field.
-func (ctu *CompanyTokenUpdate) SetOtpUri(s string) *CompanyTokenUpdate {
-	ctu.mutation.SetOtpUri(s)
-	return ctu
-}
-
-// SetNillableOtpUri sets the "OtpUri" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableOtpUri(s *string) *CompanyTokenUpdate {
-	if s != nil {
-		ctu.SetOtpUri(*s)
-	}
-	return ctu
-}
-
-// ClearOtpUri clears the value of the "OtpUri" field.
-func (ctu *CompanyTokenUpdate) ClearOtpUri() *CompanyTokenUpdate {
-	ctu.mutation.ClearOtpUri()
 	return ctu
 }
 
@@ -278,6 +211,18 @@ func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := ctu.mutation.YDKUsername(); ok {
+		_spec.SetField(companytoken.FieldYDKUsername, field.TypeString, value)
+	}
+	if ctu.mutation.YDKUsernameCleared() {
+		_spec.ClearField(companytoken.FieldYDKUsername, field.TypeString)
+	}
+	if value, ok := ctu.mutation.YDKPassword(); ok {
+		_spec.SetField(companytoken.FieldYDKPassword, field.TypeString, value)
+	}
+	if ctu.mutation.YDKPasswordCleared() {
+		_spec.ClearField(companytoken.FieldYDKPassword, field.TypeString)
+	}
 	if value, ok := ctu.mutation.Token(); ok {
 		_spec.SetField(companytoken.FieldToken, field.TypeString, value)
 	}
@@ -292,39 +237,6 @@ func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if ctu.mutation.DepartmentIdCleared() {
 		_spec.ClearField(companytoken.FieldDepartmentId, field.TypeInt)
-	}
-	if value, ok := ctu.mutation.Expire(); ok {
-		_spec.SetField(companytoken.FieldExpire, field.TypeInt, value)
-	}
-	if value, ok := ctu.mutation.AddedExpire(); ok {
-		_spec.AddField(companytoken.FieldExpire, field.TypeInt, value)
-	}
-	if ctu.mutation.ExpireCleared() {
-		_spec.ClearField(companytoken.FieldExpire, field.TypeInt)
-	}
-	if value, ok := ctu.mutation.RefreshToken(); ok {
-		_spec.SetField(companytoken.FieldRefreshToken, field.TypeString, value)
-	}
-	if ctu.mutation.RefreshTokenCleared() {
-		_spec.ClearField(companytoken.FieldRefreshToken, field.TypeString)
-	}
-	if value, ok := ctu.mutation.SecretKey(); ok {
-		_spec.SetField(companytoken.FieldSecretKey, field.TypeString, value)
-	}
-	if ctu.mutation.SecretKeyCleared() {
-		_spec.ClearField(companytoken.FieldSecretKey, field.TypeString)
-	}
-	if value, ok := ctu.mutation.SecureSecretKey(); ok {
-		_spec.SetField(companytoken.FieldSecureSecretKey, field.TypeString, value)
-	}
-	if ctu.mutation.SecureSecretKeyCleared() {
-		_spec.ClearField(companytoken.FieldSecureSecretKey, field.TypeString)
-	}
-	if value, ok := ctu.mutation.OtpUri(); ok {
-		_spec.SetField(companytoken.FieldOtpUri, field.TypeString, value)
-	}
-	if ctu.mutation.OtpUriCleared() {
-		_spec.ClearField(companytoken.FieldOtpUri, field.TypeString)
 	}
 	if value, ok := ctu.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
@@ -381,6 +293,46 @@ type CompanyTokenUpdateOne struct {
 	mutation *CompanyTokenMutation
 }
 
+// SetYDKUsername sets the "YDKUsername" field.
+func (ctuo *CompanyTokenUpdateOne) SetYDKUsername(s string) *CompanyTokenUpdateOne {
+	ctuo.mutation.SetYDKUsername(s)
+	return ctuo
+}
+
+// SetNillableYDKUsername sets the "YDKUsername" field if the given value is not nil.
+func (ctuo *CompanyTokenUpdateOne) SetNillableYDKUsername(s *string) *CompanyTokenUpdateOne {
+	if s != nil {
+		ctuo.SetYDKUsername(*s)
+	}
+	return ctuo
+}
+
+// ClearYDKUsername clears the value of the "YDKUsername" field.
+func (ctuo *CompanyTokenUpdateOne) ClearYDKUsername() *CompanyTokenUpdateOne {
+	ctuo.mutation.ClearYDKUsername()
+	return ctuo
+}
+
+// SetYDKPassword sets the "YDKPassword" field.
+func (ctuo *CompanyTokenUpdateOne) SetYDKPassword(s string) *CompanyTokenUpdateOne {
+	ctuo.mutation.SetYDKPassword(s)
+	return ctuo
+}
+
+// SetNillableYDKPassword sets the "YDKPassword" field if the given value is not nil.
+func (ctuo *CompanyTokenUpdateOne) SetNillableYDKPassword(s *string) *CompanyTokenUpdateOne {
+	if s != nil {
+		ctuo.SetYDKPassword(*s)
+	}
+	return ctuo
+}
+
+// ClearYDKPassword clears the value of the "YDKPassword" field.
+func (ctuo *CompanyTokenUpdateOne) ClearYDKPassword() *CompanyTokenUpdateOne {
+	ctuo.mutation.ClearYDKPassword()
+	return ctuo
+}
+
 // SetToken sets the "Token" field.
 func (ctuo *CompanyTokenUpdateOne) SetToken(s string) *CompanyTokenUpdateOne {
 	ctuo.mutation.SetToken(s)
@@ -425,113 +377,6 @@ func (ctuo *CompanyTokenUpdateOne) AddDepartmentId(i int) *CompanyTokenUpdateOne
 // ClearDepartmentId clears the value of the "DepartmentId" field.
 func (ctuo *CompanyTokenUpdateOne) ClearDepartmentId() *CompanyTokenUpdateOne {
 	ctuo.mutation.ClearDepartmentId()
-	return ctuo
-}
-
-// SetExpire sets the "Expire" field.
-func (ctuo *CompanyTokenUpdateOne) SetExpire(i int) *CompanyTokenUpdateOne {
-	ctuo.mutation.ResetExpire()
-	ctuo.mutation.SetExpire(i)
-	return ctuo
-}
-
-// SetNillableExpire sets the "Expire" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableExpire(i *int) *CompanyTokenUpdateOne {
-	if i != nil {
-		ctuo.SetExpire(*i)
-	}
-	return ctuo
-}
-
-// AddExpire adds i to the "Expire" field.
-func (ctuo *CompanyTokenUpdateOne) AddExpire(i int) *CompanyTokenUpdateOne {
-	ctuo.mutation.AddExpire(i)
-	return ctuo
-}
-
-// ClearExpire clears the value of the "Expire" field.
-func (ctuo *CompanyTokenUpdateOne) ClearExpire() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearExpire()
-	return ctuo
-}
-
-// SetRefreshToken sets the "RefreshToken" field.
-func (ctuo *CompanyTokenUpdateOne) SetRefreshToken(s string) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetRefreshToken(s)
-	return ctuo
-}
-
-// SetNillableRefreshToken sets the "RefreshToken" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableRefreshToken(s *string) *CompanyTokenUpdateOne {
-	if s != nil {
-		ctuo.SetRefreshToken(*s)
-	}
-	return ctuo
-}
-
-// ClearRefreshToken clears the value of the "RefreshToken" field.
-func (ctuo *CompanyTokenUpdateOne) ClearRefreshToken() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearRefreshToken()
-	return ctuo
-}
-
-// SetSecretKey sets the "SecretKey" field.
-func (ctuo *CompanyTokenUpdateOne) SetSecretKey(s string) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetSecretKey(s)
-	return ctuo
-}
-
-// SetNillableSecretKey sets the "SecretKey" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableSecretKey(s *string) *CompanyTokenUpdateOne {
-	if s != nil {
-		ctuo.SetSecretKey(*s)
-	}
-	return ctuo
-}
-
-// ClearSecretKey clears the value of the "SecretKey" field.
-func (ctuo *CompanyTokenUpdateOne) ClearSecretKey() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearSecretKey()
-	return ctuo
-}
-
-// SetSecureSecretKey sets the "SecureSecretKey" field.
-func (ctuo *CompanyTokenUpdateOne) SetSecureSecretKey(s string) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetSecureSecretKey(s)
-	return ctuo
-}
-
-// SetNillableSecureSecretKey sets the "SecureSecretKey" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableSecureSecretKey(s *string) *CompanyTokenUpdateOne {
-	if s != nil {
-		ctuo.SetSecureSecretKey(*s)
-	}
-	return ctuo
-}
-
-// ClearSecureSecretKey clears the value of the "SecureSecretKey" field.
-func (ctuo *CompanyTokenUpdateOne) ClearSecureSecretKey() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearSecureSecretKey()
-	return ctuo
-}
-
-// SetOtpUri sets the "OtpUri" field.
-func (ctuo *CompanyTokenUpdateOne) SetOtpUri(s string) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetOtpUri(s)
-	return ctuo
-}
-
-// SetNillableOtpUri sets the "OtpUri" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableOtpUri(s *string) *CompanyTokenUpdateOne {
-	if s != nil {
-		ctuo.SetOtpUri(*s)
-	}
-	return ctuo
-}
-
-// ClearOtpUri clears the value of the "OtpUri" field.
-func (ctuo *CompanyTokenUpdateOne) ClearOtpUri() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearOtpUri()
 	return ctuo
 }
 
@@ -660,6 +505,18 @@ func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyT
 			}
 		}
 	}
+	if value, ok := ctuo.mutation.YDKUsername(); ok {
+		_spec.SetField(companytoken.FieldYDKUsername, field.TypeString, value)
+	}
+	if ctuo.mutation.YDKUsernameCleared() {
+		_spec.ClearField(companytoken.FieldYDKUsername, field.TypeString)
+	}
+	if value, ok := ctuo.mutation.YDKPassword(); ok {
+		_spec.SetField(companytoken.FieldYDKPassword, field.TypeString, value)
+	}
+	if ctuo.mutation.YDKPasswordCleared() {
+		_spec.ClearField(companytoken.FieldYDKPassword, field.TypeString)
+	}
 	if value, ok := ctuo.mutation.Token(); ok {
 		_spec.SetField(companytoken.FieldToken, field.TypeString, value)
 	}
@@ -674,39 +531,6 @@ func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyT
 	}
 	if ctuo.mutation.DepartmentIdCleared() {
 		_spec.ClearField(companytoken.FieldDepartmentId, field.TypeInt)
-	}
-	if value, ok := ctuo.mutation.Expire(); ok {
-		_spec.SetField(companytoken.FieldExpire, field.TypeInt, value)
-	}
-	if value, ok := ctuo.mutation.AddedExpire(); ok {
-		_spec.AddField(companytoken.FieldExpire, field.TypeInt, value)
-	}
-	if ctuo.mutation.ExpireCleared() {
-		_spec.ClearField(companytoken.FieldExpire, field.TypeInt)
-	}
-	if value, ok := ctuo.mutation.RefreshToken(); ok {
-		_spec.SetField(companytoken.FieldRefreshToken, field.TypeString, value)
-	}
-	if ctuo.mutation.RefreshTokenCleared() {
-		_spec.ClearField(companytoken.FieldRefreshToken, field.TypeString)
-	}
-	if value, ok := ctuo.mutation.SecretKey(); ok {
-		_spec.SetField(companytoken.FieldSecretKey, field.TypeString, value)
-	}
-	if ctuo.mutation.SecretKeyCleared() {
-		_spec.ClearField(companytoken.FieldSecretKey, field.TypeString)
-	}
-	if value, ok := ctuo.mutation.SecureSecretKey(); ok {
-		_spec.SetField(companytoken.FieldSecureSecretKey, field.TypeString, value)
-	}
-	if ctuo.mutation.SecureSecretKeyCleared() {
-		_spec.ClearField(companytoken.FieldSecureSecretKey, field.TypeString)
-	}
-	if value, ok := ctuo.mutation.OtpUri(); ok {
-		_spec.SetField(companytoken.FieldOtpUri, field.TypeString, value)
-	}
-	if ctuo.mutation.OtpUriCleared() {
-		_spec.ClearField(companytoken.FieldOtpUri, field.TypeString)
 	}
 	if value, ok := ctuo.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)

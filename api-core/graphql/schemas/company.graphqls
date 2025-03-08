@@ -64,4 +64,8 @@ extend type Mutation {
   updateCompany(input: CompanyDetailInput!): CompanyDetail!
     @goField(forceResolver: true)
     @auth
+
+  createCompany(input: CompanyDetailInput!): CompanyDetail!
+    @goField(forceResolver: true)
+    @auth
 }

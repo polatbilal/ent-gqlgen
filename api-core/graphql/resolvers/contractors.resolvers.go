@@ -48,7 +48,7 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 }
 
 // UpdateContractor is the resolver for the updateContractor field.
-func (r *mutationResolver) UpdateContractor(ctx context.Context, yibfNo int, input model.JobContractorInput) (*ent.JobContractor, error) {
+func (r *mutationResolver) UpdateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// YDSID ile contractor'ı bul
@@ -58,6 +58,7 @@ func (r *mutationResolver) UpdateContractor(ctx context.Context, yibfNo int, inp
 	if err != nil {
 		return nil, fmt.Errorf("yüklenici bulunamadı: %v", err)
 	}
+	fmt.Println("contractor", contractor)
 
 	// Contractor'ı güncelle
 	contractor, err = contractor.Update().

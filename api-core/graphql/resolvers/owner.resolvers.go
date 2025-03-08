@@ -19,35 +19,55 @@ import (
 func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// YDSID ile Owner var mı kontrol edelim
-	owner, err := client.JobOwner.Query().Where(jobowner.YDSIDEQ(input.Ydsid)).Only(ctx)
-	if ent.IsNotFound(err) {
-		// Owner yoksa yeni oluşturalım
-		owner, err = client.JobOwner.Create().
-			SetName(*input.Name).
+	// Önce mevcut owner'ı kontrol et
+	existingOwner, err := client.JobOwner.Query().
+		Where(jobowner.YDSIDEQ(input.Ydsid)).
+		First(ctx)
+
+	if err != nil && !ent.IsNotFound(err) {
+		return nil, fmt.Errorf("owner aranırken hata oluştu: %w", err)
+	}
+
+	if existingOwner != nil {
+		// Mevcut owner varsa güncelle
+		owner, err := existingOwner.Update().
+			SetNillableName(input.Name).
 			SetNillableTcNo(input.TcNo).
+			SetNillableAddress(input.Address).
+			SetNillablePhone(input.Phone).
 			SetNillableTaxAdmin(input.TaxAdmin).
 			SetNillableTaxNo(input.TaxNo).
-			SetNillablePhone(input.Phone).
 			SetNillableEmail(input.Email).
-			SetNillableAddress(input.Address).
 			SetYDSID(input.Ydsid).
 			SetNillableShareholder(input.Shareholder).
 			SetNillableNote(input.Note).
 			Save(ctx)
-
 		if err != nil {
-			return nil, fmt.Errorf("failed to create owner: %w", err)
+			return nil, fmt.Errorf("owner güncellenirken hata oluştu: %w", err)
 		}
-	} else if err != nil {
-		return nil, fmt.Errorf("failed to check owner: %w", err)
+		return owner, nil
+	}
+
+	// Mevcut owner yoksa yeni oluştur
+	owner, err := client.JobOwner.Create().
+		SetYDSID(input.Ydsid).
+		SetName(*input.Name).
+		SetNillableTcNo(input.TcNo).
+		SetNillableAddress(input.Address).
+		SetNillablePhone(input.Phone).
+		SetNillableTaxAdmin(input.TaxAdmin).
+		SetNillableTaxNo(input.TaxNo).
+		SetNillableShareholder(input.Shareholder).
+		Save(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("owner oluşturulurken hata oluştu: %w", err)
 	}
 
 	return owner, nil
 }
 
 // UpdateOwner is the resolver for the updateOwner field.
-func (r *mutationResolver) UpdateOwner(ctx context.Context, yibfNo int, input model.JobOwnerInput) (*ent.JobOwner, error) {
+func (r *mutationResolver) UpdateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
 	// Owner'ı doğrudan ydsid ile bul
@@ -55,7 +75,7 @@ func (r *mutationResolver) UpdateOwner(ctx context.Context, yibfNo int, input mo
 		Where(jobowner.YDSIDEQ(input.Ydsid)).
 		Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("owner bulunamadı: %v", err)
+		return nil, fmt.Errorf("failed to query owner: %w", err)
 	}
 
 	// Owner'ı güncelle

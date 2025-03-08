@@ -543,6 +543,16 @@ func (ct *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opC
 				return err
 			}
 			ct.withCompany = query
+		case "ydkusername":
+			if _, ok := fieldSeen[companytoken.FieldYDKUsername]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldYDKUsername)
+				fieldSeen[companytoken.FieldYDKUsername] = struct{}{}
+			}
+		case "ydkpassword":
+			if _, ok := fieldSeen[companytoken.FieldYDKPassword]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldYDKPassword)
+				fieldSeen[companytoken.FieldYDKPassword] = struct{}{}
+			}
 		case "token":
 			if _, ok := fieldSeen[companytoken.FieldToken]; !ok {
 				selectedFields = append(selectedFields, companytoken.FieldToken)
@@ -552,31 +562,6 @@ func (ct *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opC
 			if _, ok := fieldSeen[companytoken.FieldDepartmentId]; !ok {
 				selectedFields = append(selectedFields, companytoken.FieldDepartmentId)
 				fieldSeen[companytoken.FieldDepartmentId] = struct{}{}
-			}
-		case "expire":
-			if _, ok := fieldSeen[companytoken.FieldExpire]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldExpire)
-				fieldSeen[companytoken.FieldExpire] = struct{}{}
-			}
-		case "refreshtoken":
-			if _, ok := fieldSeen[companytoken.FieldRefreshToken]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldRefreshToken)
-				fieldSeen[companytoken.FieldRefreshToken] = struct{}{}
-			}
-		case "secretkey":
-			if _, ok := fieldSeen[companytoken.FieldSecretKey]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldSecretKey)
-				fieldSeen[companytoken.FieldSecretKey] = struct{}{}
-			}
-		case "securesecretkey":
-			if _, ok := fieldSeen[companytoken.FieldSecureSecretKey]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldSecureSecretKey)
-				fieldSeen[companytoken.FieldSecureSecretKey] = struct{}{}
-			}
-		case "otpuri":
-			if _, ok := fieldSeen[companytoken.FieldOtpUri]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldOtpUri)
-				fieldSeen[companytoken.FieldOtpUri] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[companytoken.FieldCreatedAt]; !ok {

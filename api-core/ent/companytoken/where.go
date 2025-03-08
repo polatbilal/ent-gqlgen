@@ -55,6 +55,16 @@ func IDLTE(id int) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldLTE(FieldID, id))
 }
 
+// YDKUsername applies equality check predicate on the "YDKUsername" field. It's identical to YDKUsernameEQ.
+func YDKUsername(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldYDKUsername, v))
+}
+
+// YDKPassword applies equality check predicate on the "YDKPassword" field. It's identical to YDKPasswordEQ.
+func YDKPassword(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldYDKPassword, v))
+}
+
 // Token applies equality check predicate on the "Token" field. It's identical to TokenEQ.
 func Token(v string) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldEQ(FieldToken, v))
@@ -65,31 +75,6 @@ func DepartmentId(v int) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldEQ(FieldDepartmentId, v))
 }
 
-// Expire applies equality check predicate on the "Expire" field. It's identical to ExpireEQ.
-func Expire(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldExpire, v))
-}
-
-// RefreshToken applies equality check predicate on the "RefreshToken" field. It's identical to RefreshTokenEQ.
-func RefreshToken(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldRefreshToken, v))
-}
-
-// SecretKey applies equality check predicate on the "SecretKey" field. It's identical to SecretKeyEQ.
-func SecretKey(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldSecretKey, v))
-}
-
-// SecureSecretKey applies equality check predicate on the "SecureSecretKey" field. It's identical to SecureSecretKeyEQ.
-func SecureSecretKey(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldSecureSecretKey, v))
-}
-
-// OtpUri applies equality check predicate on the "OtpUri" field. It's identical to OtpUriEQ.
-func OtpUri(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldOtpUri, v))
-}
-
 // CreatedAt applies equality check predicate on the "createdAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldEQ(FieldCreatedAt, v))
@@ -98,6 +83,156 @@ func CreatedAt(v time.Time) predicate.CompanyToken {
 // UpdatedAt applies equality check predicate on the "updatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// YDKUsernameEQ applies the EQ predicate on the "YDKUsername" field.
+func YDKUsernameEQ(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldYDKUsername, v))
+}
+
+// YDKUsernameNEQ applies the NEQ predicate on the "YDKUsername" field.
+func YDKUsernameNEQ(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNEQ(FieldYDKUsername, v))
+}
+
+// YDKUsernameIn applies the In predicate on the "YDKUsername" field.
+func YDKUsernameIn(vs ...string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIn(FieldYDKUsername, vs...))
+}
+
+// YDKUsernameNotIn applies the NotIn predicate on the "YDKUsername" field.
+func YDKUsernameNotIn(vs ...string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotIn(FieldYDKUsername, vs...))
+}
+
+// YDKUsernameGT applies the GT predicate on the "YDKUsername" field.
+func YDKUsernameGT(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGT(FieldYDKUsername, v))
+}
+
+// YDKUsernameGTE applies the GTE predicate on the "YDKUsername" field.
+func YDKUsernameGTE(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGTE(FieldYDKUsername, v))
+}
+
+// YDKUsernameLT applies the LT predicate on the "YDKUsername" field.
+func YDKUsernameLT(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLT(FieldYDKUsername, v))
+}
+
+// YDKUsernameLTE applies the LTE predicate on the "YDKUsername" field.
+func YDKUsernameLTE(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLTE(FieldYDKUsername, v))
+}
+
+// YDKUsernameContains applies the Contains predicate on the "YDKUsername" field.
+func YDKUsernameContains(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldContains(FieldYDKUsername, v))
+}
+
+// YDKUsernameHasPrefix applies the HasPrefix predicate on the "YDKUsername" field.
+func YDKUsernameHasPrefix(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldHasPrefix(FieldYDKUsername, v))
+}
+
+// YDKUsernameHasSuffix applies the HasSuffix predicate on the "YDKUsername" field.
+func YDKUsernameHasSuffix(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldHasSuffix(FieldYDKUsername, v))
+}
+
+// YDKUsernameIsNil applies the IsNil predicate on the "YDKUsername" field.
+func YDKUsernameIsNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIsNull(FieldYDKUsername))
+}
+
+// YDKUsernameNotNil applies the NotNil predicate on the "YDKUsername" field.
+func YDKUsernameNotNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotNull(FieldYDKUsername))
+}
+
+// YDKUsernameEqualFold applies the EqualFold predicate on the "YDKUsername" field.
+func YDKUsernameEqualFold(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEqualFold(FieldYDKUsername, v))
+}
+
+// YDKUsernameContainsFold applies the ContainsFold predicate on the "YDKUsername" field.
+func YDKUsernameContainsFold(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldContainsFold(FieldYDKUsername, v))
+}
+
+// YDKPasswordEQ applies the EQ predicate on the "YDKPassword" field.
+func YDKPasswordEQ(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEQ(FieldYDKPassword, v))
+}
+
+// YDKPasswordNEQ applies the NEQ predicate on the "YDKPassword" field.
+func YDKPasswordNEQ(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNEQ(FieldYDKPassword, v))
+}
+
+// YDKPasswordIn applies the In predicate on the "YDKPassword" field.
+func YDKPasswordIn(vs ...string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIn(FieldYDKPassword, vs...))
+}
+
+// YDKPasswordNotIn applies the NotIn predicate on the "YDKPassword" field.
+func YDKPasswordNotIn(vs ...string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotIn(FieldYDKPassword, vs...))
+}
+
+// YDKPasswordGT applies the GT predicate on the "YDKPassword" field.
+func YDKPasswordGT(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGT(FieldYDKPassword, v))
+}
+
+// YDKPasswordGTE applies the GTE predicate on the "YDKPassword" field.
+func YDKPasswordGTE(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldGTE(FieldYDKPassword, v))
+}
+
+// YDKPasswordLT applies the LT predicate on the "YDKPassword" field.
+func YDKPasswordLT(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLT(FieldYDKPassword, v))
+}
+
+// YDKPasswordLTE applies the LTE predicate on the "YDKPassword" field.
+func YDKPasswordLTE(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldLTE(FieldYDKPassword, v))
+}
+
+// YDKPasswordContains applies the Contains predicate on the "YDKPassword" field.
+func YDKPasswordContains(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldContains(FieldYDKPassword, v))
+}
+
+// YDKPasswordHasPrefix applies the HasPrefix predicate on the "YDKPassword" field.
+func YDKPasswordHasPrefix(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldHasPrefix(FieldYDKPassword, v))
+}
+
+// YDKPasswordHasSuffix applies the HasSuffix predicate on the "YDKPassword" field.
+func YDKPasswordHasSuffix(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldHasSuffix(FieldYDKPassword, v))
+}
+
+// YDKPasswordIsNil applies the IsNil predicate on the "YDKPassword" field.
+func YDKPasswordIsNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldIsNull(FieldYDKPassword))
+}
+
+// YDKPasswordNotNil applies the NotNil predicate on the "YDKPassword" field.
+func YDKPasswordNotNil() predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldNotNull(FieldYDKPassword))
+}
+
+// YDKPasswordEqualFold applies the EqualFold predicate on the "YDKPassword" field.
+func YDKPasswordEqualFold(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldEqualFold(FieldYDKPassword, v))
+}
+
+// YDKPasswordContainsFold applies the ContainsFold predicate on the "YDKPassword" field.
+func YDKPasswordContainsFold(v string) predicate.CompanyToken {
+	return predicate.CompanyToken(sql.FieldContainsFold(FieldYDKPassword, v))
 }
 
 // TokenEQ applies the EQ predicate on the "Token" field.
@@ -223,356 +358,6 @@ func DepartmentIdIsNil() predicate.CompanyToken {
 // DepartmentIdNotNil applies the NotNil predicate on the "DepartmentId" field.
 func DepartmentIdNotNil() predicate.CompanyToken {
 	return predicate.CompanyToken(sql.FieldNotNull(FieldDepartmentId))
-}
-
-// ExpireEQ applies the EQ predicate on the "Expire" field.
-func ExpireEQ(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldExpire, v))
-}
-
-// ExpireNEQ applies the NEQ predicate on the "Expire" field.
-func ExpireNEQ(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNEQ(FieldExpire, v))
-}
-
-// ExpireIn applies the In predicate on the "Expire" field.
-func ExpireIn(vs ...int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIn(FieldExpire, vs...))
-}
-
-// ExpireNotIn applies the NotIn predicate on the "Expire" field.
-func ExpireNotIn(vs ...int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotIn(FieldExpire, vs...))
-}
-
-// ExpireGT applies the GT predicate on the "Expire" field.
-func ExpireGT(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGT(FieldExpire, v))
-}
-
-// ExpireGTE applies the GTE predicate on the "Expire" field.
-func ExpireGTE(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGTE(FieldExpire, v))
-}
-
-// ExpireLT applies the LT predicate on the "Expire" field.
-func ExpireLT(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLT(FieldExpire, v))
-}
-
-// ExpireLTE applies the LTE predicate on the "Expire" field.
-func ExpireLTE(v int) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLTE(FieldExpire, v))
-}
-
-// ExpireIsNil applies the IsNil predicate on the "Expire" field.
-func ExpireIsNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIsNull(FieldExpire))
-}
-
-// ExpireNotNil applies the NotNil predicate on the "Expire" field.
-func ExpireNotNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotNull(FieldExpire))
-}
-
-// RefreshTokenEQ applies the EQ predicate on the "RefreshToken" field.
-func RefreshTokenEQ(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldRefreshToken, v))
-}
-
-// RefreshTokenNEQ applies the NEQ predicate on the "RefreshToken" field.
-func RefreshTokenNEQ(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNEQ(FieldRefreshToken, v))
-}
-
-// RefreshTokenIn applies the In predicate on the "RefreshToken" field.
-func RefreshTokenIn(vs ...string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIn(FieldRefreshToken, vs...))
-}
-
-// RefreshTokenNotIn applies the NotIn predicate on the "RefreshToken" field.
-func RefreshTokenNotIn(vs ...string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotIn(FieldRefreshToken, vs...))
-}
-
-// RefreshTokenGT applies the GT predicate on the "RefreshToken" field.
-func RefreshTokenGT(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGT(FieldRefreshToken, v))
-}
-
-// RefreshTokenGTE applies the GTE predicate on the "RefreshToken" field.
-func RefreshTokenGTE(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGTE(FieldRefreshToken, v))
-}
-
-// RefreshTokenLT applies the LT predicate on the "RefreshToken" field.
-func RefreshTokenLT(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLT(FieldRefreshToken, v))
-}
-
-// RefreshTokenLTE applies the LTE predicate on the "RefreshToken" field.
-func RefreshTokenLTE(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLTE(FieldRefreshToken, v))
-}
-
-// RefreshTokenContains applies the Contains predicate on the "RefreshToken" field.
-func RefreshTokenContains(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldContains(FieldRefreshToken, v))
-}
-
-// RefreshTokenHasPrefix applies the HasPrefix predicate on the "RefreshToken" field.
-func RefreshTokenHasPrefix(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldHasPrefix(FieldRefreshToken, v))
-}
-
-// RefreshTokenHasSuffix applies the HasSuffix predicate on the "RefreshToken" field.
-func RefreshTokenHasSuffix(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldHasSuffix(FieldRefreshToken, v))
-}
-
-// RefreshTokenIsNil applies the IsNil predicate on the "RefreshToken" field.
-func RefreshTokenIsNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIsNull(FieldRefreshToken))
-}
-
-// RefreshTokenNotNil applies the NotNil predicate on the "RefreshToken" field.
-func RefreshTokenNotNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotNull(FieldRefreshToken))
-}
-
-// RefreshTokenEqualFold applies the EqualFold predicate on the "RefreshToken" field.
-func RefreshTokenEqualFold(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEqualFold(FieldRefreshToken, v))
-}
-
-// RefreshTokenContainsFold applies the ContainsFold predicate on the "RefreshToken" field.
-func RefreshTokenContainsFold(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldContainsFold(FieldRefreshToken, v))
-}
-
-// SecretKeyEQ applies the EQ predicate on the "SecretKey" field.
-func SecretKeyEQ(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldSecretKey, v))
-}
-
-// SecretKeyNEQ applies the NEQ predicate on the "SecretKey" field.
-func SecretKeyNEQ(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNEQ(FieldSecretKey, v))
-}
-
-// SecretKeyIn applies the In predicate on the "SecretKey" field.
-func SecretKeyIn(vs ...string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIn(FieldSecretKey, vs...))
-}
-
-// SecretKeyNotIn applies the NotIn predicate on the "SecretKey" field.
-func SecretKeyNotIn(vs ...string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotIn(FieldSecretKey, vs...))
-}
-
-// SecretKeyGT applies the GT predicate on the "SecretKey" field.
-func SecretKeyGT(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGT(FieldSecretKey, v))
-}
-
-// SecretKeyGTE applies the GTE predicate on the "SecretKey" field.
-func SecretKeyGTE(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGTE(FieldSecretKey, v))
-}
-
-// SecretKeyLT applies the LT predicate on the "SecretKey" field.
-func SecretKeyLT(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLT(FieldSecretKey, v))
-}
-
-// SecretKeyLTE applies the LTE predicate on the "SecretKey" field.
-func SecretKeyLTE(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLTE(FieldSecretKey, v))
-}
-
-// SecretKeyContains applies the Contains predicate on the "SecretKey" field.
-func SecretKeyContains(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldContains(FieldSecretKey, v))
-}
-
-// SecretKeyHasPrefix applies the HasPrefix predicate on the "SecretKey" field.
-func SecretKeyHasPrefix(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldHasPrefix(FieldSecretKey, v))
-}
-
-// SecretKeyHasSuffix applies the HasSuffix predicate on the "SecretKey" field.
-func SecretKeyHasSuffix(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldHasSuffix(FieldSecretKey, v))
-}
-
-// SecretKeyIsNil applies the IsNil predicate on the "SecretKey" field.
-func SecretKeyIsNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIsNull(FieldSecretKey))
-}
-
-// SecretKeyNotNil applies the NotNil predicate on the "SecretKey" field.
-func SecretKeyNotNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotNull(FieldSecretKey))
-}
-
-// SecretKeyEqualFold applies the EqualFold predicate on the "SecretKey" field.
-func SecretKeyEqualFold(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEqualFold(FieldSecretKey, v))
-}
-
-// SecretKeyContainsFold applies the ContainsFold predicate on the "SecretKey" field.
-func SecretKeyContainsFold(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldContainsFold(FieldSecretKey, v))
-}
-
-// SecureSecretKeyEQ applies the EQ predicate on the "SecureSecretKey" field.
-func SecureSecretKeyEQ(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyNEQ applies the NEQ predicate on the "SecureSecretKey" field.
-func SecureSecretKeyNEQ(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNEQ(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyIn applies the In predicate on the "SecureSecretKey" field.
-func SecureSecretKeyIn(vs ...string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIn(FieldSecureSecretKey, vs...))
-}
-
-// SecureSecretKeyNotIn applies the NotIn predicate on the "SecureSecretKey" field.
-func SecureSecretKeyNotIn(vs ...string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotIn(FieldSecureSecretKey, vs...))
-}
-
-// SecureSecretKeyGT applies the GT predicate on the "SecureSecretKey" field.
-func SecureSecretKeyGT(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGT(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyGTE applies the GTE predicate on the "SecureSecretKey" field.
-func SecureSecretKeyGTE(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGTE(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyLT applies the LT predicate on the "SecureSecretKey" field.
-func SecureSecretKeyLT(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLT(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyLTE applies the LTE predicate on the "SecureSecretKey" field.
-func SecureSecretKeyLTE(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLTE(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyContains applies the Contains predicate on the "SecureSecretKey" field.
-func SecureSecretKeyContains(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldContains(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyHasPrefix applies the HasPrefix predicate on the "SecureSecretKey" field.
-func SecureSecretKeyHasPrefix(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldHasPrefix(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyHasSuffix applies the HasSuffix predicate on the "SecureSecretKey" field.
-func SecureSecretKeyHasSuffix(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldHasSuffix(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyIsNil applies the IsNil predicate on the "SecureSecretKey" field.
-func SecureSecretKeyIsNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIsNull(FieldSecureSecretKey))
-}
-
-// SecureSecretKeyNotNil applies the NotNil predicate on the "SecureSecretKey" field.
-func SecureSecretKeyNotNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotNull(FieldSecureSecretKey))
-}
-
-// SecureSecretKeyEqualFold applies the EqualFold predicate on the "SecureSecretKey" field.
-func SecureSecretKeyEqualFold(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEqualFold(FieldSecureSecretKey, v))
-}
-
-// SecureSecretKeyContainsFold applies the ContainsFold predicate on the "SecureSecretKey" field.
-func SecureSecretKeyContainsFold(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldContainsFold(FieldSecureSecretKey, v))
-}
-
-// OtpUriEQ applies the EQ predicate on the "OtpUri" field.
-func OtpUriEQ(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEQ(FieldOtpUri, v))
-}
-
-// OtpUriNEQ applies the NEQ predicate on the "OtpUri" field.
-func OtpUriNEQ(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNEQ(FieldOtpUri, v))
-}
-
-// OtpUriIn applies the In predicate on the "OtpUri" field.
-func OtpUriIn(vs ...string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIn(FieldOtpUri, vs...))
-}
-
-// OtpUriNotIn applies the NotIn predicate on the "OtpUri" field.
-func OtpUriNotIn(vs ...string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotIn(FieldOtpUri, vs...))
-}
-
-// OtpUriGT applies the GT predicate on the "OtpUri" field.
-func OtpUriGT(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGT(FieldOtpUri, v))
-}
-
-// OtpUriGTE applies the GTE predicate on the "OtpUri" field.
-func OtpUriGTE(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldGTE(FieldOtpUri, v))
-}
-
-// OtpUriLT applies the LT predicate on the "OtpUri" field.
-func OtpUriLT(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLT(FieldOtpUri, v))
-}
-
-// OtpUriLTE applies the LTE predicate on the "OtpUri" field.
-func OtpUriLTE(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldLTE(FieldOtpUri, v))
-}
-
-// OtpUriContains applies the Contains predicate on the "OtpUri" field.
-func OtpUriContains(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldContains(FieldOtpUri, v))
-}
-
-// OtpUriHasPrefix applies the HasPrefix predicate on the "OtpUri" field.
-func OtpUriHasPrefix(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldHasPrefix(FieldOtpUri, v))
-}
-
-// OtpUriHasSuffix applies the HasSuffix predicate on the "OtpUri" field.
-func OtpUriHasSuffix(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldHasSuffix(FieldOtpUri, v))
-}
-
-// OtpUriIsNil applies the IsNil predicate on the "OtpUri" field.
-func OtpUriIsNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldIsNull(FieldOtpUri))
-}
-
-// OtpUriNotNil applies the NotNil predicate on the "OtpUri" field.
-func OtpUriNotNil() predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldNotNull(FieldOtpUri))
-}
-
-// OtpUriEqualFold applies the EqualFold predicate on the "OtpUri" field.
-func OtpUriEqualFold(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldEqualFold(FieldOtpUri, v))
-}
-
-// OtpUriContainsFold applies the ContainsFold predicate on the "OtpUri" field.
-func OtpUriContainsFold(v string) predicate.CompanyToken {
-	return predicate.CompanyToken(sql.FieldContainsFold(FieldOtpUri, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "createdAt" field.

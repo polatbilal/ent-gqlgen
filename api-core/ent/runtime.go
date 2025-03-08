@@ -80,11 +80,11 @@ func init() {
 	companytokenFields := schema.CompanyToken{}.Fields()
 	_ = companytokenFields
 	// companytokenDescCreatedAt is the schema descriptor for createdAt field.
-	companytokenDescCreatedAt := companytokenFields[7].Descriptor()
+	companytokenDescCreatedAt := companytokenFields[4].Descriptor()
 	// companytoken.DefaultCreatedAt holds the default value on creation for the createdAt field.
 	companytoken.DefaultCreatedAt = companytokenDescCreatedAt.Default.(func() time.Time)
 	// companytokenDescUpdatedAt is the schema descriptor for updatedAt field.
-	companytokenDescUpdatedAt := companytokenFields[8].Descriptor()
+	companytokenDescUpdatedAt := companytokenFields[5].Descriptor()
 	// companytoken.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
 	companytoken.DefaultUpdatedAt = companytokenDescUpdatedAt.Default.(func() time.Time)
 	// companytoken.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.

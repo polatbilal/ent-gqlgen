@@ -58,6 +58,11 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Compan
 	return updatedCompany, nil
 }
 
+// CreateCompany is the resolver for the createCompany field.
+func (r *mutationResolver) CreateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error) {
+	panic(fmt.Errorf("not implemented: CreateCompany - createCompany"))
+}
+
 // Company is the resolver for the company field.
 func (r *queryResolver) Company(ctx context.Context, yibfNo int) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)

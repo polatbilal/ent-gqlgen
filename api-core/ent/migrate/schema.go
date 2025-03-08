@@ -81,13 +81,10 @@ var (
 	// CompanyTokensColumns holds the columns for the "company_tokens" table.
 	CompanyTokensColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "ydk_username", Type: field.TypeString, Nullable: true},
+		{Name: "ydk_password", Type: field.TypeString, Nullable: true},
 		{Name: "token", Type: field.TypeString, Nullable: true},
 		{Name: "department_id", Type: field.TypeInt, Unique: true, Nullable: true},
-		{Name: "expire", Type: field.TypeInt, Nullable: true},
-		{Name: "refresh_token", Type: field.TypeString, Nullable: true},
-		{Name: "secret_key", Type: field.TypeString, Nullable: true},
-		{Name: "secure_secret_key", Type: field.TypeString, Nullable: true},
-		{Name: "otp_uri", Type: field.TypeString, Nullable: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
@@ -100,7 +97,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "company_tokens_company_details_tokens",
-				Columns:    []*schema.Column{CompanyTokensColumns[10]},
+				Columns:    []*schema.Column{CompanyTokensColumns[7]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
