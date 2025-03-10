@@ -110,23 +110,16 @@ func (jsu *JobSupervisorUpdate) ClearEmail() *JobSupervisorUpdate {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jsu *JobSupervisorUpdate) SetTcNo(i int) *JobSupervisorUpdate {
-	jsu.mutation.ResetTcNo()
-	jsu.mutation.SetTcNo(i)
+func (jsu *JobSupervisorUpdate) SetTcNo(s string) *JobSupervisorUpdate {
+	jsu.mutation.SetTcNo(s)
 	return jsu
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableTcNo(i *int) *JobSupervisorUpdate {
-	if i != nil {
-		jsu.SetTcNo(*i)
+func (jsu *JobSupervisorUpdate) SetNillableTcNo(s *string) *JobSupervisorUpdate {
+	if s != nil {
+		jsu.SetTcNo(*s)
 	}
-	return jsu
-}
-
-// AddTcNo adds i to the "TcNo" field.
-func (jsu *JobSupervisorUpdate) AddTcNo(i int) *JobSupervisorUpdate {
-	jsu.mutation.AddTcNo(i)
 	return jsu
 }
 
@@ -177,23 +170,16 @@ func (jsu *JobSupervisorUpdate) ClearCareer() *JobSupervisorUpdate {
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jsu *JobSupervisorUpdate) SetRegisterNo(i int) *JobSupervisorUpdate {
-	jsu.mutation.ResetRegisterNo()
-	jsu.mutation.SetRegisterNo(i)
+func (jsu *JobSupervisorUpdate) SetRegisterNo(s string) *JobSupervisorUpdate {
+	jsu.mutation.SetRegisterNo(s)
 	return jsu
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableRegisterNo(i *int) *JobSupervisorUpdate {
-	if i != nil {
-		jsu.SetRegisterNo(*i)
+func (jsu *JobSupervisorUpdate) SetNillableRegisterNo(s *string) *JobSupervisorUpdate {
+	if s != nil {
+		jsu.SetRegisterNo(*s)
 	}
-	return jsu
-}
-
-// AddRegisterNo adds i to the "RegisterNo" field.
-func (jsu *JobSupervisorUpdate) AddRegisterNo(i int) *JobSupervisorUpdate {
-	jsu.mutation.AddRegisterNo(i)
 	return jsu
 }
 
@@ -204,23 +190,16 @@ func (jsu *JobSupervisorUpdate) ClearRegisterNo() *JobSupervisorUpdate {
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
-func (jsu *JobSupervisorUpdate) SetSocialSecurityNo(i int) *JobSupervisorUpdate {
-	jsu.mutation.ResetSocialSecurityNo()
-	jsu.mutation.SetSocialSecurityNo(i)
+func (jsu *JobSupervisorUpdate) SetSocialSecurityNo(s string) *JobSupervisorUpdate {
+	jsu.mutation.SetSocialSecurityNo(s)
 	return jsu
 }
 
 // SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableSocialSecurityNo(i *int) *JobSupervisorUpdate {
-	if i != nil {
-		jsu.SetSocialSecurityNo(*i)
+func (jsu *JobSupervisorUpdate) SetNillableSocialSecurityNo(s *string) *JobSupervisorUpdate {
+	if s != nil {
+		jsu.SetSocialSecurityNo(*s)
 	}
-	return jsu
-}
-
-// AddSocialSecurityNo adds i to the "SocialSecurityNo" field.
-func (jsu *JobSupervisorUpdate) AddSocialSecurityNo(i int) *JobSupervisorUpdate {
-	jsu.mutation.AddSocialSecurityNo(i)
 	return jsu
 }
 
@@ -408,13 +387,10 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		_spec.ClearField(jobsupervisor.FieldEmail, field.TypeString)
 	}
 	if value, ok := jsu.mutation.TcNo(); ok {
-		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeInt, value)
-	}
-	if value, ok := jsu.mutation.AddedTcNo(); ok {
-		_spec.AddField(jobsupervisor.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeString, value)
 	}
 	if jsu.mutation.TcNoCleared() {
-		_spec.ClearField(jobsupervisor.FieldTcNo, field.TypeInt)
+		_spec.ClearField(jobsupervisor.FieldTcNo, field.TypeString)
 	}
 	if value, ok := jsu.mutation.Position(); ok {
 		_spec.SetField(jobsupervisor.FieldPosition, field.TypeString, value)
@@ -429,22 +405,16 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		_spec.ClearField(jobsupervisor.FieldCareer, field.TypeString)
 	}
 	if value, ok := jsu.mutation.RegisterNo(); ok {
-		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
-	}
-	if value, ok := jsu.mutation.AddedRegisterNo(); ok {
-		_spec.AddField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeString, value)
 	}
 	if jsu.mutation.RegisterNoCleared() {
-		_spec.ClearField(jobsupervisor.FieldRegisterNo, field.TypeInt)
+		_spec.ClearField(jobsupervisor.FieldRegisterNo, field.TypeString)
 	}
 	if value, ok := jsu.mutation.SocialSecurityNo(); ok {
-		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)
-	}
-	if value, ok := jsu.mutation.AddedSocialSecurityNo(); ok {
-		_spec.AddField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeString, value)
 	}
 	if jsu.mutation.SocialSecurityNoCleared() {
-		_spec.ClearField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt)
+		_spec.ClearField(jobsupervisor.FieldSocialSecurityNo, field.TypeString)
 	}
 	if value, ok := jsu.mutation.SchoolGraduation(); ok {
 		_spec.SetField(jobsupervisor.FieldSchoolGraduation, field.TypeString, value)
@@ -613,23 +583,16 @@ func (jsuo *JobSupervisorUpdateOne) ClearEmail() *JobSupervisorUpdateOne {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jsuo *JobSupervisorUpdateOne) SetTcNo(i int) *JobSupervisorUpdateOne {
-	jsuo.mutation.ResetTcNo()
-	jsuo.mutation.SetTcNo(i)
+func (jsuo *JobSupervisorUpdateOne) SetTcNo(s string) *JobSupervisorUpdateOne {
+	jsuo.mutation.SetTcNo(s)
 	return jsuo
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableTcNo(i *int) *JobSupervisorUpdateOne {
-	if i != nil {
-		jsuo.SetTcNo(*i)
+func (jsuo *JobSupervisorUpdateOne) SetNillableTcNo(s *string) *JobSupervisorUpdateOne {
+	if s != nil {
+		jsuo.SetTcNo(*s)
 	}
-	return jsuo
-}
-
-// AddTcNo adds i to the "TcNo" field.
-func (jsuo *JobSupervisorUpdateOne) AddTcNo(i int) *JobSupervisorUpdateOne {
-	jsuo.mutation.AddTcNo(i)
 	return jsuo
 }
 
@@ -680,23 +643,16 @@ func (jsuo *JobSupervisorUpdateOne) ClearCareer() *JobSupervisorUpdateOne {
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jsuo *JobSupervisorUpdateOne) SetRegisterNo(i int) *JobSupervisorUpdateOne {
-	jsuo.mutation.ResetRegisterNo()
-	jsuo.mutation.SetRegisterNo(i)
+func (jsuo *JobSupervisorUpdateOne) SetRegisterNo(s string) *JobSupervisorUpdateOne {
+	jsuo.mutation.SetRegisterNo(s)
 	return jsuo
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableRegisterNo(i *int) *JobSupervisorUpdateOne {
-	if i != nil {
-		jsuo.SetRegisterNo(*i)
+func (jsuo *JobSupervisorUpdateOne) SetNillableRegisterNo(s *string) *JobSupervisorUpdateOne {
+	if s != nil {
+		jsuo.SetRegisterNo(*s)
 	}
-	return jsuo
-}
-
-// AddRegisterNo adds i to the "RegisterNo" field.
-func (jsuo *JobSupervisorUpdateOne) AddRegisterNo(i int) *JobSupervisorUpdateOne {
-	jsuo.mutation.AddRegisterNo(i)
 	return jsuo
 }
 
@@ -707,23 +663,16 @@ func (jsuo *JobSupervisorUpdateOne) ClearRegisterNo() *JobSupervisorUpdateOne {
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
-func (jsuo *JobSupervisorUpdateOne) SetSocialSecurityNo(i int) *JobSupervisorUpdateOne {
-	jsuo.mutation.ResetSocialSecurityNo()
-	jsuo.mutation.SetSocialSecurityNo(i)
+func (jsuo *JobSupervisorUpdateOne) SetSocialSecurityNo(s string) *JobSupervisorUpdateOne {
+	jsuo.mutation.SetSocialSecurityNo(s)
 	return jsuo
 }
 
 // SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableSocialSecurityNo(i *int) *JobSupervisorUpdateOne {
-	if i != nil {
-		jsuo.SetSocialSecurityNo(*i)
+func (jsuo *JobSupervisorUpdateOne) SetNillableSocialSecurityNo(s *string) *JobSupervisorUpdateOne {
+	if s != nil {
+		jsuo.SetSocialSecurityNo(*s)
 	}
-	return jsuo
-}
-
-// AddSocialSecurityNo adds i to the "SocialSecurityNo" field.
-func (jsuo *JobSupervisorUpdateOne) AddSocialSecurityNo(i int) *JobSupervisorUpdateOne {
-	jsuo.mutation.AddSocialSecurityNo(i)
 	return jsuo
 }
 
@@ -941,13 +890,10 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 		_spec.ClearField(jobsupervisor.FieldEmail, field.TypeString)
 	}
 	if value, ok := jsuo.mutation.TcNo(); ok {
-		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeInt, value)
-	}
-	if value, ok := jsuo.mutation.AddedTcNo(); ok {
-		_spec.AddField(jobsupervisor.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeString, value)
 	}
 	if jsuo.mutation.TcNoCleared() {
-		_spec.ClearField(jobsupervisor.FieldTcNo, field.TypeInt)
+		_spec.ClearField(jobsupervisor.FieldTcNo, field.TypeString)
 	}
 	if value, ok := jsuo.mutation.Position(); ok {
 		_spec.SetField(jobsupervisor.FieldPosition, field.TypeString, value)
@@ -962,22 +908,16 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 		_spec.ClearField(jobsupervisor.FieldCareer, field.TypeString)
 	}
 	if value, ok := jsuo.mutation.RegisterNo(); ok {
-		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
-	}
-	if value, ok := jsuo.mutation.AddedRegisterNo(); ok {
-		_spec.AddField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeString, value)
 	}
 	if jsuo.mutation.RegisterNoCleared() {
-		_spec.ClearField(jobsupervisor.FieldRegisterNo, field.TypeInt)
+		_spec.ClearField(jobsupervisor.FieldRegisterNo, field.TypeString)
 	}
 	if value, ok := jsuo.mutation.SocialSecurityNo(); ok {
-		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)
-	}
-	if value, ok := jsuo.mutation.AddedSocialSecurityNo(); ok {
-		_spec.AddField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeString, value)
 	}
 	if jsuo.mutation.SocialSecurityNoCleared() {
-		_spec.ClearField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt)
+		_spec.ClearField(jobsupervisor.FieldSocialSecurityNo, field.TypeString)
 	}
 	if value, ok := jsuo.mutation.SchoolGraduation(); ok {
 		_spec.SetField(jobsupervisor.FieldSchoolGraduation, field.TypeString, value)

@@ -79,20 +79,14 @@ models:
     model:
       - github.com/99designs/gqlgen/graphql.ID
       - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
   Int:
     model:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
   Float:
     model:
       - github.com/99designs/gqlgen/graphql.Float
       - github.com/99designs/gqlgen/graphql.Float64
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
   Time:
     model:
       - github.com/polatbilal/gqlgen-ent/api-core/graphql/scalars.Time

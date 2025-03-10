@@ -37,15 +37,15 @@ func (cec *CompanyEngineerCreate) SetNillableName(s *string) *CompanyEngineerCre
 }
 
 // SetTcNo sets the "TcNo" field.
-func (cec *CompanyEngineerCreate) SetTcNo(i int) *CompanyEngineerCreate {
-	cec.mutation.SetTcNo(i)
+func (cec *CompanyEngineerCreate) SetTcNo(s string) *CompanyEngineerCreate {
+	cec.mutation.SetTcNo(s)
 	return cec
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableTcNo(i *int) *CompanyEngineerCreate {
-	if i != nil {
-		cec.SetTcNo(*i)
+func (cec *CompanyEngineerCreate) SetNillableTcNo(s *string) *CompanyEngineerCreate {
+	if s != nil {
+		cec.SetTcNo(*s)
 	}
 	return cec
 }
@@ -121,29 +121,29 @@ func (cec *CompanyEngineerCreate) SetNillablePosition(s *string) *CompanyEnginee
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (cec *CompanyEngineerCreate) SetRegisterNo(i int) *CompanyEngineerCreate {
-	cec.mutation.SetRegisterNo(i)
+func (cec *CompanyEngineerCreate) SetRegisterNo(s string) *CompanyEngineerCreate {
+	cec.mutation.SetRegisterNo(s)
 	return cec
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableRegisterNo(i *int) *CompanyEngineerCreate {
-	if i != nil {
-		cec.SetRegisterNo(*i)
+func (cec *CompanyEngineerCreate) SetNillableRegisterNo(s *string) *CompanyEngineerCreate {
+	if s != nil {
+		cec.SetRegisterNo(*s)
 	}
 	return cec
 }
 
 // SetCertNo sets the "CertNo" field.
-func (cec *CompanyEngineerCreate) SetCertNo(i int) *CompanyEngineerCreate {
-	cec.mutation.SetCertNo(i)
+func (cec *CompanyEngineerCreate) SetCertNo(s string) *CompanyEngineerCreate {
+	cec.mutation.SetCertNo(s)
 	return cec
 }
 
 // SetNillableCertNo sets the "CertNo" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableCertNo(i *int) *CompanyEngineerCreate {
-	if i != nil {
-		cec.SetCertNo(*i)
+func (cec *CompanyEngineerCreate) SetNillableCertNo(s *string) *CompanyEngineerCreate {
+	if s != nil {
+		cec.SetCertNo(*s)
 	}
 	return cec
 }
@@ -469,7 +469,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		_node.Name = value
 	}
 	if value, ok := cec.mutation.TcNo(); ok {
-		_spec.SetField(companyengineer.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(companyengineer.FieldTcNo, field.TypeString, value)
 		_node.TcNo = value
 	}
 	if value, ok := cec.mutation.Phone(); ok {
@@ -493,11 +493,11 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		_node.Position = value
 	}
 	if value, ok := cec.mutation.RegisterNo(); ok {
-		_spec.SetField(companyengineer.FieldRegisterNo, field.TypeInt, value)
+		_spec.SetField(companyengineer.FieldRegisterNo, field.TypeString, value)
 		_node.RegisterNo = value
 	}
 	if value, ok := cec.mutation.CertNo(); ok {
-		_spec.SetField(companyengineer.FieldCertNo, field.TypeInt, value)
+		_spec.SetField(companyengineer.FieldCertNo, field.TypeString, value)
 		_node.CertNo = value
 	}
 	if value, ok := cec.mutation.YDSID(); ok {

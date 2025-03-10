@@ -4,11 +4,11 @@ type JobSupervisor {
   Address: String
   Phone: String
   Email: String
-  TcNo: Int
+  TcNo: String
   Position: String
   Career: String
-  RegisterNo: Int
-  SocialSecurityNo: Int
+  RegisterNo: String
+  SocialSecurityNo: String
   SchoolGraduation: String
   YDSID: Int
 }
@@ -19,11 +19,11 @@ input JobSupervisorInput {
   Address: String
   Phone: String
   Email: String
-  TcNo: Int
+  TcNo: String
   Position: String
   Career: String
-  RegisterNo: Int
-  SocialSecurityNo: Int
+  RegisterNo: String
+  SocialSecurityNo: String
   SchoolGraduation: String
   YDSID: Int!
 }

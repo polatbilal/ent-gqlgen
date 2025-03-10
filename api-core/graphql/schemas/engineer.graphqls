@@ -1,15 +1,15 @@
 type CompanyEngineer {
   id: ID!
+  YDSID: Int
   Name: String
-  TcNo: Int
+  TcNo: String
   Phone: String
   Email: String
   Address: String
   Career: String
   Position: String
-  RegisterNo: Int
-  CertNo: Int
-  YDSID: Int
+  RegisterNo: String
+  CertNo: String
   Employment: Time
   Status: Int
   Note: String
@@ -22,14 +22,14 @@ input CompanyEngineerInput {
   YibfNo: Int
   YDSID: Int
   Name: String
-  TcNo: Int
+  TcNo: String
   Phone: String
   Email: String
   Address: String
   Career: String
   Position: String
-  RegisterNo: Int
-  CertNo: Int
+  RegisterNo: String
+  CertNo: String
   Employment: Time
   Status: Int
   Note: String
@@ -41,20 +41,27 @@ input EngineerFilterInput {
 }
 
 extend type Query {
-  engineer(filter: EngineerFilterInput): [CompanyEngineer]! @goField(forceResolver: true)
-  engineerByYDSID(ydsid: Int!): CompanyEngineer @goField(forceResolver: true) @auth
+  engineer(filter: EngineerFilterInput): [CompanyEngineer]!
+    @goField(forceResolver: true)
+  engineerByYDSID(ydsid: Int!): CompanyEngineer
+    @goField(forceResolver: true)
+    @auth
 }
 
 extend type Mutation {
-  createEngineer(input: CompanyEngineerInput!): CompanyEngineer!
+  upsertEngineer(input: CompanyEngineerInput!): CompanyEngineer!
     @goField(forceResolver: true)
     @auth
+
+  createEngineer(input: CompanyEngineerInput!): CompanyEngineer!
+    @goField(forceResolver: true)
 
   updateEngineer(ydsid: Int!, input: CompanyEngineerInput!): CompanyEngineer!
     @goField(forceResolver: true)
     @auth
 
-  updateEngineerByYDSID(ydsid: Int!, input: CompanyEngineerInput!): CompanyEngineer!
-    @goField(forceResolver: true)
-    @auth
+  updateEngineerByYDSID(
+    ydsid: Int!
+    input: CompanyEngineerInput!
+  ): CompanyEngineer! @goField(forceResolver: true) @auth
 }

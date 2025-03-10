@@ -176,7 +176,7 @@ func FloorCount(v int) predicate.JobDetail {
 }
 
 // BKSReferenceNo applies equality check predicate on the "BKSReferenceNo" field. It's identical to BKSReferenceNoEQ.
-func BKSReferenceNo(v int) predicate.JobDetail {
+func BKSReferenceNo(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldBKSReferenceNo, v))
 }
 
@@ -1696,43 +1696,58 @@ func FloorCountNotNil() predicate.JobDetail {
 }
 
 // BKSReferenceNoEQ applies the EQ predicate on the "BKSReferenceNo" field.
-func BKSReferenceNoEQ(v int) predicate.JobDetail {
+func BKSReferenceNoEQ(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldBKSReferenceNo, v))
 }
 
 // BKSReferenceNoNEQ applies the NEQ predicate on the "BKSReferenceNo" field.
-func BKSReferenceNoNEQ(v int) predicate.JobDetail {
+func BKSReferenceNoNEQ(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNEQ(FieldBKSReferenceNo, v))
 }
 
 // BKSReferenceNoIn applies the In predicate on the "BKSReferenceNo" field.
-func BKSReferenceNoIn(vs ...int) predicate.JobDetail {
+func BKSReferenceNoIn(vs ...string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldIn(FieldBKSReferenceNo, vs...))
 }
 
 // BKSReferenceNoNotIn applies the NotIn predicate on the "BKSReferenceNo" field.
-func BKSReferenceNoNotIn(vs ...int) predicate.JobDetail {
+func BKSReferenceNoNotIn(vs ...string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotIn(FieldBKSReferenceNo, vs...))
 }
 
 // BKSReferenceNoGT applies the GT predicate on the "BKSReferenceNo" field.
-func BKSReferenceNoGT(v int) predicate.JobDetail {
+func BKSReferenceNoGT(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldGT(FieldBKSReferenceNo, v))
 }
 
 // BKSReferenceNoGTE applies the GTE predicate on the "BKSReferenceNo" field.
-func BKSReferenceNoGTE(v int) predicate.JobDetail {
+func BKSReferenceNoGTE(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldGTE(FieldBKSReferenceNo, v))
 }
 
 // BKSReferenceNoLT applies the LT predicate on the "BKSReferenceNo" field.
-func BKSReferenceNoLT(v int) predicate.JobDetail {
+func BKSReferenceNoLT(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLT(FieldBKSReferenceNo, v))
 }
 
 // BKSReferenceNoLTE applies the LTE predicate on the "BKSReferenceNo" field.
-func BKSReferenceNoLTE(v int) predicate.JobDetail {
+func BKSReferenceNoLTE(v string) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldLTE(FieldBKSReferenceNo, v))
+}
+
+// BKSReferenceNoContains applies the Contains predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldBKSReferenceNo, v))
+}
+
+// BKSReferenceNoHasPrefix applies the HasPrefix predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldBKSReferenceNo, v))
+}
+
+// BKSReferenceNoHasSuffix applies the HasSuffix predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldBKSReferenceNo, v))
 }
 
 // BKSReferenceNoIsNil applies the IsNil predicate on the "BKSReferenceNo" field.
@@ -1743,6 +1758,16 @@ func BKSReferenceNoIsNil() predicate.JobDetail {
 // BKSReferenceNoNotNil applies the NotNil predicate on the "BKSReferenceNo" field.
 func BKSReferenceNoNotNil() predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotNull(FieldBKSReferenceNo))
+}
+
+// BKSReferenceNoEqualFold applies the EqualFold predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldBKSReferenceNo, v))
+}
+
+// BKSReferenceNoContainsFold applies the ContainsFold predicate on the "BKSReferenceNo" field.
+func BKSReferenceNoContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldBKSReferenceNo, v))
 }
 
 // CoordinatesEQ applies the EQ predicate on the "Coordinates" field.

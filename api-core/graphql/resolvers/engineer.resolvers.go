@@ -32,6 +32,80 @@ func (r *companyEngineerResolver) CompanyCode(ctx context.Context, obj *ent.Comp
 	return &company.CompanyCode, nil
 }
 
+// UpsertEngineer is the resolver for the upsertEngineer field.
+func (r *mutationResolver) UpsertEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
+	client := middlewares.GetClientFromContext(ctx)
+
+	if input.Ydsid == nil {
+		return nil, fmt.Errorf("YDSID alanı zorunludur")
+	}
+
+	if input.CompanyCode == nil {
+		return nil, fmt.Errorf("CompanyCode alanı zorunludur")
+	}
+
+	// CompanyCode ile şirketi bul
+	company, err := client.CompanyDetail.Query().
+		Where(companydetail.CompanyCodeEQ(*input.CompanyCode)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %v", *input.CompanyCode, err)
+	}
+
+	// Önce mevcut denetçiyi kontrol et
+	existingEngineer, err := client.CompanyEngineer.Query().
+		Where(companyengineer.YDSIDEQ(*input.Ydsid)).
+		First(ctx)
+
+	if err != nil && !ent.IsNotFound(err) {
+		return nil, fmt.Errorf("denetçi sorgulanırken hata oluştu: %v", err)
+	}
+
+	if existingEngineer != nil {
+		// Mevcut denetçi varsa güncelle
+		engineer, err := existingEngineer.Update().
+			SetNillableName(input.Name).
+			SetNillableAddress(input.Address).
+			SetNillableEmail(input.Email).
+			SetNillableTcNo(input.TcNo).
+			SetNillablePhone(input.Phone).
+			SetNillableRegisterNo(input.RegisterNo).
+			SetNillableCertNo(input.CertNo).
+			SetNillableCareer(input.Career).
+			SetNillablePosition(input.Position).
+			SetNillableNote(input.Note).
+			SetNillableEmployment(input.Employment).
+			SetCompany(company).
+			Save(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("denetçi güncellenemedi: %v", err)
+		}
+		return engineer, nil
+	}
+
+	// Mevcut denetçi yoksa yeni oluştur
+	engineer, err := client.CompanyEngineer.Create().
+		SetName(*input.Name).
+		SetNillableAddress(input.Address).
+		SetNillableEmail(input.Email).
+		SetNillableTcNo(input.TcNo).
+		SetNillablePhone(input.Phone).
+		SetNillableRegisterNo(input.RegisterNo).
+		SetNillableCertNo(input.CertNo).
+		SetNillableCareer(input.Career).
+		SetNillablePosition(input.Position).
+		SetYDSID(*input.Ydsid).
+		SetNillableNote(input.Note).
+		SetNillableEmployment(input.Employment).
+		SetCompany(company).
+		Save(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("denetçi oluşturulamadı: %v", err)
+	}
+
+	return engineer, nil
+}
+
 // CreateEngineer is the resolver for the createEngineer field.
 func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)
@@ -59,7 +133,7 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 	}
 
 	createEngineer, err := client.CompanyEngineer.Create().
-		SetNillableName(input.Name).
+		SetName(*input.Name).
 		SetNillableAddress(input.Address).
 		SetNillableEmail(input.Email).
 		SetNillableTcNo(input.TcNo).
@@ -68,7 +142,7 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 		SetNillableCertNo(input.CertNo).
 		SetNillableCareer(input.Career).
 		SetNillablePosition(input.Position).
-		SetNillableYDSID(input.Ydsid).
+		SetYDSID(*input.Ydsid).
 		SetNillableNote(input.Note).
 		SetNillableEmployment(input.Employment).
 		SetCompany(company).

@@ -2,10 +2,10 @@
 type JobOwner {
   id: ID!
   Name: String
-  TcNo: Int
+  TcNo: String
   Address: String
   TaxAdmin: String
-  TaxNo: Int
+  TaxNo: String
   Phone: String
   Email: String
   YDSID: Int
@@ -17,10 +17,10 @@ input JobOwnerInput {
   id: ID
   YibfNo: Int
   Name: String
-  TcNo: Int
+  TcNo: String
   Address: String
   TaxAdmin: String
-  TaxNo: Int
+  TaxNo: String
   Phone: String
   Email: String
   YDSID: Int!

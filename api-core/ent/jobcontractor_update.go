@@ -44,23 +44,16 @@ func (jcu *JobContractorUpdate) SetNillableName(s *string) *JobContractorUpdate 
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jcu *JobContractorUpdate) SetTcNo(i int) *JobContractorUpdate {
-	jcu.mutation.ResetTcNo()
-	jcu.mutation.SetTcNo(i)
+func (jcu *JobContractorUpdate) SetTcNo(s string) *JobContractorUpdate {
+	jcu.mutation.SetTcNo(s)
 	return jcu
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableTcNo(i *int) *JobContractorUpdate {
-	if i != nil {
-		jcu.SetTcNo(*i)
+func (jcu *JobContractorUpdate) SetNillableTcNo(s *string) *JobContractorUpdate {
+	if s != nil {
+		jcu.SetTcNo(*s)
 	}
-	return jcu
-}
-
-// AddTcNo adds i to the "TcNo" field.
-func (jcu *JobContractorUpdate) AddTcNo(i int) *JobContractorUpdate {
-	jcu.mutation.AddTcNo(i)
 	return jcu
 }
 
@@ -71,23 +64,16 @@ func (jcu *JobContractorUpdate) ClearTcNo() *JobContractorUpdate {
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jcu *JobContractorUpdate) SetRegisterNo(i int) *JobContractorUpdate {
-	jcu.mutation.ResetRegisterNo()
-	jcu.mutation.SetRegisterNo(i)
+func (jcu *JobContractorUpdate) SetRegisterNo(s string) *JobContractorUpdate {
+	jcu.mutation.SetRegisterNo(s)
 	return jcu
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableRegisterNo(i *int) *JobContractorUpdate {
-	if i != nil {
-		jcu.SetRegisterNo(*i)
+func (jcu *JobContractorUpdate) SetNillableRegisterNo(s *string) *JobContractorUpdate {
+	if s != nil {
+		jcu.SetRegisterNo(*s)
 	}
-	return jcu
-}
-
-// AddRegisterNo adds i to the "RegisterNo" field.
-func (jcu *JobContractorUpdate) AddRegisterNo(i int) *JobContractorUpdate {
-	jcu.mutation.AddRegisterNo(i)
 	return jcu
 }
 
@@ -118,23 +104,16 @@ func (jcu *JobContractorUpdate) ClearAddress() *JobContractorUpdate {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jcu *JobContractorUpdate) SetTaxNo(i int) *JobContractorUpdate {
-	jcu.mutation.ResetTaxNo()
-	jcu.mutation.SetTaxNo(i)
+func (jcu *JobContractorUpdate) SetTaxNo(s string) *JobContractorUpdate {
+	jcu.mutation.SetTaxNo(s)
 	return jcu
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableTaxNo(i *int) *JobContractorUpdate {
-	if i != nil {
-		jcu.SetTaxNo(*i)
+func (jcu *JobContractorUpdate) SetNillableTaxNo(s *string) *JobContractorUpdate {
+	if s != nil {
+		jcu.SetTaxNo(*s)
 	}
-	return jcu
-}
-
-// AddTaxNo adds i to the "TaxNo" field.
-func (jcu *JobContractorUpdate) AddTaxNo(i int) *JobContractorUpdate {
-	jcu.mutation.AddTaxNo(i)
 	return jcu
 }
 
@@ -381,22 +360,16 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		_spec.SetField(jobcontractor.FieldName, field.TypeString, value)
 	}
 	if value, ok := jcu.mutation.TcNo(); ok {
-		_spec.SetField(jobcontractor.FieldTcNo, field.TypeInt, value)
-	}
-	if value, ok := jcu.mutation.AddedTcNo(); ok {
-		_spec.AddField(jobcontractor.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldTcNo, field.TypeString, value)
 	}
 	if jcu.mutation.TcNoCleared() {
-		_spec.ClearField(jobcontractor.FieldTcNo, field.TypeInt)
+		_spec.ClearField(jobcontractor.FieldTcNo, field.TypeString)
 	}
 	if value, ok := jcu.mutation.RegisterNo(); ok {
-		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeInt, value)
-	}
-	if value, ok := jcu.mutation.AddedRegisterNo(); ok {
-		_spec.AddField(jobcontractor.FieldRegisterNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeString, value)
 	}
 	if jcu.mutation.RegisterNoCleared() {
-		_spec.ClearField(jobcontractor.FieldRegisterNo, field.TypeInt)
+		_spec.ClearField(jobcontractor.FieldRegisterNo, field.TypeString)
 	}
 	if value, ok := jcu.mutation.Address(); ok {
 		_spec.SetField(jobcontractor.FieldAddress, field.TypeString, value)
@@ -405,13 +378,10 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		_spec.ClearField(jobcontractor.FieldAddress, field.TypeString)
 	}
 	if value, ok := jcu.mutation.TaxNo(); ok {
-		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeInt, value)
-	}
-	if value, ok := jcu.mutation.AddedTaxNo(); ok {
-		_spec.AddField(jobcontractor.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeString, value)
 	}
 	if jcu.mutation.TaxNoCleared() {
-		_spec.ClearField(jobcontractor.FieldTaxNo, field.TypeInt)
+		_spec.ClearField(jobcontractor.FieldTaxNo, field.TypeString)
 	}
 	if value, ok := jcu.mutation.MobilePhone(); ok {
 		_spec.SetField(jobcontractor.FieldMobilePhone, field.TypeString, value)
@@ -538,23 +508,16 @@ func (jcuo *JobContractorUpdateOne) SetNillableName(s *string) *JobContractorUpd
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jcuo *JobContractorUpdateOne) SetTcNo(i int) *JobContractorUpdateOne {
-	jcuo.mutation.ResetTcNo()
-	jcuo.mutation.SetTcNo(i)
+func (jcuo *JobContractorUpdateOne) SetTcNo(s string) *JobContractorUpdateOne {
+	jcuo.mutation.SetTcNo(s)
 	return jcuo
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableTcNo(i *int) *JobContractorUpdateOne {
-	if i != nil {
-		jcuo.SetTcNo(*i)
+func (jcuo *JobContractorUpdateOne) SetNillableTcNo(s *string) *JobContractorUpdateOne {
+	if s != nil {
+		jcuo.SetTcNo(*s)
 	}
-	return jcuo
-}
-
-// AddTcNo adds i to the "TcNo" field.
-func (jcuo *JobContractorUpdateOne) AddTcNo(i int) *JobContractorUpdateOne {
-	jcuo.mutation.AddTcNo(i)
 	return jcuo
 }
 
@@ -565,23 +528,16 @@ func (jcuo *JobContractorUpdateOne) ClearTcNo() *JobContractorUpdateOne {
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jcuo *JobContractorUpdateOne) SetRegisterNo(i int) *JobContractorUpdateOne {
-	jcuo.mutation.ResetRegisterNo()
-	jcuo.mutation.SetRegisterNo(i)
+func (jcuo *JobContractorUpdateOne) SetRegisterNo(s string) *JobContractorUpdateOne {
+	jcuo.mutation.SetRegisterNo(s)
 	return jcuo
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableRegisterNo(i *int) *JobContractorUpdateOne {
-	if i != nil {
-		jcuo.SetRegisterNo(*i)
+func (jcuo *JobContractorUpdateOne) SetNillableRegisterNo(s *string) *JobContractorUpdateOne {
+	if s != nil {
+		jcuo.SetRegisterNo(*s)
 	}
-	return jcuo
-}
-
-// AddRegisterNo adds i to the "RegisterNo" field.
-func (jcuo *JobContractorUpdateOne) AddRegisterNo(i int) *JobContractorUpdateOne {
-	jcuo.mutation.AddRegisterNo(i)
 	return jcuo
 }
 
@@ -612,23 +568,16 @@ func (jcuo *JobContractorUpdateOne) ClearAddress() *JobContractorUpdateOne {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jcuo *JobContractorUpdateOne) SetTaxNo(i int) *JobContractorUpdateOne {
-	jcuo.mutation.ResetTaxNo()
-	jcuo.mutation.SetTaxNo(i)
+func (jcuo *JobContractorUpdateOne) SetTaxNo(s string) *JobContractorUpdateOne {
+	jcuo.mutation.SetTaxNo(s)
 	return jcuo
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableTaxNo(i *int) *JobContractorUpdateOne {
-	if i != nil {
-		jcuo.SetTaxNo(*i)
+func (jcuo *JobContractorUpdateOne) SetNillableTaxNo(s *string) *JobContractorUpdateOne {
+	if s != nil {
+		jcuo.SetTaxNo(*s)
 	}
-	return jcuo
-}
-
-// AddTaxNo adds i to the "TaxNo" field.
-func (jcuo *JobContractorUpdateOne) AddTaxNo(i int) *JobContractorUpdateOne {
-	jcuo.mutation.AddTaxNo(i)
 	return jcuo
 }
 
@@ -905,22 +854,16 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 		_spec.SetField(jobcontractor.FieldName, field.TypeString, value)
 	}
 	if value, ok := jcuo.mutation.TcNo(); ok {
-		_spec.SetField(jobcontractor.FieldTcNo, field.TypeInt, value)
-	}
-	if value, ok := jcuo.mutation.AddedTcNo(); ok {
-		_spec.AddField(jobcontractor.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldTcNo, field.TypeString, value)
 	}
 	if jcuo.mutation.TcNoCleared() {
-		_spec.ClearField(jobcontractor.FieldTcNo, field.TypeInt)
+		_spec.ClearField(jobcontractor.FieldTcNo, field.TypeString)
 	}
 	if value, ok := jcuo.mutation.RegisterNo(); ok {
-		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeInt, value)
-	}
-	if value, ok := jcuo.mutation.AddedRegisterNo(); ok {
-		_spec.AddField(jobcontractor.FieldRegisterNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeString, value)
 	}
 	if jcuo.mutation.RegisterNoCleared() {
-		_spec.ClearField(jobcontractor.FieldRegisterNo, field.TypeInt)
+		_spec.ClearField(jobcontractor.FieldRegisterNo, field.TypeString)
 	}
 	if value, ok := jcuo.mutation.Address(); ok {
 		_spec.SetField(jobcontractor.FieldAddress, field.TypeString, value)
@@ -929,13 +872,10 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 		_spec.ClearField(jobcontractor.FieldAddress, field.TypeString)
 	}
 	if value, ok := jcuo.mutation.TaxNo(); ok {
-		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeInt, value)
-	}
-	if value, ok := jcuo.mutation.AddedTaxNo(); ok {
-		_spec.AddField(jobcontractor.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeString, value)
 	}
 	if jcuo.mutation.TaxNoCleared() {
-		_spec.ClearField(jobcontractor.FieldTaxNo, field.TypeInt)
+		_spec.ClearField(jobcontractor.FieldTaxNo, field.TypeString)
 	}
 	if value, ok := jcuo.mutation.MobilePhone(); ok {
 		_spec.SetField(jobcontractor.FieldMobilePhone, field.TypeString, value)

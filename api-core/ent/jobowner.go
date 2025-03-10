@@ -22,11 +22,11 @@ type JobOwner struct {
 	// Address holds the value of the "Address" field.
 	Address string `json:"Address,omitempty"`
 	// TcNo holds the value of the "TcNo" field.
-	TcNo int `json:"TcNo,omitempty"`
+	TcNo string `json:"TcNo,omitempty"`
 	// TaxAdmin holds the value of the "TaxAdmin" field.
 	TaxAdmin string `json:"TaxAdmin,omitempty"`
 	// TaxNo holds the value of the "TaxNo" field.
-	TaxNo int `json:"TaxNo,omitempty"`
+	TaxNo string `json:"TaxNo,omitempty"`
 	// Phone holds the value of the "Phone" field.
 	Phone string `json:"Phone,omitempty"`
 	// Email holds the value of the "Email" field.
@@ -76,9 +76,9 @@ func (*JobOwner) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case jobowner.FieldShareholder:
 			values[i] = new(sql.NullBool)
-		case jobowner.FieldID, jobowner.FieldTcNo, jobowner.FieldTaxNo, jobowner.FieldYDSID:
+		case jobowner.FieldID, jobowner.FieldYDSID:
 			values[i] = new(sql.NullInt64)
-		case jobowner.FieldName, jobowner.FieldAddress, jobowner.FieldTaxAdmin, jobowner.FieldPhone, jobowner.FieldEmail, jobowner.FieldNote:
+		case jobowner.FieldName, jobowner.FieldAddress, jobowner.FieldTcNo, jobowner.FieldTaxAdmin, jobowner.FieldTaxNo, jobowner.FieldPhone, jobowner.FieldEmail, jobowner.FieldNote:
 			values[i] = new(sql.NullString)
 		case jobowner.FieldCreatedAt, jobowner.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -116,10 +116,10 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 				jo.Address = value.String
 			}
 		case jobowner.FieldTcNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				jo.TcNo = int(value.Int64)
+				jo.TcNo = value.String
 			}
 		case jobowner.FieldTaxAdmin:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -128,10 +128,10 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 				jo.TaxAdmin = value.String
 			}
 		case jobowner.FieldTaxNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
 			} else if value.Valid {
-				jo.TaxNo = int(value.Int64)
+				jo.TaxNo = value.String
 			}
 		case jobowner.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -223,13 +223,13 @@ func (jo *JobOwner) String() string {
 	builder.WriteString(jo.Address)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(fmt.Sprintf("%v", jo.TcNo))
+	builder.WriteString(jo.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("TaxAdmin=")
 	builder.WriteString(jo.TaxAdmin)
 	builder.WriteString(", ")
 	builder.WriteString("TaxNo=")
-	builder.WriteString(fmt.Sprintf("%v", jo.TaxNo))
+	builder.WriteString(jo.TaxNo)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
 	builder.WriteString(jo.Phone)

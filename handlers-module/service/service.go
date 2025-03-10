@@ -247,3 +247,46 @@ type ProgressPayment struct {
 type ProgressPaymentResponse struct {
 	Items []ProgressPayment `json:"items"`
 }
+
+type EngineerResponse struct {
+	Inspector *struct {
+		ID    int    `json:"id"`
+		YDSID int    `json:"ydsid"`
+		Name  string `json:"name"`
+	} `json:"inspector"`
+	Static *struct {
+		ID    int    `json:"id"`
+		YDSID int    `json:"ydsid"`
+		Name  string `json:"name"`
+	} `json:"static"`
+	Architect *struct {
+		ID    int    `json:"id"`
+		YDSID int    `json:"ydsid"`
+		Name  string `json:"name"`
+	} `json:"architect"`
+	Mechanic *struct {
+		ID    int    `json:"id"`
+		YDSID int    `json:"ydsid"`
+		Name  string `json:"name"`
+	} `json:"mechanic"`
+	Electric *struct {
+		ID    int    `json:"id"`
+		YDSID int    `json:"ydsid"`
+		Name  string `json:"name"`
+	} `json:"electric"`
+	Controller *struct {
+		ID    int    `json:"id"`
+		YDSID int    `json:"ydsid"`
+		Name  string `json:"name"`
+	} `json:"controller"`
+	MechanicController *struct {
+		ID    int    `json:"id"`
+		YDSID int    `json:"ydsid"`
+		Name  string `json:"name"`
+	} `json:"mechanicController"`
+	ElectricController *struct {
+		ID    int    `json:"id"`
+		YDSID int    `json:"ydsid"`
+		Name  string `json:"name"`
+	} `json:"electricController"`
+}

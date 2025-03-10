@@ -150,8 +150,6 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultName holds the default value on creation for the "Name" field.
 	DefaultName string
-	// DefaultTaxNo holds the default value on creation for the "TaxNo" field.
-	DefaultTaxNo int
 	// DefaultVisaFinishedFor90Days holds the default value on creation for the "VisaFinishedFor90Days" field.
 	DefaultVisaFinishedFor90Days bool
 	// DefaultCorePersonAbsent90Days holds the default value on creation for the "CorePersonAbsent90Days" field.

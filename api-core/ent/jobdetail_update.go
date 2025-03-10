@@ -560,23 +560,16 @@ func (jdu *JobDetailUpdate) ClearFloorCount() *JobDetailUpdate {
 }
 
 // SetBKSReferenceNo sets the "BKSReferenceNo" field.
-func (jdu *JobDetailUpdate) SetBKSReferenceNo(i int) *JobDetailUpdate {
-	jdu.mutation.ResetBKSReferenceNo()
-	jdu.mutation.SetBKSReferenceNo(i)
+func (jdu *JobDetailUpdate) SetBKSReferenceNo(s string) *JobDetailUpdate {
+	jdu.mutation.SetBKSReferenceNo(s)
 	return jdu
 }
 
 // SetNillableBKSReferenceNo sets the "BKSReferenceNo" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableBKSReferenceNo(i *int) *JobDetailUpdate {
-	if i != nil {
-		jdu.SetBKSReferenceNo(*i)
+func (jdu *JobDetailUpdate) SetNillableBKSReferenceNo(s *string) *JobDetailUpdate {
+	if s != nil {
+		jdu.SetBKSReferenceNo(*s)
 	}
-	return jdu
-}
-
-// AddBKSReferenceNo adds i to the "BKSReferenceNo" field.
-func (jdu *JobDetailUpdate) AddBKSReferenceNo(i int) *JobDetailUpdate {
-	jdu.mutation.AddBKSReferenceNo(i)
 	return jdu
 }
 
@@ -1007,13 +1000,10 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(jobdetail.FieldFloorCount, field.TypeInt)
 	}
 	if value, ok := jdu.mutation.BKSReferenceNo(); ok {
-		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeInt, value)
-	}
-	if value, ok := jdu.mutation.AddedBKSReferenceNo(); ok {
-		_spec.AddField(jobdetail.FieldBKSReferenceNo, field.TypeInt, value)
+		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeString, value)
 	}
 	if jdu.mutation.BKSReferenceNoCleared() {
-		_spec.ClearField(jobdetail.FieldBKSReferenceNo, field.TypeInt)
+		_spec.ClearField(jobdetail.FieldBKSReferenceNo, field.TypeString)
 	}
 	if value, ok := jdu.mutation.Coordinates(); ok {
 		_spec.SetField(jobdetail.FieldCoordinates, field.TypeString, value)
@@ -1649,23 +1639,16 @@ func (jduo *JobDetailUpdateOne) ClearFloorCount() *JobDetailUpdateOne {
 }
 
 // SetBKSReferenceNo sets the "BKSReferenceNo" field.
-func (jduo *JobDetailUpdateOne) SetBKSReferenceNo(i int) *JobDetailUpdateOne {
-	jduo.mutation.ResetBKSReferenceNo()
-	jduo.mutation.SetBKSReferenceNo(i)
+func (jduo *JobDetailUpdateOne) SetBKSReferenceNo(s string) *JobDetailUpdateOne {
+	jduo.mutation.SetBKSReferenceNo(s)
 	return jduo
 }
 
 // SetNillableBKSReferenceNo sets the "BKSReferenceNo" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableBKSReferenceNo(i *int) *JobDetailUpdateOne {
-	if i != nil {
-		jduo.SetBKSReferenceNo(*i)
+func (jduo *JobDetailUpdateOne) SetNillableBKSReferenceNo(s *string) *JobDetailUpdateOne {
+	if s != nil {
+		jduo.SetBKSReferenceNo(*s)
 	}
-	return jduo
-}
-
-// AddBKSReferenceNo adds i to the "BKSReferenceNo" field.
-func (jduo *JobDetailUpdateOne) AddBKSReferenceNo(i int) *JobDetailUpdateOne {
-	jduo.mutation.AddBKSReferenceNo(i)
 	return jduo
 }
 
@@ -2126,13 +2109,10 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 		_spec.ClearField(jobdetail.FieldFloorCount, field.TypeInt)
 	}
 	if value, ok := jduo.mutation.BKSReferenceNo(); ok {
-		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeInt, value)
-	}
-	if value, ok := jduo.mutation.AddedBKSReferenceNo(); ok {
-		_spec.AddField(jobdetail.FieldBKSReferenceNo, field.TypeInt, value)
+		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeString, value)
 	}
 	if jduo.mutation.BKSReferenceNoCleared() {
-		_spec.ClearField(jobdetail.FieldBKSReferenceNo, field.TypeInt)
+		_spec.ClearField(jobdetail.FieldBKSReferenceNo, field.TypeString)
 	}
 	if value, ok := jduo.mutation.Coordinates(); ok {
 		_spec.SetField(jobdetail.FieldCoordinates, field.TypeString, value)

@@ -50,15 +50,15 @@ func (joc *JobOwnerCreate) SetNillableAddress(s *string) *JobOwnerCreate {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (joc *JobOwnerCreate) SetTcNo(i int) *JobOwnerCreate {
-	joc.mutation.SetTcNo(i)
+func (joc *JobOwnerCreate) SetTcNo(s string) *JobOwnerCreate {
+	joc.mutation.SetTcNo(s)
 	return joc
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableTcNo(i *int) *JobOwnerCreate {
-	if i != nil {
-		joc.SetTcNo(*i)
+func (joc *JobOwnerCreate) SetNillableTcNo(s *string) *JobOwnerCreate {
+	if s != nil {
+		joc.SetTcNo(*s)
 	}
 	return joc
 }
@@ -78,15 +78,15 @@ func (joc *JobOwnerCreate) SetNillableTaxAdmin(s *string) *JobOwnerCreate {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (joc *JobOwnerCreate) SetTaxNo(i int) *JobOwnerCreate {
-	joc.mutation.SetTaxNo(i)
+func (joc *JobOwnerCreate) SetTaxNo(s string) *JobOwnerCreate {
+	joc.mutation.SetTaxNo(s)
 	return joc
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableTaxNo(i *int) *JobOwnerCreate {
-	if i != nil {
-		joc.SetTaxNo(*i)
+func (joc *JobOwnerCreate) SetNillableTaxNo(s *string) *JobOwnerCreate {
+	if s != nil {
+		joc.SetTaxNo(*s)
 	}
 	return joc
 }
@@ -306,7 +306,7 @@ func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 		_node.Address = value
 	}
 	if value, ok := joc.mutation.TcNo(); ok {
-		_spec.SetField(jobowner.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobowner.FieldTcNo, field.TypeString, value)
 		_node.TcNo = value
 	}
 	if value, ok := joc.mutation.TaxAdmin(); ok {
@@ -314,7 +314,7 @@ func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 		_node.TaxAdmin = value
 	}
 	if value, ok := joc.mutation.TaxNo(); ok {
-		_spec.SetField(jobowner.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(jobowner.FieldTaxNo, field.TypeString, value)
 		_node.TaxNo = value
 	}
 	if value, ok := joc.mutation.Phone(); ok {

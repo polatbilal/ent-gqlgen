@@ -36,29 +36,29 @@ func (jcc *JobContractorCreate) SetNillableName(s *string) *JobContractorCreate 
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jcc *JobContractorCreate) SetTcNo(i int) *JobContractorCreate {
-	jcc.mutation.SetTcNo(i)
+func (jcc *JobContractorCreate) SetTcNo(s string) *JobContractorCreate {
+	jcc.mutation.SetTcNo(s)
 	return jcc
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableTcNo(i *int) *JobContractorCreate {
-	if i != nil {
-		jcc.SetTcNo(*i)
+func (jcc *JobContractorCreate) SetNillableTcNo(s *string) *JobContractorCreate {
+	if s != nil {
+		jcc.SetTcNo(*s)
 	}
 	return jcc
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jcc *JobContractorCreate) SetRegisterNo(i int) *JobContractorCreate {
-	jcc.mutation.SetRegisterNo(i)
+func (jcc *JobContractorCreate) SetRegisterNo(s string) *JobContractorCreate {
+	jcc.mutation.SetRegisterNo(s)
 	return jcc
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableRegisterNo(i *int) *JobContractorCreate {
-	if i != nil {
-		jcc.SetRegisterNo(*i)
+func (jcc *JobContractorCreate) SetNillableRegisterNo(s *string) *JobContractorCreate {
+	if s != nil {
+		jcc.SetRegisterNo(*s)
 	}
 	return jcc
 }
@@ -78,15 +78,15 @@ func (jcc *JobContractorCreate) SetNillableAddress(s *string) *JobContractorCrea
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jcc *JobContractorCreate) SetTaxNo(i int) *JobContractorCreate {
-	jcc.mutation.SetTaxNo(i)
+func (jcc *JobContractorCreate) SetTaxNo(s string) *JobContractorCreate {
+	jcc.mutation.SetTaxNo(s)
 	return jcc
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableTaxNo(i *int) *JobContractorCreate {
-	if i != nil {
-		jcc.SetTaxNo(*i)
+func (jcc *JobContractorCreate) SetNillableTaxNo(s *string) *JobContractorCreate {
+	if s != nil {
+		jcc.SetTaxNo(*s)
 	}
 	return jcc
 }
@@ -309,11 +309,11 @@ func (jcc *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSp
 		_node.Name = value
 	}
 	if value, ok := jcc.mutation.TcNo(); ok {
-		_spec.SetField(jobcontractor.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldTcNo, field.TypeString, value)
 		_node.TcNo = value
 	}
 	if value, ok := jcc.mutation.RegisterNo(); ok {
-		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeString, value)
 		_node.RegisterNo = value
 	}
 	if value, ok := jcc.mutation.Address(); ok {
@@ -321,7 +321,7 @@ func (jcc *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSp
 		_node.Address = value
 	}
 	if value, ok := jcc.mutation.TaxNo(); ok {
-		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeString, value)
 		_node.TaxNo = value
 	}
 	if value, ok := jcc.mutation.MobilePhone(); ok {

@@ -26,7 +26,7 @@ type JobDetail {
   Level: Float
   UnitPrice: Float
   FloorCount: Int
-  BKSReferenceNo: Int
+  BKSReferenceNo: String
   Coordinates: String
   FolderNo: String
   UploadedFile: Boolean
@@ -63,7 +63,7 @@ input JobInput {
   Level: Float
   UnitPrice: Float
   FloorCount: Int
-  BKSReferenceNo: Int
+  BKSReferenceNo: String
   Coordinates: String
   FolderNo: String
   UploadedFile: Boolean

@@ -90,16 +90,16 @@ func ProgressPayments(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	infoLogger.Printf("[BİLGİ] Şirket kodu alındı - YibfNo: %d, Kod: %s", requestParams.YibfNo, companyCode)
+	infoLogger.Printf("[BİLGİ] Şirket kodu alındı - YibfNo: %d, Kod: %d", requestParams.YibfNo, companyCode)
 
 	companyToken, err := service.GetCompanyTokenFromDB(c.Context(), companyCode)
 	if err != nil {
-		errorLogger.Printf("[HATA] Şirket tokeni alınamadı - Kod: %s, Hata: %v", companyCode, err)
+		errorLogger.Printf("[HATA] Şirket tokeni alınamadı - Kod: %d, Hata: %v", companyCode, err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	if companyToken.Token == "" || companyToken.DepartmentId == 0 {
-		errorLogger.Printf("[HATA] Geçersiz token veya department ID - Kod: %s", companyCode)
+		errorLogger.Printf("[HATA] Geçersiz token veya department ID - Kod: %d", companyCode)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Geçerli token veya department ID bulunamadı"})
 	}
 

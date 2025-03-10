@@ -31,10 +31,6 @@ func init() {
 	companydetailDescName := companydetailFields[1].Descriptor()
 	// companydetail.DefaultName holds the default value on creation for the Name field.
 	companydetail.DefaultName = companydetailDescName.Default.(string)
-	// companydetailDescTaxNo is the schema descriptor for TaxNo field.
-	companydetailDescTaxNo := companydetailFields[9].Descriptor()
-	// companydetail.DefaultTaxNo holds the default value on creation for the TaxNo field.
-	companydetail.DefaultTaxNo = companydetailDescTaxNo.Default.(int)
 	// companydetailDescVisaFinishedFor90Days is the schema descriptor for VisaFinishedFor90Days field.
 	companydetailDescVisaFinishedFor90Days := companydetailFields[14].Descriptor()
 	// companydetail.DefaultVisaFinishedFor90Days holds the default value on creation for the VisaFinishedFor90Days field.

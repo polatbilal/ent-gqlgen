@@ -26,7 +26,7 @@ type CompanyDetailInput struct {
 	Email                  *string    `json:"Email,omitempty"`
 	Website                *string    `json:"Website,omitempty"`
 	TaxAdmin               *string    `json:"TaxAdmin,omitempty"`
-	TaxNo                  *int       `json:"TaxNo,omitempty"`
+	TaxNo                  *string    `json:"TaxNo,omitempty"`
 	ChamberInfo            *string    `json:"ChamberInfo,omitempty"`
 	ChamberRegisterNo      *string    `json:"ChamberRegisterNo,omitempty"`
 	VisaDate               *time.Time `json:"VisaDate,omitempty"`
@@ -35,11 +35,11 @@ type CompanyDetailInput struct {
 	CorePersonAbsent90days *bool      `json:"core_person_absent_90days,omitempty"`
 	IsClosed               *bool      `json:"isClosed,omitempty"`
 	OwnerName              *string    `json:"OwnerName,omitempty"`
-	OwnerTcNo              *int       `json:"OwnerTcNo,omitempty"`
+	OwnerTcNo              *string    `json:"OwnerTcNo,omitempty"`
 	OwnerAddress           *string    `json:"OwnerAddress,omitempty"`
 	OwnerPhone             *string    `json:"OwnerPhone,omitempty"`
 	OwnerEmail             *string    `json:"OwnerEmail,omitempty"`
-	OwnerRegisterNo        *int       `json:"OwnerRegisterNo,omitempty"`
+	OwnerRegisterNo        *string    `json:"OwnerRegisterNo,omitempty"`
 	OwnerCareer            *string    `json:"OwnerCareer,omitempty"`
 }
 
@@ -48,14 +48,14 @@ type CompanyEngineerInput struct {
 	YibfNo      *int       `json:"YibfNo,omitempty"`
 	Ydsid       *int       `json:"YDSID,omitempty"`
 	Name        *string    `json:"Name,omitempty"`
-	TcNo        *int       `json:"TcNo,omitempty"`
+	TcNo        *string    `json:"TcNo,omitempty"`
 	Phone       *string    `json:"Phone,omitempty"`
 	Email       *string    `json:"Email,omitempty"`
 	Address     *string    `json:"Address,omitempty"`
 	Career      *string    `json:"Career,omitempty"`
 	Position    *string    `json:"Position,omitempty"`
-	RegisterNo  *int       `json:"RegisterNo,omitempty"`
-	CertNo      *int       `json:"CertNo,omitempty"`
+	RegisterNo  *string    `json:"RegisterNo,omitempty"`
+	CertNo      *string    `json:"CertNo,omitempty"`
 	Employment  *time.Time `json:"Employment,omitempty"`
 	Status      *int       `json:"Status,omitempty"`
 	Note        *string    `json:"Note,omitempty"`
@@ -110,10 +110,10 @@ type JobContractorInput struct {
 	ID          *string `json:"id,omitempty"`
 	YibfNo      *int    `json:"YibfNo,omitempty"`
 	Name        *string `json:"Name,omitempty"`
-	TcNo        *int    `json:"TcNo,omitempty"`
-	RegisterNo  *int    `json:"RegisterNo,omitempty"`
+	TcNo        *string `json:"TcNo,omitempty"`
+	RegisterNo  *string `json:"RegisterNo,omitempty"`
 	Address     *string `json:"Address,omitempty"`
-	TaxNo       *int    `json:"TaxNo,omitempty"`
+	TaxNo       *string `json:"TaxNo,omitempty"`
 	MobilePhone *string `json:"MobilePhone,omitempty"`
 	Phone       *string `json:"Phone,omitempty"`
 	Email       *string `json:"Email,omitempty"`
@@ -179,7 +179,7 @@ type JobInput struct {
 	Level            *float64   `json:"Level,omitempty"`
 	UnitPrice        *float64   `json:"UnitPrice,omitempty"`
 	FloorCount       *int       `json:"FloorCount,omitempty"`
-	BKSReferenceNo   *int       `json:"BKSReferenceNo,omitempty"`
+	BKSReferenceNo   *string    `json:"BKSReferenceNo,omitempty"`
 	Coordinates      *string    `json:"Coordinates,omitempty"`
 	FolderNo         *string    `json:"FolderNo,omitempty"`
 	UploadedFile     *bool      `json:"UploadedFile,omitempty"`
@@ -206,10 +206,10 @@ type JobOwnerInput struct {
 	ID          *string `json:"id,omitempty"`
 	YibfNo      *int    `json:"YibfNo,omitempty"`
 	Name        *string `json:"Name,omitempty"`
-	TcNo        *int    `json:"TcNo,omitempty"`
+	TcNo        *string `json:"TcNo,omitempty"`
 	Address     *string `json:"Address,omitempty"`
 	TaxAdmin    *string `json:"TaxAdmin,omitempty"`
-	TaxNo       *int    `json:"TaxNo,omitempty"`
+	TaxNo       *string `json:"TaxNo,omitempty"`
 	Phone       *string `json:"Phone,omitempty"`
 	Email       *string `json:"Email,omitempty"`
 	Ydsid       int     `json:"YDSID"`
@@ -245,11 +245,11 @@ type JobSupervisorInput struct {
 	Address          *string `json:"Address,omitempty"`
 	Phone            *string `json:"Phone,omitempty"`
 	Email            *string `json:"Email,omitempty"`
-	TcNo             *int    `json:"TcNo,omitempty"`
+	TcNo             *string `json:"TcNo,omitempty"`
 	Position         *string `json:"Position,omitempty"`
 	Career           *string `json:"Career,omitempty"`
-	RegisterNo       *int    `json:"RegisterNo,omitempty"`
-	SocialSecurityNo *int    `json:"SocialSecurityNo,omitempty"`
+	RegisterNo       *string `json:"RegisterNo,omitempty"`
+	SocialSecurityNo *string `json:"SocialSecurityNo,omitempty"`
 	SchoolGraduation *string `json:"SchoolGraduation,omitempty"`
 	Ydsid            int     `json:"YDSID"`
 }

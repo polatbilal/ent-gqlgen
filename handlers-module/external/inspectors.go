@@ -74,7 +74,7 @@ func YDKInspectors(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Request body oluşturma hatası: " + err.Error()})
 	}
 
-	url := svc.BaseURL + service.ENDPOINT_COMPANY_ENGİNNER
+	url := svc.BaseURL + service.ENDPOINT_COMPANY_ENGINEER
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})

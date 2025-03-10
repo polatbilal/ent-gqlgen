@@ -17,14 +17,14 @@ type CompanyEngineer struct {
 func (CompanyEngineer) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Name").Default(""),
-		field.Int("TcNo").Optional(),
+		field.String("TcNo").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
 		field.String("Address").Optional(),
 		field.String("Career").Optional(),
 		field.String("Position").Optional(),
-		field.Int("RegisterNo").Optional(),
-		field.Int("CertNo").Optional(),
+		field.String("RegisterNo").Optional(),
+		field.String("CertNo").Optional(),
 		field.Int("YDSID").Optional().Unique(),
 		field.Time("Employment").Optional(),
 		field.Int("Status").Default(1),

@@ -10,10 +10,15 @@ import (
 
 func MarshalTime(t time.Time) graphql.Marshaler {
 	return graphql.WriterFunc(func(w io.Writer) {
+		// Zero time kontrolü ekle
+		if t.IsZero() {
+			w.Write([]byte("null"))
+			return
+		}
 		// Sadece tarih formatı: YYYY-MM-DD
-		// io.WriteString(w, t.Format(`"2006-01-02"`))
+		io.WriteString(w, t.Format(`"2006-01-02 15:04:05"`))
 		// Alternatif format (DD-MM-YYYY) için:
-		io.WriteString(w, t.Format(`"02/01/2006"`))
+		// io.WriteString(w, t.Format(`"02/01/2006 15:04:05"`))
 	})
 }
 
@@ -21,7 +26,7 @@ func UnmarshalTime(v interface{}) (time.Time, error) {
 	switch v := v.(type) {
 	case string:
 		// YYYY-MM-DD formatı için:
-		return time.Parse("2006-01-02", v)
+		return time.Parse("2006-01-02 15:04:05", v)
 		// DD-MM-YYYY formatı için:
 		// return time.Parse("02.01.2006", v)
 	default:

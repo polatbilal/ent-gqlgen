@@ -67,7 +67,7 @@ type JobDetail struct {
 	// FloorCount holds the value of the "FloorCount" field.
 	FloorCount int `json:"FloorCount,omitempty"`
 	// BKSReferenceNo holds the value of the "BKSReferenceNo" field.
-	BKSReferenceNo int `json:"BKSReferenceNo,omitempty"`
+	BKSReferenceNo string `json:"BKSReferenceNo,omitempty"`
 	// Coordinates holds the value of the "Coordinates" field.
 	Coordinates string `json:"Coordinates,omitempty"`
 	// FolderNo holds the value of the "FolderNo" field.
@@ -125,9 +125,9 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case jobdetail.FieldLandArea, jobdetail.FieldTotalArea, jobdetail.FieldConstructionArea, jobdetail.FieldLeftArea, jobdetail.FieldLevel, jobdetail.FieldUnitPrice:
 			values[i] = new(sql.NullFloat64)
-		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldFloorCount, jobdetail.FieldBKSReferenceNo:
+		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldFloorCount:
 			values[i] = new(sql.NullInt64)
-		case jobdetail.FieldTitle, jobdetail.FieldAdministration, jobdetail.FieldState, jobdetail.FieldIsland, jobdetail.FieldParcel, jobdetail.FieldSheet, jobdetail.FieldLicenseNo, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldCoordinates, jobdetail.FieldFolderNo, jobdetail.FieldNote:
+		case jobdetail.FieldTitle, jobdetail.FieldAdministration, jobdetail.FieldState, jobdetail.FieldIsland, jobdetail.FieldParcel, jobdetail.FieldSheet, jobdetail.FieldLicenseNo, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBKSReferenceNo, jobdetail.FieldCoordinates, jobdetail.FieldFolderNo, jobdetail.FieldNote:
 			values[i] = new(sql.NullString)
 		case jobdetail.FieldContractDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldDistributionDate, jobdetail.FieldCompletionDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -297,10 +297,10 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 				jd.FloorCount = int(value.Int64)
 			}
 		case jobdetail.FieldBKSReferenceNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field BKSReferenceNo", values[i])
 			} else if value.Valid {
-				jd.BKSReferenceNo = int(value.Int64)
+				jd.BKSReferenceNo = value.String
 			}
 		case jobdetail.FieldCoordinates:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -476,7 +476,7 @@ func (jd *JobDetail) String() string {
 	builder.WriteString(fmt.Sprintf("%v", jd.FloorCount))
 	builder.WriteString(", ")
 	builder.WriteString("BKSReferenceNo=")
-	builder.WriteString(fmt.Sprintf("%v", jd.BKSReferenceNo))
+	builder.WriteString(jd.BKSReferenceNo)
 	builder.WriteString(", ")
 	builder.WriteString("Coordinates=")
 	builder.WriteString(jd.Coordinates)

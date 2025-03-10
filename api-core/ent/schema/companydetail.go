@@ -17,7 +17,7 @@ type CompanyDetail struct {
 func (CompanyDetail) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("CompanyCode").Unique(),
-		field.Text("Name").Default(""),
+		field.String("Name").Default(""),
 		field.String("Address").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Fax").Optional(),
@@ -25,7 +25,7 @@ func (CompanyDetail) Fields() []ent.Field {
 		field.String("Email").Optional(),
 		field.String("Website").Optional(),
 		field.String("TaxAdmin").Optional(),
-		field.Int("TaxNo").Default(0).Optional(),
+		field.String("TaxNo").Optional(),
 		field.String("ChamberInfo").Optional(),
 		field.String("ChamberRegisterNo").Optional(),
 		field.Time("VisaDate").Optional(),
@@ -35,11 +35,11 @@ func (CompanyDetail) Fields() []ent.Field {
 		field.Bool("IsClosed").Default(false),
 
 		field.String("OwnerName").Optional(),
-		field.Int("OwnerTcNo").Optional(),
+		field.String("OwnerTcNo").Optional(),
 		field.String("OwnerAddress").Optional(),
 		field.String("OwnerPhone").Optional(),
 		field.String("OwnerEmail").Optional(),
-		field.Int("OwnerRegisterNo").Optional(),
+		field.String("OwnerRegisterNo").Optional(),
 		field.String("OwnerCareer").Optional(),
 
 		field.Time("CreatedAt").Default(time.Now),

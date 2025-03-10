@@ -26,15 +26,15 @@ type JobSupervisor struct {
 	// Email holds the value of the "Email" field.
 	Email string `json:"Email,omitempty"`
 	// TcNo holds the value of the "TcNo" field.
-	TcNo int `json:"TcNo,omitempty"`
+	TcNo string `json:"TcNo,omitempty"`
 	// Position holds the value of the "Position" field.
 	Position string `json:"Position,omitempty"`
 	// Career holds the value of the "Career" field.
 	Career string `json:"Career,omitempty"`
 	// RegisterNo holds the value of the "RegisterNo" field.
-	RegisterNo int `json:"RegisterNo,omitempty"`
+	RegisterNo string `json:"RegisterNo,omitempty"`
 	// SocialSecurityNo holds the value of the "SocialSecurityNo" field.
-	SocialSecurityNo int `json:"SocialSecurityNo,omitempty"`
+	SocialSecurityNo string `json:"SocialSecurityNo,omitempty"`
 	// SchoolGraduation holds the value of the "SchoolGraduation" field.
 	SchoolGraduation string `json:"SchoolGraduation,omitempty"`
 	// YDSID holds the value of the "YDSID" field.
@@ -76,9 +76,9 @@ func (*JobSupervisor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobsupervisor.FieldID, jobsupervisor.FieldTcNo, jobsupervisor.FieldRegisterNo, jobsupervisor.FieldSocialSecurityNo, jobsupervisor.FieldYDSID:
+		case jobsupervisor.FieldID, jobsupervisor.FieldYDSID:
 			values[i] = new(sql.NullInt64)
-		case jobsupervisor.FieldName, jobsupervisor.FieldAddress, jobsupervisor.FieldPhone, jobsupervisor.FieldEmail, jobsupervisor.FieldPosition, jobsupervisor.FieldCareer, jobsupervisor.FieldSchoolGraduation:
+		case jobsupervisor.FieldName, jobsupervisor.FieldAddress, jobsupervisor.FieldPhone, jobsupervisor.FieldEmail, jobsupervisor.FieldTcNo, jobsupervisor.FieldPosition, jobsupervisor.FieldCareer, jobsupervisor.FieldRegisterNo, jobsupervisor.FieldSocialSecurityNo, jobsupervisor.FieldSchoolGraduation:
 			values[i] = new(sql.NullString)
 		case jobsupervisor.FieldCreatedAt, jobsupervisor.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -128,10 +128,10 @@ func (js *JobSupervisor) assignValues(columns []string, values []any) error {
 				js.Email = value.String
 			}
 		case jobsupervisor.FieldTcNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				js.TcNo = int(value.Int64)
+				js.TcNo = value.String
 			}
 		case jobsupervisor.FieldPosition:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -146,16 +146,16 @@ func (js *JobSupervisor) assignValues(columns []string, values []any) error {
 				js.Career = value.String
 			}
 		case jobsupervisor.FieldRegisterNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
-				js.RegisterNo = int(value.Int64)
+				js.RegisterNo = value.String
 			}
 		case jobsupervisor.FieldSocialSecurityNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field SocialSecurityNo", values[i])
 			} else if value.Valid {
-				js.SocialSecurityNo = int(value.Int64)
+				js.SocialSecurityNo = value.String
 			}
 		case jobsupervisor.FieldSchoolGraduation:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -235,7 +235,7 @@ func (js *JobSupervisor) String() string {
 	builder.WriteString(js.Email)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(fmt.Sprintf("%v", js.TcNo))
+	builder.WriteString(js.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("Position=")
 	builder.WriteString(js.Position)
@@ -244,10 +244,10 @@ func (js *JobSupervisor) String() string {
 	builder.WriteString(js.Career)
 	builder.WriteString(", ")
 	builder.WriteString("RegisterNo=")
-	builder.WriteString(fmt.Sprintf("%v", js.RegisterNo))
+	builder.WriteString(js.RegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("SocialSecurityNo=")
-	builder.WriteString(fmt.Sprintf("%v", js.SocialSecurityNo))
+	builder.WriteString(js.SocialSecurityNo)
 	builder.WriteString(", ")
 	builder.WriteString("SchoolGraduation=")
 	builder.WriteString(js.SchoolGraduation)

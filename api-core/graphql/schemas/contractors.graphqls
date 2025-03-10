@@ -2,10 +2,10 @@
 type JobContractor {
   id: ID
   Name: String
-  TcNo: Int
-  RegisterNo: Int
+  TcNo: String
+  RegisterNo: String
   Address: String
-  TaxNo: Int
+  TaxNo: String
   MobilePhone: String
   Phone: String
   Email: String
@@ -18,10 +18,10 @@ input JobContractorInput {
   id: ID
   YibfNo: Int
   Name: String
-  TcNo: Int
-  RegisterNo: Int
+  TcNo: String
+  RegisterNo: String
   Address: String
-  TaxNo: Int
+  TaxNo: String
   MobilePhone: String
   Phone: String
   Email: String

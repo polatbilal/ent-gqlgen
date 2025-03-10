@@ -862,6 +862,7 @@ func YibfDetail(c *fiber.Ctx, yibfNumbers []int, companyCode int) error {
 
 		processedIDs = append(processedIDs, yibfID)
 		results = append(results, currentResult)
+		fmt.Println("currentResult", currentResult)
 	}
 
 	result := fiber.Map{

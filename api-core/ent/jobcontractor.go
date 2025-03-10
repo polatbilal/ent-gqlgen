@@ -20,13 +20,13 @@ type JobContractor struct {
 	// Name holds the value of the "Name" field.
 	Name string `json:"Name,omitempty"`
 	// TcNo holds the value of the "TcNo" field.
-	TcNo int `json:"TcNo,omitempty"`
+	TcNo string `json:"TcNo,omitempty"`
 	// RegisterNo holds the value of the "RegisterNo" field.
-	RegisterNo int `json:"RegisterNo,omitempty"`
+	RegisterNo string `json:"RegisterNo,omitempty"`
 	// Address holds the value of the "Address" field.
 	Address string `json:"Address,omitempty"`
 	// TaxNo holds the value of the "TaxNo" field.
-	TaxNo int `json:"TaxNo,omitempty"`
+	TaxNo string `json:"TaxNo,omitempty"`
 	// MobilePhone holds the value of the "MobilePhone" field.
 	MobilePhone string `json:"MobilePhone,omitempty"`
 	// Phone holds the value of the "Phone" field.
@@ -76,9 +76,9 @@ func (*JobContractor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobcontractor.FieldID, jobcontractor.FieldTcNo, jobcontractor.FieldRegisterNo, jobcontractor.FieldTaxNo, jobcontractor.FieldYDSID:
+		case jobcontractor.FieldID, jobcontractor.FieldYDSID:
 			values[i] = new(sql.NullInt64)
-		case jobcontractor.FieldName, jobcontractor.FieldAddress, jobcontractor.FieldMobilePhone, jobcontractor.FieldPhone, jobcontractor.FieldEmail, jobcontractor.FieldPersonType, jobcontractor.FieldNote:
+		case jobcontractor.FieldName, jobcontractor.FieldTcNo, jobcontractor.FieldRegisterNo, jobcontractor.FieldAddress, jobcontractor.FieldTaxNo, jobcontractor.FieldMobilePhone, jobcontractor.FieldPhone, jobcontractor.FieldEmail, jobcontractor.FieldPersonType, jobcontractor.FieldNote:
 			values[i] = new(sql.NullString)
 		case jobcontractor.FieldCreatedAt, jobcontractor.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -110,16 +110,16 @@ func (jc *JobContractor) assignValues(columns []string, values []any) error {
 				jc.Name = value.String
 			}
 		case jobcontractor.FieldTcNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				jc.TcNo = int(value.Int64)
+				jc.TcNo = value.String
 			}
 		case jobcontractor.FieldRegisterNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
-				jc.RegisterNo = int(value.Int64)
+				jc.RegisterNo = value.String
 			}
 		case jobcontractor.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -128,10 +128,10 @@ func (jc *JobContractor) assignValues(columns []string, values []any) error {
 				jc.Address = value.String
 			}
 		case jobcontractor.FieldTaxNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
 			} else if value.Valid {
-				jc.TaxNo = int(value.Int64)
+				jc.TaxNo = value.String
 			}
 		case jobcontractor.FieldMobilePhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -226,16 +226,16 @@ func (jc *JobContractor) String() string {
 	builder.WriteString(jc.Name)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(fmt.Sprintf("%v", jc.TcNo))
+	builder.WriteString(jc.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("RegisterNo=")
-	builder.WriteString(fmt.Sprintf("%v", jc.RegisterNo))
+	builder.WriteString(jc.RegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("Address=")
 	builder.WriteString(jc.Address)
 	builder.WriteString(", ")
 	builder.WriteString("TaxNo=")
-	builder.WriteString(fmt.Sprintf("%v", jc.TaxNo))
+	builder.WriteString(jc.TaxNo)
 	builder.WriteString(", ")
 	builder.WriteString("MobilePhone=")
 	builder.WriteString(jc.MobilePhone)

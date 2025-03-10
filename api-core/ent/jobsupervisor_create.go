@@ -78,15 +78,15 @@ func (jsc *JobSupervisorCreate) SetNillableEmail(s *string) *JobSupervisorCreate
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jsc *JobSupervisorCreate) SetTcNo(i int) *JobSupervisorCreate {
-	jsc.mutation.SetTcNo(i)
+func (jsc *JobSupervisorCreate) SetTcNo(s string) *JobSupervisorCreate {
+	jsc.mutation.SetTcNo(s)
 	return jsc
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jsc *JobSupervisorCreate) SetNillableTcNo(i *int) *JobSupervisorCreate {
-	if i != nil {
-		jsc.SetTcNo(*i)
+func (jsc *JobSupervisorCreate) SetNillableTcNo(s *string) *JobSupervisorCreate {
+	if s != nil {
+		jsc.SetTcNo(*s)
 	}
 	return jsc
 }
@@ -120,29 +120,29 @@ func (jsc *JobSupervisorCreate) SetNillableCareer(s *string) *JobSupervisorCreat
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jsc *JobSupervisorCreate) SetRegisterNo(i int) *JobSupervisorCreate {
-	jsc.mutation.SetRegisterNo(i)
+func (jsc *JobSupervisorCreate) SetRegisterNo(s string) *JobSupervisorCreate {
+	jsc.mutation.SetRegisterNo(s)
 	return jsc
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jsc *JobSupervisorCreate) SetNillableRegisterNo(i *int) *JobSupervisorCreate {
-	if i != nil {
-		jsc.SetRegisterNo(*i)
+func (jsc *JobSupervisorCreate) SetNillableRegisterNo(s *string) *JobSupervisorCreate {
+	if s != nil {
+		jsc.SetRegisterNo(*s)
 	}
 	return jsc
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
-func (jsc *JobSupervisorCreate) SetSocialSecurityNo(i int) *JobSupervisorCreate {
-	jsc.mutation.SetSocialSecurityNo(i)
+func (jsc *JobSupervisorCreate) SetSocialSecurityNo(s string) *JobSupervisorCreate {
+	jsc.mutation.SetSocialSecurityNo(s)
 	return jsc
 }
 
 // SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
-func (jsc *JobSupervisorCreate) SetNillableSocialSecurityNo(i *int) *JobSupervisorCreate {
-	if i != nil {
-		jsc.SetSocialSecurityNo(*i)
+func (jsc *JobSupervisorCreate) SetNillableSocialSecurityNo(s *string) *JobSupervisorCreate {
+	if s != nil {
+		jsc.SetSocialSecurityNo(*s)
 	}
 	return jsc
 }
@@ -314,7 +314,7 @@ func (jsc *JobSupervisorCreate) createSpec() (*JobSupervisor, *sqlgraph.CreateSp
 		_node.Email = value
 	}
 	if value, ok := jsc.mutation.TcNo(); ok {
-		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeString, value)
 		_node.TcNo = value
 	}
 	if value, ok := jsc.mutation.Position(); ok {
@@ -326,11 +326,11 @@ func (jsc *JobSupervisorCreate) createSpec() (*JobSupervisor, *sqlgraph.CreateSp
 		_node.Career = value
 	}
 	if value, ok := jsc.mutation.RegisterNo(); ok {
-		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeString, value)
 		_node.RegisterNo = value
 	}
 	if value, ok := jsc.mutation.SocialSecurityNo(); ok {
-		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeInt, value)
+		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeString, value)
 		_node.SocialSecurityNo = value
 	}
 	if value, ok := jsc.mutation.SchoolGraduation(); ok {

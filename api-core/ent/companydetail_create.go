@@ -143,15 +143,15 @@ func (cdc *CompanyDetailCreate) SetNillableTaxAdmin(s *string) *CompanyDetailCre
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (cdc *CompanyDetailCreate) SetTaxNo(i int) *CompanyDetailCreate {
-	cdc.mutation.SetTaxNo(i)
+func (cdc *CompanyDetailCreate) SetTaxNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetTaxNo(s)
 	return cdc
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableTaxNo(i *int) *CompanyDetailCreate {
-	if i != nil {
-		cdc.SetTaxNo(*i)
+func (cdc *CompanyDetailCreate) SetNillableTaxNo(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetTaxNo(*s)
 	}
 	return cdc
 }
@@ -269,15 +269,15 @@ func (cdc *CompanyDetailCreate) SetNillableOwnerName(s *string) *CompanyDetailCr
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (cdc *CompanyDetailCreate) SetOwnerTcNo(i int) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerTcNo(i)
+func (cdc *CompanyDetailCreate) SetOwnerTcNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerTcNo(s)
 	return cdc
 }
 
 // SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerTcNo(i *int) *CompanyDetailCreate {
-	if i != nil {
-		cdc.SetOwnerTcNo(*i)
+func (cdc *CompanyDetailCreate) SetNillableOwnerTcNo(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerTcNo(*s)
 	}
 	return cdc
 }
@@ -325,15 +325,15 @@ func (cdc *CompanyDetailCreate) SetNillableOwnerEmail(s *string) *CompanyDetailC
 }
 
 // SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
-func (cdc *CompanyDetailCreate) SetOwnerRegisterNo(i int) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerRegisterNo(i)
+func (cdc *CompanyDetailCreate) SetOwnerRegisterNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerRegisterNo(s)
 	return cdc
 }
 
 // SetNillableOwnerRegisterNo sets the "OwnerRegisterNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerRegisterNo(i *int) *CompanyDetailCreate {
-	if i != nil {
-		cdc.SetOwnerRegisterNo(*i)
+func (cdc *CompanyDetailCreate) SetNillableOwnerRegisterNo(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerRegisterNo(*s)
 	}
 	return cdc
 }
@@ -479,10 +479,6 @@ func (cdc *CompanyDetailCreate) defaults() {
 		v := companydetail.DefaultName
 		cdc.mutation.SetName(v)
 	}
-	if _, ok := cdc.mutation.TaxNo(); !ok {
-		v := companydetail.DefaultTaxNo
-		cdc.mutation.SetTaxNo(v)
-	}
 	if _, ok := cdc.mutation.VisaFinishedFor90Days(); !ok {
 		v := companydetail.DefaultVisaFinishedFor90Days
 		cdc.mutation.SetVisaFinishedFor90Days(v)
@@ -585,7 +581,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_node.TaxAdmin = value
 	}
 	if value, ok := cdc.mutation.TaxNo(); ok {
-		_spec.SetField(companydetail.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldTaxNo, field.TypeString, value)
 		_node.TaxNo = value
 	}
 	if value, ok := cdc.mutation.ChamberInfo(); ok {
@@ -621,7 +617,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_node.OwnerName = value
 	}
 	if value, ok := cdc.mutation.OwnerTcNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
 		_node.OwnerTcNo = value
 	}
 	if value, ok := cdc.mutation.OwnerAddress(); ok {
@@ -637,7 +633,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_node.OwnerEmail = value
 	}
 	if value, ok := cdc.mutation.OwnerRegisterNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeString, value)
 		_node.OwnerRegisterNo = value
 	}
 	if value, ok := cdc.mutation.OwnerCareer(); ok {

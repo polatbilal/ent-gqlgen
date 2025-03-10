@@ -101,7 +101,7 @@ func TaxAdmin(v string) predicate.CompanyDetail {
 }
 
 // TaxNo applies equality check predicate on the "TaxNo" field. It's identical to TaxNoEQ.
-func TaxNo(v int) predicate.CompanyDetail {
+func TaxNo(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldTaxNo, v))
 }
 
@@ -146,7 +146,7 @@ func OwnerName(v string) predicate.CompanyDetail {
 }
 
 // OwnerTcNo applies equality check predicate on the "OwnerTcNo" field. It's identical to OwnerTcNoEQ.
-func OwnerTcNo(v int) predicate.CompanyDetail {
+func OwnerTcNo(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerTcNo, v))
 }
 
@@ -166,7 +166,7 @@ func OwnerEmail(v string) predicate.CompanyDetail {
 }
 
 // OwnerRegisterNo applies equality check predicate on the "OwnerRegisterNo" field. It's identical to OwnerRegisterNoEQ.
-func OwnerRegisterNo(v int) predicate.CompanyDetail {
+func OwnerRegisterNo(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerRegisterNo, v))
 }
 
@@ -816,43 +816,58 @@ func TaxAdminContainsFold(v string) predicate.CompanyDetail {
 }
 
 // TaxNoEQ applies the EQ predicate on the "TaxNo" field.
-func TaxNoEQ(v int) predicate.CompanyDetail {
+func TaxNoEQ(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldTaxNo, v))
 }
 
 // TaxNoNEQ applies the NEQ predicate on the "TaxNo" field.
-func TaxNoNEQ(v int) predicate.CompanyDetail {
+func TaxNoNEQ(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNEQ(FieldTaxNo, v))
 }
 
 // TaxNoIn applies the In predicate on the "TaxNo" field.
-func TaxNoIn(vs ...int) predicate.CompanyDetail {
+func TaxNoIn(vs ...string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldIn(FieldTaxNo, vs...))
 }
 
 // TaxNoNotIn applies the NotIn predicate on the "TaxNo" field.
-func TaxNoNotIn(vs ...int) predicate.CompanyDetail {
+func TaxNoNotIn(vs ...string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotIn(FieldTaxNo, vs...))
 }
 
 // TaxNoGT applies the GT predicate on the "TaxNo" field.
-func TaxNoGT(v int) predicate.CompanyDetail {
+func TaxNoGT(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldGT(FieldTaxNo, v))
 }
 
 // TaxNoGTE applies the GTE predicate on the "TaxNo" field.
-func TaxNoGTE(v int) predicate.CompanyDetail {
+func TaxNoGTE(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldGTE(FieldTaxNo, v))
 }
 
 // TaxNoLT applies the LT predicate on the "TaxNo" field.
-func TaxNoLT(v int) predicate.CompanyDetail {
+func TaxNoLT(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLT(FieldTaxNo, v))
 }
 
 // TaxNoLTE applies the LTE predicate on the "TaxNo" field.
-func TaxNoLTE(v int) predicate.CompanyDetail {
+func TaxNoLTE(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLTE(FieldTaxNo, v))
+}
+
+// TaxNoContains applies the Contains predicate on the "TaxNo" field.
+func TaxNoContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldTaxNo, v))
+}
+
+// TaxNoHasPrefix applies the HasPrefix predicate on the "TaxNo" field.
+func TaxNoHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldTaxNo, v))
+}
+
+// TaxNoHasSuffix applies the HasSuffix predicate on the "TaxNo" field.
+func TaxNoHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldTaxNo, v))
 }
 
 // TaxNoIsNil applies the IsNil predicate on the "TaxNo" field.
@@ -863,6 +878,16 @@ func TaxNoIsNil() predicate.CompanyDetail {
 // TaxNoNotNil applies the NotNil predicate on the "TaxNo" field.
 func TaxNoNotNil() predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotNull(FieldTaxNo))
+}
+
+// TaxNoEqualFold applies the EqualFold predicate on the "TaxNo" field.
+func TaxNoEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldTaxNo, v))
+}
+
+// TaxNoContainsFold applies the ContainsFold predicate on the "TaxNo" field.
+func TaxNoContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldTaxNo, v))
 }
 
 // ChamberInfoEQ applies the EQ predicate on the "ChamberInfo" field.
@@ -1241,43 +1266,58 @@ func OwnerNameContainsFold(v string) predicate.CompanyDetail {
 }
 
 // OwnerTcNoEQ applies the EQ predicate on the "OwnerTcNo" field.
-func OwnerTcNoEQ(v int) predicate.CompanyDetail {
+func OwnerTcNoEQ(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoNEQ applies the NEQ predicate on the "OwnerTcNo" field.
-func OwnerTcNoNEQ(v int) predicate.CompanyDetail {
+func OwnerTcNoNEQ(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNEQ(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoIn applies the In predicate on the "OwnerTcNo" field.
-func OwnerTcNoIn(vs ...int) predicate.CompanyDetail {
+func OwnerTcNoIn(vs ...string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldIn(FieldOwnerTcNo, vs...))
 }
 
 // OwnerTcNoNotIn applies the NotIn predicate on the "OwnerTcNo" field.
-func OwnerTcNoNotIn(vs ...int) predicate.CompanyDetail {
+func OwnerTcNoNotIn(vs ...string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotIn(FieldOwnerTcNo, vs...))
 }
 
 // OwnerTcNoGT applies the GT predicate on the "OwnerTcNo" field.
-func OwnerTcNoGT(v int) predicate.CompanyDetail {
+func OwnerTcNoGT(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldGT(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoGTE applies the GTE predicate on the "OwnerTcNo" field.
-func OwnerTcNoGTE(v int) predicate.CompanyDetail {
+func OwnerTcNoGTE(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldGTE(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoLT applies the LT predicate on the "OwnerTcNo" field.
-func OwnerTcNoLT(v int) predicate.CompanyDetail {
+func OwnerTcNoLT(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLT(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoLTE applies the LTE predicate on the "OwnerTcNo" field.
-func OwnerTcNoLTE(v int) predicate.CompanyDetail {
+func OwnerTcNoLTE(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLTE(FieldOwnerTcNo, v))
+}
+
+// OwnerTcNoContains applies the Contains predicate on the "OwnerTcNo" field.
+func OwnerTcNoContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldOwnerTcNo, v))
+}
+
+// OwnerTcNoHasPrefix applies the HasPrefix predicate on the "OwnerTcNo" field.
+func OwnerTcNoHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldOwnerTcNo, v))
+}
+
+// OwnerTcNoHasSuffix applies the HasSuffix predicate on the "OwnerTcNo" field.
+func OwnerTcNoHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldOwnerTcNo, v))
 }
 
 // OwnerTcNoIsNil applies the IsNil predicate on the "OwnerTcNo" field.
@@ -1288,6 +1328,16 @@ func OwnerTcNoIsNil() predicate.CompanyDetail {
 // OwnerTcNoNotNil applies the NotNil predicate on the "OwnerTcNo" field.
 func OwnerTcNoNotNil() predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotNull(FieldOwnerTcNo))
+}
+
+// OwnerTcNoEqualFold applies the EqualFold predicate on the "OwnerTcNo" field.
+func OwnerTcNoEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldOwnerTcNo, v))
+}
+
+// OwnerTcNoContainsFold applies the ContainsFold predicate on the "OwnerTcNo" field.
+func OwnerTcNoContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldOwnerTcNo, v))
 }
 
 // OwnerAddressEQ applies the EQ predicate on the "OwnerAddress" field.
@@ -1516,43 +1566,58 @@ func OwnerEmailContainsFold(v string) predicate.CompanyDetail {
 }
 
 // OwnerRegisterNoEQ applies the EQ predicate on the "OwnerRegisterNo" field.
-func OwnerRegisterNoEQ(v int) predicate.CompanyDetail {
+func OwnerRegisterNoEQ(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldOwnerRegisterNo, v))
 }
 
 // OwnerRegisterNoNEQ applies the NEQ predicate on the "OwnerRegisterNo" field.
-func OwnerRegisterNoNEQ(v int) predicate.CompanyDetail {
+func OwnerRegisterNoNEQ(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNEQ(FieldOwnerRegisterNo, v))
 }
 
 // OwnerRegisterNoIn applies the In predicate on the "OwnerRegisterNo" field.
-func OwnerRegisterNoIn(vs ...int) predicate.CompanyDetail {
+func OwnerRegisterNoIn(vs ...string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldIn(FieldOwnerRegisterNo, vs...))
 }
 
 // OwnerRegisterNoNotIn applies the NotIn predicate on the "OwnerRegisterNo" field.
-func OwnerRegisterNoNotIn(vs ...int) predicate.CompanyDetail {
+func OwnerRegisterNoNotIn(vs ...string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotIn(FieldOwnerRegisterNo, vs...))
 }
 
 // OwnerRegisterNoGT applies the GT predicate on the "OwnerRegisterNo" field.
-func OwnerRegisterNoGT(v int) predicate.CompanyDetail {
+func OwnerRegisterNoGT(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldGT(FieldOwnerRegisterNo, v))
 }
 
 // OwnerRegisterNoGTE applies the GTE predicate on the "OwnerRegisterNo" field.
-func OwnerRegisterNoGTE(v int) predicate.CompanyDetail {
+func OwnerRegisterNoGTE(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldGTE(FieldOwnerRegisterNo, v))
 }
 
 // OwnerRegisterNoLT applies the LT predicate on the "OwnerRegisterNo" field.
-func OwnerRegisterNoLT(v int) predicate.CompanyDetail {
+func OwnerRegisterNoLT(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLT(FieldOwnerRegisterNo, v))
 }
 
 // OwnerRegisterNoLTE applies the LTE predicate on the "OwnerRegisterNo" field.
-func OwnerRegisterNoLTE(v int) predicate.CompanyDetail {
+func OwnerRegisterNoLTE(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldLTE(FieldOwnerRegisterNo, v))
+}
+
+// OwnerRegisterNoContains applies the Contains predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldOwnerRegisterNo, v))
+}
+
+// OwnerRegisterNoHasPrefix applies the HasPrefix predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldOwnerRegisterNo, v))
+}
+
+// OwnerRegisterNoHasSuffix applies the HasSuffix predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldOwnerRegisterNo, v))
 }
 
 // OwnerRegisterNoIsNil applies the IsNil predicate on the "OwnerRegisterNo" field.
@@ -1563,6 +1628,16 @@ func OwnerRegisterNoIsNil() predicate.CompanyDetail {
 // OwnerRegisterNoNotNil applies the NotNil predicate on the "OwnerRegisterNo" field.
 func OwnerRegisterNoNotNil() predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldNotNull(FieldOwnerRegisterNo))
+}
+
+// OwnerRegisterNoEqualFold applies the EqualFold predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldOwnerRegisterNo, v))
+}
+
+// OwnerRegisterNoContainsFold applies the ContainsFold predicate on the "OwnerRegisterNo" field.
+func OwnerRegisterNoContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldOwnerRegisterNo, v))
 }
 
 // OwnerCareerEQ applies the EQ predicate on the "OwnerCareer" field.

@@ -350,15 +350,15 @@ func (jdc *JobDetailCreate) SetNillableFloorCount(i *int) *JobDetailCreate {
 }
 
 // SetBKSReferenceNo sets the "BKSReferenceNo" field.
-func (jdc *JobDetailCreate) SetBKSReferenceNo(i int) *JobDetailCreate {
-	jdc.mutation.SetBKSReferenceNo(i)
+func (jdc *JobDetailCreate) SetBKSReferenceNo(s string) *JobDetailCreate {
+	jdc.mutation.SetBKSReferenceNo(s)
 	return jdc
 }
 
 // SetNillableBKSReferenceNo sets the "BKSReferenceNo" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableBKSReferenceNo(i *int) *JobDetailCreate {
-	if i != nil {
-		jdc.SetBKSReferenceNo(*i)
+func (jdc *JobDetailCreate) SetNillableBKSReferenceNo(s *string) *JobDetailCreate {
+	if s != nil {
+		jdc.SetBKSReferenceNo(*s)
 	}
 	return jdc
 }
@@ -721,7 +721,7 @@ func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 		_node.FloorCount = value
 	}
 	if value, ok := jdc.mutation.BKSReferenceNo(); ok {
-		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeInt, value)
+		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeString, value)
 		_node.BKSReferenceNo = value
 	}
 	if value, ok := jdc.mutation.Coordinates(); ok {

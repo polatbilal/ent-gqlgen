@@ -21,7 +21,7 @@ type CompanyEngineer struct {
 	// Name holds the value of the "Name" field.
 	Name string `json:"Name,omitempty"`
 	// TcNo holds the value of the "TcNo" field.
-	TcNo int `json:"TcNo,omitempty"`
+	TcNo string `json:"TcNo,omitempty"`
 	// Phone holds the value of the "Phone" field.
 	Phone string `json:"Phone,omitempty"`
 	// Email holds the value of the "Email" field.
@@ -33,9 +33,9 @@ type CompanyEngineer struct {
 	// Position holds the value of the "Position" field.
 	Position string `json:"Position,omitempty"`
 	// RegisterNo holds the value of the "RegisterNo" field.
-	RegisterNo int `json:"RegisterNo,omitempty"`
+	RegisterNo string `json:"RegisterNo,omitempty"`
 	// CertNo holds the value of the "CertNo" field.
-	CertNo int `json:"CertNo,omitempty"`
+	CertNo string `json:"CertNo,omitempty"`
 	// YDSID holds the value of the "YDSID" field.
 	YDSID int `json:"YDSID,omitempty"`
 	// Employment holds the value of the "Employment" field.
@@ -179,9 +179,9 @@ func (*CompanyEngineer) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case companyengineer.FieldID, companyengineer.FieldTcNo, companyengineer.FieldRegisterNo, companyengineer.FieldCertNo, companyengineer.FieldYDSID, companyengineer.FieldStatus:
+		case companyengineer.FieldID, companyengineer.FieldYDSID, companyengineer.FieldStatus:
 			values[i] = new(sql.NullInt64)
-		case companyengineer.FieldName, companyengineer.FieldPhone, companyengineer.FieldEmail, companyengineer.FieldAddress, companyengineer.FieldCareer, companyengineer.FieldPosition, companyengineer.FieldNote:
+		case companyengineer.FieldName, companyengineer.FieldTcNo, companyengineer.FieldPhone, companyengineer.FieldEmail, companyengineer.FieldAddress, companyengineer.FieldCareer, companyengineer.FieldPosition, companyengineer.FieldRegisterNo, companyengineer.FieldCertNo, companyengineer.FieldNote:
 			values[i] = new(sql.NullString)
 		case companyengineer.FieldEmployment, companyengineer.FieldCreatedAt, companyengineer.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -215,10 +215,10 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 				ce.Name = value.String
 			}
 		case companyengineer.FieldTcNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				ce.TcNo = int(value.Int64)
+				ce.TcNo = value.String
 			}
 		case companyengineer.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -251,16 +251,16 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 				ce.Position = value.String
 			}
 		case companyengineer.FieldRegisterNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
-				ce.RegisterNo = int(value.Int64)
+				ce.RegisterNo = value.String
 			}
 		case companyengineer.FieldCertNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field CertNo", values[i])
 			} else if value.Valid {
-				ce.CertNo = int(value.Int64)
+				ce.CertNo = value.String
 			}
 		case companyengineer.FieldYDSID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -390,7 +390,7 @@ func (ce *CompanyEngineer) String() string {
 	builder.WriteString(ce.Name)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(fmt.Sprintf("%v", ce.TcNo))
+	builder.WriteString(ce.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
 	builder.WriteString(ce.Phone)
@@ -408,10 +408,10 @@ func (ce *CompanyEngineer) String() string {
 	builder.WriteString(ce.Position)
 	builder.WriteString(", ")
 	builder.WriteString("RegisterNo=")
-	builder.WriteString(fmt.Sprintf("%v", ce.RegisterNo))
+	builder.WriteString(ce.RegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("CertNo=")
-	builder.WriteString(fmt.Sprintf("%v", ce.CertNo))
+	builder.WriteString(ce.CertNo)
 	builder.WriteString(", ")
 	builder.WriteString("YDSID=")
 	builder.WriteString(fmt.Sprintf("%v", ce.YDSID))

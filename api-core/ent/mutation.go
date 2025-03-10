@@ -69,8 +69,7 @@ type CompanyDetailMutation struct {
 	_Email                  *string
 	_Website                *string
 	_TaxAdmin               *string
-	_TaxNo                  *int
-	add_TaxNo               *int
+	_TaxNo                  *string
 	_ChamberInfo            *string
 	_ChamberRegisterNo      *string
 	_VisaDate               *time.Time
@@ -79,13 +78,11 @@ type CompanyDetailMutation struct {
 	_CorePersonAbsent90Days *bool
 	_IsClosed               *bool
 	_OwnerName              *string
-	_OwnerTcNo              *int
-	add_OwnerTcNo           *int
+	_OwnerTcNo              *string
 	_OwnerAddress           *string
 	_OwnerPhone             *string
 	_OwnerEmail             *string
-	_OwnerRegisterNo        *int
-	add_OwnerRegisterNo     *int
+	_OwnerRegisterNo        *string
 	_OwnerCareer            *string
 	_CreatedAt              *time.Time
 	_UpdatedAt              *time.Time
@@ -641,13 +638,12 @@ func (m *CompanyDetailMutation) ResetTaxAdmin() {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (m *CompanyDetailMutation) SetTaxNo(i int) {
-	m._TaxNo = &i
-	m.add_TaxNo = nil
+func (m *CompanyDetailMutation) SetTaxNo(s string) {
+	m._TaxNo = &s
 }
 
 // TaxNo returns the value of the "TaxNo" field in the mutation.
-func (m *CompanyDetailMutation) TaxNo() (r int, exists bool) {
+func (m *CompanyDetailMutation) TaxNo() (r string, exists bool) {
 	v := m._TaxNo
 	if v == nil {
 		return
@@ -658,7 +654,7 @@ func (m *CompanyDetailMutation) TaxNo() (r int, exists bool) {
 // OldTaxNo returns the old "TaxNo" field's value of the CompanyDetail entity.
 // If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldTaxNo(ctx context.Context) (v int, err error) {
+func (m *CompanyDetailMutation) OldTaxNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTaxNo is only allowed on UpdateOne operations")
 	}
@@ -672,28 +668,9 @@ func (m *CompanyDetailMutation) OldTaxNo(ctx context.Context) (v int, err error)
 	return oldValue.TaxNo, nil
 }
 
-// AddTaxNo adds i to the "TaxNo" field.
-func (m *CompanyDetailMutation) AddTaxNo(i int) {
-	if m.add_TaxNo != nil {
-		*m.add_TaxNo += i
-	} else {
-		m.add_TaxNo = &i
-	}
-}
-
-// AddedTaxNo returns the value that was added to the "TaxNo" field in this mutation.
-func (m *CompanyDetailMutation) AddedTaxNo() (r int, exists bool) {
-	v := m.add_TaxNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearTaxNo clears the value of the "TaxNo" field.
 func (m *CompanyDetailMutation) ClearTaxNo() {
 	m._TaxNo = nil
-	m.add_TaxNo = nil
 	m.clearedFields[companydetail.FieldTaxNo] = struct{}{}
 }
 
@@ -706,7 +683,6 @@ func (m *CompanyDetailMutation) TaxNoCleared() bool {
 // ResetTaxNo resets all changes to the "TaxNo" field.
 func (m *CompanyDetailMutation) ResetTaxNo() {
 	m._TaxNo = nil
-	m.add_TaxNo = nil
 	delete(m.clearedFields, companydetail.FieldTaxNo)
 }
 
@@ -1090,13 +1066,12 @@ func (m *CompanyDetailMutation) ResetOwnerName() {
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (m *CompanyDetailMutation) SetOwnerTcNo(i int) {
-	m._OwnerTcNo = &i
-	m.add_OwnerTcNo = nil
+func (m *CompanyDetailMutation) SetOwnerTcNo(s string) {
+	m._OwnerTcNo = &s
 }
 
 // OwnerTcNo returns the value of the "OwnerTcNo" field in the mutation.
-func (m *CompanyDetailMutation) OwnerTcNo() (r int, exists bool) {
+func (m *CompanyDetailMutation) OwnerTcNo() (r string, exists bool) {
 	v := m._OwnerTcNo
 	if v == nil {
 		return
@@ -1107,7 +1082,7 @@ func (m *CompanyDetailMutation) OwnerTcNo() (r int, exists bool) {
 // OldOwnerTcNo returns the old "OwnerTcNo" field's value of the CompanyDetail entity.
 // If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldOwnerTcNo(ctx context.Context) (v int, err error) {
+func (m *CompanyDetailMutation) OldOwnerTcNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOwnerTcNo is only allowed on UpdateOne operations")
 	}
@@ -1121,28 +1096,9 @@ func (m *CompanyDetailMutation) OldOwnerTcNo(ctx context.Context) (v int, err er
 	return oldValue.OwnerTcNo, nil
 }
 
-// AddOwnerTcNo adds i to the "OwnerTcNo" field.
-func (m *CompanyDetailMutation) AddOwnerTcNo(i int) {
-	if m.add_OwnerTcNo != nil {
-		*m.add_OwnerTcNo += i
-	} else {
-		m.add_OwnerTcNo = &i
-	}
-}
-
-// AddedOwnerTcNo returns the value that was added to the "OwnerTcNo" field in this mutation.
-func (m *CompanyDetailMutation) AddedOwnerTcNo() (r int, exists bool) {
-	v := m.add_OwnerTcNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearOwnerTcNo clears the value of the "OwnerTcNo" field.
 func (m *CompanyDetailMutation) ClearOwnerTcNo() {
 	m._OwnerTcNo = nil
-	m.add_OwnerTcNo = nil
 	m.clearedFields[companydetail.FieldOwnerTcNo] = struct{}{}
 }
 
@@ -1155,7 +1111,6 @@ func (m *CompanyDetailMutation) OwnerTcNoCleared() bool {
 // ResetOwnerTcNo resets all changes to the "OwnerTcNo" field.
 func (m *CompanyDetailMutation) ResetOwnerTcNo() {
 	m._OwnerTcNo = nil
-	m.add_OwnerTcNo = nil
 	delete(m.clearedFields, companydetail.FieldOwnerTcNo)
 }
 
@@ -1307,13 +1262,12 @@ func (m *CompanyDetailMutation) ResetOwnerEmail() {
 }
 
 // SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
-func (m *CompanyDetailMutation) SetOwnerRegisterNo(i int) {
-	m._OwnerRegisterNo = &i
-	m.add_OwnerRegisterNo = nil
+func (m *CompanyDetailMutation) SetOwnerRegisterNo(s string) {
+	m._OwnerRegisterNo = &s
 }
 
 // OwnerRegisterNo returns the value of the "OwnerRegisterNo" field in the mutation.
-func (m *CompanyDetailMutation) OwnerRegisterNo() (r int, exists bool) {
+func (m *CompanyDetailMutation) OwnerRegisterNo() (r string, exists bool) {
 	v := m._OwnerRegisterNo
 	if v == nil {
 		return
@@ -1324,7 +1278,7 @@ func (m *CompanyDetailMutation) OwnerRegisterNo() (r int, exists bool) {
 // OldOwnerRegisterNo returns the old "OwnerRegisterNo" field's value of the CompanyDetail entity.
 // If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyDetailMutation) OldOwnerRegisterNo(ctx context.Context) (v int, err error) {
+func (m *CompanyDetailMutation) OldOwnerRegisterNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOwnerRegisterNo is only allowed on UpdateOne operations")
 	}
@@ -1338,28 +1292,9 @@ func (m *CompanyDetailMutation) OldOwnerRegisterNo(ctx context.Context) (v int, 
 	return oldValue.OwnerRegisterNo, nil
 }
 
-// AddOwnerRegisterNo adds i to the "OwnerRegisterNo" field.
-func (m *CompanyDetailMutation) AddOwnerRegisterNo(i int) {
-	if m.add_OwnerRegisterNo != nil {
-		*m.add_OwnerRegisterNo += i
-	} else {
-		m.add_OwnerRegisterNo = &i
-	}
-}
-
-// AddedOwnerRegisterNo returns the value that was added to the "OwnerRegisterNo" field in this mutation.
-func (m *CompanyDetailMutation) AddedOwnerRegisterNo() (r int, exists bool) {
-	v := m.add_OwnerRegisterNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearOwnerRegisterNo clears the value of the "OwnerRegisterNo" field.
 func (m *CompanyDetailMutation) ClearOwnerRegisterNo() {
 	m._OwnerRegisterNo = nil
-	m.add_OwnerRegisterNo = nil
 	m.clearedFields[companydetail.FieldOwnerRegisterNo] = struct{}{}
 }
 
@@ -1372,7 +1307,6 @@ func (m *CompanyDetailMutation) OwnerRegisterNoCleared() bool {
 // ResetOwnerRegisterNo resets all changes to the "OwnerRegisterNo" field.
 func (m *CompanyDetailMutation) ResetOwnerRegisterNo() {
 	m._OwnerRegisterNo = nil
-	m.add_OwnerRegisterNo = nil
 	delete(m.clearedFields, companydetail.FieldOwnerRegisterNo)
 }
 
@@ -2020,7 +1954,7 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 		m.SetTaxAdmin(v)
 		return nil
 	case companydetail.FieldTaxNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2083,7 +2017,7 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 		m.SetOwnerName(v)
 		return nil
 	case companydetail.FieldOwnerTcNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2111,7 +2045,7 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 		m.SetOwnerEmail(v)
 		return nil
 	case companydetail.FieldOwnerRegisterNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2149,15 +2083,6 @@ func (m *CompanyDetailMutation) AddedFields() []string {
 	if m.add_CompanyCode != nil {
 		fields = append(fields, companydetail.FieldCompanyCode)
 	}
-	if m.add_TaxNo != nil {
-		fields = append(fields, companydetail.FieldTaxNo)
-	}
-	if m.add_OwnerTcNo != nil {
-		fields = append(fields, companydetail.FieldOwnerTcNo)
-	}
-	if m.add_OwnerRegisterNo != nil {
-		fields = append(fields, companydetail.FieldOwnerRegisterNo)
-	}
 	return fields
 }
 
@@ -2168,12 +2093,6 @@ func (m *CompanyDetailMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case companydetail.FieldCompanyCode:
 		return m.AddedCompanyCode()
-	case companydetail.FieldTaxNo:
-		return m.AddedTaxNo()
-	case companydetail.FieldOwnerTcNo:
-		return m.AddedOwnerTcNo()
-	case companydetail.FieldOwnerRegisterNo:
-		return m.AddedOwnerRegisterNo()
 	}
 	return nil, false
 }
@@ -2189,27 +2108,6 @@ func (m *CompanyDetailMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCompanyCode(v)
-		return nil
-	case companydetail.FieldTaxNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTaxNo(v)
-		return nil
-	case companydetail.FieldOwnerTcNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddOwnerTcNo(v)
-		return nil
-	case companydetail.FieldOwnerRegisterNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddOwnerRegisterNo(v)
 		return nil
 	}
 	return fmt.Errorf("unknown CompanyDetail numeric field %s", name)
@@ -2618,17 +2516,14 @@ type CompanyEngineerMutation struct {
 	typ                        string
 	id                         *int
 	_Name                      *string
-	_TcNo                      *int
-	add_TcNo                   *int
+	_TcNo                      *string
 	_Phone                     *string
 	_Email                     *string
 	_Address                   *string
 	_Career                    *string
 	_Position                  *string
-	_RegisterNo                *int
-	add_RegisterNo             *int
-	_CertNo                    *int
-	add_CertNo                 *int
+	_RegisterNo                *string
+	_CertNo                    *string
 	_YDSID                     *int
 	add_YDSID                  *int
 	_Employment                *time.Time
@@ -2804,13 +2699,12 @@ func (m *CompanyEngineerMutation) ResetName() {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (m *CompanyEngineerMutation) SetTcNo(i int) {
-	m._TcNo = &i
-	m.add_TcNo = nil
+func (m *CompanyEngineerMutation) SetTcNo(s string) {
+	m._TcNo = &s
 }
 
 // TcNo returns the value of the "TcNo" field in the mutation.
-func (m *CompanyEngineerMutation) TcNo() (r int, exists bool) {
+func (m *CompanyEngineerMutation) TcNo() (r string, exists bool) {
 	v := m._TcNo
 	if v == nil {
 		return
@@ -2821,7 +2715,7 @@ func (m *CompanyEngineerMutation) TcNo() (r int, exists bool) {
 // OldTcNo returns the old "TcNo" field's value of the CompanyEngineer entity.
 // If the CompanyEngineer object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyEngineerMutation) OldTcNo(ctx context.Context) (v int, err error) {
+func (m *CompanyEngineerMutation) OldTcNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTcNo is only allowed on UpdateOne operations")
 	}
@@ -2835,28 +2729,9 @@ func (m *CompanyEngineerMutation) OldTcNo(ctx context.Context) (v int, err error
 	return oldValue.TcNo, nil
 }
 
-// AddTcNo adds i to the "TcNo" field.
-func (m *CompanyEngineerMutation) AddTcNo(i int) {
-	if m.add_TcNo != nil {
-		*m.add_TcNo += i
-	} else {
-		m.add_TcNo = &i
-	}
-}
-
-// AddedTcNo returns the value that was added to the "TcNo" field in this mutation.
-func (m *CompanyEngineerMutation) AddedTcNo() (r int, exists bool) {
-	v := m.add_TcNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearTcNo clears the value of the "TcNo" field.
 func (m *CompanyEngineerMutation) ClearTcNo() {
 	m._TcNo = nil
-	m.add_TcNo = nil
 	m.clearedFields[companyengineer.FieldTcNo] = struct{}{}
 }
 
@@ -2869,7 +2744,6 @@ func (m *CompanyEngineerMutation) TcNoCleared() bool {
 // ResetTcNo resets all changes to the "TcNo" field.
 func (m *CompanyEngineerMutation) ResetTcNo() {
 	m._TcNo = nil
-	m.add_TcNo = nil
 	delete(m.clearedFields, companyengineer.FieldTcNo)
 }
 
@@ -3119,13 +2993,12 @@ func (m *CompanyEngineerMutation) ResetPosition() {
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (m *CompanyEngineerMutation) SetRegisterNo(i int) {
-	m._RegisterNo = &i
-	m.add_RegisterNo = nil
+func (m *CompanyEngineerMutation) SetRegisterNo(s string) {
+	m._RegisterNo = &s
 }
 
 // RegisterNo returns the value of the "RegisterNo" field in the mutation.
-func (m *CompanyEngineerMutation) RegisterNo() (r int, exists bool) {
+func (m *CompanyEngineerMutation) RegisterNo() (r string, exists bool) {
 	v := m._RegisterNo
 	if v == nil {
 		return
@@ -3136,7 +3009,7 @@ func (m *CompanyEngineerMutation) RegisterNo() (r int, exists bool) {
 // OldRegisterNo returns the old "RegisterNo" field's value of the CompanyEngineer entity.
 // If the CompanyEngineer object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyEngineerMutation) OldRegisterNo(ctx context.Context) (v int, err error) {
+func (m *CompanyEngineerMutation) OldRegisterNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldRegisterNo is only allowed on UpdateOne operations")
 	}
@@ -3150,28 +3023,9 @@ func (m *CompanyEngineerMutation) OldRegisterNo(ctx context.Context) (v int, err
 	return oldValue.RegisterNo, nil
 }
 
-// AddRegisterNo adds i to the "RegisterNo" field.
-func (m *CompanyEngineerMutation) AddRegisterNo(i int) {
-	if m.add_RegisterNo != nil {
-		*m.add_RegisterNo += i
-	} else {
-		m.add_RegisterNo = &i
-	}
-}
-
-// AddedRegisterNo returns the value that was added to the "RegisterNo" field in this mutation.
-func (m *CompanyEngineerMutation) AddedRegisterNo() (r int, exists bool) {
-	v := m.add_RegisterNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearRegisterNo clears the value of the "RegisterNo" field.
 func (m *CompanyEngineerMutation) ClearRegisterNo() {
 	m._RegisterNo = nil
-	m.add_RegisterNo = nil
 	m.clearedFields[companyengineer.FieldRegisterNo] = struct{}{}
 }
 
@@ -3184,18 +3038,16 @@ func (m *CompanyEngineerMutation) RegisterNoCleared() bool {
 // ResetRegisterNo resets all changes to the "RegisterNo" field.
 func (m *CompanyEngineerMutation) ResetRegisterNo() {
 	m._RegisterNo = nil
-	m.add_RegisterNo = nil
 	delete(m.clearedFields, companyengineer.FieldRegisterNo)
 }
 
 // SetCertNo sets the "CertNo" field.
-func (m *CompanyEngineerMutation) SetCertNo(i int) {
-	m._CertNo = &i
-	m.add_CertNo = nil
+func (m *CompanyEngineerMutation) SetCertNo(s string) {
+	m._CertNo = &s
 }
 
 // CertNo returns the value of the "CertNo" field in the mutation.
-func (m *CompanyEngineerMutation) CertNo() (r int, exists bool) {
+func (m *CompanyEngineerMutation) CertNo() (r string, exists bool) {
 	v := m._CertNo
 	if v == nil {
 		return
@@ -3206,7 +3058,7 @@ func (m *CompanyEngineerMutation) CertNo() (r int, exists bool) {
 // OldCertNo returns the old "CertNo" field's value of the CompanyEngineer entity.
 // If the CompanyEngineer object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyEngineerMutation) OldCertNo(ctx context.Context) (v int, err error) {
+func (m *CompanyEngineerMutation) OldCertNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCertNo is only allowed on UpdateOne operations")
 	}
@@ -3220,28 +3072,9 @@ func (m *CompanyEngineerMutation) OldCertNo(ctx context.Context) (v int, err err
 	return oldValue.CertNo, nil
 }
 
-// AddCertNo adds i to the "CertNo" field.
-func (m *CompanyEngineerMutation) AddCertNo(i int) {
-	if m.add_CertNo != nil {
-		*m.add_CertNo += i
-	} else {
-		m.add_CertNo = &i
-	}
-}
-
-// AddedCertNo returns the value that was added to the "CertNo" field in this mutation.
-func (m *CompanyEngineerMutation) AddedCertNo() (r int, exists bool) {
-	v := m.add_CertNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearCertNo clears the value of the "CertNo" field.
 func (m *CompanyEngineerMutation) ClearCertNo() {
 	m._CertNo = nil
-	m.add_CertNo = nil
 	m.clearedFields[companyengineer.FieldCertNo] = struct{}{}
 }
 
@@ -3254,7 +3087,6 @@ func (m *CompanyEngineerMutation) CertNoCleared() bool {
 // ResetCertNo resets all changes to the "CertNo" field.
 func (m *CompanyEngineerMutation) ResetCertNo() {
 	m._CertNo = nil
-	m.add_CertNo = nil
 	delete(m.clearedFields, companyengineer.FieldCertNo)
 }
 
@@ -4199,7 +4031,7 @@ func (m *CompanyEngineerMutation) SetField(name string, value ent.Value) error {
 		m.SetName(v)
 		return nil
 	case companyengineer.FieldTcNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -4241,14 +4073,14 @@ func (m *CompanyEngineerMutation) SetField(name string, value ent.Value) error {
 		m.SetPosition(v)
 		return nil
 	case companyengineer.FieldRegisterNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetRegisterNo(v)
 		return nil
 	case companyengineer.FieldCertNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -4304,15 +4136,6 @@ func (m *CompanyEngineerMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *CompanyEngineerMutation) AddedFields() []string {
 	var fields []string
-	if m.add_TcNo != nil {
-		fields = append(fields, companyengineer.FieldTcNo)
-	}
-	if m.add_RegisterNo != nil {
-		fields = append(fields, companyengineer.FieldRegisterNo)
-	}
-	if m.add_CertNo != nil {
-		fields = append(fields, companyengineer.FieldCertNo)
-	}
 	if m.add_YDSID != nil {
 		fields = append(fields, companyengineer.FieldYDSID)
 	}
@@ -4327,12 +4150,6 @@ func (m *CompanyEngineerMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *CompanyEngineerMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case companyengineer.FieldTcNo:
-		return m.AddedTcNo()
-	case companyengineer.FieldRegisterNo:
-		return m.AddedRegisterNo()
-	case companyengineer.FieldCertNo:
-		return m.AddedCertNo()
 	case companyengineer.FieldYDSID:
 		return m.AddedYDSID()
 	case companyengineer.FieldStatus:
@@ -4346,27 +4163,6 @@ func (m *CompanyEngineerMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *CompanyEngineerMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case companyengineer.FieldTcNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTcNo(v)
-		return nil
-	case companyengineer.FieldRegisterNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddRegisterNo(v)
-		return nil
-	case companyengineer.FieldCertNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddCertNo(v)
-		return nil
 	case companyengineer.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
@@ -7083,13 +6879,10 @@ type JobContractorMutation struct {
 	typ                string
 	id                 *int
 	_Name              *string
-	_TcNo              *int
-	add_TcNo           *int
-	_RegisterNo        *int
-	add_RegisterNo     *int
+	_TcNo              *string
+	_RegisterNo        *string
 	_Address           *string
-	_TaxNo             *int
-	add_TaxNo          *int
+	_TaxNo             *string
 	_MobilePhone       *string
 	_Phone             *string
 	_Email             *string
@@ -7243,13 +7036,12 @@ func (m *JobContractorMutation) ResetName() {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (m *JobContractorMutation) SetTcNo(i int) {
-	m._TcNo = &i
-	m.add_TcNo = nil
+func (m *JobContractorMutation) SetTcNo(s string) {
+	m._TcNo = &s
 }
 
 // TcNo returns the value of the "TcNo" field in the mutation.
-func (m *JobContractorMutation) TcNo() (r int, exists bool) {
+func (m *JobContractorMutation) TcNo() (r string, exists bool) {
 	v := m._TcNo
 	if v == nil {
 		return
@@ -7260,7 +7052,7 @@ func (m *JobContractorMutation) TcNo() (r int, exists bool) {
 // OldTcNo returns the old "TcNo" field's value of the JobContractor entity.
 // If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobContractorMutation) OldTcNo(ctx context.Context) (v int, err error) {
+func (m *JobContractorMutation) OldTcNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTcNo is only allowed on UpdateOne operations")
 	}
@@ -7274,28 +7066,9 @@ func (m *JobContractorMutation) OldTcNo(ctx context.Context) (v int, err error) 
 	return oldValue.TcNo, nil
 }
 
-// AddTcNo adds i to the "TcNo" field.
-func (m *JobContractorMutation) AddTcNo(i int) {
-	if m.add_TcNo != nil {
-		*m.add_TcNo += i
-	} else {
-		m.add_TcNo = &i
-	}
-}
-
-// AddedTcNo returns the value that was added to the "TcNo" field in this mutation.
-func (m *JobContractorMutation) AddedTcNo() (r int, exists bool) {
-	v := m.add_TcNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearTcNo clears the value of the "TcNo" field.
 func (m *JobContractorMutation) ClearTcNo() {
 	m._TcNo = nil
-	m.add_TcNo = nil
 	m.clearedFields[jobcontractor.FieldTcNo] = struct{}{}
 }
 
@@ -7308,18 +7081,16 @@ func (m *JobContractorMutation) TcNoCleared() bool {
 // ResetTcNo resets all changes to the "TcNo" field.
 func (m *JobContractorMutation) ResetTcNo() {
 	m._TcNo = nil
-	m.add_TcNo = nil
 	delete(m.clearedFields, jobcontractor.FieldTcNo)
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (m *JobContractorMutation) SetRegisterNo(i int) {
-	m._RegisterNo = &i
-	m.add_RegisterNo = nil
+func (m *JobContractorMutation) SetRegisterNo(s string) {
+	m._RegisterNo = &s
 }
 
 // RegisterNo returns the value of the "RegisterNo" field in the mutation.
-func (m *JobContractorMutation) RegisterNo() (r int, exists bool) {
+func (m *JobContractorMutation) RegisterNo() (r string, exists bool) {
 	v := m._RegisterNo
 	if v == nil {
 		return
@@ -7330,7 +7101,7 @@ func (m *JobContractorMutation) RegisterNo() (r int, exists bool) {
 // OldRegisterNo returns the old "RegisterNo" field's value of the JobContractor entity.
 // If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobContractorMutation) OldRegisterNo(ctx context.Context) (v int, err error) {
+func (m *JobContractorMutation) OldRegisterNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldRegisterNo is only allowed on UpdateOne operations")
 	}
@@ -7344,28 +7115,9 @@ func (m *JobContractorMutation) OldRegisterNo(ctx context.Context) (v int, err e
 	return oldValue.RegisterNo, nil
 }
 
-// AddRegisterNo adds i to the "RegisterNo" field.
-func (m *JobContractorMutation) AddRegisterNo(i int) {
-	if m.add_RegisterNo != nil {
-		*m.add_RegisterNo += i
-	} else {
-		m.add_RegisterNo = &i
-	}
-}
-
-// AddedRegisterNo returns the value that was added to the "RegisterNo" field in this mutation.
-func (m *JobContractorMutation) AddedRegisterNo() (r int, exists bool) {
-	v := m.add_RegisterNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearRegisterNo clears the value of the "RegisterNo" field.
 func (m *JobContractorMutation) ClearRegisterNo() {
 	m._RegisterNo = nil
-	m.add_RegisterNo = nil
 	m.clearedFields[jobcontractor.FieldRegisterNo] = struct{}{}
 }
 
@@ -7378,7 +7130,6 @@ func (m *JobContractorMutation) RegisterNoCleared() bool {
 // ResetRegisterNo resets all changes to the "RegisterNo" field.
 func (m *JobContractorMutation) ResetRegisterNo() {
 	m._RegisterNo = nil
-	m.add_RegisterNo = nil
 	delete(m.clearedFields, jobcontractor.FieldRegisterNo)
 }
 
@@ -7432,13 +7183,12 @@ func (m *JobContractorMutation) ResetAddress() {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (m *JobContractorMutation) SetTaxNo(i int) {
-	m._TaxNo = &i
-	m.add_TaxNo = nil
+func (m *JobContractorMutation) SetTaxNo(s string) {
+	m._TaxNo = &s
 }
 
 // TaxNo returns the value of the "TaxNo" field in the mutation.
-func (m *JobContractorMutation) TaxNo() (r int, exists bool) {
+func (m *JobContractorMutation) TaxNo() (r string, exists bool) {
 	v := m._TaxNo
 	if v == nil {
 		return
@@ -7449,7 +7199,7 @@ func (m *JobContractorMutation) TaxNo() (r int, exists bool) {
 // OldTaxNo returns the old "TaxNo" field's value of the JobContractor entity.
 // If the JobContractor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobContractorMutation) OldTaxNo(ctx context.Context) (v int, err error) {
+func (m *JobContractorMutation) OldTaxNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTaxNo is only allowed on UpdateOne operations")
 	}
@@ -7463,28 +7213,9 @@ func (m *JobContractorMutation) OldTaxNo(ctx context.Context) (v int, err error)
 	return oldValue.TaxNo, nil
 }
 
-// AddTaxNo adds i to the "TaxNo" field.
-func (m *JobContractorMutation) AddTaxNo(i int) {
-	if m.add_TaxNo != nil {
-		*m.add_TaxNo += i
-	} else {
-		m.add_TaxNo = &i
-	}
-}
-
-// AddedTaxNo returns the value that was added to the "TaxNo" field in this mutation.
-func (m *JobContractorMutation) AddedTaxNo() (r int, exists bool) {
-	v := m.add_TaxNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearTaxNo clears the value of the "TaxNo" field.
 func (m *JobContractorMutation) ClearTaxNo() {
 	m._TaxNo = nil
-	m.add_TaxNo = nil
 	m.clearedFields[jobcontractor.FieldTaxNo] = struct{}{}
 }
 
@@ -7497,7 +7228,6 @@ func (m *JobContractorMutation) TaxNoCleared() bool {
 // ResetTaxNo resets all changes to the "TaxNo" field.
 func (m *JobContractorMutation) ResetTaxNo() {
 	m._TaxNo = nil
-	m.add_TaxNo = nil
 	delete(m.clearedFields, jobcontractor.FieldTaxNo)
 }
 
@@ -8102,14 +7832,14 @@ func (m *JobContractorMutation) SetField(name string, value ent.Value) error {
 		m.SetName(v)
 		return nil
 	case jobcontractor.FieldTcNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetTcNo(v)
 		return nil
 	case jobcontractor.FieldRegisterNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -8123,7 +7853,7 @@ func (m *JobContractorMutation) SetField(name string, value ent.Value) error {
 		m.SetAddress(v)
 		return nil
 	case jobcontractor.FieldTaxNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -8193,15 +7923,6 @@ func (m *JobContractorMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *JobContractorMutation) AddedFields() []string {
 	var fields []string
-	if m.add_TcNo != nil {
-		fields = append(fields, jobcontractor.FieldTcNo)
-	}
-	if m.add_RegisterNo != nil {
-		fields = append(fields, jobcontractor.FieldRegisterNo)
-	}
-	if m.add_TaxNo != nil {
-		fields = append(fields, jobcontractor.FieldTaxNo)
-	}
 	if m.add_YDSID != nil {
 		fields = append(fields, jobcontractor.FieldYDSID)
 	}
@@ -8213,12 +7934,6 @@ func (m *JobContractorMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *JobContractorMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case jobcontractor.FieldTcNo:
-		return m.AddedTcNo()
-	case jobcontractor.FieldRegisterNo:
-		return m.AddedRegisterNo()
-	case jobcontractor.FieldTaxNo:
-		return m.AddedTaxNo()
 	case jobcontractor.FieldYDSID:
 		return m.AddedYDSID()
 	}
@@ -8230,27 +7945,6 @@ func (m *JobContractorMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *JobContractorMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case jobcontractor.FieldTcNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTcNo(v)
-		return nil
-	case jobcontractor.FieldRegisterNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddRegisterNo(v)
-		return nil
-	case jobcontractor.FieldTaxNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTaxNo(v)
-		return nil
 	case jobcontractor.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
@@ -8513,8 +8207,7 @@ type JobDetailMutation struct {
 	add_UnitPrice        *float64
 	_FloorCount          *int
 	add_FloorCount       *int
-	_BKSReferenceNo      *int
-	add_BKSReferenceNo   *int
+	_BKSReferenceNo      *string
 	_Coordinates         *string
 	_FolderNo            *string
 	_UploadedFile        *bool
@@ -9962,13 +9655,12 @@ func (m *JobDetailMutation) ResetFloorCount() {
 }
 
 // SetBKSReferenceNo sets the "BKSReferenceNo" field.
-func (m *JobDetailMutation) SetBKSReferenceNo(i int) {
-	m._BKSReferenceNo = &i
-	m.add_BKSReferenceNo = nil
+func (m *JobDetailMutation) SetBKSReferenceNo(s string) {
+	m._BKSReferenceNo = &s
 }
 
 // BKSReferenceNo returns the value of the "BKSReferenceNo" field in the mutation.
-func (m *JobDetailMutation) BKSReferenceNo() (r int, exists bool) {
+func (m *JobDetailMutation) BKSReferenceNo() (r string, exists bool) {
 	v := m._BKSReferenceNo
 	if v == nil {
 		return
@@ -9979,7 +9671,7 @@ func (m *JobDetailMutation) BKSReferenceNo() (r int, exists bool) {
 // OldBKSReferenceNo returns the old "BKSReferenceNo" field's value of the JobDetail entity.
 // If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobDetailMutation) OldBKSReferenceNo(ctx context.Context) (v int, err error) {
+func (m *JobDetailMutation) OldBKSReferenceNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBKSReferenceNo is only allowed on UpdateOne operations")
 	}
@@ -9993,28 +9685,9 @@ func (m *JobDetailMutation) OldBKSReferenceNo(ctx context.Context) (v int, err e
 	return oldValue.BKSReferenceNo, nil
 }
 
-// AddBKSReferenceNo adds i to the "BKSReferenceNo" field.
-func (m *JobDetailMutation) AddBKSReferenceNo(i int) {
-	if m.add_BKSReferenceNo != nil {
-		*m.add_BKSReferenceNo += i
-	} else {
-		m.add_BKSReferenceNo = &i
-	}
-}
-
-// AddedBKSReferenceNo returns the value that was added to the "BKSReferenceNo" field in this mutation.
-func (m *JobDetailMutation) AddedBKSReferenceNo() (r int, exists bool) {
-	v := m.add_BKSReferenceNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearBKSReferenceNo clears the value of the "BKSReferenceNo" field.
 func (m *JobDetailMutation) ClearBKSReferenceNo() {
 	m._BKSReferenceNo = nil
-	m.add_BKSReferenceNo = nil
 	m.clearedFields[jobdetail.FieldBKSReferenceNo] = struct{}{}
 }
 
@@ -10027,7 +9700,6 @@ func (m *JobDetailMutation) BKSReferenceNoCleared() bool {
 // ResetBKSReferenceNo resets all changes to the "BKSReferenceNo" field.
 func (m *JobDetailMutation) ResetBKSReferenceNo() {
 	m._BKSReferenceNo = nil
-	m.add_BKSReferenceNo = nil
 	delete(m.clearedFields, jobdetail.FieldBKSReferenceNo)
 }
 
@@ -11009,7 +10681,7 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 		m.SetFloorCount(v)
 		return nil
 	case jobdetail.FieldBKSReferenceNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -11117,9 +10789,6 @@ func (m *JobDetailMutation) AddedFields() []string {
 	if m.add_FloorCount != nil {
 		fields = append(fields, jobdetail.FieldFloorCount)
 	}
-	if m.add_BKSReferenceNo != nil {
-		fields = append(fields, jobdetail.FieldBKSReferenceNo)
-	}
 	return fields
 }
 
@@ -11144,8 +10813,6 @@ func (m *JobDetailMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedUnitPrice()
 	case jobdetail.FieldFloorCount:
 		return m.AddedFloorCount()
-	case jobdetail.FieldBKSReferenceNo:
-		return m.AddedBKSReferenceNo()
 	}
 	return nil, false
 }
@@ -11210,13 +10877,6 @@ func (m *JobDetailMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddFloorCount(v)
-		return nil
-	case jobdetail.FieldBKSReferenceNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddBKSReferenceNo(v)
 		return nil
 	}
 	return fmt.Errorf("unknown JobDetail numeric field %s", name)
@@ -12751,11 +12411,9 @@ type JobOwnerMutation struct {
 	id            *int
 	_Name         *string
 	_Address      *string
-	_TcNo         *int
-	add_TcNo      *int
+	_TcNo         *string
 	_TaxAdmin     *string
-	_TaxNo        *int
-	add_TaxNo     *int
+	_TaxNo        *string
 	_Phone        *string
 	_Email        *string
 	_YDSID        *int
@@ -12957,13 +12615,12 @@ func (m *JobOwnerMutation) ResetAddress() {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (m *JobOwnerMutation) SetTcNo(i int) {
-	m._TcNo = &i
-	m.add_TcNo = nil
+func (m *JobOwnerMutation) SetTcNo(s string) {
+	m._TcNo = &s
 }
 
 // TcNo returns the value of the "TcNo" field in the mutation.
-func (m *JobOwnerMutation) TcNo() (r int, exists bool) {
+func (m *JobOwnerMutation) TcNo() (r string, exists bool) {
 	v := m._TcNo
 	if v == nil {
 		return
@@ -12974,7 +12631,7 @@ func (m *JobOwnerMutation) TcNo() (r int, exists bool) {
 // OldTcNo returns the old "TcNo" field's value of the JobOwner entity.
 // If the JobOwner object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobOwnerMutation) OldTcNo(ctx context.Context) (v int, err error) {
+func (m *JobOwnerMutation) OldTcNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTcNo is only allowed on UpdateOne operations")
 	}
@@ -12988,28 +12645,9 @@ func (m *JobOwnerMutation) OldTcNo(ctx context.Context) (v int, err error) {
 	return oldValue.TcNo, nil
 }
 
-// AddTcNo adds i to the "TcNo" field.
-func (m *JobOwnerMutation) AddTcNo(i int) {
-	if m.add_TcNo != nil {
-		*m.add_TcNo += i
-	} else {
-		m.add_TcNo = &i
-	}
-}
-
-// AddedTcNo returns the value that was added to the "TcNo" field in this mutation.
-func (m *JobOwnerMutation) AddedTcNo() (r int, exists bool) {
-	v := m.add_TcNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearTcNo clears the value of the "TcNo" field.
 func (m *JobOwnerMutation) ClearTcNo() {
 	m._TcNo = nil
-	m.add_TcNo = nil
 	m.clearedFields[jobowner.FieldTcNo] = struct{}{}
 }
 
@@ -13022,7 +12660,6 @@ func (m *JobOwnerMutation) TcNoCleared() bool {
 // ResetTcNo resets all changes to the "TcNo" field.
 func (m *JobOwnerMutation) ResetTcNo() {
 	m._TcNo = nil
-	m.add_TcNo = nil
 	delete(m.clearedFields, jobowner.FieldTcNo)
 }
 
@@ -13076,13 +12713,12 @@ func (m *JobOwnerMutation) ResetTaxAdmin() {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (m *JobOwnerMutation) SetTaxNo(i int) {
-	m._TaxNo = &i
-	m.add_TaxNo = nil
+func (m *JobOwnerMutation) SetTaxNo(s string) {
+	m._TaxNo = &s
 }
 
 // TaxNo returns the value of the "TaxNo" field in the mutation.
-func (m *JobOwnerMutation) TaxNo() (r int, exists bool) {
+func (m *JobOwnerMutation) TaxNo() (r string, exists bool) {
 	v := m._TaxNo
 	if v == nil {
 		return
@@ -13093,7 +12729,7 @@ func (m *JobOwnerMutation) TaxNo() (r int, exists bool) {
 // OldTaxNo returns the old "TaxNo" field's value of the JobOwner entity.
 // If the JobOwner object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobOwnerMutation) OldTaxNo(ctx context.Context) (v int, err error) {
+func (m *JobOwnerMutation) OldTaxNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTaxNo is only allowed on UpdateOne operations")
 	}
@@ -13107,28 +12743,9 @@ func (m *JobOwnerMutation) OldTaxNo(ctx context.Context) (v int, err error) {
 	return oldValue.TaxNo, nil
 }
 
-// AddTaxNo adds i to the "TaxNo" field.
-func (m *JobOwnerMutation) AddTaxNo(i int) {
-	if m.add_TaxNo != nil {
-		*m.add_TaxNo += i
-	} else {
-		m.add_TaxNo = &i
-	}
-}
-
-// AddedTaxNo returns the value that was added to the "TaxNo" field in this mutation.
-func (m *JobOwnerMutation) AddedTaxNo() (r int, exists bool) {
-	v := m.add_TaxNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearTaxNo clears the value of the "TaxNo" field.
 func (m *JobOwnerMutation) ClearTaxNo() {
 	m._TaxNo = nil
-	m.add_TaxNo = nil
 	m.clearedFields[jobowner.FieldTaxNo] = struct{}{}
 }
 
@@ -13141,7 +12758,6 @@ func (m *JobOwnerMutation) TaxNoCleared() bool {
 // ResetTaxNo resets all changes to the "TaxNo" field.
 func (m *JobOwnerMutation) ResetTaxNo() {
 	m._TaxNo = nil
-	m.add_TaxNo = nil
 	delete(m.clearedFields, jobowner.FieldTaxNo)
 }
 
@@ -13684,7 +13300,7 @@ func (m *JobOwnerMutation) SetField(name string, value ent.Value) error {
 		m.SetAddress(v)
 		return nil
 	case jobowner.FieldTcNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -13698,7 +13314,7 @@ func (m *JobOwnerMutation) SetField(name string, value ent.Value) error {
 		m.SetTaxAdmin(v)
 		return nil
 	case jobowner.FieldTaxNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -13761,12 +13377,6 @@ func (m *JobOwnerMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *JobOwnerMutation) AddedFields() []string {
 	var fields []string
-	if m.add_TcNo != nil {
-		fields = append(fields, jobowner.FieldTcNo)
-	}
-	if m.add_TaxNo != nil {
-		fields = append(fields, jobowner.FieldTaxNo)
-	}
 	if m.add_YDSID != nil {
 		fields = append(fields, jobowner.FieldYDSID)
 	}
@@ -13778,10 +13388,6 @@ func (m *JobOwnerMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *JobOwnerMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case jobowner.FieldTcNo:
-		return m.AddedTcNo()
-	case jobowner.FieldTaxNo:
-		return m.AddedTaxNo()
 	case jobowner.FieldYDSID:
 		return m.AddedYDSID()
 	}
@@ -13793,20 +13399,6 @@ func (m *JobOwnerMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *JobOwnerMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case jobowner.FieldTcNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTcNo(v)
-		return nil
-	case jobowner.FieldTaxNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTaxNo(v)
-		return nil
 	case jobowner.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {
@@ -18033,33 +17625,30 @@ func (m *JobRelationsMutation) ResetEdge(name string) error {
 // JobSupervisorMutation represents an operation that mutates the JobSupervisor nodes in the graph.
 type JobSupervisorMutation struct {
 	config
-	op                   Op
-	typ                  string
-	id                   *int
-	_Name                *string
-	_Address             *string
-	_Phone               *string
-	_Email               *string
-	_TcNo                *int
-	add_TcNo             *int
-	_Position            *string
-	_Career              *string
-	_RegisterNo          *int
-	add_RegisterNo       *int
-	_SocialSecurityNo    *int
-	add_SocialSecurityNo *int
-	_SchoolGraduation    *string
-	_YDSID               *int
-	add_YDSID            *int
-	_CreatedAt           *time.Time
-	_UpdatedAt           *time.Time
-	clearedFields        map[string]struct{}
-	supervisors          map[int]struct{}
-	removedsupervisors   map[int]struct{}
-	clearedsupervisors   bool
-	done                 bool
-	oldValue             func(context.Context) (*JobSupervisor, error)
-	predicates           []predicate.JobSupervisor
+	op                 Op
+	typ                string
+	id                 *int
+	_Name              *string
+	_Address           *string
+	_Phone             *string
+	_Email             *string
+	_TcNo              *string
+	_Position          *string
+	_Career            *string
+	_RegisterNo        *string
+	_SocialSecurityNo  *string
+	_SchoolGraduation  *string
+	_YDSID             *int
+	add_YDSID          *int
+	_CreatedAt         *time.Time
+	_UpdatedAt         *time.Time
+	clearedFields      map[string]struct{}
+	supervisors        map[int]struct{}
+	removedsupervisors map[int]struct{}
+	clearedsupervisors bool
+	done               bool
+	oldValue           func(context.Context) (*JobSupervisor, error)
+	predicates         []predicate.JobSupervisor
 }
 
 var _ ent.Mutation = (*JobSupervisorMutation)(nil)
@@ -18357,13 +17946,12 @@ func (m *JobSupervisorMutation) ResetEmail() {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (m *JobSupervisorMutation) SetTcNo(i int) {
-	m._TcNo = &i
-	m.add_TcNo = nil
+func (m *JobSupervisorMutation) SetTcNo(s string) {
+	m._TcNo = &s
 }
 
 // TcNo returns the value of the "TcNo" field in the mutation.
-func (m *JobSupervisorMutation) TcNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) TcNo() (r string, exists bool) {
 	v := m._TcNo
 	if v == nil {
 		return
@@ -18374,7 +17962,7 @@ func (m *JobSupervisorMutation) TcNo() (r int, exists bool) {
 // OldTcNo returns the old "TcNo" field's value of the JobSupervisor entity.
 // If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSupervisorMutation) OldTcNo(ctx context.Context) (v int, err error) {
+func (m *JobSupervisorMutation) OldTcNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTcNo is only allowed on UpdateOne operations")
 	}
@@ -18388,28 +17976,9 @@ func (m *JobSupervisorMutation) OldTcNo(ctx context.Context) (v int, err error) 
 	return oldValue.TcNo, nil
 }
 
-// AddTcNo adds i to the "TcNo" field.
-func (m *JobSupervisorMutation) AddTcNo(i int) {
-	if m.add_TcNo != nil {
-		*m.add_TcNo += i
-	} else {
-		m.add_TcNo = &i
-	}
-}
-
-// AddedTcNo returns the value that was added to the "TcNo" field in this mutation.
-func (m *JobSupervisorMutation) AddedTcNo() (r int, exists bool) {
-	v := m.add_TcNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearTcNo clears the value of the "TcNo" field.
 func (m *JobSupervisorMutation) ClearTcNo() {
 	m._TcNo = nil
-	m.add_TcNo = nil
 	m.clearedFields[jobsupervisor.FieldTcNo] = struct{}{}
 }
 
@@ -18422,7 +17991,6 @@ func (m *JobSupervisorMutation) TcNoCleared() bool {
 // ResetTcNo resets all changes to the "TcNo" field.
 func (m *JobSupervisorMutation) ResetTcNo() {
 	m._TcNo = nil
-	m.add_TcNo = nil
 	delete(m.clearedFields, jobsupervisor.FieldTcNo)
 }
 
@@ -18525,13 +18093,12 @@ func (m *JobSupervisorMutation) ResetCareer() {
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (m *JobSupervisorMutation) SetRegisterNo(i int) {
-	m._RegisterNo = &i
-	m.add_RegisterNo = nil
+func (m *JobSupervisorMutation) SetRegisterNo(s string) {
+	m._RegisterNo = &s
 }
 
 // RegisterNo returns the value of the "RegisterNo" field in the mutation.
-func (m *JobSupervisorMutation) RegisterNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) RegisterNo() (r string, exists bool) {
 	v := m._RegisterNo
 	if v == nil {
 		return
@@ -18542,7 +18109,7 @@ func (m *JobSupervisorMutation) RegisterNo() (r int, exists bool) {
 // OldRegisterNo returns the old "RegisterNo" field's value of the JobSupervisor entity.
 // If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSupervisorMutation) OldRegisterNo(ctx context.Context) (v int, err error) {
+func (m *JobSupervisorMutation) OldRegisterNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldRegisterNo is only allowed on UpdateOne operations")
 	}
@@ -18556,28 +18123,9 @@ func (m *JobSupervisorMutation) OldRegisterNo(ctx context.Context) (v int, err e
 	return oldValue.RegisterNo, nil
 }
 
-// AddRegisterNo adds i to the "RegisterNo" field.
-func (m *JobSupervisorMutation) AddRegisterNo(i int) {
-	if m.add_RegisterNo != nil {
-		*m.add_RegisterNo += i
-	} else {
-		m.add_RegisterNo = &i
-	}
-}
-
-// AddedRegisterNo returns the value that was added to the "RegisterNo" field in this mutation.
-func (m *JobSupervisorMutation) AddedRegisterNo() (r int, exists bool) {
-	v := m.add_RegisterNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearRegisterNo clears the value of the "RegisterNo" field.
 func (m *JobSupervisorMutation) ClearRegisterNo() {
 	m._RegisterNo = nil
-	m.add_RegisterNo = nil
 	m.clearedFields[jobsupervisor.FieldRegisterNo] = struct{}{}
 }
 
@@ -18590,18 +18138,16 @@ func (m *JobSupervisorMutation) RegisterNoCleared() bool {
 // ResetRegisterNo resets all changes to the "RegisterNo" field.
 func (m *JobSupervisorMutation) ResetRegisterNo() {
 	m._RegisterNo = nil
-	m.add_RegisterNo = nil
 	delete(m.clearedFields, jobsupervisor.FieldRegisterNo)
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
-func (m *JobSupervisorMutation) SetSocialSecurityNo(i int) {
-	m._SocialSecurityNo = &i
-	m.add_SocialSecurityNo = nil
+func (m *JobSupervisorMutation) SetSocialSecurityNo(s string) {
+	m._SocialSecurityNo = &s
 }
 
 // SocialSecurityNo returns the value of the "SocialSecurityNo" field in the mutation.
-func (m *JobSupervisorMutation) SocialSecurityNo() (r int, exists bool) {
+func (m *JobSupervisorMutation) SocialSecurityNo() (r string, exists bool) {
 	v := m._SocialSecurityNo
 	if v == nil {
 		return
@@ -18612,7 +18158,7 @@ func (m *JobSupervisorMutation) SocialSecurityNo() (r int, exists bool) {
 // OldSocialSecurityNo returns the old "SocialSecurityNo" field's value of the JobSupervisor entity.
 // If the JobSupervisor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobSupervisorMutation) OldSocialSecurityNo(ctx context.Context) (v int, err error) {
+func (m *JobSupervisorMutation) OldSocialSecurityNo(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldSocialSecurityNo is only allowed on UpdateOne operations")
 	}
@@ -18626,28 +18172,9 @@ func (m *JobSupervisorMutation) OldSocialSecurityNo(ctx context.Context) (v int,
 	return oldValue.SocialSecurityNo, nil
 }
 
-// AddSocialSecurityNo adds i to the "SocialSecurityNo" field.
-func (m *JobSupervisorMutation) AddSocialSecurityNo(i int) {
-	if m.add_SocialSecurityNo != nil {
-		*m.add_SocialSecurityNo += i
-	} else {
-		m.add_SocialSecurityNo = &i
-	}
-}
-
-// AddedSocialSecurityNo returns the value that was added to the "SocialSecurityNo" field in this mutation.
-func (m *JobSupervisorMutation) AddedSocialSecurityNo() (r int, exists bool) {
-	v := m.add_SocialSecurityNo
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearSocialSecurityNo clears the value of the "SocialSecurityNo" field.
 func (m *JobSupervisorMutation) ClearSocialSecurityNo() {
 	m._SocialSecurityNo = nil
-	m.add_SocialSecurityNo = nil
 	m.clearedFields[jobsupervisor.FieldSocialSecurityNo] = struct{}{}
 }
 
@@ -18660,7 +18187,6 @@ func (m *JobSupervisorMutation) SocialSecurityNoCleared() bool {
 // ResetSocialSecurityNo resets all changes to the "SocialSecurityNo" field.
 func (m *JobSupervisorMutation) ResetSocialSecurityNo() {
 	m._SocialSecurityNo = nil
-	m.add_SocialSecurityNo = nil
 	delete(m.clearedFields, jobsupervisor.FieldSocialSecurityNo)
 }
 
@@ -19090,7 +18616,7 @@ func (m *JobSupervisorMutation) SetField(name string, value ent.Value) error {
 		m.SetEmail(v)
 		return nil
 	case jobsupervisor.FieldTcNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -19111,14 +18637,14 @@ func (m *JobSupervisorMutation) SetField(name string, value ent.Value) error {
 		m.SetCareer(v)
 		return nil
 	case jobsupervisor.FieldRegisterNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetRegisterNo(v)
 		return nil
 	case jobsupervisor.FieldSocialSecurityNo:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -19160,15 +18686,6 @@ func (m *JobSupervisorMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *JobSupervisorMutation) AddedFields() []string {
 	var fields []string
-	if m.add_TcNo != nil {
-		fields = append(fields, jobsupervisor.FieldTcNo)
-	}
-	if m.add_RegisterNo != nil {
-		fields = append(fields, jobsupervisor.FieldRegisterNo)
-	}
-	if m.add_SocialSecurityNo != nil {
-		fields = append(fields, jobsupervisor.FieldSocialSecurityNo)
-	}
 	if m.add_YDSID != nil {
 		fields = append(fields, jobsupervisor.FieldYDSID)
 	}
@@ -19180,12 +18697,6 @@ func (m *JobSupervisorMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *JobSupervisorMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case jobsupervisor.FieldTcNo:
-		return m.AddedTcNo()
-	case jobsupervisor.FieldRegisterNo:
-		return m.AddedRegisterNo()
-	case jobsupervisor.FieldSocialSecurityNo:
-		return m.AddedSocialSecurityNo()
 	case jobsupervisor.FieldYDSID:
 		return m.AddedYDSID()
 	}
@@ -19197,27 +18708,6 @@ func (m *JobSupervisorMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *JobSupervisorMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case jobsupervisor.FieldTcNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTcNo(v)
-		return nil
-	case jobsupervisor.FieldRegisterNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddRegisterNo(v)
-		return nil
-	case jobsupervisor.FieldSocialSecurityNo:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddSocialSecurityNo(v)
-		return nil
 	case jobsupervisor.FieldYDSID:
 		v, ok := value.(int)
 		if !ok {

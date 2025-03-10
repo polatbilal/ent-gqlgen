@@ -12,7 +12,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/polatbilal/gqlgen-ent/api-core/ent"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/companydetail"
@@ -53,6 +52,7 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 			// 1. Önce token'ı kaydet
 			tokenCreate := client.CompanyToken.Create().
 				SetYDKUsername(*input.YDKUsername).
+				SetYDKPassword(*input.YDKPassword).
 				SetToken(*input.Token).
 				SetDepartmentId(departmentID)
 			createCompanyToken, err := tokenCreate.Save(ctx)
@@ -114,10 +114,6 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 				item := ydkResponse.Items[0]
 
 				// 3. Şirket verisini kaydet
-				taxNo, _ := strconv.Atoi(item.Department.Person.IdentityNumber)
-				tcNo, _ := strconv.Atoi(item.Person.IdentityNumber)
-				registerNo, _ := strconv.Atoi(item.OccupationalRegistrationNumber)
-
 				company, err := client.CompanyDetail.Create().
 					SetCompanyCode(item.Department.FileNumber).
 					SetName(item.Department.Name).
@@ -126,18 +122,18 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 					SetNillableEmail(&item.Department.Person.LastEPosta).
 					SetNillableWebsite(&item.Department.Person.LastWebAddress).
 					SetNillableTaxAdmin(&item.Department.Person.TaxAdministration).
-					SetNillableTaxNo(&taxNo).
+					SetNillableTaxNo(&item.Department.Person.IdentityNumber).
 					SetNillableChamberInfo(&item.Department.ChamberInfo).
 					SetNillableChamberRegisterNo(&item.Department.RegistrationNumber).
 					SetNillableVisaFinishedFor90Days(&item.Department.VisaFinishedFor90Days).
 					SetNillableCorePersonAbsent90Days(&item.Department.CorePersonAbsent90Days).
 					SetNillableIsClosed(&item.Department.IsClosed).
 					SetNillableOwnerName(&item.Person.FullName).
-					SetNillableOwnerTcNo(&tcNo).
+					SetNillableOwnerTcNo(&item.Person.IdentityNumber).
 					SetNillableOwnerAddress(&item.Person.AddressStr).
 					SetNillableOwnerPhone(&item.Person.LastPhoneNumber).
 					SetNillableOwnerEmail(&item.Person.LastEPosta).
-					SetNillableOwnerRegisterNo(&registerNo).
+					SetNillableOwnerRegisterNo(&item.OccupationalRegistrationNumber).
 					SetNillableOwnerCareer(&item.Title.Name).
 					Save(ctx)
 
