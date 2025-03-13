@@ -291,6 +291,7 @@ type ComplexityRoot struct {
 		DeleteJobPayments     func(childComplexity int, id int) int
 		DeleteLayer           func(childComplexity int, id string) int
 		DeleteUser            func(childComplexity int, id string) int
+		ExecuteBatchMutation  func(childComplexity int, input model.JobBatchInput) int
 		JobBatchMutation      func(childComplexity int, input model.JobBatchInput) int
 		Login                 func(childComplexity int, username string, password string) int
 		Register              func(childComplexity int, username string, name *string, email *string, password string) int
@@ -368,6 +369,7 @@ type MutationResolver interface {
 	CreateAuthor(ctx context.Context, input model.JobAuthorInput) (*ent.JobAuthor, error)
 	UpdateAuthor(ctx context.Context, yibfNo int, input model.JobAuthorInput) (*ent.JobAuthor, error)
 	JobBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error)
+	ExecuteBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error)
 	UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	CreateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error)
 	CreateContractor(ctx context.Context, input model.JobContractorInput) (*ent.JobContractor, error)
@@ -1839,6 +1841,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.DeleteUser(childComplexity, args["id"].(string)), true
 
+	case "Mutation.executeBatchMutation":
+		if e.complexity.Mutation.ExecuteBatchMutation == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_executeBatchMutation_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.ExecuteBatchMutation(childComplexity, args["input"].(model.JobBatchInput)), true
+
 	case "Mutation.jobBatchMutation":
 		if e.complexity.Mutation.JobBatchMutation == nil {
 			break
@@ -2587,6 +2601,10 @@ extend type Query {
 
 extend type Mutation {
   jobBatchMutation(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+
+  executeBatchMutation(input: JobBatchInput!): JobBatchResult!
     @goField(forceResolver: true)
     @auth
 }
@@ -3548,6 +3566,34 @@ func (ec *executionContext) field_Mutation_deleteUser_argsID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_executeBatchMutation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_executeBatchMutation_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_executeBatchMutation_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.JobBatchInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.JobBatchInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchInput(ctx, tmp)
+	}
+
+	var zeroVal model.JobBatchInput
 	return zeroVal, nil
 }
 
@@ -13387,6 +13433,101 @@ func (ec *executionContext) fieldContext_Mutation_jobBatchMutation(ctx context.C
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_jobBatchMutation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_executeBatchMutation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_executeBatchMutation(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().ExecuteBatchMutation(rctx, fc.Args["input"].(model.JobBatchInput))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *model.JobBatchResult
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.JobBatchResult); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/api-core/graphql/model.JobBatchResult`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.JobBatchResult)
+	fc.Result = res
+	return ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋapiᚑcoreᚋgraphqlᚋmodelᚐJobBatchResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_executeBatchMutation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "job":
+				return ec.fieldContext_JobBatchResult_job(ctx, field)
+			case "owner":
+				return ec.fieldContext_JobBatchResult_owner(ctx, field)
+			case "contractor":
+				return ec.fieldContext_JobBatchResult_contractor(ctx, field)
+			case "author":
+				return ec.fieldContext_JobBatchResult_author(ctx, field)
+			case "supervisor":
+				return ec.fieldContext_JobBatchResult_supervisor(ctx, field)
+			case "engineer":
+				return ec.fieldContext_JobBatchResult_engineer(ctx, field)
+			case "progress":
+				return ec.fieldContext_JobBatchResult_progress(ctx, field)
+			case "company":
+				return ec.fieldContext_JobBatchResult_company(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobBatchResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_executeBatchMutation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -23703,6 +23844,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "jobBatchMutation":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_jobBatchMutation(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "executeBatchMutation":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_executeBatchMutation(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++

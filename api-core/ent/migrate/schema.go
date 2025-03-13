@@ -238,7 +238,7 @@ var (
 		{Name: "month_result", Type: field.TypeString, Nullable: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "job_id", Type: field.TypeInt, Nullable: true},
+		{Name: "relations_id", Type: field.TypeInt, Nullable: true},
 	}
 	// JobLayersTable holds the schema information for the "job_layers" table.
 	JobLayersTable = &schema.Table{
@@ -290,7 +290,7 @@ var (
 		{Name: "amount", Type: field.TypeFloat64, Nullable: true, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "job_id", Type: field.TypeInt, Nullable: true},
+		{Name: "relations_id", Type: field.TypeInt, Nullable: true},
 	}
 	// JobPaymentsTable holds the schema information for the "job_payments" table.
 	JobPaymentsTable = &schema.Table{

@@ -167,14 +167,14 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "joblayer" package.
 	LayersInverseTable = "job_layers"
 	// LayersColumn is the table column denoting the layers relation/edge.
-	LayersColumn = "job_id"
+	LayersColumn = "relations_id"
 	// PaymentsTable is the table that holds the payments relation/edge.
 	PaymentsTable = "job_payments"
 	// PaymentsInverseTable is the table name for the JobPayments entity.
 	// It exists in this package in order to avoid circular dependency with the "jobpayments" package.
 	PaymentsInverseTable = "job_payments"
 	// PaymentsColumn is the table column denoting the payments relation/edge.
-	PaymentsColumn = "job_id"
+	PaymentsColumn = "relations_id"
 )
 
 // Columns holds all SQL columns for jobrelations fields.

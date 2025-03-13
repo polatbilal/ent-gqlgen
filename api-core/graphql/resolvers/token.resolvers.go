@@ -185,11 +185,24 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 func (r *queryResolver) CompanyToken(ctx context.Context, companyCode *int) (*ent.CompanyToken, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
+	// Önce companyCode ile arama yapalım
 	company, err := client.CompanyDetail.Query().Where(companydetail.CompanyCodeEQ(*companyCode)).Only(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
+		if !ent.IsNotFound(err) {
+			return nil, fmt.Errorf("şirket sorgulama hatası: %v", err)
+		}
+
+		// CompanyCode ile bulunamadıysa, departmentId olarak deneyelim
+		companyToken, err := client.CompanyToken.Query().
+			Where(companytoken.DepartmentIdEQ(*companyCode)).
+			Only(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("şirket token bulunamadı: %v", err)
+		}
+		return companyToken, nil
 	}
 
+	// CompanyCode ile şirket bulunduysa, token'ı getirelim
 	companyToken, err := company.QueryTokens().Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("şirket token bulunamadı: %v", err)

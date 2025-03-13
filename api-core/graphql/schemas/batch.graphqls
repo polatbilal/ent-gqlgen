@@ -29,4 +29,8 @@ extend type Mutation {
   jobBatchMutation(input: JobBatchInput!): JobBatchResult!
     @goField(forceResolver: true)
     @auth
+
+  executeBatchMutation(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
 }

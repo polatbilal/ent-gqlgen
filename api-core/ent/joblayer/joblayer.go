@@ -46,7 +46,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
 	LayerInverseTable = "job_relations"
 	// LayerColumn is the table column denoting the layer relation/edge.
-	LayerColumn = "job_id"
+	LayerColumn = "relations_id"
 )
 
 // Columns holds all SQL columns for joblayer fields.
@@ -68,7 +68,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "job_layers"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"job_id",
+	"relations_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

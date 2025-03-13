@@ -46,7 +46,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
 	PaymentsInverseTable = "job_relations"
 	// PaymentsColumn is the table column denoting the payments relation/edge.
-	PaymentsColumn = "job_id"
+	PaymentsColumn = "relations_id"
 )
 
 // Columns holds all SQL columns for jobpayments fields.
@@ -68,7 +68,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "job_payments"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"job_id",
+	"relations_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

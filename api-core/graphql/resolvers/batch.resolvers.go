@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/polatbilal/gqlgen-ent/api-core/ent"
+	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/api-core/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/helpers"
 	"github.com/polatbilal/gqlgen-ent/api-core/graphql/model"
@@ -26,10 +27,10 @@ func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.Job
 			fmt.Printf("Yeniden deneme %d/%d\n", attempt+1, maxRetries)
 		}
 
-		result, err := r.executeBatchMutation(ctx, input)
+		result, err := r.ExecuteBatchMutation(ctx, input)
 		if err != nil {
 			lastErr = err
-			if isUniqueConstraintViolation(err) {
+			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 				continue
 			}
 			return nil, err
@@ -40,7 +41,8 @@ func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.Job
 	return nil, fmt.Errorf("maksimum deneme sayısına ulaşıldı, son hata: %w", lastErr)
 }
 
-func (r *mutationResolver) executeBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
+// ExecuteBatchMutation is the resolver for the executeBatchMutation field.
+func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	if client == nil {
 		return nil, fmt.Errorf("client nil")
@@ -489,6 +491,7 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int) ([]*mode
 
 	// Query builder'ı başlat
 	query := client.JobRelations.Query().
+		Where(jobrelations.HasJobWith(jobdetail.StateNEQ("Bitmiş"))).
 		WithCompany().
 		WithJob().
 		WithOwner().
@@ -555,12 +558,4 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int) ([]*mode
 	}
 
 	return results, nil
-}
-
-// isUniqueConstraintViolation PostgreSQL unique constraint violation hatasını kontrol eder
-func isUniqueConstraintViolation(err error) bool {
-	if err == nil {
-		return false
-	}
-	return strings.Contains(err.Error(), "duplicate key value violates unique constraint")
 }

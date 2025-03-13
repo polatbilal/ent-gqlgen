@@ -43,7 +43,7 @@ type JobPayments struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the JobPaymentsQuery when eager-loading is set.
 	Edges        JobPaymentsEdges `json:"edges"`
-	job_id       *int
+	relations_id *int
 	selectValues sql.SelectValues
 }
 
@@ -82,7 +82,7 @@ func (*JobPayments) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullString)
 		case jobpayments.FieldPaymentDate, jobpayments.FieldCreatedAt, jobpayments.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case jobpayments.ForeignKeys[0]: // job_id
+		case jobpayments.ForeignKeys[0]: // relations_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -173,10 +173,10 @@ func (jp *JobPayments) assignValues(columns []string, values []any) error {
 			}
 		case jobpayments.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field job_id", value)
+				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
-				jp.job_id = new(int)
-				*jp.job_id = int(value.Int64)
+				jp.relations_id = new(int)
+				*jp.relations_id = int(value.Int64)
 			}
 		default:
 			jp.selectValues.Set(columns[i], values[i])

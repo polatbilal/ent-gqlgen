@@ -43,7 +43,7 @@ type JobLayer struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the JobLayerQuery when eager-loading is set.
 	Edges        JobLayerEdges `json:"edges"`
-	job_id       *int
+	relations_id *int
 	selectValues sql.SelectValues
 }
 
@@ -80,7 +80,7 @@ func (*JobLayer) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullString)
 		case joblayer.FieldMoldDate, joblayer.FieldConcreteDate, joblayer.FieldCreatedAt, joblayer.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case joblayer.ForeignKeys[0]: // job_id
+		case joblayer.ForeignKeys[0]: // relations_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -171,10 +171,10 @@ func (jl *JobLayer) assignValues(columns []string, values []any) error {
 			}
 		case joblayer.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field job_id", value)
+				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
-				jl.job_id = new(int)
-				*jl.job_id = int(value.Int64)
+				jl.relations_id = new(int)
+				*jl.relations_id = int(value.Int64)
 			}
 		default:
 			jl.selectValues.Set(columns[i], values[i])

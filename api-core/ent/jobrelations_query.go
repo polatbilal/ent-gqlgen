@@ -1618,13 +1618,13 @@ func (jrq *JobRelationsQuery) loadLayers(ctx context.Context, query *JobLayerQue
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.job_id
+		fk := n.relations_id
 		if fk == nil {
-			return fmt.Errorf(`foreign-key "job_id" is nil for node %v`, n.ID)
+			return fmt.Errorf(`foreign-key "relations_id" is nil for node %v`, n.ID)
 		}
 		node, ok := nodeids[*fk]
 		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "job_id" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected referenced foreign-key "relations_id" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}
@@ -1649,13 +1649,13 @@ func (jrq *JobRelationsQuery) loadPayments(ctx context.Context, query *JobPaymen
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.job_id
+		fk := n.relations_id
 		if fk == nil {
-			return fmt.Errorf(`foreign-key "job_id" is nil for node %v`, n.ID)
+			return fmt.Errorf(`foreign-key "relations_id" is nil for node %v`, n.ID)
 		}
 		node, ok := nodeids[*fk]
 		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "job_id" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected referenced foreign-key "relations_id" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}

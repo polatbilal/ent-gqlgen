@@ -113,14 +113,73 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 	}
 
 	// Progress bilgilerini iş ayrıntısına ekle
+	var one, two, three, four, five, six float64
+
+	if input.Level != nil {
+		level := float64(*input.Level)
+		remaining := level
+
+		// Sabit değerlere göre sıralı dağıtım:
+		// one: 10, two: 10, three: 40, four: 20, five: 15, six: 5
+
+		// İlk dört seviyeyi sırayla doldur
+		if remaining >= 10 {
+			one = 10
+			remaining -= 10
+		} else {
+			one = remaining
+			remaining = 0
+		}
+
+		if remaining >= 10 {
+			two = 10
+			remaining -= 10
+		} else {
+			two = remaining
+			remaining = 0
+		}
+
+		if remaining >= 40 {
+			three = 40
+			remaining -= 40
+		} else {
+			three = remaining
+			remaining = 0
+		}
+
+		if remaining >= 20 {
+			four = 20
+			remaining -= 20
+		} else {
+			four = remaining
+			remaining = 0
+		}
+
+		if remaining >= 15 {
+			five = 15
+			remaining -= 15
+		} else {
+			five = remaining
+			remaining = 0
+		}
+
+		if remaining > 0 {
+			if remaining <= 5 {
+				six = remaining
+			} else {
+				six = 5
+			}
+		}
+	}
+
 	p, err := client.JobProgress.Create().
 		SetYibfNo(*input.YibfNo).
-		SetOne(0).
-		SetTwo(0).
-		SetThree(0).
-		SetFour(0).
-		SetFive(0).
-		SetSix(0).
+		SetOne(int(one)).
+		SetTwo(int(two)).
+		SetThree(int(three)).
+		SetFour(int(four)).
+		SetFive(int(five)).
+		SetSix(int(six)).
 		Save(ctx)
 
 	if err != nil {
@@ -190,6 +249,173 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 
 	if err != nil {
 		return nil, fmt.Errorf("iş detayı güncellenemedi: %v", err)
+	}
+
+	// Level değişmişse progress'i güncelle
+	if input.Level != nil {
+		// İlişkili progress'i bul
+		relations, err := jobDetail.QueryRelations().WithProgress().Only(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("ilişkiler bulunamadı: %v", err)
+		}
+
+		// Mevcut progress değerlerinin toplamını kontrol et
+		progress := relations.Edges.Progress
+		if progress != nil {
+			currentTotal := float64(progress.One + progress.Two + progress.Three + progress.Four + progress.Five + progress.Six)
+
+			// Progress toplamı level'dan büyükse güncelleme yapma
+			if currentTotal > float64(*input.Level) {
+				fmt.Printf("Progress toplamı (%.0f) level değerinden (%.0f) büyük olduğu için güncelleme yapılmayacak\n",
+					currentTotal, float64(*input.Level))
+				return jobDetail, nil
+			}
+
+			// Progress toplamı level'dan küçükse güncelle
+			var one, two, three, four, five, six float64
+			level := float64(*input.Level)
+			remaining := level
+
+			// Sabit değerlere göre sıralı dağıtım
+			if remaining >= 10 {
+				one = 10
+				remaining -= 10
+			} else {
+				one = remaining
+				remaining = 0
+			}
+
+			if remaining >= 10 {
+				two = 10
+				remaining -= 10
+			} else {
+				two = remaining
+				remaining = 0
+			}
+
+			if remaining >= 40 {
+				three = 40
+				remaining -= 40
+			} else {
+				three = remaining
+				remaining = 0
+			}
+
+			if remaining >= 20 {
+				four = 20
+				remaining -= 20
+			} else {
+				four = remaining
+				remaining = 0
+			}
+
+			if remaining >= 15 {
+				five = 15
+				remaining -= 15
+			} else {
+				five = remaining
+				remaining = 0
+			}
+
+			if remaining > 0 {
+				if remaining <= 5 {
+					six = remaining
+				} else {
+					six = 5
+				}
+			}
+
+			// Progress'i güncelle
+			_, err = progress.Update().
+				SetOne(int(one)).
+				SetTwo(int(two)).
+				SetThree(int(three)).
+				SetFour(int(four)).
+				SetFive(int(five)).
+				SetSix(int(six)).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("progress güncellenemedi: %v", err)
+			}
+
+			fmt.Println("Progress başarıyla güncellendi!")
+		} else {
+			fmt.Println("Progress bulunamadı, yeni oluşturuluyor...")
+			// Eğer progress yoksa yeni oluştur
+			var one, two, three, four, five, six float64
+			level := float64(*input.Level)
+			remaining := level
+
+			// Sabit değerlere göre sıralı dağıtım
+			if remaining >= 10 {
+				one = 10
+				remaining -= 10
+			} else {
+				one = remaining
+				remaining = 0
+			}
+
+			if remaining >= 10 {
+				two = 10
+				remaining -= 10
+			} else {
+				two = remaining
+				remaining = 0
+			}
+
+			if remaining >= 40 {
+				three = 40
+				remaining -= 40
+			} else {
+				three = remaining
+				remaining = 0
+			}
+
+			if remaining >= 20 {
+				four = 20
+				remaining -= 20
+			} else {
+				four = remaining
+				remaining = 0
+			}
+
+			if remaining >= 15 {
+				five = 15
+				remaining -= 15
+			} else {
+				five = remaining
+				remaining = 0
+			}
+
+			if remaining > 0 {
+				if remaining <= 5 {
+					six = remaining
+				} else {
+					six = 5
+				}
+			}
+
+			p, err := client.JobProgress.Create().
+				SetYibfNo(yibfNo).
+				SetOne(int(one)).
+				SetTwo(int(two)).
+				SetThree(int(three)).
+				SetFour(int(four)).
+				SetFive(int(five)).
+				SetSix(int(six)).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("progress oluşturulamadı: %v", err)
+			}
+
+			// Progress'i JobRelations ile ilişkilendir
+			_, err = relations.Update().SetProgress(p).Save(ctx)
+			if err != nil {
+				return nil, fmt.Errorf("progress ilişkilendirilemedi: %v", err)
+			}
+		}
 	}
 
 	return jobDetail, nil
@@ -340,6 +566,7 @@ func (r *queryResolver) Jobs(ctx context.Context) ([]*ent.JobDetail, error) {
 
 	// İşleri sorgula
 	jobs, err := client.JobDetail.Query().
+		Where(jobdetail.StateNEQ("Bitmiş")).
 		WithRelations(func(q *ent.JobRelationsQuery) {
 			q.Where(
 				jobrelations.HasCompanyWith(

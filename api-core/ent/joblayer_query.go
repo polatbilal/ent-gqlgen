@@ -423,10 +423,10 @@ func (jlq *JobLayerQuery) loadLayer(ctx context.Context, query *JobRelationsQuer
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobLayer)
 	for i := range nodes {
-		if nodes[i].job_id == nil {
+		if nodes[i].relations_id == nil {
 			continue
 		}
-		fk := *nodes[i].job_id
+		fk := *nodes[i].relations_id
 		if _, ok := nodeids[fk]; !ok {
 			ids = append(ids, fk)
 		}
@@ -443,7 +443,7 @@ func (jlq *JobLayerQuery) loadLayer(ctx context.Context, query *JobRelationsQuer
 	for _, n := range neighbors {
 		nodes, ok := nodeids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "job_id" returned %v`, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "relations_id" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)
