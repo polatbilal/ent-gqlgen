@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 )
 
 // JobLayer is the model entity for the JobLayer schema.
@@ -18,6 +18,8 @@ type JobLayer struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// YibfNo holds the value of the "yibfNo" field.
+	YibfNo int `json:"yibfNo,omitempty"`
 	// Name holds the value of the "Name" field.
 	Name string `json:"Name,omitempty"`
 	// Metre holds the value of the "Metre" field.
@@ -41,14 +43,14 @@ type JobLayer struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the JobLayerQuery when eager-loading is set.
 	Edges        JobLayerEdges `json:"edges"`
-	job_id       *int
+	relations_id *int
 	selectValues sql.SelectValues
 }
 
 // JobLayerEdges holds the relations/edges for other nodes in the graph.
 type JobLayerEdges struct {
 	// Layer holds the value of the layer edge.
-	Layer *JobDetail `json:"layer,omitempty"`
+	Layer *JobRelations `json:"layer,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
@@ -58,11 +60,11 @@ type JobLayerEdges struct {
 
 // LayerOrErr returns the Layer value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e JobLayerEdges) LayerOrErr() (*JobDetail, error) {
+func (e JobLayerEdges) LayerOrErr() (*JobRelations, error) {
 	if e.Layer != nil {
 		return e.Layer, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: jobdetail.Label}
+		return nil, &NotFoundError{label: jobrelations.Label}
 	}
 	return nil, &NotLoadedError{edge: "layer"}
 }
@@ -72,13 +74,13 @@ func (*JobLayer) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case joblayer.FieldID, joblayer.FieldSamples:
+		case joblayer.FieldID, joblayer.FieldYibfNo, joblayer.FieldSamples:
 			values[i] = new(sql.NullInt64)
 		case joblayer.FieldName, joblayer.FieldMetre, joblayer.FieldConcreteClass, joblayer.FieldWeekResult, joblayer.FieldMonthResult:
 			values[i] = new(sql.NullString)
 		case joblayer.FieldMoldDate, joblayer.FieldConcreteDate, joblayer.FieldCreatedAt, joblayer.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case joblayer.ForeignKeys[0]: // job_id
+		case joblayer.ForeignKeys[0]: // relations_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -101,6 +103,12 @@ func (jl *JobLayer) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			jl.ID = int(value.Int64)
+		case joblayer.FieldYibfNo:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
+			} else if value.Valid {
+				jl.YibfNo = int(value.Int64)
+			}
 		case joblayer.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
@@ -163,10 +171,10 @@ func (jl *JobLayer) assignValues(columns []string, values []any) error {
 			}
 		case joblayer.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field job_id", value)
+				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
-				jl.job_id = new(int)
-				*jl.job_id = int(value.Int64)
+				jl.relations_id = new(int)
+				*jl.relations_id = int(value.Int64)
 			}
 		default:
 			jl.selectValues.Set(columns[i], values[i])
@@ -182,7 +190,7 @@ func (jl *JobLayer) Value(name string) (ent.Value, error) {
 }
 
 // QueryLayer queries the "layer" edge of the JobLayer entity.
-func (jl *JobLayer) QueryLayer() *JobDetailQuery {
+func (jl *JobLayer) QueryLayer() *JobRelationsQuery {
 	return NewJobLayerClient(jl.config).QueryLayer(jl)
 }
 
@@ -209,6 +217,9 @@ func (jl *JobLayer) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobLayer(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", jl.ID))
+	builder.WriteString("yibfNo=")
+	builder.WriteString(fmt.Sprintf("%v", jl.YibfNo))
+	builder.WriteString(", ")
 	builder.WriteString("Name=")
 	builder.WriteString(jl.Name)
 	builder.WriteString(", ")

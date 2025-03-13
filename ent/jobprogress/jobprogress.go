@@ -14,6 +14,8 @@ const (
 	Label = "job_progress"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldYibfNo holds the string denoting the yibfno field in the database.
+	FieldYibfNo = "yibf_no"
 	// FieldOne holds the string denoting the one field in the database.
 	FieldOne = "one"
 	// FieldTwo holds the string denoting the two field in the database.
@@ -35,10 +37,10 @@ const (
 	// Table holds the table name of the jobprogress in the database.
 	Table = "job_progresses"
 	// ProgressTable is the table that holds the progress relation/edge.
-	ProgressTable = "job_details"
-	// ProgressInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	ProgressInverseTable = "job_details"
+	ProgressTable = "job_relations"
+	// ProgressInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	ProgressInverseTable = "job_relations"
 	// ProgressColumn is the table column denoting the progress relation/edge.
 	ProgressColumn = "progress_id"
 )
@@ -46,6 +48,7 @@ const (
 // Columns holds all SQL columns for jobprogress fields.
 var Columns = []string{
 	FieldID,
+	FieldYibfNo,
 	FieldOne,
 	FieldTwo,
 	FieldThree,
@@ -93,6 +96,11 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
+}
+
+// ByYibfNo orders the results by the yibfNo field.
+func ByYibfNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYibfNo, opts...).ToFunc()
 }
 
 // ByOne orders the results by the One field.

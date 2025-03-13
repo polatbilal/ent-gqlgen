@@ -22,11 +22,11 @@ type JobOwner struct {
 	// Address holds the value of the "Address" field.
 	Address string `json:"Address,omitempty"`
 	// TcNo holds the value of the "TcNo" field.
-	TcNo int `json:"TcNo,omitempty"`
+	TcNo string `json:"TcNo,omitempty"`
 	// TaxAdmin holds the value of the "TaxAdmin" field.
 	TaxAdmin string `json:"TaxAdmin,omitempty"`
 	// TaxNo holds the value of the "TaxNo" field.
-	TaxNo int `json:"TaxNo,omitempty"`
+	TaxNo string `json:"TaxNo,omitempty"`
 	// Phone holds the value of the "Phone" field.
 	Phone string `json:"Phone,omitempty"`
 	// Email holds the value of the "Email" field.
@@ -50,19 +50,19 @@ type JobOwner struct {
 // JobOwnerEdges holds the relations/edges for other nodes in the graph.
 type JobOwnerEdges struct {
 	// Owners holds the value of the owners edge.
-	Owners []*JobDetail `json:"owners,omitempty"`
+	Owners []*JobRelations `json:"owners,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 	// totalCount holds the count of the edges above.
 	totalCount [1]map[string]int
 
-	namedOwners map[string][]*JobDetail
+	namedOwners map[string][]*JobRelations
 }
 
 // OwnersOrErr returns the Owners value or an error if the edge
 // was not loaded in eager-loading.
-func (e JobOwnerEdges) OwnersOrErr() ([]*JobDetail, error) {
+func (e JobOwnerEdges) OwnersOrErr() ([]*JobRelations, error) {
 	if e.loadedTypes[0] {
 		return e.Owners, nil
 	}
@@ -76,9 +76,9 @@ func (*JobOwner) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case jobowner.FieldShareholder:
 			values[i] = new(sql.NullBool)
-		case jobowner.FieldID, jobowner.FieldTcNo, jobowner.FieldTaxNo, jobowner.FieldYDSID:
+		case jobowner.FieldID, jobowner.FieldYDSID:
 			values[i] = new(sql.NullInt64)
-		case jobowner.FieldName, jobowner.FieldAddress, jobowner.FieldTaxAdmin, jobowner.FieldPhone, jobowner.FieldEmail, jobowner.FieldNote:
+		case jobowner.FieldName, jobowner.FieldAddress, jobowner.FieldTcNo, jobowner.FieldTaxAdmin, jobowner.FieldTaxNo, jobowner.FieldPhone, jobowner.FieldEmail, jobowner.FieldNote:
 			values[i] = new(sql.NullString)
 		case jobowner.FieldCreatedAt, jobowner.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -116,10 +116,10 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 				jo.Address = value.String
 			}
 		case jobowner.FieldTcNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				jo.TcNo = int(value.Int64)
+				jo.TcNo = value.String
 			}
 		case jobowner.FieldTaxAdmin:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -128,10 +128,10 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 				jo.TaxAdmin = value.String
 			}
 		case jobowner.FieldTaxNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
 			} else if value.Valid {
-				jo.TaxNo = int(value.Int64)
+				jo.TaxNo = value.String
 			}
 		case jobowner.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -189,7 +189,7 @@ func (jo *JobOwner) Value(name string) (ent.Value, error) {
 }
 
 // QueryOwners queries the "owners" edge of the JobOwner entity.
-func (jo *JobOwner) QueryOwners() *JobDetailQuery {
+func (jo *JobOwner) QueryOwners() *JobRelationsQuery {
 	return NewJobOwnerClient(jo.config).QueryOwners(jo)
 }
 
@@ -223,13 +223,13 @@ func (jo *JobOwner) String() string {
 	builder.WriteString(jo.Address)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(fmt.Sprintf("%v", jo.TcNo))
+	builder.WriteString(jo.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("TaxAdmin=")
 	builder.WriteString(jo.TaxAdmin)
 	builder.WriteString(", ")
 	builder.WriteString("TaxNo=")
-	builder.WriteString(fmt.Sprintf("%v", jo.TaxNo))
+	builder.WriteString(jo.TaxNo)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
 	builder.WriteString(jo.Phone)
@@ -257,7 +257,7 @@ func (jo *JobOwner) String() string {
 
 // NamedOwners returns the Owners named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jo *JobOwner) NamedOwners(name string) ([]*JobDetail, error) {
+func (jo *JobOwner) NamedOwners(name string) ([]*JobRelations, error) {
 	if jo.Edges.namedOwners == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
@@ -268,12 +268,12 @@ func (jo *JobOwner) NamedOwners(name string) ([]*JobDetail, error) {
 	return nodes, nil
 }
 
-func (jo *JobOwner) appendNamedOwners(name string, edges ...*JobDetail) {
+func (jo *JobOwner) appendNamedOwners(name string, edges ...*JobRelations) {
 	if jo.Edges.namedOwners == nil {
-		jo.Edges.namedOwners = make(map[string][]*JobDetail)
+		jo.Edges.namedOwners = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		jo.Edges.namedOwners[name] = []*JobDetail{}
+		jo.Edges.namedOwners[name] = []*JobRelations{}
 	} else {
 		jo.Edges.namedOwners[name] = append(jo.Edges.namedOwners[name], edges...)
 	}

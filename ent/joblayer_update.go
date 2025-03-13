@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
@@ -26,6 +26,27 @@ type JobLayerUpdate struct {
 // Where appends a list predicates to the JobLayerUpdate builder.
 func (jlu *JobLayerUpdate) Where(ps ...predicate.JobLayer) *JobLayerUpdate {
 	jlu.mutation.Where(ps...)
+	return jlu
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jlu *JobLayerUpdate) SetYibfNo(i int) *JobLayerUpdate {
+	jlu.mutation.ResetYibfNo()
+	jlu.mutation.SetYibfNo(i)
+	return jlu
+}
+
+// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+func (jlu *JobLayerUpdate) SetNillableYibfNo(i *int) *JobLayerUpdate {
+	if i != nil {
+		jlu.SetYibfNo(*i)
+	}
+	return jlu
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (jlu *JobLayerUpdate) AddYibfNo(i int) *JobLayerUpdate {
+	jlu.mutation.AddYibfNo(i)
 	return jlu
 }
 
@@ -204,13 +225,13 @@ func (jlu *JobLayerUpdate) SetUpdatedAt(t time.Time) *JobLayerUpdate {
 	return jlu
 }
 
-// SetLayerID sets the "layer" edge to the JobDetail entity by ID.
+// SetLayerID sets the "layer" edge to the JobRelations entity by ID.
 func (jlu *JobLayerUpdate) SetLayerID(id int) *JobLayerUpdate {
 	jlu.mutation.SetLayerID(id)
 	return jlu
 }
 
-// SetNillableLayerID sets the "layer" edge to the JobDetail entity by ID if the given value is not nil.
+// SetNillableLayerID sets the "layer" edge to the JobRelations entity by ID if the given value is not nil.
 func (jlu *JobLayerUpdate) SetNillableLayerID(id *int) *JobLayerUpdate {
 	if id != nil {
 		jlu = jlu.SetLayerID(*id)
@@ -218,8 +239,8 @@ func (jlu *JobLayerUpdate) SetNillableLayerID(id *int) *JobLayerUpdate {
 	return jlu
 }
 
-// SetLayer sets the "layer" edge to the JobDetail entity.
-func (jlu *JobLayerUpdate) SetLayer(j *JobDetail) *JobLayerUpdate {
+// SetLayer sets the "layer" edge to the JobRelations entity.
+func (jlu *JobLayerUpdate) SetLayer(j *JobRelations) *JobLayerUpdate {
 	return jlu.SetLayerID(j.ID)
 }
 
@@ -228,7 +249,7 @@ func (jlu *JobLayerUpdate) Mutation() *JobLayerMutation {
 	return jlu.mutation
 }
 
-// ClearLayer clears the "layer" edge to the JobDetail entity.
+// ClearLayer clears the "layer" edge to the JobRelations entity.
 func (jlu *JobLayerUpdate) ClearLayer() *JobLayerUpdate {
 	jlu.mutation.ClearLayer()
 	return jlu
@@ -278,6 +299,12 @@ func (jlu *JobLayerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := jlu.mutation.YibfNo(); ok {
+		_spec.SetField(joblayer.FieldYibfNo, field.TypeInt, value)
+	}
+	if value, ok := jlu.mutation.AddedYibfNo(); ok {
+		_spec.AddField(joblayer.FieldYibfNo, field.TypeInt, value)
 	}
 	if value, ok := jlu.mutation.Name(); ok {
 		_spec.SetField(joblayer.FieldName, field.TypeString, value)
@@ -338,7 +365,7 @@ func (jlu *JobLayerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{joblayer.LayerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -351,7 +378,7 @@ func (jlu *JobLayerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{joblayer.LayerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -377,6 +404,27 @@ type JobLayerUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *JobLayerMutation
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jluo *JobLayerUpdateOne) SetYibfNo(i int) *JobLayerUpdateOne {
+	jluo.mutation.ResetYibfNo()
+	jluo.mutation.SetYibfNo(i)
+	return jluo
+}
+
+// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+func (jluo *JobLayerUpdateOne) SetNillableYibfNo(i *int) *JobLayerUpdateOne {
+	if i != nil {
+		jluo.SetYibfNo(*i)
+	}
+	return jluo
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (jluo *JobLayerUpdateOne) AddYibfNo(i int) *JobLayerUpdateOne {
+	jluo.mutation.AddYibfNo(i)
+	return jluo
 }
 
 // SetName sets the "Name" field.
@@ -554,13 +602,13 @@ func (jluo *JobLayerUpdateOne) SetUpdatedAt(t time.Time) *JobLayerUpdateOne {
 	return jluo
 }
 
-// SetLayerID sets the "layer" edge to the JobDetail entity by ID.
+// SetLayerID sets the "layer" edge to the JobRelations entity by ID.
 func (jluo *JobLayerUpdateOne) SetLayerID(id int) *JobLayerUpdateOne {
 	jluo.mutation.SetLayerID(id)
 	return jluo
 }
 
-// SetNillableLayerID sets the "layer" edge to the JobDetail entity by ID if the given value is not nil.
+// SetNillableLayerID sets the "layer" edge to the JobRelations entity by ID if the given value is not nil.
 func (jluo *JobLayerUpdateOne) SetNillableLayerID(id *int) *JobLayerUpdateOne {
 	if id != nil {
 		jluo = jluo.SetLayerID(*id)
@@ -568,8 +616,8 @@ func (jluo *JobLayerUpdateOne) SetNillableLayerID(id *int) *JobLayerUpdateOne {
 	return jluo
 }
 
-// SetLayer sets the "layer" edge to the JobDetail entity.
-func (jluo *JobLayerUpdateOne) SetLayer(j *JobDetail) *JobLayerUpdateOne {
+// SetLayer sets the "layer" edge to the JobRelations entity.
+func (jluo *JobLayerUpdateOne) SetLayer(j *JobRelations) *JobLayerUpdateOne {
 	return jluo.SetLayerID(j.ID)
 }
 
@@ -578,7 +626,7 @@ func (jluo *JobLayerUpdateOne) Mutation() *JobLayerMutation {
 	return jluo.mutation
 }
 
-// ClearLayer clears the "layer" edge to the JobDetail entity.
+// ClearLayer clears the "layer" edge to the JobRelations entity.
 func (jluo *JobLayerUpdateOne) ClearLayer() *JobLayerUpdateOne {
 	jluo.mutation.ClearLayer()
 	return jluo
@@ -659,6 +707,12 @@ func (jluo *JobLayerUpdateOne) sqlSave(ctx context.Context) (_node *JobLayer, er
 			}
 		}
 	}
+	if value, ok := jluo.mutation.YibfNo(); ok {
+		_spec.SetField(joblayer.FieldYibfNo, field.TypeInt, value)
+	}
+	if value, ok := jluo.mutation.AddedYibfNo(); ok {
+		_spec.AddField(joblayer.FieldYibfNo, field.TypeInt, value)
+	}
 	if value, ok := jluo.mutation.Name(); ok {
 		_spec.SetField(joblayer.FieldName, field.TypeString, value)
 	}
@@ -718,7 +772,7 @@ func (jluo *JobLayerUpdateOne) sqlSave(ctx context.Context) (_node *JobLayer, er
 			Columns: []string{joblayer.LayerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -731,7 +785,7 @@ func (jluo *JobLayerUpdateOne) sqlSave(ctx context.Context) (_node *JobLayer, er
 			Columns: []string{joblayer.LayerColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

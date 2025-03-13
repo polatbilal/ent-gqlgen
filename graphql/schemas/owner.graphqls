@@ -1,0 +1,45 @@
+# Job Owner
+type JobOwner {
+  id: ID!
+  Name: String
+  TcNo: String
+  Address: String
+  TaxAdmin: String
+  TaxNo: String
+  Phone: String
+  Email: String
+  YDSID: Int
+  Shareholder: Boolean
+  Note: String
+}
+
+input JobOwnerInput {
+  id: ID
+  YibfNo: Int
+  Name: String
+  TcNo: String
+  Address: String
+  TaxAdmin: String
+  TaxNo: String
+  Phone: String
+  Email: String
+  YDSID: Int!
+  Shareholder: Boolean
+  Note: String
+}
+
+extend type Query {
+  allOwner: [JobOwner] @goField(forceResolver: true) @auth
+  owner(yibfNo: Int!): JobOwner @goField(forceResolver: true) @auth
+  getOwner(YDSID: Int!): JobOwner @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  createOwner(input: JobOwnerInput!): JobOwner!
+    @goField(forceResolver: true)
+    @auth
+
+  updateOwner(input: JobOwnerInput!): JobOwner!
+    @goField(forceResolver: true)
+    @auth
+}

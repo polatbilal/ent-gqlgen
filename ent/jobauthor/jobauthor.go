@@ -14,6 +14,8 @@ const (
 	Label = "job_author"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldYibfNo holds the string denoting the yibfno field in the database.
+	FieldYibfNo = "yibf_no"
 	// FieldStatic holds the string denoting the static field in the database.
 	FieldStatic = "static"
 	// FieldMechanic holds the string denoting the mechanic field in the database.
@@ -37,10 +39,10 @@ const (
 	// Table holds the table name of the jobauthor in the database.
 	Table = "job_authors"
 	// AuthorsTable is the table that holds the authors relation/edge.
-	AuthorsTable = "job_details"
-	// AuthorsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	AuthorsInverseTable = "job_details"
+	AuthorsTable = "job_relations"
+	// AuthorsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	AuthorsInverseTable = "job_relations"
 	// AuthorsColumn is the table column denoting the authors relation/edge.
 	AuthorsColumn = "author_id"
 )
@@ -48,6 +50,7 @@ const (
 // Columns holds all SQL columns for jobauthor fields.
 var Columns = []string{
 	FieldID,
+	FieldYibfNo,
 	FieldStatic,
 	FieldMechanic,
 	FieldElectric,
@@ -84,6 +87,11 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
+}
+
+// ByYibfNo orders the results by the yibfNo field.
+func ByYibfNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYibfNo, opts...).ToFunc()
 }
 
 // ByStatic orders the results by the Static field.

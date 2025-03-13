@@ -1,0 +1,36 @@
+type User {
+  id: ID
+  Username: String!
+  Name: String
+  Email: String
+  Phone: String
+  Role: String!
+  CreatedAt: Time
+  Companies: [CompanyDetail!]
+}
+
+input UserInput {
+  id: Int
+  Username: String
+  Name: String
+  Email: String
+  Phone: String
+  Password: String
+  NewPassword: String
+  Role: String
+  CompanyIDs: [Int]
+}
+
+extend type Query {
+  user(id: ID!): User! @goField(forceResolver: true) @auth
+  companyUsers: [User!]! @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  upsertUser(input: UserInput!): User! @goField(forceResolver: true) @auth
+
+  deleteUser(id: ID!): Boolean! @goField(forceResolver: true) @auth
+  activateCompanyUsers(adminId: ID!): [User!]!
+    @goField(forceResolver: true)
+    @auth
+}

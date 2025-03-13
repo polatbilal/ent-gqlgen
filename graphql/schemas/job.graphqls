@@ -1,0 +1,125 @@
+# JobDetail
+type JobDetail {
+  id: ID!
+  CompanyCode: Int!
+  YibfNo: Int!
+  Title: String
+  Administration: String
+  State: String
+  Island: String
+  Parcel: String
+  Sheet: String
+  DistributionDate: Time
+  ContractDate: Time
+  StartDate: Time
+  LicenseDate: Time
+  LicenseNo: String
+  CompletionDate: Time
+  LandArea: Float
+  TotalArea: Float
+  ConstructionArea: Float
+  LeftArea: Float
+  YDSAddress: String
+  Address: String
+  BuildingClass: String
+  BuildingType: String
+  Level: Float
+  UnitPrice: Float
+  FloorCount: Int
+  BKSReferenceNo: String
+  Coordinates: String
+  FolderNo: String
+  UploadedFile: Boolean
+  IndustryArea: Boolean
+  ClusterStructure: Boolean
+  IsLicenseExpired: Boolean
+  IsCompleted: Boolean
+  Note: String
+}
+
+input JobInput {
+  CompanyCode: Int
+  YibfNo: Int
+  Title: String
+  Administration: String
+  State: String
+  Island: String
+  Parcel: String
+  Sheet: String
+  DistributionDate: Time
+  ContractDate: Time
+  StartDate: Time
+  LicenseDate: Time
+  LicenseNo: String
+  CompletionDate: Time
+  LandArea: Float
+  TotalArea: Float
+  ConstructionArea: Float
+  LeftArea: Float
+  YDSAddress: String
+  Address: String
+  BuildingClass: String
+  BuildingType: String
+  Level: Float
+  UnitPrice: Float
+  FloorCount: Int
+  BKSReferenceNo: String
+  Coordinates: String
+  FolderNo: String
+  UploadedFile: Boolean
+  IndustryArea: Boolean
+  ClusterStructure: Boolean
+  IsLicenseExpired: Boolean
+  IsCompleted: Boolean
+  Note: String
+}
+
+type JobEngineer {
+  YibfNo: Int
+  Inspector: CompanyEngineer
+  Static: CompanyEngineer
+  Architect: CompanyEngineer
+  Mechanic: CompanyEngineer
+  Electric: CompanyEngineer
+  Controller: CompanyEngineer
+  MechanicController: CompanyEngineer
+  ElectricController: CompanyEngineer
+}
+
+input JobEngineerInput {
+  YibfNo: Int
+  Inspector: Int
+  Static: Int
+  Architect: Int
+  Mechanic: Int
+  Electric: Int
+  Controller: Int
+  MechanicController: Int
+  ElectricController: Int
+}
+
+type JobCounts {
+  current: Int!
+  pending: Int!
+  completed: Int!
+  total: Int!
+}
+
+extend type Query {
+  job(yibfNo: Int!): JobDetail @goField(forceResolver: true) @auth
+  jobs: [JobDetail!]! @goField(forceResolver: true) @auth
+  jobCounts(companyCode: Int): JobCounts! @auth
+  jobEngineer(yibfNo: Int!): JobEngineer! @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  createJob(input: JobInput!): JobDetail! @goField(forceResolver: true) @auth
+
+  updateJob(yibfNo: Int!, input: JobInput!): JobDetail!
+    @goField(forceResolver: true)
+    @auth
+
+  updateJobEngineer(input: JobEngineerInput!): JobEngineer!
+    @goField(forceResolver: true)
+    @auth
+}

@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 )
 
 // JobPayments is the model entity for the JobPayments schema.
@@ -18,16 +18,24 @@ type JobPayments struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Date holds the value of the "Date" field.
-	Date time.Time `json:"Date,omitempty"`
+	// YibfNo holds the value of the "yibfNo" field.
+	YibfNo int `json:"yibfNo,omitempty"`
+	// PaymentNo holds the value of the "PaymentNo" field.
+	PaymentNo int `json:"PaymentNo,omitempty"`
+	// PaymentDate holds the value of the "PaymentDate" field.
+	PaymentDate time.Time `json:"PaymentDate,omitempty"`
+	// PaymentType holds the value of the "PaymentType" field.
+	PaymentType string `json:"PaymentType,omitempty"`
+	// State holds the value of the "State" field.
+	State string `json:"State,omitempty"`
+	// TotalPayment holds the value of the "TotalPayment" field.
+	TotalPayment float64 `json:"TotalPayment,omitempty"`
+	// LevelRequest holds the value of the "LevelRequest" field.
+	LevelRequest float64 `json:"LevelRequest,omitempty"`
+	// LevelApprove holds the value of the "LevelApprove" field.
+	LevelApprove float64 `json:"LevelApprove,omitempty"`
 	// Amount holds the value of the "Amount" field.
-	Amount int `json:"Amount,omitempty"`
-	// Description holds the value of the "Description" field.
-	Description string `json:"Description,omitempty"`
-	// Status holds the value of the "Status" field.
-	Status string `json:"Status,omitempty"`
-	// Percentage holds the value of the "Percentage" field.
-	Percentage float64 `json:"Percentage,omitempty"`
+	Amount float64 `json:"Amount,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -35,14 +43,14 @@ type JobPayments struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the JobPaymentsQuery when eager-loading is set.
 	Edges        JobPaymentsEdges `json:"edges"`
-	payments_id  *int
+	relations_id *int
 	selectValues sql.SelectValues
 }
 
 // JobPaymentsEdges holds the relations/edges for other nodes in the graph.
 type JobPaymentsEdges struct {
 	// Payments holds the value of the payments edge.
-	Payments *JobDetail `json:"payments,omitempty"`
+	Payments *JobRelations `json:"payments,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
@@ -52,11 +60,11 @@ type JobPaymentsEdges struct {
 
 // PaymentsOrErr returns the Payments value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e JobPaymentsEdges) PaymentsOrErr() (*JobDetail, error) {
+func (e JobPaymentsEdges) PaymentsOrErr() (*JobRelations, error) {
 	if e.Payments != nil {
 		return e.Payments, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: jobdetail.Label}
+		return nil, &NotFoundError{label: jobrelations.Label}
 	}
 	return nil, &NotLoadedError{edge: "payments"}
 }
@@ -66,15 +74,15 @@ func (*JobPayments) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobpayments.FieldPercentage:
+		case jobpayments.FieldTotalPayment, jobpayments.FieldLevelRequest, jobpayments.FieldLevelApprove, jobpayments.FieldAmount:
 			values[i] = new(sql.NullFloat64)
-		case jobpayments.FieldID, jobpayments.FieldAmount:
+		case jobpayments.FieldID, jobpayments.FieldYibfNo, jobpayments.FieldPaymentNo:
 			values[i] = new(sql.NullInt64)
-		case jobpayments.FieldDescription, jobpayments.FieldStatus:
+		case jobpayments.FieldPaymentType, jobpayments.FieldState:
 			values[i] = new(sql.NullString)
-		case jobpayments.FieldDate, jobpayments.FieldCreatedAt, jobpayments.FieldUpdatedAt:
+		case jobpayments.FieldPaymentDate, jobpayments.FieldCreatedAt, jobpayments.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case jobpayments.ForeignKeys[0]: // payments_id
+		case jobpayments.ForeignKeys[0]: // relations_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -97,35 +105,59 @@ func (jp *JobPayments) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			jp.ID = int(value.Int64)
-		case jobpayments.FieldDate:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field Date", values[i])
+		case jobpayments.FieldYibfNo:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
 			} else if value.Valid {
-				jp.Date = value.Time
+				jp.YibfNo = int(value.Int64)
+			}
+		case jobpayments.FieldPaymentNo:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field PaymentNo", values[i])
+			} else if value.Valid {
+				jp.PaymentNo = int(value.Int64)
+			}
+		case jobpayments.FieldPaymentDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field PaymentDate", values[i])
+			} else if value.Valid {
+				jp.PaymentDate = value.Time
+			}
+		case jobpayments.FieldPaymentType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field PaymentType", values[i])
+			} else if value.Valid {
+				jp.PaymentType = value.String
+			}
+		case jobpayments.FieldState:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field State", values[i])
+			} else if value.Valid {
+				jp.State = value.String
+			}
+		case jobpayments.FieldTotalPayment:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field TotalPayment", values[i])
+			} else if value.Valid {
+				jp.TotalPayment = value.Float64
+			}
+		case jobpayments.FieldLevelRequest:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field LevelRequest", values[i])
+			} else if value.Valid {
+				jp.LevelRequest = value.Float64
+			}
+		case jobpayments.FieldLevelApprove:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field LevelApprove", values[i])
+			} else if value.Valid {
+				jp.LevelApprove = value.Float64
 			}
 		case jobpayments.FieldAmount:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field Amount", values[i])
 			} else if value.Valid {
-				jp.Amount = int(value.Int64)
-			}
-		case jobpayments.FieldDescription:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Description", values[i])
-			} else if value.Valid {
-				jp.Description = value.String
-			}
-		case jobpayments.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Status", values[i])
-			} else if value.Valid {
-				jp.Status = value.String
-			}
-		case jobpayments.FieldPercentage:
-			if value, ok := values[i].(*sql.NullFloat64); !ok {
-				return fmt.Errorf("unexpected type %T for field Percentage", values[i])
-			} else if value.Valid {
-				jp.Percentage = value.Float64
+				jp.Amount = value.Float64
 			}
 		case jobpayments.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -141,10 +173,10 @@ func (jp *JobPayments) assignValues(columns []string, values []any) error {
 			}
 		case jobpayments.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field payments_id", value)
+				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
-				jp.payments_id = new(int)
-				*jp.payments_id = int(value.Int64)
+				jp.relations_id = new(int)
+				*jp.relations_id = int(value.Int64)
 			}
 		default:
 			jp.selectValues.Set(columns[i], values[i])
@@ -160,7 +192,7 @@ func (jp *JobPayments) Value(name string) (ent.Value, error) {
 }
 
 // QueryPayments queries the "payments" edge of the JobPayments entity.
-func (jp *JobPayments) QueryPayments() *JobDetailQuery {
+func (jp *JobPayments) QueryPayments() *JobRelationsQuery {
 	return NewJobPaymentsClient(jp.config).QueryPayments(jp)
 }
 
@@ -187,20 +219,32 @@ func (jp *JobPayments) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobPayments(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", jp.ID))
-	builder.WriteString("Date=")
-	builder.WriteString(jp.Date.Format(time.ANSIC))
+	builder.WriteString("yibfNo=")
+	builder.WriteString(fmt.Sprintf("%v", jp.YibfNo))
+	builder.WriteString(", ")
+	builder.WriteString("PaymentNo=")
+	builder.WriteString(fmt.Sprintf("%v", jp.PaymentNo))
+	builder.WriteString(", ")
+	builder.WriteString("PaymentDate=")
+	builder.WriteString(jp.PaymentDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("PaymentType=")
+	builder.WriteString(jp.PaymentType)
+	builder.WriteString(", ")
+	builder.WriteString("State=")
+	builder.WriteString(jp.State)
+	builder.WriteString(", ")
+	builder.WriteString("TotalPayment=")
+	builder.WriteString(fmt.Sprintf("%v", jp.TotalPayment))
+	builder.WriteString(", ")
+	builder.WriteString("LevelRequest=")
+	builder.WriteString(fmt.Sprintf("%v", jp.LevelRequest))
+	builder.WriteString(", ")
+	builder.WriteString("LevelApprove=")
+	builder.WriteString(fmt.Sprintf("%v", jp.LevelApprove))
 	builder.WriteString(", ")
 	builder.WriteString("Amount=")
 	builder.WriteString(fmt.Sprintf("%v", jp.Amount))
-	builder.WriteString(", ")
-	builder.WriteString("Description=")
-	builder.WriteString(jp.Description)
-	builder.WriteString(", ")
-	builder.WriteString("Status=")
-	builder.WriteString(jp.Status)
-	builder.WriteString(", ")
-	builder.WriteString("Percentage=")
-	builder.WriteString(fmt.Sprintf("%v", jp.Percentage))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(jp.CreatedAt.Format(time.ANSIC))

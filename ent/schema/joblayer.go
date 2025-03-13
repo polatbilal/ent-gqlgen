@@ -16,6 +16,7 @@ type JobLayer struct {
 // Fields of the JobLayers.
 func (JobLayer) Fields() []ent.Field {
 	return []ent.Field{
+		field.Int("yibfNo"),
 		field.String("Name").Default(""),
 		field.String("Metre").Default(""),
 		field.Time("MoldDate").Optional(),
@@ -33,6 +34,6 @@ func (JobLayer) Fields() []ent.Field {
 // Edges of the JobLayers.
 func (JobLayer) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("layer", JobDetail.Type).Ref("layers").Unique(),
+		edge.From("layer", JobRelations.Type).Ref("layers").Unique(),
 	}
 }

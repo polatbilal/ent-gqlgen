@@ -11,7 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 )
 
 // JobAuthorCreate is the builder for creating a JobAuthor entity.
@@ -19,6 +19,20 @@ type JobAuthorCreate struct {
 	config
 	mutation *JobAuthorMutation
 	hooks    []Hook
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jac *JobAuthorCreate) SetYibfNo(i int) *JobAuthorCreate {
+	jac.mutation.SetYibfNo(i)
+	return jac
+}
+
+// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+func (jac *JobAuthorCreate) SetNillableYibfNo(i *int) *JobAuthorCreate {
+	if i != nil {
+		jac.SetYibfNo(*i)
+	}
+	return jac
 }
 
 // SetStatic sets the "Static" field.
@@ -147,14 +161,14 @@ func (jac *JobAuthorCreate) SetNillableUpdatedAt(t *time.Time) *JobAuthorCreate 
 	return jac
 }
 
-// AddAuthorIDs adds the "authors" edge to the JobDetail entity by IDs.
+// AddAuthorIDs adds the "authors" edge to the JobRelations entity by IDs.
 func (jac *JobAuthorCreate) AddAuthorIDs(ids ...int) *JobAuthorCreate {
 	jac.mutation.AddAuthorIDs(ids...)
 	return jac
 }
 
-// AddAuthors adds the "authors" edges to the JobDetail entity.
-func (jac *JobAuthorCreate) AddAuthors(j ...*JobDetail) *JobAuthorCreate {
+// AddAuthors adds the "authors" edges to the JobRelations entity.
+func (jac *JobAuthorCreate) AddAuthors(j ...*JobRelations) *JobAuthorCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -241,6 +255,10 @@ func (jac *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
 		_node = &JobAuthor{config: jac.config}
 		_spec = sqlgraph.NewCreateSpec(jobauthor.Table, sqlgraph.NewFieldSpec(jobauthor.FieldID, field.TypeInt))
 	)
+	if value, ok := jac.mutation.YibfNo(); ok {
+		_spec.SetField(jobauthor.FieldYibfNo, field.TypeInt, value)
+		_node.YibfNo = value
+	}
 	if value, ok := jac.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
 		_node.Static = value
@@ -285,7 +303,7 @@ func (jac *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
 			Columns: []string{jobauthor.AuthorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

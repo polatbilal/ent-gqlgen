@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
@@ -24,10 +24,10 @@ type JobProgressQuery struct {
 	order             []jobprogress.OrderOption
 	inters            []Interceptor
 	predicates        []predicate.JobProgress
-	withProgress      *JobDetailQuery
+	withProgress      *JobRelationsQuery
 	modifiers         []func(*sql.Selector)
 	loadTotal         []func(context.Context, []*JobProgress) error
-	withNamedProgress map[string]*JobDetailQuery
+	withNamedProgress map[string]*JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -65,8 +65,8 @@ func (jpq *JobProgressQuery) Order(o ...jobprogress.OrderOption) *JobProgressQue
 }
 
 // QueryProgress chains the current query on the "progress" edge.
-func (jpq *JobProgressQuery) QueryProgress() *JobDetailQuery {
-	query := (&JobDetailClient{config: jpq.config}).Query()
+func (jpq *JobProgressQuery) QueryProgress() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: jpq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := jpq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -77,7 +77,7 @@ func (jpq *JobProgressQuery) QueryProgress() *JobDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobprogress.Table, jobprogress.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobprogress.ProgressTable, jobprogress.ProgressColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(jpq.driver.Dialect(), step)
@@ -287,8 +287,8 @@ func (jpq *JobProgressQuery) Clone() *JobProgressQuery {
 
 // WithProgress tells the query-builder to eager-load the nodes that are connected to
 // the "progress" edge. The optional arguments are used to configure the query builder of the edge.
-func (jpq *JobProgressQuery) WithProgress(opts ...func(*JobDetailQuery)) *JobProgressQuery {
-	query := (&JobDetailClient{config: jpq.config}).Query()
+func (jpq *JobProgressQuery) WithProgress(opts ...func(*JobRelationsQuery)) *JobProgressQuery {
+	query := (&JobRelationsClient{config: jpq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -302,12 +302,12 @@ func (jpq *JobProgressQuery) WithProgress(opts ...func(*JobDetailQuery)) *JobPro
 // Example:
 //
 //	var v []struct {
-//		One int `json:"One,omitempty"`
+//		YibfNo int `json:"yibfNo,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.JobProgress.Query().
-//		GroupBy(jobprogress.FieldOne).
+//		GroupBy(jobprogress.FieldYibfNo).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (jpq *JobProgressQuery) GroupBy(field string, fields ...string) *JobProgressGroupBy {
@@ -325,11 +325,11 @@ func (jpq *JobProgressQuery) GroupBy(field string, fields ...string) *JobProgres
 // Example:
 //
 //	var v []struct {
-//		One int `json:"One,omitempty"`
+//		YibfNo int `json:"yibfNo,omitempty"`
 //	}
 //
 //	client.JobProgress.Query().
-//		Select(jobprogress.FieldOne).
+//		Select(jobprogress.FieldYibfNo).
 //		Scan(ctx, &v)
 func (jpq *JobProgressQuery) Select(fields ...string) *JobProgressSelect {
 	jpq.ctx.Fields = append(jpq.ctx.Fields, fields...)
@@ -401,15 +401,15 @@ func (jpq *JobProgressQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	}
 	if query := jpq.withProgress; query != nil {
 		if err := jpq.loadProgress(ctx, query, nodes,
-			func(n *JobProgress) { n.Edges.Progress = []*JobDetail{} },
-			func(n *JobProgress, e *JobDetail) { n.Edges.Progress = append(n.Edges.Progress, e) }); err != nil {
+			func(n *JobProgress) { n.Edges.Progress = []*JobRelations{} },
+			func(n *JobProgress, e *JobRelations) { n.Edges.Progress = append(n.Edges.Progress, e) }); err != nil {
 			return nil, err
 		}
 	}
 	for name, query := range jpq.withNamedProgress {
 		if err := jpq.loadProgress(ctx, query, nodes,
 			func(n *JobProgress) { n.appendNamedProgress(name) },
-			func(n *JobProgress, e *JobDetail) { n.appendNamedProgress(name, e) }); err != nil {
+			func(n *JobProgress, e *JobRelations) { n.appendNamedProgress(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -421,7 +421,7 @@ func (jpq *JobProgressQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	return nodes, nil
 }
 
-func (jpq *JobProgressQuery) loadProgress(ctx context.Context, query *JobDetailQuery, nodes []*JobProgress, init func(*JobProgress), assign func(*JobProgress, *JobDetail)) error {
+func (jpq *JobProgressQuery) loadProgress(ctx context.Context, query *JobRelationsQuery, nodes []*JobProgress, init func(*JobProgress), assign func(*JobProgress, *JobRelations)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobProgress)
 	for i := range nodes {
@@ -432,7 +432,7 @@ func (jpq *JobProgressQuery) loadProgress(ctx context.Context, query *JobDetailQ
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.JobDetail(func(s *sql.Selector) {
+	query.Where(predicate.JobRelations(func(s *sql.Selector) {
 		s.Where(sql.InValues(s.C(jobprogress.ProgressColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
@@ -539,13 +539,13 @@ func (jpq *JobProgressQuery) sqlQuery(ctx context.Context) *sql.Selector {
 
 // WithNamedProgress tells the query-builder to eager-load the nodes that are connected to the "progress"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jpq *JobProgressQuery) WithNamedProgress(name string, opts ...func(*JobDetailQuery)) *JobProgressQuery {
-	query := (&JobDetailClient{config: jpq.config}).Query()
+func (jpq *JobProgressQuery) WithNamedProgress(name string, opts ...func(*JobRelationsQuery)) *JobProgressQuery {
+	query := (&JobRelationsClient{config: jpq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
 	if jpq.withNamedProgress == nil {
-		jpq.withNamedProgress = make(map[string]*JobDetailQuery)
+		jpq.withNamedProgress = make(map[string]*JobRelationsQuery)
 	}
 	jpq.withNamedProgress[name] = query
 	return jpq

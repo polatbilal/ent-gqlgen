@@ -39,6 +39,9 @@ type JobPayments func(*sql.Selector)
 // JobProgress is the predicate function for jobprogress builders.
 type JobProgress func(*sql.Selector)
 
+// JobRelations is the predicate function for jobrelations builders.
+type JobRelations func(*sql.Selector)
+
 // JobSupervisor is the predicate function for jobsupervisor builders.
 type JobSupervisor func(*sql.Selector)
 

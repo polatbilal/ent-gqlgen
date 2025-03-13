@@ -17,6 +17,8 @@ type JobAuthor struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// YibfNo holds the value of the "yibfNo" field.
+	YibfNo int `json:"yibfNo,omitempty"`
 	// Static holds the value of the "Static" field.
 	Static string `json:"Static,omitempty"`
 	// Mechanic holds the value of the "Mechanic" field.
@@ -44,19 +46,19 @@ type JobAuthor struct {
 // JobAuthorEdges holds the relations/edges for other nodes in the graph.
 type JobAuthorEdges struct {
 	// Authors holds the value of the authors edge.
-	Authors []*JobDetail `json:"authors,omitempty"`
+	Authors []*JobRelations `json:"authors,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 	// totalCount holds the count of the edges above.
 	totalCount [1]map[string]int
 
-	namedAuthors map[string][]*JobDetail
+	namedAuthors map[string][]*JobRelations
 }
 
 // AuthorsOrErr returns the Authors value or an error if the edge
 // was not loaded in eager-loading.
-func (e JobAuthorEdges) AuthorsOrErr() ([]*JobDetail, error) {
+func (e JobAuthorEdges) AuthorsOrErr() ([]*JobRelations, error) {
 	if e.loadedTypes[0] {
 		return e.Authors, nil
 	}
@@ -68,7 +70,7 @@ func (*JobAuthor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobauthor.FieldID:
+		case jobauthor.FieldID, jobauthor.FieldYibfNo:
 			values[i] = new(sql.NullInt64)
 		case jobauthor.FieldStatic, jobauthor.FieldMechanic, jobauthor.FieldElectric, jobauthor.FieldArchitect, jobauthor.FieldGeotechnicalEngineer, jobauthor.FieldGeotechnicalGeologist, jobauthor.FieldGeotechnicalGeophysicist:
 			values[i] = new(sql.NullString)
@@ -95,6 +97,12 @@ func (ja *JobAuthor) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			ja.ID = int(value.Int64)
+		case jobauthor.FieldYibfNo:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
+			} else if value.Valid {
+				ja.YibfNo = int(value.Int64)
+			}
 		case jobauthor.FieldStatic:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Static", values[i])
@@ -163,7 +171,7 @@ func (ja *JobAuthor) Value(name string) (ent.Value, error) {
 }
 
 // QueryAuthors queries the "authors" edge of the JobAuthor entity.
-func (ja *JobAuthor) QueryAuthors() *JobDetailQuery {
+func (ja *JobAuthor) QueryAuthors() *JobRelationsQuery {
 	return NewJobAuthorClient(ja.config).QueryAuthors(ja)
 }
 
@@ -190,6 +198,9 @@ func (ja *JobAuthor) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobAuthor(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", ja.ID))
+	builder.WriteString("yibfNo=")
+	builder.WriteString(fmt.Sprintf("%v", ja.YibfNo))
+	builder.WriteString(", ")
 	builder.WriteString("Static=")
 	builder.WriteString(ja.Static)
 	builder.WriteString(", ")
@@ -222,7 +233,7 @@ func (ja *JobAuthor) String() string {
 
 // NamedAuthors returns the Authors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ja *JobAuthor) NamedAuthors(name string) ([]*JobDetail, error) {
+func (ja *JobAuthor) NamedAuthors(name string) ([]*JobRelations, error) {
 	if ja.Edges.namedAuthors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
@@ -233,12 +244,12 @@ func (ja *JobAuthor) NamedAuthors(name string) ([]*JobDetail, error) {
 	return nodes, nil
 }
 
-func (ja *JobAuthor) appendNamedAuthors(name string, edges ...*JobDetail) {
+func (ja *JobAuthor) appendNamedAuthors(name string, edges ...*JobRelations) {
 	if ja.Edges.namedAuthors == nil {
-		ja.Edges.namedAuthors = make(map[string][]*JobDetail)
+		ja.Edges.namedAuthors = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ja.Edges.namedAuthors[name] = []*JobDetail{}
+		ja.Edges.namedAuthors[name] = []*JobRelations{}
 	} else {
 		ja.Edges.namedAuthors[name] = append(ja.Edges.namedAuthors[name], edges...)
 	}

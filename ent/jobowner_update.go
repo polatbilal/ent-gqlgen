@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
@@ -64,23 +64,16 @@ func (jou *JobOwnerUpdate) ClearAddress() *JobOwnerUpdate {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jou *JobOwnerUpdate) SetTcNo(i int) *JobOwnerUpdate {
-	jou.mutation.ResetTcNo()
-	jou.mutation.SetTcNo(i)
+func (jou *JobOwnerUpdate) SetTcNo(s string) *JobOwnerUpdate {
+	jou.mutation.SetTcNo(s)
 	return jou
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableTcNo(i *int) *JobOwnerUpdate {
-	if i != nil {
-		jou.SetTcNo(*i)
+func (jou *JobOwnerUpdate) SetNillableTcNo(s *string) *JobOwnerUpdate {
+	if s != nil {
+		jou.SetTcNo(*s)
 	}
-	return jou
-}
-
-// AddTcNo adds i to the "TcNo" field.
-func (jou *JobOwnerUpdate) AddTcNo(i int) *JobOwnerUpdate {
-	jou.mutation.AddTcNo(i)
 	return jou
 }
 
@@ -111,23 +104,16 @@ func (jou *JobOwnerUpdate) ClearTaxAdmin() *JobOwnerUpdate {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jou *JobOwnerUpdate) SetTaxNo(i int) *JobOwnerUpdate {
-	jou.mutation.ResetTaxNo()
-	jou.mutation.SetTaxNo(i)
+func (jou *JobOwnerUpdate) SetTaxNo(s string) *JobOwnerUpdate {
+	jou.mutation.SetTaxNo(s)
 	return jou
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableTaxNo(i *int) *JobOwnerUpdate {
-	if i != nil {
-		jou.SetTaxNo(*i)
+func (jou *JobOwnerUpdate) SetNillableTaxNo(s *string) *JobOwnerUpdate {
+	if s != nil {
+		jou.SetTaxNo(*s)
 	}
-	return jou
-}
-
-// AddTaxNo adds i to the "TaxNo" field.
-func (jou *JobOwnerUpdate) AddTaxNo(i int) *JobOwnerUpdate {
-	jou.mutation.AddTaxNo(i)
 	return jou
 }
 
@@ -258,14 +244,14 @@ func (jou *JobOwnerUpdate) SetUpdatedAt(t time.Time) *JobOwnerUpdate {
 	return jou
 }
 
-// AddOwnerIDs adds the "owners" edge to the JobDetail entity by IDs.
+// AddOwnerIDs adds the "owners" edge to the JobRelations entity by IDs.
 func (jou *JobOwnerUpdate) AddOwnerIDs(ids ...int) *JobOwnerUpdate {
 	jou.mutation.AddOwnerIDs(ids...)
 	return jou
 }
 
-// AddOwners adds the "owners" edges to the JobDetail entity.
-func (jou *JobOwnerUpdate) AddOwners(j ...*JobDetail) *JobOwnerUpdate {
+// AddOwners adds the "owners" edges to the JobRelations entity.
+func (jou *JobOwnerUpdate) AddOwners(j ...*JobRelations) *JobOwnerUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -278,20 +264,20 @@ func (jou *JobOwnerUpdate) Mutation() *JobOwnerMutation {
 	return jou.mutation
 }
 
-// ClearOwners clears all "owners" edges to the JobDetail entity.
+// ClearOwners clears all "owners" edges to the JobRelations entity.
 func (jou *JobOwnerUpdate) ClearOwners() *JobOwnerUpdate {
 	jou.mutation.ClearOwners()
 	return jou
 }
 
-// RemoveOwnerIDs removes the "owners" edge to JobDetail entities by IDs.
+// RemoveOwnerIDs removes the "owners" edge to JobRelations entities by IDs.
 func (jou *JobOwnerUpdate) RemoveOwnerIDs(ids ...int) *JobOwnerUpdate {
 	jou.mutation.RemoveOwnerIDs(ids...)
 	return jou
 }
 
-// RemoveOwners removes "owners" edges to JobDetail entities.
-func (jou *JobOwnerUpdate) RemoveOwners(j ...*JobDetail) *JobOwnerUpdate {
+// RemoveOwners removes "owners" edges to JobRelations entities.
+func (jou *JobOwnerUpdate) RemoveOwners(j ...*JobRelations) *JobOwnerUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -354,13 +340,10 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(jobowner.FieldAddress, field.TypeString)
 	}
 	if value, ok := jou.mutation.TcNo(); ok {
-		_spec.SetField(jobowner.FieldTcNo, field.TypeInt, value)
-	}
-	if value, ok := jou.mutation.AddedTcNo(); ok {
-		_spec.AddField(jobowner.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobowner.FieldTcNo, field.TypeString, value)
 	}
 	if jou.mutation.TcNoCleared() {
-		_spec.ClearField(jobowner.FieldTcNo, field.TypeInt)
+		_spec.ClearField(jobowner.FieldTcNo, field.TypeString)
 	}
 	if value, ok := jou.mutation.TaxAdmin(); ok {
 		_spec.SetField(jobowner.FieldTaxAdmin, field.TypeString, value)
@@ -369,13 +352,10 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(jobowner.FieldTaxAdmin, field.TypeString)
 	}
 	if value, ok := jou.mutation.TaxNo(); ok {
-		_spec.SetField(jobowner.FieldTaxNo, field.TypeInt, value)
-	}
-	if value, ok := jou.mutation.AddedTaxNo(); ok {
-		_spec.AddField(jobowner.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(jobowner.FieldTaxNo, field.TypeString, value)
 	}
 	if jou.mutation.TaxNoCleared() {
-		_spec.ClearField(jobowner.FieldTaxNo, field.TypeInt)
+		_spec.ClearField(jobowner.FieldTaxNo, field.TypeString)
 	}
 	if value, ok := jou.mutation.Phone(); ok {
 		_spec.SetField(jobowner.FieldPhone, field.TypeString, value)
@@ -421,7 +401,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -434,7 +414,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -450,7 +430,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -513,23 +493,16 @@ func (jouo *JobOwnerUpdateOne) ClearAddress() *JobOwnerUpdateOne {
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jouo *JobOwnerUpdateOne) SetTcNo(i int) *JobOwnerUpdateOne {
-	jouo.mutation.ResetTcNo()
-	jouo.mutation.SetTcNo(i)
+func (jouo *JobOwnerUpdateOne) SetTcNo(s string) *JobOwnerUpdateOne {
+	jouo.mutation.SetTcNo(s)
 	return jouo
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableTcNo(i *int) *JobOwnerUpdateOne {
-	if i != nil {
-		jouo.SetTcNo(*i)
+func (jouo *JobOwnerUpdateOne) SetNillableTcNo(s *string) *JobOwnerUpdateOne {
+	if s != nil {
+		jouo.SetTcNo(*s)
 	}
-	return jouo
-}
-
-// AddTcNo adds i to the "TcNo" field.
-func (jouo *JobOwnerUpdateOne) AddTcNo(i int) *JobOwnerUpdateOne {
-	jouo.mutation.AddTcNo(i)
 	return jouo
 }
 
@@ -560,23 +533,16 @@ func (jouo *JobOwnerUpdateOne) ClearTaxAdmin() *JobOwnerUpdateOne {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jouo *JobOwnerUpdateOne) SetTaxNo(i int) *JobOwnerUpdateOne {
-	jouo.mutation.ResetTaxNo()
-	jouo.mutation.SetTaxNo(i)
+func (jouo *JobOwnerUpdateOne) SetTaxNo(s string) *JobOwnerUpdateOne {
+	jouo.mutation.SetTaxNo(s)
 	return jouo
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableTaxNo(i *int) *JobOwnerUpdateOne {
-	if i != nil {
-		jouo.SetTaxNo(*i)
+func (jouo *JobOwnerUpdateOne) SetNillableTaxNo(s *string) *JobOwnerUpdateOne {
+	if s != nil {
+		jouo.SetTaxNo(*s)
 	}
-	return jouo
-}
-
-// AddTaxNo adds i to the "TaxNo" field.
-func (jouo *JobOwnerUpdateOne) AddTaxNo(i int) *JobOwnerUpdateOne {
-	jouo.mutation.AddTaxNo(i)
 	return jouo
 }
 
@@ -707,14 +673,14 @@ func (jouo *JobOwnerUpdateOne) SetUpdatedAt(t time.Time) *JobOwnerUpdateOne {
 	return jouo
 }
 
-// AddOwnerIDs adds the "owners" edge to the JobDetail entity by IDs.
+// AddOwnerIDs adds the "owners" edge to the JobRelations entity by IDs.
 func (jouo *JobOwnerUpdateOne) AddOwnerIDs(ids ...int) *JobOwnerUpdateOne {
 	jouo.mutation.AddOwnerIDs(ids...)
 	return jouo
 }
 
-// AddOwners adds the "owners" edges to the JobDetail entity.
-func (jouo *JobOwnerUpdateOne) AddOwners(j ...*JobDetail) *JobOwnerUpdateOne {
+// AddOwners adds the "owners" edges to the JobRelations entity.
+func (jouo *JobOwnerUpdateOne) AddOwners(j ...*JobRelations) *JobOwnerUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -727,20 +693,20 @@ func (jouo *JobOwnerUpdateOne) Mutation() *JobOwnerMutation {
 	return jouo.mutation
 }
 
-// ClearOwners clears all "owners" edges to the JobDetail entity.
+// ClearOwners clears all "owners" edges to the JobRelations entity.
 func (jouo *JobOwnerUpdateOne) ClearOwners() *JobOwnerUpdateOne {
 	jouo.mutation.ClearOwners()
 	return jouo
 }
 
-// RemoveOwnerIDs removes the "owners" edge to JobDetail entities by IDs.
+// RemoveOwnerIDs removes the "owners" edge to JobRelations entities by IDs.
 func (jouo *JobOwnerUpdateOne) RemoveOwnerIDs(ids ...int) *JobOwnerUpdateOne {
 	jouo.mutation.RemoveOwnerIDs(ids...)
 	return jouo
 }
 
-// RemoveOwners removes "owners" edges to JobDetail entities.
-func (jouo *JobOwnerUpdateOne) RemoveOwners(j ...*JobDetail) *JobOwnerUpdateOne {
+// RemoveOwners removes "owners" edges to JobRelations entities.
+func (jouo *JobOwnerUpdateOne) RemoveOwners(j ...*JobRelations) *JobOwnerUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -833,13 +799,10 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 		_spec.ClearField(jobowner.FieldAddress, field.TypeString)
 	}
 	if value, ok := jouo.mutation.TcNo(); ok {
-		_spec.SetField(jobowner.FieldTcNo, field.TypeInt, value)
-	}
-	if value, ok := jouo.mutation.AddedTcNo(); ok {
-		_spec.AddField(jobowner.FieldTcNo, field.TypeInt, value)
+		_spec.SetField(jobowner.FieldTcNo, field.TypeString, value)
 	}
 	if jouo.mutation.TcNoCleared() {
-		_spec.ClearField(jobowner.FieldTcNo, field.TypeInt)
+		_spec.ClearField(jobowner.FieldTcNo, field.TypeString)
 	}
 	if value, ok := jouo.mutation.TaxAdmin(); ok {
 		_spec.SetField(jobowner.FieldTaxAdmin, field.TypeString, value)
@@ -848,13 +811,10 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 		_spec.ClearField(jobowner.FieldTaxAdmin, field.TypeString)
 	}
 	if value, ok := jouo.mutation.TaxNo(); ok {
-		_spec.SetField(jobowner.FieldTaxNo, field.TypeInt, value)
-	}
-	if value, ok := jouo.mutation.AddedTaxNo(); ok {
-		_spec.AddField(jobowner.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(jobowner.FieldTaxNo, field.TypeString, value)
 	}
 	if jouo.mutation.TaxNoCleared() {
-		_spec.ClearField(jobowner.FieldTaxNo, field.TypeInt)
+		_spec.ClearField(jobowner.FieldTaxNo, field.TypeString)
 	}
 	if value, ok := jouo.mutation.Phone(); ok {
 		_spec.SetField(jobowner.FieldPhone, field.TypeString, value)
@@ -900,7 +860,7 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -913,7 +873,7 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -929,7 +889,7 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 			Columns: []string{jobowner.OwnersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

@@ -1,0 +1,46 @@
+type JobSupervisor {
+  id: ID!
+  Name: String
+  Address: String
+  Phone: String
+  Email: String
+  TcNo: String
+  Position: String
+  Career: String
+  RegisterNo: String
+  SocialSecurityNo: String
+  SchoolGraduation: String
+  YDSID: Int
+}
+
+input JobSupervisorInput {
+  YibfNo: Int
+  Name: String
+  Address: String
+  Phone: String
+  Email: String
+  TcNo: String
+  Position: String
+  Career: String
+  RegisterNo: String
+  SocialSecurityNo: String
+  SchoolGraduation: String
+  YDSID: Int!
+}
+
+extend type Query {
+  supervisor(yibfNo: Int!): JobSupervisor @goField(forceResolver: true) @auth
+  supervisorByYDSID(ydsid: Int!): JobSupervisor
+    @goField(forceResolver: true)
+    @auth
+}
+
+extend type Mutation {
+  createSupervisor(input: JobSupervisorInput!): JobSupervisor!
+    @goField(forceResolver: true)
+    @auth
+
+  updateSupervisor(input: JobSupervisorInput!): JobSupervisor!
+    @goField(forceResolver: true)
+    @auth
+}

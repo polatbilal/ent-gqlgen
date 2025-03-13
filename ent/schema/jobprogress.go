@@ -16,6 +16,7 @@ type JobProgress struct {
 // Fields of the JobProgress.
 func (JobProgress) Fields() []ent.Field {
 	return []ent.Field{
+		field.Int("yibfNo"),
 		field.Int("One").Optional().Default(0),
 		field.Int("Two").Optional().Default(0),
 		field.Int("Three").Optional().Default(0),
@@ -31,6 +32,6 @@ func (JobProgress) Fields() []ent.Field {
 // Edges of the JobProgress.
 func (JobProgress) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("progress", JobDetail.Type).StorageKey(edge.Column("progress_id")),
+		edge.To("progress", JobRelations.Type).StorageKey(edge.Column("progress_id")),
 	}
 }

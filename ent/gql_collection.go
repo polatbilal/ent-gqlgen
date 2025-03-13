@@ -16,6 +16,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/ent/user"
 )
@@ -46,12 +47,12 @@ func (cd *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: cd.config}).Query()
+				query = (&JobRelationsClient{config: cd.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			cd.WithNamedJobs(alias, func(wq *JobDetailQuery) {
+			cd.WithNamedJobs(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -298,12 +299,12 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
+				query = (&JobRelationsClient{config: ce.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ce.WithNamedStatics(alias, func(wq *JobDetailQuery) {
+			ce.WithNamedStatics(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -311,12 +312,12 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
+				query = (&JobRelationsClient{config: ce.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ce.WithNamedMechanics(alias, func(wq *JobDetailQuery) {
+			ce.WithNamedMechanics(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -324,12 +325,12 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
+				query = (&JobRelationsClient{config: ce.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ce.WithNamedElectrics(alias, func(wq *JobDetailQuery) {
+			ce.WithNamedElectrics(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -337,12 +338,12 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
+				query = (&JobRelationsClient{config: ce.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ce.WithNamedInspectors(alias, func(wq *JobDetailQuery) {
+			ce.WithNamedInspectors(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -350,12 +351,12 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
+				query = (&JobRelationsClient{config: ce.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ce.WithNamedArchitects(alias, func(wq *JobDetailQuery) {
+			ce.WithNamedArchitects(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -363,12 +364,12 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
+				query = (&JobRelationsClient{config: ce.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ce.WithNamedControllers(alias, func(wq *JobDetailQuery) {
+			ce.WithNamedControllers(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -376,12 +377,12 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
+				query = (&JobRelationsClient{config: ce.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ce.WithNamedMechaniccontrollers(alias, func(wq *JobDetailQuery) {
+			ce.WithNamedMechaniccontrollers(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -389,12 +390,12 @@ func (ce *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ce.config}).Query()
+				query = (&JobRelationsClient{config: ce.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ce.WithNamedElectriccontrollers(alias, func(wq *JobDetailQuery) {
+			ce.WithNamedElectriccontrollers(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -542,6 +543,16 @@ func (ct *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opC
 				return err
 			}
 			ct.withCompany = query
+		case "ydkusername":
+			if _, ok := fieldSeen[companytoken.FieldYDKUsername]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldYDKUsername)
+				fieldSeen[companytoken.FieldYDKUsername] = struct{}{}
+			}
+		case "ydkpassword":
+			if _, ok := fieldSeen[companytoken.FieldYDKPassword]; !ok {
+				selectedFields = append(selectedFields, companytoken.FieldYDKPassword)
+				fieldSeen[companytoken.FieldYDKPassword] = struct{}{}
+			}
 		case "token":
 			if _, ok := fieldSeen[companytoken.FieldToken]; !ok {
 				selectedFields = append(selectedFields, companytoken.FieldToken)
@@ -551,31 +562,6 @@ func (ct *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opC
 			if _, ok := fieldSeen[companytoken.FieldDepartmentId]; !ok {
 				selectedFields = append(selectedFields, companytoken.FieldDepartmentId)
 				fieldSeen[companytoken.FieldDepartmentId] = struct{}{}
-			}
-		case "expire":
-			if _, ok := fieldSeen[companytoken.FieldExpire]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldExpire)
-				fieldSeen[companytoken.FieldExpire] = struct{}{}
-			}
-		case "refreshtoken":
-			if _, ok := fieldSeen[companytoken.FieldRefreshToken]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldRefreshToken)
-				fieldSeen[companytoken.FieldRefreshToken] = struct{}{}
-			}
-		case "secretkey":
-			if _, ok := fieldSeen[companytoken.FieldSecretKey]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldSecretKey)
-				fieldSeen[companytoken.FieldSecretKey] = struct{}{}
-			}
-		case "securesecretkey":
-			if _, ok := fieldSeen[companytoken.FieldSecureSecretKey]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldSecureSecretKey)
-				fieldSeen[companytoken.FieldSecureSecretKey] = struct{}{}
-			}
-		case "otpuri":
-			if _, ok := fieldSeen[companytoken.FieldOtpUri]; !ok {
-				selectedFields = append(selectedFields, companytoken.FieldOtpUri)
-				fieldSeen[companytoken.FieldOtpUri] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[companytoken.FieldCreatedAt]; !ok {
@@ -720,14 +706,19 @@ func (ja *JobAuthorQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: ja.config}).Query()
+				query = (&JobRelationsClient{config: ja.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ja.WithNamedAuthors(alias, func(wq *JobDetailQuery) {
+			ja.WithNamedAuthors(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
+		case "yibfno":
+			if _, ok := fieldSeen[jobauthor.FieldYibfNo]; !ok {
+				selectedFields = append(selectedFields, jobauthor.FieldYibfNo)
+				fieldSeen[jobauthor.FieldYibfNo] = struct{}{}
+			}
 		case "static":
 			if _, ok := fieldSeen[jobauthor.FieldStatic]; !ok {
 				selectedFields = append(selectedFields, jobauthor.FieldStatic)
@@ -837,12 +828,12 @@ func (jc *JobContractorQuery) collectField(ctx context.Context, oneNode bool, op
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: jc.config}).Query()
+				query = (&JobRelationsClient{config: jc.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jc.WithNamedContractors(alias, func(wq *JobDetailQuery) {
+			jc.WithNamedContractors(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -970,185 +961,16 @@ func (jd *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
-		case "owner":
+		case "relations":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobOwnerClient{config: jd.config}).Query()
+				query = (&JobRelationsClient{config: jd.config}).Query()
 			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobownerImplementors)...); err != nil {
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jd.withOwner = query
-
-		case "author":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobAuthorClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobauthorImplementors)...); err != nil {
-				return err
-			}
-			jd.withAuthor = query
-
-		case "company":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
-				return err
-			}
-			jd.withCompany = query
-
-		case "progress":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobProgressClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobprogressImplementors)...); err != nil {
-				return err
-			}
-			jd.withProgress = query
-
-		case "contractor":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobContractorClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobcontractorImplementors)...); err != nil {
-				return err
-			}
-			jd.withContractor = query
-
-		case "supervisor":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobSupervisorClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobsupervisorImplementors)...); err != nil {
-				return err
-			}
-			jd.withSupervisor = query
-
-		case "static":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withStatic = query
-
-		case "mechanic":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withMechanic = query
-
-		case "electric":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withElectric = query
-
-		case "inspector":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withInspector = query
-
-		case "architect":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withArchitect = query
-
-		case "controller":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withController = query
-
-		case "mechaniccontroller":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withMechaniccontroller = query
-
-		case "electriccontroller":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			jd.withElectriccontroller = query
-
-		case "layers":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobLayerClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, joblayerImplementors)...); err != nil {
-				return err
-			}
-			jd.WithNamedLayers(alias, func(wq *JobLayerQuery) {
-				*wq = *query
-			})
-
-		case "payments":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobPaymentsClient{config: jd.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobpaymentsImplementors)...); err != nil {
-				return err
-			}
-			jd.WithNamedPayments(alias, func(wq *JobPaymentsQuery) {
-				*wq = *query
-			})
+			jd.withRelations = query
 		case "yibfno":
 			if _, ok := fieldSeen[jobdetail.FieldYibfNo]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldYibfNo)
@@ -1388,12 +1210,17 @@ func (jl *JobLayerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: jl.config}).Query()
+				query = (&JobRelationsClient{config: jl.config}).Query()
 			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
 			jl.withLayer = query
+		case "yibfno":
+			if _, ok := fieldSeen[joblayer.FieldYibfNo]; !ok {
+				selectedFields = append(selectedFields, joblayer.FieldYibfNo)
+				fieldSeen[joblayer.FieldYibfNo] = struct{}{}
+			}
 		case "name":
 			if _, ok := fieldSeen[joblayer.FieldName]; !ok {
 				selectedFields = append(selectedFields, joblayer.FieldName)
@@ -1508,12 +1335,12 @@ func (jo *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: jo.config}).Query()
+				query = (&JobRelationsClient{config: jo.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jo.WithNamedOwners(alias, func(wq *JobDetailQuery) {
+			jo.WithNamedOwners(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -1640,36 +1467,56 @@ func (jp *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opCt
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: jp.config}).Query()
+				query = (&JobRelationsClient{config: jp.config}).Query()
 			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
 			jp.withPayments = query
-		case "date":
-			if _, ok := fieldSeen[jobpayments.FieldDate]; !ok {
-				selectedFields = append(selectedFields, jobpayments.FieldDate)
-				fieldSeen[jobpayments.FieldDate] = struct{}{}
+		case "yibfno":
+			if _, ok := fieldSeen[jobpayments.FieldYibfNo]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldYibfNo)
+				fieldSeen[jobpayments.FieldYibfNo] = struct{}{}
+			}
+		case "paymentno":
+			if _, ok := fieldSeen[jobpayments.FieldPaymentNo]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldPaymentNo)
+				fieldSeen[jobpayments.FieldPaymentNo] = struct{}{}
+			}
+		case "paymentdate":
+			if _, ok := fieldSeen[jobpayments.FieldPaymentDate]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldPaymentDate)
+				fieldSeen[jobpayments.FieldPaymentDate] = struct{}{}
+			}
+		case "paymenttype":
+			if _, ok := fieldSeen[jobpayments.FieldPaymentType]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldPaymentType)
+				fieldSeen[jobpayments.FieldPaymentType] = struct{}{}
+			}
+		case "state":
+			if _, ok := fieldSeen[jobpayments.FieldState]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldState)
+				fieldSeen[jobpayments.FieldState] = struct{}{}
+			}
+		case "totalpayment":
+			if _, ok := fieldSeen[jobpayments.FieldTotalPayment]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldTotalPayment)
+				fieldSeen[jobpayments.FieldTotalPayment] = struct{}{}
+			}
+		case "levelrequest":
+			if _, ok := fieldSeen[jobpayments.FieldLevelRequest]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldLevelRequest)
+				fieldSeen[jobpayments.FieldLevelRequest] = struct{}{}
+			}
+		case "levelapprove":
+			if _, ok := fieldSeen[jobpayments.FieldLevelApprove]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldLevelApprove)
+				fieldSeen[jobpayments.FieldLevelApprove] = struct{}{}
 			}
 		case "amount":
 			if _, ok := fieldSeen[jobpayments.FieldAmount]; !ok {
 				selectedFields = append(selectedFields, jobpayments.FieldAmount)
 				fieldSeen[jobpayments.FieldAmount] = struct{}{}
-			}
-		case "description":
-			if _, ok := fieldSeen[jobpayments.FieldDescription]; !ok {
-				selectedFields = append(selectedFields, jobpayments.FieldDescription)
-				fieldSeen[jobpayments.FieldDescription] = struct{}{}
-			}
-		case "status":
-			if _, ok := fieldSeen[jobpayments.FieldStatus]; !ok {
-				selectedFields = append(selectedFields, jobpayments.FieldStatus)
-				fieldSeen[jobpayments.FieldStatus] = struct{}{}
-			}
-		case "percentage":
-			if _, ok := fieldSeen[jobpayments.FieldPercentage]; !ok {
-				selectedFields = append(selectedFields, jobpayments.FieldPercentage)
-				fieldSeen[jobpayments.FieldPercentage] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[jobpayments.FieldCreatedAt]; !ok {
@@ -1745,14 +1592,19 @@ func (jp *JobProgressQuery) collectField(ctx context.Context, oneNode bool, opCt
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: jp.config}).Query()
+				query = (&JobRelationsClient{config: jp.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jp.WithNamedProgress(alias, func(wq *JobDetailQuery) {
+			jp.WithNamedProgress(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
+		case "yibfno":
+			if _, ok := fieldSeen[jobprogress.FieldYibfNo]; !ok {
+				selectedFields = append(selectedFields, jobprogress.FieldYibfNo)
+				fieldSeen[jobprogress.FieldYibfNo] = struct{}{}
+			}
 		case "one":
 			if _, ok := fieldSeen[jobprogress.FieldOne]; !ok {
 				selectedFields = append(selectedFields, jobprogress.FieldOne)
@@ -1832,6 +1684,271 @@ func newJobProgressPaginateArgs(rv map[string]any) *jobprogressPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
+func (jr *JobRelationsQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobRelationsQuery, error) {
+	fc := graphql.GetFieldContext(ctx)
+	if fc == nil {
+		return jr, nil
+	}
+	if err := jr.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+		return nil, err
+	}
+	return jr, nil
+}
+
+func (jr *JobRelationsQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+	path = append([]string(nil), path...)
+	var (
+		unknownSeen    bool
+		fieldSeen      = make(map[string]struct{}, len(jobrelations.Columns))
+		selectedFields = []string{jobrelations.FieldID}
+	)
+	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
+		switch field.Name {
+
+		case "job":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobDetailClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+				return err
+			}
+			jr.withJob = query
+
+		case "owner":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobOwnerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobownerImplementors)...); err != nil {
+				return err
+			}
+			jr.withOwner = query
+
+		case "author":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobAuthorClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobauthorImplementors)...); err != nil {
+				return err
+			}
+			jr.withAuthor = query
+
+		case "company":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyDetailClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
+				return err
+			}
+			jr.withCompany = query
+
+		case "progress":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobProgressClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobprogressImplementors)...); err != nil {
+				return err
+			}
+			jr.withProgress = query
+
+		case "contractor":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobContractorClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobcontractorImplementors)...); err != nil {
+				return err
+			}
+			jr.withContractor = query
+
+		case "supervisor":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobSupervisorClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobsupervisorImplementors)...); err != nil {
+				return err
+			}
+			jr.withSupervisor = query
+
+		case "static":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jr.withStatic = query
+
+		case "mechanic":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jr.withMechanic = query
+
+		case "electric":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jr.withElectric = query
+
+		case "inspector":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jr.withInspector = query
+
+		case "architect":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jr.withArchitect = query
+
+		case "controller":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jr.withController = query
+
+		case "mechaniccontroller":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jr.withMechaniccontroller = query
+
+		case "electriccontroller":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&CompanyEngineerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
+				return err
+			}
+			jr.withElectriccontroller = query
+
+		case "layers":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobLayerClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, joblayerImplementors)...); err != nil {
+				return err
+			}
+			jr.WithNamedLayers(alias, func(wq *JobLayerQuery) {
+				*wq = *query
+			})
+
+		case "payments":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&JobPaymentsClient{config: jr.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobpaymentsImplementors)...); err != nil {
+				return err
+			}
+			jr.WithNamedPayments(alias, func(wq *JobPaymentsQuery) {
+				*wq = *query
+			})
+		case "yibfno":
+			if _, ok := fieldSeen[jobrelations.FieldYibfNo]; !ok {
+				selectedFields = append(selectedFields, jobrelations.FieldYibfNo)
+				fieldSeen[jobrelations.FieldYibfNo] = struct{}{}
+			}
+		case "createdat":
+			if _, ok := fieldSeen[jobrelations.FieldCreatedAt]; !ok {
+				selectedFields = append(selectedFields, jobrelations.FieldCreatedAt)
+				fieldSeen[jobrelations.FieldCreatedAt] = struct{}{}
+			}
+		case "updatedat":
+			if _, ok := fieldSeen[jobrelations.FieldUpdatedAt]; !ok {
+				selectedFields = append(selectedFields, jobrelations.FieldUpdatedAt)
+				fieldSeen[jobrelations.FieldUpdatedAt] = struct{}{}
+			}
+		case "id":
+		case "__typename":
+		default:
+			unknownSeen = true
+		}
+	}
+	if !unknownSeen {
+		jr.Select(selectedFields...)
+	}
+	return nil
+}
+
+type jobrelationsPaginateArgs struct {
+	first, last   *int
+	after, before *Cursor
+	opts          []JobRelationsPaginateOption
+}
+
+func newJobRelationsPaginateArgs(rv map[string]any) *jobrelationsPaginateArgs {
+	args := &jobrelationsPaginateArgs{}
+	if rv == nil {
+		return args
+	}
+	if v := rv[firstField]; v != nil {
+		args.first = v.(*int)
+	}
+	if v := rv[lastField]; v != nil {
+		args.last = v.(*int)
+	}
+	if v := rv[afterField]; v != nil {
+		args.after = v.(*Cursor)
+	}
+	if v := rv[beforeField]; v != nil {
+		args.before = v.(*Cursor)
+	}
+	return args
+}
+
+// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
 func (js *JobSupervisorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobSupervisorQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
@@ -1857,12 +1974,12 @@ func (js *JobSupervisorQuery) collectField(ctx context.Context, oneNode bool, op
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: js.config}).Query()
+				query = (&JobRelationsClient{config: js.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			js.WithNamedSupervisors(alias, func(wq *JobDetailQuery) {
+			js.WithNamedSupervisors(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "name":

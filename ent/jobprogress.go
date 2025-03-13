@@ -17,6 +17,8 @@ type JobProgress struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// YibfNo holds the value of the "yibfNo" field.
+	YibfNo int `json:"yibfNo,omitempty"`
 	// One holds the value of the "One" field.
 	One int `json:"One,omitempty"`
 	// Two holds the value of the "Two" field.
@@ -42,19 +44,19 @@ type JobProgress struct {
 // JobProgressEdges holds the relations/edges for other nodes in the graph.
 type JobProgressEdges struct {
 	// Progress holds the value of the progress edge.
-	Progress []*JobDetail `json:"progress,omitempty"`
+	Progress []*JobRelations `json:"progress,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 	// totalCount holds the count of the edges above.
 	totalCount [1]map[string]int
 
-	namedProgress map[string][]*JobDetail
+	namedProgress map[string][]*JobRelations
 }
 
 // ProgressOrErr returns the Progress value or an error if the edge
 // was not loaded in eager-loading.
-func (e JobProgressEdges) ProgressOrErr() ([]*JobDetail, error) {
+func (e JobProgressEdges) ProgressOrErr() ([]*JobRelations, error) {
 	if e.loadedTypes[0] {
 		return e.Progress, nil
 	}
@@ -66,7 +68,7 @@ func (*JobProgress) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobprogress.FieldID, jobprogress.FieldOne, jobprogress.FieldTwo, jobprogress.FieldThree, jobprogress.FieldFour, jobprogress.FieldFive, jobprogress.FieldSix:
+		case jobprogress.FieldID, jobprogress.FieldYibfNo, jobprogress.FieldOne, jobprogress.FieldTwo, jobprogress.FieldThree, jobprogress.FieldFour, jobprogress.FieldFive, jobprogress.FieldSix:
 			values[i] = new(sql.NullInt64)
 		case jobprogress.FieldCreatedAt, jobprogress.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -91,6 +93,12 @@ func (jp *JobProgress) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			jp.ID = int(value.Int64)
+		case jobprogress.FieldYibfNo:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
+			} else if value.Valid {
+				jp.YibfNo = int(value.Int64)
+			}
 		case jobprogress.FieldOne:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field One", values[i])
@@ -153,7 +161,7 @@ func (jp *JobProgress) Value(name string) (ent.Value, error) {
 }
 
 // QueryProgress queries the "progress" edge of the JobProgress entity.
-func (jp *JobProgress) QueryProgress() *JobDetailQuery {
+func (jp *JobProgress) QueryProgress() *JobRelationsQuery {
 	return NewJobProgressClient(jp.config).QueryProgress(jp)
 }
 
@@ -180,6 +188,9 @@ func (jp *JobProgress) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobProgress(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", jp.ID))
+	builder.WriteString("yibfNo=")
+	builder.WriteString(fmt.Sprintf("%v", jp.YibfNo))
+	builder.WriteString(", ")
 	builder.WriteString("One=")
 	builder.WriteString(fmt.Sprintf("%v", jp.One))
 	builder.WriteString(", ")
@@ -209,7 +220,7 @@ func (jp *JobProgress) String() string {
 
 // NamedProgress returns the Progress named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jp *JobProgress) NamedProgress(name string) ([]*JobDetail, error) {
+func (jp *JobProgress) NamedProgress(name string) ([]*JobRelations, error) {
 	if jp.Edges.namedProgress == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
@@ -220,12 +231,12 @@ func (jp *JobProgress) NamedProgress(name string) ([]*JobDetail, error) {
 	return nodes, nil
 }
 
-func (jp *JobProgress) appendNamedProgress(name string, edges ...*JobDetail) {
+func (jp *JobProgress) appendNamedProgress(name string, edges ...*JobRelations) {
 	if jp.Edges.namedProgress == nil {
-		jp.Edges.namedProgress = make(map[string][]*JobDetail)
+		jp.Edges.namedProgress = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		jp.Edges.namedProgress[name] = []*JobDetail{}
+		jp.Edges.namedProgress[name] = []*JobRelations{}
 	} else {
 		jp.Edges.namedProgress[name] = append(jp.Edges.namedProgress[name], edges...)
 	}

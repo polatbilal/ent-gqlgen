@@ -8,19 +8,17 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/polatbilal/gqlgen-ent/database"
-	"github.com/polatbilal/gqlgen-ent/ent/migrate"
-	"github.com/polatbilal/gqlgen-ent/graph/resolvers"
-	"github.com/polatbilal/gqlgen-ent/handlers"
-	"github.com/polatbilal/gqlgen-ent/middlewares"
-	"github.com/polatbilal/gqlgen-ent/services"
-
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
+	"github.com/polatbilal/gqlgen-ent/database"
+	"github.com/polatbilal/gqlgen-ent/ent/migrate"
+	"github.com/polatbilal/gqlgen-ent/graphql/resolvers"
+	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/gqlgen-ent/services"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
 
@@ -108,9 +106,6 @@ func main() {
 	})
 
 	app.Use(middlewares.AuthMiddleware())
-
-	// Rotaları ayarla
-	handlers.SetupRoutes(app)
 
 	// Load .env file
 	if err := godotenv.Load(); err != nil {

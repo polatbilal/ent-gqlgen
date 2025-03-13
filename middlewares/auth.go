@@ -4,12 +4,11 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/go-redis/redis/v8"
+	"github.com/gofiber/fiber/v2"
 	"github.com/polatbilal/gqlgen-ent/database"
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/services"
-
-	"github.com/go-redis/redis/v8"
-	"github.com/gofiber/fiber/v2"
 )
 
 type authString string
@@ -60,6 +59,8 @@ func AuthMiddleware() fiber.Handler {
 			return c.Next()
 		}
 
+		// Context'e client'ı ent.Client key'i ile ekle
+		// ctx := ent.NewContext(c.Context(), client)
 		ctx := context.WithValue(c.Context(), "dbClient", client)
 		ctx = context.WithValue(ctx, authString("auth"), costumClaim)
 		c.SetUserContext(ctx)
@@ -74,6 +75,7 @@ func CtxValue(ctx context.Context) *services.JwtCustomClaim {
 }
 
 func GetClientFromContext(ctx context.Context) *ent.Client {
+	// return ent.FromContext(ctx)
 	client, err := database.GetClient()
 	if err != nil {
 		return nil

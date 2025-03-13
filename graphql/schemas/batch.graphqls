@@ -1,0 +1,36 @@
+type JobBatchResult {
+  job: JobDetail
+  owner: JobOwner
+  contractor: JobContractor
+  author: JobAuthor
+  supervisor: JobSupervisor
+  engineer: JobEngineer
+  progress: JobProgress
+  company: CompanyDetail
+}
+
+input JobBatchInput {
+  YibfNo: Int!
+  jobInput: JobInput
+  ownerInput: JobOwnerInput
+  contractorInput: JobContractorInput
+  authorInput: JobAuthorInput
+  supervisorInput: JobSupervisorInput
+  engineerInput: JobEngineerInput
+}
+
+extend type Query {
+  jobBatchQuery(yibfNo: Int): [JobBatchResult!]!
+    @goField(forceResolver: true)
+    @auth
+}
+
+extend type Mutation {
+  jobBatchMutation(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+
+  executeBatchMutation(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+}

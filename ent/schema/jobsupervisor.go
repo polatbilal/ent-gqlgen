@@ -20,11 +20,11 @@ func (JobSupervisor) Fields() []ent.Field {
 		field.String("Address").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
-		field.Int("TcNo").Optional(),
+		field.String("TcNo").Optional(),
 		field.String("Position").Optional(),
 		field.String("Career").Optional(),
-		field.Int("RegisterNo").Optional(),
-		field.Int("SocialSecurityNo").Optional(),
+		field.String("RegisterNo").Optional(),
+		field.String("SocialSecurityNo").Optional(),
 		field.String("SchoolGraduation").Optional(),
 		field.Int("YDSID").Optional().Unique(),
 
@@ -36,6 +36,6 @@ func (JobSupervisor) Fields() []ent.Field {
 // Edges of the JobSupervisor.
 func (JobSupervisor) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("supervisors", JobDetail.Type).StorageKey(edge.Column("supervisor_id")),
+		edge.To("supervisors", JobRelations.Type).StorageKey(edge.Column("supervisor_id")),
 	}
 }

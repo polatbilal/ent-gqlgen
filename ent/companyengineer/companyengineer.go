@@ -72,59 +72,59 @@ const (
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
 	// StaticsTable is the table that holds the statics relation/edge.
-	StaticsTable = "job_details"
-	// StaticsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	StaticsInverseTable = "job_details"
+	StaticsTable = "job_relations"
+	// StaticsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	StaticsInverseTable = "job_relations"
 	// StaticsColumn is the table column denoting the statics relation/edge.
 	StaticsColumn = "static_id"
 	// MechanicsTable is the table that holds the mechanics relation/edge.
-	MechanicsTable = "job_details"
-	// MechanicsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	MechanicsInverseTable = "job_details"
+	MechanicsTable = "job_relations"
+	// MechanicsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	MechanicsInverseTable = "job_relations"
 	// MechanicsColumn is the table column denoting the mechanics relation/edge.
 	MechanicsColumn = "mechanic_id"
 	// ElectricsTable is the table that holds the electrics relation/edge.
-	ElectricsTable = "job_details"
-	// ElectricsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	ElectricsInverseTable = "job_details"
+	ElectricsTable = "job_relations"
+	// ElectricsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	ElectricsInverseTable = "job_relations"
 	// ElectricsColumn is the table column denoting the electrics relation/edge.
 	ElectricsColumn = "electric_id"
 	// InspectorsTable is the table that holds the inspectors relation/edge.
-	InspectorsTable = "job_details"
-	// InspectorsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	InspectorsInverseTable = "job_details"
+	InspectorsTable = "job_relations"
+	// InspectorsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	InspectorsInverseTable = "job_relations"
 	// InspectorsColumn is the table column denoting the inspectors relation/edge.
 	InspectorsColumn = "inspector_id"
 	// ArchitectsTable is the table that holds the architects relation/edge.
-	ArchitectsTable = "job_details"
-	// ArchitectsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	ArchitectsInverseTable = "job_details"
+	ArchitectsTable = "job_relations"
+	// ArchitectsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	ArchitectsInverseTable = "job_relations"
 	// ArchitectsColumn is the table column denoting the architects relation/edge.
 	ArchitectsColumn = "architect_id"
 	// ControllersTable is the table that holds the controllers relation/edge.
-	ControllersTable = "job_details"
-	// ControllersInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	ControllersInverseTable = "job_details"
+	ControllersTable = "job_relations"
+	// ControllersInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	ControllersInverseTable = "job_relations"
 	// ControllersColumn is the table column denoting the controllers relation/edge.
 	ControllersColumn = "controller_id"
 	// MechaniccontrollersTable is the table that holds the mechaniccontrollers relation/edge.
-	MechaniccontrollersTable = "job_details"
-	// MechaniccontrollersInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	MechaniccontrollersInverseTable = "job_details"
+	MechaniccontrollersTable = "job_relations"
+	// MechaniccontrollersInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	MechaniccontrollersInverseTable = "job_relations"
 	// MechaniccontrollersColumn is the table column denoting the mechaniccontrollers relation/edge.
 	MechaniccontrollersColumn = "mechaniccontroller_id"
 	// ElectriccontrollersTable is the table that holds the electriccontrollers relation/edge.
-	ElectriccontrollersTable = "job_details"
-	// ElectriccontrollersInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	ElectriccontrollersInverseTable = "job_details"
+	ElectriccontrollersTable = "job_relations"
+	// ElectriccontrollersInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	ElectriccontrollersInverseTable = "job_relations"
 	// ElectriccontrollersColumn is the table column denoting the electriccontrollers relation/edge.
 	ElectriccontrollersColumn = "electriccontroller_id"
 )

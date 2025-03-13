@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
@@ -24,10 +24,10 @@ type JobOwnerQuery struct {
 	order           []jobowner.OrderOption
 	inters          []Interceptor
 	predicates      []predicate.JobOwner
-	withOwners      *JobDetailQuery
+	withOwners      *JobRelationsQuery
 	modifiers       []func(*sql.Selector)
 	loadTotal       []func(context.Context, []*JobOwner) error
-	withNamedOwners map[string]*JobDetailQuery
+	withNamedOwners map[string]*JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -65,8 +65,8 @@ func (joq *JobOwnerQuery) Order(o ...jobowner.OrderOption) *JobOwnerQuery {
 }
 
 // QueryOwners chains the current query on the "owners" edge.
-func (joq *JobOwnerQuery) QueryOwners() *JobDetailQuery {
-	query := (&JobDetailClient{config: joq.config}).Query()
+func (joq *JobOwnerQuery) QueryOwners() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: joq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := joq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -77,7 +77,7 @@ func (joq *JobOwnerQuery) QueryOwners() *JobDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobowner.Table, jobowner.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobowner.OwnersTable, jobowner.OwnersColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(joq.driver.Dialect(), step)
@@ -287,8 +287,8 @@ func (joq *JobOwnerQuery) Clone() *JobOwnerQuery {
 
 // WithOwners tells the query-builder to eager-load the nodes that are connected to
 // the "owners" edge. The optional arguments are used to configure the query builder of the edge.
-func (joq *JobOwnerQuery) WithOwners(opts ...func(*JobDetailQuery)) *JobOwnerQuery {
-	query := (&JobDetailClient{config: joq.config}).Query()
+func (joq *JobOwnerQuery) WithOwners(opts ...func(*JobRelationsQuery)) *JobOwnerQuery {
+	query := (&JobRelationsClient{config: joq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -401,15 +401,15 @@ func (joq *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 	}
 	if query := joq.withOwners; query != nil {
 		if err := joq.loadOwners(ctx, query, nodes,
-			func(n *JobOwner) { n.Edges.Owners = []*JobDetail{} },
-			func(n *JobOwner, e *JobDetail) { n.Edges.Owners = append(n.Edges.Owners, e) }); err != nil {
+			func(n *JobOwner) { n.Edges.Owners = []*JobRelations{} },
+			func(n *JobOwner, e *JobRelations) { n.Edges.Owners = append(n.Edges.Owners, e) }); err != nil {
 			return nil, err
 		}
 	}
 	for name, query := range joq.withNamedOwners {
 		if err := joq.loadOwners(ctx, query, nodes,
 			func(n *JobOwner) { n.appendNamedOwners(name) },
-			func(n *JobOwner, e *JobDetail) { n.appendNamedOwners(name, e) }); err != nil {
+			func(n *JobOwner, e *JobRelations) { n.appendNamedOwners(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -421,7 +421,7 @@ func (joq *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 	return nodes, nil
 }
 
-func (joq *JobOwnerQuery) loadOwners(ctx context.Context, query *JobDetailQuery, nodes []*JobOwner, init func(*JobOwner), assign func(*JobOwner, *JobDetail)) error {
+func (joq *JobOwnerQuery) loadOwners(ctx context.Context, query *JobRelationsQuery, nodes []*JobOwner, init func(*JobOwner), assign func(*JobOwner, *JobRelations)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobOwner)
 	for i := range nodes {
@@ -432,7 +432,7 @@ func (joq *JobOwnerQuery) loadOwners(ctx context.Context, query *JobDetailQuery,
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.JobDetail(func(s *sql.Selector) {
+	query.Where(predicate.JobRelations(func(s *sql.Selector) {
 		s.Where(sql.InValues(s.C(jobowner.OwnersColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
@@ -539,13 +539,13 @@ func (joq *JobOwnerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 
 // WithNamedOwners tells the query-builder to eager-load the nodes that are connected to the "owners"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (joq *JobOwnerQuery) WithNamedOwners(name string, opts ...func(*JobDetailQuery)) *JobOwnerQuery {
-	query := (&JobDetailClient{config: joq.config}).Query()
+func (joq *JobOwnerQuery) WithNamedOwners(name string, opts ...func(*JobRelationsQuery)) *JobOwnerQuery {
+	query := (&JobRelationsClient{config: joq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
 	if joq.withNamedOwners == nil {
-		joq.withNamedOwners = make(map[string]*JobDetailQuery)
+		joq.withNamedOwners = make(map[string]*JobRelationsQuery)
 	}
 	joq.withNamedOwners[name] = query
 	return joq

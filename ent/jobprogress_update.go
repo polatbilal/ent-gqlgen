@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
@@ -26,6 +26,27 @@ type JobProgressUpdate struct {
 // Where appends a list predicates to the JobProgressUpdate builder.
 func (jpu *JobProgressUpdate) Where(ps ...predicate.JobProgress) *JobProgressUpdate {
 	jpu.mutation.Where(ps...)
+	return jpu
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jpu *JobProgressUpdate) SetYibfNo(i int) *JobProgressUpdate {
+	jpu.mutation.ResetYibfNo()
+	jpu.mutation.SetYibfNo(i)
+	return jpu
+}
+
+// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+func (jpu *JobProgressUpdate) SetNillableYibfNo(i *int) *JobProgressUpdate {
+	if i != nil {
+		jpu.SetYibfNo(*i)
+	}
+	return jpu
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (jpu *JobProgressUpdate) AddYibfNo(i int) *JobProgressUpdate {
+	jpu.mutation.AddYibfNo(i)
 	return jpu
 }
 
@@ -211,14 +232,14 @@ func (jpu *JobProgressUpdate) SetUpdatedAt(t time.Time) *JobProgressUpdate {
 	return jpu
 }
 
-// AddProgresIDs adds the "progress" edge to the JobDetail entity by IDs.
+// AddProgresIDs adds the "progress" edge to the JobRelations entity by IDs.
 func (jpu *JobProgressUpdate) AddProgresIDs(ids ...int) *JobProgressUpdate {
 	jpu.mutation.AddProgresIDs(ids...)
 	return jpu
 }
 
-// AddProgress adds the "progress" edges to the JobDetail entity.
-func (jpu *JobProgressUpdate) AddProgress(j ...*JobDetail) *JobProgressUpdate {
+// AddProgress adds the "progress" edges to the JobRelations entity.
+func (jpu *JobProgressUpdate) AddProgress(j ...*JobRelations) *JobProgressUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -231,20 +252,20 @@ func (jpu *JobProgressUpdate) Mutation() *JobProgressMutation {
 	return jpu.mutation
 }
 
-// ClearProgress clears all "progress" edges to the JobDetail entity.
+// ClearProgress clears all "progress" edges to the JobRelations entity.
 func (jpu *JobProgressUpdate) ClearProgress() *JobProgressUpdate {
 	jpu.mutation.ClearProgress()
 	return jpu
 }
 
-// RemoveProgresIDs removes the "progress" edge to JobDetail entities by IDs.
+// RemoveProgresIDs removes the "progress" edge to JobRelations entities by IDs.
 func (jpu *JobProgressUpdate) RemoveProgresIDs(ids ...int) *JobProgressUpdate {
 	jpu.mutation.RemoveProgresIDs(ids...)
 	return jpu
 }
 
-// RemoveProgress removes "progress" edges to JobDetail entities.
-func (jpu *JobProgressUpdate) RemoveProgress(j ...*JobDetail) *JobProgressUpdate {
+// RemoveProgress removes "progress" edges to JobRelations entities.
+func (jpu *JobProgressUpdate) RemoveProgress(j ...*JobRelations) *JobProgressUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -296,6 +317,12 @@ func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := jpu.mutation.YibfNo(); ok {
+		_spec.SetField(jobprogress.FieldYibfNo, field.TypeInt, value)
+	}
+	if value, ok := jpu.mutation.AddedYibfNo(); ok {
+		_spec.AddField(jobprogress.FieldYibfNo, field.TypeInt, value)
 	}
 	if value, ok := jpu.mutation.One(); ok {
 		_spec.SetField(jobprogress.FieldOne, field.TypeInt, value)
@@ -365,7 +392,7 @@ func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobprogress.ProgressColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -378,7 +405,7 @@ func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobprogress.ProgressColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -394,7 +421,7 @@ func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{jobprogress.ProgressColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -420,6 +447,27 @@ type JobProgressUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *JobProgressMutation
+}
+
+// SetYibfNo sets the "yibfNo" field.
+func (jpuo *JobProgressUpdateOne) SetYibfNo(i int) *JobProgressUpdateOne {
+	jpuo.mutation.ResetYibfNo()
+	jpuo.mutation.SetYibfNo(i)
+	return jpuo
+}
+
+// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+func (jpuo *JobProgressUpdateOne) SetNillableYibfNo(i *int) *JobProgressUpdateOne {
+	if i != nil {
+		jpuo.SetYibfNo(*i)
+	}
+	return jpuo
+}
+
+// AddYibfNo adds i to the "yibfNo" field.
+func (jpuo *JobProgressUpdateOne) AddYibfNo(i int) *JobProgressUpdateOne {
+	jpuo.mutation.AddYibfNo(i)
+	return jpuo
 }
 
 // SetOne sets the "One" field.
@@ -604,14 +652,14 @@ func (jpuo *JobProgressUpdateOne) SetUpdatedAt(t time.Time) *JobProgressUpdateOn
 	return jpuo
 }
 
-// AddProgresIDs adds the "progress" edge to the JobDetail entity by IDs.
+// AddProgresIDs adds the "progress" edge to the JobRelations entity by IDs.
 func (jpuo *JobProgressUpdateOne) AddProgresIDs(ids ...int) *JobProgressUpdateOne {
 	jpuo.mutation.AddProgresIDs(ids...)
 	return jpuo
 }
 
-// AddProgress adds the "progress" edges to the JobDetail entity.
-func (jpuo *JobProgressUpdateOne) AddProgress(j ...*JobDetail) *JobProgressUpdateOne {
+// AddProgress adds the "progress" edges to the JobRelations entity.
+func (jpuo *JobProgressUpdateOne) AddProgress(j ...*JobRelations) *JobProgressUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -624,20 +672,20 @@ func (jpuo *JobProgressUpdateOne) Mutation() *JobProgressMutation {
 	return jpuo.mutation
 }
 
-// ClearProgress clears all "progress" edges to the JobDetail entity.
+// ClearProgress clears all "progress" edges to the JobRelations entity.
 func (jpuo *JobProgressUpdateOne) ClearProgress() *JobProgressUpdateOne {
 	jpuo.mutation.ClearProgress()
 	return jpuo
 }
 
-// RemoveProgresIDs removes the "progress" edge to JobDetail entities by IDs.
+// RemoveProgresIDs removes the "progress" edge to JobRelations entities by IDs.
 func (jpuo *JobProgressUpdateOne) RemoveProgresIDs(ids ...int) *JobProgressUpdateOne {
 	jpuo.mutation.RemoveProgresIDs(ids...)
 	return jpuo
 }
 
-// RemoveProgress removes "progress" edges to JobDetail entities.
-func (jpuo *JobProgressUpdateOne) RemoveProgress(j ...*JobDetail) *JobProgressUpdateOne {
+// RemoveProgress removes "progress" edges to JobRelations entities.
+func (jpuo *JobProgressUpdateOne) RemoveProgress(j ...*JobRelations) *JobProgressUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -720,6 +768,12 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 			}
 		}
 	}
+	if value, ok := jpuo.mutation.YibfNo(); ok {
+		_spec.SetField(jobprogress.FieldYibfNo, field.TypeInt, value)
+	}
+	if value, ok := jpuo.mutation.AddedYibfNo(); ok {
+		_spec.AddField(jobprogress.FieldYibfNo, field.TypeInt, value)
+	}
 	if value, ok := jpuo.mutation.One(); ok {
 		_spec.SetField(jobprogress.FieldOne, field.TypeInt, value)
 	}
@@ -788,7 +842,7 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 			Columns: []string{jobprogress.ProgressColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -801,7 +855,7 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 			Columns: []string{jobprogress.ProgressColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -817,7 +871,7 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 			Columns: []string{jobprogress.ProgressColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

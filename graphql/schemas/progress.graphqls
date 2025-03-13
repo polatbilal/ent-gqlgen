@@ -1,0 +1,29 @@
+type JobProgress {
+  id: ID!
+  One: Int
+  Two: Int
+  Three: Int
+  Four: Int
+  Five: Int
+  Six: Int
+}
+
+input JobProgressInput {
+  id: ID
+  One: Int
+  Two: Int
+  Three: Int
+  Four: Int
+  Five: Int
+  Six: Int
+}
+
+extend type Query {
+  progress(yibfNo: Int!): JobProgress @goField(forceResolver: true) @auth
+}
+
+extend type Mutation {
+  updateProgress(input: JobProgressInput!): JobProgress
+    @goField(forceResolver: true)
+    @auth
+}

@@ -18,9 +18,9 @@ func (JobOwner) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Name").Default(""),
 		field.String("Address").Optional(),
-		field.Int("TcNo").Optional(),
+		field.String("TcNo").Optional(),
 		field.String("TaxAdmin").Optional(),
-		field.Int("TaxNo").Optional(),
+		field.String("TaxNo").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
 		field.Int("YDSID").Optional().Unique(),
@@ -35,6 +35,6 @@ func (JobOwner) Fields() []ent.Field {
 // Edges of the JobOwner.
 func (JobOwner) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("owners", JobDetail.Type).StorageKey(edge.Column("owner_id")),
+		edge.To("owners", JobRelations.Type).StorageKey(edge.Column("owner_id")),
 	}
 }

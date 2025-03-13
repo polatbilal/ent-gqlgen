@@ -66,7 +66,7 @@ func Address(v string) predicate.JobOwner {
 }
 
 // TcNo applies equality check predicate on the "TcNo" field. It's identical to TcNoEQ.
-func TcNo(v int) predicate.JobOwner {
+func TcNo(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldTcNo, v))
 }
 
@@ -76,7 +76,7 @@ func TaxAdmin(v string) predicate.JobOwner {
 }
 
 // TaxNo applies equality check predicate on the "TaxNo" field. It's identical to TaxNoEQ.
-func TaxNo(v int) predicate.JobOwner {
+func TaxNo(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldTaxNo, v))
 }
 
@@ -256,43 +256,58 @@ func AddressContainsFold(v string) predicate.JobOwner {
 }
 
 // TcNoEQ applies the EQ predicate on the "TcNo" field.
-func TcNoEQ(v int) predicate.JobOwner {
+func TcNoEQ(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldTcNo, v))
 }
 
 // TcNoNEQ applies the NEQ predicate on the "TcNo" field.
-func TcNoNEQ(v int) predicate.JobOwner {
+func TcNoNEQ(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNEQ(FieldTcNo, v))
 }
 
 // TcNoIn applies the In predicate on the "TcNo" field.
-func TcNoIn(vs ...int) predicate.JobOwner {
+func TcNoIn(vs ...string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldIn(FieldTcNo, vs...))
 }
 
 // TcNoNotIn applies the NotIn predicate on the "TcNo" field.
-func TcNoNotIn(vs ...int) predicate.JobOwner {
+func TcNoNotIn(vs ...string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNotIn(FieldTcNo, vs...))
 }
 
 // TcNoGT applies the GT predicate on the "TcNo" field.
-func TcNoGT(v int) predicate.JobOwner {
+func TcNoGT(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldGT(FieldTcNo, v))
 }
 
 // TcNoGTE applies the GTE predicate on the "TcNo" field.
-func TcNoGTE(v int) predicate.JobOwner {
+func TcNoGTE(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldGTE(FieldTcNo, v))
 }
 
 // TcNoLT applies the LT predicate on the "TcNo" field.
-func TcNoLT(v int) predicate.JobOwner {
+func TcNoLT(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldLT(FieldTcNo, v))
 }
 
 // TcNoLTE applies the LTE predicate on the "TcNo" field.
-func TcNoLTE(v int) predicate.JobOwner {
+func TcNoLTE(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldLTE(FieldTcNo, v))
+}
+
+// TcNoContains applies the Contains predicate on the "TcNo" field.
+func TcNoContains(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldContains(FieldTcNo, v))
+}
+
+// TcNoHasPrefix applies the HasPrefix predicate on the "TcNo" field.
+func TcNoHasPrefix(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldHasPrefix(FieldTcNo, v))
+}
+
+// TcNoHasSuffix applies the HasSuffix predicate on the "TcNo" field.
+func TcNoHasSuffix(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldHasSuffix(FieldTcNo, v))
 }
 
 // TcNoIsNil applies the IsNil predicate on the "TcNo" field.
@@ -303,6 +318,16 @@ func TcNoIsNil() predicate.JobOwner {
 // TcNoNotNil applies the NotNil predicate on the "TcNo" field.
 func TcNoNotNil() predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNotNull(FieldTcNo))
+}
+
+// TcNoEqualFold applies the EqualFold predicate on the "TcNo" field.
+func TcNoEqualFold(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldEqualFold(FieldTcNo, v))
+}
+
+// TcNoContainsFold applies the ContainsFold predicate on the "TcNo" field.
+func TcNoContainsFold(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldContainsFold(FieldTcNo, v))
 }
 
 // TaxAdminEQ applies the EQ predicate on the "TaxAdmin" field.
@@ -381,43 +406,58 @@ func TaxAdminContainsFold(v string) predicate.JobOwner {
 }
 
 // TaxNoEQ applies the EQ predicate on the "TaxNo" field.
-func TaxNoEQ(v int) predicate.JobOwner {
+func TaxNoEQ(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldEQ(FieldTaxNo, v))
 }
 
 // TaxNoNEQ applies the NEQ predicate on the "TaxNo" field.
-func TaxNoNEQ(v int) predicate.JobOwner {
+func TaxNoNEQ(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNEQ(FieldTaxNo, v))
 }
 
 // TaxNoIn applies the In predicate on the "TaxNo" field.
-func TaxNoIn(vs ...int) predicate.JobOwner {
+func TaxNoIn(vs ...string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldIn(FieldTaxNo, vs...))
 }
 
 // TaxNoNotIn applies the NotIn predicate on the "TaxNo" field.
-func TaxNoNotIn(vs ...int) predicate.JobOwner {
+func TaxNoNotIn(vs ...string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNotIn(FieldTaxNo, vs...))
 }
 
 // TaxNoGT applies the GT predicate on the "TaxNo" field.
-func TaxNoGT(v int) predicate.JobOwner {
+func TaxNoGT(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldGT(FieldTaxNo, v))
 }
 
 // TaxNoGTE applies the GTE predicate on the "TaxNo" field.
-func TaxNoGTE(v int) predicate.JobOwner {
+func TaxNoGTE(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldGTE(FieldTaxNo, v))
 }
 
 // TaxNoLT applies the LT predicate on the "TaxNo" field.
-func TaxNoLT(v int) predicate.JobOwner {
+func TaxNoLT(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldLT(FieldTaxNo, v))
 }
 
 // TaxNoLTE applies the LTE predicate on the "TaxNo" field.
-func TaxNoLTE(v int) predicate.JobOwner {
+func TaxNoLTE(v string) predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldLTE(FieldTaxNo, v))
+}
+
+// TaxNoContains applies the Contains predicate on the "TaxNo" field.
+func TaxNoContains(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldContains(FieldTaxNo, v))
+}
+
+// TaxNoHasPrefix applies the HasPrefix predicate on the "TaxNo" field.
+func TaxNoHasPrefix(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldHasPrefix(FieldTaxNo, v))
+}
+
+// TaxNoHasSuffix applies the HasSuffix predicate on the "TaxNo" field.
+func TaxNoHasSuffix(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldHasSuffix(FieldTaxNo, v))
 }
 
 // TaxNoIsNil applies the IsNil predicate on the "TaxNo" field.
@@ -428,6 +468,16 @@ func TaxNoIsNil() predicate.JobOwner {
 // TaxNoNotNil applies the NotNil predicate on the "TaxNo" field.
 func TaxNoNotNil() predicate.JobOwner {
 	return predicate.JobOwner(sql.FieldNotNull(FieldTaxNo))
+}
+
+// TaxNoEqualFold applies the EqualFold predicate on the "TaxNo" field.
+func TaxNoEqualFold(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldEqualFold(FieldTaxNo, v))
+}
+
+// TaxNoContainsFold applies the ContainsFold predicate on the "TaxNo" field.
+func TaxNoContainsFold(v string) predicate.JobOwner {
+	return predicate.JobOwner(sql.FieldContainsFold(FieldTaxNo, v))
 }
 
 // PhoneEQ applies the EQ predicate on the "Phone" field.
@@ -807,7 +857,7 @@ func HasOwners() predicate.JobOwner {
 }
 
 // HasOwnersWith applies the HasEdge predicate on the "owners" edge with a given conditions (other predicates).
-func HasOwnersWith(preds ...predicate.JobDetail) predicate.JobOwner {
+func HasOwnersWith(preds ...predicate.JobRelations) predicate.JobOwner {
 	return predicate.JobOwner(func(s *sql.Selector) {
 		step := newOwnersStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

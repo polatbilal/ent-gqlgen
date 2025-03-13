@@ -14,7 +14,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
 	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 )
 
 // CompanyDetailCreate is the builder for creating a CompanyDetail entity.
@@ -143,15 +143,15 @@ func (cdc *CompanyDetailCreate) SetNillableTaxAdmin(s *string) *CompanyDetailCre
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (cdc *CompanyDetailCreate) SetTaxNo(i int) *CompanyDetailCreate {
-	cdc.mutation.SetTaxNo(i)
+func (cdc *CompanyDetailCreate) SetTaxNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetTaxNo(s)
 	return cdc
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableTaxNo(i *int) *CompanyDetailCreate {
-	if i != nil {
-		cdc.SetTaxNo(*i)
+func (cdc *CompanyDetailCreate) SetNillableTaxNo(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetTaxNo(*s)
 	}
 	return cdc
 }
@@ -269,15 +269,15 @@ func (cdc *CompanyDetailCreate) SetNillableOwnerName(s *string) *CompanyDetailCr
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (cdc *CompanyDetailCreate) SetOwnerTcNo(i int) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerTcNo(i)
+func (cdc *CompanyDetailCreate) SetOwnerTcNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerTcNo(s)
 	return cdc
 }
 
 // SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerTcNo(i *int) *CompanyDetailCreate {
-	if i != nil {
-		cdc.SetOwnerTcNo(*i)
+func (cdc *CompanyDetailCreate) SetNillableOwnerTcNo(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerTcNo(*s)
 	}
 	return cdc
 }
@@ -325,15 +325,15 @@ func (cdc *CompanyDetailCreate) SetNillableOwnerEmail(s *string) *CompanyDetailC
 }
 
 // SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
-func (cdc *CompanyDetailCreate) SetOwnerRegisterNo(i int) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerRegisterNo(i)
+func (cdc *CompanyDetailCreate) SetOwnerRegisterNo(s string) *CompanyDetailCreate {
+	cdc.mutation.SetOwnerRegisterNo(s)
 	return cdc
 }
 
 // SetNillableOwnerRegisterNo sets the "OwnerRegisterNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerRegisterNo(i *int) *CompanyDetailCreate {
-	if i != nil {
-		cdc.SetOwnerRegisterNo(*i)
+func (cdc *CompanyDetailCreate) SetNillableOwnerRegisterNo(s *string) *CompanyDetailCreate {
+	if s != nil {
+		cdc.SetOwnerRegisterNo(*s)
 	}
 	return cdc
 }
@@ -380,14 +380,14 @@ func (cdc *CompanyDetailCreate) SetNillableUpdatedAt(t *time.Time) *CompanyDetai
 	return cdc
 }
 
-// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+// AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
 func (cdc *CompanyDetailCreate) AddJobIDs(ids ...int) *CompanyDetailCreate {
 	cdc.mutation.AddJobIDs(ids...)
 	return cdc
 }
 
-// AddJobs adds the "jobs" edges to the JobDetail entity.
-func (cdc *CompanyDetailCreate) AddJobs(j ...*JobDetail) *CompanyDetailCreate {
+// AddJobs adds the "jobs" edges to the JobRelations entity.
+func (cdc *CompanyDetailCreate) AddJobs(j ...*JobRelations) *CompanyDetailCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -478,10 +478,6 @@ func (cdc *CompanyDetailCreate) defaults() {
 	if _, ok := cdc.mutation.Name(); !ok {
 		v := companydetail.DefaultName
 		cdc.mutation.SetName(v)
-	}
-	if _, ok := cdc.mutation.TaxNo(); !ok {
-		v := companydetail.DefaultTaxNo
-		cdc.mutation.SetTaxNo(v)
 	}
 	if _, ok := cdc.mutation.VisaFinishedFor90Days(); !ok {
 		v := companydetail.DefaultVisaFinishedFor90Days
@@ -585,7 +581,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_node.TaxAdmin = value
 	}
 	if value, ok := cdc.mutation.TaxNo(); ok {
-		_spec.SetField(companydetail.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldTaxNo, field.TypeString, value)
 		_node.TaxNo = value
 	}
 	if value, ok := cdc.mutation.ChamberInfo(); ok {
@@ -621,7 +617,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_node.OwnerName = value
 	}
 	if value, ok := cdc.mutation.OwnerTcNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
 		_node.OwnerTcNo = value
 	}
 	if value, ok := cdc.mutation.OwnerAddress(); ok {
@@ -637,7 +633,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		_node.OwnerEmail = value
 	}
 	if value, ok := cdc.mutation.OwnerRegisterNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeString, value)
 		_node.OwnerRegisterNo = value
 	}
 	if value, ok := cdc.mutation.OwnerCareer(); ok {
@@ -660,7 +656,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

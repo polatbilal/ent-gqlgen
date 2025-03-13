@@ -55,29 +55,49 @@ func IDLTE(id int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldLTE(FieldID, id))
 }
 
-// Date applies equality check predicate on the "Date" field. It's identical to DateEQ.
-func Date(v time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldDate, v))
+// YibfNo applies equality check predicate on the "yibfNo" field. It's identical to YibfNoEQ.
+func YibfNo(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldYibfNo, v))
+}
+
+// PaymentNo applies equality check predicate on the "PaymentNo" field. It's identical to PaymentNoEQ.
+func PaymentNo(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldPaymentNo, v))
+}
+
+// PaymentDate applies equality check predicate on the "PaymentDate" field. It's identical to PaymentDateEQ.
+func PaymentDate(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldPaymentDate, v))
+}
+
+// PaymentType applies equality check predicate on the "PaymentType" field. It's identical to PaymentTypeEQ.
+func PaymentType(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldPaymentType, v))
+}
+
+// State applies equality check predicate on the "State" field. It's identical to StateEQ.
+func State(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldState, v))
+}
+
+// TotalPayment applies equality check predicate on the "TotalPayment" field. It's identical to TotalPaymentEQ.
+func TotalPayment(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldTotalPayment, v))
+}
+
+// LevelRequest applies equality check predicate on the "LevelRequest" field. It's identical to LevelRequestEQ.
+func LevelRequest(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldLevelRequest, v))
+}
+
+// LevelApprove applies equality check predicate on the "LevelApprove" field. It's identical to LevelApproveEQ.
+func LevelApprove(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldLevelApprove, v))
 }
 
 // Amount applies equality check predicate on the "Amount" field. It's identical to AmountEQ.
-func Amount(v int) predicate.JobPayments {
+func Amount(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldAmount, v))
-}
-
-// Description applies equality check predicate on the "Description" field. It's identical to DescriptionEQ.
-func Description(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldDescription, v))
-}
-
-// Status applies equality check predicate on the "Status" field. It's identical to StatusEQ.
-func Status(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldStatus, v))
-}
-
-// Percentage applies equality check predicate on the "Percentage" field. It's identical to PercentageEQ.
-func Percentage(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldPercentage, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
@@ -90,83 +110,473 @@ func UpdatedAt(v time.Time) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// DateEQ applies the EQ predicate on the "Date" field.
-func DateEQ(v time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldDate, v))
+// YibfNoEQ applies the EQ predicate on the "yibfNo" field.
+func YibfNoEQ(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldYibfNo, v))
 }
 
-// DateNEQ applies the NEQ predicate on the "Date" field.
-func DateNEQ(v time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNEQ(FieldDate, v))
+// YibfNoNEQ applies the NEQ predicate on the "yibfNo" field.
+func YibfNoNEQ(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldYibfNo, v))
 }
 
-// DateIn applies the In predicate on the "Date" field.
-func DateIn(vs ...time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIn(FieldDate, vs...))
+// YibfNoIn applies the In predicate on the "yibfNo" field.
+func YibfNoIn(vs ...int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldYibfNo, vs...))
 }
 
-// DateNotIn applies the NotIn predicate on the "Date" field.
-func DateNotIn(vs ...time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotIn(FieldDate, vs...))
+// YibfNoNotIn applies the NotIn predicate on the "yibfNo" field.
+func YibfNoNotIn(vs ...int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldYibfNo, vs...))
 }
 
-// DateGT applies the GT predicate on the "Date" field.
-func DateGT(v time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGT(FieldDate, v))
+// YibfNoGT applies the GT predicate on the "yibfNo" field.
+func YibfNoGT(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldYibfNo, v))
 }
 
-// DateGTE applies the GTE predicate on the "Date" field.
-func DateGTE(v time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGTE(FieldDate, v))
+// YibfNoGTE applies the GTE predicate on the "yibfNo" field.
+func YibfNoGTE(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldYibfNo, v))
 }
 
-// DateLT applies the LT predicate on the "Date" field.
-func DateLT(v time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLT(FieldDate, v))
+// YibfNoLT applies the LT predicate on the "yibfNo" field.
+func YibfNoLT(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldYibfNo, v))
 }
 
-// DateLTE applies the LTE predicate on the "Date" field.
-func DateLTE(v time.Time) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLTE(FieldDate, v))
+// YibfNoLTE applies the LTE predicate on the "yibfNo" field.
+func YibfNoLTE(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldYibfNo, v))
+}
+
+// PaymentNoEQ applies the EQ predicate on the "PaymentNo" field.
+func PaymentNoEQ(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldPaymentNo, v))
+}
+
+// PaymentNoNEQ applies the NEQ predicate on the "PaymentNo" field.
+func PaymentNoNEQ(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldPaymentNo, v))
+}
+
+// PaymentNoIn applies the In predicate on the "PaymentNo" field.
+func PaymentNoIn(vs ...int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldPaymentNo, vs...))
+}
+
+// PaymentNoNotIn applies the NotIn predicate on the "PaymentNo" field.
+func PaymentNoNotIn(vs ...int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldPaymentNo, vs...))
+}
+
+// PaymentNoGT applies the GT predicate on the "PaymentNo" field.
+func PaymentNoGT(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldPaymentNo, v))
+}
+
+// PaymentNoGTE applies the GTE predicate on the "PaymentNo" field.
+func PaymentNoGTE(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldPaymentNo, v))
+}
+
+// PaymentNoLT applies the LT predicate on the "PaymentNo" field.
+func PaymentNoLT(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldPaymentNo, v))
+}
+
+// PaymentNoLTE applies the LTE predicate on the "PaymentNo" field.
+func PaymentNoLTE(v int) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldPaymentNo, v))
+}
+
+// PaymentNoIsNil applies the IsNil predicate on the "PaymentNo" field.
+func PaymentNoIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldPaymentNo))
+}
+
+// PaymentNoNotNil applies the NotNil predicate on the "PaymentNo" field.
+func PaymentNoNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldPaymentNo))
+}
+
+// PaymentDateEQ applies the EQ predicate on the "PaymentDate" field.
+func PaymentDateEQ(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldPaymentDate, v))
+}
+
+// PaymentDateNEQ applies the NEQ predicate on the "PaymentDate" field.
+func PaymentDateNEQ(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldPaymentDate, v))
+}
+
+// PaymentDateIn applies the In predicate on the "PaymentDate" field.
+func PaymentDateIn(vs ...time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldPaymentDate, vs...))
+}
+
+// PaymentDateNotIn applies the NotIn predicate on the "PaymentDate" field.
+func PaymentDateNotIn(vs ...time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldPaymentDate, vs...))
+}
+
+// PaymentDateGT applies the GT predicate on the "PaymentDate" field.
+func PaymentDateGT(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldPaymentDate, v))
+}
+
+// PaymentDateGTE applies the GTE predicate on the "PaymentDate" field.
+func PaymentDateGTE(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldPaymentDate, v))
+}
+
+// PaymentDateLT applies the LT predicate on the "PaymentDate" field.
+func PaymentDateLT(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldPaymentDate, v))
+}
+
+// PaymentDateLTE applies the LTE predicate on the "PaymentDate" field.
+func PaymentDateLTE(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldPaymentDate, v))
+}
+
+// PaymentTypeEQ applies the EQ predicate on the "PaymentType" field.
+func PaymentTypeEQ(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldPaymentType, v))
+}
+
+// PaymentTypeNEQ applies the NEQ predicate on the "PaymentType" field.
+func PaymentTypeNEQ(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldPaymentType, v))
+}
+
+// PaymentTypeIn applies the In predicate on the "PaymentType" field.
+func PaymentTypeIn(vs ...string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldPaymentType, vs...))
+}
+
+// PaymentTypeNotIn applies the NotIn predicate on the "PaymentType" field.
+func PaymentTypeNotIn(vs ...string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldPaymentType, vs...))
+}
+
+// PaymentTypeGT applies the GT predicate on the "PaymentType" field.
+func PaymentTypeGT(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldPaymentType, v))
+}
+
+// PaymentTypeGTE applies the GTE predicate on the "PaymentType" field.
+func PaymentTypeGTE(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldPaymentType, v))
+}
+
+// PaymentTypeLT applies the LT predicate on the "PaymentType" field.
+func PaymentTypeLT(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldPaymentType, v))
+}
+
+// PaymentTypeLTE applies the LTE predicate on the "PaymentType" field.
+func PaymentTypeLTE(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldPaymentType, v))
+}
+
+// PaymentTypeContains applies the Contains predicate on the "PaymentType" field.
+func PaymentTypeContains(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldContains(FieldPaymentType, v))
+}
+
+// PaymentTypeHasPrefix applies the HasPrefix predicate on the "PaymentType" field.
+func PaymentTypeHasPrefix(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldHasPrefix(FieldPaymentType, v))
+}
+
+// PaymentTypeHasSuffix applies the HasSuffix predicate on the "PaymentType" field.
+func PaymentTypeHasSuffix(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldHasSuffix(FieldPaymentType, v))
+}
+
+// PaymentTypeIsNil applies the IsNil predicate on the "PaymentType" field.
+func PaymentTypeIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldPaymentType))
+}
+
+// PaymentTypeNotNil applies the NotNil predicate on the "PaymentType" field.
+func PaymentTypeNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldPaymentType))
+}
+
+// PaymentTypeEqualFold applies the EqualFold predicate on the "PaymentType" field.
+func PaymentTypeEqualFold(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEqualFold(FieldPaymentType, v))
+}
+
+// PaymentTypeContainsFold applies the ContainsFold predicate on the "PaymentType" field.
+func PaymentTypeContainsFold(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldContainsFold(FieldPaymentType, v))
+}
+
+// StateEQ applies the EQ predicate on the "State" field.
+func StateEQ(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldState, v))
+}
+
+// StateNEQ applies the NEQ predicate on the "State" field.
+func StateNEQ(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldState, v))
+}
+
+// StateIn applies the In predicate on the "State" field.
+func StateIn(vs ...string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldState, vs...))
+}
+
+// StateNotIn applies the NotIn predicate on the "State" field.
+func StateNotIn(vs ...string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldState, vs...))
+}
+
+// StateGT applies the GT predicate on the "State" field.
+func StateGT(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldState, v))
+}
+
+// StateGTE applies the GTE predicate on the "State" field.
+func StateGTE(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldState, v))
+}
+
+// StateLT applies the LT predicate on the "State" field.
+func StateLT(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldState, v))
+}
+
+// StateLTE applies the LTE predicate on the "State" field.
+func StateLTE(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldState, v))
+}
+
+// StateContains applies the Contains predicate on the "State" field.
+func StateContains(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldContains(FieldState, v))
+}
+
+// StateHasPrefix applies the HasPrefix predicate on the "State" field.
+func StateHasPrefix(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldHasPrefix(FieldState, v))
+}
+
+// StateHasSuffix applies the HasSuffix predicate on the "State" field.
+func StateHasSuffix(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldHasSuffix(FieldState, v))
+}
+
+// StateIsNil applies the IsNil predicate on the "State" field.
+func StateIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldState))
+}
+
+// StateNotNil applies the NotNil predicate on the "State" field.
+func StateNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldState))
+}
+
+// StateEqualFold applies the EqualFold predicate on the "State" field.
+func StateEqualFold(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEqualFold(FieldState, v))
+}
+
+// StateContainsFold applies the ContainsFold predicate on the "State" field.
+func StateContainsFold(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldContainsFold(FieldState, v))
+}
+
+// TotalPaymentEQ applies the EQ predicate on the "TotalPayment" field.
+func TotalPaymentEQ(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldTotalPayment, v))
+}
+
+// TotalPaymentNEQ applies the NEQ predicate on the "TotalPayment" field.
+func TotalPaymentNEQ(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldTotalPayment, v))
+}
+
+// TotalPaymentIn applies the In predicate on the "TotalPayment" field.
+func TotalPaymentIn(vs ...float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldTotalPayment, vs...))
+}
+
+// TotalPaymentNotIn applies the NotIn predicate on the "TotalPayment" field.
+func TotalPaymentNotIn(vs ...float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldTotalPayment, vs...))
+}
+
+// TotalPaymentGT applies the GT predicate on the "TotalPayment" field.
+func TotalPaymentGT(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldTotalPayment, v))
+}
+
+// TotalPaymentGTE applies the GTE predicate on the "TotalPayment" field.
+func TotalPaymentGTE(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldTotalPayment, v))
+}
+
+// TotalPaymentLT applies the LT predicate on the "TotalPayment" field.
+func TotalPaymentLT(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldTotalPayment, v))
+}
+
+// TotalPaymentLTE applies the LTE predicate on the "TotalPayment" field.
+func TotalPaymentLTE(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldTotalPayment, v))
+}
+
+// TotalPaymentIsNil applies the IsNil predicate on the "TotalPayment" field.
+func TotalPaymentIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldTotalPayment))
+}
+
+// TotalPaymentNotNil applies the NotNil predicate on the "TotalPayment" field.
+func TotalPaymentNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldTotalPayment))
+}
+
+// LevelRequestEQ applies the EQ predicate on the "LevelRequest" field.
+func LevelRequestEQ(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldLevelRequest, v))
+}
+
+// LevelRequestNEQ applies the NEQ predicate on the "LevelRequest" field.
+func LevelRequestNEQ(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldLevelRequest, v))
+}
+
+// LevelRequestIn applies the In predicate on the "LevelRequest" field.
+func LevelRequestIn(vs ...float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldLevelRequest, vs...))
+}
+
+// LevelRequestNotIn applies the NotIn predicate on the "LevelRequest" field.
+func LevelRequestNotIn(vs ...float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldLevelRequest, vs...))
+}
+
+// LevelRequestGT applies the GT predicate on the "LevelRequest" field.
+func LevelRequestGT(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldLevelRequest, v))
+}
+
+// LevelRequestGTE applies the GTE predicate on the "LevelRequest" field.
+func LevelRequestGTE(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldLevelRequest, v))
+}
+
+// LevelRequestLT applies the LT predicate on the "LevelRequest" field.
+func LevelRequestLT(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldLevelRequest, v))
+}
+
+// LevelRequestLTE applies the LTE predicate on the "LevelRequest" field.
+func LevelRequestLTE(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldLevelRequest, v))
+}
+
+// LevelRequestIsNil applies the IsNil predicate on the "LevelRequest" field.
+func LevelRequestIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldLevelRequest))
+}
+
+// LevelRequestNotNil applies the NotNil predicate on the "LevelRequest" field.
+func LevelRequestNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldLevelRequest))
+}
+
+// LevelApproveEQ applies the EQ predicate on the "LevelApprove" field.
+func LevelApproveEQ(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldLevelApprove, v))
+}
+
+// LevelApproveNEQ applies the NEQ predicate on the "LevelApprove" field.
+func LevelApproveNEQ(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldLevelApprove, v))
+}
+
+// LevelApproveIn applies the In predicate on the "LevelApprove" field.
+func LevelApproveIn(vs ...float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldLevelApprove, vs...))
+}
+
+// LevelApproveNotIn applies the NotIn predicate on the "LevelApprove" field.
+func LevelApproveNotIn(vs ...float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldLevelApprove, vs...))
+}
+
+// LevelApproveGT applies the GT predicate on the "LevelApprove" field.
+func LevelApproveGT(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldLevelApprove, v))
+}
+
+// LevelApproveGTE applies the GTE predicate on the "LevelApprove" field.
+func LevelApproveGTE(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldLevelApprove, v))
+}
+
+// LevelApproveLT applies the LT predicate on the "LevelApprove" field.
+func LevelApproveLT(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldLevelApprove, v))
+}
+
+// LevelApproveLTE applies the LTE predicate on the "LevelApprove" field.
+func LevelApproveLTE(v float64) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldLevelApprove, v))
+}
+
+// LevelApproveIsNil applies the IsNil predicate on the "LevelApprove" field.
+func LevelApproveIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldLevelApprove))
+}
+
+// LevelApproveNotNil applies the NotNil predicate on the "LevelApprove" field.
+func LevelApproveNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldLevelApprove))
 }
 
 // AmountEQ applies the EQ predicate on the "Amount" field.
-func AmountEQ(v int) predicate.JobPayments {
+func AmountEQ(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldAmount, v))
 }
 
 // AmountNEQ applies the NEQ predicate on the "Amount" field.
-func AmountNEQ(v int) predicate.JobPayments {
+func AmountNEQ(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNEQ(FieldAmount, v))
 }
 
 // AmountIn applies the In predicate on the "Amount" field.
-func AmountIn(vs ...int) predicate.JobPayments {
+func AmountIn(vs ...float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldIn(FieldAmount, vs...))
 }
 
 // AmountNotIn applies the NotIn predicate on the "Amount" field.
-func AmountNotIn(vs ...int) predicate.JobPayments {
+func AmountNotIn(vs ...float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNotIn(FieldAmount, vs...))
 }
 
 // AmountGT applies the GT predicate on the "Amount" field.
-func AmountGT(v int) predicate.JobPayments {
+func AmountGT(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldGT(FieldAmount, v))
 }
 
 // AmountGTE applies the GTE predicate on the "Amount" field.
-func AmountGTE(v int) predicate.JobPayments {
+func AmountGTE(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldGTE(FieldAmount, v))
 }
 
 // AmountLT applies the LT predicate on the "Amount" field.
-func AmountLT(v int) predicate.JobPayments {
+func AmountLT(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldLT(FieldAmount, v))
 }
 
 // AmountLTE applies the LTE predicate on the "Amount" field.
-func AmountLTE(v int) predicate.JobPayments {
+func AmountLTE(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldLTE(FieldAmount, v))
 }
 
@@ -178,206 +588,6 @@ func AmountIsNil() predicate.JobPayments {
 // AmountNotNil applies the NotNil predicate on the "Amount" field.
 func AmountNotNil() predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNotNull(FieldAmount))
-}
-
-// DescriptionEQ applies the EQ predicate on the "Description" field.
-func DescriptionEQ(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldDescription, v))
-}
-
-// DescriptionNEQ applies the NEQ predicate on the "Description" field.
-func DescriptionNEQ(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNEQ(FieldDescription, v))
-}
-
-// DescriptionIn applies the In predicate on the "Description" field.
-func DescriptionIn(vs ...string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIn(FieldDescription, vs...))
-}
-
-// DescriptionNotIn applies the NotIn predicate on the "Description" field.
-func DescriptionNotIn(vs ...string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotIn(FieldDescription, vs...))
-}
-
-// DescriptionGT applies the GT predicate on the "Description" field.
-func DescriptionGT(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGT(FieldDescription, v))
-}
-
-// DescriptionGTE applies the GTE predicate on the "Description" field.
-func DescriptionGTE(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGTE(FieldDescription, v))
-}
-
-// DescriptionLT applies the LT predicate on the "Description" field.
-func DescriptionLT(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLT(FieldDescription, v))
-}
-
-// DescriptionLTE applies the LTE predicate on the "Description" field.
-func DescriptionLTE(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLTE(FieldDescription, v))
-}
-
-// DescriptionContains applies the Contains predicate on the "Description" field.
-func DescriptionContains(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldContains(FieldDescription, v))
-}
-
-// DescriptionHasPrefix applies the HasPrefix predicate on the "Description" field.
-func DescriptionHasPrefix(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldHasPrefix(FieldDescription, v))
-}
-
-// DescriptionHasSuffix applies the HasSuffix predicate on the "Description" field.
-func DescriptionHasSuffix(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldHasSuffix(FieldDescription, v))
-}
-
-// DescriptionIsNil applies the IsNil predicate on the "Description" field.
-func DescriptionIsNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIsNull(FieldDescription))
-}
-
-// DescriptionNotNil applies the NotNil predicate on the "Description" field.
-func DescriptionNotNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotNull(FieldDescription))
-}
-
-// DescriptionEqualFold applies the EqualFold predicate on the "Description" field.
-func DescriptionEqualFold(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEqualFold(FieldDescription, v))
-}
-
-// DescriptionContainsFold applies the ContainsFold predicate on the "Description" field.
-func DescriptionContainsFold(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldContainsFold(FieldDescription, v))
-}
-
-// StatusEQ applies the EQ predicate on the "Status" field.
-func StatusEQ(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldStatus, v))
-}
-
-// StatusNEQ applies the NEQ predicate on the "Status" field.
-func StatusNEQ(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNEQ(FieldStatus, v))
-}
-
-// StatusIn applies the In predicate on the "Status" field.
-func StatusIn(vs ...string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIn(FieldStatus, vs...))
-}
-
-// StatusNotIn applies the NotIn predicate on the "Status" field.
-func StatusNotIn(vs ...string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotIn(FieldStatus, vs...))
-}
-
-// StatusGT applies the GT predicate on the "Status" field.
-func StatusGT(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGT(FieldStatus, v))
-}
-
-// StatusGTE applies the GTE predicate on the "Status" field.
-func StatusGTE(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGTE(FieldStatus, v))
-}
-
-// StatusLT applies the LT predicate on the "Status" field.
-func StatusLT(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLT(FieldStatus, v))
-}
-
-// StatusLTE applies the LTE predicate on the "Status" field.
-func StatusLTE(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLTE(FieldStatus, v))
-}
-
-// StatusContains applies the Contains predicate on the "Status" field.
-func StatusContains(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldContains(FieldStatus, v))
-}
-
-// StatusHasPrefix applies the HasPrefix predicate on the "Status" field.
-func StatusHasPrefix(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldHasPrefix(FieldStatus, v))
-}
-
-// StatusHasSuffix applies the HasSuffix predicate on the "Status" field.
-func StatusHasSuffix(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldHasSuffix(FieldStatus, v))
-}
-
-// StatusIsNil applies the IsNil predicate on the "Status" field.
-func StatusIsNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIsNull(FieldStatus))
-}
-
-// StatusNotNil applies the NotNil predicate on the "Status" field.
-func StatusNotNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotNull(FieldStatus))
-}
-
-// StatusEqualFold applies the EqualFold predicate on the "Status" field.
-func StatusEqualFold(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEqualFold(FieldStatus, v))
-}
-
-// StatusContainsFold applies the ContainsFold predicate on the "Status" field.
-func StatusContainsFold(v string) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldContainsFold(FieldStatus, v))
-}
-
-// PercentageEQ applies the EQ predicate on the "Percentage" field.
-func PercentageEQ(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldPercentage, v))
-}
-
-// PercentageNEQ applies the NEQ predicate on the "Percentage" field.
-func PercentageNEQ(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNEQ(FieldPercentage, v))
-}
-
-// PercentageIn applies the In predicate on the "Percentage" field.
-func PercentageIn(vs ...float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIn(FieldPercentage, vs...))
-}
-
-// PercentageNotIn applies the NotIn predicate on the "Percentage" field.
-func PercentageNotIn(vs ...float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotIn(FieldPercentage, vs...))
-}
-
-// PercentageGT applies the GT predicate on the "Percentage" field.
-func PercentageGT(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGT(FieldPercentage, v))
-}
-
-// PercentageGTE applies the GTE predicate on the "Percentage" field.
-func PercentageGTE(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGTE(FieldPercentage, v))
-}
-
-// PercentageLT applies the LT predicate on the "Percentage" field.
-func PercentageLT(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLT(FieldPercentage, v))
-}
-
-// PercentageLTE applies the LTE predicate on the "Percentage" field.
-func PercentageLTE(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLTE(FieldPercentage, v))
-}
-
-// PercentageIsNil applies the IsNil predicate on the "Percentage" field.
-func PercentageIsNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIsNull(FieldPercentage))
-}
-
-// PercentageNotNil applies the NotNil predicate on the "Percentage" field.
-func PercentageNotNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotNull(FieldPercentage))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.
@@ -472,7 +682,7 @@ func HasPayments() predicate.JobPayments {
 }
 
 // HasPaymentsWith applies the HasEdge predicate on the "payments" edge with a given conditions (other predicates).
-func HasPaymentsWith(preds ...predicate.JobDetail) predicate.JobPayments {
+func HasPaymentsWith(preds ...predicate.JobRelations) predicate.JobPayments {
 	return predicate.JobPayments(func(s *sql.Selector) {
 		step := newPaymentsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

@@ -15,7 +15,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
 	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
@@ -208,23 +208,16 @@ func (cdu *CompanyDetailUpdate) ClearTaxAdmin() *CompanyDetailUpdate {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (cdu *CompanyDetailUpdate) SetTaxNo(i int) *CompanyDetailUpdate {
-	cdu.mutation.ResetTaxNo()
-	cdu.mutation.SetTaxNo(i)
+func (cdu *CompanyDetailUpdate) SetTaxNo(s string) *CompanyDetailUpdate {
+	cdu.mutation.SetTaxNo(s)
 	return cdu
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableTaxNo(i *int) *CompanyDetailUpdate {
-	if i != nil {
-		cdu.SetTaxNo(*i)
+func (cdu *CompanyDetailUpdate) SetNillableTaxNo(s *string) *CompanyDetailUpdate {
+	if s != nil {
+		cdu.SetTaxNo(*s)
 	}
-	return cdu
-}
-
-// AddTaxNo adds i to the "TaxNo" field.
-func (cdu *CompanyDetailUpdate) AddTaxNo(i int) *CompanyDetailUpdate {
-	cdu.mutation.AddTaxNo(i)
 	return cdu
 }
 
@@ -389,23 +382,16 @@ func (cdu *CompanyDetailUpdate) ClearOwnerName() *CompanyDetailUpdate {
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (cdu *CompanyDetailUpdate) SetOwnerTcNo(i int) *CompanyDetailUpdate {
-	cdu.mutation.ResetOwnerTcNo()
-	cdu.mutation.SetOwnerTcNo(i)
+func (cdu *CompanyDetailUpdate) SetOwnerTcNo(s string) *CompanyDetailUpdate {
+	cdu.mutation.SetOwnerTcNo(s)
 	return cdu
 }
 
 // SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerTcNo(i *int) *CompanyDetailUpdate {
-	if i != nil {
-		cdu.SetOwnerTcNo(*i)
+func (cdu *CompanyDetailUpdate) SetNillableOwnerTcNo(s *string) *CompanyDetailUpdate {
+	if s != nil {
+		cdu.SetOwnerTcNo(*s)
 	}
-	return cdu
-}
-
-// AddOwnerTcNo adds i to the "OwnerTcNo" field.
-func (cdu *CompanyDetailUpdate) AddOwnerTcNo(i int) *CompanyDetailUpdate {
-	cdu.mutation.AddOwnerTcNo(i)
 	return cdu
 }
 
@@ -476,23 +462,16 @@ func (cdu *CompanyDetailUpdate) ClearOwnerEmail() *CompanyDetailUpdate {
 }
 
 // SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
-func (cdu *CompanyDetailUpdate) SetOwnerRegisterNo(i int) *CompanyDetailUpdate {
-	cdu.mutation.ResetOwnerRegisterNo()
-	cdu.mutation.SetOwnerRegisterNo(i)
+func (cdu *CompanyDetailUpdate) SetOwnerRegisterNo(s string) *CompanyDetailUpdate {
+	cdu.mutation.SetOwnerRegisterNo(s)
 	return cdu
 }
 
 // SetNillableOwnerRegisterNo sets the "OwnerRegisterNo" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerRegisterNo(i *int) *CompanyDetailUpdate {
-	if i != nil {
-		cdu.SetOwnerRegisterNo(*i)
+func (cdu *CompanyDetailUpdate) SetNillableOwnerRegisterNo(s *string) *CompanyDetailUpdate {
+	if s != nil {
+		cdu.SetOwnerRegisterNo(*s)
 	}
-	return cdu
-}
-
-// AddOwnerRegisterNo adds i to the "OwnerRegisterNo" field.
-func (cdu *CompanyDetailUpdate) AddOwnerRegisterNo(i int) *CompanyDetailUpdate {
-	cdu.mutation.AddOwnerRegisterNo(i)
 	return cdu
 }
 
@@ -542,14 +521,14 @@ func (cdu *CompanyDetailUpdate) SetUpdatedAt(t time.Time) *CompanyDetailUpdate {
 	return cdu
 }
 
-// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+// AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
 func (cdu *CompanyDetailUpdate) AddJobIDs(ids ...int) *CompanyDetailUpdate {
 	cdu.mutation.AddJobIDs(ids...)
 	return cdu
 }
 
-// AddJobs adds the "jobs" edges to the JobDetail entity.
-func (cdu *CompanyDetailUpdate) AddJobs(j ...*JobDetail) *CompanyDetailUpdate {
+// AddJobs adds the "jobs" edges to the JobRelations entity.
+func (cdu *CompanyDetailUpdate) AddJobs(j ...*JobRelations) *CompanyDetailUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -607,20 +586,20 @@ func (cdu *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
 	return cdu.mutation
 }
 
-// ClearJobs clears all "jobs" edges to the JobDetail entity.
+// ClearJobs clears all "jobs" edges to the JobRelations entity.
 func (cdu *CompanyDetailUpdate) ClearJobs() *CompanyDetailUpdate {
 	cdu.mutation.ClearJobs()
 	return cdu
 }
 
-// RemoveJobIDs removes the "jobs" edge to JobDetail entities by IDs.
+// RemoveJobIDs removes the "jobs" edge to JobRelations entities by IDs.
 func (cdu *CompanyDetailUpdate) RemoveJobIDs(ids ...int) *CompanyDetailUpdate {
 	cdu.mutation.RemoveJobIDs(ids...)
 	return cdu
 }
 
-// RemoveJobs removes "jobs" edges to JobDetail entities.
-func (cdu *CompanyDetailUpdate) RemoveJobs(j ...*JobDetail) *CompanyDetailUpdate {
+// RemoveJobs removes "jobs" edges to JobRelations entities.
+func (cdu *CompanyDetailUpdate) RemoveJobs(j ...*JobRelations) *CompanyDetailUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -788,13 +767,10 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		_spec.ClearField(companydetail.FieldTaxAdmin, field.TypeString)
 	}
 	if value, ok := cdu.mutation.TaxNo(); ok {
-		_spec.SetField(companydetail.FieldTaxNo, field.TypeInt, value)
-	}
-	if value, ok := cdu.mutation.AddedTaxNo(); ok {
-		_spec.AddField(companydetail.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldTaxNo, field.TypeString, value)
 	}
 	if cdu.mutation.TaxNoCleared() {
-		_spec.ClearField(companydetail.FieldTaxNo, field.TypeInt)
+		_spec.ClearField(companydetail.FieldTaxNo, field.TypeString)
 	}
 	if value, ok := cdu.mutation.ChamberInfo(); ok {
 		_spec.SetField(companydetail.FieldChamberInfo, field.TypeString, value)
@@ -842,13 +818,10 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		_spec.ClearField(companydetail.FieldOwnerName, field.TypeString)
 	}
 	if value, ok := cdu.mutation.OwnerTcNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeInt, value)
-	}
-	if value, ok := cdu.mutation.AddedOwnerTcNo(); ok {
-		_spec.AddField(companydetail.FieldOwnerTcNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
 	}
 	if cdu.mutation.OwnerTcNoCleared() {
-		_spec.ClearField(companydetail.FieldOwnerTcNo, field.TypeInt)
+		_spec.ClearField(companydetail.FieldOwnerTcNo, field.TypeString)
 	}
 	if value, ok := cdu.mutation.OwnerAddress(); ok {
 		_spec.SetField(companydetail.FieldOwnerAddress, field.TypeString, value)
@@ -869,13 +842,10 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		_spec.ClearField(companydetail.FieldOwnerEmail, field.TypeString)
 	}
 	if value, ok := cdu.mutation.OwnerRegisterNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeInt, value)
-	}
-	if value, ok := cdu.mutation.AddedOwnerRegisterNo(); ok {
-		_spec.AddField(companydetail.FieldOwnerRegisterNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeString, value)
 	}
 	if cdu.mutation.OwnerRegisterNoCleared() {
-		_spec.ClearField(companydetail.FieldOwnerRegisterNo, field.TypeInt)
+		_spec.ClearField(companydetail.FieldOwnerRegisterNo, field.TypeString)
 	}
 	if value, ok := cdu.mutation.OwnerCareer(); ok {
 		_spec.SetField(companydetail.FieldOwnerCareer, field.TypeString, value)
@@ -897,7 +867,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -910,7 +880,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -926,7 +896,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1265,23 +1235,16 @@ func (cduo *CompanyDetailUpdateOne) ClearTaxAdmin() *CompanyDetailUpdateOne {
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (cduo *CompanyDetailUpdateOne) SetTaxNo(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.ResetTaxNo()
-	cduo.mutation.SetTaxNo(i)
+func (cduo *CompanyDetailUpdateOne) SetTaxNo(s string) *CompanyDetailUpdateOne {
+	cduo.mutation.SetTaxNo(s)
 	return cduo
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableTaxNo(i *int) *CompanyDetailUpdateOne {
-	if i != nil {
-		cduo.SetTaxNo(*i)
+func (cduo *CompanyDetailUpdateOne) SetNillableTaxNo(s *string) *CompanyDetailUpdateOne {
+	if s != nil {
+		cduo.SetTaxNo(*s)
 	}
-	return cduo
-}
-
-// AddTaxNo adds i to the "TaxNo" field.
-func (cduo *CompanyDetailUpdateOne) AddTaxNo(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddTaxNo(i)
 	return cduo
 }
 
@@ -1446,23 +1409,16 @@ func (cduo *CompanyDetailUpdateOne) ClearOwnerName() *CompanyDetailUpdateOne {
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerTcNo(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.ResetOwnerTcNo()
-	cduo.mutation.SetOwnerTcNo(i)
+func (cduo *CompanyDetailUpdateOne) SetOwnerTcNo(s string) *CompanyDetailUpdateOne {
+	cduo.mutation.SetOwnerTcNo(s)
 	return cduo
 }
 
 // SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerTcNo(i *int) *CompanyDetailUpdateOne {
-	if i != nil {
-		cduo.SetOwnerTcNo(*i)
+func (cduo *CompanyDetailUpdateOne) SetNillableOwnerTcNo(s *string) *CompanyDetailUpdateOne {
+	if s != nil {
+		cduo.SetOwnerTcNo(*s)
 	}
-	return cduo
-}
-
-// AddOwnerTcNo adds i to the "OwnerTcNo" field.
-func (cduo *CompanyDetailUpdateOne) AddOwnerTcNo(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddOwnerTcNo(i)
 	return cduo
 }
 
@@ -1533,23 +1489,16 @@ func (cduo *CompanyDetailUpdateOne) ClearOwnerEmail() *CompanyDetailUpdateOne {
 }
 
 // SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerRegisterNo(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.ResetOwnerRegisterNo()
-	cduo.mutation.SetOwnerRegisterNo(i)
+func (cduo *CompanyDetailUpdateOne) SetOwnerRegisterNo(s string) *CompanyDetailUpdateOne {
+	cduo.mutation.SetOwnerRegisterNo(s)
 	return cduo
 }
 
 // SetNillableOwnerRegisterNo sets the "OwnerRegisterNo" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerRegisterNo(i *int) *CompanyDetailUpdateOne {
-	if i != nil {
-		cduo.SetOwnerRegisterNo(*i)
+func (cduo *CompanyDetailUpdateOne) SetNillableOwnerRegisterNo(s *string) *CompanyDetailUpdateOne {
+	if s != nil {
+		cduo.SetOwnerRegisterNo(*s)
 	}
-	return cduo
-}
-
-// AddOwnerRegisterNo adds i to the "OwnerRegisterNo" field.
-func (cduo *CompanyDetailUpdateOne) AddOwnerRegisterNo(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddOwnerRegisterNo(i)
 	return cduo
 }
 
@@ -1599,14 +1548,14 @@ func (cduo *CompanyDetailUpdateOne) SetUpdatedAt(t time.Time) *CompanyDetailUpda
 	return cduo
 }
 
-// AddJobIDs adds the "jobs" edge to the JobDetail entity by IDs.
+// AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
 func (cduo *CompanyDetailUpdateOne) AddJobIDs(ids ...int) *CompanyDetailUpdateOne {
 	cduo.mutation.AddJobIDs(ids...)
 	return cduo
 }
 
-// AddJobs adds the "jobs" edges to the JobDetail entity.
-func (cduo *CompanyDetailUpdateOne) AddJobs(j ...*JobDetail) *CompanyDetailUpdateOne {
+// AddJobs adds the "jobs" edges to the JobRelations entity.
+func (cduo *CompanyDetailUpdateOne) AddJobs(j ...*JobRelations) *CompanyDetailUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -1664,20 +1613,20 @@ func (cduo *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
 	return cduo.mutation
 }
 
-// ClearJobs clears all "jobs" edges to the JobDetail entity.
+// ClearJobs clears all "jobs" edges to the JobRelations entity.
 func (cduo *CompanyDetailUpdateOne) ClearJobs() *CompanyDetailUpdateOne {
 	cduo.mutation.ClearJobs()
 	return cduo
 }
 
-// RemoveJobIDs removes the "jobs" edge to JobDetail entities by IDs.
+// RemoveJobIDs removes the "jobs" edge to JobRelations entities by IDs.
 func (cduo *CompanyDetailUpdateOne) RemoveJobIDs(ids ...int) *CompanyDetailUpdateOne {
 	cduo.mutation.RemoveJobIDs(ids...)
 	return cduo
 }
 
-// RemoveJobs removes "jobs" edges to JobDetail entities.
-func (cduo *CompanyDetailUpdateOne) RemoveJobs(j ...*JobDetail) *CompanyDetailUpdateOne {
+// RemoveJobs removes "jobs" edges to JobRelations entities.
+func (cduo *CompanyDetailUpdateOne) RemoveJobs(j ...*JobRelations) *CompanyDetailUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
@@ -1875,13 +1824,10 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		_spec.ClearField(companydetail.FieldTaxAdmin, field.TypeString)
 	}
 	if value, ok := cduo.mutation.TaxNo(); ok {
-		_spec.SetField(companydetail.FieldTaxNo, field.TypeInt, value)
-	}
-	if value, ok := cduo.mutation.AddedTaxNo(); ok {
-		_spec.AddField(companydetail.FieldTaxNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldTaxNo, field.TypeString, value)
 	}
 	if cduo.mutation.TaxNoCleared() {
-		_spec.ClearField(companydetail.FieldTaxNo, field.TypeInt)
+		_spec.ClearField(companydetail.FieldTaxNo, field.TypeString)
 	}
 	if value, ok := cduo.mutation.ChamberInfo(); ok {
 		_spec.SetField(companydetail.FieldChamberInfo, field.TypeString, value)
@@ -1929,13 +1875,10 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		_spec.ClearField(companydetail.FieldOwnerName, field.TypeString)
 	}
 	if value, ok := cduo.mutation.OwnerTcNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeInt, value)
-	}
-	if value, ok := cduo.mutation.AddedOwnerTcNo(); ok {
-		_spec.AddField(companydetail.FieldOwnerTcNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
 	}
 	if cduo.mutation.OwnerTcNoCleared() {
-		_spec.ClearField(companydetail.FieldOwnerTcNo, field.TypeInt)
+		_spec.ClearField(companydetail.FieldOwnerTcNo, field.TypeString)
 	}
 	if value, ok := cduo.mutation.OwnerAddress(); ok {
 		_spec.SetField(companydetail.FieldOwnerAddress, field.TypeString, value)
@@ -1956,13 +1899,10 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		_spec.ClearField(companydetail.FieldOwnerEmail, field.TypeString)
 	}
 	if value, ok := cduo.mutation.OwnerRegisterNo(); ok {
-		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeInt, value)
-	}
-	if value, ok := cduo.mutation.AddedOwnerRegisterNo(); ok {
-		_spec.AddField(companydetail.FieldOwnerRegisterNo, field.TypeInt, value)
+		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeString, value)
 	}
 	if cduo.mutation.OwnerRegisterNoCleared() {
-		_spec.ClearField(companydetail.FieldOwnerRegisterNo, field.TypeInt)
+		_spec.ClearField(companydetail.FieldOwnerRegisterNo, field.TypeString)
 	}
 	if value, ok := cduo.mutation.OwnerCareer(); ok {
 		_spec.SetField(companydetail.FieldOwnerCareer, field.TypeString, value)
@@ -1984,7 +1924,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1997,7 +1937,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -2013,7 +1953,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Columns: []string{companydetail.JobsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

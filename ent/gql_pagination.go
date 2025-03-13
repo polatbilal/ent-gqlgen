@@ -22,6 +22,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/ent/user"
 	"github.com/vektah/gqlparser/v2/gqlerror"
@@ -2843,6 +2844,255 @@ func (jp *JobProgress) ToEdge(order *JobProgressOrder) *JobProgressEdge {
 	return &JobProgressEdge{
 		Node:   jp,
 		Cursor: order.Field.toCursor(jp),
+	}
+}
+
+// JobRelationsEdge is the edge representation of JobRelations.
+type JobRelationsEdge struct {
+	Node   *JobRelations `json:"node"`
+	Cursor Cursor        `json:"cursor"`
+}
+
+// JobRelationsConnection is the connection containing edges to JobRelations.
+type JobRelationsConnection struct {
+	Edges      []*JobRelationsEdge `json:"edges"`
+	PageInfo   PageInfo            `json:"pageInfo"`
+	TotalCount int                 `json:"totalCount"`
+}
+
+func (c *JobRelationsConnection) build(nodes []*JobRelations, pager *jobrelationsPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *JobRelations
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *JobRelations {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *JobRelations {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*JobRelationsEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &JobRelationsEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// JobRelationsPaginateOption enables pagination customization.
+type JobRelationsPaginateOption func(*jobrelationsPager) error
+
+// WithJobRelationsOrder configures pagination ordering.
+func WithJobRelationsOrder(order *JobRelationsOrder) JobRelationsPaginateOption {
+	if order == nil {
+		order = DefaultJobRelationsOrder
+	}
+	o := *order
+	return func(pager *jobrelationsPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultJobRelationsOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithJobRelationsFilter configures pagination filter.
+func WithJobRelationsFilter(filter func(*JobRelationsQuery) (*JobRelationsQuery, error)) JobRelationsPaginateOption {
+	return func(pager *jobrelationsPager) error {
+		if filter == nil {
+			return errors.New("JobRelationsQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type jobrelationsPager struct {
+	reverse bool
+	order   *JobRelationsOrder
+	filter  func(*JobRelationsQuery) (*JobRelationsQuery, error)
+}
+
+func newJobRelationsPager(opts []JobRelationsPaginateOption, reverse bool) (*jobrelationsPager, error) {
+	pager := &jobrelationsPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultJobRelationsOrder
+	}
+	return pager, nil
+}
+
+func (p *jobrelationsPager) applyFilter(query *JobRelationsQuery) (*JobRelationsQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *jobrelationsPager) toCursor(jr *JobRelations) Cursor {
+	return p.order.Field.toCursor(jr)
+}
+
+func (p *jobrelationsPager) applyCursors(query *JobRelationsQuery, after, before *Cursor) (*JobRelationsQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultJobRelationsOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *jobrelationsPager) applyOrder(query *JobRelationsQuery) *JobRelationsQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultJobRelationsOrder.Field {
+		query = query.Order(DefaultJobRelationsOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *jobrelationsPager) orderExpr(query *JobRelationsQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultJobRelationsOrder.Field {
+			b.Comma().Ident(DefaultJobRelationsOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to JobRelations.
+func (jr *JobRelationsQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...JobRelationsPaginateOption,
+) (*JobRelationsConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newJobRelationsPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if jr, err = pager.applyFilter(jr); err != nil {
+		return nil, err
+	}
+	conn := &JobRelationsConnection{Edges: []*JobRelationsEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := jr.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if jr, err = pager.applyCursors(jr, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		jr.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := jr.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	jr = pager.applyOrder(jr)
+	nodes, err := jr.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// JobRelationsOrderField defines the ordering field of JobRelations.
+type JobRelationsOrderField struct {
+	// Value extracts the ordering value from the given JobRelations.
+	Value    func(*JobRelations) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) jobrelations.OrderOption
+	toCursor func(*JobRelations) Cursor
+}
+
+// JobRelationsOrder defines the ordering of JobRelations.
+type JobRelationsOrder struct {
+	Direction OrderDirection          `json:"direction"`
+	Field     *JobRelationsOrderField `json:"field"`
+}
+
+// DefaultJobRelationsOrder is the default ordering of JobRelations.
+var DefaultJobRelationsOrder = &JobRelationsOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &JobRelationsOrderField{
+		Value: func(jr *JobRelations) (ent.Value, error) {
+			return jr.ID, nil
+		},
+		column: jobrelations.FieldID,
+		toTerm: jobrelations.ByID,
+		toCursor: func(jr *JobRelations) Cursor {
+			return Cursor{ID: jr.ID}
+		},
+	},
+}
+
+// ToEdge converts JobRelations into JobRelationsEdge.
+func (jr *JobRelations) ToEdge(order *JobRelationsOrder) *JobRelationsEdge {
+	if order == nil {
+		order = DefaultJobRelationsOrder
+	}
+	return &JobRelationsEdge{
+		Node:   jr,
+		Cursor: order.Field.toCursor(jr),
 	}
 }
 

@@ -16,13 +16,10 @@ type CompanyToken struct {
 // Fields of the CompanyToken.
 func (CompanyToken) Fields() []ent.Field {
 	return []ent.Field{
+		field.String("YDKUsername").Optional(),
+		field.String("YDKPassword").Optional(),
 		field.String("Token").Optional(),
 		field.Int("DepartmentId").Optional().Unique(),
-		field.Int("Expire").Optional(),
-		field.String("RefreshToken").Optional(),
-		field.String("SecretKey").Optional(),
-		field.String("SecureSecretKey").Optional(),
-		field.String("OtpUri").Optional(),
 
 		field.Time("createdAt").Default(time.Now),
 		field.Time("updatedAt").Default(time.Now).UpdateDefault(time.Now),

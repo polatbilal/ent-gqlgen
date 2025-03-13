@@ -301,12 +301,12 @@ func (ctq *CompanyTokenQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *Co
 // Example:
 //
 //	var v []struct {
-//		Token string `json:"Token,omitempty"`
+//		YDKUsername string `json:"YDKUsername,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.CompanyToken.Query().
-//		GroupBy(companytoken.FieldToken).
+//		GroupBy(companytoken.FieldYDKUsername).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (ctq *CompanyTokenQuery) GroupBy(field string, fields ...string) *CompanyTokenGroupBy {
@@ -324,11 +324,11 @@ func (ctq *CompanyTokenQuery) GroupBy(field string, fields ...string) *CompanyTo
 // Example:
 //
 //	var v []struct {
-//		Token string `json:"Token,omitempty"`
+//		YDKUsername string `json:"YDKUsername,omitempty"`
 //	}
 //
 //	client.CompanyToken.Query().
-//		Select(companytoken.FieldToken).
+//		Select(companytoken.FieldYDKUsername).
 //		Scan(ctx, &v)
 func (ctq *CompanyTokenQuery) Select(fields ...string) *CompanyTokenSelect {
 	ctq.ctx.Fields = append(ctq.ctx.Fields, fields...)

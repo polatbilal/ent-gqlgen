@@ -36,7 +36,7 @@ type CompanyDetail struct {
 	// TaxAdmin holds the value of the "TaxAdmin" field.
 	TaxAdmin string `json:"TaxAdmin,omitempty"`
 	// TaxNo holds the value of the "TaxNo" field.
-	TaxNo int `json:"TaxNo,omitempty"`
+	TaxNo string `json:"TaxNo,omitempty"`
 	// ChamberInfo holds the value of the "ChamberInfo" field.
 	ChamberInfo string `json:"ChamberInfo,omitempty"`
 	// ChamberRegisterNo holds the value of the "ChamberRegisterNo" field.
@@ -54,7 +54,7 @@ type CompanyDetail struct {
 	// OwnerName holds the value of the "OwnerName" field.
 	OwnerName string `json:"OwnerName,omitempty"`
 	// OwnerTcNo holds the value of the "OwnerTcNo" field.
-	OwnerTcNo int `json:"OwnerTcNo,omitempty"`
+	OwnerTcNo string `json:"OwnerTcNo,omitempty"`
 	// OwnerAddress holds the value of the "OwnerAddress" field.
 	OwnerAddress string `json:"OwnerAddress,omitempty"`
 	// OwnerPhone holds the value of the "OwnerPhone" field.
@@ -62,7 +62,7 @@ type CompanyDetail struct {
 	// OwnerEmail holds the value of the "OwnerEmail" field.
 	OwnerEmail string `json:"OwnerEmail,omitempty"`
 	// OwnerRegisterNo holds the value of the "OwnerRegisterNo" field.
-	OwnerRegisterNo int `json:"OwnerRegisterNo,omitempty"`
+	OwnerRegisterNo string `json:"OwnerRegisterNo,omitempty"`
 	// OwnerCareer holds the value of the "OwnerCareer" field.
 	OwnerCareer string `json:"OwnerCareer,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
@@ -78,7 +78,7 @@ type CompanyDetail struct {
 // CompanyDetailEdges holds the relations/edges for other nodes in the graph.
 type CompanyDetailEdges struct {
 	// Jobs holds the value of the jobs edge.
-	Jobs []*JobDetail `json:"jobs,omitempty"`
+	Jobs []*JobRelations `json:"jobs,omitempty"`
 	// Users holds the value of the users edge.
 	Users []*CompanyUser `json:"users,omitempty"`
 	// Tokens holds the value of the tokens edge.
@@ -91,7 +91,7 @@ type CompanyDetailEdges struct {
 	// totalCount holds the count of the edges above.
 	totalCount [4]map[string]int
 
-	namedJobs      map[string][]*JobDetail
+	namedJobs      map[string][]*JobRelations
 	namedUsers     map[string][]*CompanyUser
 	namedTokens    map[string][]*CompanyToken
 	namedEngineers map[string][]*CompanyEngineer
@@ -99,7 +99,7 @@ type CompanyDetailEdges struct {
 
 // JobsOrErr returns the Jobs value or an error if the edge
 // was not loaded in eager-loading.
-func (e CompanyDetailEdges) JobsOrErr() ([]*JobDetail, error) {
+func (e CompanyDetailEdges) JobsOrErr() ([]*JobRelations, error) {
 	if e.loadedTypes[0] {
 		return e.Jobs, nil
 	}
@@ -140,9 +140,9 @@ func (*CompanyDetail) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case companydetail.FieldVisaFinishedFor90Days, companydetail.FieldCorePersonAbsent90Days, companydetail.FieldIsClosed:
 			values[i] = new(sql.NullBool)
-		case companydetail.FieldID, companydetail.FieldCompanyCode, companydetail.FieldTaxNo, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerRegisterNo:
+		case companydetail.FieldID, companydetail.FieldCompanyCode:
 			values[i] = new(sql.NullInt64)
-		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldFax, companydetail.FieldMobilePhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerCareer:
+		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldFax, companydetail.FieldMobilePhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldTaxNo, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerRegisterNo, companydetail.FieldOwnerCareer:
 			values[i] = new(sql.NullString)
 		case companydetail.FieldVisaDate, companydetail.FieldVisaEndDate, companydetail.FieldCreatedAt, companydetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -222,10 +222,10 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 				cd.TaxAdmin = value.String
 			}
 		case companydetail.FieldTaxNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
 			} else if value.Valid {
-				cd.TaxNo = int(value.Int64)
+				cd.TaxNo = value.String
 			}
 		case companydetail.FieldChamberInfo:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -276,10 +276,10 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 				cd.OwnerName = value.String
 			}
 		case companydetail.FieldOwnerTcNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerTcNo", values[i])
 			} else if value.Valid {
-				cd.OwnerTcNo = int(value.Int64)
+				cd.OwnerTcNo = value.String
 			}
 		case companydetail.FieldOwnerAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -300,10 +300,10 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 				cd.OwnerEmail = value.String
 			}
 		case companydetail.FieldOwnerRegisterNo:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerRegisterNo", values[i])
 			} else if value.Valid {
-				cd.OwnerRegisterNo = int(value.Int64)
+				cd.OwnerRegisterNo = value.String
 			}
 		case companydetail.FieldOwnerCareer:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -337,7 +337,7 @@ func (cd *CompanyDetail) Value(name string) (ent.Value, error) {
 }
 
 // QueryJobs queries the "jobs" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryJobs() *JobDetailQuery {
+func (cd *CompanyDetail) QueryJobs() *JobRelationsQuery {
 	return NewCompanyDetailClient(cd.config).QueryJobs(cd)
 }
 
@@ -407,7 +407,7 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString(cd.TaxAdmin)
 	builder.WriteString(", ")
 	builder.WriteString("TaxNo=")
-	builder.WriteString(fmt.Sprintf("%v", cd.TaxNo))
+	builder.WriteString(cd.TaxNo)
 	builder.WriteString(", ")
 	builder.WriteString("ChamberInfo=")
 	builder.WriteString(cd.ChamberInfo)
@@ -434,7 +434,7 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString(cd.OwnerName)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerTcNo=")
-	builder.WriteString(fmt.Sprintf("%v", cd.OwnerTcNo))
+	builder.WriteString(cd.OwnerTcNo)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerAddress=")
 	builder.WriteString(cd.OwnerAddress)
@@ -446,7 +446,7 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString(cd.OwnerEmail)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerRegisterNo=")
-	builder.WriteString(fmt.Sprintf("%v", cd.OwnerRegisterNo))
+	builder.WriteString(cd.OwnerRegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerCareer=")
 	builder.WriteString(cd.OwnerCareer)
@@ -462,7 +462,7 @@ func (cd *CompanyDetail) String() string {
 
 // NamedJobs returns the Jobs named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (cd *CompanyDetail) NamedJobs(name string) ([]*JobDetail, error) {
+func (cd *CompanyDetail) NamedJobs(name string) ([]*JobRelations, error) {
 	if cd.Edges.namedJobs == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
@@ -473,12 +473,12 @@ func (cd *CompanyDetail) NamedJobs(name string) ([]*JobDetail, error) {
 	return nodes, nil
 }
 
-func (cd *CompanyDetail) appendNamedJobs(name string, edges ...*JobDetail) {
+func (cd *CompanyDetail) appendNamedJobs(name string, edges ...*JobRelations) {
 	if cd.Edges.namedJobs == nil {
-		cd.Edges.namedJobs = make(map[string][]*JobDetail)
+		cd.Edges.namedJobs = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		cd.Edges.namedJobs[name] = []*JobDetail{}
+		cd.Edges.namedJobs[name] = []*JobRelations{}
 	} else {
 		cd.Edges.namedJobs[name] = append(cd.Edges.namedJobs[name], edges...)
 	}

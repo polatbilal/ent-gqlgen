@@ -17,10 +17,10 @@ type JobContractor struct {
 func (JobContractor) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Name").Default(""),
-		field.Int("TcNo").Optional(),
-		field.Int("RegisterNo").Optional(),
+		field.String("TcNo").Optional(),
+		field.String("RegisterNo").Optional(),
 		field.String("Address").Optional(),
-		field.Int("TaxNo").Optional(),
+		field.String("TaxNo").Optional(),
 		field.String("MobilePhone").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
@@ -36,6 +36,6 @@ func (JobContractor) Fields() []ent.Field {
 // Edges of the JobContractor.
 func (JobContractor) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("contractors", JobDetail.Type).StorageKey(edge.Column("contractor_id")),
+		edge.To("contractors", JobRelations.Type).StorageKey(edge.Column("contractor_id")),
 	}
 }

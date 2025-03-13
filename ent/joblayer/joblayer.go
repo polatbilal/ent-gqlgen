@@ -14,6 +14,8 @@ const (
 	Label = "job_layer"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldYibfNo holds the string denoting the yibfno field in the database.
+	FieldYibfNo = "yibf_no"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
 	// FieldMetre holds the string denoting the metre field in the database.
@@ -40,16 +42,17 @@ const (
 	Table = "job_layers"
 	// LayerTable is the table that holds the layer relation/edge.
 	LayerTable = "job_layers"
-	// LayerInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	LayerInverseTable = "job_details"
+	// LayerInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	LayerInverseTable = "job_relations"
 	// LayerColumn is the table column denoting the layer relation/edge.
-	LayerColumn = "job_id"
+	LayerColumn = "relations_id"
 )
 
 // Columns holds all SQL columns for joblayer fields.
 var Columns = []string{
 	FieldID,
+	FieldYibfNo,
 	FieldName,
 	FieldMetre,
 	FieldMoldDate,
@@ -65,7 +68,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "job_layers"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"job_id",
+	"relations_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -102,6 +105,11 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
+}
+
+// ByYibfNo orders the results by the yibfNo field.
+func ByYibfNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYibfNo, opts...).ToFunc()
 }
 
 // ByName orders the results by the Name field.

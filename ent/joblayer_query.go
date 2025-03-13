@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
 )
 
@@ -23,7 +23,7 @@ type JobLayerQuery struct {
 	order      []joblayer.OrderOption
 	inters     []Interceptor
 	predicates []predicate.JobLayer
-	withLayer  *JobDetailQuery
+	withLayer  *JobRelationsQuery
 	withFKs    bool
 	modifiers  []func(*sql.Selector)
 	loadTotal  []func(context.Context, []*JobLayer) error
@@ -64,8 +64,8 @@ func (jlq *JobLayerQuery) Order(o ...joblayer.OrderOption) *JobLayerQuery {
 }
 
 // QueryLayer chains the current query on the "layer" edge.
-func (jlq *JobLayerQuery) QueryLayer() *JobDetailQuery {
-	query := (&JobDetailClient{config: jlq.config}).Query()
+func (jlq *JobLayerQuery) QueryLayer() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: jlq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := jlq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -76,7 +76,7 @@ func (jlq *JobLayerQuery) QueryLayer() *JobDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(joblayer.Table, joblayer.FieldID, selector),
-			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
+			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, joblayer.LayerTable, joblayer.LayerColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(jlq.driver.Dialect(), step)
@@ -286,8 +286,8 @@ func (jlq *JobLayerQuery) Clone() *JobLayerQuery {
 
 // WithLayer tells the query-builder to eager-load the nodes that are connected to
 // the "layer" edge. The optional arguments are used to configure the query builder of the edge.
-func (jlq *JobLayerQuery) WithLayer(opts ...func(*JobDetailQuery)) *JobLayerQuery {
-	query := (&JobDetailClient{config: jlq.config}).Query()
+func (jlq *JobLayerQuery) WithLayer(opts ...func(*JobRelationsQuery)) *JobLayerQuery {
+	query := (&JobRelationsClient{config: jlq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -301,12 +301,12 @@ func (jlq *JobLayerQuery) WithLayer(opts ...func(*JobDetailQuery)) *JobLayerQuer
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"Name,omitempty"`
+//		YibfNo int `json:"yibfNo,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.JobLayer.Query().
-//		GroupBy(joblayer.FieldName).
+//		GroupBy(joblayer.FieldYibfNo).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (jlq *JobLayerQuery) GroupBy(field string, fields ...string) *JobLayerGroupBy {
@@ -324,11 +324,11 @@ func (jlq *JobLayerQuery) GroupBy(field string, fields ...string) *JobLayerGroup
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"Name,omitempty"`
+//		YibfNo int `json:"yibfNo,omitempty"`
 //	}
 //
 //	client.JobLayer.Query().
-//		Select(joblayer.FieldName).
+//		Select(joblayer.FieldYibfNo).
 //		Scan(ctx, &v)
 func (jlq *JobLayerQuery) Select(fields ...string) *JobLayerSelect {
 	jlq.ctx.Fields = append(jlq.ctx.Fields, fields...)
@@ -407,7 +407,7 @@ func (jlq *JobLayerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 	}
 	if query := jlq.withLayer; query != nil {
 		if err := jlq.loadLayer(ctx, query, nodes, nil,
-			func(n *JobLayer, e *JobDetail) { n.Edges.Layer = e }); err != nil {
+			func(n *JobLayer, e *JobRelations) { n.Edges.Layer = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -419,14 +419,14 @@ func (jlq *JobLayerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 	return nodes, nil
 }
 
-func (jlq *JobLayerQuery) loadLayer(ctx context.Context, query *JobDetailQuery, nodes []*JobLayer, init func(*JobLayer), assign func(*JobLayer, *JobDetail)) error {
+func (jlq *JobLayerQuery) loadLayer(ctx context.Context, query *JobRelationsQuery, nodes []*JobLayer, init func(*JobLayer), assign func(*JobLayer, *JobRelations)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobLayer)
 	for i := range nodes {
-		if nodes[i].job_id == nil {
+		if nodes[i].relations_id == nil {
 			continue
 		}
-		fk := *nodes[i].job_id
+		fk := *nodes[i].relations_id
 		if _, ok := nodeids[fk]; !ok {
 			ids = append(ids, fk)
 		}
@@ -435,7 +435,7 @@ func (jlq *JobLayerQuery) loadLayer(ctx context.Context, query *JobDetailQuery, 
 	if len(ids) == 0 {
 		return nil
 	}
-	query.Where(jobdetail.IDIn(ids...))
+	query.Where(jobrelations.IDIn(ids...))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
@@ -443,7 +443,7 @@ func (jlq *JobLayerQuery) loadLayer(ctx context.Context, query *JobDetailQuery, 
 	for _, n := range neighbors {
 		nodes, ok := nodeids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "job_id" returned %v`, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "relations_id" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)

@@ -1,0 +1,27 @@
+type CompanyToken {
+  Token: String
+  DepartmentId: Int
+  CompanyCode: Int
+  YDKUsername: String
+  YDKPassword: String
+}
+
+input CompanyTokenInput {
+  Token: String
+  DepartmentId: Int
+  CompanyCode: Int
+  YDKUsername: String
+  YDKPassword: String
+}
+
+extend type Query {
+  companyToken(companyCode: Int): CompanyToken!
+    @goField(forceResolver: true)
+    @auth
+}
+
+extend type Mutation {
+  upsertToken(DepartmentId: Int!, input: CompanyTokenInput!): CompanyToken!
+    @goField(forceResolver: true)
+    @auth
+}

@@ -9,7 +9,13 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
+func getJWTSecret() []byte {
+	secret := os.Getenv("JWT_SECRET")
+	if secret == "" {
+		panic("JWT_SECRET environment variable is not set")
+	}
+	return []byte(secret)
+}
 
 type JwtCustomClaim struct {
 	ID       int    `json:"userID"`
@@ -32,9 +38,9 @@ func JwtGenerate(ctx context.Context, userID int, username string, name string, 
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	signedToken, err := token.SignedString(jwtSecret)
+	signedToken, err := token.SignedString(getJWTSecret())
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("token imzalama hatası: %v", err)
 	}
 
 	return signedToken, nil
@@ -43,28 +49,28 @@ func JwtGenerate(ctx context.Context, userID int, username string, name string, 
 func JwtValidate(ctx context.Context, tokenStr string) (*jwt.Token, error) {
 	token, err := jwt.ParseWithClaims(tokenStr, &JwtCustomClaim{}, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
+			return nil, fmt.Errorf("beklenmeyen imzalama metodu: %v", t.Header["alg"])
 		}
-		return jwtSecret, nil
+		return getJWTSecret(), nil
 	})
 
 	if err != nil {
 		if err == jwt.ErrSignatureInvalid {
-			return nil, fmt.Errorf("invalid token signature")
+			return nil, fmt.Errorf("geçersiz token imzası")
 		}
 		verr, ok := err.(*jwt.ValidationError)
 		if ok && verr.Errors == jwt.ValidationErrorExpired {
-			return nil, fmt.Errorf("token expired")
+			return nil, fmt.Errorf("token süresi dolmuş")
 		}
-		return nil, fmt.Errorf("invalid token")
+		return nil, fmt.Errorf("geçersiz token")
 	}
 
 	if claims, ok := token.Claims.(*JwtCustomClaim); ok && token.Valid {
 		if claims.ID == 0 || claims.Username == "" {
-			return nil, fmt.Errorf("invalid token claims")
+			return nil, fmt.Errorf("geçersiz token içeriği")
 		}
 		return token, nil
 	}
 
-	return nil, fmt.Errorf("invalid token")
+	return nil, fmt.Errorf("geçersiz token")
 }

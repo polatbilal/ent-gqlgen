@@ -45,10 +45,10 @@ const (
 	// Table holds the table name of the jobcontractor in the database.
 	Table = "job_contractors"
 	// ContractorsTable is the table that holds the contractors relation/edge.
-	ContractorsTable = "job_details"
-	// ContractorsInverseTable is the table name for the JobDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "jobdetail" package.
-	ContractorsInverseTable = "job_details"
+	ContractorsTable = "job_relations"
+	// ContractorsInverseTable is the table name for the JobRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "jobrelations" package.
+	ContractorsInverseTable = "job_relations"
 	// ContractorsColumn is the table column denoting the contractors relation/edge.
 	ContractorsColumn = "contractor_id"
 )

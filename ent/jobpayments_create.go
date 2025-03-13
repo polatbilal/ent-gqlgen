@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 )
 
 // JobPaymentsCreate is the builder for creating a JobPayments entity.
@@ -21,72 +21,128 @@ type JobPaymentsCreate struct {
 	hooks    []Hook
 }
 
-// SetDate sets the "Date" field.
-func (jpc *JobPaymentsCreate) SetDate(t time.Time) *JobPaymentsCreate {
-	jpc.mutation.SetDate(t)
+// SetYibfNo sets the "yibfNo" field.
+func (jpc *JobPaymentsCreate) SetYibfNo(i int) *JobPaymentsCreate {
+	jpc.mutation.SetYibfNo(i)
 	return jpc
 }
 
-// SetNillableDate sets the "Date" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableDate(t *time.Time) *JobPaymentsCreate {
+// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableYibfNo(i *int) *JobPaymentsCreate {
+	if i != nil {
+		jpc.SetYibfNo(*i)
+	}
+	return jpc
+}
+
+// SetPaymentNo sets the "PaymentNo" field.
+func (jpc *JobPaymentsCreate) SetPaymentNo(i int) *JobPaymentsCreate {
+	jpc.mutation.SetPaymentNo(i)
+	return jpc
+}
+
+// SetNillablePaymentNo sets the "PaymentNo" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillablePaymentNo(i *int) *JobPaymentsCreate {
+	if i != nil {
+		jpc.SetPaymentNo(*i)
+	}
+	return jpc
+}
+
+// SetPaymentDate sets the "PaymentDate" field.
+func (jpc *JobPaymentsCreate) SetPaymentDate(t time.Time) *JobPaymentsCreate {
+	jpc.mutation.SetPaymentDate(t)
+	return jpc
+}
+
+// SetNillablePaymentDate sets the "PaymentDate" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillablePaymentDate(t *time.Time) *JobPaymentsCreate {
 	if t != nil {
-		jpc.SetDate(*t)
+		jpc.SetPaymentDate(*t)
+	}
+	return jpc
+}
+
+// SetPaymentType sets the "PaymentType" field.
+func (jpc *JobPaymentsCreate) SetPaymentType(s string) *JobPaymentsCreate {
+	jpc.mutation.SetPaymentType(s)
+	return jpc
+}
+
+// SetNillablePaymentType sets the "PaymentType" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillablePaymentType(s *string) *JobPaymentsCreate {
+	if s != nil {
+		jpc.SetPaymentType(*s)
+	}
+	return jpc
+}
+
+// SetState sets the "State" field.
+func (jpc *JobPaymentsCreate) SetState(s string) *JobPaymentsCreate {
+	jpc.mutation.SetState(s)
+	return jpc
+}
+
+// SetNillableState sets the "State" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableState(s *string) *JobPaymentsCreate {
+	if s != nil {
+		jpc.SetState(*s)
+	}
+	return jpc
+}
+
+// SetTotalPayment sets the "TotalPayment" field.
+func (jpc *JobPaymentsCreate) SetTotalPayment(f float64) *JobPaymentsCreate {
+	jpc.mutation.SetTotalPayment(f)
+	return jpc
+}
+
+// SetNillableTotalPayment sets the "TotalPayment" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableTotalPayment(f *float64) *JobPaymentsCreate {
+	if f != nil {
+		jpc.SetTotalPayment(*f)
+	}
+	return jpc
+}
+
+// SetLevelRequest sets the "LevelRequest" field.
+func (jpc *JobPaymentsCreate) SetLevelRequest(f float64) *JobPaymentsCreate {
+	jpc.mutation.SetLevelRequest(f)
+	return jpc
+}
+
+// SetNillableLevelRequest sets the "LevelRequest" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableLevelRequest(f *float64) *JobPaymentsCreate {
+	if f != nil {
+		jpc.SetLevelRequest(*f)
+	}
+	return jpc
+}
+
+// SetLevelApprove sets the "LevelApprove" field.
+func (jpc *JobPaymentsCreate) SetLevelApprove(f float64) *JobPaymentsCreate {
+	jpc.mutation.SetLevelApprove(f)
+	return jpc
+}
+
+// SetNillableLevelApprove sets the "LevelApprove" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableLevelApprove(f *float64) *JobPaymentsCreate {
+	if f != nil {
+		jpc.SetLevelApprove(*f)
 	}
 	return jpc
 }
 
 // SetAmount sets the "Amount" field.
-func (jpc *JobPaymentsCreate) SetAmount(i int) *JobPaymentsCreate {
-	jpc.mutation.SetAmount(i)
+func (jpc *JobPaymentsCreate) SetAmount(f float64) *JobPaymentsCreate {
+	jpc.mutation.SetAmount(f)
 	return jpc
 }
 
 // SetNillableAmount sets the "Amount" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableAmount(i *int) *JobPaymentsCreate {
-	if i != nil {
-		jpc.SetAmount(*i)
-	}
-	return jpc
-}
-
-// SetDescription sets the "Description" field.
-func (jpc *JobPaymentsCreate) SetDescription(s string) *JobPaymentsCreate {
-	jpc.mutation.SetDescription(s)
-	return jpc
-}
-
-// SetNillableDescription sets the "Description" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableDescription(s *string) *JobPaymentsCreate {
-	if s != nil {
-		jpc.SetDescription(*s)
-	}
-	return jpc
-}
-
-// SetStatus sets the "Status" field.
-func (jpc *JobPaymentsCreate) SetStatus(s string) *JobPaymentsCreate {
-	jpc.mutation.SetStatus(s)
-	return jpc
-}
-
-// SetNillableStatus sets the "Status" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableStatus(s *string) *JobPaymentsCreate {
-	if s != nil {
-		jpc.SetStatus(*s)
-	}
-	return jpc
-}
-
-// SetPercentage sets the "Percentage" field.
-func (jpc *JobPaymentsCreate) SetPercentage(f float64) *JobPaymentsCreate {
-	jpc.mutation.SetPercentage(f)
-	return jpc
-}
-
-// SetNillablePercentage sets the "Percentage" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillablePercentage(f *float64) *JobPaymentsCreate {
+func (jpc *JobPaymentsCreate) SetNillableAmount(f *float64) *JobPaymentsCreate {
 	if f != nil {
-		jpc.SetPercentage(*f)
+		jpc.SetAmount(*f)
 	}
 	return jpc
 }
@@ -119,13 +175,13 @@ func (jpc *JobPaymentsCreate) SetNillableUpdatedAt(t *time.Time) *JobPaymentsCre
 	return jpc
 }
 
-// SetPaymentsID sets the "payments" edge to the JobDetail entity by ID.
+// SetPaymentsID sets the "payments" edge to the JobRelations entity by ID.
 func (jpc *JobPaymentsCreate) SetPaymentsID(id int) *JobPaymentsCreate {
 	jpc.mutation.SetPaymentsID(id)
 	return jpc
 }
 
-// SetNillablePaymentsID sets the "payments" edge to the JobDetail entity by ID if the given value is not nil.
+// SetNillablePaymentsID sets the "payments" edge to the JobRelations entity by ID if the given value is not nil.
 func (jpc *JobPaymentsCreate) SetNillablePaymentsID(id *int) *JobPaymentsCreate {
 	if id != nil {
 		jpc = jpc.SetPaymentsID(*id)
@@ -133,8 +189,8 @@ func (jpc *JobPaymentsCreate) SetNillablePaymentsID(id *int) *JobPaymentsCreate 
 	return jpc
 }
 
-// SetPayments sets the "payments" edge to the JobDetail entity.
-func (jpc *JobPaymentsCreate) SetPayments(j *JobDetail) *JobPaymentsCreate {
+// SetPayments sets the "payments" edge to the JobRelations entity.
+func (jpc *JobPaymentsCreate) SetPayments(j *JobRelations) *JobPaymentsCreate {
 	return jpc.SetPaymentsID(j.ID)
 }
 
@@ -173,25 +229,41 @@ func (jpc *JobPaymentsCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (jpc *JobPaymentsCreate) defaults() {
-	if _, ok := jpc.mutation.Date(); !ok {
-		v := jobpayments.DefaultDate()
-		jpc.mutation.SetDate(v)
+	if _, ok := jpc.mutation.YibfNo(); !ok {
+		v := jobpayments.DefaultYibfNo
+		jpc.mutation.SetYibfNo(v)
+	}
+	if _, ok := jpc.mutation.PaymentNo(); !ok {
+		v := jobpayments.DefaultPaymentNo
+		jpc.mutation.SetPaymentNo(v)
+	}
+	if _, ok := jpc.mutation.PaymentDate(); !ok {
+		v := jobpayments.DefaultPaymentDate()
+		jpc.mutation.SetPaymentDate(v)
+	}
+	if _, ok := jpc.mutation.PaymentType(); !ok {
+		v := jobpayments.DefaultPaymentType
+		jpc.mutation.SetPaymentType(v)
+	}
+	if _, ok := jpc.mutation.State(); !ok {
+		v := jobpayments.DefaultState
+		jpc.mutation.SetState(v)
+	}
+	if _, ok := jpc.mutation.TotalPayment(); !ok {
+		v := jobpayments.DefaultTotalPayment
+		jpc.mutation.SetTotalPayment(v)
+	}
+	if _, ok := jpc.mutation.LevelRequest(); !ok {
+		v := jobpayments.DefaultLevelRequest
+		jpc.mutation.SetLevelRequest(v)
+	}
+	if _, ok := jpc.mutation.LevelApprove(); !ok {
+		v := jobpayments.DefaultLevelApprove
+		jpc.mutation.SetLevelApprove(v)
 	}
 	if _, ok := jpc.mutation.Amount(); !ok {
 		v := jobpayments.DefaultAmount
 		jpc.mutation.SetAmount(v)
-	}
-	if _, ok := jpc.mutation.Description(); !ok {
-		v := jobpayments.DefaultDescription
-		jpc.mutation.SetDescription(v)
-	}
-	if _, ok := jpc.mutation.Status(); !ok {
-		v := jobpayments.DefaultStatus
-		jpc.mutation.SetStatus(v)
-	}
-	if _, ok := jpc.mutation.Percentage(); !ok {
-		v := jobpayments.DefaultPercentage
-		jpc.mutation.SetPercentage(v)
 	}
 	if _, ok := jpc.mutation.CreatedAt(); !ok {
 		v := jobpayments.DefaultCreatedAt()
@@ -205,8 +277,11 @@ func (jpc *JobPaymentsCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (jpc *JobPaymentsCreate) check() error {
-	if _, ok := jpc.mutation.Date(); !ok {
-		return &ValidationError{Name: "Date", err: errors.New(`ent: missing required field "JobPayments.Date"`)}
+	if _, ok := jpc.mutation.YibfNo(); !ok {
+		return &ValidationError{Name: "yibfNo", err: errors.New(`ent: missing required field "JobPayments.yibfNo"`)}
+	}
+	if _, ok := jpc.mutation.PaymentDate(); !ok {
+		return &ValidationError{Name: "PaymentDate", err: errors.New(`ent: missing required field "JobPayments.PaymentDate"`)}
 	}
 	if _, ok := jpc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobPayments.CreatedAt"`)}
@@ -240,25 +315,41 @@ func (jpc *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) 
 		_node = &JobPayments{config: jpc.config}
 		_spec = sqlgraph.NewCreateSpec(jobpayments.Table, sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt))
 	)
-	if value, ok := jpc.mutation.Date(); ok {
-		_spec.SetField(jobpayments.FieldDate, field.TypeTime, value)
-		_node.Date = value
+	if value, ok := jpc.mutation.YibfNo(); ok {
+		_spec.SetField(jobpayments.FieldYibfNo, field.TypeInt, value)
+		_node.YibfNo = value
+	}
+	if value, ok := jpc.mutation.PaymentNo(); ok {
+		_spec.SetField(jobpayments.FieldPaymentNo, field.TypeInt, value)
+		_node.PaymentNo = value
+	}
+	if value, ok := jpc.mutation.PaymentDate(); ok {
+		_spec.SetField(jobpayments.FieldPaymentDate, field.TypeTime, value)
+		_node.PaymentDate = value
+	}
+	if value, ok := jpc.mutation.PaymentType(); ok {
+		_spec.SetField(jobpayments.FieldPaymentType, field.TypeString, value)
+		_node.PaymentType = value
+	}
+	if value, ok := jpc.mutation.State(); ok {
+		_spec.SetField(jobpayments.FieldState, field.TypeString, value)
+		_node.State = value
+	}
+	if value, ok := jpc.mutation.TotalPayment(); ok {
+		_spec.SetField(jobpayments.FieldTotalPayment, field.TypeFloat64, value)
+		_node.TotalPayment = value
+	}
+	if value, ok := jpc.mutation.LevelRequest(); ok {
+		_spec.SetField(jobpayments.FieldLevelRequest, field.TypeFloat64, value)
+		_node.LevelRequest = value
+	}
+	if value, ok := jpc.mutation.LevelApprove(); ok {
+		_spec.SetField(jobpayments.FieldLevelApprove, field.TypeFloat64, value)
+		_node.LevelApprove = value
 	}
 	if value, ok := jpc.mutation.Amount(); ok {
-		_spec.SetField(jobpayments.FieldAmount, field.TypeInt, value)
+		_spec.SetField(jobpayments.FieldAmount, field.TypeFloat64, value)
 		_node.Amount = value
-	}
-	if value, ok := jpc.mutation.Description(); ok {
-		_spec.SetField(jobpayments.FieldDescription, field.TypeString, value)
-		_node.Description = value
-	}
-	if value, ok := jpc.mutation.Status(); ok {
-		_spec.SetField(jobpayments.FieldStatus, field.TypeString, value)
-		_node.Status = value
-	}
-	if value, ok := jpc.mutation.Percentage(); ok {
-		_spec.SetField(jobpayments.FieldPercentage, field.TypeFloat64, value)
-		_node.Percentage = value
 	}
 	if value, ok := jpc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)
@@ -276,13 +367,13 @@ func (jpc *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) 
 			Columns: []string{jobpayments.PaymentsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.payments_id = &nodes[0]
+		_node.relations_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
