@@ -23,7 +23,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  updateProgress(input: JobProgressInput!): JobProgress
+  upsertProgress(input: JobProgressInput!): JobProgress
     @goField(forceResolver: true)
     @auth
 }

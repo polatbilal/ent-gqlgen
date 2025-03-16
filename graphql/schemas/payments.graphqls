@@ -9,6 +9,7 @@ type JobPayments {
   Amount: Float
   State: String
   YibfNo: Int
+  updatedAt: Time
 }
 
 input JobPaymentsInput {
@@ -28,9 +29,14 @@ extend type Query {
 }
 
 extend type Mutation {
+  upsertPayments(id: Int, input: JobPaymentsInput!): JobPayments
+    @goField(forceResolver: true)
+    @auth
+
   createJobPayments(input: JobPaymentsInput!): JobPayments
     @goField(forceResolver: true)
     @auth
+
   updateJobPayments(id: Int!, input: JobPaymentsInput!): JobPayments
     @goField(forceResolver: true)
     @auth

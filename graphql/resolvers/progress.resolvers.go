@@ -14,20 +14,34 @@ import (
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
 
-// UpdateProgress is the resolver for the updateProgress field.
-func (r *mutationResolver) UpdateProgress(ctx context.Context, input model.JobProgressInput) (*ent.JobProgress, error) {
+// UpsertProgress is the resolver for the upsertProgress field.
+func (r *mutationResolver) UpsertProgress(ctx context.Context, input model.JobProgressInput) (*ent.JobProgress, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	id, err := strconv.Atoi(*input.ID)
-	if err != nil {
-		return nil, err
+
+	if input.ID != nil {
+		// ID varsa güncelleme işlemi yap
+		id, err := strconv.Atoi(*input.ID)
+		if err != nil {
+			return nil, err
+		}
+		return client.JobProgress.UpdateOneID(id).
+			SetNillableOne(input.One).
+			SetNillableTwo(input.Two).
+			SetNillableThree(input.Three).
+			SetNillableFour(input.Four).
+			SetNillableFive(input.Five).
+			SetNillableSix(input.Six).
+			Save(ctx)
 	}
-	return client.JobProgress.UpdateOneID(id).
-		SetOne(*input.One).
-		SetTwo(*input.Two).
-		SetThree(*input.Three).
-		SetFour(*input.Four).
-		SetFive(*input.Five).
-		SetSix(*input.Six).
+
+	// ID yoksa yeni kayıt oluştur
+	return client.JobProgress.Create().
+		SetNillableOne(input.One).
+		SetNillableTwo(input.Two).
+		SetNillableThree(input.Three).
+		SetNillableFour(input.Four).
+		SetNillableFive(input.Five).
+		SetNillableSix(input.Six).
 		Save(ctx)
 }
 

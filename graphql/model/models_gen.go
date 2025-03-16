@@ -17,7 +17,8 @@ type AuthPayload struct {
 }
 
 type CompanyDetailInput struct {
-	CompanyCode            int        `json:"CompanyCode"`
+	CompanyCode            *int       `json:"CompanyCode,omitempty"`
+	DepartmentID           *int       `json:"DepartmentId,omitempty"`
 	Name                   string     `json:"Name"`
 	Address                *string    `json:"Address,omitempty"`
 	Phone                  *string    `json:"Phone,omitempty"`
@@ -230,13 +231,15 @@ type JobPaymentsInput struct {
 }
 
 type JobProgressInput struct {
-	ID    *string `json:"id,omitempty"`
-	One   *int    `json:"One,omitempty"`
-	Two   *int    `json:"Two,omitempty"`
-	Three *int    `json:"Three,omitempty"`
-	Four  *int    `json:"Four,omitempty"`
-	Five  *int    `json:"Five,omitempty"`
-	Six   *int    `json:"Six,omitempty"`
+	ID     *string  `json:"id,omitempty"`
+	YibfNo *int     `json:"YibfNo,omitempty"`
+	Level  *float64 `json:"Level,omitempty"`
+	One    *int     `json:"One,omitempty"`
+	Two    *int     `json:"Two,omitempty"`
+	Three  *int     `json:"Three,omitempty"`
+	Four   *int     `json:"Four,omitempty"`
+	Five   *int     `json:"Five,omitempty"`
+	Six    *int     `json:"Six,omitempty"`
 }
 
 type JobSupervisorInput struct {

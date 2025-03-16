@@ -106,9 +106,9 @@ type JobCounts {
 }
 
 extend type Query {
-  job(yibfNo: Int!): JobDetail @goField(forceResolver: true) @auth
-  jobs: [JobDetail!]! @goField(forceResolver: true) @auth
   jobCounts(companyCode: Int): JobCounts! @auth
+  jobs: [JobDetail!]! @goField(forceResolver: true) @auth
+  job(yibfNo: Int!): JobDetail @goField(forceResolver: true) @auth
   jobEngineer(yibfNo: Int!): JobEngineer! @goField(forceResolver: true) @auth
 }
 

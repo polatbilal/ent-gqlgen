@@ -295,7 +295,7 @@ func (r *queryResolver) CompanyUsers(ctx context.Context) ([]*ent.User, error) {
 		companyIDs[i] = company.ID
 	}
 
-	// Bu şirketlere bağlı tüm kullanıcıları al
+	// Bu şirketlere bağlı tüm kullanıcıları al ve ID'ye göre sırala
 	users, err := client.User.Query().
 		Where(
 			user.HasCompaniesWith(
@@ -303,7 +303,9 @@ func (r *queryResolver) CompanyUsers(ctx context.Context) ([]*ent.User, error) {
 					companydetail.IDIn(companyIDs...),
 				),
 			),
-		).All(ctx)
+		).
+		Order(ent.Asc(user.FieldCreatedAt)).
+		All(ctx)
 
 	if err != nil {
 		return nil, fmt.Errorf("şirket kullanıcıları alınırken hata: %v", err)

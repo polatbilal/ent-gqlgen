@@ -20,7 +20,7 @@ input JobBatchInput {
 }
 
 extend type Query {
-  jobBatchQuery(yibfNo: Int): [JobBatchResult!]!
+  jobBatchQuery(yibfNo: Int, state: String): [JobBatchResult!]!
     @goField(forceResolver: true)
     @auth
 }
@@ -31,6 +31,10 @@ extend type Mutation {
     @auth
 
   executeBatchMutation(input: JobBatchInput!): JobBatchResult!
+    @goField(forceResolver: true)
+    @auth
+
+  deleteBatchMutation(yibfNo: Int!): JobBatchResult!
     @goField(forceResolver: true)
     @auth
 }

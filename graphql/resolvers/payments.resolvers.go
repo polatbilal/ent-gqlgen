@@ -6,6 +6,7 @@ package resolvers
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"math"
 
@@ -14,6 +15,118 @@ import (
 	"github.com/polatbilal/gqlgen-ent/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
+
+// UpsertPayments is the resolver for the upsertPayments field.
+func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input model.JobPaymentsInput) (*ent.JobPayments, error) {
+	client := middlewares.GetClientFromContext(ctx)
+
+	if input.YibfNo == nil {
+		return nil, fmt.Errorf("YibfNo alanı zorunludur")
+	}
+
+	// İş detayını bul
+	jobDetail, err := client.JobDetail.Query().
+		Where(jobdetail.YibfNoEQ(*input.YibfNo)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş detayı bulunamadı (YibfNo: %d): %v", *input.YibfNo, err)
+	}
+
+	// JobRelations'ı bul
+	relations, err := jobDetail.QueryRelations().Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
+	}
+
+	var totalPayment float64
+	if input.TotalPayment == nil || *input.TotalPayment == 0 {
+		if input.Amount != nil && *input.Amount > 0 {
+			// Amount'dan %20 çıkar
+			totalPayment = math.Round(*input.Amount*0.80*100) / 100
+		} else {
+			totalPayment = 0
+		}
+	} else {
+		totalPayment = *input.TotalPayment
+	}
+
+	if id != nil {
+		// ID varsa güncelle
+		updateQuery := client.JobPayments.UpdateOneID(*id).
+			SetTotalPayment(totalPayment).
+			SetNillablePaymentDate(input.PaymentDate).
+			SetNillablePaymentType(input.PaymentType).
+			SetNillableLevelRequest(input.LevelRequest).
+			SetNillableLevelApprove(input.LevelApprove).
+			SetNillableAmount(input.Amount).
+			SetNillableState(input.State)
+
+		payment, err := updateQuery.Save(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("ödeme güncellenemedi: %v", err)
+		}
+
+		// Ödemenin ilişkisi var mı kontrol et
+		hasRelation, err := payment.QueryPayments().Exist(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("ödeme ilişkisi kontrol edilemedi: %v", err)
+		}
+
+		// İlişki yoksa ekle
+		if !hasRelation {
+			_, err = relations.Update().
+				AddPayments(payment).
+				Save(ctx)
+			if err != nil {
+				return nil, fmt.Errorf("ödeme ilişkilendirilemedi: %v", err)
+			}
+		}
+
+		return payment, nil
+	}
+
+	// ID yoksa yeni oluştur
+	createQuery := client.JobPayments.Create().
+		SetYibfNo(*input.YibfNo).
+		SetPaymentNo(input.PaymentNo).
+		SetPaymentDate(*input.PaymentDate).
+		SetPaymentType(*input.PaymentType).
+		SetState(*input.State).
+		SetTotalPayment(totalPayment).
+		SetLevelRequest(*input.LevelRequest).
+		SetLevelApprove(*input.LevelApprove).
+		SetAmount(*input.Amount).
+		SetPayments(relations) // İlişkiyi direkt oluşturma sırasında ekle
+
+	// if input.PaymentNo != 0 {
+	// 	createQuery.SetPaymentNo(input.PaymentNo)
+	// }
+	// if input.PaymentDate != nil {
+	// 	createQuery.SetPaymentDate(*input.PaymentDate)
+	// }
+	// if input.PaymentType != nil {
+	// 	createQuery.SetPaymentType(*input.PaymentType)
+	// }
+	// if input.LevelRequest != nil {
+	// 	createQuery.SetLevelRequest(*input.LevelRequest)
+	// }
+	// if input.LevelApprove != nil {
+	// 	createQuery.SetLevelApprove(*input.LevelApprove)
+	// }
+	// if input.Amount != nil {
+	// 	createQuery.SetAmount(*input.Amount)
+	// }
+	// if input.State != nil {
+	// 	createQuery.SetState(*input.State)
+	// }
+
+	payment, err := createQuery.Save(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("ödeme oluşturulamadı: %v", err)
+	}
+
+	return payment, nil
+}
 
 // CreateJobPayments is the resolver for the createJobPayments field.
 func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error) {

@@ -10,8 +10,12 @@ import (
 	"strings"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
+	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/graphql/helpers"
 	"github.com/polatbilal/gqlgen-ent/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
@@ -295,16 +299,111 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 		}
 		fmt.Printf("İş başarıyla oluşturuldu: %+v\n", job)
 
-		// CreateJob işlemi JobRelations'ı oluşturduğu için, oluşturulan relations'ı bulalım
-		relations, err = tx.JobRelations.Query().
-			Where(jobrelations.YibfNo(input.YibfNo)).
+		// CompanyCode ile şirketi bul
+		company, err := tx.CompanyDetail.Query().
+			Where(companydetail.CompanyCodeEQ(*jobInput.CompanyCode)).
 			Only(txCtx)
+		if err != nil {
+			fmt.Printf("Şirket bulma hatası: %v\n", err)
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %w", *jobInput.CompanyCode, err)
+		}
+
+		// İlişkileri oluştur
+		relations, err = tx.JobRelations.Create().
+			SetYibfNo(input.YibfNo).
+			SetJob(job).
+			SetCompany(company).
+			Save(txCtx)
+		if err != nil {
+			fmt.Printf("JobRelations oluşturma hatası: %v\n", err)
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("iş ilişkileri oluşturulurken hata: %w", err)
+		}
+
+		// Progress bilgilerini oluştur
+		var one, two, three, four, five, six float64
+
+		if jobInput.Level != nil {
+			level := float64(*jobInput.Level)
+			remaining := level
+
+			// Sabit değerlere göre sıralı dağıtım:
+			// one: 10, two: 10, three: 40, four: 20, five: 15, six: 5
+
+			if remaining >= 10 {
+				one = 10
+				remaining -= 10
+			} else {
+				one = remaining
+				remaining = 0
+			}
+
+			if remaining >= 10 {
+				two = 10
+				remaining -= 10
+			} else {
+				two = remaining
+				remaining = 0
+			}
+
+			if remaining >= 40 {
+				three = 40
+				remaining -= 40
+			} else {
+				three = remaining
+				remaining = 0
+			}
+
+			if remaining >= 20 {
+				four = 20
+				remaining -= 20
+			} else {
+				four = remaining
+				remaining = 0
+			}
+
+			if remaining >= 15 {
+				five = 15
+				remaining -= 15
+			} else {
+				five = remaining
+				remaining = 0
+			}
+
+			if remaining > 0 {
+				if remaining <= 5 {
+					six = remaining
+				} else {
+					six = 5
+				}
+			}
+		}
+
+		p, err := tx.JobProgress.Create().
+			SetYibfNo(input.YibfNo).
+			SetOne(int(one)).
+			SetTwo(int(two)).
+			SetThree(int(three)).
+			SetFour(int(four)).
+			SetFive(int(five)).
+			SetSix(int(six)).
+			Save(txCtx)
 
 		if err != nil {
-			fmt.Printf("JobRelations sorgulama hatası: %v\n", err)
+			fmt.Printf("Progress oluşturma hatası: %v\n", err)
 			_ = tx.Rollback()
-			return nil, fmt.Errorf("iş ilişkileri sorgulanırken hata: %w", err)
+			return nil, fmt.Errorf("progress oluşturulamadı: %w", err)
 		}
+
+		// Progress'i JobRelations ile ilişkilendir
+		relations, err = relations.Update().SetProgress(p).Save(txCtx)
+		if err != nil {
+			fmt.Printf("Progress ilişkilendirme hatası: %v\n", err)
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("progress ilişkilendirilemedi: %w", err)
+		}
+		fmt.Println("Progress başarıyla ilişkilendirildi")
 
 		// Owner oluşturma
 		if input.OwnerInput != nil {
@@ -482,17 +581,255 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 	}, nil
 }
 
+// DeleteBatchMutation is the resolver for the deleteBatchMutation field.
+func (r *mutationResolver) DeleteBatchMutation(ctx context.Context, yibfNo int) (*model.JobBatchResult, error) {
+	client := middlewares.GetClientFromContext(ctx)
+	if client == nil {
+		return nil, fmt.Errorf("client nil")
+	}
+
+	// Transaction başlat
+	tx, err := client.Tx(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("transaction başlatılırken hata oluştu: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			fmt.Printf("Panic oluştu: %v\n", v)
+			_ = tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	txCtx := ent.NewContext(ctx, tx.Client())
+
+	// Silinecek kaydı bul
+	relations, err := tx.JobRelations.Query().
+		Where(jobrelations.YibfNo(yibfNo)).
+		WithCompany().
+		WithJob().
+		WithOwner().
+		WithContractor().
+		WithAuthor().
+		WithSupervisor().
+		WithInspector().
+		WithStatic().
+		WithArchitect().
+		WithMechanic().
+		WithElectric().
+		WithController().
+		WithMechaniccontroller().
+		WithElectriccontroller().
+		WithProgress().
+		First(txCtx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, fmt.Errorf("%d Yibf No için kayıt bulunamadı", yibfNo)
+		}
+		return nil, fmt.Errorf("kayıt aranırken hata oluştu: %w", err)
+	}
+
+	// Silmeden önce sonuç için verileri saklayalım
+	result := &model.JobBatchResult{
+		Job:        relations.Edges.Job,
+		Owner:      relations.Edges.Owner,
+		Contractor: relations.Edges.Contractor,
+		Author:     relations.Edges.Author,
+		Supervisor: relations.Edges.Supervisor,
+		Engineer: &model.JobEngineer{
+			YibfNo:             &relations.YibfNo,
+			Inspector:          relations.Edges.Inspector,
+			Static:             relations.Edges.Static,
+			Architect:          relations.Edges.Architect,
+			Mechanic:           relations.Edges.Mechanic,
+			Electric:           relations.Edges.Electric,
+			Controller:         relations.Edges.Controller,
+			MechanicController: relations.Edges.Mechaniccontroller,
+			ElectricController: relations.Edges.Electriccontroller,
+		},
+		Progress: relations.Edges.Progress,
+		Company:  relations.Edges.Company,
+	}
+
+	fmt.Printf("Silme işlemi başlıyor: YibfNo=%d\n", yibfNo)
+
+	// İlişkili verileri sil
+	// Progress kaydını sil
+	if relations.Edges.Progress != nil {
+		if err := tx.JobProgress.DeleteOne(relations.Edges.Progress).Exec(txCtx); err != nil {
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("ilerleme kaydı silinirken hata: %w", err)
+		}
+		fmt.Println("İlerleme kaydı başarıyla silindi")
+	}
+
+	// JobDetail kaydını sil
+	if relations.Edges.Job != nil {
+		if err := tx.JobDetail.DeleteOne(relations.Edges.Job).Exec(txCtx); err != nil {
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("iş detayı silinirken hata: %w", err)
+		}
+		fmt.Println("İş detayı başarıyla silindi")
+	}
+
+	// JobOwner kaydını sil - Başka işlerle ilişkisi yoksa
+	if relations.Edges.Owner != nil {
+		// Owner'ın başka işlerle ilişkisi var mı kontrol et
+		count, err := tx.JobRelations.Query().
+			Where(
+				jobrelations.HasOwnerWith(
+					jobowner.IDEQ(relations.Edges.Owner.ID),
+				),
+				jobrelations.YibfNoNEQ(yibfNo),
+			).Count(txCtx)
+		if err != nil {
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("mal sahibi ilişkileri kontrol edilirken hata: %w", err)
+		}
+
+		fmt.Printf("Mal sahibi başka %d iş ile ilişkili\n", count)
+
+		if count == 0 {
+			// Başka ilişkisi yoksa sil
+			if err := tx.JobOwner.DeleteOne(relations.Edges.Owner).Exec(txCtx); err != nil {
+				_ = tx.Rollback()
+				return nil, fmt.Errorf("mal sahibi kaydı silinirken hata: %w", err)
+			}
+			fmt.Println("Mal sahibi kaydı başarıyla silindi")
+		} else {
+			fmt.Printf("Mal sahibi başka %d iş ile ilişkili olduğu için silinmedi\n", count)
+		}
+	}
+
+	// JobContractor kaydını sil - Başka işlerle ilişkisi yoksa
+	if relations.Edges.Contractor != nil {
+		// Contractor'ın başka işlerle ilişkisi var mı kontrol et
+		count, err := tx.JobRelations.Query().
+			Where(
+				jobrelations.HasContractorWith(
+					jobcontractor.IDEQ(relations.Edges.Contractor.ID),
+				),
+				jobrelations.YibfNoNEQ(yibfNo),
+			).Count(txCtx)
+		if err != nil {
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("yüklenici ilişkileri kontrol edilirken hata: %w", err)
+		}
+
+		if count == 0 {
+			// Başka ilişkisi yoksa sil
+			if err := tx.JobContractor.DeleteOne(relations.Edges.Contractor).Exec(txCtx); err != nil {
+				_ = tx.Rollback()
+				return nil, fmt.Errorf("yüklenici kaydı silinirken hata: %w", err)
+			}
+			fmt.Println("Yüklenici kaydı başarıyla silindi")
+		} else {
+			fmt.Printf("Yüklenici başka %d iş ile ilişkili olduğu için silinmedi\n", count)
+		}
+	}
+
+	// JobAuthor kaydını sil - İşe özel olduğundan doğrudan sil
+	if relations.Edges.Author != nil {
+		if err := tx.JobAuthor.DeleteOne(relations.Edges.Author).Exec(txCtx); err != nil {
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("proje müellifi kaydı silinirken hata: %w", err)
+		}
+		fmt.Println("Proje müellifi kaydı başarıyla silindi")
+	}
+
+	// JobSupervisor kaydını sil - Başka işlerle ilişkisi yoksa
+	if relations.Edges.Supervisor != nil {
+		// Supervisor'ın başka işlerle ilişkisi var mı kontrol et
+		count, err := tx.JobRelations.Query().
+			Where(
+				jobrelations.HasSupervisorWith(
+					jobsupervisor.IDEQ(relations.Edges.Supervisor.ID),
+				),
+				jobrelations.YibfNoNEQ(yibfNo),
+			).Count(txCtx)
+		if err != nil {
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("şantiye şefi ilişkileri kontrol edilirken hata: %w", err)
+		}
+
+		if count == 0 {
+			// Başka ilişkisi yoksa sil
+			if err := tx.JobSupervisor.DeleteOne(relations.Edges.Supervisor).Exec(txCtx); err != nil {
+				_ = tx.Rollback()
+				return nil, fmt.Errorf("şantiye şefi kaydı silinirken hata: %w", err)
+			}
+			fmt.Println("Şantiye şefi kaydı başarıyla silindi")
+		} else {
+			fmt.Printf("Şantiye şefi başka %d iş ile ilişkili olduğu için silinmedi\n", count)
+		}
+	}
+
+	// JobRelations kaydını sil
+	if err := tx.JobRelations.DeleteOne(relations).Exec(txCtx); err != nil {
+		_ = tx.Rollback()
+		return nil, fmt.Errorf("iş ilişkileri kaydı silinirken hata: %w", err)
+	}
+	fmt.Println("İş ilişkileri kaydı başarıyla silindi")
+
+	// Transaction'ı commit et
+	fmt.Println("Transaction commit ediliyor...")
+	if err := tx.Commit(); err != nil {
+		fmt.Printf("Transaction commit hatası: %v\n", err)
+		return nil, fmt.Errorf("değişiklikler kaydedilirken hata: %w", err)
+	}
+	fmt.Println("Transaction başarıyla commit edildi")
+
+	// Silme işleminden sonra, aynı YibfNo ile kayıt olup olmadığını kontrol edelim
+	// Eğer hala varsa, bu bir tutarsızlık durumudur ve düzeltilmesi gerekir
+	checkClient := middlewares.GetClientFromContext(ctx)
+	if checkClient != nil {
+		// JobDetail kontrolü
+		exists, err := checkClient.JobDetail.Query().Where(jobdetail.YibfNo(yibfNo)).Exist(ctx)
+		if err == nil && exists {
+			fmt.Printf("UYARI: YibfNo=%d için JobDetail kaydı hala mevcut, zorla siliniyor...\n", yibfNo)
+			// Zorla silme işlemi
+			_, err = checkClient.JobDetail.Delete().Where(jobdetail.YibfNo(yibfNo)).Exec(ctx)
+			if err != nil {
+				fmt.Printf("JobDetail zorla silme hatası: %v\n", err)
+			} else {
+				fmt.Println("JobDetail kaydı zorla silindi")
+			}
+		}
+
+		// JobRelations kontrolü
+		exists, err = checkClient.JobRelations.Query().Where(jobrelations.YibfNo(yibfNo)).Exist(ctx)
+		if err == nil && exists {
+			fmt.Printf("UYARI: YibfNo=%d için JobRelations kaydı hala mevcut, zorla siliniyor...\n", yibfNo)
+			// Zorla silme işlemi
+			_, err = checkClient.JobRelations.Delete().Where(jobrelations.YibfNo(yibfNo)).Exec(ctx)
+			if err != nil {
+				fmt.Printf("JobRelations zorla silme hatası: %v\n", err)
+			} else {
+				fmt.Println("JobRelations kaydı zorla silindi")
+			}
+		}
+	}
+
+	return result, nil
+}
+
 // JobBatchQuery is the resolver for the jobBatchQuery field.
-func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int) ([]*model.JobBatchResult, error) {
+func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int, state *string) ([]*model.JobBatchResult, error) {
 	client := middlewares.GetClientFromContext(ctx)
 	if client == nil {
 		return nil, fmt.Errorf("client nil")
 	}
 
 	// Query builder'ı başlat
-	query := client.JobRelations.Query().
-		Where(jobrelations.HasJobWith(jobdetail.StateNEQ("Bitmiş"))).
-		WithCompany().
+	query := client.JobRelations.Query()
+
+	// State kontrolü - state değeri "all" değilse bitmişleri gösterme
+	if state == nil || *state != "all" {
+		query = query.Where(jobrelations.HasJobWith(jobdetail.StateNEQ("Bitmiş")))
+	}
+
+	query = query.WithCompany().
 		WithJob().
 		WithOwner().
 		WithContractor().
