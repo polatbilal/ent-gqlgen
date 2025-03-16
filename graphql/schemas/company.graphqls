@@ -29,7 +29,7 @@ type CompanyDetail {
 input CompanyDetailInput {
   CompanyCode: Int
   DepartmentId: Int
-  Name: String!
+  Name: String
   Address: String
   Phone: String
   Fax: String
@@ -62,7 +62,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  upsertCompany(input: CompanyDetailInput!): CompanyDetail!
+  updateCompany(input: CompanyDetailInput!): CompanyDetail!
     @goField(forceResolver: true)
     @auth
 }

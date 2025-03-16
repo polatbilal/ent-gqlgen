@@ -16,10 +16,21 @@ type AuthPayload struct {
 	Role     string `json:"role"`
 }
 
+type CompanyBatchInput struct {
+	CompanyCode       int                 `json:"CompanyCode"`
+	CompanyInput      *CompanyDetailInput `json:"companyInput,omitempty"`
+	CompanyTokenInput *CompanyTokenInput  `json:"companyTokenInput,omitempty"`
+}
+
+type CompanyBatchResult struct {
+	Company      *ent.CompanyDetail `json:"company,omitempty"`
+	CompanyToken *ent.CompanyToken  `json:"companyToken,omitempty"`
+}
+
 type CompanyDetailInput struct {
 	CompanyCode            *int       `json:"CompanyCode,omitempty"`
 	DepartmentID           *int       `json:"DepartmentId,omitempty"`
-	Name                   string     `json:"Name"`
+	Name                   *string    `json:"Name,omitempty"`
 	Address                *string    `json:"Address,omitempty"`
 	Phone                  *string    `json:"Phone,omitempty"`
 	Fax                    *string    `json:"Fax,omitempty"`
@@ -63,11 +74,12 @@ type CompanyEngineerInput struct {
 }
 
 type CompanyTokenInput struct {
-	Token        *string `json:"Token,omitempty"`
-	DepartmentID *int    `json:"DepartmentId,omitempty"`
-	CompanyCode  *int    `json:"CompanyCode,omitempty"`
-	YDKUsername  *string `json:"YDKUsername,omitempty"`
-	YDKPassword  *string `json:"YDKPassword,omitempty"`
+	Token        *string             `json:"Token,omitempty"`
+	DepartmentID *int                `json:"DepartmentId,omitempty"`
+	CompanyCode  *int                `json:"CompanyCode,omitempty"`
+	YDKUsername  *string             `json:"YDKUsername,omitempty"`
+	YDKPassword  *string             `json:"YDKPassword,omitempty"`
+	CompanyInput *CompanyDetailInput `json:"CompanyInput,omitempty"`
 }
 
 type EngineerFilterInput struct {
@@ -231,15 +243,13 @@ type JobPaymentsInput struct {
 }
 
 type JobProgressInput struct {
-	ID     *string  `json:"id,omitempty"`
-	YibfNo *int     `json:"YibfNo,omitempty"`
-	Level  *float64 `json:"Level,omitempty"`
-	One    *int     `json:"One,omitempty"`
-	Two    *int     `json:"Two,omitempty"`
-	Three  *int     `json:"Three,omitempty"`
-	Four   *int     `json:"Four,omitempty"`
-	Five   *int     `json:"Five,omitempty"`
-	Six    *int     `json:"Six,omitempty"`
+	ID    *string `json:"id,omitempty"`
+	One   *int    `json:"One,omitempty"`
+	Two   *int    `json:"Two,omitempty"`
+	Three *int    `json:"Three,omitempty"`
+	Four  *int    `json:"Four,omitempty"`
+	Five  *int    `json:"Five,omitempty"`
+	Six   *int    `json:"Six,omitempty"`
 }
 
 type JobSupervisorInput struct {

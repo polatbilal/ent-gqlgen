@@ -54,6 +54,60 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 				return nil, fmt.Errorf("şirket token oluşturulamadı: %v", err)
 			}
 
+			company, err := client.CompanyDetail.Create().
+				SetName(*input.CompanyInput.Name).
+				SetCompanyCode(*input.CompanyInput.CompanyCode).
+				SetNillableAddress(input.CompanyInput.Address).
+				SetNillablePhone(input.CompanyInput.Phone).
+				SetNillableFax(input.CompanyInput.Fax).
+				SetNillableMobilePhone(input.CompanyInput.MobilePhone).
+				SetNillableEmail(input.CompanyInput.Email).
+				SetNillableWebsite(input.CompanyInput.Website).
+				SetNillableTaxAdmin(input.CompanyInput.TaxAdmin).
+				SetNillableTaxNo(input.CompanyInput.TaxNo).
+				SetNillableChamberInfo(input.CompanyInput.ChamberInfo).
+				SetNillableChamberRegisterNo(input.CompanyInput.ChamberRegisterNo).
+				SetNillableVisaDate(input.CompanyInput.VisaDate).
+				SetNillableVisaEndDate(input.CompanyInput.VisaEndDate).
+				SetNillableVisaFinishedFor90Days(input.CompanyInput.VisaFinishedFor90days).
+				SetNillableCorePersonAbsent90Days(input.CompanyInput.CorePersonAbsent90days).
+				SetNillableIsClosed(input.CompanyInput.IsClosed).
+				SetNillableOwnerName(input.CompanyInput.OwnerName).
+				SetNillableOwnerTcNo(input.CompanyInput.OwnerTcNo).
+				SetNillableOwnerAddress(input.CompanyInput.OwnerAddress).
+				SetNillableOwnerPhone(input.CompanyInput.OwnerPhone).
+				SetNillableOwnerEmail(input.CompanyInput.OwnerEmail).
+				SetNillableOwnerRegisterNo(input.CompanyInput.OwnerRegisterNo).
+				SetNillableOwnerCareer(input.CompanyInput.OwnerCareer).
+				Save(ctx)
+
+			if err != nil {
+				fmt.Printf("Şirket oluşturma hatası: %v\n", err)
+				return createCompanyToken, nil
+			}
+
+			fmt.Printf("Şirket başarıyla oluşturuldu: ID=%d\n", company.ID)
+
+			// 4. Token ile şirketi ilişkilendir
+			if _, err := createCompanyToken.Update().
+				SetCompany(company).
+				Save(ctx); err != nil {
+				fmt.Printf("Token ile şirket ilişkilendirilemedi: %v\n", err)
+			}
+
+			// Kullanıcı ID'sini context'ten al
+			claims := middlewares.CtxValue(ctx)
+			userID := claims.ID
+
+			// CompanyUser ilişkisini oluştur
+			_, err = client.CompanyUser.Create().
+				SetCompanyID(company.ID).
+				SetUserID(userID).
+				Save(ctx)
+			if err != nil {
+				fmt.Printf("Kullanıcı-şirket ilişkisi oluşturulamadı: %v\n", err)
+			}
+
 			return createCompanyToken, nil
 		}
 		return nil, fmt.Errorf("token sorgulama hatası: %v", err)

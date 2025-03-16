@@ -10,70 +10,23 @@ import (
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
 	"github.com/polatbilal/gqlgen-ent/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
 
 // UpdateCompany is the resolver for the updateCompany field.
-func (r *mutationResolver) UpsertCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error) {
+func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.CompanyDetailInput) (*ent.CompanyDetail, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Şirket var mı kontrol et
 	company, err := client.CompanyDetail.Query().Where(companydetail.CompanyCodeEQ(*input.CompanyCode)).Only(ctx)
-
-	// Şirket yoksa oluştur
-	if ent.IsNotFound(err) {
-
-		token, err := client.CompanyToken.Query().Where(companytoken.DepartmentIdEQ(*input.DepartmentID)).Only(ctx)
-		if err != nil {
-			return nil, fmt.Errorf("şirket token bulunamadı: %v", err)
-		}
-
-		// Yeni şirket oluştur
-		newCompany, err := client.CompanyDetail.Create().
-			SetName(input.Name).
-			SetCompanyCode(*input.CompanyCode).
-			SetNillableAddress(input.Address).
-			SetNillablePhone(input.Phone).
-			SetNillableFax(input.Fax).
-			SetNillableMobilePhone(input.MobilePhone).
-			SetNillableEmail(input.Email).
-			SetNillableWebsite(input.Website).
-			SetNillableTaxAdmin(input.TaxAdmin).
-			SetNillableTaxNo(input.TaxNo).
-			SetNillableChamberInfo(input.ChamberInfo).
-			SetNillableChamberRegisterNo(input.ChamberRegisterNo).
-			SetNillableVisaDate(input.VisaDate).
-			SetNillableVisaEndDate(input.VisaEndDate).
-			SetNillableVisaFinishedFor90Days(input.VisaFinishedFor90days).
-			SetNillableCorePersonAbsent90Days(input.CorePersonAbsent90days).
-			SetNillableIsClosed(input.IsClosed).
-			SetNillableOwnerName(input.OwnerName).
-			SetNillableOwnerTcNo(input.OwnerTcNo).
-			SetNillableOwnerAddress(input.OwnerAddress).
-			SetNillableOwnerPhone(input.OwnerPhone).
-			SetNillableOwnerEmail(input.OwnerEmail).
-			SetNillableOwnerRegisterNo(input.OwnerRegisterNo).
-			SetNillableOwnerCareer(input.OwnerCareer).
-			AddTokenIDs(token.ID).
-			Save(ctx)
-
-		if err != nil {
-			return nil, fmt.Errorf("şirket oluşturulamadı: %v", err)
-		}
-
-		return newCompany, nil
-	} else if err != nil {
-		// Başka bir hata varsa
-		return nil, fmt.Errorf("şirket sorgulama hatası: %v", err)
+	if err != nil {
+		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
 	}
 
-	// Şirket varsa güncelle
 	updatedCompany, err := client.CompanyDetail.UpdateOneID(company.ID).
-		SetName(input.Name).
-		SetCompanyCode(*input.CompanyCode).
+		SetNillableName(input.Name).
+		SetNillableCompanyCode(input.CompanyCode).
 		SetNillableAddress(input.Address).
 		SetNillablePhone(input.Phone).
 		SetNillableFax(input.Fax).

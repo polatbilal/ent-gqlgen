@@ -12,6 +12,7 @@ input CompanyTokenInput {
   CompanyCode: Int
   YDKUsername: String
   YDKPassword: String
+  CompanyInput: CompanyDetailInput
 }
 
 extend type Query {

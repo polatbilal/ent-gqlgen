@@ -9,6 +9,11 @@ type JobBatchResult {
   company: CompanyDetail
 }
 
+type CompanyBatchResult {
+  company: CompanyDetail
+  companyToken: CompanyToken
+}
+
 input JobBatchInput {
   YibfNo: Int!
   jobInput: JobInput
@@ -17,6 +22,12 @@ input JobBatchInput {
   authorInput: JobAuthorInput
   supervisorInput: JobSupervisorInput
   engineerInput: JobEngineerInput
+}
+
+input CompanyBatchInput {
+  CompanyCode: Int!
+  companyInput: CompanyDetailInput
+  companyTokenInput: CompanyTokenInput
 }
 
 extend type Query {
