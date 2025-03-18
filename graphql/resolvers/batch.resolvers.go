@@ -829,6 +829,12 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int, state *s
 		query = query.Where(jobrelations.HasJobWith(jobdetail.StateNEQ("Bitmiş")))
 	}
 
+	// Eğer yibfNo belirtilmişse filtreleme yap
+	if yibfNo != nil {
+		query = query.Where(jobrelations.YibfNo(*yibfNo))
+	}
+
+	// Sadece gerekli ilişkileri yükle
 	query = query.WithCompany().
 		WithJob().
 		WithOwner().
@@ -845,11 +851,6 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int, state *s
 		WithMechaniccontroller().
 		WithElectriccontroller()
 
-	// Eğer yibfNo belirtilmişse filtreleme yap
-	if yibfNo != nil {
-		query = query.Where(jobrelations.YibfNo(*yibfNo))
-	}
-
 	// Tüm kayıtları getir
 	relations, err := query.All(ctx)
 	if err != nil {
@@ -859,32 +860,27 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int, state *s
 	// Sonuçları dönüştür
 	var results []*model.JobBatchResult
 	for _, relation := range relations {
-		// JobEngineer bilgilerini hazırla
-		jobEngineer := &model.JobEngineer{
-			YibfNo:             &relation.YibfNo,
-			Inspector:          relation.Edges.Inspector,
-			Static:             relation.Edges.Static,
-			Architect:          relation.Edges.Architect,
-			Mechanic:           relation.Edges.Mechanic,
-			Electric:           relation.Edges.Electric,
-			Controller:         relation.Edges.Controller,
-			MechanicController: relation.Edges.Mechaniccontroller,
-			ElectricController: relation.Edges.Electriccontroller,
-		}
 
-		// Her bir kaydı JobBatchResult'a dönüştür
-		result := &model.JobBatchResult{
+		results = append(results, &model.JobBatchResult{
 			Job:        relation.Edges.Job,
 			Owner:      relation.Edges.Owner,
 			Contractor: relation.Edges.Contractor,
 			Author:     relation.Edges.Author,
 			Supervisor: relation.Edges.Supervisor,
-			Engineer:   jobEngineer,
-			Progress:   relation.Edges.Progress,
-			Company:    relation.Edges.Company,
-		}
-
-		results = append(results, result)
+			Engineer: &model.JobEngineer{
+				YibfNo:             &relation.YibfNo,
+				Inspector:          relation.Edges.Inspector,
+				Static:             relation.Edges.Static,
+				Architect:          relation.Edges.Architect,
+				Mechanic:           relation.Edges.Mechanic,
+				Electric:           relation.Edges.Electric,
+				Controller:         relation.Edges.Controller,
+				MechanicController: relation.Edges.Mechaniccontroller,
+				ElectricController: relation.Edges.Electriccontroller,
+			},
+			Progress: relation.Edges.Progress,
+			Company:  relation.Edges.Company,
+		})
 	}
 
 	if len(results) == 0 {

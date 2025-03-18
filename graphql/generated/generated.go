@@ -55,6 +55,11 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	AdministrationCount struct {
+		Count func(childComplexity int) int
+		Name  func(childComplexity int) int
+	}
+
 	AuthPayload struct {
 		Name     func(childComplexity int) int
 		Role     func(childComplexity int) int
@@ -161,10 +166,11 @@ type ComplexityRoot struct {
 	}
 
 	JobCounts struct {
-		Completed func(childComplexity int) int
-		Current   func(childComplexity int) int
-		Pending   func(childComplexity int) int
-		Total     func(childComplexity int) int
+		AdministrationCounts func(childComplexity int) int
+		Completed            func(childComplexity int) int
+		Current              func(childComplexity int) int
+		Pending              func(childComplexity int) int
+		Total                func(childComplexity int) int
 	}
 
 	JobDetail struct {
@@ -453,6 +459,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e, 0, 0, nil}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "AdministrationCount.count":
+		if e.complexity.AdministrationCount.Count == nil {
+			break
+		}
+
+		return e.complexity.AdministrationCount.Count(childComplexity), true
+
+	case "AdministrationCount.name":
+		if e.complexity.AdministrationCount.Name == nil {
+			break
+		}
+
+		return e.complexity.AdministrationCount.Name(childComplexity), true
 
 	case "AuthPayload.name":
 		if e.complexity.AuthPayload.Name == nil {
@@ -1020,6 +1040,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.JobContractor.YDSID(childComplexity), true
+
+	case "JobCounts.administrationCounts":
+		if e.complexity.JobCounts.AdministrationCounts == nil {
+			break
+		}
+
+		return e.complexity.JobCounts.AdministrationCounts(childComplexity), true
 
 	case "JobCounts.completed":
 		if e.complexity.JobCounts.Completed == nil {
@@ -2956,6 +2983,12 @@ type JobCounts {
   pending: Int!
   completed: Int!
   total: Int!
+  administrationCounts: [AdministrationCount!]!
+}
+
+type AdministrationCount {
+  name: String!
+  count: Int!
 }
 
 extend type Query {
@@ -5140,6 +5173,94 @@ func (ec *executionContext) field___Type_fields_argsIncludeDeprecated(
 // endregion ************************** directives.gotpl **************************
 
 // region    **************************** field.gotpl *****************************
+
+func (ec *executionContext) _AdministrationCount_name(ctx context.Context, field graphql.CollectedField, obj *model.AdministrationCount) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AdministrationCount_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AdministrationCount_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AdministrationCount",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AdministrationCount_count(ctx context.Context, field graphql.CollectedField, obj *model.AdministrationCount) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AdministrationCount_count(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Count, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AdministrationCount_count(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AdministrationCount",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
 
 func (ec *executionContext) _AuthPayload_token(ctx context.Context, field graphql.CollectedField, obj *model.AuthPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_AuthPayload_token(ctx, field)
@@ -9027,6 +9148,56 @@ func (ec *executionContext) fieldContext_JobCounts_total(_ context.Context, fiel
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobCounts_administrationCounts(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobCounts_administrationCounts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AdministrationCounts, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.AdministrationCount)
+	fc.Result = res
+	return ec.marshalNAdministrationCount2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphqlᚋmodelᚐAdministrationCountᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobCounts_administrationCounts(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobCounts",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "name":
+				return ec.fieldContext_AdministrationCount_name(ctx, field)
+			case "count":
+				return ec.fieldContext_AdministrationCount_count(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AdministrationCount", field.Name)
 		},
 	}
 	return fc, nil
@@ -17590,6 +17761,8 @@ func (ec *executionContext) fieldContext_Query_jobCounts(ctx context.Context, fi
 				return ec.fieldContext_JobCounts_completed(ctx, field)
 			case "total":
 				return ec.fieldContext_JobCounts_total(ctx, field)
+			case "administrationCounts":
+				return ec.fieldContext_JobCounts_administrationCounts(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type JobCounts", field.Name)
 		},
@@ -22937,6 +23110,50 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj any
 
 // region    **************************** object.gotpl ****************************
 
+var administrationCountImplementors = []string{"AdministrationCount"}
+
+func (ec *executionContext) _AdministrationCount(ctx context.Context, sel ast.SelectionSet, obj *model.AdministrationCount) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, administrationCountImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("AdministrationCount")
+		case "name":
+			out.Values[i] = ec._AdministrationCount_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "count":
+			out.Values[i] = ec._AdministrationCount_count(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var authPayloadImplementors = []string{"AuthPayload"}
 
 func (ec *executionContext) _AuthPayload(ctx context.Context, sel ast.SelectionSet, obj *model.AuthPayload) graphql.Marshaler {
@@ -23516,6 +23733,11 @@ func (ec *executionContext) _JobCounts(ctx context.Context, sel ast.SelectionSet
 			}
 		case "total":
 			out.Values[i] = ec._JobCounts_total(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "administrationCounts":
+			out.Values[i] = ec._JobCounts_administrationCounts(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -25256,6 +25478,60 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
+
+func (ec *executionContext) marshalNAdministrationCount2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphqlᚋmodelᚐAdministrationCountᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.AdministrationCount) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNAdministrationCount2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphqlᚋmodelᚐAdministrationCount(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNAdministrationCount2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphqlᚋmodelᚐAdministrationCount(ctx context.Context, sel ast.SelectionSet, v *model.AdministrationCount) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._AdministrationCount(ctx, sel, v)
+}
 
 func (ec *executionContext) marshalNAuthPayload2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphqlᚋmodelᚐAuthPayload(ctx context.Context, sel ast.SelectionSet, v model.AuthPayload) graphql.Marshaler {
 	return ec._AuthPayload(ctx, sel, &v)

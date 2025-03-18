@@ -103,6 +103,12 @@ type JobCounts {
   pending: Int!
   completed: Int!
   total: Int!
+  administrationCounts: [AdministrationCount!]!
+}
+
+type AdministrationCount {
+  name: String!
+  count: Int!
 }
 
 extend type Query {

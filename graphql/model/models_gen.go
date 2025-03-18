@@ -8,6 +8,11 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent"
 )
 
+type AdministrationCount struct {
+	Name  string `json:"name"`
+	Count int    `json:"count"`
+}
+
 type AuthPayload struct {
 	Token    string `json:"token"`
 	UserID   string `json:"userID"`
@@ -136,10 +141,11 @@ type JobContractorInput struct {
 }
 
 type JobCounts struct {
-	Current   int `json:"current"`
-	Pending   int `json:"pending"`
-	Completed int `json:"completed"`
-	Total     int `json:"total"`
+	Current              int                    `json:"current"`
+	Pending              int                    `json:"pending"`
+	Completed            int                    `json:"completed"`
+	Total                int                    `json:"total"`
+	AdministrationCounts []*AdministrationCount `json:"administrationCounts"`
 }
 
 type JobEngineer struct {

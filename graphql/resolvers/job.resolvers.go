@@ -449,22 +449,39 @@ func (r *queryResolver) JobCounts(ctx context.Context, companyCode *int) (*model
 
 	// Durumları say
 	var current, pending, completed int
+	administrationCounts := make(map[string]int)
 	for _, job := range jobs {
 		switch job.State {
 		case "Güncel":
 			current++
+			if job.Administration != "" {
+				administrationCounts[job.Administration]++
+			}
 		case "Ruhsat Bekleyen":
 			pending++
+			if job.Administration != "" {
+				administrationCounts[job.Administration]++
+			}
 		case "Bitmiş":
 			completed++
 		}
 	}
 
+	// Map'ten array'e çevir
+	var adminCountList []*model.AdministrationCount
+	for admin, count := range administrationCounts {
+		adminCountList = append(adminCountList, &model.AdministrationCount{
+			Name:  admin,
+			Count: count,
+		})
+	}
+
 	return &model.JobCounts{
-		Current:   current,
-		Pending:   pending,
-		Completed: completed,
-		Total:     len(jobs),
+		Current:              current,
+		Pending:              pending,
+		Completed:            completed,
+		Total:                len(jobs),
+		AdministrationCounts: adminCountList,
 	}, nil
 }
 
@@ -535,7 +552,7 @@ func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, er
 				jobrelations.HasCompanyWith(
 					companydetail.CompanyCodeIn(companyCodes...),
 				),
-			)
+			).WithOwner()
 		}).
 		Only(ctx)
 
@@ -546,6 +563,10 @@ func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, er
 		return nil, fmt.Errorf("iş sorgulanırken hata oluştu: %v", err)
 	}
 
+	// Eğer relations ve owner varsa ve shareholder false ise title'ı owner name olarak güncelle
+	if job.Edges.Relations != nil && job.Edges.Relations.Edges.Owner != nil && !job.Edges.Relations.Edges.Owner.Shareholder {
+		job.Title = job.Edges.Relations.Edges.Owner.Name
+	}
 	return job, nil
 }
 
