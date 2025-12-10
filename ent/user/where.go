@@ -85,6 +85,16 @@ func Role(v string) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldRole, v))
 }
 
+// RefreshToken applies equality check predicate on the "RefreshToken" field. It's identical to RefreshTokenEQ.
+func RefreshToken(v string) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldRefreshToken, v))
+}
+
+// RefreshTokenExpireAt applies equality check predicate on the "RefreshTokenExpireAt" field. It's identical to RefreshTokenExpireAtEQ.
+func RefreshTokenExpireAt(v time.Time) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldRefreshTokenExpireAt, v))
+}
+
 // LicenseExpireDate applies equality check predicate on the "LicenseExpireDate" field. It's identical to LicenseExpireDateEQ.
 func LicenseExpireDate(v time.Time) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldLicenseExpireDate, v))
@@ -508,6 +518,131 @@ func RoleEqualFold(v string) predicate.User {
 // RoleContainsFold applies the ContainsFold predicate on the "Role" field.
 func RoleContainsFold(v string) predicate.User {
 	return predicate.User(sql.FieldContainsFold(FieldRole, v))
+}
+
+// RefreshTokenEQ applies the EQ predicate on the "RefreshToken" field.
+func RefreshTokenEQ(v string) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldRefreshToken, v))
+}
+
+// RefreshTokenNEQ applies the NEQ predicate on the "RefreshToken" field.
+func RefreshTokenNEQ(v string) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldRefreshToken, v))
+}
+
+// RefreshTokenIn applies the In predicate on the "RefreshToken" field.
+func RefreshTokenIn(vs ...string) predicate.User {
+	return predicate.User(sql.FieldIn(FieldRefreshToken, vs...))
+}
+
+// RefreshTokenNotIn applies the NotIn predicate on the "RefreshToken" field.
+func RefreshTokenNotIn(vs ...string) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldRefreshToken, vs...))
+}
+
+// RefreshTokenGT applies the GT predicate on the "RefreshToken" field.
+func RefreshTokenGT(v string) predicate.User {
+	return predicate.User(sql.FieldGT(FieldRefreshToken, v))
+}
+
+// RefreshTokenGTE applies the GTE predicate on the "RefreshToken" field.
+func RefreshTokenGTE(v string) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldRefreshToken, v))
+}
+
+// RefreshTokenLT applies the LT predicate on the "RefreshToken" field.
+func RefreshTokenLT(v string) predicate.User {
+	return predicate.User(sql.FieldLT(FieldRefreshToken, v))
+}
+
+// RefreshTokenLTE applies the LTE predicate on the "RefreshToken" field.
+func RefreshTokenLTE(v string) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldRefreshToken, v))
+}
+
+// RefreshTokenContains applies the Contains predicate on the "RefreshToken" field.
+func RefreshTokenContains(v string) predicate.User {
+	return predicate.User(sql.FieldContains(FieldRefreshToken, v))
+}
+
+// RefreshTokenHasPrefix applies the HasPrefix predicate on the "RefreshToken" field.
+func RefreshTokenHasPrefix(v string) predicate.User {
+	return predicate.User(sql.FieldHasPrefix(FieldRefreshToken, v))
+}
+
+// RefreshTokenHasSuffix applies the HasSuffix predicate on the "RefreshToken" field.
+func RefreshTokenHasSuffix(v string) predicate.User {
+	return predicate.User(sql.FieldHasSuffix(FieldRefreshToken, v))
+}
+
+// RefreshTokenIsNil applies the IsNil predicate on the "RefreshToken" field.
+func RefreshTokenIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldRefreshToken))
+}
+
+// RefreshTokenNotNil applies the NotNil predicate on the "RefreshToken" field.
+func RefreshTokenNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldRefreshToken))
+}
+
+// RefreshTokenEqualFold applies the EqualFold predicate on the "RefreshToken" field.
+func RefreshTokenEqualFold(v string) predicate.User {
+	return predicate.User(sql.FieldEqualFold(FieldRefreshToken, v))
+}
+
+// RefreshTokenContainsFold applies the ContainsFold predicate on the "RefreshToken" field.
+func RefreshTokenContainsFold(v string) predicate.User {
+	return predicate.User(sql.FieldContainsFold(FieldRefreshToken, v))
+}
+
+// RefreshTokenExpireAtEQ applies the EQ predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtEQ(v time.Time) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldRefreshTokenExpireAt, v))
+}
+
+// RefreshTokenExpireAtNEQ applies the NEQ predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtNEQ(v time.Time) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldRefreshTokenExpireAt, v))
+}
+
+// RefreshTokenExpireAtIn applies the In predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtIn(vs ...time.Time) predicate.User {
+	return predicate.User(sql.FieldIn(FieldRefreshTokenExpireAt, vs...))
+}
+
+// RefreshTokenExpireAtNotIn applies the NotIn predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtNotIn(vs ...time.Time) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldRefreshTokenExpireAt, vs...))
+}
+
+// RefreshTokenExpireAtGT applies the GT predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtGT(v time.Time) predicate.User {
+	return predicate.User(sql.FieldGT(FieldRefreshTokenExpireAt, v))
+}
+
+// RefreshTokenExpireAtGTE applies the GTE predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtGTE(v time.Time) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldRefreshTokenExpireAt, v))
+}
+
+// RefreshTokenExpireAtLT applies the LT predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtLT(v time.Time) predicate.User {
+	return predicate.User(sql.FieldLT(FieldRefreshTokenExpireAt, v))
+}
+
+// RefreshTokenExpireAtLTE applies the LTE predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtLTE(v time.Time) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldRefreshTokenExpireAt, v))
+}
+
+// RefreshTokenExpireAtIsNil applies the IsNil predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldRefreshTokenExpireAt))
+}
+
+// RefreshTokenExpireAtNotNil applies the NotNil predicate on the "RefreshTokenExpireAt" field.
+func RefreshTokenExpireAtNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldRefreshTokenExpireAt))
 }
 
 // LicenseExpireDateEQ applies the EQ predicate on the "LicenseExpireDate" field.

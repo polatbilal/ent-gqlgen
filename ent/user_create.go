@@ -89,6 +89,34 @@ func (uc *UserCreate) SetNillableRole(s *string) *UserCreate {
 	return uc
 }
 
+// SetRefreshToken sets the "RefreshToken" field.
+func (uc *UserCreate) SetRefreshToken(s string) *UserCreate {
+	uc.mutation.SetRefreshToken(s)
+	return uc
+}
+
+// SetNillableRefreshToken sets the "RefreshToken" field if the given value is not nil.
+func (uc *UserCreate) SetNillableRefreshToken(s *string) *UserCreate {
+	if s != nil {
+		uc.SetRefreshToken(*s)
+	}
+	return uc
+}
+
+// SetRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field.
+func (uc *UserCreate) SetRefreshTokenExpireAt(t time.Time) *UserCreate {
+	uc.mutation.SetRefreshTokenExpireAt(t)
+	return uc
+}
+
+// SetNillableRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field if the given value is not nil.
+func (uc *UserCreate) SetNillableRefreshTokenExpireAt(t *time.Time) *UserCreate {
+	if t != nil {
+		uc.SetRefreshTokenExpireAt(*t)
+	}
+	return uc
+}
+
 // SetLicenseExpireDate sets the "LicenseExpireDate" field.
 func (uc *UserCreate) SetLicenseExpireDate(t time.Time) *UserCreate {
 	uc.mutation.SetLicenseExpireDate(t)
@@ -310,6 +338,14 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.Role(); ok {
 		_spec.SetField(user.FieldRole, field.TypeString, value)
 		_node.Role = value
+	}
+	if value, ok := uc.mutation.RefreshToken(); ok {
+		_spec.SetField(user.FieldRefreshToken, field.TypeString, value)
+		_node.RefreshToken = value
+	}
+	if value, ok := uc.mutation.RefreshTokenExpireAt(); ok {
+		_spec.SetField(user.FieldRefreshTokenExpireAt, field.TypeTime, value)
+		_node.RefreshTokenExpireAt = value
 	}
 	if value, ok := uc.mutation.LicenseExpireDate(); ok {
 		_spec.SetField(user.FieldLicenseExpireDate, field.TypeTime, value)

@@ -20,14 +20,11 @@ import (
 // JobOwnerQuery is the builder for querying JobOwner entities.
 type JobOwnerQuery struct {
 	config
-	ctx             *QueryContext
-	order           []jobowner.OrderOption
-	inters          []Interceptor
-	predicates      []predicate.JobOwner
-	withOwners      *JobRelationsQuery
-	modifiers       []func(*sql.Selector)
-	loadTotal       []func(context.Context, []*JobOwner) error
-	withNamedOwners map[string]*JobRelationsQuery
+	ctx        *QueryContext
+	order      []jobowner.OrderOption
+	inters     []Interceptor
+	predicates []predicate.JobOwner
+	withOwners *JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -387,9 +384,6 @@ func (joq *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(joq.modifiers) > 0 {
-		_spec.Modifiers = joq.modifiers
-	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -403,18 +397,6 @@ func (joq *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 		if err := joq.loadOwners(ctx, query, nodes,
 			func(n *JobOwner) { n.Edges.Owners = []*JobRelations{} },
 			func(n *JobOwner, e *JobRelations) { n.Edges.Owners = append(n.Edges.Owners, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range joq.withNamedOwners {
-		if err := joq.loadOwners(ctx, query, nodes,
-			func(n *JobOwner) { n.appendNamedOwners(name) },
-			func(n *JobOwner, e *JobRelations) { n.appendNamedOwners(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range joq.loadTotal {
-		if err := joq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -455,9 +437,6 @@ func (joq *JobOwnerQuery) loadOwners(ctx context.Context, query *JobRelationsQue
 
 func (joq *JobOwnerQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := joq.querySpec()
-	if len(joq.modifiers) > 0 {
-		_spec.Modifiers = joq.modifiers
-	}
 	_spec.Node.Columns = joq.ctx.Fields
 	if len(joq.ctx.Fields) > 0 {
 		_spec.Unique = joq.ctx.Unique != nil && *joq.ctx.Unique
@@ -535,20 +514,6 @@ func (joq *JobOwnerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
-}
-
-// WithNamedOwners tells the query-builder to eager-load the nodes that are connected to the "owners"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (joq *JobOwnerQuery) WithNamedOwners(name string, opts ...func(*JobRelationsQuery)) *JobOwnerQuery {
-	query := (&JobRelationsClient{config: joq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if joq.withNamedOwners == nil {
-		joq.withNamedOwners = make(map[string]*JobRelationsQuery)
-	}
-	joq.withNamedOwners[name] = query
-	return joq
 }
 
 // JobOwnerGroupBy is the group-by builder for JobOwner entities.

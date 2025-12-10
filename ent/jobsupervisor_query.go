@@ -20,14 +20,11 @@ import (
 // JobSupervisorQuery is the builder for querying JobSupervisor entities.
 type JobSupervisorQuery struct {
 	config
-	ctx                  *QueryContext
-	order                []jobsupervisor.OrderOption
-	inters               []Interceptor
-	predicates           []predicate.JobSupervisor
-	withSupervisors      *JobRelationsQuery
-	modifiers            []func(*sql.Selector)
-	loadTotal            []func(context.Context, []*JobSupervisor) error
-	withNamedSupervisors map[string]*JobRelationsQuery
+	ctx             *QueryContext
+	order           []jobsupervisor.OrderOption
+	inters          []Interceptor
+	predicates      []predicate.JobSupervisor
+	withSupervisors *JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -387,9 +384,6 @@ func (jsq *JobSupervisorQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jsq.modifiers) > 0 {
-		_spec.Modifiers = jsq.modifiers
-	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -403,18 +397,6 @@ func (jsq *JobSupervisorQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		if err := jsq.loadSupervisors(ctx, query, nodes,
 			func(n *JobSupervisor) { n.Edges.Supervisors = []*JobRelations{} },
 			func(n *JobSupervisor, e *JobRelations) { n.Edges.Supervisors = append(n.Edges.Supervisors, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range jsq.withNamedSupervisors {
-		if err := jsq.loadSupervisors(ctx, query, nodes,
-			func(n *JobSupervisor) { n.appendNamedSupervisors(name) },
-			func(n *JobSupervisor, e *JobRelations) { n.appendNamedSupervisors(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range jsq.loadTotal {
-		if err := jsq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -455,9 +437,6 @@ func (jsq *JobSupervisorQuery) loadSupervisors(ctx context.Context, query *JobRe
 
 func (jsq *JobSupervisorQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jsq.querySpec()
-	if len(jsq.modifiers) > 0 {
-		_spec.Modifiers = jsq.modifiers
-	}
 	_spec.Node.Columns = jsq.ctx.Fields
 	if len(jsq.ctx.Fields) > 0 {
 		_spec.Unique = jsq.ctx.Unique != nil && *jsq.ctx.Unique
@@ -535,20 +514,6 @@ func (jsq *JobSupervisorQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
-}
-
-// WithNamedSupervisors tells the query-builder to eager-load the nodes that are connected to the "supervisors"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jsq *JobSupervisorQuery) WithNamedSupervisors(name string, opts ...func(*JobRelationsQuery)) *JobSupervisorQuery {
-	query := (&JobRelationsClient{config: jsq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if jsq.withNamedSupervisors == nil {
-		jsq.withNamedSupervisors = make(map[string]*JobRelationsQuery)
-	}
-	jsq.withNamedSupervisors[name] = query
-	return jsq
 }
 
 // JobSupervisorGroupBy is the group-by builder for JobSupervisor entities.

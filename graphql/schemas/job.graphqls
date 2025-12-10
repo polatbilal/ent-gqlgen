@@ -108,7 +108,7 @@ type JobCounts {
 
 type AdministrationCount {
   name: String!
-  count: Int!
+  adet: Int!
 }
 
 extend type Query {

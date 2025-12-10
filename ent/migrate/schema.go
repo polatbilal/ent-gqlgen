@@ -477,6 +477,8 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "password", Type: field.TypeString},
 		{Name: "role", Type: field.TypeString, Default: "User"},
+		{Name: "refresh_token", Type: field.TypeString, Nullable: true},
+		{Name: "refresh_token_expire_at", Type: field.TypeTime, Nullable: true},
 		{Name: "license_expire_date", Type: field.TypeTime, Nullable: true},
 		{Name: "last_login", Type: field.TypeTime, Nullable: true},
 		{Name: "active", Type: field.TypeBool, Default: true},

@@ -21,3 +21,7 @@ OR
 
 go run ent/entc.go (recommended)
 ```
+
+Build server
+```
+go build -o ydsapi.exe ydsapi.go

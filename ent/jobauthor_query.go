@@ -20,14 +20,11 @@ import (
 // JobAuthorQuery is the builder for querying JobAuthor entities.
 type JobAuthorQuery struct {
 	config
-	ctx              *QueryContext
-	order            []jobauthor.OrderOption
-	inters           []Interceptor
-	predicates       []predicate.JobAuthor
-	withAuthors      *JobRelationsQuery
-	modifiers        []func(*sql.Selector)
-	loadTotal        []func(context.Context, []*JobAuthor) error
-	withNamedAuthors map[string]*JobRelationsQuery
+	ctx         *QueryContext
+	order       []jobauthor.OrderOption
+	inters      []Interceptor
+	predicates  []predicate.JobAuthor
+	withAuthors *JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -387,9 +384,6 @@ func (jaq *JobAuthorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jaq.modifiers) > 0 {
-		_spec.Modifiers = jaq.modifiers
-	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -403,18 +397,6 @@ func (jaq *JobAuthorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 		if err := jaq.loadAuthors(ctx, query, nodes,
 			func(n *JobAuthor) { n.Edges.Authors = []*JobRelations{} },
 			func(n *JobAuthor, e *JobRelations) { n.Edges.Authors = append(n.Edges.Authors, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range jaq.withNamedAuthors {
-		if err := jaq.loadAuthors(ctx, query, nodes,
-			func(n *JobAuthor) { n.appendNamedAuthors(name) },
-			func(n *JobAuthor, e *JobRelations) { n.appendNamedAuthors(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range jaq.loadTotal {
-		if err := jaq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -455,9 +437,6 @@ func (jaq *JobAuthorQuery) loadAuthors(ctx context.Context, query *JobRelationsQ
 
 func (jaq *JobAuthorQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jaq.querySpec()
-	if len(jaq.modifiers) > 0 {
-		_spec.Modifiers = jaq.modifiers
-	}
 	_spec.Node.Columns = jaq.ctx.Fields
 	if len(jaq.ctx.Fields) > 0 {
 		_spec.Unique = jaq.ctx.Unique != nil && *jaq.ctx.Unique
@@ -535,20 +514,6 @@ func (jaq *JobAuthorQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
-}
-
-// WithNamedAuthors tells the query-builder to eager-load the nodes that are connected to the "authors"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jaq *JobAuthorQuery) WithNamedAuthors(name string, opts ...func(*JobRelationsQuery)) *JobAuthorQuery {
-	query := (&JobRelationsClient{config: jaq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if jaq.withNamedAuthors == nil {
-		jaq.withNamedAuthors = make(map[string]*JobRelationsQuery)
-	}
-	jaq.withNamedAuthors[name] = query
-	return jaq
 }
 
 // JobAuthorGroupBy is the group-by builder for JobAuthor entities.

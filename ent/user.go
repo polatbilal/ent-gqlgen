@@ -29,6 +29,10 @@ type User struct {
 	Password string `json:"Password,omitempty"`
 	// Role holds the value of the "Role" field.
 	Role string `json:"Role,omitempty"`
+	// RefreshToken holds the value of the "RefreshToken" field.
+	RefreshToken string `json:"RefreshToken,omitempty"`
+	// RefreshTokenExpireAt holds the value of the "RefreshTokenExpireAt" field.
+	RefreshTokenExpireAt time.Time `json:"RefreshTokenExpireAt,omitempty"`
 	// LicenseExpireDate holds the value of the "LicenseExpireDate" field.
 	LicenseExpireDate time.Time `json:"LicenseExpireDate,omitempty"`
 	// LastLogin holds the value of the "LastLogin" field.
@@ -52,10 +56,6 @@ type UserEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
-	// totalCount holds the count of the edges above.
-	totalCount [1]map[string]int
-
-	namedCompanies map[string][]*CompanyUser
 }
 
 // CompaniesOrErr returns the Companies value or an error if the edge
@@ -76,9 +76,9 @@ func (*User) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case user.FieldID:
 			values[i] = new(sql.NullInt64)
-		case user.FieldUsername, user.FieldName, user.FieldEmail, user.FieldPhone, user.FieldPassword, user.FieldRole:
+		case user.FieldUsername, user.FieldName, user.FieldEmail, user.FieldPhone, user.FieldPassword, user.FieldRole, user.FieldRefreshToken:
 			values[i] = new(sql.NullString)
-		case user.FieldLicenseExpireDate, user.FieldLastLogin, user.FieldCreatedAt, user.FieldUpdatedAt:
+		case user.FieldRefreshTokenExpireAt, user.FieldLicenseExpireDate, user.FieldLastLogin, user.FieldCreatedAt, user.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -136,6 +136,18 @@ func (u *User) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Role", values[i])
 			} else if value.Valid {
 				u.Role = value.String
+			}
+		case user.FieldRefreshToken:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field RefreshToken", values[i])
+			} else if value.Valid {
+				u.RefreshToken = value.String
+			}
+		case user.FieldRefreshTokenExpireAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field RefreshTokenExpireAt", values[i])
+			} else if value.Valid {
+				u.RefreshTokenExpireAt = value.Time
 			}
 		case user.FieldLicenseExpireDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -226,6 +238,12 @@ func (u *User) String() string {
 	builder.WriteString("Role=")
 	builder.WriteString(u.Role)
 	builder.WriteString(", ")
+	builder.WriteString("RefreshToken=")
+	builder.WriteString(u.RefreshToken)
+	builder.WriteString(", ")
+	builder.WriteString("RefreshTokenExpireAt=")
+	builder.WriteString(u.RefreshTokenExpireAt.Format(time.ANSIC))
+	builder.WriteString(", ")
 	builder.WriteString("LicenseExpireDate=")
 	builder.WriteString(u.LicenseExpireDate.Format(time.ANSIC))
 	builder.WriteString(", ")
@@ -242,30 +260,6 @@ func (u *User) String() string {
 	builder.WriteString(u.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedCompanies returns the Companies named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (u *User) NamedCompanies(name string) ([]*CompanyUser, error) {
-	if u.Edges.namedCompanies == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := u.Edges.namedCompanies[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (u *User) appendNamedCompanies(name string, edges ...*CompanyUser) {
-	if u.Edges.namedCompanies == nil {
-		u.Edges.namedCompanies = make(map[string][]*CompanyUser)
-	}
-	if len(edges) == 0 {
-		u.Edges.namedCompanies[name] = []*CompanyUser{}
-	} else {
-		u.Edges.namedCompanies[name] = append(u.Edges.namedCompanies[name], edges...)
-	}
 }
 
 // Users is a parsable slice of User.

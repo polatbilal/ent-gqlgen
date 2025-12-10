@@ -18941,27 +18941,29 @@ func (m *JobSupervisorMutation) ResetEdge(name string) error {
 // UserMutation represents an operation that mutates the User nodes in the graph.
 type UserMutation struct {
 	config
-	op                 Op
-	typ                string
-	id                 *int
-	_Username          *string
-	_Name              *string
-	_Email             *string
-	_Phone             *string
-	_Password          *string
-	_Role              *string
-	_LicenseExpireDate *time.Time
-	_LastLogin         *time.Time
-	_Active            *bool
-	_CreatedAt         *time.Time
-	_UpdatedAt         *time.Time
-	clearedFields      map[string]struct{}
-	companies          map[int]struct{}
-	removedcompanies   map[int]struct{}
-	clearedcompanies   bool
-	done               bool
-	oldValue           func(context.Context) (*User, error)
-	predicates         []predicate.User
+	op                    Op
+	typ                   string
+	id                    *int
+	_Username             *string
+	_Name                 *string
+	_Email                *string
+	_Phone                *string
+	_Password             *string
+	_Role                 *string
+	_RefreshToken         *string
+	_RefreshTokenExpireAt *time.Time
+	_LicenseExpireDate    *time.Time
+	_LastLogin            *time.Time
+	_Active               *bool
+	_CreatedAt            *time.Time
+	_UpdatedAt            *time.Time
+	clearedFields         map[string]struct{}
+	companies             map[int]struct{}
+	removedcompanies      map[int]struct{}
+	clearedcompanies      bool
+	done                  bool
+	oldValue              func(context.Context) (*User, error)
+	predicates            []predicate.User
 }
 
 var _ ent.Mutation = (*UserMutation)(nil)
@@ -19291,6 +19293,104 @@ func (m *UserMutation) ResetRole() {
 	m._Role = nil
 }
 
+// SetRefreshToken sets the "RefreshToken" field.
+func (m *UserMutation) SetRefreshToken(s string) {
+	m._RefreshToken = &s
+}
+
+// RefreshToken returns the value of the "RefreshToken" field in the mutation.
+func (m *UserMutation) RefreshToken() (r string, exists bool) {
+	v := m._RefreshToken
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRefreshToken returns the old "RefreshToken" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldRefreshToken(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRefreshToken is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRefreshToken requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRefreshToken: %w", err)
+	}
+	return oldValue.RefreshToken, nil
+}
+
+// ClearRefreshToken clears the value of the "RefreshToken" field.
+func (m *UserMutation) ClearRefreshToken() {
+	m._RefreshToken = nil
+	m.clearedFields[user.FieldRefreshToken] = struct{}{}
+}
+
+// RefreshTokenCleared returns if the "RefreshToken" field was cleared in this mutation.
+func (m *UserMutation) RefreshTokenCleared() bool {
+	_, ok := m.clearedFields[user.FieldRefreshToken]
+	return ok
+}
+
+// ResetRefreshToken resets all changes to the "RefreshToken" field.
+func (m *UserMutation) ResetRefreshToken() {
+	m._RefreshToken = nil
+	delete(m.clearedFields, user.FieldRefreshToken)
+}
+
+// SetRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field.
+func (m *UserMutation) SetRefreshTokenExpireAt(t time.Time) {
+	m._RefreshTokenExpireAt = &t
+}
+
+// RefreshTokenExpireAt returns the value of the "RefreshTokenExpireAt" field in the mutation.
+func (m *UserMutation) RefreshTokenExpireAt() (r time.Time, exists bool) {
+	v := m._RefreshTokenExpireAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRefreshTokenExpireAt returns the old "RefreshTokenExpireAt" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldRefreshTokenExpireAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRefreshTokenExpireAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRefreshTokenExpireAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRefreshTokenExpireAt: %w", err)
+	}
+	return oldValue.RefreshTokenExpireAt, nil
+}
+
+// ClearRefreshTokenExpireAt clears the value of the "RefreshTokenExpireAt" field.
+func (m *UserMutation) ClearRefreshTokenExpireAt() {
+	m._RefreshTokenExpireAt = nil
+	m.clearedFields[user.FieldRefreshTokenExpireAt] = struct{}{}
+}
+
+// RefreshTokenExpireAtCleared returns if the "RefreshTokenExpireAt" field was cleared in this mutation.
+func (m *UserMutation) RefreshTokenExpireAtCleared() bool {
+	_, ok := m.clearedFields[user.FieldRefreshTokenExpireAt]
+	return ok
+}
+
+// ResetRefreshTokenExpireAt resets all changes to the "RefreshTokenExpireAt" field.
+func (m *UserMutation) ResetRefreshTokenExpireAt() {
+	m._RefreshTokenExpireAt = nil
+	delete(m.clearedFields, user.FieldRefreshTokenExpireAt)
+}
+
 // SetLicenseExpireDate sets the "LicenseExpireDate" field.
 func (m *UserMutation) SetLicenseExpireDate(t time.Time) {
 	m._LicenseExpireDate = &t
@@ -19585,7 +19685,7 @@ func (m *UserMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 13)
 	if m._Username != nil {
 		fields = append(fields, user.FieldUsername)
 	}
@@ -19603,6 +19703,12 @@ func (m *UserMutation) Fields() []string {
 	}
 	if m._Role != nil {
 		fields = append(fields, user.FieldRole)
+	}
+	if m._RefreshToken != nil {
+		fields = append(fields, user.FieldRefreshToken)
+	}
+	if m._RefreshTokenExpireAt != nil {
+		fields = append(fields, user.FieldRefreshTokenExpireAt)
 	}
 	if m._LicenseExpireDate != nil {
 		fields = append(fields, user.FieldLicenseExpireDate)
@@ -19639,6 +19745,10 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.Password()
 	case user.FieldRole:
 		return m.Role()
+	case user.FieldRefreshToken:
+		return m.RefreshToken()
+	case user.FieldRefreshTokenExpireAt:
+		return m.RefreshTokenExpireAt()
 	case user.FieldLicenseExpireDate:
 		return m.LicenseExpireDate()
 	case user.FieldLastLogin:
@@ -19670,6 +19780,10 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldPassword(ctx)
 	case user.FieldRole:
 		return m.OldRole(ctx)
+	case user.FieldRefreshToken:
+		return m.OldRefreshToken(ctx)
+	case user.FieldRefreshTokenExpireAt:
+		return m.OldRefreshTokenExpireAt(ctx)
 	case user.FieldLicenseExpireDate:
 		return m.OldLicenseExpireDate(ctx)
 	case user.FieldLastLogin:
@@ -19730,6 +19844,20 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetRole(v)
+		return nil
+	case user.FieldRefreshToken:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRefreshToken(v)
+		return nil
+	case user.FieldRefreshTokenExpireAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRefreshTokenExpireAt(v)
 		return nil
 	case user.FieldLicenseExpireDate:
 		v, ok := value.(time.Time)
@@ -19799,6 +19927,12 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldPhone) {
 		fields = append(fields, user.FieldPhone)
 	}
+	if m.FieldCleared(user.FieldRefreshToken) {
+		fields = append(fields, user.FieldRefreshToken)
+	}
+	if m.FieldCleared(user.FieldRefreshTokenExpireAt) {
+		fields = append(fields, user.FieldRefreshTokenExpireAt)
+	}
 	if m.FieldCleared(user.FieldLicenseExpireDate) {
 		fields = append(fields, user.FieldLicenseExpireDate)
 	}
@@ -19821,6 +19955,12 @@ func (m *UserMutation) ClearField(name string) error {
 	switch name {
 	case user.FieldPhone:
 		m.ClearPhone()
+		return nil
+	case user.FieldRefreshToken:
+		m.ClearRefreshToken()
+		return nil
+	case user.FieldRefreshTokenExpireAt:
+		m.ClearRefreshTokenExpireAt()
 		return nil
 	case user.FieldLicenseExpireDate:
 		m.ClearLicenseExpireDate()
@@ -19853,6 +19993,12 @@ func (m *UserMutation) ResetField(name string) error {
 		return nil
 	case user.FieldRole:
 		m.ResetRole()
+		return nil
+	case user.FieldRefreshToken:
+		m.ResetRefreshToken()
+		return nil
+	case user.FieldRefreshTokenExpireAt:
+		m.ResetRefreshTokenExpireAt()
 		return nil
 	case user.FieldLicenseExpireDate:
 		m.ResetLicenseExpireDate()

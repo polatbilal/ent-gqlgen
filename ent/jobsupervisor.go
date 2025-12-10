@@ -56,10 +56,6 @@ type JobSupervisorEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
-	// totalCount holds the count of the edges above.
-	totalCount [1]map[string]int
-
-	namedSupervisors map[string][]*JobRelations
 }
 
 // SupervisorsOrErr returns the Supervisors value or an error if the edge
@@ -262,30 +258,6 @@ func (js *JobSupervisor) String() string {
 	builder.WriteString(js.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedSupervisors returns the Supervisors named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (js *JobSupervisor) NamedSupervisors(name string) ([]*JobRelations, error) {
-	if js.Edges.namedSupervisors == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := js.Edges.namedSupervisors[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (js *JobSupervisor) appendNamedSupervisors(name string, edges ...*JobRelations) {
-	if js.Edges.namedSupervisors == nil {
-		js.Edges.namedSupervisors = make(map[string][]*JobRelations)
-	}
-	if len(edges) == 0 {
-		js.Edges.namedSupervisors[name] = []*JobRelations{}
-	} else {
-		js.Edges.namedSupervisors[name] = append(js.Edges.namedSupervisors[name], edges...)
-	}
 }
 
 // JobSupervisors is a parsable slice of JobSupervisor.

@@ -68,7 +68,7 @@ func main() {
 
 	// CORS ayarları
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000, http://localhost:4000, http://192.168.1.105:4000, https://dev.bilalpolat.tr, https://main.bilalpolat.tr, https://yds.endoplazmikretikulum.keenetic.pro, https://yds.bilalpolat.tr",
+		AllowOrigins:     "http://localhost:3000, http://localhost:4000, http://192.168.1.8:4000, https://dev.bilalpolat.tr, https://main.bilalpolat.tr, https://yds.polat.dev",
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Requested-With",
 		ExposeHeaders:    "Content-Length",
@@ -89,7 +89,7 @@ func main() {
 			origin = "https://dev.bilalpolat.tr"
 		} else {
 			// Local development için IP adresini kullan
-			origin = "http://192.168.1.105:4000"
+			origin = "http://192.168.1.8:4000"
 		}
 
 		// CORS header'larını ayarla
@@ -133,12 +133,6 @@ func main() {
 	); !errors.Is(err, nil) {
 		log.Fatalf("Error: failed creating schema resources %v\n", err)
 	}
-
-	// Redis bağlantısını başlat
-	if err := database.InitRedis(); err != nil {
-		log.Fatalf("Redis başlatma hatası: %v", err)
-	}
-	defer database.RedisClient.Close()
 
 	// Configure the GraphQL server
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))

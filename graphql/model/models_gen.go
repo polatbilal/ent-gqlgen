@@ -9,8 +9,8 @@ import (
 )
 
 type AdministrationCount struct {
-	Name  string `json:"name"`
-	Count int    `json:"count"`
+	Name string `json:"name"`
+	Adet int    `json:"adet"`
 }
 
 type AuthPayload struct {

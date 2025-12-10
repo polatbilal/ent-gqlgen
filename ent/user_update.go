@@ -119,6 +119,46 @@ func (uu *UserUpdate) SetNillableRole(s *string) *UserUpdate {
 	return uu
 }
 
+// SetRefreshToken sets the "RefreshToken" field.
+func (uu *UserUpdate) SetRefreshToken(s string) *UserUpdate {
+	uu.mutation.SetRefreshToken(s)
+	return uu
+}
+
+// SetNillableRefreshToken sets the "RefreshToken" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableRefreshToken(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetRefreshToken(*s)
+	}
+	return uu
+}
+
+// ClearRefreshToken clears the value of the "RefreshToken" field.
+func (uu *UserUpdate) ClearRefreshToken() *UserUpdate {
+	uu.mutation.ClearRefreshToken()
+	return uu
+}
+
+// SetRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field.
+func (uu *UserUpdate) SetRefreshTokenExpireAt(t time.Time) *UserUpdate {
+	uu.mutation.SetRefreshTokenExpireAt(t)
+	return uu
+}
+
+// SetNillableRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableRefreshTokenExpireAt(t *time.Time) *UserUpdate {
+	if t != nil {
+		uu.SetRefreshTokenExpireAt(*t)
+	}
+	return uu
+}
+
+// ClearRefreshTokenExpireAt clears the value of the "RefreshTokenExpireAt" field.
+func (uu *UserUpdate) ClearRefreshTokenExpireAt() *UserUpdate {
+	uu.mutation.ClearRefreshTokenExpireAt()
+	return uu
+}
+
 // SetLicenseExpireDate sets the "LicenseExpireDate" field.
 func (uu *UserUpdate) SetLicenseExpireDate(t time.Time) *UserUpdate {
 	uu.mutation.SetLicenseExpireDate(t)
@@ -300,6 +340,18 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := uu.mutation.Role(); ok {
 		_spec.SetField(user.FieldRole, field.TypeString, value)
 	}
+	if value, ok := uu.mutation.RefreshToken(); ok {
+		_spec.SetField(user.FieldRefreshToken, field.TypeString, value)
+	}
+	if uu.mutation.RefreshTokenCleared() {
+		_spec.ClearField(user.FieldRefreshToken, field.TypeString)
+	}
+	if value, ok := uu.mutation.RefreshTokenExpireAt(); ok {
+		_spec.SetField(user.FieldRefreshTokenExpireAt, field.TypeTime, value)
+	}
+	if uu.mutation.RefreshTokenExpireAtCleared() {
+		_spec.ClearField(user.FieldRefreshTokenExpireAt, field.TypeTime)
+	}
 	if value, ok := uu.mutation.LicenseExpireDate(); ok {
 		_spec.SetField(user.FieldLicenseExpireDate, field.TypeTime, value)
 	}
@@ -473,6 +525,46 @@ func (uuo *UserUpdateOne) SetNillableRole(s *string) *UserUpdateOne {
 	if s != nil {
 		uuo.SetRole(*s)
 	}
+	return uuo
+}
+
+// SetRefreshToken sets the "RefreshToken" field.
+func (uuo *UserUpdateOne) SetRefreshToken(s string) *UserUpdateOne {
+	uuo.mutation.SetRefreshToken(s)
+	return uuo
+}
+
+// SetNillableRefreshToken sets the "RefreshToken" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableRefreshToken(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetRefreshToken(*s)
+	}
+	return uuo
+}
+
+// ClearRefreshToken clears the value of the "RefreshToken" field.
+func (uuo *UserUpdateOne) ClearRefreshToken() *UserUpdateOne {
+	uuo.mutation.ClearRefreshToken()
+	return uuo
+}
+
+// SetRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field.
+func (uuo *UserUpdateOne) SetRefreshTokenExpireAt(t time.Time) *UserUpdateOne {
+	uuo.mutation.SetRefreshTokenExpireAt(t)
+	return uuo
+}
+
+// SetNillableRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableRefreshTokenExpireAt(t *time.Time) *UserUpdateOne {
+	if t != nil {
+		uuo.SetRefreshTokenExpireAt(*t)
+	}
+	return uuo
+}
+
+// ClearRefreshTokenExpireAt clears the value of the "RefreshTokenExpireAt" field.
+func (uuo *UserUpdateOne) ClearRefreshTokenExpireAt() *UserUpdateOne {
+	uuo.mutation.ClearRefreshTokenExpireAt()
 	return uuo
 }
 
@@ -686,6 +778,18 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if value, ok := uuo.mutation.Role(); ok {
 		_spec.SetField(user.FieldRole, field.TypeString, value)
+	}
+	if value, ok := uuo.mutation.RefreshToken(); ok {
+		_spec.SetField(user.FieldRefreshToken, field.TypeString, value)
+	}
+	if uuo.mutation.RefreshTokenCleared() {
+		_spec.ClearField(user.FieldRefreshToken, field.TypeString)
+	}
+	if value, ok := uuo.mutation.RefreshTokenExpireAt(); ok {
+		_spec.SetField(user.FieldRefreshTokenExpireAt, field.TypeTime, value)
+	}
+	if uuo.mutation.RefreshTokenExpireAtCleared() {
+		_spec.ClearField(user.FieldRefreshTokenExpireAt, field.TypeTime)
 	}
 	if value, ok := uuo.mutation.LicenseExpireDate(); ok {
 		_spec.SetField(user.FieldLicenseExpireDate, field.TypeTime, value)

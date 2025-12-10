@@ -51,10 +51,6 @@ type JobRelationsQuery struct {
 	withLayers             *JobLayerQuery
 	withPayments           *JobPaymentsQuery
 	withFKs                bool
-	modifiers              []func(*sql.Selector)
-	loadTotal              []func(context.Context, []*JobRelations) error
-	withNamedLayers        map[string]*JobLayerQuery
-	withNamedPayments      map[string]*JobPaymentsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -981,9 +977,6 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jrq.modifiers) > 0 {
-		_spec.Modifiers = jrq.modifiers
-	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -1094,25 +1087,6 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		if err := jrq.loadPayments(ctx, query, nodes,
 			func(n *JobRelations) { n.Edges.Payments = []*JobPayments{} },
 			func(n *JobRelations, e *JobPayments) { n.Edges.Payments = append(n.Edges.Payments, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range jrq.withNamedLayers {
-		if err := jrq.loadLayers(ctx, query, nodes,
-			func(n *JobRelations) { n.appendNamedLayers(name) },
-			func(n *JobRelations, e *JobLayer) { n.appendNamedLayers(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range jrq.withNamedPayments {
-		if err := jrq.loadPayments(ctx, query, nodes,
-			func(n *JobRelations) { n.appendNamedPayments(name) },
-			func(n *JobRelations, e *JobPayments) { n.appendNamedPayments(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for i := range jrq.loadTotal {
-		if err := jrq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -1664,9 +1638,6 @@ func (jrq *JobRelationsQuery) loadPayments(ctx context.Context, query *JobPaymen
 
 func (jrq *JobRelationsQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jrq.querySpec()
-	if len(jrq.modifiers) > 0 {
-		_spec.Modifiers = jrq.modifiers
-	}
 	_spec.Node.Columns = jrq.ctx.Fields
 	if len(jrq.ctx.Fields) > 0 {
 		_spec.Unique = jrq.ctx.Unique != nil && *jrq.ctx.Unique
@@ -1744,34 +1715,6 @@ func (jrq *JobRelationsQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
-}
-
-// WithNamedLayers tells the query-builder to eager-load the nodes that are connected to the "layers"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithNamedLayers(name string, opts ...func(*JobLayerQuery)) *JobRelationsQuery {
-	query := (&JobLayerClient{config: jrq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if jrq.withNamedLayers == nil {
-		jrq.withNamedLayers = make(map[string]*JobLayerQuery)
-	}
-	jrq.withNamedLayers[name] = query
-	return jrq
-}
-
-// WithNamedPayments tells the query-builder to eager-load the nodes that are connected to the "payments"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithNamedPayments(name string, opts ...func(*JobPaymentsQuery)) *JobRelationsQuery {
-	query := (&JobPaymentsClient{config: jrq.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if jrq.withNamedPayments == nil {
-		jrq.withNamedPayments = make(map[string]*JobPaymentsQuery)
-	}
-	jrq.withNamedPayments[name] = query
-	return jrq
 }
 
 // JobRelationsGroupBy is the group-by builder for JobRelations entities.

@@ -91,11 +91,6 @@ type JobRelationsEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [17]bool
-	// totalCount holds the count of the edges above.
-	totalCount [17]map[string]int
-
-	namedLayers   map[string][]*JobLayer
-	namedPayments map[string][]*JobPayments
 }
 
 // JobOrErr returns the Job value or an error if the edge
@@ -595,54 +590,6 @@ func (jr *JobRelations) String() string {
 	builder.WriteString(jr.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedLayers returns the Layers named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (jr *JobRelations) NamedLayers(name string) ([]*JobLayer, error) {
-	if jr.Edges.namedLayers == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := jr.Edges.namedLayers[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (jr *JobRelations) appendNamedLayers(name string, edges ...*JobLayer) {
-	if jr.Edges.namedLayers == nil {
-		jr.Edges.namedLayers = make(map[string][]*JobLayer)
-	}
-	if len(edges) == 0 {
-		jr.Edges.namedLayers[name] = []*JobLayer{}
-	} else {
-		jr.Edges.namedLayers[name] = append(jr.Edges.namedLayers[name], edges...)
-	}
-}
-
-// NamedPayments returns the Payments named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (jr *JobRelations) NamedPayments(name string) ([]*JobPayments, error) {
-	if jr.Edges.namedPayments == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := jr.Edges.namedPayments[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (jr *JobRelations) appendNamedPayments(name string, edges ...*JobPayments) {
-	if jr.Edges.namedPayments == nil {
-		jr.Edges.namedPayments = make(map[string][]*JobPayments)
-	}
-	if len(edges) == 0 {
-		jr.Edges.namedPayments[name] = []*JobPayments{}
-	} else {
-		jr.Edges.namedPayments[name] = append(jr.Edges.namedPayments[name], edges...)
-	}
 }
 
 // JobRelationsSlice is a parsable slice of JobRelations.

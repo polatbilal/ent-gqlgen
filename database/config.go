@@ -11,7 +11,8 @@ import (
 	entsql "entgo.io/ent/dialect/sql"
 	"github.com/polatbilal/gqlgen-ent/ent"
 
-	_ "github.com/lib/pq" // PostgreSQL driver
+	_ "github.com/go-sql-driver/mysql" //MySQL driver
+	// _ "github.com/lib/pq"              // PostgreSQL driver
 )
 
 var (
@@ -33,13 +34,14 @@ func GetClient() (*ent.Client, error) {
 }
 
 func Connect() (*ent.Client, error) {
-	databaseURL := os.Getenv("DATABASE_URL")
+	databaseURL := os.Getenv("MYSQL_URL")
 	if databaseURL == "" {
 		log.Printf("Error: DATABASE_URL environment variable is not set")
 		return nil, fmt.Errorf("DATABASE_URL environment variable is not set")
 	}
 
-	db, err := sql.Open("postgres", databaseURL)
+	// db, err := sql.Open("postgres", databaseURL)
+	db, err := sql.Open("mysql", databaseURL)
 	if err != nil {
 		log.Printf("Error opening database: %v\n", err)
 		return nil, err
@@ -58,7 +60,8 @@ func Connect() (*ent.Client, error) {
 	}
 
 	// Ent istemcisini yapılandırılmış SQL bağlantısı ile oluştur
-	drv := entsql.OpenDB("postgres", db)
+	// drv := entsql.OpenDB("postgres", db)
+	drv := entsql.OpenDB("mysql", db)
 	client := ent.NewClient(ent.Driver(drv))
 
 	return client, nil

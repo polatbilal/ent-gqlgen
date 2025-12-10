@@ -26,6 +26,10 @@ const (
 	FieldPassword = "password"
 	// FieldRole holds the string denoting the role field in the database.
 	FieldRole = "role"
+	// FieldRefreshToken holds the string denoting the refreshtoken field in the database.
+	FieldRefreshToken = "refresh_token"
+	// FieldRefreshTokenExpireAt holds the string denoting the refreshtokenexpireat field in the database.
+	FieldRefreshTokenExpireAt = "refresh_token_expire_at"
 	// FieldLicenseExpireDate holds the string denoting the licenseexpiredate field in the database.
 	FieldLicenseExpireDate = "license_expire_date"
 	// FieldLastLogin holds the string denoting the lastlogin field in the database.
@@ -58,6 +62,8 @@ var Columns = []string{
 	FieldPhone,
 	FieldPassword,
 	FieldRole,
+	FieldRefreshToken,
+	FieldRefreshTokenExpireAt,
 	FieldLicenseExpireDate,
 	FieldLastLogin,
 	FieldActive,
@@ -128,6 +134,16 @@ func ByPassword(opts ...sql.OrderTermOption) OrderOption {
 // ByRole orders the results by the Role field.
 func ByRole(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRole, opts...).ToFunc()
+}
+
+// ByRefreshToken orders the results by the RefreshToken field.
+func ByRefreshToken(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRefreshToken, opts...).ToFunc()
+}
+
+// ByRefreshTokenExpireAt orders the results by the RefreshTokenExpireAt field.
+func ByRefreshTokenExpireAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRefreshTokenExpireAt, opts...).ToFunc()
 }
 
 // ByLicenseExpireDate orders the results by the LicenseExpireDate field.
