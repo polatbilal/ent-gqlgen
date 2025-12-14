@@ -47,5 +47,6 @@ func (JobRelations) Edges() []ent.Edge {
 
 		edge.To("layers", JobLayer.Type).StorageKey(edge.Column("relations_id")),
 		edge.To("payments", JobPayments.Type).StorageKey(edge.Column("relations_id")),
+		edge.To("receipts", JobReceipt.Type).StorageKey(edge.Column("relations_id")),
 	}
 }

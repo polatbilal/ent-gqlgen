@@ -9,7 +9,7 @@ import (
 	"strconv"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
@@ -49,16 +49,8 @@ func (r *mutationResolver) UpsertProgress(ctx context.Context, input model.JobPr
 func (r *queryResolver) Progress(ctx context.Context, yibfNo int) (*ent.JobProgress, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Önce JobDetail'i bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
-		Only(ctx)
-	if err != nil {
-		return nil, err
-	}
-
 	// JobRelations üzerinden Progress'i bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
+	relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(yibfNo)).Only(ctx)
 	if err != nil {
 		return nil, err
 	}

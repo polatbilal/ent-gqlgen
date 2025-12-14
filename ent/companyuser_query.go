@@ -27,6 +27,8 @@ type CompanyUserQuery struct {
 	withCompany *CompanyDetailQuery
 	withUser    *UserQuery
 	withFKs     bool
+	modifiers   []func(*sql.Selector)
+	loadTotal   []func(context.Context, []*CompanyUser) error
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -406,6 +408,9 @@ func (cuq *CompanyUserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(cuq.modifiers) > 0 {
+		_spec.Modifiers = cuq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -424,6 +429,11 @@ func (cuq *CompanyUserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	if query := cuq.withUser; query != nil {
 		if err := cuq.loadUser(ctx, query, nodes, nil,
 			func(n *CompanyUser, e *User) { n.Edges.User = e }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range cuq.loadTotal {
+		if err := cuq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -497,6 +507,9 @@ func (cuq *CompanyUserQuery) loadUser(ctx context.Context, query *UserQuery, nod
 
 func (cuq *CompanyUserQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := cuq.querySpec()
+	if len(cuq.modifiers) > 0 {
+		_spec.Modifiers = cuq.modifiers
+	}
 	_spec.Node.Columns = cuq.ctx.Fields
 	if len(cuq.ctx.Fields) > 0 {
 		_spec.Unique = cuq.ctx.Unique != nil && *cuq.ctx.Unique

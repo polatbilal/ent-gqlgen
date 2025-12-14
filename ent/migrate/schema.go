@@ -325,6 +325,31 @@ var (
 		Columns:    JobProgressesColumns,
 		PrimaryKey: []*schema.Column{JobProgressesColumns[0]},
 	}
+	// JobReceiptsColumns holds the columns for the "job_receipts" table.
+	JobReceiptsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "yibf_no", Type: field.TypeInt, Default: 0},
+		{Name: "receipt_date", Type: field.TypeTime},
+		{Name: "amount", Type: field.TypeFloat64, Nullable: true, Default: 0},
+		{Name: "note", Type: field.TypeString, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "relations_id", Type: field.TypeInt, Nullable: true},
+	}
+	// JobReceiptsTable holds the schema information for the "job_receipts" table.
+	JobReceiptsTable = &schema.Table{
+		Name:       "job_receipts",
+		Columns:    JobReceiptsColumns,
+		PrimaryKey: []*schema.Column{JobReceiptsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "job_receipts_job_relations_receipts",
+				Columns:    []*schema.Column{JobReceiptsColumns[7]},
+				RefColumns: []*schema.Column{JobRelationsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
 	// JobRelationsColumns holds the columns for the "job_relations" table.
 	JobRelationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -504,6 +529,7 @@ var (
 		JobOwnersTable,
 		JobPaymentsTable,
 		JobProgressesTable,
+		JobReceiptsTable,
 		JobRelationsTable,
 		JobSupervisorsTable,
 		UsersTable,
@@ -517,6 +543,7 @@ func init() {
 	CompanyUsersTable.ForeignKeys[1].RefTable = UsersTable
 	JobLayersTable.ForeignKeys[0].RefTable = JobRelationsTable
 	JobPaymentsTable.ForeignKeys[0].RefTable = JobRelationsTable
+	JobReceiptsTable.ForeignKeys[0].RefTable = JobRelationsTable
 	JobRelationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	JobRelationsTable.ForeignKeys[1].RefTable = CompanyEngineersTable
 	JobRelationsTable.ForeignKeys[2].RefTable = CompanyEngineersTable

@@ -581,6 +581,29 @@ func HasPaymentsWith(preds ...predicate.JobPayments) predicate.JobRelations {
 	})
 }
 
+// HasReceipts applies the HasEdge predicate on the "receipts" edge.
+func HasReceipts() predicate.JobRelations {
+	return predicate.JobRelations(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, ReceiptsTable, ReceiptsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasReceiptsWith applies the HasEdge predicate on the "receipts" edge with a given conditions (other predicates).
+func HasReceiptsWith(preds ...predicate.JobReceipt) predicate.JobRelations {
+	return predicate.JobRelations(func(s *sql.Selector) {
+		step := newReceiptsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.JobRelations) predicate.JobRelations {
 	return predicate.JobRelations(sql.AndPredicates(predicates...))

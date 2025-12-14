@@ -258,6 +258,14 @@ type JobProgressInput struct {
 	Six   *int    `json:"Six,omitempty"`
 }
 
+type JobReceiptInput struct {
+	ID          *int       `json:"id,omitempty"`
+	YibfNo      *int       `json:"YibfNo,omitempty"`
+	ReceiptDate *time.Time `json:"ReceiptDate,omitempty"`
+	Amount      *float64   `json:"Amount,omitempty"`
+	Note        *string    `json:"Note,omitempty"`
+}
+
 type JobSupervisorInput struct {
 	YibfNo           *int    `json:"YibfNo,omitempty"`
 	Name             *string `json:"Name,omitempty"`

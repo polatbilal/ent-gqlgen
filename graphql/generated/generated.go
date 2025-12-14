@@ -274,6 +274,14 @@ type ComplexityRoot struct {
 		Two   func(childComplexity int) int
 	}
 
+	JobReceipt struct {
+		Amount    func(childComplexity int) int
+		CreatedAt func(childComplexity int) int
+		ID        func(childComplexity int) int
+		Note      func(childComplexity int) int
+		YibfNo    func(childComplexity int) int
+	}
+
 	JobSupervisor struct {
 		Address          func(childComplexity int) int
 		Career           func(childComplexity int) int
@@ -301,6 +309,7 @@ type ComplexityRoot struct {
 		CreateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
 		DeleteBatchMutation   func(childComplexity int, yibfNo int) int
 		DeleteJobPayments     func(childComplexity int, id int) int
+		DeleteJobReceipts     func(childComplexity int, id int) int
 		DeleteLayer           func(childComplexity int, id string) int
 		DeleteUser            func(childComplexity int, id string) int
 		ExecuteBatchMutation  func(childComplexity int, input model.JobBatchInput) int
@@ -319,6 +328,7 @@ type ComplexityRoot struct {
 		UpdateOwner           func(childComplexity int, input model.JobOwnerInput) int
 		UpdateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
 		UpsertEngineer        func(childComplexity int, input model.CompanyEngineerInput) int
+		UpsertJobReceipts     func(childComplexity int, id *int, input model.JobReceiptInput) int
 		UpsertPayments        func(childComplexity int, id *int, input model.JobPaymentsInput) int
 		UpsertProgress        func(childComplexity int, input model.JobProgressInput) int
 		UpsertToken           func(childComplexity int, departmentID int, input model.CompanyTokenInput) int
@@ -343,6 +353,7 @@ type ComplexityRoot struct {
 		JobCounts         func(childComplexity int, companyCode *int) int
 		JobEngineer       func(childComplexity int, yibfNo int) int
 		JobPayments       func(childComplexity int, yibfNo int) int
+		JobReceipts       func(childComplexity int, yibfNo int) int
 		Jobs              func(childComplexity int) int
 		Layer             func(childComplexity int, filter *model.LayerFilterInput) int
 		Owner             func(childComplexity int, yibfNo int) int
@@ -366,7 +377,6 @@ type ComplexityRoot struct {
 
 type CompanyEngineerResolver interface {
 	CompanyCode(ctx context.Context, obj *ent.CompanyEngineer) (*int, error)
-	Company(ctx context.Context, obj *ent.CompanyEngineer) (*ent.CompanyDetail, error)
 }
 type CompanyTokenResolver interface {
 	CompanyCode(ctx context.Context, obj *ent.CompanyToken) (*int, error)
@@ -405,6 +415,8 @@ type MutationResolver interface {
 	UpdateJobPayments(ctx context.Context, id int, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	DeleteJobPayments(ctx context.Context, id int) (*ent.JobPayments, error)
 	UpsertProgress(ctx context.Context, input model.JobProgressInput) (*ent.JobProgress, error)
+	UpsertJobReceipts(ctx context.Context, id *int, input model.JobReceiptInput) (*ent.JobReceipt, error)
+	DeleteJobReceipts(ctx context.Context, id int) (*ent.JobReceipt, error)
 	CreateSupervisor(ctx context.Context, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
 	UpdateSupervisor(ctx context.Context, input model.JobSupervisorInput) (*ent.JobSupervisor, error)
 	UpsertToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error)
@@ -432,6 +444,7 @@ type QueryResolver interface {
 	GetOwner(ctx context.Context, ydsid int) (*ent.JobOwner, error)
 	JobPayments(ctx context.Context, yibfNo int) ([]*ent.JobPayments, error)
 	Progress(ctx context.Context, yibfNo int) (*ent.JobProgress, error)
+	JobReceipts(ctx context.Context, yibfNo int) ([]*ent.JobReceipt, error)
 	Supervisor(ctx context.Context, yibfNo int) (*ent.JobSupervisor, error)
 	SupervisorByYdsid(ctx context.Context, ydsid int) (*ent.JobSupervisor, error)
 	CompanyToken(ctx context.Context, companyCode *int) (*ent.CompanyToken, error)
@@ -1658,6 +1671,41 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.JobProgress.Two(childComplexity), true
 
+	case "JobReceipt.Amount":
+		if e.complexity.JobReceipt.Amount == nil {
+			break
+		}
+
+		return e.complexity.JobReceipt.Amount(childComplexity), true
+
+	case "JobReceipt.createdAt":
+		if e.complexity.JobReceipt.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.JobReceipt.CreatedAt(childComplexity), true
+
+	case "JobReceipt.id":
+		if e.complexity.JobReceipt.ID == nil {
+			break
+		}
+
+		return e.complexity.JobReceipt.ID(childComplexity), true
+
+	case "JobReceipt.Note":
+		if e.complexity.JobReceipt.Note == nil {
+			break
+		}
+
+		return e.complexity.JobReceipt.Note(childComplexity), true
+
+	case "JobReceipt.YibfNo":
+		if e.complexity.JobReceipt.YibfNo == nil {
+			break
+		}
+
+		return e.complexity.JobReceipt.YibfNo(childComplexity), true
+
 	case "JobSupervisor.Address":
 		if e.complexity.JobSupervisor.Address == nil {
 			break
@@ -1874,6 +1922,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.DeleteJobPayments(childComplexity, args["id"].(int)), true
 
+	case "Mutation.deleteJobReceipts":
+		if e.complexity.Mutation.DeleteJobReceipts == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteJobReceipts_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteJobReceipts(childComplexity, args["id"].(int)), true
+
 	case "Mutation.deleteLayer":
 		if e.complexity.Mutation.DeleteLayer == nil {
 			break
@@ -2089,6 +2149,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpsertEngineer(childComplexity, args["input"].(model.CompanyEngineerInput)), true
+
+	case "Mutation.upsertJobReceipts":
+		if e.complexity.Mutation.UpsertJobReceipts == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_upsertJobReceipts_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpsertJobReceipts(childComplexity, args["id"].(*int), args["input"].(model.JobReceiptInput)), true
 
 	case "Mutation.upsertPayments":
 		if e.complexity.Mutation.UpsertPayments == nil {
@@ -2327,6 +2399,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.JobPayments(childComplexity, args["yibfNo"].(int)), true
 
+	case "Query.jobReceipts":
+		if e.complexity.Query.JobReceipts == nil {
+			break
+		}
+
+		args, err := ec.field_Query_jobReceipts_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.JobReceipts(childComplexity, args["yibfNo"].(int)), true
+
 	case "Query.jobs":
 		if e.complexity.Query.Jobs == nil {
 			break
@@ -2484,6 +2568,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputJobOwnerInput,
 		ec.unmarshalInputJobPaymentsInput,
 		ec.unmarshalInputJobProgressInput,
+		ec.unmarshalInputJobReceiptInput,
 		ec.unmarshalInputJobSupervisorInput,
 		ec.unmarshalInputLayerFilterInput,
 		ec.unmarshalInputUserInput,
@@ -3180,6 +3265,33 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
+	{Name: "../schemas/receipts.graphqls", Input: `type JobReceipt {
+  id: Int
+  YibfNo: Int
+  Amount: Float
+  Note: String
+  createdAt: Time
+}
+
+input JobReceiptInput {
+  id: Int
+  YibfNo: Int
+  ReceiptDate: Time
+  Amount: Float
+  Note: String
+}
+
+extend type Query {
+  jobReceipts(yibfNo: Int!): [JobReceipt!] @auth
+}
+
+extend type Mutation {
+  upsertJobReceipts(id: Int, input: JobReceiptInput!): JobReceipt
+    @goField(forceResolver: true)
+    @auth
+
+  deleteJobReceipts(id: Int!): JobReceipt @goField(forceResolver: true) @auth
+}`, BuiltIn: false},
 	{Name: "../schemas/supervisor.graphqls", Input: `type JobSupervisor {
   id: ID!
   Name: String
@@ -3591,6 +3703,34 @@ func (ec *executionContext) field_Mutation_deleteJobPayments_args(ctx context.Co
 	return args, nil
 }
 func (ec *executionContext) field_Mutation_deleteJobPayments_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (int, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNInt2int(ctx, tmp)
+	}
+
+	var zeroVal int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteJobReceipts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteJobReceipts_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteJobReceipts_argsID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (int, error) {
@@ -4342,6 +4482,57 @@ func (ec *executionContext) field_Mutation_upsertEngineer_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_upsertJobReceipts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_upsertJobReceipts_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg0
+	arg1, err := ec.field_Mutation_upsertJobReceipts_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_upsertJobReceipts_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_upsertJobReceipts_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.JobReceiptInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.JobReceiptInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNJobReceiptInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphqlᚋmodelᚐJobReceiptInput(ctx, tmp)
+	}
+
+	var zeroVal model.JobReceiptInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_upsertPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -4926,6 +5117,34 @@ func (ec *executionContext) field_Query_jobPayments_args(ctx context.Context, ra
 	return args, nil
 }
 func (ec *executionContext) field_Query_jobPayments_argsYibfNo(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (int, error) {
+	if _, ok := rawArgs["yibfNo"]; !ok {
+		var zeroVal int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
+	if tmp, ok := rawArgs["yibfNo"]; ok {
+		return ec.unmarshalNInt2int(ctx, tmp)
+	}
+
+	var zeroVal int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_jobReceipts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_jobReceipts_argsYibfNo(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["yibfNo"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_jobReceipts_argsYibfNo(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (int, error) {
@@ -7345,7 +7564,7 @@ func (ec *executionContext) _CompanyEngineer_Company(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.CompanyEngineer().Company(rctx, obj)
+		return obj.Company(ctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7364,7 +7583,7 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Conte
 		Object:     "CompanyEngineer",
 		Field:      field,
 		IsMethod:   true,
-		IsResolver: true,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -13025,6 +13244,211 @@ func (ec *executionContext) fieldContext_JobProgress_Six(_ context.Context, fiel
 	return fc, nil
 }
 
+func (ec *executionContext) _JobReceipt_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobReceipt_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobReceipt_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobReceipt",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobReceipt_YibfNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobReceipt_YibfNo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.YibfNo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobReceipt_YibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobReceipt",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobReceipt_Amount(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobReceipt_Amount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Amount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobReceipt_Amount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobReceipt",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobReceipt_Note(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobReceipt_Note(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Note, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobReceipt_Note(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobReceipt",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobReceipt_createdAt(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_JobReceipt_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_JobReceipt_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobReceipt",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _JobSupervisor_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_JobSupervisor_id(ctx, field)
 	if err != nil {
@@ -16256,6 +16680,178 @@ func (ec *executionContext) fieldContext_Mutation_upsertProgress(ctx context.Con
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_upsertJobReceipts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_upsertJobReceipts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpsertJobReceipts(rctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobReceiptInput))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *ent.JobReceipt
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*ent.JobReceipt); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobReceipt`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobReceipt)
+	fc.Result = res
+	return ec.marshalOJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobReceipt(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_upsertJobReceipts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobReceipt_id(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobReceipt_YibfNo(ctx, field)
+			case "Amount":
+				return ec.fieldContext_JobReceipt_Amount(ctx, field)
+			case "Note":
+				return ec.fieldContext_JobReceipt_Note(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_JobReceipt_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobReceipt", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_upsertJobReceipts_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteJobReceipts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteJobReceipts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteJobReceipts(rctx, fc.Args["id"].(int))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal *ent.JobReceipt
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*ent.JobReceipt); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/gqlgen-ent/ent.JobReceipt`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.JobReceipt)
+	fc.Result = res
+	return ec.marshalOJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobReceipt(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteJobReceipts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobReceipt_id(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobReceipt_YibfNo(ctx, field)
+			case "Amount":
+				return ec.fieldContext_JobReceipt_Amount(ctx, field)
+			case "Note":
+				return ec.fieldContext_JobReceipt_Note(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_JobReceipt_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobReceipt", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteJobReceipts_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createSupervisor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createSupervisor(ctx, field)
 	if err != nil {
@@ -18783,6 +19379,92 @@ func (ec *executionContext) fieldContext_Query_progress(ctx context.Context, fie
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_progress_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_jobReceipts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_jobReceipts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		directive0 := func(rctx context.Context) (any, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().JobReceipts(rctx, fc.Args["yibfNo"].(int))
+		}
+
+		directive1 := func(ctx context.Context) (any, error) {
+			if ec.directives.Auth == nil {
+				var zeroVal []*ent.JobReceipt
+				return zeroVal, errors.New("directive auth is not implemented")
+			}
+			return ec.directives.Auth(ctx, nil, directive0)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*ent.JobReceipt); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/gqlgen-ent/ent.JobReceipt`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*ent.JobReceipt)
+	fc.Result = res
+	return ec.marshalOJobReceipt2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobReceiptᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_jobReceipts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobReceipt_id(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobReceipt_YibfNo(ctx, field)
+			case "Amount":
+				return ec.fieldContext_JobReceipt_Amount(ctx, field)
+			case "Note":
+				return ec.fieldContext_JobReceipt_Note(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_JobReceipt_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobReceipt", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_jobReceipts_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -23118,6 +23800,61 @@ func (ec *executionContext) unmarshalInputJobProgressInput(ctx context.Context, 
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputJobReceiptInput(ctx context.Context, obj any) (model.JobReceiptInput, error) {
+	var it model.JobReceiptInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "YibfNo", "ReceiptDate", "Amount", "Note"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
+		case "YibfNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YibfNo = data
+		case "ReceiptDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ReceiptDate"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ReceiptDate = data
+		case "Amount":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Amount"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Amount = data
+		case "Note":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Note"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Note = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputJobSupervisorInput(ctx context.Context, obj any) (model.JobSupervisorInput, error) {
 	var it model.JobSupervisorInput
 	asMap := map[string]any{}
@@ -24451,6 +25188,50 @@ func (ec *executionContext) _JobProgress(ctx context.Context, sel ast.SelectionS
 	return out
 }
 
+var jobReceiptImplementors = []string{"JobReceipt"}
+
+func (ec *executionContext) _JobReceipt(ctx context.Context, sel ast.SelectionSet, obj *ent.JobReceipt) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, jobReceiptImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("JobReceipt")
+		case "id":
+			out.Values[i] = ec._JobReceipt_id(ctx, field, obj)
+		case "YibfNo":
+			out.Values[i] = ec._JobReceipt_YibfNo(ctx, field, obj)
+		case "Amount":
+			out.Values[i] = ec._JobReceipt_Amount(ctx, field, obj)
+		case "Note":
+			out.Values[i] = ec._JobReceipt_Note(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._JobReceipt_createdAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var jobSupervisorImplementors = []string{"JobSupervisor"}
 
 func (ec *executionContext) _JobSupervisor(ctx context.Context, sel ast.SelectionSet, obj *ent.JobSupervisor) graphql.Marshaler {
@@ -24698,6 +25479,14 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "upsertProgress":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_upsertProgress(ctx, field)
+			})
+		case "upsertJobReceipts":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_upsertJobReceipts(ctx, field)
+			})
+		case "deleteJobReceipts":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteJobReceipts(ctx, field)
 			})
 		case "createSupervisor":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
@@ -25159,6 +25948,25 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_progress(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "jobReceipts":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_jobReceipts(ctx, field)
 				return res
 			}
 
@@ -26237,6 +27045,21 @@ func (ec *executionContext) unmarshalNJobProgressInput2githubᚗcomᚋpolatbilal
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalNJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobReceipt(ctx context.Context, sel ast.SelectionSet, v *ent.JobReceipt) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._JobReceipt(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNJobReceiptInput2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋgraphqlᚋmodelᚐJobReceiptInput(ctx context.Context, v any) (model.JobReceiptInput, error) {
+	res, err := ec.unmarshalInputJobReceiptInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalNJobSupervisor2githubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobSupervisor(ctx context.Context, sel ast.SelectionSet, v ent.JobSupervisor) graphql.Marshaler {
 	return ec._JobSupervisor(ctx, sel, &v)
 }
@@ -27046,6 +27869,60 @@ func (ec *executionContext) marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋg
 		return graphql.Null
 	}
 	return ec._JobProgress(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOJobReceipt2ᚕᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobReceiptᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobReceipt) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobReceipt(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalOJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobReceipt(ctx context.Context, sel ast.SelectionSet, v *ent.JobReceipt) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._JobReceipt(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋgqlgenᚑentᚋentᚐJobSupervisor(ctx context.Context, sel ast.SelectionSet, v *ent.JobSupervisor) graphql.Marshaler {

@@ -10,7 +10,7 @@ import (
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/graphql/generated"
 	"github.com/polatbilal/gqlgen-ent/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
@@ -96,16 +96,8 @@ func (r *mutationResolver) UpdateAuthor(ctx context.Context, yibfNo int, input m
 func (r *queryResolver) Author(ctx context.Context, yibfNo int) (*ent.JobAuthor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Önce JobDetail'i bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to query job detail: %w", err)
-	}
-
 	// JobRelations üzerinden author'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
+	relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(yibfNo)).Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query job relations: %w", err)
 	}

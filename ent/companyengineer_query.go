@@ -21,20 +21,30 @@ import (
 // CompanyEngineerQuery is the builder for querying CompanyEngineer entities.
 type CompanyEngineerQuery struct {
 	config
-	ctx                     *QueryContext
-	order                   []companyengineer.OrderOption
-	inters                  []Interceptor
-	predicates              []predicate.CompanyEngineer
-	withCompany             *CompanyDetailQuery
-	withStatics             *JobRelationsQuery
-	withMechanics           *JobRelationsQuery
-	withElectrics           *JobRelationsQuery
-	withInspectors          *JobRelationsQuery
-	withArchitects          *JobRelationsQuery
-	withControllers         *JobRelationsQuery
-	withMechaniccontrollers *JobRelationsQuery
-	withElectriccontrollers *JobRelationsQuery
-	withFKs                 bool
+	ctx                          *QueryContext
+	order                        []companyengineer.OrderOption
+	inters                       []Interceptor
+	predicates                   []predicate.CompanyEngineer
+	withCompany                  *CompanyDetailQuery
+	withStatics                  *JobRelationsQuery
+	withMechanics                *JobRelationsQuery
+	withElectrics                *JobRelationsQuery
+	withInspectors               *JobRelationsQuery
+	withArchitects               *JobRelationsQuery
+	withControllers              *JobRelationsQuery
+	withMechaniccontrollers      *JobRelationsQuery
+	withElectriccontrollers      *JobRelationsQuery
+	withFKs                      bool
+	modifiers                    []func(*sql.Selector)
+	loadTotal                    []func(context.Context, []*CompanyEngineer) error
+	withNamedStatics             map[string]*JobRelationsQuery
+	withNamedMechanics           map[string]*JobRelationsQuery
+	withNamedElectrics           map[string]*JobRelationsQuery
+	withNamedInspectors          map[string]*JobRelationsQuery
+	withNamedArchitects          map[string]*JobRelationsQuery
+	withNamedControllers         map[string]*JobRelationsQuery
+	withNamedMechaniccontrollers map[string]*JobRelationsQuery
+	withNamedElectriccontrollers map[string]*JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -681,6 +691,9 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(ceq.modifiers) > 0 {
+		_spec.Modifiers = ceq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -753,6 +766,67 @@ func (ceq *CompanyEngineerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			func(n *CompanyEngineer, e *JobRelations) {
 				n.Edges.Electriccontrollers = append(n.Edges.Electriccontrollers, e)
 			}); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedStatics {
+		if err := ceq.loadStatics(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedStatics(name) },
+			func(n *CompanyEngineer, e *JobRelations) { n.appendNamedStatics(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedMechanics {
+		if err := ceq.loadMechanics(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedMechanics(name) },
+			func(n *CompanyEngineer, e *JobRelations) { n.appendNamedMechanics(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedElectrics {
+		if err := ceq.loadElectrics(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedElectrics(name) },
+			func(n *CompanyEngineer, e *JobRelations) { n.appendNamedElectrics(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedInspectors {
+		if err := ceq.loadInspectors(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedInspectors(name) },
+			func(n *CompanyEngineer, e *JobRelations) { n.appendNamedInspectors(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedArchitects {
+		if err := ceq.loadArchitects(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedArchitects(name) },
+			func(n *CompanyEngineer, e *JobRelations) { n.appendNamedArchitects(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedControllers {
+		if err := ceq.loadControllers(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedControllers(name) },
+			func(n *CompanyEngineer, e *JobRelations) { n.appendNamedControllers(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedMechaniccontrollers {
+		if err := ceq.loadMechaniccontrollers(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedMechaniccontrollers(name) },
+			func(n *CompanyEngineer, e *JobRelations) { n.appendNamedMechaniccontrollers(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range ceq.withNamedElectriccontrollers {
+		if err := ceq.loadElectriccontrollers(ctx, query, nodes,
+			func(n *CompanyEngineer) { n.appendNamedElectriccontrollers(name) },
+			func(n *CompanyEngineer, e *JobRelations) { n.appendNamedElectriccontrollers(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range ceq.loadTotal {
+		if err := ceq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -1042,6 +1116,9 @@ func (ceq *CompanyEngineerQuery) loadElectriccontrollers(ctx context.Context, qu
 
 func (ceq *CompanyEngineerQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := ceq.querySpec()
+	if len(ceq.modifiers) > 0 {
+		_spec.Modifiers = ceq.modifiers
+	}
 	_spec.Node.Columns = ceq.ctx.Fields
 	if len(ceq.ctx.Fields) > 0 {
 		_spec.Unique = ceq.ctx.Unique != nil && *ceq.ctx.Unique
@@ -1119,6 +1196,118 @@ func (ceq *CompanyEngineerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
+}
+
+// WithNamedStatics tells the query-builder to eager-load the nodes that are connected to the "statics"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedStatics(name string, opts ...func(*JobRelationsQuery)) *CompanyEngineerQuery {
+	query := (&JobRelationsClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedStatics == nil {
+		ceq.withNamedStatics = make(map[string]*JobRelationsQuery)
+	}
+	ceq.withNamedStatics[name] = query
+	return ceq
+}
+
+// WithNamedMechanics tells the query-builder to eager-load the nodes that are connected to the "mechanics"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedMechanics(name string, opts ...func(*JobRelationsQuery)) *CompanyEngineerQuery {
+	query := (&JobRelationsClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedMechanics == nil {
+		ceq.withNamedMechanics = make(map[string]*JobRelationsQuery)
+	}
+	ceq.withNamedMechanics[name] = query
+	return ceq
+}
+
+// WithNamedElectrics tells the query-builder to eager-load the nodes that are connected to the "electrics"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedElectrics(name string, opts ...func(*JobRelationsQuery)) *CompanyEngineerQuery {
+	query := (&JobRelationsClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedElectrics == nil {
+		ceq.withNamedElectrics = make(map[string]*JobRelationsQuery)
+	}
+	ceq.withNamedElectrics[name] = query
+	return ceq
+}
+
+// WithNamedInspectors tells the query-builder to eager-load the nodes that are connected to the "inspectors"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedInspectors(name string, opts ...func(*JobRelationsQuery)) *CompanyEngineerQuery {
+	query := (&JobRelationsClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedInspectors == nil {
+		ceq.withNamedInspectors = make(map[string]*JobRelationsQuery)
+	}
+	ceq.withNamedInspectors[name] = query
+	return ceq
+}
+
+// WithNamedArchitects tells the query-builder to eager-load the nodes that are connected to the "architects"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedArchitects(name string, opts ...func(*JobRelationsQuery)) *CompanyEngineerQuery {
+	query := (&JobRelationsClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedArchitects == nil {
+		ceq.withNamedArchitects = make(map[string]*JobRelationsQuery)
+	}
+	ceq.withNamedArchitects[name] = query
+	return ceq
+}
+
+// WithNamedControllers tells the query-builder to eager-load the nodes that are connected to the "controllers"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedControllers(name string, opts ...func(*JobRelationsQuery)) *CompanyEngineerQuery {
+	query := (&JobRelationsClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedControllers == nil {
+		ceq.withNamedControllers = make(map[string]*JobRelationsQuery)
+	}
+	ceq.withNamedControllers[name] = query
+	return ceq
+}
+
+// WithNamedMechaniccontrollers tells the query-builder to eager-load the nodes that are connected to the "mechaniccontrollers"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedMechaniccontrollers(name string, opts ...func(*JobRelationsQuery)) *CompanyEngineerQuery {
+	query := (&JobRelationsClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedMechaniccontrollers == nil {
+		ceq.withNamedMechaniccontrollers = make(map[string]*JobRelationsQuery)
+	}
+	ceq.withNamedMechaniccontrollers[name] = query
+	return ceq
+}
+
+// WithNamedElectriccontrollers tells the query-builder to eager-load the nodes that are connected to the "electriccontrollers"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (ceq *CompanyEngineerQuery) WithNamedElectriccontrollers(name string, opts ...func(*JobRelationsQuery)) *CompanyEngineerQuery {
+	query := (&JobRelationsClient{config: ceq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if ceq.withNamedElectriccontrollers == nil {
+		ceq.withNamedElectriccontrollers = make(map[string]*JobRelationsQuery)
+	}
+	ceq.withNamedElectriccontrollers[name] = query
+	return ceq
 }
 
 // CompanyEngineerGroupBy is the group-by builder for CompanyEngineer entities.

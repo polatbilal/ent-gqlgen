@@ -15,6 +15,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
 	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/ent/schema"
@@ -269,6 +270,30 @@ func init() {
 	jobprogress.DefaultUpdatedAt = jobprogressDescUpdatedAt.Default.(func() time.Time)
 	// jobprogress.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
 	jobprogress.UpdateDefaultUpdatedAt = jobprogressDescUpdatedAt.UpdateDefault.(func() time.Time)
+	jobreceiptFields := schema.JobReceipt{}.Fields()
+	_ = jobreceiptFields
+	// jobreceiptDescYibfNo is the schema descriptor for yibfNo field.
+	jobreceiptDescYibfNo := jobreceiptFields[0].Descriptor()
+	// jobreceipt.DefaultYibfNo holds the default value on creation for the yibfNo field.
+	jobreceipt.DefaultYibfNo = jobreceiptDescYibfNo.Default.(int)
+	// jobreceiptDescReceiptDate is the schema descriptor for receiptDate field.
+	jobreceiptDescReceiptDate := jobreceiptFields[1].Descriptor()
+	// jobreceipt.DefaultReceiptDate holds the default value on creation for the receiptDate field.
+	jobreceipt.DefaultReceiptDate = jobreceiptDescReceiptDate.Default.(func() time.Time)
+	// jobreceiptDescAmount is the schema descriptor for Amount field.
+	jobreceiptDescAmount := jobreceiptFields[2].Descriptor()
+	// jobreceipt.DefaultAmount holds the default value on creation for the Amount field.
+	jobreceipt.DefaultAmount = jobreceiptDescAmount.Default.(float64)
+	// jobreceiptDescCreatedAt is the schema descriptor for CreatedAt field.
+	jobreceiptDescCreatedAt := jobreceiptFields[4].Descriptor()
+	// jobreceipt.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
+	jobreceipt.DefaultCreatedAt = jobreceiptDescCreatedAt.Default.(func() time.Time)
+	// jobreceiptDescUpdatedAt is the schema descriptor for UpdatedAt field.
+	jobreceiptDescUpdatedAt := jobreceiptFields[5].Descriptor()
+	// jobreceipt.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
+	jobreceipt.DefaultUpdatedAt = jobreceiptDescUpdatedAt.Default.(func() time.Time)
+	// jobreceipt.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
+	jobreceipt.UpdateDefaultUpdatedAt = jobreceiptDescUpdatedAt.UpdateDefault.(func() time.Time)
 	jobrelationsFields := schema.JobRelations{}.Fields()
 	_ = jobrelationsFields
 	// jobrelationsDescCreatedAt is the schema descriptor for CreatedAt field.

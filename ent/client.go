@@ -26,6 +26,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
 	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/ent/user"
@@ -58,12 +59,16 @@ type Client struct {
 	JobPayments *JobPaymentsClient
 	// JobProgress is the client for interacting with the JobProgress builders.
 	JobProgress *JobProgressClient
+	// JobReceipt is the client for interacting with the JobReceipt builders.
+	JobReceipt *JobReceiptClient
 	// JobRelations is the client for interacting with the JobRelations builders.
 	JobRelations *JobRelationsClient
 	// JobSupervisor is the client for interacting with the JobSupervisor builders.
 	JobSupervisor *JobSupervisorClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
+	// additional fields for node api
+	tables tables
 }
 
 // NewClient creates a new client configured with the given options.
@@ -86,6 +91,7 @@ func (c *Client) init() {
 	c.JobOwner = NewJobOwnerClient(c.config)
 	c.JobPayments = NewJobPaymentsClient(c.config)
 	c.JobProgress = NewJobProgressClient(c.config)
+	c.JobReceipt = NewJobReceiptClient(c.config)
 	c.JobRelations = NewJobRelationsClient(c.config)
 	c.JobSupervisor = NewJobSupervisorClient(c.config)
 	c.User = NewUserClient(c.config)
@@ -192,6 +198,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		JobOwner:        NewJobOwnerClient(cfg),
 		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
+		JobReceipt:      NewJobReceiptClient(cfg),
 		JobRelations:    NewJobRelationsClient(cfg),
 		JobSupervisor:   NewJobSupervisorClient(cfg),
 		User:            NewUserClient(cfg),
@@ -225,6 +232,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		JobOwner:        NewJobOwnerClient(cfg),
 		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
+		JobReceipt:      NewJobReceiptClient(cfg),
 		JobRelations:    NewJobRelationsClient(cfg),
 		JobSupervisor:   NewJobSupervisorClient(cfg),
 		User:            NewUserClient(cfg),
@@ -259,7 +267,7 @@ func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.CompanyDetail, c.CompanyEngineer, c.CompanyToken, c.CompanyUser, c.JobAuthor,
 		c.JobContractor, c.JobDetail, c.JobLayer, c.JobOwner, c.JobPayments,
-		c.JobProgress, c.JobRelations, c.JobSupervisor, c.User,
+		c.JobProgress, c.JobReceipt, c.JobRelations, c.JobSupervisor, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -271,7 +279,7 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.CompanyDetail, c.CompanyEngineer, c.CompanyToken, c.CompanyUser, c.JobAuthor,
 		c.JobContractor, c.JobDetail, c.JobLayer, c.JobOwner, c.JobPayments,
-		c.JobProgress, c.JobRelations, c.JobSupervisor, c.User,
+		c.JobProgress, c.JobReceipt, c.JobRelations, c.JobSupervisor, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -302,6 +310,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.JobPayments.mutate(ctx, m)
 	case *JobProgressMutation:
 		return c.JobProgress.mutate(ctx, m)
+	case *JobReceiptMutation:
+		return c.JobReceipt.mutate(ctx, m)
 	case *JobRelationsMutation:
 		return c.JobRelations.mutate(ctx, m)
 	case *JobSupervisorMutation:
@@ -2144,6 +2154,155 @@ func (c *JobProgressClient) mutate(ctx context.Context, m *JobProgressMutation) 
 	}
 }
 
+// JobReceiptClient is a client for the JobReceipt schema.
+type JobReceiptClient struct {
+	config
+}
+
+// NewJobReceiptClient returns a client for the JobReceipt from the given config.
+func NewJobReceiptClient(c config) *JobReceiptClient {
+	return &JobReceiptClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `jobreceipt.Hooks(f(g(h())))`.
+func (c *JobReceiptClient) Use(hooks ...Hook) {
+	c.hooks.JobReceipt = append(c.hooks.JobReceipt, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `jobreceipt.Intercept(f(g(h())))`.
+func (c *JobReceiptClient) Intercept(interceptors ...Interceptor) {
+	c.inters.JobReceipt = append(c.inters.JobReceipt, interceptors...)
+}
+
+// Create returns a builder for creating a JobReceipt entity.
+func (c *JobReceiptClient) Create() *JobReceiptCreate {
+	mutation := newJobReceiptMutation(c.config, OpCreate)
+	return &JobReceiptCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of JobReceipt entities.
+func (c *JobReceiptClient) CreateBulk(builders ...*JobReceiptCreate) *JobReceiptCreateBulk {
+	return &JobReceiptCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *JobReceiptClient) MapCreateBulk(slice any, setFunc func(*JobReceiptCreate, int)) *JobReceiptCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &JobReceiptCreateBulk{err: fmt.Errorf("calling to JobReceiptClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*JobReceiptCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &JobReceiptCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for JobReceipt.
+func (c *JobReceiptClient) Update() *JobReceiptUpdate {
+	mutation := newJobReceiptMutation(c.config, OpUpdate)
+	return &JobReceiptUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *JobReceiptClient) UpdateOne(jr *JobReceipt) *JobReceiptUpdateOne {
+	mutation := newJobReceiptMutation(c.config, OpUpdateOne, withJobReceipt(jr))
+	return &JobReceiptUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *JobReceiptClient) UpdateOneID(id int) *JobReceiptUpdateOne {
+	mutation := newJobReceiptMutation(c.config, OpUpdateOne, withJobReceiptID(id))
+	return &JobReceiptUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for JobReceipt.
+func (c *JobReceiptClient) Delete() *JobReceiptDelete {
+	mutation := newJobReceiptMutation(c.config, OpDelete)
+	return &JobReceiptDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *JobReceiptClient) DeleteOne(jr *JobReceipt) *JobReceiptDeleteOne {
+	return c.DeleteOneID(jr.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *JobReceiptClient) DeleteOneID(id int) *JobReceiptDeleteOne {
+	builder := c.Delete().Where(jobreceipt.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &JobReceiptDeleteOne{builder}
+}
+
+// Query returns a query builder for JobReceipt.
+func (c *JobReceiptClient) Query() *JobReceiptQuery {
+	return &JobReceiptQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeJobReceipt},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a JobReceipt entity by its id.
+func (c *JobReceiptClient) Get(ctx context.Context, id int) (*JobReceipt, error) {
+	return c.Query().Where(jobreceipt.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *JobReceiptClient) GetX(ctx context.Context, id int) *JobReceipt {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryReceipt queries the receipt edge of a JobReceipt.
+func (c *JobReceiptClient) QueryReceipt(jr *JobReceipt) *JobRelationsQuery {
+	query := (&JobRelationsClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jr.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobreceipt.Table, jobreceipt.FieldID, id),
+			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, jobreceipt.ReceiptTable, jobreceipt.ReceiptColumn),
+		)
+		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *JobReceiptClient) Hooks() []Hook {
+	return c.hooks.JobReceipt
+}
+
+// Interceptors returns the client interceptors.
+func (c *JobReceiptClient) Interceptors() []Interceptor {
+	return c.inters.JobReceipt
+}
+
+func (c *JobReceiptClient) mutate(ctx context.Context, m *JobReceiptMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&JobReceiptCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&JobReceiptUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&JobReceiptUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&JobReceiptDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown JobReceipt mutation op: %q", m.Op())
+	}
+}
+
 // JobRelationsClient is a client for the JobRelations schema.
 type JobRelationsClient struct {
 	config
@@ -2524,6 +2683,22 @@ func (c *JobRelationsClient) QueryPayments(jr *JobRelations) *JobPaymentsQuery {
 	return query
 }
 
+// QueryReceipts queries the receipts edge of a JobRelations.
+func (c *JobRelationsClient) QueryReceipts(jr *JobRelations) *JobReceiptQuery {
+	query := (&JobReceiptClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := jr.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
+			sqlgraph.To(jobreceipt.Table, jobreceipt.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.ReceiptsTable, jobrelations.ReceiptsColumn),
+		)
+		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *JobRelationsClient) Hooks() []Hook {
 	return c.hooks.JobRelations
@@ -2852,11 +3027,11 @@ type (
 	hooks struct {
 		CompanyDetail, CompanyEngineer, CompanyToken, CompanyUser, JobAuthor,
 		JobContractor, JobDetail, JobLayer, JobOwner, JobPayments, JobProgress,
-		JobRelations, JobSupervisor, User []ent.Hook
+		JobReceipt, JobRelations, JobSupervisor, User []ent.Hook
 	}
 	inters struct {
 		CompanyDetail, CompanyEngineer, CompanyToken, CompanyUser, JobAuthor,
 		JobContractor, JobDetail, JobLayer, JobOwner, JobPayments, JobProgress,
-		JobRelations, JobSupervisor, User []ent.Interceptor
+		JobReceipt, JobRelations, JobSupervisor, User []ent.Interceptor
 	}
 )

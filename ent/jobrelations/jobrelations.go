@@ -54,6 +54,8 @@ const (
 	EdgeLayers = "layers"
 	// EdgePayments holds the string denoting the payments edge name in mutations.
 	EdgePayments = "payments"
+	// EdgeReceipts holds the string denoting the receipts edge name in mutations.
+	EdgeReceipts = "receipts"
 	// Table holds the table name of the jobrelations in the database.
 	Table = "job_relations"
 	// JobTable is the table that holds the job relation/edge.
@@ -175,6 +177,13 @@ const (
 	PaymentsInverseTable = "job_payments"
 	// PaymentsColumn is the table column denoting the payments relation/edge.
 	PaymentsColumn = "relations_id"
+	// ReceiptsTable is the table that holds the receipts relation/edge.
+	ReceiptsTable = "job_receipts"
+	// ReceiptsInverseTable is the table name for the JobReceipt entity.
+	// It exists in this package in order to avoid circular dependency with the "jobreceipt" package.
+	ReceiptsInverseTable = "job_receipts"
+	// ReceiptsColumn is the table column denoting the receipts relation/edge.
+	ReceiptsColumn = "relations_id"
 )
 
 // Columns holds all SQL columns for jobrelations fields.
@@ -384,6 +393,20 @@ func ByPayments(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newPaymentsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByReceiptsCount orders the results by receipts count.
+func ByReceiptsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newReceiptsStep(), opts...)
+	}
+}
+
+// ByReceipts orders the results by receipts terms.
+func ByReceipts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newReceiptsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newJobStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -501,5 +524,12 @@ func newPaymentsStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(PaymentsInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, PaymentsTable, PaymentsColumn),
+	)
+}
+func newReceiptsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ReceiptsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ReceiptsTable, ReceiptsColumn),
 	)
 }

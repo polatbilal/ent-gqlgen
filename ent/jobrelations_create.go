@@ -19,6 +19,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
 	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 )
@@ -377,6 +378,21 @@ func (jrc *JobRelationsCreate) AddPayments(j ...*JobPayments) *JobRelationsCreat
 		ids[i] = j[i].ID
 	}
 	return jrc.AddPaymentIDs(ids...)
+}
+
+// AddReceiptIDs adds the "receipts" edge to the JobReceipt entity by IDs.
+func (jrc *JobRelationsCreate) AddReceiptIDs(ids ...int) *JobRelationsCreate {
+	jrc.mutation.AddReceiptIDs(ids...)
+	return jrc
+}
+
+// AddReceipts adds the "receipts" edges to the JobReceipt entity.
+func (jrc *JobRelationsCreate) AddReceipts(j ...*JobReceipt) *JobRelationsCreate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jrc.AddReceiptIDs(ids...)
 }
 
 // Mutation returns the JobRelationsMutation object of the builder.
@@ -753,6 +769,22 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := jrc.mutation.ReceiptsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobrelations.ReceiptsTable,
+			Columns: []string{jobrelations.ReceiptsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

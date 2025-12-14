@@ -88,9 +88,17 @@ type JobRelationsEdges struct {
 	Layers []*JobLayer `json:"layers,omitempty"`
 	// Payments holds the value of the payments edge.
 	Payments []*JobPayments `json:"payments,omitempty"`
+	// Receipts holds the value of the receipts edge.
+	Receipts []*JobReceipt `json:"receipts,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [17]bool
+	loadedTypes [18]bool
+	// totalCount holds the count of the edges above.
+	totalCount [18]map[string]int
+
+	namedLayers   map[string][]*JobLayer
+	namedPayments map[string][]*JobPayments
+	namedReceipts map[string][]*JobReceipt
 }
 
 // JobOrErr returns the Job value or an error if the edge
@@ -274,6 +282,15 @@ func (e JobRelationsEdges) PaymentsOrErr() ([]*JobPayments, error) {
 		return e.Payments, nil
 	}
 	return nil, &NotLoadedError{edge: "payments"}
+}
+
+// ReceiptsOrErr returns the Receipts value or an error if the edge
+// was not loaded in eager-loading.
+func (e JobRelationsEdges) ReceiptsOrErr() ([]*JobReceipt, error) {
+	if e.loadedTypes[17] {
+		return e.Receipts, nil
+	}
+	return nil, &NotLoadedError{edge: "receipts"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -557,6 +574,11 @@ func (jr *JobRelations) QueryPayments() *JobPaymentsQuery {
 	return NewJobRelationsClient(jr.config).QueryPayments(jr)
 }
 
+// QueryReceipts queries the "receipts" edge of the JobRelations entity.
+func (jr *JobRelations) QueryReceipts() *JobReceiptQuery {
+	return NewJobRelationsClient(jr.config).QueryReceipts(jr)
+}
+
 // Update returns a builder for updating this JobRelations.
 // Note that you need to call JobRelations.Unwrap() before calling this method if this JobRelations
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -590,6 +612,78 @@ func (jr *JobRelations) String() string {
 	builder.WriteString(jr.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedLayers returns the Layers named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (jr *JobRelations) NamedLayers(name string) ([]*JobLayer, error) {
+	if jr.Edges.namedLayers == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := jr.Edges.namedLayers[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (jr *JobRelations) appendNamedLayers(name string, edges ...*JobLayer) {
+	if jr.Edges.namedLayers == nil {
+		jr.Edges.namedLayers = make(map[string][]*JobLayer)
+	}
+	if len(edges) == 0 {
+		jr.Edges.namedLayers[name] = []*JobLayer{}
+	} else {
+		jr.Edges.namedLayers[name] = append(jr.Edges.namedLayers[name], edges...)
+	}
+}
+
+// NamedPayments returns the Payments named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (jr *JobRelations) NamedPayments(name string) ([]*JobPayments, error) {
+	if jr.Edges.namedPayments == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := jr.Edges.namedPayments[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (jr *JobRelations) appendNamedPayments(name string, edges ...*JobPayments) {
+	if jr.Edges.namedPayments == nil {
+		jr.Edges.namedPayments = make(map[string][]*JobPayments)
+	}
+	if len(edges) == 0 {
+		jr.Edges.namedPayments[name] = []*JobPayments{}
+	} else {
+		jr.Edges.namedPayments[name] = append(jr.Edges.namedPayments[name], edges...)
+	}
+}
+
+// NamedReceipts returns the Receipts named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (jr *JobRelations) NamedReceipts(name string) ([]*JobReceipt, error) {
+	if jr.Edges.namedReceipts == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := jr.Edges.namedReceipts[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (jr *JobRelations) appendNamedReceipts(name string, edges ...*JobReceipt) {
+	if jr.Edges.namedReceipts == nil {
+		jr.Edges.namedReceipts = make(map[string][]*JobReceipt)
+	}
+	if len(edges) == 0 {
+		jr.Edges.namedReceipts[name] = []*JobReceipt{}
+	} else {
+		jr.Edges.namedReceipts[name] = append(jr.Edges.namedReceipts[name], edges...)
+	}
 }
 
 // JobRelationsSlice is a parsable slice of JobRelations.

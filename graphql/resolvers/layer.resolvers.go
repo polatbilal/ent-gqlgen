@@ -51,16 +51,8 @@ func (r *mutationResolver) CreateLayer(ctx context.Context, input model.JobLayer
 		return nil, err
 	}
 
-	// İş detayını bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(*input.YibfNo)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
-	}
-
 	// JobRelations'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
+	relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(*input.YibfNo)).Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
 	}

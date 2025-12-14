@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
@@ -83,16 +83,8 @@ func (r *mutationResolver) UpdateSupervisor(ctx context.Context, input model.Job
 func (r *queryResolver) Supervisor(ctx context.Context, yibfNo int) (*ent.JobSupervisor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Önce JobDetail'i bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş detayı bulunamadı: %v", err)
-	}
-
 	// JobRelations üzerinden supervisor'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
+	relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(yibfNo)).Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
 	}

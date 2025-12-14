@@ -21,6 +21,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
 	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
@@ -50,7 +51,13 @@ type JobRelationsQuery struct {
 	withElectriccontroller *CompanyEngineerQuery
 	withLayers             *JobLayerQuery
 	withPayments           *JobPaymentsQuery
+	withReceipts           *JobReceiptQuery
 	withFKs                bool
+	modifiers              []func(*sql.Selector)
+	loadTotal              []func(context.Context, []*JobRelations) error
+	withNamedLayers        map[string]*JobLayerQuery
+	withNamedPayments      map[string]*JobPaymentsQuery
+	withNamedReceipts      map[string]*JobReceiptQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -461,6 +468,28 @@ func (jrq *JobRelationsQuery) QueryPayments() *JobPaymentsQuery {
 	return query
 }
 
+// QueryReceipts chains the current query on the "receipts" edge.
+func (jrq *JobRelationsQuery) QueryReceipts() *JobReceiptQuery {
+	query := (&JobReceiptClient{config: jrq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := jrq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := jrq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, selector),
+			sqlgraph.To(jobreceipt.Table, jobreceipt.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.ReceiptsTable, jobrelations.ReceiptsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
 // First returns the first JobRelations entity from the query.
 // Returns a *NotFoundError when no JobRelations was found.
 func (jrq *JobRelationsQuery) First(ctx context.Context) (*JobRelations, error) {
@@ -670,6 +699,7 @@ func (jrq *JobRelationsQuery) Clone() *JobRelationsQuery {
 		withElectriccontroller: jrq.withElectriccontroller.Clone(),
 		withLayers:             jrq.withLayers.Clone(),
 		withPayments:           jrq.withPayments.Clone(),
+		withReceipts:           jrq.withReceipts.Clone(),
 		// clone intermediate query.
 		sql:  jrq.sql.Clone(),
 		path: jrq.path,
@@ -863,6 +893,17 @@ func (jrq *JobRelationsQuery) WithPayments(opts ...func(*JobPaymentsQuery)) *Job
 	return jrq
 }
 
+// WithReceipts tells the query-builder to eager-load the nodes that are connected to
+// the "receipts" edge. The optional arguments are used to configure the query builder of the edge.
+func (jrq *JobRelationsQuery) WithReceipts(opts ...func(*JobReceiptQuery)) *JobRelationsQuery {
+	query := (&JobReceiptClient{config: jrq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	jrq.withReceipts = query
+	return jrq
+}
+
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -942,7 +983,7 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		nodes       = []*JobRelations{}
 		withFKs     = jrq.withFKs
 		_spec       = jrq.querySpec()
-		loadedTypes = [17]bool{
+		loadedTypes = [18]bool{
 			jrq.withJob != nil,
 			jrq.withOwner != nil,
 			jrq.withAuthor != nil,
@@ -960,6 +1001,7 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			jrq.withElectriccontroller != nil,
 			jrq.withLayers != nil,
 			jrq.withPayments != nil,
+			jrq.withReceipts != nil,
 		}
 	)
 	if jrq.withJob != nil || jrq.withOwner != nil || jrq.withAuthor != nil || jrq.withCompany != nil || jrq.withProgress != nil || jrq.withContractor != nil || jrq.withSupervisor != nil || jrq.withStatic != nil || jrq.withMechanic != nil || jrq.withElectric != nil || jrq.withInspector != nil || jrq.withArchitect != nil || jrq.withController != nil || jrq.withMechaniccontroller != nil || jrq.withElectriccontroller != nil {
@@ -976,6 +1018,9 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
+	}
+	if len(jrq.modifiers) > 0 {
+		_spec.Modifiers = jrq.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
@@ -1087,6 +1132,39 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		if err := jrq.loadPayments(ctx, query, nodes,
 			func(n *JobRelations) { n.Edges.Payments = []*JobPayments{} },
 			func(n *JobRelations, e *JobPayments) { n.Edges.Payments = append(n.Edges.Payments, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := jrq.withReceipts; query != nil {
+		if err := jrq.loadReceipts(ctx, query, nodes,
+			func(n *JobRelations) { n.Edges.Receipts = []*JobReceipt{} },
+			func(n *JobRelations, e *JobReceipt) { n.Edges.Receipts = append(n.Edges.Receipts, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range jrq.withNamedLayers {
+		if err := jrq.loadLayers(ctx, query, nodes,
+			func(n *JobRelations) { n.appendNamedLayers(name) },
+			func(n *JobRelations, e *JobLayer) { n.appendNamedLayers(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range jrq.withNamedPayments {
+		if err := jrq.loadPayments(ctx, query, nodes,
+			func(n *JobRelations) { n.appendNamedPayments(name) },
+			func(n *JobRelations, e *JobPayments) { n.appendNamedPayments(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range jrq.withNamedReceipts {
+		if err := jrq.loadReceipts(ctx, query, nodes,
+			func(n *JobRelations) { n.appendNamedReceipts(name) },
+			func(n *JobRelations, e *JobReceipt) { n.appendNamedReceipts(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range jrq.loadTotal {
+		if err := jrq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -1635,9 +1713,43 @@ func (jrq *JobRelationsQuery) loadPayments(ctx context.Context, query *JobPaymen
 	}
 	return nil
 }
+func (jrq *JobRelationsQuery) loadReceipts(ctx context.Context, query *JobReceiptQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobReceipt)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*JobRelations)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.JobReceipt(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(jobrelations.ReceiptsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.relations_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "relations_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "relations_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
 
 func (jrq *JobRelationsQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jrq.querySpec()
+	if len(jrq.modifiers) > 0 {
+		_spec.Modifiers = jrq.modifiers
+	}
 	_spec.Node.Columns = jrq.ctx.Fields
 	if len(jrq.ctx.Fields) > 0 {
 		_spec.Unique = jrq.ctx.Unique != nil && *jrq.ctx.Unique
@@ -1715,6 +1827,48 @@ func (jrq *JobRelationsQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
+}
+
+// WithNamedLayers tells the query-builder to eager-load the nodes that are connected to the "layers"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (jrq *JobRelationsQuery) WithNamedLayers(name string, opts ...func(*JobLayerQuery)) *JobRelationsQuery {
+	query := (&JobLayerClient{config: jrq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if jrq.withNamedLayers == nil {
+		jrq.withNamedLayers = make(map[string]*JobLayerQuery)
+	}
+	jrq.withNamedLayers[name] = query
+	return jrq
+}
+
+// WithNamedPayments tells the query-builder to eager-load the nodes that are connected to the "payments"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (jrq *JobRelationsQuery) WithNamedPayments(name string, opts ...func(*JobPaymentsQuery)) *JobRelationsQuery {
+	query := (&JobPaymentsClient{config: jrq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if jrq.withNamedPayments == nil {
+		jrq.withNamedPayments = make(map[string]*JobPaymentsQuery)
+	}
+	jrq.withNamedPayments[name] = query
+	return jrq
+}
+
+// WithNamedReceipts tells the query-builder to eager-load the nodes that are connected to the "receipts"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (jrq *JobRelationsQuery) WithNamedReceipts(name string, opts ...func(*JobReceiptQuery)) *JobRelationsQuery {
+	query := (&JobReceiptClient{config: jrq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if jrq.withNamedReceipts == nil {
+		jrq.withNamedReceipts = make(map[string]*JobReceiptQuery)
+	}
+	jrq.withNamedReceipts[name] = query
+	return jrq
 }
 
 // JobRelationsGroupBy is the group-by builder for JobRelations entities.

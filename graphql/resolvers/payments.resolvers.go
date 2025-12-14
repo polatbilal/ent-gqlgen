@@ -7,11 +7,11 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"log"
 	"math"
 
 	"github.com/polatbilal/gqlgen-ent/ent"
 	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
+	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/graphql/model"
 	"github.com/polatbilal/gqlgen-ent/middlewares"
 )
@@ -98,28 +98,6 @@ func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input mo
 		SetAmount(*input.Amount).
 		SetPayments(relations) // İlişkiyi direkt oluşturma sırasında ekle
 
-	// if input.PaymentNo != 0 {
-	// 	createQuery.SetPaymentNo(input.PaymentNo)
-	// }
-	// if input.PaymentDate != nil {
-	// 	createQuery.SetPaymentDate(*input.PaymentDate)
-	// }
-	// if input.PaymentType != nil {
-	// 	createQuery.SetPaymentType(*input.PaymentType)
-	// }
-	// if input.LevelRequest != nil {
-	// 	createQuery.SetLevelRequest(*input.LevelRequest)
-	// }
-	// if input.LevelApprove != nil {
-	// 	createQuery.SetLevelApprove(*input.LevelApprove)
-	// }
-	// if input.Amount != nil {
-	// 	createQuery.SetAmount(*input.Amount)
-	// }
-	// if input.State != nil {
-	// 	createQuery.SetState(*input.State)
-	// }
-
 	payment, err := createQuery.Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("ödeme oluşturulamadı: %v", err)
@@ -132,21 +110,11 @@ func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input mo
 func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// İş detayını bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(*input.YibfNo)).
-		Only(ctx)
-	if err != nil {
-		return nil, err
-	}
-
 	// JobRelations'ı bul
-	relations, err := jobDetail.QueryRelations().Only(ctx)
+	relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(*input.YibfNo)).Only(ctx)
 	if err != nil {
 		return nil, err
 	}
-
-	log.Println("jobDetail", jobDetail.ID)
 
 	var totalPayment float64
 	if *input.TotalPayment == 0 && *input.Amount > 0 {
@@ -223,16 +191,8 @@ func (r *mutationResolver) DeleteJobPayments(ctx context.Context, id int) (*ent.
 func (r *queryResolver) JobPayments(ctx context.Context, yibfNo int) ([]*ent.JobPayments, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// İş detayını bul
-	jobDetail, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
-		Only(ctx)
-	if err != nil {
-		return nil, err
-	}
-
 	// JobRelations üzerinden ödemeleri getir
-	relations, err := jobDetail.QueryRelations().Only(ctx)
+	relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(yibfNo)).Only(ctx)
 	if err != nil {
 		return nil, err
 	}

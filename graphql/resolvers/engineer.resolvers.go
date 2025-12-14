@@ -32,18 +32,6 @@ func (r *companyEngineerResolver) CompanyCode(ctx context.Context, obj *ent.Comp
 	return &company.CompanyCode, nil
 }
 
-// Company is the resolver for the Company field.
-func (r *companyEngineerResolver) Company(ctx context.Context, obj *ent.CompanyEngineer) (*ent.CompanyDetail, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	company, err := client.CompanyDetail.Query().
-		Where(companydetail.HasEngineersWith(companyengineer.IDEQ(obj.ID))).
-		Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("şirket bulunamadı: %v", err)
-	}
-	return company, nil
-}
-
 // UpsertEngineer is the resolver for the upsertEngineer field.
 func (r *mutationResolver) UpsertEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)

@@ -1,0 +1,27 @@
+type JobReceipt {
+  id: Int
+  YibfNo: Int
+  Amount: Float
+  Note: String
+  createdAt: Time
+}
+
+input JobReceiptInput {
+  id: Int
+  YibfNo: Int
+  ReceiptDate: Time
+  Amount: Float
+  Note: String
+}
+
+extend type Query {
+  jobReceipts(yibfNo: Int!): [JobReceipt!] @auth
+}
+
+extend type Mutation {
+  upsertJobReceipts(id: Int, input: JobReceiptInput!): JobReceipt
+    @goField(forceResolver: true)
+    @auth
+
+  deleteJobReceipts(id: Int!): JobReceipt @goField(forceResolver: true) @auth
+}

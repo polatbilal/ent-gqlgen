@@ -20,6 +20,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
 	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/ent/predicate"
@@ -394,6 +395,21 @@ func (jru *JobRelationsUpdate) AddPayments(j ...*JobPayments) *JobRelationsUpdat
 	return jru.AddPaymentIDs(ids...)
 }
 
+// AddReceiptIDs adds the "receipts" edge to the JobReceipt entity by IDs.
+func (jru *JobRelationsUpdate) AddReceiptIDs(ids ...int) *JobRelationsUpdate {
+	jru.mutation.AddReceiptIDs(ids...)
+	return jru
+}
+
+// AddReceipts adds the "receipts" edges to the JobReceipt entity.
+func (jru *JobRelationsUpdate) AddReceipts(j ...*JobReceipt) *JobRelationsUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jru.AddReceiptIDs(ids...)
+}
+
 // Mutation returns the JobRelationsMutation object of the builder.
 func (jru *JobRelationsUpdate) Mutation() *JobRelationsMutation {
 	return jru.mutation
@@ -529,6 +545,27 @@ func (jru *JobRelationsUpdate) RemovePayments(j ...*JobPayments) *JobRelationsUp
 		ids[i] = j[i].ID
 	}
 	return jru.RemovePaymentIDs(ids...)
+}
+
+// ClearReceipts clears all "receipts" edges to the JobReceipt entity.
+func (jru *JobRelationsUpdate) ClearReceipts() *JobRelationsUpdate {
+	jru.mutation.ClearReceipts()
+	return jru
+}
+
+// RemoveReceiptIDs removes the "receipts" edge to JobReceipt entities by IDs.
+func (jru *JobRelationsUpdate) RemoveReceiptIDs(ids ...int) *JobRelationsUpdate {
+	jru.mutation.RemoveReceiptIDs(ids...)
+	return jru
+}
+
+// RemoveReceipts removes "receipts" edges to JobReceipt entities.
+func (jru *JobRelationsUpdate) RemoveReceipts(j ...*JobReceipt) *JobRelationsUpdate {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jru.RemoveReceiptIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -1113,6 +1150,51 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if jru.mutation.ReceiptsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobrelations.ReceiptsTable,
+			Columns: []string{jobrelations.ReceiptsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jru.mutation.RemovedReceiptsIDs(); len(nodes) > 0 && !jru.mutation.ReceiptsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobrelations.ReceiptsTable,
+			Columns: []string{jobrelations.ReceiptsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jru.mutation.ReceiptsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobrelations.ReceiptsTable,
+			Columns: []string{jobrelations.ReceiptsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, jru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobrelations.Label}
@@ -1489,6 +1571,21 @@ func (jruo *JobRelationsUpdateOne) AddPayments(j ...*JobPayments) *JobRelationsU
 	return jruo.AddPaymentIDs(ids...)
 }
 
+// AddReceiptIDs adds the "receipts" edge to the JobReceipt entity by IDs.
+func (jruo *JobRelationsUpdateOne) AddReceiptIDs(ids ...int) *JobRelationsUpdateOne {
+	jruo.mutation.AddReceiptIDs(ids...)
+	return jruo
+}
+
+// AddReceipts adds the "receipts" edges to the JobReceipt entity.
+func (jruo *JobRelationsUpdateOne) AddReceipts(j ...*JobReceipt) *JobRelationsUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jruo.AddReceiptIDs(ids...)
+}
+
 // Mutation returns the JobRelationsMutation object of the builder.
 func (jruo *JobRelationsUpdateOne) Mutation() *JobRelationsMutation {
 	return jruo.mutation
@@ -1624,6 +1721,27 @@ func (jruo *JobRelationsUpdateOne) RemovePayments(j ...*JobPayments) *JobRelatio
 		ids[i] = j[i].ID
 	}
 	return jruo.RemovePaymentIDs(ids...)
+}
+
+// ClearReceipts clears all "receipts" edges to the JobReceipt entity.
+func (jruo *JobRelationsUpdateOne) ClearReceipts() *JobRelationsUpdateOne {
+	jruo.mutation.ClearReceipts()
+	return jruo
+}
+
+// RemoveReceiptIDs removes the "receipts" edge to JobReceipt entities by IDs.
+func (jruo *JobRelationsUpdateOne) RemoveReceiptIDs(ids ...int) *JobRelationsUpdateOne {
+	jruo.mutation.RemoveReceiptIDs(ids...)
+	return jruo
+}
+
+// RemoveReceipts removes "receipts" edges to JobReceipt entities.
+func (jruo *JobRelationsUpdateOne) RemoveReceipts(j ...*JobReceipt) *JobRelationsUpdateOne {
+	ids := make([]int, len(j))
+	for i := range j {
+		ids[i] = j[i].ID
+	}
+	return jruo.RemoveReceiptIDs(ids...)
 }
 
 // Where appends a list predicates to the JobRelationsUpdate builder.
@@ -2231,6 +2349,51 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if jruo.mutation.ReceiptsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobrelations.ReceiptsTable,
+			Columns: []string{jobrelations.ReceiptsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jruo.mutation.RemovedReceiptsIDs(); len(nodes) > 0 && !jruo.mutation.ReceiptsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobrelations.ReceiptsTable,
+			Columns: []string{jobrelations.ReceiptsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := jruo.mutation.ReceiptsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   jobrelations.ReceiptsTable,
+			Columns: []string{jobrelations.ReceiptsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

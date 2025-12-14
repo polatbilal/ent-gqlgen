@@ -56,6 +56,10 @@ type UserEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
+	// totalCount holds the count of the edges above.
+	totalCount [1]map[string]int
+
+	namedCompanies map[string][]*CompanyUser
 }
 
 // CompaniesOrErr returns the Companies value or an error if the edge
@@ -260,6 +264,30 @@ func (u *User) String() string {
 	builder.WriteString(u.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedCompanies returns the Companies named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (u *User) NamedCompanies(name string) ([]*CompanyUser, error) {
+	if u.Edges.namedCompanies == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := u.Edges.namedCompanies[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (u *User) appendNamedCompanies(name string, edges ...*CompanyUser) {
+	if u.Edges.namedCompanies == nil {
+		u.Edges.namedCompanies = make(map[string][]*CompanyUser)
+	}
+	if len(edges) == 0 {
+		u.Edges.namedCompanies[name] = []*CompanyUser{}
+	} else {
+		u.Edges.namedCompanies[name] = append(u.Edges.namedCompanies[name], edges...)
+	}
 }
 
 // Users is a parsable slice of User.

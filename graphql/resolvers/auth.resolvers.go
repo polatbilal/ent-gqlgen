@@ -71,7 +71,7 @@ func (r *mutationResolver) Login(ctx context.Context, username string, password 
 		return nil, fmt.Errorf("veritabanı bağlantısı başarısız")
 	}
 	user, err := client.User.Query().
-		Where(user.UsernameEQ(username)).
+		Where(user.UsernameEqualFold(username)).
 		Only(ctx)
 	if err != nil {
 		return nil, err

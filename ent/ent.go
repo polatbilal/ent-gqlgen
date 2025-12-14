@@ -23,6 +23,7 @@ import (
 	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
 	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
 	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
 	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
 	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
 	"github.com/polatbilal/gqlgen-ent/ent/user"
@@ -97,6 +98,7 @@ func checkColumn(table, column string) error {
 			jobowner.Table:        jobowner.ValidColumn,
 			jobpayments.Table:     jobpayments.ValidColumn,
 			jobprogress.Table:     jobprogress.ValidColumn,
+			jobreceipt.Table:      jobreceipt.ValidColumn,
 			jobrelations.Table:    jobrelations.ValidColumn,
 			jobsupervisor.Table:   jobsupervisor.ValidColumn,
 			user.Table:            user.ValidColumn,

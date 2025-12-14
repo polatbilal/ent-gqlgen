@@ -25,6 +25,8 @@ type JobPaymentsQuery struct {
 	predicates   []predicate.JobPayments
 	withPayments *JobRelationsQuery
 	withFKs      bool
+	modifiers    []func(*sql.Selector)
+	loadTotal    []func(context.Context, []*JobPayments) error
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -391,6 +393,9 @@ func (jpq *JobPaymentsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(jpq.modifiers) > 0 {
+		_spec.Modifiers = jpq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -403,6 +408,11 @@ func (jpq *JobPaymentsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	if query := jpq.withPayments; query != nil {
 		if err := jpq.loadPayments(ctx, query, nodes, nil,
 			func(n *JobPayments, e *JobRelations) { n.Edges.Payments = e }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range jpq.loadTotal {
+		if err := jpq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -444,6 +454,9 @@ func (jpq *JobPaymentsQuery) loadPayments(ctx context.Context, query *JobRelatio
 
 func (jpq *JobPaymentsQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jpq.querySpec()
+	if len(jpq.modifiers) > 0 {
+		_spec.Modifiers = jpq.modifiers
+	}
 	_spec.Node.Columns = jpq.ctx.Fields
 	if len(jpq.ctx.Fields) > 0 {
 		_spec.Unique = jpq.ctx.Unique != nil && *jpq.ctx.Unique

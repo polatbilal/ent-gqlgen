@@ -88,6 +88,13 @@ type CompanyDetailEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [4]bool
+	// totalCount holds the count of the edges above.
+	totalCount [4]map[string]int
+
+	namedJobs      map[string][]*JobRelations
+	namedUsers     map[string][]*CompanyUser
+	namedTokens    map[string][]*CompanyToken
+	namedEngineers map[string][]*CompanyEngineer
 }
 
 // JobsOrErr returns the Jobs value or an error if the edge
@@ -451,6 +458,102 @@ func (cd *CompanyDetail) String() string {
 	builder.WriteString(cd.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedJobs returns the Jobs named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (cd *CompanyDetail) NamedJobs(name string) ([]*JobRelations, error) {
+	if cd.Edges.namedJobs == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := cd.Edges.namedJobs[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (cd *CompanyDetail) appendNamedJobs(name string, edges ...*JobRelations) {
+	if cd.Edges.namedJobs == nil {
+		cd.Edges.namedJobs = make(map[string][]*JobRelations)
+	}
+	if len(edges) == 0 {
+		cd.Edges.namedJobs[name] = []*JobRelations{}
+	} else {
+		cd.Edges.namedJobs[name] = append(cd.Edges.namedJobs[name], edges...)
+	}
+}
+
+// NamedUsers returns the Users named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (cd *CompanyDetail) NamedUsers(name string) ([]*CompanyUser, error) {
+	if cd.Edges.namedUsers == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := cd.Edges.namedUsers[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (cd *CompanyDetail) appendNamedUsers(name string, edges ...*CompanyUser) {
+	if cd.Edges.namedUsers == nil {
+		cd.Edges.namedUsers = make(map[string][]*CompanyUser)
+	}
+	if len(edges) == 0 {
+		cd.Edges.namedUsers[name] = []*CompanyUser{}
+	} else {
+		cd.Edges.namedUsers[name] = append(cd.Edges.namedUsers[name], edges...)
+	}
+}
+
+// NamedTokens returns the Tokens named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (cd *CompanyDetail) NamedTokens(name string) ([]*CompanyToken, error) {
+	if cd.Edges.namedTokens == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := cd.Edges.namedTokens[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (cd *CompanyDetail) appendNamedTokens(name string, edges ...*CompanyToken) {
+	if cd.Edges.namedTokens == nil {
+		cd.Edges.namedTokens = make(map[string][]*CompanyToken)
+	}
+	if len(edges) == 0 {
+		cd.Edges.namedTokens[name] = []*CompanyToken{}
+	} else {
+		cd.Edges.namedTokens[name] = append(cd.Edges.namedTokens[name], edges...)
+	}
+}
+
+// NamedEngineers returns the Engineers named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (cd *CompanyDetail) NamedEngineers(name string) ([]*CompanyEngineer, error) {
+	if cd.Edges.namedEngineers == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := cd.Edges.namedEngineers[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (cd *CompanyDetail) appendNamedEngineers(name string, edges ...*CompanyEngineer) {
+	if cd.Edges.namedEngineers == nil {
+		cd.Edges.namedEngineers = make(map[string][]*CompanyEngineer)
+	}
+	if len(edges) == 0 {
+		cd.Edges.namedEngineers[name] = []*CompanyEngineer{}
+	} else {
+		cd.Edges.namedEngineers[name] = append(cd.Edges.namedEngineers[name], edges...)
+	}
 }
 
 // CompanyDetails is a parsable slice of CompanyDetail.

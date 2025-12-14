@@ -25,6 +25,8 @@ type JobDetailQuery struct {
 	inters        []Interceptor
 	predicates    []predicate.JobDetail
 	withRelations *JobRelationsQuery
+	modifiers     []func(*sql.Selector)
+	loadTotal     []func(context.Context, []*JobDetail) error
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -384,6 +386,9 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(jdq.modifiers) > 0 {
+		_spec.Modifiers = jdq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -396,6 +401,11 @@ func (jdq *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*J
 	if query := jdq.withRelations; query != nil {
 		if err := jdq.loadRelations(ctx, query, nodes, nil,
 			func(n *JobDetail, e *JobRelations) { n.Edges.Relations = e }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range jdq.loadTotal {
+		if err := jdq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -433,6 +443,9 @@ func (jdq *JobDetailQuery) loadRelations(ctx context.Context, query *JobRelation
 
 func (jdq *JobDetailQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := jdq.querySpec()
+	if len(jdq.modifiers) > 0 {
+		_spec.Modifiers = jdq.modifiers
+	}
 	_spec.Node.Columns = jdq.ctx.Fields
 	if len(jdq.ctx.Fields) > 0 {
 		_spec.Unique = jdq.ctx.Unique != nil && *jdq.ctx.Unique

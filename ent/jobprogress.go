@@ -48,6 +48,10 @@ type JobProgressEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
+	// totalCount holds the count of the edges above.
+	totalCount [1]map[string]int
+
+	namedProgress map[string][]*JobRelations
 }
 
 // ProgressOrErr returns the Progress value or an error if the edge
@@ -212,6 +216,30 @@ func (jp *JobProgress) String() string {
 	builder.WriteString(jp.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedProgress returns the Progress named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (jp *JobProgress) NamedProgress(name string) ([]*JobRelations, error) {
+	if jp.Edges.namedProgress == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := jp.Edges.namedProgress[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (jp *JobProgress) appendNamedProgress(name string, edges ...*JobRelations) {
+	if jp.Edges.namedProgress == nil {
+		jp.Edges.namedProgress = make(map[string][]*JobRelations)
+	}
+	if len(edges) == 0 {
+		jp.Edges.namedProgress[name] = []*JobRelations{}
+	} else {
+		jp.Edges.namedProgress[name] = append(jp.Edges.namedProgress[name], edges...)
+	}
 }
 
 // JobProgresses is a parsable slice of JobProgress.

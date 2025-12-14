@@ -141,6 +141,18 @@ func (f JobProgressFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobProgressMutation", m)
 }
 
+// The JobReceiptFunc type is an adapter to allow the use of ordinary
+// function as JobReceipt mutator.
+type JobReceiptFunc func(context.Context, *ent.JobReceiptMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f JobReceiptFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.JobReceiptMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobReceiptMutation", m)
+}
+
 // The JobRelationsFunc type is an adapter to allow the use of ordinary
 // function as JobRelations mutator.
 type JobRelationsFunc func(context.Context, *ent.JobRelationsMutation) (ent.Value, error)
