@@ -50,8 +50,8 @@ const (
 	EdgeMechaniccontroller = "mechaniccontroller"
 	// EdgeElectriccontroller holds the string denoting the electriccontroller edge name in mutations.
 	EdgeElectriccontroller = "electriccontroller"
-	// EdgeLayers holds the string denoting the layers edge name in mutations.
-	EdgeLayers = "layers"
+	// EdgeFloors holds the string denoting the floors edge name in mutations.
+	EdgeFloors = "floors"
 	// EdgePayments holds the string denoting the payments edge name in mutations.
 	EdgePayments = "payments"
 	// EdgeReceipts holds the string denoting the receipts edge name in mutations.
@@ -163,13 +163,13 @@ const (
 	ElectriccontrollerInverseTable = "company_engineers"
 	// ElectriccontrollerColumn is the table column denoting the electriccontroller relation/edge.
 	ElectriccontrollerColumn = "electriccontroller_id"
-	// LayersTable is the table that holds the layers relation/edge.
-	LayersTable = "job_layers"
-	// LayersInverseTable is the table name for the JobLayer entity.
-	// It exists in this package in order to avoid circular dependency with the "joblayer" package.
-	LayersInverseTable = "job_layers"
-	// LayersColumn is the table column denoting the layers relation/edge.
-	LayersColumn = "relations_id"
+	// FloorsTable is the table that holds the floors relation/edge.
+	FloorsTable = "job_floors"
+	// FloorsInverseTable is the table name for the JobFloor entity.
+	// It exists in this package in order to avoid circular dependency with the "jobfloor" package.
+	FloorsInverseTable = "job_floors"
+	// FloorsColumn is the table column denoting the floors relation/edge.
+	FloorsColumn = "relations_id"
 	// PaymentsTable is the table that holds the payments relation/edge.
 	PaymentsTable = "job_payments"
 	// PaymentsInverseTable is the table name for the JobPayments entity.
@@ -366,17 +366,17 @@ func ByElectriccontrollerField(field string, opts ...sql.OrderTermOption) OrderO
 	}
 }
 
-// ByLayersCount orders the results by layers count.
-func ByLayersCount(opts ...sql.OrderTermOption) OrderOption {
+// ByFloorsCount orders the results by floors count.
+func ByFloorsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newLayersStep(), opts...)
+		sqlgraph.OrderByNeighborsCount(s, newFloorsStep(), opts...)
 	}
 }
 
-// ByLayers orders the results by layers terms.
-func ByLayers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByFloors orders the results by floors terms.
+func ByFloors(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newLayersStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newFloorsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 
@@ -512,11 +512,11 @@ func newElectriccontrollerStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.M2O, true, ElectriccontrollerTable, ElectriccontrollerColumn),
 	)
 }
-func newLayersStep() *sqlgraph.Step {
+func newFloorsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(LayersInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, LayersTable, LayersColumn),
+		sqlgraph.To(FloorsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, FloorsTable, FloorsColumn),
 	)
 }
 func newPaymentsStep() *sqlgraph.Step {

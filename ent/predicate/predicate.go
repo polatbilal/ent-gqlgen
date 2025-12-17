@@ -27,8 +27,8 @@ type JobContractor func(*sql.Selector)
 // JobDetail is the predicate function for jobdetail builders.
 type JobDetail func(*sql.Selector)
 
-// JobLayer is the predicate function for joblayer builders.
-type JobLayer func(*sql.Selector)
+// JobFloor is the predicate function for jobfloor builders.
+type JobFloor func(*sql.Selector)
 
 // JobOwner is the predicate function for jobowner builders.
 type JobOwner func(*sql.Selector)

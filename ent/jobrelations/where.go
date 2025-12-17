@@ -7,7 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/polatbilal/gqlgen-ent/ent/predicate"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.
@@ -535,21 +535,21 @@ func HasElectriccontrollerWith(preds ...predicate.CompanyEngineer) predicate.Job
 	})
 }
 
-// HasLayers applies the HasEdge predicate on the "layers" edge.
-func HasLayers() predicate.JobRelations {
+// HasFloors applies the HasEdge predicate on the "floors" edge.
+func HasFloors() predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, LayersTable, LayersColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, FloorsTable, FloorsColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasLayersWith applies the HasEdge predicate on the "layers" edge with a given conditions (other predicates).
-func HasLayersWith(preds ...predicate.JobLayer) predicate.JobRelations {
+// HasFloorsWith applies the HasEdge predicate on the "floors" edge with a given conditions (other predicates).
+func HasFloorsWith(preds ...predicate.JobFloor) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
-		step := newLayersStep()
+		step := newFloorsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

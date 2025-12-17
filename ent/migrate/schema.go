@@ -224,8 +224,8 @@ var (
 		Columns:    JobDetailsColumns,
 		PrimaryKey: []*schema.Column{JobDetailsColumns[0]},
 	}
-	// JobLayersColumns holds the columns for the "job_layers" table.
-	JobLayersColumns = []*schema.Column{
+	// JobFloorsColumns holds the columns for the "job_floors" table.
+	JobFloorsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "yibf_no", Type: field.TypeInt},
 		{Name: "name", Type: field.TypeString, Default: ""},
@@ -240,15 +240,15 @@ var (
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "relations_id", Type: field.TypeInt, Nullable: true},
 	}
-	// JobLayersTable holds the schema information for the "job_layers" table.
-	JobLayersTable = &schema.Table{
-		Name:       "job_layers",
-		Columns:    JobLayersColumns,
-		PrimaryKey: []*schema.Column{JobLayersColumns[0]},
+	// JobFloorsTable holds the schema information for the "job_floors" table.
+	JobFloorsTable = &schema.Table{
+		Name:       "job_floors",
+		Columns:    JobFloorsColumns,
+		PrimaryKey: []*schema.Column{JobFloorsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "job_layers_job_relations_layers",
-				Columns:    []*schema.Column{JobLayersColumns[12]},
+				Symbol:     "job_floors_job_relations_floors",
+				Columns:    []*schema.Column{JobFloorsColumns[12]},
 				RefColumns: []*schema.Column{JobRelationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -525,7 +525,7 @@ var (
 		JobAuthorsTable,
 		JobContractorsTable,
 		JobDetailsTable,
-		JobLayersTable,
+		JobFloorsTable,
 		JobOwnersTable,
 		JobPaymentsTable,
 		JobProgressesTable,
@@ -541,7 +541,7 @@ func init() {
 	CompanyTokensTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[1].RefTable = UsersTable
-	JobLayersTable.ForeignKeys[0].RefTable = JobRelationsTable
+	JobFloorsTable.ForeignKeys[0].RefTable = JobRelationsTable
 	JobPaymentsTable.ForeignKeys[0].RefTable = JobRelationsTable
 	JobReceiptsTable.ForeignKeys[0].RefTable = JobRelationsTable
 	JobRelationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable

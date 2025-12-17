@@ -9,15 +9,15 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
 )
 
 // JobRelations is the model entity for the JobRelations schema.
@@ -84,8 +84,8 @@ type JobRelationsEdges struct {
 	Mechaniccontroller *CompanyEngineer `json:"mechaniccontroller,omitempty"`
 	// Electriccontroller holds the value of the electriccontroller edge.
 	Electriccontroller *CompanyEngineer `json:"electriccontroller,omitempty"`
-	// Layers holds the value of the layers edge.
-	Layers []*JobLayer `json:"layers,omitempty"`
+	// Floors holds the value of the floors edge.
+	Floors []*JobFloor `json:"floors,omitempty"`
 	// Payments holds the value of the payments edge.
 	Payments []*JobPayments `json:"payments,omitempty"`
 	// Receipts holds the value of the receipts edge.
@@ -96,7 +96,7 @@ type JobRelationsEdges struct {
 	// totalCount holds the count of the edges above.
 	totalCount [18]map[string]int
 
-	namedLayers   map[string][]*JobLayer
+	namedFloors   map[string][]*JobFloor
 	namedPayments map[string][]*JobPayments
 	namedReceipts map[string][]*JobReceipt
 }
@@ -266,13 +266,13 @@ func (e JobRelationsEdges) ElectriccontrollerOrErr() (*CompanyEngineer, error) {
 	return nil, &NotLoadedError{edge: "electriccontroller"}
 }
 
-// LayersOrErr returns the Layers value or an error if the edge
+// FloorsOrErr returns the Floors value or an error if the edge
 // was not loaded in eager-loading.
-func (e JobRelationsEdges) LayersOrErr() ([]*JobLayer, error) {
+func (e JobRelationsEdges) FloorsOrErr() ([]*JobFloor, error) {
 	if e.loadedTypes[15] {
-		return e.Layers, nil
+		return e.Floors, nil
 	}
-	return nil, &NotLoadedError{edge: "layers"}
+	return nil, &NotLoadedError{edge: "floors"}
 }
 
 // PaymentsOrErr returns the Payments value or an error if the edge
@@ -564,9 +564,9 @@ func (jr *JobRelations) QueryElectriccontroller() *CompanyEngineerQuery {
 	return NewJobRelationsClient(jr.config).QueryElectriccontroller(jr)
 }
 
-// QueryLayers queries the "layers" edge of the JobRelations entity.
-func (jr *JobRelations) QueryLayers() *JobLayerQuery {
-	return NewJobRelationsClient(jr.config).QueryLayers(jr)
+// QueryFloors queries the "floors" edge of the JobRelations entity.
+func (jr *JobRelations) QueryFloors() *JobFloorQuery {
+	return NewJobRelationsClient(jr.config).QueryFloors(jr)
 }
 
 // QueryPayments queries the "payments" edge of the JobRelations entity.
@@ -614,27 +614,27 @@ func (jr *JobRelations) String() string {
 	return builder.String()
 }
 
-// NamedLayers returns the Layers named value or an error if the edge was not
+// NamedFloors returns the Floors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jr *JobRelations) NamedLayers(name string) ([]*JobLayer, error) {
-	if jr.Edges.namedLayers == nil {
+func (jr *JobRelations) NamedFloors(name string) ([]*JobFloor, error) {
+	if jr.Edges.namedFloors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := jr.Edges.namedLayers[name]
+	nodes, ok := jr.Edges.namedFloors[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (jr *JobRelations) appendNamedLayers(name string, edges ...*JobLayer) {
-	if jr.Edges.namedLayers == nil {
-		jr.Edges.namedLayers = make(map[string][]*JobLayer)
+func (jr *JobRelations) appendNamedFloors(name string, edges ...*JobFloor) {
+	if jr.Edges.namedFloors == nil {
+		jr.Edges.namedFloors = make(map[string][]*JobFloor)
 	}
 	if len(edges) == 0 {
-		jr.Edges.namedLayers[name] = []*JobLayer{}
+		jr.Edges.namedFloors[name] = []*JobFloor{}
 	} else {
-		jr.Edges.namedLayers[name] = append(jr.Edges.namedLayers[name], edges...)
+		jr.Edges.namedFloors[name] = append(jr.Edges.namedFloors[name], edges...)
 	}
 }
 

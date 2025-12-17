@@ -3,7 +3,7 @@ package directives
 import (
 	"context"
 
-	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/ent-gqlgen/middlewares"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/vektah/gqlparser/v2/gqlerror"

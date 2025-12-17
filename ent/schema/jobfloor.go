@@ -8,13 +8,13 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// JobLayers holds the schema definition for the JobLayers entity.
-type JobLayer struct {
+// JobFloors holds the schema definition for the JobFloors entity.
+type JobFloor struct {
 	ent.Schema
 }
 
-// Fields of the JobLayers.
-func (JobLayer) Fields() []ent.Field {
+// Fields of the JobFloors.
+func (JobFloor) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("yibfNo"),
 		field.String("Name").Default(""),
@@ -31,9 +31,9 @@ func (JobLayer) Fields() []ent.Field {
 	}
 }
 
-// Edges of the JobLayers.
-func (JobLayer) Edges() []ent.Edge {
+// Edges of the JobFloors.
+func (JobFloor) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("layer", JobRelations.Type).Ref("layers").Unique(),
+		edge.From("floor", JobRelations.Type).Ref("floors").Unique(),
 	}
 }

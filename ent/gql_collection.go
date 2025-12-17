@@ -6,20 +6,20 @@ import (
 	"context"
 
 	"github.com/99designs/gqlgen/graphql"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 )
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
@@ -1186,91 +1186,91 @@ func newJobDetailPaginateArgs(rv map[string]any) *jobdetailPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jlq *JobLayerQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobLayerQuery, error) {
+func (jfq *JobFloorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobFloorQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jlq, nil
+		return jfq, nil
 	}
-	if err := jlq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := jfq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jlq, nil
+	return jfq, nil
 }
 
-func (jlq *JobLayerQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (jfq *JobFloorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
-		fieldSeen      = make(map[string]struct{}, len(joblayer.Columns))
-		selectedFields = []string{joblayer.FieldID}
+		fieldSeen      = make(map[string]struct{}, len(jobfloor.Columns))
+		selectedFields = []string{jobfloor.FieldID}
 	)
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
-		case "layer":
+		case "floor":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jlq.config}).Query()
+				query = (&JobRelationsClient{config: jfq.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jlq.withLayer = query
+			jfq.withFloor = query
 		case "yibfno":
-			if _, ok := fieldSeen[joblayer.FieldYibfNo]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldYibfNo)
-				fieldSeen[joblayer.FieldYibfNo] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldYibfNo]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldYibfNo)
+				fieldSeen[jobfloor.FieldYibfNo] = struct{}{}
 			}
 		case "name":
-			if _, ok := fieldSeen[joblayer.FieldName]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldName)
-				fieldSeen[joblayer.FieldName] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldName]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldName)
+				fieldSeen[jobfloor.FieldName] = struct{}{}
 			}
 		case "metre":
-			if _, ok := fieldSeen[joblayer.FieldMetre]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldMetre)
-				fieldSeen[joblayer.FieldMetre] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldMetre]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldMetre)
+				fieldSeen[jobfloor.FieldMetre] = struct{}{}
 			}
 		case "molddate":
-			if _, ok := fieldSeen[joblayer.FieldMoldDate]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldMoldDate)
-				fieldSeen[joblayer.FieldMoldDate] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldMoldDate]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldMoldDate)
+				fieldSeen[jobfloor.FieldMoldDate] = struct{}{}
 			}
 		case "concretedate":
-			if _, ok := fieldSeen[joblayer.FieldConcreteDate]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldConcreteDate)
-				fieldSeen[joblayer.FieldConcreteDate] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldConcreteDate]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldConcreteDate)
+				fieldSeen[jobfloor.FieldConcreteDate] = struct{}{}
 			}
 		case "samples":
-			if _, ok := fieldSeen[joblayer.FieldSamples]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldSamples)
-				fieldSeen[joblayer.FieldSamples] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldSamples]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldSamples)
+				fieldSeen[jobfloor.FieldSamples] = struct{}{}
 			}
 		case "concreteclass":
-			if _, ok := fieldSeen[joblayer.FieldConcreteClass]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldConcreteClass)
-				fieldSeen[joblayer.FieldConcreteClass] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldConcreteClass]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldConcreteClass)
+				fieldSeen[jobfloor.FieldConcreteClass] = struct{}{}
 			}
 		case "weekresult":
-			if _, ok := fieldSeen[joblayer.FieldWeekResult]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldWeekResult)
-				fieldSeen[joblayer.FieldWeekResult] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldWeekResult]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldWeekResult)
+				fieldSeen[jobfloor.FieldWeekResult] = struct{}{}
 			}
 		case "monthresult":
-			if _, ok := fieldSeen[joblayer.FieldMonthResult]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldMonthResult)
-				fieldSeen[joblayer.FieldMonthResult] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldMonthResult]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldMonthResult)
+				fieldSeen[jobfloor.FieldMonthResult] = struct{}{}
 			}
 		case "createdat":
-			if _, ok := fieldSeen[joblayer.FieldCreatedAt]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldCreatedAt)
-				fieldSeen[joblayer.FieldCreatedAt] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldCreatedAt]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldCreatedAt)
+				fieldSeen[jobfloor.FieldCreatedAt] = struct{}{}
 			}
 		case "updatedat":
-			if _, ok := fieldSeen[joblayer.FieldUpdatedAt]; !ok {
-				selectedFields = append(selectedFields, joblayer.FieldUpdatedAt)
-				fieldSeen[joblayer.FieldUpdatedAt] = struct{}{}
+			if _, ok := fieldSeen[jobfloor.FieldUpdatedAt]; !ok {
+				selectedFields = append(selectedFields, jobfloor.FieldUpdatedAt)
+				fieldSeen[jobfloor.FieldUpdatedAt] = struct{}{}
 			}
 		case "id":
 		case "__typename":
@@ -1279,19 +1279,19 @@ func (jlq *JobLayerQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 		}
 	}
 	if !unknownSeen {
-		jlq.Select(selectedFields...)
+		jfq.Select(selectedFields...)
 	}
 	return nil
 }
 
-type joblayerPaginateArgs struct {
+type jobfloorPaginateArgs struct {
 	first, last   *int
 	after, before *Cursor
-	opts          []JobLayerPaginateOption
+	opts          []JobFloorPaginateOption
 }
 
-func newJobLayerPaginateArgs(rv map[string]any) *joblayerPaginateArgs {
-	args := &joblayerPaginateArgs{}
+func newJobFloorPaginateArgs(rv map[string]any) *jobfloorPaginateArgs {
+	args := &jobfloorPaginateArgs{}
 	if rv == nil {
 		return args
 	}
@@ -1971,16 +1971,16 @@ func (jrq *JobRelationsQuery) collectField(ctx context.Context, oneNode bool, op
 			}
 			jrq.withElectriccontroller = query
 
-		case "layers":
+		case "floors":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobLayerClient{config: jrq.config}).Query()
+				query = (&JobFloorClient{config: jrq.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, joblayerImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobfloorImplementors)...); err != nil {
 				return err
 			}
-			jrq.WithNamedLayers(alias, func(wq *JobLayerQuery) {
+			jrq.WithNamedFloors(alias, func(wq *JobFloorQuery) {
 				*wq = *query
 			})
 

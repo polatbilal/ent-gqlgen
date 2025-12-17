@@ -12,19 +12,19 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/ent/predicate"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // JobRelationsQuery is the builder for querying JobRelations entities.
@@ -49,13 +49,13 @@ type JobRelationsQuery struct {
 	withController         *CompanyEngineerQuery
 	withMechaniccontroller *CompanyEngineerQuery
 	withElectriccontroller *CompanyEngineerQuery
-	withLayers             *JobLayerQuery
+	withFloors             *JobFloorQuery
 	withPayments           *JobPaymentsQuery
 	withReceipts           *JobReceiptQuery
 	withFKs                bool
 	modifiers              []func(*sql.Selector)
 	loadTotal              []func(context.Context, []*JobRelations) error
-	withNamedLayers        map[string]*JobLayerQuery
+	withNamedFloors        map[string]*JobFloorQuery
 	withNamedPayments      map[string]*JobPaymentsQuery
 	withNamedReceipts      map[string]*JobReceiptQuery
 	// intermediate query (i.e. traversal path).
@@ -424,9 +424,9 @@ func (jrq *JobRelationsQuery) QueryElectriccontroller() *CompanyEngineerQuery {
 	return query
 }
 
-// QueryLayers chains the current query on the "layers" edge.
-func (jrq *JobRelationsQuery) QueryLayers() *JobLayerQuery {
-	query := (&JobLayerClient{config: jrq.config}).Query()
+// QueryFloors chains the current query on the "floors" edge.
+func (jrq *JobRelationsQuery) QueryFloors() *JobFloorQuery {
+	query := (&JobFloorClient{config: jrq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := jrq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -437,8 +437,8 @@ func (jrq *JobRelationsQuery) QueryLayers() *JobLayerQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, selector),
-			sqlgraph.To(joblayer.Table, joblayer.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.LayersTable, jobrelations.LayersColumn),
+			sqlgraph.To(jobfloor.Table, jobfloor.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.FloorsTable, jobrelations.FloorsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
 		return fromU, nil
@@ -697,7 +697,7 @@ func (jrq *JobRelationsQuery) Clone() *JobRelationsQuery {
 		withController:         jrq.withController.Clone(),
 		withMechaniccontroller: jrq.withMechaniccontroller.Clone(),
 		withElectriccontroller: jrq.withElectriccontroller.Clone(),
-		withLayers:             jrq.withLayers.Clone(),
+		withFloors:             jrq.withFloors.Clone(),
 		withPayments:           jrq.withPayments.Clone(),
 		withReceipts:           jrq.withReceipts.Clone(),
 		// clone intermediate query.
@@ -871,14 +871,14 @@ func (jrq *JobRelationsQuery) WithElectriccontroller(opts ...func(*CompanyEngine
 	return jrq
 }
 
-// WithLayers tells the query-builder to eager-load the nodes that are connected to
-// the "layers" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithLayers(opts ...func(*JobLayerQuery)) *JobRelationsQuery {
-	query := (&JobLayerClient{config: jrq.config}).Query()
+// WithFloors tells the query-builder to eager-load the nodes that are connected to
+// the "floors" edge. The optional arguments are used to configure the query builder of the edge.
+func (jrq *JobRelationsQuery) WithFloors(opts ...func(*JobFloorQuery)) *JobRelationsQuery {
+	query := (&JobFloorClient{config: jrq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withLayers = query
+	jrq.withFloors = query
 	return jrq
 }
 
@@ -999,7 +999,7 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			jrq.withController != nil,
 			jrq.withMechaniccontroller != nil,
 			jrq.withElectriccontroller != nil,
-			jrq.withLayers != nil,
+			jrq.withFloors != nil,
 			jrq.withPayments != nil,
 			jrq.withReceipts != nil,
 		}
@@ -1121,10 +1121,10 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			return nil, err
 		}
 	}
-	if query := jrq.withLayers; query != nil {
-		if err := jrq.loadLayers(ctx, query, nodes,
-			func(n *JobRelations) { n.Edges.Layers = []*JobLayer{} },
-			func(n *JobRelations, e *JobLayer) { n.Edges.Layers = append(n.Edges.Layers, e) }); err != nil {
+	if query := jrq.withFloors; query != nil {
+		if err := jrq.loadFloors(ctx, query, nodes,
+			func(n *JobRelations) { n.Edges.Floors = []*JobFloor{} },
+			func(n *JobRelations, e *JobFloor) { n.Edges.Floors = append(n.Edges.Floors, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -1142,10 +1142,10 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			return nil, err
 		}
 	}
-	for name, query := range jrq.withNamedLayers {
-		if err := jrq.loadLayers(ctx, query, nodes,
-			func(n *JobRelations) { n.appendNamedLayers(name) },
-			func(n *JobRelations, e *JobLayer) { n.appendNamedLayers(name, e) }); err != nil {
+	for name, query := range jrq.withNamedFloors {
+		if err := jrq.loadFloors(ctx, query, nodes,
+			func(n *JobRelations) { n.appendNamedFloors(name) },
+			func(n *JobRelations, e *JobFloor) { n.appendNamedFloors(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -1651,7 +1651,7 @@ func (jrq *JobRelationsQuery) loadElectriccontroller(ctx context.Context, query 
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadLayers(ctx context.Context, query *JobLayerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobLayer)) error {
+func (jrq *JobRelationsQuery) loadFloors(ctx context.Context, query *JobFloorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobFloor)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobRelations)
 	for i := range nodes {
@@ -1662,8 +1662,8 @@ func (jrq *JobRelationsQuery) loadLayers(ctx context.Context, query *JobLayerQue
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.JobLayer(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(jobrelations.LayersColumn), fks...))
+	query.Where(predicate.JobFloor(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(jobrelations.FloorsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -1829,17 +1829,17 @@ func (jrq *JobRelationsQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
-// WithNamedLayers tells the query-builder to eager-load the nodes that are connected to the "layers"
+// WithNamedFloors tells the query-builder to eager-load the nodes that are connected to the "floors"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithNamedLayers(name string, opts ...func(*JobLayerQuery)) *JobRelationsQuery {
-	query := (&JobLayerClient{config: jrq.config}).Query()
+func (jrq *JobRelationsQuery) WithNamedFloors(name string, opts ...func(*JobFloorQuery)) *JobRelationsQuery {
+	query := (&JobFloorClient{config: jrq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if jrq.withNamedLayers == nil {
-		jrq.withNamedLayers = make(map[string]*JobLayerQuery)
+	if jrq.withNamedFloors == nil {
+		jrq.withNamedFloors = make(map[string]*JobFloorQuery)
 	}
-	jrq.withNamedLayers[name] = query
+	jrq.withNamedFloors[name] = query
 	return jrq
 }
 

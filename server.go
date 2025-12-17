@@ -14,11 +14,11 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
-	"github.com/polatbilal/gqlgen-ent/database"
-	"github.com/polatbilal/gqlgen-ent/ent/migrate"
-	"github.com/polatbilal/gqlgen-ent/graphql/resolvers"
-	"github.com/polatbilal/gqlgen-ent/middlewares"
-	"github.com/polatbilal/gqlgen-ent/services"
+	"github.com/polatbilal/ent-gqlgen/database"
+	"github.com/polatbilal/ent-gqlgen/ent/migrate"
+	"github.com/polatbilal/ent-gqlgen/graphql/resolvers"
+	"github.com/polatbilal/ent-gqlgen/middlewares"
+	"github.com/polatbilal/ent-gqlgen/services"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
 

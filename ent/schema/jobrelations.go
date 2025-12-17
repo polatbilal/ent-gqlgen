@@ -45,7 +45,7 @@ func (JobRelations) Edges() []ent.Edge {
 		edge.From("mechaniccontroller", CompanyEngineer.Type).Ref("mechaniccontrollers").Unique(),
 		edge.From("electriccontroller", CompanyEngineer.Type).Ref("electriccontrollers").Unique(),
 
-		edge.To("layers", JobLayer.Type).StorageKey(edge.Column("relations_id")),
+		edge.To("floors", JobFloor.Type).StorageKey(edge.Column("relations_id")),
 		edge.To("payments", JobPayments.Type).StorageKey(edge.Column("relations_id")),
 		edge.To("receipts", JobReceipt.Type).StorageKey(edge.Column("relations_id")),
 	}

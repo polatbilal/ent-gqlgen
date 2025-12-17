@@ -5,10 +5,10 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/polatbilal/gqlgen-ent/database"
-	"github.com/polatbilal/gqlgen-ent/ent"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
-	"github.com/polatbilal/gqlgen-ent/services"
+	"github.com/polatbilal/ent-gqlgen/database"
+	"github.com/polatbilal/ent-gqlgen/ent"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
+	"github.com/polatbilal/ent-gqlgen/services"
 )
 
 type authString string

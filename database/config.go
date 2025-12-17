@@ -9,7 +9,7 @@ import (
 	"time"
 
 	entsql "entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/ent-gqlgen/ent"
 
 	_ "github.com/go-sql-driver/mysql" //MySQL driver
 	// _ "github.com/lib/pq"              // PostgreSQL driver

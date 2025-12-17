@@ -5,7 +5,7 @@ package companyuser
 import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/polatbilal/gqlgen-ent/ent/predicate"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

@@ -11,19 +11,19 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/ent/predicate"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // JobRelationsUpdate is the builder for updating JobRelations entities.
@@ -365,19 +365,19 @@ func (jru *JobRelationsUpdate) SetElectriccontroller(c *CompanyEngineer) *JobRel
 	return jru.SetElectriccontrollerID(c.ID)
 }
 
-// AddLayerIDs adds the "layers" edge to the JobLayer entity by IDs.
-func (jru *JobRelationsUpdate) AddLayerIDs(ids ...int) *JobRelationsUpdate {
-	jru.mutation.AddLayerIDs(ids...)
+// AddFloorIDs adds the "floors" edge to the JobFloor entity by IDs.
+func (jru *JobRelationsUpdate) AddFloorIDs(ids ...int) *JobRelationsUpdate {
+	jru.mutation.AddFloorIDs(ids...)
 	return jru
 }
 
-// AddLayers adds the "layers" edges to the JobLayer entity.
-func (jru *JobRelationsUpdate) AddLayers(j ...*JobLayer) *JobRelationsUpdate {
+// AddFloors adds the "floors" edges to the JobFloor entity.
+func (jru *JobRelationsUpdate) AddFloors(j ...*JobFloor) *JobRelationsUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
 	}
-	return jru.AddLayerIDs(ids...)
+	return jru.AddFloorIDs(ids...)
 }
 
 // AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
@@ -505,25 +505,25 @@ func (jru *JobRelationsUpdate) ClearElectriccontroller() *JobRelationsUpdate {
 	return jru
 }
 
-// ClearLayers clears all "layers" edges to the JobLayer entity.
-func (jru *JobRelationsUpdate) ClearLayers() *JobRelationsUpdate {
-	jru.mutation.ClearLayers()
+// ClearFloors clears all "floors" edges to the JobFloor entity.
+func (jru *JobRelationsUpdate) ClearFloors() *JobRelationsUpdate {
+	jru.mutation.ClearFloors()
 	return jru
 }
 
-// RemoveLayerIDs removes the "layers" edge to JobLayer entities by IDs.
-func (jru *JobRelationsUpdate) RemoveLayerIDs(ids ...int) *JobRelationsUpdate {
-	jru.mutation.RemoveLayerIDs(ids...)
+// RemoveFloorIDs removes the "floors" edge to JobFloor entities by IDs.
+func (jru *JobRelationsUpdate) RemoveFloorIDs(ids ...int) *JobRelationsUpdate {
+	jru.mutation.RemoveFloorIDs(ids...)
 	return jru
 }
 
-// RemoveLayers removes "layers" edges to JobLayer entities.
-func (jru *JobRelationsUpdate) RemoveLayers(j ...*JobLayer) *JobRelationsUpdate {
+// RemoveFloors removes "floors" edges to JobFloor entities.
+func (jru *JobRelationsUpdate) RemoveFloors(j ...*JobFloor) *JobRelationsUpdate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
 	}
-	return jru.RemoveLayerIDs(ids...)
+	return jru.RemoveFloorIDs(ids...)
 }
 
 // ClearPayments clears all "payments" edges to the JobPayments entity.
@@ -1060,28 +1060,28 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.LayersCleared() {
+	if jru.mutation.FloorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   jobrelations.LayersTable,
-			Columns: []string{jobrelations.LayersColumn},
+			Table:   jobrelations.FloorsTable,
+			Columns: []string{jobrelations.FloorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.RemovedLayersIDs(); len(nodes) > 0 && !jru.mutation.LayersCleared() {
+	if nodes := jru.mutation.RemovedFloorsIDs(); len(nodes) > 0 && !jru.mutation.FloorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   jobrelations.LayersTable,
-			Columns: []string{jobrelations.LayersColumn},
+			Table:   jobrelations.FloorsTable,
+			Columns: []string{jobrelations.FloorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1089,15 +1089,15 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.LayersIDs(); len(nodes) > 0 {
+	if nodes := jru.mutation.FloorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   jobrelations.LayersTable,
-			Columns: []string{jobrelations.LayersColumn},
+			Table:   jobrelations.FloorsTable,
+			Columns: []string{jobrelations.FloorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1541,19 +1541,19 @@ func (jruo *JobRelationsUpdateOne) SetElectriccontroller(c *CompanyEngineer) *Jo
 	return jruo.SetElectriccontrollerID(c.ID)
 }
 
-// AddLayerIDs adds the "layers" edge to the JobLayer entity by IDs.
-func (jruo *JobRelationsUpdateOne) AddLayerIDs(ids ...int) *JobRelationsUpdateOne {
-	jruo.mutation.AddLayerIDs(ids...)
+// AddFloorIDs adds the "floors" edge to the JobFloor entity by IDs.
+func (jruo *JobRelationsUpdateOne) AddFloorIDs(ids ...int) *JobRelationsUpdateOne {
+	jruo.mutation.AddFloorIDs(ids...)
 	return jruo
 }
 
-// AddLayers adds the "layers" edges to the JobLayer entity.
-func (jruo *JobRelationsUpdateOne) AddLayers(j ...*JobLayer) *JobRelationsUpdateOne {
+// AddFloors adds the "floors" edges to the JobFloor entity.
+func (jruo *JobRelationsUpdateOne) AddFloors(j ...*JobFloor) *JobRelationsUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
 	}
-	return jruo.AddLayerIDs(ids...)
+	return jruo.AddFloorIDs(ids...)
 }
 
 // AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
@@ -1681,25 +1681,25 @@ func (jruo *JobRelationsUpdateOne) ClearElectriccontroller() *JobRelationsUpdate
 	return jruo
 }
 
-// ClearLayers clears all "layers" edges to the JobLayer entity.
-func (jruo *JobRelationsUpdateOne) ClearLayers() *JobRelationsUpdateOne {
-	jruo.mutation.ClearLayers()
+// ClearFloors clears all "floors" edges to the JobFloor entity.
+func (jruo *JobRelationsUpdateOne) ClearFloors() *JobRelationsUpdateOne {
+	jruo.mutation.ClearFloors()
 	return jruo
 }
 
-// RemoveLayerIDs removes the "layers" edge to JobLayer entities by IDs.
-func (jruo *JobRelationsUpdateOne) RemoveLayerIDs(ids ...int) *JobRelationsUpdateOne {
-	jruo.mutation.RemoveLayerIDs(ids...)
+// RemoveFloorIDs removes the "floors" edge to JobFloor entities by IDs.
+func (jruo *JobRelationsUpdateOne) RemoveFloorIDs(ids ...int) *JobRelationsUpdateOne {
+	jruo.mutation.RemoveFloorIDs(ids...)
 	return jruo
 }
 
-// RemoveLayers removes "layers" edges to JobLayer entities.
-func (jruo *JobRelationsUpdateOne) RemoveLayers(j ...*JobLayer) *JobRelationsUpdateOne {
+// RemoveFloors removes "floors" edges to JobFloor entities.
+func (jruo *JobRelationsUpdateOne) RemoveFloors(j ...*JobFloor) *JobRelationsUpdateOne {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
 	}
-	return jruo.RemoveLayerIDs(ids...)
+	return jruo.RemoveFloorIDs(ids...)
 }
 
 // ClearPayments clears all "payments" edges to the JobPayments entity.
@@ -2266,28 +2266,28 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.LayersCleared() {
+	if jruo.mutation.FloorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   jobrelations.LayersTable,
-			Columns: []string{jobrelations.LayersColumn},
+			Table:   jobrelations.FloorsTable,
+			Columns: []string{jobrelations.FloorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.RemovedLayersIDs(); len(nodes) > 0 && !jruo.mutation.LayersCleared() {
+	if nodes := jruo.mutation.RemovedFloorsIDs(); len(nodes) > 0 && !jruo.mutation.FloorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   jobrelations.LayersTable,
-			Columns: []string{jobrelations.LayersColumn},
+			Table:   jobrelations.FloorsTable,
+			Columns: []string{jobrelations.FloorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -2295,15 +2295,15 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.LayersIDs(); len(nodes) > 0 {
+	if nodes := jruo.mutation.FloorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   jobrelations.LayersTable,
-			Columns: []string{jobrelations.LayersColumn},
+			Table:   jobrelations.FloorsTable,
+			Columns: []string{jobrelations.FloorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

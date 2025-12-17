@@ -14,21 +14,21 @@ import (
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/hashicorp/go-multierror"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
-	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
+	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 	"golang.org/x/sync/semaphore"
 )
 
@@ -72,10 +72,10 @@ var jobdetailImplementors = []string{"JobDetail", "Node"}
 // IsNode implements the Node interface check for GQLGen.
 func (*JobDetail) IsNode() {}
 
-var joblayerImplementors = []string{"JobLayer", "Node"}
+var jobfloorImplementors = []string{"JobFloor", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
-func (*JobLayer) IsNode() {}
+func (*JobFloor) IsNode() {}
 
 var jobownerImplementors = []string{"JobOwner", "Node"}
 
@@ -233,11 +233,11 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			}
 		}
 		return query.Only(ctx)
-	case joblayer.Table:
-		query := c.JobLayer.Query().
-			Where(joblayer.ID(id))
+	case jobfloor.Table:
+		query := c.JobFloor.Query().
+			Where(jobfloor.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, joblayerImplementors...); err != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, jobfloorImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -490,10 +490,10 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
-	case joblayer.Table:
-		query := c.JobLayer.Query().
-			Where(joblayer.IDIn(ids...))
-		query, err := query.CollectFields(ctx, joblayerImplementors...)
+	case jobfloor.Table:
+		query := c.JobFloor.Query().
+			Where(jobfloor.IDIn(ids...))
+		query, err := query.CollectFields(ctx, jobfloorImplementors...)
 		if err != nil {
 			return nil, err
 		}

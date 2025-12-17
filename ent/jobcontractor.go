@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 )
 
 // JobContractor is the model entity for the JobContractor schema.

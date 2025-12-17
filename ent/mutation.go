@@ -11,22 +11,22 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
-	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/ent/predicate"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
+	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 )
 
 const (
@@ -45,7 +45,7 @@ const (
 	TypeJobAuthor       = "JobAuthor"
 	TypeJobContractor   = "JobContractor"
 	TypeJobDetail       = "JobDetail"
-	TypeJobLayer        = "JobLayer"
+	TypeJobFloor        = "JobFloor"
 	TypeJobOwner        = "JobOwner"
 	TypeJobPayments     = "JobPayments"
 	TypeJobProgress     = "JobProgress"
@@ -11285,8 +11285,8 @@ func (m *JobDetailMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown JobDetail edge %s", name)
 }
 
-// JobLayerMutation represents an operation that mutates the JobLayer nodes in the graph.
-type JobLayerMutation struct {
+// JobFloorMutation represents an operation that mutates the JobFloor nodes in the graph.
+type JobFloorMutation struct {
 	config
 	op             Op
 	typ            string
@@ -11305,24 +11305,24 @@ type JobLayerMutation struct {
 	_CreatedAt     *time.Time
 	_UpdatedAt     *time.Time
 	clearedFields  map[string]struct{}
-	layer          *int
-	clearedlayer   bool
+	floor          *int
+	clearedfloor   bool
 	done           bool
-	oldValue       func(context.Context) (*JobLayer, error)
-	predicates     []predicate.JobLayer
+	oldValue       func(context.Context) (*JobFloor, error)
+	predicates     []predicate.JobFloor
 }
 
-var _ ent.Mutation = (*JobLayerMutation)(nil)
+var _ ent.Mutation = (*JobFloorMutation)(nil)
 
-// joblayerOption allows management of the mutation configuration using functional options.
-type joblayerOption func(*JobLayerMutation)
+// jobfloorOption allows management of the mutation configuration using functional options.
+type jobfloorOption func(*JobFloorMutation)
 
-// newJobLayerMutation creates new mutation for the JobLayer entity.
-func newJobLayerMutation(c config, op Op, opts ...joblayerOption) *JobLayerMutation {
-	m := &JobLayerMutation{
+// newJobFloorMutation creates new mutation for the JobFloor entity.
+func newJobFloorMutation(c config, op Op, opts ...jobfloorOption) *JobFloorMutation {
+	m := &JobFloorMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeJobLayer,
+		typ:           TypeJobFloor,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -11331,20 +11331,20 @@ func newJobLayerMutation(c config, op Op, opts ...joblayerOption) *JobLayerMutat
 	return m
 }
 
-// withJobLayerID sets the ID field of the mutation.
-func withJobLayerID(id int) joblayerOption {
-	return func(m *JobLayerMutation) {
+// withJobFloorID sets the ID field of the mutation.
+func withJobFloorID(id int) jobfloorOption {
+	return func(m *JobFloorMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *JobLayer
+			value *JobFloor
 		)
-		m.oldValue = func(ctx context.Context) (*JobLayer, error) {
+		m.oldValue = func(ctx context.Context) (*JobFloor, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().JobLayer.Get(ctx, id)
+					value, err = m.Client().JobFloor.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -11353,10 +11353,10 @@ func withJobLayerID(id int) joblayerOption {
 	}
 }
 
-// withJobLayer sets the old JobLayer of the mutation.
-func withJobLayer(node *JobLayer) joblayerOption {
-	return func(m *JobLayerMutation) {
-		m.oldValue = func(context.Context) (*JobLayer, error) {
+// withJobFloor sets the old JobFloor of the mutation.
+func withJobFloor(node *JobFloor) jobfloorOption {
+	return func(m *JobFloorMutation) {
+		m.oldValue = func(context.Context) (*JobFloor, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -11365,7 +11365,7 @@ func withJobLayer(node *JobLayer) joblayerOption {
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m JobLayerMutation) Client() *Client {
+func (m JobFloorMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -11373,7 +11373,7 @@ func (m JobLayerMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m JobLayerMutation) Tx() (*Tx, error) {
+func (m JobFloorMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
@@ -11384,7 +11384,7 @@ func (m JobLayerMutation) Tx() (*Tx, error) {
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *JobLayerMutation) ID() (id int, exists bool) {
+func (m *JobFloorMutation) ID() (id int, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -11395,7 +11395,7 @@ func (m *JobLayerMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *JobLayerMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *JobFloorMutation) IDs(ctx context.Context) ([]int, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -11404,20 +11404,20 @@ func (m *JobLayerMutation) IDs(ctx context.Context) ([]int, error) {
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().JobLayer.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().JobFloor.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (m *JobLayerMutation) SetYibfNo(i int) {
+func (m *JobFloorMutation) SetYibfNo(i int) {
 	m.yibfNo = &i
 	m.addyibfNo = nil
 }
 
 // YibfNo returns the value of the "yibfNo" field in the mutation.
-func (m *JobLayerMutation) YibfNo() (r int, exists bool) {
+func (m *JobFloorMutation) YibfNo() (r int, exists bool) {
 	v := m.yibfNo
 	if v == nil {
 		return
@@ -11425,10 +11425,10 @@ func (m *JobLayerMutation) YibfNo() (r int, exists bool) {
 	return *v, true
 }
 
-// OldYibfNo returns the old "yibfNo" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldYibfNo returns the old "yibfNo" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldYibfNo(ctx context.Context) (v int, err error) {
+func (m *JobFloorMutation) OldYibfNo(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldYibfNo is only allowed on UpdateOne operations")
 	}
@@ -11443,7 +11443,7 @@ func (m *JobLayerMutation) OldYibfNo(ctx context.Context) (v int, err error) {
 }
 
 // AddYibfNo adds i to the "yibfNo" field.
-func (m *JobLayerMutation) AddYibfNo(i int) {
+func (m *JobFloorMutation) AddYibfNo(i int) {
 	if m.addyibfNo != nil {
 		*m.addyibfNo += i
 	} else {
@@ -11452,7 +11452,7 @@ func (m *JobLayerMutation) AddYibfNo(i int) {
 }
 
 // AddedYibfNo returns the value that was added to the "yibfNo" field in this mutation.
-func (m *JobLayerMutation) AddedYibfNo() (r int, exists bool) {
+func (m *JobFloorMutation) AddedYibfNo() (r int, exists bool) {
 	v := m.addyibfNo
 	if v == nil {
 		return
@@ -11461,18 +11461,18 @@ func (m *JobLayerMutation) AddedYibfNo() (r int, exists bool) {
 }
 
 // ResetYibfNo resets all changes to the "yibfNo" field.
-func (m *JobLayerMutation) ResetYibfNo() {
+func (m *JobFloorMutation) ResetYibfNo() {
 	m.yibfNo = nil
 	m.addyibfNo = nil
 }
 
 // SetName sets the "Name" field.
-func (m *JobLayerMutation) SetName(s string) {
+func (m *JobFloorMutation) SetName(s string) {
 	m._Name = &s
 }
 
 // Name returns the value of the "Name" field in the mutation.
-func (m *JobLayerMutation) Name() (r string, exists bool) {
+func (m *JobFloorMutation) Name() (r string, exists bool) {
 	v := m._Name
 	if v == nil {
 		return
@@ -11480,10 +11480,10 @@ func (m *JobLayerMutation) Name() (r string, exists bool) {
 	return *v, true
 }
 
-// OldName returns the old "Name" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldName returns the old "Name" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldName(ctx context.Context) (v string, err error) {
+func (m *JobFloorMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldName is only allowed on UpdateOne operations")
 	}
@@ -11498,17 +11498,17 @@ func (m *JobLayerMutation) OldName(ctx context.Context) (v string, err error) {
 }
 
 // ResetName resets all changes to the "Name" field.
-func (m *JobLayerMutation) ResetName() {
+func (m *JobFloorMutation) ResetName() {
 	m._Name = nil
 }
 
 // SetMetre sets the "Metre" field.
-func (m *JobLayerMutation) SetMetre(s string) {
+func (m *JobFloorMutation) SetMetre(s string) {
 	m._Metre = &s
 }
 
 // Metre returns the value of the "Metre" field in the mutation.
-func (m *JobLayerMutation) Metre() (r string, exists bool) {
+func (m *JobFloorMutation) Metre() (r string, exists bool) {
 	v := m._Metre
 	if v == nil {
 		return
@@ -11516,10 +11516,10 @@ func (m *JobLayerMutation) Metre() (r string, exists bool) {
 	return *v, true
 }
 
-// OldMetre returns the old "Metre" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldMetre returns the old "Metre" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldMetre(ctx context.Context) (v string, err error) {
+func (m *JobFloorMutation) OldMetre(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldMetre is only allowed on UpdateOne operations")
 	}
@@ -11534,17 +11534,17 @@ func (m *JobLayerMutation) OldMetre(ctx context.Context) (v string, err error) {
 }
 
 // ResetMetre resets all changes to the "Metre" field.
-func (m *JobLayerMutation) ResetMetre() {
+func (m *JobFloorMutation) ResetMetre() {
 	m._Metre = nil
 }
 
 // SetMoldDate sets the "MoldDate" field.
-func (m *JobLayerMutation) SetMoldDate(t time.Time) {
+func (m *JobFloorMutation) SetMoldDate(t time.Time) {
 	m._MoldDate = &t
 }
 
 // MoldDate returns the value of the "MoldDate" field in the mutation.
-func (m *JobLayerMutation) MoldDate() (r time.Time, exists bool) {
+func (m *JobFloorMutation) MoldDate() (r time.Time, exists bool) {
 	v := m._MoldDate
 	if v == nil {
 		return
@@ -11552,10 +11552,10 @@ func (m *JobLayerMutation) MoldDate() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldMoldDate returns the old "MoldDate" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldMoldDate returns the old "MoldDate" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldMoldDate(ctx context.Context) (v time.Time, err error) {
+func (m *JobFloorMutation) OldMoldDate(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldMoldDate is only allowed on UpdateOne operations")
 	}
@@ -11570,30 +11570,30 @@ func (m *JobLayerMutation) OldMoldDate(ctx context.Context) (v time.Time, err er
 }
 
 // ClearMoldDate clears the value of the "MoldDate" field.
-func (m *JobLayerMutation) ClearMoldDate() {
+func (m *JobFloorMutation) ClearMoldDate() {
 	m._MoldDate = nil
-	m.clearedFields[joblayer.FieldMoldDate] = struct{}{}
+	m.clearedFields[jobfloor.FieldMoldDate] = struct{}{}
 }
 
 // MoldDateCleared returns if the "MoldDate" field was cleared in this mutation.
-func (m *JobLayerMutation) MoldDateCleared() bool {
-	_, ok := m.clearedFields[joblayer.FieldMoldDate]
+func (m *JobFloorMutation) MoldDateCleared() bool {
+	_, ok := m.clearedFields[jobfloor.FieldMoldDate]
 	return ok
 }
 
 // ResetMoldDate resets all changes to the "MoldDate" field.
-func (m *JobLayerMutation) ResetMoldDate() {
+func (m *JobFloorMutation) ResetMoldDate() {
 	m._MoldDate = nil
-	delete(m.clearedFields, joblayer.FieldMoldDate)
+	delete(m.clearedFields, jobfloor.FieldMoldDate)
 }
 
 // SetConcreteDate sets the "ConcreteDate" field.
-func (m *JobLayerMutation) SetConcreteDate(t time.Time) {
+func (m *JobFloorMutation) SetConcreteDate(t time.Time) {
 	m._ConcreteDate = &t
 }
 
 // ConcreteDate returns the value of the "ConcreteDate" field in the mutation.
-func (m *JobLayerMutation) ConcreteDate() (r time.Time, exists bool) {
+func (m *JobFloorMutation) ConcreteDate() (r time.Time, exists bool) {
 	v := m._ConcreteDate
 	if v == nil {
 		return
@@ -11601,10 +11601,10 @@ func (m *JobLayerMutation) ConcreteDate() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldConcreteDate returns the old "ConcreteDate" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldConcreteDate returns the old "ConcreteDate" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldConcreteDate(ctx context.Context) (v time.Time, err error) {
+func (m *JobFloorMutation) OldConcreteDate(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldConcreteDate is only allowed on UpdateOne operations")
 	}
@@ -11619,31 +11619,31 @@ func (m *JobLayerMutation) OldConcreteDate(ctx context.Context) (v time.Time, er
 }
 
 // ClearConcreteDate clears the value of the "ConcreteDate" field.
-func (m *JobLayerMutation) ClearConcreteDate() {
+func (m *JobFloorMutation) ClearConcreteDate() {
 	m._ConcreteDate = nil
-	m.clearedFields[joblayer.FieldConcreteDate] = struct{}{}
+	m.clearedFields[jobfloor.FieldConcreteDate] = struct{}{}
 }
 
 // ConcreteDateCleared returns if the "ConcreteDate" field was cleared in this mutation.
-func (m *JobLayerMutation) ConcreteDateCleared() bool {
-	_, ok := m.clearedFields[joblayer.FieldConcreteDate]
+func (m *JobFloorMutation) ConcreteDateCleared() bool {
+	_, ok := m.clearedFields[jobfloor.FieldConcreteDate]
 	return ok
 }
 
 // ResetConcreteDate resets all changes to the "ConcreteDate" field.
-func (m *JobLayerMutation) ResetConcreteDate() {
+func (m *JobFloorMutation) ResetConcreteDate() {
 	m._ConcreteDate = nil
-	delete(m.clearedFields, joblayer.FieldConcreteDate)
+	delete(m.clearedFields, jobfloor.FieldConcreteDate)
 }
 
 // SetSamples sets the "Samples" field.
-func (m *JobLayerMutation) SetSamples(i int) {
+func (m *JobFloorMutation) SetSamples(i int) {
 	m._Samples = &i
 	m.add_Samples = nil
 }
 
 // Samples returns the value of the "Samples" field in the mutation.
-func (m *JobLayerMutation) Samples() (r int, exists bool) {
+func (m *JobFloorMutation) Samples() (r int, exists bool) {
 	v := m._Samples
 	if v == nil {
 		return
@@ -11651,10 +11651,10 @@ func (m *JobLayerMutation) Samples() (r int, exists bool) {
 	return *v, true
 }
 
-// OldSamples returns the old "Samples" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldSamples returns the old "Samples" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldSamples(ctx context.Context) (v int, err error) {
+func (m *JobFloorMutation) OldSamples(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldSamples is only allowed on UpdateOne operations")
 	}
@@ -11669,7 +11669,7 @@ func (m *JobLayerMutation) OldSamples(ctx context.Context) (v int, err error) {
 }
 
 // AddSamples adds i to the "Samples" field.
-func (m *JobLayerMutation) AddSamples(i int) {
+func (m *JobFloorMutation) AddSamples(i int) {
 	if m.add_Samples != nil {
 		*m.add_Samples += i
 	} else {
@@ -11678,7 +11678,7 @@ func (m *JobLayerMutation) AddSamples(i int) {
 }
 
 // AddedSamples returns the value that was added to the "Samples" field in this mutation.
-func (m *JobLayerMutation) AddedSamples() (r int, exists bool) {
+func (m *JobFloorMutation) AddedSamples() (r int, exists bool) {
 	v := m.add_Samples
 	if v == nil {
 		return
@@ -11687,32 +11687,32 @@ func (m *JobLayerMutation) AddedSamples() (r int, exists bool) {
 }
 
 // ClearSamples clears the value of the "Samples" field.
-func (m *JobLayerMutation) ClearSamples() {
+func (m *JobFloorMutation) ClearSamples() {
 	m._Samples = nil
 	m.add_Samples = nil
-	m.clearedFields[joblayer.FieldSamples] = struct{}{}
+	m.clearedFields[jobfloor.FieldSamples] = struct{}{}
 }
 
 // SamplesCleared returns if the "Samples" field was cleared in this mutation.
-func (m *JobLayerMutation) SamplesCleared() bool {
-	_, ok := m.clearedFields[joblayer.FieldSamples]
+func (m *JobFloorMutation) SamplesCleared() bool {
+	_, ok := m.clearedFields[jobfloor.FieldSamples]
 	return ok
 }
 
 // ResetSamples resets all changes to the "Samples" field.
-func (m *JobLayerMutation) ResetSamples() {
+func (m *JobFloorMutation) ResetSamples() {
 	m._Samples = nil
 	m.add_Samples = nil
-	delete(m.clearedFields, joblayer.FieldSamples)
+	delete(m.clearedFields, jobfloor.FieldSamples)
 }
 
 // SetConcreteClass sets the "ConcreteClass" field.
-func (m *JobLayerMutation) SetConcreteClass(s string) {
+func (m *JobFloorMutation) SetConcreteClass(s string) {
 	m._ConcreteClass = &s
 }
 
 // ConcreteClass returns the value of the "ConcreteClass" field in the mutation.
-func (m *JobLayerMutation) ConcreteClass() (r string, exists bool) {
+func (m *JobFloorMutation) ConcreteClass() (r string, exists bool) {
 	v := m._ConcreteClass
 	if v == nil {
 		return
@@ -11720,10 +11720,10 @@ func (m *JobLayerMutation) ConcreteClass() (r string, exists bool) {
 	return *v, true
 }
 
-// OldConcreteClass returns the old "ConcreteClass" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldConcreteClass returns the old "ConcreteClass" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldConcreteClass(ctx context.Context) (v string, err error) {
+func (m *JobFloorMutation) OldConcreteClass(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldConcreteClass is only allowed on UpdateOne operations")
 	}
@@ -11738,30 +11738,30 @@ func (m *JobLayerMutation) OldConcreteClass(ctx context.Context) (v string, err 
 }
 
 // ClearConcreteClass clears the value of the "ConcreteClass" field.
-func (m *JobLayerMutation) ClearConcreteClass() {
+func (m *JobFloorMutation) ClearConcreteClass() {
 	m._ConcreteClass = nil
-	m.clearedFields[joblayer.FieldConcreteClass] = struct{}{}
+	m.clearedFields[jobfloor.FieldConcreteClass] = struct{}{}
 }
 
 // ConcreteClassCleared returns if the "ConcreteClass" field was cleared in this mutation.
-func (m *JobLayerMutation) ConcreteClassCleared() bool {
-	_, ok := m.clearedFields[joblayer.FieldConcreteClass]
+func (m *JobFloorMutation) ConcreteClassCleared() bool {
+	_, ok := m.clearedFields[jobfloor.FieldConcreteClass]
 	return ok
 }
 
 // ResetConcreteClass resets all changes to the "ConcreteClass" field.
-func (m *JobLayerMutation) ResetConcreteClass() {
+func (m *JobFloorMutation) ResetConcreteClass() {
 	m._ConcreteClass = nil
-	delete(m.clearedFields, joblayer.FieldConcreteClass)
+	delete(m.clearedFields, jobfloor.FieldConcreteClass)
 }
 
 // SetWeekResult sets the "WeekResult" field.
-func (m *JobLayerMutation) SetWeekResult(s string) {
+func (m *JobFloorMutation) SetWeekResult(s string) {
 	m._WeekResult = &s
 }
 
 // WeekResult returns the value of the "WeekResult" field in the mutation.
-func (m *JobLayerMutation) WeekResult() (r string, exists bool) {
+func (m *JobFloorMutation) WeekResult() (r string, exists bool) {
 	v := m._WeekResult
 	if v == nil {
 		return
@@ -11769,10 +11769,10 @@ func (m *JobLayerMutation) WeekResult() (r string, exists bool) {
 	return *v, true
 }
 
-// OldWeekResult returns the old "WeekResult" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldWeekResult returns the old "WeekResult" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldWeekResult(ctx context.Context) (v string, err error) {
+func (m *JobFloorMutation) OldWeekResult(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldWeekResult is only allowed on UpdateOne operations")
 	}
@@ -11787,30 +11787,30 @@ func (m *JobLayerMutation) OldWeekResult(ctx context.Context) (v string, err err
 }
 
 // ClearWeekResult clears the value of the "WeekResult" field.
-func (m *JobLayerMutation) ClearWeekResult() {
+func (m *JobFloorMutation) ClearWeekResult() {
 	m._WeekResult = nil
-	m.clearedFields[joblayer.FieldWeekResult] = struct{}{}
+	m.clearedFields[jobfloor.FieldWeekResult] = struct{}{}
 }
 
 // WeekResultCleared returns if the "WeekResult" field was cleared in this mutation.
-func (m *JobLayerMutation) WeekResultCleared() bool {
-	_, ok := m.clearedFields[joblayer.FieldWeekResult]
+func (m *JobFloorMutation) WeekResultCleared() bool {
+	_, ok := m.clearedFields[jobfloor.FieldWeekResult]
 	return ok
 }
 
 // ResetWeekResult resets all changes to the "WeekResult" field.
-func (m *JobLayerMutation) ResetWeekResult() {
+func (m *JobFloorMutation) ResetWeekResult() {
 	m._WeekResult = nil
-	delete(m.clearedFields, joblayer.FieldWeekResult)
+	delete(m.clearedFields, jobfloor.FieldWeekResult)
 }
 
 // SetMonthResult sets the "MonthResult" field.
-func (m *JobLayerMutation) SetMonthResult(s string) {
+func (m *JobFloorMutation) SetMonthResult(s string) {
 	m._MonthResult = &s
 }
 
 // MonthResult returns the value of the "MonthResult" field in the mutation.
-func (m *JobLayerMutation) MonthResult() (r string, exists bool) {
+func (m *JobFloorMutation) MonthResult() (r string, exists bool) {
 	v := m._MonthResult
 	if v == nil {
 		return
@@ -11818,10 +11818,10 @@ func (m *JobLayerMutation) MonthResult() (r string, exists bool) {
 	return *v, true
 }
 
-// OldMonthResult returns the old "MonthResult" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldMonthResult returns the old "MonthResult" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldMonthResult(ctx context.Context) (v string, err error) {
+func (m *JobFloorMutation) OldMonthResult(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldMonthResult is only allowed on UpdateOne operations")
 	}
@@ -11836,30 +11836,30 @@ func (m *JobLayerMutation) OldMonthResult(ctx context.Context) (v string, err er
 }
 
 // ClearMonthResult clears the value of the "MonthResult" field.
-func (m *JobLayerMutation) ClearMonthResult() {
+func (m *JobFloorMutation) ClearMonthResult() {
 	m._MonthResult = nil
-	m.clearedFields[joblayer.FieldMonthResult] = struct{}{}
+	m.clearedFields[jobfloor.FieldMonthResult] = struct{}{}
 }
 
 // MonthResultCleared returns if the "MonthResult" field was cleared in this mutation.
-func (m *JobLayerMutation) MonthResultCleared() bool {
-	_, ok := m.clearedFields[joblayer.FieldMonthResult]
+func (m *JobFloorMutation) MonthResultCleared() bool {
+	_, ok := m.clearedFields[jobfloor.FieldMonthResult]
 	return ok
 }
 
 // ResetMonthResult resets all changes to the "MonthResult" field.
-func (m *JobLayerMutation) ResetMonthResult() {
+func (m *JobFloorMutation) ResetMonthResult() {
 	m._MonthResult = nil
-	delete(m.clearedFields, joblayer.FieldMonthResult)
+	delete(m.clearedFields, jobfloor.FieldMonthResult)
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (m *JobLayerMutation) SetCreatedAt(t time.Time) {
+func (m *JobFloorMutation) SetCreatedAt(t time.Time) {
 	m._CreatedAt = &t
 }
 
 // CreatedAt returns the value of the "CreatedAt" field in the mutation.
-func (m *JobLayerMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *JobFloorMutation) CreatedAt() (r time.Time, exists bool) {
 	v := m._CreatedAt
 	if v == nil {
 		return
@@ -11867,10 +11867,10 @@ func (m *JobLayerMutation) CreatedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldCreatedAt returns the old "CreatedAt" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldCreatedAt returns the old "CreatedAt" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *JobFloorMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -11885,17 +11885,17 @@ func (m *JobLayerMutation) OldCreatedAt(ctx context.Context) (v time.Time, err e
 }
 
 // ResetCreatedAt resets all changes to the "CreatedAt" field.
-func (m *JobLayerMutation) ResetCreatedAt() {
+func (m *JobFloorMutation) ResetCreatedAt() {
 	m._CreatedAt = nil
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (m *JobLayerMutation) SetUpdatedAt(t time.Time) {
+func (m *JobFloorMutation) SetUpdatedAt(t time.Time) {
 	m._UpdatedAt = &t
 }
 
 // UpdatedAt returns the value of the "UpdatedAt" field in the mutation.
-func (m *JobLayerMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *JobFloorMutation) UpdatedAt() (r time.Time, exists bool) {
 	v := m._UpdatedAt
 	if v == nil {
 		return
@@ -11903,10 +11903,10 @@ func (m *JobLayerMutation) UpdatedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldUpdatedAt returns the old "UpdatedAt" field's value of the JobLayer entity.
-// If the JobLayer object wasn't provided to the builder, the object is fetched from the database.
+// OldUpdatedAt returns the old "UpdatedAt" field's value of the JobFloor entity.
+// If the JobFloor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobLayerMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *JobFloorMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -11921,58 +11921,58 @@ func (m *JobLayerMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err e
 }
 
 // ResetUpdatedAt resets all changes to the "UpdatedAt" field.
-func (m *JobLayerMutation) ResetUpdatedAt() {
+func (m *JobFloorMutation) ResetUpdatedAt() {
 	m._UpdatedAt = nil
 }
 
-// SetLayerID sets the "layer" edge to the JobRelations entity by id.
-func (m *JobLayerMutation) SetLayerID(id int) {
-	m.layer = &id
+// SetFloorID sets the "floor" edge to the JobRelations entity by id.
+func (m *JobFloorMutation) SetFloorID(id int) {
+	m.floor = &id
 }
 
-// ClearLayer clears the "layer" edge to the JobRelations entity.
-func (m *JobLayerMutation) ClearLayer() {
-	m.clearedlayer = true
+// ClearFloor clears the "floor" edge to the JobRelations entity.
+func (m *JobFloorMutation) ClearFloor() {
+	m.clearedfloor = true
 }
 
-// LayerCleared reports if the "layer" edge to the JobRelations entity was cleared.
-func (m *JobLayerMutation) LayerCleared() bool {
-	return m.clearedlayer
+// FloorCleared reports if the "floor" edge to the JobRelations entity was cleared.
+func (m *JobFloorMutation) FloorCleared() bool {
+	return m.clearedfloor
 }
 
-// LayerID returns the "layer" edge ID in the mutation.
-func (m *JobLayerMutation) LayerID() (id int, exists bool) {
-	if m.layer != nil {
-		return *m.layer, true
+// FloorID returns the "floor" edge ID in the mutation.
+func (m *JobFloorMutation) FloorID() (id int, exists bool) {
+	if m.floor != nil {
+		return *m.floor, true
 	}
 	return
 }
 
-// LayerIDs returns the "layer" edge IDs in the mutation.
+// FloorIDs returns the "floor" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// LayerID instead. It exists only for internal usage by the builders.
-func (m *JobLayerMutation) LayerIDs() (ids []int) {
-	if id := m.layer; id != nil {
+// FloorID instead. It exists only for internal usage by the builders.
+func (m *JobFloorMutation) FloorIDs() (ids []int) {
+	if id := m.floor; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetLayer resets all changes to the "layer" edge.
-func (m *JobLayerMutation) ResetLayer() {
-	m.layer = nil
-	m.clearedlayer = false
+// ResetFloor resets all changes to the "floor" edge.
+func (m *JobFloorMutation) ResetFloor() {
+	m.floor = nil
+	m.clearedfloor = false
 }
 
-// Where appends a list predicates to the JobLayerMutation builder.
-func (m *JobLayerMutation) Where(ps ...predicate.JobLayer) {
+// Where appends a list predicates to the JobFloorMutation builder.
+func (m *JobFloorMutation) Where(ps ...predicate.JobFloor) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the JobLayerMutation builder. Using this method,
+// WhereP appends storage-level predicates to the JobFloorMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *JobLayerMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.JobLayer, len(ps))
+func (m *JobFloorMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.JobFloor, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -11980,57 +11980,57 @@ func (m *JobLayerMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *JobLayerMutation) Op() Op {
+func (m *JobFloorMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *JobLayerMutation) SetOp(op Op) {
+func (m *JobFloorMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (JobLayer).
-func (m *JobLayerMutation) Type() string {
+// Type returns the node type of this mutation (JobFloor).
+func (m *JobFloorMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *JobLayerMutation) Fields() []string {
+func (m *JobFloorMutation) Fields() []string {
 	fields := make([]string, 0, 11)
 	if m.yibfNo != nil {
-		fields = append(fields, joblayer.FieldYibfNo)
+		fields = append(fields, jobfloor.FieldYibfNo)
 	}
 	if m._Name != nil {
-		fields = append(fields, joblayer.FieldName)
+		fields = append(fields, jobfloor.FieldName)
 	}
 	if m._Metre != nil {
-		fields = append(fields, joblayer.FieldMetre)
+		fields = append(fields, jobfloor.FieldMetre)
 	}
 	if m._MoldDate != nil {
-		fields = append(fields, joblayer.FieldMoldDate)
+		fields = append(fields, jobfloor.FieldMoldDate)
 	}
 	if m._ConcreteDate != nil {
-		fields = append(fields, joblayer.FieldConcreteDate)
+		fields = append(fields, jobfloor.FieldConcreteDate)
 	}
 	if m._Samples != nil {
-		fields = append(fields, joblayer.FieldSamples)
+		fields = append(fields, jobfloor.FieldSamples)
 	}
 	if m._ConcreteClass != nil {
-		fields = append(fields, joblayer.FieldConcreteClass)
+		fields = append(fields, jobfloor.FieldConcreteClass)
 	}
 	if m._WeekResult != nil {
-		fields = append(fields, joblayer.FieldWeekResult)
+		fields = append(fields, jobfloor.FieldWeekResult)
 	}
 	if m._MonthResult != nil {
-		fields = append(fields, joblayer.FieldMonthResult)
+		fields = append(fields, jobfloor.FieldMonthResult)
 	}
 	if m._CreatedAt != nil {
-		fields = append(fields, joblayer.FieldCreatedAt)
+		fields = append(fields, jobfloor.FieldCreatedAt)
 	}
 	if m._UpdatedAt != nil {
-		fields = append(fields, joblayer.FieldUpdatedAt)
+		fields = append(fields, jobfloor.FieldUpdatedAt)
 	}
 	return fields
 }
@@ -12038,29 +12038,29 @@ func (m *JobLayerMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *JobLayerMutation) Field(name string) (ent.Value, bool) {
+func (m *JobFloorMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case joblayer.FieldYibfNo:
+	case jobfloor.FieldYibfNo:
 		return m.YibfNo()
-	case joblayer.FieldName:
+	case jobfloor.FieldName:
 		return m.Name()
-	case joblayer.FieldMetre:
+	case jobfloor.FieldMetre:
 		return m.Metre()
-	case joblayer.FieldMoldDate:
+	case jobfloor.FieldMoldDate:
 		return m.MoldDate()
-	case joblayer.FieldConcreteDate:
+	case jobfloor.FieldConcreteDate:
 		return m.ConcreteDate()
-	case joblayer.FieldSamples:
+	case jobfloor.FieldSamples:
 		return m.Samples()
-	case joblayer.FieldConcreteClass:
+	case jobfloor.FieldConcreteClass:
 		return m.ConcreteClass()
-	case joblayer.FieldWeekResult:
+	case jobfloor.FieldWeekResult:
 		return m.WeekResult()
-	case joblayer.FieldMonthResult:
+	case jobfloor.FieldMonthResult:
 		return m.MonthResult()
-	case joblayer.FieldCreatedAt:
+	case jobfloor.FieldCreatedAt:
 		return m.CreatedAt()
-	case joblayer.FieldUpdatedAt:
+	case jobfloor.FieldUpdatedAt:
 		return m.UpdatedAt()
 	}
 	return nil, false
@@ -12069,110 +12069,110 @@ func (m *JobLayerMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *JobLayerMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *JobFloorMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case joblayer.FieldYibfNo:
+	case jobfloor.FieldYibfNo:
 		return m.OldYibfNo(ctx)
-	case joblayer.FieldName:
+	case jobfloor.FieldName:
 		return m.OldName(ctx)
-	case joblayer.FieldMetre:
+	case jobfloor.FieldMetre:
 		return m.OldMetre(ctx)
-	case joblayer.FieldMoldDate:
+	case jobfloor.FieldMoldDate:
 		return m.OldMoldDate(ctx)
-	case joblayer.FieldConcreteDate:
+	case jobfloor.FieldConcreteDate:
 		return m.OldConcreteDate(ctx)
-	case joblayer.FieldSamples:
+	case jobfloor.FieldSamples:
 		return m.OldSamples(ctx)
-	case joblayer.FieldConcreteClass:
+	case jobfloor.FieldConcreteClass:
 		return m.OldConcreteClass(ctx)
-	case joblayer.FieldWeekResult:
+	case jobfloor.FieldWeekResult:
 		return m.OldWeekResult(ctx)
-	case joblayer.FieldMonthResult:
+	case jobfloor.FieldMonthResult:
 		return m.OldMonthResult(ctx)
-	case joblayer.FieldCreatedAt:
+	case jobfloor.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
-	case joblayer.FieldUpdatedAt:
+	case jobfloor.FieldUpdatedAt:
 		return m.OldUpdatedAt(ctx)
 	}
-	return nil, fmt.Errorf("unknown JobLayer field %s", name)
+	return nil, fmt.Errorf("unknown JobFloor field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *JobLayerMutation) SetField(name string, value ent.Value) error {
+func (m *JobFloorMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case joblayer.FieldYibfNo:
+	case jobfloor.FieldYibfNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetYibfNo(v)
 		return nil
-	case joblayer.FieldName:
+	case jobfloor.FieldName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetName(v)
 		return nil
-	case joblayer.FieldMetre:
+	case jobfloor.FieldMetre:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMetre(v)
 		return nil
-	case joblayer.FieldMoldDate:
+	case jobfloor.FieldMoldDate:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMoldDate(v)
 		return nil
-	case joblayer.FieldConcreteDate:
+	case jobfloor.FieldConcreteDate:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetConcreteDate(v)
 		return nil
-	case joblayer.FieldSamples:
+	case jobfloor.FieldSamples:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSamples(v)
 		return nil
-	case joblayer.FieldConcreteClass:
+	case jobfloor.FieldConcreteClass:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetConcreteClass(v)
 		return nil
-	case joblayer.FieldWeekResult:
+	case jobfloor.FieldWeekResult:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetWeekResult(v)
 		return nil
-	case joblayer.FieldMonthResult:
+	case jobfloor.FieldMonthResult:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMonthResult(v)
 		return nil
-	case joblayer.FieldCreatedAt:
+	case jobfloor.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
-	case joblayer.FieldUpdatedAt:
+	case jobfloor.FieldUpdatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -12180,18 +12180,18 @@ func (m *JobLayerMutation) SetField(name string, value ent.Value) error {
 		m.SetUpdatedAt(v)
 		return nil
 	}
-	return fmt.Errorf("unknown JobLayer field %s", name)
+	return fmt.Errorf("unknown JobFloor field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *JobLayerMutation) AddedFields() []string {
+func (m *JobFloorMutation) AddedFields() []string {
 	var fields []string
 	if m.addyibfNo != nil {
-		fields = append(fields, joblayer.FieldYibfNo)
+		fields = append(fields, jobfloor.FieldYibfNo)
 	}
 	if m.add_Samples != nil {
-		fields = append(fields, joblayer.FieldSamples)
+		fields = append(fields, jobfloor.FieldSamples)
 	}
 	return fields
 }
@@ -12199,11 +12199,11 @@ func (m *JobLayerMutation) AddedFields() []string {
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *JobLayerMutation) AddedField(name string) (ent.Value, bool) {
+func (m *JobFloorMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case joblayer.FieldYibfNo:
+	case jobfloor.FieldYibfNo:
 		return m.AddedYibfNo()
-	case joblayer.FieldSamples:
+	case jobfloor.FieldSamples:
 		return m.AddedSamples()
 	}
 	return nil, false
@@ -12212,16 +12212,16 @@ func (m *JobLayerMutation) AddedField(name string) (ent.Value, bool) {
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *JobLayerMutation) AddField(name string, value ent.Value) error {
+func (m *JobFloorMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case joblayer.FieldYibfNo:
+	case jobfloor.FieldYibfNo:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddYibfNo(v)
 		return nil
-	case joblayer.FieldSamples:
+	case jobfloor.FieldSamples:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -12229,123 +12229,123 @@ func (m *JobLayerMutation) AddField(name string, value ent.Value) error {
 		m.AddSamples(v)
 		return nil
 	}
-	return fmt.Errorf("unknown JobLayer numeric field %s", name)
+	return fmt.Errorf("unknown JobFloor numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *JobLayerMutation) ClearedFields() []string {
+func (m *JobFloorMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(joblayer.FieldMoldDate) {
-		fields = append(fields, joblayer.FieldMoldDate)
+	if m.FieldCleared(jobfloor.FieldMoldDate) {
+		fields = append(fields, jobfloor.FieldMoldDate)
 	}
-	if m.FieldCleared(joblayer.FieldConcreteDate) {
-		fields = append(fields, joblayer.FieldConcreteDate)
+	if m.FieldCleared(jobfloor.FieldConcreteDate) {
+		fields = append(fields, jobfloor.FieldConcreteDate)
 	}
-	if m.FieldCleared(joblayer.FieldSamples) {
-		fields = append(fields, joblayer.FieldSamples)
+	if m.FieldCleared(jobfloor.FieldSamples) {
+		fields = append(fields, jobfloor.FieldSamples)
 	}
-	if m.FieldCleared(joblayer.FieldConcreteClass) {
-		fields = append(fields, joblayer.FieldConcreteClass)
+	if m.FieldCleared(jobfloor.FieldConcreteClass) {
+		fields = append(fields, jobfloor.FieldConcreteClass)
 	}
-	if m.FieldCleared(joblayer.FieldWeekResult) {
-		fields = append(fields, joblayer.FieldWeekResult)
+	if m.FieldCleared(jobfloor.FieldWeekResult) {
+		fields = append(fields, jobfloor.FieldWeekResult)
 	}
-	if m.FieldCleared(joblayer.FieldMonthResult) {
-		fields = append(fields, joblayer.FieldMonthResult)
+	if m.FieldCleared(jobfloor.FieldMonthResult) {
+		fields = append(fields, jobfloor.FieldMonthResult)
 	}
 	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *JobLayerMutation) FieldCleared(name string) bool {
+func (m *JobFloorMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *JobLayerMutation) ClearField(name string) error {
+func (m *JobFloorMutation) ClearField(name string) error {
 	switch name {
-	case joblayer.FieldMoldDate:
+	case jobfloor.FieldMoldDate:
 		m.ClearMoldDate()
 		return nil
-	case joblayer.FieldConcreteDate:
+	case jobfloor.FieldConcreteDate:
 		m.ClearConcreteDate()
 		return nil
-	case joblayer.FieldSamples:
+	case jobfloor.FieldSamples:
 		m.ClearSamples()
 		return nil
-	case joblayer.FieldConcreteClass:
+	case jobfloor.FieldConcreteClass:
 		m.ClearConcreteClass()
 		return nil
-	case joblayer.FieldWeekResult:
+	case jobfloor.FieldWeekResult:
 		m.ClearWeekResult()
 		return nil
-	case joblayer.FieldMonthResult:
+	case jobfloor.FieldMonthResult:
 		m.ClearMonthResult()
 		return nil
 	}
-	return fmt.Errorf("unknown JobLayer nullable field %s", name)
+	return fmt.Errorf("unknown JobFloor nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *JobLayerMutation) ResetField(name string) error {
+func (m *JobFloorMutation) ResetField(name string) error {
 	switch name {
-	case joblayer.FieldYibfNo:
+	case jobfloor.FieldYibfNo:
 		m.ResetYibfNo()
 		return nil
-	case joblayer.FieldName:
+	case jobfloor.FieldName:
 		m.ResetName()
 		return nil
-	case joblayer.FieldMetre:
+	case jobfloor.FieldMetre:
 		m.ResetMetre()
 		return nil
-	case joblayer.FieldMoldDate:
+	case jobfloor.FieldMoldDate:
 		m.ResetMoldDate()
 		return nil
-	case joblayer.FieldConcreteDate:
+	case jobfloor.FieldConcreteDate:
 		m.ResetConcreteDate()
 		return nil
-	case joblayer.FieldSamples:
+	case jobfloor.FieldSamples:
 		m.ResetSamples()
 		return nil
-	case joblayer.FieldConcreteClass:
+	case jobfloor.FieldConcreteClass:
 		m.ResetConcreteClass()
 		return nil
-	case joblayer.FieldWeekResult:
+	case jobfloor.FieldWeekResult:
 		m.ResetWeekResult()
 		return nil
-	case joblayer.FieldMonthResult:
+	case jobfloor.FieldMonthResult:
 		m.ResetMonthResult()
 		return nil
-	case joblayer.FieldCreatedAt:
+	case jobfloor.FieldCreatedAt:
 		m.ResetCreatedAt()
 		return nil
-	case joblayer.FieldUpdatedAt:
+	case jobfloor.FieldUpdatedAt:
 		m.ResetUpdatedAt()
 		return nil
 	}
-	return fmt.Errorf("unknown JobLayer field %s", name)
+	return fmt.Errorf("unknown JobFloor field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *JobLayerMutation) AddedEdges() []string {
+func (m *JobFloorMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.layer != nil {
-		edges = append(edges, joblayer.EdgeLayer)
+	if m.floor != nil {
+		edges = append(edges, jobfloor.EdgeFloor)
 	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *JobLayerMutation) AddedIDs(name string) []ent.Value {
+func (m *JobFloorMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case joblayer.EdgeLayer:
-		if id := m.layer; id != nil {
+	case jobfloor.EdgeFloor:
+		if id := m.floor; id != nil {
 			return []ent.Value{*id}
 		}
 	}
@@ -12353,56 +12353,56 @@ func (m *JobLayerMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *JobLayerMutation) RemovedEdges() []string {
+func (m *JobFloorMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *JobLayerMutation) RemovedIDs(name string) []ent.Value {
+func (m *JobFloorMutation) RemovedIDs(name string) []ent.Value {
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *JobLayerMutation) ClearedEdges() []string {
+func (m *JobFloorMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.clearedlayer {
-		edges = append(edges, joblayer.EdgeLayer)
+	if m.clearedfloor {
+		edges = append(edges, jobfloor.EdgeFloor)
 	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *JobLayerMutation) EdgeCleared(name string) bool {
+func (m *JobFloorMutation) EdgeCleared(name string) bool {
 	switch name {
-	case joblayer.EdgeLayer:
-		return m.clearedlayer
+	case jobfloor.EdgeFloor:
+		return m.clearedfloor
 	}
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *JobLayerMutation) ClearEdge(name string) error {
+func (m *JobFloorMutation) ClearEdge(name string) error {
 	switch name {
-	case joblayer.EdgeLayer:
-		m.ClearLayer()
+	case jobfloor.EdgeFloor:
+		m.ClearFloor()
 		return nil
 	}
-	return fmt.Errorf("unknown JobLayer unique edge %s", name)
+	return fmt.Errorf("unknown JobFloor unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *JobLayerMutation) ResetEdge(name string) error {
+func (m *JobFloorMutation) ResetEdge(name string) error {
 	switch name {
-	case joblayer.EdgeLayer:
-		m.ResetLayer()
+	case jobfloor.EdgeFloor:
+		m.ResetFloor()
 		return nil
 	}
-	return fmt.Errorf("unknown JobLayer edge %s", name)
+	return fmt.Errorf("unknown JobFloor edge %s", name)
 }
 
 // JobOwnerMutation represents an operation that mutates the JobOwner nodes in the graph.
@@ -16908,9 +16908,9 @@ type JobRelationsMutation struct {
 	clearedmechaniccontroller bool
 	electriccontroller        *int
 	clearedelectriccontroller bool
-	layers                    map[int]struct{}
-	removedlayers             map[int]struct{}
-	clearedlayers             bool
+	floors                    map[int]struct{}
+	removedfloors             map[int]struct{}
+	clearedfloors             bool
 	payments                  map[int]struct{}
 	removedpayments           map[int]struct{}
 	clearedpayments           bool
@@ -17733,58 +17733,58 @@ func (m *JobRelationsMutation) ResetElectriccontroller() {
 	m.clearedelectriccontroller = false
 }
 
-// AddLayerIDs adds the "layers" edge to the JobLayer entity by ids.
-func (m *JobRelationsMutation) AddLayerIDs(ids ...int) {
-	if m.layers == nil {
-		m.layers = make(map[int]struct{})
+// AddFloorIDs adds the "floors" edge to the JobFloor entity by ids.
+func (m *JobRelationsMutation) AddFloorIDs(ids ...int) {
+	if m.floors == nil {
+		m.floors = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.layers[ids[i]] = struct{}{}
+		m.floors[ids[i]] = struct{}{}
 	}
 }
 
-// ClearLayers clears the "layers" edge to the JobLayer entity.
-func (m *JobRelationsMutation) ClearLayers() {
-	m.clearedlayers = true
+// ClearFloors clears the "floors" edge to the JobFloor entity.
+func (m *JobRelationsMutation) ClearFloors() {
+	m.clearedfloors = true
 }
 
-// LayersCleared reports if the "layers" edge to the JobLayer entity was cleared.
-func (m *JobRelationsMutation) LayersCleared() bool {
-	return m.clearedlayers
+// FloorsCleared reports if the "floors" edge to the JobFloor entity was cleared.
+func (m *JobRelationsMutation) FloorsCleared() bool {
+	return m.clearedfloors
 }
 
-// RemoveLayerIDs removes the "layers" edge to the JobLayer entity by IDs.
-func (m *JobRelationsMutation) RemoveLayerIDs(ids ...int) {
-	if m.removedlayers == nil {
-		m.removedlayers = make(map[int]struct{})
+// RemoveFloorIDs removes the "floors" edge to the JobFloor entity by IDs.
+func (m *JobRelationsMutation) RemoveFloorIDs(ids ...int) {
+	if m.removedfloors == nil {
+		m.removedfloors = make(map[int]struct{})
 	}
 	for i := range ids {
-		delete(m.layers, ids[i])
-		m.removedlayers[ids[i]] = struct{}{}
+		delete(m.floors, ids[i])
+		m.removedfloors[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedLayers returns the removed IDs of the "layers" edge to the JobLayer entity.
-func (m *JobRelationsMutation) RemovedLayersIDs() (ids []int) {
-	for id := range m.removedlayers {
+// RemovedFloors returns the removed IDs of the "floors" edge to the JobFloor entity.
+func (m *JobRelationsMutation) RemovedFloorsIDs() (ids []int) {
+	for id := range m.removedfloors {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// LayersIDs returns the "layers" edge IDs in the mutation.
-func (m *JobRelationsMutation) LayersIDs() (ids []int) {
-	for id := range m.layers {
+// FloorsIDs returns the "floors" edge IDs in the mutation.
+func (m *JobRelationsMutation) FloorsIDs() (ids []int) {
+	for id := range m.floors {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetLayers resets all changes to the "layers" edge.
-func (m *JobRelationsMutation) ResetLayers() {
-	m.layers = nil
-	m.clearedlayers = false
-	m.removedlayers = nil
+// ResetFloors resets all changes to the "floors" edge.
+func (m *JobRelationsMutation) ResetFloors() {
+	m.floors = nil
+	m.clearedfloors = false
+	m.removedfloors = nil
 }
 
 // AddPaymentIDs adds the "payments" edge to the JobPayments entity by ids.
@@ -18123,8 +18123,8 @@ func (m *JobRelationsMutation) AddedEdges() []string {
 	if m.electriccontroller != nil {
 		edges = append(edges, jobrelations.EdgeElectriccontroller)
 	}
-	if m.layers != nil {
-		edges = append(edges, jobrelations.EdgeLayers)
+	if m.floors != nil {
+		edges = append(edges, jobrelations.EdgeFloors)
 	}
 	if m.payments != nil {
 		edges = append(edges, jobrelations.EdgePayments)
@@ -18199,9 +18199,9 @@ func (m *JobRelationsMutation) AddedIDs(name string) []ent.Value {
 		if id := m.electriccontroller; id != nil {
 			return []ent.Value{*id}
 		}
-	case jobrelations.EdgeLayers:
-		ids := make([]ent.Value, 0, len(m.layers))
-		for id := range m.layers {
+	case jobrelations.EdgeFloors:
+		ids := make([]ent.Value, 0, len(m.floors))
+		for id := range m.floors {
 			ids = append(ids, id)
 		}
 		return ids
@@ -18224,8 +18224,8 @@ func (m *JobRelationsMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *JobRelationsMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 18)
-	if m.removedlayers != nil {
-		edges = append(edges, jobrelations.EdgeLayers)
+	if m.removedfloors != nil {
+		edges = append(edges, jobrelations.EdgeFloors)
 	}
 	if m.removedpayments != nil {
 		edges = append(edges, jobrelations.EdgePayments)
@@ -18240,9 +18240,9 @@ func (m *JobRelationsMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *JobRelationsMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case jobrelations.EdgeLayers:
-		ids := make([]ent.Value, 0, len(m.removedlayers))
-		for id := range m.removedlayers {
+	case jobrelations.EdgeFloors:
+		ids := make([]ent.Value, 0, len(m.removedfloors))
+		for id := range m.removedfloors {
 			ids = append(ids, id)
 		}
 		return ids
@@ -18310,8 +18310,8 @@ func (m *JobRelationsMutation) ClearedEdges() []string {
 	if m.clearedelectriccontroller {
 		edges = append(edges, jobrelations.EdgeElectriccontroller)
 	}
-	if m.clearedlayers {
-		edges = append(edges, jobrelations.EdgeLayers)
+	if m.clearedfloors {
+		edges = append(edges, jobrelations.EdgeFloors)
 	}
 	if m.clearedpayments {
 		edges = append(edges, jobrelations.EdgePayments)
@@ -18356,8 +18356,8 @@ func (m *JobRelationsMutation) EdgeCleared(name string) bool {
 		return m.clearedmechaniccontroller
 	case jobrelations.EdgeElectriccontroller:
 		return m.clearedelectriccontroller
-	case jobrelations.EdgeLayers:
-		return m.clearedlayers
+	case jobrelations.EdgeFloors:
+		return m.clearedfloors
 	case jobrelations.EdgePayments:
 		return m.clearedpayments
 	case jobrelations.EdgeReceipts:
@@ -18468,8 +18468,8 @@ func (m *JobRelationsMutation) ResetEdge(name string) error {
 	case jobrelations.EdgeElectriccontroller:
 		m.ResetElectriccontroller()
 		return nil
-	case jobrelations.EdgeLayers:
-		m.ResetLayers()
+	case jobrelations.EdgeFloors:
+		m.ResetFloors()
 		return nil
 	case jobrelations.EdgePayments:
 		m.ResetPayments()

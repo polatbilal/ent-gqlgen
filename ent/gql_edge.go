@@ -216,10 +216,10 @@ func (jd *JobDetail) Relations(ctx context.Context) (*JobRelations, error) {
 	return result, MaskNotFound(err)
 }
 
-func (jl *JobLayer) Layer(ctx context.Context) (*JobRelations, error) {
-	result, err := jl.Edges.LayerOrErr()
+func (jf *JobFloor) Floor(ctx context.Context) (*JobRelations, error) {
+	result, err := jf.Edges.FloorOrErr()
 	if IsNotLoaded(err) {
-		result, err = jl.QueryLayer().Only(ctx)
+		result, err = jf.QueryFloor().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
@@ -384,14 +384,14 @@ func (jr *JobRelations) Electriccontroller(ctx context.Context) (*CompanyEnginee
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Layers(ctx context.Context) (result []*JobLayer, err error) {
+func (jr *JobRelations) Floors(ctx context.Context) (result []*JobFloor, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = jr.NamedLayers(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = jr.NamedFloors(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = jr.Edges.LayersOrErr()
+		result, err = jr.Edges.FloorsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = jr.QueryLayers().All(ctx)
+		result, err = jr.QueryFloors().All(ctx)
 	}
 	return result, err
 }

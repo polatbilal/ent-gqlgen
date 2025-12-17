@@ -9,12 +9,12 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 )
 
-// JobLayer is the model entity for the JobLayer schema.
-type JobLayer struct {
+// JobFloor is the model entity for the JobFloor schema.
+type JobFloor struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
@@ -41,16 +41,16 @@ type JobLayer struct {
 	// UpdatedAt holds the value of the "UpdatedAt" field.
 	UpdatedAt time.Time `json:"UpdatedAt,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
-	// The values are being populated by the JobLayerQuery when eager-loading is set.
-	Edges        JobLayerEdges `json:"edges"`
+	// The values are being populated by the JobFloorQuery when eager-loading is set.
+	Edges        JobFloorEdges `json:"edges"`
 	relations_id *int
 	selectValues sql.SelectValues
 }
 
-// JobLayerEdges holds the relations/edges for other nodes in the graph.
-type JobLayerEdges struct {
-	// Layer holds the value of the layer edge.
-	Layer *JobRelations `json:"layer,omitempty"`
+// JobFloorEdges holds the relations/edges for other nodes in the graph.
+type JobFloorEdges struct {
+	// Floor holds the value of the floor edge.
+	Floor *JobRelations `json:"floor,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
@@ -58,29 +58,29 @@ type JobLayerEdges struct {
 	totalCount [1]map[string]int
 }
 
-// LayerOrErr returns the Layer value or an error if the edge
+// FloorOrErr returns the Floor value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e JobLayerEdges) LayerOrErr() (*JobRelations, error) {
-	if e.Layer != nil {
-		return e.Layer, nil
+func (e JobFloorEdges) FloorOrErr() (*JobRelations, error) {
+	if e.Floor != nil {
+		return e.Floor, nil
 	} else if e.loadedTypes[0] {
 		return nil, &NotFoundError{label: jobrelations.Label}
 	}
-	return nil, &NotLoadedError{edge: "layer"}
+	return nil, &NotLoadedError{edge: "floor"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*JobLayer) scanValues(columns []string) ([]any, error) {
+func (*JobFloor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case joblayer.FieldID, joblayer.FieldYibfNo, joblayer.FieldSamples:
+		case jobfloor.FieldID, jobfloor.FieldYibfNo, jobfloor.FieldSamples:
 			values[i] = new(sql.NullInt64)
-		case joblayer.FieldName, joblayer.FieldMetre, joblayer.FieldConcreteClass, joblayer.FieldWeekResult, joblayer.FieldMonthResult:
+		case jobfloor.FieldName, jobfloor.FieldMetre, jobfloor.FieldConcreteClass, jobfloor.FieldWeekResult, jobfloor.FieldMonthResult:
 			values[i] = new(sql.NullString)
-		case joblayer.FieldMoldDate, joblayer.FieldConcreteDate, joblayer.FieldCreatedAt, joblayer.FieldUpdatedAt:
+		case jobfloor.FieldMoldDate, jobfloor.FieldConcreteDate, jobfloor.FieldCreatedAt, jobfloor.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case joblayer.ForeignKeys[0]: // relations_id
+		case jobfloor.ForeignKeys[0]: // relations_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -90,168 +90,168 @@ func (*JobLayer) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the JobLayer fields.
-func (jl *JobLayer) assignValues(columns []string, values []any) error {
+// to the JobFloor fields.
+func (jf *JobFloor) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case joblayer.FieldID:
+		case jobfloor.FieldID:
 			value, ok := values[i].(*sql.NullInt64)
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jl.ID = int(value.Int64)
-		case joblayer.FieldYibfNo:
+			jf.ID = int(value.Int64)
+		case jobfloor.FieldYibfNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
 			} else if value.Valid {
-				jl.YibfNo = int(value.Int64)
+				jf.YibfNo = int(value.Int64)
 			}
-		case joblayer.FieldName:
+		case jobfloor.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				jl.Name = value.String
+				jf.Name = value.String
 			}
-		case joblayer.FieldMetre:
+		case jobfloor.FieldMetre:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Metre", values[i])
 			} else if value.Valid {
-				jl.Metre = value.String
+				jf.Metre = value.String
 			}
-		case joblayer.FieldMoldDate:
+		case jobfloor.FieldMoldDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field MoldDate", values[i])
 			} else if value.Valid {
-				jl.MoldDate = value.Time
+				jf.MoldDate = value.Time
 			}
-		case joblayer.FieldConcreteDate:
+		case jobfloor.FieldConcreteDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field ConcreteDate", values[i])
 			} else if value.Valid {
-				jl.ConcreteDate = value.Time
+				jf.ConcreteDate = value.Time
 			}
-		case joblayer.FieldSamples:
+		case jobfloor.FieldSamples:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field Samples", values[i])
 			} else if value.Valid {
-				jl.Samples = int(value.Int64)
+				jf.Samples = int(value.Int64)
 			}
-		case joblayer.FieldConcreteClass:
+		case jobfloor.FieldConcreteClass:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field ConcreteClass", values[i])
 			} else if value.Valid {
-				jl.ConcreteClass = value.String
+				jf.ConcreteClass = value.String
 			}
-		case joblayer.FieldWeekResult:
+		case jobfloor.FieldWeekResult:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field WeekResult", values[i])
 			} else if value.Valid {
-				jl.WeekResult = value.String
+				jf.WeekResult = value.String
 			}
-		case joblayer.FieldMonthResult:
+		case jobfloor.FieldMonthResult:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field MonthResult", values[i])
 			} else if value.Valid {
-				jl.MonthResult = value.String
+				jf.MonthResult = value.String
 			}
-		case joblayer.FieldCreatedAt:
+		case jobfloor.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jl.CreatedAt = value.Time
+				jf.CreatedAt = value.Time
 			}
-		case joblayer.FieldUpdatedAt:
+		case jobfloor.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jl.UpdatedAt = value.Time
+				jf.UpdatedAt = value.Time
 			}
-		case joblayer.ForeignKeys[0]:
+		case jobfloor.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
-				jl.relations_id = new(int)
-				*jl.relations_id = int(value.Int64)
+				jf.relations_id = new(int)
+				*jf.relations_id = int(value.Int64)
 			}
 		default:
-			jl.selectValues.Set(columns[i], values[i])
+			jf.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the JobLayer.
+// Value returns the ent.Value that was dynamically selected and assigned to the JobFloor.
 // This includes values selected through modifiers, order, etc.
-func (jl *JobLayer) Value(name string) (ent.Value, error) {
-	return jl.selectValues.Get(name)
+func (jf *JobFloor) Value(name string) (ent.Value, error) {
+	return jf.selectValues.Get(name)
 }
 
-// QueryLayer queries the "layer" edge of the JobLayer entity.
-func (jl *JobLayer) QueryLayer() *JobRelationsQuery {
-	return NewJobLayerClient(jl.config).QueryLayer(jl)
+// QueryFloor queries the "floor" edge of the JobFloor entity.
+func (jf *JobFloor) QueryFloor() *JobRelationsQuery {
+	return NewJobFloorClient(jf.config).QueryFloor(jf)
 }
 
-// Update returns a builder for updating this JobLayer.
-// Note that you need to call JobLayer.Unwrap() before calling this method if this JobLayer
+// Update returns a builder for updating this JobFloor.
+// Note that you need to call JobFloor.Unwrap() before calling this method if this JobFloor
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jl *JobLayer) Update() *JobLayerUpdateOne {
-	return NewJobLayerClient(jl.config).UpdateOne(jl)
+func (jf *JobFloor) Update() *JobFloorUpdateOne {
+	return NewJobFloorClient(jf.config).UpdateOne(jf)
 }
 
-// Unwrap unwraps the JobLayer entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the JobFloor entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jl *JobLayer) Unwrap() *JobLayer {
-	_tx, ok := jl.config.driver.(*txDriver)
+func (jf *JobFloor) Unwrap() *JobFloor {
+	_tx, ok := jf.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: JobLayer is not a transactional entity")
+		panic("ent: JobFloor is not a transactional entity")
 	}
-	jl.config.driver = _tx.drv
-	return jl
+	jf.config.driver = _tx.drv
+	return jf
 }
 
 // String implements the fmt.Stringer.
-func (jl *JobLayer) String() string {
+func (jf *JobFloor) String() string {
 	var builder strings.Builder
-	builder.WriteString("JobLayer(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jl.ID))
+	builder.WriteString("JobFloor(")
+	builder.WriteString(fmt.Sprintf("id=%v, ", jf.ID))
 	builder.WriteString("yibfNo=")
-	builder.WriteString(fmt.Sprintf("%v", jl.YibfNo))
+	builder.WriteString(fmt.Sprintf("%v", jf.YibfNo))
 	builder.WriteString(", ")
 	builder.WriteString("Name=")
-	builder.WriteString(jl.Name)
+	builder.WriteString(jf.Name)
 	builder.WriteString(", ")
 	builder.WriteString("Metre=")
-	builder.WriteString(jl.Metre)
+	builder.WriteString(jf.Metre)
 	builder.WriteString(", ")
 	builder.WriteString("MoldDate=")
-	builder.WriteString(jl.MoldDate.Format(time.ANSIC))
+	builder.WriteString(jf.MoldDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("ConcreteDate=")
-	builder.WriteString(jl.ConcreteDate.Format(time.ANSIC))
+	builder.WriteString(jf.ConcreteDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("Samples=")
-	builder.WriteString(fmt.Sprintf("%v", jl.Samples))
+	builder.WriteString(fmt.Sprintf("%v", jf.Samples))
 	builder.WriteString(", ")
 	builder.WriteString("ConcreteClass=")
-	builder.WriteString(jl.ConcreteClass)
+	builder.WriteString(jf.ConcreteClass)
 	builder.WriteString(", ")
 	builder.WriteString("WeekResult=")
-	builder.WriteString(jl.WeekResult)
+	builder.WriteString(jf.WeekResult)
 	builder.WriteString(", ")
 	builder.WriteString("MonthResult=")
-	builder.WriteString(jl.MonthResult)
+	builder.WriteString(jf.MonthResult)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jl.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(jf.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jl.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(jf.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
-// JobLayers is a parsable slice of JobLayer.
-type JobLayers []*JobLayer
+// JobFloors is a parsable slice of JobFloor.
+type JobFloors []*JobFloor

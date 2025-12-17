@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
 )
 
 // JobOwner is the model entity for the JobOwner schema.
