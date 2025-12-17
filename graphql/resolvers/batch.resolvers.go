@@ -12,11 +12,13 @@ import (
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
 	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 	"github.com/polatbilal/ent-gqlgen/graphql/helpers"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
@@ -51,6 +53,23 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 	client := middlewares.GetClientFromContext(ctx)
 	if client == nil {
 		return nil, fmt.Errorf("client nil")
+	}
+
+	customClaim := middlewares.CtxValue(ctx)
+
+	// Kullanıcının şirketlerini al
+	userCompanies, err := client.CompanyUser.Query().
+		Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
+		QueryCompany().
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı şirketleri alınamadı: %w", err)
+	}
+
+	// Kullanıcının yetkili olduğu şirket kodlarını topla
+	var companyCodes []int
+	for _, company := range userCompanies {
+		companyCodes = append(companyCodes, company.CompanyCode)
 	}
 
 	tx, err := client.Tx(ctx)
@@ -101,6 +120,23 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 
 	if existingRelations != nil {
 		fmt.Println("Mevcut kayıt bulundu...")
+
+		// Kullanıcının bu şirkete erişim yetkisi var mı kontrol et
+		if existingRelations.Edges.Company != nil {
+			hasAccess := false
+			for _, code := range companyCodes {
+				if existingRelations.Edges.Company.CompanyCode == code {
+					hasAccess = true
+					break
+				}
+			}
+
+			if !hasAccess {
+				_ = tx.Rollback()
+				return nil, fmt.Errorf("bu işi güncelleme yetkiniz yok")
+			}
+		}
+
 		relations = existingRelations
 
 		// İş güncelleme/oluşturma
@@ -308,6 +344,20 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			fmt.Printf("Şirket bulma hatası: %v\n", err)
 			_ = tx.Rollback()
 			return nil, fmt.Errorf("şirket bulunamadı (kod: %d): %w", *jobInput.CompanyCode, err)
+		}
+
+		// Kullanıcının bu şirkete erişim yetkisi var mı kontrol et
+		hasAccess := false
+		for _, code := range companyCodes {
+			if company.CompanyCode == code {
+				hasAccess = true
+				break
+			}
+		}
+
+		if !hasAccess {
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("bu şirket için iş oluşturma yetkiniz yok")
 		}
 
 		// İlişkileri oluştur
@@ -589,6 +639,23 @@ func (r *mutationResolver) DeleteBatchMutation(ctx context.Context, yibfNo int) 
 		return nil, fmt.Errorf("client nil")
 	}
 
+	customClaim := middlewares.CtxValue(ctx)
+
+	// Kullanıcının şirketlerini al
+	userCompanies, err := client.CompanyUser.Query().
+		Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
+		QueryCompany().
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı şirketleri alınamadı: %w", err)
+	}
+
+	// Kullanıcının yetkili olduğu şirket kodlarını topla
+	var companyCodes []int
+	for _, company := range userCompanies {
+		companyCodes = append(companyCodes, company.CompanyCode)
+	}
+
 	// Transaction başlat
 	tx, err := client.Tx(ctx)
 	if err != nil {
@@ -629,6 +696,25 @@ func (r *mutationResolver) DeleteBatchMutation(ctx context.Context, yibfNo int) 
 			return nil, fmt.Errorf("%d Yibf No için kayıt bulunamadı", yibfNo)
 		}
 		return nil, fmt.Errorf("kayıt aranırken hata oluştu: %w", err)
+	}
+
+	// Kullanıcının bu şirkete erişim yetkisi var mı kontrol et
+	if relations.Edges.Company == nil {
+		_ = tx.Rollback()
+		return nil, fmt.Errorf("kayıt şirket bilgisi içermiyor")
+	}
+
+	hasAccess := false
+	for _, code := range companyCodes {
+		if relations.Edges.Company.CompanyCode == code {
+			hasAccess = true
+			break
+		}
+	}
+
+	if !hasAccess {
+		_ = tx.Rollback()
+		return nil, fmt.Errorf("bu işi silme yetkiniz yok")
 	}
 
 	// Silmeden önce sonuç için verileri saklayalım
@@ -822,8 +908,28 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int, state *s
 		return nil, fmt.Errorf("client nil")
 	}
 
+	customClaim := middlewares.CtxValue(ctx)
+
+	// Kullanıcının şirketlerini al
+	userCompanies, err := client.CompanyUser.Query().
+		Where(companyuser.HasUserWith(user.IDEQ(customClaim.ID))).
+		QueryCompany().
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("kullanıcı şirketleri alınamadı: %w", err)
+	}
+
+	// Kullanıcının yetkili olduğu şirket kodlarını topla
+	var companyCodes []int
+	for _, company := range userCompanies {
+		companyCodes = append(companyCodes, company.CompanyCode)
+	}
+
 	// Query builder'ı başlat
 	query := client.JobRelations.Query()
+
+	// Kullanıcının şirketlerine göre filtrele
+	query = query.Where(jobrelations.HasCompanyWith(companydetail.CompanyCodeIn(companyCodes...)))
 
 	// State kontrolü - state değeri "all" değilse bitmişleri gösterme
 	if state == nil || *state != "all" {
