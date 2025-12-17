@@ -1,6 +1,7 @@
 type JobReceipt {
   id: Int
   YibfNo: Int
+  ReceiptDate: Time
   Amount: Float
   Note: String
   createdAt: Time

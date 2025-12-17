@@ -32,6 +32,18 @@ const (
 	FieldLevelApprove = "level_approve"
 	// FieldAmount holds the string denoting the amount field in the database.
 	FieldAmount = "amount"
+	// FieldAtMunicipality holds the string denoting the atmunicipality field in the database.
+	FieldAtMunicipality = "at_municipality"
+	// FieldMunicipalityDeliveryDate holds the string denoting the municipalitydeliverydate field in the database.
+	FieldMunicipalityDeliveryDate = "municipality_delivery_date"
+	// FieldInvoiceIssued holds the string denoting the invoiceissued field in the database.
+	FieldInvoiceIssued = "invoice_issued"
+	// FieldInvoiceIssuedDate holds the string denoting the invoiceissueddate field in the database.
+	FieldInvoiceIssuedDate = "invoice_issued_date"
+	// FieldInvoiceReceived holds the string denoting the invoicereceived field in the database.
+	FieldInvoiceReceived = "invoice_received"
+	// FieldInvoiceReceivedDate holds the string denoting the invoicereceiveddate field in the database.
+	FieldInvoiceReceivedDate = "invoice_received_date"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -61,6 +73,12 @@ var Columns = []string{
 	FieldLevelRequest,
 	FieldLevelApprove,
 	FieldAmount,
+	FieldAtMunicipality,
+	FieldMunicipalityDeliveryDate,
+	FieldInvoiceIssued,
+	FieldInvoiceIssuedDate,
+	FieldInvoiceReceived,
+	FieldInvoiceReceivedDate,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -93,18 +111,12 @@ var (
 	DefaultPaymentNo int
 	// DefaultPaymentDate holds the default value on creation for the "PaymentDate" field.
 	DefaultPaymentDate func() time.Time
-	// DefaultPaymentType holds the default value on creation for the "PaymentType" field.
-	DefaultPaymentType string
-	// DefaultState holds the default value on creation for the "State" field.
-	DefaultState string
-	// DefaultTotalPayment holds the default value on creation for the "TotalPayment" field.
-	DefaultTotalPayment float64
-	// DefaultLevelRequest holds the default value on creation for the "LevelRequest" field.
-	DefaultLevelRequest float64
-	// DefaultLevelApprove holds the default value on creation for the "LevelApprove" field.
-	DefaultLevelApprove float64
-	// DefaultAmount holds the default value on creation for the "Amount" field.
-	DefaultAmount float64
+	// DefaultAtMunicipality holds the default value on creation for the "AtMunicipality" field.
+	DefaultAtMunicipality bool
+	// DefaultInvoiceIssued holds the default value on creation for the "InvoiceIssued" field.
+	DefaultInvoiceIssued bool
+	// DefaultInvoiceReceived holds the default value on creation for the "InvoiceReceived" field.
+	DefaultInvoiceReceived bool
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -164,6 +176,36 @@ func ByLevelApprove(opts ...sql.OrderTermOption) OrderOption {
 // ByAmount orders the results by the Amount field.
 func ByAmount(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAmount, opts...).ToFunc()
+}
+
+// ByAtMunicipality orders the results by the AtMunicipality field.
+func ByAtMunicipality(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAtMunicipality, opts...).ToFunc()
+}
+
+// ByMunicipalityDeliveryDate orders the results by the MunicipalityDeliveryDate field.
+func ByMunicipalityDeliveryDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldMunicipalityDeliveryDate, opts...).ToFunc()
+}
+
+// ByInvoiceIssued orders the results by the InvoiceIssued field.
+func ByInvoiceIssued(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInvoiceIssued, opts...).ToFunc()
+}
+
+// ByInvoiceIssuedDate orders the results by the InvoiceIssuedDate field.
+func ByInvoiceIssuedDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInvoiceIssuedDate, opts...).ToFunc()
+}
+
+// ByInvoiceReceived orders the results by the InvoiceReceived field.
+func ByInvoiceReceived(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInvoiceReceived, opts...).ToFunc()
+}
+
+// ByInvoiceReceivedDate orders the results by the InvoiceReceivedDate field.
+func ByInvoiceReceivedDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInvoiceReceivedDate, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

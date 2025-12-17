@@ -147,6 +147,90 @@ func (jpc *JobPaymentsCreate) SetNillableAmount(f *float64) *JobPaymentsCreate {
 	return jpc
 }
 
+// SetAtMunicipality sets the "AtMunicipality" field.
+func (jpc *JobPaymentsCreate) SetAtMunicipality(b bool) *JobPaymentsCreate {
+	jpc.mutation.SetAtMunicipality(b)
+	return jpc
+}
+
+// SetNillableAtMunicipality sets the "AtMunicipality" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableAtMunicipality(b *bool) *JobPaymentsCreate {
+	if b != nil {
+		jpc.SetAtMunicipality(*b)
+	}
+	return jpc
+}
+
+// SetMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field.
+func (jpc *JobPaymentsCreate) SetMunicipalityDeliveryDate(t time.Time) *JobPaymentsCreate {
+	jpc.mutation.SetMunicipalityDeliveryDate(t)
+	return jpc
+}
+
+// SetNillableMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableMunicipalityDeliveryDate(t *time.Time) *JobPaymentsCreate {
+	if t != nil {
+		jpc.SetMunicipalityDeliveryDate(*t)
+	}
+	return jpc
+}
+
+// SetInvoiceIssued sets the "InvoiceIssued" field.
+func (jpc *JobPaymentsCreate) SetInvoiceIssued(b bool) *JobPaymentsCreate {
+	jpc.mutation.SetInvoiceIssued(b)
+	return jpc
+}
+
+// SetNillableInvoiceIssued sets the "InvoiceIssued" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableInvoiceIssued(b *bool) *JobPaymentsCreate {
+	if b != nil {
+		jpc.SetInvoiceIssued(*b)
+	}
+	return jpc
+}
+
+// SetInvoiceIssuedDate sets the "InvoiceIssuedDate" field.
+func (jpc *JobPaymentsCreate) SetInvoiceIssuedDate(t time.Time) *JobPaymentsCreate {
+	jpc.mutation.SetInvoiceIssuedDate(t)
+	return jpc
+}
+
+// SetNillableInvoiceIssuedDate sets the "InvoiceIssuedDate" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableInvoiceIssuedDate(t *time.Time) *JobPaymentsCreate {
+	if t != nil {
+		jpc.SetInvoiceIssuedDate(*t)
+	}
+	return jpc
+}
+
+// SetInvoiceReceived sets the "InvoiceReceived" field.
+func (jpc *JobPaymentsCreate) SetInvoiceReceived(b bool) *JobPaymentsCreate {
+	jpc.mutation.SetInvoiceReceived(b)
+	return jpc
+}
+
+// SetNillableInvoiceReceived sets the "InvoiceReceived" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableInvoiceReceived(b *bool) *JobPaymentsCreate {
+	if b != nil {
+		jpc.SetInvoiceReceived(*b)
+	}
+	return jpc
+}
+
+// SetInvoiceReceivedDate sets the "InvoiceReceivedDate" field.
+func (jpc *JobPaymentsCreate) SetInvoiceReceivedDate(t time.Time) *JobPaymentsCreate {
+	jpc.mutation.SetInvoiceReceivedDate(t)
+	return jpc
+}
+
+// SetNillableInvoiceReceivedDate sets the "InvoiceReceivedDate" field if the given value is not nil.
+func (jpc *JobPaymentsCreate) SetNillableInvoiceReceivedDate(t *time.Time) *JobPaymentsCreate {
+	if t != nil {
+		jpc.SetInvoiceReceivedDate(*t)
+	}
+	return jpc
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (jpc *JobPaymentsCreate) SetCreatedAt(t time.Time) *JobPaymentsCreate {
 	jpc.mutation.SetCreatedAt(t)
@@ -241,29 +325,17 @@ func (jpc *JobPaymentsCreate) defaults() {
 		v := jobpayments.DefaultPaymentDate()
 		jpc.mutation.SetPaymentDate(v)
 	}
-	if _, ok := jpc.mutation.PaymentType(); !ok {
-		v := jobpayments.DefaultPaymentType
-		jpc.mutation.SetPaymentType(v)
+	if _, ok := jpc.mutation.AtMunicipality(); !ok {
+		v := jobpayments.DefaultAtMunicipality
+		jpc.mutation.SetAtMunicipality(v)
 	}
-	if _, ok := jpc.mutation.State(); !ok {
-		v := jobpayments.DefaultState
-		jpc.mutation.SetState(v)
+	if _, ok := jpc.mutation.InvoiceIssued(); !ok {
+		v := jobpayments.DefaultInvoiceIssued
+		jpc.mutation.SetInvoiceIssued(v)
 	}
-	if _, ok := jpc.mutation.TotalPayment(); !ok {
-		v := jobpayments.DefaultTotalPayment
-		jpc.mutation.SetTotalPayment(v)
-	}
-	if _, ok := jpc.mutation.LevelRequest(); !ok {
-		v := jobpayments.DefaultLevelRequest
-		jpc.mutation.SetLevelRequest(v)
-	}
-	if _, ok := jpc.mutation.LevelApprove(); !ok {
-		v := jobpayments.DefaultLevelApprove
-		jpc.mutation.SetLevelApprove(v)
-	}
-	if _, ok := jpc.mutation.Amount(); !ok {
-		v := jobpayments.DefaultAmount
-		jpc.mutation.SetAmount(v)
+	if _, ok := jpc.mutation.InvoiceReceived(); !ok {
+		v := jobpayments.DefaultInvoiceReceived
+		jpc.mutation.SetInvoiceReceived(v)
 	}
 	if _, ok := jpc.mutation.CreatedAt(); !ok {
 		v := jobpayments.DefaultCreatedAt()
@@ -350,6 +422,30 @@ func (jpc *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) 
 	if value, ok := jpc.mutation.Amount(); ok {
 		_spec.SetField(jobpayments.FieldAmount, field.TypeFloat64, value)
 		_node.Amount = value
+	}
+	if value, ok := jpc.mutation.AtMunicipality(); ok {
+		_spec.SetField(jobpayments.FieldAtMunicipality, field.TypeBool, value)
+		_node.AtMunicipality = value
+	}
+	if value, ok := jpc.mutation.MunicipalityDeliveryDate(); ok {
+		_spec.SetField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime, value)
+		_node.MunicipalityDeliveryDate = value
+	}
+	if value, ok := jpc.mutation.InvoiceIssued(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssued, field.TypeBool, value)
+		_node.InvoiceIssued = value
+	}
+	if value, ok := jpc.mutation.InvoiceIssuedDate(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime, value)
+		_node.InvoiceIssuedDate = value
+	}
+	if value, ok := jpc.mutation.InvoiceReceived(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
+		_node.InvoiceReceived = value
+	}
+	if value, ok := jpc.mutation.InvoiceReceivedDate(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime, value)
+		_node.InvoiceReceivedDate = value
 	}
 	if value, ok := jpc.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)

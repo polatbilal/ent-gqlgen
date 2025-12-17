@@ -251,17 +251,23 @@ type ComplexityRoot struct {
 	}
 
 	JobPayments struct {
-		Amount       func(childComplexity int) int
-		ID           func(childComplexity int) int
-		LevelApprove func(childComplexity int) int
-		LevelRequest func(childComplexity int) int
-		PaymentDate  func(childComplexity int) int
-		PaymentNo    func(childComplexity int) int
-		PaymentType  func(childComplexity int) int
-		State        func(childComplexity int) int
-		TotalPayment func(childComplexity int) int
-		UpdatedAt    func(childComplexity int) int
-		YibfNo       func(childComplexity int) int
+		Amount                   func(childComplexity int) int
+		AtMunicipality           func(childComplexity int) int
+		ID                       func(childComplexity int) int
+		InvoiceIssued            func(childComplexity int) int
+		InvoiceIssuedDate        func(childComplexity int) int
+		InvoiceReceived          func(childComplexity int) int
+		InvoiceReceivedDate      func(childComplexity int) int
+		LevelApprove             func(childComplexity int) int
+		LevelRequest             func(childComplexity int) int
+		MunicipalityDeliveryDate func(childComplexity int) int
+		PaymentDate              func(childComplexity int) int
+		PaymentNo                func(childComplexity int) int
+		PaymentType              func(childComplexity int) int
+		State                    func(childComplexity int) int
+		TotalPayment             func(childComplexity int) int
+		UpdatedAt                func(childComplexity int) int
+		YibfNo                   func(childComplexity int) int
 	}
 
 	JobProgress struct {
@@ -310,7 +316,6 @@ type ComplexityRoot struct {
 		CreateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
 		DeleteBatchMutation   func(childComplexity int, yibfNo int) int
 		DeleteFloor           func(childComplexity int, id int) int
-		DeleteJobPayments     func(childComplexity int, id int) int
 		DeleteJobReceipts     func(childComplexity int, id int) int
 		DeleteUser            func(childComplexity int, id string) int
 		ExecuteBatchMutation  func(childComplexity int, input model.JobBatchInput) int
@@ -325,8 +330,8 @@ type ComplexityRoot struct {
 		UpdateFloor           func(childComplexity int, id int, input model.JobFloorInput) int
 		UpdateJob             func(childComplexity int, yibfNo int, input model.JobInput) int
 		UpdateJobEngineer     func(childComplexity int, input model.JobEngineerInput) int
-		UpdateJobPayments     func(childComplexity int, id int, input model.JobPaymentsInput) int
 		UpdateOwner           func(childComplexity int, input model.JobOwnerInput) int
+		UpdatePaymentStatus   func(childComplexity int, id int, input model.JobPaymentStatusInput) int
 		UpdateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
 		UpsertEngineer        func(childComplexity int, input model.CompanyEngineerInput) int
 		UpsertFloor           func(childComplexity int, id *int, input model.JobFloorInput) int
@@ -355,7 +360,7 @@ type ComplexityRoot struct {
 		JobBatchQuery     func(childComplexity int, yibfNo *int, state *string) int
 		JobCounts         func(childComplexity int, companyCode *int) int
 		JobEngineer       func(childComplexity int, yibfNo int) int
-		JobPayments       func(childComplexity int, yibfNo int) int
+		JobPayments       func(childComplexity int, id *int, yibfNo *int) int
 		JobReceipts       func(childComplexity int, yibfNo int) int
 		Jobs              func(childComplexity int) int
 		Owner             func(childComplexity int, yibfNo int) int
@@ -415,8 +420,7 @@ type MutationResolver interface {
 	UpdateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error)
 	UpsertPayments(ctx context.Context, id *int, input model.JobPaymentsInput) (*ent.JobPayments, error)
 	CreateJobPayments(ctx context.Context, input model.JobPaymentsInput) (*ent.JobPayments, error)
-	UpdateJobPayments(ctx context.Context, id int, input model.JobPaymentsInput) (*ent.JobPayments, error)
-	DeleteJobPayments(ctx context.Context, id int) (*ent.JobPayments, error)
+	UpdatePaymentStatus(ctx context.Context, id int, input model.JobPaymentStatusInput) (*ent.JobPayments, error)
 	UpsertProgress(ctx context.Context, input model.JobProgressInput) (*ent.JobProgress, error)
 	UpsertJobReceipts(ctx context.Context, id *int, input model.JobReceiptInput) (*ent.JobReceipt, error)
 	DeleteJobReceipts(ctx context.Context, id int) (*ent.JobReceipt, error)
@@ -445,7 +449,7 @@ type QueryResolver interface {
 	AllOwner(ctx context.Context) ([]*ent.JobOwner, error)
 	Owner(ctx context.Context, yibfNo int) (*ent.JobOwner, error)
 	GetOwner(ctx context.Context, ydsid int) (*ent.JobOwner, error)
-	JobPayments(ctx context.Context, yibfNo int) ([]*ent.JobPayments, error)
+	JobPayments(ctx context.Context, id *int, yibfNo *int) ([]*ent.JobPayments, error)
 	Progress(ctx context.Context, yibfNo int) (*ent.JobProgress, error)
 	JobReceipts(ctx context.Context, yibfNo int) ([]*ent.JobReceipt, error)
 	Supervisor(ctx context.Context, yibfNo int) (*ent.JobSupervisor, error)
@@ -1415,12 +1419,42 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobPayments.Amount(childComplexity), true
+	case "JobPayments.AtMunicipality":
+		if e.complexity.JobPayments.AtMunicipality == nil {
+			break
+		}
+
+		return e.complexity.JobPayments.AtMunicipality(childComplexity), true
 	case "JobPayments.id":
 		if e.complexity.JobPayments.ID == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.ID(childComplexity), true
+	case "JobPayments.InvoiceIssued":
+		if e.complexity.JobPayments.InvoiceIssued == nil {
+			break
+		}
+
+		return e.complexity.JobPayments.InvoiceIssued(childComplexity), true
+	case "JobPayments.InvoiceIssuedDate":
+		if e.complexity.JobPayments.InvoiceIssuedDate == nil {
+			break
+		}
+
+		return e.complexity.JobPayments.InvoiceIssuedDate(childComplexity), true
+	case "JobPayments.InvoiceReceived":
+		if e.complexity.JobPayments.InvoiceReceived == nil {
+			break
+		}
+
+		return e.complexity.JobPayments.InvoiceReceived(childComplexity), true
+	case "JobPayments.InvoiceReceivedDate":
+		if e.complexity.JobPayments.InvoiceReceivedDate == nil {
+			break
+		}
+
+		return e.complexity.JobPayments.InvoiceReceivedDate(childComplexity), true
 	case "JobPayments.LevelApprove":
 		if e.complexity.JobPayments.LevelApprove == nil {
 			break
@@ -1433,6 +1467,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobPayments.LevelRequest(childComplexity), true
+	case "JobPayments.MunicipalityDeliveryDate":
+		if e.complexity.JobPayments.MunicipalityDeliveryDate == nil {
+			break
+		}
+
+		return e.complexity.JobPayments.MunicipalityDeliveryDate(childComplexity), true
 	case "JobPayments.PaymentDate":
 		if e.complexity.JobPayments.PaymentDate == nil {
 			break
@@ -1750,17 +1790,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteFloor(childComplexity, args["id"].(int)), true
-	case "Mutation.deleteJobPayments":
-		if e.complexity.Mutation.DeleteJobPayments == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteJobPayments_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteJobPayments(childComplexity, args["id"].(int)), true
 	case "Mutation.deleteJobReceipts":
 		if e.complexity.Mutation.DeleteJobReceipts == nil {
 			break
@@ -1915,17 +1944,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateJobEngineer(childComplexity, args["input"].(model.JobEngineerInput)), true
-	case "Mutation.updateJobPayments":
-		if e.complexity.Mutation.UpdateJobPayments == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateJobPayments_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateJobPayments(childComplexity, args["id"].(int), args["input"].(model.JobPaymentsInput)), true
 	case "Mutation.updateOwner":
 		if e.complexity.Mutation.UpdateOwner == nil {
 			break
@@ -1937,6 +1955,17 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateOwner(childComplexity, args["input"].(model.JobOwnerInput)), true
+	case "Mutation.updatePaymentStatus":
+		if e.complexity.Mutation.UpdatePaymentStatus == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updatePaymentStatus_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdatePaymentStatus(childComplexity, args["id"].(int), args["input"].(model.JobPaymentStatusInput)), true
 	case "Mutation.updateSupervisor":
 		if e.complexity.Mutation.UpdateSupervisor == nil {
 			break
@@ -2208,7 +2237,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.JobPayments(childComplexity, args["yibfNo"].(int)), true
+		return e.complexity.Query.JobPayments(childComplexity, args["id"].(*int), args["yibfNo"].(*int)), true
 	case "Query.jobReceipts":
 		if e.complexity.Query.JobReceipts == nil {
 			break
@@ -2351,6 +2380,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputJobFloorInput,
 		ec.unmarshalInputJobInput,
 		ec.unmarshalInputJobOwnerInput,
+		ec.unmarshalInputJobPaymentStatusInput,
 		ec.unmarshalInputJobPaymentsInput,
 		ec.unmarshalInputJobProgressInput,
 		ec.unmarshalInputJobReceiptInput,
@@ -2984,6 +3014,12 @@ extend type Mutation {
   Amount: Float
   State: String
   YibfNo: Int
+  AtMunicipality: Boolean
+  MunicipalityDeliveryDate: Time
+  InvoiceIssued: Boolean
+  InvoiceIssuedDate: Time
+  InvoiceReceived: Boolean
+  InvoiceReceivedDate: Time
   updatedAt: Time
 }
 
@@ -2999,8 +3035,17 @@ input JobPaymentsInput {
   State: String
 }
 
+input JobPaymentStatusInput {
+  AtMunicipality: Boolean
+  MunicipalityDeliveryDate: Time
+  InvoiceIssued: Boolean
+  InvoiceIssuedDate: Time
+  InvoiceReceived: Boolean
+  InvoiceReceivedDate: Time
+}
+
 extend type Query {
-  jobPayments(yibfNo: Int!): [JobPayments!] @auth
+  jobPayments(id: Int, yibfNo: Int): [JobPayments!] @auth
 }
 
 extend type Mutation {
@@ -3012,10 +3057,9 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateJobPayments(id: Int!, input: JobPaymentsInput!): JobPayments
+  updatePaymentStatus(id: Int!, input: JobPaymentStatusInput!): JobPayments
     @goField(forceResolver: true)
     @auth
-  deleteJobPayments(id: Int!): JobPayments @goField(forceResolver: true) @auth
 }
 `, BuiltIn: false},
 	{Name: "../schemas/progress.graphqls", Input: `type JobProgress {
@@ -3317,17 +3361,6 @@ func (ec *executionContext) field_Mutation_deleteFloor_args(ctx context.Context,
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_deleteJobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
-	if err != nil {
-		return nil, err
-	}
-	args["id"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_deleteJobReceipts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3511,22 +3544,6 @@ func (ec *executionContext) field_Mutation_updateJobEngineer_args(ctx context.Co
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_updateJobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
-	if err != nil {
-		return nil, err
-	}
-	args["id"] = arg0
-	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentsInput)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_updateJob_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3551,6 +3568,22 @@ func (ec *executionContext) field_Mutation_updateOwner_args(ctx context.Context,
 		return nil, err
 	}
 	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updatePaymentStatus_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg0
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobPaymentStatusInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentStatusInput)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
 	return args, nil
 }
 
@@ -3824,11 +3857,16 @@ func (ec *executionContext) field_Query_jobEngineer_args(ctx context.Context, ra
 func (ec *executionContext) field_Query_jobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalOInt2ᚖint)
 	if err != nil {
 		return nil, err
 	}
-	args["yibfNo"] = arg0
+	args["id"] = arg0
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalOInt2ᚖint)
+	if err != nil {
+		return nil, err
+	}
+	args["yibfNo"] = arg1
 	return args, nil
 }
 
@@ -9408,6 +9446,180 @@ func (ec *executionContext) fieldContext_JobPayments_YibfNo(_ context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _JobPayments_AtMunicipality(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_AtMunicipality,
+		func(ctx context.Context) (any, error) {
+			return obj.AtMunicipality, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobPayments_AtMunicipality(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobPayments",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobPayments_MunicipalityDeliveryDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_MunicipalityDeliveryDate,
+		func(ctx context.Context) (any, error) {
+			return obj.MunicipalityDeliveryDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobPayments_MunicipalityDeliveryDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobPayments",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobPayments_InvoiceIssued(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_InvoiceIssued,
+		func(ctx context.Context) (any, error) {
+			return obj.InvoiceIssued, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobPayments_InvoiceIssued(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobPayments",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobPayments_InvoiceIssuedDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_InvoiceIssuedDate,
+		func(ctx context.Context) (any, error) {
+			return obj.InvoiceIssuedDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobPayments_InvoiceIssuedDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobPayments",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobPayments_InvoiceReceived(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_InvoiceReceived,
+		func(ctx context.Context) (any, error) {
+			return obj.InvoiceReceived, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobPayments_InvoiceReceived(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobPayments",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobPayments_InvoiceReceivedDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_InvoiceReceivedDate,
+		func(ctx context.Context) (any, error) {
+			return obj.InvoiceReceivedDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobPayments_InvoiceReceivedDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobPayments",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _JobPayments_updatedAt(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
@@ -12077,6 +12289,18 @@ func (ec *executionContext) fieldContext_Mutation_upsertPayments(ctx context.Con
 				return ec.fieldContext_JobPayments_State(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
+			case "AtMunicipality":
+				return ec.fieldContext_JobPayments_AtMunicipality(ctx, field)
+			case "MunicipalityDeliveryDate":
+				return ec.fieldContext_JobPayments_MunicipalityDeliveryDate(ctx, field)
+			case "InvoiceIssued":
+				return ec.fieldContext_JobPayments_InvoiceIssued(ctx, field)
+			case "InvoiceIssuedDate":
+				return ec.fieldContext_JobPayments_InvoiceIssuedDate(ctx, field)
+			case "InvoiceReceived":
+				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
+			case "InvoiceReceivedDate":
+				return ec.fieldContext_JobPayments_InvoiceReceivedDate(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
 			}
@@ -12155,6 +12379,18 @@ func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.
 				return ec.fieldContext_JobPayments_State(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
+			case "AtMunicipality":
+				return ec.fieldContext_JobPayments_AtMunicipality(ctx, field)
+			case "MunicipalityDeliveryDate":
+				return ec.fieldContext_JobPayments_MunicipalityDeliveryDate(ctx, field)
+			case "InvoiceIssued":
+				return ec.fieldContext_JobPayments_InvoiceIssued(ctx, field)
+			case "InvoiceIssuedDate":
+				return ec.fieldContext_JobPayments_InvoiceIssuedDate(ctx, field)
+			case "InvoiceReceived":
+				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
+			case "InvoiceReceivedDate":
+				return ec.fieldContext_JobPayments_InvoiceReceivedDate(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
 			}
@@ -12175,15 +12411,15 @@ func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_updateJobPayments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Mutation_updatePaymentStatus(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
-		ec.fieldContext_Mutation_updateJobPayments,
+		ec.fieldContext_Mutation_updatePaymentStatus,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateJobPayments(ctx, fc.Args["id"].(int), fc.Args["input"].(model.JobPaymentsInput))
+			return ec.resolvers.Mutation().UpdatePaymentStatus(ctx, fc.Args["id"].(int), fc.Args["input"].(model.JobPaymentStatusInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
@@ -12205,7 +12441,7 @@ func (ec *executionContext) _Mutation_updateJobPayments(ctx context.Context, fie
 	)
 }
 
-func (ec *executionContext) fieldContext_Mutation_updateJobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_updatePaymentStatus(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -12233,6 +12469,18 @@ func (ec *executionContext) fieldContext_Mutation_updateJobPayments(ctx context.
 				return ec.fieldContext_JobPayments_State(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
+			case "AtMunicipality":
+				return ec.fieldContext_JobPayments_AtMunicipality(ctx, field)
+			case "MunicipalityDeliveryDate":
+				return ec.fieldContext_JobPayments_MunicipalityDeliveryDate(ctx, field)
+			case "InvoiceIssued":
+				return ec.fieldContext_JobPayments_InvoiceIssued(ctx, field)
+			case "InvoiceIssuedDate":
+				return ec.fieldContext_JobPayments_InvoiceIssuedDate(ctx, field)
+			case "InvoiceReceived":
+				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
+			case "InvoiceReceivedDate":
+				return ec.fieldContext_JobPayments_InvoiceReceivedDate(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
 			}
@@ -12246,85 +12494,7 @@ func (ec *executionContext) fieldContext_Mutation_updateJobPayments(ctx context.
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateJobPayments_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_deleteJobPayments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		ec.fieldContext_Mutation_deleteJobPayments,
-		func(ctx context.Context) (any, error) {
-			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().DeleteJobPayments(ctx, fc.Args["id"].(int))
-		},
-		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
-			directive0 := next
-
-			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
-					var zeroVal *ent.JobPayments
-					return zeroVal, errors.New("directive auth is not implemented")
-				}
-				return ec.directives.Auth(ctx, nil, directive0)
-			}
-
-			next = directive1
-			return next
-		},
-		ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments,
-		true,
-		false,
-	)
-}
-
-func (ec *executionContext) fieldContext_Mutation_deleteJobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_JobPayments_id(ctx, field)
-			case "PaymentNo":
-				return ec.fieldContext_JobPayments_PaymentNo(ctx, field)
-			case "PaymentDate":
-				return ec.fieldContext_JobPayments_PaymentDate(ctx, field)
-			case "PaymentType":
-				return ec.fieldContext_JobPayments_PaymentType(ctx, field)
-			case "TotalPayment":
-				return ec.fieldContext_JobPayments_TotalPayment(ctx, field)
-			case "LevelRequest":
-				return ec.fieldContext_JobPayments_LevelRequest(ctx, field)
-			case "LevelApprove":
-				return ec.fieldContext_JobPayments_LevelApprove(ctx, field)
-			case "Amount":
-				return ec.fieldContext_JobPayments_Amount(ctx, field)
-			case "State":
-				return ec.fieldContext_JobPayments_State(ctx, field)
-			case "YibfNo":
-				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type JobPayments", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_deleteJobPayments_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_updatePaymentStatus_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -14394,7 +14564,7 @@ func (ec *executionContext) _Query_jobPayments(ctx context.Context, field graphq
 		ec.fieldContext_Query_jobPayments,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().JobPayments(ctx, fc.Args["yibfNo"].(int))
+			return ec.resolvers.Query().JobPayments(ctx, fc.Args["id"].(*int), fc.Args["yibfNo"].(*int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
@@ -14444,6 +14614,18 @@ func (ec *executionContext) fieldContext_Query_jobPayments(ctx context.Context, 
 				return ec.fieldContext_JobPayments_State(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobPayments_YibfNo(ctx, field)
+			case "AtMunicipality":
+				return ec.fieldContext_JobPayments_AtMunicipality(ctx, field)
+			case "MunicipalityDeliveryDate":
+				return ec.fieldContext_JobPayments_MunicipalityDeliveryDate(ctx, field)
+			case "InvoiceIssued":
+				return ec.fieldContext_JobPayments_InvoiceIssued(ctx, field)
+			case "InvoiceIssuedDate":
+				return ec.fieldContext_JobPayments_InvoiceIssuedDate(ctx, field)
+			case "InvoiceReceived":
+				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
+			case "InvoiceReceivedDate":
+				return ec.fieldContext_JobPayments_InvoiceReceivedDate(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
 			}
@@ -18039,6 +18221,68 @@ func (ec *executionContext) unmarshalInputJobOwnerInput(ctx context.Context, obj
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputJobPaymentStatusInput(ctx context.Context, obj any) (model.JobPaymentStatusInput, error) {
+	var it model.JobPaymentStatusInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"AtMunicipality", "MunicipalityDeliveryDate", "InvoiceIssued", "InvoiceIssuedDate", "InvoiceReceived", "InvoiceReceivedDate"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "AtMunicipality":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("AtMunicipality"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AtMunicipality = data
+		case "MunicipalityDeliveryDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("MunicipalityDeliveryDate"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MunicipalityDeliveryDate = data
+		case "InvoiceIssued":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("InvoiceIssued"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.InvoiceIssued = data
+		case "InvoiceIssuedDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("InvoiceIssuedDate"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.InvoiceIssuedDate = data
+		case "InvoiceReceived":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("InvoiceReceived"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.InvoiceReceived = data
+		case "InvoiceReceivedDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("InvoiceReceivedDate"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.InvoiceReceivedDate = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputJobPaymentsInput(ctx context.Context, obj any) (model.JobPaymentsInput, error) {
 	var it model.JobPaymentsInput
 	asMap := map[string]any{}
@@ -19469,6 +19713,18 @@ func (ec *executionContext) _JobPayments(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._JobPayments_State(ctx, field, obj)
 		case "YibfNo":
 			out.Values[i] = ec._JobPayments_YibfNo(ctx, field, obj)
+		case "AtMunicipality":
+			out.Values[i] = ec._JobPayments_AtMunicipality(ctx, field, obj)
+		case "MunicipalityDeliveryDate":
+			out.Values[i] = ec._JobPayments_MunicipalityDeliveryDate(ctx, field, obj)
+		case "InvoiceIssued":
+			out.Values[i] = ec._JobPayments_InvoiceIssued(ctx, field, obj)
+		case "InvoiceIssuedDate":
+			out.Values[i] = ec._JobPayments_InvoiceIssuedDate(ctx, field, obj)
+		case "InvoiceReceived":
+			out.Values[i] = ec._JobPayments_InvoiceReceived(ctx, field, obj)
+		case "InvoiceReceivedDate":
+			out.Values[i] = ec._JobPayments_InvoiceReceivedDate(ctx, field, obj)
 		case "updatedAt":
 			out.Values[i] = ec._JobPayments_updatedAt(ctx, field, obj)
 		default:
@@ -19834,13 +20090,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createJobPayments(ctx, field)
 			})
-		case "updateJobPayments":
+		case "updatePaymentStatus":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateJobPayments(ctx, field)
-			})
-		case "deleteJobPayments":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_deleteJobPayments(ctx, field)
+				return ec._Mutation_updatePaymentStatus(ctx, field)
 			})
 		case "upsertProgress":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
@@ -21388,6 +21640,11 @@ func (ec *executionContext) marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋent�
 
 func (ec *executionContext) unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobOwnerInput(ctx context.Context, v any) (model.JobOwnerInput, error) {
 	res, err := ec.unmarshalInputJobOwnerInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNJobPaymentStatusInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentStatusInput(ctx context.Context, v any) (model.JobPaymentStatusInput, error) {
+	res, err := ec.unmarshalInputJobPaymentStatusInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

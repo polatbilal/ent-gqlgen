@@ -236,6 +236,15 @@ type JobOwnerInput struct {
 	Note        *string `json:"Note,omitempty"`
 }
 
+type JobPaymentStatusInput struct {
+	AtMunicipality           *bool      `json:"AtMunicipality,omitempty"`
+	MunicipalityDeliveryDate *time.Time `json:"MunicipalityDeliveryDate,omitempty"`
+	InvoiceIssued            *bool      `json:"InvoiceIssued,omitempty"`
+	InvoiceIssuedDate        *time.Time `json:"InvoiceIssuedDate,omitempty"`
+	InvoiceReceived          *bool      `json:"InvoiceReceived,omitempty"`
+	InvoiceReceivedDate      *time.Time `json:"InvoiceReceivedDate,omitempty"`
+}
+
 type JobPaymentsInput struct {
 	PaymentNo    int        `json:"PaymentNo"`
 	PaymentDate  *time.Time `json:"PaymentDate,omitempty"`

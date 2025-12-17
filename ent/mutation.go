@@ -13613,32 +13613,38 @@ func (m *JobOwnerMutation) ResetEdge(name string) error {
 // JobPaymentsMutation represents an operation that mutates the JobPayments nodes in the graph.
 type JobPaymentsMutation struct {
 	config
-	op               Op
-	typ              string
-	id               *int
-	yibfNo           *int
-	addyibfNo        *int
-	_PaymentNo       *int
-	add_PaymentNo    *int
-	_PaymentDate     *time.Time
-	_PaymentType     *string
-	_State           *string
-	_TotalPayment    *float64
-	add_TotalPayment *float64
-	_LevelRequest    *float64
-	add_LevelRequest *float64
-	_LevelApprove    *float64
-	add_LevelApprove *float64
-	_Amount          *float64
-	add_Amount       *float64
-	_CreatedAt       *time.Time
-	_UpdatedAt       *time.Time
-	clearedFields    map[string]struct{}
-	payments         *int
-	clearedpayments  bool
-	done             bool
-	oldValue         func(context.Context) (*JobPayments, error)
-	predicates       []predicate.JobPayments
+	op                        Op
+	typ                       string
+	id                        *int
+	yibfNo                    *int
+	addyibfNo                 *int
+	_PaymentNo                *int
+	add_PaymentNo             *int
+	_PaymentDate              *time.Time
+	_PaymentType              *string
+	_State                    *string
+	_TotalPayment             *float64
+	add_TotalPayment          *float64
+	_LevelRequest             *float64
+	add_LevelRequest          *float64
+	_LevelApprove             *float64
+	add_LevelApprove          *float64
+	_Amount                   *float64
+	add_Amount                *float64
+	_AtMunicipality           *bool
+	_MunicipalityDeliveryDate *time.Time
+	_InvoiceIssued            *bool
+	_InvoiceIssuedDate        *time.Time
+	_InvoiceReceived          *bool
+	_InvoiceReceivedDate      *time.Time
+	_CreatedAt                *time.Time
+	_UpdatedAt                *time.Time
+	clearedFields             map[string]struct{}
+	payments                  *int
+	clearedpayments           bool
+	done                      bool
+	oldValue                  func(context.Context) (*JobPayments, error)
+	predicates                []predicate.JobPayments
 }
 
 var _ ent.Mutation = (*JobPaymentsMutation)(nil)
@@ -14279,6 +14285,300 @@ func (m *JobPaymentsMutation) ResetAmount() {
 	delete(m.clearedFields, jobpayments.FieldAmount)
 }
 
+// SetAtMunicipality sets the "AtMunicipality" field.
+func (m *JobPaymentsMutation) SetAtMunicipality(b bool) {
+	m._AtMunicipality = &b
+}
+
+// AtMunicipality returns the value of the "AtMunicipality" field in the mutation.
+func (m *JobPaymentsMutation) AtMunicipality() (r bool, exists bool) {
+	v := m._AtMunicipality
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAtMunicipality returns the old "AtMunicipality" field's value of the JobPayments entity.
+// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobPaymentsMutation) OldAtMunicipality(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAtMunicipality is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAtMunicipality requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAtMunicipality: %w", err)
+	}
+	return oldValue.AtMunicipality, nil
+}
+
+// ClearAtMunicipality clears the value of the "AtMunicipality" field.
+func (m *JobPaymentsMutation) ClearAtMunicipality() {
+	m._AtMunicipality = nil
+	m.clearedFields[jobpayments.FieldAtMunicipality] = struct{}{}
+}
+
+// AtMunicipalityCleared returns if the "AtMunicipality" field was cleared in this mutation.
+func (m *JobPaymentsMutation) AtMunicipalityCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldAtMunicipality]
+	return ok
+}
+
+// ResetAtMunicipality resets all changes to the "AtMunicipality" field.
+func (m *JobPaymentsMutation) ResetAtMunicipality() {
+	m._AtMunicipality = nil
+	delete(m.clearedFields, jobpayments.FieldAtMunicipality)
+}
+
+// SetMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field.
+func (m *JobPaymentsMutation) SetMunicipalityDeliveryDate(t time.Time) {
+	m._MunicipalityDeliveryDate = &t
+}
+
+// MunicipalityDeliveryDate returns the value of the "MunicipalityDeliveryDate" field in the mutation.
+func (m *JobPaymentsMutation) MunicipalityDeliveryDate() (r time.Time, exists bool) {
+	v := m._MunicipalityDeliveryDate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMunicipalityDeliveryDate returns the old "MunicipalityDeliveryDate" field's value of the JobPayments entity.
+// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobPaymentsMutation) OldMunicipalityDeliveryDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMunicipalityDeliveryDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMunicipalityDeliveryDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMunicipalityDeliveryDate: %w", err)
+	}
+	return oldValue.MunicipalityDeliveryDate, nil
+}
+
+// ClearMunicipalityDeliveryDate clears the value of the "MunicipalityDeliveryDate" field.
+func (m *JobPaymentsMutation) ClearMunicipalityDeliveryDate() {
+	m._MunicipalityDeliveryDate = nil
+	m.clearedFields[jobpayments.FieldMunicipalityDeliveryDate] = struct{}{}
+}
+
+// MunicipalityDeliveryDateCleared returns if the "MunicipalityDeliveryDate" field was cleared in this mutation.
+func (m *JobPaymentsMutation) MunicipalityDeliveryDateCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldMunicipalityDeliveryDate]
+	return ok
+}
+
+// ResetMunicipalityDeliveryDate resets all changes to the "MunicipalityDeliveryDate" field.
+func (m *JobPaymentsMutation) ResetMunicipalityDeliveryDate() {
+	m._MunicipalityDeliveryDate = nil
+	delete(m.clearedFields, jobpayments.FieldMunicipalityDeliveryDate)
+}
+
+// SetInvoiceIssued sets the "InvoiceIssued" field.
+func (m *JobPaymentsMutation) SetInvoiceIssued(b bool) {
+	m._InvoiceIssued = &b
+}
+
+// InvoiceIssued returns the value of the "InvoiceIssued" field in the mutation.
+func (m *JobPaymentsMutation) InvoiceIssued() (r bool, exists bool) {
+	v := m._InvoiceIssued
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInvoiceIssued returns the old "InvoiceIssued" field's value of the JobPayments entity.
+// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobPaymentsMutation) OldInvoiceIssued(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInvoiceIssued is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInvoiceIssued requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInvoiceIssued: %w", err)
+	}
+	return oldValue.InvoiceIssued, nil
+}
+
+// ClearInvoiceIssued clears the value of the "InvoiceIssued" field.
+func (m *JobPaymentsMutation) ClearInvoiceIssued() {
+	m._InvoiceIssued = nil
+	m.clearedFields[jobpayments.FieldInvoiceIssued] = struct{}{}
+}
+
+// InvoiceIssuedCleared returns if the "InvoiceIssued" field was cleared in this mutation.
+func (m *JobPaymentsMutation) InvoiceIssuedCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldInvoiceIssued]
+	return ok
+}
+
+// ResetInvoiceIssued resets all changes to the "InvoiceIssued" field.
+func (m *JobPaymentsMutation) ResetInvoiceIssued() {
+	m._InvoiceIssued = nil
+	delete(m.clearedFields, jobpayments.FieldInvoiceIssued)
+}
+
+// SetInvoiceIssuedDate sets the "InvoiceIssuedDate" field.
+func (m *JobPaymentsMutation) SetInvoiceIssuedDate(t time.Time) {
+	m._InvoiceIssuedDate = &t
+}
+
+// InvoiceIssuedDate returns the value of the "InvoiceIssuedDate" field in the mutation.
+func (m *JobPaymentsMutation) InvoiceIssuedDate() (r time.Time, exists bool) {
+	v := m._InvoiceIssuedDate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInvoiceIssuedDate returns the old "InvoiceIssuedDate" field's value of the JobPayments entity.
+// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobPaymentsMutation) OldInvoiceIssuedDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInvoiceIssuedDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInvoiceIssuedDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInvoiceIssuedDate: %w", err)
+	}
+	return oldValue.InvoiceIssuedDate, nil
+}
+
+// ClearInvoiceIssuedDate clears the value of the "InvoiceIssuedDate" field.
+func (m *JobPaymentsMutation) ClearInvoiceIssuedDate() {
+	m._InvoiceIssuedDate = nil
+	m.clearedFields[jobpayments.FieldInvoiceIssuedDate] = struct{}{}
+}
+
+// InvoiceIssuedDateCleared returns if the "InvoiceIssuedDate" field was cleared in this mutation.
+func (m *JobPaymentsMutation) InvoiceIssuedDateCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldInvoiceIssuedDate]
+	return ok
+}
+
+// ResetInvoiceIssuedDate resets all changes to the "InvoiceIssuedDate" field.
+func (m *JobPaymentsMutation) ResetInvoiceIssuedDate() {
+	m._InvoiceIssuedDate = nil
+	delete(m.clearedFields, jobpayments.FieldInvoiceIssuedDate)
+}
+
+// SetInvoiceReceived sets the "InvoiceReceived" field.
+func (m *JobPaymentsMutation) SetInvoiceReceived(b bool) {
+	m._InvoiceReceived = &b
+}
+
+// InvoiceReceived returns the value of the "InvoiceReceived" field in the mutation.
+func (m *JobPaymentsMutation) InvoiceReceived() (r bool, exists bool) {
+	v := m._InvoiceReceived
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInvoiceReceived returns the old "InvoiceReceived" field's value of the JobPayments entity.
+// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobPaymentsMutation) OldInvoiceReceived(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInvoiceReceived is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInvoiceReceived requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInvoiceReceived: %w", err)
+	}
+	return oldValue.InvoiceReceived, nil
+}
+
+// ClearInvoiceReceived clears the value of the "InvoiceReceived" field.
+func (m *JobPaymentsMutation) ClearInvoiceReceived() {
+	m._InvoiceReceived = nil
+	m.clearedFields[jobpayments.FieldInvoiceReceived] = struct{}{}
+}
+
+// InvoiceReceivedCleared returns if the "InvoiceReceived" field was cleared in this mutation.
+func (m *JobPaymentsMutation) InvoiceReceivedCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldInvoiceReceived]
+	return ok
+}
+
+// ResetInvoiceReceived resets all changes to the "InvoiceReceived" field.
+func (m *JobPaymentsMutation) ResetInvoiceReceived() {
+	m._InvoiceReceived = nil
+	delete(m.clearedFields, jobpayments.FieldInvoiceReceived)
+}
+
+// SetInvoiceReceivedDate sets the "InvoiceReceivedDate" field.
+func (m *JobPaymentsMutation) SetInvoiceReceivedDate(t time.Time) {
+	m._InvoiceReceivedDate = &t
+}
+
+// InvoiceReceivedDate returns the value of the "InvoiceReceivedDate" field in the mutation.
+func (m *JobPaymentsMutation) InvoiceReceivedDate() (r time.Time, exists bool) {
+	v := m._InvoiceReceivedDate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInvoiceReceivedDate returns the old "InvoiceReceivedDate" field's value of the JobPayments entity.
+// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobPaymentsMutation) OldInvoiceReceivedDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInvoiceReceivedDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInvoiceReceivedDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInvoiceReceivedDate: %w", err)
+	}
+	return oldValue.InvoiceReceivedDate, nil
+}
+
+// ClearInvoiceReceivedDate clears the value of the "InvoiceReceivedDate" field.
+func (m *JobPaymentsMutation) ClearInvoiceReceivedDate() {
+	m._InvoiceReceivedDate = nil
+	m.clearedFields[jobpayments.FieldInvoiceReceivedDate] = struct{}{}
+}
+
+// InvoiceReceivedDateCleared returns if the "InvoiceReceivedDate" field was cleared in this mutation.
+func (m *JobPaymentsMutation) InvoiceReceivedDateCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldInvoiceReceivedDate]
+	return ok
+}
+
+// ResetInvoiceReceivedDate resets all changes to the "InvoiceReceivedDate" field.
+func (m *JobPaymentsMutation) ResetInvoiceReceivedDate() {
+	m._InvoiceReceivedDate = nil
+	delete(m.clearedFields, jobpayments.FieldInvoiceReceivedDate)
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (m *JobPaymentsMutation) SetCreatedAt(t time.Time) {
 	m._CreatedAt = &t
@@ -14424,7 +14724,7 @@ func (m *JobPaymentsMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobPaymentsMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 17)
 	if m.yibfNo != nil {
 		fields = append(fields, jobpayments.FieldYibfNo)
 	}
@@ -14451,6 +14751,24 @@ func (m *JobPaymentsMutation) Fields() []string {
 	}
 	if m._Amount != nil {
 		fields = append(fields, jobpayments.FieldAmount)
+	}
+	if m._AtMunicipality != nil {
+		fields = append(fields, jobpayments.FieldAtMunicipality)
+	}
+	if m._MunicipalityDeliveryDate != nil {
+		fields = append(fields, jobpayments.FieldMunicipalityDeliveryDate)
+	}
+	if m._InvoiceIssued != nil {
+		fields = append(fields, jobpayments.FieldInvoiceIssued)
+	}
+	if m._InvoiceIssuedDate != nil {
+		fields = append(fields, jobpayments.FieldInvoiceIssuedDate)
+	}
+	if m._InvoiceReceived != nil {
+		fields = append(fields, jobpayments.FieldInvoiceReceived)
+	}
+	if m._InvoiceReceivedDate != nil {
+		fields = append(fields, jobpayments.FieldInvoiceReceivedDate)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, jobpayments.FieldCreatedAt)
@@ -14484,6 +14802,18 @@ func (m *JobPaymentsMutation) Field(name string) (ent.Value, bool) {
 		return m.LevelApprove()
 	case jobpayments.FieldAmount:
 		return m.Amount()
+	case jobpayments.FieldAtMunicipality:
+		return m.AtMunicipality()
+	case jobpayments.FieldMunicipalityDeliveryDate:
+		return m.MunicipalityDeliveryDate()
+	case jobpayments.FieldInvoiceIssued:
+		return m.InvoiceIssued()
+	case jobpayments.FieldInvoiceIssuedDate:
+		return m.InvoiceIssuedDate()
+	case jobpayments.FieldInvoiceReceived:
+		return m.InvoiceReceived()
+	case jobpayments.FieldInvoiceReceivedDate:
+		return m.InvoiceReceivedDate()
 	case jobpayments.FieldCreatedAt:
 		return m.CreatedAt()
 	case jobpayments.FieldUpdatedAt:
@@ -14515,6 +14845,18 @@ func (m *JobPaymentsMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldLevelApprove(ctx)
 	case jobpayments.FieldAmount:
 		return m.OldAmount(ctx)
+	case jobpayments.FieldAtMunicipality:
+		return m.OldAtMunicipality(ctx)
+	case jobpayments.FieldMunicipalityDeliveryDate:
+		return m.OldMunicipalityDeliveryDate(ctx)
+	case jobpayments.FieldInvoiceIssued:
+		return m.OldInvoiceIssued(ctx)
+	case jobpayments.FieldInvoiceIssuedDate:
+		return m.OldInvoiceIssuedDate(ctx)
+	case jobpayments.FieldInvoiceReceived:
+		return m.OldInvoiceReceived(ctx)
+	case jobpayments.FieldInvoiceReceivedDate:
+		return m.OldInvoiceReceivedDate(ctx)
 	case jobpayments.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case jobpayments.FieldUpdatedAt:
@@ -14590,6 +14932,48 @@ func (m *JobPaymentsMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAmount(v)
+		return nil
+	case jobpayments.FieldAtMunicipality:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAtMunicipality(v)
+		return nil
+	case jobpayments.FieldMunicipalityDeliveryDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMunicipalityDeliveryDate(v)
+		return nil
+	case jobpayments.FieldInvoiceIssued:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInvoiceIssued(v)
+		return nil
+	case jobpayments.FieldInvoiceIssuedDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInvoiceIssuedDate(v)
+		return nil
+	case jobpayments.FieldInvoiceReceived:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInvoiceReceived(v)
+		return nil
+	case jobpayments.FieldInvoiceReceivedDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInvoiceReceivedDate(v)
 		return nil
 	case jobpayments.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -14731,6 +15115,24 @@ func (m *JobPaymentsMutation) ClearedFields() []string {
 	if m.FieldCleared(jobpayments.FieldAmount) {
 		fields = append(fields, jobpayments.FieldAmount)
 	}
+	if m.FieldCleared(jobpayments.FieldAtMunicipality) {
+		fields = append(fields, jobpayments.FieldAtMunicipality)
+	}
+	if m.FieldCleared(jobpayments.FieldMunicipalityDeliveryDate) {
+		fields = append(fields, jobpayments.FieldMunicipalityDeliveryDate)
+	}
+	if m.FieldCleared(jobpayments.FieldInvoiceIssued) {
+		fields = append(fields, jobpayments.FieldInvoiceIssued)
+	}
+	if m.FieldCleared(jobpayments.FieldInvoiceIssuedDate) {
+		fields = append(fields, jobpayments.FieldInvoiceIssuedDate)
+	}
+	if m.FieldCleared(jobpayments.FieldInvoiceReceived) {
+		fields = append(fields, jobpayments.FieldInvoiceReceived)
+	}
+	if m.FieldCleared(jobpayments.FieldInvoiceReceivedDate) {
+		fields = append(fields, jobpayments.FieldInvoiceReceivedDate)
+	}
 	return fields
 }
 
@@ -14766,6 +15168,24 @@ func (m *JobPaymentsMutation) ClearField(name string) error {
 	case jobpayments.FieldAmount:
 		m.ClearAmount()
 		return nil
+	case jobpayments.FieldAtMunicipality:
+		m.ClearAtMunicipality()
+		return nil
+	case jobpayments.FieldMunicipalityDeliveryDate:
+		m.ClearMunicipalityDeliveryDate()
+		return nil
+	case jobpayments.FieldInvoiceIssued:
+		m.ClearInvoiceIssued()
+		return nil
+	case jobpayments.FieldInvoiceIssuedDate:
+		m.ClearInvoiceIssuedDate()
+		return nil
+	case jobpayments.FieldInvoiceReceived:
+		m.ClearInvoiceReceived()
+		return nil
+	case jobpayments.FieldInvoiceReceivedDate:
+		m.ClearInvoiceReceivedDate()
+		return nil
 	}
 	return fmt.Errorf("unknown JobPayments nullable field %s", name)
 }
@@ -14800,6 +15220,24 @@ func (m *JobPaymentsMutation) ResetField(name string) error {
 		return nil
 	case jobpayments.FieldAmount:
 		m.ResetAmount()
+		return nil
+	case jobpayments.FieldAtMunicipality:
+		m.ResetAtMunicipality()
+		return nil
+	case jobpayments.FieldMunicipalityDeliveryDate:
+		m.ResetMunicipalityDeliveryDate()
+		return nil
+	case jobpayments.FieldInvoiceIssued:
+		m.ResetInvoiceIssued()
+		return nil
+	case jobpayments.FieldInvoiceIssuedDate:
+		m.ResetInvoiceIssuedDate()
+		return nil
+	case jobpayments.FieldInvoiceReceived:
+		m.ResetInvoiceReceived()
+		return nil
+	case jobpayments.FieldInvoiceReceivedDate:
+		m.ResetInvoiceReceivedDate()
 		return nil
 	case jobpayments.FieldCreatedAt:
 		m.ResetCreatedAt()

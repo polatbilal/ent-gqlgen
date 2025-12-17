@@ -36,6 +36,18 @@ type JobPayments struct {
 	LevelApprove float64 `json:"LevelApprove,omitempty"`
 	// Amount holds the value of the "Amount" field.
 	Amount float64 `json:"Amount,omitempty"`
+	// AtMunicipality holds the value of the "AtMunicipality" field.
+	AtMunicipality bool `json:"AtMunicipality,omitempty"`
+	// MunicipalityDeliveryDate holds the value of the "MunicipalityDeliveryDate" field.
+	MunicipalityDeliveryDate time.Time `json:"MunicipalityDeliveryDate,omitempty"`
+	// InvoiceIssued holds the value of the "InvoiceIssued" field.
+	InvoiceIssued bool `json:"InvoiceIssued,omitempty"`
+	// InvoiceIssuedDate holds the value of the "InvoiceIssuedDate" field.
+	InvoiceIssuedDate time.Time `json:"InvoiceIssuedDate,omitempty"`
+	// InvoiceReceived holds the value of the "InvoiceReceived" field.
+	InvoiceReceived bool `json:"InvoiceReceived,omitempty"`
+	// InvoiceReceivedDate holds the value of the "InvoiceReceivedDate" field.
+	InvoiceReceivedDate time.Time `json:"InvoiceReceivedDate,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -74,13 +86,15 @@ func (*JobPayments) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case jobpayments.FieldAtMunicipality, jobpayments.FieldInvoiceIssued, jobpayments.FieldInvoiceReceived:
+			values[i] = new(sql.NullBool)
 		case jobpayments.FieldTotalPayment, jobpayments.FieldLevelRequest, jobpayments.FieldLevelApprove, jobpayments.FieldAmount:
 			values[i] = new(sql.NullFloat64)
 		case jobpayments.FieldID, jobpayments.FieldYibfNo, jobpayments.FieldPaymentNo:
 			values[i] = new(sql.NullInt64)
 		case jobpayments.FieldPaymentType, jobpayments.FieldState:
 			values[i] = new(sql.NullString)
-		case jobpayments.FieldPaymentDate, jobpayments.FieldCreatedAt, jobpayments.FieldUpdatedAt:
+		case jobpayments.FieldPaymentDate, jobpayments.FieldMunicipalityDeliveryDate, jobpayments.FieldInvoiceIssuedDate, jobpayments.FieldInvoiceReceivedDate, jobpayments.FieldCreatedAt, jobpayments.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case jobpayments.ForeignKeys[0]: // relations_id
 			values[i] = new(sql.NullInt64)
@@ -158,6 +172,42 @@ func (jp *JobPayments) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Amount", values[i])
 			} else if value.Valid {
 				jp.Amount = value.Float64
+			}
+		case jobpayments.FieldAtMunicipality:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field AtMunicipality", values[i])
+			} else if value.Valid {
+				jp.AtMunicipality = value.Bool
+			}
+		case jobpayments.FieldMunicipalityDeliveryDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field MunicipalityDeliveryDate", values[i])
+			} else if value.Valid {
+				jp.MunicipalityDeliveryDate = value.Time
+			}
+		case jobpayments.FieldInvoiceIssued:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field InvoiceIssued", values[i])
+			} else if value.Valid {
+				jp.InvoiceIssued = value.Bool
+			}
+		case jobpayments.FieldInvoiceIssuedDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field InvoiceIssuedDate", values[i])
+			} else if value.Valid {
+				jp.InvoiceIssuedDate = value.Time
+			}
+		case jobpayments.FieldInvoiceReceived:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field InvoiceReceived", values[i])
+			} else if value.Valid {
+				jp.InvoiceReceived = value.Bool
+			}
+		case jobpayments.FieldInvoiceReceivedDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field InvoiceReceivedDate", values[i])
+			} else if value.Valid {
+				jp.InvoiceReceivedDate = value.Time
 			}
 		case jobpayments.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -245,6 +295,24 @@ func (jp *JobPayments) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("Amount=")
 	builder.WriteString(fmt.Sprintf("%v", jp.Amount))
+	builder.WriteString(", ")
+	builder.WriteString("AtMunicipality=")
+	builder.WriteString(fmt.Sprintf("%v", jp.AtMunicipality))
+	builder.WriteString(", ")
+	builder.WriteString("MunicipalityDeliveryDate=")
+	builder.WriteString(jp.MunicipalityDeliveryDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("InvoiceIssued=")
+	builder.WriteString(fmt.Sprintf("%v", jp.InvoiceIssued))
+	builder.WriteString(", ")
+	builder.WriteString("InvoiceIssuedDate=")
+	builder.WriteString(jp.InvoiceIssuedDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("InvoiceReceived=")
+	builder.WriteString(fmt.Sprintf("%v", jp.InvoiceReceived))
+	builder.WriteString(", ")
+	builder.WriteString("InvoiceReceivedDate=")
+	builder.WriteString(jp.InvoiceReceivedDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(jp.CreatedAt.Format(time.ANSIC))

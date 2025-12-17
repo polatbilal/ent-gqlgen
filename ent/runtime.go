@@ -200,36 +200,24 @@ func init() {
 	jobpaymentsDescPaymentDate := jobpaymentsFields[2].Descriptor()
 	// jobpayments.DefaultPaymentDate holds the default value on creation for the PaymentDate field.
 	jobpayments.DefaultPaymentDate = jobpaymentsDescPaymentDate.Default.(func() time.Time)
-	// jobpaymentsDescPaymentType is the schema descriptor for PaymentType field.
-	jobpaymentsDescPaymentType := jobpaymentsFields[3].Descriptor()
-	// jobpayments.DefaultPaymentType holds the default value on creation for the PaymentType field.
-	jobpayments.DefaultPaymentType = jobpaymentsDescPaymentType.Default.(string)
-	// jobpaymentsDescState is the schema descriptor for State field.
-	jobpaymentsDescState := jobpaymentsFields[4].Descriptor()
-	// jobpayments.DefaultState holds the default value on creation for the State field.
-	jobpayments.DefaultState = jobpaymentsDescState.Default.(string)
-	// jobpaymentsDescTotalPayment is the schema descriptor for TotalPayment field.
-	jobpaymentsDescTotalPayment := jobpaymentsFields[5].Descriptor()
-	// jobpayments.DefaultTotalPayment holds the default value on creation for the TotalPayment field.
-	jobpayments.DefaultTotalPayment = jobpaymentsDescTotalPayment.Default.(float64)
-	// jobpaymentsDescLevelRequest is the schema descriptor for LevelRequest field.
-	jobpaymentsDescLevelRequest := jobpaymentsFields[6].Descriptor()
-	// jobpayments.DefaultLevelRequest holds the default value on creation for the LevelRequest field.
-	jobpayments.DefaultLevelRequest = jobpaymentsDescLevelRequest.Default.(float64)
-	// jobpaymentsDescLevelApprove is the schema descriptor for LevelApprove field.
-	jobpaymentsDescLevelApprove := jobpaymentsFields[7].Descriptor()
-	// jobpayments.DefaultLevelApprove holds the default value on creation for the LevelApprove field.
-	jobpayments.DefaultLevelApprove = jobpaymentsDescLevelApprove.Default.(float64)
-	// jobpaymentsDescAmount is the schema descriptor for Amount field.
-	jobpaymentsDescAmount := jobpaymentsFields[8].Descriptor()
-	// jobpayments.DefaultAmount holds the default value on creation for the Amount field.
-	jobpayments.DefaultAmount = jobpaymentsDescAmount.Default.(float64)
+	// jobpaymentsDescAtMunicipality is the schema descriptor for AtMunicipality field.
+	jobpaymentsDescAtMunicipality := jobpaymentsFields[9].Descriptor()
+	// jobpayments.DefaultAtMunicipality holds the default value on creation for the AtMunicipality field.
+	jobpayments.DefaultAtMunicipality = jobpaymentsDescAtMunicipality.Default.(bool)
+	// jobpaymentsDescInvoiceIssued is the schema descriptor for InvoiceIssued field.
+	jobpaymentsDescInvoiceIssued := jobpaymentsFields[11].Descriptor()
+	// jobpayments.DefaultInvoiceIssued holds the default value on creation for the InvoiceIssued field.
+	jobpayments.DefaultInvoiceIssued = jobpaymentsDescInvoiceIssued.Default.(bool)
+	// jobpaymentsDescInvoiceReceived is the schema descriptor for InvoiceReceived field.
+	jobpaymentsDescInvoiceReceived := jobpaymentsFields[13].Descriptor()
+	// jobpayments.DefaultInvoiceReceived holds the default value on creation for the InvoiceReceived field.
+	jobpayments.DefaultInvoiceReceived = jobpaymentsDescInvoiceReceived.Default.(bool)
 	// jobpaymentsDescCreatedAt is the schema descriptor for CreatedAt field.
-	jobpaymentsDescCreatedAt := jobpaymentsFields[9].Descriptor()
+	jobpaymentsDescCreatedAt := jobpaymentsFields[15].Descriptor()
 	// jobpayments.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobpayments.DefaultCreatedAt = jobpaymentsDescCreatedAt.Default.(func() time.Time)
 	// jobpaymentsDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	jobpaymentsDescUpdatedAt := jobpaymentsFields[10].Descriptor()
+	jobpaymentsDescUpdatedAt := jobpaymentsFields[16].Descriptor()
 	// jobpayments.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobpayments.DefaultUpdatedAt = jobpaymentsDescUpdatedAt.Default.(func() time.Time)
 	// jobpayments.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.

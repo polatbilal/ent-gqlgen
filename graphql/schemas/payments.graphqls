@@ -9,6 +9,12 @@ type JobPayments {
   Amount: Float
   State: String
   YibfNo: Int
+  AtMunicipality: Boolean
+  MunicipalityDeliveryDate: Time
+  InvoiceIssued: Boolean
+  InvoiceIssuedDate: Time
+  InvoiceReceived: Boolean
+  InvoiceReceivedDate: Time
   updatedAt: Time
 }
 
@@ -24,8 +30,17 @@ input JobPaymentsInput {
   State: String
 }
 
+input JobPaymentStatusInput {
+  AtMunicipality: Boolean
+  MunicipalityDeliveryDate: Time
+  InvoiceIssued: Boolean
+  InvoiceIssuedDate: Time
+  InvoiceReceived: Boolean
+  InvoiceReceivedDate: Time
+}
+
 extend type Query {
-  jobPayments(yibfNo: Int!): [JobPayments!] @auth
+  jobPayments(id: Int, yibfNo: Int): [JobPayments!] @auth
 }
 
 extend type Mutation {
@@ -37,8 +52,7 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateJobPayments(id: Int!, input: JobPaymentsInput!): JobPayments
+  updatePaymentStatus(id: Int!, input: JobPaymentStatusInput!): JobPayments
     @goField(forceResolver: true)
     @auth
-  deleteJobPayments(id: Int!): JobPayments @goField(forceResolver: true) @auth
 }
