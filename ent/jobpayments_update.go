@@ -239,6 +239,126 @@ func (jpu *JobPaymentsUpdate) ClearAmount() *JobPaymentsUpdate {
 	return jpu
 }
 
+// SetAtMunicipality sets the "AtMunicipality" field.
+func (jpu *JobPaymentsUpdate) SetAtMunicipality(b bool) *JobPaymentsUpdate {
+	jpu.mutation.SetAtMunicipality(b)
+	return jpu
+}
+
+// SetNillableAtMunicipality sets the "AtMunicipality" field if the given value is not nil.
+func (jpu *JobPaymentsUpdate) SetNillableAtMunicipality(b *bool) *JobPaymentsUpdate {
+	if b != nil {
+		jpu.SetAtMunicipality(*b)
+	}
+	return jpu
+}
+
+// ClearAtMunicipality clears the value of the "AtMunicipality" field.
+func (jpu *JobPaymentsUpdate) ClearAtMunicipality() *JobPaymentsUpdate {
+	jpu.mutation.ClearAtMunicipality()
+	return jpu
+}
+
+// SetMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field.
+func (jpu *JobPaymentsUpdate) SetMunicipalityDeliveryDate(t time.Time) *JobPaymentsUpdate {
+	jpu.mutation.SetMunicipalityDeliveryDate(t)
+	return jpu
+}
+
+// SetNillableMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field if the given value is not nil.
+func (jpu *JobPaymentsUpdate) SetNillableMunicipalityDeliveryDate(t *time.Time) *JobPaymentsUpdate {
+	if t != nil {
+		jpu.SetMunicipalityDeliveryDate(*t)
+	}
+	return jpu
+}
+
+// ClearMunicipalityDeliveryDate clears the value of the "MunicipalityDeliveryDate" field.
+func (jpu *JobPaymentsUpdate) ClearMunicipalityDeliveryDate() *JobPaymentsUpdate {
+	jpu.mutation.ClearMunicipalityDeliveryDate()
+	return jpu
+}
+
+// SetInvoiceIssued sets the "InvoiceIssued" field.
+func (jpu *JobPaymentsUpdate) SetInvoiceIssued(b bool) *JobPaymentsUpdate {
+	jpu.mutation.SetInvoiceIssued(b)
+	return jpu
+}
+
+// SetNillableInvoiceIssued sets the "InvoiceIssued" field if the given value is not nil.
+func (jpu *JobPaymentsUpdate) SetNillableInvoiceIssued(b *bool) *JobPaymentsUpdate {
+	if b != nil {
+		jpu.SetInvoiceIssued(*b)
+	}
+	return jpu
+}
+
+// ClearInvoiceIssued clears the value of the "InvoiceIssued" field.
+func (jpu *JobPaymentsUpdate) ClearInvoiceIssued() *JobPaymentsUpdate {
+	jpu.mutation.ClearInvoiceIssued()
+	return jpu
+}
+
+// SetInvoiceIssuedDate sets the "InvoiceIssuedDate" field.
+func (jpu *JobPaymentsUpdate) SetInvoiceIssuedDate(t time.Time) *JobPaymentsUpdate {
+	jpu.mutation.SetInvoiceIssuedDate(t)
+	return jpu
+}
+
+// SetNillableInvoiceIssuedDate sets the "InvoiceIssuedDate" field if the given value is not nil.
+func (jpu *JobPaymentsUpdate) SetNillableInvoiceIssuedDate(t *time.Time) *JobPaymentsUpdate {
+	if t != nil {
+		jpu.SetInvoiceIssuedDate(*t)
+	}
+	return jpu
+}
+
+// ClearInvoiceIssuedDate clears the value of the "InvoiceIssuedDate" field.
+func (jpu *JobPaymentsUpdate) ClearInvoiceIssuedDate() *JobPaymentsUpdate {
+	jpu.mutation.ClearInvoiceIssuedDate()
+	return jpu
+}
+
+// SetInvoiceReceived sets the "InvoiceReceived" field.
+func (jpu *JobPaymentsUpdate) SetInvoiceReceived(b bool) *JobPaymentsUpdate {
+	jpu.mutation.SetInvoiceReceived(b)
+	return jpu
+}
+
+// SetNillableInvoiceReceived sets the "InvoiceReceived" field if the given value is not nil.
+func (jpu *JobPaymentsUpdate) SetNillableInvoiceReceived(b *bool) *JobPaymentsUpdate {
+	if b != nil {
+		jpu.SetInvoiceReceived(*b)
+	}
+	return jpu
+}
+
+// ClearInvoiceReceived clears the value of the "InvoiceReceived" field.
+func (jpu *JobPaymentsUpdate) ClearInvoiceReceived() *JobPaymentsUpdate {
+	jpu.mutation.ClearInvoiceReceived()
+	return jpu
+}
+
+// SetInvoiceReceivedDate sets the "InvoiceReceivedDate" field.
+func (jpu *JobPaymentsUpdate) SetInvoiceReceivedDate(t time.Time) *JobPaymentsUpdate {
+	jpu.mutation.SetInvoiceReceivedDate(t)
+	return jpu
+}
+
+// SetNillableInvoiceReceivedDate sets the "InvoiceReceivedDate" field if the given value is not nil.
+func (jpu *JobPaymentsUpdate) SetNillableInvoiceReceivedDate(t *time.Time) *JobPaymentsUpdate {
+	if t != nil {
+		jpu.SetInvoiceReceivedDate(*t)
+	}
+	return jpu
+}
+
+// ClearInvoiceReceivedDate clears the value of the "InvoiceReceivedDate" field.
+func (jpu *JobPaymentsUpdate) ClearInvoiceReceivedDate() *JobPaymentsUpdate {
+	jpu.mutation.ClearInvoiceReceivedDate()
+	return jpu
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (jpu *JobPaymentsUpdate) SetCreatedAt(t time.Time) *JobPaymentsUpdate {
 	jpu.mutation.SetCreatedAt(t)
@@ -399,6 +519,42 @@ func (jpu *JobPaymentsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if jpu.mutation.AmountCleared() {
 		_spec.ClearField(jobpayments.FieldAmount, field.TypeFloat64)
+	}
+	if value, ok := jpu.mutation.AtMunicipality(); ok {
+		_spec.SetField(jobpayments.FieldAtMunicipality, field.TypeBool, value)
+	}
+	if jpu.mutation.AtMunicipalityCleared() {
+		_spec.ClearField(jobpayments.FieldAtMunicipality, field.TypeBool)
+	}
+	if value, ok := jpu.mutation.MunicipalityDeliveryDate(); ok {
+		_spec.SetField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime, value)
+	}
+	if jpu.mutation.MunicipalityDeliveryDateCleared() {
+		_spec.ClearField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime)
+	}
+	if value, ok := jpu.mutation.InvoiceIssued(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssued, field.TypeBool, value)
+	}
+	if jpu.mutation.InvoiceIssuedCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceIssued, field.TypeBool)
+	}
+	if value, ok := jpu.mutation.InvoiceIssuedDate(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime, value)
+	}
+	if jpu.mutation.InvoiceIssuedDateCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime)
+	}
+	if value, ok := jpu.mutation.InvoiceReceived(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
+	}
+	if jpu.mutation.InvoiceReceivedCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceReceived, field.TypeBool)
+	}
+	if value, ok := jpu.mutation.InvoiceReceivedDate(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime, value)
+	}
+	if jpu.mutation.InvoiceReceivedDateCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime)
 	}
 	if value, ok := jpu.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)
@@ -665,6 +821,126 @@ func (jpuo *JobPaymentsUpdateOne) ClearAmount() *JobPaymentsUpdateOne {
 	return jpuo
 }
 
+// SetAtMunicipality sets the "AtMunicipality" field.
+func (jpuo *JobPaymentsUpdateOne) SetAtMunicipality(b bool) *JobPaymentsUpdateOne {
+	jpuo.mutation.SetAtMunicipality(b)
+	return jpuo
+}
+
+// SetNillableAtMunicipality sets the "AtMunicipality" field if the given value is not nil.
+func (jpuo *JobPaymentsUpdateOne) SetNillableAtMunicipality(b *bool) *JobPaymentsUpdateOne {
+	if b != nil {
+		jpuo.SetAtMunicipality(*b)
+	}
+	return jpuo
+}
+
+// ClearAtMunicipality clears the value of the "AtMunicipality" field.
+func (jpuo *JobPaymentsUpdateOne) ClearAtMunicipality() *JobPaymentsUpdateOne {
+	jpuo.mutation.ClearAtMunicipality()
+	return jpuo
+}
+
+// SetMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field.
+func (jpuo *JobPaymentsUpdateOne) SetMunicipalityDeliveryDate(t time.Time) *JobPaymentsUpdateOne {
+	jpuo.mutation.SetMunicipalityDeliveryDate(t)
+	return jpuo
+}
+
+// SetNillableMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field if the given value is not nil.
+func (jpuo *JobPaymentsUpdateOne) SetNillableMunicipalityDeliveryDate(t *time.Time) *JobPaymentsUpdateOne {
+	if t != nil {
+		jpuo.SetMunicipalityDeliveryDate(*t)
+	}
+	return jpuo
+}
+
+// ClearMunicipalityDeliveryDate clears the value of the "MunicipalityDeliveryDate" field.
+func (jpuo *JobPaymentsUpdateOne) ClearMunicipalityDeliveryDate() *JobPaymentsUpdateOne {
+	jpuo.mutation.ClearMunicipalityDeliveryDate()
+	return jpuo
+}
+
+// SetInvoiceIssued sets the "InvoiceIssued" field.
+func (jpuo *JobPaymentsUpdateOne) SetInvoiceIssued(b bool) *JobPaymentsUpdateOne {
+	jpuo.mutation.SetInvoiceIssued(b)
+	return jpuo
+}
+
+// SetNillableInvoiceIssued sets the "InvoiceIssued" field if the given value is not nil.
+func (jpuo *JobPaymentsUpdateOne) SetNillableInvoiceIssued(b *bool) *JobPaymentsUpdateOne {
+	if b != nil {
+		jpuo.SetInvoiceIssued(*b)
+	}
+	return jpuo
+}
+
+// ClearInvoiceIssued clears the value of the "InvoiceIssued" field.
+func (jpuo *JobPaymentsUpdateOne) ClearInvoiceIssued() *JobPaymentsUpdateOne {
+	jpuo.mutation.ClearInvoiceIssued()
+	return jpuo
+}
+
+// SetInvoiceIssuedDate sets the "InvoiceIssuedDate" field.
+func (jpuo *JobPaymentsUpdateOne) SetInvoiceIssuedDate(t time.Time) *JobPaymentsUpdateOne {
+	jpuo.mutation.SetInvoiceIssuedDate(t)
+	return jpuo
+}
+
+// SetNillableInvoiceIssuedDate sets the "InvoiceIssuedDate" field if the given value is not nil.
+func (jpuo *JobPaymentsUpdateOne) SetNillableInvoiceIssuedDate(t *time.Time) *JobPaymentsUpdateOne {
+	if t != nil {
+		jpuo.SetInvoiceIssuedDate(*t)
+	}
+	return jpuo
+}
+
+// ClearInvoiceIssuedDate clears the value of the "InvoiceIssuedDate" field.
+func (jpuo *JobPaymentsUpdateOne) ClearInvoiceIssuedDate() *JobPaymentsUpdateOne {
+	jpuo.mutation.ClearInvoiceIssuedDate()
+	return jpuo
+}
+
+// SetInvoiceReceived sets the "InvoiceReceived" field.
+func (jpuo *JobPaymentsUpdateOne) SetInvoiceReceived(b bool) *JobPaymentsUpdateOne {
+	jpuo.mutation.SetInvoiceReceived(b)
+	return jpuo
+}
+
+// SetNillableInvoiceReceived sets the "InvoiceReceived" field if the given value is not nil.
+func (jpuo *JobPaymentsUpdateOne) SetNillableInvoiceReceived(b *bool) *JobPaymentsUpdateOne {
+	if b != nil {
+		jpuo.SetInvoiceReceived(*b)
+	}
+	return jpuo
+}
+
+// ClearInvoiceReceived clears the value of the "InvoiceReceived" field.
+func (jpuo *JobPaymentsUpdateOne) ClearInvoiceReceived() *JobPaymentsUpdateOne {
+	jpuo.mutation.ClearInvoiceReceived()
+	return jpuo
+}
+
+// SetInvoiceReceivedDate sets the "InvoiceReceivedDate" field.
+func (jpuo *JobPaymentsUpdateOne) SetInvoiceReceivedDate(t time.Time) *JobPaymentsUpdateOne {
+	jpuo.mutation.SetInvoiceReceivedDate(t)
+	return jpuo
+}
+
+// SetNillableInvoiceReceivedDate sets the "InvoiceReceivedDate" field if the given value is not nil.
+func (jpuo *JobPaymentsUpdateOne) SetNillableInvoiceReceivedDate(t *time.Time) *JobPaymentsUpdateOne {
+	if t != nil {
+		jpuo.SetInvoiceReceivedDate(*t)
+	}
+	return jpuo
+}
+
+// ClearInvoiceReceivedDate clears the value of the "InvoiceReceivedDate" field.
+func (jpuo *JobPaymentsUpdateOne) ClearInvoiceReceivedDate() *JobPaymentsUpdateOne {
+	jpuo.mutation.ClearInvoiceReceivedDate()
+	return jpuo
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (jpuo *JobPaymentsUpdateOne) SetCreatedAt(t time.Time) *JobPaymentsUpdateOne {
 	jpuo.mutation.SetCreatedAt(t)
@@ -855,6 +1131,42 @@ func (jpuo *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPaymen
 	}
 	if jpuo.mutation.AmountCleared() {
 		_spec.ClearField(jobpayments.FieldAmount, field.TypeFloat64)
+	}
+	if value, ok := jpuo.mutation.AtMunicipality(); ok {
+		_spec.SetField(jobpayments.FieldAtMunicipality, field.TypeBool, value)
+	}
+	if jpuo.mutation.AtMunicipalityCleared() {
+		_spec.ClearField(jobpayments.FieldAtMunicipality, field.TypeBool)
+	}
+	if value, ok := jpuo.mutation.MunicipalityDeliveryDate(); ok {
+		_spec.SetField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime, value)
+	}
+	if jpuo.mutation.MunicipalityDeliveryDateCleared() {
+		_spec.ClearField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime)
+	}
+	if value, ok := jpuo.mutation.InvoiceIssued(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssued, field.TypeBool, value)
+	}
+	if jpuo.mutation.InvoiceIssuedCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceIssued, field.TypeBool)
+	}
+	if value, ok := jpuo.mutation.InvoiceIssuedDate(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime, value)
+	}
+	if jpuo.mutation.InvoiceIssuedDateCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime)
+	}
+	if value, ok := jpuo.mutation.InvoiceReceived(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
+	}
+	if jpuo.mutation.InvoiceReceivedCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceReceived, field.TypeBool)
+	}
+	if value, ok := jpuo.mutation.InvoiceReceivedDate(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime, value)
+	}
+	if jpuo.mutation.InvoiceReceivedDateCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime)
 	}
 	if value, ok := jpuo.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)

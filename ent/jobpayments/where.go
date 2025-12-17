@@ -100,6 +100,36 @@ func Amount(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldAmount, v))
 }
 
+// AtMunicipality applies equality check predicate on the "AtMunicipality" field. It's identical to AtMunicipalityEQ.
+func AtMunicipality(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldAtMunicipality, v))
+}
+
+// MunicipalityDeliveryDate applies equality check predicate on the "MunicipalityDeliveryDate" field. It's identical to MunicipalityDeliveryDateEQ.
+func MunicipalityDeliveryDate(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldMunicipalityDeliveryDate, v))
+}
+
+// InvoiceIssued applies equality check predicate on the "InvoiceIssued" field. It's identical to InvoiceIssuedEQ.
+func InvoiceIssued(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceIssued, v))
+}
+
+// InvoiceIssuedDate applies equality check predicate on the "InvoiceIssuedDate" field. It's identical to InvoiceIssuedDateEQ.
+func InvoiceIssuedDate(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceIssuedDate, v))
+}
+
+// InvoiceReceived applies equality check predicate on the "InvoiceReceived" field. It's identical to InvoiceReceivedEQ.
+func InvoiceReceived(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceReceived, v))
+}
+
+// InvoiceReceivedDate applies equality check predicate on the "InvoiceReceivedDate" field. It's identical to InvoiceReceivedDateEQ.
+func InvoiceReceivedDate(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceReceivedDate, v))
+}
+
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldCreatedAt, v))
@@ -588,6 +618,216 @@ func AmountIsNil() predicate.JobPayments {
 // AmountNotNil applies the NotNil predicate on the "Amount" field.
 func AmountNotNil() predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNotNull(FieldAmount))
+}
+
+// AtMunicipalityEQ applies the EQ predicate on the "AtMunicipality" field.
+func AtMunicipalityEQ(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldAtMunicipality, v))
+}
+
+// AtMunicipalityNEQ applies the NEQ predicate on the "AtMunicipality" field.
+func AtMunicipalityNEQ(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldAtMunicipality, v))
+}
+
+// AtMunicipalityIsNil applies the IsNil predicate on the "AtMunicipality" field.
+func AtMunicipalityIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldAtMunicipality))
+}
+
+// AtMunicipalityNotNil applies the NotNil predicate on the "AtMunicipality" field.
+func AtMunicipalityNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldAtMunicipality))
+}
+
+// MunicipalityDeliveryDateEQ applies the EQ predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateEQ(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldMunicipalityDeliveryDate, v))
+}
+
+// MunicipalityDeliveryDateNEQ applies the NEQ predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateNEQ(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldMunicipalityDeliveryDate, v))
+}
+
+// MunicipalityDeliveryDateIn applies the In predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateIn(vs ...time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldMunicipalityDeliveryDate, vs...))
+}
+
+// MunicipalityDeliveryDateNotIn applies the NotIn predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateNotIn(vs ...time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldMunicipalityDeliveryDate, vs...))
+}
+
+// MunicipalityDeliveryDateGT applies the GT predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateGT(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldMunicipalityDeliveryDate, v))
+}
+
+// MunicipalityDeliveryDateGTE applies the GTE predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateGTE(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldMunicipalityDeliveryDate, v))
+}
+
+// MunicipalityDeliveryDateLT applies the LT predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateLT(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldMunicipalityDeliveryDate, v))
+}
+
+// MunicipalityDeliveryDateLTE applies the LTE predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateLTE(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldMunicipalityDeliveryDate, v))
+}
+
+// MunicipalityDeliveryDateIsNil applies the IsNil predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldMunicipalityDeliveryDate))
+}
+
+// MunicipalityDeliveryDateNotNil applies the NotNil predicate on the "MunicipalityDeliveryDate" field.
+func MunicipalityDeliveryDateNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldMunicipalityDeliveryDate))
+}
+
+// InvoiceIssuedEQ applies the EQ predicate on the "InvoiceIssued" field.
+func InvoiceIssuedEQ(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceIssued, v))
+}
+
+// InvoiceIssuedNEQ applies the NEQ predicate on the "InvoiceIssued" field.
+func InvoiceIssuedNEQ(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldInvoiceIssued, v))
+}
+
+// InvoiceIssuedIsNil applies the IsNil predicate on the "InvoiceIssued" field.
+func InvoiceIssuedIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldInvoiceIssued))
+}
+
+// InvoiceIssuedNotNil applies the NotNil predicate on the "InvoiceIssued" field.
+func InvoiceIssuedNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceIssued))
+}
+
+// InvoiceIssuedDateEQ applies the EQ predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateEQ(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceIssuedDate, v))
+}
+
+// InvoiceIssuedDateNEQ applies the NEQ predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateNEQ(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldInvoiceIssuedDate, v))
+}
+
+// InvoiceIssuedDateIn applies the In predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateIn(vs ...time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldInvoiceIssuedDate, vs...))
+}
+
+// InvoiceIssuedDateNotIn applies the NotIn predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateNotIn(vs ...time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldInvoiceIssuedDate, vs...))
+}
+
+// InvoiceIssuedDateGT applies the GT predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateGT(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldInvoiceIssuedDate, v))
+}
+
+// InvoiceIssuedDateGTE applies the GTE predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateGTE(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldInvoiceIssuedDate, v))
+}
+
+// InvoiceIssuedDateLT applies the LT predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateLT(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldInvoiceIssuedDate, v))
+}
+
+// InvoiceIssuedDateLTE applies the LTE predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateLTE(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldInvoiceIssuedDate, v))
+}
+
+// InvoiceIssuedDateIsNil applies the IsNil predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldInvoiceIssuedDate))
+}
+
+// InvoiceIssuedDateNotNil applies the NotNil predicate on the "InvoiceIssuedDate" field.
+func InvoiceIssuedDateNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceIssuedDate))
+}
+
+// InvoiceReceivedEQ applies the EQ predicate on the "InvoiceReceived" field.
+func InvoiceReceivedEQ(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceReceived, v))
+}
+
+// InvoiceReceivedNEQ applies the NEQ predicate on the "InvoiceReceived" field.
+func InvoiceReceivedNEQ(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldInvoiceReceived, v))
+}
+
+// InvoiceReceivedIsNil applies the IsNil predicate on the "InvoiceReceived" field.
+func InvoiceReceivedIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldInvoiceReceived))
+}
+
+// InvoiceReceivedNotNil applies the NotNil predicate on the "InvoiceReceived" field.
+func InvoiceReceivedNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceReceived))
+}
+
+// InvoiceReceivedDateEQ applies the EQ predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateEQ(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceReceivedDate, v))
+}
+
+// InvoiceReceivedDateNEQ applies the NEQ predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateNEQ(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldInvoiceReceivedDate, v))
+}
+
+// InvoiceReceivedDateIn applies the In predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateIn(vs ...time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldInvoiceReceivedDate, vs...))
+}
+
+// InvoiceReceivedDateNotIn applies the NotIn predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateNotIn(vs ...time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldInvoiceReceivedDate, vs...))
+}
+
+// InvoiceReceivedDateGT applies the GT predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateGT(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldInvoiceReceivedDate, v))
+}
+
+// InvoiceReceivedDateGTE applies the GTE predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateGTE(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldInvoiceReceivedDate, v))
+}
+
+// InvoiceReceivedDateLT applies the LT predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateLT(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldInvoiceReceivedDate, v))
+}
+
+// InvoiceReceivedDateLTE applies the LTE predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateLTE(v time.Time) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldInvoiceReceivedDate, v))
+}
+
+// InvoiceReceivedDateIsNil applies the IsNil predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldInvoiceReceivedDate))
+}
+
+// InvoiceReceivedDateNotNil applies the NotNil predicate on the "InvoiceReceivedDate" field.
+func InvoiceReceivedDateNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceReceivedDate))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

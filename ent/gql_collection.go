@@ -1519,6 +1519,36 @@ func (jpq *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opC
 				selectedFields = append(selectedFields, jobpayments.FieldAmount)
 				fieldSeen[jobpayments.FieldAmount] = struct{}{}
 			}
+		case "atmunicipality":
+			if _, ok := fieldSeen[jobpayments.FieldAtMunicipality]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldAtMunicipality)
+				fieldSeen[jobpayments.FieldAtMunicipality] = struct{}{}
+			}
+		case "municipalitydeliverydate":
+			if _, ok := fieldSeen[jobpayments.FieldMunicipalityDeliveryDate]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldMunicipalityDeliveryDate)
+				fieldSeen[jobpayments.FieldMunicipalityDeliveryDate] = struct{}{}
+			}
+		case "invoiceissued":
+			if _, ok := fieldSeen[jobpayments.FieldInvoiceIssued]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldInvoiceIssued)
+				fieldSeen[jobpayments.FieldInvoiceIssued] = struct{}{}
+			}
+		case "invoiceissueddate":
+			if _, ok := fieldSeen[jobpayments.FieldInvoiceIssuedDate]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldInvoiceIssuedDate)
+				fieldSeen[jobpayments.FieldInvoiceIssuedDate] = struct{}{}
+			}
+		case "invoicereceived":
+			if _, ok := fieldSeen[jobpayments.FieldInvoiceReceived]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldInvoiceReceived)
+				fieldSeen[jobpayments.FieldInvoiceReceived] = struct{}{}
+			}
+		case "invoicereceiveddate":
+			if _, ok := fieldSeen[jobpayments.FieldInvoiceReceivedDate]; !ok {
+				selectedFields = append(selectedFields, jobpayments.FieldInvoiceReceivedDate)
+				fieldSeen[jobpayments.FieldInvoiceReceivedDate] = struct{}{}
+			}
 		case "createdat":
 			if _, ok := fieldSeen[jobpayments.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, jobpayments.FieldCreatedAt)

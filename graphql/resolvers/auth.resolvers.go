@@ -23,7 +23,7 @@ import (
 // Register is the resolver for the register field.
 func (r *mutationResolver) Register(ctx context.Context, username string, name *string, email *string, password string) (*model.AuthPayload, error) {
 	client := middlewares.GetClientFromContext(ctx)
-	_, err := client.User.Query().Where(user.UsernameEQ(username)).Only(ctx)
+	_, err := client.User.Query().Where(user.UsernameEqualFold(username)).Only(ctx)
 	if err == nil {
 		return nil, fmt.Errorf("kullanıcı adı zaten mevcut")
 	}

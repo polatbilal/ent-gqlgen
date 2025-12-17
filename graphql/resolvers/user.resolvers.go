@@ -25,7 +25,7 @@ func (r *mutationResolver) UpsertUser(ctx context.Context, input model.UserInput
 
 	// Kullanıcı adına göre mevcut kullanıcıyı kontrol et
 	existingUser, err := client.User.Query().
-		Where(user.UsernameEQ(*input.Username)).
+		Where(user.UsernameEqualFold(*input.Username)).
 		Only(ctx)
 
 	if err != nil {

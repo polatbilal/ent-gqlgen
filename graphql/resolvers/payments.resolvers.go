@@ -150,57 +150,59 @@ func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.Jo
 	return payment, nil
 }
 
-// UpdateJobPayments is the resolver for the updateJobPayments field.
-func (r *mutationResolver) UpdateJobPayments(ctx context.Context, id int, input model.JobPaymentsInput) (*ent.JobPayments, error) {
+// UpdatePaymentStatus is the resolver for the updatePaymentStatus field.
+func (r *mutationResolver) UpdatePaymentStatus(ctx context.Context, id int, input model.JobPaymentStatusInput) (*ent.JobPayments, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	var totalPayment float64
-	if *input.TotalPayment == 0 && *input.Amount > 0 {
-		// Amount'dan %20 çıkar
-		totalPayment = math.Round(*input.Amount*0.80*100) / 100
-	} else {
-		totalPayment = *input.TotalPayment
+	updatePaymentStatus := client.JobPayments.UpdateOneID(id).
+		SetNillableAtMunicipality(input.AtMunicipality).
+		SetNillableMunicipalityDeliveryDate(input.MunicipalityDeliveryDate).
+		SetNillableInvoiceIssued(input.InvoiceIssued).
+		SetNillableInvoiceIssuedDate(input.InvoiceIssuedDate).
+		SetNillableInvoiceReceived(input.InvoiceReceived).
+		SetNillableInvoiceReceivedDate(input.InvoiceReceivedDate)
+
+	paymentStatus, err := updatePaymentStatus.Save(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("hakediş durumu güncellenemedi: %v", err)
 	}
 
-	payment, err := client.JobPayments.UpdateOneID(id).
-		SetTotalPayment(totalPayment).
-		SetLevelApprove(*input.LevelApprove).
-		SetAmount(*input.Amount).
-		Save(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return payment, nil
-}
-
-// DeleteJobPayments is the resolver for the deleteJobPayments field.
-func (r *mutationResolver) DeleteJobPayments(ctx context.Context, id int) (*ent.JobPayments, error) {
-	client := middlewares.GetClientFromContext(ctx)
-	payment, err := client.JobPayments.Get(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-	err = client.JobPayments.DeleteOne(payment).Exec(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return payment, nil
+	return paymentStatus, nil
 }
 
 // JobPayments is the resolver for the jobPayments field.
-func (r *queryResolver) JobPayments(ctx context.Context, yibfNo int) ([]*ent.JobPayments, error) {
+func (r *queryResolver) JobPayments(ctx context.Context, id *int, yibfNo *int) ([]*ent.JobPayments, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// JobRelations üzerinden ödemeleri getir
-	relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(yibfNo)).Only(ctx)
-	if err != nil {
-		return nil, err
+	// En az biri gönderilmeli
+	if yibfNo == nil && id == nil {
+		return nil, fmt.Errorf("yibfNo veya id parametrelerinden en az biri gönderilmelidir")
 	}
 
-	payments, err := relations.QueryPayments().All(ctx)
-	if err != nil {
-		return nil, err
+	// ID ile sorgu (öncelikli)
+	if id != nil {
+		payment, err := client.JobPayments.Get(ctx, *id)
+		if err != nil {
+			return nil, fmt.Errorf("ödeme bulunamadı (id: %d): %v", *id, err)
+		}
+		return []*ent.JobPayments{payment}, nil
 	}
 
-	return payments, nil
+	// YibfNo ile sorgu
+	if yibfNo != nil {
+		// JobRelations üzerinden ödemeleri getir
+		relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(*yibfNo)).Only(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("iş ilişkileri bulunamadı (YibfNo: %d): %v", *yibfNo, err)
+		}
+
+		payments, err := relations.QueryPayments().All(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("ödemeler alınamadı: %v", err)
+		}
+
+		return payments, nil
+	}
+
+	return nil, fmt.Errorf("beklenmeyen durum")
 }
