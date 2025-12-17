@@ -34,9 +34,13 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateFloor(id: ID!, input: JobFloorInput!): JobFloor!
+  updateFloor(id: Int!, input: JobFloorInput!): JobFloor!
     @goField(forceResolver: true)
     @auth
 
-  deleteFloor(id: ID!): JobFloor! @goField(forceResolver: true) @auth
+  upsertFloor(id: Int, input: JobFloorInput!): JobFloor!
+    @goField(forceResolver: true)
+    @auth
+
+  deleteFloor(id: Int!): JobFloor! @goField(forceResolver: true) @auth
 }

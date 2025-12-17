@@ -275,11 +275,12 @@ type ComplexityRoot struct {
 	}
 
 	JobReceipt struct {
-		Amount    func(childComplexity int) int
-		CreatedAt func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Note      func(childComplexity int) int
-		YibfNo    func(childComplexity int) int
+		Amount      func(childComplexity int) int
+		CreatedAt   func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Note        func(childComplexity int) int
+		ReceiptDate func(childComplexity int) int
+		YibfNo      func(childComplexity int) int
 	}
 
 	JobSupervisor struct {
@@ -308,7 +309,7 @@ type ComplexityRoot struct {
 		CreateOwner           func(childComplexity int, input model.JobOwnerInput) int
 		CreateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
 		DeleteBatchMutation   func(childComplexity int, yibfNo int) int
-		DeleteFloor           func(childComplexity int, id string) int
+		DeleteFloor           func(childComplexity int, id int) int
 		DeleteJobPayments     func(childComplexity int, id int) int
 		DeleteJobReceipts     func(childComplexity int, id int) int
 		DeleteUser            func(childComplexity int, id string) int
@@ -321,13 +322,14 @@ type ComplexityRoot struct {
 		UpdateContractor      func(childComplexity int, input model.JobContractorInput) int
 		UpdateEngineer        func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
 		UpdateEngineerByYdsid func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
-		UpdateFloor           func(childComplexity int, id string, input model.JobFloorInput) int
+		UpdateFloor           func(childComplexity int, id int, input model.JobFloorInput) int
 		UpdateJob             func(childComplexity int, yibfNo int, input model.JobInput) int
 		UpdateJobEngineer     func(childComplexity int, input model.JobEngineerInput) int
 		UpdateJobPayments     func(childComplexity int, id int, input model.JobPaymentsInput) int
 		UpdateOwner           func(childComplexity int, input model.JobOwnerInput) int
 		UpdateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
 		UpsertEngineer        func(childComplexity int, input model.CompanyEngineerInput) int
+		UpsertFloor           func(childComplexity int, id *int, input model.JobFloorInput) int
 		UpsertJobReceipts     func(childComplexity int, id *int, input model.JobReceiptInput) int
 		UpsertPayments        func(childComplexity int, id *int, input model.JobPaymentsInput) int
 		UpsertProgress        func(childComplexity int, input model.JobProgressInput) int
@@ -403,8 +405,9 @@ type MutationResolver interface {
 	UpdateEngineer(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	UpdateEngineerByYdsid(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	CreateFloor(ctx context.Context, input model.JobFloorInput) (*ent.JobFloor, error)
-	UpdateFloor(ctx context.Context, id string, input model.JobFloorInput) (*ent.JobFloor, error)
-	DeleteFloor(ctx context.Context, id string) (*ent.JobFloor, error)
+	UpdateFloor(ctx context.Context, id int, input model.JobFloorInput) (*ent.JobFloor, error)
+	UpsertFloor(ctx context.Context, id *int, input model.JobFloorInput) (*ent.JobFloor, error)
+	DeleteFloor(ctx context.Context, id int) (*ent.JobFloor, error)
 	CreateJob(ctx context.Context, input model.JobInput) (*ent.JobDetail, error)
 	UpdateJob(ctx context.Context, yibfNo int, input model.JobInput) (*ent.JobDetail, error)
 	UpdateJobEngineer(ctx context.Context, input model.JobEngineerInput) (*model.JobEngineer, error)
@@ -480,7 +483,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.AdministrationCount.Adet(childComplexity), true
-
 	case "AdministrationCount.name":
 		if e.complexity.AdministrationCount.Name == nil {
 			break
@@ -494,28 +496,24 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.AuthPayload.Name(childComplexity), true
-
 	case "AuthPayload.role":
 		if e.complexity.AuthPayload.Role == nil {
 			break
 		}
 
 		return e.complexity.AuthPayload.Role(childComplexity), true
-
 	case "AuthPayload.token":
 		if e.complexity.AuthPayload.Token == nil {
 			break
 		}
 
 		return e.complexity.AuthPayload.Token(childComplexity), true
-
 	case "AuthPayload.userID":
 		if e.complexity.AuthPayload.UserID == nil {
 			break
 		}
 
 		return e.complexity.AuthPayload.UserID(childComplexity), true
-
 	case "AuthPayload.username":
 		if e.complexity.AuthPayload.Username == nil {
 			break
@@ -529,7 +527,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.CompanyBatchResult.Company(childComplexity), true
-
 	case "CompanyBatchResult.companyToken":
 		if e.complexity.CompanyBatchResult.CompanyToken == nil {
 			break
@@ -543,168 +540,144 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.CompanyDetail.Address(childComplexity), true
-
 	case "CompanyDetail.ChamberInfo":
 		if e.complexity.CompanyDetail.ChamberInfo == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.ChamberInfo(childComplexity), true
-
 	case "CompanyDetail.ChamberRegisterNo":
 		if e.complexity.CompanyDetail.ChamberRegisterNo == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.ChamberRegisterNo(childComplexity), true
-
 	case "CompanyDetail.CompanyCode":
 		if e.complexity.CompanyDetail.CompanyCode == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.CompanyCode(childComplexity), true
-
 	case "CompanyDetail.core_person_absent_90days":
 		if e.complexity.CompanyDetail.CorePersonAbsent90Days == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.CorePersonAbsent90Days(childComplexity), true
-
 	case "CompanyDetail.Email":
 		if e.complexity.CompanyDetail.Email == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.Email(childComplexity), true
-
 	case "CompanyDetail.Fax":
 		if e.complexity.CompanyDetail.Fax == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.Fax(childComplexity), true
-
 	case "CompanyDetail.id":
 		if e.complexity.CompanyDetail.ID == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.ID(childComplexity), true
-
 	case "CompanyDetail.isClosed":
 		if e.complexity.CompanyDetail.IsClosed == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.IsClosed(childComplexity), true
-
 	case "CompanyDetail.MobilePhone":
 		if e.complexity.CompanyDetail.MobilePhone == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.MobilePhone(childComplexity), true
-
 	case "CompanyDetail.Name":
 		if e.complexity.CompanyDetail.Name == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.Name(childComplexity), true
-
 	case "CompanyDetail.OwnerAddress":
 		if e.complexity.CompanyDetail.OwnerAddress == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.OwnerAddress(childComplexity), true
-
 	case "CompanyDetail.OwnerCareer":
 		if e.complexity.CompanyDetail.OwnerCareer == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.OwnerCareer(childComplexity), true
-
 	case "CompanyDetail.OwnerEmail":
 		if e.complexity.CompanyDetail.OwnerEmail == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.OwnerEmail(childComplexity), true
-
 	case "CompanyDetail.OwnerName":
 		if e.complexity.CompanyDetail.OwnerName == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.OwnerName(childComplexity), true
-
 	case "CompanyDetail.OwnerPhone":
 		if e.complexity.CompanyDetail.OwnerPhone == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.OwnerPhone(childComplexity), true
-
 	case "CompanyDetail.OwnerRegisterNo":
 		if e.complexity.CompanyDetail.OwnerRegisterNo == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.OwnerRegisterNo(childComplexity), true
-
 	case "CompanyDetail.OwnerTcNo":
 		if e.complexity.CompanyDetail.OwnerTcNo == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.OwnerTcNo(childComplexity), true
-
 	case "CompanyDetail.Phone":
 		if e.complexity.CompanyDetail.Phone == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.Phone(childComplexity), true
-
 	case "CompanyDetail.TaxAdmin":
 		if e.complexity.CompanyDetail.TaxAdmin == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.TaxAdmin(childComplexity), true
-
 	case "CompanyDetail.TaxNo":
 		if e.complexity.CompanyDetail.TaxNo == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.TaxNo(childComplexity), true
-
 	case "CompanyDetail.VisaDate":
 		if e.complexity.CompanyDetail.VisaDate == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.VisaDate(childComplexity), true
-
 	case "CompanyDetail.VisaEndDate":
 		if e.complexity.CompanyDetail.VisaEndDate == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.VisaEndDate(childComplexity), true
-
 	case "CompanyDetail.visa_finished_for_90days":
 		if e.complexity.CompanyDetail.VisaFinishedFor90Days == nil {
 			break
 		}
 
 		return e.complexity.CompanyDetail.VisaFinishedFor90Days(childComplexity), true
-
 	case "CompanyDetail.Website":
 		if e.complexity.CompanyDetail.Website == nil {
 			break
@@ -718,105 +691,90 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.CompanyEngineer.Address(childComplexity), true
-
 	case "CompanyEngineer.Career":
 		if e.complexity.CompanyEngineer.Career == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Career(childComplexity), true
-
 	case "CompanyEngineer.CertNo":
 		if e.complexity.CompanyEngineer.CertNo == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.CertNo(childComplexity), true
-
 	case "CompanyEngineer.Company":
 		if e.complexity.CompanyEngineer.Company == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Company(childComplexity), true
-
 	case "CompanyEngineer.CompanyCode":
 		if e.complexity.CompanyEngineer.CompanyCode == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.CompanyCode(childComplexity), true
-
 	case "CompanyEngineer.Email":
 		if e.complexity.CompanyEngineer.Email == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Email(childComplexity), true
-
 	case "CompanyEngineer.Employment":
 		if e.complexity.CompanyEngineer.Employment == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Employment(childComplexity), true
-
 	case "CompanyEngineer.id":
 		if e.complexity.CompanyEngineer.ID == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.ID(childComplexity), true
-
 	case "CompanyEngineer.Name":
 		if e.complexity.CompanyEngineer.Name == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Name(childComplexity), true
-
 	case "CompanyEngineer.Note":
 		if e.complexity.CompanyEngineer.Note == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Note(childComplexity), true
-
 	case "CompanyEngineer.Phone":
 		if e.complexity.CompanyEngineer.Phone == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Phone(childComplexity), true
-
 	case "CompanyEngineer.Position":
 		if e.complexity.CompanyEngineer.Position == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Position(childComplexity), true
-
 	case "CompanyEngineer.RegisterNo":
 		if e.complexity.CompanyEngineer.RegisterNo == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.RegisterNo(childComplexity), true
-
 	case "CompanyEngineer.Status":
 		if e.complexity.CompanyEngineer.Status == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.Status(childComplexity), true
-
 	case "CompanyEngineer.TcNo":
 		if e.complexity.CompanyEngineer.TcNo == nil {
 			break
 		}
 
 		return e.complexity.CompanyEngineer.TcNo(childComplexity), true
-
 	case "CompanyEngineer.YDSID":
 		if e.complexity.CompanyEngineer.YDSID == nil {
 			break
@@ -830,28 +788,24 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.CompanyToken.CompanyCode(childComplexity), true
-
 	case "CompanyToken.DepartmentId":
 		if e.complexity.CompanyToken.DepartmentId == nil {
 			break
 		}
 
 		return e.complexity.CompanyToken.DepartmentId(childComplexity), true
-
 	case "CompanyToken.Token":
 		if e.complexity.CompanyToken.Token == nil {
 			break
 		}
 
 		return e.complexity.CompanyToken.Token(childComplexity), true
-
 	case "CompanyToken.YDKPassword":
 		if e.complexity.CompanyToken.YDKPassword == nil {
 			break
 		}
 
 		return e.complexity.CompanyToken.YDKPassword(childComplexity), true
-
 	case "CompanyToken.YDKUsername":
 		if e.complexity.CompanyToken.YDKUsername == nil {
 			break
@@ -865,49 +819,42 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobAuthor.Architect(childComplexity), true
-
 	case "JobAuthor.Electric":
 		if e.complexity.JobAuthor.Electric == nil {
 			break
 		}
 
 		return e.complexity.JobAuthor.Electric(childComplexity), true
-
 	case "JobAuthor.GeotechnicalEngineer":
 		if e.complexity.JobAuthor.GeotechnicalEngineer == nil {
 			break
 		}
 
 		return e.complexity.JobAuthor.GeotechnicalEngineer(childComplexity), true
-
 	case "JobAuthor.GeotechnicalGeologist":
 		if e.complexity.JobAuthor.GeotechnicalGeologist == nil {
 			break
 		}
 
 		return e.complexity.JobAuthor.GeotechnicalGeologist(childComplexity), true
-
 	case "JobAuthor.GeotechnicalGeophysicist":
 		if e.complexity.JobAuthor.GeotechnicalGeophysicist == nil {
 			break
 		}
 
 		return e.complexity.JobAuthor.GeotechnicalGeophysicist(childComplexity), true
-
 	case "JobAuthor.id":
 		if e.complexity.JobAuthor.ID == nil {
 			break
 		}
 
 		return e.complexity.JobAuthor.ID(childComplexity), true
-
 	case "JobAuthor.Mechanic":
 		if e.complexity.JobAuthor.Mechanic == nil {
 			break
 		}
 
 		return e.complexity.JobAuthor.Mechanic(childComplexity), true
-
 	case "JobAuthor.Static":
 		if e.complexity.JobAuthor.Static == nil {
 			break
@@ -921,49 +868,42 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobBatchResult.Author(childComplexity), true
-
 	case "JobBatchResult.company":
 		if e.complexity.JobBatchResult.Company == nil {
 			break
 		}
 
 		return e.complexity.JobBatchResult.Company(childComplexity), true
-
 	case "JobBatchResult.contractor":
 		if e.complexity.JobBatchResult.Contractor == nil {
 			break
 		}
 
 		return e.complexity.JobBatchResult.Contractor(childComplexity), true
-
 	case "JobBatchResult.engineer":
 		if e.complexity.JobBatchResult.Engineer == nil {
 			break
 		}
 
 		return e.complexity.JobBatchResult.Engineer(childComplexity), true
-
 	case "JobBatchResult.job":
 		if e.complexity.JobBatchResult.Job == nil {
 			break
 		}
 
 		return e.complexity.JobBatchResult.Job(childComplexity), true
-
 	case "JobBatchResult.owner":
 		if e.complexity.JobBatchResult.Owner == nil {
 			break
 		}
 
 		return e.complexity.JobBatchResult.Owner(childComplexity), true
-
 	case "JobBatchResult.progress":
 		if e.complexity.JobBatchResult.Progress == nil {
 			break
 		}
 
 		return e.complexity.JobBatchResult.Progress(childComplexity), true
-
 	case "JobBatchResult.supervisor":
 		if e.complexity.JobBatchResult.Supervisor == nil {
 			break
@@ -977,77 +917,66 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobContractor.Address(childComplexity), true
-
 	case "JobContractor.Email":
 		if e.complexity.JobContractor.Email == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.Email(childComplexity), true
-
 	case "JobContractor.id":
 		if e.complexity.JobContractor.ID == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.ID(childComplexity), true
-
 	case "JobContractor.MobilePhone":
 		if e.complexity.JobContractor.MobilePhone == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.MobilePhone(childComplexity), true
-
 	case "JobContractor.Name":
 		if e.complexity.JobContractor.Name == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.Name(childComplexity), true
-
 	case "JobContractor.Note":
 		if e.complexity.JobContractor.Note == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.Note(childComplexity), true
-
 	case "JobContractor.PersonType":
 		if e.complexity.JobContractor.PersonType == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.PersonType(childComplexity), true
-
 	case "JobContractor.Phone":
 		if e.complexity.JobContractor.Phone == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.Phone(childComplexity), true
-
 	case "JobContractor.RegisterNo":
 		if e.complexity.JobContractor.RegisterNo == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.RegisterNo(childComplexity), true
-
 	case "JobContractor.TaxNo":
 		if e.complexity.JobContractor.TaxNo == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.TaxNo(childComplexity), true
-
 	case "JobContractor.TcNo":
 		if e.complexity.JobContractor.TcNo == nil {
 			break
 		}
 
 		return e.complexity.JobContractor.TcNo(childComplexity), true
-
 	case "JobContractor.YDSID":
 		if e.complexity.JobContractor.YDSID == nil {
 			break
@@ -1061,28 +990,24 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobCounts.AdministrationCounts(childComplexity), true
-
 	case "JobCounts.completed":
 		if e.complexity.JobCounts.Completed == nil {
 			break
 		}
 
 		return e.complexity.JobCounts.Completed(childComplexity), true
-
 	case "JobCounts.current":
 		if e.complexity.JobCounts.Current == nil {
 			break
 		}
 
 		return e.complexity.JobCounts.Current(childComplexity), true
-
 	case "JobCounts.pending":
 		if e.complexity.JobCounts.Pending == nil {
 			break
 		}
 
 		return e.complexity.JobCounts.Pending(childComplexity), true
-
 	case "JobCounts.total":
 		if e.complexity.JobCounts.Total == nil {
 			break
@@ -1096,238 +1021,204 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobDetail.Address(childComplexity), true
-
 	case "JobDetail.Administration":
 		if e.complexity.JobDetail.Administration == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.Administration(childComplexity), true
-
 	case "JobDetail.BKSReferenceNo":
 		if e.complexity.JobDetail.BKSReferenceNo == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.BKSReferenceNo(childComplexity), true
-
 	case "JobDetail.BuildingClass":
 		if e.complexity.JobDetail.BuildingClass == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.BuildingClass(childComplexity), true
-
 	case "JobDetail.BuildingType":
 		if e.complexity.JobDetail.BuildingType == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.BuildingType(childComplexity), true
-
 	case "JobDetail.ClusterStructure":
 		if e.complexity.JobDetail.ClusterStructure == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.ClusterStructure(childComplexity), true
-
 	case "JobDetail.CompanyCode":
 		if e.complexity.JobDetail.CompanyCode == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.CompanyCode(childComplexity), true
-
 	case "JobDetail.CompletionDate":
 		if e.complexity.JobDetail.CompletionDate == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.CompletionDate(childComplexity), true
-
 	case "JobDetail.ConstructionArea":
 		if e.complexity.JobDetail.ConstructionArea == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.ConstructionArea(childComplexity), true
-
 	case "JobDetail.ContractDate":
 		if e.complexity.JobDetail.ContractDate == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.ContractDate(childComplexity), true
-
 	case "JobDetail.Coordinates":
 		if e.complexity.JobDetail.Coordinates == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.Coordinates(childComplexity), true
-
 	case "JobDetail.DistributionDate":
 		if e.complexity.JobDetail.DistributionDate == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.DistributionDate(childComplexity), true
-
 	case "JobDetail.FloorCount":
 		if e.complexity.JobDetail.FloorCount == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.FloorCount(childComplexity), true
-
 	case "JobDetail.FolderNo":
 		if e.complexity.JobDetail.FolderNo == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.FolderNo(childComplexity), true
-
 	case "JobDetail.id":
 		if e.complexity.JobDetail.ID == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.ID(childComplexity), true
-
 	case "JobDetail.IndustryArea":
 		if e.complexity.JobDetail.IndustryArea == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.IndustryArea(childComplexity), true
-
 	case "JobDetail.IsCompleted":
 		if e.complexity.JobDetail.IsCompleted == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.IsCompleted(childComplexity), true
-
 	case "JobDetail.IsLicenseExpired":
 		if e.complexity.JobDetail.IsLicenseExpired == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.IsLicenseExpired(childComplexity), true
-
 	case "JobDetail.Island":
 		if e.complexity.JobDetail.Island == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.Island(childComplexity), true
-
 	case "JobDetail.LandArea":
 		if e.complexity.JobDetail.LandArea == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.LandArea(childComplexity), true
-
 	case "JobDetail.LeftArea":
 		if e.complexity.JobDetail.LeftArea == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.LeftArea(childComplexity), true
-
 	case "JobDetail.Level":
 		if e.complexity.JobDetail.Level == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.Level(childComplexity), true
-
 	case "JobDetail.LicenseDate":
 		if e.complexity.JobDetail.LicenseDate == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.LicenseDate(childComplexity), true
-
 	case "JobDetail.LicenseNo":
 		if e.complexity.JobDetail.LicenseNo == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.LicenseNo(childComplexity), true
-
 	case "JobDetail.Note":
 		if e.complexity.JobDetail.Note == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.Note(childComplexity), true
-
 	case "JobDetail.Parcel":
 		if e.complexity.JobDetail.Parcel == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.Parcel(childComplexity), true
-
 	case "JobDetail.Sheet":
 		if e.complexity.JobDetail.Sheet == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.Sheet(childComplexity), true
-
 	case "JobDetail.StartDate":
 		if e.complexity.JobDetail.StartDate == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.StartDate(childComplexity), true
-
 	case "JobDetail.State":
 		if e.complexity.JobDetail.State == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.State(childComplexity), true
-
 	case "JobDetail.Title":
 		if e.complexity.JobDetail.Title == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.Title(childComplexity), true
-
 	case "JobDetail.TotalArea":
 		if e.complexity.JobDetail.TotalArea == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.TotalArea(childComplexity), true
-
 	case "JobDetail.UnitPrice":
 		if e.complexity.JobDetail.UnitPrice == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.UnitPrice(childComplexity), true
-
 	case "JobDetail.UploadedFile":
 		if e.complexity.JobDetail.UploadedFile == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.UploadedFile(childComplexity), true
-
 	case "JobDetail.YDSAddress":
 		if e.complexity.JobDetail.YDSAddress == nil {
 			break
 		}
 
 		return e.complexity.JobDetail.YDSAddress(childComplexity), true
-
 	case "JobDetail.YibfNo":
 		if e.complexity.JobDetail.YibfNo == nil {
 			break
@@ -1341,56 +1232,48 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobEngineer.Architect(childComplexity), true
-
 	case "JobEngineer.Controller":
 		if e.complexity.JobEngineer.Controller == nil {
 			break
 		}
 
 		return e.complexity.JobEngineer.Controller(childComplexity), true
-
 	case "JobEngineer.Electric":
 		if e.complexity.JobEngineer.Electric == nil {
 			break
 		}
 
 		return e.complexity.JobEngineer.Electric(childComplexity), true
-
 	case "JobEngineer.ElectricController":
 		if e.complexity.JobEngineer.ElectricController == nil {
 			break
 		}
 
 		return e.complexity.JobEngineer.ElectricController(childComplexity), true
-
 	case "JobEngineer.Inspector":
 		if e.complexity.JobEngineer.Inspector == nil {
 			break
 		}
 
 		return e.complexity.JobEngineer.Inspector(childComplexity), true
-
 	case "JobEngineer.Mechanic":
 		if e.complexity.JobEngineer.Mechanic == nil {
 			break
 		}
 
 		return e.complexity.JobEngineer.Mechanic(childComplexity), true
-
 	case "JobEngineer.MechanicController":
 		if e.complexity.JobEngineer.MechanicController == nil {
 			break
 		}
 
 		return e.complexity.JobEngineer.MechanicController(childComplexity), true
-
 	case "JobEngineer.Static":
 		if e.complexity.JobEngineer.Static == nil {
 			break
 		}
 
 		return e.complexity.JobEngineer.Static(childComplexity), true
-
 	case "JobEngineer.YibfNo":
 		if e.complexity.JobEngineer.YibfNo == nil {
 			break
@@ -1404,63 +1287,54 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobFloor.ConcreteClass(childComplexity), true
-
 	case "JobFloor.ConcreteDate":
 		if e.complexity.JobFloor.ConcreteDate == nil {
 			break
 		}
 
 		return e.complexity.JobFloor.ConcreteDate(childComplexity), true
-
 	case "JobFloor.id":
 		if e.complexity.JobFloor.ID == nil {
 			break
 		}
 
 		return e.complexity.JobFloor.ID(childComplexity), true
-
 	case "JobFloor.Job":
 		if e.complexity.JobFloor.Job == nil {
 			break
 		}
 
 		return e.complexity.JobFloor.Job(childComplexity), true
-
 	case "JobFloor.Metre":
 		if e.complexity.JobFloor.Metre == nil {
 			break
 		}
 
 		return e.complexity.JobFloor.Metre(childComplexity), true
-
 	case "JobFloor.MoldDate":
 		if e.complexity.JobFloor.MoldDate == nil {
 			break
 		}
 
 		return e.complexity.JobFloor.MoldDate(childComplexity), true
-
 	case "JobFloor.MonthResult":
 		if e.complexity.JobFloor.MonthResult == nil {
 			break
 		}
 
 		return e.complexity.JobFloor.MonthResult(childComplexity), true
-
 	case "JobFloor.Name":
 		if e.complexity.JobFloor.Name == nil {
 			break
 		}
 
 		return e.complexity.JobFloor.Name(childComplexity), true
-
 	case "JobFloor.Samples":
 		if e.complexity.JobFloor.Samples == nil {
 			break
 		}
 
 		return e.complexity.JobFloor.Samples(childComplexity), true
-
 	case "JobFloor.WeekResult":
 		if e.complexity.JobFloor.WeekResult == nil {
 			break
@@ -1474,70 +1348,60 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobOwner.Address(childComplexity), true
-
 	case "JobOwner.Email":
 		if e.complexity.JobOwner.Email == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.Email(childComplexity), true
-
 	case "JobOwner.id":
 		if e.complexity.JobOwner.ID == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.ID(childComplexity), true
-
 	case "JobOwner.Name":
 		if e.complexity.JobOwner.Name == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.Name(childComplexity), true
-
 	case "JobOwner.Note":
 		if e.complexity.JobOwner.Note == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.Note(childComplexity), true
-
 	case "JobOwner.Phone":
 		if e.complexity.JobOwner.Phone == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.Phone(childComplexity), true
-
 	case "JobOwner.Shareholder":
 		if e.complexity.JobOwner.Shareholder == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.Shareholder(childComplexity), true
-
 	case "JobOwner.TaxAdmin":
 		if e.complexity.JobOwner.TaxAdmin == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.TaxAdmin(childComplexity), true
-
 	case "JobOwner.TaxNo":
 		if e.complexity.JobOwner.TaxNo == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.TaxNo(childComplexity), true
-
 	case "JobOwner.TcNo":
 		if e.complexity.JobOwner.TcNo == nil {
 			break
 		}
 
 		return e.complexity.JobOwner.TcNo(childComplexity), true
-
 	case "JobOwner.YDSID":
 		if e.complexity.JobOwner.YDSID == nil {
 			break
@@ -1551,70 +1415,60 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobPayments.Amount(childComplexity), true
-
 	case "JobPayments.id":
 		if e.complexity.JobPayments.ID == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.ID(childComplexity), true
-
 	case "JobPayments.LevelApprove":
 		if e.complexity.JobPayments.LevelApprove == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.LevelApprove(childComplexity), true
-
 	case "JobPayments.LevelRequest":
 		if e.complexity.JobPayments.LevelRequest == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.LevelRequest(childComplexity), true
-
 	case "JobPayments.PaymentDate":
 		if e.complexity.JobPayments.PaymentDate == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.PaymentDate(childComplexity), true
-
 	case "JobPayments.PaymentNo":
 		if e.complexity.JobPayments.PaymentNo == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.PaymentNo(childComplexity), true
-
 	case "JobPayments.PaymentType":
 		if e.complexity.JobPayments.PaymentType == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.PaymentType(childComplexity), true
-
 	case "JobPayments.State":
 		if e.complexity.JobPayments.State == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.State(childComplexity), true
-
 	case "JobPayments.TotalPayment":
 		if e.complexity.JobPayments.TotalPayment == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.TotalPayment(childComplexity), true
-
 	case "JobPayments.updatedAt":
 		if e.complexity.JobPayments.UpdatedAt == nil {
 			break
 		}
 
 		return e.complexity.JobPayments.UpdatedAt(childComplexity), true
-
 	case "JobPayments.YibfNo":
 		if e.complexity.JobPayments.YibfNo == nil {
 			break
@@ -1628,42 +1482,36 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobProgress.Five(childComplexity), true
-
 	case "JobProgress.Four":
 		if e.complexity.JobProgress.Four == nil {
 			break
 		}
 
 		return e.complexity.JobProgress.Four(childComplexity), true
-
 	case "JobProgress.id":
 		if e.complexity.JobProgress.ID == nil {
 			break
 		}
 
 		return e.complexity.JobProgress.ID(childComplexity), true
-
 	case "JobProgress.One":
 		if e.complexity.JobProgress.One == nil {
 			break
 		}
 
 		return e.complexity.JobProgress.One(childComplexity), true
-
 	case "JobProgress.Six":
 		if e.complexity.JobProgress.Six == nil {
 			break
 		}
 
 		return e.complexity.JobProgress.Six(childComplexity), true
-
 	case "JobProgress.Three":
 		if e.complexity.JobProgress.Three == nil {
 			break
 		}
 
 		return e.complexity.JobProgress.Three(childComplexity), true
-
 	case "JobProgress.Two":
 		if e.complexity.JobProgress.Two == nil {
 			break
@@ -1677,28 +1525,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobReceipt.Amount(childComplexity), true
-
 	case "JobReceipt.createdAt":
 		if e.complexity.JobReceipt.CreatedAt == nil {
 			break
 		}
 
 		return e.complexity.JobReceipt.CreatedAt(childComplexity), true
-
 	case "JobReceipt.id":
 		if e.complexity.JobReceipt.ID == nil {
 			break
 		}
 
 		return e.complexity.JobReceipt.ID(childComplexity), true
-
 	case "JobReceipt.Note":
 		if e.complexity.JobReceipt.Note == nil {
 			break
 		}
 
 		return e.complexity.JobReceipt.Note(childComplexity), true
+	case "JobReceipt.ReceiptDate":
+		if e.complexity.JobReceipt.ReceiptDate == nil {
+			break
+		}
 
+		return e.complexity.JobReceipt.ReceiptDate(childComplexity), true
 	case "JobReceipt.YibfNo":
 		if e.complexity.JobReceipt.YibfNo == nil {
 			break
@@ -1712,77 +1562,66 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobSupervisor.Address(childComplexity), true
-
 	case "JobSupervisor.Career":
 		if e.complexity.JobSupervisor.Career == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.Career(childComplexity), true
-
 	case "JobSupervisor.Email":
 		if e.complexity.JobSupervisor.Email == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.Email(childComplexity), true
-
 	case "JobSupervisor.id":
 		if e.complexity.JobSupervisor.ID == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.ID(childComplexity), true
-
 	case "JobSupervisor.Name":
 		if e.complexity.JobSupervisor.Name == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.Name(childComplexity), true
-
 	case "JobSupervisor.Phone":
 		if e.complexity.JobSupervisor.Phone == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.Phone(childComplexity), true
-
 	case "JobSupervisor.Position":
 		if e.complexity.JobSupervisor.Position == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.Position(childComplexity), true
-
 	case "JobSupervisor.RegisterNo":
 		if e.complexity.JobSupervisor.RegisterNo == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.RegisterNo(childComplexity), true
-
 	case "JobSupervisor.SchoolGraduation":
 		if e.complexity.JobSupervisor.SchoolGraduation == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.SchoolGraduation(childComplexity), true
-
 	case "JobSupervisor.SocialSecurityNo":
 		if e.complexity.JobSupervisor.SocialSecurityNo == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.SocialSecurityNo(childComplexity), true
-
 	case "JobSupervisor.TcNo":
 		if e.complexity.JobSupervisor.TcNo == nil {
 			break
 		}
 
 		return e.complexity.JobSupervisor.TcNo(childComplexity), true
-
 	case "JobSupervisor.YDSID":
 		if e.complexity.JobSupervisor.YDSID == nil {
 			break
@@ -1801,7 +1640,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.ActivateCompanyUsers(childComplexity, args["adminId"].(string)), true
-
 	case "Mutation.createAuthor":
 		if e.complexity.Mutation.CreateAuthor == nil {
 			break
@@ -1813,7 +1651,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateAuthor(childComplexity, args["input"].(model.JobAuthorInput)), true
-
 	case "Mutation.createContractor":
 		if e.complexity.Mutation.CreateContractor == nil {
 			break
@@ -1825,7 +1662,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateContractor(childComplexity, args["input"].(model.JobContractorInput)), true
-
 	case "Mutation.createEngineer":
 		if e.complexity.Mutation.CreateEngineer == nil {
 			break
@@ -1837,7 +1673,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateEngineer(childComplexity, args["input"].(model.CompanyEngineerInput)), true
-
 	case "Mutation.createFloor":
 		if e.complexity.Mutation.CreateFloor == nil {
 			break
@@ -1849,7 +1684,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateFloor(childComplexity, args["input"].(model.JobFloorInput)), true
-
 	case "Mutation.createJob":
 		if e.complexity.Mutation.CreateJob == nil {
 			break
@@ -1861,7 +1695,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateJob(childComplexity, args["input"].(model.JobInput)), true
-
 	case "Mutation.createJobPayments":
 		if e.complexity.Mutation.CreateJobPayments == nil {
 			break
@@ -1873,7 +1706,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateJobPayments(childComplexity, args["input"].(model.JobPaymentsInput)), true
-
 	case "Mutation.createOwner":
 		if e.complexity.Mutation.CreateOwner == nil {
 			break
@@ -1885,7 +1717,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateOwner(childComplexity, args["input"].(model.JobOwnerInput)), true
-
 	case "Mutation.createSupervisor":
 		if e.complexity.Mutation.CreateSupervisor == nil {
 			break
@@ -1897,7 +1728,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateSupervisor(childComplexity, args["input"].(model.JobSupervisorInput)), true
-
 	case "Mutation.deleteBatchMutation":
 		if e.complexity.Mutation.DeleteBatchMutation == nil {
 			break
@@ -1909,7 +1739,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteBatchMutation(childComplexity, args["yibfNo"].(int)), true
-
 	case "Mutation.deleteFloor":
 		if e.complexity.Mutation.DeleteFloor == nil {
 			break
@@ -1920,8 +1749,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteFloor(childComplexity, args["id"].(string)), true
-
+		return e.complexity.Mutation.DeleteFloor(childComplexity, args["id"].(int)), true
 	case "Mutation.deleteJobPayments":
 		if e.complexity.Mutation.DeleteJobPayments == nil {
 			break
@@ -1933,7 +1761,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteJobPayments(childComplexity, args["id"].(int)), true
-
 	case "Mutation.deleteJobReceipts":
 		if e.complexity.Mutation.DeleteJobReceipts == nil {
 			break
@@ -1945,7 +1772,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteJobReceipts(childComplexity, args["id"].(int)), true
-
 	case "Mutation.deleteUser":
 		if e.complexity.Mutation.DeleteUser == nil {
 			break
@@ -1957,7 +1783,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteUser(childComplexity, args["id"].(string)), true
-
 	case "Mutation.executeBatchMutation":
 		if e.complexity.Mutation.ExecuteBatchMutation == nil {
 			break
@@ -1969,7 +1794,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.ExecuteBatchMutation(childComplexity, args["input"].(model.JobBatchInput)), true
-
 	case "Mutation.jobBatchMutation":
 		if e.complexity.Mutation.JobBatchMutation == nil {
 			break
@@ -1981,7 +1805,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.JobBatchMutation(childComplexity, args["input"].(model.JobBatchInput)), true
-
 	case "Mutation.login":
 		if e.complexity.Mutation.Login == nil {
 			break
@@ -1993,7 +1816,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.Login(childComplexity, args["username"].(string), args["password"].(string)), true
-
 	case "Mutation.register":
 		if e.complexity.Mutation.Register == nil {
 			break
@@ -2005,7 +1827,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.Register(childComplexity, args["username"].(string), args["name"].(*string), args["email"].(*string), args["password"].(string)), true
-
 	case "Mutation.updateAuthor":
 		if e.complexity.Mutation.UpdateAuthor == nil {
 			break
@@ -2017,7 +1838,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateAuthor(childComplexity, args["yibfNo"].(int), args["input"].(model.JobAuthorInput)), true
-
 	case "Mutation.updateCompany":
 		if e.complexity.Mutation.UpdateCompany == nil {
 			break
@@ -2029,7 +1849,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateCompany(childComplexity, args["input"].(model.CompanyDetailInput)), true
-
 	case "Mutation.updateContractor":
 		if e.complexity.Mutation.UpdateContractor == nil {
 			break
@@ -2041,7 +1860,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateContractor(childComplexity, args["input"].(model.JobContractorInput)), true
-
 	case "Mutation.updateEngineer":
 		if e.complexity.Mutation.UpdateEngineer == nil {
 			break
@@ -2053,7 +1871,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateEngineer(childComplexity, args["ydsid"].(int), args["input"].(model.CompanyEngineerInput)), true
-
 	case "Mutation.updateEngineerByYDSID":
 		if e.complexity.Mutation.UpdateEngineerByYdsid == nil {
 			break
@@ -2065,7 +1882,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateEngineerByYdsid(childComplexity, args["ydsid"].(int), args["input"].(model.CompanyEngineerInput)), true
-
 	case "Mutation.updateFloor":
 		if e.complexity.Mutation.UpdateFloor == nil {
 			break
@@ -2076,8 +1892,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateFloor(childComplexity, args["id"].(string), args["input"].(model.JobFloorInput)), true
-
+		return e.complexity.Mutation.UpdateFloor(childComplexity, args["id"].(int), args["input"].(model.JobFloorInput)), true
 	case "Mutation.updateJob":
 		if e.complexity.Mutation.UpdateJob == nil {
 			break
@@ -2089,7 +1904,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateJob(childComplexity, args["yibfNo"].(int), args["input"].(model.JobInput)), true
-
 	case "Mutation.updateJobEngineer":
 		if e.complexity.Mutation.UpdateJobEngineer == nil {
 			break
@@ -2101,7 +1915,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateJobEngineer(childComplexity, args["input"].(model.JobEngineerInput)), true
-
 	case "Mutation.updateJobPayments":
 		if e.complexity.Mutation.UpdateJobPayments == nil {
 			break
@@ -2113,7 +1926,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateJobPayments(childComplexity, args["id"].(int), args["input"].(model.JobPaymentsInput)), true
-
 	case "Mutation.updateOwner":
 		if e.complexity.Mutation.UpdateOwner == nil {
 			break
@@ -2125,7 +1937,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateOwner(childComplexity, args["input"].(model.JobOwnerInput)), true
-
 	case "Mutation.updateSupervisor":
 		if e.complexity.Mutation.UpdateSupervisor == nil {
 			break
@@ -2137,7 +1948,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateSupervisor(childComplexity, args["input"].(model.JobSupervisorInput)), true
-
 	case "Mutation.upsertEngineer":
 		if e.complexity.Mutation.UpsertEngineer == nil {
 			break
@@ -2149,7 +1959,17 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpsertEngineer(childComplexity, args["input"].(model.CompanyEngineerInput)), true
+	case "Mutation.upsertFloor":
+		if e.complexity.Mutation.UpsertFloor == nil {
+			break
+		}
 
+		args, err := ec.field_Mutation_upsertFloor_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpsertFloor(childComplexity, args["id"].(*int), args["input"].(model.JobFloorInput)), true
 	case "Mutation.upsertJobReceipts":
 		if e.complexity.Mutation.UpsertJobReceipts == nil {
 			break
@@ -2161,7 +1981,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpsertJobReceipts(childComplexity, args["id"].(*int), args["input"].(model.JobReceiptInput)), true
-
 	case "Mutation.upsertPayments":
 		if e.complexity.Mutation.UpsertPayments == nil {
 			break
@@ -2173,7 +1992,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpsertPayments(childComplexity, args["id"].(*int), args["input"].(model.JobPaymentsInput)), true
-
 	case "Mutation.upsertProgress":
 		if e.complexity.Mutation.UpsertProgress == nil {
 			break
@@ -2185,7 +2003,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpsertProgress(childComplexity, args["input"].(model.JobProgressInput)), true
-
 	case "Mutation.upsertToken":
 		if e.complexity.Mutation.UpsertToken == nil {
 			break
@@ -2197,7 +2014,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpsertToken(childComplexity, args["DepartmentId"].(int), args["input"].(model.CompanyTokenInput)), true
-
 	case "Mutation.upsertUser":
 		if e.complexity.Mutation.UpsertUser == nil {
 			break
@@ -2216,14 +2032,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.AllContractor(childComplexity), true
-
 	case "Query.allOwner":
 		if e.complexity.Query.AllOwner == nil {
 			break
 		}
 
 		return e.complexity.Query.AllOwner(childComplexity), true
-
 	case "Query.author":
 		if e.complexity.Query.Author == nil {
 			break
@@ -2235,7 +2049,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Author(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.company":
 		if e.complexity.Query.Company == nil {
 			break
@@ -2247,7 +2060,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Company(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.companyByCode":
 		if e.complexity.Query.CompanyByCode == nil {
 			break
@@ -2259,7 +2071,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.CompanyByCode(childComplexity, args["companyCode"].(int)), true
-
 	case "Query.companyToken":
 		if e.complexity.Query.CompanyToken == nil {
 			break
@@ -2271,14 +2082,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.CompanyToken(childComplexity, args["companyCode"].(*int)), true
-
 	case "Query.companyUsers":
 		if e.complexity.Query.CompanyUsers == nil {
 			break
 		}
 
 		return e.complexity.Query.CompanyUsers(childComplexity), true
-
 	case "Query.contractor":
 		if e.complexity.Query.Contractor == nil {
 			break
@@ -2290,7 +2099,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Contractor(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.engineer":
 		if e.complexity.Query.Engineer == nil {
 			break
@@ -2302,7 +2110,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Engineer(childComplexity, args["filter"].(*model.EngineerFilterInput)), true
-
 	case "Query.engineerByYDSID":
 		if e.complexity.Query.EngineerByYdsid == nil {
 			break
@@ -2314,7 +2121,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.EngineerByYdsid(childComplexity, args["ydsid"].(int)), true
-
 	case "Query.Floors":
 		if e.complexity.Query.Floors == nil {
 			break
@@ -2326,7 +2132,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Floors(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.getContractor":
 		if e.complexity.Query.GetContractor == nil {
 			break
@@ -2338,7 +2143,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.GetContractor(childComplexity, args["YDSID"].(int)), true
-
 	case "Query.getOwner":
 		if e.complexity.Query.GetOwner == nil {
 			break
@@ -2350,7 +2154,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.GetOwner(childComplexity, args["YDSID"].(int)), true
-
 	case "Query.job":
 		if e.complexity.Query.Job == nil {
 			break
@@ -2362,7 +2165,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Job(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.jobBatchQuery":
 		if e.complexity.Query.JobBatchQuery == nil {
 			break
@@ -2374,7 +2176,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.JobBatchQuery(childComplexity, args["yibfNo"].(*int), args["state"].(*string)), true
-
 	case "Query.jobCounts":
 		if e.complexity.Query.JobCounts == nil {
 			break
@@ -2386,7 +2187,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.JobCounts(childComplexity, args["companyCode"].(*int)), true
-
 	case "Query.jobEngineer":
 		if e.complexity.Query.JobEngineer == nil {
 			break
@@ -2398,7 +2198,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.JobEngineer(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.jobPayments":
 		if e.complexity.Query.JobPayments == nil {
 			break
@@ -2410,7 +2209,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.JobPayments(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.jobReceipts":
 		if e.complexity.Query.JobReceipts == nil {
 			break
@@ -2422,14 +2220,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.JobReceipts(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.jobs":
 		if e.complexity.Query.Jobs == nil {
 			break
 		}
 
 		return e.complexity.Query.Jobs(childComplexity), true
-
 	case "Query.owner":
 		if e.complexity.Query.Owner == nil {
 			break
@@ -2441,7 +2237,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Owner(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.progress":
 		if e.complexity.Query.Progress == nil {
 			break
@@ -2453,7 +2248,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Progress(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.supervisor":
 		if e.complexity.Query.Supervisor == nil {
 			break
@@ -2465,7 +2259,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Supervisor(childComplexity, args["yibfNo"].(int)), true
-
 	case "Query.supervisorByYDSID":
 		if e.complexity.Query.SupervisorByYdsid == nil {
 			break
@@ -2477,7 +2270,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.SupervisorByYdsid(childComplexity, args["ydsid"].(int)), true
-
 	case "Query.user":
 		if e.complexity.Query.User == nil {
 			break
@@ -2496,49 +2288,42 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.User.Companies(childComplexity), true
-
 	case "User.CreatedAt":
 		if e.complexity.User.CreatedAt == nil {
 			break
 		}
 
 		return e.complexity.User.CreatedAt(childComplexity), true
-
 	case "User.Email":
 		if e.complexity.User.Email == nil {
 			break
 		}
 
 		return e.complexity.User.Email(childComplexity), true
-
 	case "User.id":
 		if e.complexity.User.ID == nil {
 			break
 		}
 
 		return e.complexity.User.ID(childComplexity), true
-
 	case "User.Name":
 		if e.complexity.User.Name == nil {
 			break
 		}
 
 		return e.complexity.User.Name(childComplexity), true
-
 	case "User.Phone":
 		if e.complexity.User.Phone == nil {
 			break
 		}
 
 		return e.complexity.User.Phone(childComplexity), true
-
 	case "User.Role":
 		if e.complexity.User.Role == nil {
 			break
 		}
 
 		return e.complexity.User.Role(childComplexity), true
-
 	case "User.Username":
 		if e.complexity.User.Username == nil {
 			break
@@ -2999,11 +2784,15 @@ extend type Mutation {
     @goField(forceResolver: true)
     @auth
 
-  updateFloor(id: ID!, input: JobFloorInput!): JobFloor!
+  updateFloor(id: Int!, input: JobFloorInput!): JobFloor!
     @goField(forceResolver: true)
     @auth
 
-  deleteFloor(id: ID!): JobFloor! @goField(forceResolver: true) @auth
+  upsertFloor(id: Int, input: JobFloorInput!): JobFloor!
+    @goField(forceResolver: true)
+    @auth
+
+  deleteFloor(id: Int!): JobFloor! @goField(forceResolver: true) @auth
 }
 `, BuiltIn: false},
 	{Name: "../schemas/job.graphqls", Input: `# JobDetail
@@ -3262,6 +3051,7 @@ extend type Mutation {
 	{Name: "../schemas/receipts.graphqls", Input: `type JobReceipt {
   id: Int
   YibfNo: Int
+  ReceiptDate: Time
   Amount: Float
   Note: String
   createdAt: Time
@@ -3409,2031 +3199,758 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_activateCompanyUsers_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_activateCompanyUsers_argsAdminID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "adminId", ec.unmarshalNID2string)
 	if err != nil {
 		return nil, err
 	}
 	args["adminId"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_activateCompanyUsers_argsAdminID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["adminId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("adminId"))
-	if tmp, ok := rawArgs["adminId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_createAuthor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createAuthor_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobAuthorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobAuthorInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_createAuthor_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobAuthorInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobAuthorInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobAuthorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobAuthorInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobAuthorInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_createContractor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createContractor_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobContractorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobContractorInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_createContractor_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobContractorInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobContractorInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobContractorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobContractorInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobContractorInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_createEngineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createEngineer_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyEngineerInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_createEngineer_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyEngineerInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyEngineerInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyEngineerInput(ctx, tmp)
-	}
-
-	var zeroVal model.CompanyEngineerInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_createFloor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createFloor_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_createFloor_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobFloorInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobFloorInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobFloorInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_createJobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createJobPayments_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentsInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_createJobPayments_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobPaymentsInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobPaymentsInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentsInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobPaymentsInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_createJob_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createJob_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_createJob_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_createOwner_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createOwner_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobOwnerInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_createOwner_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobOwnerInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobOwnerInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobOwnerInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobOwnerInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_createSupervisor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createSupervisor_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobSupervisorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobSupervisorInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_createSupervisor_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobSupervisorInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobSupervisorInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobSupervisorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobSupervisorInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobSupervisorInput
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_deleteBatchMutation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_deleteBatchMutation_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_deleteBatchMutation_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_deleteFloor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_deleteFloor_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_deleteFloor_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_deleteJobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_deleteJobPayments_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_deleteJobPayments_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_deleteJobReceipts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_deleteJobReceipts_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_deleteJobReceipts_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_deleteUser_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_deleteUser_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNID2string)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_deleteUser_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_executeBatchMutation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_executeBatchMutation_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_executeBatchMutation_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobBatchInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobBatchInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobBatchInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_jobBatchMutation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_jobBatchMutation_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_jobBatchMutation_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobBatchInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobBatchInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobBatchInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobBatchInput
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_login_argsUsername(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "username", ec.unmarshalNString2string)
 	if err != nil {
 		return nil, err
 	}
 	args["username"] = arg0
-	arg1, err := ec.field_Mutation_login_argsPassword(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "password", ec.unmarshalNString2string)
 	if err != nil {
 		return nil, err
 	}
 	args["password"] = arg1
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_login_argsUsername(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["username"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("username"))
-	if tmp, ok := rawArgs["username"]; ok {
-		return ec.unmarshalNString2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_login_argsPassword(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["password"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
-	if tmp, ok := rawArgs["password"]; ok {
-		return ec.unmarshalNString2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_register_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_register_argsUsername(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "username", ec.unmarshalNString2string)
 	if err != nil {
 		return nil, err
 	}
 	args["username"] = arg0
-	arg1, err := ec.field_Mutation_register_argsName(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "name", ec.unmarshalOString2ᚖstring)
 	if err != nil {
 		return nil, err
 	}
 	args["name"] = arg1
-	arg2, err := ec.field_Mutation_register_argsEmail(ctx, rawArgs)
+	arg2, err := graphql.ProcessArgField(ctx, rawArgs, "email", ec.unmarshalOString2ᚖstring)
 	if err != nil {
 		return nil, err
 	}
 	args["email"] = arg2
-	arg3, err := ec.field_Mutation_register_argsPassword(ctx, rawArgs)
+	arg3, err := graphql.ProcessArgField(ctx, rawArgs, "password", ec.unmarshalNString2string)
 	if err != nil {
 		return nil, err
 	}
 	args["password"] = arg3
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_register_argsUsername(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["username"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("username"))
-	if tmp, ok := rawArgs["username"]; ok {
-		return ec.unmarshalNString2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_register_argsName(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*string, error) {
-	if _, ok := rawArgs["name"]; !ok {
-		var zeroVal *string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-	if tmp, ok := rawArgs["name"]; ok {
-		return ec.unmarshalOString2ᚖstring(ctx, tmp)
-	}
-
-	var zeroVal *string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_register_argsEmail(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*string, error) {
-	if _, ok := rawArgs["email"]; !ok {
-		var zeroVal *string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
-	if tmp, ok := rawArgs["email"]; ok {
-		return ec.unmarshalOString2ᚖstring(ctx, tmp)
-	}
-
-	var zeroVal *string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_register_argsPassword(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["password"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
-	if tmp, ok := rawArgs["password"]; ok {
-		return ec.unmarshalNString2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_updateAuthor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateAuthor_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
-	arg1, err := ec.field_Mutation_updateAuthor_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobAuthorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobAuthorInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateAuthor_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateAuthor_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobAuthorInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobAuthorInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobAuthorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobAuthorInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobAuthorInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateCompany_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateCompany_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNCompanyDetailInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyDetailInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateCompany_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyDetailInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyDetailInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyDetailInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyDetailInput(ctx, tmp)
-	}
-
-	var zeroVal model.CompanyDetailInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateContractor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateContractor_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobContractorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobContractorInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateContractor_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobContractorInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobContractorInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobContractorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobContractorInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobContractorInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateEngineerByYDSID_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateEngineerByYDSID_argsYdsid(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "ydsid", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["ydsid"] = arg0
-	arg1, err := ec.field_Mutation_updateEngineerByYDSID_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyEngineerInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateEngineerByYDSID_argsYdsid(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["ydsid"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("ydsid"))
-	if tmp, ok := rawArgs["ydsid"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateEngineerByYDSID_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyEngineerInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyEngineerInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyEngineerInput(ctx, tmp)
-	}
-
-	var zeroVal model.CompanyEngineerInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateEngineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateEngineer_argsYdsid(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "ydsid", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["ydsid"] = arg0
-	arg1, err := ec.field_Mutation_updateEngineer_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyEngineerInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateEngineer_argsYdsid(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["ydsid"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("ydsid"))
-	if tmp, ok := rawArgs["ydsid"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateEngineer_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyEngineerInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyEngineerInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyEngineerInput(ctx, tmp)
-	}
-
-	var zeroVal model.CompanyEngineerInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateFloor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateFloor_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
-	arg1, err := ec.field_Mutation_updateFloor_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateFloor_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateFloor_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobFloorInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobFloorInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobFloorInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateJobEngineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateJobEngineer_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineerInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateJobEngineer_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobEngineerInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobEngineerInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineerInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobEngineerInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateJobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateJobPayments_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
-	arg1, err := ec.field_Mutation_updateJobPayments_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentsInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateJobPayments_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateJobPayments_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobPaymentsInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobPaymentsInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentsInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobPaymentsInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateJob_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateJob_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
-	arg1, err := ec.field_Mutation_updateJob_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateJob_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateJob_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateOwner_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateOwner_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobOwnerInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateOwner_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobOwnerInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobOwnerInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobOwnerInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobOwnerInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_updateSupervisor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateSupervisor_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobSupervisorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobSupervisorInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateSupervisor_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobSupervisorInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobSupervisorInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobSupervisorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobSupervisorInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobSupervisorInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_upsertEngineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_upsertEngineer_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyEngineerInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_upsertEngineer_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyEngineerInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyEngineerInput
-		return zeroVal, nil
-	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyEngineerInput(ctx, tmp)
+func (ec *executionContext) field_Mutation_upsertFloor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalOInt2ᚖint)
+	if err != nil {
+		return nil, err
 	}
-
-	var zeroVal model.CompanyEngineerInput
-	return zeroVal, nil
+	args["id"] = arg0
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
 }
 
 func (ec *executionContext) field_Mutation_upsertJobReceipts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_upsertJobReceipts_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalOInt2ᚖint)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
-	arg1, err := ec.field_Mutation_upsertJobReceipts_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobReceiptInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobReceiptInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_upsertJobReceipts_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*int, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal *int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalOInt2ᚖint(ctx, tmp)
-	}
-
-	var zeroVal *int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_upsertJobReceipts_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobReceiptInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobReceiptInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobReceiptInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobReceiptInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobReceiptInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_upsertPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_upsertPayments_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalOInt2ᚖint)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
-	arg1, err := ec.field_Mutation_upsertPayments_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentsInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
-}
-func (ec *executionContext) field_Mutation_upsertPayments_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*int, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal *int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalOInt2ᚖint(ctx, tmp)
-	}
-
-	var zeroVal *int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_upsertPayments_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobPaymentsInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobPaymentsInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobPaymentsInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobPaymentsInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobPaymentsInput
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Mutation_upsertProgress_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_upsertProgress_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobProgressInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobProgressInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_upsertProgress_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.JobProgressInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.JobProgressInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNJobProgressInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobProgressInput(ctx, tmp)
-	}
-
-	var zeroVal model.JobProgressInput
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_upsertToken_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_upsertToken_argsDepartmentID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "DepartmentId", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["DepartmentId"] = arg0
-	arg1, err := ec.field_Mutation_upsertToken_argsInput(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNCompanyTokenInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyTokenInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg1
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_upsertToken_argsDepartmentID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["DepartmentId"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("DepartmentId"))
-	if tmp, ok := rawArgs["DepartmentId"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_upsertToken_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CompanyTokenInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CompanyTokenInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCompanyTokenInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐCompanyTokenInput(ctx, tmp)
-	}
-
-	var zeroVal model.CompanyTokenInput
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Mutation_upsertUser_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_upsertUser_argsInput(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUserInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐUserInput)
 	if err != nil {
 		return nil, err
 	}
 	args["input"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_upsertUser_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.UserInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.UserInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUserInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐUserInput(ctx, tmp)
-	}
-
-	var zeroVal model.UserInput
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_Floors_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_Floors_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_Floors_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query___type_argsName(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "name", ec.unmarshalNString2string)
 	if err != nil {
 		return nil, err
 	}
 	args["name"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query___type_argsName(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["name"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-	if tmp, ok := rawArgs["name"]; ok {
-		return ec.unmarshalNString2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_author_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_author_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_author_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_companyByCode_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_companyByCode_argsCompanyCode(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "companyCode", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["companyCode"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_companyByCode_argsCompanyCode(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["companyCode"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("companyCode"))
-	if tmp, ok := rawArgs["companyCode"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_companyToken_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_companyToken_argsCompanyCode(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "companyCode", ec.unmarshalOInt2ᚖint)
 	if err != nil {
 		return nil, err
 	}
 	args["companyCode"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_companyToken_argsCompanyCode(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*int, error) {
-	if _, ok := rawArgs["companyCode"]; !ok {
-		var zeroVal *int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("companyCode"))
-	if tmp, ok := rawArgs["companyCode"]; ok {
-		return ec.unmarshalOInt2ᚖint(ctx, tmp)
-	}
-
-	var zeroVal *int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_company_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_company_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_company_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_contractor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_contractor_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_contractor_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_engineerByYDSID_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_engineerByYDSID_argsYdsid(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "ydsid", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["ydsid"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_engineerByYDSID_argsYdsid(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["ydsid"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("ydsid"))
-	if tmp, ok := rawArgs["ydsid"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_engineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_engineer_argsFilter(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "filter", ec.unmarshalOEngineerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐEngineerFilterInput)
 	if err != nil {
 		return nil, err
 	}
 	args["filter"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_engineer_argsFilter(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*model.EngineerFilterInput, error) {
-	if _, ok := rawArgs["filter"]; !ok {
-		var zeroVal *model.EngineerFilterInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
-	if tmp, ok := rawArgs["filter"]; ok {
-		return ec.unmarshalOEngineerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐEngineerFilterInput(ctx, tmp)
-	}
-
-	var zeroVal *model.EngineerFilterInput
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_getContractor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_getContractor_argsYdsid(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "YDSID", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["YDSID"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_getContractor_argsYdsid(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["YDSID"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
-	if tmp, ok := rawArgs["YDSID"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_getOwner_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_getOwner_argsYdsid(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "YDSID", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["YDSID"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_getOwner_argsYdsid(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["YDSID"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSID"))
-	if tmp, ok := rawArgs["YDSID"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_jobBatchQuery_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_jobBatchQuery_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalOInt2ᚖint)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
-	arg1, err := ec.field_Query_jobBatchQuery_argsState(ctx, rawArgs)
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "state", ec.unmarshalOString2ᚖstring)
 	if err != nil {
 		return nil, err
 	}
 	args["state"] = arg1
 	return args, nil
 }
-func (ec *executionContext) field_Query_jobBatchQuery_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal *int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalOInt2ᚖint(ctx, tmp)
-	}
-
-	var zeroVal *int
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Query_jobBatchQuery_argsState(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*string, error) {
-	if _, ok := rawArgs["state"]; !ok {
-		var zeroVal *string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("state"))
-	if tmp, ok := rawArgs["state"]; ok {
-		return ec.unmarshalOString2ᚖstring(ctx, tmp)
-	}
-
-	var zeroVal *string
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_jobCounts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_jobCounts_argsCompanyCode(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "companyCode", ec.unmarshalOInt2ᚖint)
 	if err != nil {
 		return nil, err
 	}
 	args["companyCode"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_jobCounts_argsCompanyCode(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*int, error) {
-	if _, ok := rawArgs["companyCode"]; !ok {
-		var zeroVal *int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("companyCode"))
-	if tmp, ok := rawArgs["companyCode"]; ok {
-		return ec.unmarshalOInt2ᚖint(ctx, tmp)
-	}
-
-	var zeroVal *int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_jobEngineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_jobEngineer_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_jobEngineer_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_jobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_jobPayments_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_jobPayments_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_jobReceipts_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_jobReceipts_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_jobReceipts_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_job_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_job_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_job_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_owner_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_owner_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field_Query_owner_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field_Query_progress_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_progress_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_progress_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_supervisorByYDSID_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_supervisorByYDSID_argsYdsid(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "ydsid", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["ydsid"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_supervisorByYDSID_argsYdsid(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["ydsid"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("ydsid"))
-	if tmp, ok := rawArgs["ydsid"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_supervisor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_supervisor_argsYibfNo(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "yibfNo", ec.unmarshalNInt2int)
 	if err != nil {
 		return nil, err
 	}
 	args["yibfNo"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_supervisor_argsYibfNo(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (int, error) {
-	if _, ok := rawArgs["yibfNo"]; !ok {
-		var zeroVal int
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("yibfNo"))
-	if tmp, ok := rawArgs["yibfNo"]; ok {
-		return ec.unmarshalNInt2int(ctx, tmp)
-	}
-
-	var zeroVal int
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Query_user_argsID(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNID2string)
 	if err != nil {
 		return nil, err
 	}
 	args["id"] = arg0
 	return args, nil
 }
-func (ec *executionContext) field_Query_user_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
 
 func (ec *executionContext) field___Directive_args_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field___Directive_args_argsIncludeDeprecated(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "includeDeprecated", ec.unmarshalOBoolean2ᚖbool)
 	if err != nil {
 		return nil, err
 	}
 	args["includeDeprecated"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field___Directive_args_argsIncludeDeprecated(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*bool, error) {
-	if _, ok := rawArgs["includeDeprecated"]; !ok {
-		var zeroVal *bool
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
-	if tmp, ok := rawArgs["includeDeprecated"]; ok {
-		return ec.unmarshalOBoolean2ᚖbool(ctx, tmp)
-	}
-
-	var zeroVal *bool
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field___Field_args_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field___Field_args_argsIncludeDeprecated(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "includeDeprecated", ec.unmarshalOBoolean2ᚖbool)
 	if err != nil {
 		return nil, err
 	}
 	args["includeDeprecated"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field___Field_args_argsIncludeDeprecated(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*bool, error) {
-	if _, ok := rawArgs["includeDeprecated"]; !ok {
-		var zeroVal *bool
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
-	if tmp, ok := rawArgs["includeDeprecated"]; ok {
-		return ec.unmarshalOBoolean2ᚖbool(ctx, tmp)
-	}
-
-	var zeroVal *bool
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field___Type_enumValues_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field___Type_enumValues_argsIncludeDeprecated(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "includeDeprecated", ec.unmarshalOBoolean2bool)
 	if err != nil {
 		return nil, err
 	}
 	args["includeDeprecated"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field___Type_enumValues_argsIncludeDeprecated(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (bool, error) {
-	if _, ok := rawArgs["includeDeprecated"]; !ok {
-		var zeroVal bool
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
-	if tmp, ok := rawArgs["includeDeprecated"]; ok {
-		return ec.unmarshalOBoolean2bool(ctx, tmp)
-	}
-
-	var zeroVal bool
-	return zeroVal, nil
 }
 
 func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field___Type_fields_argsIncludeDeprecated(ctx, rawArgs)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "includeDeprecated", ec.unmarshalOBoolean2bool)
 	if err != nil {
 		return nil, err
 	}
 	args["includeDeprecated"] = arg0
 	return args, nil
-}
-func (ec *executionContext) field___Type_fields_argsIncludeDeprecated(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (bool, error) {
-	if _, ok := rawArgs["includeDeprecated"]; !ok {
-		var zeroVal bool
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
-	if tmp, ok := rawArgs["includeDeprecated"]; ok {
-		return ec.unmarshalOBoolean2bool(ctx, tmp)
-	}
-
-	var zeroVal bool
-	return zeroVal, nil
 }
 
 // endregion ***************************** args.gotpl *****************************
@@ -5445,34 +3962,19 @@ func (ec *executionContext) field___Type_fields_argsIncludeDeprecated(
 // region    **************************** field.gotpl *****************************
 
 func (ec *executionContext) _AdministrationCount_name(ctx context.Context, field graphql.CollectedField, obj *model.AdministrationCount) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_AdministrationCount_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_AdministrationCount_name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_AdministrationCount_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5489,34 +3991,19 @@ func (ec *executionContext) fieldContext_AdministrationCount_name(_ context.Cont
 }
 
 func (ec *executionContext) _AdministrationCount_adet(ctx context.Context, field graphql.CollectedField, obj *model.AdministrationCount) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_AdministrationCount_adet(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Adet, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_AdministrationCount_adet,
+		func(ctx context.Context) (any, error) {
+			return obj.Adet, nil
+		},
+		nil,
+		ec.marshalNInt2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_AdministrationCount_adet(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5533,34 +4020,19 @@ func (ec *executionContext) fieldContext_AdministrationCount_adet(_ context.Cont
 }
 
 func (ec *executionContext) _AuthPayload_token(ctx context.Context, field graphql.CollectedField, obj *model.AuthPayload) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_AuthPayload_token(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Token, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_AuthPayload_token,
+		func(ctx context.Context) (any, error) {
+			return obj.Token, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_AuthPayload_token(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5577,34 +4049,19 @@ func (ec *executionContext) fieldContext_AuthPayload_token(_ context.Context, fi
 }
 
 func (ec *executionContext) _AuthPayload_userID(ctx context.Context, field graphql.CollectedField, obj *model.AuthPayload) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_AuthPayload_userID(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UserID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_AuthPayload_userID,
+		func(ctx context.Context) (any, error) {
+			return obj.UserID, nil
+		},
+		nil,
+		ec.marshalNID2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_AuthPayload_userID(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5621,34 +4078,19 @@ func (ec *executionContext) fieldContext_AuthPayload_userID(_ context.Context, f
 }
 
 func (ec *executionContext) _AuthPayload_username(ctx context.Context, field graphql.CollectedField, obj *model.AuthPayload) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_AuthPayload_username(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Username, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_AuthPayload_username,
+		func(ctx context.Context) (any, error) {
+			return obj.Username, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_AuthPayload_username(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5665,34 +4107,19 @@ func (ec *executionContext) fieldContext_AuthPayload_username(_ context.Context,
 }
 
 func (ec *executionContext) _AuthPayload_name(ctx context.Context, field graphql.CollectedField, obj *model.AuthPayload) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_AuthPayload_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_AuthPayload_name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_AuthPayload_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5709,34 +4136,19 @@ func (ec *executionContext) fieldContext_AuthPayload_name(_ context.Context, fie
 }
 
 func (ec *executionContext) _AuthPayload_role(ctx context.Context, field graphql.CollectedField, obj *model.AuthPayload) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_AuthPayload_role(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Role, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_AuthPayload_role,
+		func(ctx context.Context) (any, error) {
+			return obj.Role, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_AuthPayload_role(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5753,31 +4165,19 @@ func (ec *executionContext) fieldContext_AuthPayload_role(_ context.Context, fie
 }
 
 func (ec *executionContext) _CompanyBatchResult_company(ctx context.Context, field graphql.CollectedField, obj *model.CompanyBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyBatchResult_company(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Company, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyDetail)
-	fc.Result = res
-	return ec.marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyBatchResult_company,
+		func(ctx context.Context) (any, error) {
+			return obj.Company, nil
+		},
+		nil,
+		ec.marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyBatchResult_company(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5846,31 +4246,19 @@ func (ec *executionContext) fieldContext_CompanyBatchResult_company(_ context.Co
 }
 
 func (ec *executionContext) _CompanyBatchResult_companyToken(ctx context.Context, field graphql.CollectedField, obj *model.CompanyBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyBatchResult_companyToken(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CompanyToken, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyToken)
-	fc.Result = res
-	return ec.marshalOCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyToken(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyBatchResult_companyToken,
+		func(ctx context.Context) (any, error) {
+			return obj.CompanyToken, nil
+		},
+		nil,
+		ec.marshalOCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyToken,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyBatchResult_companyToken(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5899,31 +4287,19 @@ func (ec *executionContext) fieldContext_CompanyBatchResult_companyToken(_ conte
 }
 
 func (ec *executionContext) _CompanyDetail_id(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalOID2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5940,31 +4316,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_id(_ context.Context, fie
 }
 
 func (ec *executionContext) _CompanyDetail_CompanyCode(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_CompanyCode(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CompanyCode, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_CompanyCode,
+		func(ctx context.Context) (any, error) {
+			return obj.CompanyCode, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_CompanyCode(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5981,34 +4345,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_CompanyCode(_ context.Con
 }
 
 func (ec *executionContext) _CompanyDetail_Name(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_Name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6025,31 +4374,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_Name(_ context.Context, f
 }
 
 func (ec *executionContext) _CompanyDetail_Address(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Address(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Address, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_Address,
+		func(ctx context.Context) (any, error) {
+			return obj.Address, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Address(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6066,31 +4403,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_Address(_ context.Context
 }
 
 func (ec *executionContext) _CompanyDetail_Phone(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Phone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Phone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_Phone,
+		func(ctx context.Context) (any, error) {
+			return obj.Phone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Phone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6107,31 +4432,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_Phone(_ context.Context, 
 }
 
 func (ec *executionContext) _CompanyDetail_Fax(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Fax(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Fax, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_Fax,
+		func(ctx context.Context) (any, error) {
+			return obj.Fax, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Fax(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6148,31 +4461,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_Fax(_ context.Context, fi
 }
 
 func (ec *executionContext) _CompanyDetail_MobilePhone(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_MobilePhone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.MobilePhone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_MobilePhone,
+		func(ctx context.Context) (any, error) {
+			return obj.MobilePhone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_MobilePhone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6189,31 +4490,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_MobilePhone(_ context.Con
 }
 
 func (ec *executionContext) _CompanyDetail_Email(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Email(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_Email,
+		func(ctx context.Context) (any, error) {
+			return obj.Email, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6230,31 +4519,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_Email(_ context.Context, 
 }
 
 func (ec *executionContext) _CompanyDetail_Website(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_Website(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Website, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_Website,
+		func(ctx context.Context) (any, error) {
+			return obj.Website, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Website(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6271,31 +4548,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_Website(_ context.Context
 }
 
 func (ec *executionContext) _CompanyDetail_TaxAdmin(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TaxAdmin, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_TaxAdmin,
+		func(ctx context.Context) (any, error) {
+			return obj.TaxAdmin, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_TaxAdmin(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6312,31 +4577,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_TaxAdmin(_ context.Contex
 }
 
 func (ec *executionContext) _CompanyDetail_TaxNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_TaxNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TaxNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_TaxNo,
+		func(ctx context.Context) (any, error) {
+			return obj.TaxNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_TaxNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6353,31 +4606,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_TaxNo(_ context.Context, 
 }
 
 func (ec *executionContext) _CompanyDetail_ChamberInfo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_ChamberInfo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ChamberInfo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_ChamberInfo,
+		func(ctx context.Context) (any, error) {
+			return obj.ChamberInfo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_ChamberInfo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6394,31 +4635,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_ChamberInfo(_ context.Con
 }
 
 func (ec *executionContext) _CompanyDetail_ChamberRegisterNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_ChamberRegisterNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ChamberRegisterNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_ChamberRegisterNo,
+		func(ctx context.Context) (any, error) {
+			return obj.ChamberRegisterNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_ChamberRegisterNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6435,31 +4664,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_ChamberRegisterNo(_ conte
 }
 
 func (ec *executionContext) _CompanyDetail_VisaDate(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_VisaDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.VisaDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_VisaDate,
+		func(ctx context.Context) (any, error) {
+			return obj.VisaDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_VisaDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6476,31 +4693,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_VisaDate(_ context.Contex
 }
 
 func (ec *executionContext) _CompanyDetail_VisaEndDate(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_VisaEndDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.VisaEndDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_VisaEndDate,
+		func(ctx context.Context) (any, error) {
+			return obj.VisaEndDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_VisaEndDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6517,31 +4722,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_VisaEndDate(_ context.Con
 }
 
 func (ec *executionContext) _CompanyDetail_visa_finished_for_90days(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_visa_finished_for_90days(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.VisaFinishedFor90Days, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_visa_finished_for_90days,
+		func(ctx context.Context) (any, error) {
+			return obj.VisaFinishedFor90Days, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_visa_finished_for_90days(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6558,31 +4751,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_visa_finished_for_90days(
 }
 
 func (ec *executionContext) _CompanyDetail_core_person_absent_90days(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_core_person_absent_90days(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CorePersonAbsent90Days, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_core_person_absent_90days,
+		func(ctx context.Context) (any, error) {
+			return obj.CorePersonAbsent90Days, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_core_person_absent_90days(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6599,31 +4780,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_core_person_absent_90days
 }
 
 func (ec *executionContext) _CompanyDetail_isClosed(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_isClosed(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IsClosed, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_isClosed,
+		func(ctx context.Context) (any, error) {
+			return obj.IsClosed, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_isClosed(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6640,31 +4809,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_isClosed(_ context.Contex
 }
 
 func (ec *executionContext) _CompanyDetail_OwnerName(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_OwnerName(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OwnerName, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_OwnerName,
+		func(ctx context.Context) (any, error) {
+			return obj.OwnerName, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_OwnerName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6681,31 +4838,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_OwnerName(_ context.Conte
 }
 
 func (ec *executionContext) _CompanyDetail_OwnerTcNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_OwnerTcNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OwnerTcNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_OwnerTcNo,
+		func(ctx context.Context) (any, error) {
+			return obj.OwnerTcNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_OwnerTcNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6722,31 +4867,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_OwnerTcNo(_ context.Conte
 }
 
 func (ec *executionContext) _CompanyDetail_OwnerAddress(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_OwnerAddress(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OwnerAddress, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_OwnerAddress,
+		func(ctx context.Context) (any, error) {
+			return obj.OwnerAddress, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_OwnerAddress(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6763,31 +4896,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_OwnerAddress(_ context.Co
 }
 
 func (ec *executionContext) _CompanyDetail_OwnerPhone(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_OwnerPhone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OwnerPhone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_OwnerPhone,
+		func(ctx context.Context) (any, error) {
+			return obj.OwnerPhone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_OwnerPhone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6804,31 +4925,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_OwnerPhone(_ context.Cont
 }
 
 func (ec *executionContext) _CompanyDetail_OwnerEmail(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_OwnerEmail(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OwnerEmail, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_OwnerEmail,
+		func(ctx context.Context) (any, error) {
+			return obj.OwnerEmail, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_OwnerEmail(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6845,31 +4954,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_OwnerEmail(_ context.Cont
 }
 
 func (ec *executionContext) _CompanyDetail_OwnerRegisterNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_OwnerRegisterNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OwnerRegisterNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_OwnerRegisterNo,
+		func(ctx context.Context) (any, error) {
+			return obj.OwnerRegisterNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_OwnerRegisterNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6886,31 +4983,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_OwnerRegisterNo(_ context
 }
 
 func (ec *executionContext) _CompanyDetail_OwnerCareer(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyDetail_OwnerCareer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OwnerCareer, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_OwnerCareer,
+		func(ctx context.Context) (any, error) {
+			return obj.OwnerCareer, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_OwnerCareer(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6927,34 +5012,19 @@ func (ec *executionContext) fieldContext_CompanyDetail_OwnerCareer(_ context.Con
 }
 
 func (ec *executionContext) _CompanyEngineer_id(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalNID2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6971,31 +5041,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_id(_ context.Context, f
 }
 
 func (ec *executionContext) _CompanyEngineer_YDSID(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_YDSID(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YDSID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_YDSID,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSID, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_YDSID(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7012,31 +5070,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_YDSID(_ context.Context
 }
 
 func (ec *executionContext) _CompanyEngineer_Name(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7053,31 +5099,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Name(_ context.Context,
 }
 
 func (ec *executionContext) _CompanyEngineer_TcNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_TcNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TcNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_TcNo,
+		func(ctx context.Context) (any, error) {
+			return obj.TcNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_TcNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7094,31 +5128,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_TcNo(_ context.Context,
 }
 
 func (ec *executionContext) _CompanyEngineer_Phone(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Phone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Phone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Phone,
+		func(ctx context.Context) (any, error) {
+			return obj.Phone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Phone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7135,31 +5157,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Phone(_ context.Context
 }
 
 func (ec *executionContext) _CompanyEngineer_Email(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Email(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Email,
+		func(ctx context.Context) (any, error) {
+			return obj.Email, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7176,31 +5186,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Email(_ context.Context
 }
 
 func (ec *executionContext) _CompanyEngineer_Address(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Address(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Address, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Address,
+		func(ctx context.Context) (any, error) {
+			return obj.Address, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Address(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7217,31 +5215,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Address(_ context.Conte
 }
 
 func (ec *executionContext) _CompanyEngineer_Career(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Career(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Career, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Career,
+		func(ctx context.Context) (any, error) {
+			return obj.Career, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Career(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7258,31 +5244,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Career(_ context.Contex
 }
 
 func (ec *executionContext) _CompanyEngineer_Position(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Position(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Position, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Position,
+		func(ctx context.Context) (any, error) {
+			return obj.Position, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Position(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7299,31 +5273,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Position(_ context.Cont
 }
 
 func (ec *executionContext) _CompanyEngineer_RegisterNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_RegisterNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.RegisterNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_RegisterNo,
+		func(ctx context.Context) (any, error) {
+			return obj.RegisterNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_RegisterNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7340,31 +5302,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_RegisterNo(_ context.Co
 }
 
 func (ec *executionContext) _CompanyEngineer_CertNo(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_CertNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CertNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_CertNo,
+		func(ctx context.Context) (any, error) {
+			return obj.CertNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_CertNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7381,31 +5331,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_CertNo(_ context.Contex
 }
 
 func (ec *executionContext) _CompanyEngineer_Employment(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Employment(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Employment, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Employment,
+		func(ctx context.Context) (any, error) {
+			return obj.Employment, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Employment(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7422,31 +5360,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Employment(_ context.Co
 }
 
 func (ec *executionContext) _CompanyEngineer_Status(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Status(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Status, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Status,
+		func(ctx context.Context) (any, error) {
+			return obj.Status, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Status(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7463,31 +5389,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Status(_ context.Contex
 }
 
 func (ec *executionContext) _CompanyEngineer_Note(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Note(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Note, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Note,
+		func(ctx context.Context) (any, error) {
+			return obj.Note, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Note(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7504,31 +5418,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Note(_ context.Context,
 }
 
 func (ec *executionContext) _CompanyEngineer_CompanyCode(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_CompanyCode(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.CompanyEngineer().CompanyCode(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_CompanyCode,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.CompanyEngineer().CompanyCode(ctx, obj)
+		},
+		nil,
+		ec.marshalOInt2ᚖint,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_CompanyCode(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7545,31 +5447,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_CompanyCode(_ context.C
 }
 
 func (ec *executionContext) _CompanyEngineer_Company(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyEngineer_Company(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Company(ctx)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyDetail)
-	fc.Result = res
-	return ec.marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyEngineer_Company,
+		func(ctx context.Context) (any, error) {
+			return obj.Company(ctx)
+		},
+		nil,
+		ec.marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7638,31 +5528,19 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Conte
 }
 
 func (ec *executionContext) _CompanyToken_Token(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyToken) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyToken_Token(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Token, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyToken_Token,
+		func(ctx context.Context) (any, error) {
+			return obj.Token, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyToken_Token(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7679,31 +5557,19 @@ func (ec *executionContext) fieldContext_CompanyToken_Token(_ context.Context, f
 }
 
 func (ec *executionContext) _CompanyToken_DepartmentId(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyToken) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyToken_DepartmentId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DepartmentId, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyToken_DepartmentId,
+		func(ctx context.Context) (any, error) {
+			return obj.DepartmentId, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyToken_DepartmentId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7720,31 +5586,19 @@ func (ec *executionContext) fieldContext_CompanyToken_DepartmentId(_ context.Con
 }
 
 func (ec *executionContext) _CompanyToken_CompanyCode(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyToken) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyToken_CompanyCode(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.CompanyToken().CompanyCode(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyToken_CompanyCode,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.CompanyToken().CompanyCode(ctx, obj)
+		},
+		nil,
+		ec.marshalOInt2ᚖint,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyToken_CompanyCode(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7761,31 +5615,19 @@ func (ec *executionContext) fieldContext_CompanyToken_CompanyCode(_ context.Cont
 }
 
 func (ec *executionContext) _CompanyToken_YDKUsername(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyToken) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyToken_YDKUsername(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YDKUsername, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyToken_YDKUsername,
+		func(ctx context.Context) (any, error) {
+			return obj.YDKUsername, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyToken_YDKUsername(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7802,31 +5644,19 @@ func (ec *executionContext) fieldContext_CompanyToken_YDKUsername(_ context.Cont
 }
 
 func (ec *executionContext) _CompanyToken_YDKPassword(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyToken) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CompanyToken_YDKPassword(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YDKPassword, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyToken_YDKPassword,
+		func(ctx context.Context) (any, error) {
+			return obj.YDKPassword, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_CompanyToken_YDKPassword(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7843,34 +5673,19 @@ func (ec *executionContext) fieldContext_CompanyToken_YDKPassword(_ context.Cont
 }
 
 func (ec *executionContext) _JobAuthor_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobAuthor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobAuthor_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobAuthor_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalNID2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobAuthor_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7887,31 +5702,19 @@ func (ec *executionContext) fieldContext_JobAuthor_id(_ context.Context, field g
 }
 
 func (ec *executionContext) _JobAuthor_Static(ctx context.Context, field graphql.CollectedField, obj *ent.JobAuthor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobAuthor_Static(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Static, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobAuthor_Static,
+		func(ctx context.Context) (any, error) {
+			return obj.Static, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobAuthor_Static(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7928,31 +5731,19 @@ func (ec *executionContext) fieldContext_JobAuthor_Static(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobAuthor_Mechanic(ctx context.Context, field graphql.CollectedField, obj *ent.JobAuthor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobAuthor_Mechanic(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Mechanic, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobAuthor_Mechanic,
+		func(ctx context.Context) (any, error) {
+			return obj.Mechanic, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobAuthor_Mechanic(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -7969,31 +5760,19 @@ func (ec *executionContext) fieldContext_JobAuthor_Mechanic(_ context.Context, f
 }
 
 func (ec *executionContext) _JobAuthor_Electric(ctx context.Context, field graphql.CollectedField, obj *ent.JobAuthor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobAuthor_Electric(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Electric, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobAuthor_Electric,
+		func(ctx context.Context) (any, error) {
+			return obj.Electric, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobAuthor_Electric(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8010,31 +5789,19 @@ func (ec *executionContext) fieldContext_JobAuthor_Electric(_ context.Context, f
 }
 
 func (ec *executionContext) _JobAuthor_Architect(ctx context.Context, field graphql.CollectedField, obj *ent.JobAuthor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobAuthor_Architect(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Architect, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobAuthor_Architect,
+		func(ctx context.Context) (any, error) {
+			return obj.Architect, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobAuthor_Architect(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8051,31 +5818,19 @@ func (ec *executionContext) fieldContext_JobAuthor_Architect(_ context.Context, 
 }
 
 func (ec *executionContext) _JobAuthor_GeotechnicalEngineer(ctx context.Context, field graphql.CollectedField, obj *ent.JobAuthor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobAuthor_GeotechnicalEngineer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.GeotechnicalEngineer, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobAuthor_GeotechnicalEngineer,
+		func(ctx context.Context) (any, error) {
+			return obj.GeotechnicalEngineer, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobAuthor_GeotechnicalEngineer(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8092,31 +5847,19 @@ func (ec *executionContext) fieldContext_JobAuthor_GeotechnicalEngineer(_ contex
 }
 
 func (ec *executionContext) _JobAuthor_GeotechnicalGeologist(ctx context.Context, field graphql.CollectedField, obj *ent.JobAuthor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobAuthor_GeotechnicalGeologist(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.GeotechnicalGeologist, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobAuthor_GeotechnicalGeologist,
+		func(ctx context.Context) (any, error) {
+			return obj.GeotechnicalGeologist, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobAuthor_GeotechnicalGeologist(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8133,31 +5876,19 @@ func (ec *executionContext) fieldContext_JobAuthor_GeotechnicalGeologist(_ conte
 }
 
 func (ec *executionContext) _JobAuthor_GeotechnicalGeophysicist(ctx context.Context, field graphql.CollectedField, obj *ent.JobAuthor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobAuthor_GeotechnicalGeophysicist(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.GeotechnicalGeophysicist, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobAuthor_GeotechnicalGeophysicist,
+		func(ctx context.Context) (any, error) {
+			return obj.GeotechnicalGeophysicist, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobAuthor_GeotechnicalGeophysicist(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8174,31 +5905,19 @@ func (ec *executionContext) fieldContext_JobAuthor_GeotechnicalGeophysicist(_ co
 }
 
 func (ec *executionContext) _JobBatchResult_job(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_job(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Job, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobDetail)
-	fc.Result = res
-	return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobBatchResult_job,
+		func(ctx context.Context) (any, error) {
+			return obj.Job, nil
+		},
+		nil,
+		ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobBatchResult_job(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8287,31 +6006,19 @@ func (ec *executionContext) fieldContext_JobBatchResult_job(_ context.Context, f
 }
 
 func (ec *executionContext) _JobBatchResult_owner(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_owner(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Owner, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobOwner)
-	fc.Result = res
-	return ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobBatchResult_owner,
+		func(ctx context.Context) (any, error) {
+			return obj.Owner, nil
+		},
+		nil,
+		ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobBatchResult_owner(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8352,31 +6059,19 @@ func (ec *executionContext) fieldContext_JobBatchResult_owner(_ context.Context,
 }
 
 func (ec *executionContext) _JobBatchResult_contractor(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_contractor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Contractor, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobContractor)
-	fc.Result = res
-	return ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobBatchResult_contractor,
+		func(ctx context.Context) (any, error) {
+			return obj.Contractor, nil
+		},
+		nil,
+		ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobBatchResult_contractor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8419,31 +6114,19 @@ func (ec *executionContext) fieldContext_JobBatchResult_contractor(_ context.Con
 }
 
 func (ec *executionContext) _JobBatchResult_author(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_author(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Author, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobAuthor)
-	fc.Result = res
-	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobAuthor(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobBatchResult_author,
+		func(ctx context.Context) (any, error) {
+			return obj.Author, nil
+		},
+		nil,
+		ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobAuthor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobBatchResult_author(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8478,31 +6161,19 @@ func (ec *executionContext) fieldContext_JobBatchResult_author(_ context.Context
 }
 
 func (ec *executionContext) _JobBatchResult_supervisor(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_supervisor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Supervisor, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobSupervisor)
-	fc.Result = res
-	return ec.marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobBatchResult_supervisor,
+		func(ctx context.Context) (any, error) {
+			return obj.Supervisor, nil
+		},
+		nil,
+		ec.marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobBatchResult_supervisor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8545,31 +6216,19 @@ func (ec *executionContext) fieldContext_JobBatchResult_supervisor(_ context.Con
 }
 
 func (ec *executionContext) _JobBatchResult_engineer(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_engineer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Engineer, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*model.JobEngineer)
-	fc.Result = res
-	return ec.marshalOJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobBatchResult_engineer,
+		func(ctx context.Context) (any, error) {
+			return obj.Engineer, nil
+		},
+		nil,
+		ec.marshalOJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobBatchResult_engineer(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8606,31 +6265,19 @@ func (ec *executionContext) fieldContext_JobBatchResult_engineer(_ context.Conte
 }
 
 func (ec *executionContext) _JobBatchResult_progress(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_progress(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Progress, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobProgress)
-	fc.Result = res
-	return ec.marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobProgress(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobBatchResult_progress,
+		func(ctx context.Context) (any, error) {
+			return obj.Progress, nil
+		},
+		nil,
+		ec.marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobProgress,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobBatchResult_progress(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8663,31 +6310,19 @@ func (ec *executionContext) fieldContext_JobBatchResult_progress(_ context.Conte
 }
 
 func (ec *executionContext) _JobBatchResult_company(ctx context.Context, field graphql.CollectedField, obj *model.JobBatchResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobBatchResult_company(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Company, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyDetail)
-	fc.Result = res
-	return ec.marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobBatchResult_company,
+		func(ctx context.Context) (any, error) {
+			return obj.Company, nil
+		},
+		nil,
+		ec.marshalOCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobBatchResult_company(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8756,31 +6391,19 @@ func (ec *executionContext) fieldContext_JobBatchResult_company(_ context.Contex
 }
 
 func (ec *executionContext) _JobContractor_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalOID2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8797,31 +6420,19 @@ func (ec *executionContext) fieldContext_JobContractor_id(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobContractor_Name(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_Name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8838,31 +6449,19 @@ func (ec *executionContext) fieldContext_JobContractor_Name(_ context.Context, f
 }
 
 func (ec *executionContext) _JobContractor_TcNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_TcNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TcNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_TcNo,
+		func(ctx context.Context) (any, error) {
+			return obj.TcNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_TcNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8879,31 +6478,19 @@ func (ec *executionContext) fieldContext_JobContractor_TcNo(_ context.Context, f
 }
 
 func (ec *executionContext) _JobContractor_RegisterNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_RegisterNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.RegisterNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_RegisterNo,
+		func(ctx context.Context) (any, error) {
+			return obj.RegisterNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_RegisterNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8920,31 +6507,19 @@ func (ec *executionContext) fieldContext_JobContractor_RegisterNo(_ context.Cont
 }
 
 func (ec *executionContext) _JobContractor_Address(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_Address(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Address, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_Address,
+		func(ctx context.Context) (any, error) {
+			return obj.Address, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_Address(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -8961,31 +6536,19 @@ func (ec *executionContext) fieldContext_JobContractor_Address(_ context.Context
 }
 
 func (ec *executionContext) _JobContractor_TaxNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_TaxNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TaxNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_TaxNo,
+		func(ctx context.Context) (any, error) {
+			return obj.TaxNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_TaxNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9002,31 +6565,19 @@ func (ec *executionContext) fieldContext_JobContractor_TaxNo(_ context.Context, 
 }
 
 func (ec *executionContext) _JobContractor_MobilePhone(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_MobilePhone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.MobilePhone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_MobilePhone,
+		func(ctx context.Context) (any, error) {
+			return obj.MobilePhone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_MobilePhone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9043,31 +6594,19 @@ func (ec *executionContext) fieldContext_JobContractor_MobilePhone(_ context.Con
 }
 
 func (ec *executionContext) _JobContractor_Phone(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_Phone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Phone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_Phone,
+		func(ctx context.Context) (any, error) {
+			return obj.Phone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_Phone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9084,31 +6623,19 @@ func (ec *executionContext) fieldContext_JobContractor_Phone(_ context.Context, 
 }
 
 func (ec *executionContext) _JobContractor_Email(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_Email(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_Email,
+		func(ctx context.Context) (any, error) {
+			return obj.Email, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_Email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9125,31 +6652,19 @@ func (ec *executionContext) fieldContext_JobContractor_Email(_ context.Context, 
 }
 
 func (ec *executionContext) _JobContractor_PersonType(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_PersonType(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.PersonType, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_PersonType,
+		func(ctx context.Context) (any, error) {
+			return obj.PersonType, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_PersonType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9166,31 +6681,19 @@ func (ec *executionContext) fieldContext_JobContractor_PersonType(_ context.Cont
 }
 
 func (ec *executionContext) _JobContractor_YDSID(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_YDSID(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YDSID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_YDSID,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSID, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_YDSID(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9207,31 +6710,19 @@ func (ec *executionContext) fieldContext_JobContractor_YDSID(_ context.Context, 
 }
 
 func (ec *executionContext) _JobContractor_Note(ctx context.Context, field graphql.CollectedField, obj *ent.JobContractor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobContractor_Note(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Note, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobContractor_Note,
+		func(ctx context.Context) (any, error) {
+			return obj.Note, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobContractor_Note(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9248,34 +6739,19 @@ func (ec *executionContext) fieldContext_JobContractor_Note(_ context.Context, f
 }
 
 func (ec *executionContext) _JobCounts_current(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobCounts_current(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Current, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobCounts_current,
+		func(ctx context.Context) (any, error) {
+			return obj.Current, nil
+		},
+		nil,
+		ec.marshalNInt2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobCounts_current(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9292,34 +6768,19 @@ func (ec *executionContext) fieldContext_JobCounts_current(_ context.Context, fi
 }
 
 func (ec *executionContext) _JobCounts_pending(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobCounts_pending(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Pending, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobCounts_pending,
+		func(ctx context.Context) (any, error) {
+			return obj.Pending, nil
+		},
+		nil,
+		ec.marshalNInt2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobCounts_pending(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9336,34 +6797,19 @@ func (ec *executionContext) fieldContext_JobCounts_pending(_ context.Context, fi
 }
 
 func (ec *executionContext) _JobCounts_completed(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobCounts_completed(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Completed, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobCounts_completed,
+		func(ctx context.Context) (any, error) {
+			return obj.Completed, nil
+		},
+		nil,
+		ec.marshalNInt2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobCounts_completed(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9380,34 +6826,19 @@ func (ec *executionContext) fieldContext_JobCounts_completed(_ context.Context, 
 }
 
 func (ec *executionContext) _JobCounts_total(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobCounts_total(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Total, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobCounts_total,
+		func(ctx context.Context) (any, error) {
+			return obj.Total, nil
+		},
+		nil,
+		ec.marshalNInt2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobCounts_total(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9424,34 +6855,19 @@ func (ec *executionContext) fieldContext_JobCounts_total(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobCounts_administrationCounts(ctx context.Context, field graphql.CollectedField, obj *model.JobCounts) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobCounts_administrationCounts(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.AdministrationCounts, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.AdministrationCount)
-	fc.Result = res
-	return ec.marshalNAdministrationCount2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAdministrationCountᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobCounts_administrationCounts,
+		func(ctx context.Context) (any, error) {
+			return obj.AdministrationCounts, nil
+		},
+		nil,
+		ec.marshalNAdministrationCount2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAdministrationCountᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobCounts_administrationCounts(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9474,34 +6890,19 @@ func (ec *executionContext) fieldContext_JobCounts_administrationCounts(_ contex
 }
 
 func (ec *executionContext) _JobDetail_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalNID2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9518,34 +6919,19 @@ func (ec *executionContext) fieldContext_JobDetail_id(_ context.Context, field g
 }
 
 func (ec *executionContext) _JobDetail_CompanyCode(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_CompanyCode(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobDetail().CompanyCode(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_CompanyCode,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.JobDetail().CompanyCode(ctx, obj)
+		},
+		nil,
+		ec.marshalNInt2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_CompanyCode(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9562,34 +6948,19 @@ func (ec *executionContext) fieldContext_JobDetail_CompanyCode(_ context.Context
 }
 
 func (ec *executionContext) _JobDetail_YibfNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_YibfNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YibfNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_YibfNo,
+		func(ctx context.Context) (any, error) {
+			return obj.YibfNo, nil
+		},
+		nil,
+		ec.marshalNInt2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_YibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9606,31 +6977,19 @@ func (ec *executionContext) fieldContext_JobDetail_YibfNo(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobDetail_Title(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Title(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Title, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Title,
+		func(ctx context.Context) (any, error) {
+			return obj.Title, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Title(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9647,31 +7006,19 @@ func (ec *executionContext) fieldContext_JobDetail_Title(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobDetail_Administration(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Administration(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Administration, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Administration,
+		func(ctx context.Context) (any, error) {
+			return obj.Administration, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Administration(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9688,31 +7035,19 @@ func (ec *executionContext) fieldContext_JobDetail_Administration(_ context.Cont
 }
 
 func (ec *executionContext) _JobDetail_State(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_State(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.State, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_State,
+		func(ctx context.Context) (any, error) {
+			return obj.State, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_State(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9729,31 +7064,19 @@ func (ec *executionContext) fieldContext_JobDetail_State(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobDetail_Island(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Island(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Island, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Island,
+		func(ctx context.Context) (any, error) {
+			return obj.Island, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Island(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9770,31 +7093,19 @@ func (ec *executionContext) fieldContext_JobDetail_Island(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobDetail_Parcel(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Parcel(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Parcel, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Parcel,
+		func(ctx context.Context) (any, error) {
+			return obj.Parcel, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Parcel(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9811,31 +7122,19 @@ func (ec *executionContext) fieldContext_JobDetail_Parcel(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobDetail_Sheet(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Sheet(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Sheet, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Sheet,
+		func(ctx context.Context) (any, error) {
+			return obj.Sheet, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Sheet(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9852,31 +7151,19 @@ func (ec *executionContext) fieldContext_JobDetail_Sheet(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobDetail_DistributionDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_DistributionDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DistributionDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_DistributionDate,
+		func(ctx context.Context) (any, error) {
+			return obj.DistributionDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_DistributionDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9893,31 +7180,19 @@ func (ec *executionContext) fieldContext_JobDetail_DistributionDate(_ context.Co
 }
 
 func (ec *executionContext) _JobDetail_ContractDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_ContractDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ContractDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_ContractDate,
+		func(ctx context.Context) (any, error) {
+			return obj.ContractDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_ContractDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9934,31 +7209,19 @@ func (ec *executionContext) fieldContext_JobDetail_ContractDate(_ context.Contex
 }
 
 func (ec *executionContext) _JobDetail_StartDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_StartDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.StartDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_StartDate,
+		func(ctx context.Context) (any, error) {
+			return obj.StartDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_StartDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -9975,31 +7238,19 @@ func (ec *executionContext) fieldContext_JobDetail_StartDate(_ context.Context, 
 }
 
 func (ec *executionContext) _JobDetail_LicenseDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_LicenseDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.LicenseDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_LicenseDate,
+		func(ctx context.Context) (any, error) {
+			return obj.LicenseDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_LicenseDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10016,31 +7267,19 @@ func (ec *executionContext) fieldContext_JobDetail_LicenseDate(_ context.Context
 }
 
 func (ec *executionContext) _JobDetail_LicenseNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_LicenseNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.LicenseNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_LicenseNo,
+		func(ctx context.Context) (any, error) {
+			return obj.LicenseNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_LicenseNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10057,31 +7296,19 @@ func (ec *executionContext) fieldContext_JobDetail_LicenseNo(_ context.Context, 
 }
 
 func (ec *executionContext) _JobDetail_CompletionDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_CompletionDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CompletionDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_CompletionDate,
+		func(ctx context.Context) (any, error) {
+			return obj.CompletionDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_CompletionDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10098,31 +7325,19 @@ func (ec *executionContext) fieldContext_JobDetail_CompletionDate(_ context.Cont
 }
 
 func (ec *executionContext) _JobDetail_LandArea(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_LandArea(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.LandArea, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_LandArea,
+		func(ctx context.Context) (any, error) {
+			return obj.LandArea, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_LandArea(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10139,31 +7354,19 @@ func (ec *executionContext) fieldContext_JobDetail_LandArea(_ context.Context, f
 }
 
 func (ec *executionContext) _JobDetail_TotalArea(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_TotalArea(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TotalArea, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_TotalArea,
+		func(ctx context.Context) (any, error) {
+			return obj.TotalArea, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_TotalArea(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10180,31 +7383,19 @@ func (ec *executionContext) fieldContext_JobDetail_TotalArea(_ context.Context, 
 }
 
 func (ec *executionContext) _JobDetail_ConstructionArea(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ConstructionArea, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_ConstructionArea,
+		func(ctx context.Context) (any, error) {
+			return obj.ConstructionArea, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_ConstructionArea(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10221,31 +7412,19 @@ func (ec *executionContext) fieldContext_JobDetail_ConstructionArea(_ context.Co
 }
 
 func (ec *executionContext) _JobDetail_LeftArea(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_LeftArea(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.LeftArea, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_LeftArea,
+		func(ctx context.Context) (any, error) {
+			return obj.LeftArea, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_LeftArea(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10262,31 +7441,19 @@ func (ec *executionContext) fieldContext_JobDetail_LeftArea(_ context.Context, f
 }
 
 func (ec *executionContext) _JobDetail_YDSAddress(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_YDSAddress(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YDSAddress, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_YDSAddress,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSAddress, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_YDSAddress(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10303,31 +7470,19 @@ func (ec *executionContext) fieldContext_JobDetail_YDSAddress(_ context.Context,
 }
 
 func (ec *executionContext) _JobDetail_Address(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Address(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Address, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Address,
+		func(ctx context.Context) (any, error) {
+			return obj.Address, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Address(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10344,31 +7499,19 @@ func (ec *executionContext) fieldContext_JobDetail_Address(_ context.Context, fi
 }
 
 func (ec *executionContext) _JobDetail_BuildingClass(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_BuildingClass(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.BuildingClass, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_BuildingClass,
+		func(ctx context.Context) (any, error) {
+			return obj.BuildingClass, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_BuildingClass(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10385,31 +7528,19 @@ func (ec *executionContext) fieldContext_JobDetail_BuildingClass(_ context.Conte
 }
 
 func (ec *executionContext) _JobDetail_BuildingType(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_BuildingType(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.BuildingType, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_BuildingType,
+		func(ctx context.Context) (any, error) {
+			return obj.BuildingType, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_BuildingType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10426,31 +7557,19 @@ func (ec *executionContext) fieldContext_JobDetail_BuildingType(_ context.Contex
 }
 
 func (ec *executionContext) _JobDetail_Level(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Level(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Level, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Level,
+		func(ctx context.Context) (any, error) {
+			return obj.Level, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Level(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10467,31 +7586,19 @@ func (ec *executionContext) fieldContext_JobDetail_Level(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobDetail_UnitPrice(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_UnitPrice(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UnitPrice, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_UnitPrice,
+		func(ctx context.Context) (any, error) {
+			return obj.UnitPrice, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_UnitPrice(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10508,31 +7615,19 @@ func (ec *executionContext) fieldContext_JobDetail_UnitPrice(_ context.Context, 
 }
 
 func (ec *executionContext) _JobDetail_FloorCount(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_FloorCount(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FloorCount, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_FloorCount,
+		func(ctx context.Context) (any, error) {
+			return obj.FloorCount, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_FloorCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10549,31 +7644,19 @@ func (ec *executionContext) fieldContext_JobDetail_FloorCount(_ context.Context,
 }
 
 func (ec *executionContext) _JobDetail_BKSReferenceNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_BKSReferenceNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.BKSReferenceNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_BKSReferenceNo,
+		func(ctx context.Context) (any, error) {
+			return obj.BKSReferenceNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_BKSReferenceNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10590,31 +7673,19 @@ func (ec *executionContext) fieldContext_JobDetail_BKSReferenceNo(_ context.Cont
 }
 
 func (ec *executionContext) _JobDetail_Coordinates(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Coordinates(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Coordinates, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Coordinates,
+		func(ctx context.Context) (any, error) {
+			return obj.Coordinates, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Coordinates(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10631,31 +7702,19 @@ func (ec *executionContext) fieldContext_JobDetail_Coordinates(_ context.Context
 }
 
 func (ec *executionContext) _JobDetail_FolderNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_FolderNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FolderNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_FolderNo,
+		func(ctx context.Context) (any, error) {
+			return obj.FolderNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_FolderNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10672,31 +7731,19 @@ func (ec *executionContext) fieldContext_JobDetail_FolderNo(_ context.Context, f
 }
 
 func (ec *executionContext) _JobDetail_UploadedFile(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_UploadedFile(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UploadedFile, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_UploadedFile,
+		func(ctx context.Context) (any, error) {
+			return obj.UploadedFile, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_UploadedFile(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10713,31 +7760,19 @@ func (ec *executionContext) fieldContext_JobDetail_UploadedFile(_ context.Contex
 }
 
 func (ec *executionContext) _JobDetail_IndustryArea(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_IndustryArea(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IndustryArea, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_IndustryArea,
+		func(ctx context.Context) (any, error) {
+			return obj.IndustryArea, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_IndustryArea(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10754,31 +7789,19 @@ func (ec *executionContext) fieldContext_JobDetail_IndustryArea(_ context.Contex
 }
 
 func (ec *executionContext) _JobDetail_ClusterStructure(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_ClusterStructure(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ClusterStructure, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_ClusterStructure,
+		func(ctx context.Context) (any, error) {
+			return obj.ClusterStructure, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_ClusterStructure(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10795,31 +7818,19 @@ func (ec *executionContext) fieldContext_JobDetail_ClusterStructure(_ context.Co
 }
 
 func (ec *executionContext) _JobDetail_IsLicenseExpired(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_IsLicenseExpired(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IsLicenseExpired, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_IsLicenseExpired,
+		func(ctx context.Context) (any, error) {
+			return obj.IsLicenseExpired, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_IsLicenseExpired(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10836,31 +7847,19 @@ func (ec *executionContext) fieldContext_JobDetail_IsLicenseExpired(_ context.Co
 }
 
 func (ec *executionContext) _JobDetail_IsCompleted(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_IsCompleted(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IsCompleted, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_IsCompleted,
+		func(ctx context.Context) (any, error) {
+			return obj.IsCompleted, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_IsCompleted(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10877,31 +7876,19 @@ func (ec *executionContext) fieldContext_JobDetail_IsCompleted(_ context.Context
 }
 
 func (ec *executionContext) _JobDetail_Note(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobDetail_Note(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Note, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_Note,
+		func(ctx context.Context) (any, error) {
+			return obj.Note, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobDetail_Note(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10918,31 +7905,19 @@ func (ec *executionContext) fieldContext_JobDetail_Note(_ context.Context, field
 }
 
 func (ec *executionContext) _JobEngineer_YibfNo(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_YibfNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YibfNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_YibfNo,
+		func(ctx context.Context) (any, error) {
+			return obj.YibfNo, nil
+		},
+		nil,
+		ec.marshalOInt2ᚖint,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_YibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10959,31 +7934,19 @@ func (ec *executionContext) fieldContext_JobEngineer_YibfNo(_ context.Context, f
 }
 
 func (ec *executionContext) _JobEngineer_Inspector(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_Inspector(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Inspector, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_Inspector,
+		func(ctx context.Context) (any, error) {
+			return obj.Inspector, nil
+		},
+		nil,
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_Inspector(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11034,31 +7997,19 @@ func (ec *executionContext) fieldContext_JobEngineer_Inspector(_ context.Context
 }
 
 func (ec *executionContext) _JobEngineer_Static(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_Static(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Static, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_Static,
+		func(ctx context.Context) (any, error) {
+			return obj.Static, nil
+		},
+		nil,
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_Static(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11109,31 +8060,19 @@ func (ec *executionContext) fieldContext_JobEngineer_Static(_ context.Context, f
 }
 
 func (ec *executionContext) _JobEngineer_Architect(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_Architect(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Architect, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_Architect,
+		func(ctx context.Context) (any, error) {
+			return obj.Architect, nil
+		},
+		nil,
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_Architect(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11184,31 +8123,19 @@ func (ec *executionContext) fieldContext_JobEngineer_Architect(_ context.Context
 }
 
 func (ec *executionContext) _JobEngineer_Mechanic(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_Mechanic(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Mechanic, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_Mechanic,
+		func(ctx context.Context) (any, error) {
+			return obj.Mechanic, nil
+		},
+		nil,
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_Mechanic(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11259,31 +8186,19 @@ func (ec *executionContext) fieldContext_JobEngineer_Mechanic(_ context.Context,
 }
 
 func (ec *executionContext) _JobEngineer_Electric(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_Electric(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Electric, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_Electric,
+		func(ctx context.Context) (any, error) {
+			return obj.Electric, nil
+		},
+		nil,
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_Electric(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11334,31 +8249,19 @@ func (ec *executionContext) fieldContext_JobEngineer_Electric(_ context.Context,
 }
 
 func (ec *executionContext) _JobEngineer_Controller(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_Controller(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Controller, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_Controller,
+		func(ctx context.Context) (any, error) {
+			return obj.Controller, nil
+		},
+		nil,
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_Controller(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11409,31 +8312,19 @@ func (ec *executionContext) fieldContext_JobEngineer_Controller(_ context.Contex
 }
 
 func (ec *executionContext) _JobEngineer_MechanicController(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_MechanicController(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.MechanicController, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_MechanicController,
+		func(ctx context.Context) (any, error) {
+			return obj.MechanicController, nil
+		},
+		nil,
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_MechanicController(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11484,31 +8375,19 @@ func (ec *executionContext) fieldContext_JobEngineer_MechanicController(_ contex
 }
 
 func (ec *executionContext) _JobEngineer_ElectricController(ctx context.Context, field graphql.CollectedField, obj *model.JobEngineer) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobEngineer_ElectricController(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ElectricController, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobEngineer_ElectricController,
+		func(ctx context.Context) (any, error) {
+			return obj.ElectricController, nil
+		},
+		nil,
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobEngineer_ElectricController(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11559,34 +8438,19 @@ func (ec *executionContext) fieldContext_JobEngineer_ElectricController(_ contex
 }
 
 func (ec *executionContext) _JobFloor_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalNID2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11603,31 +8467,19 @@ func (ec *executionContext) fieldContext_JobFloor_id(_ context.Context, field gr
 }
 
 func (ec *executionContext) _JobFloor_Name(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_Name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11644,31 +8496,19 @@ func (ec *executionContext) fieldContext_JobFloor_Name(_ context.Context, field 
 }
 
 func (ec *executionContext) _JobFloor_Metre(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_Metre(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Metre, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_Metre,
+		func(ctx context.Context) (any, error) {
+			return obj.Metre, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_Metre(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11685,31 +8525,19 @@ func (ec *executionContext) fieldContext_JobFloor_Metre(_ context.Context, field
 }
 
 func (ec *executionContext) _JobFloor_MoldDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_MoldDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.MoldDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_MoldDate,
+		func(ctx context.Context) (any, error) {
+			return obj.MoldDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_MoldDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11726,31 +8554,19 @@ func (ec *executionContext) fieldContext_JobFloor_MoldDate(_ context.Context, fi
 }
 
 func (ec *executionContext) _JobFloor_ConcreteDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_ConcreteDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ConcreteDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_ConcreteDate,
+		func(ctx context.Context) (any, error) {
+			return obj.ConcreteDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_ConcreteDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11767,31 +8583,19 @@ func (ec *executionContext) fieldContext_JobFloor_ConcreteDate(_ context.Context
 }
 
 func (ec *executionContext) _JobFloor_Samples(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_Samples(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Samples, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_Samples,
+		func(ctx context.Context) (any, error) {
+			return obj.Samples, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_Samples(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11808,31 +8612,19 @@ func (ec *executionContext) fieldContext_JobFloor_Samples(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobFloor_ConcreteClass(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_ConcreteClass(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ConcreteClass, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_ConcreteClass,
+		func(ctx context.Context) (any, error) {
+			return obj.ConcreteClass, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_ConcreteClass(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11849,31 +8641,19 @@ func (ec *executionContext) fieldContext_JobFloor_ConcreteClass(_ context.Contex
 }
 
 func (ec *executionContext) _JobFloor_WeekResult(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_WeekResult(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.WeekResult, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_WeekResult,
+		func(ctx context.Context) (any, error) {
+			return obj.WeekResult, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_WeekResult(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11890,31 +8670,19 @@ func (ec *executionContext) fieldContext_JobFloor_WeekResult(_ context.Context, 
 }
 
 func (ec *executionContext) _JobFloor_MonthResult(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_MonthResult(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.MonthResult, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_MonthResult,
+		func(ctx context.Context) (any, error) {
+			return obj.MonthResult, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_MonthResult(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -11931,31 +8699,19 @@ func (ec *executionContext) fieldContext_JobFloor_MonthResult(_ context.Context,
 }
 
 func (ec *executionContext) _JobFloor_Job(ctx context.Context, field graphql.CollectedField, obj *ent.JobFloor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobFloor_Job(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.JobFloor().Job(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobDetail)
-	fc.Result = res
-	return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobFloor_Job,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.JobFloor().Job(ctx, obj)
+		},
+		nil,
+		ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobFloor_Job(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12044,34 +8800,19 @@ func (ec *executionContext) fieldContext_JobFloor_Job(_ context.Context, field g
 }
 
 func (ec *executionContext) _JobOwner_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalNID2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12088,31 +8829,19 @@ func (ec *executionContext) fieldContext_JobOwner_id(_ context.Context, field gr
 }
 
 func (ec *executionContext) _JobOwner_Name(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_Name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12129,31 +8858,19 @@ func (ec *executionContext) fieldContext_JobOwner_Name(_ context.Context, field 
 }
 
 func (ec *executionContext) _JobOwner_TcNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_TcNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TcNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_TcNo,
+		func(ctx context.Context) (any, error) {
+			return obj.TcNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_TcNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12170,31 +8887,19 @@ func (ec *executionContext) fieldContext_JobOwner_TcNo(_ context.Context, field 
 }
 
 func (ec *executionContext) _JobOwner_Address(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_Address(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Address, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_Address,
+		func(ctx context.Context) (any, error) {
+			return obj.Address, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_Address(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12211,31 +8916,19 @@ func (ec *executionContext) fieldContext_JobOwner_Address(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobOwner_TaxAdmin(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_TaxAdmin(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TaxAdmin, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_TaxAdmin,
+		func(ctx context.Context) (any, error) {
+			return obj.TaxAdmin, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_TaxAdmin(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12252,31 +8945,19 @@ func (ec *executionContext) fieldContext_JobOwner_TaxAdmin(_ context.Context, fi
 }
 
 func (ec *executionContext) _JobOwner_TaxNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_TaxNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TaxNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_TaxNo,
+		func(ctx context.Context) (any, error) {
+			return obj.TaxNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_TaxNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12293,31 +8974,19 @@ func (ec *executionContext) fieldContext_JobOwner_TaxNo(_ context.Context, field
 }
 
 func (ec *executionContext) _JobOwner_Phone(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_Phone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Phone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_Phone,
+		func(ctx context.Context) (any, error) {
+			return obj.Phone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_Phone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12334,31 +9003,19 @@ func (ec *executionContext) fieldContext_JobOwner_Phone(_ context.Context, field
 }
 
 func (ec *executionContext) _JobOwner_Email(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_Email(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_Email,
+		func(ctx context.Context) (any, error) {
+			return obj.Email, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_Email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12375,31 +9032,19 @@ func (ec *executionContext) fieldContext_JobOwner_Email(_ context.Context, field
 }
 
 func (ec *executionContext) _JobOwner_YDSID(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_YDSID(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YDSID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_YDSID,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSID, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_YDSID(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12416,31 +9061,19 @@ func (ec *executionContext) fieldContext_JobOwner_YDSID(_ context.Context, field
 }
 
 func (ec *executionContext) _JobOwner_Shareholder(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_Shareholder(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Shareholder, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_Shareholder,
+		func(ctx context.Context) (any, error) {
+			return obj.Shareholder, nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_Shareholder(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12457,31 +9090,19 @@ func (ec *executionContext) fieldContext_JobOwner_Shareholder(_ context.Context,
 }
 
 func (ec *executionContext) _JobOwner_Note(ctx context.Context, field graphql.CollectedField, obj *ent.JobOwner) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobOwner_Note(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Note, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobOwner_Note,
+		func(ctx context.Context) (any, error) {
+			return obj.Note, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobOwner_Note(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12498,31 +9119,19 @@ func (ec *executionContext) fieldContext_JobOwner_Note(_ context.Context, field 
 }
 
 func (ec *executionContext) _JobPayments_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12539,31 +9148,19 @@ func (ec *executionContext) fieldContext_JobPayments_id(_ context.Context, field
 }
 
 func (ec *executionContext) _JobPayments_PaymentNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_PaymentNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.PaymentNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_PaymentNo,
+		func(ctx context.Context) (any, error) {
+			return obj.PaymentNo, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_PaymentNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12580,31 +9177,19 @@ func (ec *executionContext) fieldContext_JobPayments_PaymentNo(_ context.Context
 }
 
 func (ec *executionContext) _JobPayments_PaymentDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_PaymentDate(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.PaymentDate, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_PaymentDate,
+		func(ctx context.Context) (any, error) {
+			return obj.PaymentDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_PaymentDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12621,31 +9206,19 @@ func (ec *executionContext) fieldContext_JobPayments_PaymentDate(_ context.Conte
 }
 
 func (ec *executionContext) _JobPayments_PaymentType(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_PaymentType(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.PaymentType, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_PaymentType,
+		func(ctx context.Context) (any, error) {
+			return obj.PaymentType, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_PaymentType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12662,31 +9235,19 @@ func (ec *executionContext) fieldContext_JobPayments_PaymentType(_ context.Conte
 }
 
 func (ec *executionContext) _JobPayments_TotalPayment(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_TotalPayment(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TotalPayment, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_TotalPayment,
+		func(ctx context.Context) (any, error) {
+			return obj.TotalPayment, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_TotalPayment(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12703,31 +9264,19 @@ func (ec *executionContext) fieldContext_JobPayments_TotalPayment(_ context.Cont
 }
 
 func (ec *executionContext) _JobPayments_LevelRequest(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_LevelRequest(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.LevelRequest, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_LevelRequest,
+		func(ctx context.Context) (any, error) {
+			return obj.LevelRequest, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_LevelRequest(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12744,31 +9293,19 @@ func (ec *executionContext) fieldContext_JobPayments_LevelRequest(_ context.Cont
 }
 
 func (ec *executionContext) _JobPayments_LevelApprove(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_LevelApprove(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.LevelApprove, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_LevelApprove,
+		func(ctx context.Context) (any, error) {
+			return obj.LevelApprove, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_LevelApprove(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12785,31 +9322,19 @@ func (ec *executionContext) fieldContext_JobPayments_LevelApprove(_ context.Cont
 }
 
 func (ec *executionContext) _JobPayments_Amount(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_Amount(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Amount, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_Amount,
+		func(ctx context.Context) (any, error) {
+			return obj.Amount, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_Amount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12826,31 +9351,19 @@ func (ec *executionContext) fieldContext_JobPayments_Amount(_ context.Context, f
 }
 
 func (ec *executionContext) _JobPayments_State(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_State(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.State, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_State,
+		func(ctx context.Context) (any, error) {
+			return obj.State, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_State(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12867,31 +9380,19 @@ func (ec *executionContext) fieldContext_JobPayments_State(_ context.Context, fi
 }
 
 func (ec *executionContext) _JobPayments_YibfNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_YibfNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YibfNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_YibfNo,
+		func(ctx context.Context) (any, error) {
+			return obj.YibfNo, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_YibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12908,31 +9409,19 @@ func (ec *executionContext) fieldContext_JobPayments_YibfNo(_ context.Context, f
 }
 
 func (ec *executionContext) _JobPayments_updatedAt(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobPayments_updatedAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_updatedAt,
+		func(ctx context.Context) (any, error) {
+			return obj.UpdatedAt, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobPayments_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12949,34 +9438,19 @@ func (ec *executionContext) fieldContext_JobPayments_updatedAt(_ context.Context
 }
 
 func (ec *executionContext) _JobProgress_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobProgress) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobProgress_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobProgress_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalNID2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobProgress_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -12993,31 +9467,19 @@ func (ec *executionContext) fieldContext_JobProgress_id(_ context.Context, field
 }
 
 func (ec *executionContext) _JobProgress_One(ctx context.Context, field graphql.CollectedField, obj *ent.JobProgress) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobProgress_One(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.One, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobProgress_One,
+		func(ctx context.Context) (any, error) {
+			return obj.One, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobProgress_One(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13034,31 +9496,19 @@ func (ec *executionContext) fieldContext_JobProgress_One(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobProgress_Two(ctx context.Context, field graphql.CollectedField, obj *ent.JobProgress) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobProgress_Two(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Two, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobProgress_Two,
+		func(ctx context.Context) (any, error) {
+			return obj.Two, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobProgress_Two(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13075,31 +9525,19 @@ func (ec *executionContext) fieldContext_JobProgress_Two(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobProgress_Three(ctx context.Context, field graphql.CollectedField, obj *ent.JobProgress) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobProgress_Three(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Three, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobProgress_Three,
+		func(ctx context.Context) (any, error) {
+			return obj.Three, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobProgress_Three(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13116,31 +9554,19 @@ func (ec *executionContext) fieldContext_JobProgress_Three(_ context.Context, fi
 }
 
 func (ec *executionContext) _JobProgress_Four(ctx context.Context, field graphql.CollectedField, obj *ent.JobProgress) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobProgress_Four(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Four, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobProgress_Four,
+		func(ctx context.Context) (any, error) {
+			return obj.Four, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobProgress_Four(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13157,31 +9583,19 @@ func (ec *executionContext) fieldContext_JobProgress_Four(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobProgress_Five(ctx context.Context, field graphql.CollectedField, obj *ent.JobProgress) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobProgress_Five(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Five, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobProgress_Five,
+		func(ctx context.Context) (any, error) {
+			return obj.Five, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobProgress_Five(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13198,31 +9612,19 @@ func (ec *executionContext) fieldContext_JobProgress_Five(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobProgress_Six(ctx context.Context, field graphql.CollectedField, obj *ent.JobProgress) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobProgress_Six(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Six, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobProgress_Six,
+		func(ctx context.Context) (any, error) {
+			return obj.Six, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobProgress_Six(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13239,31 +9641,19 @@ func (ec *executionContext) fieldContext_JobProgress_Six(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobReceipt_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobReceipt_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobReceipt_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobReceipt_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13280,31 +9670,19 @@ func (ec *executionContext) fieldContext_JobReceipt_id(_ context.Context, field 
 }
 
 func (ec *executionContext) _JobReceipt_YibfNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobReceipt_YibfNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YibfNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobReceipt_YibfNo,
+		func(ctx context.Context) (any, error) {
+			return obj.YibfNo, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobReceipt_YibfNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13320,32 +9698,49 @@ func (ec *executionContext) fieldContext_JobReceipt_YibfNo(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _JobReceipt_ReceiptDate(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobReceipt_ReceiptDate,
+		func(ctx context.Context) (any, error) {
+			return obj.ReceiptDate, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobReceipt_ReceiptDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobReceipt",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _JobReceipt_Amount(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobReceipt_Amount(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Amount, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobReceipt_Amount,
+		func(ctx context.Context) (any, error) {
+			return obj.Amount, nil
+		},
+		nil,
+		ec.marshalOFloat2float64,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobReceipt_Amount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13362,31 +9757,19 @@ func (ec *executionContext) fieldContext_JobReceipt_Amount(_ context.Context, fi
 }
 
 func (ec *executionContext) _JobReceipt_Note(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobReceipt_Note(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Note, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobReceipt_Note,
+		func(ctx context.Context) (any, error) {
+			return obj.Note, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobReceipt_Note(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13403,31 +9786,19 @@ func (ec *executionContext) fieldContext_JobReceipt_Note(_ context.Context, fiel
 }
 
 func (ec *executionContext) _JobReceipt_createdAt(ctx context.Context, field graphql.CollectedField, obj *ent.JobReceipt) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobReceipt_createdAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobReceipt_createdAt,
+		func(ctx context.Context) (any, error) {
+			return obj.CreatedAt, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobReceipt_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13444,34 +9815,19 @@ func (ec *executionContext) fieldContext_JobReceipt_createdAt(_ context.Context,
 }
 
 func (ec *executionContext) _JobSupervisor_id(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalNID2int,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13488,31 +9844,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_id(_ context.Context, fie
 }
 
 func (ec *executionContext) _JobSupervisor_Name(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_Name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13529,31 +9873,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_Name(_ context.Context, f
 }
 
 func (ec *executionContext) _JobSupervisor_Address(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_Address(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Address, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_Address,
+		func(ctx context.Context) (any, error) {
+			return obj.Address, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_Address(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13570,31 +9902,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_Address(_ context.Context
 }
 
 func (ec *executionContext) _JobSupervisor_Phone(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_Phone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Phone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_Phone,
+		func(ctx context.Context) (any, error) {
+			return obj.Phone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_Phone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13611,31 +9931,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_Phone(_ context.Context, 
 }
 
 func (ec *executionContext) _JobSupervisor_Email(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_Email(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_Email,
+		func(ctx context.Context) (any, error) {
+			return obj.Email, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_Email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13652,31 +9960,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_Email(_ context.Context, 
 }
 
 func (ec *executionContext) _JobSupervisor_TcNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_TcNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TcNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_TcNo,
+		func(ctx context.Context) (any, error) {
+			return obj.TcNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_TcNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13693,31 +9989,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_TcNo(_ context.Context, f
 }
 
 func (ec *executionContext) _JobSupervisor_Position(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_Position(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Position, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_Position,
+		func(ctx context.Context) (any, error) {
+			return obj.Position, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_Position(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13734,31 +10018,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_Position(_ context.Contex
 }
 
 func (ec *executionContext) _JobSupervisor_Career(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_Career(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Career, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_Career,
+		func(ctx context.Context) (any, error) {
+			return obj.Career, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_Career(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13775,31 +10047,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_Career(_ context.Context,
 }
 
 func (ec *executionContext) _JobSupervisor_RegisterNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_RegisterNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.RegisterNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_RegisterNo,
+		func(ctx context.Context) (any, error) {
+			return obj.RegisterNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_RegisterNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13816,31 +10076,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_RegisterNo(_ context.Cont
 }
 
 func (ec *executionContext) _JobSupervisor_SocialSecurityNo(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_SocialSecurityNo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.SocialSecurityNo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_SocialSecurityNo,
+		func(ctx context.Context) (any, error) {
+			return obj.SocialSecurityNo, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_SocialSecurityNo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13857,31 +10105,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_SocialSecurityNo(_ contex
 }
 
 func (ec *executionContext) _JobSupervisor_SchoolGraduation(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_SchoolGraduation(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.SchoolGraduation, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_SchoolGraduation,
+		func(ctx context.Context) (any, error) {
+			return obj.SchoolGraduation, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_SchoolGraduation(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13898,31 +10134,19 @@ func (ec *executionContext) fieldContext_JobSupervisor_SchoolGraduation(_ contex
 }
 
 func (ec *executionContext) _JobSupervisor_YDSID(ctx context.Context, field graphql.CollectedField, obj *ent.JobSupervisor) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_JobSupervisor_YDSID(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.YDSID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOInt2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobSupervisor_YDSID,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSID, nil
+		},
+		nil,
+		ec.marshalOInt2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_JobSupervisor_YDSID(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13939,34 +10163,20 @@ func (ec *executionContext) fieldContext_JobSupervisor_YDSID(_ context.Context, 
 }
 
 func (ec *executionContext) _Mutation_register(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_register(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Register(rctx, fc.Args["username"].(string), fc.Args["name"].(*string), fc.Args["email"].(*string), fc.Args["password"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.AuthPayload)
-	fc.Result = res
-	return ec.marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAuthPayload(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_register,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().Register(ctx, fc.Args["username"].(string), fc.Args["name"].(*string), fc.Args["email"].(*string), fc.Args["password"].(string))
+		},
+		nil,
+		ec.marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAuthPayload,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_register(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14006,34 +10216,20 @@ func (ec *executionContext) fieldContext_Mutation_register(ctx context.Context, 
 }
 
 func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_login(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Login(rctx, fc.Args["username"].(string), fc.Args["password"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.AuthPayload)
-	fc.Result = res
-	return ec.marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAuthPayload(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_login,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().Login(ctx, fc.Args["username"].(string), fc.Args["password"].(string))
+		},
+		nil,
+		ec.marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAuthPayload,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14073,53 +10269,33 @@ func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, fie
 }
 
 func (ec *executionContext) _Mutation_createAuthor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createAuthor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateAuthor(rctx, fc.Args["input"].(model.JobAuthorInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_createAuthor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().CreateAuthor(ctx, fc.Args["input"].(model.JobAuthorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobAuthor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobAuthor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobAuthor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobAuthor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobAuthor)
-	fc.Result = res
-	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobAuthor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobAuthor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createAuthor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14165,53 +10341,33 @@ func (ec *executionContext) fieldContext_Mutation_createAuthor(ctx context.Conte
 }
 
 func (ec *executionContext) _Mutation_updateAuthor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateAuthor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateAuthor(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobAuthorInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateAuthor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateAuthor(ctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobAuthorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobAuthor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobAuthor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobAuthor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobAuthor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobAuthor)
-	fc.Result = res
-	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobAuthor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobAuthor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateAuthor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14257,56 +10413,33 @@ func (ec *executionContext) fieldContext_Mutation_updateAuthor(ctx context.Conte
 }
 
 func (ec *executionContext) _Mutation_jobBatchMutation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_jobBatchMutation(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().JobBatchMutation(rctx, fc.Args["input"].(model.JobBatchInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_jobBatchMutation,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().JobBatchMutation(ctx, fc.Args["input"].(model.JobBatchInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *model.JobBatchResult
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *model.JobBatchResult
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*model.JobBatchResult); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/graphql/model.JobBatchResult`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.JobBatchResult)
-	fc.Result = res
-	return ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_jobBatchMutation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14352,56 +10485,33 @@ func (ec *executionContext) fieldContext_Mutation_jobBatchMutation(ctx context.C
 }
 
 func (ec *executionContext) _Mutation_executeBatchMutation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_executeBatchMutation(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().ExecuteBatchMutation(rctx, fc.Args["input"].(model.JobBatchInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_executeBatchMutation,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().ExecuteBatchMutation(ctx, fc.Args["input"].(model.JobBatchInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *model.JobBatchResult
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *model.JobBatchResult
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*model.JobBatchResult); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/graphql/model.JobBatchResult`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.JobBatchResult)
-	fc.Result = res
-	return ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_executeBatchMutation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14447,56 +10557,33 @@ func (ec *executionContext) fieldContext_Mutation_executeBatchMutation(ctx conte
 }
 
 func (ec *executionContext) _Mutation_deleteBatchMutation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteBatchMutation(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().DeleteBatchMutation(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_deleteBatchMutation,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().DeleteBatchMutation(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *model.JobBatchResult
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *model.JobBatchResult
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*model.JobBatchResult); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/graphql/model.JobBatchResult`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.JobBatchResult)
-	fc.Result = res
-	return ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteBatchMutation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14542,56 +10629,33 @@ func (ec *executionContext) fieldContext_Mutation_deleteBatchMutation(ctx contex
 }
 
 func (ec *executionContext) _Mutation_updateCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateCompany(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateCompany(rctx, fc.Args["input"].(model.CompanyDetailInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateCompany,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateCompany(ctx, fc.Args["input"].(model.CompanyDetailInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyDetail
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyDetail
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyDetail); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyDetail`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyDetail)
-	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateCompany(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14671,56 +10735,33 @@ func (ec *executionContext) fieldContext_Mutation_updateCompany(ctx context.Cont
 }
 
 func (ec *executionContext) _Mutation_createContractor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createContractor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateContractor(rctx, fc.Args["input"].(model.JobContractorInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_createContractor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().CreateContractor(ctx, fc.Args["input"].(model.JobContractorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobContractor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobContractor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobContractor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobContractor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobContractor)
-	fc.Result = res
-	return ec.marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createContractor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14774,56 +10815,33 @@ func (ec *executionContext) fieldContext_Mutation_createContractor(ctx context.C
 }
 
 func (ec *executionContext) _Mutation_updateContractor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateContractor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateContractor(rctx, fc.Args["input"].(model.JobContractorInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateContractor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateContractor(ctx, fc.Args["input"].(model.JobContractorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobContractor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobContractor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobContractor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobContractor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobContractor)
-	fc.Result = res
-	return ec.marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateContractor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14877,56 +10895,33 @@ func (ec *executionContext) fieldContext_Mutation_updateContractor(ctx context.C
 }
 
 func (ec *executionContext) _Mutation_upsertEngineer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_upsertEngineer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpsertEngineer(rctx, fc.Args["input"].(model.CompanyEngineerInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_upsertEngineer,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpsertEngineer(ctx, fc.Args["input"].(model.CompanyEngineerInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyEngineer
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyEngineer
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyEngineer); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyEngineer`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_upsertEngineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14988,34 +10983,20 @@ func (ec *executionContext) fieldContext_Mutation_upsertEngineer(ctx context.Con
 }
 
 func (ec *executionContext) _Mutation_createEngineer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createEngineer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateEngineer(rctx, fc.Args["input"].(model.CompanyEngineerInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_createEngineer,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().CreateEngineer(ctx, fc.Args["input"].(model.CompanyEngineerInput))
+		},
+		nil,
+		ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createEngineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15077,56 +11058,33 @@ func (ec *executionContext) fieldContext_Mutation_createEngineer(ctx context.Con
 }
 
 func (ec *executionContext) _Mutation_updateEngineer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateEngineer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateEngineer(rctx, fc.Args["ydsid"].(int), fc.Args["input"].(model.CompanyEngineerInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateEngineer,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateEngineer(ctx, fc.Args["ydsid"].(int), fc.Args["input"].(model.CompanyEngineerInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyEngineer
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyEngineer
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyEngineer); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyEngineer`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateEngineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15188,56 +11146,33 @@ func (ec *executionContext) fieldContext_Mutation_updateEngineer(ctx context.Con
 }
 
 func (ec *executionContext) _Mutation_updateEngineerByYDSID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateEngineerByYDSID(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateEngineerByYdsid(rctx, fc.Args["ydsid"].(int), fc.Args["input"].(model.CompanyEngineerInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateEngineerByYDSID,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateEngineerByYdsid(ctx, fc.Args["ydsid"].(int), fc.Args["input"].(model.CompanyEngineerInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyEngineer
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyEngineer
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyEngineer); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyEngineer`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateEngineerByYDSID(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15299,56 +11234,33 @@ func (ec *executionContext) fieldContext_Mutation_updateEngineerByYDSID(ctx cont
 }
 
 func (ec *executionContext) _Mutation_createFloor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createFloor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateFloor(rctx, fc.Args["input"].(model.JobFloorInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_createFloor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().CreateFloor(ctx, fc.Args["input"].(model.JobFloorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobFloor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobFloor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobFloor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobFloor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobFloor)
-	fc.Result = res
-	return ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createFloor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15398,56 +11310,33 @@ func (ec *executionContext) fieldContext_Mutation_createFloor(ctx context.Contex
 }
 
 func (ec *executionContext) _Mutation_updateFloor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateFloor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateFloor(rctx, fc.Args["id"].(string), fc.Args["input"].(model.JobFloorInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateFloor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateFloor(ctx, fc.Args["id"].(int), fc.Args["input"].(model.JobFloorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobFloor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobFloor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobFloor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobFloor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobFloor)
-	fc.Result = res
-	return ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateFloor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15496,57 +11385,110 @@ func (ec *executionContext) fieldContext_Mutation_updateFloor(ctx context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_deleteFloor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteFloor(ctx, field)
-	if err != nil {
-		return graphql.Null
+func (ec *executionContext) _Mutation_upsertFloor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_upsertFloor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpsertFloor(ctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobFloorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
+
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobFloor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
+			}
+
+			next = directive1
+			return next
+		},
+		ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_Mutation_upsertFloor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobFloor_id(ctx, field)
+			case "Name":
+				return ec.fieldContext_JobFloor_Name(ctx, field)
+			case "Metre":
+				return ec.fieldContext_JobFloor_Metre(ctx, field)
+			case "MoldDate":
+				return ec.fieldContext_JobFloor_MoldDate(ctx, field)
+			case "ConcreteDate":
+				return ec.fieldContext_JobFloor_ConcreteDate(ctx, field)
+			case "Samples":
+				return ec.fieldContext_JobFloor_Samples(ctx, field)
+			case "ConcreteClass":
+				return ec.fieldContext_JobFloor_ConcreteClass(ctx, field)
+			case "WeekResult":
+				return ec.fieldContext_JobFloor_WeekResult(ctx, field)
+			case "MonthResult":
+				return ec.fieldContext_JobFloor_MonthResult(ctx, field)
+			case "Job":
+				return ec.fieldContext_JobFloor_Job(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobFloor", field.Name)
+		},
 	}
-	ctx = graphql.WithFieldContext(ctx, fc)
 	defer func() {
 		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().DeleteFloor(rctx, fc.Args["id"].(string))
-		}
-
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobFloor
-				return zeroVal, errors.New("directive auth is not implemented")
-			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobFloor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobFloor`, tmp)
-	})
-	if err != nil {
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_upsertFloor_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
-		return graphql.Null
+		return fc, err
 	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobFloor)
-	fc.Result = res
-	return ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor(ctx, field.Selections, res)
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteFloor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_deleteFloor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().DeleteFloor(ctx, fc.Args["id"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
+
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobFloor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
+			}
+
+			next = directive1
+			return next
+		},
+		ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteFloor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15596,56 +11538,33 @@ func (ec *executionContext) fieldContext_Mutation_deleteFloor(ctx context.Contex
 }
 
 func (ec *executionContext) _Mutation_createJob(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createJob(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateJob(rctx, fc.Args["input"].(model.JobInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_createJob,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().CreateJob(ctx, fc.Args["input"].(model.JobInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobDetail
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobDetail
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobDetail); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobDetail`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobDetail)
-	fc.Result = res
-	return ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15745,56 +11664,33 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 }
 
 func (ec *executionContext) _Mutation_updateJob(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateJob(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateJob(rctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateJob,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateJob(ctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobDetail
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobDetail
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobDetail); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobDetail`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobDetail)
-	fc.Result = res
-	return ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15894,56 +11790,33 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 }
 
 func (ec *executionContext) _Mutation_updateJobEngineer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateJobEngineer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateJobEngineer(rctx, fc.Args["input"].(model.JobEngineerInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateJobEngineer,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateJobEngineer(ctx, fc.Args["input"].(model.JobEngineerInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *model.JobEngineer
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *model.JobEngineer
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*model.JobEngineer); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/graphql/model.JobEngineer`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.JobEngineer)
-	fc.Result = res
-	return ec.marshalNJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineer(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineer,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateJobEngineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -15991,56 +11864,33 @@ func (ec *executionContext) fieldContext_Mutation_updateJobEngineer(ctx context.
 }
 
 func (ec *executionContext) _Mutation_createOwner(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createOwner(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateOwner(rctx, fc.Args["input"].(model.JobOwnerInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_createOwner,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().CreateOwner(ctx, fc.Args["input"].(model.JobOwnerInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobOwner
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobOwner
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobOwner); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobOwner`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobOwner)
-	fc.Result = res
-	return ec.marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createOwner(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16092,56 +11942,33 @@ func (ec *executionContext) fieldContext_Mutation_createOwner(ctx context.Contex
 }
 
 func (ec *executionContext) _Mutation_updateOwner(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateOwner(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateOwner(rctx, fc.Args["input"].(model.JobOwnerInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateOwner,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateOwner(ctx, fc.Args["input"].(model.JobOwnerInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobOwner
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobOwner
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobOwner); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobOwner`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobOwner)
-	fc.Result = res
-	return ec.marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateOwner(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16193,53 +12020,33 @@ func (ec *executionContext) fieldContext_Mutation_updateOwner(ctx context.Contex
 }
 
 func (ec *executionContext) _Mutation_upsertPayments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_upsertPayments(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpsertPayments(rctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobPaymentsInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_upsertPayments,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpsertPayments(ctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobPaymentsInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobPayments
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobPayments
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobPayments); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobPayments`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobPayments)
-	fc.Result = res
-	return ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_upsertPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16291,53 +12098,33 @@ func (ec *executionContext) fieldContext_Mutation_upsertPayments(ctx context.Con
 }
 
 func (ec *executionContext) _Mutation_createJobPayments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createJobPayments(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateJobPayments(rctx, fc.Args["input"].(model.JobPaymentsInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_createJobPayments,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().CreateJobPayments(ctx, fc.Args["input"].(model.JobPaymentsInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobPayments
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobPayments
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobPayments); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobPayments`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobPayments)
-	fc.Result = res
-	return ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16389,53 +12176,33 @@ func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.
 }
 
 func (ec *executionContext) _Mutation_updateJobPayments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateJobPayments(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateJobPayments(rctx, fc.Args["id"].(int), fc.Args["input"].(model.JobPaymentsInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateJobPayments,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateJobPayments(ctx, fc.Args["id"].(int), fc.Args["input"].(model.JobPaymentsInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobPayments
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobPayments
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobPayments); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobPayments`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobPayments)
-	fc.Result = res
-	return ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateJobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16487,53 +12254,33 @@ func (ec *executionContext) fieldContext_Mutation_updateJobPayments(ctx context.
 }
 
 func (ec *executionContext) _Mutation_deleteJobPayments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteJobPayments(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().DeleteJobPayments(rctx, fc.Args["id"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_deleteJobPayments,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().DeleteJobPayments(ctx, fc.Args["id"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobPayments
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobPayments
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobPayments); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobPayments`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobPayments)
-	fc.Result = res
-	return ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteJobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16585,53 +12332,33 @@ func (ec *executionContext) fieldContext_Mutation_deleteJobPayments(ctx context.
 }
 
 func (ec *executionContext) _Mutation_upsertProgress(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_upsertProgress(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpsertProgress(rctx, fc.Args["input"].(model.JobProgressInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_upsertProgress,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpsertProgress(ctx, fc.Args["input"].(model.JobProgressInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobProgress
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobProgress
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobProgress); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobProgress`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobProgress)
-	fc.Result = res
-	return ec.marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobProgress(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobProgress,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_upsertProgress(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16675,53 +12402,33 @@ func (ec *executionContext) fieldContext_Mutation_upsertProgress(ctx context.Con
 }
 
 func (ec *executionContext) _Mutation_upsertJobReceipts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_upsertJobReceipts(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpsertJobReceipts(rctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobReceiptInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_upsertJobReceipts,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpsertJobReceipts(ctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobReceiptInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobReceipt
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobReceipt
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobReceipt); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobReceipt`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobReceipt)
-	fc.Result = res
-	return ec.marshalOJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceipt(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceipt,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_upsertJobReceipts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16736,6 +12443,8 @@ func (ec *executionContext) fieldContext_Mutation_upsertJobReceipts(ctx context.
 				return ec.fieldContext_JobReceipt_id(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobReceipt_YibfNo(ctx, field)
+			case "ReceiptDate":
+				return ec.fieldContext_JobReceipt_ReceiptDate(ctx, field)
 			case "Amount":
 				return ec.fieldContext_JobReceipt_Amount(ctx, field)
 			case "Note":
@@ -16761,53 +12470,33 @@ func (ec *executionContext) fieldContext_Mutation_upsertJobReceipts(ctx context.
 }
 
 func (ec *executionContext) _Mutation_deleteJobReceipts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteJobReceipts(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().DeleteJobReceipts(rctx, fc.Args["id"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_deleteJobReceipts,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().DeleteJobReceipts(ctx, fc.Args["id"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobReceipt
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobReceipt
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobReceipt); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobReceipt`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobReceipt)
-	fc.Result = res
-	return ec.marshalOJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceipt(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceipt,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteJobReceipts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16822,6 +12511,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteJobReceipts(ctx context.
 				return ec.fieldContext_JobReceipt_id(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobReceipt_YibfNo(ctx, field)
+			case "ReceiptDate":
+				return ec.fieldContext_JobReceipt_ReceiptDate(ctx, field)
 			case "Amount":
 				return ec.fieldContext_JobReceipt_Amount(ctx, field)
 			case "Note":
@@ -16847,56 +12538,33 @@ func (ec *executionContext) fieldContext_Mutation_deleteJobReceipts(ctx context.
 }
 
 func (ec *executionContext) _Mutation_createSupervisor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createSupervisor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().CreateSupervisor(rctx, fc.Args["input"].(model.JobSupervisorInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_createSupervisor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().CreateSupervisor(ctx, fc.Args["input"].(model.JobSupervisorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobSupervisor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobSupervisor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobSupervisor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobSupervisor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobSupervisor)
-	fc.Result = res
-	return ec.marshalNJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createSupervisor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -16950,56 +12618,33 @@ func (ec *executionContext) fieldContext_Mutation_createSupervisor(ctx context.C
 }
 
 func (ec *executionContext) _Mutation_updateSupervisor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateSupervisor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpdateSupervisor(rctx, fc.Args["input"].(model.JobSupervisorInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateSupervisor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateSupervisor(ctx, fc.Args["input"].(model.JobSupervisorInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobSupervisor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobSupervisor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobSupervisor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobSupervisor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobSupervisor)
-	fc.Result = res
-	return ec.marshalNJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateSupervisor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17053,56 +12698,33 @@ func (ec *executionContext) fieldContext_Mutation_updateSupervisor(ctx context.C
 }
 
 func (ec *executionContext) _Mutation_upsertToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_upsertToken(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpsertToken(rctx, fc.Args["DepartmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_upsertToken,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpsertToken(ctx, fc.Args["DepartmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyToken
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyToken
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyToken); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyToken`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyToken)
-	fc.Result = res
-	return ec.marshalNCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyToken(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyToken,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_upsertToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17142,56 +12764,33 @@ func (ec *executionContext) fieldContext_Mutation_upsertToken(ctx context.Contex
 }
 
 func (ec *executionContext) _Mutation_upsertUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_upsertUser(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().UpsertUser(rctx, fc.Args["input"].(model.UserInput))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_upsertUser,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpsertUser(ctx, fc.Args["input"].(model.UserInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.User
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.User
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.User); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.User`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUser(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUser,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_upsertUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17237,56 +12836,33 @@ func (ec *executionContext) fieldContext_Mutation_upsertUser(ctx context.Context
 }
 
 func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteUser(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().DeleteUser(rctx, fc.Args["id"].(string))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_deleteUser,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().DeleteUser(ctx, fc.Args["id"].(string))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal bool
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal bool
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(bool); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNBoolean2bool,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17314,56 +12890,33 @@ func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context
 }
 
 func (ec *executionContext) _Mutation_activateCompanyUsers(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_activateCompanyUsers(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Mutation().ActivateCompanyUsers(rctx, fc.Args["adminId"].(string))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_activateCompanyUsers,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().ActivateCompanyUsers(ctx, fc.Args["adminId"].(string))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*ent.User
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*ent.User
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*ent.User); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/ent.User`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUserᚄ(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNUser2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUserᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Mutation_activateCompanyUsers(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17409,53 +12962,33 @@ func (ec *executionContext) fieldContext_Mutation_activateCompanyUsers(ctx conte
 }
 
 func (ec *executionContext) _Query_author(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_author(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Author(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_author,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Author(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobAuthor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobAuthor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobAuthor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobAuthor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobAuthor)
-	fc.Result = res
-	return ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobAuthor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobAuthor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobAuthor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_author(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17501,56 +13034,33 @@ func (ec *executionContext) fieldContext_Query_author(ctx context.Context, field
 }
 
 func (ec *executionContext) _Query_jobBatchQuery(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_jobBatchQuery(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().JobBatchQuery(rctx, fc.Args["yibfNo"].(*int), fc.Args["state"].(*string))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_jobBatchQuery,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().JobBatchQuery(ctx, fc.Args["yibfNo"].(*int), fc.Args["state"].(*string))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*model.JobBatchResult
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*model.JobBatchResult
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*model.JobBatchResult); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/graphql/model.JobBatchResult`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.JobBatchResult)
-	fc.Result = res
-	return ec.marshalNJobBatchResult2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResultᚄ(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobBatchResult2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResultᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_jobBatchQuery(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17596,56 +13106,33 @@ func (ec *executionContext) fieldContext_Query_jobBatchQuery(ctx context.Context
 }
 
 func (ec *executionContext) _Query_company(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_company(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Company(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_company,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Company(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyDetail
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyDetail
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyDetail); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyDetail`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyDetail)
-	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_company(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17725,56 +13212,33 @@ func (ec *executionContext) fieldContext_Query_company(ctx context.Context, fiel
 }
 
 func (ec *executionContext) _Query_companyByCode(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_companyByCode(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CompanyByCode(rctx, fc.Args["companyCode"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_companyByCode,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().CompanyByCode(ctx, fc.Args["companyCode"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyDetail
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyDetail
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyDetail); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyDetail`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyDetail)
-	fc.Result = res
-	return ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_companyByCode(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17854,53 +13318,32 @@ func (ec *executionContext) fieldContext_Query_companyByCode(ctx context.Context
 }
 
 func (ec *executionContext) _Query_allContractor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_allContractor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().AllContractor(rctx)
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_allContractor,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.Query().AllContractor(ctx)
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*ent.JobContractor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*ent.JobContractor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*ent.JobContractor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/ent.JobContractor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.JobContractor)
-	fc.Result = res
-	return ec.marshalOJobContractor2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobContractor2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_allContractor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -17943,53 +13386,33 @@ func (ec *executionContext) fieldContext_Query_allContractor(_ context.Context, 
 }
 
 func (ec *executionContext) _Query_contractor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_contractor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Contractor(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_contractor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Contractor(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobContractor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobContractor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobContractor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobContractor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobContractor)
-	fc.Result = res
-	return ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_contractor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18043,53 +13466,33 @@ func (ec *executionContext) fieldContext_Query_contractor(ctx context.Context, f
 }
 
 func (ec *executionContext) _Query_getContractor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_getContractor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().GetContractor(rctx, fc.Args["YDSID"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_getContractor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().GetContractor(ctx, fc.Args["YDSID"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobContractor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobContractor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobContractor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobContractor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobContractor)
-	fc.Result = res
-	return ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_getContractor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18143,34 +13546,20 @@ func (ec *executionContext) fieldContext_Query_getContractor(ctx context.Context
 }
 
 func (ec *executionContext) _Query_engineer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_engineer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Engineer(rctx, fc.Args["filter"].(*model.EngineerFilterInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalNCompanyEngineer2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_engineer,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Engineer(ctx, fc.Args["filter"].(*model.EngineerFilterInput))
+		},
+		nil,
+		ec.marshalNCompanyEngineer2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_engineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18232,53 +13621,33 @@ func (ec *executionContext) fieldContext_Query_engineer(ctx context.Context, fie
 }
 
 func (ec *executionContext) _Query_engineerByYDSID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_engineerByYDSID(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().EngineerByYdsid(rctx, fc.Args["ydsid"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_engineerByYDSID,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().EngineerByYdsid(ctx, fc.Args["ydsid"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyEngineer
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyEngineer
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyEngineer); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyEngineer`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyEngineer)
-	fc.Result = res
-	return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_engineerByYDSID(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18340,56 +13709,33 @@ func (ec *executionContext) fieldContext_Query_engineerByYDSID(ctx context.Conte
 }
 
 func (ec *executionContext) _Query_Floors(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_Floors(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Floors(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_Floors,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Floors(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*ent.JobFloor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*ent.JobFloor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*ent.JobFloor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/ent.JobFloor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.JobFloor)
-	fc.Result = res
-	return ec.marshalNJobFloor2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloorᚄ(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobFloor2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloorᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_Floors(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18439,56 +13785,33 @@ func (ec *executionContext) fieldContext_Query_Floors(ctx context.Context, field
 }
 
 func (ec *executionContext) _Query_jobCounts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_jobCounts(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().JobCounts(rctx, fc.Args["companyCode"].(*int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_jobCounts,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().JobCounts(ctx, fc.Args["companyCode"].(*int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *model.JobCounts
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *model.JobCounts
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*model.JobCounts); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/graphql/model.JobCounts`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.JobCounts)
-	fc.Result = res
-	return ec.marshalNJobCounts2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobCounts(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobCounts2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobCounts,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_jobCounts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18528,56 +13851,32 @@ func (ec *executionContext) fieldContext_Query_jobCounts(ctx context.Context, fi
 }
 
 func (ec *executionContext) _Query_jobs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_jobs(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Jobs(rctx)
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_jobs,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.Query().Jobs(ctx)
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*ent.JobDetail
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*ent.JobDetail
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*ent.JobDetail); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/ent.JobDetail`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.JobDetail)
-	fc.Result = res
-	return ec.marshalNJobDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetailᚄ(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetailᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18666,53 +13965,33 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 }
 
 func (ec *executionContext) _Query_job(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_job(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Job(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_job,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Job(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobDetail
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobDetail
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobDetail); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobDetail`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobDetail)
-	fc.Result = res
-	return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18812,56 +14091,33 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 }
 
 func (ec *executionContext) _Query_jobEngineer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_jobEngineer(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().JobEngineer(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_jobEngineer,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().JobEngineer(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *model.JobEngineer
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *model.JobEngineer
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*model.JobEngineer); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/graphql/model.JobEngineer`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.JobEngineer)
-	fc.Result = res
-	return ec.marshalNJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineer(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineer,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_jobEngineer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18909,53 +14165,32 @@ func (ec *executionContext) fieldContext_Query_jobEngineer(ctx context.Context, 
 }
 
 func (ec *executionContext) _Query_allOwner(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_allOwner(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().AllOwner(rctx)
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_allOwner,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.Query().AllOwner(ctx)
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*ent.JobOwner
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*ent.JobOwner
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*ent.JobOwner); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/ent.JobOwner`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.JobOwner)
-	fc.Result = res
-	return ec.marshalOJobOwner2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobOwner2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_allOwner(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -18996,53 +14231,33 @@ func (ec *executionContext) fieldContext_Query_allOwner(_ context.Context, field
 }
 
 func (ec *executionContext) _Query_owner(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_owner(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Owner(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_owner,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Owner(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobOwner
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobOwner
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobOwner); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobOwner`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobOwner)
-	fc.Result = res
-	return ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_owner(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19094,53 +14309,33 @@ func (ec *executionContext) fieldContext_Query_owner(ctx context.Context, field 
 }
 
 func (ec *executionContext) _Query_getOwner(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_getOwner(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().GetOwner(rctx, fc.Args["YDSID"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_getOwner,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().GetOwner(ctx, fc.Args["YDSID"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobOwner
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobOwner
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobOwner); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobOwner`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobOwner)
-	fc.Result = res
-	return ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_getOwner(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19192,53 +14387,33 @@ func (ec *executionContext) fieldContext_Query_getOwner(ctx context.Context, fie
 }
 
 func (ec *executionContext) _Query_jobPayments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_jobPayments(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().JobPayments(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_jobPayments,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().JobPayments(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*ent.JobPayments
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*ent.JobPayments
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*ent.JobPayments); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/ent.JobPayments`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.JobPayments)
-	fc.Result = res
-	return ec.marshalOJobPayments2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPaymentsᚄ(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobPayments2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPaymentsᚄ,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_jobPayments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19290,53 +14465,33 @@ func (ec *executionContext) fieldContext_Query_jobPayments(ctx context.Context, 
 }
 
 func (ec *executionContext) _Query_progress(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_progress(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Progress(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_progress,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Progress(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobProgress
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobProgress
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobProgress); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobProgress`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobProgress)
-	fc.Result = res
-	return ec.marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobProgress(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobProgress2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobProgress,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_progress(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19380,53 +14535,33 @@ func (ec *executionContext) fieldContext_Query_progress(ctx context.Context, fie
 }
 
 func (ec *executionContext) _Query_jobReceipts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_jobReceipts(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().JobReceipts(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_jobReceipts,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().JobReceipts(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*ent.JobReceipt
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*ent.JobReceipt
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*ent.JobReceipt); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/ent.JobReceipt`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.JobReceipt)
-	fc.Result = res
-	return ec.marshalOJobReceipt2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceiptᚄ(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobReceipt2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceiptᚄ,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_jobReceipts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19441,6 +14576,8 @@ func (ec *executionContext) fieldContext_Query_jobReceipts(ctx context.Context, 
 				return ec.fieldContext_JobReceipt_id(ctx, field)
 			case "YibfNo":
 				return ec.fieldContext_JobReceipt_YibfNo(ctx, field)
+			case "ReceiptDate":
+				return ec.fieldContext_JobReceipt_ReceiptDate(ctx, field)
 			case "Amount":
 				return ec.fieldContext_JobReceipt_Amount(ctx, field)
 			case "Note":
@@ -19466,53 +14603,33 @@ func (ec *executionContext) fieldContext_Query_jobReceipts(ctx context.Context, 
 }
 
 func (ec *executionContext) _Query_supervisor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_supervisor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().Supervisor(rctx, fc.Args["yibfNo"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_supervisor,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().Supervisor(ctx, fc.Args["yibfNo"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobSupervisor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobSupervisor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobSupervisor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobSupervisor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobSupervisor)
-	fc.Result = res
-	return ec.marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_supervisor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19566,53 +14683,33 @@ func (ec *executionContext) fieldContext_Query_supervisor(ctx context.Context, f
 }
 
 func (ec *executionContext) _Query_supervisorByYDSID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_supervisorByYDSID(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().SupervisorByYdsid(rctx, fc.Args["ydsid"].(int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_supervisorByYDSID,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().SupervisorByYdsid(ctx, fc.Args["ydsid"].(int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.JobSupervisor
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobSupervisor
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.JobSupervisor); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.JobSupervisor`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.JobSupervisor)
-	fc.Result = res
-	return ec.marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_supervisorByYDSID(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19666,56 +14763,33 @@ func (ec *executionContext) fieldContext_Query_supervisorByYDSID(ctx context.Con
 }
 
 func (ec *executionContext) _Query_companyToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_companyToken(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CompanyToken(rctx, fc.Args["companyCode"].(*int))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_companyToken,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().CompanyToken(ctx, fc.Args["companyCode"].(*int))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.CompanyToken
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.CompanyToken
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.CompanyToken); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.CompanyToken`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.CompanyToken)
-	fc.Result = res
-	return ec.marshalNCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyToken(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyToken,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_companyToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19755,56 +14829,33 @@ func (ec *executionContext) fieldContext_Query_companyToken(ctx context.Context,
 }
 
 func (ec *executionContext) _Query_user(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_user(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().User(rctx, fc.Args["id"].(string))
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_user,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().User(ctx, fc.Args["id"].(string))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal *ent.User
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.User
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.(*ent.User); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/polatbilal/ent-gqlgen/ent.User`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*ent.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUser(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUser,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19850,56 +14901,32 @@ func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field g
 }
 
 func (ec *executionContext) _Query_companyUsers(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_companyUsers(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		directive0 := func(rctx context.Context) (any, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().CompanyUsers(rctx)
-		}
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query_companyUsers,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.Query().CompanyUsers(ctx)
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
 
-		directive1 := func(ctx context.Context) (any, error) {
-			if ec.directives.Auth == nil {
-				var zeroVal []*ent.User
-				return zeroVal, errors.New("directive auth is not implemented")
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal []*ent.User
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
 			}
-			return ec.directives.Auth(ctx, nil, directive0)
-		}
 
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*ent.User); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/polatbilal/ent-gqlgen/ent.User`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUserᚄ(ctx, field.Selections, res)
+			next = directive1
+			return next
+		},
+		ec.marshalNUser2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUserᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query_companyUsers(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -19934,31 +14961,20 @@ func (ec *executionContext) fieldContext_Query_companyUsers(_ context.Context, f
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query___type(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.introspectType(fc.Args["name"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*introspection.Type)
-	fc.Result = res
-	return ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query___type,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.introspectType(fc.Args["name"].(string))
+		},
+		nil,
+		ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query___type(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20010,31 +15026,19 @@ func (ec *executionContext) fieldContext_Query___type(ctx context.Context, field
 }
 
 func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query___schema(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.introspectSchema()
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*introspection.Schema)
-	fc.Result = res
-	return ec.marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Query___schema,
+		func(ctx context.Context) (any, error) {
+			return ec.introspectSchema()
+		},
+		nil,
+		ec.marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_Query___schema(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20065,31 +15069,19 @@ func (ec *executionContext) fieldContext_Query___schema(_ context.Context, field
 }
 
 func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalOID2int(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_User_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalOID2int,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_User_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20106,34 +15098,19 @@ func (ec *executionContext) fieldContext_User_id(_ context.Context, field graphq
 }
 
 func (ec *executionContext) _User_Username(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_Username(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Username, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_User_Username,
+		func(ctx context.Context) (any, error) {
+			return obj.Username, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_User_Username(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20150,31 +15127,19 @@ func (ec *executionContext) fieldContext_User_Username(_ context.Context, field 
 }
 
 func (ec *executionContext) _User_Name(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_Name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_User_Name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_User_Name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20191,31 +15156,19 @@ func (ec *executionContext) fieldContext_User_Name(_ context.Context, field grap
 }
 
 func (ec *executionContext) _User_Email(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_Email(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_User_Email,
+		func(ctx context.Context) (any, error) {
+			return obj.Email, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_User_Email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20232,31 +15185,19 @@ func (ec *executionContext) fieldContext_User_Email(_ context.Context, field gra
 }
 
 func (ec *executionContext) _User_Phone(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_Phone(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Phone, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalOString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_User_Phone,
+		func(ctx context.Context) (any, error) {
+			return obj.Phone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_User_Phone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20273,34 +15214,19 @@ func (ec *executionContext) fieldContext_User_Phone(_ context.Context, field gra
 }
 
 func (ec *executionContext) _User_Role(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_Role(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Role, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_User_Role,
+		func(ctx context.Context) (any, error) {
+			return obj.Role, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext_User_Role(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20317,31 +15243,19 @@ func (ec *executionContext) fieldContext_User_Role(_ context.Context, field grap
 }
 
 func (ec *executionContext) _User_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_CreatedAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_User_CreatedAt,
+		func(ctx context.Context) (any, error) {
+			return obj.CreatedAt, nil
+		},
+		nil,
+		ec.marshalOTime2timeᚐTime,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_User_CreatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20358,31 +15272,19 @@ func (ec *executionContext) fieldContext_User_CreatedAt(_ context.Context, field
 }
 
 func (ec *executionContext) _User_Companies(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_Companies(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.User().Companies(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.CompanyDetail)
-	fc.Result = res
-	return ec.marshalOCompanyDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetailᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_User_Companies,
+		func(ctx context.Context) (any, error) {
+			return ec.resolvers.User().Companies(ctx, obj)
+		},
+		nil,
+		ec.marshalOCompanyDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetailᚄ,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext_User_Companies(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20451,34 +15353,19 @@ func (ec *executionContext) fieldContext_User_Companies(_ context.Context, field
 }
 
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Directive_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Directive_name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Directive_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20495,31 +15382,19 @@ func (ec *executionContext) fieldContext___Directive_name(_ context.Context, fie
 }
 
 func (ec *executionContext) ___Directive_description(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Directive_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Directive_description,
+		func(ctx context.Context) (any, error) {
+			return obj.Description(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Directive_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20536,34 +15411,19 @@ func (ec *executionContext) fieldContext___Directive_description(_ context.Conte
 }
 
 func (ec *executionContext) ___Directive_isRepeatable(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Directive_isRepeatable(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IsRepeatable, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Directive_isRepeatable,
+		func(ctx context.Context) (any, error) {
+			return obj.IsRepeatable, nil
+		},
+		nil,
+		ec.marshalNBoolean2bool,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Directive_isRepeatable(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20580,34 +15440,19 @@ func (ec *executionContext) fieldContext___Directive_isRepeatable(_ context.Cont
 }
 
 func (ec *executionContext) ___Directive_locations(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Directive_locations(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Locations, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]string)
-	fc.Result = res
-	return ec.marshalN__DirectiveLocation2ᚕstringᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Directive_locations,
+		func(ctx context.Context) (any, error) {
+			return obj.Locations, nil
+		},
+		nil,
+		ec.marshalN__DirectiveLocation2ᚕstringᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Directive_locations(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20624,34 +15469,19 @@ func (ec *executionContext) fieldContext___Directive_locations(_ context.Context
 }
 
 func (ec *executionContext) ___Directive_args(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Directive_args(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Args, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.InputValue)
-	fc.Result = res
-	return ec.marshalN__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Directive_args,
+		func(ctx context.Context) (any, error) {
+			return obj.Args, nil
+		},
+		nil,
+		ec.marshalN__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Directive_args(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20693,34 +15523,19 @@ func (ec *executionContext) fieldContext___Directive_args(ctx context.Context, f
 }
 
 func (ec *executionContext) ___EnumValue_name(ctx context.Context, field graphql.CollectedField, obj *introspection.EnumValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___EnumValue_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___EnumValue_name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___EnumValue_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20737,31 +15552,19 @@ func (ec *executionContext) fieldContext___EnumValue_name(_ context.Context, fie
 }
 
 func (ec *executionContext) ___EnumValue_description(ctx context.Context, field graphql.CollectedField, obj *introspection.EnumValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___EnumValue_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___EnumValue_description,
+		func(ctx context.Context) (any, error) {
+			return obj.Description(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___EnumValue_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20778,34 +15581,19 @@ func (ec *executionContext) fieldContext___EnumValue_description(_ context.Conte
 }
 
 func (ec *executionContext) ___EnumValue_isDeprecated(ctx context.Context, field graphql.CollectedField, obj *introspection.EnumValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___EnumValue_isDeprecated(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IsDeprecated(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___EnumValue_isDeprecated,
+		func(ctx context.Context) (any, error) {
+			return obj.IsDeprecated(), nil
+		},
+		nil,
+		ec.marshalNBoolean2bool,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___EnumValue_isDeprecated(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20822,31 +15610,19 @@ func (ec *executionContext) fieldContext___EnumValue_isDeprecated(_ context.Cont
 }
 
 func (ec *executionContext) ___EnumValue_deprecationReason(ctx context.Context, field graphql.CollectedField, obj *introspection.EnumValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___EnumValue_deprecationReason(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeprecationReason(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___EnumValue_deprecationReason,
+		func(ctx context.Context) (any, error) {
+			return obj.DeprecationReason(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___EnumValue_deprecationReason(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20863,34 +15639,19 @@ func (ec *executionContext) fieldContext___EnumValue_deprecationReason(_ context
 }
 
 func (ec *executionContext) ___Field_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Field) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Field_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Field_name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Field_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20907,31 +15668,19 @@ func (ec *executionContext) fieldContext___Field_name(_ context.Context, field g
 }
 
 func (ec *executionContext) ___Field_description(ctx context.Context, field graphql.CollectedField, obj *introspection.Field) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Field_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Field_description,
+		func(ctx context.Context) (any, error) {
+			return obj.Description(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Field_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20948,34 +15697,19 @@ func (ec *executionContext) fieldContext___Field_description(_ context.Context, 
 }
 
 func (ec *executionContext) ___Field_args(ctx context.Context, field graphql.CollectedField, obj *introspection.Field) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Field_args(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Args, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.InputValue)
-	fc.Result = res
-	return ec.marshalN__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Field_args,
+		func(ctx context.Context) (any, error) {
+			return obj.Args, nil
+		},
+		nil,
+		ec.marshalN__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Field_args(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21017,34 +15751,19 @@ func (ec *executionContext) fieldContext___Field_args(ctx context.Context, field
 }
 
 func (ec *executionContext) ___Field_type(ctx context.Context, field graphql.CollectedField, obj *introspection.Field) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Field_type(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Type, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*introspection.Type)
-	fc.Result = res
-	return ec.marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Field_type,
+		func(ctx context.Context) (any, error) {
+			return obj.Type, nil
+		},
+		nil,
+		ec.marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Field_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21085,34 +15804,19 @@ func (ec *executionContext) fieldContext___Field_type(_ context.Context, field g
 }
 
 func (ec *executionContext) ___Field_isDeprecated(ctx context.Context, field graphql.CollectedField, obj *introspection.Field) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Field_isDeprecated(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IsDeprecated(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Field_isDeprecated,
+		func(ctx context.Context) (any, error) {
+			return obj.IsDeprecated(), nil
+		},
+		nil,
+		ec.marshalNBoolean2bool,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Field_isDeprecated(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21129,31 +15833,19 @@ func (ec *executionContext) fieldContext___Field_isDeprecated(_ context.Context,
 }
 
 func (ec *executionContext) ___Field_deprecationReason(ctx context.Context, field graphql.CollectedField, obj *introspection.Field) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Field_deprecationReason(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeprecationReason(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Field_deprecationReason,
+		func(ctx context.Context) (any, error) {
+			return obj.DeprecationReason(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Field_deprecationReason(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21170,34 +15862,19 @@ func (ec *executionContext) fieldContext___Field_deprecationReason(_ context.Con
 }
 
 func (ec *executionContext) ___InputValue_name(ctx context.Context, field graphql.CollectedField, obj *introspection.InputValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___InputValue_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___InputValue_name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___InputValue_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21214,31 +15891,19 @@ func (ec *executionContext) fieldContext___InputValue_name(_ context.Context, fi
 }
 
 func (ec *executionContext) ___InputValue_description(ctx context.Context, field graphql.CollectedField, obj *introspection.InputValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___InputValue_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___InputValue_description,
+		func(ctx context.Context) (any, error) {
+			return obj.Description(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___InputValue_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21255,34 +15920,19 @@ func (ec *executionContext) fieldContext___InputValue_description(_ context.Cont
 }
 
 func (ec *executionContext) ___InputValue_type(ctx context.Context, field graphql.CollectedField, obj *introspection.InputValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___InputValue_type(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Type, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*introspection.Type)
-	fc.Result = res
-	return ec.marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___InputValue_type,
+		func(ctx context.Context) (any, error) {
+			return obj.Type, nil
+		},
+		nil,
+		ec.marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___InputValue_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21323,31 +15973,19 @@ func (ec *executionContext) fieldContext___InputValue_type(_ context.Context, fi
 }
 
 func (ec *executionContext) ___InputValue_defaultValue(ctx context.Context, field graphql.CollectedField, obj *introspection.InputValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___InputValue_defaultValue(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DefaultValue, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___InputValue_defaultValue,
+		func(ctx context.Context) (any, error) {
+			return obj.DefaultValue, nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___InputValue_defaultValue(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21364,34 +16002,19 @@ func (ec *executionContext) fieldContext___InputValue_defaultValue(_ context.Con
 }
 
 func (ec *executionContext) ___InputValue_isDeprecated(ctx context.Context, field graphql.CollectedField, obj *introspection.InputValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___InputValue_isDeprecated(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IsDeprecated(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___InputValue_isDeprecated,
+		func(ctx context.Context) (any, error) {
+			return obj.IsDeprecated(), nil
+		},
+		nil,
+		ec.marshalNBoolean2bool,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___InputValue_isDeprecated(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21408,31 +16031,19 @@ func (ec *executionContext) fieldContext___InputValue_isDeprecated(_ context.Con
 }
 
 func (ec *executionContext) ___InputValue_deprecationReason(ctx context.Context, field graphql.CollectedField, obj *introspection.InputValue) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___InputValue_deprecationReason(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeprecationReason(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___InputValue_deprecationReason,
+		func(ctx context.Context) (any, error) {
+			return obj.DeprecationReason(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___InputValue_deprecationReason(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21449,31 +16060,19 @@ func (ec *executionContext) fieldContext___InputValue_deprecationReason(_ contex
 }
 
 func (ec *executionContext) ___Schema_description(ctx context.Context, field graphql.CollectedField, obj *introspection.Schema) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Schema_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Schema_description,
+		func(ctx context.Context) (any, error) {
+			return obj.Description(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Schema_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21490,34 +16089,19 @@ func (ec *executionContext) fieldContext___Schema_description(_ context.Context,
 }
 
 func (ec *executionContext) ___Schema_types(ctx context.Context, field graphql.CollectedField, obj *introspection.Schema) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Schema_types(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Types(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.Type)
-	fc.Result = res
-	return ec.marshalN__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐTypeᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Schema_types,
+		func(ctx context.Context) (any, error) {
+			return obj.Types(), nil
+		},
+		nil,
+		ec.marshalN__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐTypeᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Schema_types(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21558,34 +16142,19 @@ func (ec *executionContext) fieldContext___Schema_types(_ context.Context, field
 }
 
 func (ec *executionContext) ___Schema_queryType(ctx context.Context, field graphql.CollectedField, obj *introspection.Schema) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Schema_queryType(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.QueryType(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*introspection.Type)
-	fc.Result = res
-	return ec.marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Schema_queryType,
+		func(ctx context.Context) (any, error) {
+			return obj.QueryType(), nil
+		},
+		nil,
+		ec.marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Schema_queryType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21626,31 +16195,19 @@ func (ec *executionContext) fieldContext___Schema_queryType(_ context.Context, f
 }
 
 func (ec *executionContext) ___Schema_mutationType(ctx context.Context, field graphql.CollectedField, obj *introspection.Schema) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Schema_mutationType(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.MutationType(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*introspection.Type)
-	fc.Result = res
-	return ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Schema_mutationType,
+		func(ctx context.Context) (any, error) {
+			return obj.MutationType(), nil
+		},
+		nil,
+		ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Schema_mutationType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21691,31 +16248,19 @@ func (ec *executionContext) fieldContext___Schema_mutationType(_ context.Context
 }
 
 func (ec *executionContext) ___Schema_subscriptionType(ctx context.Context, field graphql.CollectedField, obj *introspection.Schema) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Schema_subscriptionType(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.SubscriptionType(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*introspection.Type)
-	fc.Result = res
-	return ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Schema_subscriptionType,
+		func(ctx context.Context) (any, error) {
+			return obj.SubscriptionType(), nil
+		},
+		nil,
+		ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Schema_subscriptionType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21756,34 +16301,19 @@ func (ec *executionContext) fieldContext___Schema_subscriptionType(_ context.Con
 }
 
 func (ec *executionContext) ___Schema_directives(ctx context.Context, field graphql.CollectedField, obj *introspection.Schema) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Schema_directives(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Directives(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.Directive)
-	fc.Result = res
-	return ec.marshalN__Directive2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirectiveᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Schema_directives,
+		func(ctx context.Context) (any, error) {
+			return obj.Directives(), nil
+		},
+		nil,
+		ec.marshalN__Directive2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirectiveᚄ,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Schema_directives(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21812,34 +16342,19 @@ func (ec *executionContext) fieldContext___Schema_directives(_ context.Context, 
 }
 
 func (ec *executionContext) ___Type_kind(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_kind(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Kind(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalN__TypeKind2string(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_kind,
+		func(ctx context.Context) (any, error) {
+			return obj.Kind(), nil
+		},
+		nil,
+		ec.marshalN__TypeKind2string,
+		true,
+		true,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_kind(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21856,31 +16371,19 @@ func (ec *executionContext) fieldContext___Type_kind(_ context.Context, field gr
 }
 
 func (ec *executionContext) ___Type_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_name,
+		func(ctx context.Context) (any, error) {
+			return obj.Name(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21897,31 +16400,19 @@ func (ec *executionContext) fieldContext___Type_name(_ context.Context, field gr
 }
 
 func (ec *executionContext) ___Type_description(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_description,
+		func(ctx context.Context) (any, error) {
+			return obj.Description(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21938,31 +16429,19 @@ func (ec *executionContext) fieldContext___Type_description(_ context.Context, f
 }
 
 func (ec *executionContext) ___Type_specifiedByURL(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_specifiedByURL(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.SpecifiedByURL(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_specifiedByURL,
+		func(ctx context.Context) (any, error) {
+			return obj.SpecifiedByURL(), nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21979,31 +16458,20 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 }
 
 func (ec *executionContext) ___Type_fields(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_fields(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Fields(fc.Args["includeDeprecated"].(bool)), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.Field)
-	fc.Result = res
-	return ec.marshalO__Field2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐFieldᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_fields,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return obj.Fields(fc.Args["includeDeprecated"].(bool)), nil
+		},
+		nil,
+		ec.marshalO__Field2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐFieldᚄ,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_fields(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22045,31 +16513,19 @@ func (ec *executionContext) fieldContext___Type_fields(ctx context.Context, fiel
 }
 
 func (ec *executionContext) ___Type_interfaces(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_interfaces(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Interfaces(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.Type)
-	fc.Result = res
-	return ec.marshalO__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐTypeᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_interfaces,
+		func(ctx context.Context) (any, error) {
+			return obj.Interfaces(), nil
+		},
+		nil,
+		ec.marshalO__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐTypeᚄ,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_interfaces(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22110,31 +16566,19 @@ func (ec *executionContext) fieldContext___Type_interfaces(_ context.Context, fi
 }
 
 func (ec *executionContext) ___Type_possibleTypes(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_possibleTypes(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.PossibleTypes(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.Type)
-	fc.Result = res
-	return ec.marshalO__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐTypeᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_possibleTypes,
+		func(ctx context.Context) (any, error) {
+			return obj.PossibleTypes(), nil
+		},
+		nil,
+		ec.marshalO__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐTypeᚄ,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_possibleTypes(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22175,31 +16619,20 @@ func (ec *executionContext) fieldContext___Type_possibleTypes(_ context.Context,
 }
 
 func (ec *executionContext) ___Type_enumValues(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_enumValues(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.EnumValues(fc.Args["includeDeprecated"].(bool)), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.EnumValue)
-	fc.Result = res
-	return ec.marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_enumValues,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return obj.EnumValues(fc.Args["includeDeprecated"].(bool)), nil
+		},
+		nil,
+		ec.marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_enumValues(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22237,31 +16670,19 @@ func (ec *executionContext) fieldContext___Type_enumValues(ctx context.Context, 
 }
 
 func (ec *executionContext) ___Type_inputFields(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_inputFields(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.InputFields(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]introspection.InputValue)
-	fc.Result = res
-	return ec.marshalO__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_inputFields,
+		func(ctx context.Context) (any, error) {
+			return obj.InputFields(), nil
+		},
+		nil,
+		ec.marshalO__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_inputFields(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22292,31 +16713,19 @@ func (ec *executionContext) fieldContext___Type_inputFields(_ context.Context, f
 }
 
 func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_ofType(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OfType(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*introspection.Type)
-	fc.Result = res
-	return ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_ofType,
+		func(ctx context.Context) (any, error) {
+			return obj.OfType(), nil
+		},
+		nil,
+		ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_ofType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22357,31 +16766,19 @@ func (ec *executionContext) fieldContext___Type_ofType(_ context.Context, field 
 }
 
 func (ec *executionContext) ___Type_isOneOf(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext___Type_isOneOf(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.IsOneOf(), nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext___Type_isOneOf,
+		func(ctx context.Context) (any, error) {
+			return obj.IsOneOf(), nil
+		},
+		nil,
+		ec.marshalOBoolean2bool,
+		true,
+		false,
+	)
 }
 
 func (ec *executionContext) fieldContext___Type_isOneOf(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -25163,6 +19560,8 @@ func (ec *executionContext) _JobReceipt(ctx context.Context, sel ast.SelectionSe
 			out.Values[i] = ec._JobReceipt_id(ctx, field, obj)
 		case "YibfNo":
 			out.Values[i] = ec._JobReceipt_YibfNo(ctx, field, obj)
+		case "ReceiptDate":
+			out.Values[i] = ec._JobReceipt_ReceiptDate(ctx, field, obj)
 		case "Amount":
 			out.Values[i] = ec._JobReceipt_Amount(ctx, field, obj)
 		case "Note":
@@ -25374,6 +19773,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "updateFloor":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateFloor(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "upsertFloor":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_upsertFloor(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -26540,7 +20946,7 @@ func (ec *executionContext) marshalNAdministrationCount2ᚕᚖgithubᚗcomᚋpol
 func (ec *executionContext) marshalNAdministrationCount2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAdministrationCount(ctx context.Context, sel ast.SelectionSet, v *model.AdministrationCount) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26554,7 +20960,7 @@ func (ec *executionContext) marshalNAuthPayload2githubᚗcomᚋpolatbilalᚋent�
 func (ec *executionContext) marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAuthPayload(ctx context.Context, sel ast.SelectionSet, v *model.AuthPayload) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26571,7 +20977,7 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	res := graphql.MarshalBoolean(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 	}
 	return res
@@ -26584,7 +20990,7 @@ func (ec *executionContext) marshalNCompanyDetail2githubᚗcomᚋpolatbilalᚋen
 func (ec *executionContext) marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyDetail) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26641,7 +21047,7 @@ func (ec *executionContext) marshalNCompanyEngineer2ᚕᚖgithubᚗcomᚋpolatbi
 func (ec *executionContext) marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyEngineer) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26660,7 +21066,7 @@ func (ec *executionContext) marshalNCompanyToken2githubᚗcomᚋpolatbilalᚋent
 func (ec *executionContext) marshalNCompanyToken2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyToken(ctx context.Context, sel ast.SelectionSet, v *ent.CompanyToken) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26682,7 +21088,7 @@ func (ec *executionContext) marshalNID2int(ctx context.Context, sel ast.Selectio
 	res := graphql.MarshalInt(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 	}
 	return res
@@ -26698,7 +21104,7 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	res := graphql.MarshalID(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 	}
 	return res
@@ -26714,7 +21120,7 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	res := graphql.MarshalInt(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 	}
 	return res
@@ -26781,7 +21187,7 @@ func (ec *executionContext) marshalNJobBatchResult2ᚕᚖgithubᚗcomᚋpolatbil
 func (ec *executionContext) marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult(ctx context.Context, sel ast.SelectionSet, v *model.JobBatchResult) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26795,7 +21201,7 @@ func (ec *executionContext) marshalNJobContractor2githubᚗcomᚋpolatbilalᚋen
 func (ec *executionContext) marshalNJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx context.Context, sel ast.SelectionSet, v *ent.JobContractor) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26814,7 +21220,7 @@ func (ec *executionContext) marshalNJobCounts2githubᚗcomᚋpolatbilalᚋentᚑ
 func (ec *executionContext) marshalNJobCounts2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobCounts(ctx context.Context, sel ast.SelectionSet, v *model.JobCounts) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26872,7 +21278,7 @@ func (ec *executionContext) marshalNJobDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋ
 func (ec *executionContext) marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx context.Context, sel ast.SelectionSet, v *ent.JobDetail) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26886,7 +21292,7 @@ func (ec *executionContext) marshalNJobEngineer2githubᚗcomᚋpolatbilalᚋent�
 func (ec *executionContext) marshalNJobEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineer(ctx context.Context, sel ast.SelectionSet, v *model.JobEngineer) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26949,7 +21355,7 @@ func (ec *executionContext) marshalNJobFloor2ᚕᚖgithubᚗcomᚋpolatbilalᚋe
 func (ec *executionContext) marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor(ctx context.Context, sel ast.SelectionSet, v *ent.JobFloor) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26973,7 +21379,7 @@ func (ec *executionContext) marshalNJobOwner2githubᚗcomᚋpolatbilalᚋentᚑg
 func (ec *executionContext) marshalNJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx context.Context, sel ast.SelectionSet, v *ent.JobOwner) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -26988,7 +21394,7 @@ func (ec *executionContext) unmarshalNJobOwnerInput2githubᚗcomᚋpolatbilalᚋ
 func (ec *executionContext) marshalNJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments(ctx context.Context, sel ast.SelectionSet, v *ent.JobPayments) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -27008,7 +21414,7 @@ func (ec *executionContext) unmarshalNJobProgressInput2githubᚗcomᚋpolatbilal
 func (ec *executionContext) marshalNJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceipt(ctx context.Context, sel ast.SelectionSet, v *ent.JobReceipt) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -27027,7 +21433,7 @@ func (ec *executionContext) marshalNJobSupervisor2githubᚗcomᚋpolatbilalᚋen
 func (ec *executionContext) marshalNJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor(ctx context.Context, sel ast.SelectionSet, v *ent.JobSupervisor) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -27049,7 +21455,7 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	res := graphql.MarshalString(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 	}
 	return res
@@ -27106,7 +21512,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋpolatbilalᚋent�
 func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUser(ctx context.Context, sel ast.SelectionSet, v *ent.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -27176,7 +21582,7 @@ func (ec *executionContext) marshalN__DirectiveLocation2string(ctx context.Conte
 	res := graphql.MarshalString(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 	}
 	return res
@@ -27348,7 +21754,7 @@ func (ec *executionContext) marshalN__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgen�
 func (ec *executionContext) marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx context.Context, sel ast.SelectionSet, v *introspection.Type) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
@@ -27365,7 +21771,7 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	res := graphql.MarshalString(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 	}
 	return res
