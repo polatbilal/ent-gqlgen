@@ -10,18 +10,18 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
 )
 
 // JobRelationsCreate is the builder for creating a JobRelations entity.
@@ -350,19 +350,19 @@ func (jrc *JobRelationsCreate) SetElectriccontroller(c *CompanyEngineer) *JobRel
 	return jrc.SetElectriccontrollerID(c.ID)
 }
 
-// AddLayerIDs adds the "layers" edge to the JobLayer entity by IDs.
-func (jrc *JobRelationsCreate) AddLayerIDs(ids ...int) *JobRelationsCreate {
-	jrc.mutation.AddLayerIDs(ids...)
+// AddFloorIDs adds the "floors" edge to the JobFloor entity by IDs.
+func (jrc *JobRelationsCreate) AddFloorIDs(ids ...int) *JobRelationsCreate {
+	jrc.mutation.AddFloorIDs(ids...)
 	return jrc
 }
 
-// AddLayers adds the "layers" edges to the JobLayer entity.
-func (jrc *JobRelationsCreate) AddLayers(j ...*JobLayer) *JobRelationsCreate {
+// AddFloors adds the "floors" edges to the JobFloor entity.
+func (jrc *JobRelationsCreate) AddFloors(j ...*JobFloor) *JobRelationsCreate {
 	ids := make([]int, len(j))
 	for i := range j {
 		ids[i] = j[i].ID
 	}
-	return jrc.AddLayerIDs(ids...)
+	return jrc.AddFloorIDs(ids...)
 }
 
 // AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
@@ -744,15 +744,15 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.electriccontroller_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.LayersIDs(); len(nodes) > 0 {
+	if nodes := jrc.mutation.FloorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   jobrelations.LayersTable,
-			Columns: []string{jobrelations.LayersColumn},
+			Table:   jobrelations.FloorsTable,
+			Columns: []string{jobrelations.FloorsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(joblayer.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

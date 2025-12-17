@@ -11,13 +11,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/polatbilal/gqlgen-ent/ent"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
-	"github.com/polatbilal/gqlgen-ent/graphql/generated"
-	"github.com/polatbilal/gqlgen-ent/graphql/model"
-	"github.com/polatbilal/gqlgen-ent/middlewares"
-	"github.com/polatbilal/gqlgen-ent/services"
-	"github.com/polatbilal/gqlgen-ent/tools"
+	"github.com/polatbilal/ent-gqlgen/ent"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
+	"github.com/polatbilal/ent-gqlgen/graphql/generated"
+	"github.com/polatbilal/ent-gqlgen/graphql/model"
+	"github.com/polatbilal/ent-gqlgen/middlewares"
+	"github.com/polatbilal/ent-gqlgen/services"
+	"github.com/polatbilal/ent-gqlgen/tools"
 )
 
 // Register is the resolver for the register field.

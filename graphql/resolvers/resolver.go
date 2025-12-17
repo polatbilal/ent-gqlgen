@@ -2,9 +2,9 @@ package resolvers
 
 import (
 	"github.com/99designs/gqlgen/graphql"
-	"github.com/polatbilal/gqlgen-ent/directives"
-	"github.com/polatbilal/gqlgen-ent/ent"
-	"github.com/polatbilal/gqlgen-ent/graphql/generated"
+	"github.com/polatbilal/ent-gqlgen/directives"
+	"github.com/polatbilal/ent-gqlgen/ent"
+	"github.com/polatbilal/ent-gqlgen/graphql/generated"
 )
 
 // This file will not be regenerated automatically.

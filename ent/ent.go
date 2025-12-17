@@ -12,21 +12,21 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
-	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
+	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -94,7 +94,7 @@ func checkColumn(table, column string) error {
 			jobauthor.Table:       jobauthor.ValidColumn,
 			jobcontractor.Table:   jobcontractor.ValidColumn,
 			jobdetail.Table:       jobdetail.ValidColumn,
-			joblayer.Table:        joblayer.ValidColumn,
+			jobfloor.Table:        jobfloor.ValidColumn,
 			jobowner.Table:        jobowner.ValidColumn,
 			jobpayments.Table:     jobpayments.ValidColumn,
 			jobprogress.Table:     jobprogress.ValidColumn,

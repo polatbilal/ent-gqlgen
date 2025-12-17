@@ -26,8 +26,8 @@ type Tx struct {
 	JobContractor *JobContractorClient
 	// JobDetail is the client for interacting with the JobDetail builders.
 	JobDetail *JobDetailClient
-	// JobLayer is the client for interacting with the JobLayer builders.
-	JobLayer *JobLayerClient
+	// JobFloor is the client for interacting with the JobFloor builders.
+	JobFloor *JobFloorClient
 	// JobOwner is the client for interacting with the JobOwner builders.
 	JobOwner *JobOwnerClient
 	// JobPayments is the client for interacting with the JobPayments builders.
@@ -180,7 +180,7 @@ func (tx *Tx) init() {
 	tx.JobAuthor = NewJobAuthorClient(tx.config)
 	tx.JobContractor = NewJobContractorClient(tx.config)
 	tx.JobDetail = NewJobDetailClient(tx.config)
-	tx.JobLayer = NewJobLayerClient(tx.config)
+	tx.JobFloor = NewJobFloorClient(tx.config)
 	tx.JobOwner = NewJobOwnerClient(tx.config)
 	tx.JobPayments = NewJobPaymentsClient(tx.config)
 	tx.JobProgress = NewJobProgressClient(tx.config)

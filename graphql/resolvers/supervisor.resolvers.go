@@ -8,11 +8,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/polatbilal/gqlgen-ent/ent"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/graphql/model"
-	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/ent-gqlgen/ent"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/graphql/model"
+	"github.com/polatbilal/ent-gqlgen/middlewares"
 )
 
 // CreateSupervisor is the resolver for the createSupervisor field.

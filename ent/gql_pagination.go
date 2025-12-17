@@ -11,21 +11,21 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/errcode"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
-	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
+	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 
@@ -1852,20 +1852,20 @@ func (jd *JobDetail) ToEdge(order *JobDetailOrder) *JobDetailEdge {
 	}
 }
 
-// JobLayerEdge is the edge representation of JobLayer.
-type JobLayerEdge struct {
-	Node   *JobLayer `json:"node"`
+// JobFloorEdge is the edge representation of JobFloor.
+type JobFloorEdge struct {
+	Node   *JobFloor `json:"node"`
 	Cursor Cursor    `json:"cursor"`
 }
 
-// JobLayerConnection is the connection containing edges to JobLayer.
-type JobLayerConnection struct {
-	Edges      []*JobLayerEdge `json:"edges"`
+// JobFloorConnection is the connection containing edges to JobFloor.
+type JobFloorConnection struct {
+	Edges      []*JobFloorEdge `json:"edges"`
 	PageInfo   PageInfo        `json:"pageInfo"`
 	TotalCount int             `json:"totalCount"`
 }
 
-func (c *JobLayerConnection) build(nodes []*JobLayer, pager *joblayerPager, after *Cursor, first *int, before *Cursor, last *int) {
+func (c *JobFloorConnection) build(nodes []*JobFloor, pager *jobfloorPager, after *Cursor, first *int, before *Cursor, last *int) {
 	c.PageInfo.HasNextPage = before != nil
 	c.PageInfo.HasPreviousPage = after != nil
 	if first != nil && *first+1 == len(nodes) {
@@ -1875,21 +1875,21 @@ func (c *JobLayerConnection) build(nodes []*JobLayer, pager *joblayerPager, afte
 		c.PageInfo.HasPreviousPage = true
 		nodes = nodes[:len(nodes)-1]
 	}
-	var nodeAt func(int) *JobLayer
+	var nodeAt func(int) *JobFloor
 	if last != nil {
 		n := len(nodes) - 1
-		nodeAt = func(i int) *JobLayer {
+		nodeAt = func(i int) *JobFloor {
 			return nodes[n-i]
 		}
 	} else {
-		nodeAt = func(i int) *JobLayer {
+		nodeAt = func(i int) *JobFloor {
 			return nodes[i]
 		}
 	}
-	c.Edges = make([]*JobLayerEdge, len(nodes))
+	c.Edges = make([]*JobFloorEdge, len(nodes))
 	for i := range nodes {
 		node := nodeAt(i)
-		c.Edges[i] = &JobLayerEdge{
+		c.Edges[i] = &JobFloorEdge{
 			Node:   node,
 			Cursor: pager.toCursor(node),
 		}
@@ -1903,87 +1903,87 @@ func (c *JobLayerConnection) build(nodes []*JobLayer, pager *joblayerPager, afte
 	}
 }
 
-// JobLayerPaginateOption enables pagination customization.
-type JobLayerPaginateOption func(*joblayerPager) error
+// JobFloorPaginateOption enables pagination customization.
+type JobFloorPaginateOption func(*jobfloorPager) error
 
-// WithJobLayerOrder configures pagination ordering.
-func WithJobLayerOrder(order *JobLayerOrder) JobLayerPaginateOption {
+// WithJobFloorOrder configures pagination ordering.
+func WithJobFloorOrder(order *JobFloorOrder) JobFloorPaginateOption {
 	if order == nil {
-		order = DefaultJobLayerOrder
+		order = DefaultJobFloorOrder
 	}
 	o := *order
-	return func(pager *joblayerPager) error {
+	return func(pager *jobfloorPager) error {
 		if err := o.Direction.Validate(); err != nil {
 			return err
 		}
 		if o.Field == nil {
-			o.Field = DefaultJobLayerOrder.Field
+			o.Field = DefaultJobFloorOrder.Field
 		}
 		pager.order = &o
 		return nil
 	}
 }
 
-// WithJobLayerFilter configures pagination filter.
-func WithJobLayerFilter(filter func(*JobLayerQuery) (*JobLayerQuery, error)) JobLayerPaginateOption {
-	return func(pager *joblayerPager) error {
+// WithJobFloorFilter configures pagination filter.
+func WithJobFloorFilter(filter func(*JobFloorQuery) (*JobFloorQuery, error)) JobFloorPaginateOption {
+	return func(pager *jobfloorPager) error {
 		if filter == nil {
-			return errors.New("JobLayerQuery filter cannot be nil")
+			return errors.New("JobFloorQuery filter cannot be nil")
 		}
 		pager.filter = filter
 		return nil
 	}
 }
 
-type joblayerPager struct {
+type jobfloorPager struct {
 	reverse bool
-	order   *JobLayerOrder
-	filter  func(*JobLayerQuery) (*JobLayerQuery, error)
+	order   *JobFloorOrder
+	filter  func(*JobFloorQuery) (*JobFloorQuery, error)
 }
 
-func newJobLayerPager(opts []JobLayerPaginateOption, reverse bool) (*joblayerPager, error) {
-	pager := &joblayerPager{reverse: reverse}
+func newJobFloorPager(opts []JobFloorPaginateOption, reverse bool) (*jobfloorPager, error) {
+	pager := &jobfloorPager{reverse: reverse}
 	for _, opt := range opts {
 		if err := opt(pager); err != nil {
 			return nil, err
 		}
 	}
 	if pager.order == nil {
-		pager.order = DefaultJobLayerOrder
+		pager.order = DefaultJobFloorOrder
 	}
 	return pager, nil
 }
 
-func (p *joblayerPager) applyFilter(query *JobLayerQuery) (*JobLayerQuery, error) {
+func (p *jobfloorPager) applyFilter(query *JobFloorQuery) (*JobFloorQuery, error) {
 	if p.filter != nil {
 		return p.filter(query)
 	}
 	return query, nil
 }
 
-func (p *joblayerPager) toCursor(jl *JobLayer) Cursor {
-	return p.order.Field.toCursor(jl)
+func (p *jobfloorPager) toCursor(jf *JobFloor) Cursor {
+	return p.order.Field.toCursor(jf)
 }
 
-func (p *joblayerPager) applyCursors(query *JobLayerQuery, after, before *Cursor) (*JobLayerQuery, error) {
+func (p *jobfloorPager) applyCursors(query *JobFloorQuery, after, before *Cursor) (*JobFloorQuery, error) {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
-	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultJobLayerOrder.Field.column, p.order.Field.column, direction) {
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultJobFloorOrder.Field.column, p.order.Field.column, direction) {
 		query = query.Where(predicate)
 	}
 	return query, nil
 }
 
-func (p *joblayerPager) applyOrder(query *JobLayerQuery) *JobLayerQuery {
+func (p *jobfloorPager) applyOrder(query *JobFloorQuery) *JobFloorQuery {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
 	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
-	if p.order.Field != DefaultJobLayerOrder.Field {
-		query = query.Order(DefaultJobLayerOrder.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultJobFloorOrder.Field {
+		query = query.Order(DefaultJobFloorOrder.Field.toTerm(direction.OrderTermOption()))
 	}
 	if len(query.ctx.Fields) > 0 {
 		query.ctx.AppendFieldOnce(p.order.Field.column)
@@ -1991,7 +1991,7 @@ func (p *joblayerPager) applyOrder(query *JobLayerQuery) *JobLayerQuery {
 	return query
 }
 
-func (p *joblayerPager) orderExpr(query *JobLayerQuery) sql.Querier {
+func (p *jobfloorPager) orderExpr(query *JobFloorQuery) sql.Querier {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
@@ -2001,33 +2001,33 @@ func (p *joblayerPager) orderExpr(query *JobLayerQuery) sql.Querier {
 	}
 	return sql.ExprFunc(func(b *sql.Builder) {
 		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
-		if p.order.Field != DefaultJobLayerOrder.Field {
-			b.Comma().Ident(DefaultJobLayerOrder.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultJobFloorOrder.Field {
+			b.Comma().Ident(DefaultJobFloorOrder.Field.column).Pad().WriteString(string(direction))
 		}
 	})
 }
 
-// Paginate executes the query and returns a relay based cursor connection to JobLayer.
-func (jl *JobLayerQuery) Paginate(
+// Paginate executes the query and returns a relay based cursor connection to JobFloor.
+func (jf *JobFloorQuery) Paginate(
 	ctx context.Context, after *Cursor, first *int,
-	before *Cursor, last *int, opts ...JobLayerPaginateOption,
-) (*JobLayerConnection, error) {
+	before *Cursor, last *int, opts ...JobFloorPaginateOption,
+) (*JobFloorConnection, error) {
 	if err := validateFirstLast(first, last); err != nil {
 		return nil, err
 	}
-	pager, err := newJobLayerPager(opts, last != nil)
+	pager, err := newJobFloorPager(opts, last != nil)
 	if err != nil {
 		return nil, err
 	}
-	if jl, err = pager.applyFilter(jl); err != nil {
+	if jf, err = pager.applyFilter(jf); err != nil {
 		return nil, err
 	}
-	conn := &JobLayerConnection{Edges: []*JobLayerEdge{}}
+	conn := &JobFloorConnection{Edges: []*JobFloorEdge{}}
 	ignoredEdges := !hasCollectedField(ctx, edgesField)
 	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
 		hasPagination := after != nil || first != nil || before != nil || last != nil
 		if hasPagination || ignoredEdges {
-			c := jl.Clone()
+			c := jf.Clone()
 			c.ctx.Fields = nil
 			if conn.TotalCount, err = c.Count(ctx); err != nil {
 				return nil, err
@@ -2039,20 +2039,20 @@ func (jl *JobLayerQuery) Paginate(
 	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
 		return conn, nil
 	}
-	if jl, err = pager.applyCursors(jl, after, before); err != nil {
+	if jf, err = pager.applyCursors(jf, after, before); err != nil {
 		return nil, err
 	}
 	limit := paginateLimit(first, last)
 	if limit != 0 {
-		jl.Limit(limit)
+		jf.Limit(limit)
 	}
 	if field := collectedField(ctx, edgesField, nodeField); field != nil {
-		if err := jl.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+		if err := jf.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
 			return nil, err
 		}
 	}
-	jl = pager.applyOrder(jl)
-	nodes, err := jl.All(ctx)
+	jf = pager.applyOrder(jf)
+	nodes, err := jf.All(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2060,44 +2060,44 @@ func (jl *JobLayerQuery) Paginate(
 	return conn, nil
 }
 
-// JobLayerOrderField defines the ordering field of JobLayer.
-type JobLayerOrderField struct {
-	// Value extracts the ordering value from the given JobLayer.
-	Value    func(*JobLayer) (ent.Value, error)
+// JobFloorOrderField defines the ordering field of JobFloor.
+type JobFloorOrderField struct {
+	// Value extracts the ordering value from the given JobFloor.
+	Value    func(*JobFloor) (ent.Value, error)
 	column   string // field or computed.
-	toTerm   func(...sql.OrderTermOption) joblayer.OrderOption
-	toCursor func(*JobLayer) Cursor
+	toTerm   func(...sql.OrderTermOption) jobfloor.OrderOption
+	toCursor func(*JobFloor) Cursor
 }
 
-// JobLayerOrder defines the ordering of JobLayer.
-type JobLayerOrder struct {
+// JobFloorOrder defines the ordering of JobFloor.
+type JobFloorOrder struct {
 	Direction OrderDirection      `json:"direction"`
-	Field     *JobLayerOrderField `json:"field"`
+	Field     *JobFloorOrderField `json:"field"`
 }
 
-// DefaultJobLayerOrder is the default ordering of JobLayer.
-var DefaultJobLayerOrder = &JobLayerOrder{
+// DefaultJobFloorOrder is the default ordering of JobFloor.
+var DefaultJobFloorOrder = &JobFloorOrder{
 	Direction: entgql.OrderDirectionAsc,
-	Field: &JobLayerOrderField{
-		Value: func(jl *JobLayer) (ent.Value, error) {
-			return jl.ID, nil
+	Field: &JobFloorOrderField{
+		Value: func(jf *JobFloor) (ent.Value, error) {
+			return jf.ID, nil
 		},
-		column: joblayer.FieldID,
-		toTerm: joblayer.ByID,
-		toCursor: func(jl *JobLayer) Cursor {
-			return Cursor{ID: jl.ID}
+		column: jobfloor.FieldID,
+		toTerm: jobfloor.ByID,
+		toCursor: func(jf *JobFloor) Cursor {
+			return Cursor{ID: jf.ID}
 		},
 	},
 }
 
-// ToEdge converts JobLayer into JobLayerEdge.
-func (jl *JobLayer) ToEdge(order *JobLayerOrder) *JobLayerEdge {
+// ToEdge converts JobFloor into JobFloorEdge.
+func (jf *JobFloor) ToEdge(order *JobFloorOrder) *JobFloorEdge {
 	if order == nil {
-		order = DefaultJobLayerOrder
+		order = DefaultJobFloorOrder
 	}
-	return &JobLayerEdge{
-		Node:   jl,
-		Cursor: order.Field.toCursor(jl),
+	return &JobFloorEdge{
+		Node:   jf,
+		Cursor: order.Field.toCursor(jf),
 	}
 }
 

@@ -1,4 +1,4 @@
-type JobLayer {
+type JobFloor {
   id: ID!
   Name: String
   Metre: String
@@ -11,7 +11,7 @@ type JobLayer {
   Job: JobDetail
 }
 
-input JobLayerInput {
+input JobFloorInput {
   Name: String
   Metre: String
   MoldDate: Time
@@ -23,25 +23,20 @@ input JobLayerInput {
   YibfNo: Int
 }
 
-input LayerFilterInput {
-  id: Int
-  yibfNo: Int
-}
-
 extend type Query {
-  Layer(filter: LayerFilterInput): [JobLayer!]!
+  Floors(yibfNo: Int!): [JobFloor!]!
     @goField(forceResolver: true)
     @auth
 }
 
 extend type Mutation {
-  createLayer(input: JobLayerInput!): JobLayer!
+  createFloor(input: JobFloorInput!): JobFloor!
     @goField(forceResolver: true)
     @auth
 
-  updateLayer(id: ID!, input: JobLayerInput!): JobLayer!
+  updateFloor(id: ID!, input: JobFloorInput!): JobFloor!
     @goField(forceResolver: true)
     @auth
 
-  deleteLayer(id: ID!): JobLayer! @goField(forceResolver: true) @auth
+  deleteFloor(id: ID!): JobFloor! @goField(forceResolver: true) @auth
 }

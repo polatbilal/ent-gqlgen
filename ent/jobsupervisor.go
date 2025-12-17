@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
 )
 
 // JobSupervisor is the model entity for the JobSupervisor schema.

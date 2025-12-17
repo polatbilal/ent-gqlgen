@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/predicate"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // JobDetailQuery is the builder for querying JobDetail entities.

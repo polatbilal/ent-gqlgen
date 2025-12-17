@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 )
 
 // JobDetail is the model entity for the JobDetail schema.

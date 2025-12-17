@@ -8,12 +8,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/polatbilal/gqlgen-ent/ent"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/graphql/generated"
-	"github.com/polatbilal/gqlgen-ent/graphql/model"
-	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/ent-gqlgen/ent"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/graphql/generated"
+	"github.com/polatbilal/ent-gqlgen/graphql/model"
+	"github.com/polatbilal/ent-gqlgen/middlewares"
 )
 
 // CreateAuthor is the resolver for the createAuthor field.

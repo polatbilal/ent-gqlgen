@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/ent-gqlgen/ent"
 )
 
 // The CompanyDetailFunc type is an adapter to allow the use of ordinary
@@ -93,16 +93,16 @@ func (f JobDetailFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, e
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobDetailMutation", m)
 }
 
-// The JobLayerFunc type is an adapter to allow the use of ordinary
-// function as JobLayer mutator.
-type JobLayerFunc func(context.Context, *ent.JobLayerMutation) (ent.Value, error)
+// The JobFloorFunc type is an adapter to allow the use of ordinary
+// function as JobFloor mutator.
+type JobFloorFunc func(context.Context, *ent.JobFloorMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f JobLayerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.JobLayerMutation); ok {
+func (f JobFloorFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.JobFloorMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobLayerMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.JobFloorMutation", m)
 }
 
 // The JobOwnerFunc type is an adapter to allow the use of ordinary

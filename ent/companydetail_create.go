@@ -10,11 +10,11 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
-	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
+	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 )
 
 // CompanyDetailCreate is the builder for creating a CompanyDetail entity.

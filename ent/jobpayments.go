@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 )
 
 // JobPayments is the model entity for the JobPayments schema.

@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/predicate"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // JobProgressQuery is the builder for querying JobProgress entities.

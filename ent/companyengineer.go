@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 )
 
 // CompanyEngineer is the model entity for the CompanyEngineer schema.

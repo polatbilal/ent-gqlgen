@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 )
 
 // User is the model entity for the User schema.

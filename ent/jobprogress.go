@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
 )
 
 // JobProgress is the model entity for the JobProgress schema.

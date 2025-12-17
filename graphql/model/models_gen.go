@@ -5,7 +5,7 @@ package model
 import (
 	"time"
 
-	"github.com/polatbilal/gqlgen-ent/ent"
+	"github.com/polatbilal/ent-gqlgen/ent"
 )
 
 type AdministrationCount struct {
@@ -172,6 +172,18 @@ type JobEngineerInput struct {
 	ElectricController *int `json:"ElectricController,omitempty"`
 }
 
+type JobFloorInput struct {
+	Name          *string    `json:"Name,omitempty"`
+	Metre         *string    `json:"Metre,omitempty"`
+	MoldDate      *time.Time `json:"MoldDate,omitempty"`
+	ConcreteDate  *time.Time `json:"ConcreteDate,omitempty"`
+	Samples       *int       `json:"Samples,omitempty"`
+	ConcreteClass *string    `json:"ConcreteClass,omitempty"`
+	WeekResult    *string    `json:"WeekResult,omitempty"`
+	MonthResult   *string    `json:"MonthResult,omitempty"`
+	YibfNo        *int       `json:"YibfNo,omitempty"`
+}
+
 type JobInput struct {
 	CompanyCode      *int       `json:"CompanyCode,omitempty"`
 	YibfNo           *int       `json:"YibfNo,omitempty"`
@@ -207,18 +219,6 @@ type JobInput struct {
 	IsLicenseExpired *bool      `json:"IsLicenseExpired,omitempty"`
 	IsCompleted      *bool      `json:"IsCompleted,omitempty"`
 	Note             *string    `json:"Note,omitempty"`
-}
-
-type JobLayerInput struct {
-	Name          *string    `json:"Name,omitempty"`
-	Metre         *string    `json:"Metre,omitempty"`
-	MoldDate      *time.Time `json:"MoldDate,omitempty"`
-	ConcreteDate  *time.Time `json:"ConcreteDate,omitempty"`
-	Samples       *int       `json:"Samples,omitempty"`
-	ConcreteClass *string    `json:"ConcreteClass,omitempty"`
-	WeekResult    *string    `json:"WeekResult,omitempty"`
-	MonthResult   *string    `json:"MonthResult,omitempty"`
-	YibfNo        *int       `json:"YibfNo,omitempty"`
 }
 
 type JobOwnerInput struct {
@@ -288,11 +288,6 @@ type JobSupervisorInput struct {
 	SocialSecurityNo *string `json:"SocialSecurityNo,omitempty"`
 	SchoolGraduation *string `json:"SchoolGraduation,omitempty"`
 	Ydsid            int     `json:"YDSID"`
-}
-
-type LayerFilterInput struct {
-	ID     *int `json:"id,omitempty"`
-	YibfNo *int `json:"yibfNo,omitempty"`
 }
 
 type UserInput struct {

@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 )
 
 // UserCreate is the builder for creating a User entity.

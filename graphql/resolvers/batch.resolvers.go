@@ -9,16 +9,16 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/polatbilal/gqlgen-ent/ent"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/graphql/helpers"
-	"github.com/polatbilal/gqlgen-ent/graphql/model"
-	"github.com/polatbilal/gqlgen-ent/middlewares"
+	"github.com/polatbilal/ent-gqlgen/ent"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/graphql/helpers"
+	"github.com/polatbilal/ent-gqlgen/graphql/model"
+	"github.com/polatbilal/ent-gqlgen/middlewares"
 )
 
 // JobBatchMutation is the resolver for the jobBatchMutation field.

@@ -9,27 +9,27 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/polatbilal/gqlgen-ent/ent/migrate"
+	"github.com/polatbilal/ent-gqlgen/ent/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/polatbilal/gqlgen-ent/ent/companydetail"
-	"github.com/polatbilal/gqlgen-ent/ent/companyengineer"
-	"github.com/polatbilal/gqlgen-ent/ent/companytoken"
-	"github.com/polatbilal/gqlgen-ent/ent/companyuser"
-	"github.com/polatbilal/gqlgen-ent/ent/jobauthor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobcontractor"
-	"github.com/polatbilal/gqlgen-ent/ent/jobdetail"
-	"github.com/polatbilal/gqlgen-ent/ent/joblayer"
-	"github.com/polatbilal/gqlgen-ent/ent/jobowner"
-	"github.com/polatbilal/gqlgen-ent/ent/jobpayments"
-	"github.com/polatbilal/gqlgen-ent/ent/jobprogress"
-	"github.com/polatbilal/gqlgen-ent/ent/jobreceipt"
-	"github.com/polatbilal/gqlgen-ent/ent/jobrelations"
-	"github.com/polatbilal/gqlgen-ent/ent/jobsupervisor"
-	"github.com/polatbilal/gqlgen-ent/ent/user"
+	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
+	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
+	"github.com/polatbilal/ent-gqlgen/ent/jobfloor"
+	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
+	"github.com/polatbilal/ent-gqlgen/ent/jobreceipt"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
+	"github.com/polatbilal/ent-gqlgen/ent/user"
 )
 
 // Client is the client that holds all ent builders.
@@ -51,8 +51,8 @@ type Client struct {
 	JobContractor *JobContractorClient
 	// JobDetail is the client for interacting with the JobDetail builders.
 	JobDetail *JobDetailClient
-	// JobLayer is the client for interacting with the JobLayer builders.
-	JobLayer *JobLayerClient
+	// JobFloor is the client for interacting with the JobFloor builders.
+	JobFloor *JobFloorClient
 	// JobOwner is the client for interacting with the JobOwner builders.
 	JobOwner *JobOwnerClient
 	// JobPayments is the client for interacting with the JobPayments builders.
@@ -87,7 +87,7 @@ func (c *Client) init() {
 	c.JobAuthor = NewJobAuthorClient(c.config)
 	c.JobContractor = NewJobContractorClient(c.config)
 	c.JobDetail = NewJobDetailClient(c.config)
-	c.JobLayer = NewJobLayerClient(c.config)
+	c.JobFloor = NewJobFloorClient(c.config)
 	c.JobOwner = NewJobOwnerClient(c.config)
 	c.JobPayments = NewJobPaymentsClient(c.config)
 	c.JobProgress = NewJobProgressClient(c.config)
@@ -194,7 +194,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		JobAuthor:       NewJobAuthorClient(cfg),
 		JobContractor:   NewJobContractorClient(cfg),
 		JobDetail:       NewJobDetailClient(cfg),
-		JobLayer:        NewJobLayerClient(cfg),
+		JobFloor:        NewJobFloorClient(cfg),
 		JobOwner:        NewJobOwnerClient(cfg),
 		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
@@ -228,7 +228,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		JobAuthor:       NewJobAuthorClient(cfg),
 		JobContractor:   NewJobContractorClient(cfg),
 		JobDetail:       NewJobDetailClient(cfg),
-		JobLayer:        NewJobLayerClient(cfg),
+		JobFloor:        NewJobFloorClient(cfg),
 		JobOwner:        NewJobOwnerClient(cfg),
 		JobPayments:     NewJobPaymentsClient(cfg),
 		JobProgress:     NewJobProgressClient(cfg),
@@ -266,7 +266,7 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.CompanyDetail, c.CompanyEngineer, c.CompanyToken, c.CompanyUser, c.JobAuthor,
-		c.JobContractor, c.JobDetail, c.JobLayer, c.JobOwner, c.JobPayments,
+		c.JobContractor, c.JobDetail, c.JobFloor, c.JobOwner, c.JobPayments,
 		c.JobProgress, c.JobReceipt, c.JobRelations, c.JobSupervisor, c.User,
 	} {
 		n.Use(hooks...)
@@ -278,7 +278,7 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.CompanyDetail, c.CompanyEngineer, c.CompanyToken, c.CompanyUser, c.JobAuthor,
-		c.JobContractor, c.JobDetail, c.JobLayer, c.JobOwner, c.JobPayments,
+		c.JobContractor, c.JobDetail, c.JobFloor, c.JobOwner, c.JobPayments,
 		c.JobProgress, c.JobReceipt, c.JobRelations, c.JobSupervisor, c.User,
 	} {
 		n.Intercept(interceptors...)
@@ -302,8 +302,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.JobContractor.mutate(ctx, m)
 	case *JobDetailMutation:
 		return c.JobDetail.mutate(ctx, m)
-	case *JobLayerMutation:
-		return c.JobLayer.mutate(ctx, m)
+	case *JobFloorMutation:
+		return c.JobFloor.mutate(ctx, m)
 	case *JobOwnerMutation:
 		return c.JobOwner.mutate(ctx, m)
 	case *JobPaymentsMutation:
@@ -1558,107 +1558,107 @@ func (c *JobDetailClient) mutate(ctx context.Context, m *JobDetailMutation) (Val
 	}
 }
 
-// JobLayerClient is a client for the JobLayer schema.
-type JobLayerClient struct {
+// JobFloorClient is a client for the JobFloor schema.
+type JobFloorClient struct {
 	config
 }
 
-// NewJobLayerClient returns a client for the JobLayer from the given config.
-func NewJobLayerClient(c config) *JobLayerClient {
-	return &JobLayerClient{config: c}
+// NewJobFloorClient returns a client for the JobFloor from the given config.
+func NewJobFloorClient(c config) *JobFloorClient {
+	return &JobFloorClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `joblayer.Hooks(f(g(h())))`.
-func (c *JobLayerClient) Use(hooks ...Hook) {
-	c.hooks.JobLayer = append(c.hooks.JobLayer, hooks...)
+// A call to `Use(f, g, h)` equals to `jobfloor.Hooks(f(g(h())))`.
+func (c *JobFloorClient) Use(hooks ...Hook) {
+	c.hooks.JobFloor = append(c.hooks.JobFloor, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `joblayer.Intercept(f(g(h())))`.
-func (c *JobLayerClient) Intercept(interceptors ...Interceptor) {
-	c.inters.JobLayer = append(c.inters.JobLayer, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `jobfloor.Intercept(f(g(h())))`.
+func (c *JobFloorClient) Intercept(interceptors ...Interceptor) {
+	c.inters.JobFloor = append(c.inters.JobFloor, interceptors...)
 }
 
-// Create returns a builder for creating a JobLayer entity.
-func (c *JobLayerClient) Create() *JobLayerCreate {
-	mutation := newJobLayerMutation(c.config, OpCreate)
-	return &JobLayerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a JobFloor entity.
+func (c *JobFloorClient) Create() *JobFloorCreate {
+	mutation := newJobFloorMutation(c.config, OpCreate)
+	return &JobFloorCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of JobLayer entities.
-func (c *JobLayerClient) CreateBulk(builders ...*JobLayerCreate) *JobLayerCreateBulk {
-	return &JobLayerCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of JobFloor entities.
+func (c *JobFloorClient) CreateBulk(builders ...*JobFloorCreate) *JobFloorCreateBulk {
+	return &JobFloorCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *JobLayerClient) MapCreateBulk(slice any, setFunc func(*JobLayerCreate, int)) *JobLayerCreateBulk {
+func (c *JobFloorClient) MapCreateBulk(slice any, setFunc func(*JobFloorCreate, int)) *JobFloorCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &JobLayerCreateBulk{err: fmt.Errorf("calling to JobLayerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &JobFloorCreateBulk{err: fmt.Errorf("calling to JobFloorClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*JobLayerCreate, rv.Len())
+	builders := make([]*JobFloorCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &JobLayerCreateBulk{config: c.config, builders: builders}
+	return &JobFloorCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for JobLayer.
-func (c *JobLayerClient) Update() *JobLayerUpdate {
-	mutation := newJobLayerMutation(c.config, OpUpdate)
-	return &JobLayerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for JobFloor.
+func (c *JobFloorClient) Update() *JobFloorUpdate {
+	mutation := newJobFloorMutation(c.config, OpUpdate)
+	return &JobFloorUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobLayerClient) UpdateOne(jl *JobLayer) *JobLayerUpdateOne {
-	mutation := newJobLayerMutation(c.config, OpUpdateOne, withJobLayer(jl))
-	return &JobLayerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *JobFloorClient) UpdateOne(jf *JobFloor) *JobFloorUpdateOne {
+	mutation := newJobFloorMutation(c.config, OpUpdateOne, withJobFloor(jf))
+	return &JobFloorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *JobLayerClient) UpdateOneID(id int) *JobLayerUpdateOne {
-	mutation := newJobLayerMutation(c.config, OpUpdateOne, withJobLayerID(id))
-	return &JobLayerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *JobFloorClient) UpdateOneID(id int) *JobFloorUpdateOne {
+	mutation := newJobFloorMutation(c.config, OpUpdateOne, withJobFloorID(id))
+	return &JobFloorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for JobLayer.
-func (c *JobLayerClient) Delete() *JobLayerDelete {
-	mutation := newJobLayerMutation(c.config, OpDelete)
-	return &JobLayerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for JobFloor.
+func (c *JobFloorClient) Delete() *JobFloorDelete {
+	mutation := newJobFloorMutation(c.config, OpDelete)
+	return &JobFloorDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobLayerClient) DeleteOne(jl *JobLayer) *JobLayerDeleteOne {
-	return c.DeleteOneID(jl.ID)
+func (c *JobFloorClient) DeleteOne(jf *JobFloor) *JobFloorDeleteOne {
+	return c.DeleteOneID(jf.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *JobLayerClient) DeleteOneID(id int) *JobLayerDeleteOne {
-	builder := c.Delete().Where(joblayer.ID(id))
+func (c *JobFloorClient) DeleteOneID(id int) *JobFloorDeleteOne {
+	builder := c.Delete().Where(jobfloor.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &JobLayerDeleteOne{builder}
+	return &JobFloorDeleteOne{builder}
 }
 
-// Query returns a query builder for JobLayer.
-func (c *JobLayerClient) Query() *JobLayerQuery {
-	return &JobLayerQuery{
+// Query returns a query builder for JobFloor.
+func (c *JobFloorClient) Query() *JobFloorQuery {
+	return &JobFloorQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeJobLayer},
+		ctx:    &QueryContext{Type: TypeJobFloor},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a JobLayer entity by its id.
-func (c *JobLayerClient) Get(ctx context.Context, id int) (*JobLayer, error) {
-	return c.Query().Where(joblayer.ID(id)).Only(ctx)
+// Get returns a JobFloor entity by its id.
+func (c *JobFloorClient) Get(ctx context.Context, id int) (*JobFloor, error) {
+	return c.Query().Where(jobfloor.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *JobLayerClient) GetX(ctx context.Context, id int) *JobLayer {
+func (c *JobFloorClient) GetX(ctx context.Context, id int) *JobFloor {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -1666,44 +1666,44 @@ func (c *JobLayerClient) GetX(ctx context.Context, id int) *JobLayer {
 	return obj
 }
 
-// QueryLayer queries the layer edge of a JobLayer.
-func (c *JobLayerClient) QueryLayer(jl *JobLayer) *JobRelationsQuery {
+// QueryFloor queries the floor edge of a JobFloor.
+func (c *JobFloorClient) QueryFloor(jf *JobFloor) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jl.ID
+		id := jf.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(joblayer.Table, joblayer.FieldID, id),
+			sqlgraph.From(jobfloor.Table, jobfloor.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, joblayer.LayerTable, joblayer.LayerColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, jobfloor.FloorTable, jobfloor.FloorColumn),
 		)
-		fromV = sqlgraph.Neighbors(jl.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(jf.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *JobLayerClient) Hooks() []Hook {
-	return c.hooks.JobLayer
+func (c *JobFloorClient) Hooks() []Hook {
+	return c.hooks.JobFloor
 }
 
 // Interceptors returns the client interceptors.
-func (c *JobLayerClient) Interceptors() []Interceptor {
-	return c.inters.JobLayer
+func (c *JobFloorClient) Interceptors() []Interceptor {
+	return c.inters.JobFloor
 }
 
-func (c *JobLayerClient) mutate(ctx context.Context, m *JobLayerMutation) (Value, error) {
+func (c *JobFloorClient) mutate(ctx context.Context, m *JobFloorMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&JobLayerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&JobFloorCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&JobLayerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&JobFloorUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&JobLayerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&JobFloorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&JobLayerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&JobFloorDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown JobLayer mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown JobFloor mutation op: %q", m.Op())
 	}
 }
 
@@ -2651,15 +2651,15 @@ func (c *JobRelationsClient) QueryElectriccontroller(jr *JobRelations) *CompanyE
 	return query
 }
 
-// QueryLayers queries the layers edge of a JobRelations.
-func (c *JobRelationsClient) QueryLayers(jr *JobRelations) *JobLayerQuery {
-	query := (&JobLayerClient{config: c.config}).Query()
+// QueryFloors queries the floors edge of a JobRelations.
+func (c *JobRelationsClient) QueryFloors(jr *JobRelations) *JobFloorQuery {
+	query := (&JobFloorClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := jr.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
-			sqlgraph.To(joblayer.Table, joblayer.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.LayersTable, jobrelations.LayersColumn),
+			sqlgraph.To(jobfloor.Table, jobfloor.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.FloorsTable, jobrelations.FloorsColumn),
 		)
 		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
 		return fromV, nil
@@ -3026,12 +3026,12 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 type (
 	hooks struct {
 		CompanyDetail, CompanyEngineer, CompanyToken, CompanyUser, JobAuthor,
-		JobContractor, JobDetail, JobLayer, JobOwner, JobPayments, JobProgress,
+		JobContractor, JobDetail, JobFloor, JobOwner, JobPayments, JobProgress,
 		JobReceipt, JobRelations, JobSupervisor, User []ent.Hook
 	}
 	inters struct {
 		CompanyDetail, CompanyEngineer, CompanyToken, CompanyUser, JobAuthor,
-		JobContractor, JobDetail, JobLayer, JobOwner, JobPayments, JobProgress,
+		JobContractor, JobDetail, JobFloor, JobOwner, JobPayments, JobProgress,
 		JobReceipt, JobRelations, JobSupervisor, User []ent.Interceptor
 	}
 )
