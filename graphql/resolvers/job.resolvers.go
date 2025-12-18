@@ -436,13 +436,11 @@ func (r *queryResolver) JobCounts(ctx context.Context, companyCode *int) (*model
 
 	// İşleri sorgula
 	jobs, err := client.JobDetail.Query().
-		WithRelations(func(q *ent.JobRelationsQuery) {
-			q.Where(
-				jobrelations.HasCompanyWith(
-					companydetail.CompanyCodeIn(companyCodes...),
-				),
-			)
-		}).
+		Where(jobdetail.HasRelationsWith(
+			jobrelations.HasCompanyWith(
+				companydetail.CompanyCodeIn(companyCodes...),
+			),
+		)).
 		All(ctx)
 
 	if err != nil {
@@ -509,14 +507,14 @@ func (r *queryResolver) Jobs(ctx context.Context) ([]*ent.JobDetail, error) {
 
 	// İşleri sorgula
 	jobs, err := client.JobDetail.Query().
-		Where(jobdetail.StateNEQ("Bitmiş")).
-		WithRelations(func(q *ent.JobRelationsQuery) {
-			q.Where(
+		Where(
+			jobdetail.StateNEQ("Bitmiş"),
+			jobdetail.HasRelationsWith(
 				jobrelations.HasCompanyWith(
 					companydetail.CompanyCodeIn(companyCodes...),
 				),
-			)
-		}).
+			),
+		).
 		All(ctx)
 
 	if err != nil {
@@ -548,13 +546,16 @@ func (r *queryResolver) Job(ctx context.Context, yibfNo int) (*ent.JobDetail, er
 
 	// İşi sorgula
 	job, err := client.JobDetail.Query().
-		Where(jobdetail.YibfNoEQ(yibfNo)).
-		WithRelations(func(q *ent.JobRelationsQuery) {
-			q.Where(
+		Where(
+			jobdetail.YibfNoEQ(yibfNo),
+			jobdetail.HasRelationsWith(
 				jobrelations.HasCompanyWith(
 					companydetail.CompanyCodeIn(companyCodes...),
 				),
-			).WithOwner()
+			),
+		).
+		WithRelations(func(q *ent.JobRelationsQuery) {
+			q.WithOwner()
 		}).
 		Only(ctx)
 
