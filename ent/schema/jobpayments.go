@@ -21,7 +21,6 @@ func (JobPayments) Fields() []ent.Field {
 		field.Time("PaymentDate").Default(time.Now),
 		field.String("PaymentType").Optional(),
 		field.String("State").Optional(),
-		field.Float("TotalPayment").Optional(),
 		field.Float("LevelRequest").Optional(),
 		field.Float("LevelApprove").Optional(),
 		field.Float("Amount").Optional(),

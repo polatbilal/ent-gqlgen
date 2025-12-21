@@ -3,7 +3,6 @@ type JobPayments {
   PaymentNo: Int
   PaymentDate: Time
   PaymentType: String
-  TotalPayment: Float
   LevelRequest: Float
   LevelApprove: Float
   Amount: Float
@@ -22,7 +21,6 @@ input JobPaymentsInput {
   PaymentNo: Int!
   PaymentDate: Time
   PaymentType: String
-  TotalPayment: Float
   LevelRequest: Float
   LevelApprove: Float
   Amount: Float

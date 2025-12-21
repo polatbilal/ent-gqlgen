@@ -24,308 +24,308 @@ type JobSupervisorUpdate struct {
 }
 
 // Where appends a list predicates to the JobSupervisorUpdate builder.
-func (jsu *JobSupervisorUpdate) Where(ps ...predicate.JobSupervisor) *JobSupervisorUpdate {
-	jsu.mutation.Where(ps...)
-	return jsu
+func (_u *JobSupervisorUpdate) Where(ps ...predicate.JobSupervisor) *JobSupervisorUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "Name" field.
-func (jsu *JobSupervisorUpdate) SetName(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetName(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetName(v string) *JobSupervisorUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableName(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetName(*s)
+func (_u *JobSupervisorUpdate) SetNillableName(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearName clears the value of the "Name" field.
-func (jsu *JobSupervisorUpdate) ClearName() *JobSupervisorUpdate {
-	jsu.mutation.ClearName()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearName() *JobSupervisorUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (jsu *JobSupervisorUpdate) SetAddress(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetAddress(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetAddress(v string) *JobSupervisorUpdate {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableAddress(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetAddress(*s)
+func (_u *JobSupervisorUpdate) SetNillableAddress(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (jsu *JobSupervisorUpdate) ClearAddress() *JobSupervisorUpdate {
-	jsu.mutation.ClearAddress()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearAddress() *JobSupervisorUpdate {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetPhone sets the "Phone" field.
-func (jsu *JobSupervisorUpdate) SetPhone(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetPhone(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetPhone(v string) *JobSupervisorUpdate {
+	_u.mutation.SetPhone(v)
+	return _u
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillablePhone(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetPhone(*s)
+func (_u *JobSupervisorUpdate) SetNillablePhone(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetPhone(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (jsu *JobSupervisorUpdate) ClearPhone() *JobSupervisorUpdate {
-	jsu.mutation.ClearPhone()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearPhone() *JobSupervisorUpdate {
+	_u.mutation.ClearPhone()
+	return _u
 }
 
 // SetEmail sets the "Email" field.
-func (jsu *JobSupervisorUpdate) SetEmail(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetEmail(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetEmail(v string) *JobSupervisorUpdate {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableEmail(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetEmail(*s)
+func (_u *JobSupervisorUpdate) SetNillableEmail(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (jsu *JobSupervisorUpdate) ClearEmail() *JobSupervisorUpdate {
-	jsu.mutation.ClearEmail()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearEmail() *JobSupervisorUpdate {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jsu *JobSupervisorUpdate) SetTcNo(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetTcNo(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetTcNo(v string) *JobSupervisorUpdate {
+	_u.mutation.SetTcNo(v)
+	return _u
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableTcNo(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetTcNo(*s)
+func (_u *JobSupervisorUpdate) SetNillableTcNo(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetTcNo(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearTcNo clears the value of the "TcNo" field.
-func (jsu *JobSupervisorUpdate) ClearTcNo() *JobSupervisorUpdate {
-	jsu.mutation.ClearTcNo()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearTcNo() *JobSupervisorUpdate {
+	_u.mutation.ClearTcNo()
+	return _u
 }
 
 // SetPosition sets the "Position" field.
-func (jsu *JobSupervisorUpdate) SetPosition(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetPosition(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetPosition(v string) *JobSupervisorUpdate {
+	_u.mutation.SetPosition(v)
+	return _u
 }
 
 // SetNillablePosition sets the "Position" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillablePosition(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetPosition(*s)
+func (_u *JobSupervisorUpdate) SetNillablePosition(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetPosition(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearPosition clears the value of the "Position" field.
-func (jsu *JobSupervisorUpdate) ClearPosition() *JobSupervisorUpdate {
-	jsu.mutation.ClearPosition()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearPosition() *JobSupervisorUpdate {
+	_u.mutation.ClearPosition()
+	return _u
 }
 
 // SetCareer sets the "Career" field.
-func (jsu *JobSupervisorUpdate) SetCareer(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetCareer(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetCareer(v string) *JobSupervisorUpdate {
+	_u.mutation.SetCareer(v)
+	return _u
 }
 
 // SetNillableCareer sets the "Career" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableCareer(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetCareer(*s)
+func (_u *JobSupervisorUpdate) SetNillableCareer(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetCareer(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearCareer clears the value of the "Career" field.
-func (jsu *JobSupervisorUpdate) ClearCareer() *JobSupervisorUpdate {
-	jsu.mutation.ClearCareer()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearCareer() *JobSupervisorUpdate {
+	_u.mutation.ClearCareer()
+	return _u
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jsu *JobSupervisorUpdate) SetRegisterNo(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetRegisterNo(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetRegisterNo(v string) *JobSupervisorUpdate {
+	_u.mutation.SetRegisterNo(v)
+	return _u
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableRegisterNo(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetRegisterNo(*s)
+func (_u *JobSupervisorUpdate) SetNillableRegisterNo(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetRegisterNo(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearRegisterNo clears the value of the "RegisterNo" field.
-func (jsu *JobSupervisorUpdate) ClearRegisterNo() *JobSupervisorUpdate {
-	jsu.mutation.ClearRegisterNo()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearRegisterNo() *JobSupervisorUpdate {
+	_u.mutation.ClearRegisterNo()
+	return _u
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
-func (jsu *JobSupervisorUpdate) SetSocialSecurityNo(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetSocialSecurityNo(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetSocialSecurityNo(v string) *JobSupervisorUpdate {
+	_u.mutation.SetSocialSecurityNo(v)
+	return _u
 }
 
 // SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableSocialSecurityNo(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetSocialSecurityNo(*s)
+func (_u *JobSupervisorUpdate) SetNillableSocialSecurityNo(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetSocialSecurityNo(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearSocialSecurityNo clears the value of the "SocialSecurityNo" field.
-func (jsu *JobSupervisorUpdate) ClearSocialSecurityNo() *JobSupervisorUpdate {
-	jsu.mutation.ClearSocialSecurityNo()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearSocialSecurityNo() *JobSupervisorUpdate {
+	_u.mutation.ClearSocialSecurityNo()
+	return _u
 }
 
 // SetSchoolGraduation sets the "SchoolGraduation" field.
-func (jsu *JobSupervisorUpdate) SetSchoolGraduation(s string) *JobSupervisorUpdate {
-	jsu.mutation.SetSchoolGraduation(s)
-	return jsu
+func (_u *JobSupervisorUpdate) SetSchoolGraduation(v string) *JobSupervisorUpdate {
+	_u.mutation.SetSchoolGraduation(v)
+	return _u
 }
 
 // SetNillableSchoolGraduation sets the "SchoolGraduation" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableSchoolGraduation(s *string) *JobSupervisorUpdate {
-	if s != nil {
-		jsu.SetSchoolGraduation(*s)
+func (_u *JobSupervisorUpdate) SetNillableSchoolGraduation(v *string) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetSchoolGraduation(*v)
 	}
-	return jsu
+	return _u
 }
 
 // ClearSchoolGraduation clears the value of the "SchoolGraduation" field.
-func (jsu *JobSupervisorUpdate) ClearSchoolGraduation() *JobSupervisorUpdate {
-	jsu.mutation.ClearSchoolGraduation()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearSchoolGraduation() *JobSupervisorUpdate {
+	_u.mutation.ClearSchoolGraduation()
+	return _u
 }
 
 // SetYDSID sets the "YDSID" field.
-func (jsu *JobSupervisorUpdate) SetYDSID(i int) *JobSupervisorUpdate {
-	jsu.mutation.ResetYDSID()
-	jsu.mutation.SetYDSID(i)
-	return jsu
+func (_u *JobSupervisorUpdate) SetYDSID(v int) *JobSupervisorUpdate {
+	_u.mutation.ResetYDSID()
+	_u.mutation.SetYDSID(v)
+	return _u
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableYDSID(i *int) *JobSupervisorUpdate {
-	if i != nil {
-		jsu.SetYDSID(*i)
+func (_u *JobSupervisorUpdate) SetNillableYDSID(v *int) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetYDSID(*v)
 	}
-	return jsu
+	return _u
 }
 
-// AddYDSID adds i to the "YDSID" field.
-func (jsu *JobSupervisorUpdate) AddYDSID(i int) *JobSupervisorUpdate {
-	jsu.mutation.AddYDSID(i)
-	return jsu
+// AddYDSID adds value to the "YDSID" field.
+func (_u *JobSupervisorUpdate) AddYDSID(v int) *JobSupervisorUpdate {
+	_u.mutation.AddYDSID(v)
+	return _u
 }
 
 // ClearYDSID clears the value of the "YDSID" field.
-func (jsu *JobSupervisorUpdate) ClearYDSID() *JobSupervisorUpdate {
-	jsu.mutation.ClearYDSID()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearYDSID() *JobSupervisorUpdate {
+	_u.mutation.ClearYDSID()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jsu *JobSupervisorUpdate) SetCreatedAt(t time.Time) *JobSupervisorUpdate {
-	jsu.mutation.SetCreatedAt(t)
-	return jsu
+func (_u *JobSupervisorUpdate) SetCreatedAt(v time.Time) *JobSupervisorUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jsu *JobSupervisorUpdate) SetNillableCreatedAt(t *time.Time) *JobSupervisorUpdate {
-	if t != nil {
-		jsu.SetCreatedAt(*t)
+func (_u *JobSupervisorUpdate) SetNillableCreatedAt(v *time.Time) *JobSupervisorUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jsu
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jsu *JobSupervisorUpdate) SetUpdatedAt(t time.Time) *JobSupervisorUpdate {
-	jsu.mutation.SetUpdatedAt(t)
-	return jsu
+func (_u *JobSupervisorUpdate) SetUpdatedAt(v time.Time) *JobSupervisorUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddSupervisorIDs adds the "supervisors" edge to the JobRelations entity by IDs.
-func (jsu *JobSupervisorUpdate) AddSupervisorIDs(ids ...int) *JobSupervisorUpdate {
-	jsu.mutation.AddSupervisorIDs(ids...)
-	return jsu
+func (_u *JobSupervisorUpdate) AddSupervisorIDs(ids ...int) *JobSupervisorUpdate {
+	_u.mutation.AddSupervisorIDs(ids...)
+	return _u
 }
 
 // AddSupervisors adds the "supervisors" edges to the JobRelations entity.
-func (jsu *JobSupervisorUpdate) AddSupervisors(j ...*JobRelations) *JobSupervisorUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobSupervisorUpdate) AddSupervisors(v ...*JobRelations) *JobSupervisorUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jsu.AddSupervisorIDs(ids...)
+	return _u.AddSupervisorIDs(ids...)
 }
 
 // Mutation returns the JobSupervisorMutation object of the builder.
-func (jsu *JobSupervisorUpdate) Mutation() *JobSupervisorMutation {
-	return jsu.mutation
+func (_u *JobSupervisorUpdate) Mutation() *JobSupervisorMutation {
+	return _u.mutation
 }
 
 // ClearSupervisors clears all "supervisors" edges to the JobRelations entity.
-func (jsu *JobSupervisorUpdate) ClearSupervisors() *JobSupervisorUpdate {
-	jsu.mutation.ClearSupervisors()
-	return jsu
+func (_u *JobSupervisorUpdate) ClearSupervisors() *JobSupervisorUpdate {
+	_u.mutation.ClearSupervisors()
+	return _u
 }
 
 // RemoveSupervisorIDs removes the "supervisors" edge to JobRelations entities by IDs.
-func (jsu *JobSupervisorUpdate) RemoveSupervisorIDs(ids ...int) *JobSupervisorUpdate {
-	jsu.mutation.RemoveSupervisorIDs(ids...)
-	return jsu
+func (_u *JobSupervisorUpdate) RemoveSupervisorIDs(ids ...int) *JobSupervisorUpdate {
+	_u.mutation.RemoveSupervisorIDs(ids...)
+	return _u
 }
 
 // RemoveSupervisors removes "supervisors" edges to JobRelations entities.
-func (jsu *JobSupervisorUpdate) RemoveSupervisors(j ...*JobRelations) *JobSupervisorUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobSupervisorUpdate) RemoveSupervisors(v ...*JobRelations) *JobSupervisorUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jsu.RemoveSupervisorIDs(ids...)
+	return _u.RemoveSupervisorIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jsu *JobSupervisorUpdate) Save(ctx context.Context) (int, error) {
-	jsu.defaults()
-	return withHooks(ctx, jsu.sqlSave, jsu.mutation, jsu.hooks)
+func (_u *JobSupervisorUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jsu *JobSupervisorUpdate) SaveX(ctx context.Context) int {
-	affected, err := jsu.Save(ctx)
+func (_u *JobSupervisorUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -333,111 +333,111 @@ func (jsu *JobSupervisorUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jsu *JobSupervisorUpdate) Exec(ctx context.Context) error {
-	_, err := jsu.Save(ctx)
+func (_u *JobSupervisorUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jsu *JobSupervisorUpdate) ExecX(ctx context.Context) {
-	if err := jsu.Exec(ctx); err != nil {
+func (_u *JobSupervisorUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jsu *JobSupervisorUpdate) defaults() {
-	if _, ok := jsu.mutation.UpdatedAt(); !ok {
+func (_u *JobSupervisorUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobsupervisor.UpdateDefaultUpdatedAt()
-		jsu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobSupervisorUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobsupervisor.Table, jobsupervisor.Columns, sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt))
-	if ps := jsu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jsu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(jobsupervisor.FieldName, field.TypeString, value)
 	}
-	if jsu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(jobsupervisor.FieldName, field.TypeString)
 	}
-	if value, ok := jsu.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(jobsupervisor.FieldAddress, field.TypeString, value)
 	}
-	if jsu.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(jobsupervisor.FieldAddress, field.TypeString)
 	}
-	if value, ok := jsu.mutation.Phone(); ok {
+	if value, ok := _u.mutation.Phone(); ok {
 		_spec.SetField(jobsupervisor.FieldPhone, field.TypeString, value)
 	}
-	if jsu.mutation.PhoneCleared() {
+	if _u.mutation.PhoneCleared() {
 		_spec.ClearField(jobsupervisor.FieldPhone, field.TypeString)
 	}
-	if value, ok := jsu.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(jobsupervisor.FieldEmail, field.TypeString, value)
 	}
-	if jsu.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(jobsupervisor.FieldEmail, field.TypeString)
 	}
-	if value, ok := jsu.mutation.TcNo(); ok {
+	if value, ok := _u.mutation.TcNo(); ok {
 		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeString, value)
 	}
-	if jsu.mutation.TcNoCleared() {
+	if _u.mutation.TcNoCleared() {
 		_spec.ClearField(jobsupervisor.FieldTcNo, field.TypeString)
 	}
-	if value, ok := jsu.mutation.Position(); ok {
+	if value, ok := _u.mutation.Position(); ok {
 		_spec.SetField(jobsupervisor.FieldPosition, field.TypeString, value)
 	}
-	if jsu.mutation.PositionCleared() {
+	if _u.mutation.PositionCleared() {
 		_spec.ClearField(jobsupervisor.FieldPosition, field.TypeString)
 	}
-	if value, ok := jsu.mutation.Career(); ok {
+	if value, ok := _u.mutation.Career(); ok {
 		_spec.SetField(jobsupervisor.FieldCareer, field.TypeString, value)
 	}
-	if jsu.mutation.CareerCleared() {
+	if _u.mutation.CareerCleared() {
 		_spec.ClearField(jobsupervisor.FieldCareer, field.TypeString)
 	}
-	if value, ok := jsu.mutation.RegisterNo(); ok {
+	if value, ok := _u.mutation.RegisterNo(); ok {
 		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeString, value)
 	}
-	if jsu.mutation.RegisterNoCleared() {
+	if _u.mutation.RegisterNoCleared() {
 		_spec.ClearField(jobsupervisor.FieldRegisterNo, field.TypeString)
 	}
-	if value, ok := jsu.mutation.SocialSecurityNo(); ok {
+	if value, ok := _u.mutation.SocialSecurityNo(); ok {
 		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeString, value)
 	}
-	if jsu.mutation.SocialSecurityNoCleared() {
+	if _u.mutation.SocialSecurityNoCleared() {
 		_spec.ClearField(jobsupervisor.FieldSocialSecurityNo, field.TypeString)
 	}
-	if value, ok := jsu.mutation.SchoolGraduation(); ok {
+	if value, ok := _u.mutation.SchoolGraduation(); ok {
 		_spec.SetField(jobsupervisor.FieldSchoolGraduation, field.TypeString, value)
 	}
-	if jsu.mutation.SchoolGraduationCleared() {
+	if _u.mutation.SchoolGraduationCleared() {
 		_spec.ClearField(jobsupervisor.FieldSchoolGraduation, field.TypeString)
 	}
-	if value, ok := jsu.mutation.YDSID(); ok {
+	if value, ok := _u.mutation.YDSID(); ok {
 		_spec.SetField(jobsupervisor.FieldYDSID, field.TypeInt, value)
 	}
-	if value, ok := jsu.mutation.AddedYDSID(); ok {
+	if value, ok := _u.mutation.AddedYDSID(); ok {
 		_spec.AddField(jobsupervisor.FieldYDSID, field.TypeInt, value)
 	}
-	if jsu.mutation.YDSIDCleared() {
+	if _u.mutation.YDSIDCleared() {
 		_spec.ClearField(jobsupervisor.FieldYDSID, field.TypeInt)
 	}
-	if value, ok := jsu.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobsupervisor.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jsu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobsupervisor.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jsu.mutation.SupervisorsCleared() {
+	if _u.mutation.SupervisorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -450,7 +450,7 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jsu.mutation.RemovedSupervisorsIDs(); len(nodes) > 0 && !jsu.mutation.SupervisorsCleared() {
+	if nodes := _u.mutation.RemovedSupervisorsIDs(); len(nodes) > 0 && !_u.mutation.SupervisorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -466,7 +466,7 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jsu.mutation.SupervisorsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.SupervisorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -482,7 +482,7 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jsu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobsupervisor.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -490,8 +490,8 @@ func (jsu *JobSupervisorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		return 0, err
 	}
-	jsu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobSupervisorUpdateOne is the builder for updating a single JobSupervisor entity.
@@ -503,315 +503,315 @@ type JobSupervisorUpdateOne struct {
 }
 
 // SetName sets the "Name" field.
-func (jsuo *JobSupervisorUpdateOne) SetName(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetName(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetName(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableName(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetName(*s)
+func (_u *JobSupervisorUpdateOne) SetNillableName(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearName clears the value of the "Name" field.
-func (jsuo *JobSupervisorUpdateOne) ClearName() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearName()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearName() *JobSupervisorUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (jsuo *JobSupervisorUpdateOne) SetAddress(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetAddress(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetAddress(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableAddress(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetAddress(*s)
+func (_u *JobSupervisorUpdateOne) SetNillableAddress(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (jsuo *JobSupervisorUpdateOne) ClearAddress() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearAddress()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearAddress() *JobSupervisorUpdateOne {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetPhone sets the "Phone" field.
-func (jsuo *JobSupervisorUpdateOne) SetPhone(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetPhone(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetPhone(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetPhone(v)
+	return _u
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillablePhone(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetPhone(*s)
+func (_u *JobSupervisorUpdateOne) SetNillablePhone(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetPhone(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (jsuo *JobSupervisorUpdateOne) ClearPhone() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearPhone()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearPhone() *JobSupervisorUpdateOne {
+	_u.mutation.ClearPhone()
+	return _u
 }
 
 // SetEmail sets the "Email" field.
-func (jsuo *JobSupervisorUpdateOne) SetEmail(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetEmail(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetEmail(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableEmail(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetEmail(*s)
+func (_u *JobSupervisorUpdateOne) SetNillableEmail(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (jsuo *JobSupervisorUpdateOne) ClearEmail() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearEmail()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearEmail() *JobSupervisorUpdateOne {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jsuo *JobSupervisorUpdateOne) SetTcNo(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetTcNo(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetTcNo(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetTcNo(v)
+	return _u
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableTcNo(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetTcNo(*s)
+func (_u *JobSupervisorUpdateOne) SetNillableTcNo(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetTcNo(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearTcNo clears the value of the "TcNo" field.
-func (jsuo *JobSupervisorUpdateOne) ClearTcNo() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearTcNo()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearTcNo() *JobSupervisorUpdateOne {
+	_u.mutation.ClearTcNo()
+	return _u
 }
 
 // SetPosition sets the "Position" field.
-func (jsuo *JobSupervisorUpdateOne) SetPosition(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetPosition(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetPosition(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetPosition(v)
+	return _u
 }
 
 // SetNillablePosition sets the "Position" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillablePosition(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetPosition(*s)
+func (_u *JobSupervisorUpdateOne) SetNillablePosition(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetPosition(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearPosition clears the value of the "Position" field.
-func (jsuo *JobSupervisorUpdateOne) ClearPosition() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearPosition()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearPosition() *JobSupervisorUpdateOne {
+	_u.mutation.ClearPosition()
+	return _u
 }
 
 // SetCareer sets the "Career" field.
-func (jsuo *JobSupervisorUpdateOne) SetCareer(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetCareer(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetCareer(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetCareer(v)
+	return _u
 }
 
 // SetNillableCareer sets the "Career" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableCareer(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetCareer(*s)
+func (_u *JobSupervisorUpdateOne) SetNillableCareer(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetCareer(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearCareer clears the value of the "Career" field.
-func (jsuo *JobSupervisorUpdateOne) ClearCareer() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearCareer()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearCareer() *JobSupervisorUpdateOne {
+	_u.mutation.ClearCareer()
+	return _u
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jsuo *JobSupervisorUpdateOne) SetRegisterNo(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetRegisterNo(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetRegisterNo(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetRegisterNo(v)
+	return _u
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableRegisterNo(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetRegisterNo(*s)
+func (_u *JobSupervisorUpdateOne) SetNillableRegisterNo(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetRegisterNo(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearRegisterNo clears the value of the "RegisterNo" field.
-func (jsuo *JobSupervisorUpdateOne) ClearRegisterNo() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearRegisterNo()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearRegisterNo() *JobSupervisorUpdateOne {
+	_u.mutation.ClearRegisterNo()
+	return _u
 }
 
 // SetSocialSecurityNo sets the "SocialSecurityNo" field.
-func (jsuo *JobSupervisorUpdateOne) SetSocialSecurityNo(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetSocialSecurityNo(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetSocialSecurityNo(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetSocialSecurityNo(v)
+	return _u
 }
 
 // SetNillableSocialSecurityNo sets the "SocialSecurityNo" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableSocialSecurityNo(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetSocialSecurityNo(*s)
+func (_u *JobSupervisorUpdateOne) SetNillableSocialSecurityNo(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetSocialSecurityNo(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearSocialSecurityNo clears the value of the "SocialSecurityNo" field.
-func (jsuo *JobSupervisorUpdateOne) ClearSocialSecurityNo() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearSocialSecurityNo()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearSocialSecurityNo() *JobSupervisorUpdateOne {
+	_u.mutation.ClearSocialSecurityNo()
+	return _u
 }
 
 // SetSchoolGraduation sets the "SchoolGraduation" field.
-func (jsuo *JobSupervisorUpdateOne) SetSchoolGraduation(s string) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetSchoolGraduation(s)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetSchoolGraduation(v string) *JobSupervisorUpdateOne {
+	_u.mutation.SetSchoolGraduation(v)
+	return _u
 }
 
 // SetNillableSchoolGraduation sets the "SchoolGraduation" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableSchoolGraduation(s *string) *JobSupervisorUpdateOne {
-	if s != nil {
-		jsuo.SetSchoolGraduation(*s)
+func (_u *JobSupervisorUpdateOne) SetNillableSchoolGraduation(v *string) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetSchoolGraduation(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // ClearSchoolGraduation clears the value of the "SchoolGraduation" field.
-func (jsuo *JobSupervisorUpdateOne) ClearSchoolGraduation() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearSchoolGraduation()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearSchoolGraduation() *JobSupervisorUpdateOne {
+	_u.mutation.ClearSchoolGraduation()
+	return _u
 }
 
 // SetYDSID sets the "YDSID" field.
-func (jsuo *JobSupervisorUpdateOne) SetYDSID(i int) *JobSupervisorUpdateOne {
-	jsuo.mutation.ResetYDSID()
-	jsuo.mutation.SetYDSID(i)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetYDSID(v int) *JobSupervisorUpdateOne {
+	_u.mutation.ResetYDSID()
+	_u.mutation.SetYDSID(v)
+	return _u
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableYDSID(i *int) *JobSupervisorUpdateOne {
-	if i != nil {
-		jsuo.SetYDSID(*i)
+func (_u *JobSupervisorUpdateOne) SetNillableYDSID(v *int) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetYDSID(*v)
 	}
-	return jsuo
+	return _u
 }
 
-// AddYDSID adds i to the "YDSID" field.
-func (jsuo *JobSupervisorUpdateOne) AddYDSID(i int) *JobSupervisorUpdateOne {
-	jsuo.mutation.AddYDSID(i)
-	return jsuo
+// AddYDSID adds value to the "YDSID" field.
+func (_u *JobSupervisorUpdateOne) AddYDSID(v int) *JobSupervisorUpdateOne {
+	_u.mutation.AddYDSID(v)
+	return _u
 }
 
 // ClearYDSID clears the value of the "YDSID" field.
-func (jsuo *JobSupervisorUpdateOne) ClearYDSID() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearYDSID()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearYDSID() *JobSupervisorUpdateOne {
+	_u.mutation.ClearYDSID()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jsuo *JobSupervisorUpdateOne) SetCreatedAt(t time.Time) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetCreatedAt(t)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetCreatedAt(v time.Time) *JobSupervisorUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jsuo *JobSupervisorUpdateOne) SetNillableCreatedAt(t *time.Time) *JobSupervisorUpdateOne {
-	if t != nil {
-		jsuo.SetCreatedAt(*t)
+func (_u *JobSupervisorUpdateOne) SetNillableCreatedAt(v *time.Time) *JobSupervisorUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jsuo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jsuo *JobSupervisorUpdateOne) SetUpdatedAt(t time.Time) *JobSupervisorUpdateOne {
-	jsuo.mutation.SetUpdatedAt(t)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) SetUpdatedAt(v time.Time) *JobSupervisorUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddSupervisorIDs adds the "supervisors" edge to the JobRelations entity by IDs.
-func (jsuo *JobSupervisorUpdateOne) AddSupervisorIDs(ids ...int) *JobSupervisorUpdateOne {
-	jsuo.mutation.AddSupervisorIDs(ids...)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) AddSupervisorIDs(ids ...int) *JobSupervisorUpdateOne {
+	_u.mutation.AddSupervisorIDs(ids...)
+	return _u
 }
 
 // AddSupervisors adds the "supervisors" edges to the JobRelations entity.
-func (jsuo *JobSupervisorUpdateOne) AddSupervisors(j ...*JobRelations) *JobSupervisorUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobSupervisorUpdateOne) AddSupervisors(v ...*JobRelations) *JobSupervisorUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jsuo.AddSupervisorIDs(ids...)
+	return _u.AddSupervisorIDs(ids...)
 }
 
 // Mutation returns the JobSupervisorMutation object of the builder.
-func (jsuo *JobSupervisorUpdateOne) Mutation() *JobSupervisorMutation {
-	return jsuo.mutation
+func (_u *JobSupervisorUpdateOne) Mutation() *JobSupervisorMutation {
+	return _u.mutation
 }
 
 // ClearSupervisors clears all "supervisors" edges to the JobRelations entity.
-func (jsuo *JobSupervisorUpdateOne) ClearSupervisors() *JobSupervisorUpdateOne {
-	jsuo.mutation.ClearSupervisors()
-	return jsuo
+func (_u *JobSupervisorUpdateOne) ClearSupervisors() *JobSupervisorUpdateOne {
+	_u.mutation.ClearSupervisors()
+	return _u
 }
 
 // RemoveSupervisorIDs removes the "supervisors" edge to JobRelations entities by IDs.
-func (jsuo *JobSupervisorUpdateOne) RemoveSupervisorIDs(ids ...int) *JobSupervisorUpdateOne {
-	jsuo.mutation.RemoveSupervisorIDs(ids...)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) RemoveSupervisorIDs(ids ...int) *JobSupervisorUpdateOne {
+	_u.mutation.RemoveSupervisorIDs(ids...)
+	return _u
 }
 
 // RemoveSupervisors removes "supervisors" edges to JobRelations entities.
-func (jsuo *JobSupervisorUpdateOne) RemoveSupervisors(j ...*JobRelations) *JobSupervisorUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobSupervisorUpdateOne) RemoveSupervisors(v ...*JobRelations) *JobSupervisorUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jsuo.RemoveSupervisorIDs(ids...)
+	return _u.RemoveSupervisorIDs(ids...)
 }
 
 // Where appends a list predicates to the JobSupervisorUpdate builder.
-func (jsuo *JobSupervisorUpdateOne) Where(ps ...predicate.JobSupervisor) *JobSupervisorUpdateOne {
-	jsuo.mutation.Where(ps...)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) Where(ps ...predicate.JobSupervisor) *JobSupervisorUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jsuo *JobSupervisorUpdateOne) Select(field string, fields ...string) *JobSupervisorUpdateOne {
-	jsuo.fields = append([]string{field}, fields...)
-	return jsuo
+func (_u *JobSupervisorUpdateOne) Select(field string, fields ...string) *JobSupervisorUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobSupervisor entity.
-func (jsuo *JobSupervisorUpdateOne) Save(ctx context.Context) (*JobSupervisor, error) {
-	jsuo.defaults()
-	return withHooks(ctx, jsuo.sqlSave, jsuo.mutation, jsuo.hooks)
+func (_u *JobSupervisorUpdateOne) Save(ctx context.Context) (*JobSupervisor, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jsuo *JobSupervisorUpdateOne) SaveX(ctx context.Context) *JobSupervisor {
-	node, err := jsuo.Save(ctx)
+func (_u *JobSupervisorUpdateOne) SaveX(ctx context.Context) *JobSupervisor {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -819,34 +819,34 @@ func (jsuo *JobSupervisorUpdateOne) SaveX(ctx context.Context) *JobSupervisor {
 }
 
 // Exec executes the query on the entity.
-func (jsuo *JobSupervisorUpdateOne) Exec(ctx context.Context) error {
-	_, err := jsuo.Save(ctx)
+func (_u *JobSupervisorUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jsuo *JobSupervisorUpdateOne) ExecX(ctx context.Context) {
-	if err := jsuo.Exec(ctx); err != nil {
+func (_u *JobSupervisorUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jsuo *JobSupervisorUpdateOne) defaults() {
-	if _, ok := jsuo.mutation.UpdatedAt(); !ok {
+func (_u *JobSupervisorUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobsupervisor.UpdateDefaultUpdatedAt()
-		jsuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupervisor, err error) {
+func (_u *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupervisor, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobsupervisor.Table, jobsupervisor.Columns, sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt))
-	id, ok := jsuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobSupervisor.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jsuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobsupervisor.FieldID)
 		for _, f := range fields {
@@ -858,89 +858,89 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 			}
 		}
 	}
-	if ps := jsuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jsuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(jobsupervisor.FieldName, field.TypeString, value)
 	}
-	if jsuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(jobsupervisor.FieldName, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(jobsupervisor.FieldAddress, field.TypeString, value)
 	}
-	if jsuo.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(jobsupervisor.FieldAddress, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.Phone(); ok {
+	if value, ok := _u.mutation.Phone(); ok {
 		_spec.SetField(jobsupervisor.FieldPhone, field.TypeString, value)
 	}
-	if jsuo.mutation.PhoneCleared() {
+	if _u.mutation.PhoneCleared() {
 		_spec.ClearField(jobsupervisor.FieldPhone, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(jobsupervisor.FieldEmail, field.TypeString, value)
 	}
-	if jsuo.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(jobsupervisor.FieldEmail, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.TcNo(); ok {
+	if value, ok := _u.mutation.TcNo(); ok {
 		_spec.SetField(jobsupervisor.FieldTcNo, field.TypeString, value)
 	}
-	if jsuo.mutation.TcNoCleared() {
+	if _u.mutation.TcNoCleared() {
 		_spec.ClearField(jobsupervisor.FieldTcNo, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.Position(); ok {
+	if value, ok := _u.mutation.Position(); ok {
 		_spec.SetField(jobsupervisor.FieldPosition, field.TypeString, value)
 	}
-	if jsuo.mutation.PositionCleared() {
+	if _u.mutation.PositionCleared() {
 		_spec.ClearField(jobsupervisor.FieldPosition, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.Career(); ok {
+	if value, ok := _u.mutation.Career(); ok {
 		_spec.SetField(jobsupervisor.FieldCareer, field.TypeString, value)
 	}
-	if jsuo.mutation.CareerCleared() {
+	if _u.mutation.CareerCleared() {
 		_spec.ClearField(jobsupervisor.FieldCareer, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.RegisterNo(); ok {
+	if value, ok := _u.mutation.RegisterNo(); ok {
 		_spec.SetField(jobsupervisor.FieldRegisterNo, field.TypeString, value)
 	}
-	if jsuo.mutation.RegisterNoCleared() {
+	if _u.mutation.RegisterNoCleared() {
 		_spec.ClearField(jobsupervisor.FieldRegisterNo, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.SocialSecurityNo(); ok {
+	if value, ok := _u.mutation.SocialSecurityNo(); ok {
 		_spec.SetField(jobsupervisor.FieldSocialSecurityNo, field.TypeString, value)
 	}
-	if jsuo.mutation.SocialSecurityNoCleared() {
+	if _u.mutation.SocialSecurityNoCleared() {
 		_spec.ClearField(jobsupervisor.FieldSocialSecurityNo, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.SchoolGraduation(); ok {
+	if value, ok := _u.mutation.SchoolGraduation(); ok {
 		_spec.SetField(jobsupervisor.FieldSchoolGraduation, field.TypeString, value)
 	}
-	if jsuo.mutation.SchoolGraduationCleared() {
+	if _u.mutation.SchoolGraduationCleared() {
 		_spec.ClearField(jobsupervisor.FieldSchoolGraduation, field.TypeString)
 	}
-	if value, ok := jsuo.mutation.YDSID(); ok {
+	if value, ok := _u.mutation.YDSID(); ok {
 		_spec.SetField(jobsupervisor.FieldYDSID, field.TypeInt, value)
 	}
-	if value, ok := jsuo.mutation.AddedYDSID(); ok {
+	if value, ok := _u.mutation.AddedYDSID(); ok {
 		_spec.AddField(jobsupervisor.FieldYDSID, field.TypeInt, value)
 	}
-	if jsuo.mutation.YDSIDCleared() {
+	if _u.mutation.YDSIDCleared() {
 		_spec.ClearField(jobsupervisor.FieldYDSID, field.TypeInt)
 	}
-	if value, ok := jsuo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobsupervisor.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jsuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobsupervisor.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jsuo.mutation.SupervisorsCleared() {
+	if _u.mutation.SupervisorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -953,7 +953,7 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jsuo.mutation.RemovedSupervisorsIDs(); len(nodes) > 0 && !jsuo.mutation.SupervisorsCleared() {
+	if nodes := _u.mutation.RemovedSupervisorsIDs(); len(nodes) > 0 && !_u.mutation.SupervisorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -969,7 +969,7 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jsuo.mutation.SupervisorsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.SupervisorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -985,10 +985,10 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobSupervisor{config: jsuo.config}
+	_node = &JobSupervisor{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jsuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobsupervisor.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -996,6 +996,6 @@ func (jsuo *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSupe
 		}
 		return nil, err
 	}
-	jsuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

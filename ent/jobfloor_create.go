@@ -22,184 +22,184 @@ type JobFloorCreate struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jfc *JobFloorCreate) SetYibfNo(i int) *JobFloorCreate {
-	jfc.mutation.SetYibfNo(i)
-	return jfc
+func (_c *JobFloorCreate) SetYibfNo(v int) *JobFloorCreate {
+	_c.mutation.SetYibfNo(v)
+	return _c
 }
 
 // SetName sets the "Name" field.
-func (jfc *JobFloorCreate) SetName(s string) *JobFloorCreate {
-	jfc.mutation.SetName(s)
-	return jfc
+func (_c *JobFloorCreate) SetName(v string) *JobFloorCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableName(s *string) *JobFloorCreate {
-	if s != nil {
-		jfc.SetName(*s)
+func (_c *JobFloorCreate) SetNillableName(v *string) *JobFloorCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetMetre sets the "Metre" field.
-func (jfc *JobFloorCreate) SetMetre(s string) *JobFloorCreate {
-	jfc.mutation.SetMetre(s)
-	return jfc
+func (_c *JobFloorCreate) SetMetre(v string) *JobFloorCreate {
+	_c.mutation.SetMetre(v)
+	return _c
 }
 
 // SetNillableMetre sets the "Metre" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableMetre(s *string) *JobFloorCreate {
-	if s != nil {
-		jfc.SetMetre(*s)
+func (_c *JobFloorCreate) SetNillableMetre(v *string) *JobFloorCreate {
+	if v != nil {
+		_c.SetMetre(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetMoldDate sets the "MoldDate" field.
-func (jfc *JobFloorCreate) SetMoldDate(t time.Time) *JobFloorCreate {
-	jfc.mutation.SetMoldDate(t)
-	return jfc
+func (_c *JobFloorCreate) SetMoldDate(v time.Time) *JobFloorCreate {
+	_c.mutation.SetMoldDate(v)
+	return _c
 }
 
 // SetNillableMoldDate sets the "MoldDate" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableMoldDate(t *time.Time) *JobFloorCreate {
-	if t != nil {
-		jfc.SetMoldDate(*t)
+func (_c *JobFloorCreate) SetNillableMoldDate(v *time.Time) *JobFloorCreate {
+	if v != nil {
+		_c.SetMoldDate(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetConcreteDate sets the "ConcreteDate" field.
-func (jfc *JobFloorCreate) SetConcreteDate(t time.Time) *JobFloorCreate {
-	jfc.mutation.SetConcreteDate(t)
-	return jfc
+func (_c *JobFloorCreate) SetConcreteDate(v time.Time) *JobFloorCreate {
+	_c.mutation.SetConcreteDate(v)
+	return _c
 }
 
 // SetNillableConcreteDate sets the "ConcreteDate" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableConcreteDate(t *time.Time) *JobFloorCreate {
-	if t != nil {
-		jfc.SetConcreteDate(*t)
+func (_c *JobFloorCreate) SetNillableConcreteDate(v *time.Time) *JobFloorCreate {
+	if v != nil {
+		_c.SetConcreteDate(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetSamples sets the "Samples" field.
-func (jfc *JobFloorCreate) SetSamples(i int) *JobFloorCreate {
-	jfc.mutation.SetSamples(i)
-	return jfc
+func (_c *JobFloorCreate) SetSamples(v int) *JobFloorCreate {
+	_c.mutation.SetSamples(v)
+	return _c
 }
 
 // SetNillableSamples sets the "Samples" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableSamples(i *int) *JobFloorCreate {
-	if i != nil {
-		jfc.SetSamples(*i)
+func (_c *JobFloorCreate) SetNillableSamples(v *int) *JobFloorCreate {
+	if v != nil {
+		_c.SetSamples(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetConcreteClass sets the "ConcreteClass" field.
-func (jfc *JobFloorCreate) SetConcreteClass(s string) *JobFloorCreate {
-	jfc.mutation.SetConcreteClass(s)
-	return jfc
+func (_c *JobFloorCreate) SetConcreteClass(v string) *JobFloorCreate {
+	_c.mutation.SetConcreteClass(v)
+	return _c
 }
 
 // SetNillableConcreteClass sets the "ConcreteClass" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableConcreteClass(s *string) *JobFloorCreate {
-	if s != nil {
-		jfc.SetConcreteClass(*s)
+func (_c *JobFloorCreate) SetNillableConcreteClass(v *string) *JobFloorCreate {
+	if v != nil {
+		_c.SetConcreteClass(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetWeekResult sets the "WeekResult" field.
-func (jfc *JobFloorCreate) SetWeekResult(s string) *JobFloorCreate {
-	jfc.mutation.SetWeekResult(s)
-	return jfc
+func (_c *JobFloorCreate) SetWeekResult(v string) *JobFloorCreate {
+	_c.mutation.SetWeekResult(v)
+	return _c
 }
 
 // SetNillableWeekResult sets the "WeekResult" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableWeekResult(s *string) *JobFloorCreate {
-	if s != nil {
-		jfc.SetWeekResult(*s)
+func (_c *JobFloorCreate) SetNillableWeekResult(v *string) *JobFloorCreate {
+	if v != nil {
+		_c.SetWeekResult(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetMonthResult sets the "MonthResult" field.
-func (jfc *JobFloorCreate) SetMonthResult(s string) *JobFloorCreate {
-	jfc.mutation.SetMonthResult(s)
-	return jfc
+func (_c *JobFloorCreate) SetMonthResult(v string) *JobFloorCreate {
+	_c.mutation.SetMonthResult(v)
+	return _c
 }
 
 // SetNillableMonthResult sets the "MonthResult" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableMonthResult(s *string) *JobFloorCreate {
-	if s != nil {
-		jfc.SetMonthResult(*s)
+func (_c *JobFloorCreate) SetNillableMonthResult(v *string) *JobFloorCreate {
+	if v != nil {
+		_c.SetMonthResult(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jfc *JobFloorCreate) SetCreatedAt(t time.Time) *JobFloorCreate {
-	jfc.mutation.SetCreatedAt(t)
-	return jfc
+func (_c *JobFloorCreate) SetCreatedAt(v time.Time) *JobFloorCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableCreatedAt(t *time.Time) *JobFloorCreate {
-	if t != nil {
-		jfc.SetCreatedAt(*t)
+func (_c *JobFloorCreate) SetNillableCreatedAt(v *time.Time) *JobFloorCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jfc *JobFloorCreate) SetUpdatedAt(t time.Time) *JobFloorCreate {
-	jfc.mutation.SetUpdatedAt(t)
-	return jfc
+func (_c *JobFloorCreate) SetUpdatedAt(v time.Time) *JobFloorCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableUpdatedAt(t *time.Time) *JobFloorCreate {
-	if t != nil {
-		jfc.SetUpdatedAt(*t)
+func (_c *JobFloorCreate) SetNillableUpdatedAt(v *time.Time) *JobFloorCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return jfc
+	return _c
 }
 
 // SetFloorID sets the "floor" edge to the JobRelations entity by ID.
-func (jfc *JobFloorCreate) SetFloorID(id int) *JobFloorCreate {
-	jfc.mutation.SetFloorID(id)
-	return jfc
+func (_c *JobFloorCreate) SetFloorID(id int) *JobFloorCreate {
+	_c.mutation.SetFloorID(id)
+	return _c
 }
 
 // SetNillableFloorID sets the "floor" edge to the JobRelations entity by ID if the given value is not nil.
-func (jfc *JobFloorCreate) SetNillableFloorID(id *int) *JobFloorCreate {
+func (_c *JobFloorCreate) SetNillableFloorID(id *int) *JobFloorCreate {
 	if id != nil {
-		jfc = jfc.SetFloorID(*id)
+		_c = _c.SetFloorID(*id)
 	}
-	return jfc
+	return _c
 }
 
 // SetFloor sets the "floor" edge to the JobRelations entity.
-func (jfc *JobFloorCreate) SetFloor(j *JobRelations) *JobFloorCreate {
-	return jfc.SetFloorID(j.ID)
+func (_c *JobFloorCreate) SetFloor(v *JobRelations) *JobFloorCreate {
+	return _c.SetFloorID(v.ID)
 }
 
 // Mutation returns the JobFloorMutation object of the builder.
-func (jfc *JobFloorCreate) Mutation() *JobFloorMutation {
-	return jfc.mutation
+func (_c *JobFloorCreate) Mutation() *JobFloorMutation {
+	return _c.mutation
 }
 
 // Save creates the JobFloor in the database.
-func (jfc *JobFloorCreate) Save(ctx context.Context) (*JobFloor, error) {
-	jfc.defaults()
-	return withHooks(ctx, jfc.sqlSave, jfc.mutation, jfc.hooks)
+func (_c *JobFloorCreate) Save(ctx context.Context) (*JobFloor, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (jfc *JobFloorCreate) SaveX(ctx context.Context) *JobFloor {
-	v, err := jfc.Save(ctx)
+func (_c *JobFloorCreate) SaveX(ctx context.Context) *JobFloor {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -207,64 +207,64 @@ func (jfc *JobFloorCreate) SaveX(ctx context.Context) *JobFloor {
 }
 
 // Exec executes the query.
-func (jfc *JobFloorCreate) Exec(ctx context.Context) error {
-	_, err := jfc.Save(ctx)
+func (_c *JobFloorCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jfc *JobFloorCreate) ExecX(ctx context.Context) {
-	if err := jfc.Exec(ctx); err != nil {
+func (_c *JobFloorCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jfc *JobFloorCreate) defaults() {
-	if _, ok := jfc.mutation.Name(); !ok {
+func (_c *JobFloorCreate) defaults() {
+	if _, ok := _c.mutation.Name(); !ok {
 		v := jobfloor.DefaultName
-		jfc.mutation.SetName(v)
+		_c.mutation.SetName(v)
 	}
-	if _, ok := jfc.mutation.Metre(); !ok {
+	if _, ok := _c.mutation.Metre(); !ok {
 		v := jobfloor.DefaultMetre
-		jfc.mutation.SetMetre(v)
+		_c.mutation.SetMetre(v)
 	}
-	if _, ok := jfc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobfloor.DefaultCreatedAt()
-		jfc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := jfc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := jobfloor.DefaultUpdatedAt()
-		jfc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (jfc *JobFloorCreate) check() error {
-	if _, ok := jfc.mutation.YibfNo(); !ok {
+func (_c *JobFloorCreate) check() error {
+	if _, ok := _c.mutation.YibfNo(); !ok {
 		return &ValidationError{Name: "yibfNo", err: errors.New(`ent: missing required field "JobFloor.yibfNo"`)}
 	}
-	if _, ok := jfc.mutation.Name(); !ok {
+	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "JobFloor.Name"`)}
 	}
-	if _, ok := jfc.mutation.Metre(); !ok {
+	if _, ok := _c.mutation.Metre(); !ok {
 		return &ValidationError{Name: "Metre", err: errors.New(`ent: missing required field "JobFloor.Metre"`)}
 	}
-	if _, ok := jfc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobFloor.CreatedAt"`)}
 	}
-	if _, ok := jfc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobFloor.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (jfc *JobFloorCreate) sqlSave(ctx context.Context) (*JobFloor, error) {
-	if err := jfc.check(); err != nil {
+func (_c *JobFloorCreate) sqlSave(ctx context.Context) (*JobFloor, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := jfc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, jfc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -272,61 +272,61 @@ func (jfc *JobFloorCreate) sqlSave(ctx context.Context) (*JobFloor, error) {
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	jfc.mutation.id = &_node.ID
-	jfc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (jfc *JobFloorCreate) createSpec() (*JobFloor, *sqlgraph.CreateSpec) {
+func (_c *JobFloorCreate) createSpec() (*JobFloor, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobFloor{config: jfc.config}
+		_node = &JobFloor{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobfloor.Table, sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt))
 	)
-	if value, ok := jfc.mutation.YibfNo(); ok {
+	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobfloor.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
 	}
-	if value, ok := jfc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(jobfloor.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := jfc.mutation.Metre(); ok {
+	if value, ok := _c.mutation.Metre(); ok {
 		_spec.SetField(jobfloor.FieldMetre, field.TypeString, value)
 		_node.Metre = value
 	}
-	if value, ok := jfc.mutation.MoldDate(); ok {
+	if value, ok := _c.mutation.MoldDate(); ok {
 		_spec.SetField(jobfloor.FieldMoldDate, field.TypeTime, value)
 		_node.MoldDate = value
 	}
-	if value, ok := jfc.mutation.ConcreteDate(); ok {
+	if value, ok := _c.mutation.ConcreteDate(); ok {
 		_spec.SetField(jobfloor.FieldConcreteDate, field.TypeTime, value)
 		_node.ConcreteDate = value
 	}
-	if value, ok := jfc.mutation.Samples(); ok {
+	if value, ok := _c.mutation.Samples(); ok {
 		_spec.SetField(jobfloor.FieldSamples, field.TypeInt, value)
 		_node.Samples = value
 	}
-	if value, ok := jfc.mutation.ConcreteClass(); ok {
+	if value, ok := _c.mutation.ConcreteClass(); ok {
 		_spec.SetField(jobfloor.FieldConcreteClass, field.TypeString, value)
 		_node.ConcreteClass = value
 	}
-	if value, ok := jfc.mutation.WeekResult(); ok {
+	if value, ok := _c.mutation.WeekResult(); ok {
 		_spec.SetField(jobfloor.FieldWeekResult, field.TypeString, value)
 		_node.WeekResult = value
 	}
-	if value, ok := jfc.mutation.MonthResult(); ok {
+	if value, ok := _c.mutation.MonthResult(); ok {
 		_spec.SetField(jobfloor.FieldMonthResult, field.TypeString, value)
 		_node.MonthResult = value
 	}
-	if value, ok := jfc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobfloor.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := jfc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobfloor.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := jfc.mutation.FloorIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.FloorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -354,16 +354,16 @@ type JobFloorCreateBulk struct {
 }
 
 // Save creates the JobFloor entities in the database.
-func (jfcb *JobFloorCreateBulk) Save(ctx context.Context) ([]*JobFloor, error) {
-	if jfcb.err != nil {
-		return nil, jfcb.err
+func (_c *JobFloorCreateBulk) Save(ctx context.Context) ([]*JobFloor, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jfcb.builders))
-	nodes := make([]*JobFloor, len(jfcb.builders))
-	mutators := make([]Mutator, len(jfcb.builders))
-	for i := range jfcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*JobFloor, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := jfcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*JobFloorMutation)
@@ -377,11 +377,11 @@ func (jfcb *JobFloorCreateBulk) Save(ctx context.Context) ([]*JobFloor, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jfcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jfcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -405,7 +405,7 @@ func (jfcb *JobFloorCreateBulk) Save(ctx context.Context) ([]*JobFloor, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jfcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -413,8 +413,8 @@ func (jfcb *JobFloorCreateBulk) Save(ctx context.Context) ([]*JobFloor, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jfcb *JobFloorCreateBulk) SaveX(ctx context.Context) []*JobFloor {
-	v, err := jfcb.Save(ctx)
+func (_c *JobFloorCreateBulk) SaveX(ctx context.Context) []*JobFloor {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -422,14 +422,14 @@ func (jfcb *JobFloorCreateBulk) SaveX(ctx context.Context) []*JobFloor {
 }
 
 // Exec executes the query.
-func (jfcb *JobFloorCreateBulk) Exec(ctx context.Context) error {
-	_, err := jfcb.Save(ctx)
+func (_c *JobFloorCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jfcb *JobFloorCreateBulk) ExecX(ctx context.Context) {
-	if err := jfcb.Exec(ctx); err != nil {
+func (_c *JobFloorCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

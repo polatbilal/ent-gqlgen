@@ -28,8 +28,6 @@ type JobPayments struct {
 	PaymentType string `json:"PaymentType,omitempty"`
 	// State holds the value of the "State" field.
 	State string `json:"State,omitempty"`
-	// TotalPayment holds the value of the "TotalPayment" field.
-	TotalPayment float64 `json:"TotalPayment,omitempty"`
 	// LevelRequest holds the value of the "LevelRequest" field.
 	LevelRequest float64 `json:"LevelRequest,omitempty"`
 	// LevelApprove holds the value of the "LevelApprove" field.
@@ -88,7 +86,7 @@ func (*JobPayments) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case jobpayments.FieldAtMunicipality, jobpayments.FieldInvoiceIssued, jobpayments.FieldInvoiceReceived:
 			values[i] = new(sql.NullBool)
-		case jobpayments.FieldTotalPayment, jobpayments.FieldLevelRequest, jobpayments.FieldLevelApprove, jobpayments.FieldAmount:
+		case jobpayments.FieldLevelRequest, jobpayments.FieldLevelApprove, jobpayments.FieldAmount:
 			values[i] = new(sql.NullFloat64)
 		case jobpayments.FieldID, jobpayments.FieldYibfNo, jobpayments.FieldPaymentNo:
 			values[i] = new(sql.NullInt64)
@@ -107,7 +105,7 @@ func (*JobPayments) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobPayments fields.
-func (jp *JobPayments) assignValues(columns []string, values []any) error {
+func (_m *JobPayments) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -118,118 +116,112 @@ func (jp *JobPayments) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jp.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobpayments.FieldYibfNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
 			} else if value.Valid {
-				jp.YibfNo = int(value.Int64)
+				_m.YibfNo = int(value.Int64)
 			}
 		case jobpayments.FieldPaymentNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field PaymentNo", values[i])
 			} else if value.Valid {
-				jp.PaymentNo = int(value.Int64)
+				_m.PaymentNo = int(value.Int64)
 			}
 		case jobpayments.FieldPaymentDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field PaymentDate", values[i])
 			} else if value.Valid {
-				jp.PaymentDate = value.Time
+				_m.PaymentDate = value.Time
 			}
 		case jobpayments.FieldPaymentType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field PaymentType", values[i])
 			} else if value.Valid {
-				jp.PaymentType = value.String
+				_m.PaymentType = value.String
 			}
 		case jobpayments.FieldState:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field State", values[i])
 			} else if value.Valid {
-				jp.State = value.String
-			}
-		case jobpayments.FieldTotalPayment:
-			if value, ok := values[i].(*sql.NullFloat64); !ok {
-				return fmt.Errorf("unexpected type %T for field TotalPayment", values[i])
-			} else if value.Valid {
-				jp.TotalPayment = value.Float64
+				_m.State = value.String
 			}
 		case jobpayments.FieldLevelRequest:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field LevelRequest", values[i])
 			} else if value.Valid {
-				jp.LevelRequest = value.Float64
+				_m.LevelRequest = value.Float64
 			}
 		case jobpayments.FieldLevelApprove:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field LevelApprove", values[i])
 			} else if value.Valid {
-				jp.LevelApprove = value.Float64
+				_m.LevelApprove = value.Float64
 			}
 		case jobpayments.FieldAmount:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field Amount", values[i])
 			} else if value.Valid {
-				jp.Amount = value.Float64
+				_m.Amount = value.Float64
 			}
 		case jobpayments.FieldAtMunicipality:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field AtMunicipality", values[i])
 			} else if value.Valid {
-				jp.AtMunicipality = value.Bool
+				_m.AtMunicipality = value.Bool
 			}
 		case jobpayments.FieldMunicipalityDeliveryDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field MunicipalityDeliveryDate", values[i])
 			} else if value.Valid {
-				jp.MunicipalityDeliveryDate = value.Time
+				_m.MunicipalityDeliveryDate = value.Time
 			}
 		case jobpayments.FieldInvoiceIssued:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field InvoiceIssued", values[i])
 			} else if value.Valid {
-				jp.InvoiceIssued = value.Bool
+				_m.InvoiceIssued = value.Bool
 			}
 		case jobpayments.FieldInvoiceIssuedDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field InvoiceIssuedDate", values[i])
 			} else if value.Valid {
-				jp.InvoiceIssuedDate = value.Time
+				_m.InvoiceIssuedDate = value.Time
 			}
 		case jobpayments.FieldInvoiceReceived:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field InvoiceReceived", values[i])
 			} else if value.Valid {
-				jp.InvoiceReceived = value.Bool
+				_m.InvoiceReceived = value.Bool
 			}
 		case jobpayments.FieldInvoiceReceivedDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field InvoiceReceivedDate", values[i])
 			} else if value.Valid {
-				jp.InvoiceReceivedDate = value.Time
+				_m.InvoiceReceivedDate = value.Time
 			}
 		case jobpayments.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jp.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobpayments.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jp.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case jobpayments.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
-				jp.relations_id = new(int)
-				*jp.relations_id = int(value.Int64)
+				_m.relations_id = new(int)
+				*_m.relations_id = int(value.Int64)
 			}
 		default:
-			jp.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -237,88 +229,85 @@ func (jp *JobPayments) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobPayments.
 // This includes values selected through modifiers, order, etc.
-func (jp *JobPayments) Value(name string) (ent.Value, error) {
-	return jp.selectValues.Get(name)
+func (_m *JobPayments) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryPayments queries the "payments" edge of the JobPayments entity.
-func (jp *JobPayments) QueryPayments() *JobRelationsQuery {
-	return NewJobPaymentsClient(jp.config).QueryPayments(jp)
+func (_m *JobPayments) QueryPayments() *JobRelationsQuery {
+	return NewJobPaymentsClient(_m.config).QueryPayments(_m)
 }
 
 // Update returns a builder for updating this JobPayments.
 // Note that you need to call JobPayments.Unwrap() before calling this method if this JobPayments
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jp *JobPayments) Update() *JobPaymentsUpdateOne {
-	return NewJobPaymentsClient(jp.config).UpdateOne(jp)
+func (_m *JobPayments) Update() *JobPaymentsUpdateOne {
+	return NewJobPaymentsClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobPayments entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jp *JobPayments) Unwrap() *JobPayments {
-	_tx, ok := jp.config.driver.(*txDriver)
+func (_m *JobPayments) Unwrap() *JobPayments {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobPayments is not a transactional entity")
 	}
-	jp.config.driver = _tx.drv
-	return jp
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (jp *JobPayments) String() string {
+func (_m *JobPayments) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobPayments(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jp.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("yibfNo=")
-	builder.WriteString(fmt.Sprintf("%v", jp.YibfNo))
+	builder.WriteString(fmt.Sprintf("%v", _m.YibfNo))
 	builder.WriteString(", ")
 	builder.WriteString("PaymentNo=")
-	builder.WriteString(fmt.Sprintf("%v", jp.PaymentNo))
+	builder.WriteString(fmt.Sprintf("%v", _m.PaymentNo))
 	builder.WriteString(", ")
 	builder.WriteString("PaymentDate=")
-	builder.WriteString(jp.PaymentDate.Format(time.ANSIC))
+	builder.WriteString(_m.PaymentDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("PaymentType=")
-	builder.WriteString(jp.PaymentType)
+	builder.WriteString(_m.PaymentType)
 	builder.WriteString(", ")
 	builder.WriteString("State=")
-	builder.WriteString(jp.State)
-	builder.WriteString(", ")
-	builder.WriteString("TotalPayment=")
-	builder.WriteString(fmt.Sprintf("%v", jp.TotalPayment))
+	builder.WriteString(_m.State)
 	builder.WriteString(", ")
 	builder.WriteString("LevelRequest=")
-	builder.WriteString(fmt.Sprintf("%v", jp.LevelRequest))
+	builder.WriteString(fmt.Sprintf("%v", _m.LevelRequest))
 	builder.WriteString(", ")
 	builder.WriteString("LevelApprove=")
-	builder.WriteString(fmt.Sprintf("%v", jp.LevelApprove))
+	builder.WriteString(fmt.Sprintf("%v", _m.LevelApprove))
 	builder.WriteString(", ")
 	builder.WriteString("Amount=")
-	builder.WriteString(fmt.Sprintf("%v", jp.Amount))
+	builder.WriteString(fmt.Sprintf("%v", _m.Amount))
 	builder.WriteString(", ")
 	builder.WriteString("AtMunicipality=")
-	builder.WriteString(fmt.Sprintf("%v", jp.AtMunicipality))
+	builder.WriteString(fmt.Sprintf("%v", _m.AtMunicipality))
 	builder.WriteString(", ")
 	builder.WriteString("MunicipalityDeliveryDate=")
-	builder.WriteString(jp.MunicipalityDeliveryDate.Format(time.ANSIC))
+	builder.WriteString(_m.MunicipalityDeliveryDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("InvoiceIssued=")
-	builder.WriteString(fmt.Sprintf("%v", jp.InvoiceIssued))
+	builder.WriteString(fmt.Sprintf("%v", _m.InvoiceIssued))
 	builder.WriteString(", ")
 	builder.WriteString("InvoiceIssuedDate=")
-	builder.WriteString(jp.InvoiceIssuedDate.Format(time.ANSIC))
+	builder.WriteString(_m.InvoiceIssuedDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("InvoiceReceived=")
-	builder.WriteString(fmt.Sprintf("%v", jp.InvoiceReceived))
+	builder.WriteString(fmt.Sprintf("%v", _m.InvoiceReceived))
 	builder.WriteString(", ")
 	builder.WriteString("InvoiceReceivedDate=")
-	builder.WriteString(jp.InvoiceReceivedDate.Format(time.ANSIC))
+	builder.WriteString(_m.InvoiceReceivedDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jp.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jp.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

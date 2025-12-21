@@ -22,152 +22,152 @@ type JobProgressCreate struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jpc *JobProgressCreate) SetYibfNo(i int) *JobProgressCreate {
-	jpc.mutation.SetYibfNo(i)
-	return jpc
+func (_c *JobProgressCreate) SetYibfNo(v int) *JobProgressCreate {
+	_c.mutation.SetYibfNo(v)
+	return _c
 }
 
 // SetOne sets the "One" field.
-func (jpc *JobProgressCreate) SetOne(i int) *JobProgressCreate {
-	jpc.mutation.SetOne(i)
-	return jpc
+func (_c *JobProgressCreate) SetOne(v int) *JobProgressCreate {
+	_c.mutation.SetOne(v)
+	return _c
 }
 
 // SetNillableOne sets the "One" field if the given value is not nil.
-func (jpc *JobProgressCreate) SetNillableOne(i *int) *JobProgressCreate {
-	if i != nil {
-		jpc.SetOne(*i)
+func (_c *JobProgressCreate) SetNillableOne(v *int) *JobProgressCreate {
+	if v != nil {
+		_c.SetOne(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetTwo sets the "Two" field.
-func (jpc *JobProgressCreate) SetTwo(i int) *JobProgressCreate {
-	jpc.mutation.SetTwo(i)
-	return jpc
+func (_c *JobProgressCreate) SetTwo(v int) *JobProgressCreate {
+	_c.mutation.SetTwo(v)
+	return _c
 }
 
 // SetNillableTwo sets the "Two" field if the given value is not nil.
-func (jpc *JobProgressCreate) SetNillableTwo(i *int) *JobProgressCreate {
-	if i != nil {
-		jpc.SetTwo(*i)
+func (_c *JobProgressCreate) SetNillableTwo(v *int) *JobProgressCreate {
+	if v != nil {
+		_c.SetTwo(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetThree sets the "Three" field.
-func (jpc *JobProgressCreate) SetThree(i int) *JobProgressCreate {
-	jpc.mutation.SetThree(i)
-	return jpc
+func (_c *JobProgressCreate) SetThree(v int) *JobProgressCreate {
+	_c.mutation.SetThree(v)
+	return _c
 }
 
 // SetNillableThree sets the "Three" field if the given value is not nil.
-func (jpc *JobProgressCreate) SetNillableThree(i *int) *JobProgressCreate {
-	if i != nil {
-		jpc.SetThree(*i)
+func (_c *JobProgressCreate) SetNillableThree(v *int) *JobProgressCreate {
+	if v != nil {
+		_c.SetThree(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetFour sets the "Four" field.
-func (jpc *JobProgressCreate) SetFour(i int) *JobProgressCreate {
-	jpc.mutation.SetFour(i)
-	return jpc
+func (_c *JobProgressCreate) SetFour(v int) *JobProgressCreate {
+	_c.mutation.SetFour(v)
+	return _c
 }
 
 // SetNillableFour sets the "Four" field if the given value is not nil.
-func (jpc *JobProgressCreate) SetNillableFour(i *int) *JobProgressCreate {
-	if i != nil {
-		jpc.SetFour(*i)
+func (_c *JobProgressCreate) SetNillableFour(v *int) *JobProgressCreate {
+	if v != nil {
+		_c.SetFour(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetFive sets the "Five" field.
-func (jpc *JobProgressCreate) SetFive(i int) *JobProgressCreate {
-	jpc.mutation.SetFive(i)
-	return jpc
+func (_c *JobProgressCreate) SetFive(v int) *JobProgressCreate {
+	_c.mutation.SetFive(v)
+	return _c
 }
 
 // SetNillableFive sets the "Five" field if the given value is not nil.
-func (jpc *JobProgressCreate) SetNillableFive(i *int) *JobProgressCreate {
-	if i != nil {
-		jpc.SetFive(*i)
+func (_c *JobProgressCreate) SetNillableFive(v *int) *JobProgressCreate {
+	if v != nil {
+		_c.SetFive(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetSix sets the "Six" field.
-func (jpc *JobProgressCreate) SetSix(i int) *JobProgressCreate {
-	jpc.mutation.SetSix(i)
-	return jpc
+func (_c *JobProgressCreate) SetSix(v int) *JobProgressCreate {
+	_c.mutation.SetSix(v)
+	return _c
 }
 
 // SetNillableSix sets the "Six" field if the given value is not nil.
-func (jpc *JobProgressCreate) SetNillableSix(i *int) *JobProgressCreate {
-	if i != nil {
-		jpc.SetSix(*i)
+func (_c *JobProgressCreate) SetNillableSix(v *int) *JobProgressCreate {
+	if v != nil {
+		_c.SetSix(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jpc *JobProgressCreate) SetCreatedAt(t time.Time) *JobProgressCreate {
-	jpc.mutation.SetCreatedAt(t)
-	return jpc
+func (_c *JobProgressCreate) SetCreatedAt(v time.Time) *JobProgressCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jpc *JobProgressCreate) SetNillableCreatedAt(t *time.Time) *JobProgressCreate {
-	if t != nil {
-		jpc.SetCreatedAt(*t)
+func (_c *JobProgressCreate) SetNillableCreatedAt(v *time.Time) *JobProgressCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jpc *JobProgressCreate) SetUpdatedAt(t time.Time) *JobProgressCreate {
-	jpc.mutation.SetUpdatedAt(t)
-	return jpc
+func (_c *JobProgressCreate) SetUpdatedAt(v time.Time) *JobProgressCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (jpc *JobProgressCreate) SetNillableUpdatedAt(t *time.Time) *JobProgressCreate {
-	if t != nil {
-		jpc.SetUpdatedAt(*t)
+func (_c *JobProgressCreate) SetNillableUpdatedAt(v *time.Time) *JobProgressCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return jpc
+	return _c
 }
 
 // AddProgresIDs adds the "progress" edge to the JobRelations entity by IDs.
-func (jpc *JobProgressCreate) AddProgresIDs(ids ...int) *JobProgressCreate {
-	jpc.mutation.AddProgresIDs(ids...)
-	return jpc
+func (_c *JobProgressCreate) AddProgresIDs(ids ...int) *JobProgressCreate {
+	_c.mutation.AddProgresIDs(ids...)
+	return _c
 }
 
 // AddProgress adds the "progress" edges to the JobRelations entity.
-func (jpc *JobProgressCreate) AddProgress(j ...*JobRelations) *JobProgressCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *JobProgressCreate) AddProgress(v ...*JobRelations) *JobProgressCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jpc.AddProgresIDs(ids...)
+	return _c.AddProgresIDs(ids...)
 }
 
 // Mutation returns the JobProgressMutation object of the builder.
-func (jpc *JobProgressCreate) Mutation() *JobProgressMutation {
-	return jpc.mutation
+func (_c *JobProgressCreate) Mutation() *JobProgressMutation {
+	return _c.mutation
 }
 
 // Save creates the JobProgress in the database.
-func (jpc *JobProgressCreate) Save(ctx context.Context) (*JobProgress, error) {
-	jpc.defaults()
-	return withHooks(ctx, jpc.sqlSave, jpc.mutation, jpc.hooks)
+func (_c *JobProgressCreate) Save(ctx context.Context) (*JobProgress, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (jpc *JobProgressCreate) SaveX(ctx context.Context) *JobProgress {
-	v, err := jpc.Save(ctx)
+func (_c *JobProgressCreate) SaveX(ctx context.Context) *JobProgress {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -175,74 +175,74 @@ func (jpc *JobProgressCreate) SaveX(ctx context.Context) *JobProgress {
 }
 
 // Exec executes the query.
-func (jpc *JobProgressCreate) Exec(ctx context.Context) error {
-	_, err := jpc.Save(ctx)
+func (_c *JobProgressCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpc *JobProgressCreate) ExecX(ctx context.Context) {
-	if err := jpc.Exec(ctx); err != nil {
+func (_c *JobProgressCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jpc *JobProgressCreate) defaults() {
-	if _, ok := jpc.mutation.One(); !ok {
+func (_c *JobProgressCreate) defaults() {
+	if _, ok := _c.mutation.One(); !ok {
 		v := jobprogress.DefaultOne
-		jpc.mutation.SetOne(v)
+		_c.mutation.SetOne(v)
 	}
-	if _, ok := jpc.mutation.Two(); !ok {
+	if _, ok := _c.mutation.Two(); !ok {
 		v := jobprogress.DefaultTwo
-		jpc.mutation.SetTwo(v)
+		_c.mutation.SetTwo(v)
 	}
-	if _, ok := jpc.mutation.Three(); !ok {
+	if _, ok := _c.mutation.Three(); !ok {
 		v := jobprogress.DefaultThree
-		jpc.mutation.SetThree(v)
+		_c.mutation.SetThree(v)
 	}
-	if _, ok := jpc.mutation.Four(); !ok {
+	if _, ok := _c.mutation.Four(); !ok {
 		v := jobprogress.DefaultFour
-		jpc.mutation.SetFour(v)
+		_c.mutation.SetFour(v)
 	}
-	if _, ok := jpc.mutation.Five(); !ok {
+	if _, ok := _c.mutation.Five(); !ok {
 		v := jobprogress.DefaultFive
-		jpc.mutation.SetFive(v)
+		_c.mutation.SetFive(v)
 	}
-	if _, ok := jpc.mutation.Six(); !ok {
+	if _, ok := _c.mutation.Six(); !ok {
 		v := jobprogress.DefaultSix
-		jpc.mutation.SetSix(v)
+		_c.mutation.SetSix(v)
 	}
-	if _, ok := jpc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobprogress.DefaultCreatedAt()
-		jpc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := jpc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := jobprogress.DefaultUpdatedAt()
-		jpc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (jpc *JobProgressCreate) check() error {
-	if _, ok := jpc.mutation.YibfNo(); !ok {
+func (_c *JobProgressCreate) check() error {
+	if _, ok := _c.mutation.YibfNo(); !ok {
 		return &ValidationError{Name: "yibfNo", err: errors.New(`ent: missing required field "JobProgress.yibfNo"`)}
 	}
-	if _, ok := jpc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobProgress.CreatedAt"`)}
 	}
-	if _, ok := jpc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobProgress.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (jpc *JobProgressCreate) sqlSave(ctx context.Context) (*JobProgress, error) {
-	if err := jpc.check(); err != nil {
+func (_c *JobProgressCreate) sqlSave(ctx context.Context) (*JobProgress, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := jpc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, jpc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -250,53 +250,53 @@ func (jpc *JobProgressCreate) sqlSave(ctx context.Context) (*JobProgress, error)
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	jpc.mutation.id = &_node.ID
-	jpc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (jpc *JobProgressCreate) createSpec() (*JobProgress, *sqlgraph.CreateSpec) {
+func (_c *JobProgressCreate) createSpec() (*JobProgress, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobProgress{config: jpc.config}
+		_node = &JobProgress{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobprogress.Table, sqlgraph.NewFieldSpec(jobprogress.FieldID, field.TypeInt))
 	)
-	if value, ok := jpc.mutation.YibfNo(); ok {
+	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobprogress.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
 	}
-	if value, ok := jpc.mutation.One(); ok {
+	if value, ok := _c.mutation.One(); ok {
 		_spec.SetField(jobprogress.FieldOne, field.TypeInt, value)
 		_node.One = value
 	}
-	if value, ok := jpc.mutation.Two(); ok {
+	if value, ok := _c.mutation.Two(); ok {
 		_spec.SetField(jobprogress.FieldTwo, field.TypeInt, value)
 		_node.Two = value
 	}
-	if value, ok := jpc.mutation.Three(); ok {
+	if value, ok := _c.mutation.Three(); ok {
 		_spec.SetField(jobprogress.FieldThree, field.TypeInt, value)
 		_node.Three = value
 	}
-	if value, ok := jpc.mutation.Four(); ok {
+	if value, ok := _c.mutation.Four(); ok {
 		_spec.SetField(jobprogress.FieldFour, field.TypeInt, value)
 		_node.Four = value
 	}
-	if value, ok := jpc.mutation.Five(); ok {
+	if value, ok := _c.mutation.Five(); ok {
 		_spec.SetField(jobprogress.FieldFive, field.TypeInt, value)
 		_node.Five = value
 	}
-	if value, ok := jpc.mutation.Six(); ok {
+	if value, ok := _c.mutation.Six(); ok {
 		_spec.SetField(jobprogress.FieldSix, field.TypeInt, value)
 		_node.Six = value
 	}
-	if value, ok := jpc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobprogress.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := jpc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobprogress.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := jpc.mutation.ProgressIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ProgressIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -323,16 +323,16 @@ type JobProgressCreateBulk struct {
 }
 
 // Save creates the JobProgress entities in the database.
-func (jpcb *JobProgressCreateBulk) Save(ctx context.Context) ([]*JobProgress, error) {
-	if jpcb.err != nil {
-		return nil, jpcb.err
+func (_c *JobProgressCreateBulk) Save(ctx context.Context) ([]*JobProgress, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jpcb.builders))
-	nodes := make([]*JobProgress, len(jpcb.builders))
-	mutators := make([]Mutator, len(jpcb.builders))
-	for i := range jpcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*JobProgress, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := jpcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*JobProgressMutation)
@@ -346,11 +346,11 @@ func (jpcb *JobProgressCreateBulk) Save(ctx context.Context) ([]*JobProgress, er
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jpcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jpcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -374,7 +374,7 @@ func (jpcb *JobProgressCreateBulk) Save(ctx context.Context) ([]*JobProgress, er
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jpcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -382,8 +382,8 @@ func (jpcb *JobProgressCreateBulk) Save(ctx context.Context) ([]*JobProgress, er
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jpcb *JobProgressCreateBulk) SaveX(ctx context.Context) []*JobProgress {
-	v, err := jpcb.Save(ctx)
+func (_c *JobProgressCreateBulk) SaveX(ctx context.Context) []*JobProgress {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -391,14 +391,14 @@ func (jpcb *JobProgressCreateBulk) SaveX(ctx context.Context) []*JobProgress {
 }
 
 // Exec executes the query.
-func (jpcb *JobProgressCreateBulk) Exec(ctx context.Context) error {
-	_, err := jpcb.Save(ctx)
+func (_c *JobProgressCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpcb *JobProgressCreateBulk) ExecX(ctx context.Context) {
-	if err := jpcb.Exec(ctx); err != nil {
+func (_c *JobProgressCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

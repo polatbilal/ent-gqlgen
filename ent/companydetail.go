@@ -155,7 +155,7 @@ func (*CompanyDetail) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the CompanyDetail fields.
-func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
+func (_m *CompanyDetail) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -166,165 +166,165 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			cd.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case companydetail.FieldCompanyCode:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field CompanyCode", values[i])
 			} else if value.Valid {
-				cd.CompanyCode = int(value.Int64)
+				_m.CompanyCode = int(value.Int64)
 			}
 		case companydetail.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				cd.Name = value.String
+				_m.Name = value.String
 			}
 		case companydetail.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				cd.Address = value.String
+				_m.Address = value.String
 			}
 		case companydetail.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Phone", values[i])
 			} else if value.Valid {
-				cd.Phone = value.String
+				_m.Phone = value.String
 			}
 		case companydetail.FieldFax:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Fax", values[i])
 			} else if value.Valid {
-				cd.Fax = value.String
+				_m.Fax = value.String
 			}
 		case companydetail.FieldMobilePhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field MobilePhone", values[i])
 			} else if value.Valid {
-				cd.MobilePhone = value.String
+				_m.MobilePhone = value.String
 			}
 		case companydetail.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Email", values[i])
 			} else if value.Valid {
-				cd.Email = value.String
+				_m.Email = value.String
 			}
 		case companydetail.FieldWebsite:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Website", values[i])
 			} else if value.Valid {
-				cd.Website = value.String
+				_m.Website = value.String
 			}
 		case companydetail.FieldTaxAdmin:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxAdmin", values[i])
 			} else if value.Valid {
-				cd.TaxAdmin = value.String
+				_m.TaxAdmin = value.String
 			}
 		case companydetail.FieldTaxNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
 			} else if value.Valid {
-				cd.TaxNo = value.String
+				_m.TaxNo = value.String
 			}
 		case companydetail.FieldChamberInfo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field ChamberInfo", values[i])
 			} else if value.Valid {
-				cd.ChamberInfo = value.String
+				_m.ChamberInfo = value.String
 			}
 		case companydetail.FieldChamberRegisterNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field ChamberRegisterNo", values[i])
 			} else if value.Valid {
-				cd.ChamberRegisterNo = value.String
+				_m.ChamberRegisterNo = value.String
 			}
 		case companydetail.FieldVisaDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field VisaDate", values[i])
 			} else if value.Valid {
-				cd.VisaDate = value.Time
+				_m.VisaDate = value.Time
 			}
 		case companydetail.FieldVisaEndDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field VisaEndDate", values[i])
 			} else if value.Valid {
-				cd.VisaEndDate = value.Time
+				_m.VisaEndDate = value.Time
 			}
 		case companydetail.FieldVisaFinishedFor90Days:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field VisaFinishedFor90Days", values[i])
 			} else if value.Valid {
-				cd.VisaFinishedFor90Days = value.Bool
+				_m.VisaFinishedFor90Days = value.Bool
 			}
 		case companydetail.FieldCorePersonAbsent90Days:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field CorePersonAbsent90Days", values[i])
 			} else if value.Valid {
-				cd.CorePersonAbsent90Days = value.Bool
+				_m.CorePersonAbsent90Days = value.Bool
 			}
 		case companydetail.FieldIsClosed:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field IsClosed", values[i])
 			} else if value.Valid {
-				cd.IsClosed = value.Bool
+				_m.IsClosed = value.Bool
 			}
 		case companydetail.FieldOwnerName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerName", values[i])
 			} else if value.Valid {
-				cd.OwnerName = value.String
+				_m.OwnerName = value.String
 			}
 		case companydetail.FieldOwnerTcNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerTcNo", values[i])
 			} else if value.Valid {
-				cd.OwnerTcNo = value.String
+				_m.OwnerTcNo = value.String
 			}
 		case companydetail.FieldOwnerAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerAddress", values[i])
 			} else if value.Valid {
-				cd.OwnerAddress = value.String
+				_m.OwnerAddress = value.String
 			}
 		case companydetail.FieldOwnerPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerPhone", values[i])
 			} else if value.Valid {
-				cd.OwnerPhone = value.String
+				_m.OwnerPhone = value.String
 			}
 		case companydetail.FieldOwnerEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerEmail", values[i])
 			} else if value.Valid {
-				cd.OwnerEmail = value.String
+				_m.OwnerEmail = value.String
 			}
 		case companydetail.FieldOwnerRegisterNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerRegisterNo", values[i])
 			} else if value.Valid {
-				cd.OwnerRegisterNo = value.String
+				_m.OwnerRegisterNo = value.String
 			}
 		case companydetail.FieldOwnerCareer:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field OwnerCareer", values[i])
 			} else if value.Valid {
-				cd.OwnerCareer = value.String
+				_m.OwnerCareer = value.String
 			}
 		case companydetail.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				cd.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case companydetail.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				cd.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		default:
-			cd.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -332,227 +332,227 @@ func (cd *CompanyDetail) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the CompanyDetail.
 // This includes values selected through modifiers, order, etc.
-func (cd *CompanyDetail) Value(name string) (ent.Value, error) {
-	return cd.selectValues.Get(name)
+func (_m *CompanyDetail) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryJobs queries the "jobs" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryJobs() *JobRelationsQuery {
-	return NewCompanyDetailClient(cd.config).QueryJobs(cd)
+func (_m *CompanyDetail) QueryJobs() *JobRelationsQuery {
+	return NewCompanyDetailClient(_m.config).QueryJobs(_m)
 }
 
 // QueryUsers queries the "users" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryUsers() *CompanyUserQuery {
-	return NewCompanyDetailClient(cd.config).QueryUsers(cd)
+func (_m *CompanyDetail) QueryUsers() *CompanyUserQuery {
+	return NewCompanyDetailClient(_m.config).QueryUsers(_m)
 }
 
 // QueryTokens queries the "tokens" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryTokens() *CompanyTokenQuery {
-	return NewCompanyDetailClient(cd.config).QueryTokens(cd)
+func (_m *CompanyDetail) QueryTokens() *CompanyTokenQuery {
+	return NewCompanyDetailClient(_m.config).QueryTokens(_m)
 }
 
 // QueryEngineers queries the "engineers" edge of the CompanyDetail entity.
-func (cd *CompanyDetail) QueryEngineers() *CompanyEngineerQuery {
-	return NewCompanyDetailClient(cd.config).QueryEngineers(cd)
+func (_m *CompanyDetail) QueryEngineers() *CompanyEngineerQuery {
+	return NewCompanyDetailClient(_m.config).QueryEngineers(_m)
 }
 
 // Update returns a builder for updating this CompanyDetail.
 // Note that you need to call CompanyDetail.Unwrap() before calling this method if this CompanyDetail
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (cd *CompanyDetail) Update() *CompanyDetailUpdateOne {
-	return NewCompanyDetailClient(cd.config).UpdateOne(cd)
+func (_m *CompanyDetail) Update() *CompanyDetailUpdateOne {
+	return NewCompanyDetailClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the CompanyDetail entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (cd *CompanyDetail) Unwrap() *CompanyDetail {
-	_tx, ok := cd.config.driver.(*txDriver)
+func (_m *CompanyDetail) Unwrap() *CompanyDetail {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: CompanyDetail is not a transactional entity")
 	}
-	cd.config.driver = _tx.drv
-	return cd
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (cd *CompanyDetail) String() string {
+func (_m *CompanyDetail) String() string {
 	var builder strings.Builder
 	builder.WriteString("CompanyDetail(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", cd.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("CompanyCode=")
-	builder.WriteString(fmt.Sprintf("%v", cd.CompanyCode))
+	builder.WriteString(fmt.Sprintf("%v", _m.CompanyCode))
 	builder.WriteString(", ")
 	builder.WriteString("Name=")
-	builder.WriteString(cd.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("Address=")
-	builder.WriteString(cd.Address)
+	builder.WriteString(_m.Address)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
-	builder.WriteString(cd.Phone)
+	builder.WriteString(_m.Phone)
 	builder.WriteString(", ")
 	builder.WriteString("Fax=")
-	builder.WriteString(cd.Fax)
+	builder.WriteString(_m.Fax)
 	builder.WriteString(", ")
 	builder.WriteString("MobilePhone=")
-	builder.WriteString(cd.MobilePhone)
+	builder.WriteString(_m.MobilePhone)
 	builder.WriteString(", ")
 	builder.WriteString("Email=")
-	builder.WriteString(cd.Email)
+	builder.WriteString(_m.Email)
 	builder.WriteString(", ")
 	builder.WriteString("Website=")
-	builder.WriteString(cd.Website)
+	builder.WriteString(_m.Website)
 	builder.WriteString(", ")
 	builder.WriteString("TaxAdmin=")
-	builder.WriteString(cd.TaxAdmin)
+	builder.WriteString(_m.TaxAdmin)
 	builder.WriteString(", ")
 	builder.WriteString("TaxNo=")
-	builder.WriteString(cd.TaxNo)
+	builder.WriteString(_m.TaxNo)
 	builder.WriteString(", ")
 	builder.WriteString("ChamberInfo=")
-	builder.WriteString(cd.ChamberInfo)
+	builder.WriteString(_m.ChamberInfo)
 	builder.WriteString(", ")
 	builder.WriteString("ChamberRegisterNo=")
-	builder.WriteString(cd.ChamberRegisterNo)
+	builder.WriteString(_m.ChamberRegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("VisaDate=")
-	builder.WriteString(cd.VisaDate.Format(time.ANSIC))
+	builder.WriteString(_m.VisaDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("VisaEndDate=")
-	builder.WriteString(cd.VisaEndDate.Format(time.ANSIC))
+	builder.WriteString(_m.VisaEndDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("VisaFinishedFor90Days=")
-	builder.WriteString(fmt.Sprintf("%v", cd.VisaFinishedFor90Days))
+	builder.WriteString(fmt.Sprintf("%v", _m.VisaFinishedFor90Days))
 	builder.WriteString(", ")
 	builder.WriteString("CorePersonAbsent90Days=")
-	builder.WriteString(fmt.Sprintf("%v", cd.CorePersonAbsent90Days))
+	builder.WriteString(fmt.Sprintf("%v", _m.CorePersonAbsent90Days))
 	builder.WriteString(", ")
 	builder.WriteString("IsClosed=")
-	builder.WriteString(fmt.Sprintf("%v", cd.IsClosed))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsClosed))
 	builder.WriteString(", ")
 	builder.WriteString("OwnerName=")
-	builder.WriteString(cd.OwnerName)
+	builder.WriteString(_m.OwnerName)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerTcNo=")
-	builder.WriteString(cd.OwnerTcNo)
+	builder.WriteString(_m.OwnerTcNo)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerAddress=")
-	builder.WriteString(cd.OwnerAddress)
+	builder.WriteString(_m.OwnerAddress)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerPhone=")
-	builder.WriteString(cd.OwnerPhone)
+	builder.WriteString(_m.OwnerPhone)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerEmail=")
-	builder.WriteString(cd.OwnerEmail)
+	builder.WriteString(_m.OwnerEmail)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerRegisterNo=")
-	builder.WriteString(cd.OwnerRegisterNo)
+	builder.WriteString(_m.OwnerRegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("OwnerCareer=")
-	builder.WriteString(cd.OwnerCareer)
+	builder.WriteString(_m.OwnerCareer)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(cd.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(cd.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedJobs returns the Jobs named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (cd *CompanyDetail) NamedJobs(name string) ([]*JobRelations, error) {
-	if cd.Edges.namedJobs == nil {
+func (_m *CompanyDetail) NamedJobs(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedJobs == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := cd.Edges.namedJobs[name]
+	nodes, ok := _m.Edges.namedJobs[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (cd *CompanyDetail) appendNamedJobs(name string, edges ...*JobRelations) {
-	if cd.Edges.namedJobs == nil {
-		cd.Edges.namedJobs = make(map[string][]*JobRelations)
+func (_m *CompanyDetail) appendNamedJobs(name string, edges ...*JobRelations) {
+	if _m.Edges.namedJobs == nil {
+		_m.Edges.namedJobs = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		cd.Edges.namedJobs[name] = []*JobRelations{}
+		_m.Edges.namedJobs[name] = []*JobRelations{}
 	} else {
-		cd.Edges.namedJobs[name] = append(cd.Edges.namedJobs[name], edges...)
+		_m.Edges.namedJobs[name] = append(_m.Edges.namedJobs[name], edges...)
 	}
 }
 
 // NamedUsers returns the Users named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (cd *CompanyDetail) NamedUsers(name string) ([]*CompanyUser, error) {
-	if cd.Edges.namedUsers == nil {
+func (_m *CompanyDetail) NamedUsers(name string) ([]*CompanyUser, error) {
+	if _m.Edges.namedUsers == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := cd.Edges.namedUsers[name]
+	nodes, ok := _m.Edges.namedUsers[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (cd *CompanyDetail) appendNamedUsers(name string, edges ...*CompanyUser) {
-	if cd.Edges.namedUsers == nil {
-		cd.Edges.namedUsers = make(map[string][]*CompanyUser)
+func (_m *CompanyDetail) appendNamedUsers(name string, edges ...*CompanyUser) {
+	if _m.Edges.namedUsers == nil {
+		_m.Edges.namedUsers = make(map[string][]*CompanyUser)
 	}
 	if len(edges) == 0 {
-		cd.Edges.namedUsers[name] = []*CompanyUser{}
+		_m.Edges.namedUsers[name] = []*CompanyUser{}
 	} else {
-		cd.Edges.namedUsers[name] = append(cd.Edges.namedUsers[name], edges...)
+		_m.Edges.namedUsers[name] = append(_m.Edges.namedUsers[name], edges...)
 	}
 }
 
 // NamedTokens returns the Tokens named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (cd *CompanyDetail) NamedTokens(name string) ([]*CompanyToken, error) {
-	if cd.Edges.namedTokens == nil {
+func (_m *CompanyDetail) NamedTokens(name string) ([]*CompanyToken, error) {
+	if _m.Edges.namedTokens == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := cd.Edges.namedTokens[name]
+	nodes, ok := _m.Edges.namedTokens[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (cd *CompanyDetail) appendNamedTokens(name string, edges ...*CompanyToken) {
-	if cd.Edges.namedTokens == nil {
-		cd.Edges.namedTokens = make(map[string][]*CompanyToken)
+func (_m *CompanyDetail) appendNamedTokens(name string, edges ...*CompanyToken) {
+	if _m.Edges.namedTokens == nil {
+		_m.Edges.namedTokens = make(map[string][]*CompanyToken)
 	}
 	if len(edges) == 0 {
-		cd.Edges.namedTokens[name] = []*CompanyToken{}
+		_m.Edges.namedTokens[name] = []*CompanyToken{}
 	} else {
-		cd.Edges.namedTokens[name] = append(cd.Edges.namedTokens[name], edges...)
+		_m.Edges.namedTokens[name] = append(_m.Edges.namedTokens[name], edges...)
 	}
 }
 
 // NamedEngineers returns the Engineers named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (cd *CompanyDetail) NamedEngineers(name string) ([]*CompanyEngineer, error) {
-	if cd.Edges.namedEngineers == nil {
+func (_m *CompanyDetail) NamedEngineers(name string) ([]*CompanyEngineer, error) {
+	if _m.Edges.namedEngineers == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := cd.Edges.namedEngineers[name]
+	nodes, ok := _m.Edges.namedEngineers[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (cd *CompanyDetail) appendNamedEngineers(name string, edges ...*CompanyEngineer) {
-	if cd.Edges.namedEngineers == nil {
-		cd.Edges.namedEngineers = make(map[string][]*CompanyEngineer)
+func (_m *CompanyDetail) appendNamedEngineers(name string, edges ...*CompanyEngineer) {
+	if _m.Edges.namedEngineers == nil {
+		_m.Edges.namedEngineers = make(map[string][]*CompanyEngineer)
 	}
 	if len(edges) == 0 {
-		cd.Edges.namedEngineers[name] = []*CompanyEngineer{}
+		_m.Edges.namedEngineers[name] = []*CompanyEngineer{}
 	} else {
-		cd.Edges.namedEngineers[name] = append(cd.Edges.namedEngineers[name], edges...)
+		_m.Edges.namedEngineers[name] = append(_m.Edges.namedEngineers[name], edges...)
 	}
 }
 

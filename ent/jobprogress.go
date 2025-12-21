@@ -81,7 +81,7 @@ func (*JobProgress) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobProgress fields.
-func (jp *JobProgress) assignValues(columns []string, values []any) error {
+func (_m *JobProgress) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -92,63 +92,63 @@ func (jp *JobProgress) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jp.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobprogress.FieldYibfNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
 			} else if value.Valid {
-				jp.YibfNo = int(value.Int64)
+				_m.YibfNo = int(value.Int64)
 			}
 		case jobprogress.FieldOne:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field One", values[i])
 			} else if value.Valid {
-				jp.One = int(value.Int64)
+				_m.One = int(value.Int64)
 			}
 		case jobprogress.FieldTwo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field Two", values[i])
 			} else if value.Valid {
-				jp.Two = int(value.Int64)
+				_m.Two = int(value.Int64)
 			}
 		case jobprogress.FieldThree:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field Three", values[i])
 			} else if value.Valid {
-				jp.Three = int(value.Int64)
+				_m.Three = int(value.Int64)
 			}
 		case jobprogress.FieldFour:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field Four", values[i])
 			} else if value.Valid {
-				jp.Four = int(value.Int64)
+				_m.Four = int(value.Int64)
 			}
 		case jobprogress.FieldFive:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field Five", values[i])
 			} else if value.Valid {
-				jp.Five = int(value.Int64)
+				_m.Five = int(value.Int64)
 			}
 		case jobprogress.FieldSix:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field Six", values[i])
 			} else if value.Valid {
-				jp.Six = int(value.Int64)
+				_m.Six = int(value.Int64)
 			}
 		case jobprogress.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jp.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobprogress.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jp.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		default:
-			jp.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -156,89 +156,89 @@ func (jp *JobProgress) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobProgress.
 // This includes values selected through modifiers, order, etc.
-func (jp *JobProgress) Value(name string) (ent.Value, error) {
-	return jp.selectValues.Get(name)
+func (_m *JobProgress) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryProgress queries the "progress" edge of the JobProgress entity.
-func (jp *JobProgress) QueryProgress() *JobRelationsQuery {
-	return NewJobProgressClient(jp.config).QueryProgress(jp)
+func (_m *JobProgress) QueryProgress() *JobRelationsQuery {
+	return NewJobProgressClient(_m.config).QueryProgress(_m)
 }
 
 // Update returns a builder for updating this JobProgress.
 // Note that you need to call JobProgress.Unwrap() before calling this method if this JobProgress
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jp *JobProgress) Update() *JobProgressUpdateOne {
-	return NewJobProgressClient(jp.config).UpdateOne(jp)
+func (_m *JobProgress) Update() *JobProgressUpdateOne {
+	return NewJobProgressClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobProgress entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jp *JobProgress) Unwrap() *JobProgress {
-	_tx, ok := jp.config.driver.(*txDriver)
+func (_m *JobProgress) Unwrap() *JobProgress {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobProgress is not a transactional entity")
 	}
-	jp.config.driver = _tx.drv
-	return jp
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (jp *JobProgress) String() string {
+func (_m *JobProgress) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobProgress(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jp.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("yibfNo=")
-	builder.WriteString(fmt.Sprintf("%v", jp.YibfNo))
+	builder.WriteString(fmt.Sprintf("%v", _m.YibfNo))
 	builder.WriteString(", ")
 	builder.WriteString("One=")
-	builder.WriteString(fmt.Sprintf("%v", jp.One))
+	builder.WriteString(fmt.Sprintf("%v", _m.One))
 	builder.WriteString(", ")
 	builder.WriteString("Two=")
-	builder.WriteString(fmt.Sprintf("%v", jp.Two))
+	builder.WriteString(fmt.Sprintf("%v", _m.Two))
 	builder.WriteString(", ")
 	builder.WriteString("Three=")
-	builder.WriteString(fmt.Sprintf("%v", jp.Three))
+	builder.WriteString(fmt.Sprintf("%v", _m.Three))
 	builder.WriteString(", ")
 	builder.WriteString("Four=")
-	builder.WriteString(fmt.Sprintf("%v", jp.Four))
+	builder.WriteString(fmt.Sprintf("%v", _m.Four))
 	builder.WriteString(", ")
 	builder.WriteString("Five=")
-	builder.WriteString(fmt.Sprintf("%v", jp.Five))
+	builder.WriteString(fmt.Sprintf("%v", _m.Five))
 	builder.WriteString(", ")
 	builder.WriteString("Six=")
-	builder.WriteString(fmt.Sprintf("%v", jp.Six))
+	builder.WriteString(fmt.Sprintf("%v", _m.Six))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jp.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jp.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedProgress returns the Progress named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jp *JobProgress) NamedProgress(name string) ([]*JobRelations, error) {
-	if jp.Edges.namedProgress == nil {
+func (_m *JobProgress) NamedProgress(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedProgress == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := jp.Edges.namedProgress[name]
+	nodes, ok := _m.Edges.namedProgress[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (jp *JobProgress) appendNamedProgress(name string, edges ...*JobRelations) {
-	if jp.Edges.namedProgress == nil {
-		jp.Edges.namedProgress = make(map[string][]*JobRelations)
+func (_m *JobProgress) appendNamedProgress(name string, edges ...*JobRelations) {
+	if _m.Edges.namedProgress == nil {
+		_m.Edges.namedProgress = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		jp.Edges.namedProgress[name] = []*JobRelations{}
+		_m.Edges.namedProgress[name] = []*JobRelations{}
 	} else {
-		jp.Edges.namedProgress[name] = append(jp.Edges.namedProgress[name], edges...)
+		_m.Edges.namedProgress[name] = append(_m.Edges.namedProgress[name], edges...)
 	}
 }
 

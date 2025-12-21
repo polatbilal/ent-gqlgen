@@ -201,23 +201,23 @@ func init() {
 	// jobpayments.DefaultPaymentDate holds the default value on creation for the PaymentDate field.
 	jobpayments.DefaultPaymentDate = jobpaymentsDescPaymentDate.Default.(func() time.Time)
 	// jobpaymentsDescAtMunicipality is the schema descriptor for AtMunicipality field.
-	jobpaymentsDescAtMunicipality := jobpaymentsFields[9].Descriptor()
+	jobpaymentsDescAtMunicipality := jobpaymentsFields[8].Descriptor()
 	// jobpayments.DefaultAtMunicipality holds the default value on creation for the AtMunicipality field.
 	jobpayments.DefaultAtMunicipality = jobpaymentsDescAtMunicipality.Default.(bool)
 	// jobpaymentsDescInvoiceIssued is the schema descriptor for InvoiceIssued field.
-	jobpaymentsDescInvoiceIssued := jobpaymentsFields[11].Descriptor()
+	jobpaymentsDescInvoiceIssued := jobpaymentsFields[10].Descriptor()
 	// jobpayments.DefaultInvoiceIssued holds the default value on creation for the InvoiceIssued field.
 	jobpayments.DefaultInvoiceIssued = jobpaymentsDescInvoiceIssued.Default.(bool)
 	// jobpaymentsDescInvoiceReceived is the schema descriptor for InvoiceReceived field.
-	jobpaymentsDescInvoiceReceived := jobpaymentsFields[13].Descriptor()
+	jobpaymentsDescInvoiceReceived := jobpaymentsFields[12].Descriptor()
 	// jobpayments.DefaultInvoiceReceived holds the default value on creation for the InvoiceReceived field.
 	jobpayments.DefaultInvoiceReceived = jobpaymentsDescInvoiceReceived.Default.(bool)
 	// jobpaymentsDescCreatedAt is the schema descriptor for CreatedAt field.
-	jobpaymentsDescCreatedAt := jobpaymentsFields[15].Descriptor()
+	jobpaymentsDescCreatedAt := jobpaymentsFields[14].Descriptor()
 	// jobpayments.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobpayments.DefaultCreatedAt = jobpaymentsDescCreatedAt.Default.(func() time.Time)
 	// jobpaymentsDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	jobpaymentsDescUpdatedAt := jobpaymentsFields[16].Descriptor()
+	jobpaymentsDescUpdatedAt := jobpaymentsFields[15].Descriptor()
 	// jobpayments.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobpayments.DefaultUpdatedAt = jobpaymentsDescUpdatedAt.Default.(func() time.Time)
 	// jobpayments.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.
@@ -308,6 +308,10 @@ func init() {
 	jobsupervisor.UpdateDefaultUpdatedAt = jobsupervisorDescUpdatedAt.UpdateDefault.(func() time.Time)
 	userFields := schema.User{}.Fields()
 	_ = userFields
+	// userDescUsername is the schema descriptor for Username field.
+	userDescUsername := userFields[0].Descriptor()
+	// user.UsernameValidator is a validator for the "Username" field. It is called by the builders before save.
+	user.UsernameValidator = userDescUsername.Validators[0].(func(string) error)
 	// userDescName is the schema descriptor for Name field.
 	userDescName := userFields[1].Descriptor()
 	// user.DefaultName holds the default value on creation for the Name field.

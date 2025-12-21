@@ -20,56 +20,56 @@ type JobOwnerDelete struct {
 }
 
 // Where appends a list predicates to the JobOwnerDelete builder.
-func (jod *JobOwnerDelete) Where(ps ...predicate.JobOwner) *JobOwnerDelete {
-	jod.mutation.Where(ps...)
-	return jod
+func (_d *JobOwnerDelete) Where(ps ...predicate.JobOwner) *JobOwnerDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (jod *JobOwnerDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, jod.sqlExec, jod.mutation, jod.hooks)
+func (_d *JobOwnerDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jod *JobOwnerDelete) ExecX(ctx context.Context) int {
-	n, err := jod.Exec(ctx)
+func (_d *JobOwnerDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (jod *JobOwnerDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *JobOwnerDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(jobowner.Table, sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt))
-	if ps := jod.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, jod.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	jod.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // JobOwnerDeleteOne is the builder for deleting a single JobOwner entity.
 type JobOwnerDeleteOne struct {
-	jod *JobOwnerDelete
+	_d *JobOwnerDelete
 }
 
 // Where appends a list predicates to the JobOwnerDelete builder.
-func (jodo *JobOwnerDeleteOne) Where(ps ...predicate.JobOwner) *JobOwnerDeleteOne {
-	jodo.jod.mutation.Where(ps...)
-	return jodo
+func (_d *JobOwnerDeleteOne) Where(ps ...predicate.JobOwner) *JobOwnerDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (jodo *JobOwnerDeleteOne) Exec(ctx context.Context) error {
-	n, err := jodo.jod.Exec(ctx)
+func (_d *JobOwnerDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (jodo *JobOwnerDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jodo *JobOwnerDeleteOne) ExecX(ctx context.Context) {
-	if err := jodo.Exec(ctx); err != nil {
+func (_d *JobOwnerDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

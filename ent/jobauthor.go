@@ -85,7 +85,7 @@ func (*JobAuthor) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobAuthor fields.
-func (ja *JobAuthor) assignValues(columns []string, values []any) error {
+func (_m *JobAuthor) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -96,69 +96,69 @@ func (ja *JobAuthor) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			ja.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobauthor.FieldYibfNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
 			} else if value.Valid {
-				ja.YibfNo = int(value.Int64)
+				_m.YibfNo = int(value.Int64)
 			}
 		case jobauthor.FieldStatic:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Static", values[i])
 			} else if value.Valid {
-				ja.Static = value.String
+				_m.Static = value.String
 			}
 		case jobauthor.FieldMechanic:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Mechanic", values[i])
 			} else if value.Valid {
-				ja.Mechanic = value.String
+				_m.Mechanic = value.String
 			}
 		case jobauthor.FieldElectric:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Electric", values[i])
 			} else if value.Valid {
-				ja.Electric = value.String
+				_m.Electric = value.String
 			}
 		case jobauthor.FieldArchitect:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Architect", values[i])
 			} else if value.Valid {
-				ja.Architect = value.String
+				_m.Architect = value.String
 			}
 		case jobauthor.FieldGeotechnicalEngineer:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field GeotechnicalEngineer", values[i])
 			} else if value.Valid {
-				ja.GeotechnicalEngineer = value.String
+				_m.GeotechnicalEngineer = value.String
 			}
 		case jobauthor.FieldGeotechnicalGeologist:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field GeotechnicalGeologist", values[i])
 			} else if value.Valid {
-				ja.GeotechnicalGeologist = value.String
+				_m.GeotechnicalGeologist = value.String
 			}
 		case jobauthor.FieldGeotechnicalGeophysicist:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field GeotechnicalGeophysicist", values[i])
 			} else if value.Valid {
-				ja.GeotechnicalGeophysicist = value.String
+				_m.GeotechnicalGeophysicist = value.String
 			}
 		case jobauthor.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				ja.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobauthor.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				ja.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		default:
-			ja.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -166,92 +166,92 @@ func (ja *JobAuthor) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobAuthor.
 // This includes values selected through modifiers, order, etc.
-func (ja *JobAuthor) Value(name string) (ent.Value, error) {
-	return ja.selectValues.Get(name)
+func (_m *JobAuthor) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryAuthors queries the "authors" edge of the JobAuthor entity.
-func (ja *JobAuthor) QueryAuthors() *JobRelationsQuery {
-	return NewJobAuthorClient(ja.config).QueryAuthors(ja)
+func (_m *JobAuthor) QueryAuthors() *JobRelationsQuery {
+	return NewJobAuthorClient(_m.config).QueryAuthors(_m)
 }
 
 // Update returns a builder for updating this JobAuthor.
 // Note that you need to call JobAuthor.Unwrap() before calling this method if this JobAuthor
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ja *JobAuthor) Update() *JobAuthorUpdateOne {
-	return NewJobAuthorClient(ja.config).UpdateOne(ja)
+func (_m *JobAuthor) Update() *JobAuthorUpdateOne {
+	return NewJobAuthorClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobAuthor entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ja *JobAuthor) Unwrap() *JobAuthor {
-	_tx, ok := ja.config.driver.(*txDriver)
+func (_m *JobAuthor) Unwrap() *JobAuthor {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobAuthor is not a transactional entity")
 	}
-	ja.config.driver = _tx.drv
-	return ja
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ja *JobAuthor) String() string {
+func (_m *JobAuthor) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobAuthor(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ja.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("yibfNo=")
-	builder.WriteString(fmt.Sprintf("%v", ja.YibfNo))
+	builder.WriteString(fmt.Sprintf("%v", _m.YibfNo))
 	builder.WriteString(", ")
 	builder.WriteString("Static=")
-	builder.WriteString(ja.Static)
+	builder.WriteString(_m.Static)
 	builder.WriteString(", ")
 	builder.WriteString("Mechanic=")
-	builder.WriteString(ja.Mechanic)
+	builder.WriteString(_m.Mechanic)
 	builder.WriteString(", ")
 	builder.WriteString("Electric=")
-	builder.WriteString(ja.Electric)
+	builder.WriteString(_m.Electric)
 	builder.WriteString(", ")
 	builder.WriteString("Architect=")
-	builder.WriteString(ja.Architect)
+	builder.WriteString(_m.Architect)
 	builder.WriteString(", ")
 	builder.WriteString("GeotechnicalEngineer=")
-	builder.WriteString(ja.GeotechnicalEngineer)
+	builder.WriteString(_m.GeotechnicalEngineer)
 	builder.WriteString(", ")
 	builder.WriteString("GeotechnicalGeologist=")
-	builder.WriteString(ja.GeotechnicalGeologist)
+	builder.WriteString(_m.GeotechnicalGeologist)
 	builder.WriteString(", ")
 	builder.WriteString("GeotechnicalGeophysicist=")
-	builder.WriteString(ja.GeotechnicalGeophysicist)
+	builder.WriteString(_m.GeotechnicalGeophysicist)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(ja.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(ja.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedAuthors returns the Authors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ja *JobAuthor) NamedAuthors(name string) ([]*JobRelations, error) {
-	if ja.Edges.namedAuthors == nil {
+func (_m *JobAuthor) NamedAuthors(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedAuthors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ja.Edges.namedAuthors[name]
+	nodes, ok := _m.Edges.namedAuthors[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ja *JobAuthor) appendNamedAuthors(name string, edges ...*JobRelations) {
-	if ja.Edges.namedAuthors == nil {
-		ja.Edges.namedAuthors = make(map[string][]*JobRelations)
+func (_m *JobAuthor) appendNamedAuthors(name string, edges ...*JobRelations) {
+	if _m.Edges.namedAuthors == nil {
+		_m.Edges.namedAuthors = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ja.Edges.namedAuthors[name] = []*JobRelations{}
+		_m.Edges.namedAuthors[name] = []*JobRelations{}
 	} else {
-		ja.Edges.namedAuthors[name] = append(ja.Edges.namedAuthors[name], edges...)
+		_m.Edges.namedAuthors[name] = append(_m.Edges.namedAuthors[name], edges...)
 	}
 }
 

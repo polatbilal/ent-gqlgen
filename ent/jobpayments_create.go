@@ -22,276 +22,262 @@ type JobPaymentsCreate struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jpc *JobPaymentsCreate) SetYibfNo(i int) *JobPaymentsCreate {
-	jpc.mutation.SetYibfNo(i)
-	return jpc
+func (_c *JobPaymentsCreate) SetYibfNo(v int) *JobPaymentsCreate {
+	_c.mutation.SetYibfNo(v)
+	return _c
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableYibfNo(i *int) *JobPaymentsCreate {
-	if i != nil {
-		jpc.SetYibfNo(*i)
+func (_c *JobPaymentsCreate) SetNillableYibfNo(v *int) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetYibfNo(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetPaymentNo sets the "PaymentNo" field.
-func (jpc *JobPaymentsCreate) SetPaymentNo(i int) *JobPaymentsCreate {
-	jpc.mutation.SetPaymentNo(i)
-	return jpc
+func (_c *JobPaymentsCreate) SetPaymentNo(v int) *JobPaymentsCreate {
+	_c.mutation.SetPaymentNo(v)
+	return _c
 }
 
 // SetNillablePaymentNo sets the "PaymentNo" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillablePaymentNo(i *int) *JobPaymentsCreate {
-	if i != nil {
-		jpc.SetPaymentNo(*i)
+func (_c *JobPaymentsCreate) SetNillablePaymentNo(v *int) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetPaymentNo(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetPaymentDate sets the "PaymentDate" field.
-func (jpc *JobPaymentsCreate) SetPaymentDate(t time.Time) *JobPaymentsCreate {
-	jpc.mutation.SetPaymentDate(t)
-	return jpc
+func (_c *JobPaymentsCreate) SetPaymentDate(v time.Time) *JobPaymentsCreate {
+	_c.mutation.SetPaymentDate(v)
+	return _c
 }
 
 // SetNillablePaymentDate sets the "PaymentDate" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillablePaymentDate(t *time.Time) *JobPaymentsCreate {
-	if t != nil {
-		jpc.SetPaymentDate(*t)
+func (_c *JobPaymentsCreate) SetNillablePaymentDate(v *time.Time) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetPaymentDate(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetPaymentType sets the "PaymentType" field.
-func (jpc *JobPaymentsCreate) SetPaymentType(s string) *JobPaymentsCreate {
-	jpc.mutation.SetPaymentType(s)
-	return jpc
+func (_c *JobPaymentsCreate) SetPaymentType(v string) *JobPaymentsCreate {
+	_c.mutation.SetPaymentType(v)
+	return _c
 }
 
 // SetNillablePaymentType sets the "PaymentType" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillablePaymentType(s *string) *JobPaymentsCreate {
-	if s != nil {
-		jpc.SetPaymentType(*s)
+func (_c *JobPaymentsCreate) SetNillablePaymentType(v *string) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetPaymentType(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetState sets the "State" field.
-func (jpc *JobPaymentsCreate) SetState(s string) *JobPaymentsCreate {
-	jpc.mutation.SetState(s)
-	return jpc
+func (_c *JobPaymentsCreate) SetState(v string) *JobPaymentsCreate {
+	_c.mutation.SetState(v)
+	return _c
 }
 
 // SetNillableState sets the "State" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableState(s *string) *JobPaymentsCreate {
-	if s != nil {
-		jpc.SetState(*s)
+func (_c *JobPaymentsCreate) SetNillableState(v *string) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetState(*v)
 	}
-	return jpc
-}
-
-// SetTotalPayment sets the "TotalPayment" field.
-func (jpc *JobPaymentsCreate) SetTotalPayment(f float64) *JobPaymentsCreate {
-	jpc.mutation.SetTotalPayment(f)
-	return jpc
-}
-
-// SetNillableTotalPayment sets the "TotalPayment" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableTotalPayment(f *float64) *JobPaymentsCreate {
-	if f != nil {
-		jpc.SetTotalPayment(*f)
-	}
-	return jpc
+	return _c
 }
 
 // SetLevelRequest sets the "LevelRequest" field.
-func (jpc *JobPaymentsCreate) SetLevelRequest(f float64) *JobPaymentsCreate {
-	jpc.mutation.SetLevelRequest(f)
-	return jpc
+func (_c *JobPaymentsCreate) SetLevelRequest(v float64) *JobPaymentsCreate {
+	_c.mutation.SetLevelRequest(v)
+	return _c
 }
 
 // SetNillableLevelRequest sets the "LevelRequest" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableLevelRequest(f *float64) *JobPaymentsCreate {
-	if f != nil {
-		jpc.SetLevelRequest(*f)
+func (_c *JobPaymentsCreate) SetNillableLevelRequest(v *float64) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetLevelRequest(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetLevelApprove sets the "LevelApprove" field.
-func (jpc *JobPaymentsCreate) SetLevelApprove(f float64) *JobPaymentsCreate {
-	jpc.mutation.SetLevelApprove(f)
-	return jpc
+func (_c *JobPaymentsCreate) SetLevelApprove(v float64) *JobPaymentsCreate {
+	_c.mutation.SetLevelApprove(v)
+	return _c
 }
 
 // SetNillableLevelApprove sets the "LevelApprove" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableLevelApprove(f *float64) *JobPaymentsCreate {
-	if f != nil {
-		jpc.SetLevelApprove(*f)
+func (_c *JobPaymentsCreate) SetNillableLevelApprove(v *float64) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetLevelApprove(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetAmount sets the "Amount" field.
-func (jpc *JobPaymentsCreate) SetAmount(f float64) *JobPaymentsCreate {
-	jpc.mutation.SetAmount(f)
-	return jpc
+func (_c *JobPaymentsCreate) SetAmount(v float64) *JobPaymentsCreate {
+	_c.mutation.SetAmount(v)
+	return _c
 }
 
 // SetNillableAmount sets the "Amount" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableAmount(f *float64) *JobPaymentsCreate {
-	if f != nil {
-		jpc.SetAmount(*f)
+func (_c *JobPaymentsCreate) SetNillableAmount(v *float64) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetAmount(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetAtMunicipality sets the "AtMunicipality" field.
-func (jpc *JobPaymentsCreate) SetAtMunicipality(b bool) *JobPaymentsCreate {
-	jpc.mutation.SetAtMunicipality(b)
-	return jpc
+func (_c *JobPaymentsCreate) SetAtMunicipality(v bool) *JobPaymentsCreate {
+	_c.mutation.SetAtMunicipality(v)
+	return _c
 }
 
 // SetNillableAtMunicipality sets the "AtMunicipality" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableAtMunicipality(b *bool) *JobPaymentsCreate {
-	if b != nil {
-		jpc.SetAtMunicipality(*b)
+func (_c *JobPaymentsCreate) SetNillableAtMunicipality(v *bool) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetAtMunicipality(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field.
-func (jpc *JobPaymentsCreate) SetMunicipalityDeliveryDate(t time.Time) *JobPaymentsCreate {
-	jpc.mutation.SetMunicipalityDeliveryDate(t)
-	return jpc
+func (_c *JobPaymentsCreate) SetMunicipalityDeliveryDate(v time.Time) *JobPaymentsCreate {
+	_c.mutation.SetMunicipalityDeliveryDate(v)
+	return _c
 }
 
 // SetNillableMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableMunicipalityDeliveryDate(t *time.Time) *JobPaymentsCreate {
-	if t != nil {
-		jpc.SetMunicipalityDeliveryDate(*t)
+func (_c *JobPaymentsCreate) SetNillableMunicipalityDeliveryDate(v *time.Time) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetMunicipalityDeliveryDate(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetInvoiceIssued sets the "InvoiceIssued" field.
-func (jpc *JobPaymentsCreate) SetInvoiceIssued(b bool) *JobPaymentsCreate {
-	jpc.mutation.SetInvoiceIssued(b)
-	return jpc
+func (_c *JobPaymentsCreate) SetInvoiceIssued(v bool) *JobPaymentsCreate {
+	_c.mutation.SetInvoiceIssued(v)
+	return _c
 }
 
 // SetNillableInvoiceIssued sets the "InvoiceIssued" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableInvoiceIssued(b *bool) *JobPaymentsCreate {
-	if b != nil {
-		jpc.SetInvoiceIssued(*b)
+func (_c *JobPaymentsCreate) SetNillableInvoiceIssued(v *bool) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetInvoiceIssued(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetInvoiceIssuedDate sets the "InvoiceIssuedDate" field.
-func (jpc *JobPaymentsCreate) SetInvoiceIssuedDate(t time.Time) *JobPaymentsCreate {
-	jpc.mutation.SetInvoiceIssuedDate(t)
-	return jpc
+func (_c *JobPaymentsCreate) SetInvoiceIssuedDate(v time.Time) *JobPaymentsCreate {
+	_c.mutation.SetInvoiceIssuedDate(v)
+	return _c
 }
 
 // SetNillableInvoiceIssuedDate sets the "InvoiceIssuedDate" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableInvoiceIssuedDate(t *time.Time) *JobPaymentsCreate {
-	if t != nil {
-		jpc.SetInvoiceIssuedDate(*t)
+func (_c *JobPaymentsCreate) SetNillableInvoiceIssuedDate(v *time.Time) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetInvoiceIssuedDate(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetInvoiceReceived sets the "InvoiceReceived" field.
-func (jpc *JobPaymentsCreate) SetInvoiceReceived(b bool) *JobPaymentsCreate {
-	jpc.mutation.SetInvoiceReceived(b)
-	return jpc
+func (_c *JobPaymentsCreate) SetInvoiceReceived(v bool) *JobPaymentsCreate {
+	_c.mutation.SetInvoiceReceived(v)
+	return _c
 }
 
 // SetNillableInvoiceReceived sets the "InvoiceReceived" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableInvoiceReceived(b *bool) *JobPaymentsCreate {
-	if b != nil {
-		jpc.SetInvoiceReceived(*b)
+func (_c *JobPaymentsCreate) SetNillableInvoiceReceived(v *bool) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetInvoiceReceived(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetInvoiceReceivedDate sets the "InvoiceReceivedDate" field.
-func (jpc *JobPaymentsCreate) SetInvoiceReceivedDate(t time.Time) *JobPaymentsCreate {
-	jpc.mutation.SetInvoiceReceivedDate(t)
-	return jpc
+func (_c *JobPaymentsCreate) SetInvoiceReceivedDate(v time.Time) *JobPaymentsCreate {
+	_c.mutation.SetInvoiceReceivedDate(v)
+	return _c
 }
 
 // SetNillableInvoiceReceivedDate sets the "InvoiceReceivedDate" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableInvoiceReceivedDate(t *time.Time) *JobPaymentsCreate {
-	if t != nil {
-		jpc.SetInvoiceReceivedDate(*t)
+func (_c *JobPaymentsCreate) SetNillableInvoiceReceivedDate(v *time.Time) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetInvoiceReceivedDate(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jpc *JobPaymentsCreate) SetCreatedAt(t time.Time) *JobPaymentsCreate {
-	jpc.mutation.SetCreatedAt(t)
-	return jpc
+func (_c *JobPaymentsCreate) SetCreatedAt(v time.Time) *JobPaymentsCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableCreatedAt(t *time.Time) *JobPaymentsCreate {
-	if t != nil {
-		jpc.SetCreatedAt(*t)
+func (_c *JobPaymentsCreate) SetNillableCreatedAt(v *time.Time) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jpc *JobPaymentsCreate) SetUpdatedAt(t time.Time) *JobPaymentsCreate {
-	jpc.mutation.SetUpdatedAt(t)
-	return jpc
+func (_c *JobPaymentsCreate) SetUpdatedAt(v time.Time) *JobPaymentsCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillableUpdatedAt(t *time.Time) *JobPaymentsCreate {
-	if t != nil {
-		jpc.SetUpdatedAt(*t)
+func (_c *JobPaymentsCreate) SetNillableUpdatedAt(v *time.Time) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return jpc
+	return _c
 }
 
 // SetPaymentsID sets the "payments" edge to the JobRelations entity by ID.
-func (jpc *JobPaymentsCreate) SetPaymentsID(id int) *JobPaymentsCreate {
-	jpc.mutation.SetPaymentsID(id)
-	return jpc
+func (_c *JobPaymentsCreate) SetPaymentsID(id int) *JobPaymentsCreate {
+	_c.mutation.SetPaymentsID(id)
+	return _c
 }
 
 // SetNillablePaymentsID sets the "payments" edge to the JobRelations entity by ID if the given value is not nil.
-func (jpc *JobPaymentsCreate) SetNillablePaymentsID(id *int) *JobPaymentsCreate {
+func (_c *JobPaymentsCreate) SetNillablePaymentsID(id *int) *JobPaymentsCreate {
 	if id != nil {
-		jpc = jpc.SetPaymentsID(*id)
+		_c = _c.SetPaymentsID(*id)
 	}
-	return jpc
+	return _c
 }
 
 // SetPayments sets the "payments" edge to the JobRelations entity.
-func (jpc *JobPaymentsCreate) SetPayments(j *JobRelations) *JobPaymentsCreate {
-	return jpc.SetPaymentsID(j.ID)
+func (_c *JobPaymentsCreate) SetPayments(v *JobRelations) *JobPaymentsCreate {
+	return _c.SetPaymentsID(v.ID)
 }
 
 // Mutation returns the JobPaymentsMutation object of the builder.
-func (jpc *JobPaymentsCreate) Mutation() *JobPaymentsMutation {
-	return jpc.mutation
+func (_c *JobPaymentsCreate) Mutation() *JobPaymentsMutation {
+	return _c.mutation
 }
 
 // Save creates the JobPayments in the database.
-func (jpc *JobPaymentsCreate) Save(ctx context.Context) (*JobPayments, error) {
-	jpc.defaults()
-	return withHooks(ctx, jpc.sqlSave, jpc.mutation, jpc.hooks)
+func (_c *JobPaymentsCreate) Save(ctx context.Context) (*JobPayments, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (jpc *JobPaymentsCreate) SaveX(ctx context.Context) *JobPayments {
-	v, err := jpc.Save(ctx)
+func (_c *JobPaymentsCreate) SaveX(ctx context.Context) *JobPayments {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -299,77 +285,77 @@ func (jpc *JobPaymentsCreate) SaveX(ctx context.Context) *JobPayments {
 }
 
 // Exec executes the query.
-func (jpc *JobPaymentsCreate) Exec(ctx context.Context) error {
-	_, err := jpc.Save(ctx)
+func (_c *JobPaymentsCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpc *JobPaymentsCreate) ExecX(ctx context.Context) {
-	if err := jpc.Exec(ctx); err != nil {
+func (_c *JobPaymentsCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jpc *JobPaymentsCreate) defaults() {
-	if _, ok := jpc.mutation.YibfNo(); !ok {
+func (_c *JobPaymentsCreate) defaults() {
+	if _, ok := _c.mutation.YibfNo(); !ok {
 		v := jobpayments.DefaultYibfNo
-		jpc.mutation.SetYibfNo(v)
+		_c.mutation.SetYibfNo(v)
 	}
-	if _, ok := jpc.mutation.PaymentNo(); !ok {
+	if _, ok := _c.mutation.PaymentNo(); !ok {
 		v := jobpayments.DefaultPaymentNo
-		jpc.mutation.SetPaymentNo(v)
+		_c.mutation.SetPaymentNo(v)
 	}
-	if _, ok := jpc.mutation.PaymentDate(); !ok {
+	if _, ok := _c.mutation.PaymentDate(); !ok {
 		v := jobpayments.DefaultPaymentDate()
-		jpc.mutation.SetPaymentDate(v)
+		_c.mutation.SetPaymentDate(v)
 	}
-	if _, ok := jpc.mutation.AtMunicipality(); !ok {
+	if _, ok := _c.mutation.AtMunicipality(); !ok {
 		v := jobpayments.DefaultAtMunicipality
-		jpc.mutation.SetAtMunicipality(v)
+		_c.mutation.SetAtMunicipality(v)
 	}
-	if _, ok := jpc.mutation.InvoiceIssued(); !ok {
+	if _, ok := _c.mutation.InvoiceIssued(); !ok {
 		v := jobpayments.DefaultInvoiceIssued
-		jpc.mutation.SetInvoiceIssued(v)
+		_c.mutation.SetInvoiceIssued(v)
 	}
-	if _, ok := jpc.mutation.InvoiceReceived(); !ok {
+	if _, ok := _c.mutation.InvoiceReceived(); !ok {
 		v := jobpayments.DefaultInvoiceReceived
-		jpc.mutation.SetInvoiceReceived(v)
+		_c.mutation.SetInvoiceReceived(v)
 	}
-	if _, ok := jpc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobpayments.DefaultCreatedAt()
-		jpc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := jpc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := jobpayments.DefaultUpdatedAt()
-		jpc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (jpc *JobPaymentsCreate) check() error {
-	if _, ok := jpc.mutation.YibfNo(); !ok {
+func (_c *JobPaymentsCreate) check() error {
+	if _, ok := _c.mutation.YibfNo(); !ok {
 		return &ValidationError{Name: "yibfNo", err: errors.New(`ent: missing required field "JobPayments.yibfNo"`)}
 	}
-	if _, ok := jpc.mutation.PaymentDate(); !ok {
+	if _, ok := _c.mutation.PaymentDate(); !ok {
 		return &ValidationError{Name: "PaymentDate", err: errors.New(`ent: missing required field "JobPayments.PaymentDate"`)}
 	}
-	if _, ok := jpc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobPayments.CreatedAt"`)}
 	}
-	if _, ok := jpc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobPayments.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (jpc *JobPaymentsCreate) sqlSave(ctx context.Context) (*JobPayments, error) {
-	if err := jpc.check(); err != nil {
+func (_c *JobPaymentsCreate) sqlSave(ctx context.Context) (*JobPayments, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := jpc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, jpc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -377,85 +363,81 @@ func (jpc *JobPaymentsCreate) sqlSave(ctx context.Context) (*JobPayments, error)
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	jpc.mutation.id = &_node.ID
-	jpc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (jpc *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) {
+func (_c *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobPayments{config: jpc.config}
+		_node = &JobPayments{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobpayments.Table, sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt))
 	)
-	if value, ok := jpc.mutation.YibfNo(); ok {
+	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobpayments.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
 	}
-	if value, ok := jpc.mutation.PaymentNo(); ok {
+	if value, ok := _c.mutation.PaymentNo(); ok {
 		_spec.SetField(jobpayments.FieldPaymentNo, field.TypeInt, value)
 		_node.PaymentNo = value
 	}
-	if value, ok := jpc.mutation.PaymentDate(); ok {
+	if value, ok := _c.mutation.PaymentDate(); ok {
 		_spec.SetField(jobpayments.FieldPaymentDate, field.TypeTime, value)
 		_node.PaymentDate = value
 	}
-	if value, ok := jpc.mutation.PaymentType(); ok {
+	if value, ok := _c.mutation.PaymentType(); ok {
 		_spec.SetField(jobpayments.FieldPaymentType, field.TypeString, value)
 		_node.PaymentType = value
 	}
-	if value, ok := jpc.mutation.State(); ok {
+	if value, ok := _c.mutation.State(); ok {
 		_spec.SetField(jobpayments.FieldState, field.TypeString, value)
 		_node.State = value
 	}
-	if value, ok := jpc.mutation.TotalPayment(); ok {
-		_spec.SetField(jobpayments.FieldTotalPayment, field.TypeFloat64, value)
-		_node.TotalPayment = value
-	}
-	if value, ok := jpc.mutation.LevelRequest(); ok {
+	if value, ok := _c.mutation.LevelRequest(); ok {
 		_spec.SetField(jobpayments.FieldLevelRequest, field.TypeFloat64, value)
 		_node.LevelRequest = value
 	}
-	if value, ok := jpc.mutation.LevelApprove(); ok {
+	if value, ok := _c.mutation.LevelApprove(); ok {
 		_spec.SetField(jobpayments.FieldLevelApprove, field.TypeFloat64, value)
 		_node.LevelApprove = value
 	}
-	if value, ok := jpc.mutation.Amount(); ok {
+	if value, ok := _c.mutation.Amount(); ok {
 		_spec.SetField(jobpayments.FieldAmount, field.TypeFloat64, value)
 		_node.Amount = value
 	}
-	if value, ok := jpc.mutation.AtMunicipality(); ok {
+	if value, ok := _c.mutation.AtMunicipality(); ok {
 		_spec.SetField(jobpayments.FieldAtMunicipality, field.TypeBool, value)
 		_node.AtMunicipality = value
 	}
-	if value, ok := jpc.mutation.MunicipalityDeliveryDate(); ok {
+	if value, ok := _c.mutation.MunicipalityDeliveryDate(); ok {
 		_spec.SetField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime, value)
 		_node.MunicipalityDeliveryDate = value
 	}
-	if value, ok := jpc.mutation.InvoiceIssued(); ok {
+	if value, ok := _c.mutation.InvoiceIssued(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceIssued, field.TypeBool, value)
 		_node.InvoiceIssued = value
 	}
-	if value, ok := jpc.mutation.InvoiceIssuedDate(); ok {
+	if value, ok := _c.mutation.InvoiceIssuedDate(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime, value)
 		_node.InvoiceIssuedDate = value
 	}
-	if value, ok := jpc.mutation.InvoiceReceived(); ok {
+	if value, ok := _c.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
 		_node.InvoiceReceived = value
 	}
-	if value, ok := jpc.mutation.InvoiceReceivedDate(); ok {
+	if value, ok := _c.mutation.InvoiceReceivedDate(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime, value)
 		_node.InvoiceReceivedDate = value
 	}
-	if value, ok := jpc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := jpc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobpayments.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := jpc.mutation.PaymentsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.PaymentsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -483,16 +465,16 @@ type JobPaymentsCreateBulk struct {
 }
 
 // Save creates the JobPayments entities in the database.
-func (jpcb *JobPaymentsCreateBulk) Save(ctx context.Context) ([]*JobPayments, error) {
-	if jpcb.err != nil {
-		return nil, jpcb.err
+func (_c *JobPaymentsCreateBulk) Save(ctx context.Context) ([]*JobPayments, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jpcb.builders))
-	nodes := make([]*JobPayments, len(jpcb.builders))
-	mutators := make([]Mutator, len(jpcb.builders))
-	for i := range jpcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*JobPayments, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := jpcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*JobPaymentsMutation)
@@ -506,11 +488,11 @@ func (jpcb *JobPaymentsCreateBulk) Save(ctx context.Context) ([]*JobPayments, er
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jpcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jpcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -534,7 +516,7 @@ func (jpcb *JobPaymentsCreateBulk) Save(ctx context.Context) ([]*JobPayments, er
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jpcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -542,8 +524,8 @@ func (jpcb *JobPaymentsCreateBulk) Save(ctx context.Context) ([]*JobPayments, er
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jpcb *JobPaymentsCreateBulk) SaveX(ctx context.Context) []*JobPayments {
-	v, err := jpcb.Save(ctx)
+func (_c *JobPaymentsCreateBulk) SaveX(ctx context.Context) []*JobPayments {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -551,14 +533,14 @@ func (jpcb *JobPaymentsCreateBulk) SaveX(ctx context.Context) []*JobPayments {
 }
 
 // Exec executes the query.
-func (jpcb *JobPaymentsCreateBulk) Exec(ctx context.Context) error {
-	_, err := jpcb.Save(ctx)
+func (_c *JobPaymentsCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpcb *JobPaymentsCreateBulk) ExecX(ctx context.Context) {
-	if err := jpcb.Exec(ctx); err != nil {
+func (_c *JobPaymentsCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

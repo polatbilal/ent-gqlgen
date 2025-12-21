@@ -23,18 +23,18 @@ import (
 )
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (cdq *CompanyDetailQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyDetailQuery, error) {
+func (_q *CompanyDetailQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyDetailQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return cdq, nil
+		return _q, nil
 	}
-	if err := cdq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return cdq, nil
+	return _q, nil
 }
 
-func (cdq *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -48,12 +48,12 @@ func (cdq *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, o
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: cdq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			cdq.WithNamedJobs(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedJobs(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -61,12 +61,12 @@ func (cdq *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, o
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyUserClient{config: cdq.config}).Query()
+				query = (&CompanyUserClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyuserImplementors)...); err != nil {
 				return err
 			}
-			cdq.WithNamedUsers(alias, func(wq *CompanyUserQuery) {
+			_q.WithNamedUsers(alias, func(wq *CompanyUserQuery) {
 				*wq = *query
 			})
 
@@ -74,12 +74,12 @@ func (cdq *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, o
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyTokenClient{config: cdq.config}).Query()
+				query = (&CompanyTokenClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companytokenImplementors)...); err != nil {
 				return err
 			}
-			cdq.WithNamedTokens(alias, func(wq *CompanyTokenQuery) {
+			_q.WithNamedTokens(alias, func(wq *CompanyTokenQuery) {
 				*wq = *query
 			})
 
@@ -87,12 +87,12 @@ func (cdq *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, o
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: cdq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			cdq.WithNamedEngineers(alias, func(wq *CompanyEngineerQuery) {
+			_q.WithNamedEngineers(alias, func(wq *CompanyEngineerQuery) {
 				*wq = *query
 			})
 		case "companycode":
@@ -232,7 +232,7 @@ func (cdq *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, o
 		}
 	}
 	if !unknownSeen {
-		cdq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -264,18 +264,18 @@ func newCompanyDetailPaginateArgs(rv map[string]any) *companydetailPaginateArgs 
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (ceq *CompanyEngineerQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyEngineerQuery, error) {
+func (_q *CompanyEngineerQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyEngineerQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return ceq, nil
+		return _q, nil
 	}
-	if err := ceq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return ceq, nil
+	return _q, nil
 }
 
-func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -289,23 +289,23 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: ceq.config}).Query()
+				query = (&CompanyDetailClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
 				return err
 			}
-			ceq.withCompany = query
+			_q.withCompany = query
 
 		case "statics":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: ceq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ceq.WithNamedStatics(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedStatics(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -313,12 +313,12 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: ceq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ceq.WithNamedMechanics(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedMechanics(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -326,12 +326,12 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: ceq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ceq.WithNamedElectrics(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedElectrics(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -339,12 +339,12 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: ceq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ceq.WithNamedInspectors(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedInspectors(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -352,12 +352,12 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: ceq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ceq.WithNamedArchitects(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedArchitects(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -365,12 +365,12 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: ceq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ceq.WithNamedControllers(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedControllers(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -378,12 +378,12 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: ceq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ceq.WithNamedMechaniccontrollers(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedMechaniccontrollers(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 
@@ -391,12 +391,12 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: ceq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			ceq.WithNamedElectriccontrollers(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedElectriccontrollers(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -481,7 +481,7 @@ func (ceq *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool,
 		}
 	}
 	if !unknownSeen {
-		ceq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -513,18 +513,18 @@ func newCompanyEngineerPaginateArgs(rv map[string]any) *companyengineerPaginateA
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (ctq *CompanyTokenQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyTokenQuery, error) {
+func (_q *CompanyTokenQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyTokenQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return ctq, nil
+		return _q, nil
 	}
-	if err := ctq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return ctq, nil
+	return _q, nil
 }
 
-func (ctq *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -538,12 +538,12 @@ func (ctq *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, op
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: ctq.config}).Query()
+				query = (&CompanyDetailClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
 				return err
 			}
-			ctq.withCompany = query
+			_q.withCompany = query
 		case "ydkusername":
 			if _, ok := fieldSeen[companytoken.FieldYDKUsername]; !ok {
 				selectedFields = append(selectedFields, companytoken.FieldYDKUsername)
@@ -581,7 +581,7 @@ func (ctq *CompanyTokenQuery) collectField(ctx context.Context, oneNode bool, op
 		}
 	}
 	if !unknownSeen {
-		ctq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -613,18 +613,18 @@ func newCompanyTokenPaginateArgs(rv map[string]any) *companytokenPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (cuq *CompanyUserQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyUserQuery, error) {
+func (_q *CompanyUserQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyUserQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return cuq, nil
+		return _q, nil
 	}
-	if err := cuq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return cuq, nil
+	return _q, nil
 }
 
-func (cuq *CompanyUserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *CompanyUserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
@@ -633,23 +633,23 @@ func (cuq *CompanyUserQuery) collectField(ctx context.Context, oneNode bool, opC
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: cuq.config}).Query()
+				query = (&CompanyDetailClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
 				return err
 			}
-			cuq.withCompany = query
+			_q.withCompany = query
 
 		case "user":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&UserClient{config: cuq.config}).Query()
+				query = (&UserClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, userImplementors)...); err != nil {
 				return err
 			}
-			cuq.withUser = query
+			_q.withUser = query
 		}
 	}
 	return nil
@@ -682,18 +682,18 @@ func newCompanyUserPaginateArgs(rv map[string]any) *companyuserPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jaq *JobAuthorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobAuthorQuery, error) {
+func (_q *JobAuthorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobAuthorQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jaq, nil
+		return _q, nil
 	}
-	if err := jaq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jaq, nil
+	return _q, nil
 }
 
-func (jaq *JobAuthorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobAuthorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -707,12 +707,12 @@ func (jaq *JobAuthorQuery) collectField(ctx context.Context, oneNode bool, opCtx
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jaq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jaq.WithNamedAuthors(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedAuthors(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "yibfno":
@@ -772,7 +772,7 @@ func (jaq *JobAuthorQuery) collectField(ctx context.Context, oneNode bool, opCtx
 		}
 	}
 	if !unknownSeen {
-		jaq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -804,18 +804,18 @@ func newJobAuthorPaginateArgs(rv map[string]any) *jobauthorPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jcq *JobContractorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobContractorQuery, error) {
+func (_q *JobContractorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobContractorQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jcq, nil
+		return _q, nil
 	}
-	if err := jcq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jcq, nil
+	return _q, nil
 }
 
-func (jcq *JobContractorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobContractorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -829,12 +829,12 @@ func (jcq *JobContractorQuery) collectField(ctx context.Context, oneNode bool, o
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jcq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jcq.WithNamedContractors(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedContractors(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -909,7 +909,7 @@ func (jcq *JobContractorQuery) collectField(ctx context.Context, oneNode bool, o
 		}
 	}
 	if !unknownSeen {
-		jcq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -941,18 +941,18 @@ func newJobContractorPaginateArgs(rv map[string]any) *jobcontractorPaginateArgs 
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jdq *JobDetailQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobDetailQuery, error) {
+func (_q *JobDetailQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobDetailQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jdq, nil
+		return _q, nil
 	}
-	if err := jdq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jdq, nil
+	return _q, nil
 }
 
-func (jdq *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -966,12 +966,12 @@ func (jdq *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jdq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jdq.withRelations = query
+			_q.withRelations = query
 		case "yibfno":
 			if _, ok := fieldSeen[jobdetail.FieldYibfNo]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldYibfNo)
@@ -1154,7 +1154,7 @@ func (jdq *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx
 		}
 	}
 	if !unknownSeen {
-		jdq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -1186,18 +1186,18 @@ func newJobDetailPaginateArgs(rv map[string]any) *jobdetailPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jfq *JobFloorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobFloorQuery, error) {
+func (_q *JobFloorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobFloorQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jfq, nil
+		return _q, nil
 	}
-	if err := jfq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jfq, nil
+	return _q, nil
 }
 
-func (jfq *JobFloorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobFloorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -1211,12 +1211,12 @@ func (jfq *JobFloorQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jfq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jfq.withFloor = query
+			_q.withFloor = query
 		case "yibfno":
 			if _, ok := fieldSeen[jobfloor.FieldYibfNo]; !ok {
 				selectedFields = append(selectedFields, jobfloor.FieldYibfNo)
@@ -1279,7 +1279,7 @@ func (jfq *JobFloorQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 		}
 	}
 	if !unknownSeen {
-		jfq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -1311,18 +1311,18 @@ func newJobFloorPaginateArgs(rv map[string]any) *jobfloorPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (joq *JobOwnerQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobOwnerQuery, error) {
+func (_q *JobOwnerQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobOwnerQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return joq, nil
+		return _q, nil
 	}
-	if err := joq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return joq, nil
+	return _q, nil
 }
 
-func (joq *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -1336,12 +1336,12 @@ func (joq *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: joq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			joq.WithNamedOwners(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedOwners(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -1411,7 +1411,7 @@ func (joq *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 		}
 	}
 	if !unknownSeen {
-		joq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -1443,18 +1443,18 @@ func newJobOwnerPaginateArgs(rv map[string]any) *jobownerPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jpq *JobPaymentsQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobPaymentsQuery, error) {
+func (_q *JobPaymentsQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobPaymentsQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jpq, nil
+		return _q, nil
 	}
-	if err := jpq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jpq, nil
+	return _q, nil
 }
 
-func (jpq *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -1468,12 +1468,12 @@ func (jpq *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opC
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jpq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jpq.withPayments = query
+			_q.withPayments = query
 		case "yibfno":
 			if _, ok := fieldSeen[jobpayments.FieldYibfNo]; !ok {
 				selectedFields = append(selectedFields, jobpayments.FieldYibfNo)
@@ -1498,11 +1498,6 @@ func (jpq *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opC
 			if _, ok := fieldSeen[jobpayments.FieldState]; !ok {
 				selectedFields = append(selectedFields, jobpayments.FieldState)
 				fieldSeen[jobpayments.FieldState] = struct{}{}
-			}
-		case "totalpayment":
-			if _, ok := fieldSeen[jobpayments.FieldTotalPayment]; !ok {
-				selectedFields = append(selectedFields, jobpayments.FieldTotalPayment)
-				fieldSeen[jobpayments.FieldTotalPayment] = struct{}{}
 			}
 		case "levelrequest":
 			if _, ok := fieldSeen[jobpayments.FieldLevelRequest]; !ok {
@@ -1566,7 +1561,7 @@ func (jpq *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opC
 		}
 	}
 	if !unknownSeen {
-		jpq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -1598,18 +1593,18 @@ func newJobPaymentsPaginateArgs(rv map[string]any) *jobpaymentsPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jpq *JobProgressQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobProgressQuery, error) {
+func (_q *JobProgressQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobProgressQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jpq, nil
+		return _q, nil
 	}
-	if err := jpq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jpq, nil
+	return _q, nil
 }
 
-func (jpq *JobProgressQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobProgressQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -1623,12 +1618,12 @@ func (jpq *JobProgressQuery) collectField(ctx context.Context, oneNode bool, opC
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jpq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jpq.WithNamedProgress(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedProgress(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "yibfno":
@@ -1683,7 +1678,7 @@ func (jpq *JobProgressQuery) collectField(ctx context.Context, oneNode bool, opC
 		}
 	}
 	if !unknownSeen {
-		jpq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -1715,18 +1710,18 @@ func newJobProgressPaginateArgs(rv map[string]any) *jobprogressPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jrq *JobReceiptQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobReceiptQuery, error) {
+func (_q *JobReceiptQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobReceiptQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jrq, nil
+		return _q, nil
 	}
-	if err := jrq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jrq, nil
+	return _q, nil
 }
 
-func (jrq *JobReceiptQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobReceiptQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -1740,12 +1735,12 @@ func (jrq *JobReceiptQuery) collectField(ctx context.Context, oneNode bool, opCt
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jrq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jrq.withReceipt = query
+			_q.withReceipt = query
 		case "yibfno":
 			if _, ok := fieldSeen[jobreceipt.FieldYibfNo]; !ok {
 				selectedFields = append(selectedFields, jobreceipt.FieldYibfNo)
@@ -1783,7 +1778,7 @@ func (jrq *JobReceiptQuery) collectField(ctx context.Context, oneNode bool, opCt
 		}
 	}
 	if !unknownSeen {
-		jrq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -1815,18 +1810,18 @@ func newJobReceiptPaginateArgs(rv map[string]any) *jobreceiptPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jrq *JobRelationsQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobRelationsQuery, error) {
+func (_q *JobRelationsQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobRelationsQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jrq, nil
+		return _q, nil
 	}
-	if err := jrq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jrq, nil
+	return _q, nil
 }
 
-func (jrq *JobRelationsQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobRelationsQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -1840,177 +1835,177 @@ func (jrq *JobRelationsQuery) collectField(ctx context.Context, oneNode bool, op
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobDetailClient{config: jrq.config}).Query()
+				query = (&JobDetailClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobdetailImplementors)...); err != nil {
 				return err
 			}
-			jrq.withJob = query
+			_q.withJob = query
 
 		case "owner":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobOwnerClient{config: jrq.config}).Query()
+				query = (&JobOwnerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobownerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withOwner = query
+			_q.withOwner = query
 
 		case "author":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobAuthorClient{config: jrq.config}).Query()
+				query = (&JobAuthorClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobauthorImplementors)...); err != nil {
 				return err
 			}
-			jrq.withAuthor = query
+			_q.withAuthor = query
 
 		case "company":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: jrq.config}).Query()
+				query = (&CompanyDetailClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
 				return err
 			}
-			jrq.withCompany = query
+			_q.withCompany = query
 
 		case "progress":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobProgressClient{config: jrq.config}).Query()
+				query = (&JobProgressClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobprogressImplementors)...); err != nil {
 				return err
 			}
-			jrq.withProgress = query
+			_q.withProgress = query
 
 		case "contractor":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobContractorClient{config: jrq.config}).Query()
+				query = (&JobContractorClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobcontractorImplementors)...); err != nil {
 				return err
 			}
-			jrq.withContractor = query
+			_q.withContractor = query
 
 		case "supervisor":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobSupervisorClient{config: jrq.config}).Query()
+				query = (&JobSupervisorClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobsupervisorImplementors)...); err != nil {
 				return err
 			}
-			jrq.withSupervisor = query
+			_q.withSupervisor = query
 
 		case "static":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jrq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withStatic = query
+			_q.withStatic = query
 
 		case "mechanic":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jrq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withMechanic = query
+			_q.withMechanic = query
 
 		case "electric":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jrq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withElectric = query
+			_q.withElectric = query
 
 		case "inspector":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jrq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withInspector = query
+			_q.withInspector = query
 
 		case "architect":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jrq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withArchitect = query
+			_q.withArchitect = query
 
 		case "controller":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jrq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withController = query
+			_q.withController = query
 
 		case "mechaniccontroller":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jrq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withMechaniccontroller = query
+			_q.withMechaniccontroller = query
 
 		case "electriccontroller":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: jrq.config}).Query()
+				query = (&CompanyEngineerClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
 				return err
 			}
-			jrq.withElectriccontroller = query
+			_q.withElectriccontroller = query
 
 		case "floors":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobFloorClient{config: jrq.config}).Query()
+				query = (&JobFloorClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobfloorImplementors)...); err != nil {
 				return err
 			}
-			jrq.WithNamedFloors(alias, func(wq *JobFloorQuery) {
+			_q.WithNamedFloors(alias, func(wq *JobFloorQuery) {
 				*wq = *query
 			})
 
@@ -2018,12 +2013,12 @@ func (jrq *JobRelationsQuery) collectField(ctx context.Context, oneNode bool, op
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobPaymentsClient{config: jrq.config}).Query()
+				query = (&JobPaymentsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobpaymentsImplementors)...); err != nil {
 				return err
 			}
-			jrq.WithNamedPayments(alias, func(wq *JobPaymentsQuery) {
+			_q.WithNamedPayments(alias, func(wq *JobPaymentsQuery) {
 				*wq = *query
 			})
 
@@ -2031,12 +2026,12 @@ func (jrq *JobRelationsQuery) collectField(ctx context.Context, oneNode bool, op
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobReceiptClient{config: jrq.config}).Query()
+				query = (&JobReceiptClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobreceiptImplementors)...); err != nil {
 				return err
 			}
-			jrq.WithNamedReceipts(alias, func(wq *JobReceiptQuery) {
+			_q.WithNamedReceipts(alias, func(wq *JobReceiptQuery) {
 				*wq = *query
 			})
 		case "yibfno":
@@ -2061,7 +2056,7 @@ func (jrq *JobRelationsQuery) collectField(ctx context.Context, oneNode bool, op
 		}
 	}
 	if !unknownSeen {
-		jrq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -2093,18 +2088,18 @@ func newJobRelationsPaginateArgs(rv map[string]any) *jobrelationsPaginateArgs {
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (jsq *JobSupervisorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobSupervisorQuery, error) {
+func (_q *JobSupervisorQuery) CollectFields(ctx context.Context, satisfies ...string) (*JobSupervisorQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return jsq, nil
+		return _q, nil
 	}
-	if err := jsq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return jsq, nil
+	return _q, nil
 }
 
-func (jsq *JobSupervisorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *JobSupervisorQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -2118,12 +2113,12 @@ func (jsq *JobSupervisorQuery) collectField(ctx context.Context, oneNode bool, o
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&JobRelationsClient{config: jsq.config}).Query()
+				query = (&JobRelationsClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, jobrelationsImplementors)...); err != nil {
 				return err
 			}
-			jsq.WithNamedSupervisors(alias, func(wq *JobRelationsQuery) {
+			_q.WithNamedSupervisors(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -2198,7 +2193,7 @@ func (jsq *JobSupervisorQuery) collectField(ctx context.Context, oneNode bool, o
 		}
 	}
 	if !unknownSeen {
-		jsq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }
@@ -2230,18 +2225,18 @@ func newJobSupervisorPaginateArgs(rv map[string]any) *jobsupervisorPaginateArgs 
 }
 
 // CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (uq *UserQuery) CollectFields(ctx context.Context, satisfies ...string) (*UserQuery, error) {
+func (_q *UserQuery) CollectFields(ctx context.Context, satisfies ...string) (*UserQuery, error) {
 	fc := graphql.GetFieldContext(ctx)
 	if fc == nil {
-		return uq, nil
+		return _q, nil
 	}
-	if err := uq.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
 		return nil, err
 	}
-	return uq, nil
+	return _q, nil
 }
 
-func (uq *UserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
+func (_q *UserQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	var (
 		unknownSeen    bool
@@ -2255,12 +2250,12 @@ func (uq *UserQuery) collectField(ctx context.Context, oneNode bool, opCtx *grap
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&CompanyUserClient{config: uq.config}).Query()
+				query = (&CompanyUserClient{config: _q.config}).Query()
 			)
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companyuserImplementors)...); err != nil {
 				return err
 			}
-			uq.WithNamedCompanies(alias, func(wq *CompanyUserQuery) {
+			_q.WithNamedCompanies(alias, func(wq *CompanyUserQuery) {
 				*wq = *query
 			})
 		case "username":
@@ -2335,7 +2330,7 @@ func (uq *UserQuery) collectField(ctx context.Context, oneNode bool, opCtx *grap
 		}
 	}
 	if !unknownSeen {
-		uq.Select(selectedFields...)
+		_q.Select(selectedFields...)
 	}
 	return nil
 }

@@ -24,780 +24,780 @@ type JobDetailUpdate struct {
 }
 
 // Where appends a list predicates to the JobDetailUpdate builder.
-func (jdu *JobDetailUpdate) Where(ps ...predicate.JobDetail) *JobDetailUpdate {
-	jdu.mutation.Where(ps...)
-	return jdu
+func (_u *JobDetailUpdate) Where(ps ...predicate.JobDetail) *JobDetailUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetYibfNo sets the "YibfNo" field.
-func (jdu *JobDetailUpdate) SetYibfNo(i int) *JobDetailUpdate {
-	jdu.mutation.ResetYibfNo()
-	jdu.mutation.SetYibfNo(i)
-	return jdu
+func (_u *JobDetailUpdate) SetYibfNo(v int) *JobDetailUpdate {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "YibfNo" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableYibfNo(i *int) *JobDetailUpdate {
-	if i != nil {
-		jdu.SetYibfNo(*i)
+func (_u *JobDetailUpdate) SetNillableYibfNo(v *int) *JobDetailUpdate {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jdu
+	return _u
 }
 
-// AddYibfNo adds i to the "YibfNo" field.
-func (jdu *JobDetailUpdate) AddYibfNo(i int) *JobDetailUpdate {
-	jdu.mutation.AddYibfNo(i)
-	return jdu
+// AddYibfNo adds value to the "YibfNo" field.
+func (_u *JobDetailUpdate) AddYibfNo(v int) *JobDetailUpdate {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetTitle sets the "Title" field.
-func (jdu *JobDetailUpdate) SetTitle(s string) *JobDetailUpdate {
-	jdu.mutation.SetTitle(s)
-	return jdu
+func (_u *JobDetailUpdate) SetTitle(v string) *JobDetailUpdate {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "Title" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableTitle(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetTitle(*s)
+func (_u *JobDetailUpdate) SetNillableTitle(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearTitle clears the value of the "Title" field.
-func (jdu *JobDetailUpdate) ClearTitle() *JobDetailUpdate {
-	jdu.mutation.ClearTitle()
-	return jdu
+func (_u *JobDetailUpdate) ClearTitle() *JobDetailUpdate {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetAdministration sets the "Administration" field.
-func (jdu *JobDetailUpdate) SetAdministration(s string) *JobDetailUpdate {
-	jdu.mutation.SetAdministration(s)
-	return jdu
+func (_u *JobDetailUpdate) SetAdministration(v string) *JobDetailUpdate {
+	_u.mutation.SetAdministration(v)
+	return _u
 }
 
 // SetNillableAdministration sets the "Administration" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableAdministration(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetAdministration(*s)
+func (_u *JobDetailUpdate) SetNillableAdministration(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetAdministration(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearAdministration clears the value of the "Administration" field.
-func (jdu *JobDetailUpdate) ClearAdministration() *JobDetailUpdate {
-	jdu.mutation.ClearAdministration()
-	return jdu
+func (_u *JobDetailUpdate) ClearAdministration() *JobDetailUpdate {
+	_u.mutation.ClearAdministration()
+	return _u
 }
 
 // SetState sets the "State" field.
-func (jdu *JobDetailUpdate) SetState(s string) *JobDetailUpdate {
-	jdu.mutation.SetState(s)
-	return jdu
+func (_u *JobDetailUpdate) SetState(v string) *JobDetailUpdate {
+	_u.mutation.SetState(v)
+	return _u
 }
 
 // SetNillableState sets the "State" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableState(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetState(*s)
+func (_u *JobDetailUpdate) SetNillableState(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetState(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearState clears the value of the "State" field.
-func (jdu *JobDetailUpdate) ClearState() *JobDetailUpdate {
-	jdu.mutation.ClearState()
-	return jdu
+func (_u *JobDetailUpdate) ClearState() *JobDetailUpdate {
+	_u.mutation.ClearState()
+	return _u
 }
 
 // SetIsland sets the "Island" field.
-func (jdu *JobDetailUpdate) SetIsland(s string) *JobDetailUpdate {
-	jdu.mutation.SetIsland(s)
-	return jdu
+func (_u *JobDetailUpdate) SetIsland(v string) *JobDetailUpdate {
+	_u.mutation.SetIsland(v)
+	return _u
 }
 
 // SetNillableIsland sets the "Island" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableIsland(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetIsland(*s)
+func (_u *JobDetailUpdate) SetNillableIsland(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetIsland(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearIsland clears the value of the "Island" field.
-func (jdu *JobDetailUpdate) ClearIsland() *JobDetailUpdate {
-	jdu.mutation.ClearIsland()
-	return jdu
+func (_u *JobDetailUpdate) ClearIsland() *JobDetailUpdate {
+	_u.mutation.ClearIsland()
+	return _u
 }
 
 // SetParcel sets the "Parcel" field.
-func (jdu *JobDetailUpdate) SetParcel(s string) *JobDetailUpdate {
-	jdu.mutation.SetParcel(s)
-	return jdu
+func (_u *JobDetailUpdate) SetParcel(v string) *JobDetailUpdate {
+	_u.mutation.SetParcel(v)
+	return _u
 }
 
 // SetNillableParcel sets the "Parcel" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableParcel(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetParcel(*s)
+func (_u *JobDetailUpdate) SetNillableParcel(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetParcel(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearParcel clears the value of the "Parcel" field.
-func (jdu *JobDetailUpdate) ClearParcel() *JobDetailUpdate {
-	jdu.mutation.ClearParcel()
-	return jdu
+func (_u *JobDetailUpdate) ClearParcel() *JobDetailUpdate {
+	_u.mutation.ClearParcel()
+	return _u
 }
 
 // SetSheet sets the "Sheet" field.
-func (jdu *JobDetailUpdate) SetSheet(s string) *JobDetailUpdate {
-	jdu.mutation.SetSheet(s)
-	return jdu
+func (_u *JobDetailUpdate) SetSheet(v string) *JobDetailUpdate {
+	_u.mutation.SetSheet(v)
+	return _u
 }
 
 // SetNillableSheet sets the "Sheet" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableSheet(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetSheet(*s)
+func (_u *JobDetailUpdate) SetNillableSheet(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetSheet(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearSheet clears the value of the "Sheet" field.
-func (jdu *JobDetailUpdate) ClearSheet() *JobDetailUpdate {
-	jdu.mutation.ClearSheet()
-	return jdu
+func (_u *JobDetailUpdate) ClearSheet() *JobDetailUpdate {
+	_u.mutation.ClearSheet()
+	return _u
 }
 
 // SetContractDate sets the "ContractDate" field.
-func (jdu *JobDetailUpdate) SetContractDate(t time.Time) *JobDetailUpdate {
-	jdu.mutation.SetContractDate(t)
-	return jdu
+func (_u *JobDetailUpdate) SetContractDate(v time.Time) *JobDetailUpdate {
+	_u.mutation.SetContractDate(v)
+	return _u
 }
 
 // SetNillableContractDate sets the "ContractDate" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableContractDate(t *time.Time) *JobDetailUpdate {
-	if t != nil {
-		jdu.SetContractDate(*t)
+func (_u *JobDetailUpdate) SetNillableContractDate(v *time.Time) *JobDetailUpdate {
+	if v != nil {
+		_u.SetContractDate(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearContractDate clears the value of the "ContractDate" field.
-func (jdu *JobDetailUpdate) ClearContractDate() *JobDetailUpdate {
-	jdu.mutation.ClearContractDate()
-	return jdu
+func (_u *JobDetailUpdate) ClearContractDate() *JobDetailUpdate {
+	_u.mutation.ClearContractDate()
+	return _u
 }
 
 // SetStartDate sets the "StartDate" field.
-func (jdu *JobDetailUpdate) SetStartDate(t time.Time) *JobDetailUpdate {
-	jdu.mutation.SetStartDate(t)
-	return jdu
+func (_u *JobDetailUpdate) SetStartDate(v time.Time) *JobDetailUpdate {
+	_u.mutation.SetStartDate(v)
+	return _u
 }
 
 // SetNillableStartDate sets the "StartDate" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableStartDate(t *time.Time) *JobDetailUpdate {
-	if t != nil {
-		jdu.SetStartDate(*t)
+func (_u *JobDetailUpdate) SetNillableStartDate(v *time.Time) *JobDetailUpdate {
+	if v != nil {
+		_u.SetStartDate(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearStartDate clears the value of the "StartDate" field.
-func (jdu *JobDetailUpdate) ClearStartDate() *JobDetailUpdate {
-	jdu.mutation.ClearStartDate()
-	return jdu
+func (_u *JobDetailUpdate) ClearStartDate() *JobDetailUpdate {
+	_u.mutation.ClearStartDate()
+	return _u
 }
 
 // SetLicenseDate sets the "LicenseDate" field.
-func (jdu *JobDetailUpdate) SetLicenseDate(t time.Time) *JobDetailUpdate {
-	jdu.mutation.SetLicenseDate(t)
-	return jdu
+func (_u *JobDetailUpdate) SetLicenseDate(v time.Time) *JobDetailUpdate {
+	_u.mutation.SetLicenseDate(v)
+	return _u
 }
 
 // SetNillableLicenseDate sets the "LicenseDate" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableLicenseDate(t *time.Time) *JobDetailUpdate {
-	if t != nil {
-		jdu.SetLicenseDate(*t)
+func (_u *JobDetailUpdate) SetNillableLicenseDate(v *time.Time) *JobDetailUpdate {
+	if v != nil {
+		_u.SetLicenseDate(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearLicenseDate clears the value of the "LicenseDate" field.
-func (jdu *JobDetailUpdate) ClearLicenseDate() *JobDetailUpdate {
-	jdu.mutation.ClearLicenseDate()
-	return jdu
+func (_u *JobDetailUpdate) ClearLicenseDate() *JobDetailUpdate {
+	_u.mutation.ClearLicenseDate()
+	return _u
 }
 
 // SetLicenseNo sets the "LicenseNo" field.
-func (jdu *JobDetailUpdate) SetLicenseNo(s string) *JobDetailUpdate {
-	jdu.mutation.SetLicenseNo(s)
-	return jdu
+func (_u *JobDetailUpdate) SetLicenseNo(v string) *JobDetailUpdate {
+	_u.mutation.SetLicenseNo(v)
+	return _u
 }
 
 // SetNillableLicenseNo sets the "LicenseNo" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableLicenseNo(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetLicenseNo(*s)
+func (_u *JobDetailUpdate) SetNillableLicenseNo(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetLicenseNo(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearLicenseNo clears the value of the "LicenseNo" field.
-func (jdu *JobDetailUpdate) ClearLicenseNo() *JobDetailUpdate {
-	jdu.mutation.ClearLicenseNo()
-	return jdu
+func (_u *JobDetailUpdate) ClearLicenseNo() *JobDetailUpdate {
+	_u.mutation.ClearLicenseNo()
+	return _u
 }
 
 // SetDistributionDate sets the "DistributionDate" field.
-func (jdu *JobDetailUpdate) SetDistributionDate(t time.Time) *JobDetailUpdate {
-	jdu.mutation.SetDistributionDate(t)
-	return jdu
+func (_u *JobDetailUpdate) SetDistributionDate(v time.Time) *JobDetailUpdate {
+	_u.mutation.SetDistributionDate(v)
+	return _u
 }
 
 // SetNillableDistributionDate sets the "DistributionDate" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableDistributionDate(t *time.Time) *JobDetailUpdate {
-	if t != nil {
-		jdu.SetDistributionDate(*t)
+func (_u *JobDetailUpdate) SetNillableDistributionDate(v *time.Time) *JobDetailUpdate {
+	if v != nil {
+		_u.SetDistributionDate(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearDistributionDate clears the value of the "DistributionDate" field.
-func (jdu *JobDetailUpdate) ClearDistributionDate() *JobDetailUpdate {
-	jdu.mutation.ClearDistributionDate()
-	return jdu
+func (_u *JobDetailUpdate) ClearDistributionDate() *JobDetailUpdate {
+	_u.mutation.ClearDistributionDate()
+	return _u
 }
 
 // SetCompletionDate sets the "CompletionDate" field.
-func (jdu *JobDetailUpdate) SetCompletionDate(t time.Time) *JobDetailUpdate {
-	jdu.mutation.SetCompletionDate(t)
-	return jdu
+func (_u *JobDetailUpdate) SetCompletionDate(v time.Time) *JobDetailUpdate {
+	_u.mutation.SetCompletionDate(v)
+	return _u
 }
 
 // SetNillableCompletionDate sets the "CompletionDate" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableCompletionDate(t *time.Time) *JobDetailUpdate {
-	if t != nil {
-		jdu.SetCompletionDate(*t)
+func (_u *JobDetailUpdate) SetNillableCompletionDate(v *time.Time) *JobDetailUpdate {
+	if v != nil {
+		_u.SetCompletionDate(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearCompletionDate clears the value of the "CompletionDate" field.
-func (jdu *JobDetailUpdate) ClearCompletionDate() *JobDetailUpdate {
-	jdu.mutation.ClearCompletionDate()
-	return jdu
+func (_u *JobDetailUpdate) ClearCompletionDate() *JobDetailUpdate {
+	_u.mutation.ClearCompletionDate()
+	return _u
 }
 
 // SetLandArea sets the "LandArea" field.
-func (jdu *JobDetailUpdate) SetLandArea(f float64) *JobDetailUpdate {
-	jdu.mutation.ResetLandArea()
-	jdu.mutation.SetLandArea(f)
-	return jdu
+func (_u *JobDetailUpdate) SetLandArea(v float64) *JobDetailUpdate {
+	_u.mutation.ResetLandArea()
+	_u.mutation.SetLandArea(v)
+	return _u
 }
 
 // SetNillableLandArea sets the "LandArea" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableLandArea(f *float64) *JobDetailUpdate {
-	if f != nil {
-		jdu.SetLandArea(*f)
+func (_u *JobDetailUpdate) SetNillableLandArea(v *float64) *JobDetailUpdate {
+	if v != nil {
+		_u.SetLandArea(*v)
 	}
-	return jdu
+	return _u
 }
 
-// AddLandArea adds f to the "LandArea" field.
-func (jdu *JobDetailUpdate) AddLandArea(f float64) *JobDetailUpdate {
-	jdu.mutation.AddLandArea(f)
-	return jdu
+// AddLandArea adds value to the "LandArea" field.
+func (_u *JobDetailUpdate) AddLandArea(v float64) *JobDetailUpdate {
+	_u.mutation.AddLandArea(v)
+	return _u
 }
 
 // ClearLandArea clears the value of the "LandArea" field.
-func (jdu *JobDetailUpdate) ClearLandArea() *JobDetailUpdate {
-	jdu.mutation.ClearLandArea()
-	return jdu
+func (_u *JobDetailUpdate) ClearLandArea() *JobDetailUpdate {
+	_u.mutation.ClearLandArea()
+	return _u
 }
 
 // SetTotalArea sets the "TotalArea" field.
-func (jdu *JobDetailUpdate) SetTotalArea(f float64) *JobDetailUpdate {
-	jdu.mutation.ResetTotalArea()
-	jdu.mutation.SetTotalArea(f)
-	return jdu
+func (_u *JobDetailUpdate) SetTotalArea(v float64) *JobDetailUpdate {
+	_u.mutation.ResetTotalArea()
+	_u.mutation.SetTotalArea(v)
+	return _u
 }
 
 // SetNillableTotalArea sets the "TotalArea" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableTotalArea(f *float64) *JobDetailUpdate {
-	if f != nil {
-		jdu.SetTotalArea(*f)
+func (_u *JobDetailUpdate) SetNillableTotalArea(v *float64) *JobDetailUpdate {
+	if v != nil {
+		_u.SetTotalArea(*v)
 	}
-	return jdu
+	return _u
 }
 
-// AddTotalArea adds f to the "TotalArea" field.
-func (jdu *JobDetailUpdate) AddTotalArea(f float64) *JobDetailUpdate {
-	jdu.mutation.AddTotalArea(f)
-	return jdu
+// AddTotalArea adds value to the "TotalArea" field.
+func (_u *JobDetailUpdate) AddTotalArea(v float64) *JobDetailUpdate {
+	_u.mutation.AddTotalArea(v)
+	return _u
 }
 
 // ClearTotalArea clears the value of the "TotalArea" field.
-func (jdu *JobDetailUpdate) ClearTotalArea() *JobDetailUpdate {
-	jdu.mutation.ClearTotalArea()
-	return jdu
+func (_u *JobDetailUpdate) ClearTotalArea() *JobDetailUpdate {
+	_u.mutation.ClearTotalArea()
+	return _u
 }
 
 // SetConstructionArea sets the "ConstructionArea" field.
-func (jdu *JobDetailUpdate) SetConstructionArea(f float64) *JobDetailUpdate {
-	jdu.mutation.ResetConstructionArea()
-	jdu.mutation.SetConstructionArea(f)
-	return jdu
+func (_u *JobDetailUpdate) SetConstructionArea(v float64) *JobDetailUpdate {
+	_u.mutation.ResetConstructionArea()
+	_u.mutation.SetConstructionArea(v)
+	return _u
 }
 
 // SetNillableConstructionArea sets the "ConstructionArea" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableConstructionArea(f *float64) *JobDetailUpdate {
-	if f != nil {
-		jdu.SetConstructionArea(*f)
+func (_u *JobDetailUpdate) SetNillableConstructionArea(v *float64) *JobDetailUpdate {
+	if v != nil {
+		_u.SetConstructionArea(*v)
 	}
-	return jdu
+	return _u
 }
 
-// AddConstructionArea adds f to the "ConstructionArea" field.
-func (jdu *JobDetailUpdate) AddConstructionArea(f float64) *JobDetailUpdate {
-	jdu.mutation.AddConstructionArea(f)
-	return jdu
+// AddConstructionArea adds value to the "ConstructionArea" field.
+func (_u *JobDetailUpdate) AddConstructionArea(v float64) *JobDetailUpdate {
+	_u.mutation.AddConstructionArea(v)
+	return _u
 }
 
 // ClearConstructionArea clears the value of the "ConstructionArea" field.
-func (jdu *JobDetailUpdate) ClearConstructionArea() *JobDetailUpdate {
-	jdu.mutation.ClearConstructionArea()
-	return jdu
+func (_u *JobDetailUpdate) ClearConstructionArea() *JobDetailUpdate {
+	_u.mutation.ClearConstructionArea()
+	return _u
 }
 
 // SetLeftArea sets the "LeftArea" field.
-func (jdu *JobDetailUpdate) SetLeftArea(f float64) *JobDetailUpdate {
-	jdu.mutation.ResetLeftArea()
-	jdu.mutation.SetLeftArea(f)
-	return jdu
+func (_u *JobDetailUpdate) SetLeftArea(v float64) *JobDetailUpdate {
+	_u.mutation.ResetLeftArea()
+	_u.mutation.SetLeftArea(v)
+	return _u
 }
 
 // SetNillableLeftArea sets the "LeftArea" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableLeftArea(f *float64) *JobDetailUpdate {
-	if f != nil {
-		jdu.SetLeftArea(*f)
+func (_u *JobDetailUpdate) SetNillableLeftArea(v *float64) *JobDetailUpdate {
+	if v != nil {
+		_u.SetLeftArea(*v)
 	}
-	return jdu
+	return _u
 }
 
-// AddLeftArea adds f to the "LeftArea" field.
-func (jdu *JobDetailUpdate) AddLeftArea(f float64) *JobDetailUpdate {
-	jdu.mutation.AddLeftArea(f)
-	return jdu
+// AddLeftArea adds value to the "LeftArea" field.
+func (_u *JobDetailUpdate) AddLeftArea(v float64) *JobDetailUpdate {
+	_u.mutation.AddLeftArea(v)
+	return _u
 }
 
 // ClearLeftArea clears the value of the "LeftArea" field.
-func (jdu *JobDetailUpdate) ClearLeftArea() *JobDetailUpdate {
-	jdu.mutation.ClearLeftArea()
-	return jdu
+func (_u *JobDetailUpdate) ClearLeftArea() *JobDetailUpdate {
+	_u.mutation.ClearLeftArea()
+	return _u
 }
 
 // SetYDSAddress sets the "YDSAddress" field.
-func (jdu *JobDetailUpdate) SetYDSAddress(s string) *JobDetailUpdate {
-	jdu.mutation.SetYDSAddress(s)
-	return jdu
+func (_u *JobDetailUpdate) SetYDSAddress(v string) *JobDetailUpdate {
+	_u.mutation.SetYDSAddress(v)
+	return _u
 }
 
 // SetNillableYDSAddress sets the "YDSAddress" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableYDSAddress(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetYDSAddress(*s)
+func (_u *JobDetailUpdate) SetNillableYDSAddress(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetYDSAddress(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearYDSAddress clears the value of the "YDSAddress" field.
-func (jdu *JobDetailUpdate) ClearYDSAddress() *JobDetailUpdate {
-	jdu.mutation.ClearYDSAddress()
-	return jdu
+func (_u *JobDetailUpdate) ClearYDSAddress() *JobDetailUpdate {
+	_u.mutation.ClearYDSAddress()
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (jdu *JobDetailUpdate) SetAddress(s string) *JobDetailUpdate {
-	jdu.mutation.SetAddress(s)
-	return jdu
+func (_u *JobDetailUpdate) SetAddress(v string) *JobDetailUpdate {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableAddress(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetAddress(*s)
+func (_u *JobDetailUpdate) SetNillableAddress(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (jdu *JobDetailUpdate) ClearAddress() *JobDetailUpdate {
-	jdu.mutation.ClearAddress()
-	return jdu
+func (_u *JobDetailUpdate) ClearAddress() *JobDetailUpdate {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetBuildingClass sets the "BuildingClass" field.
-func (jdu *JobDetailUpdate) SetBuildingClass(s string) *JobDetailUpdate {
-	jdu.mutation.SetBuildingClass(s)
-	return jdu
+func (_u *JobDetailUpdate) SetBuildingClass(v string) *JobDetailUpdate {
+	_u.mutation.SetBuildingClass(v)
+	return _u
 }
 
 // SetNillableBuildingClass sets the "BuildingClass" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableBuildingClass(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetBuildingClass(*s)
+func (_u *JobDetailUpdate) SetNillableBuildingClass(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetBuildingClass(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearBuildingClass clears the value of the "BuildingClass" field.
-func (jdu *JobDetailUpdate) ClearBuildingClass() *JobDetailUpdate {
-	jdu.mutation.ClearBuildingClass()
-	return jdu
+func (_u *JobDetailUpdate) ClearBuildingClass() *JobDetailUpdate {
+	_u.mutation.ClearBuildingClass()
+	return _u
 }
 
 // SetBuildingType sets the "BuildingType" field.
-func (jdu *JobDetailUpdate) SetBuildingType(s string) *JobDetailUpdate {
-	jdu.mutation.SetBuildingType(s)
-	return jdu
+func (_u *JobDetailUpdate) SetBuildingType(v string) *JobDetailUpdate {
+	_u.mutation.SetBuildingType(v)
+	return _u
 }
 
 // SetNillableBuildingType sets the "BuildingType" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableBuildingType(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetBuildingType(*s)
+func (_u *JobDetailUpdate) SetNillableBuildingType(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetBuildingType(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearBuildingType clears the value of the "BuildingType" field.
-func (jdu *JobDetailUpdate) ClearBuildingType() *JobDetailUpdate {
-	jdu.mutation.ClearBuildingType()
-	return jdu
+func (_u *JobDetailUpdate) ClearBuildingType() *JobDetailUpdate {
+	_u.mutation.ClearBuildingType()
+	return _u
 }
 
 // SetLevel sets the "Level" field.
-func (jdu *JobDetailUpdate) SetLevel(f float64) *JobDetailUpdate {
-	jdu.mutation.ResetLevel()
-	jdu.mutation.SetLevel(f)
-	return jdu
+func (_u *JobDetailUpdate) SetLevel(v float64) *JobDetailUpdate {
+	_u.mutation.ResetLevel()
+	_u.mutation.SetLevel(v)
+	return _u
 }
 
 // SetNillableLevel sets the "Level" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableLevel(f *float64) *JobDetailUpdate {
-	if f != nil {
-		jdu.SetLevel(*f)
+func (_u *JobDetailUpdate) SetNillableLevel(v *float64) *JobDetailUpdate {
+	if v != nil {
+		_u.SetLevel(*v)
 	}
-	return jdu
+	return _u
 }
 
-// AddLevel adds f to the "Level" field.
-func (jdu *JobDetailUpdate) AddLevel(f float64) *JobDetailUpdate {
-	jdu.mutation.AddLevel(f)
-	return jdu
+// AddLevel adds value to the "Level" field.
+func (_u *JobDetailUpdate) AddLevel(v float64) *JobDetailUpdate {
+	_u.mutation.AddLevel(v)
+	return _u
 }
 
 // ClearLevel clears the value of the "Level" field.
-func (jdu *JobDetailUpdate) ClearLevel() *JobDetailUpdate {
-	jdu.mutation.ClearLevel()
-	return jdu
+func (_u *JobDetailUpdate) ClearLevel() *JobDetailUpdate {
+	_u.mutation.ClearLevel()
+	return _u
 }
 
 // SetUnitPrice sets the "UnitPrice" field.
-func (jdu *JobDetailUpdate) SetUnitPrice(f float64) *JobDetailUpdate {
-	jdu.mutation.ResetUnitPrice()
-	jdu.mutation.SetUnitPrice(f)
-	return jdu
+func (_u *JobDetailUpdate) SetUnitPrice(v float64) *JobDetailUpdate {
+	_u.mutation.ResetUnitPrice()
+	_u.mutation.SetUnitPrice(v)
+	return _u
 }
 
 // SetNillableUnitPrice sets the "UnitPrice" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableUnitPrice(f *float64) *JobDetailUpdate {
-	if f != nil {
-		jdu.SetUnitPrice(*f)
+func (_u *JobDetailUpdate) SetNillableUnitPrice(v *float64) *JobDetailUpdate {
+	if v != nil {
+		_u.SetUnitPrice(*v)
 	}
-	return jdu
+	return _u
 }
 
-// AddUnitPrice adds f to the "UnitPrice" field.
-func (jdu *JobDetailUpdate) AddUnitPrice(f float64) *JobDetailUpdate {
-	jdu.mutation.AddUnitPrice(f)
-	return jdu
+// AddUnitPrice adds value to the "UnitPrice" field.
+func (_u *JobDetailUpdate) AddUnitPrice(v float64) *JobDetailUpdate {
+	_u.mutation.AddUnitPrice(v)
+	return _u
 }
 
 // ClearUnitPrice clears the value of the "UnitPrice" field.
-func (jdu *JobDetailUpdate) ClearUnitPrice() *JobDetailUpdate {
-	jdu.mutation.ClearUnitPrice()
-	return jdu
+func (_u *JobDetailUpdate) ClearUnitPrice() *JobDetailUpdate {
+	_u.mutation.ClearUnitPrice()
+	return _u
 }
 
 // SetFloorCount sets the "FloorCount" field.
-func (jdu *JobDetailUpdate) SetFloorCount(i int) *JobDetailUpdate {
-	jdu.mutation.ResetFloorCount()
-	jdu.mutation.SetFloorCount(i)
-	return jdu
+func (_u *JobDetailUpdate) SetFloorCount(v int) *JobDetailUpdate {
+	_u.mutation.ResetFloorCount()
+	_u.mutation.SetFloorCount(v)
+	return _u
 }
 
 // SetNillableFloorCount sets the "FloorCount" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableFloorCount(i *int) *JobDetailUpdate {
-	if i != nil {
-		jdu.SetFloorCount(*i)
+func (_u *JobDetailUpdate) SetNillableFloorCount(v *int) *JobDetailUpdate {
+	if v != nil {
+		_u.SetFloorCount(*v)
 	}
-	return jdu
+	return _u
 }
 
-// AddFloorCount adds i to the "FloorCount" field.
-func (jdu *JobDetailUpdate) AddFloorCount(i int) *JobDetailUpdate {
-	jdu.mutation.AddFloorCount(i)
-	return jdu
+// AddFloorCount adds value to the "FloorCount" field.
+func (_u *JobDetailUpdate) AddFloorCount(v int) *JobDetailUpdate {
+	_u.mutation.AddFloorCount(v)
+	return _u
 }
 
 // ClearFloorCount clears the value of the "FloorCount" field.
-func (jdu *JobDetailUpdate) ClearFloorCount() *JobDetailUpdate {
-	jdu.mutation.ClearFloorCount()
-	return jdu
+func (_u *JobDetailUpdate) ClearFloorCount() *JobDetailUpdate {
+	_u.mutation.ClearFloorCount()
+	return _u
 }
 
 // SetBKSReferenceNo sets the "BKSReferenceNo" field.
-func (jdu *JobDetailUpdate) SetBKSReferenceNo(s string) *JobDetailUpdate {
-	jdu.mutation.SetBKSReferenceNo(s)
-	return jdu
+func (_u *JobDetailUpdate) SetBKSReferenceNo(v string) *JobDetailUpdate {
+	_u.mutation.SetBKSReferenceNo(v)
+	return _u
 }
 
 // SetNillableBKSReferenceNo sets the "BKSReferenceNo" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableBKSReferenceNo(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetBKSReferenceNo(*s)
+func (_u *JobDetailUpdate) SetNillableBKSReferenceNo(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetBKSReferenceNo(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearBKSReferenceNo clears the value of the "BKSReferenceNo" field.
-func (jdu *JobDetailUpdate) ClearBKSReferenceNo() *JobDetailUpdate {
-	jdu.mutation.ClearBKSReferenceNo()
-	return jdu
+func (_u *JobDetailUpdate) ClearBKSReferenceNo() *JobDetailUpdate {
+	_u.mutation.ClearBKSReferenceNo()
+	return _u
 }
 
 // SetCoordinates sets the "Coordinates" field.
-func (jdu *JobDetailUpdate) SetCoordinates(s string) *JobDetailUpdate {
-	jdu.mutation.SetCoordinates(s)
-	return jdu
+func (_u *JobDetailUpdate) SetCoordinates(v string) *JobDetailUpdate {
+	_u.mutation.SetCoordinates(v)
+	return _u
 }
 
 // SetNillableCoordinates sets the "Coordinates" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableCoordinates(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetCoordinates(*s)
+func (_u *JobDetailUpdate) SetNillableCoordinates(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetCoordinates(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearCoordinates clears the value of the "Coordinates" field.
-func (jdu *JobDetailUpdate) ClearCoordinates() *JobDetailUpdate {
-	jdu.mutation.ClearCoordinates()
-	return jdu
+func (_u *JobDetailUpdate) ClearCoordinates() *JobDetailUpdate {
+	_u.mutation.ClearCoordinates()
+	return _u
 }
 
 // SetFolderNo sets the "FolderNo" field.
-func (jdu *JobDetailUpdate) SetFolderNo(s string) *JobDetailUpdate {
-	jdu.mutation.SetFolderNo(s)
-	return jdu
+func (_u *JobDetailUpdate) SetFolderNo(v string) *JobDetailUpdate {
+	_u.mutation.SetFolderNo(v)
+	return _u
 }
 
 // SetNillableFolderNo sets the "FolderNo" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableFolderNo(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetFolderNo(*s)
+func (_u *JobDetailUpdate) SetNillableFolderNo(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetFolderNo(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearFolderNo clears the value of the "FolderNo" field.
-func (jdu *JobDetailUpdate) ClearFolderNo() *JobDetailUpdate {
-	jdu.mutation.ClearFolderNo()
-	return jdu
+func (_u *JobDetailUpdate) ClearFolderNo() *JobDetailUpdate {
+	_u.mutation.ClearFolderNo()
+	return _u
 }
 
 // SetUploadedFile sets the "UploadedFile" field.
-func (jdu *JobDetailUpdate) SetUploadedFile(b bool) *JobDetailUpdate {
-	jdu.mutation.SetUploadedFile(b)
-	return jdu
+func (_u *JobDetailUpdate) SetUploadedFile(v bool) *JobDetailUpdate {
+	_u.mutation.SetUploadedFile(v)
+	return _u
 }
 
 // SetNillableUploadedFile sets the "UploadedFile" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableUploadedFile(b *bool) *JobDetailUpdate {
-	if b != nil {
-		jdu.SetUploadedFile(*b)
+func (_u *JobDetailUpdate) SetNillableUploadedFile(v *bool) *JobDetailUpdate {
+	if v != nil {
+		_u.SetUploadedFile(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearUploadedFile clears the value of the "UploadedFile" field.
-func (jdu *JobDetailUpdate) ClearUploadedFile() *JobDetailUpdate {
-	jdu.mutation.ClearUploadedFile()
-	return jdu
+func (_u *JobDetailUpdate) ClearUploadedFile() *JobDetailUpdate {
+	_u.mutation.ClearUploadedFile()
+	return _u
 }
 
 // SetIndustryArea sets the "IndustryArea" field.
-func (jdu *JobDetailUpdate) SetIndustryArea(b bool) *JobDetailUpdate {
-	jdu.mutation.SetIndustryArea(b)
-	return jdu
+func (_u *JobDetailUpdate) SetIndustryArea(v bool) *JobDetailUpdate {
+	_u.mutation.SetIndustryArea(v)
+	return _u
 }
 
 // SetNillableIndustryArea sets the "IndustryArea" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableIndustryArea(b *bool) *JobDetailUpdate {
-	if b != nil {
-		jdu.SetIndustryArea(*b)
+func (_u *JobDetailUpdate) SetNillableIndustryArea(v *bool) *JobDetailUpdate {
+	if v != nil {
+		_u.SetIndustryArea(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearIndustryArea clears the value of the "IndustryArea" field.
-func (jdu *JobDetailUpdate) ClearIndustryArea() *JobDetailUpdate {
-	jdu.mutation.ClearIndustryArea()
-	return jdu
+func (_u *JobDetailUpdate) ClearIndustryArea() *JobDetailUpdate {
+	_u.mutation.ClearIndustryArea()
+	return _u
 }
 
 // SetClusterStructure sets the "ClusterStructure" field.
-func (jdu *JobDetailUpdate) SetClusterStructure(b bool) *JobDetailUpdate {
-	jdu.mutation.SetClusterStructure(b)
-	return jdu
+func (_u *JobDetailUpdate) SetClusterStructure(v bool) *JobDetailUpdate {
+	_u.mutation.SetClusterStructure(v)
+	return _u
 }
 
 // SetNillableClusterStructure sets the "ClusterStructure" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableClusterStructure(b *bool) *JobDetailUpdate {
-	if b != nil {
-		jdu.SetClusterStructure(*b)
+func (_u *JobDetailUpdate) SetNillableClusterStructure(v *bool) *JobDetailUpdate {
+	if v != nil {
+		_u.SetClusterStructure(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearClusterStructure clears the value of the "ClusterStructure" field.
-func (jdu *JobDetailUpdate) ClearClusterStructure() *JobDetailUpdate {
-	jdu.mutation.ClearClusterStructure()
-	return jdu
+func (_u *JobDetailUpdate) ClearClusterStructure() *JobDetailUpdate {
+	_u.mutation.ClearClusterStructure()
+	return _u
 }
 
 // SetIsLicenseExpired sets the "IsLicenseExpired" field.
-func (jdu *JobDetailUpdate) SetIsLicenseExpired(b bool) *JobDetailUpdate {
-	jdu.mutation.SetIsLicenseExpired(b)
-	return jdu
+func (_u *JobDetailUpdate) SetIsLicenseExpired(v bool) *JobDetailUpdate {
+	_u.mutation.SetIsLicenseExpired(v)
+	return _u
 }
 
 // SetNillableIsLicenseExpired sets the "IsLicenseExpired" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableIsLicenseExpired(b *bool) *JobDetailUpdate {
-	if b != nil {
-		jdu.SetIsLicenseExpired(*b)
+func (_u *JobDetailUpdate) SetNillableIsLicenseExpired(v *bool) *JobDetailUpdate {
+	if v != nil {
+		_u.SetIsLicenseExpired(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearIsLicenseExpired clears the value of the "IsLicenseExpired" field.
-func (jdu *JobDetailUpdate) ClearIsLicenseExpired() *JobDetailUpdate {
-	jdu.mutation.ClearIsLicenseExpired()
-	return jdu
+func (_u *JobDetailUpdate) ClearIsLicenseExpired() *JobDetailUpdate {
+	_u.mutation.ClearIsLicenseExpired()
+	return _u
 }
 
 // SetIsCompleted sets the "IsCompleted" field.
-func (jdu *JobDetailUpdate) SetIsCompleted(b bool) *JobDetailUpdate {
-	jdu.mutation.SetIsCompleted(b)
-	return jdu
+func (_u *JobDetailUpdate) SetIsCompleted(v bool) *JobDetailUpdate {
+	_u.mutation.SetIsCompleted(v)
+	return _u
 }
 
 // SetNillableIsCompleted sets the "IsCompleted" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableIsCompleted(b *bool) *JobDetailUpdate {
-	if b != nil {
-		jdu.SetIsCompleted(*b)
+func (_u *JobDetailUpdate) SetNillableIsCompleted(v *bool) *JobDetailUpdate {
+	if v != nil {
+		_u.SetIsCompleted(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearIsCompleted clears the value of the "IsCompleted" field.
-func (jdu *JobDetailUpdate) ClearIsCompleted() *JobDetailUpdate {
-	jdu.mutation.ClearIsCompleted()
-	return jdu
+func (_u *JobDetailUpdate) ClearIsCompleted() *JobDetailUpdate {
+	_u.mutation.ClearIsCompleted()
+	return _u
 }
 
 // SetNote sets the "Note" field.
-func (jdu *JobDetailUpdate) SetNote(s string) *JobDetailUpdate {
-	jdu.mutation.SetNote(s)
-	return jdu
+func (_u *JobDetailUpdate) SetNote(v string) *JobDetailUpdate {
+	_u.mutation.SetNote(v)
+	return _u
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableNote(s *string) *JobDetailUpdate {
-	if s != nil {
-		jdu.SetNote(*s)
+func (_u *JobDetailUpdate) SetNillableNote(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetNote(*v)
 	}
-	return jdu
+	return _u
 }
 
 // ClearNote clears the value of the "Note" field.
-func (jdu *JobDetailUpdate) ClearNote() *JobDetailUpdate {
-	jdu.mutation.ClearNote()
-	return jdu
+func (_u *JobDetailUpdate) ClearNote() *JobDetailUpdate {
+	_u.mutation.ClearNote()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jdu *JobDetailUpdate) SetCreatedAt(t time.Time) *JobDetailUpdate {
-	jdu.mutation.SetCreatedAt(t)
-	return jdu
+func (_u *JobDetailUpdate) SetCreatedAt(v time.Time) *JobDetailUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableCreatedAt(t *time.Time) *JobDetailUpdate {
-	if t != nil {
-		jdu.SetCreatedAt(*t)
+func (_u *JobDetailUpdate) SetNillableCreatedAt(v *time.Time) *JobDetailUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jdu
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jdu *JobDetailUpdate) SetUpdatedAt(t time.Time) *JobDetailUpdate {
-	jdu.mutation.SetUpdatedAt(t)
-	return jdu
+func (_u *JobDetailUpdate) SetUpdatedAt(v time.Time) *JobDetailUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetRelationsID sets the "relations" edge to the JobRelations entity by ID.
-func (jdu *JobDetailUpdate) SetRelationsID(id int) *JobDetailUpdate {
-	jdu.mutation.SetRelationsID(id)
-	return jdu
+func (_u *JobDetailUpdate) SetRelationsID(id int) *JobDetailUpdate {
+	_u.mutation.SetRelationsID(id)
+	return _u
 }
 
 // SetNillableRelationsID sets the "relations" edge to the JobRelations entity by ID if the given value is not nil.
-func (jdu *JobDetailUpdate) SetNillableRelationsID(id *int) *JobDetailUpdate {
+func (_u *JobDetailUpdate) SetNillableRelationsID(id *int) *JobDetailUpdate {
 	if id != nil {
-		jdu = jdu.SetRelationsID(*id)
+		_u = _u.SetRelationsID(*id)
 	}
-	return jdu
+	return _u
 }
 
 // SetRelations sets the "relations" edge to the JobRelations entity.
-func (jdu *JobDetailUpdate) SetRelations(j *JobRelations) *JobDetailUpdate {
-	return jdu.SetRelationsID(j.ID)
+func (_u *JobDetailUpdate) SetRelations(v *JobRelations) *JobDetailUpdate {
+	return _u.SetRelationsID(v.ID)
 }
 
 // Mutation returns the JobDetailMutation object of the builder.
-func (jdu *JobDetailUpdate) Mutation() *JobDetailMutation {
-	return jdu.mutation
+func (_u *JobDetailUpdate) Mutation() *JobDetailMutation {
+	return _u.mutation
 }
 
 // ClearRelations clears the "relations" edge to the JobRelations entity.
-func (jdu *JobDetailUpdate) ClearRelations() *JobDetailUpdate {
-	jdu.mutation.ClearRelations()
-	return jdu
+func (_u *JobDetailUpdate) ClearRelations() *JobDetailUpdate {
+	_u.mutation.ClearRelations()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jdu *JobDetailUpdate) Save(ctx context.Context) (int, error) {
-	jdu.defaults()
-	return withHooks(ctx, jdu.sqlSave, jdu.mutation, jdu.hooks)
+func (_u *JobDetailUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jdu *JobDetailUpdate) SaveX(ctx context.Context) int {
-	affected, err := jdu.Save(ctx)
+func (_u *JobDetailUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -805,261 +805,261 @@ func (jdu *JobDetailUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jdu *JobDetailUpdate) Exec(ctx context.Context) error {
-	_, err := jdu.Save(ctx)
+func (_u *JobDetailUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jdu *JobDetailUpdate) ExecX(ctx context.Context) {
-	if err := jdu.Exec(ctx); err != nil {
+func (_u *JobDetailUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jdu *JobDetailUpdate) defaults() {
-	if _, ok := jdu.mutation.UpdatedAt(); !ok {
+func (_u *JobDetailUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobdetail.UpdateDefaultUpdatedAt()
-		jdu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobDetailUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobdetail.Table, jobdetail.Columns, sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt))
-	if ps := jdu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jdu.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobdetail.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jdu.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobdetail.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jdu.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(jobdetail.FieldTitle, field.TypeString, value)
 	}
-	if jdu.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(jobdetail.FieldTitle, field.TypeString)
 	}
-	if value, ok := jdu.mutation.Administration(); ok {
+	if value, ok := _u.mutation.Administration(); ok {
 		_spec.SetField(jobdetail.FieldAdministration, field.TypeString, value)
 	}
-	if jdu.mutation.AdministrationCleared() {
+	if _u.mutation.AdministrationCleared() {
 		_spec.ClearField(jobdetail.FieldAdministration, field.TypeString)
 	}
-	if value, ok := jdu.mutation.State(); ok {
+	if value, ok := _u.mutation.State(); ok {
 		_spec.SetField(jobdetail.FieldState, field.TypeString, value)
 	}
-	if jdu.mutation.StateCleared() {
+	if _u.mutation.StateCleared() {
 		_spec.ClearField(jobdetail.FieldState, field.TypeString)
 	}
-	if value, ok := jdu.mutation.Island(); ok {
+	if value, ok := _u.mutation.Island(); ok {
 		_spec.SetField(jobdetail.FieldIsland, field.TypeString, value)
 	}
-	if jdu.mutation.IslandCleared() {
+	if _u.mutation.IslandCleared() {
 		_spec.ClearField(jobdetail.FieldIsland, field.TypeString)
 	}
-	if value, ok := jdu.mutation.Parcel(); ok {
+	if value, ok := _u.mutation.Parcel(); ok {
 		_spec.SetField(jobdetail.FieldParcel, field.TypeString, value)
 	}
-	if jdu.mutation.ParcelCleared() {
+	if _u.mutation.ParcelCleared() {
 		_spec.ClearField(jobdetail.FieldParcel, field.TypeString)
 	}
-	if value, ok := jdu.mutation.Sheet(); ok {
+	if value, ok := _u.mutation.Sheet(); ok {
 		_spec.SetField(jobdetail.FieldSheet, field.TypeString, value)
 	}
-	if jdu.mutation.SheetCleared() {
+	if _u.mutation.SheetCleared() {
 		_spec.ClearField(jobdetail.FieldSheet, field.TypeString)
 	}
-	if value, ok := jdu.mutation.ContractDate(); ok {
+	if value, ok := _u.mutation.ContractDate(); ok {
 		_spec.SetField(jobdetail.FieldContractDate, field.TypeTime, value)
 	}
-	if jdu.mutation.ContractDateCleared() {
+	if _u.mutation.ContractDateCleared() {
 		_spec.ClearField(jobdetail.FieldContractDate, field.TypeTime)
 	}
-	if value, ok := jdu.mutation.StartDate(); ok {
+	if value, ok := _u.mutation.StartDate(); ok {
 		_spec.SetField(jobdetail.FieldStartDate, field.TypeTime, value)
 	}
-	if jdu.mutation.StartDateCleared() {
+	if _u.mutation.StartDateCleared() {
 		_spec.ClearField(jobdetail.FieldStartDate, field.TypeTime)
 	}
-	if value, ok := jdu.mutation.LicenseDate(); ok {
+	if value, ok := _u.mutation.LicenseDate(); ok {
 		_spec.SetField(jobdetail.FieldLicenseDate, field.TypeTime, value)
 	}
-	if jdu.mutation.LicenseDateCleared() {
+	if _u.mutation.LicenseDateCleared() {
 		_spec.ClearField(jobdetail.FieldLicenseDate, field.TypeTime)
 	}
-	if value, ok := jdu.mutation.LicenseNo(); ok {
+	if value, ok := _u.mutation.LicenseNo(); ok {
 		_spec.SetField(jobdetail.FieldLicenseNo, field.TypeString, value)
 	}
-	if jdu.mutation.LicenseNoCleared() {
+	if _u.mutation.LicenseNoCleared() {
 		_spec.ClearField(jobdetail.FieldLicenseNo, field.TypeString)
 	}
-	if value, ok := jdu.mutation.DistributionDate(); ok {
+	if value, ok := _u.mutation.DistributionDate(); ok {
 		_spec.SetField(jobdetail.FieldDistributionDate, field.TypeTime, value)
 	}
-	if jdu.mutation.DistributionDateCleared() {
+	if _u.mutation.DistributionDateCleared() {
 		_spec.ClearField(jobdetail.FieldDistributionDate, field.TypeTime)
 	}
-	if value, ok := jdu.mutation.CompletionDate(); ok {
+	if value, ok := _u.mutation.CompletionDate(); ok {
 		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)
 	}
-	if jdu.mutation.CompletionDateCleared() {
+	if _u.mutation.CompletionDateCleared() {
 		_spec.ClearField(jobdetail.FieldCompletionDate, field.TypeTime)
 	}
-	if value, ok := jdu.mutation.LandArea(); ok {
+	if value, ok := _u.mutation.LandArea(); ok {
 		_spec.SetField(jobdetail.FieldLandArea, field.TypeFloat64, value)
 	}
-	if value, ok := jdu.mutation.AddedLandArea(); ok {
+	if value, ok := _u.mutation.AddedLandArea(); ok {
 		_spec.AddField(jobdetail.FieldLandArea, field.TypeFloat64, value)
 	}
-	if jdu.mutation.LandAreaCleared() {
+	if _u.mutation.LandAreaCleared() {
 		_spec.ClearField(jobdetail.FieldLandArea, field.TypeFloat64)
 	}
-	if value, ok := jdu.mutation.TotalArea(); ok {
+	if value, ok := _u.mutation.TotalArea(); ok {
 		_spec.SetField(jobdetail.FieldTotalArea, field.TypeFloat64, value)
 	}
-	if value, ok := jdu.mutation.AddedTotalArea(); ok {
+	if value, ok := _u.mutation.AddedTotalArea(); ok {
 		_spec.AddField(jobdetail.FieldTotalArea, field.TypeFloat64, value)
 	}
-	if jdu.mutation.TotalAreaCleared() {
+	if _u.mutation.TotalAreaCleared() {
 		_spec.ClearField(jobdetail.FieldTotalArea, field.TypeFloat64)
 	}
-	if value, ok := jdu.mutation.ConstructionArea(); ok {
+	if value, ok := _u.mutation.ConstructionArea(); ok {
 		_spec.SetField(jobdetail.FieldConstructionArea, field.TypeFloat64, value)
 	}
-	if value, ok := jdu.mutation.AddedConstructionArea(); ok {
+	if value, ok := _u.mutation.AddedConstructionArea(); ok {
 		_spec.AddField(jobdetail.FieldConstructionArea, field.TypeFloat64, value)
 	}
-	if jdu.mutation.ConstructionAreaCleared() {
+	if _u.mutation.ConstructionAreaCleared() {
 		_spec.ClearField(jobdetail.FieldConstructionArea, field.TypeFloat64)
 	}
-	if value, ok := jdu.mutation.LeftArea(); ok {
+	if value, ok := _u.mutation.LeftArea(); ok {
 		_spec.SetField(jobdetail.FieldLeftArea, field.TypeFloat64, value)
 	}
-	if value, ok := jdu.mutation.AddedLeftArea(); ok {
+	if value, ok := _u.mutation.AddedLeftArea(); ok {
 		_spec.AddField(jobdetail.FieldLeftArea, field.TypeFloat64, value)
 	}
-	if jdu.mutation.LeftAreaCleared() {
+	if _u.mutation.LeftAreaCleared() {
 		_spec.ClearField(jobdetail.FieldLeftArea, field.TypeFloat64)
 	}
-	if value, ok := jdu.mutation.YDSAddress(); ok {
+	if value, ok := _u.mutation.YDSAddress(); ok {
 		_spec.SetField(jobdetail.FieldYDSAddress, field.TypeString, value)
 	}
-	if jdu.mutation.YDSAddressCleared() {
+	if _u.mutation.YDSAddressCleared() {
 		_spec.ClearField(jobdetail.FieldYDSAddress, field.TypeString)
 	}
-	if value, ok := jdu.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(jobdetail.FieldAddress, field.TypeString, value)
 	}
-	if jdu.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(jobdetail.FieldAddress, field.TypeString)
 	}
-	if value, ok := jdu.mutation.BuildingClass(); ok {
+	if value, ok := _u.mutation.BuildingClass(); ok {
 		_spec.SetField(jobdetail.FieldBuildingClass, field.TypeString, value)
 	}
-	if jdu.mutation.BuildingClassCleared() {
+	if _u.mutation.BuildingClassCleared() {
 		_spec.ClearField(jobdetail.FieldBuildingClass, field.TypeString)
 	}
-	if value, ok := jdu.mutation.BuildingType(); ok {
+	if value, ok := _u.mutation.BuildingType(); ok {
 		_spec.SetField(jobdetail.FieldBuildingType, field.TypeString, value)
 	}
-	if jdu.mutation.BuildingTypeCleared() {
+	if _u.mutation.BuildingTypeCleared() {
 		_spec.ClearField(jobdetail.FieldBuildingType, field.TypeString)
 	}
-	if value, ok := jdu.mutation.Level(); ok {
+	if value, ok := _u.mutation.Level(); ok {
 		_spec.SetField(jobdetail.FieldLevel, field.TypeFloat64, value)
 	}
-	if value, ok := jdu.mutation.AddedLevel(); ok {
+	if value, ok := _u.mutation.AddedLevel(); ok {
 		_spec.AddField(jobdetail.FieldLevel, field.TypeFloat64, value)
 	}
-	if jdu.mutation.LevelCleared() {
+	if _u.mutation.LevelCleared() {
 		_spec.ClearField(jobdetail.FieldLevel, field.TypeFloat64)
 	}
-	if value, ok := jdu.mutation.UnitPrice(); ok {
+	if value, ok := _u.mutation.UnitPrice(); ok {
 		_spec.SetField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)
 	}
-	if value, ok := jdu.mutation.AddedUnitPrice(); ok {
+	if value, ok := _u.mutation.AddedUnitPrice(); ok {
 		_spec.AddField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)
 	}
-	if jdu.mutation.UnitPriceCleared() {
+	if _u.mutation.UnitPriceCleared() {
 		_spec.ClearField(jobdetail.FieldUnitPrice, field.TypeFloat64)
 	}
-	if value, ok := jdu.mutation.FloorCount(); ok {
+	if value, ok := _u.mutation.FloorCount(); ok {
 		_spec.SetField(jobdetail.FieldFloorCount, field.TypeInt, value)
 	}
-	if value, ok := jdu.mutation.AddedFloorCount(); ok {
+	if value, ok := _u.mutation.AddedFloorCount(); ok {
 		_spec.AddField(jobdetail.FieldFloorCount, field.TypeInt, value)
 	}
-	if jdu.mutation.FloorCountCleared() {
+	if _u.mutation.FloorCountCleared() {
 		_spec.ClearField(jobdetail.FieldFloorCount, field.TypeInt)
 	}
-	if value, ok := jdu.mutation.BKSReferenceNo(); ok {
+	if value, ok := _u.mutation.BKSReferenceNo(); ok {
 		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeString, value)
 	}
-	if jdu.mutation.BKSReferenceNoCleared() {
+	if _u.mutation.BKSReferenceNoCleared() {
 		_spec.ClearField(jobdetail.FieldBKSReferenceNo, field.TypeString)
 	}
-	if value, ok := jdu.mutation.Coordinates(); ok {
+	if value, ok := _u.mutation.Coordinates(); ok {
 		_spec.SetField(jobdetail.FieldCoordinates, field.TypeString, value)
 	}
-	if jdu.mutation.CoordinatesCleared() {
+	if _u.mutation.CoordinatesCleared() {
 		_spec.ClearField(jobdetail.FieldCoordinates, field.TypeString)
 	}
-	if value, ok := jdu.mutation.FolderNo(); ok {
+	if value, ok := _u.mutation.FolderNo(); ok {
 		_spec.SetField(jobdetail.FieldFolderNo, field.TypeString, value)
 	}
-	if jdu.mutation.FolderNoCleared() {
+	if _u.mutation.FolderNoCleared() {
 		_spec.ClearField(jobdetail.FieldFolderNo, field.TypeString)
 	}
-	if value, ok := jdu.mutation.UploadedFile(); ok {
+	if value, ok := _u.mutation.UploadedFile(); ok {
 		_spec.SetField(jobdetail.FieldUploadedFile, field.TypeBool, value)
 	}
-	if jdu.mutation.UploadedFileCleared() {
+	if _u.mutation.UploadedFileCleared() {
 		_spec.ClearField(jobdetail.FieldUploadedFile, field.TypeBool)
 	}
-	if value, ok := jdu.mutation.IndustryArea(); ok {
+	if value, ok := _u.mutation.IndustryArea(); ok {
 		_spec.SetField(jobdetail.FieldIndustryArea, field.TypeBool, value)
 	}
-	if jdu.mutation.IndustryAreaCleared() {
+	if _u.mutation.IndustryAreaCleared() {
 		_spec.ClearField(jobdetail.FieldIndustryArea, field.TypeBool)
 	}
-	if value, ok := jdu.mutation.ClusterStructure(); ok {
+	if value, ok := _u.mutation.ClusterStructure(); ok {
 		_spec.SetField(jobdetail.FieldClusterStructure, field.TypeBool, value)
 	}
-	if jdu.mutation.ClusterStructureCleared() {
+	if _u.mutation.ClusterStructureCleared() {
 		_spec.ClearField(jobdetail.FieldClusterStructure, field.TypeBool)
 	}
-	if value, ok := jdu.mutation.IsLicenseExpired(); ok {
+	if value, ok := _u.mutation.IsLicenseExpired(); ok {
 		_spec.SetField(jobdetail.FieldIsLicenseExpired, field.TypeBool, value)
 	}
-	if jdu.mutation.IsLicenseExpiredCleared() {
+	if _u.mutation.IsLicenseExpiredCleared() {
 		_spec.ClearField(jobdetail.FieldIsLicenseExpired, field.TypeBool)
 	}
-	if value, ok := jdu.mutation.IsCompleted(); ok {
+	if value, ok := _u.mutation.IsCompleted(); ok {
 		_spec.SetField(jobdetail.FieldIsCompleted, field.TypeBool, value)
 	}
-	if jdu.mutation.IsCompletedCleared() {
+	if _u.mutation.IsCompletedCleared() {
 		_spec.ClearField(jobdetail.FieldIsCompleted, field.TypeBool)
 	}
-	if value, ok := jdu.mutation.Note(); ok {
+	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
 	}
-	if jdu.mutation.NoteCleared() {
+	if _u.mutation.NoteCleared() {
 		_spec.ClearField(jobdetail.FieldNote, field.TypeString)
 	}
-	if value, ok := jdu.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobdetail.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jdu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobdetail.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jdu.mutation.RelationsCleared() {
+	if _u.mutation.RelationsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -1072,7 +1072,7 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jdu.mutation.RelationsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.RelationsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -1088,7 +1088,7 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jdu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobdetail.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1096,8 +1096,8 @@ func (jdu *JobDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	jdu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobDetailUpdateOne is the builder for updating a single JobDetail entity.
@@ -1109,787 +1109,787 @@ type JobDetailUpdateOne struct {
 }
 
 // SetYibfNo sets the "YibfNo" field.
-func (jduo *JobDetailUpdateOne) SetYibfNo(i int) *JobDetailUpdateOne {
-	jduo.mutation.ResetYibfNo()
-	jduo.mutation.SetYibfNo(i)
-	return jduo
+func (_u *JobDetailUpdateOne) SetYibfNo(v int) *JobDetailUpdateOne {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "YibfNo" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableYibfNo(i *int) *JobDetailUpdateOne {
-	if i != nil {
-		jduo.SetYibfNo(*i)
+func (_u *JobDetailUpdateOne) SetNillableYibfNo(v *int) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jduo
+	return _u
 }
 
-// AddYibfNo adds i to the "YibfNo" field.
-func (jduo *JobDetailUpdateOne) AddYibfNo(i int) *JobDetailUpdateOne {
-	jduo.mutation.AddYibfNo(i)
-	return jduo
+// AddYibfNo adds value to the "YibfNo" field.
+func (_u *JobDetailUpdateOne) AddYibfNo(v int) *JobDetailUpdateOne {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetTitle sets the "Title" field.
-func (jduo *JobDetailUpdateOne) SetTitle(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetTitle(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetTitle(v string) *JobDetailUpdateOne {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "Title" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableTitle(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetTitle(*s)
+func (_u *JobDetailUpdateOne) SetNillableTitle(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearTitle clears the value of the "Title" field.
-func (jduo *JobDetailUpdateOne) ClearTitle() *JobDetailUpdateOne {
-	jduo.mutation.ClearTitle()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearTitle() *JobDetailUpdateOne {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetAdministration sets the "Administration" field.
-func (jduo *JobDetailUpdateOne) SetAdministration(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetAdministration(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetAdministration(v string) *JobDetailUpdateOne {
+	_u.mutation.SetAdministration(v)
+	return _u
 }
 
 // SetNillableAdministration sets the "Administration" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableAdministration(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetAdministration(*s)
+func (_u *JobDetailUpdateOne) SetNillableAdministration(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetAdministration(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearAdministration clears the value of the "Administration" field.
-func (jduo *JobDetailUpdateOne) ClearAdministration() *JobDetailUpdateOne {
-	jduo.mutation.ClearAdministration()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearAdministration() *JobDetailUpdateOne {
+	_u.mutation.ClearAdministration()
+	return _u
 }
 
 // SetState sets the "State" field.
-func (jduo *JobDetailUpdateOne) SetState(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetState(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetState(v string) *JobDetailUpdateOne {
+	_u.mutation.SetState(v)
+	return _u
 }
 
 // SetNillableState sets the "State" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableState(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetState(*s)
+func (_u *JobDetailUpdateOne) SetNillableState(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetState(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearState clears the value of the "State" field.
-func (jduo *JobDetailUpdateOne) ClearState() *JobDetailUpdateOne {
-	jduo.mutation.ClearState()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearState() *JobDetailUpdateOne {
+	_u.mutation.ClearState()
+	return _u
 }
 
 // SetIsland sets the "Island" field.
-func (jduo *JobDetailUpdateOne) SetIsland(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetIsland(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetIsland(v string) *JobDetailUpdateOne {
+	_u.mutation.SetIsland(v)
+	return _u
 }
 
 // SetNillableIsland sets the "Island" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableIsland(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetIsland(*s)
+func (_u *JobDetailUpdateOne) SetNillableIsland(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetIsland(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearIsland clears the value of the "Island" field.
-func (jduo *JobDetailUpdateOne) ClearIsland() *JobDetailUpdateOne {
-	jduo.mutation.ClearIsland()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearIsland() *JobDetailUpdateOne {
+	_u.mutation.ClearIsland()
+	return _u
 }
 
 // SetParcel sets the "Parcel" field.
-func (jduo *JobDetailUpdateOne) SetParcel(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetParcel(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetParcel(v string) *JobDetailUpdateOne {
+	_u.mutation.SetParcel(v)
+	return _u
 }
 
 // SetNillableParcel sets the "Parcel" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableParcel(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetParcel(*s)
+func (_u *JobDetailUpdateOne) SetNillableParcel(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetParcel(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearParcel clears the value of the "Parcel" field.
-func (jduo *JobDetailUpdateOne) ClearParcel() *JobDetailUpdateOne {
-	jduo.mutation.ClearParcel()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearParcel() *JobDetailUpdateOne {
+	_u.mutation.ClearParcel()
+	return _u
 }
 
 // SetSheet sets the "Sheet" field.
-func (jduo *JobDetailUpdateOne) SetSheet(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetSheet(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetSheet(v string) *JobDetailUpdateOne {
+	_u.mutation.SetSheet(v)
+	return _u
 }
 
 // SetNillableSheet sets the "Sheet" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableSheet(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetSheet(*s)
+func (_u *JobDetailUpdateOne) SetNillableSheet(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetSheet(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearSheet clears the value of the "Sheet" field.
-func (jduo *JobDetailUpdateOne) ClearSheet() *JobDetailUpdateOne {
-	jduo.mutation.ClearSheet()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearSheet() *JobDetailUpdateOne {
+	_u.mutation.ClearSheet()
+	return _u
 }
 
 // SetContractDate sets the "ContractDate" field.
-func (jduo *JobDetailUpdateOne) SetContractDate(t time.Time) *JobDetailUpdateOne {
-	jduo.mutation.SetContractDate(t)
-	return jduo
+func (_u *JobDetailUpdateOne) SetContractDate(v time.Time) *JobDetailUpdateOne {
+	_u.mutation.SetContractDate(v)
+	return _u
 }
 
 // SetNillableContractDate sets the "ContractDate" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableContractDate(t *time.Time) *JobDetailUpdateOne {
-	if t != nil {
-		jduo.SetContractDate(*t)
+func (_u *JobDetailUpdateOne) SetNillableContractDate(v *time.Time) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetContractDate(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearContractDate clears the value of the "ContractDate" field.
-func (jduo *JobDetailUpdateOne) ClearContractDate() *JobDetailUpdateOne {
-	jduo.mutation.ClearContractDate()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearContractDate() *JobDetailUpdateOne {
+	_u.mutation.ClearContractDate()
+	return _u
 }
 
 // SetStartDate sets the "StartDate" field.
-func (jduo *JobDetailUpdateOne) SetStartDate(t time.Time) *JobDetailUpdateOne {
-	jduo.mutation.SetStartDate(t)
-	return jduo
+func (_u *JobDetailUpdateOne) SetStartDate(v time.Time) *JobDetailUpdateOne {
+	_u.mutation.SetStartDate(v)
+	return _u
 }
 
 // SetNillableStartDate sets the "StartDate" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableStartDate(t *time.Time) *JobDetailUpdateOne {
-	if t != nil {
-		jduo.SetStartDate(*t)
+func (_u *JobDetailUpdateOne) SetNillableStartDate(v *time.Time) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetStartDate(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearStartDate clears the value of the "StartDate" field.
-func (jduo *JobDetailUpdateOne) ClearStartDate() *JobDetailUpdateOne {
-	jduo.mutation.ClearStartDate()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearStartDate() *JobDetailUpdateOne {
+	_u.mutation.ClearStartDate()
+	return _u
 }
 
 // SetLicenseDate sets the "LicenseDate" field.
-func (jduo *JobDetailUpdateOne) SetLicenseDate(t time.Time) *JobDetailUpdateOne {
-	jduo.mutation.SetLicenseDate(t)
-	return jduo
+func (_u *JobDetailUpdateOne) SetLicenseDate(v time.Time) *JobDetailUpdateOne {
+	_u.mutation.SetLicenseDate(v)
+	return _u
 }
 
 // SetNillableLicenseDate sets the "LicenseDate" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableLicenseDate(t *time.Time) *JobDetailUpdateOne {
-	if t != nil {
-		jduo.SetLicenseDate(*t)
+func (_u *JobDetailUpdateOne) SetNillableLicenseDate(v *time.Time) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetLicenseDate(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearLicenseDate clears the value of the "LicenseDate" field.
-func (jduo *JobDetailUpdateOne) ClearLicenseDate() *JobDetailUpdateOne {
-	jduo.mutation.ClearLicenseDate()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearLicenseDate() *JobDetailUpdateOne {
+	_u.mutation.ClearLicenseDate()
+	return _u
 }
 
 // SetLicenseNo sets the "LicenseNo" field.
-func (jduo *JobDetailUpdateOne) SetLicenseNo(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetLicenseNo(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetLicenseNo(v string) *JobDetailUpdateOne {
+	_u.mutation.SetLicenseNo(v)
+	return _u
 }
 
 // SetNillableLicenseNo sets the "LicenseNo" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableLicenseNo(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetLicenseNo(*s)
+func (_u *JobDetailUpdateOne) SetNillableLicenseNo(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetLicenseNo(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearLicenseNo clears the value of the "LicenseNo" field.
-func (jduo *JobDetailUpdateOne) ClearLicenseNo() *JobDetailUpdateOne {
-	jduo.mutation.ClearLicenseNo()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearLicenseNo() *JobDetailUpdateOne {
+	_u.mutation.ClearLicenseNo()
+	return _u
 }
 
 // SetDistributionDate sets the "DistributionDate" field.
-func (jduo *JobDetailUpdateOne) SetDistributionDate(t time.Time) *JobDetailUpdateOne {
-	jduo.mutation.SetDistributionDate(t)
-	return jduo
+func (_u *JobDetailUpdateOne) SetDistributionDate(v time.Time) *JobDetailUpdateOne {
+	_u.mutation.SetDistributionDate(v)
+	return _u
 }
 
 // SetNillableDistributionDate sets the "DistributionDate" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableDistributionDate(t *time.Time) *JobDetailUpdateOne {
-	if t != nil {
-		jduo.SetDistributionDate(*t)
+func (_u *JobDetailUpdateOne) SetNillableDistributionDate(v *time.Time) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetDistributionDate(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearDistributionDate clears the value of the "DistributionDate" field.
-func (jduo *JobDetailUpdateOne) ClearDistributionDate() *JobDetailUpdateOne {
-	jduo.mutation.ClearDistributionDate()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearDistributionDate() *JobDetailUpdateOne {
+	_u.mutation.ClearDistributionDate()
+	return _u
 }
 
 // SetCompletionDate sets the "CompletionDate" field.
-func (jduo *JobDetailUpdateOne) SetCompletionDate(t time.Time) *JobDetailUpdateOne {
-	jduo.mutation.SetCompletionDate(t)
-	return jduo
+func (_u *JobDetailUpdateOne) SetCompletionDate(v time.Time) *JobDetailUpdateOne {
+	_u.mutation.SetCompletionDate(v)
+	return _u
 }
 
 // SetNillableCompletionDate sets the "CompletionDate" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableCompletionDate(t *time.Time) *JobDetailUpdateOne {
-	if t != nil {
-		jduo.SetCompletionDate(*t)
+func (_u *JobDetailUpdateOne) SetNillableCompletionDate(v *time.Time) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetCompletionDate(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearCompletionDate clears the value of the "CompletionDate" field.
-func (jduo *JobDetailUpdateOne) ClearCompletionDate() *JobDetailUpdateOne {
-	jduo.mutation.ClearCompletionDate()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearCompletionDate() *JobDetailUpdateOne {
+	_u.mutation.ClearCompletionDate()
+	return _u
 }
 
 // SetLandArea sets the "LandArea" field.
-func (jduo *JobDetailUpdateOne) SetLandArea(f float64) *JobDetailUpdateOne {
-	jduo.mutation.ResetLandArea()
-	jduo.mutation.SetLandArea(f)
-	return jduo
+func (_u *JobDetailUpdateOne) SetLandArea(v float64) *JobDetailUpdateOne {
+	_u.mutation.ResetLandArea()
+	_u.mutation.SetLandArea(v)
+	return _u
 }
 
 // SetNillableLandArea sets the "LandArea" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableLandArea(f *float64) *JobDetailUpdateOne {
-	if f != nil {
-		jduo.SetLandArea(*f)
+func (_u *JobDetailUpdateOne) SetNillableLandArea(v *float64) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetLandArea(*v)
 	}
-	return jduo
+	return _u
 }
 
-// AddLandArea adds f to the "LandArea" field.
-func (jduo *JobDetailUpdateOne) AddLandArea(f float64) *JobDetailUpdateOne {
-	jduo.mutation.AddLandArea(f)
-	return jduo
+// AddLandArea adds value to the "LandArea" field.
+func (_u *JobDetailUpdateOne) AddLandArea(v float64) *JobDetailUpdateOne {
+	_u.mutation.AddLandArea(v)
+	return _u
 }
 
 // ClearLandArea clears the value of the "LandArea" field.
-func (jduo *JobDetailUpdateOne) ClearLandArea() *JobDetailUpdateOne {
-	jduo.mutation.ClearLandArea()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearLandArea() *JobDetailUpdateOne {
+	_u.mutation.ClearLandArea()
+	return _u
 }
 
 // SetTotalArea sets the "TotalArea" field.
-func (jduo *JobDetailUpdateOne) SetTotalArea(f float64) *JobDetailUpdateOne {
-	jduo.mutation.ResetTotalArea()
-	jduo.mutation.SetTotalArea(f)
-	return jduo
+func (_u *JobDetailUpdateOne) SetTotalArea(v float64) *JobDetailUpdateOne {
+	_u.mutation.ResetTotalArea()
+	_u.mutation.SetTotalArea(v)
+	return _u
 }
 
 // SetNillableTotalArea sets the "TotalArea" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableTotalArea(f *float64) *JobDetailUpdateOne {
-	if f != nil {
-		jduo.SetTotalArea(*f)
+func (_u *JobDetailUpdateOne) SetNillableTotalArea(v *float64) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetTotalArea(*v)
 	}
-	return jduo
+	return _u
 }
 
-// AddTotalArea adds f to the "TotalArea" field.
-func (jduo *JobDetailUpdateOne) AddTotalArea(f float64) *JobDetailUpdateOne {
-	jduo.mutation.AddTotalArea(f)
-	return jduo
+// AddTotalArea adds value to the "TotalArea" field.
+func (_u *JobDetailUpdateOne) AddTotalArea(v float64) *JobDetailUpdateOne {
+	_u.mutation.AddTotalArea(v)
+	return _u
 }
 
 // ClearTotalArea clears the value of the "TotalArea" field.
-func (jduo *JobDetailUpdateOne) ClearTotalArea() *JobDetailUpdateOne {
-	jduo.mutation.ClearTotalArea()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearTotalArea() *JobDetailUpdateOne {
+	_u.mutation.ClearTotalArea()
+	return _u
 }
 
 // SetConstructionArea sets the "ConstructionArea" field.
-func (jduo *JobDetailUpdateOne) SetConstructionArea(f float64) *JobDetailUpdateOne {
-	jduo.mutation.ResetConstructionArea()
-	jduo.mutation.SetConstructionArea(f)
-	return jduo
+func (_u *JobDetailUpdateOne) SetConstructionArea(v float64) *JobDetailUpdateOne {
+	_u.mutation.ResetConstructionArea()
+	_u.mutation.SetConstructionArea(v)
+	return _u
 }
 
 // SetNillableConstructionArea sets the "ConstructionArea" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableConstructionArea(f *float64) *JobDetailUpdateOne {
-	if f != nil {
-		jduo.SetConstructionArea(*f)
+func (_u *JobDetailUpdateOne) SetNillableConstructionArea(v *float64) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetConstructionArea(*v)
 	}
-	return jduo
+	return _u
 }
 
-// AddConstructionArea adds f to the "ConstructionArea" field.
-func (jduo *JobDetailUpdateOne) AddConstructionArea(f float64) *JobDetailUpdateOne {
-	jduo.mutation.AddConstructionArea(f)
-	return jduo
+// AddConstructionArea adds value to the "ConstructionArea" field.
+func (_u *JobDetailUpdateOne) AddConstructionArea(v float64) *JobDetailUpdateOne {
+	_u.mutation.AddConstructionArea(v)
+	return _u
 }
 
 // ClearConstructionArea clears the value of the "ConstructionArea" field.
-func (jduo *JobDetailUpdateOne) ClearConstructionArea() *JobDetailUpdateOne {
-	jduo.mutation.ClearConstructionArea()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearConstructionArea() *JobDetailUpdateOne {
+	_u.mutation.ClearConstructionArea()
+	return _u
 }
 
 // SetLeftArea sets the "LeftArea" field.
-func (jduo *JobDetailUpdateOne) SetLeftArea(f float64) *JobDetailUpdateOne {
-	jduo.mutation.ResetLeftArea()
-	jduo.mutation.SetLeftArea(f)
-	return jduo
+func (_u *JobDetailUpdateOne) SetLeftArea(v float64) *JobDetailUpdateOne {
+	_u.mutation.ResetLeftArea()
+	_u.mutation.SetLeftArea(v)
+	return _u
 }
 
 // SetNillableLeftArea sets the "LeftArea" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableLeftArea(f *float64) *JobDetailUpdateOne {
-	if f != nil {
-		jduo.SetLeftArea(*f)
+func (_u *JobDetailUpdateOne) SetNillableLeftArea(v *float64) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetLeftArea(*v)
 	}
-	return jduo
+	return _u
 }
 
-// AddLeftArea adds f to the "LeftArea" field.
-func (jduo *JobDetailUpdateOne) AddLeftArea(f float64) *JobDetailUpdateOne {
-	jduo.mutation.AddLeftArea(f)
-	return jduo
+// AddLeftArea adds value to the "LeftArea" field.
+func (_u *JobDetailUpdateOne) AddLeftArea(v float64) *JobDetailUpdateOne {
+	_u.mutation.AddLeftArea(v)
+	return _u
 }
 
 // ClearLeftArea clears the value of the "LeftArea" field.
-func (jduo *JobDetailUpdateOne) ClearLeftArea() *JobDetailUpdateOne {
-	jduo.mutation.ClearLeftArea()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearLeftArea() *JobDetailUpdateOne {
+	_u.mutation.ClearLeftArea()
+	return _u
 }
 
 // SetYDSAddress sets the "YDSAddress" field.
-func (jduo *JobDetailUpdateOne) SetYDSAddress(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetYDSAddress(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetYDSAddress(v string) *JobDetailUpdateOne {
+	_u.mutation.SetYDSAddress(v)
+	return _u
 }
 
 // SetNillableYDSAddress sets the "YDSAddress" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableYDSAddress(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetYDSAddress(*s)
+func (_u *JobDetailUpdateOne) SetNillableYDSAddress(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetYDSAddress(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearYDSAddress clears the value of the "YDSAddress" field.
-func (jduo *JobDetailUpdateOne) ClearYDSAddress() *JobDetailUpdateOne {
-	jduo.mutation.ClearYDSAddress()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearYDSAddress() *JobDetailUpdateOne {
+	_u.mutation.ClearYDSAddress()
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (jduo *JobDetailUpdateOne) SetAddress(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetAddress(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetAddress(v string) *JobDetailUpdateOne {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableAddress(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetAddress(*s)
+func (_u *JobDetailUpdateOne) SetNillableAddress(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (jduo *JobDetailUpdateOne) ClearAddress() *JobDetailUpdateOne {
-	jduo.mutation.ClearAddress()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearAddress() *JobDetailUpdateOne {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetBuildingClass sets the "BuildingClass" field.
-func (jduo *JobDetailUpdateOne) SetBuildingClass(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetBuildingClass(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetBuildingClass(v string) *JobDetailUpdateOne {
+	_u.mutation.SetBuildingClass(v)
+	return _u
 }
 
 // SetNillableBuildingClass sets the "BuildingClass" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableBuildingClass(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetBuildingClass(*s)
+func (_u *JobDetailUpdateOne) SetNillableBuildingClass(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetBuildingClass(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearBuildingClass clears the value of the "BuildingClass" field.
-func (jduo *JobDetailUpdateOne) ClearBuildingClass() *JobDetailUpdateOne {
-	jduo.mutation.ClearBuildingClass()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearBuildingClass() *JobDetailUpdateOne {
+	_u.mutation.ClearBuildingClass()
+	return _u
 }
 
 // SetBuildingType sets the "BuildingType" field.
-func (jduo *JobDetailUpdateOne) SetBuildingType(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetBuildingType(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetBuildingType(v string) *JobDetailUpdateOne {
+	_u.mutation.SetBuildingType(v)
+	return _u
 }
 
 // SetNillableBuildingType sets the "BuildingType" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableBuildingType(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetBuildingType(*s)
+func (_u *JobDetailUpdateOne) SetNillableBuildingType(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetBuildingType(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearBuildingType clears the value of the "BuildingType" field.
-func (jduo *JobDetailUpdateOne) ClearBuildingType() *JobDetailUpdateOne {
-	jduo.mutation.ClearBuildingType()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearBuildingType() *JobDetailUpdateOne {
+	_u.mutation.ClearBuildingType()
+	return _u
 }
 
 // SetLevel sets the "Level" field.
-func (jduo *JobDetailUpdateOne) SetLevel(f float64) *JobDetailUpdateOne {
-	jduo.mutation.ResetLevel()
-	jduo.mutation.SetLevel(f)
-	return jduo
+func (_u *JobDetailUpdateOne) SetLevel(v float64) *JobDetailUpdateOne {
+	_u.mutation.ResetLevel()
+	_u.mutation.SetLevel(v)
+	return _u
 }
 
 // SetNillableLevel sets the "Level" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableLevel(f *float64) *JobDetailUpdateOne {
-	if f != nil {
-		jduo.SetLevel(*f)
+func (_u *JobDetailUpdateOne) SetNillableLevel(v *float64) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetLevel(*v)
 	}
-	return jduo
+	return _u
 }
 
-// AddLevel adds f to the "Level" field.
-func (jduo *JobDetailUpdateOne) AddLevel(f float64) *JobDetailUpdateOne {
-	jduo.mutation.AddLevel(f)
-	return jduo
+// AddLevel adds value to the "Level" field.
+func (_u *JobDetailUpdateOne) AddLevel(v float64) *JobDetailUpdateOne {
+	_u.mutation.AddLevel(v)
+	return _u
 }
 
 // ClearLevel clears the value of the "Level" field.
-func (jduo *JobDetailUpdateOne) ClearLevel() *JobDetailUpdateOne {
-	jduo.mutation.ClearLevel()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearLevel() *JobDetailUpdateOne {
+	_u.mutation.ClearLevel()
+	return _u
 }
 
 // SetUnitPrice sets the "UnitPrice" field.
-func (jduo *JobDetailUpdateOne) SetUnitPrice(f float64) *JobDetailUpdateOne {
-	jduo.mutation.ResetUnitPrice()
-	jduo.mutation.SetUnitPrice(f)
-	return jduo
+func (_u *JobDetailUpdateOne) SetUnitPrice(v float64) *JobDetailUpdateOne {
+	_u.mutation.ResetUnitPrice()
+	_u.mutation.SetUnitPrice(v)
+	return _u
 }
 
 // SetNillableUnitPrice sets the "UnitPrice" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableUnitPrice(f *float64) *JobDetailUpdateOne {
-	if f != nil {
-		jduo.SetUnitPrice(*f)
+func (_u *JobDetailUpdateOne) SetNillableUnitPrice(v *float64) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetUnitPrice(*v)
 	}
-	return jduo
+	return _u
 }
 
-// AddUnitPrice adds f to the "UnitPrice" field.
-func (jduo *JobDetailUpdateOne) AddUnitPrice(f float64) *JobDetailUpdateOne {
-	jduo.mutation.AddUnitPrice(f)
-	return jduo
+// AddUnitPrice adds value to the "UnitPrice" field.
+func (_u *JobDetailUpdateOne) AddUnitPrice(v float64) *JobDetailUpdateOne {
+	_u.mutation.AddUnitPrice(v)
+	return _u
 }
 
 // ClearUnitPrice clears the value of the "UnitPrice" field.
-func (jduo *JobDetailUpdateOne) ClearUnitPrice() *JobDetailUpdateOne {
-	jduo.mutation.ClearUnitPrice()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearUnitPrice() *JobDetailUpdateOne {
+	_u.mutation.ClearUnitPrice()
+	return _u
 }
 
 // SetFloorCount sets the "FloorCount" field.
-func (jduo *JobDetailUpdateOne) SetFloorCount(i int) *JobDetailUpdateOne {
-	jduo.mutation.ResetFloorCount()
-	jduo.mutation.SetFloorCount(i)
-	return jduo
+func (_u *JobDetailUpdateOne) SetFloorCount(v int) *JobDetailUpdateOne {
+	_u.mutation.ResetFloorCount()
+	_u.mutation.SetFloorCount(v)
+	return _u
 }
 
 // SetNillableFloorCount sets the "FloorCount" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableFloorCount(i *int) *JobDetailUpdateOne {
-	if i != nil {
-		jduo.SetFloorCount(*i)
+func (_u *JobDetailUpdateOne) SetNillableFloorCount(v *int) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetFloorCount(*v)
 	}
-	return jduo
+	return _u
 }
 
-// AddFloorCount adds i to the "FloorCount" field.
-func (jduo *JobDetailUpdateOne) AddFloorCount(i int) *JobDetailUpdateOne {
-	jduo.mutation.AddFloorCount(i)
-	return jduo
+// AddFloorCount adds value to the "FloorCount" field.
+func (_u *JobDetailUpdateOne) AddFloorCount(v int) *JobDetailUpdateOne {
+	_u.mutation.AddFloorCount(v)
+	return _u
 }
 
 // ClearFloorCount clears the value of the "FloorCount" field.
-func (jduo *JobDetailUpdateOne) ClearFloorCount() *JobDetailUpdateOne {
-	jduo.mutation.ClearFloorCount()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearFloorCount() *JobDetailUpdateOne {
+	_u.mutation.ClearFloorCount()
+	return _u
 }
 
 // SetBKSReferenceNo sets the "BKSReferenceNo" field.
-func (jduo *JobDetailUpdateOne) SetBKSReferenceNo(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetBKSReferenceNo(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetBKSReferenceNo(v string) *JobDetailUpdateOne {
+	_u.mutation.SetBKSReferenceNo(v)
+	return _u
 }
 
 // SetNillableBKSReferenceNo sets the "BKSReferenceNo" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableBKSReferenceNo(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetBKSReferenceNo(*s)
+func (_u *JobDetailUpdateOne) SetNillableBKSReferenceNo(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetBKSReferenceNo(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearBKSReferenceNo clears the value of the "BKSReferenceNo" field.
-func (jduo *JobDetailUpdateOne) ClearBKSReferenceNo() *JobDetailUpdateOne {
-	jduo.mutation.ClearBKSReferenceNo()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearBKSReferenceNo() *JobDetailUpdateOne {
+	_u.mutation.ClearBKSReferenceNo()
+	return _u
 }
 
 // SetCoordinates sets the "Coordinates" field.
-func (jduo *JobDetailUpdateOne) SetCoordinates(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetCoordinates(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetCoordinates(v string) *JobDetailUpdateOne {
+	_u.mutation.SetCoordinates(v)
+	return _u
 }
 
 // SetNillableCoordinates sets the "Coordinates" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableCoordinates(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetCoordinates(*s)
+func (_u *JobDetailUpdateOne) SetNillableCoordinates(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetCoordinates(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearCoordinates clears the value of the "Coordinates" field.
-func (jduo *JobDetailUpdateOne) ClearCoordinates() *JobDetailUpdateOne {
-	jduo.mutation.ClearCoordinates()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearCoordinates() *JobDetailUpdateOne {
+	_u.mutation.ClearCoordinates()
+	return _u
 }
 
 // SetFolderNo sets the "FolderNo" field.
-func (jduo *JobDetailUpdateOne) SetFolderNo(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetFolderNo(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetFolderNo(v string) *JobDetailUpdateOne {
+	_u.mutation.SetFolderNo(v)
+	return _u
 }
 
 // SetNillableFolderNo sets the "FolderNo" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableFolderNo(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetFolderNo(*s)
+func (_u *JobDetailUpdateOne) SetNillableFolderNo(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetFolderNo(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearFolderNo clears the value of the "FolderNo" field.
-func (jduo *JobDetailUpdateOne) ClearFolderNo() *JobDetailUpdateOne {
-	jduo.mutation.ClearFolderNo()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearFolderNo() *JobDetailUpdateOne {
+	_u.mutation.ClearFolderNo()
+	return _u
 }
 
 // SetUploadedFile sets the "UploadedFile" field.
-func (jduo *JobDetailUpdateOne) SetUploadedFile(b bool) *JobDetailUpdateOne {
-	jduo.mutation.SetUploadedFile(b)
-	return jduo
+func (_u *JobDetailUpdateOne) SetUploadedFile(v bool) *JobDetailUpdateOne {
+	_u.mutation.SetUploadedFile(v)
+	return _u
 }
 
 // SetNillableUploadedFile sets the "UploadedFile" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableUploadedFile(b *bool) *JobDetailUpdateOne {
-	if b != nil {
-		jduo.SetUploadedFile(*b)
+func (_u *JobDetailUpdateOne) SetNillableUploadedFile(v *bool) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetUploadedFile(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearUploadedFile clears the value of the "UploadedFile" field.
-func (jduo *JobDetailUpdateOne) ClearUploadedFile() *JobDetailUpdateOne {
-	jduo.mutation.ClearUploadedFile()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearUploadedFile() *JobDetailUpdateOne {
+	_u.mutation.ClearUploadedFile()
+	return _u
 }
 
 // SetIndustryArea sets the "IndustryArea" field.
-func (jduo *JobDetailUpdateOne) SetIndustryArea(b bool) *JobDetailUpdateOne {
-	jduo.mutation.SetIndustryArea(b)
-	return jduo
+func (_u *JobDetailUpdateOne) SetIndustryArea(v bool) *JobDetailUpdateOne {
+	_u.mutation.SetIndustryArea(v)
+	return _u
 }
 
 // SetNillableIndustryArea sets the "IndustryArea" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableIndustryArea(b *bool) *JobDetailUpdateOne {
-	if b != nil {
-		jduo.SetIndustryArea(*b)
+func (_u *JobDetailUpdateOne) SetNillableIndustryArea(v *bool) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetIndustryArea(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearIndustryArea clears the value of the "IndustryArea" field.
-func (jduo *JobDetailUpdateOne) ClearIndustryArea() *JobDetailUpdateOne {
-	jduo.mutation.ClearIndustryArea()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearIndustryArea() *JobDetailUpdateOne {
+	_u.mutation.ClearIndustryArea()
+	return _u
 }
 
 // SetClusterStructure sets the "ClusterStructure" field.
-func (jduo *JobDetailUpdateOne) SetClusterStructure(b bool) *JobDetailUpdateOne {
-	jduo.mutation.SetClusterStructure(b)
-	return jduo
+func (_u *JobDetailUpdateOne) SetClusterStructure(v bool) *JobDetailUpdateOne {
+	_u.mutation.SetClusterStructure(v)
+	return _u
 }
 
 // SetNillableClusterStructure sets the "ClusterStructure" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableClusterStructure(b *bool) *JobDetailUpdateOne {
-	if b != nil {
-		jduo.SetClusterStructure(*b)
+func (_u *JobDetailUpdateOne) SetNillableClusterStructure(v *bool) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetClusterStructure(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearClusterStructure clears the value of the "ClusterStructure" field.
-func (jduo *JobDetailUpdateOne) ClearClusterStructure() *JobDetailUpdateOne {
-	jduo.mutation.ClearClusterStructure()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearClusterStructure() *JobDetailUpdateOne {
+	_u.mutation.ClearClusterStructure()
+	return _u
 }
 
 // SetIsLicenseExpired sets the "IsLicenseExpired" field.
-func (jduo *JobDetailUpdateOne) SetIsLicenseExpired(b bool) *JobDetailUpdateOne {
-	jduo.mutation.SetIsLicenseExpired(b)
-	return jduo
+func (_u *JobDetailUpdateOne) SetIsLicenseExpired(v bool) *JobDetailUpdateOne {
+	_u.mutation.SetIsLicenseExpired(v)
+	return _u
 }
 
 // SetNillableIsLicenseExpired sets the "IsLicenseExpired" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableIsLicenseExpired(b *bool) *JobDetailUpdateOne {
-	if b != nil {
-		jduo.SetIsLicenseExpired(*b)
+func (_u *JobDetailUpdateOne) SetNillableIsLicenseExpired(v *bool) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetIsLicenseExpired(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearIsLicenseExpired clears the value of the "IsLicenseExpired" field.
-func (jduo *JobDetailUpdateOne) ClearIsLicenseExpired() *JobDetailUpdateOne {
-	jduo.mutation.ClearIsLicenseExpired()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearIsLicenseExpired() *JobDetailUpdateOne {
+	_u.mutation.ClearIsLicenseExpired()
+	return _u
 }
 
 // SetIsCompleted sets the "IsCompleted" field.
-func (jduo *JobDetailUpdateOne) SetIsCompleted(b bool) *JobDetailUpdateOne {
-	jduo.mutation.SetIsCompleted(b)
-	return jduo
+func (_u *JobDetailUpdateOne) SetIsCompleted(v bool) *JobDetailUpdateOne {
+	_u.mutation.SetIsCompleted(v)
+	return _u
 }
 
 // SetNillableIsCompleted sets the "IsCompleted" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableIsCompleted(b *bool) *JobDetailUpdateOne {
-	if b != nil {
-		jduo.SetIsCompleted(*b)
+func (_u *JobDetailUpdateOne) SetNillableIsCompleted(v *bool) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetIsCompleted(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearIsCompleted clears the value of the "IsCompleted" field.
-func (jduo *JobDetailUpdateOne) ClearIsCompleted() *JobDetailUpdateOne {
-	jduo.mutation.ClearIsCompleted()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearIsCompleted() *JobDetailUpdateOne {
+	_u.mutation.ClearIsCompleted()
+	return _u
 }
 
 // SetNote sets the "Note" field.
-func (jduo *JobDetailUpdateOne) SetNote(s string) *JobDetailUpdateOne {
-	jduo.mutation.SetNote(s)
-	return jduo
+func (_u *JobDetailUpdateOne) SetNote(v string) *JobDetailUpdateOne {
+	_u.mutation.SetNote(v)
+	return _u
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableNote(s *string) *JobDetailUpdateOne {
-	if s != nil {
-		jduo.SetNote(*s)
+func (_u *JobDetailUpdateOne) SetNillableNote(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetNote(*v)
 	}
-	return jduo
+	return _u
 }
 
 // ClearNote clears the value of the "Note" field.
-func (jduo *JobDetailUpdateOne) ClearNote() *JobDetailUpdateOne {
-	jduo.mutation.ClearNote()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearNote() *JobDetailUpdateOne {
+	_u.mutation.ClearNote()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jduo *JobDetailUpdateOne) SetCreatedAt(t time.Time) *JobDetailUpdateOne {
-	jduo.mutation.SetCreatedAt(t)
-	return jduo
+func (_u *JobDetailUpdateOne) SetCreatedAt(v time.Time) *JobDetailUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableCreatedAt(t *time.Time) *JobDetailUpdateOne {
-	if t != nil {
-		jduo.SetCreatedAt(*t)
+func (_u *JobDetailUpdateOne) SetNillableCreatedAt(v *time.Time) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jduo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jduo *JobDetailUpdateOne) SetUpdatedAt(t time.Time) *JobDetailUpdateOne {
-	jduo.mutation.SetUpdatedAt(t)
-	return jduo
+func (_u *JobDetailUpdateOne) SetUpdatedAt(v time.Time) *JobDetailUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetRelationsID sets the "relations" edge to the JobRelations entity by ID.
-func (jduo *JobDetailUpdateOne) SetRelationsID(id int) *JobDetailUpdateOne {
-	jduo.mutation.SetRelationsID(id)
-	return jduo
+func (_u *JobDetailUpdateOne) SetRelationsID(id int) *JobDetailUpdateOne {
+	_u.mutation.SetRelationsID(id)
+	return _u
 }
 
 // SetNillableRelationsID sets the "relations" edge to the JobRelations entity by ID if the given value is not nil.
-func (jduo *JobDetailUpdateOne) SetNillableRelationsID(id *int) *JobDetailUpdateOne {
+func (_u *JobDetailUpdateOne) SetNillableRelationsID(id *int) *JobDetailUpdateOne {
 	if id != nil {
-		jduo = jduo.SetRelationsID(*id)
+		_u = _u.SetRelationsID(*id)
 	}
-	return jduo
+	return _u
 }
 
 // SetRelations sets the "relations" edge to the JobRelations entity.
-func (jduo *JobDetailUpdateOne) SetRelations(j *JobRelations) *JobDetailUpdateOne {
-	return jduo.SetRelationsID(j.ID)
+func (_u *JobDetailUpdateOne) SetRelations(v *JobRelations) *JobDetailUpdateOne {
+	return _u.SetRelationsID(v.ID)
 }
 
 // Mutation returns the JobDetailMutation object of the builder.
-func (jduo *JobDetailUpdateOne) Mutation() *JobDetailMutation {
-	return jduo.mutation
+func (_u *JobDetailUpdateOne) Mutation() *JobDetailMutation {
+	return _u.mutation
 }
 
 // ClearRelations clears the "relations" edge to the JobRelations entity.
-func (jduo *JobDetailUpdateOne) ClearRelations() *JobDetailUpdateOne {
-	jduo.mutation.ClearRelations()
-	return jduo
+func (_u *JobDetailUpdateOne) ClearRelations() *JobDetailUpdateOne {
+	_u.mutation.ClearRelations()
+	return _u
 }
 
 // Where appends a list predicates to the JobDetailUpdate builder.
-func (jduo *JobDetailUpdateOne) Where(ps ...predicate.JobDetail) *JobDetailUpdateOne {
-	jduo.mutation.Where(ps...)
-	return jduo
+func (_u *JobDetailUpdateOne) Where(ps ...predicate.JobDetail) *JobDetailUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jduo *JobDetailUpdateOne) Select(field string, fields ...string) *JobDetailUpdateOne {
-	jduo.fields = append([]string{field}, fields...)
-	return jduo
+func (_u *JobDetailUpdateOne) Select(field string, fields ...string) *JobDetailUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobDetail entity.
-func (jduo *JobDetailUpdateOne) Save(ctx context.Context) (*JobDetail, error) {
-	jduo.defaults()
-	return withHooks(ctx, jduo.sqlSave, jduo.mutation, jduo.hooks)
+func (_u *JobDetailUpdateOne) Save(ctx context.Context) (*JobDetail, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jduo *JobDetailUpdateOne) SaveX(ctx context.Context) *JobDetail {
-	node, err := jduo.Save(ctx)
+func (_u *JobDetailUpdateOne) SaveX(ctx context.Context) *JobDetail {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1897,34 +1897,34 @@ func (jduo *JobDetailUpdateOne) SaveX(ctx context.Context) *JobDetail {
 }
 
 // Exec executes the query on the entity.
-func (jduo *JobDetailUpdateOne) Exec(ctx context.Context) error {
-	_, err := jduo.Save(ctx)
+func (_u *JobDetailUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jduo *JobDetailUpdateOne) ExecX(ctx context.Context) {
-	if err := jduo.Exec(ctx); err != nil {
+func (_u *JobDetailUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jduo *JobDetailUpdateOne) defaults() {
-	if _, ok := jduo.mutation.UpdatedAt(); !ok {
+func (_u *JobDetailUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobdetail.UpdateDefaultUpdatedAt()
-		jduo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, err error) {
+func (_u *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobdetail.Table, jobdetail.Columns, sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt))
-	id, ok := jduo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobDetail.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jduo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobdetail.FieldID)
 		for _, f := range fields {
@@ -1936,239 +1936,239 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 			}
 		}
 	}
-	if ps := jduo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jduo.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobdetail.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jduo.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobdetail.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jduo.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(jobdetail.FieldTitle, field.TypeString, value)
 	}
-	if jduo.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(jobdetail.FieldTitle, field.TypeString)
 	}
-	if value, ok := jduo.mutation.Administration(); ok {
+	if value, ok := _u.mutation.Administration(); ok {
 		_spec.SetField(jobdetail.FieldAdministration, field.TypeString, value)
 	}
-	if jduo.mutation.AdministrationCleared() {
+	if _u.mutation.AdministrationCleared() {
 		_spec.ClearField(jobdetail.FieldAdministration, field.TypeString)
 	}
-	if value, ok := jduo.mutation.State(); ok {
+	if value, ok := _u.mutation.State(); ok {
 		_spec.SetField(jobdetail.FieldState, field.TypeString, value)
 	}
-	if jduo.mutation.StateCleared() {
+	if _u.mutation.StateCleared() {
 		_spec.ClearField(jobdetail.FieldState, field.TypeString)
 	}
-	if value, ok := jduo.mutation.Island(); ok {
+	if value, ok := _u.mutation.Island(); ok {
 		_spec.SetField(jobdetail.FieldIsland, field.TypeString, value)
 	}
-	if jduo.mutation.IslandCleared() {
+	if _u.mutation.IslandCleared() {
 		_spec.ClearField(jobdetail.FieldIsland, field.TypeString)
 	}
-	if value, ok := jduo.mutation.Parcel(); ok {
+	if value, ok := _u.mutation.Parcel(); ok {
 		_spec.SetField(jobdetail.FieldParcel, field.TypeString, value)
 	}
-	if jduo.mutation.ParcelCleared() {
+	if _u.mutation.ParcelCleared() {
 		_spec.ClearField(jobdetail.FieldParcel, field.TypeString)
 	}
-	if value, ok := jduo.mutation.Sheet(); ok {
+	if value, ok := _u.mutation.Sheet(); ok {
 		_spec.SetField(jobdetail.FieldSheet, field.TypeString, value)
 	}
-	if jduo.mutation.SheetCleared() {
+	if _u.mutation.SheetCleared() {
 		_spec.ClearField(jobdetail.FieldSheet, field.TypeString)
 	}
-	if value, ok := jduo.mutation.ContractDate(); ok {
+	if value, ok := _u.mutation.ContractDate(); ok {
 		_spec.SetField(jobdetail.FieldContractDate, field.TypeTime, value)
 	}
-	if jduo.mutation.ContractDateCleared() {
+	if _u.mutation.ContractDateCleared() {
 		_spec.ClearField(jobdetail.FieldContractDate, field.TypeTime)
 	}
-	if value, ok := jduo.mutation.StartDate(); ok {
+	if value, ok := _u.mutation.StartDate(); ok {
 		_spec.SetField(jobdetail.FieldStartDate, field.TypeTime, value)
 	}
-	if jduo.mutation.StartDateCleared() {
+	if _u.mutation.StartDateCleared() {
 		_spec.ClearField(jobdetail.FieldStartDate, field.TypeTime)
 	}
-	if value, ok := jduo.mutation.LicenseDate(); ok {
+	if value, ok := _u.mutation.LicenseDate(); ok {
 		_spec.SetField(jobdetail.FieldLicenseDate, field.TypeTime, value)
 	}
-	if jduo.mutation.LicenseDateCleared() {
+	if _u.mutation.LicenseDateCleared() {
 		_spec.ClearField(jobdetail.FieldLicenseDate, field.TypeTime)
 	}
-	if value, ok := jduo.mutation.LicenseNo(); ok {
+	if value, ok := _u.mutation.LicenseNo(); ok {
 		_spec.SetField(jobdetail.FieldLicenseNo, field.TypeString, value)
 	}
-	if jduo.mutation.LicenseNoCleared() {
+	if _u.mutation.LicenseNoCleared() {
 		_spec.ClearField(jobdetail.FieldLicenseNo, field.TypeString)
 	}
-	if value, ok := jduo.mutation.DistributionDate(); ok {
+	if value, ok := _u.mutation.DistributionDate(); ok {
 		_spec.SetField(jobdetail.FieldDistributionDate, field.TypeTime, value)
 	}
-	if jduo.mutation.DistributionDateCleared() {
+	if _u.mutation.DistributionDateCleared() {
 		_spec.ClearField(jobdetail.FieldDistributionDate, field.TypeTime)
 	}
-	if value, ok := jduo.mutation.CompletionDate(); ok {
+	if value, ok := _u.mutation.CompletionDate(); ok {
 		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)
 	}
-	if jduo.mutation.CompletionDateCleared() {
+	if _u.mutation.CompletionDateCleared() {
 		_spec.ClearField(jobdetail.FieldCompletionDate, field.TypeTime)
 	}
-	if value, ok := jduo.mutation.LandArea(); ok {
+	if value, ok := _u.mutation.LandArea(); ok {
 		_spec.SetField(jobdetail.FieldLandArea, field.TypeFloat64, value)
 	}
-	if value, ok := jduo.mutation.AddedLandArea(); ok {
+	if value, ok := _u.mutation.AddedLandArea(); ok {
 		_spec.AddField(jobdetail.FieldLandArea, field.TypeFloat64, value)
 	}
-	if jduo.mutation.LandAreaCleared() {
+	if _u.mutation.LandAreaCleared() {
 		_spec.ClearField(jobdetail.FieldLandArea, field.TypeFloat64)
 	}
-	if value, ok := jduo.mutation.TotalArea(); ok {
+	if value, ok := _u.mutation.TotalArea(); ok {
 		_spec.SetField(jobdetail.FieldTotalArea, field.TypeFloat64, value)
 	}
-	if value, ok := jduo.mutation.AddedTotalArea(); ok {
+	if value, ok := _u.mutation.AddedTotalArea(); ok {
 		_spec.AddField(jobdetail.FieldTotalArea, field.TypeFloat64, value)
 	}
-	if jduo.mutation.TotalAreaCleared() {
+	if _u.mutation.TotalAreaCleared() {
 		_spec.ClearField(jobdetail.FieldTotalArea, field.TypeFloat64)
 	}
-	if value, ok := jduo.mutation.ConstructionArea(); ok {
+	if value, ok := _u.mutation.ConstructionArea(); ok {
 		_spec.SetField(jobdetail.FieldConstructionArea, field.TypeFloat64, value)
 	}
-	if value, ok := jduo.mutation.AddedConstructionArea(); ok {
+	if value, ok := _u.mutation.AddedConstructionArea(); ok {
 		_spec.AddField(jobdetail.FieldConstructionArea, field.TypeFloat64, value)
 	}
-	if jduo.mutation.ConstructionAreaCleared() {
+	if _u.mutation.ConstructionAreaCleared() {
 		_spec.ClearField(jobdetail.FieldConstructionArea, field.TypeFloat64)
 	}
-	if value, ok := jduo.mutation.LeftArea(); ok {
+	if value, ok := _u.mutation.LeftArea(); ok {
 		_spec.SetField(jobdetail.FieldLeftArea, field.TypeFloat64, value)
 	}
-	if value, ok := jduo.mutation.AddedLeftArea(); ok {
+	if value, ok := _u.mutation.AddedLeftArea(); ok {
 		_spec.AddField(jobdetail.FieldLeftArea, field.TypeFloat64, value)
 	}
-	if jduo.mutation.LeftAreaCleared() {
+	if _u.mutation.LeftAreaCleared() {
 		_spec.ClearField(jobdetail.FieldLeftArea, field.TypeFloat64)
 	}
-	if value, ok := jduo.mutation.YDSAddress(); ok {
+	if value, ok := _u.mutation.YDSAddress(); ok {
 		_spec.SetField(jobdetail.FieldYDSAddress, field.TypeString, value)
 	}
-	if jduo.mutation.YDSAddressCleared() {
+	if _u.mutation.YDSAddressCleared() {
 		_spec.ClearField(jobdetail.FieldYDSAddress, field.TypeString)
 	}
-	if value, ok := jduo.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(jobdetail.FieldAddress, field.TypeString, value)
 	}
-	if jduo.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(jobdetail.FieldAddress, field.TypeString)
 	}
-	if value, ok := jduo.mutation.BuildingClass(); ok {
+	if value, ok := _u.mutation.BuildingClass(); ok {
 		_spec.SetField(jobdetail.FieldBuildingClass, field.TypeString, value)
 	}
-	if jduo.mutation.BuildingClassCleared() {
+	if _u.mutation.BuildingClassCleared() {
 		_spec.ClearField(jobdetail.FieldBuildingClass, field.TypeString)
 	}
-	if value, ok := jduo.mutation.BuildingType(); ok {
+	if value, ok := _u.mutation.BuildingType(); ok {
 		_spec.SetField(jobdetail.FieldBuildingType, field.TypeString, value)
 	}
-	if jduo.mutation.BuildingTypeCleared() {
+	if _u.mutation.BuildingTypeCleared() {
 		_spec.ClearField(jobdetail.FieldBuildingType, field.TypeString)
 	}
-	if value, ok := jduo.mutation.Level(); ok {
+	if value, ok := _u.mutation.Level(); ok {
 		_spec.SetField(jobdetail.FieldLevel, field.TypeFloat64, value)
 	}
-	if value, ok := jduo.mutation.AddedLevel(); ok {
+	if value, ok := _u.mutation.AddedLevel(); ok {
 		_spec.AddField(jobdetail.FieldLevel, field.TypeFloat64, value)
 	}
-	if jduo.mutation.LevelCleared() {
+	if _u.mutation.LevelCleared() {
 		_spec.ClearField(jobdetail.FieldLevel, field.TypeFloat64)
 	}
-	if value, ok := jduo.mutation.UnitPrice(); ok {
+	if value, ok := _u.mutation.UnitPrice(); ok {
 		_spec.SetField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)
 	}
-	if value, ok := jduo.mutation.AddedUnitPrice(); ok {
+	if value, ok := _u.mutation.AddedUnitPrice(); ok {
 		_spec.AddField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)
 	}
-	if jduo.mutation.UnitPriceCleared() {
+	if _u.mutation.UnitPriceCleared() {
 		_spec.ClearField(jobdetail.FieldUnitPrice, field.TypeFloat64)
 	}
-	if value, ok := jduo.mutation.FloorCount(); ok {
+	if value, ok := _u.mutation.FloorCount(); ok {
 		_spec.SetField(jobdetail.FieldFloorCount, field.TypeInt, value)
 	}
-	if value, ok := jduo.mutation.AddedFloorCount(); ok {
+	if value, ok := _u.mutation.AddedFloorCount(); ok {
 		_spec.AddField(jobdetail.FieldFloorCount, field.TypeInt, value)
 	}
-	if jduo.mutation.FloorCountCleared() {
+	if _u.mutation.FloorCountCleared() {
 		_spec.ClearField(jobdetail.FieldFloorCount, field.TypeInt)
 	}
-	if value, ok := jduo.mutation.BKSReferenceNo(); ok {
+	if value, ok := _u.mutation.BKSReferenceNo(); ok {
 		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeString, value)
 	}
-	if jduo.mutation.BKSReferenceNoCleared() {
+	if _u.mutation.BKSReferenceNoCleared() {
 		_spec.ClearField(jobdetail.FieldBKSReferenceNo, field.TypeString)
 	}
-	if value, ok := jduo.mutation.Coordinates(); ok {
+	if value, ok := _u.mutation.Coordinates(); ok {
 		_spec.SetField(jobdetail.FieldCoordinates, field.TypeString, value)
 	}
-	if jduo.mutation.CoordinatesCleared() {
+	if _u.mutation.CoordinatesCleared() {
 		_spec.ClearField(jobdetail.FieldCoordinates, field.TypeString)
 	}
-	if value, ok := jduo.mutation.FolderNo(); ok {
+	if value, ok := _u.mutation.FolderNo(); ok {
 		_spec.SetField(jobdetail.FieldFolderNo, field.TypeString, value)
 	}
-	if jduo.mutation.FolderNoCleared() {
+	if _u.mutation.FolderNoCleared() {
 		_spec.ClearField(jobdetail.FieldFolderNo, field.TypeString)
 	}
-	if value, ok := jduo.mutation.UploadedFile(); ok {
+	if value, ok := _u.mutation.UploadedFile(); ok {
 		_spec.SetField(jobdetail.FieldUploadedFile, field.TypeBool, value)
 	}
-	if jduo.mutation.UploadedFileCleared() {
+	if _u.mutation.UploadedFileCleared() {
 		_spec.ClearField(jobdetail.FieldUploadedFile, field.TypeBool)
 	}
-	if value, ok := jduo.mutation.IndustryArea(); ok {
+	if value, ok := _u.mutation.IndustryArea(); ok {
 		_spec.SetField(jobdetail.FieldIndustryArea, field.TypeBool, value)
 	}
-	if jduo.mutation.IndustryAreaCleared() {
+	if _u.mutation.IndustryAreaCleared() {
 		_spec.ClearField(jobdetail.FieldIndustryArea, field.TypeBool)
 	}
-	if value, ok := jduo.mutation.ClusterStructure(); ok {
+	if value, ok := _u.mutation.ClusterStructure(); ok {
 		_spec.SetField(jobdetail.FieldClusterStructure, field.TypeBool, value)
 	}
-	if jduo.mutation.ClusterStructureCleared() {
+	if _u.mutation.ClusterStructureCleared() {
 		_spec.ClearField(jobdetail.FieldClusterStructure, field.TypeBool)
 	}
-	if value, ok := jduo.mutation.IsLicenseExpired(); ok {
+	if value, ok := _u.mutation.IsLicenseExpired(); ok {
 		_spec.SetField(jobdetail.FieldIsLicenseExpired, field.TypeBool, value)
 	}
-	if jduo.mutation.IsLicenseExpiredCleared() {
+	if _u.mutation.IsLicenseExpiredCleared() {
 		_spec.ClearField(jobdetail.FieldIsLicenseExpired, field.TypeBool)
 	}
-	if value, ok := jduo.mutation.IsCompleted(); ok {
+	if value, ok := _u.mutation.IsCompleted(); ok {
 		_spec.SetField(jobdetail.FieldIsCompleted, field.TypeBool, value)
 	}
-	if jduo.mutation.IsCompletedCleared() {
+	if _u.mutation.IsCompletedCleared() {
 		_spec.ClearField(jobdetail.FieldIsCompleted, field.TypeBool)
 	}
-	if value, ok := jduo.mutation.Note(); ok {
+	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
 	}
-	if jduo.mutation.NoteCleared() {
+	if _u.mutation.NoteCleared() {
 		_spec.ClearField(jobdetail.FieldNote, field.TypeString)
 	}
-	if value, ok := jduo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobdetail.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jduo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobdetail.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jduo.mutation.RelationsCleared() {
+	if _u.mutation.RelationsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -2181,7 +2181,7 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jduo.mutation.RelationsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.RelationsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -2197,10 +2197,10 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobDetail{config: jduo.config}
+	_node = &JobDetail{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jduo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobdetail.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -2208,6 +2208,6 @@ func (jduo *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, 
 		}
 		return nil, err
 	}
-	jduo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

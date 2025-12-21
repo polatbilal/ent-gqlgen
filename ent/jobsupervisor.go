@@ -91,7 +91,7 @@ func (*JobSupervisor) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobSupervisor fields.
-func (js *JobSupervisor) assignValues(columns []string, values []any) error {
+func (_m *JobSupervisor) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -102,87 +102,87 @@ func (js *JobSupervisor) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			js.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobsupervisor.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				js.Name = value.String
+				_m.Name = value.String
 			}
 		case jobsupervisor.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				js.Address = value.String
+				_m.Address = value.String
 			}
 		case jobsupervisor.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Phone", values[i])
 			} else if value.Valid {
-				js.Phone = value.String
+				_m.Phone = value.String
 			}
 		case jobsupervisor.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Email", values[i])
 			} else if value.Valid {
-				js.Email = value.String
+				_m.Email = value.String
 			}
 		case jobsupervisor.FieldTcNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				js.TcNo = value.String
+				_m.TcNo = value.String
 			}
 		case jobsupervisor.FieldPosition:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Position", values[i])
 			} else if value.Valid {
-				js.Position = value.String
+				_m.Position = value.String
 			}
 		case jobsupervisor.FieldCareer:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Career", values[i])
 			} else if value.Valid {
-				js.Career = value.String
+				_m.Career = value.String
 			}
 		case jobsupervisor.FieldRegisterNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
-				js.RegisterNo = value.String
+				_m.RegisterNo = value.String
 			}
 		case jobsupervisor.FieldSocialSecurityNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field SocialSecurityNo", values[i])
 			} else if value.Valid {
-				js.SocialSecurityNo = value.String
+				_m.SocialSecurityNo = value.String
 			}
 		case jobsupervisor.FieldSchoolGraduation:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field SchoolGraduation", values[i])
 			} else if value.Valid {
-				js.SchoolGraduation = value.String
+				_m.SchoolGraduation = value.String
 			}
 		case jobsupervisor.FieldYDSID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field YDSID", values[i])
 			} else if value.Valid {
-				js.YDSID = int(value.Int64)
+				_m.YDSID = int(value.Int64)
 			}
 		case jobsupervisor.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				js.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobsupervisor.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				js.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		default:
-			js.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -190,101 +190,101 @@ func (js *JobSupervisor) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobSupervisor.
 // This includes values selected through modifiers, order, etc.
-func (js *JobSupervisor) Value(name string) (ent.Value, error) {
-	return js.selectValues.Get(name)
+func (_m *JobSupervisor) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QuerySupervisors queries the "supervisors" edge of the JobSupervisor entity.
-func (js *JobSupervisor) QuerySupervisors() *JobRelationsQuery {
-	return NewJobSupervisorClient(js.config).QuerySupervisors(js)
+func (_m *JobSupervisor) QuerySupervisors() *JobRelationsQuery {
+	return NewJobSupervisorClient(_m.config).QuerySupervisors(_m)
 }
 
 // Update returns a builder for updating this JobSupervisor.
 // Note that you need to call JobSupervisor.Unwrap() before calling this method if this JobSupervisor
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (js *JobSupervisor) Update() *JobSupervisorUpdateOne {
-	return NewJobSupervisorClient(js.config).UpdateOne(js)
+func (_m *JobSupervisor) Update() *JobSupervisorUpdateOne {
+	return NewJobSupervisorClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobSupervisor entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (js *JobSupervisor) Unwrap() *JobSupervisor {
-	_tx, ok := js.config.driver.(*txDriver)
+func (_m *JobSupervisor) Unwrap() *JobSupervisor {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobSupervisor is not a transactional entity")
 	}
-	js.config.driver = _tx.drv
-	return js
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (js *JobSupervisor) String() string {
+func (_m *JobSupervisor) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobSupervisor(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", js.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("Name=")
-	builder.WriteString(js.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("Address=")
-	builder.WriteString(js.Address)
+	builder.WriteString(_m.Address)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
-	builder.WriteString(js.Phone)
+	builder.WriteString(_m.Phone)
 	builder.WriteString(", ")
 	builder.WriteString("Email=")
-	builder.WriteString(js.Email)
+	builder.WriteString(_m.Email)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(js.TcNo)
+	builder.WriteString(_m.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("Position=")
-	builder.WriteString(js.Position)
+	builder.WriteString(_m.Position)
 	builder.WriteString(", ")
 	builder.WriteString("Career=")
-	builder.WriteString(js.Career)
+	builder.WriteString(_m.Career)
 	builder.WriteString(", ")
 	builder.WriteString("RegisterNo=")
-	builder.WriteString(js.RegisterNo)
+	builder.WriteString(_m.RegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("SocialSecurityNo=")
-	builder.WriteString(js.SocialSecurityNo)
+	builder.WriteString(_m.SocialSecurityNo)
 	builder.WriteString(", ")
 	builder.WriteString("SchoolGraduation=")
-	builder.WriteString(js.SchoolGraduation)
+	builder.WriteString(_m.SchoolGraduation)
 	builder.WriteString(", ")
 	builder.WriteString("YDSID=")
-	builder.WriteString(fmt.Sprintf("%v", js.YDSID))
+	builder.WriteString(fmt.Sprintf("%v", _m.YDSID))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(js.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(js.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedSupervisors returns the Supervisors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (js *JobSupervisor) NamedSupervisors(name string) ([]*JobRelations, error) {
-	if js.Edges.namedSupervisors == nil {
+func (_m *JobSupervisor) NamedSupervisors(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedSupervisors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := js.Edges.namedSupervisors[name]
+	nodes, ok := _m.Edges.namedSupervisors[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (js *JobSupervisor) appendNamedSupervisors(name string, edges ...*JobRelations) {
-	if js.Edges.namedSupervisors == nil {
-		js.Edges.namedSupervisors = make(map[string][]*JobRelations)
+func (_m *JobSupervisor) appendNamedSupervisors(name string, edges ...*JobRelations) {
+	if _m.Edges.namedSupervisors == nil {
+		_m.Edges.namedSupervisors = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		js.Edges.namedSupervisors[name] = []*JobRelations{}
+		_m.Edges.namedSupervisors[name] = []*JobRelations{}
 	} else {
-		js.Edges.namedSupervisors[name] = append(js.Edges.namedSupervisors[name], edges...)
+		_m.Edges.namedSupervisors[name] = append(_m.Edges.namedSupervisors[name], edges...)
 	}
 }
 

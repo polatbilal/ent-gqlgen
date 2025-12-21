@@ -81,7 +81,7 @@ func (*CompanyToken) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the CompanyToken fields.
-func (ct *CompanyToken) assignValues(columns []string, values []any) error {
+func (_m *CompanyToken) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -92,52 +92,52 @@ func (ct *CompanyToken) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			ct.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case companytoken.FieldYDKUsername:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field YDKUsername", values[i])
 			} else if value.Valid {
-				ct.YDKUsername = value.String
+				_m.YDKUsername = value.String
 			}
 		case companytoken.FieldYDKPassword:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field YDKPassword", values[i])
 			} else if value.Valid {
-				ct.YDKPassword = value.String
+				_m.YDKPassword = value.String
 			}
 		case companytoken.FieldToken:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Token", values[i])
 			} else if value.Valid {
-				ct.Token = value.String
+				_m.Token = value.String
 			}
 		case companytoken.FieldDepartmentId:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field DepartmentId", values[i])
 			} else if value.Valid {
-				ct.DepartmentId = int(value.Int64)
+				_m.DepartmentId = int(value.Int64)
 			}
 		case companytoken.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field createdAt", values[i])
 			} else if value.Valid {
-				ct.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case companytoken.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updatedAt", values[i])
 			} else if value.Valid {
-				ct.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case companytoken.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field company_id", value)
 			} else if value.Valid {
-				ct.company_id = new(int)
-				*ct.company_id = int(value.Int64)
+				_m.company_id = new(int)
+				*_m.company_id = int(value.Int64)
 			}
 		default:
-			ct.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -145,55 +145,55 @@ func (ct *CompanyToken) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the CompanyToken.
 // This includes values selected through modifiers, order, etc.
-func (ct *CompanyToken) Value(name string) (ent.Value, error) {
-	return ct.selectValues.Get(name)
+func (_m *CompanyToken) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryCompany queries the "company" edge of the CompanyToken entity.
-func (ct *CompanyToken) QueryCompany() *CompanyDetailQuery {
-	return NewCompanyTokenClient(ct.config).QueryCompany(ct)
+func (_m *CompanyToken) QueryCompany() *CompanyDetailQuery {
+	return NewCompanyTokenClient(_m.config).QueryCompany(_m)
 }
 
 // Update returns a builder for updating this CompanyToken.
 // Note that you need to call CompanyToken.Unwrap() before calling this method if this CompanyToken
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ct *CompanyToken) Update() *CompanyTokenUpdateOne {
-	return NewCompanyTokenClient(ct.config).UpdateOne(ct)
+func (_m *CompanyToken) Update() *CompanyTokenUpdateOne {
+	return NewCompanyTokenClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the CompanyToken entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ct *CompanyToken) Unwrap() *CompanyToken {
-	_tx, ok := ct.config.driver.(*txDriver)
+func (_m *CompanyToken) Unwrap() *CompanyToken {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: CompanyToken is not a transactional entity")
 	}
-	ct.config.driver = _tx.drv
-	return ct
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ct *CompanyToken) String() string {
+func (_m *CompanyToken) String() string {
 	var builder strings.Builder
 	builder.WriteString("CompanyToken(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ct.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("YDKUsername=")
-	builder.WriteString(ct.YDKUsername)
+	builder.WriteString(_m.YDKUsername)
 	builder.WriteString(", ")
 	builder.WriteString("YDKPassword=")
-	builder.WriteString(ct.YDKPassword)
+	builder.WriteString(_m.YDKPassword)
 	builder.WriteString(", ")
 	builder.WriteString("Token=")
-	builder.WriteString(ct.Token)
+	builder.WriteString(_m.Token)
 	builder.WriteString(", ")
 	builder.WriteString("DepartmentId=")
-	builder.WriteString(fmt.Sprintf("%v", ct.DepartmentId))
+	builder.WriteString(fmt.Sprintf("%v", _m.DepartmentId))
 	builder.WriteString(", ")
 	builder.WriteString("createdAt=")
-	builder.WriteString(ct.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updatedAt=")
-	builder.WriteString(ct.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

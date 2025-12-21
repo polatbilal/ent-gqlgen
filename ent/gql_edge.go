@@ -8,438 +8,438 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 )
 
-func (cd *CompanyDetail) Jobs(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyDetail) Jobs(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = cd.NamedJobs(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedJobs(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = cd.Edges.JobsOrErr()
+		result, err = _m.Edges.JobsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = cd.QueryJobs().All(ctx)
+		result, err = _m.QueryJobs().All(ctx)
 	}
 	return result, err
 }
 
-func (cd *CompanyDetail) Users(ctx context.Context) (result []*CompanyUser, err error) {
+func (_m *CompanyDetail) Users(ctx context.Context) (result []*CompanyUser, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = cd.NamedUsers(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedUsers(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = cd.Edges.UsersOrErr()
+		result, err = _m.Edges.UsersOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = cd.QueryUsers().All(ctx)
+		result, err = _m.QueryUsers().All(ctx)
 	}
 	return result, err
 }
 
-func (cd *CompanyDetail) Tokens(ctx context.Context) (result []*CompanyToken, err error) {
+func (_m *CompanyDetail) Tokens(ctx context.Context) (result []*CompanyToken, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = cd.NamedTokens(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedTokens(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = cd.Edges.TokensOrErr()
+		result, err = _m.Edges.TokensOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = cd.QueryTokens().All(ctx)
+		result, err = _m.QueryTokens().All(ctx)
 	}
 	return result, err
 }
 
-func (cd *CompanyDetail) Engineers(ctx context.Context) (result []*CompanyEngineer, err error) {
+func (_m *CompanyDetail) Engineers(ctx context.Context) (result []*CompanyEngineer, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = cd.NamedEngineers(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedEngineers(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = cd.Edges.EngineersOrErr()
+		result, err = _m.Edges.EngineersOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = cd.QueryEngineers().All(ctx)
+		result, err = _m.QueryEngineers().All(ctx)
 	}
 	return result, err
 }
 
-func (ce *CompanyEngineer) Company(ctx context.Context) (*CompanyDetail, error) {
-	result, err := ce.Edges.CompanyOrErr()
+func (_m *CompanyEngineer) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
-		result, err = ce.QueryCompany().Only(ctx)
+		result, err = _m.QueryCompany().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (ce *CompanyEngineer) Statics(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyEngineer) Statics(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedStatics(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedStatics(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ce.Edges.StaticsOrErr()
+		result, err = _m.Edges.StaticsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ce.QueryStatics().All(ctx)
+		result, err = _m.QueryStatics().All(ctx)
 	}
 	return result, err
 }
 
-func (ce *CompanyEngineer) Mechanics(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyEngineer) Mechanics(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedMechanics(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedMechanics(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ce.Edges.MechanicsOrErr()
+		result, err = _m.Edges.MechanicsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ce.QueryMechanics().All(ctx)
+		result, err = _m.QueryMechanics().All(ctx)
 	}
 	return result, err
 }
 
-func (ce *CompanyEngineer) Electrics(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyEngineer) Electrics(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedElectrics(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedElectrics(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ce.Edges.ElectricsOrErr()
+		result, err = _m.Edges.ElectricsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ce.QueryElectrics().All(ctx)
+		result, err = _m.QueryElectrics().All(ctx)
 	}
 	return result, err
 }
 
-func (ce *CompanyEngineer) Inspectors(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyEngineer) Inspectors(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedInspectors(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedInspectors(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ce.Edges.InspectorsOrErr()
+		result, err = _m.Edges.InspectorsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ce.QueryInspectors().All(ctx)
+		result, err = _m.QueryInspectors().All(ctx)
 	}
 	return result, err
 }
 
-func (ce *CompanyEngineer) Architects(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyEngineer) Architects(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedArchitects(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedArchitects(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ce.Edges.ArchitectsOrErr()
+		result, err = _m.Edges.ArchitectsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ce.QueryArchitects().All(ctx)
+		result, err = _m.QueryArchitects().All(ctx)
 	}
 	return result, err
 }
 
-func (ce *CompanyEngineer) Controllers(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyEngineer) Controllers(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedControllers(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedControllers(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ce.Edges.ControllersOrErr()
+		result, err = _m.Edges.ControllersOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ce.QueryControllers().All(ctx)
+		result, err = _m.QueryControllers().All(ctx)
 	}
 	return result, err
 }
 
-func (ce *CompanyEngineer) Mechaniccontrollers(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyEngineer) Mechaniccontrollers(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedMechaniccontrollers(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedMechaniccontrollers(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ce.Edges.MechaniccontrollersOrErr()
+		result, err = _m.Edges.MechaniccontrollersOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ce.QueryMechaniccontrollers().All(ctx)
+		result, err = _m.QueryMechaniccontrollers().All(ctx)
 	}
 	return result, err
 }
 
-func (ce *CompanyEngineer) Electriccontrollers(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *CompanyEngineer) Electriccontrollers(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ce.NamedElectriccontrollers(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedElectriccontrollers(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ce.Edges.ElectriccontrollersOrErr()
+		result, err = _m.Edges.ElectriccontrollersOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ce.QueryElectriccontrollers().All(ctx)
+		result, err = _m.QueryElectriccontrollers().All(ctx)
 	}
 	return result, err
 }
 
-func (ct *CompanyToken) Company(ctx context.Context) (*CompanyDetail, error) {
-	result, err := ct.Edges.CompanyOrErr()
+func (_m *CompanyToken) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
-		result, err = ct.QueryCompany().Only(ctx)
+		result, err = _m.QueryCompany().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (cu *CompanyUser) Company(ctx context.Context) (*CompanyDetail, error) {
-	result, err := cu.Edges.CompanyOrErr()
+func (_m *CompanyUser) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
-		result, err = cu.QueryCompany().Only(ctx)
+		result, err = _m.QueryCompany().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (cu *CompanyUser) User(ctx context.Context) (*User, error) {
-	result, err := cu.Edges.UserOrErr()
+func (_m *CompanyUser) User(ctx context.Context) (*User, error) {
+	result, err := _m.Edges.UserOrErr()
 	if IsNotLoaded(err) {
-		result, err = cu.QueryUser().Only(ctx)
+		result, err = _m.QueryUser().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (ja *JobAuthor) Authors(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *JobAuthor) Authors(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = ja.NamedAuthors(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedAuthors(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = ja.Edges.AuthorsOrErr()
+		result, err = _m.Edges.AuthorsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = ja.QueryAuthors().All(ctx)
+		result, err = _m.QueryAuthors().All(ctx)
 	}
 	return result, err
 }
 
-func (jc *JobContractor) Contractors(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *JobContractor) Contractors(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = jc.NamedContractors(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedContractors(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = jc.Edges.ContractorsOrErr()
+		result, err = _m.Edges.ContractorsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = jc.QueryContractors().All(ctx)
+		result, err = _m.QueryContractors().All(ctx)
 	}
 	return result, err
 }
 
-func (jd *JobDetail) Relations(ctx context.Context) (*JobRelations, error) {
-	result, err := jd.Edges.RelationsOrErr()
+func (_m *JobDetail) Relations(ctx context.Context) (*JobRelations, error) {
+	result, err := _m.Edges.RelationsOrErr()
 	if IsNotLoaded(err) {
-		result, err = jd.QueryRelations().Only(ctx)
+		result, err = _m.QueryRelations().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jf *JobFloor) Floor(ctx context.Context) (*JobRelations, error) {
-	result, err := jf.Edges.FloorOrErr()
+func (_m *JobFloor) Floor(ctx context.Context) (*JobRelations, error) {
+	result, err := _m.Edges.FloorOrErr()
 	if IsNotLoaded(err) {
-		result, err = jf.QueryFloor().Only(ctx)
+		result, err = _m.QueryFloor().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jo *JobOwner) Owners(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *JobOwner) Owners(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = jo.NamedOwners(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedOwners(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = jo.Edges.OwnersOrErr()
+		result, err = _m.Edges.OwnersOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = jo.QueryOwners().All(ctx)
+		result, err = _m.QueryOwners().All(ctx)
 	}
 	return result, err
 }
 
-func (jp *JobPayments) Payments(ctx context.Context) (*JobRelations, error) {
-	result, err := jp.Edges.PaymentsOrErr()
+func (_m *JobPayments) Payments(ctx context.Context) (*JobRelations, error) {
+	result, err := _m.Edges.PaymentsOrErr()
 	if IsNotLoaded(err) {
-		result, err = jp.QueryPayments().Only(ctx)
+		result, err = _m.QueryPayments().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jp *JobProgress) Progress(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *JobProgress) Progress(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = jp.NamedProgress(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedProgress(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = jp.Edges.ProgressOrErr()
+		result, err = _m.Edges.ProgressOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = jp.QueryProgress().All(ctx)
+		result, err = _m.QueryProgress().All(ctx)
 	}
 	return result, err
 }
 
-func (jr *JobReceipt) Receipt(ctx context.Context) (*JobRelations, error) {
-	result, err := jr.Edges.ReceiptOrErr()
+func (_m *JobReceipt) Receipt(ctx context.Context) (*JobRelations, error) {
+	result, err := _m.Edges.ReceiptOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryReceipt().Only(ctx)
+		result, err = _m.QueryReceipt().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Job(ctx context.Context) (*JobDetail, error) {
-	result, err := jr.Edges.JobOrErr()
+func (_m *JobRelations) Job(ctx context.Context) (*JobDetail, error) {
+	result, err := _m.Edges.JobOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryJob().Only(ctx)
+		result, err = _m.QueryJob().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Owner(ctx context.Context) (*JobOwner, error) {
-	result, err := jr.Edges.OwnerOrErr()
+func (_m *JobRelations) Owner(ctx context.Context) (*JobOwner, error) {
+	result, err := _m.Edges.OwnerOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryOwner().Only(ctx)
+		result, err = _m.QueryOwner().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Author(ctx context.Context) (*JobAuthor, error) {
-	result, err := jr.Edges.AuthorOrErr()
+func (_m *JobRelations) Author(ctx context.Context) (*JobAuthor, error) {
+	result, err := _m.Edges.AuthorOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryAuthor().Only(ctx)
+		result, err = _m.QueryAuthor().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Company(ctx context.Context) (*CompanyDetail, error) {
-	result, err := jr.Edges.CompanyOrErr()
+func (_m *JobRelations) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryCompany().Only(ctx)
+		result, err = _m.QueryCompany().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Progress(ctx context.Context) (*JobProgress, error) {
-	result, err := jr.Edges.ProgressOrErr()
+func (_m *JobRelations) Progress(ctx context.Context) (*JobProgress, error) {
+	result, err := _m.Edges.ProgressOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryProgress().Only(ctx)
+		result, err = _m.QueryProgress().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Contractor(ctx context.Context) (*JobContractor, error) {
-	result, err := jr.Edges.ContractorOrErr()
+func (_m *JobRelations) Contractor(ctx context.Context) (*JobContractor, error) {
+	result, err := _m.Edges.ContractorOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryContractor().Only(ctx)
+		result, err = _m.QueryContractor().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Supervisor(ctx context.Context) (*JobSupervisor, error) {
-	result, err := jr.Edges.SupervisorOrErr()
+func (_m *JobRelations) Supervisor(ctx context.Context) (*JobSupervisor, error) {
+	result, err := _m.Edges.SupervisorOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QuerySupervisor().Only(ctx)
+		result, err = _m.QuerySupervisor().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Static(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := jr.Edges.StaticOrErr()
+func (_m *JobRelations) Static(ctx context.Context) (*CompanyEngineer, error) {
+	result, err := _m.Edges.StaticOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryStatic().Only(ctx)
+		result, err = _m.QueryStatic().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Mechanic(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := jr.Edges.MechanicOrErr()
+func (_m *JobRelations) Mechanic(ctx context.Context) (*CompanyEngineer, error) {
+	result, err := _m.Edges.MechanicOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryMechanic().Only(ctx)
+		result, err = _m.QueryMechanic().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Electric(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := jr.Edges.ElectricOrErr()
+func (_m *JobRelations) Electric(ctx context.Context) (*CompanyEngineer, error) {
+	result, err := _m.Edges.ElectricOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryElectric().Only(ctx)
+		result, err = _m.QueryElectric().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Inspector(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := jr.Edges.InspectorOrErr()
+func (_m *JobRelations) Inspector(ctx context.Context) (*CompanyEngineer, error) {
+	result, err := _m.Edges.InspectorOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryInspector().Only(ctx)
+		result, err = _m.QueryInspector().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Architect(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := jr.Edges.ArchitectOrErr()
+func (_m *JobRelations) Architect(ctx context.Context) (*CompanyEngineer, error) {
+	result, err := _m.Edges.ArchitectOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryArchitect().Only(ctx)
+		result, err = _m.QueryArchitect().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Controller(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := jr.Edges.ControllerOrErr()
+func (_m *JobRelations) Controller(ctx context.Context) (*CompanyEngineer, error) {
+	result, err := _m.Edges.ControllerOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryController().Only(ctx)
+		result, err = _m.QueryController().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Mechaniccontroller(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := jr.Edges.MechaniccontrollerOrErr()
+func (_m *JobRelations) Mechaniccontroller(ctx context.Context) (*CompanyEngineer, error) {
+	result, err := _m.Edges.MechaniccontrollerOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryMechaniccontroller().Only(ctx)
+		result, err = _m.QueryMechaniccontroller().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Electriccontroller(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := jr.Edges.ElectriccontrollerOrErr()
+func (_m *JobRelations) Electriccontroller(ctx context.Context) (*CompanyEngineer, error) {
+	result, err := _m.Edges.ElectriccontrollerOrErr()
 	if IsNotLoaded(err) {
-		result, err = jr.QueryElectriccontroller().Only(ctx)
+		result, err = _m.QueryElectriccontroller().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (jr *JobRelations) Floors(ctx context.Context) (result []*JobFloor, err error) {
+func (_m *JobRelations) Floors(ctx context.Context) (result []*JobFloor, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = jr.NamedFloors(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedFloors(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = jr.Edges.FloorsOrErr()
+		result, err = _m.Edges.FloorsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = jr.QueryFloors().All(ctx)
+		result, err = _m.QueryFloors().All(ctx)
 	}
 	return result, err
 }
 
-func (jr *JobRelations) Payments(ctx context.Context) (result []*JobPayments, err error) {
+func (_m *JobRelations) Payments(ctx context.Context) (result []*JobPayments, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = jr.NamedPayments(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedPayments(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = jr.Edges.PaymentsOrErr()
+		result, err = _m.Edges.PaymentsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = jr.QueryPayments().All(ctx)
+		result, err = _m.QueryPayments().All(ctx)
 	}
 	return result, err
 }
 
-func (jr *JobRelations) Receipts(ctx context.Context) (result []*JobReceipt, err error) {
+func (_m *JobRelations) Receipts(ctx context.Context) (result []*JobReceipt, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = jr.NamedReceipts(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedReceipts(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = jr.Edges.ReceiptsOrErr()
+		result, err = _m.Edges.ReceiptsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = jr.QueryReceipts().All(ctx)
+		result, err = _m.QueryReceipts().All(ctx)
 	}
 	return result, err
 }
 
-func (js *JobSupervisor) Supervisors(ctx context.Context) (result []*JobRelations, err error) {
+func (_m *JobSupervisor) Supervisors(ctx context.Context) (result []*JobRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = js.NamedSupervisors(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedSupervisors(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = js.Edges.SupervisorsOrErr()
+		result, err = _m.Edges.SupervisorsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = js.QuerySupervisors().All(ctx)
+		result, err = _m.QuerySupervisors().All(ctx)
 	}
 	return result, err
 }
 
-func (u *User) Companies(ctx context.Context) (result []*CompanyUser, err error) {
+func (_m *User) Companies(ctx context.Context) (result []*CompanyUser, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = u.NamedCompanies(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedCompanies(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = u.Edges.CompaniesOrErr()
+		result, err = _m.Edges.CompaniesOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = u.QueryCompanies().All(ctx)
+		result, err = _m.QueryCompanies().All(ctx)
 	}
 	return result, err
 }

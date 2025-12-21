@@ -20,56 +20,56 @@ type JobPaymentsDelete struct {
 }
 
 // Where appends a list predicates to the JobPaymentsDelete builder.
-func (jpd *JobPaymentsDelete) Where(ps ...predicate.JobPayments) *JobPaymentsDelete {
-	jpd.mutation.Where(ps...)
-	return jpd
+func (_d *JobPaymentsDelete) Where(ps ...predicate.JobPayments) *JobPaymentsDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (jpd *JobPaymentsDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, jpd.sqlExec, jpd.mutation, jpd.hooks)
+func (_d *JobPaymentsDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpd *JobPaymentsDelete) ExecX(ctx context.Context) int {
-	n, err := jpd.Exec(ctx)
+func (_d *JobPaymentsDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (jpd *JobPaymentsDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *JobPaymentsDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(jobpayments.Table, sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt))
-	if ps := jpd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, jpd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	jpd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // JobPaymentsDeleteOne is the builder for deleting a single JobPayments entity.
 type JobPaymentsDeleteOne struct {
-	jpd *JobPaymentsDelete
+	_d *JobPaymentsDelete
 }
 
 // Where appends a list predicates to the JobPaymentsDelete builder.
-func (jpdo *JobPaymentsDeleteOne) Where(ps ...predicate.JobPayments) *JobPaymentsDeleteOne {
-	jpdo.jpd.mutation.Where(ps...)
-	return jpdo
+func (_d *JobPaymentsDeleteOne) Where(ps ...predicate.JobPayments) *JobPaymentsDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (jpdo *JobPaymentsDeleteOne) Exec(ctx context.Context) error {
-	n, err := jpdo.jpd.Exec(ctx)
+func (_d *JobPaymentsDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (jpdo *JobPaymentsDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpdo *JobPaymentsDeleteOne) ExecX(ctx context.Context) {
-	if err := jpdo.Exec(ctx); err != nil {
+func (_d *JobPaymentsDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

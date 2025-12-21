@@ -249,7 +249,6 @@ type JobPaymentsInput struct {
 	PaymentNo    int        `json:"PaymentNo"`
 	PaymentDate  *time.Time `json:"PaymentDate,omitempty"`
 	PaymentType  *string    `json:"PaymentType,omitempty"`
-	TotalPayment *float64   `json:"TotalPayment,omitempty"`
 	LevelRequest *float64   `json:"LevelRequest,omitempty"`
 	LevelApprove *float64   `json:"LevelApprove,omitempty"`
 	Amount       *float64   `json:"Amount,omitempty"`

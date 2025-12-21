@@ -8,7 +8,6 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"math"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
@@ -39,22 +38,9 @@ func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input mo
 		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
 	}
 
-	var totalPayment float64
-	if input.TotalPayment == nil || *input.TotalPayment == 0 {
-		if input.Amount != nil && *input.Amount > 0 {
-			// Amount'dan %20 çıkar
-			totalPayment = math.Round(*input.Amount*0.80*100) / 100
-		} else {
-			totalPayment = 0
-		}
-	} else {
-		totalPayment = *input.TotalPayment
-	}
-
 	if id != nil {
 		// ID varsa güncelle
 		updateQuery := client.JobPayments.UpdateOneID(*id).
-			SetTotalPayment(totalPayment).
 			SetNillablePaymentDate(input.PaymentDate).
 			SetNillablePaymentType(input.PaymentType).
 			SetNillableLevelRequest(input.LevelRequest).
@@ -93,7 +79,6 @@ func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input mo
 		SetPaymentDate(*input.PaymentDate).
 		SetPaymentType(*input.PaymentType).
 		SetState(*input.State).
-		SetTotalPayment(totalPayment).
 		SetLevelRequest(*input.LevelRequest).
 		SetLevelApprove(*input.LevelApprove).
 		SetAmount(*input.Amount).
@@ -117,19 +102,10 @@ func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.Jo
 		return nil, err
 	}
 
-	var totalPayment float64
-	if *input.TotalPayment == 0 && *input.Amount > 0 {
-		// Amount'dan %20 çıkar
-		totalPayment = math.Round(*input.Amount*0.80*100) / 100
-	} else {
-		totalPayment = *input.TotalPayment
-	}
-
 	payment, err := client.JobPayments.Create().
 		SetPaymentNo(input.PaymentNo).
 		SetPaymentDate(*input.PaymentDate).
 		SetPaymentType(*input.PaymentType).
-		SetTotalPayment(totalPayment).
 		SetLevelRequest(*input.LevelRequest).
 		SetLevelApprove(*input.LevelApprove).
 		SetAmount(*input.Amount).

@@ -196,7 +196,7 @@ func (*CompanyEngineer) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the CompanyEngineer fields.
-func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
+func (_m *CompanyEngineer) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -207,106 +207,106 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			ce.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case companyengineer.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				ce.Name = value.String
+				_m.Name = value.String
 			}
 		case companyengineer.FieldTcNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				ce.TcNo = value.String
+				_m.TcNo = value.String
 			}
 		case companyengineer.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Phone", values[i])
 			} else if value.Valid {
-				ce.Phone = value.String
+				_m.Phone = value.String
 			}
 		case companyengineer.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Email", values[i])
 			} else if value.Valid {
-				ce.Email = value.String
+				_m.Email = value.String
 			}
 		case companyengineer.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				ce.Address = value.String
+				_m.Address = value.String
 			}
 		case companyengineer.FieldCareer:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Career", values[i])
 			} else if value.Valid {
-				ce.Career = value.String
+				_m.Career = value.String
 			}
 		case companyengineer.FieldPosition:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Position", values[i])
 			} else if value.Valid {
-				ce.Position = value.String
+				_m.Position = value.String
 			}
 		case companyengineer.FieldRegisterNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
-				ce.RegisterNo = value.String
+				_m.RegisterNo = value.String
 			}
 		case companyengineer.FieldCertNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field CertNo", values[i])
 			} else if value.Valid {
-				ce.CertNo = value.String
+				_m.CertNo = value.String
 			}
 		case companyengineer.FieldYDSID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field YDSID", values[i])
 			} else if value.Valid {
-				ce.YDSID = int(value.Int64)
+				_m.YDSID = int(value.Int64)
 			}
 		case companyengineer.FieldEmployment:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field Employment", values[i])
 			} else if value.Valid {
-				ce.Employment = value.Time
+				_m.Employment = value.Time
 			}
 		case companyengineer.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field Status", values[i])
 			} else if value.Valid {
-				ce.Status = int(value.Int64)
+				_m.Status = int(value.Int64)
 			}
 		case companyengineer.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Note", values[i])
 			} else if value.Valid {
-				ce.Note = value.String
+				_m.Note = value.String
 			}
 		case companyengineer.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				ce.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case companyengineer.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				ce.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case companyengineer.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field company_id", value)
 			} else if value.Valid {
-				ce.company_id = new(int)
-				*ce.company_id = int(value.Int64)
+				_m.company_id = new(int)
+				*_m.company_id = int(value.Int64)
 			}
 		default:
-			ce.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -314,315 +314,315 @@ func (ce *CompanyEngineer) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the CompanyEngineer.
 // This includes values selected through modifiers, order, etc.
-func (ce *CompanyEngineer) Value(name string) (ent.Value, error) {
-	return ce.selectValues.Get(name)
+func (_m *CompanyEngineer) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryCompany queries the "company" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryCompany() *CompanyDetailQuery {
-	return NewCompanyEngineerClient(ce.config).QueryCompany(ce)
+func (_m *CompanyEngineer) QueryCompany() *CompanyDetailQuery {
+	return NewCompanyEngineerClient(_m.config).QueryCompany(_m)
 }
 
 // QueryStatics queries the "statics" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryStatics() *JobRelationsQuery {
-	return NewCompanyEngineerClient(ce.config).QueryStatics(ce)
+func (_m *CompanyEngineer) QueryStatics() *JobRelationsQuery {
+	return NewCompanyEngineerClient(_m.config).QueryStatics(_m)
 }
 
 // QueryMechanics queries the "mechanics" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryMechanics() *JobRelationsQuery {
-	return NewCompanyEngineerClient(ce.config).QueryMechanics(ce)
+func (_m *CompanyEngineer) QueryMechanics() *JobRelationsQuery {
+	return NewCompanyEngineerClient(_m.config).QueryMechanics(_m)
 }
 
 // QueryElectrics queries the "electrics" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryElectrics() *JobRelationsQuery {
-	return NewCompanyEngineerClient(ce.config).QueryElectrics(ce)
+func (_m *CompanyEngineer) QueryElectrics() *JobRelationsQuery {
+	return NewCompanyEngineerClient(_m.config).QueryElectrics(_m)
 }
 
 // QueryInspectors queries the "inspectors" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryInspectors() *JobRelationsQuery {
-	return NewCompanyEngineerClient(ce.config).QueryInspectors(ce)
+func (_m *CompanyEngineer) QueryInspectors() *JobRelationsQuery {
+	return NewCompanyEngineerClient(_m.config).QueryInspectors(_m)
 }
 
 // QueryArchitects queries the "architects" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryArchitects() *JobRelationsQuery {
-	return NewCompanyEngineerClient(ce.config).QueryArchitects(ce)
+func (_m *CompanyEngineer) QueryArchitects() *JobRelationsQuery {
+	return NewCompanyEngineerClient(_m.config).QueryArchitects(_m)
 }
 
 // QueryControllers queries the "controllers" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryControllers() *JobRelationsQuery {
-	return NewCompanyEngineerClient(ce.config).QueryControllers(ce)
+func (_m *CompanyEngineer) QueryControllers() *JobRelationsQuery {
+	return NewCompanyEngineerClient(_m.config).QueryControllers(_m)
 }
 
 // QueryMechaniccontrollers queries the "mechaniccontrollers" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryMechaniccontrollers() *JobRelationsQuery {
-	return NewCompanyEngineerClient(ce.config).QueryMechaniccontrollers(ce)
+func (_m *CompanyEngineer) QueryMechaniccontrollers() *JobRelationsQuery {
+	return NewCompanyEngineerClient(_m.config).QueryMechaniccontrollers(_m)
 }
 
 // QueryElectriccontrollers queries the "electriccontrollers" edge of the CompanyEngineer entity.
-func (ce *CompanyEngineer) QueryElectriccontrollers() *JobRelationsQuery {
-	return NewCompanyEngineerClient(ce.config).QueryElectriccontrollers(ce)
+func (_m *CompanyEngineer) QueryElectriccontrollers() *JobRelationsQuery {
+	return NewCompanyEngineerClient(_m.config).QueryElectriccontrollers(_m)
 }
 
 // Update returns a builder for updating this CompanyEngineer.
 // Note that you need to call CompanyEngineer.Unwrap() before calling this method if this CompanyEngineer
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ce *CompanyEngineer) Update() *CompanyEngineerUpdateOne {
-	return NewCompanyEngineerClient(ce.config).UpdateOne(ce)
+func (_m *CompanyEngineer) Update() *CompanyEngineerUpdateOne {
+	return NewCompanyEngineerClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the CompanyEngineer entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ce *CompanyEngineer) Unwrap() *CompanyEngineer {
-	_tx, ok := ce.config.driver.(*txDriver)
+func (_m *CompanyEngineer) Unwrap() *CompanyEngineer {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: CompanyEngineer is not a transactional entity")
 	}
-	ce.config.driver = _tx.drv
-	return ce
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ce *CompanyEngineer) String() string {
+func (_m *CompanyEngineer) String() string {
 	var builder strings.Builder
 	builder.WriteString("CompanyEngineer(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ce.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("Name=")
-	builder.WriteString(ce.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(ce.TcNo)
+	builder.WriteString(_m.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
-	builder.WriteString(ce.Phone)
+	builder.WriteString(_m.Phone)
 	builder.WriteString(", ")
 	builder.WriteString("Email=")
-	builder.WriteString(ce.Email)
+	builder.WriteString(_m.Email)
 	builder.WriteString(", ")
 	builder.WriteString("Address=")
-	builder.WriteString(ce.Address)
+	builder.WriteString(_m.Address)
 	builder.WriteString(", ")
 	builder.WriteString("Career=")
-	builder.WriteString(ce.Career)
+	builder.WriteString(_m.Career)
 	builder.WriteString(", ")
 	builder.WriteString("Position=")
-	builder.WriteString(ce.Position)
+	builder.WriteString(_m.Position)
 	builder.WriteString(", ")
 	builder.WriteString("RegisterNo=")
-	builder.WriteString(ce.RegisterNo)
+	builder.WriteString(_m.RegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("CertNo=")
-	builder.WriteString(ce.CertNo)
+	builder.WriteString(_m.CertNo)
 	builder.WriteString(", ")
 	builder.WriteString("YDSID=")
-	builder.WriteString(fmt.Sprintf("%v", ce.YDSID))
+	builder.WriteString(fmt.Sprintf("%v", _m.YDSID))
 	builder.WriteString(", ")
 	builder.WriteString("Employment=")
-	builder.WriteString(ce.Employment.Format(time.ANSIC))
+	builder.WriteString(_m.Employment.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("Status=")
-	builder.WriteString(fmt.Sprintf("%v", ce.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("Note=")
-	builder.WriteString(ce.Note)
+	builder.WriteString(_m.Note)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(ce.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(ce.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedStatics returns the Statics named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedStatics(name string) ([]*JobRelations, error) {
-	if ce.Edges.namedStatics == nil {
+func (_m *CompanyEngineer) NamedStatics(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedStatics == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ce.Edges.namedStatics[name]
+	nodes, ok := _m.Edges.namedStatics[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ce *CompanyEngineer) appendNamedStatics(name string, edges ...*JobRelations) {
-	if ce.Edges.namedStatics == nil {
-		ce.Edges.namedStatics = make(map[string][]*JobRelations)
+func (_m *CompanyEngineer) appendNamedStatics(name string, edges ...*JobRelations) {
+	if _m.Edges.namedStatics == nil {
+		_m.Edges.namedStatics = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ce.Edges.namedStatics[name] = []*JobRelations{}
+		_m.Edges.namedStatics[name] = []*JobRelations{}
 	} else {
-		ce.Edges.namedStatics[name] = append(ce.Edges.namedStatics[name], edges...)
+		_m.Edges.namedStatics[name] = append(_m.Edges.namedStatics[name], edges...)
 	}
 }
 
 // NamedMechanics returns the Mechanics named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedMechanics(name string) ([]*JobRelations, error) {
-	if ce.Edges.namedMechanics == nil {
+func (_m *CompanyEngineer) NamedMechanics(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedMechanics == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ce.Edges.namedMechanics[name]
+	nodes, ok := _m.Edges.namedMechanics[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ce *CompanyEngineer) appendNamedMechanics(name string, edges ...*JobRelations) {
-	if ce.Edges.namedMechanics == nil {
-		ce.Edges.namedMechanics = make(map[string][]*JobRelations)
+func (_m *CompanyEngineer) appendNamedMechanics(name string, edges ...*JobRelations) {
+	if _m.Edges.namedMechanics == nil {
+		_m.Edges.namedMechanics = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ce.Edges.namedMechanics[name] = []*JobRelations{}
+		_m.Edges.namedMechanics[name] = []*JobRelations{}
 	} else {
-		ce.Edges.namedMechanics[name] = append(ce.Edges.namedMechanics[name], edges...)
+		_m.Edges.namedMechanics[name] = append(_m.Edges.namedMechanics[name], edges...)
 	}
 }
 
 // NamedElectrics returns the Electrics named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedElectrics(name string) ([]*JobRelations, error) {
-	if ce.Edges.namedElectrics == nil {
+func (_m *CompanyEngineer) NamedElectrics(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedElectrics == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ce.Edges.namedElectrics[name]
+	nodes, ok := _m.Edges.namedElectrics[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ce *CompanyEngineer) appendNamedElectrics(name string, edges ...*JobRelations) {
-	if ce.Edges.namedElectrics == nil {
-		ce.Edges.namedElectrics = make(map[string][]*JobRelations)
+func (_m *CompanyEngineer) appendNamedElectrics(name string, edges ...*JobRelations) {
+	if _m.Edges.namedElectrics == nil {
+		_m.Edges.namedElectrics = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ce.Edges.namedElectrics[name] = []*JobRelations{}
+		_m.Edges.namedElectrics[name] = []*JobRelations{}
 	} else {
-		ce.Edges.namedElectrics[name] = append(ce.Edges.namedElectrics[name], edges...)
+		_m.Edges.namedElectrics[name] = append(_m.Edges.namedElectrics[name], edges...)
 	}
 }
 
 // NamedInspectors returns the Inspectors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedInspectors(name string) ([]*JobRelations, error) {
-	if ce.Edges.namedInspectors == nil {
+func (_m *CompanyEngineer) NamedInspectors(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedInspectors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ce.Edges.namedInspectors[name]
+	nodes, ok := _m.Edges.namedInspectors[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ce *CompanyEngineer) appendNamedInspectors(name string, edges ...*JobRelations) {
-	if ce.Edges.namedInspectors == nil {
-		ce.Edges.namedInspectors = make(map[string][]*JobRelations)
+func (_m *CompanyEngineer) appendNamedInspectors(name string, edges ...*JobRelations) {
+	if _m.Edges.namedInspectors == nil {
+		_m.Edges.namedInspectors = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ce.Edges.namedInspectors[name] = []*JobRelations{}
+		_m.Edges.namedInspectors[name] = []*JobRelations{}
 	} else {
-		ce.Edges.namedInspectors[name] = append(ce.Edges.namedInspectors[name], edges...)
+		_m.Edges.namedInspectors[name] = append(_m.Edges.namedInspectors[name], edges...)
 	}
 }
 
 // NamedArchitects returns the Architects named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedArchitects(name string) ([]*JobRelations, error) {
-	if ce.Edges.namedArchitects == nil {
+func (_m *CompanyEngineer) NamedArchitects(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedArchitects == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ce.Edges.namedArchitects[name]
+	nodes, ok := _m.Edges.namedArchitects[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ce *CompanyEngineer) appendNamedArchitects(name string, edges ...*JobRelations) {
-	if ce.Edges.namedArchitects == nil {
-		ce.Edges.namedArchitects = make(map[string][]*JobRelations)
+func (_m *CompanyEngineer) appendNamedArchitects(name string, edges ...*JobRelations) {
+	if _m.Edges.namedArchitects == nil {
+		_m.Edges.namedArchitects = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ce.Edges.namedArchitects[name] = []*JobRelations{}
+		_m.Edges.namedArchitects[name] = []*JobRelations{}
 	} else {
-		ce.Edges.namedArchitects[name] = append(ce.Edges.namedArchitects[name], edges...)
+		_m.Edges.namedArchitects[name] = append(_m.Edges.namedArchitects[name], edges...)
 	}
 }
 
 // NamedControllers returns the Controllers named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedControllers(name string) ([]*JobRelations, error) {
-	if ce.Edges.namedControllers == nil {
+func (_m *CompanyEngineer) NamedControllers(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedControllers == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ce.Edges.namedControllers[name]
+	nodes, ok := _m.Edges.namedControllers[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ce *CompanyEngineer) appendNamedControllers(name string, edges ...*JobRelations) {
-	if ce.Edges.namedControllers == nil {
-		ce.Edges.namedControllers = make(map[string][]*JobRelations)
+func (_m *CompanyEngineer) appendNamedControllers(name string, edges ...*JobRelations) {
+	if _m.Edges.namedControllers == nil {
+		_m.Edges.namedControllers = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ce.Edges.namedControllers[name] = []*JobRelations{}
+		_m.Edges.namedControllers[name] = []*JobRelations{}
 	} else {
-		ce.Edges.namedControllers[name] = append(ce.Edges.namedControllers[name], edges...)
+		_m.Edges.namedControllers[name] = append(_m.Edges.namedControllers[name], edges...)
 	}
 }
 
 // NamedMechaniccontrollers returns the Mechaniccontrollers named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedMechaniccontrollers(name string) ([]*JobRelations, error) {
-	if ce.Edges.namedMechaniccontrollers == nil {
+func (_m *CompanyEngineer) NamedMechaniccontrollers(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedMechaniccontrollers == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ce.Edges.namedMechaniccontrollers[name]
+	nodes, ok := _m.Edges.namedMechaniccontrollers[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ce *CompanyEngineer) appendNamedMechaniccontrollers(name string, edges ...*JobRelations) {
-	if ce.Edges.namedMechaniccontrollers == nil {
-		ce.Edges.namedMechaniccontrollers = make(map[string][]*JobRelations)
+func (_m *CompanyEngineer) appendNamedMechaniccontrollers(name string, edges ...*JobRelations) {
+	if _m.Edges.namedMechaniccontrollers == nil {
+		_m.Edges.namedMechaniccontrollers = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ce.Edges.namedMechaniccontrollers[name] = []*JobRelations{}
+		_m.Edges.namedMechaniccontrollers[name] = []*JobRelations{}
 	} else {
-		ce.Edges.namedMechaniccontrollers[name] = append(ce.Edges.namedMechaniccontrollers[name], edges...)
+		_m.Edges.namedMechaniccontrollers[name] = append(_m.Edges.namedMechaniccontrollers[name], edges...)
 	}
 }
 
 // NamedElectriccontrollers returns the Electriccontrollers named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (ce *CompanyEngineer) NamedElectriccontrollers(name string) ([]*JobRelations, error) {
-	if ce.Edges.namedElectriccontrollers == nil {
+func (_m *CompanyEngineer) NamedElectriccontrollers(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedElectriccontrollers == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := ce.Edges.namedElectriccontrollers[name]
+	nodes, ok := _m.Edges.namedElectriccontrollers[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (ce *CompanyEngineer) appendNamedElectriccontrollers(name string, edges ...*JobRelations) {
-	if ce.Edges.namedElectriccontrollers == nil {
-		ce.Edges.namedElectriccontrollers = make(map[string][]*JobRelations)
+func (_m *CompanyEngineer) appendNamedElectriccontrollers(name string, edges ...*JobRelations) {
+	if _m.Edges.namedElectriccontrollers == nil {
+		_m.Edges.namedElectriccontrollers = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		ce.Edges.namedElectriccontrollers[name] = []*JobRelations{}
+		_m.Edges.namedElectriccontrollers[name] = []*JobRelations{}
 	} else {
-		ce.Edges.namedElectriccontrollers[name] = append(ce.Edges.namedElectriccontrollers[name], edges...)
+		_m.Edges.namedElectriccontrollers[name] = append(_m.Edges.namedElectriccontrollers[name], edges...)
 	}
 }
 

@@ -81,7 +81,7 @@ func (*CompanyUser) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the CompanyUser fields.
-func (cu *CompanyUser) assignValues(columns []string, values []any) error {
+func (_m *CompanyUser) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -92,23 +92,23 @@ func (cu *CompanyUser) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			cu.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case companyuser.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field company_id", value)
 			} else if value.Valid {
-				cu.company_id = new(int)
-				*cu.company_id = int(value.Int64)
+				_m.company_id = new(int)
+				*_m.company_id = int(value.Int64)
 			}
 		case companyuser.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field user_id", value)
 			} else if value.Valid {
-				cu.user_id = new(int)
-				*cu.user_id = int(value.Int64)
+				_m.user_id = new(int)
+				*_m.user_id = int(value.Int64)
 			}
 		default:
-			cu.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -116,43 +116,43 @@ func (cu *CompanyUser) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the CompanyUser.
 // This includes values selected through modifiers, order, etc.
-func (cu *CompanyUser) Value(name string) (ent.Value, error) {
-	return cu.selectValues.Get(name)
+func (_m *CompanyUser) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryCompany queries the "company" edge of the CompanyUser entity.
-func (cu *CompanyUser) QueryCompany() *CompanyDetailQuery {
-	return NewCompanyUserClient(cu.config).QueryCompany(cu)
+func (_m *CompanyUser) QueryCompany() *CompanyDetailQuery {
+	return NewCompanyUserClient(_m.config).QueryCompany(_m)
 }
 
 // QueryUser queries the "user" edge of the CompanyUser entity.
-func (cu *CompanyUser) QueryUser() *UserQuery {
-	return NewCompanyUserClient(cu.config).QueryUser(cu)
+func (_m *CompanyUser) QueryUser() *UserQuery {
+	return NewCompanyUserClient(_m.config).QueryUser(_m)
 }
 
 // Update returns a builder for updating this CompanyUser.
 // Note that you need to call CompanyUser.Unwrap() before calling this method if this CompanyUser
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (cu *CompanyUser) Update() *CompanyUserUpdateOne {
-	return NewCompanyUserClient(cu.config).UpdateOne(cu)
+func (_m *CompanyUser) Update() *CompanyUserUpdateOne {
+	return NewCompanyUserClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the CompanyUser entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (cu *CompanyUser) Unwrap() *CompanyUser {
-	_tx, ok := cu.config.driver.(*txDriver)
+func (_m *CompanyUser) Unwrap() *CompanyUser {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: CompanyUser is not a transactional entity")
 	}
-	cu.config.driver = _tx.drv
-	return cu
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (cu *CompanyUser) String() string {
+func (_m *CompanyUser) String() string {
 	var builder strings.Builder
 	builder.WriteString("CompanyUser(")
-	builder.WriteString(fmt.Sprintf("id=%v", cu.ID))
+	builder.WriteString(fmt.Sprintf("id=%v", _m.ID))
 	builder.WriteByte(')')
 	return builder.String()
 }

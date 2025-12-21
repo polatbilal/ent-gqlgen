@@ -24,400 +24,373 @@ type JobPaymentsUpdate struct {
 }
 
 // Where appends a list predicates to the JobPaymentsUpdate builder.
-func (jpu *JobPaymentsUpdate) Where(ps ...predicate.JobPayments) *JobPaymentsUpdate {
-	jpu.mutation.Where(ps...)
-	return jpu
+func (_u *JobPaymentsUpdate) Where(ps ...predicate.JobPayments) *JobPaymentsUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jpu *JobPaymentsUpdate) SetYibfNo(i int) *JobPaymentsUpdate {
-	jpu.mutation.ResetYibfNo()
-	jpu.mutation.SetYibfNo(i)
-	return jpu
+func (_u *JobPaymentsUpdate) SetYibfNo(v int) *JobPaymentsUpdate {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableYibfNo(i *int) *JobPaymentsUpdate {
-	if i != nil {
-		jpu.SetYibfNo(*i)
+func (_u *JobPaymentsUpdate) SetNillableYibfNo(v *int) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jpu *JobPaymentsUpdate) AddYibfNo(i int) *JobPaymentsUpdate {
-	jpu.mutation.AddYibfNo(i)
-	return jpu
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobPaymentsUpdate) AddYibfNo(v int) *JobPaymentsUpdate {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetPaymentNo sets the "PaymentNo" field.
-func (jpu *JobPaymentsUpdate) SetPaymentNo(i int) *JobPaymentsUpdate {
-	jpu.mutation.ResetPaymentNo()
-	jpu.mutation.SetPaymentNo(i)
-	return jpu
+func (_u *JobPaymentsUpdate) SetPaymentNo(v int) *JobPaymentsUpdate {
+	_u.mutation.ResetPaymentNo()
+	_u.mutation.SetPaymentNo(v)
+	return _u
 }
 
 // SetNillablePaymentNo sets the "PaymentNo" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillablePaymentNo(i *int) *JobPaymentsUpdate {
-	if i != nil {
-		jpu.SetPaymentNo(*i)
+func (_u *JobPaymentsUpdate) SetNillablePaymentNo(v *int) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetPaymentNo(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddPaymentNo adds i to the "PaymentNo" field.
-func (jpu *JobPaymentsUpdate) AddPaymentNo(i int) *JobPaymentsUpdate {
-	jpu.mutation.AddPaymentNo(i)
-	return jpu
+// AddPaymentNo adds value to the "PaymentNo" field.
+func (_u *JobPaymentsUpdate) AddPaymentNo(v int) *JobPaymentsUpdate {
+	_u.mutation.AddPaymentNo(v)
+	return _u
 }
 
 // ClearPaymentNo clears the value of the "PaymentNo" field.
-func (jpu *JobPaymentsUpdate) ClearPaymentNo() *JobPaymentsUpdate {
-	jpu.mutation.ClearPaymentNo()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearPaymentNo() *JobPaymentsUpdate {
+	_u.mutation.ClearPaymentNo()
+	return _u
 }
 
 // SetPaymentDate sets the "PaymentDate" field.
-func (jpu *JobPaymentsUpdate) SetPaymentDate(t time.Time) *JobPaymentsUpdate {
-	jpu.mutation.SetPaymentDate(t)
-	return jpu
+func (_u *JobPaymentsUpdate) SetPaymentDate(v time.Time) *JobPaymentsUpdate {
+	_u.mutation.SetPaymentDate(v)
+	return _u
 }
 
 // SetNillablePaymentDate sets the "PaymentDate" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillablePaymentDate(t *time.Time) *JobPaymentsUpdate {
-	if t != nil {
-		jpu.SetPaymentDate(*t)
+func (_u *JobPaymentsUpdate) SetNillablePaymentDate(v *time.Time) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetPaymentDate(*v)
 	}
-	return jpu
+	return _u
 }
 
 // SetPaymentType sets the "PaymentType" field.
-func (jpu *JobPaymentsUpdate) SetPaymentType(s string) *JobPaymentsUpdate {
-	jpu.mutation.SetPaymentType(s)
-	return jpu
+func (_u *JobPaymentsUpdate) SetPaymentType(v string) *JobPaymentsUpdate {
+	_u.mutation.SetPaymentType(v)
+	return _u
 }
 
 // SetNillablePaymentType sets the "PaymentType" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillablePaymentType(s *string) *JobPaymentsUpdate {
-	if s != nil {
-		jpu.SetPaymentType(*s)
+func (_u *JobPaymentsUpdate) SetNillablePaymentType(v *string) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetPaymentType(*v)
 	}
-	return jpu
+	return _u
 }
 
 // ClearPaymentType clears the value of the "PaymentType" field.
-func (jpu *JobPaymentsUpdate) ClearPaymentType() *JobPaymentsUpdate {
-	jpu.mutation.ClearPaymentType()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearPaymentType() *JobPaymentsUpdate {
+	_u.mutation.ClearPaymentType()
+	return _u
 }
 
 // SetState sets the "State" field.
-func (jpu *JobPaymentsUpdate) SetState(s string) *JobPaymentsUpdate {
-	jpu.mutation.SetState(s)
-	return jpu
+func (_u *JobPaymentsUpdate) SetState(v string) *JobPaymentsUpdate {
+	_u.mutation.SetState(v)
+	return _u
 }
 
 // SetNillableState sets the "State" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableState(s *string) *JobPaymentsUpdate {
-	if s != nil {
-		jpu.SetState(*s)
+func (_u *JobPaymentsUpdate) SetNillableState(v *string) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetState(*v)
 	}
-	return jpu
+	return _u
 }
 
 // ClearState clears the value of the "State" field.
-func (jpu *JobPaymentsUpdate) ClearState() *JobPaymentsUpdate {
-	jpu.mutation.ClearState()
-	return jpu
-}
-
-// SetTotalPayment sets the "TotalPayment" field.
-func (jpu *JobPaymentsUpdate) SetTotalPayment(f float64) *JobPaymentsUpdate {
-	jpu.mutation.ResetTotalPayment()
-	jpu.mutation.SetTotalPayment(f)
-	return jpu
-}
-
-// SetNillableTotalPayment sets the "TotalPayment" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableTotalPayment(f *float64) *JobPaymentsUpdate {
-	if f != nil {
-		jpu.SetTotalPayment(*f)
-	}
-	return jpu
-}
-
-// AddTotalPayment adds f to the "TotalPayment" field.
-func (jpu *JobPaymentsUpdate) AddTotalPayment(f float64) *JobPaymentsUpdate {
-	jpu.mutation.AddTotalPayment(f)
-	return jpu
-}
-
-// ClearTotalPayment clears the value of the "TotalPayment" field.
-func (jpu *JobPaymentsUpdate) ClearTotalPayment() *JobPaymentsUpdate {
-	jpu.mutation.ClearTotalPayment()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearState() *JobPaymentsUpdate {
+	_u.mutation.ClearState()
+	return _u
 }
 
 // SetLevelRequest sets the "LevelRequest" field.
-func (jpu *JobPaymentsUpdate) SetLevelRequest(f float64) *JobPaymentsUpdate {
-	jpu.mutation.ResetLevelRequest()
-	jpu.mutation.SetLevelRequest(f)
-	return jpu
+func (_u *JobPaymentsUpdate) SetLevelRequest(v float64) *JobPaymentsUpdate {
+	_u.mutation.ResetLevelRequest()
+	_u.mutation.SetLevelRequest(v)
+	return _u
 }
 
 // SetNillableLevelRequest sets the "LevelRequest" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableLevelRequest(f *float64) *JobPaymentsUpdate {
-	if f != nil {
-		jpu.SetLevelRequest(*f)
+func (_u *JobPaymentsUpdate) SetNillableLevelRequest(v *float64) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetLevelRequest(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddLevelRequest adds f to the "LevelRequest" field.
-func (jpu *JobPaymentsUpdate) AddLevelRequest(f float64) *JobPaymentsUpdate {
-	jpu.mutation.AddLevelRequest(f)
-	return jpu
+// AddLevelRequest adds value to the "LevelRequest" field.
+func (_u *JobPaymentsUpdate) AddLevelRequest(v float64) *JobPaymentsUpdate {
+	_u.mutation.AddLevelRequest(v)
+	return _u
 }
 
 // ClearLevelRequest clears the value of the "LevelRequest" field.
-func (jpu *JobPaymentsUpdate) ClearLevelRequest() *JobPaymentsUpdate {
-	jpu.mutation.ClearLevelRequest()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearLevelRequest() *JobPaymentsUpdate {
+	_u.mutation.ClearLevelRequest()
+	return _u
 }
 
 // SetLevelApprove sets the "LevelApprove" field.
-func (jpu *JobPaymentsUpdate) SetLevelApprove(f float64) *JobPaymentsUpdate {
-	jpu.mutation.ResetLevelApprove()
-	jpu.mutation.SetLevelApprove(f)
-	return jpu
+func (_u *JobPaymentsUpdate) SetLevelApprove(v float64) *JobPaymentsUpdate {
+	_u.mutation.ResetLevelApprove()
+	_u.mutation.SetLevelApprove(v)
+	return _u
 }
 
 // SetNillableLevelApprove sets the "LevelApprove" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableLevelApprove(f *float64) *JobPaymentsUpdate {
-	if f != nil {
-		jpu.SetLevelApprove(*f)
+func (_u *JobPaymentsUpdate) SetNillableLevelApprove(v *float64) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetLevelApprove(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddLevelApprove adds f to the "LevelApprove" field.
-func (jpu *JobPaymentsUpdate) AddLevelApprove(f float64) *JobPaymentsUpdate {
-	jpu.mutation.AddLevelApprove(f)
-	return jpu
+// AddLevelApprove adds value to the "LevelApprove" field.
+func (_u *JobPaymentsUpdate) AddLevelApprove(v float64) *JobPaymentsUpdate {
+	_u.mutation.AddLevelApprove(v)
+	return _u
 }
 
 // ClearLevelApprove clears the value of the "LevelApprove" field.
-func (jpu *JobPaymentsUpdate) ClearLevelApprove() *JobPaymentsUpdate {
-	jpu.mutation.ClearLevelApprove()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearLevelApprove() *JobPaymentsUpdate {
+	_u.mutation.ClearLevelApprove()
+	return _u
 }
 
 // SetAmount sets the "Amount" field.
-func (jpu *JobPaymentsUpdate) SetAmount(f float64) *JobPaymentsUpdate {
-	jpu.mutation.ResetAmount()
-	jpu.mutation.SetAmount(f)
-	return jpu
+func (_u *JobPaymentsUpdate) SetAmount(v float64) *JobPaymentsUpdate {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "Amount" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableAmount(f *float64) *JobPaymentsUpdate {
-	if f != nil {
-		jpu.SetAmount(*f)
+func (_u *JobPaymentsUpdate) SetNillableAmount(v *float64) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddAmount adds f to the "Amount" field.
-func (jpu *JobPaymentsUpdate) AddAmount(f float64) *JobPaymentsUpdate {
-	jpu.mutation.AddAmount(f)
-	return jpu
+// AddAmount adds value to the "Amount" field.
+func (_u *JobPaymentsUpdate) AddAmount(v float64) *JobPaymentsUpdate {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // ClearAmount clears the value of the "Amount" field.
-func (jpu *JobPaymentsUpdate) ClearAmount() *JobPaymentsUpdate {
-	jpu.mutation.ClearAmount()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearAmount() *JobPaymentsUpdate {
+	_u.mutation.ClearAmount()
+	return _u
 }
 
 // SetAtMunicipality sets the "AtMunicipality" field.
-func (jpu *JobPaymentsUpdate) SetAtMunicipality(b bool) *JobPaymentsUpdate {
-	jpu.mutation.SetAtMunicipality(b)
-	return jpu
+func (_u *JobPaymentsUpdate) SetAtMunicipality(v bool) *JobPaymentsUpdate {
+	_u.mutation.SetAtMunicipality(v)
+	return _u
 }
 
 // SetNillableAtMunicipality sets the "AtMunicipality" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableAtMunicipality(b *bool) *JobPaymentsUpdate {
-	if b != nil {
-		jpu.SetAtMunicipality(*b)
+func (_u *JobPaymentsUpdate) SetNillableAtMunicipality(v *bool) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetAtMunicipality(*v)
 	}
-	return jpu
+	return _u
 }
 
 // ClearAtMunicipality clears the value of the "AtMunicipality" field.
-func (jpu *JobPaymentsUpdate) ClearAtMunicipality() *JobPaymentsUpdate {
-	jpu.mutation.ClearAtMunicipality()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearAtMunicipality() *JobPaymentsUpdate {
+	_u.mutation.ClearAtMunicipality()
+	return _u
 }
 
 // SetMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field.
-func (jpu *JobPaymentsUpdate) SetMunicipalityDeliveryDate(t time.Time) *JobPaymentsUpdate {
-	jpu.mutation.SetMunicipalityDeliveryDate(t)
-	return jpu
+func (_u *JobPaymentsUpdate) SetMunicipalityDeliveryDate(v time.Time) *JobPaymentsUpdate {
+	_u.mutation.SetMunicipalityDeliveryDate(v)
+	return _u
 }
 
 // SetNillableMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableMunicipalityDeliveryDate(t *time.Time) *JobPaymentsUpdate {
-	if t != nil {
-		jpu.SetMunicipalityDeliveryDate(*t)
+func (_u *JobPaymentsUpdate) SetNillableMunicipalityDeliveryDate(v *time.Time) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetMunicipalityDeliveryDate(*v)
 	}
-	return jpu
+	return _u
 }
 
 // ClearMunicipalityDeliveryDate clears the value of the "MunicipalityDeliveryDate" field.
-func (jpu *JobPaymentsUpdate) ClearMunicipalityDeliveryDate() *JobPaymentsUpdate {
-	jpu.mutation.ClearMunicipalityDeliveryDate()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearMunicipalityDeliveryDate() *JobPaymentsUpdate {
+	_u.mutation.ClearMunicipalityDeliveryDate()
+	return _u
 }
 
 // SetInvoiceIssued sets the "InvoiceIssued" field.
-func (jpu *JobPaymentsUpdate) SetInvoiceIssued(b bool) *JobPaymentsUpdate {
-	jpu.mutation.SetInvoiceIssued(b)
-	return jpu
+func (_u *JobPaymentsUpdate) SetInvoiceIssued(v bool) *JobPaymentsUpdate {
+	_u.mutation.SetInvoiceIssued(v)
+	return _u
 }
 
 // SetNillableInvoiceIssued sets the "InvoiceIssued" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableInvoiceIssued(b *bool) *JobPaymentsUpdate {
-	if b != nil {
-		jpu.SetInvoiceIssued(*b)
+func (_u *JobPaymentsUpdate) SetNillableInvoiceIssued(v *bool) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetInvoiceIssued(*v)
 	}
-	return jpu
+	return _u
 }
 
 // ClearInvoiceIssued clears the value of the "InvoiceIssued" field.
-func (jpu *JobPaymentsUpdate) ClearInvoiceIssued() *JobPaymentsUpdate {
-	jpu.mutation.ClearInvoiceIssued()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearInvoiceIssued() *JobPaymentsUpdate {
+	_u.mutation.ClearInvoiceIssued()
+	return _u
 }
 
 // SetInvoiceIssuedDate sets the "InvoiceIssuedDate" field.
-func (jpu *JobPaymentsUpdate) SetInvoiceIssuedDate(t time.Time) *JobPaymentsUpdate {
-	jpu.mutation.SetInvoiceIssuedDate(t)
-	return jpu
+func (_u *JobPaymentsUpdate) SetInvoiceIssuedDate(v time.Time) *JobPaymentsUpdate {
+	_u.mutation.SetInvoiceIssuedDate(v)
+	return _u
 }
 
 // SetNillableInvoiceIssuedDate sets the "InvoiceIssuedDate" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableInvoiceIssuedDate(t *time.Time) *JobPaymentsUpdate {
-	if t != nil {
-		jpu.SetInvoiceIssuedDate(*t)
+func (_u *JobPaymentsUpdate) SetNillableInvoiceIssuedDate(v *time.Time) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetInvoiceIssuedDate(*v)
 	}
-	return jpu
+	return _u
 }
 
 // ClearInvoiceIssuedDate clears the value of the "InvoiceIssuedDate" field.
-func (jpu *JobPaymentsUpdate) ClearInvoiceIssuedDate() *JobPaymentsUpdate {
-	jpu.mutation.ClearInvoiceIssuedDate()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearInvoiceIssuedDate() *JobPaymentsUpdate {
+	_u.mutation.ClearInvoiceIssuedDate()
+	return _u
 }
 
 // SetInvoiceReceived sets the "InvoiceReceived" field.
-func (jpu *JobPaymentsUpdate) SetInvoiceReceived(b bool) *JobPaymentsUpdate {
-	jpu.mutation.SetInvoiceReceived(b)
-	return jpu
+func (_u *JobPaymentsUpdate) SetInvoiceReceived(v bool) *JobPaymentsUpdate {
+	_u.mutation.SetInvoiceReceived(v)
+	return _u
 }
 
 // SetNillableInvoiceReceived sets the "InvoiceReceived" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableInvoiceReceived(b *bool) *JobPaymentsUpdate {
-	if b != nil {
-		jpu.SetInvoiceReceived(*b)
+func (_u *JobPaymentsUpdate) SetNillableInvoiceReceived(v *bool) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetInvoiceReceived(*v)
 	}
-	return jpu
+	return _u
 }
 
 // ClearInvoiceReceived clears the value of the "InvoiceReceived" field.
-func (jpu *JobPaymentsUpdate) ClearInvoiceReceived() *JobPaymentsUpdate {
-	jpu.mutation.ClearInvoiceReceived()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearInvoiceReceived() *JobPaymentsUpdate {
+	_u.mutation.ClearInvoiceReceived()
+	return _u
 }
 
 // SetInvoiceReceivedDate sets the "InvoiceReceivedDate" field.
-func (jpu *JobPaymentsUpdate) SetInvoiceReceivedDate(t time.Time) *JobPaymentsUpdate {
-	jpu.mutation.SetInvoiceReceivedDate(t)
-	return jpu
+func (_u *JobPaymentsUpdate) SetInvoiceReceivedDate(v time.Time) *JobPaymentsUpdate {
+	_u.mutation.SetInvoiceReceivedDate(v)
+	return _u
 }
 
 // SetNillableInvoiceReceivedDate sets the "InvoiceReceivedDate" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableInvoiceReceivedDate(t *time.Time) *JobPaymentsUpdate {
-	if t != nil {
-		jpu.SetInvoiceReceivedDate(*t)
+func (_u *JobPaymentsUpdate) SetNillableInvoiceReceivedDate(v *time.Time) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetInvoiceReceivedDate(*v)
 	}
-	return jpu
+	return _u
 }
 
 // ClearInvoiceReceivedDate clears the value of the "InvoiceReceivedDate" field.
-func (jpu *JobPaymentsUpdate) ClearInvoiceReceivedDate() *JobPaymentsUpdate {
-	jpu.mutation.ClearInvoiceReceivedDate()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearInvoiceReceivedDate() *JobPaymentsUpdate {
+	_u.mutation.ClearInvoiceReceivedDate()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jpu *JobPaymentsUpdate) SetCreatedAt(t time.Time) *JobPaymentsUpdate {
-	jpu.mutation.SetCreatedAt(t)
-	return jpu
+func (_u *JobPaymentsUpdate) SetCreatedAt(v time.Time) *JobPaymentsUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillableCreatedAt(t *time.Time) *JobPaymentsUpdate {
-	if t != nil {
-		jpu.SetCreatedAt(*t)
+func (_u *JobPaymentsUpdate) SetNillableCreatedAt(v *time.Time) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jpu
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jpu *JobPaymentsUpdate) SetUpdatedAt(t time.Time) *JobPaymentsUpdate {
-	jpu.mutation.SetUpdatedAt(t)
-	return jpu
+func (_u *JobPaymentsUpdate) SetUpdatedAt(v time.Time) *JobPaymentsUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetPaymentsID sets the "payments" edge to the JobRelations entity by ID.
-func (jpu *JobPaymentsUpdate) SetPaymentsID(id int) *JobPaymentsUpdate {
-	jpu.mutation.SetPaymentsID(id)
-	return jpu
+func (_u *JobPaymentsUpdate) SetPaymentsID(id int) *JobPaymentsUpdate {
+	_u.mutation.SetPaymentsID(id)
+	return _u
 }
 
 // SetNillablePaymentsID sets the "payments" edge to the JobRelations entity by ID if the given value is not nil.
-func (jpu *JobPaymentsUpdate) SetNillablePaymentsID(id *int) *JobPaymentsUpdate {
+func (_u *JobPaymentsUpdate) SetNillablePaymentsID(id *int) *JobPaymentsUpdate {
 	if id != nil {
-		jpu = jpu.SetPaymentsID(*id)
+		_u = _u.SetPaymentsID(*id)
 	}
-	return jpu
+	return _u
 }
 
 // SetPayments sets the "payments" edge to the JobRelations entity.
-func (jpu *JobPaymentsUpdate) SetPayments(j *JobRelations) *JobPaymentsUpdate {
-	return jpu.SetPaymentsID(j.ID)
+func (_u *JobPaymentsUpdate) SetPayments(v *JobRelations) *JobPaymentsUpdate {
+	return _u.SetPaymentsID(v.ID)
 }
 
 // Mutation returns the JobPaymentsMutation object of the builder.
-func (jpu *JobPaymentsUpdate) Mutation() *JobPaymentsMutation {
-	return jpu.mutation
+func (_u *JobPaymentsUpdate) Mutation() *JobPaymentsMutation {
+	return _u.mutation
 }
 
 // ClearPayments clears the "payments" edge to the JobRelations entity.
-func (jpu *JobPaymentsUpdate) ClearPayments() *JobPaymentsUpdate {
-	jpu.mutation.ClearPayments()
-	return jpu
+func (_u *JobPaymentsUpdate) ClearPayments() *JobPaymentsUpdate {
+	_u.mutation.ClearPayments()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jpu *JobPaymentsUpdate) Save(ctx context.Context) (int, error) {
-	jpu.defaults()
-	return withHooks(ctx, jpu.sqlSave, jpu.mutation, jpu.hooks)
+func (_u *JobPaymentsUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jpu *JobPaymentsUpdate) SaveX(ctx context.Context) int {
-	affected, err := jpu.Save(ctx)
+func (_u *JobPaymentsUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -425,144 +398,135 @@ func (jpu *JobPaymentsUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jpu *JobPaymentsUpdate) Exec(ctx context.Context) error {
-	_, err := jpu.Save(ctx)
+func (_u *JobPaymentsUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpu *JobPaymentsUpdate) ExecX(ctx context.Context) {
-	if err := jpu.Exec(ctx); err != nil {
+func (_u *JobPaymentsUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jpu *JobPaymentsUpdate) defaults() {
-	if _, ok := jpu.mutation.UpdatedAt(); !ok {
+func (_u *JobPaymentsUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobpayments.UpdateDefaultUpdatedAt()
-		jpu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jpu *JobPaymentsUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobPaymentsUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobpayments.Table, jobpayments.Columns, sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt))
-	if ps := jpu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jpu.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobpayments.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobpayments.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.PaymentNo(); ok {
+	if value, ok := _u.mutation.PaymentNo(); ok {
 		_spec.SetField(jobpayments.FieldPaymentNo, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedPaymentNo(); ok {
+	if value, ok := _u.mutation.AddedPaymentNo(); ok {
 		_spec.AddField(jobpayments.FieldPaymentNo, field.TypeInt, value)
 	}
-	if jpu.mutation.PaymentNoCleared() {
+	if _u.mutation.PaymentNoCleared() {
 		_spec.ClearField(jobpayments.FieldPaymentNo, field.TypeInt)
 	}
-	if value, ok := jpu.mutation.PaymentDate(); ok {
+	if value, ok := _u.mutation.PaymentDate(); ok {
 		_spec.SetField(jobpayments.FieldPaymentDate, field.TypeTime, value)
 	}
-	if value, ok := jpu.mutation.PaymentType(); ok {
+	if value, ok := _u.mutation.PaymentType(); ok {
 		_spec.SetField(jobpayments.FieldPaymentType, field.TypeString, value)
 	}
-	if jpu.mutation.PaymentTypeCleared() {
+	if _u.mutation.PaymentTypeCleared() {
 		_spec.ClearField(jobpayments.FieldPaymentType, field.TypeString)
 	}
-	if value, ok := jpu.mutation.State(); ok {
+	if value, ok := _u.mutation.State(); ok {
 		_spec.SetField(jobpayments.FieldState, field.TypeString, value)
 	}
-	if jpu.mutation.StateCleared() {
+	if _u.mutation.StateCleared() {
 		_spec.ClearField(jobpayments.FieldState, field.TypeString)
 	}
-	if value, ok := jpu.mutation.TotalPayment(); ok {
-		_spec.SetField(jobpayments.FieldTotalPayment, field.TypeFloat64, value)
-	}
-	if value, ok := jpu.mutation.AddedTotalPayment(); ok {
-		_spec.AddField(jobpayments.FieldTotalPayment, field.TypeFloat64, value)
-	}
-	if jpu.mutation.TotalPaymentCleared() {
-		_spec.ClearField(jobpayments.FieldTotalPayment, field.TypeFloat64)
-	}
-	if value, ok := jpu.mutation.LevelRequest(); ok {
+	if value, ok := _u.mutation.LevelRequest(); ok {
 		_spec.SetField(jobpayments.FieldLevelRequest, field.TypeFloat64, value)
 	}
-	if value, ok := jpu.mutation.AddedLevelRequest(); ok {
+	if value, ok := _u.mutation.AddedLevelRequest(); ok {
 		_spec.AddField(jobpayments.FieldLevelRequest, field.TypeFloat64, value)
 	}
-	if jpu.mutation.LevelRequestCleared() {
+	if _u.mutation.LevelRequestCleared() {
 		_spec.ClearField(jobpayments.FieldLevelRequest, field.TypeFloat64)
 	}
-	if value, ok := jpu.mutation.LevelApprove(); ok {
+	if value, ok := _u.mutation.LevelApprove(); ok {
 		_spec.SetField(jobpayments.FieldLevelApprove, field.TypeFloat64, value)
 	}
-	if value, ok := jpu.mutation.AddedLevelApprove(); ok {
+	if value, ok := _u.mutation.AddedLevelApprove(); ok {
 		_spec.AddField(jobpayments.FieldLevelApprove, field.TypeFloat64, value)
 	}
-	if jpu.mutation.LevelApproveCleared() {
+	if _u.mutation.LevelApproveCleared() {
 		_spec.ClearField(jobpayments.FieldLevelApprove, field.TypeFloat64)
 	}
-	if value, ok := jpu.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(jobpayments.FieldAmount, field.TypeFloat64, value)
 	}
-	if value, ok := jpu.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(jobpayments.FieldAmount, field.TypeFloat64, value)
 	}
-	if jpu.mutation.AmountCleared() {
+	if _u.mutation.AmountCleared() {
 		_spec.ClearField(jobpayments.FieldAmount, field.TypeFloat64)
 	}
-	if value, ok := jpu.mutation.AtMunicipality(); ok {
+	if value, ok := _u.mutation.AtMunicipality(); ok {
 		_spec.SetField(jobpayments.FieldAtMunicipality, field.TypeBool, value)
 	}
-	if jpu.mutation.AtMunicipalityCleared() {
+	if _u.mutation.AtMunicipalityCleared() {
 		_spec.ClearField(jobpayments.FieldAtMunicipality, field.TypeBool)
 	}
-	if value, ok := jpu.mutation.MunicipalityDeliveryDate(); ok {
+	if value, ok := _u.mutation.MunicipalityDeliveryDate(); ok {
 		_spec.SetField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime, value)
 	}
-	if jpu.mutation.MunicipalityDeliveryDateCleared() {
+	if _u.mutation.MunicipalityDeliveryDateCleared() {
 		_spec.ClearField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime)
 	}
-	if value, ok := jpu.mutation.InvoiceIssued(); ok {
+	if value, ok := _u.mutation.InvoiceIssued(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceIssued, field.TypeBool, value)
 	}
-	if jpu.mutation.InvoiceIssuedCleared() {
+	if _u.mutation.InvoiceIssuedCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceIssued, field.TypeBool)
 	}
-	if value, ok := jpu.mutation.InvoiceIssuedDate(); ok {
+	if value, ok := _u.mutation.InvoiceIssuedDate(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime, value)
 	}
-	if jpu.mutation.InvoiceIssuedDateCleared() {
+	if _u.mutation.InvoiceIssuedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime)
 	}
-	if value, ok := jpu.mutation.InvoiceReceived(); ok {
+	if value, ok := _u.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
 	}
-	if jpu.mutation.InvoiceReceivedCleared() {
+	if _u.mutation.InvoiceReceivedCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceReceived, field.TypeBool)
 	}
-	if value, ok := jpu.mutation.InvoiceReceivedDate(); ok {
+	if value, ok := _u.mutation.InvoiceReceivedDate(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime, value)
 	}
-	if jpu.mutation.InvoiceReceivedDateCleared() {
+	if _u.mutation.InvoiceReceivedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime)
 	}
-	if value, ok := jpu.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jpu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobpayments.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jpu.mutation.PaymentsCleared() {
+	if _u.mutation.PaymentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -575,7 +539,7 @@ func (jpu *JobPaymentsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jpu.mutation.PaymentsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.PaymentsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -591,7 +555,7 @@ func (jpu *JobPaymentsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jpu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobpayments.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -599,8 +563,8 @@ func (jpu *JobPaymentsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	jpu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobPaymentsUpdateOne is the builder for updating a single JobPayments entity.
@@ -612,407 +576,380 @@ type JobPaymentsUpdateOne struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jpuo *JobPaymentsUpdateOne) SetYibfNo(i int) *JobPaymentsUpdateOne {
-	jpuo.mutation.ResetYibfNo()
-	jpuo.mutation.SetYibfNo(i)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetYibfNo(v int) *JobPaymentsUpdateOne {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableYibfNo(i *int) *JobPaymentsUpdateOne {
-	if i != nil {
-		jpuo.SetYibfNo(*i)
+func (_u *JobPaymentsUpdateOne) SetNillableYibfNo(v *int) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jpuo *JobPaymentsUpdateOne) AddYibfNo(i int) *JobPaymentsUpdateOne {
-	jpuo.mutation.AddYibfNo(i)
-	return jpuo
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobPaymentsUpdateOne) AddYibfNo(v int) *JobPaymentsUpdateOne {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetPaymentNo sets the "PaymentNo" field.
-func (jpuo *JobPaymentsUpdateOne) SetPaymentNo(i int) *JobPaymentsUpdateOne {
-	jpuo.mutation.ResetPaymentNo()
-	jpuo.mutation.SetPaymentNo(i)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetPaymentNo(v int) *JobPaymentsUpdateOne {
+	_u.mutation.ResetPaymentNo()
+	_u.mutation.SetPaymentNo(v)
+	return _u
 }
 
 // SetNillablePaymentNo sets the "PaymentNo" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillablePaymentNo(i *int) *JobPaymentsUpdateOne {
-	if i != nil {
-		jpuo.SetPaymentNo(*i)
+func (_u *JobPaymentsUpdateOne) SetNillablePaymentNo(v *int) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetPaymentNo(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddPaymentNo adds i to the "PaymentNo" field.
-func (jpuo *JobPaymentsUpdateOne) AddPaymentNo(i int) *JobPaymentsUpdateOne {
-	jpuo.mutation.AddPaymentNo(i)
-	return jpuo
+// AddPaymentNo adds value to the "PaymentNo" field.
+func (_u *JobPaymentsUpdateOne) AddPaymentNo(v int) *JobPaymentsUpdateOne {
+	_u.mutation.AddPaymentNo(v)
+	return _u
 }
 
 // ClearPaymentNo clears the value of the "PaymentNo" field.
-func (jpuo *JobPaymentsUpdateOne) ClearPaymentNo() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearPaymentNo()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearPaymentNo() *JobPaymentsUpdateOne {
+	_u.mutation.ClearPaymentNo()
+	return _u
 }
 
 // SetPaymentDate sets the "PaymentDate" field.
-func (jpuo *JobPaymentsUpdateOne) SetPaymentDate(t time.Time) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetPaymentDate(t)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetPaymentDate(v time.Time) *JobPaymentsUpdateOne {
+	_u.mutation.SetPaymentDate(v)
+	return _u
 }
 
 // SetNillablePaymentDate sets the "PaymentDate" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillablePaymentDate(t *time.Time) *JobPaymentsUpdateOne {
-	if t != nil {
-		jpuo.SetPaymentDate(*t)
+func (_u *JobPaymentsUpdateOne) SetNillablePaymentDate(v *time.Time) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetPaymentDate(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // SetPaymentType sets the "PaymentType" field.
-func (jpuo *JobPaymentsUpdateOne) SetPaymentType(s string) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetPaymentType(s)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetPaymentType(v string) *JobPaymentsUpdateOne {
+	_u.mutation.SetPaymentType(v)
+	return _u
 }
 
 // SetNillablePaymentType sets the "PaymentType" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillablePaymentType(s *string) *JobPaymentsUpdateOne {
-	if s != nil {
-		jpuo.SetPaymentType(*s)
+func (_u *JobPaymentsUpdateOne) SetNillablePaymentType(v *string) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetPaymentType(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // ClearPaymentType clears the value of the "PaymentType" field.
-func (jpuo *JobPaymentsUpdateOne) ClearPaymentType() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearPaymentType()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearPaymentType() *JobPaymentsUpdateOne {
+	_u.mutation.ClearPaymentType()
+	return _u
 }
 
 // SetState sets the "State" field.
-func (jpuo *JobPaymentsUpdateOne) SetState(s string) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetState(s)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetState(v string) *JobPaymentsUpdateOne {
+	_u.mutation.SetState(v)
+	return _u
 }
 
 // SetNillableState sets the "State" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableState(s *string) *JobPaymentsUpdateOne {
-	if s != nil {
-		jpuo.SetState(*s)
+func (_u *JobPaymentsUpdateOne) SetNillableState(v *string) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetState(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // ClearState clears the value of the "State" field.
-func (jpuo *JobPaymentsUpdateOne) ClearState() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearState()
-	return jpuo
-}
-
-// SetTotalPayment sets the "TotalPayment" field.
-func (jpuo *JobPaymentsUpdateOne) SetTotalPayment(f float64) *JobPaymentsUpdateOne {
-	jpuo.mutation.ResetTotalPayment()
-	jpuo.mutation.SetTotalPayment(f)
-	return jpuo
-}
-
-// SetNillableTotalPayment sets the "TotalPayment" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableTotalPayment(f *float64) *JobPaymentsUpdateOne {
-	if f != nil {
-		jpuo.SetTotalPayment(*f)
-	}
-	return jpuo
-}
-
-// AddTotalPayment adds f to the "TotalPayment" field.
-func (jpuo *JobPaymentsUpdateOne) AddTotalPayment(f float64) *JobPaymentsUpdateOne {
-	jpuo.mutation.AddTotalPayment(f)
-	return jpuo
-}
-
-// ClearTotalPayment clears the value of the "TotalPayment" field.
-func (jpuo *JobPaymentsUpdateOne) ClearTotalPayment() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearTotalPayment()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearState() *JobPaymentsUpdateOne {
+	_u.mutation.ClearState()
+	return _u
 }
 
 // SetLevelRequest sets the "LevelRequest" field.
-func (jpuo *JobPaymentsUpdateOne) SetLevelRequest(f float64) *JobPaymentsUpdateOne {
-	jpuo.mutation.ResetLevelRequest()
-	jpuo.mutation.SetLevelRequest(f)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetLevelRequest(v float64) *JobPaymentsUpdateOne {
+	_u.mutation.ResetLevelRequest()
+	_u.mutation.SetLevelRequest(v)
+	return _u
 }
 
 // SetNillableLevelRequest sets the "LevelRequest" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableLevelRequest(f *float64) *JobPaymentsUpdateOne {
-	if f != nil {
-		jpuo.SetLevelRequest(*f)
+func (_u *JobPaymentsUpdateOne) SetNillableLevelRequest(v *float64) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetLevelRequest(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddLevelRequest adds f to the "LevelRequest" field.
-func (jpuo *JobPaymentsUpdateOne) AddLevelRequest(f float64) *JobPaymentsUpdateOne {
-	jpuo.mutation.AddLevelRequest(f)
-	return jpuo
+// AddLevelRequest adds value to the "LevelRequest" field.
+func (_u *JobPaymentsUpdateOne) AddLevelRequest(v float64) *JobPaymentsUpdateOne {
+	_u.mutation.AddLevelRequest(v)
+	return _u
 }
 
 // ClearLevelRequest clears the value of the "LevelRequest" field.
-func (jpuo *JobPaymentsUpdateOne) ClearLevelRequest() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearLevelRequest()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearLevelRequest() *JobPaymentsUpdateOne {
+	_u.mutation.ClearLevelRequest()
+	return _u
 }
 
 // SetLevelApprove sets the "LevelApprove" field.
-func (jpuo *JobPaymentsUpdateOne) SetLevelApprove(f float64) *JobPaymentsUpdateOne {
-	jpuo.mutation.ResetLevelApprove()
-	jpuo.mutation.SetLevelApprove(f)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetLevelApprove(v float64) *JobPaymentsUpdateOne {
+	_u.mutation.ResetLevelApprove()
+	_u.mutation.SetLevelApprove(v)
+	return _u
 }
 
 // SetNillableLevelApprove sets the "LevelApprove" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableLevelApprove(f *float64) *JobPaymentsUpdateOne {
-	if f != nil {
-		jpuo.SetLevelApprove(*f)
+func (_u *JobPaymentsUpdateOne) SetNillableLevelApprove(v *float64) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetLevelApprove(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddLevelApprove adds f to the "LevelApprove" field.
-func (jpuo *JobPaymentsUpdateOne) AddLevelApprove(f float64) *JobPaymentsUpdateOne {
-	jpuo.mutation.AddLevelApprove(f)
-	return jpuo
+// AddLevelApprove adds value to the "LevelApprove" field.
+func (_u *JobPaymentsUpdateOne) AddLevelApprove(v float64) *JobPaymentsUpdateOne {
+	_u.mutation.AddLevelApprove(v)
+	return _u
 }
 
 // ClearLevelApprove clears the value of the "LevelApprove" field.
-func (jpuo *JobPaymentsUpdateOne) ClearLevelApprove() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearLevelApprove()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearLevelApprove() *JobPaymentsUpdateOne {
+	_u.mutation.ClearLevelApprove()
+	return _u
 }
 
 // SetAmount sets the "Amount" field.
-func (jpuo *JobPaymentsUpdateOne) SetAmount(f float64) *JobPaymentsUpdateOne {
-	jpuo.mutation.ResetAmount()
-	jpuo.mutation.SetAmount(f)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetAmount(v float64) *JobPaymentsUpdateOne {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "Amount" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableAmount(f *float64) *JobPaymentsUpdateOne {
-	if f != nil {
-		jpuo.SetAmount(*f)
+func (_u *JobPaymentsUpdateOne) SetNillableAmount(v *float64) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddAmount adds f to the "Amount" field.
-func (jpuo *JobPaymentsUpdateOne) AddAmount(f float64) *JobPaymentsUpdateOne {
-	jpuo.mutation.AddAmount(f)
-	return jpuo
+// AddAmount adds value to the "Amount" field.
+func (_u *JobPaymentsUpdateOne) AddAmount(v float64) *JobPaymentsUpdateOne {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // ClearAmount clears the value of the "Amount" field.
-func (jpuo *JobPaymentsUpdateOne) ClearAmount() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearAmount()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearAmount() *JobPaymentsUpdateOne {
+	_u.mutation.ClearAmount()
+	return _u
 }
 
 // SetAtMunicipality sets the "AtMunicipality" field.
-func (jpuo *JobPaymentsUpdateOne) SetAtMunicipality(b bool) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetAtMunicipality(b)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetAtMunicipality(v bool) *JobPaymentsUpdateOne {
+	_u.mutation.SetAtMunicipality(v)
+	return _u
 }
 
 // SetNillableAtMunicipality sets the "AtMunicipality" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableAtMunicipality(b *bool) *JobPaymentsUpdateOne {
-	if b != nil {
-		jpuo.SetAtMunicipality(*b)
+func (_u *JobPaymentsUpdateOne) SetNillableAtMunicipality(v *bool) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetAtMunicipality(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // ClearAtMunicipality clears the value of the "AtMunicipality" field.
-func (jpuo *JobPaymentsUpdateOne) ClearAtMunicipality() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearAtMunicipality()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearAtMunicipality() *JobPaymentsUpdateOne {
+	_u.mutation.ClearAtMunicipality()
+	return _u
 }
 
 // SetMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field.
-func (jpuo *JobPaymentsUpdateOne) SetMunicipalityDeliveryDate(t time.Time) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetMunicipalityDeliveryDate(t)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetMunicipalityDeliveryDate(v time.Time) *JobPaymentsUpdateOne {
+	_u.mutation.SetMunicipalityDeliveryDate(v)
+	return _u
 }
 
 // SetNillableMunicipalityDeliveryDate sets the "MunicipalityDeliveryDate" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableMunicipalityDeliveryDate(t *time.Time) *JobPaymentsUpdateOne {
-	if t != nil {
-		jpuo.SetMunicipalityDeliveryDate(*t)
+func (_u *JobPaymentsUpdateOne) SetNillableMunicipalityDeliveryDate(v *time.Time) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetMunicipalityDeliveryDate(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // ClearMunicipalityDeliveryDate clears the value of the "MunicipalityDeliveryDate" field.
-func (jpuo *JobPaymentsUpdateOne) ClearMunicipalityDeliveryDate() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearMunicipalityDeliveryDate()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearMunicipalityDeliveryDate() *JobPaymentsUpdateOne {
+	_u.mutation.ClearMunicipalityDeliveryDate()
+	return _u
 }
 
 // SetInvoiceIssued sets the "InvoiceIssued" field.
-func (jpuo *JobPaymentsUpdateOne) SetInvoiceIssued(b bool) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetInvoiceIssued(b)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetInvoiceIssued(v bool) *JobPaymentsUpdateOne {
+	_u.mutation.SetInvoiceIssued(v)
+	return _u
 }
 
 // SetNillableInvoiceIssued sets the "InvoiceIssued" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableInvoiceIssued(b *bool) *JobPaymentsUpdateOne {
-	if b != nil {
-		jpuo.SetInvoiceIssued(*b)
+func (_u *JobPaymentsUpdateOne) SetNillableInvoiceIssued(v *bool) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetInvoiceIssued(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // ClearInvoiceIssued clears the value of the "InvoiceIssued" field.
-func (jpuo *JobPaymentsUpdateOne) ClearInvoiceIssued() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearInvoiceIssued()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearInvoiceIssued() *JobPaymentsUpdateOne {
+	_u.mutation.ClearInvoiceIssued()
+	return _u
 }
 
 // SetInvoiceIssuedDate sets the "InvoiceIssuedDate" field.
-func (jpuo *JobPaymentsUpdateOne) SetInvoiceIssuedDate(t time.Time) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetInvoiceIssuedDate(t)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetInvoiceIssuedDate(v time.Time) *JobPaymentsUpdateOne {
+	_u.mutation.SetInvoiceIssuedDate(v)
+	return _u
 }
 
 // SetNillableInvoiceIssuedDate sets the "InvoiceIssuedDate" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableInvoiceIssuedDate(t *time.Time) *JobPaymentsUpdateOne {
-	if t != nil {
-		jpuo.SetInvoiceIssuedDate(*t)
+func (_u *JobPaymentsUpdateOne) SetNillableInvoiceIssuedDate(v *time.Time) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetInvoiceIssuedDate(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // ClearInvoiceIssuedDate clears the value of the "InvoiceIssuedDate" field.
-func (jpuo *JobPaymentsUpdateOne) ClearInvoiceIssuedDate() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearInvoiceIssuedDate()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearInvoiceIssuedDate() *JobPaymentsUpdateOne {
+	_u.mutation.ClearInvoiceIssuedDate()
+	return _u
 }
 
 // SetInvoiceReceived sets the "InvoiceReceived" field.
-func (jpuo *JobPaymentsUpdateOne) SetInvoiceReceived(b bool) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetInvoiceReceived(b)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetInvoiceReceived(v bool) *JobPaymentsUpdateOne {
+	_u.mutation.SetInvoiceReceived(v)
+	return _u
 }
 
 // SetNillableInvoiceReceived sets the "InvoiceReceived" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableInvoiceReceived(b *bool) *JobPaymentsUpdateOne {
-	if b != nil {
-		jpuo.SetInvoiceReceived(*b)
+func (_u *JobPaymentsUpdateOne) SetNillableInvoiceReceived(v *bool) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetInvoiceReceived(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // ClearInvoiceReceived clears the value of the "InvoiceReceived" field.
-func (jpuo *JobPaymentsUpdateOne) ClearInvoiceReceived() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearInvoiceReceived()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearInvoiceReceived() *JobPaymentsUpdateOne {
+	_u.mutation.ClearInvoiceReceived()
+	return _u
 }
 
 // SetInvoiceReceivedDate sets the "InvoiceReceivedDate" field.
-func (jpuo *JobPaymentsUpdateOne) SetInvoiceReceivedDate(t time.Time) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetInvoiceReceivedDate(t)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetInvoiceReceivedDate(v time.Time) *JobPaymentsUpdateOne {
+	_u.mutation.SetInvoiceReceivedDate(v)
+	return _u
 }
 
 // SetNillableInvoiceReceivedDate sets the "InvoiceReceivedDate" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableInvoiceReceivedDate(t *time.Time) *JobPaymentsUpdateOne {
-	if t != nil {
-		jpuo.SetInvoiceReceivedDate(*t)
+func (_u *JobPaymentsUpdateOne) SetNillableInvoiceReceivedDate(v *time.Time) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetInvoiceReceivedDate(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // ClearInvoiceReceivedDate clears the value of the "InvoiceReceivedDate" field.
-func (jpuo *JobPaymentsUpdateOne) ClearInvoiceReceivedDate() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearInvoiceReceivedDate()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearInvoiceReceivedDate() *JobPaymentsUpdateOne {
+	_u.mutation.ClearInvoiceReceivedDate()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jpuo *JobPaymentsUpdateOne) SetCreatedAt(t time.Time) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetCreatedAt(t)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetCreatedAt(v time.Time) *JobPaymentsUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillableCreatedAt(t *time.Time) *JobPaymentsUpdateOne {
-	if t != nil {
-		jpuo.SetCreatedAt(*t)
+func (_u *JobPaymentsUpdateOne) SetNillableCreatedAt(v *time.Time) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jpuo *JobPaymentsUpdateOne) SetUpdatedAt(t time.Time) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetUpdatedAt(t)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetUpdatedAt(v time.Time) *JobPaymentsUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetPaymentsID sets the "payments" edge to the JobRelations entity by ID.
-func (jpuo *JobPaymentsUpdateOne) SetPaymentsID(id int) *JobPaymentsUpdateOne {
-	jpuo.mutation.SetPaymentsID(id)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) SetPaymentsID(id int) *JobPaymentsUpdateOne {
+	_u.mutation.SetPaymentsID(id)
+	return _u
 }
 
 // SetNillablePaymentsID sets the "payments" edge to the JobRelations entity by ID if the given value is not nil.
-func (jpuo *JobPaymentsUpdateOne) SetNillablePaymentsID(id *int) *JobPaymentsUpdateOne {
+func (_u *JobPaymentsUpdateOne) SetNillablePaymentsID(id *int) *JobPaymentsUpdateOne {
 	if id != nil {
-		jpuo = jpuo.SetPaymentsID(*id)
+		_u = _u.SetPaymentsID(*id)
 	}
-	return jpuo
+	return _u
 }
 
 // SetPayments sets the "payments" edge to the JobRelations entity.
-func (jpuo *JobPaymentsUpdateOne) SetPayments(j *JobRelations) *JobPaymentsUpdateOne {
-	return jpuo.SetPaymentsID(j.ID)
+func (_u *JobPaymentsUpdateOne) SetPayments(v *JobRelations) *JobPaymentsUpdateOne {
+	return _u.SetPaymentsID(v.ID)
 }
 
 // Mutation returns the JobPaymentsMutation object of the builder.
-func (jpuo *JobPaymentsUpdateOne) Mutation() *JobPaymentsMutation {
-	return jpuo.mutation
+func (_u *JobPaymentsUpdateOne) Mutation() *JobPaymentsMutation {
+	return _u.mutation
 }
 
 // ClearPayments clears the "payments" edge to the JobRelations entity.
-func (jpuo *JobPaymentsUpdateOne) ClearPayments() *JobPaymentsUpdateOne {
-	jpuo.mutation.ClearPayments()
-	return jpuo
+func (_u *JobPaymentsUpdateOne) ClearPayments() *JobPaymentsUpdateOne {
+	_u.mutation.ClearPayments()
+	return _u
 }
 
 // Where appends a list predicates to the JobPaymentsUpdate builder.
-func (jpuo *JobPaymentsUpdateOne) Where(ps ...predicate.JobPayments) *JobPaymentsUpdateOne {
-	jpuo.mutation.Where(ps...)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) Where(ps ...predicate.JobPayments) *JobPaymentsUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jpuo *JobPaymentsUpdateOne) Select(field string, fields ...string) *JobPaymentsUpdateOne {
-	jpuo.fields = append([]string{field}, fields...)
-	return jpuo
+func (_u *JobPaymentsUpdateOne) Select(field string, fields ...string) *JobPaymentsUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobPayments entity.
-func (jpuo *JobPaymentsUpdateOne) Save(ctx context.Context) (*JobPayments, error) {
-	jpuo.defaults()
-	return withHooks(ctx, jpuo.sqlSave, jpuo.mutation, jpuo.hooks)
+func (_u *JobPaymentsUpdateOne) Save(ctx context.Context) (*JobPayments, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jpuo *JobPaymentsUpdateOne) SaveX(ctx context.Context) *JobPayments {
-	node, err := jpuo.Save(ctx)
+func (_u *JobPaymentsUpdateOne) SaveX(ctx context.Context) *JobPayments {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1020,34 +957,34 @@ func (jpuo *JobPaymentsUpdateOne) SaveX(ctx context.Context) *JobPayments {
 }
 
 // Exec executes the query on the entity.
-func (jpuo *JobPaymentsUpdateOne) Exec(ctx context.Context) error {
-	_, err := jpuo.Save(ctx)
+func (_u *JobPaymentsUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpuo *JobPaymentsUpdateOne) ExecX(ctx context.Context) {
-	if err := jpuo.Exec(ctx); err != nil {
+func (_u *JobPaymentsUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jpuo *JobPaymentsUpdateOne) defaults() {
-	if _, ok := jpuo.mutation.UpdatedAt(); !ok {
+func (_u *JobPaymentsUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobpayments.UpdateDefaultUpdatedAt()
-		jpuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jpuo *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPayments, err error) {
+func (_u *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPayments, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobpayments.Table, jobpayments.Columns, sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt))
-	id, ok := jpuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobPayments.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jpuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobpayments.FieldID)
 		for _, f := range fields {
@@ -1059,122 +996,113 @@ func (jpuo *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPaymen
 			}
 		}
 	}
-	if ps := jpuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jpuo.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobpayments.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobpayments.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.PaymentNo(); ok {
+	if value, ok := _u.mutation.PaymentNo(); ok {
 		_spec.SetField(jobpayments.FieldPaymentNo, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedPaymentNo(); ok {
+	if value, ok := _u.mutation.AddedPaymentNo(); ok {
 		_spec.AddField(jobpayments.FieldPaymentNo, field.TypeInt, value)
 	}
-	if jpuo.mutation.PaymentNoCleared() {
+	if _u.mutation.PaymentNoCleared() {
 		_spec.ClearField(jobpayments.FieldPaymentNo, field.TypeInt)
 	}
-	if value, ok := jpuo.mutation.PaymentDate(); ok {
+	if value, ok := _u.mutation.PaymentDate(); ok {
 		_spec.SetField(jobpayments.FieldPaymentDate, field.TypeTime, value)
 	}
-	if value, ok := jpuo.mutation.PaymentType(); ok {
+	if value, ok := _u.mutation.PaymentType(); ok {
 		_spec.SetField(jobpayments.FieldPaymentType, field.TypeString, value)
 	}
-	if jpuo.mutation.PaymentTypeCleared() {
+	if _u.mutation.PaymentTypeCleared() {
 		_spec.ClearField(jobpayments.FieldPaymentType, field.TypeString)
 	}
-	if value, ok := jpuo.mutation.State(); ok {
+	if value, ok := _u.mutation.State(); ok {
 		_spec.SetField(jobpayments.FieldState, field.TypeString, value)
 	}
-	if jpuo.mutation.StateCleared() {
+	if _u.mutation.StateCleared() {
 		_spec.ClearField(jobpayments.FieldState, field.TypeString)
 	}
-	if value, ok := jpuo.mutation.TotalPayment(); ok {
-		_spec.SetField(jobpayments.FieldTotalPayment, field.TypeFloat64, value)
-	}
-	if value, ok := jpuo.mutation.AddedTotalPayment(); ok {
-		_spec.AddField(jobpayments.FieldTotalPayment, field.TypeFloat64, value)
-	}
-	if jpuo.mutation.TotalPaymentCleared() {
-		_spec.ClearField(jobpayments.FieldTotalPayment, field.TypeFloat64)
-	}
-	if value, ok := jpuo.mutation.LevelRequest(); ok {
+	if value, ok := _u.mutation.LevelRequest(); ok {
 		_spec.SetField(jobpayments.FieldLevelRequest, field.TypeFloat64, value)
 	}
-	if value, ok := jpuo.mutation.AddedLevelRequest(); ok {
+	if value, ok := _u.mutation.AddedLevelRequest(); ok {
 		_spec.AddField(jobpayments.FieldLevelRequest, field.TypeFloat64, value)
 	}
-	if jpuo.mutation.LevelRequestCleared() {
+	if _u.mutation.LevelRequestCleared() {
 		_spec.ClearField(jobpayments.FieldLevelRequest, field.TypeFloat64)
 	}
-	if value, ok := jpuo.mutation.LevelApprove(); ok {
+	if value, ok := _u.mutation.LevelApprove(); ok {
 		_spec.SetField(jobpayments.FieldLevelApprove, field.TypeFloat64, value)
 	}
-	if value, ok := jpuo.mutation.AddedLevelApprove(); ok {
+	if value, ok := _u.mutation.AddedLevelApprove(); ok {
 		_spec.AddField(jobpayments.FieldLevelApprove, field.TypeFloat64, value)
 	}
-	if jpuo.mutation.LevelApproveCleared() {
+	if _u.mutation.LevelApproveCleared() {
 		_spec.ClearField(jobpayments.FieldLevelApprove, field.TypeFloat64)
 	}
-	if value, ok := jpuo.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(jobpayments.FieldAmount, field.TypeFloat64, value)
 	}
-	if value, ok := jpuo.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(jobpayments.FieldAmount, field.TypeFloat64, value)
 	}
-	if jpuo.mutation.AmountCleared() {
+	if _u.mutation.AmountCleared() {
 		_spec.ClearField(jobpayments.FieldAmount, field.TypeFloat64)
 	}
-	if value, ok := jpuo.mutation.AtMunicipality(); ok {
+	if value, ok := _u.mutation.AtMunicipality(); ok {
 		_spec.SetField(jobpayments.FieldAtMunicipality, field.TypeBool, value)
 	}
-	if jpuo.mutation.AtMunicipalityCleared() {
+	if _u.mutation.AtMunicipalityCleared() {
 		_spec.ClearField(jobpayments.FieldAtMunicipality, field.TypeBool)
 	}
-	if value, ok := jpuo.mutation.MunicipalityDeliveryDate(); ok {
+	if value, ok := _u.mutation.MunicipalityDeliveryDate(); ok {
 		_spec.SetField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime, value)
 	}
-	if jpuo.mutation.MunicipalityDeliveryDateCleared() {
+	if _u.mutation.MunicipalityDeliveryDateCleared() {
 		_spec.ClearField(jobpayments.FieldMunicipalityDeliveryDate, field.TypeTime)
 	}
-	if value, ok := jpuo.mutation.InvoiceIssued(); ok {
+	if value, ok := _u.mutation.InvoiceIssued(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceIssued, field.TypeBool, value)
 	}
-	if jpuo.mutation.InvoiceIssuedCleared() {
+	if _u.mutation.InvoiceIssuedCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceIssued, field.TypeBool)
 	}
-	if value, ok := jpuo.mutation.InvoiceIssuedDate(); ok {
+	if value, ok := _u.mutation.InvoiceIssuedDate(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime, value)
 	}
-	if jpuo.mutation.InvoiceIssuedDateCleared() {
+	if _u.mutation.InvoiceIssuedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime)
 	}
-	if value, ok := jpuo.mutation.InvoiceReceived(); ok {
+	if value, ok := _u.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
 	}
-	if jpuo.mutation.InvoiceReceivedCleared() {
+	if _u.mutation.InvoiceReceivedCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceReceived, field.TypeBool)
 	}
-	if value, ok := jpuo.mutation.InvoiceReceivedDate(); ok {
+	if value, ok := _u.mutation.InvoiceReceivedDate(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime, value)
 	}
-	if jpuo.mutation.InvoiceReceivedDateCleared() {
+	if _u.mutation.InvoiceReceivedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime)
 	}
-	if value, ok := jpuo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jpuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobpayments.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jpuo.mutation.PaymentsCleared() {
+	if _u.mutation.PaymentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1187,7 +1115,7 @@ func (jpuo *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPaymen
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jpuo.mutation.PaymentsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.PaymentsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1203,10 +1131,10 @@ func (jpuo *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPaymen
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobPayments{config: jpuo.config}
+	_node = &JobPayments{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jpuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobpayments.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1214,6 +1142,6 @@ func (jpuo *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPaymen
 		}
 		return nil, err
 	}
-	jpuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

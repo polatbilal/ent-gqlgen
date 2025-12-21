@@ -24,264 +24,264 @@ type JobProgressUpdate struct {
 }
 
 // Where appends a list predicates to the JobProgressUpdate builder.
-func (jpu *JobProgressUpdate) Where(ps ...predicate.JobProgress) *JobProgressUpdate {
-	jpu.mutation.Where(ps...)
-	return jpu
+func (_u *JobProgressUpdate) Where(ps ...predicate.JobProgress) *JobProgressUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jpu *JobProgressUpdate) SetYibfNo(i int) *JobProgressUpdate {
-	jpu.mutation.ResetYibfNo()
-	jpu.mutation.SetYibfNo(i)
-	return jpu
+func (_u *JobProgressUpdate) SetYibfNo(v int) *JobProgressUpdate {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jpu *JobProgressUpdate) SetNillableYibfNo(i *int) *JobProgressUpdate {
-	if i != nil {
-		jpu.SetYibfNo(*i)
+func (_u *JobProgressUpdate) SetNillableYibfNo(v *int) *JobProgressUpdate {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jpu *JobProgressUpdate) AddYibfNo(i int) *JobProgressUpdate {
-	jpu.mutation.AddYibfNo(i)
-	return jpu
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobProgressUpdate) AddYibfNo(v int) *JobProgressUpdate {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetOne sets the "One" field.
-func (jpu *JobProgressUpdate) SetOne(i int) *JobProgressUpdate {
-	jpu.mutation.ResetOne()
-	jpu.mutation.SetOne(i)
-	return jpu
+func (_u *JobProgressUpdate) SetOne(v int) *JobProgressUpdate {
+	_u.mutation.ResetOne()
+	_u.mutation.SetOne(v)
+	return _u
 }
 
 // SetNillableOne sets the "One" field if the given value is not nil.
-func (jpu *JobProgressUpdate) SetNillableOne(i *int) *JobProgressUpdate {
-	if i != nil {
-		jpu.SetOne(*i)
+func (_u *JobProgressUpdate) SetNillableOne(v *int) *JobProgressUpdate {
+	if v != nil {
+		_u.SetOne(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddOne adds i to the "One" field.
-func (jpu *JobProgressUpdate) AddOne(i int) *JobProgressUpdate {
-	jpu.mutation.AddOne(i)
-	return jpu
+// AddOne adds value to the "One" field.
+func (_u *JobProgressUpdate) AddOne(v int) *JobProgressUpdate {
+	_u.mutation.AddOne(v)
+	return _u
 }
 
 // ClearOne clears the value of the "One" field.
-func (jpu *JobProgressUpdate) ClearOne() *JobProgressUpdate {
-	jpu.mutation.ClearOne()
-	return jpu
+func (_u *JobProgressUpdate) ClearOne() *JobProgressUpdate {
+	_u.mutation.ClearOne()
+	return _u
 }
 
 // SetTwo sets the "Two" field.
-func (jpu *JobProgressUpdate) SetTwo(i int) *JobProgressUpdate {
-	jpu.mutation.ResetTwo()
-	jpu.mutation.SetTwo(i)
-	return jpu
+func (_u *JobProgressUpdate) SetTwo(v int) *JobProgressUpdate {
+	_u.mutation.ResetTwo()
+	_u.mutation.SetTwo(v)
+	return _u
 }
 
 // SetNillableTwo sets the "Two" field if the given value is not nil.
-func (jpu *JobProgressUpdate) SetNillableTwo(i *int) *JobProgressUpdate {
-	if i != nil {
-		jpu.SetTwo(*i)
+func (_u *JobProgressUpdate) SetNillableTwo(v *int) *JobProgressUpdate {
+	if v != nil {
+		_u.SetTwo(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddTwo adds i to the "Two" field.
-func (jpu *JobProgressUpdate) AddTwo(i int) *JobProgressUpdate {
-	jpu.mutation.AddTwo(i)
-	return jpu
+// AddTwo adds value to the "Two" field.
+func (_u *JobProgressUpdate) AddTwo(v int) *JobProgressUpdate {
+	_u.mutation.AddTwo(v)
+	return _u
 }
 
 // ClearTwo clears the value of the "Two" field.
-func (jpu *JobProgressUpdate) ClearTwo() *JobProgressUpdate {
-	jpu.mutation.ClearTwo()
-	return jpu
+func (_u *JobProgressUpdate) ClearTwo() *JobProgressUpdate {
+	_u.mutation.ClearTwo()
+	return _u
 }
 
 // SetThree sets the "Three" field.
-func (jpu *JobProgressUpdate) SetThree(i int) *JobProgressUpdate {
-	jpu.mutation.ResetThree()
-	jpu.mutation.SetThree(i)
-	return jpu
+func (_u *JobProgressUpdate) SetThree(v int) *JobProgressUpdate {
+	_u.mutation.ResetThree()
+	_u.mutation.SetThree(v)
+	return _u
 }
 
 // SetNillableThree sets the "Three" field if the given value is not nil.
-func (jpu *JobProgressUpdate) SetNillableThree(i *int) *JobProgressUpdate {
-	if i != nil {
-		jpu.SetThree(*i)
+func (_u *JobProgressUpdate) SetNillableThree(v *int) *JobProgressUpdate {
+	if v != nil {
+		_u.SetThree(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddThree adds i to the "Three" field.
-func (jpu *JobProgressUpdate) AddThree(i int) *JobProgressUpdate {
-	jpu.mutation.AddThree(i)
-	return jpu
+// AddThree adds value to the "Three" field.
+func (_u *JobProgressUpdate) AddThree(v int) *JobProgressUpdate {
+	_u.mutation.AddThree(v)
+	return _u
 }
 
 // ClearThree clears the value of the "Three" field.
-func (jpu *JobProgressUpdate) ClearThree() *JobProgressUpdate {
-	jpu.mutation.ClearThree()
-	return jpu
+func (_u *JobProgressUpdate) ClearThree() *JobProgressUpdate {
+	_u.mutation.ClearThree()
+	return _u
 }
 
 // SetFour sets the "Four" field.
-func (jpu *JobProgressUpdate) SetFour(i int) *JobProgressUpdate {
-	jpu.mutation.ResetFour()
-	jpu.mutation.SetFour(i)
-	return jpu
+func (_u *JobProgressUpdate) SetFour(v int) *JobProgressUpdate {
+	_u.mutation.ResetFour()
+	_u.mutation.SetFour(v)
+	return _u
 }
 
 // SetNillableFour sets the "Four" field if the given value is not nil.
-func (jpu *JobProgressUpdate) SetNillableFour(i *int) *JobProgressUpdate {
-	if i != nil {
-		jpu.SetFour(*i)
+func (_u *JobProgressUpdate) SetNillableFour(v *int) *JobProgressUpdate {
+	if v != nil {
+		_u.SetFour(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddFour adds i to the "Four" field.
-func (jpu *JobProgressUpdate) AddFour(i int) *JobProgressUpdate {
-	jpu.mutation.AddFour(i)
-	return jpu
+// AddFour adds value to the "Four" field.
+func (_u *JobProgressUpdate) AddFour(v int) *JobProgressUpdate {
+	_u.mutation.AddFour(v)
+	return _u
 }
 
 // ClearFour clears the value of the "Four" field.
-func (jpu *JobProgressUpdate) ClearFour() *JobProgressUpdate {
-	jpu.mutation.ClearFour()
-	return jpu
+func (_u *JobProgressUpdate) ClearFour() *JobProgressUpdate {
+	_u.mutation.ClearFour()
+	return _u
 }
 
 // SetFive sets the "Five" field.
-func (jpu *JobProgressUpdate) SetFive(i int) *JobProgressUpdate {
-	jpu.mutation.ResetFive()
-	jpu.mutation.SetFive(i)
-	return jpu
+func (_u *JobProgressUpdate) SetFive(v int) *JobProgressUpdate {
+	_u.mutation.ResetFive()
+	_u.mutation.SetFive(v)
+	return _u
 }
 
 // SetNillableFive sets the "Five" field if the given value is not nil.
-func (jpu *JobProgressUpdate) SetNillableFive(i *int) *JobProgressUpdate {
-	if i != nil {
-		jpu.SetFive(*i)
+func (_u *JobProgressUpdate) SetNillableFive(v *int) *JobProgressUpdate {
+	if v != nil {
+		_u.SetFive(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddFive adds i to the "Five" field.
-func (jpu *JobProgressUpdate) AddFive(i int) *JobProgressUpdate {
-	jpu.mutation.AddFive(i)
-	return jpu
+// AddFive adds value to the "Five" field.
+func (_u *JobProgressUpdate) AddFive(v int) *JobProgressUpdate {
+	_u.mutation.AddFive(v)
+	return _u
 }
 
 // ClearFive clears the value of the "Five" field.
-func (jpu *JobProgressUpdate) ClearFive() *JobProgressUpdate {
-	jpu.mutation.ClearFive()
-	return jpu
+func (_u *JobProgressUpdate) ClearFive() *JobProgressUpdate {
+	_u.mutation.ClearFive()
+	return _u
 }
 
 // SetSix sets the "Six" field.
-func (jpu *JobProgressUpdate) SetSix(i int) *JobProgressUpdate {
-	jpu.mutation.ResetSix()
-	jpu.mutation.SetSix(i)
-	return jpu
+func (_u *JobProgressUpdate) SetSix(v int) *JobProgressUpdate {
+	_u.mutation.ResetSix()
+	_u.mutation.SetSix(v)
+	return _u
 }
 
 // SetNillableSix sets the "Six" field if the given value is not nil.
-func (jpu *JobProgressUpdate) SetNillableSix(i *int) *JobProgressUpdate {
-	if i != nil {
-		jpu.SetSix(*i)
+func (_u *JobProgressUpdate) SetNillableSix(v *int) *JobProgressUpdate {
+	if v != nil {
+		_u.SetSix(*v)
 	}
-	return jpu
+	return _u
 }
 
-// AddSix adds i to the "Six" field.
-func (jpu *JobProgressUpdate) AddSix(i int) *JobProgressUpdate {
-	jpu.mutation.AddSix(i)
-	return jpu
+// AddSix adds value to the "Six" field.
+func (_u *JobProgressUpdate) AddSix(v int) *JobProgressUpdate {
+	_u.mutation.AddSix(v)
+	return _u
 }
 
 // ClearSix clears the value of the "Six" field.
-func (jpu *JobProgressUpdate) ClearSix() *JobProgressUpdate {
-	jpu.mutation.ClearSix()
-	return jpu
+func (_u *JobProgressUpdate) ClearSix() *JobProgressUpdate {
+	_u.mutation.ClearSix()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jpu *JobProgressUpdate) SetCreatedAt(t time.Time) *JobProgressUpdate {
-	jpu.mutation.SetCreatedAt(t)
-	return jpu
+func (_u *JobProgressUpdate) SetCreatedAt(v time.Time) *JobProgressUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jpu *JobProgressUpdate) SetNillableCreatedAt(t *time.Time) *JobProgressUpdate {
-	if t != nil {
-		jpu.SetCreatedAt(*t)
+func (_u *JobProgressUpdate) SetNillableCreatedAt(v *time.Time) *JobProgressUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jpu
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jpu *JobProgressUpdate) SetUpdatedAt(t time.Time) *JobProgressUpdate {
-	jpu.mutation.SetUpdatedAt(t)
-	return jpu
+func (_u *JobProgressUpdate) SetUpdatedAt(v time.Time) *JobProgressUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddProgresIDs adds the "progress" edge to the JobRelations entity by IDs.
-func (jpu *JobProgressUpdate) AddProgresIDs(ids ...int) *JobProgressUpdate {
-	jpu.mutation.AddProgresIDs(ids...)
-	return jpu
+func (_u *JobProgressUpdate) AddProgresIDs(ids ...int) *JobProgressUpdate {
+	_u.mutation.AddProgresIDs(ids...)
+	return _u
 }
 
 // AddProgress adds the "progress" edges to the JobRelations entity.
-func (jpu *JobProgressUpdate) AddProgress(j ...*JobRelations) *JobProgressUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobProgressUpdate) AddProgress(v ...*JobRelations) *JobProgressUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jpu.AddProgresIDs(ids...)
+	return _u.AddProgresIDs(ids...)
 }
 
 // Mutation returns the JobProgressMutation object of the builder.
-func (jpu *JobProgressUpdate) Mutation() *JobProgressMutation {
-	return jpu.mutation
+func (_u *JobProgressUpdate) Mutation() *JobProgressMutation {
+	return _u.mutation
 }
 
 // ClearProgress clears all "progress" edges to the JobRelations entity.
-func (jpu *JobProgressUpdate) ClearProgress() *JobProgressUpdate {
-	jpu.mutation.ClearProgress()
-	return jpu
+func (_u *JobProgressUpdate) ClearProgress() *JobProgressUpdate {
+	_u.mutation.ClearProgress()
+	return _u
 }
 
 // RemoveProgresIDs removes the "progress" edge to JobRelations entities by IDs.
-func (jpu *JobProgressUpdate) RemoveProgresIDs(ids ...int) *JobProgressUpdate {
-	jpu.mutation.RemoveProgresIDs(ids...)
-	return jpu
+func (_u *JobProgressUpdate) RemoveProgresIDs(ids ...int) *JobProgressUpdate {
+	_u.mutation.RemoveProgresIDs(ids...)
+	return _u
 }
 
 // RemoveProgress removes "progress" edges to JobRelations entities.
-func (jpu *JobProgressUpdate) RemoveProgress(j ...*JobRelations) *JobProgressUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobProgressUpdate) RemoveProgress(v ...*JobRelations) *JobProgressUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jpu.RemoveProgresIDs(ids...)
+	return _u.RemoveProgresIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jpu *JobProgressUpdate) Save(ctx context.Context) (int, error) {
-	jpu.defaults()
-	return withHooks(ctx, jpu.sqlSave, jpu.mutation, jpu.hooks)
+func (_u *JobProgressUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jpu *JobProgressUpdate) SaveX(ctx context.Context) int {
-	affected, err := jpu.Save(ctx)
+func (_u *JobProgressUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -289,102 +289,102 @@ func (jpu *JobProgressUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jpu *JobProgressUpdate) Exec(ctx context.Context) error {
-	_, err := jpu.Save(ctx)
+func (_u *JobProgressUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpu *JobProgressUpdate) ExecX(ctx context.Context) {
-	if err := jpu.Exec(ctx); err != nil {
+func (_u *JobProgressUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jpu *JobProgressUpdate) defaults() {
-	if _, ok := jpu.mutation.UpdatedAt(); !ok {
+func (_u *JobProgressUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobprogress.UpdateDefaultUpdatedAt()
-		jpu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobProgressUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobprogress.Table, jobprogress.Columns, sqlgraph.NewFieldSpec(jobprogress.FieldID, field.TypeInt))
-	if ps := jpu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jpu.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobprogress.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobprogress.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.One(); ok {
+	if value, ok := _u.mutation.One(); ok {
 		_spec.SetField(jobprogress.FieldOne, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedOne(); ok {
+	if value, ok := _u.mutation.AddedOne(); ok {
 		_spec.AddField(jobprogress.FieldOne, field.TypeInt, value)
 	}
-	if jpu.mutation.OneCleared() {
+	if _u.mutation.OneCleared() {
 		_spec.ClearField(jobprogress.FieldOne, field.TypeInt)
 	}
-	if value, ok := jpu.mutation.Two(); ok {
+	if value, ok := _u.mutation.Two(); ok {
 		_spec.SetField(jobprogress.FieldTwo, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedTwo(); ok {
+	if value, ok := _u.mutation.AddedTwo(); ok {
 		_spec.AddField(jobprogress.FieldTwo, field.TypeInt, value)
 	}
-	if jpu.mutation.TwoCleared() {
+	if _u.mutation.TwoCleared() {
 		_spec.ClearField(jobprogress.FieldTwo, field.TypeInt)
 	}
-	if value, ok := jpu.mutation.Three(); ok {
+	if value, ok := _u.mutation.Three(); ok {
 		_spec.SetField(jobprogress.FieldThree, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedThree(); ok {
+	if value, ok := _u.mutation.AddedThree(); ok {
 		_spec.AddField(jobprogress.FieldThree, field.TypeInt, value)
 	}
-	if jpu.mutation.ThreeCleared() {
+	if _u.mutation.ThreeCleared() {
 		_spec.ClearField(jobprogress.FieldThree, field.TypeInt)
 	}
-	if value, ok := jpu.mutation.Four(); ok {
+	if value, ok := _u.mutation.Four(); ok {
 		_spec.SetField(jobprogress.FieldFour, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedFour(); ok {
+	if value, ok := _u.mutation.AddedFour(); ok {
 		_spec.AddField(jobprogress.FieldFour, field.TypeInt, value)
 	}
-	if jpu.mutation.FourCleared() {
+	if _u.mutation.FourCleared() {
 		_spec.ClearField(jobprogress.FieldFour, field.TypeInt)
 	}
-	if value, ok := jpu.mutation.Five(); ok {
+	if value, ok := _u.mutation.Five(); ok {
 		_spec.SetField(jobprogress.FieldFive, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedFive(); ok {
+	if value, ok := _u.mutation.AddedFive(); ok {
 		_spec.AddField(jobprogress.FieldFive, field.TypeInt, value)
 	}
-	if jpu.mutation.FiveCleared() {
+	if _u.mutation.FiveCleared() {
 		_spec.ClearField(jobprogress.FieldFive, field.TypeInt)
 	}
-	if value, ok := jpu.mutation.Six(); ok {
+	if value, ok := _u.mutation.Six(); ok {
 		_spec.SetField(jobprogress.FieldSix, field.TypeInt, value)
 	}
-	if value, ok := jpu.mutation.AddedSix(); ok {
+	if value, ok := _u.mutation.AddedSix(); ok {
 		_spec.AddField(jobprogress.FieldSix, field.TypeInt, value)
 	}
-	if jpu.mutation.SixCleared() {
+	if _u.mutation.SixCleared() {
 		_spec.ClearField(jobprogress.FieldSix, field.TypeInt)
 	}
-	if value, ok := jpu.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobprogress.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jpu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobprogress.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jpu.mutation.ProgressCleared() {
+	if _u.mutation.ProgressCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -397,7 +397,7 @@ func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jpu.mutation.RemovedProgressIDs(); len(nodes) > 0 && !jpu.mutation.ProgressCleared() {
+	if nodes := _u.mutation.RemovedProgressIDs(); len(nodes) > 0 && !_u.mutation.ProgressCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -413,7 +413,7 @@ func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jpu.mutation.ProgressIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ProgressIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -429,7 +429,7 @@ func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jpu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobprogress.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -437,8 +437,8 @@ func (jpu *JobProgressUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	jpu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobProgressUpdateOne is the builder for updating a single JobProgress entity.
@@ -450,271 +450,271 @@ type JobProgressUpdateOne struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jpuo *JobProgressUpdateOne) SetYibfNo(i int) *JobProgressUpdateOne {
-	jpuo.mutation.ResetYibfNo()
-	jpuo.mutation.SetYibfNo(i)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetYibfNo(v int) *JobProgressUpdateOne {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jpuo *JobProgressUpdateOne) SetNillableYibfNo(i *int) *JobProgressUpdateOne {
-	if i != nil {
-		jpuo.SetYibfNo(*i)
+func (_u *JobProgressUpdateOne) SetNillableYibfNo(v *int) *JobProgressUpdateOne {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jpuo *JobProgressUpdateOne) AddYibfNo(i int) *JobProgressUpdateOne {
-	jpuo.mutation.AddYibfNo(i)
-	return jpuo
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobProgressUpdateOne) AddYibfNo(v int) *JobProgressUpdateOne {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetOne sets the "One" field.
-func (jpuo *JobProgressUpdateOne) SetOne(i int) *JobProgressUpdateOne {
-	jpuo.mutation.ResetOne()
-	jpuo.mutation.SetOne(i)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetOne(v int) *JobProgressUpdateOne {
+	_u.mutation.ResetOne()
+	_u.mutation.SetOne(v)
+	return _u
 }
 
 // SetNillableOne sets the "One" field if the given value is not nil.
-func (jpuo *JobProgressUpdateOne) SetNillableOne(i *int) *JobProgressUpdateOne {
-	if i != nil {
-		jpuo.SetOne(*i)
+func (_u *JobProgressUpdateOne) SetNillableOne(v *int) *JobProgressUpdateOne {
+	if v != nil {
+		_u.SetOne(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddOne adds i to the "One" field.
-func (jpuo *JobProgressUpdateOne) AddOne(i int) *JobProgressUpdateOne {
-	jpuo.mutation.AddOne(i)
-	return jpuo
+// AddOne adds value to the "One" field.
+func (_u *JobProgressUpdateOne) AddOne(v int) *JobProgressUpdateOne {
+	_u.mutation.AddOne(v)
+	return _u
 }
 
 // ClearOne clears the value of the "One" field.
-func (jpuo *JobProgressUpdateOne) ClearOne() *JobProgressUpdateOne {
-	jpuo.mutation.ClearOne()
-	return jpuo
+func (_u *JobProgressUpdateOne) ClearOne() *JobProgressUpdateOne {
+	_u.mutation.ClearOne()
+	return _u
 }
 
 // SetTwo sets the "Two" field.
-func (jpuo *JobProgressUpdateOne) SetTwo(i int) *JobProgressUpdateOne {
-	jpuo.mutation.ResetTwo()
-	jpuo.mutation.SetTwo(i)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetTwo(v int) *JobProgressUpdateOne {
+	_u.mutation.ResetTwo()
+	_u.mutation.SetTwo(v)
+	return _u
 }
 
 // SetNillableTwo sets the "Two" field if the given value is not nil.
-func (jpuo *JobProgressUpdateOne) SetNillableTwo(i *int) *JobProgressUpdateOne {
-	if i != nil {
-		jpuo.SetTwo(*i)
+func (_u *JobProgressUpdateOne) SetNillableTwo(v *int) *JobProgressUpdateOne {
+	if v != nil {
+		_u.SetTwo(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddTwo adds i to the "Two" field.
-func (jpuo *JobProgressUpdateOne) AddTwo(i int) *JobProgressUpdateOne {
-	jpuo.mutation.AddTwo(i)
-	return jpuo
+// AddTwo adds value to the "Two" field.
+func (_u *JobProgressUpdateOne) AddTwo(v int) *JobProgressUpdateOne {
+	_u.mutation.AddTwo(v)
+	return _u
 }
 
 // ClearTwo clears the value of the "Two" field.
-func (jpuo *JobProgressUpdateOne) ClearTwo() *JobProgressUpdateOne {
-	jpuo.mutation.ClearTwo()
-	return jpuo
+func (_u *JobProgressUpdateOne) ClearTwo() *JobProgressUpdateOne {
+	_u.mutation.ClearTwo()
+	return _u
 }
 
 // SetThree sets the "Three" field.
-func (jpuo *JobProgressUpdateOne) SetThree(i int) *JobProgressUpdateOne {
-	jpuo.mutation.ResetThree()
-	jpuo.mutation.SetThree(i)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetThree(v int) *JobProgressUpdateOne {
+	_u.mutation.ResetThree()
+	_u.mutation.SetThree(v)
+	return _u
 }
 
 // SetNillableThree sets the "Three" field if the given value is not nil.
-func (jpuo *JobProgressUpdateOne) SetNillableThree(i *int) *JobProgressUpdateOne {
-	if i != nil {
-		jpuo.SetThree(*i)
+func (_u *JobProgressUpdateOne) SetNillableThree(v *int) *JobProgressUpdateOne {
+	if v != nil {
+		_u.SetThree(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddThree adds i to the "Three" field.
-func (jpuo *JobProgressUpdateOne) AddThree(i int) *JobProgressUpdateOne {
-	jpuo.mutation.AddThree(i)
-	return jpuo
+// AddThree adds value to the "Three" field.
+func (_u *JobProgressUpdateOne) AddThree(v int) *JobProgressUpdateOne {
+	_u.mutation.AddThree(v)
+	return _u
 }
 
 // ClearThree clears the value of the "Three" field.
-func (jpuo *JobProgressUpdateOne) ClearThree() *JobProgressUpdateOne {
-	jpuo.mutation.ClearThree()
-	return jpuo
+func (_u *JobProgressUpdateOne) ClearThree() *JobProgressUpdateOne {
+	_u.mutation.ClearThree()
+	return _u
 }
 
 // SetFour sets the "Four" field.
-func (jpuo *JobProgressUpdateOne) SetFour(i int) *JobProgressUpdateOne {
-	jpuo.mutation.ResetFour()
-	jpuo.mutation.SetFour(i)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetFour(v int) *JobProgressUpdateOne {
+	_u.mutation.ResetFour()
+	_u.mutation.SetFour(v)
+	return _u
 }
 
 // SetNillableFour sets the "Four" field if the given value is not nil.
-func (jpuo *JobProgressUpdateOne) SetNillableFour(i *int) *JobProgressUpdateOne {
-	if i != nil {
-		jpuo.SetFour(*i)
+func (_u *JobProgressUpdateOne) SetNillableFour(v *int) *JobProgressUpdateOne {
+	if v != nil {
+		_u.SetFour(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddFour adds i to the "Four" field.
-func (jpuo *JobProgressUpdateOne) AddFour(i int) *JobProgressUpdateOne {
-	jpuo.mutation.AddFour(i)
-	return jpuo
+// AddFour adds value to the "Four" field.
+func (_u *JobProgressUpdateOne) AddFour(v int) *JobProgressUpdateOne {
+	_u.mutation.AddFour(v)
+	return _u
 }
 
 // ClearFour clears the value of the "Four" field.
-func (jpuo *JobProgressUpdateOne) ClearFour() *JobProgressUpdateOne {
-	jpuo.mutation.ClearFour()
-	return jpuo
+func (_u *JobProgressUpdateOne) ClearFour() *JobProgressUpdateOne {
+	_u.mutation.ClearFour()
+	return _u
 }
 
 // SetFive sets the "Five" field.
-func (jpuo *JobProgressUpdateOne) SetFive(i int) *JobProgressUpdateOne {
-	jpuo.mutation.ResetFive()
-	jpuo.mutation.SetFive(i)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetFive(v int) *JobProgressUpdateOne {
+	_u.mutation.ResetFive()
+	_u.mutation.SetFive(v)
+	return _u
 }
 
 // SetNillableFive sets the "Five" field if the given value is not nil.
-func (jpuo *JobProgressUpdateOne) SetNillableFive(i *int) *JobProgressUpdateOne {
-	if i != nil {
-		jpuo.SetFive(*i)
+func (_u *JobProgressUpdateOne) SetNillableFive(v *int) *JobProgressUpdateOne {
+	if v != nil {
+		_u.SetFive(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddFive adds i to the "Five" field.
-func (jpuo *JobProgressUpdateOne) AddFive(i int) *JobProgressUpdateOne {
-	jpuo.mutation.AddFive(i)
-	return jpuo
+// AddFive adds value to the "Five" field.
+func (_u *JobProgressUpdateOne) AddFive(v int) *JobProgressUpdateOne {
+	_u.mutation.AddFive(v)
+	return _u
 }
 
 // ClearFive clears the value of the "Five" field.
-func (jpuo *JobProgressUpdateOne) ClearFive() *JobProgressUpdateOne {
-	jpuo.mutation.ClearFive()
-	return jpuo
+func (_u *JobProgressUpdateOne) ClearFive() *JobProgressUpdateOne {
+	_u.mutation.ClearFive()
+	return _u
 }
 
 // SetSix sets the "Six" field.
-func (jpuo *JobProgressUpdateOne) SetSix(i int) *JobProgressUpdateOne {
-	jpuo.mutation.ResetSix()
-	jpuo.mutation.SetSix(i)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetSix(v int) *JobProgressUpdateOne {
+	_u.mutation.ResetSix()
+	_u.mutation.SetSix(v)
+	return _u
 }
 
 // SetNillableSix sets the "Six" field if the given value is not nil.
-func (jpuo *JobProgressUpdateOne) SetNillableSix(i *int) *JobProgressUpdateOne {
-	if i != nil {
-		jpuo.SetSix(*i)
+func (_u *JobProgressUpdateOne) SetNillableSix(v *int) *JobProgressUpdateOne {
+	if v != nil {
+		_u.SetSix(*v)
 	}
-	return jpuo
+	return _u
 }
 
-// AddSix adds i to the "Six" field.
-func (jpuo *JobProgressUpdateOne) AddSix(i int) *JobProgressUpdateOne {
-	jpuo.mutation.AddSix(i)
-	return jpuo
+// AddSix adds value to the "Six" field.
+func (_u *JobProgressUpdateOne) AddSix(v int) *JobProgressUpdateOne {
+	_u.mutation.AddSix(v)
+	return _u
 }
 
 // ClearSix clears the value of the "Six" field.
-func (jpuo *JobProgressUpdateOne) ClearSix() *JobProgressUpdateOne {
-	jpuo.mutation.ClearSix()
-	return jpuo
+func (_u *JobProgressUpdateOne) ClearSix() *JobProgressUpdateOne {
+	_u.mutation.ClearSix()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jpuo *JobProgressUpdateOne) SetCreatedAt(t time.Time) *JobProgressUpdateOne {
-	jpuo.mutation.SetCreatedAt(t)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetCreatedAt(v time.Time) *JobProgressUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jpuo *JobProgressUpdateOne) SetNillableCreatedAt(t *time.Time) *JobProgressUpdateOne {
-	if t != nil {
-		jpuo.SetCreatedAt(*t)
+func (_u *JobProgressUpdateOne) SetNillableCreatedAt(v *time.Time) *JobProgressUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jpuo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jpuo *JobProgressUpdateOne) SetUpdatedAt(t time.Time) *JobProgressUpdateOne {
-	jpuo.mutation.SetUpdatedAt(t)
-	return jpuo
+func (_u *JobProgressUpdateOne) SetUpdatedAt(v time.Time) *JobProgressUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddProgresIDs adds the "progress" edge to the JobRelations entity by IDs.
-func (jpuo *JobProgressUpdateOne) AddProgresIDs(ids ...int) *JobProgressUpdateOne {
-	jpuo.mutation.AddProgresIDs(ids...)
-	return jpuo
+func (_u *JobProgressUpdateOne) AddProgresIDs(ids ...int) *JobProgressUpdateOne {
+	_u.mutation.AddProgresIDs(ids...)
+	return _u
 }
 
 // AddProgress adds the "progress" edges to the JobRelations entity.
-func (jpuo *JobProgressUpdateOne) AddProgress(j ...*JobRelations) *JobProgressUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobProgressUpdateOne) AddProgress(v ...*JobRelations) *JobProgressUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jpuo.AddProgresIDs(ids...)
+	return _u.AddProgresIDs(ids...)
 }
 
 // Mutation returns the JobProgressMutation object of the builder.
-func (jpuo *JobProgressUpdateOne) Mutation() *JobProgressMutation {
-	return jpuo.mutation
+func (_u *JobProgressUpdateOne) Mutation() *JobProgressMutation {
+	return _u.mutation
 }
 
 // ClearProgress clears all "progress" edges to the JobRelations entity.
-func (jpuo *JobProgressUpdateOne) ClearProgress() *JobProgressUpdateOne {
-	jpuo.mutation.ClearProgress()
-	return jpuo
+func (_u *JobProgressUpdateOne) ClearProgress() *JobProgressUpdateOne {
+	_u.mutation.ClearProgress()
+	return _u
 }
 
 // RemoveProgresIDs removes the "progress" edge to JobRelations entities by IDs.
-func (jpuo *JobProgressUpdateOne) RemoveProgresIDs(ids ...int) *JobProgressUpdateOne {
-	jpuo.mutation.RemoveProgresIDs(ids...)
-	return jpuo
+func (_u *JobProgressUpdateOne) RemoveProgresIDs(ids ...int) *JobProgressUpdateOne {
+	_u.mutation.RemoveProgresIDs(ids...)
+	return _u
 }
 
 // RemoveProgress removes "progress" edges to JobRelations entities.
-func (jpuo *JobProgressUpdateOne) RemoveProgress(j ...*JobRelations) *JobProgressUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobProgressUpdateOne) RemoveProgress(v ...*JobRelations) *JobProgressUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jpuo.RemoveProgresIDs(ids...)
+	return _u.RemoveProgresIDs(ids...)
 }
 
 // Where appends a list predicates to the JobProgressUpdate builder.
-func (jpuo *JobProgressUpdateOne) Where(ps ...predicate.JobProgress) *JobProgressUpdateOne {
-	jpuo.mutation.Where(ps...)
-	return jpuo
+func (_u *JobProgressUpdateOne) Where(ps ...predicate.JobProgress) *JobProgressUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jpuo *JobProgressUpdateOne) Select(field string, fields ...string) *JobProgressUpdateOne {
-	jpuo.fields = append([]string{field}, fields...)
-	return jpuo
+func (_u *JobProgressUpdateOne) Select(field string, fields ...string) *JobProgressUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobProgress entity.
-func (jpuo *JobProgressUpdateOne) Save(ctx context.Context) (*JobProgress, error) {
-	jpuo.defaults()
-	return withHooks(ctx, jpuo.sqlSave, jpuo.mutation, jpuo.hooks)
+func (_u *JobProgressUpdateOne) Save(ctx context.Context) (*JobProgress, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jpuo *JobProgressUpdateOne) SaveX(ctx context.Context) *JobProgress {
-	node, err := jpuo.Save(ctx)
+func (_u *JobProgressUpdateOne) SaveX(ctx context.Context) *JobProgress {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -722,34 +722,34 @@ func (jpuo *JobProgressUpdateOne) SaveX(ctx context.Context) *JobProgress {
 }
 
 // Exec executes the query on the entity.
-func (jpuo *JobProgressUpdateOne) Exec(ctx context.Context) error {
-	_, err := jpuo.Save(ctx)
+func (_u *JobProgressUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jpuo *JobProgressUpdateOne) ExecX(ctx context.Context) {
-	if err := jpuo.Exec(ctx); err != nil {
+func (_u *JobProgressUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jpuo *JobProgressUpdateOne) defaults() {
-	if _, ok := jpuo.mutation.UpdatedAt(); !ok {
+func (_u *JobProgressUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobprogress.UpdateDefaultUpdatedAt()
-		jpuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgress, err error) {
+func (_u *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgress, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobprogress.Table, jobprogress.Columns, sqlgraph.NewFieldSpec(jobprogress.FieldID, field.TypeInt))
-	id, ok := jpuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobProgress.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jpuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobprogress.FieldID)
 		for _, f := range fields {
@@ -761,80 +761,80 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 			}
 		}
 	}
-	if ps := jpuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jpuo.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobprogress.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobprogress.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.One(); ok {
+	if value, ok := _u.mutation.One(); ok {
 		_spec.SetField(jobprogress.FieldOne, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedOne(); ok {
+	if value, ok := _u.mutation.AddedOne(); ok {
 		_spec.AddField(jobprogress.FieldOne, field.TypeInt, value)
 	}
-	if jpuo.mutation.OneCleared() {
+	if _u.mutation.OneCleared() {
 		_spec.ClearField(jobprogress.FieldOne, field.TypeInt)
 	}
-	if value, ok := jpuo.mutation.Two(); ok {
+	if value, ok := _u.mutation.Two(); ok {
 		_spec.SetField(jobprogress.FieldTwo, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedTwo(); ok {
+	if value, ok := _u.mutation.AddedTwo(); ok {
 		_spec.AddField(jobprogress.FieldTwo, field.TypeInt, value)
 	}
-	if jpuo.mutation.TwoCleared() {
+	if _u.mutation.TwoCleared() {
 		_spec.ClearField(jobprogress.FieldTwo, field.TypeInt)
 	}
-	if value, ok := jpuo.mutation.Three(); ok {
+	if value, ok := _u.mutation.Three(); ok {
 		_spec.SetField(jobprogress.FieldThree, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedThree(); ok {
+	if value, ok := _u.mutation.AddedThree(); ok {
 		_spec.AddField(jobprogress.FieldThree, field.TypeInt, value)
 	}
-	if jpuo.mutation.ThreeCleared() {
+	if _u.mutation.ThreeCleared() {
 		_spec.ClearField(jobprogress.FieldThree, field.TypeInt)
 	}
-	if value, ok := jpuo.mutation.Four(); ok {
+	if value, ok := _u.mutation.Four(); ok {
 		_spec.SetField(jobprogress.FieldFour, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedFour(); ok {
+	if value, ok := _u.mutation.AddedFour(); ok {
 		_spec.AddField(jobprogress.FieldFour, field.TypeInt, value)
 	}
-	if jpuo.mutation.FourCleared() {
+	if _u.mutation.FourCleared() {
 		_spec.ClearField(jobprogress.FieldFour, field.TypeInt)
 	}
-	if value, ok := jpuo.mutation.Five(); ok {
+	if value, ok := _u.mutation.Five(); ok {
 		_spec.SetField(jobprogress.FieldFive, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedFive(); ok {
+	if value, ok := _u.mutation.AddedFive(); ok {
 		_spec.AddField(jobprogress.FieldFive, field.TypeInt, value)
 	}
-	if jpuo.mutation.FiveCleared() {
+	if _u.mutation.FiveCleared() {
 		_spec.ClearField(jobprogress.FieldFive, field.TypeInt)
 	}
-	if value, ok := jpuo.mutation.Six(); ok {
+	if value, ok := _u.mutation.Six(); ok {
 		_spec.SetField(jobprogress.FieldSix, field.TypeInt, value)
 	}
-	if value, ok := jpuo.mutation.AddedSix(); ok {
+	if value, ok := _u.mutation.AddedSix(); ok {
 		_spec.AddField(jobprogress.FieldSix, field.TypeInt, value)
 	}
-	if jpuo.mutation.SixCleared() {
+	if _u.mutation.SixCleared() {
 		_spec.ClearField(jobprogress.FieldSix, field.TypeInt)
 	}
-	if value, ok := jpuo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobprogress.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jpuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobprogress.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jpuo.mutation.ProgressCleared() {
+	if _u.mutation.ProgressCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -847,7 +847,7 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jpuo.mutation.RemovedProgressIDs(); len(nodes) > 0 && !jpuo.mutation.ProgressCleared() {
+	if nodes := _u.mutation.RemovedProgressIDs(); len(nodes) > 0 && !_u.mutation.ProgressCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -863,7 +863,7 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jpuo.mutation.ProgressIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ProgressIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -879,10 +879,10 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobProgress{config: jpuo.config}
+	_node = &JobProgress{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jpuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobprogress.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -890,6 +890,6 @@ func (jpuo *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgre
 		}
 		return nil, err
 	}
-	jpuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

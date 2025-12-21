@@ -341,7 +341,7 @@ func (*JobRelations) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobRelations fields.
-func (jr *JobRelations) assignValues(columns []string, values []any) error {
+func (_m *JobRelations) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -352,132 +352,132 @@ func (jr *JobRelations) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jr.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobrelations.FieldYibfNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
 			} else if value.Valid {
-				jr.YibfNo = int(value.Int64)
+				_m.YibfNo = int(value.Int64)
 			}
 		case jobrelations.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jr.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobrelations.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jr.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case jobrelations.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field company_id", value)
 			} else if value.Valid {
-				jr.company_id = new(int)
-				*jr.company_id = int(value.Int64)
+				_m.company_id = new(int)
+				*_m.company_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field static_id", value)
 			} else if value.Valid {
-				jr.static_id = new(int)
-				*jr.static_id = int(value.Int64)
+				_m.static_id = new(int)
+				*_m.static_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[2]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field mechanic_id", value)
 			} else if value.Valid {
-				jr.mechanic_id = new(int)
-				*jr.mechanic_id = int(value.Int64)
+				_m.mechanic_id = new(int)
+				*_m.mechanic_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[3]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field electric_id", value)
 			} else if value.Valid {
-				jr.electric_id = new(int)
-				*jr.electric_id = int(value.Int64)
+				_m.electric_id = new(int)
+				*_m.electric_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[4]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field inspector_id", value)
 			} else if value.Valid {
-				jr.inspector_id = new(int)
-				*jr.inspector_id = int(value.Int64)
+				_m.inspector_id = new(int)
+				*_m.inspector_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[5]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field architect_id", value)
 			} else if value.Valid {
-				jr.architect_id = new(int)
-				*jr.architect_id = int(value.Int64)
+				_m.architect_id = new(int)
+				*_m.architect_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[6]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field controller_id", value)
 			} else if value.Valid {
-				jr.controller_id = new(int)
-				*jr.controller_id = int(value.Int64)
+				_m.controller_id = new(int)
+				*_m.controller_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[7]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field mechaniccontroller_id", value)
 			} else if value.Valid {
-				jr.mechaniccontroller_id = new(int)
-				*jr.mechaniccontroller_id = int(value.Int64)
+				_m.mechaniccontroller_id = new(int)
+				*_m.mechaniccontroller_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[8]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field electriccontroller_id", value)
 			} else if value.Valid {
-				jr.electriccontroller_id = new(int)
-				*jr.electriccontroller_id = int(value.Int64)
+				_m.electriccontroller_id = new(int)
+				*_m.electriccontroller_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[9]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field author_id", value)
 			} else if value.Valid {
-				jr.author_id = new(int)
-				*jr.author_id = int(value.Int64)
+				_m.author_id = new(int)
+				*_m.author_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[10]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field contractor_id", value)
 			} else if value.Valid {
-				jr.contractor_id = new(int)
-				*jr.contractor_id = int(value.Int64)
+				_m.contractor_id = new(int)
+				*_m.contractor_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[11]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field job_id", value)
 			} else if value.Valid {
-				jr.job_id = new(int)
-				*jr.job_id = int(value.Int64)
+				_m.job_id = new(int)
+				*_m.job_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[12]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field owner_id", value)
 			} else if value.Valid {
-				jr.owner_id = new(int)
-				*jr.owner_id = int(value.Int64)
+				_m.owner_id = new(int)
+				*_m.owner_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[13]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field progress_id", value)
 			} else if value.Valid {
-				jr.progress_id = new(int)
-				*jr.progress_id = int(value.Int64)
+				_m.progress_id = new(int)
+				*_m.progress_id = int(value.Int64)
 			}
 		case jobrelations.ForeignKeys[14]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field supervisor_id", value)
 			} else if value.Valid {
-				jr.supervisor_id = new(int)
-				*jr.supervisor_id = int(value.Int64)
+				_m.supervisor_id = new(int)
+				*_m.supervisor_id = int(value.Int64)
 			}
 		default:
-			jr.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -485,204 +485,204 @@ func (jr *JobRelations) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobRelations.
 // This includes values selected through modifiers, order, etc.
-func (jr *JobRelations) Value(name string) (ent.Value, error) {
-	return jr.selectValues.Get(name)
+func (_m *JobRelations) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryJob queries the "job" edge of the JobRelations entity.
-func (jr *JobRelations) QueryJob() *JobDetailQuery {
-	return NewJobRelationsClient(jr.config).QueryJob(jr)
+func (_m *JobRelations) QueryJob() *JobDetailQuery {
+	return NewJobRelationsClient(_m.config).QueryJob(_m)
 }
 
 // QueryOwner queries the "owner" edge of the JobRelations entity.
-func (jr *JobRelations) QueryOwner() *JobOwnerQuery {
-	return NewJobRelationsClient(jr.config).QueryOwner(jr)
+func (_m *JobRelations) QueryOwner() *JobOwnerQuery {
+	return NewJobRelationsClient(_m.config).QueryOwner(_m)
 }
 
 // QueryAuthor queries the "author" edge of the JobRelations entity.
-func (jr *JobRelations) QueryAuthor() *JobAuthorQuery {
-	return NewJobRelationsClient(jr.config).QueryAuthor(jr)
+func (_m *JobRelations) QueryAuthor() *JobAuthorQuery {
+	return NewJobRelationsClient(_m.config).QueryAuthor(_m)
 }
 
 // QueryCompany queries the "company" edge of the JobRelations entity.
-func (jr *JobRelations) QueryCompany() *CompanyDetailQuery {
-	return NewJobRelationsClient(jr.config).QueryCompany(jr)
+func (_m *JobRelations) QueryCompany() *CompanyDetailQuery {
+	return NewJobRelationsClient(_m.config).QueryCompany(_m)
 }
 
 // QueryProgress queries the "progress" edge of the JobRelations entity.
-func (jr *JobRelations) QueryProgress() *JobProgressQuery {
-	return NewJobRelationsClient(jr.config).QueryProgress(jr)
+func (_m *JobRelations) QueryProgress() *JobProgressQuery {
+	return NewJobRelationsClient(_m.config).QueryProgress(_m)
 }
 
 // QueryContractor queries the "contractor" edge of the JobRelations entity.
-func (jr *JobRelations) QueryContractor() *JobContractorQuery {
-	return NewJobRelationsClient(jr.config).QueryContractor(jr)
+func (_m *JobRelations) QueryContractor() *JobContractorQuery {
+	return NewJobRelationsClient(_m.config).QueryContractor(_m)
 }
 
 // QuerySupervisor queries the "supervisor" edge of the JobRelations entity.
-func (jr *JobRelations) QuerySupervisor() *JobSupervisorQuery {
-	return NewJobRelationsClient(jr.config).QuerySupervisor(jr)
+func (_m *JobRelations) QuerySupervisor() *JobSupervisorQuery {
+	return NewJobRelationsClient(_m.config).QuerySupervisor(_m)
 }
 
 // QueryStatic queries the "static" edge of the JobRelations entity.
-func (jr *JobRelations) QueryStatic() *CompanyEngineerQuery {
-	return NewJobRelationsClient(jr.config).QueryStatic(jr)
+func (_m *JobRelations) QueryStatic() *CompanyEngineerQuery {
+	return NewJobRelationsClient(_m.config).QueryStatic(_m)
 }
 
 // QueryMechanic queries the "mechanic" edge of the JobRelations entity.
-func (jr *JobRelations) QueryMechanic() *CompanyEngineerQuery {
-	return NewJobRelationsClient(jr.config).QueryMechanic(jr)
+func (_m *JobRelations) QueryMechanic() *CompanyEngineerQuery {
+	return NewJobRelationsClient(_m.config).QueryMechanic(_m)
 }
 
 // QueryElectric queries the "electric" edge of the JobRelations entity.
-func (jr *JobRelations) QueryElectric() *CompanyEngineerQuery {
-	return NewJobRelationsClient(jr.config).QueryElectric(jr)
+func (_m *JobRelations) QueryElectric() *CompanyEngineerQuery {
+	return NewJobRelationsClient(_m.config).QueryElectric(_m)
 }
 
 // QueryInspector queries the "inspector" edge of the JobRelations entity.
-func (jr *JobRelations) QueryInspector() *CompanyEngineerQuery {
-	return NewJobRelationsClient(jr.config).QueryInspector(jr)
+func (_m *JobRelations) QueryInspector() *CompanyEngineerQuery {
+	return NewJobRelationsClient(_m.config).QueryInspector(_m)
 }
 
 // QueryArchitect queries the "architect" edge of the JobRelations entity.
-func (jr *JobRelations) QueryArchitect() *CompanyEngineerQuery {
-	return NewJobRelationsClient(jr.config).QueryArchitect(jr)
+func (_m *JobRelations) QueryArchitect() *CompanyEngineerQuery {
+	return NewJobRelationsClient(_m.config).QueryArchitect(_m)
 }
 
 // QueryController queries the "controller" edge of the JobRelations entity.
-func (jr *JobRelations) QueryController() *CompanyEngineerQuery {
-	return NewJobRelationsClient(jr.config).QueryController(jr)
+func (_m *JobRelations) QueryController() *CompanyEngineerQuery {
+	return NewJobRelationsClient(_m.config).QueryController(_m)
 }
 
 // QueryMechaniccontroller queries the "mechaniccontroller" edge of the JobRelations entity.
-func (jr *JobRelations) QueryMechaniccontroller() *CompanyEngineerQuery {
-	return NewJobRelationsClient(jr.config).QueryMechaniccontroller(jr)
+func (_m *JobRelations) QueryMechaniccontroller() *CompanyEngineerQuery {
+	return NewJobRelationsClient(_m.config).QueryMechaniccontroller(_m)
 }
 
 // QueryElectriccontroller queries the "electriccontroller" edge of the JobRelations entity.
-func (jr *JobRelations) QueryElectriccontroller() *CompanyEngineerQuery {
-	return NewJobRelationsClient(jr.config).QueryElectriccontroller(jr)
+func (_m *JobRelations) QueryElectriccontroller() *CompanyEngineerQuery {
+	return NewJobRelationsClient(_m.config).QueryElectriccontroller(_m)
 }
 
 // QueryFloors queries the "floors" edge of the JobRelations entity.
-func (jr *JobRelations) QueryFloors() *JobFloorQuery {
-	return NewJobRelationsClient(jr.config).QueryFloors(jr)
+func (_m *JobRelations) QueryFloors() *JobFloorQuery {
+	return NewJobRelationsClient(_m.config).QueryFloors(_m)
 }
 
 // QueryPayments queries the "payments" edge of the JobRelations entity.
-func (jr *JobRelations) QueryPayments() *JobPaymentsQuery {
-	return NewJobRelationsClient(jr.config).QueryPayments(jr)
+func (_m *JobRelations) QueryPayments() *JobPaymentsQuery {
+	return NewJobRelationsClient(_m.config).QueryPayments(_m)
 }
 
 // QueryReceipts queries the "receipts" edge of the JobRelations entity.
-func (jr *JobRelations) QueryReceipts() *JobReceiptQuery {
-	return NewJobRelationsClient(jr.config).QueryReceipts(jr)
+func (_m *JobRelations) QueryReceipts() *JobReceiptQuery {
+	return NewJobRelationsClient(_m.config).QueryReceipts(_m)
 }
 
 // Update returns a builder for updating this JobRelations.
 // Note that you need to call JobRelations.Unwrap() before calling this method if this JobRelations
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jr *JobRelations) Update() *JobRelationsUpdateOne {
-	return NewJobRelationsClient(jr.config).UpdateOne(jr)
+func (_m *JobRelations) Update() *JobRelationsUpdateOne {
+	return NewJobRelationsClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobRelations entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jr *JobRelations) Unwrap() *JobRelations {
-	_tx, ok := jr.config.driver.(*txDriver)
+func (_m *JobRelations) Unwrap() *JobRelations {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobRelations is not a transactional entity")
 	}
-	jr.config.driver = _tx.drv
-	return jr
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (jr *JobRelations) String() string {
+func (_m *JobRelations) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobRelations(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jr.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("yibfNo=")
-	builder.WriteString(fmt.Sprintf("%v", jr.YibfNo))
+	builder.WriteString(fmt.Sprintf("%v", _m.YibfNo))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jr.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jr.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedFloors returns the Floors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jr *JobRelations) NamedFloors(name string) ([]*JobFloor, error) {
-	if jr.Edges.namedFloors == nil {
+func (_m *JobRelations) NamedFloors(name string) ([]*JobFloor, error) {
+	if _m.Edges.namedFloors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := jr.Edges.namedFloors[name]
+	nodes, ok := _m.Edges.namedFloors[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (jr *JobRelations) appendNamedFloors(name string, edges ...*JobFloor) {
-	if jr.Edges.namedFloors == nil {
-		jr.Edges.namedFloors = make(map[string][]*JobFloor)
+func (_m *JobRelations) appendNamedFloors(name string, edges ...*JobFloor) {
+	if _m.Edges.namedFloors == nil {
+		_m.Edges.namedFloors = make(map[string][]*JobFloor)
 	}
 	if len(edges) == 0 {
-		jr.Edges.namedFloors[name] = []*JobFloor{}
+		_m.Edges.namedFloors[name] = []*JobFloor{}
 	} else {
-		jr.Edges.namedFloors[name] = append(jr.Edges.namedFloors[name], edges...)
+		_m.Edges.namedFloors[name] = append(_m.Edges.namedFloors[name], edges...)
 	}
 }
 
 // NamedPayments returns the Payments named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jr *JobRelations) NamedPayments(name string) ([]*JobPayments, error) {
-	if jr.Edges.namedPayments == nil {
+func (_m *JobRelations) NamedPayments(name string) ([]*JobPayments, error) {
+	if _m.Edges.namedPayments == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := jr.Edges.namedPayments[name]
+	nodes, ok := _m.Edges.namedPayments[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (jr *JobRelations) appendNamedPayments(name string, edges ...*JobPayments) {
-	if jr.Edges.namedPayments == nil {
-		jr.Edges.namedPayments = make(map[string][]*JobPayments)
+func (_m *JobRelations) appendNamedPayments(name string, edges ...*JobPayments) {
+	if _m.Edges.namedPayments == nil {
+		_m.Edges.namedPayments = make(map[string][]*JobPayments)
 	}
 	if len(edges) == 0 {
-		jr.Edges.namedPayments[name] = []*JobPayments{}
+		_m.Edges.namedPayments[name] = []*JobPayments{}
 	} else {
-		jr.Edges.namedPayments[name] = append(jr.Edges.namedPayments[name], edges...)
+		_m.Edges.namedPayments[name] = append(_m.Edges.namedPayments[name], edges...)
 	}
 }
 
 // NamedReceipts returns the Receipts named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jr *JobRelations) NamedReceipts(name string) ([]*JobReceipt, error) {
-	if jr.Edges.namedReceipts == nil {
+func (_m *JobRelations) NamedReceipts(name string) ([]*JobReceipt, error) {
+	if _m.Edges.namedReceipts == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := jr.Edges.namedReceipts[name]
+	nodes, ok := _m.Edges.namedReceipts[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (jr *JobRelations) appendNamedReceipts(name string, edges ...*JobReceipt) {
-	if jr.Edges.namedReceipts == nil {
-		jr.Edges.namedReceipts = make(map[string][]*JobReceipt)
+func (_m *JobRelations) appendNamedReceipts(name string, edges ...*JobReceipt) {
+	if _m.Edges.namedReceipts == nil {
+		_m.Edges.namedReceipts = make(map[string][]*JobReceipt)
 	}
 	if len(edges) == 0 {
-		jr.Edges.namedReceipts[name] = []*JobReceipt{}
+		_m.Edges.namedReceipts[name] = []*JobReceipt{}
 	} else {
-		jr.Edges.namedReceipts[name] = append(jr.Edges.namedReceipts[name], edges...)
+		_m.Edges.namedReceipts[name] = append(_m.Edges.namedReceipts[name], edges...)
 	}
 }
 

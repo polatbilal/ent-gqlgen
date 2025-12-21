@@ -21,56 +21,56 @@ type CompanyUserCreate struct {
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (cuc *CompanyUserCreate) SetCompanyID(id int) *CompanyUserCreate {
-	cuc.mutation.SetCompanyID(id)
-	return cuc
+func (_c *CompanyUserCreate) SetCompanyID(id int) *CompanyUserCreate {
+	_c.mutation.SetCompanyID(id)
+	return _c
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (cuc *CompanyUserCreate) SetNillableCompanyID(id *int) *CompanyUserCreate {
+func (_c *CompanyUserCreate) SetNillableCompanyID(id *int) *CompanyUserCreate {
 	if id != nil {
-		cuc = cuc.SetCompanyID(*id)
+		_c = _c.SetCompanyID(*id)
 	}
-	return cuc
+	return _c
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (cuc *CompanyUserCreate) SetCompany(c *CompanyDetail) *CompanyUserCreate {
-	return cuc.SetCompanyID(c.ID)
+func (_c *CompanyUserCreate) SetCompany(v *CompanyDetail) *CompanyUserCreate {
+	return _c.SetCompanyID(v.ID)
 }
 
 // SetUserID sets the "user" edge to the User entity by ID.
-func (cuc *CompanyUserCreate) SetUserID(id int) *CompanyUserCreate {
-	cuc.mutation.SetUserID(id)
-	return cuc
+func (_c *CompanyUserCreate) SetUserID(id int) *CompanyUserCreate {
+	_c.mutation.SetUserID(id)
+	return _c
 }
 
 // SetNillableUserID sets the "user" edge to the User entity by ID if the given value is not nil.
-func (cuc *CompanyUserCreate) SetNillableUserID(id *int) *CompanyUserCreate {
+func (_c *CompanyUserCreate) SetNillableUserID(id *int) *CompanyUserCreate {
 	if id != nil {
-		cuc = cuc.SetUserID(*id)
+		_c = _c.SetUserID(*id)
 	}
-	return cuc
+	return _c
 }
 
 // SetUser sets the "user" edge to the User entity.
-func (cuc *CompanyUserCreate) SetUser(u *User) *CompanyUserCreate {
-	return cuc.SetUserID(u.ID)
+func (_c *CompanyUserCreate) SetUser(v *User) *CompanyUserCreate {
+	return _c.SetUserID(v.ID)
 }
 
 // Mutation returns the CompanyUserMutation object of the builder.
-func (cuc *CompanyUserCreate) Mutation() *CompanyUserMutation {
-	return cuc.mutation
+func (_c *CompanyUserCreate) Mutation() *CompanyUserMutation {
+	return _c.mutation
 }
 
 // Save creates the CompanyUser in the database.
-func (cuc *CompanyUserCreate) Save(ctx context.Context) (*CompanyUser, error) {
-	return withHooks(ctx, cuc.sqlSave, cuc.mutation, cuc.hooks)
+func (_c *CompanyUserCreate) Save(ctx context.Context) (*CompanyUser, error) {
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (cuc *CompanyUserCreate) SaveX(ctx context.Context) *CompanyUser {
-	v, err := cuc.Save(ctx)
+func (_c *CompanyUserCreate) SaveX(ctx context.Context) *CompanyUser {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -78,29 +78,29 @@ func (cuc *CompanyUserCreate) SaveX(ctx context.Context) *CompanyUser {
 }
 
 // Exec executes the query.
-func (cuc *CompanyUserCreate) Exec(ctx context.Context) error {
-	_, err := cuc.Save(ctx)
+func (_c *CompanyUserCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cuc *CompanyUserCreate) ExecX(ctx context.Context) {
-	if err := cuc.Exec(ctx); err != nil {
+func (_c *CompanyUserCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (cuc *CompanyUserCreate) check() error {
+func (_c *CompanyUserCreate) check() error {
 	return nil
 }
 
-func (cuc *CompanyUserCreate) sqlSave(ctx context.Context) (*CompanyUser, error) {
-	if err := cuc.check(); err != nil {
+func (_c *CompanyUserCreate) sqlSave(ctx context.Context) (*CompanyUser, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := cuc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, cuc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -108,17 +108,17 @@ func (cuc *CompanyUserCreate) sqlSave(ctx context.Context) (*CompanyUser, error)
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	cuc.mutation.id = &_node.ID
-	cuc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (cuc *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) {
+func (_c *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) {
 	var (
-		_node = &CompanyUser{config: cuc.config}
+		_node = &CompanyUser{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(companyuser.Table, sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt))
 	)
-	if nodes := cuc.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -135,7 +135,7 @@ func (cuc *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) 
 		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cuc.mutation.UserIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -163,16 +163,16 @@ type CompanyUserCreateBulk struct {
 }
 
 // Save creates the CompanyUser entities in the database.
-func (cucb *CompanyUserCreateBulk) Save(ctx context.Context) ([]*CompanyUser, error) {
-	if cucb.err != nil {
-		return nil, cucb.err
+func (_c *CompanyUserCreateBulk) Save(ctx context.Context) ([]*CompanyUser, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(cucb.builders))
-	nodes := make([]*CompanyUser, len(cucb.builders))
-	mutators := make([]Mutator, len(cucb.builders))
-	for i := range cucb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*CompanyUser, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := cucb.builders[i]
+			builder := _c.builders[i]
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CompanyUserMutation)
 				if !ok {
@@ -185,11 +185,11 @@ func (cucb *CompanyUserCreateBulk) Save(ctx context.Context) ([]*CompanyUser, er
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, cucb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, cucb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -213,7 +213,7 @@ func (cucb *CompanyUserCreateBulk) Save(ctx context.Context) ([]*CompanyUser, er
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, cucb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -221,8 +221,8 @@ func (cucb *CompanyUserCreateBulk) Save(ctx context.Context) ([]*CompanyUser, er
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cucb *CompanyUserCreateBulk) SaveX(ctx context.Context) []*CompanyUser {
-	v, err := cucb.Save(ctx)
+func (_c *CompanyUserCreateBulk) SaveX(ctx context.Context) []*CompanyUser {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -230,14 +230,14 @@ func (cucb *CompanyUserCreateBulk) SaveX(ctx context.Context) []*CompanyUser {
 }
 
 // Exec executes the query.
-func (cucb *CompanyUserCreateBulk) Exec(ctx context.Context) error {
-	_, err := cucb.Save(ctx)
+func (_c *CompanyUserCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cucb *CompanyUserCreateBulk) ExecX(ctx context.Context) {
-	if err := cucb.Exec(ctx); err != nil {
+func (_c *CompanyUserCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

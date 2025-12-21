@@ -32,383 +32,383 @@ type JobRelationsCreate struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jrc *JobRelationsCreate) SetYibfNo(i int) *JobRelationsCreate {
-	jrc.mutation.SetYibfNo(i)
-	return jrc
+func (_c *JobRelationsCreate) SetYibfNo(v int) *JobRelationsCreate {
+	_c.mutation.SetYibfNo(v)
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jrc *JobRelationsCreate) SetCreatedAt(t time.Time) *JobRelationsCreate {
-	jrc.mutation.SetCreatedAt(t)
-	return jrc
+func (_c *JobRelationsCreate) SetCreatedAt(v time.Time) *JobRelationsCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableCreatedAt(t *time.Time) *JobRelationsCreate {
-	if t != nil {
-		jrc.SetCreatedAt(*t)
+func (_c *JobRelationsCreate) SetNillableCreatedAt(v *time.Time) *JobRelationsCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return jrc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jrc *JobRelationsCreate) SetUpdatedAt(t time.Time) *JobRelationsCreate {
-	jrc.mutation.SetUpdatedAt(t)
-	return jrc
+func (_c *JobRelationsCreate) SetUpdatedAt(v time.Time) *JobRelationsCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableUpdatedAt(t *time.Time) *JobRelationsCreate {
-	if t != nil {
-		jrc.SetUpdatedAt(*t)
+func (_c *JobRelationsCreate) SetNillableUpdatedAt(v *time.Time) *JobRelationsCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return jrc
+	return _c
 }
 
 // SetJobID sets the "job" edge to the JobDetail entity by ID.
-func (jrc *JobRelationsCreate) SetJobID(id int) *JobRelationsCreate {
-	jrc.mutation.SetJobID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetJobID(id int) *JobRelationsCreate {
+	_c.mutation.SetJobID(id)
+	return _c
 }
 
 // SetNillableJobID sets the "job" edge to the JobDetail entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableJobID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableJobID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetJobID(*id)
+		_c = _c.SetJobID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetJob sets the "job" edge to the JobDetail entity.
-func (jrc *JobRelationsCreate) SetJob(j *JobDetail) *JobRelationsCreate {
-	return jrc.SetJobID(j.ID)
+func (_c *JobRelationsCreate) SetJob(v *JobDetail) *JobRelationsCreate {
+	return _c.SetJobID(v.ID)
 }
 
 // SetOwnerID sets the "owner" edge to the JobOwner entity by ID.
-func (jrc *JobRelationsCreate) SetOwnerID(id int) *JobRelationsCreate {
-	jrc.mutation.SetOwnerID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetOwnerID(id int) *JobRelationsCreate {
+	_c.mutation.SetOwnerID(id)
+	return _c
 }
 
 // SetNillableOwnerID sets the "owner" edge to the JobOwner entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableOwnerID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableOwnerID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetOwnerID(*id)
+		_c = _c.SetOwnerID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetOwner sets the "owner" edge to the JobOwner entity.
-func (jrc *JobRelationsCreate) SetOwner(j *JobOwner) *JobRelationsCreate {
-	return jrc.SetOwnerID(j.ID)
+func (_c *JobRelationsCreate) SetOwner(v *JobOwner) *JobRelationsCreate {
+	return _c.SetOwnerID(v.ID)
 }
 
 // SetAuthorID sets the "author" edge to the JobAuthor entity by ID.
-func (jrc *JobRelationsCreate) SetAuthorID(id int) *JobRelationsCreate {
-	jrc.mutation.SetAuthorID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetAuthorID(id int) *JobRelationsCreate {
+	_c.mutation.SetAuthorID(id)
+	return _c
 }
 
 // SetNillableAuthorID sets the "author" edge to the JobAuthor entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableAuthorID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableAuthorID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetAuthorID(*id)
+		_c = _c.SetAuthorID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetAuthor sets the "author" edge to the JobAuthor entity.
-func (jrc *JobRelationsCreate) SetAuthor(j *JobAuthor) *JobRelationsCreate {
-	return jrc.SetAuthorID(j.ID)
+func (_c *JobRelationsCreate) SetAuthor(v *JobAuthor) *JobRelationsCreate {
+	return _c.SetAuthorID(v.ID)
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (jrc *JobRelationsCreate) SetCompanyID(id int) *JobRelationsCreate {
-	jrc.mutation.SetCompanyID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetCompanyID(id int) *JobRelationsCreate {
+	_c.mutation.SetCompanyID(id)
+	return _c
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableCompanyID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableCompanyID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetCompanyID(*id)
+		_c = _c.SetCompanyID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (jrc *JobRelationsCreate) SetCompany(c *CompanyDetail) *JobRelationsCreate {
-	return jrc.SetCompanyID(c.ID)
+func (_c *JobRelationsCreate) SetCompany(v *CompanyDetail) *JobRelationsCreate {
+	return _c.SetCompanyID(v.ID)
 }
 
 // SetProgressID sets the "progress" edge to the JobProgress entity by ID.
-func (jrc *JobRelationsCreate) SetProgressID(id int) *JobRelationsCreate {
-	jrc.mutation.SetProgressID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetProgressID(id int) *JobRelationsCreate {
+	_c.mutation.SetProgressID(id)
+	return _c
 }
 
 // SetNillableProgressID sets the "progress" edge to the JobProgress entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableProgressID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableProgressID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetProgressID(*id)
+		_c = _c.SetProgressID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetProgress sets the "progress" edge to the JobProgress entity.
-func (jrc *JobRelationsCreate) SetProgress(j *JobProgress) *JobRelationsCreate {
-	return jrc.SetProgressID(j.ID)
+func (_c *JobRelationsCreate) SetProgress(v *JobProgress) *JobRelationsCreate {
+	return _c.SetProgressID(v.ID)
 }
 
 // SetContractorID sets the "contractor" edge to the JobContractor entity by ID.
-func (jrc *JobRelationsCreate) SetContractorID(id int) *JobRelationsCreate {
-	jrc.mutation.SetContractorID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetContractorID(id int) *JobRelationsCreate {
+	_c.mutation.SetContractorID(id)
+	return _c
 }
 
 // SetNillableContractorID sets the "contractor" edge to the JobContractor entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableContractorID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableContractorID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetContractorID(*id)
+		_c = _c.SetContractorID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetContractor sets the "contractor" edge to the JobContractor entity.
-func (jrc *JobRelationsCreate) SetContractor(j *JobContractor) *JobRelationsCreate {
-	return jrc.SetContractorID(j.ID)
+func (_c *JobRelationsCreate) SetContractor(v *JobContractor) *JobRelationsCreate {
+	return _c.SetContractorID(v.ID)
 }
 
 // SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID.
-func (jrc *JobRelationsCreate) SetSupervisorID(id int) *JobRelationsCreate {
-	jrc.mutation.SetSupervisorID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetSupervisorID(id int) *JobRelationsCreate {
+	_c.mutation.SetSupervisorID(id)
+	return _c
 }
 
 // SetNillableSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableSupervisorID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableSupervisorID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetSupervisorID(*id)
+		_c = _c.SetSupervisorID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetSupervisor sets the "supervisor" edge to the JobSupervisor entity.
-func (jrc *JobRelationsCreate) SetSupervisor(j *JobSupervisor) *JobRelationsCreate {
-	return jrc.SetSupervisorID(j.ID)
+func (_c *JobRelationsCreate) SetSupervisor(v *JobSupervisor) *JobRelationsCreate {
+	return _c.SetSupervisorID(v.ID)
 }
 
 // SetStaticID sets the "static" edge to the CompanyEngineer entity by ID.
-func (jrc *JobRelationsCreate) SetStaticID(id int) *JobRelationsCreate {
-	jrc.mutation.SetStaticID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetStaticID(id int) *JobRelationsCreate {
+	_c.mutation.SetStaticID(id)
+	return _c
 }
 
 // SetNillableStaticID sets the "static" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableStaticID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableStaticID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetStaticID(*id)
+		_c = _c.SetStaticID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetStatic sets the "static" edge to the CompanyEngineer entity.
-func (jrc *JobRelationsCreate) SetStatic(c *CompanyEngineer) *JobRelationsCreate {
-	return jrc.SetStaticID(c.ID)
+func (_c *JobRelationsCreate) SetStatic(v *CompanyEngineer) *JobRelationsCreate {
+	return _c.SetStaticID(v.ID)
 }
 
 // SetMechanicID sets the "mechanic" edge to the CompanyEngineer entity by ID.
-func (jrc *JobRelationsCreate) SetMechanicID(id int) *JobRelationsCreate {
-	jrc.mutation.SetMechanicID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetMechanicID(id int) *JobRelationsCreate {
+	_c.mutation.SetMechanicID(id)
+	return _c
 }
 
 // SetNillableMechanicID sets the "mechanic" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableMechanicID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableMechanicID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetMechanicID(*id)
+		_c = _c.SetMechanicID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetMechanic sets the "mechanic" edge to the CompanyEngineer entity.
-func (jrc *JobRelationsCreate) SetMechanic(c *CompanyEngineer) *JobRelationsCreate {
-	return jrc.SetMechanicID(c.ID)
+func (_c *JobRelationsCreate) SetMechanic(v *CompanyEngineer) *JobRelationsCreate {
+	return _c.SetMechanicID(v.ID)
 }
 
 // SetElectricID sets the "electric" edge to the CompanyEngineer entity by ID.
-func (jrc *JobRelationsCreate) SetElectricID(id int) *JobRelationsCreate {
-	jrc.mutation.SetElectricID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetElectricID(id int) *JobRelationsCreate {
+	_c.mutation.SetElectricID(id)
+	return _c
 }
 
 // SetNillableElectricID sets the "electric" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableElectricID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableElectricID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetElectricID(*id)
+		_c = _c.SetElectricID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetElectric sets the "electric" edge to the CompanyEngineer entity.
-func (jrc *JobRelationsCreate) SetElectric(c *CompanyEngineer) *JobRelationsCreate {
-	return jrc.SetElectricID(c.ID)
+func (_c *JobRelationsCreate) SetElectric(v *CompanyEngineer) *JobRelationsCreate {
+	return _c.SetElectricID(v.ID)
 }
 
 // SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
-func (jrc *JobRelationsCreate) SetInspectorID(id int) *JobRelationsCreate {
-	jrc.mutation.SetInspectorID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetInspectorID(id int) *JobRelationsCreate {
+	_c.mutation.SetInspectorID(id)
+	return _c
 }
 
 // SetNillableInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableInspectorID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableInspectorID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetInspectorID(*id)
+		_c = _c.SetInspectorID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetInspector sets the "inspector" edge to the CompanyEngineer entity.
-func (jrc *JobRelationsCreate) SetInspector(c *CompanyEngineer) *JobRelationsCreate {
-	return jrc.SetInspectorID(c.ID)
+func (_c *JobRelationsCreate) SetInspector(v *CompanyEngineer) *JobRelationsCreate {
+	return _c.SetInspectorID(v.ID)
 }
 
 // SetArchitectID sets the "architect" edge to the CompanyEngineer entity by ID.
-func (jrc *JobRelationsCreate) SetArchitectID(id int) *JobRelationsCreate {
-	jrc.mutation.SetArchitectID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetArchitectID(id int) *JobRelationsCreate {
+	_c.mutation.SetArchitectID(id)
+	return _c
 }
 
 // SetNillableArchitectID sets the "architect" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableArchitectID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableArchitectID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetArchitectID(*id)
+		_c = _c.SetArchitectID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetArchitect sets the "architect" edge to the CompanyEngineer entity.
-func (jrc *JobRelationsCreate) SetArchitect(c *CompanyEngineer) *JobRelationsCreate {
-	return jrc.SetArchitectID(c.ID)
+func (_c *JobRelationsCreate) SetArchitect(v *CompanyEngineer) *JobRelationsCreate {
+	return _c.SetArchitectID(v.ID)
 }
 
 // SetControllerID sets the "controller" edge to the CompanyEngineer entity by ID.
-func (jrc *JobRelationsCreate) SetControllerID(id int) *JobRelationsCreate {
-	jrc.mutation.SetControllerID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetControllerID(id int) *JobRelationsCreate {
+	_c.mutation.SetControllerID(id)
+	return _c
 }
 
 // SetNillableControllerID sets the "controller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableControllerID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableControllerID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetControllerID(*id)
+		_c = _c.SetControllerID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetController sets the "controller" edge to the CompanyEngineer entity.
-func (jrc *JobRelationsCreate) SetController(c *CompanyEngineer) *JobRelationsCreate {
-	return jrc.SetControllerID(c.ID)
+func (_c *JobRelationsCreate) SetController(v *CompanyEngineer) *JobRelationsCreate {
+	return _c.SetControllerID(v.ID)
 }
 
 // SetMechaniccontrollerID sets the "mechaniccontroller" edge to the CompanyEngineer entity by ID.
-func (jrc *JobRelationsCreate) SetMechaniccontrollerID(id int) *JobRelationsCreate {
-	jrc.mutation.SetMechaniccontrollerID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetMechaniccontrollerID(id int) *JobRelationsCreate {
+	_c.mutation.SetMechaniccontrollerID(id)
+	return _c
 }
 
 // SetNillableMechaniccontrollerID sets the "mechaniccontroller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableMechaniccontrollerID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableMechaniccontrollerID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetMechaniccontrollerID(*id)
+		_c = _c.SetMechaniccontrollerID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetMechaniccontroller sets the "mechaniccontroller" edge to the CompanyEngineer entity.
-func (jrc *JobRelationsCreate) SetMechaniccontroller(c *CompanyEngineer) *JobRelationsCreate {
-	return jrc.SetMechaniccontrollerID(c.ID)
+func (_c *JobRelationsCreate) SetMechaniccontroller(v *CompanyEngineer) *JobRelationsCreate {
+	return _c.SetMechaniccontrollerID(v.ID)
 }
 
 // SetElectriccontrollerID sets the "electriccontroller" edge to the CompanyEngineer entity by ID.
-func (jrc *JobRelationsCreate) SetElectriccontrollerID(id int) *JobRelationsCreate {
-	jrc.mutation.SetElectriccontrollerID(id)
-	return jrc
+func (_c *JobRelationsCreate) SetElectriccontrollerID(id int) *JobRelationsCreate {
+	_c.mutation.SetElectriccontrollerID(id)
+	return _c
 }
 
 // SetNillableElectriccontrollerID sets the "electriccontroller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jrc *JobRelationsCreate) SetNillableElectriccontrollerID(id *int) *JobRelationsCreate {
+func (_c *JobRelationsCreate) SetNillableElectriccontrollerID(id *int) *JobRelationsCreate {
 	if id != nil {
-		jrc = jrc.SetElectriccontrollerID(*id)
+		_c = _c.SetElectriccontrollerID(*id)
 	}
-	return jrc
+	return _c
 }
 
 // SetElectriccontroller sets the "electriccontroller" edge to the CompanyEngineer entity.
-func (jrc *JobRelationsCreate) SetElectriccontroller(c *CompanyEngineer) *JobRelationsCreate {
-	return jrc.SetElectriccontrollerID(c.ID)
+func (_c *JobRelationsCreate) SetElectriccontroller(v *CompanyEngineer) *JobRelationsCreate {
+	return _c.SetElectriccontrollerID(v.ID)
 }
 
 // AddFloorIDs adds the "floors" edge to the JobFloor entity by IDs.
-func (jrc *JobRelationsCreate) AddFloorIDs(ids ...int) *JobRelationsCreate {
-	jrc.mutation.AddFloorIDs(ids...)
-	return jrc
+func (_c *JobRelationsCreate) AddFloorIDs(ids ...int) *JobRelationsCreate {
+	_c.mutation.AddFloorIDs(ids...)
+	return _c
 }
 
 // AddFloors adds the "floors" edges to the JobFloor entity.
-func (jrc *JobRelationsCreate) AddFloors(j ...*JobFloor) *JobRelationsCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *JobRelationsCreate) AddFloors(v ...*JobFloor) *JobRelationsCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jrc.AddFloorIDs(ids...)
+	return _c.AddFloorIDs(ids...)
 }
 
 // AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
-func (jrc *JobRelationsCreate) AddPaymentIDs(ids ...int) *JobRelationsCreate {
-	jrc.mutation.AddPaymentIDs(ids...)
-	return jrc
+func (_c *JobRelationsCreate) AddPaymentIDs(ids ...int) *JobRelationsCreate {
+	_c.mutation.AddPaymentIDs(ids...)
+	return _c
 }
 
 // AddPayments adds the "payments" edges to the JobPayments entity.
-func (jrc *JobRelationsCreate) AddPayments(j ...*JobPayments) *JobRelationsCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *JobRelationsCreate) AddPayments(v ...*JobPayments) *JobRelationsCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jrc.AddPaymentIDs(ids...)
+	return _c.AddPaymentIDs(ids...)
 }
 
 // AddReceiptIDs adds the "receipts" edge to the JobReceipt entity by IDs.
-func (jrc *JobRelationsCreate) AddReceiptIDs(ids ...int) *JobRelationsCreate {
-	jrc.mutation.AddReceiptIDs(ids...)
-	return jrc
+func (_c *JobRelationsCreate) AddReceiptIDs(ids ...int) *JobRelationsCreate {
+	_c.mutation.AddReceiptIDs(ids...)
+	return _c
 }
 
 // AddReceipts adds the "receipts" edges to the JobReceipt entity.
-func (jrc *JobRelationsCreate) AddReceipts(j ...*JobReceipt) *JobRelationsCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *JobRelationsCreate) AddReceipts(v ...*JobReceipt) *JobRelationsCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jrc.AddReceiptIDs(ids...)
+	return _c.AddReceiptIDs(ids...)
 }
 
 // Mutation returns the JobRelationsMutation object of the builder.
-func (jrc *JobRelationsCreate) Mutation() *JobRelationsMutation {
-	return jrc.mutation
+func (_c *JobRelationsCreate) Mutation() *JobRelationsMutation {
+	return _c.mutation
 }
 
 // Save creates the JobRelations in the database.
-func (jrc *JobRelationsCreate) Save(ctx context.Context) (*JobRelations, error) {
-	jrc.defaults()
-	return withHooks(ctx, jrc.sqlSave, jrc.mutation, jrc.hooks)
+func (_c *JobRelationsCreate) Save(ctx context.Context) (*JobRelations, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (jrc *JobRelationsCreate) SaveX(ctx context.Context) *JobRelations {
-	v, err := jrc.Save(ctx)
+func (_c *JobRelationsCreate) SaveX(ctx context.Context) *JobRelations {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -416,50 +416,50 @@ func (jrc *JobRelationsCreate) SaveX(ctx context.Context) *JobRelations {
 }
 
 // Exec executes the query.
-func (jrc *JobRelationsCreate) Exec(ctx context.Context) error {
-	_, err := jrc.Save(ctx)
+func (_c *JobRelationsCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jrc *JobRelationsCreate) ExecX(ctx context.Context) {
-	if err := jrc.Exec(ctx); err != nil {
+func (_c *JobRelationsCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jrc *JobRelationsCreate) defaults() {
-	if _, ok := jrc.mutation.CreatedAt(); !ok {
+func (_c *JobRelationsCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobrelations.DefaultCreatedAt()
-		jrc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := jrc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := jobrelations.DefaultUpdatedAt()
-		jrc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (jrc *JobRelationsCreate) check() error {
-	if _, ok := jrc.mutation.YibfNo(); !ok {
+func (_c *JobRelationsCreate) check() error {
+	if _, ok := _c.mutation.YibfNo(); !ok {
 		return &ValidationError{Name: "yibfNo", err: errors.New(`ent: missing required field "JobRelations.yibfNo"`)}
 	}
-	if _, ok := jrc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobRelations.CreatedAt"`)}
 	}
-	if _, ok := jrc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobRelations.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (jrc *JobRelationsCreate) sqlSave(ctx context.Context) (*JobRelations, error) {
-	if err := jrc.check(); err != nil {
+func (_c *JobRelationsCreate) sqlSave(ctx context.Context) (*JobRelations, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := jrc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, jrc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -467,29 +467,29 @@ func (jrc *JobRelationsCreate) sqlSave(ctx context.Context) (*JobRelations, erro
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	jrc.mutation.id = &_node.ID
-	jrc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec) {
+func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobRelations{config: jrc.config}
+		_node = &JobRelations{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobrelations.Table, sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt))
 	)
-	if value, ok := jrc.mutation.YibfNo(); ok {
+	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobrelations.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
 	}
-	if value, ok := jrc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobrelations.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := jrc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobrelations.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := jrc.mutation.JobIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.JobIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: true,
@@ -506,7 +506,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.job_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.OwnerIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.OwnerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -523,7 +523,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.owner_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.AuthorIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.AuthorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -540,7 +540,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.author_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -557,7 +557,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.ProgressIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ProgressIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -574,7 +574,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.progress_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.ContractorIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ContractorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -591,7 +591,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.contractor_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.SupervisorIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.SupervisorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -608,7 +608,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.supervisor_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.StaticIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.StaticIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -625,7 +625,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.static_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.MechanicIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.MechanicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -642,7 +642,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.mechanic_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.ElectricIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ElectricIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -659,7 +659,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.electric_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.InspectorIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.InspectorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -676,7 +676,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.inspector_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.ArchitectIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ArchitectIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -693,7 +693,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.architect_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.ControllerIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ControllerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -710,7 +710,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.controller_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.MechaniccontrollerIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.MechaniccontrollerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -727,7 +727,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.mechaniccontroller_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.ElectriccontrollerIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ElectriccontrollerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -744,7 +744,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		_node.electriccontroller_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.FloorsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.FloorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -760,7 +760,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.PaymentsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.PaymentsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -776,7 +776,7 @@ func (jrc *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := jrc.mutation.ReceiptsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ReceiptsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -803,16 +803,16 @@ type JobRelationsCreateBulk struct {
 }
 
 // Save creates the JobRelations entities in the database.
-func (jrcb *JobRelationsCreateBulk) Save(ctx context.Context) ([]*JobRelations, error) {
-	if jrcb.err != nil {
-		return nil, jrcb.err
+func (_c *JobRelationsCreateBulk) Save(ctx context.Context) ([]*JobRelations, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jrcb.builders))
-	nodes := make([]*JobRelations, len(jrcb.builders))
-	mutators := make([]Mutator, len(jrcb.builders))
-	for i := range jrcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*JobRelations, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := jrcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*JobRelationsMutation)
@@ -826,11 +826,11 @@ func (jrcb *JobRelationsCreateBulk) Save(ctx context.Context) ([]*JobRelations, 
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jrcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jrcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -854,7 +854,7 @@ func (jrcb *JobRelationsCreateBulk) Save(ctx context.Context) ([]*JobRelations, 
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jrcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -862,8 +862,8 @@ func (jrcb *JobRelationsCreateBulk) Save(ctx context.Context) ([]*JobRelations, 
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jrcb *JobRelationsCreateBulk) SaveX(ctx context.Context) []*JobRelations {
-	v, err := jrcb.Save(ctx)
+func (_c *JobRelationsCreateBulk) SaveX(ctx context.Context) []*JobRelations {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -871,14 +871,14 @@ func (jrcb *JobRelationsCreateBulk) SaveX(ctx context.Context) []*JobRelations {
 }
 
 // Exec executes the query.
-func (jrcb *JobRelationsCreateBulk) Exec(ctx context.Context) error {
-	_, err := jrcb.Save(ctx)
+func (_c *JobRelationsCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jrcb *JobRelationsCreateBulk) ExecX(ctx context.Context) {
-	if err := jrcb.Exec(ctx); err != nil {
+func (_c *JobRelationsCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

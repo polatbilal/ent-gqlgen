@@ -27,658 +27,658 @@ type CompanyDetailUpdate struct {
 }
 
 // Where appends a list predicates to the CompanyDetailUpdate builder.
-func (cdu *CompanyDetailUpdate) Where(ps ...predicate.CompanyDetail) *CompanyDetailUpdate {
-	cdu.mutation.Where(ps...)
-	return cdu
+func (_u *CompanyDetailUpdate) Where(ps ...predicate.CompanyDetail) *CompanyDetailUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetCompanyCode sets the "CompanyCode" field.
-func (cdu *CompanyDetailUpdate) SetCompanyCode(i int) *CompanyDetailUpdate {
-	cdu.mutation.ResetCompanyCode()
-	cdu.mutation.SetCompanyCode(i)
-	return cdu
+func (_u *CompanyDetailUpdate) SetCompanyCode(v int) *CompanyDetailUpdate {
+	_u.mutation.ResetCompanyCode()
+	_u.mutation.SetCompanyCode(v)
+	return _u
 }
 
 // SetNillableCompanyCode sets the "CompanyCode" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableCompanyCode(i *int) *CompanyDetailUpdate {
-	if i != nil {
-		cdu.SetCompanyCode(*i)
+func (_u *CompanyDetailUpdate) SetNillableCompanyCode(v *int) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetCompanyCode(*v)
 	}
-	return cdu
+	return _u
 }
 
-// AddCompanyCode adds i to the "CompanyCode" field.
-func (cdu *CompanyDetailUpdate) AddCompanyCode(i int) *CompanyDetailUpdate {
-	cdu.mutation.AddCompanyCode(i)
-	return cdu
+// AddCompanyCode adds value to the "CompanyCode" field.
+func (_u *CompanyDetailUpdate) AddCompanyCode(v int) *CompanyDetailUpdate {
+	_u.mutation.AddCompanyCode(v)
+	return _u
 }
 
 // SetName sets the "Name" field.
-func (cdu *CompanyDetailUpdate) SetName(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetName(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetName(v string) *CompanyDetailUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableName(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetName(*s)
+func (_u *CompanyDetailUpdate) SetNillableName(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return cdu
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (cdu *CompanyDetailUpdate) SetAddress(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetAddress(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetAddress(v string) *CompanyDetailUpdate {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableAddress(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetAddress(*s)
+func (_u *CompanyDetailUpdate) SetNillableAddress(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (cdu *CompanyDetailUpdate) ClearAddress() *CompanyDetailUpdate {
-	cdu.mutation.ClearAddress()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearAddress() *CompanyDetailUpdate {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetPhone sets the "Phone" field.
-func (cdu *CompanyDetailUpdate) SetPhone(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetPhone(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetPhone(v string) *CompanyDetailUpdate {
+	_u.mutation.SetPhone(v)
+	return _u
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillablePhone(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetPhone(*s)
+func (_u *CompanyDetailUpdate) SetNillablePhone(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetPhone(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (cdu *CompanyDetailUpdate) ClearPhone() *CompanyDetailUpdate {
-	cdu.mutation.ClearPhone()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearPhone() *CompanyDetailUpdate {
+	_u.mutation.ClearPhone()
+	return _u
 }
 
 // SetFax sets the "Fax" field.
-func (cdu *CompanyDetailUpdate) SetFax(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetFax(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetFax(v string) *CompanyDetailUpdate {
+	_u.mutation.SetFax(v)
+	return _u
 }
 
 // SetNillableFax sets the "Fax" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableFax(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetFax(*s)
+func (_u *CompanyDetailUpdate) SetNillableFax(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetFax(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearFax clears the value of the "Fax" field.
-func (cdu *CompanyDetailUpdate) ClearFax() *CompanyDetailUpdate {
-	cdu.mutation.ClearFax()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearFax() *CompanyDetailUpdate {
+	_u.mutation.ClearFax()
+	return _u
 }
 
 // SetMobilePhone sets the "MobilePhone" field.
-func (cdu *CompanyDetailUpdate) SetMobilePhone(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetMobilePhone(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetMobilePhone(v string) *CompanyDetailUpdate {
+	_u.mutation.SetMobilePhone(v)
+	return _u
 }
 
 // SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableMobilePhone(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetMobilePhone(*s)
+func (_u *CompanyDetailUpdate) SetNillableMobilePhone(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetMobilePhone(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearMobilePhone clears the value of the "MobilePhone" field.
-func (cdu *CompanyDetailUpdate) ClearMobilePhone() *CompanyDetailUpdate {
-	cdu.mutation.ClearMobilePhone()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearMobilePhone() *CompanyDetailUpdate {
+	_u.mutation.ClearMobilePhone()
+	return _u
 }
 
 // SetEmail sets the "Email" field.
-func (cdu *CompanyDetailUpdate) SetEmail(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetEmail(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetEmail(v string) *CompanyDetailUpdate {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableEmail(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetEmail(*s)
+func (_u *CompanyDetailUpdate) SetNillableEmail(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (cdu *CompanyDetailUpdate) ClearEmail() *CompanyDetailUpdate {
-	cdu.mutation.ClearEmail()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearEmail() *CompanyDetailUpdate {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetWebsite sets the "Website" field.
-func (cdu *CompanyDetailUpdate) SetWebsite(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetWebsite(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetWebsite(v string) *CompanyDetailUpdate {
+	_u.mutation.SetWebsite(v)
+	return _u
 }
 
 // SetNillableWebsite sets the "Website" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableWebsite(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetWebsite(*s)
+func (_u *CompanyDetailUpdate) SetNillableWebsite(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetWebsite(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearWebsite clears the value of the "Website" field.
-func (cdu *CompanyDetailUpdate) ClearWebsite() *CompanyDetailUpdate {
-	cdu.mutation.ClearWebsite()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearWebsite() *CompanyDetailUpdate {
+	_u.mutation.ClearWebsite()
+	return _u
 }
 
 // SetTaxAdmin sets the "TaxAdmin" field.
-func (cdu *CompanyDetailUpdate) SetTaxAdmin(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetTaxAdmin(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetTaxAdmin(v string) *CompanyDetailUpdate {
+	_u.mutation.SetTaxAdmin(v)
+	return _u
 }
 
 // SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableTaxAdmin(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetTaxAdmin(*s)
+func (_u *CompanyDetailUpdate) SetNillableTaxAdmin(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetTaxAdmin(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearTaxAdmin clears the value of the "TaxAdmin" field.
-func (cdu *CompanyDetailUpdate) ClearTaxAdmin() *CompanyDetailUpdate {
-	cdu.mutation.ClearTaxAdmin()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearTaxAdmin() *CompanyDetailUpdate {
+	_u.mutation.ClearTaxAdmin()
+	return _u
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (cdu *CompanyDetailUpdate) SetTaxNo(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetTaxNo(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetTaxNo(v string) *CompanyDetailUpdate {
+	_u.mutation.SetTaxNo(v)
+	return _u
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableTaxNo(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetTaxNo(*s)
+func (_u *CompanyDetailUpdate) SetNillableTaxNo(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetTaxNo(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearTaxNo clears the value of the "TaxNo" field.
-func (cdu *CompanyDetailUpdate) ClearTaxNo() *CompanyDetailUpdate {
-	cdu.mutation.ClearTaxNo()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearTaxNo() *CompanyDetailUpdate {
+	_u.mutation.ClearTaxNo()
+	return _u
 }
 
 // SetChamberInfo sets the "ChamberInfo" field.
-func (cdu *CompanyDetailUpdate) SetChamberInfo(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetChamberInfo(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetChamberInfo(v string) *CompanyDetailUpdate {
+	_u.mutation.SetChamberInfo(v)
+	return _u
 }
 
 // SetNillableChamberInfo sets the "ChamberInfo" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableChamberInfo(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetChamberInfo(*s)
+func (_u *CompanyDetailUpdate) SetNillableChamberInfo(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetChamberInfo(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearChamberInfo clears the value of the "ChamberInfo" field.
-func (cdu *CompanyDetailUpdate) ClearChamberInfo() *CompanyDetailUpdate {
-	cdu.mutation.ClearChamberInfo()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearChamberInfo() *CompanyDetailUpdate {
+	_u.mutation.ClearChamberInfo()
+	return _u
 }
 
 // SetChamberRegisterNo sets the "ChamberRegisterNo" field.
-func (cdu *CompanyDetailUpdate) SetChamberRegisterNo(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetChamberRegisterNo(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetChamberRegisterNo(v string) *CompanyDetailUpdate {
+	_u.mutation.SetChamberRegisterNo(v)
+	return _u
 }
 
 // SetNillableChamberRegisterNo sets the "ChamberRegisterNo" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableChamberRegisterNo(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetChamberRegisterNo(*s)
+func (_u *CompanyDetailUpdate) SetNillableChamberRegisterNo(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetChamberRegisterNo(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearChamberRegisterNo clears the value of the "ChamberRegisterNo" field.
-func (cdu *CompanyDetailUpdate) ClearChamberRegisterNo() *CompanyDetailUpdate {
-	cdu.mutation.ClearChamberRegisterNo()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearChamberRegisterNo() *CompanyDetailUpdate {
+	_u.mutation.ClearChamberRegisterNo()
+	return _u
 }
 
 // SetVisaDate sets the "VisaDate" field.
-func (cdu *CompanyDetailUpdate) SetVisaDate(t time.Time) *CompanyDetailUpdate {
-	cdu.mutation.SetVisaDate(t)
-	return cdu
+func (_u *CompanyDetailUpdate) SetVisaDate(v time.Time) *CompanyDetailUpdate {
+	_u.mutation.SetVisaDate(v)
+	return _u
 }
 
 // SetNillableVisaDate sets the "VisaDate" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableVisaDate(t *time.Time) *CompanyDetailUpdate {
-	if t != nil {
-		cdu.SetVisaDate(*t)
+func (_u *CompanyDetailUpdate) SetNillableVisaDate(v *time.Time) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetVisaDate(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearVisaDate clears the value of the "VisaDate" field.
-func (cdu *CompanyDetailUpdate) ClearVisaDate() *CompanyDetailUpdate {
-	cdu.mutation.ClearVisaDate()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearVisaDate() *CompanyDetailUpdate {
+	_u.mutation.ClearVisaDate()
+	return _u
 }
 
 // SetVisaEndDate sets the "VisaEndDate" field.
-func (cdu *CompanyDetailUpdate) SetVisaEndDate(t time.Time) *CompanyDetailUpdate {
-	cdu.mutation.SetVisaEndDate(t)
-	return cdu
+func (_u *CompanyDetailUpdate) SetVisaEndDate(v time.Time) *CompanyDetailUpdate {
+	_u.mutation.SetVisaEndDate(v)
+	return _u
 }
 
 // SetNillableVisaEndDate sets the "VisaEndDate" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableVisaEndDate(t *time.Time) *CompanyDetailUpdate {
-	if t != nil {
-		cdu.SetVisaEndDate(*t)
+func (_u *CompanyDetailUpdate) SetNillableVisaEndDate(v *time.Time) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetVisaEndDate(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearVisaEndDate clears the value of the "VisaEndDate" field.
-func (cdu *CompanyDetailUpdate) ClearVisaEndDate() *CompanyDetailUpdate {
-	cdu.mutation.ClearVisaEndDate()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearVisaEndDate() *CompanyDetailUpdate {
+	_u.mutation.ClearVisaEndDate()
+	return _u
 }
 
 // SetVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field.
-func (cdu *CompanyDetailUpdate) SetVisaFinishedFor90Days(b bool) *CompanyDetailUpdate {
-	cdu.mutation.SetVisaFinishedFor90Days(b)
-	return cdu
+func (_u *CompanyDetailUpdate) SetVisaFinishedFor90Days(v bool) *CompanyDetailUpdate {
+	_u.mutation.SetVisaFinishedFor90Days(v)
+	return _u
 }
 
 // SetNillableVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableVisaFinishedFor90Days(b *bool) *CompanyDetailUpdate {
-	if b != nil {
-		cdu.SetVisaFinishedFor90Days(*b)
+func (_u *CompanyDetailUpdate) SetNillableVisaFinishedFor90Days(v *bool) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetVisaFinishedFor90Days(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearVisaFinishedFor90Days clears the value of the "VisaFinishedFor90Days" field.
-func (cdu *CompanyDetailUpdate) ClearVisaFinishedFor90Days() *CompanyDetailUpdate {
-	cdu.mutation.ClearVisaFinishedFor90Days()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearVisaFinishedFor90Days() *CompanyDetailUpdate {
+	_u.mutation.ClearVisaFinishedFor90Days()
+	return _u
 }
 
 // SetCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field.
-func (cdu *CompanyDetailUpdate) SetCorePersonAbsent90Days(b bool) *CompanyDetailUpdate {
-	cdu.mutation.SetCorePersonAbsent90Days(b)
-	return cdu
+func (_u *CompanyDetailUpdate) SetCorePersonAbsent90Days(v bool) *CompanyDetailUpdate {
+	_u.mutation.SetCorePersonAbsent90Days(v)
+	return _u
 }
 
 // SetNillableCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableCorePersonAbsent90Days(b *bool) *CompanyDetailUpdate {
-	if b != nil {
-		cdu.SetCorePersonAbsent90Days(*b)
+func (_u *CompanyDetailUpdate) SetNillableCorePersonAbsent90Days(v *bool) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetCorePersonAbsent90Days(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearCorePersonAbsent90Days clears the value of the "CorePersonAbsent90Days" field.
-func (cdu *CompanyDetailUpdate) ClearCorePersonAbsent90Days() *CompanyDetailUpdate {
-	cdu.mutation.ClearCorePersonAbsent90Days()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearCorePersonAbsent90Days() *CompanyDetailUpdate {
+	_u.mutation.ClearCorePersonAbsent90Days()
+	return _u
 }
 
 // SetIsClosed sets the "IsClosed" field.
-func (cdu *CompanyDetailUpdate) SetIsClosed(b bool) *CompanyDetailUpdate {
-	cdu.mutation.SetIsClosed(b)
-	return cdu
+func (_u *CompanyDetailUpdate) SetIsClosed(v bool) *CompanyDetailUpdate {
+	_u.mutation.SetIsClosed(v)
+	return _u
 }
 
 // SetNillableIsClosed sets the "IsClosed" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableIsClosed(b *bool) *CompanyDetailUpdate {
-	if b != nil {
-		cdu.SetIsClosed(*b)
+func (_u *CompanyDetailUpdate) SetNillableIsClosed(v *bool) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetIsClosed(*v)
 	}
-	return cdu
+	return _u
 }
 
 // SetOwnerName sets the "OwnerName" field.
-func (cdu *CompanyDetailUpdate) SetOwnerName(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetOwnerName(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetOwnerName(v string) *CompanyDetailUpdate {
+	_u.mutation.SetOwnerName(v)
+	return _u
 }
 
 // SetNillableOwnerName sets the "OwnerName" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerName(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetOwnerName(*s)
+func (_u *CompanyDetailUpdate) SetNillableOwnerName(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetOwnerName(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearOwnerName clears the value of the "OwnerName" field.
-func (cdu *CompanyDetailUpdate) ClearOwnerName() *CompanyDetailUpdate {
-	cdu.mutation.ClearOwnerName()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearOwnerName() *CompanyDetailUpdate {
+	_u.mutation.ClearOwnerName()
+	return _u
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (cdu *CompanyDetailUpdate) SetOwnerTcNo(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetOwnerTcNo(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetOwnerTcNo(v string) *CompanyDetailUpdate {
+	_u.mutation.SetOwnerTcNo(v)
+	return _u
 }
 
 // SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerTcNo(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetOwnerTcNo(*s)
+func (_u *CompanyDetailUpdate) SetNillableOwnerTcNo(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetOwnerTcNo(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearOwnerTcNo clears the value of the "OwnerTcNo" field.
-func (cdu *CompanyDetailUpdate) ClearOwnerTcNo() *CompanyDetailUpdate {
-	cdu.mutation.ClearOwnerTcNo()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearOwnerTcNo() *CompanyDetailUpdate {
+	_u.mutation.ClearOwnerTcNo()
+	return _u
 }
 
 // SetOwnerAddress sets the "OwnerAddress" field.
-func (cdu *CompanyDetailUpdate) SetOwnerAddress(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetOwnerAddress(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetOwnerAddress(v string) *CompanyDetailUpdate {
+	_u.mutation.SetOwnerAddress(v)
+	return _u
 }
 
 // SetNillableOwnerAddress sets the "OwnerAddress" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerAddress(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetOwnerAddress(*s)
+func (_u *CompanyDetailUpdate) SetNillableOwnerAddress(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetOwnerAddress(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearOwnerAddress clears the value of the "OwnerAddress" field.
-func (cdu *CompanyDetailUpdate) ClearOwnerAddress() *CompanyDetailUpdate {
-	cdu.mutation.ClearOwnerAddress()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearOwnerAddress() *CompanyDetailUpdate {
+	_u.mutation.ClearOwnerAddress()
+	return _u
 }
 
 // SetOwnerPhone sets the "OwnerPhone" field.
-func (cdu *CompanyDetailUpdate) SetOwnerPhone(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetOwnerPhone(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetOwnerPhone(v string) *CompanyDetailUpdate {
+	_u.mutation.SetOwnerPhone(v)
+	return _u
 }
 
 // SetNillableOwnerPhone sets the "OwnerPhone" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerPhone(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetOwnerPhone(*s)
+func (_u *CompanyDetailUpdate) SetNillableOwnerPhone(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetOwnerPhone(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearOwnerPhone clears the value of the "OwnerPhone" field.
-func (cdu *CompanyDetailUpdate) ClearOwnerPhone() *CompanyDetailUpdate {
-	cdu.mutation.ClearOwnerPhone()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearOwnerPhone() *CompanyDetailUpdate {
+	_u.mutation.ClearOwnerPhone()
+	return _u
 }
 
 // SetOwnerEmail sets the "OwnerEmail" field.
-func (cdu *CompanyDetailUpdate) SetOwnerEmail(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetOwnerEmail(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetOwnerEmail(v string) *CompanyDetailUpdate {
+	_u.mutation.SetOwnerEmail(v)
+	return _u
 }
 
 // SetNillableOwnerEmail sets the "OwnerEmail" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerEmail(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetOwnerEmail(*s)
+func (_u *CompanyDetailUpdate) SetNillableOwnerEmail(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetOwnerEmail(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearOwnerEmail clears the value of the "OwnerEmail" field.
-func (cdu *CompanyDetailUpdate) ClearOwnerEmail() *CompanyDetailUpdate {
-	cdu.mutation.ClearOwnerEmail()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearOwnerEmail() *CompanyDetailUpdate {
+	_u.mutation.ClearOwnerEmail()
+	return _u
 }
 
 // SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
-func (cdu *CompanyDetailUpdate) SetOwnerRegisterNo(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetOwnerRegisterNo(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetOwnerRegisterNo(v string) *CompanyDetailUpdate {
+	_u.mutation.SetOwnerRegisterNo(v)
+	return _u
 }
 
 // SetNillableOwnerRegisterNo sets the "OwnerRegisterNo" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerRegisterNo(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetOwnerRegisterNo(*s)
+func (_u *CompanyDetailUpdate) SetNillableOwnerRegisterNo(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetOwnerRegisterNo(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearOwnerRegisterNo clears the value of the "OwnerRegisterNo" field.
-func (cdu *CompanyDetailUpdate) ClearOwnerRegisterNo() *CompanyDetailUpdate {
-	cdu.mutation.ClearOwnerRegisterNo()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearOwnerRegisterNo() *CompanyDetailUpdate {
+	_u.mutation.ClearOwnerRegisterNo()
+	return _u
 }
 
 // SetOwnerCareer sets the "OwnerCareer" field.
-func (cdu *CompanyDetailUpdate) SetOwnerCareer(s string) *CompanyDetailUpdate {
-	cdu.mutation.SetOwnerCareer(s)
-	return cdu
+func (_u *CompanyDetailUpdate) SetOwnerCareer(v string) *CompanyDetailUpdate {
+	_u.mutation.SetOwnerCareer(v)
+	return _u
 }
 
 // SetNillableOwnerCareer sets the "OwnerCareer" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableOwnerCareer(s *string) *CompanyDetailUpdate {
-	if s != nil {
-		cdu.SetOwnerCareer(*s)
+func (_u *CompanyDetailUpdate) SetNillableOwnerCareer(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetOwnerCareer(*v)
 	}
-	return cdu
+	return _u
 }
 
 // ClearOwnerCareer clears the value of the "OwnerCareer" field.
-func (cdu *CompanyDetailUpdate) ClearOwnerCareer() *CompanyDetailUpdate {
-	cdu.mutation.ClearOwnerCareer()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearOwnerCareer() *CompanyDetailUpdate {
+	_u.mutation.ClearOwnerCareer()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (cdu *CompanyDetailUpdate) SetCreatedAt(t time.Time) *CompanyDetailUpdate {
-	cdu.mutation.SetCreatedAt(t)
-	return cdu
+func (_u *CompanyDetailUpdate) SetCreatedAt(v time.Time) *CompanyDetailUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (cdu *CompanyDetailUpdate) SetNillableCreatedAt(t *time.Time) *CompanyDetailUpdate {
-	if t != nil {
-		cdu.SetCreatedAt(*t)
+func (_u *CompanyDetailUpdate) SetNillableCreatedAt(v *time.Time) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return cdu
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (cdu *CompanyDetailUpdate) SetUpdatedAt(t time.Time) *CompanyDetailUpdate {
-	cdu.mutation.SetUpdatedAt(t)
-	return cdu
+func (_u *CompanyDetailUpdate) SetUpdatedAt(v time.Time) *CompanyDetailUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
-func (cdu *CompanyDetailUpdate) AddJobIDs(ids ...int) *CompanyDetailUpdate {
-	cdu.mutation.AddJobIDs(ids...)
-	return cdu
+func (_u *CompanyDetailUpdate) AddJobIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddJobIDs(ids...)
+	return _u
 }
 
 // AddJobs adds the "jobs" edges to the JobRelations entity.
-func (cdu *CompanyDetailUpdate) AddJobs(j ...*JobRelations) *CompanyDetailUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *CompanyDetailUpdate) AddJobs(v ...*JobRelations) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdu.AddJobIDs(ids...)
+	return _u.AddJobIDs(ids...)
 }
 
 // AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
-func (cdu *CompanyDetailUpdate) AddUserIDs(ids ...int) *CompanyDetailUpdate {
-	cdu.mutation.AddUserIDs(ids...)
-	return cdu
+func (_u *CompanyDetailUpdate) AddUserIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddUserIDs(ids...)
+	return _u
 }
 
 // AddUsers adds the "users" edges to the CompanyUser entity.
-func (cdu *CompanyDetailUpdate) AddUsers(c ...*CompanyUser) *CompanyDetailUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdate) AddUsers(v ...*CompanyUser) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdu.AddUserIDs(ids...)
+	return _u.AddUserIDs(ids...)
 }
 
 // AddTokenIDs adds the "tokens" edge to the CompanyToken entity by IDs.
-func (cdu *CompanyDetailUpdate) AddTokenIDs(ids ...int) *CompanyDetailUpdate {
-	cdu.mutation.AddTokenIDs(ids...)
-	return cdu
+func (_u *CompanyDetailUpdate) AddTokenIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddTokenIDs(ids...)
+	return _u
 }
 
 // AddTokens adds the "tokens" edges to the CompanyToken entity.
-func (cdu *CompanyDetailUpdate) AddTokens(c ...*CompanyToken) *CompanyDetailUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdate) AddTokens(v ...*CompanyToken) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdu.AddTokenIDs(ids...)
+	return _u.AddTokenIDs(ids...)
 }
 
 // AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
-func (cdu *CompanyDetailUpdate) AddEngineerIDs(ids ...int) *CompanyDetailUpdate {
-	cdu.mutation.AddEngineerIDs(ids...)
-	return cdu
+func (_u *CompanyDetailUpdate) AddEngineerIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddEngineerIDs(ids...)
+	return _u
 }
 
 // AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
-func (cdu *CompanyDetailUpdate) AddEngineers(c ...*CompanyEngineer) *CompanyDetailUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdate) AddEngineers(v ...*CompanyEngineer) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdu.AddEngineerIDs(ids...)
+	return _u.AddEngineerIDs(ids...)
 }
 
 // Mutation returns the CompanyDetailMutation object of the builder.
-func (cdu *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
-	return cdu.mutation
+func (_u *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
+	return _u.mutation
 }
 
 // ClearJobs clears all "jobs" edges to the JobRelations entity.
-func (cdu *CompanyDetailUpdate) ClearJobs() *CompanyDetailUpdate {
-	cdu.mutation.ClearJobs()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearJobs() *CompanyDetailUpdate {
+	_u.mutation.ClearJobs()
+	return _u
 }
 
 // RemoveJobIDs removes the "jobs" edge to JobRelations entities by IDs.
-func (cdu *CompanyDetailUpdate) RemoveJobIDs(ids ...int) *CompanyDetailUpdate {
-	cdu.mutation.RemoveJobIDs(ids...)
-	return cdu
+func (_u *CompanyDetailUpdate) RemoveJobIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemoveJobIDs(ids...)
+	return _u
 }
 
 // RemoveJobs removes "jobs" edges to JobRelations entities.
-func (cdu *CompanyDetailUpdate) RemoveJobs(j ...*JobRelations) *CompanyDetailUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *CompanyDetailUpdate) RemoveJobs(v ...*JobRelations) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdu.RemoveJobIDs(ids...)
+	return _u.RemoveJobIDs(ids...)
 }
 
 // ClearUsers clears all "users" edges to the CompanyUser entity.
-func (cdu *CompanyDetailUpdate) ClearUsers() *CompanyDetailUpdate {
-	cdu.mutation.ClearUsers()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearUsers() *CompanyDetailUpdate {
+	_u.mutation.ClearUsers()
+	return _u
 }
 
 // RemoveUserIDs removes the "users" edge to CompanyUser entities by IDs.
-func (cdu *CompanyDetailUpdate) RemoveUserIDs(ids ...int) *CompanyDetailUpdate {
-	cdu.mutation.RemoveUserIDs(ids...)
-	return cdu
+func (_u *CompanyDetailUpdate) RemoveUserIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemoveUserIDs(ids...)
+	return _u
 }
 
 // RemoveUsers removes "users" edges to CompanyUser entities.
-func (cdu *CompanyDetailUpdate) RemoveUsers(c ...*CompanyUser) *CompanyDetailUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdate) RemoveUsers(v ...*CompanyUser) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdu.RemoveUserIDs(ids...)
+	return _u.RemoveUserIDs(ids...)
 }
 
 // ClearTokens clears all "tokens" edges to the CompanyToken entity.
-func (cdu *CompanyDetailUpdate) ClearTokens() *CompanyDetailUpdate {
-	cdu.mutation.ClearTokens()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearTokens() *CompanyDetailUpdate {
+	_u.mutation.ClearTokens()
+	return _u
 }
 
 // RemoveTokenIDs removes the "tokens" edge to CompanyToken entities by IDs.
-func (cdu *CompanyDetailUpdate) RemoveTokenIDs(ids ...int) *CompanyDetailUpdate {
-	cdu.mutation.RemoveTokenIDs(ids...)
-	return cdu
+func (_u *CompanyDetailUpdate) RemoveTokenIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemoveTokenIDs(ids...)
+	return _u
 }
 
 // RemoveTokens removes "tokens" edges to CompanyToken entities.
-func (cdu *CompanyDetailUpdate) RemoveTokens(c ...*CompanyToken) *CompanyDetailUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdate) RemoveTokens(v ...*CompanyToken) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdu.RemoveTokenIDs(ids...)
+	return _u.RemoveTokenIDs(ids...)
 }
 
 // ClearEngineers clears all "engineers" edges to the CompanyEngineer entity.
-func (cdu *CompanyDetailUpdate) ClearEngineers() *CompanyDetailUpdate {
-	cdu.mutation.ClearEngineers()
-	return cdu
+func (_u *CompanyDetailUpdate) ClearEngineers() *CompanyDetailUpdate {
+	_u.mutation.ClearEngineers()
+	return _u
 }
 
 // RemoveEngineerIDs removes the "engineers" edge to CompanyEngineer entities by IDs.
-func (cdu *CompanyDetailUpdate) RemoveEngineerIDs(ids ...int) *CompanyDetailUpdate {
-	cdu.mutation.RemoveEngineerIDs(ids...)
-	return cdu
+func (_u *CompanyDetailUpdate) RemoveEngineerIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemoveEngineerIDs(ids...)
+	return _u
 }
 
 // RemoveEngineers removes "engineers" edges to CompanyEngineer entities.
-func (cdu *CompanyDetailUpdate) RemoveEngineers(c ...*CompanyEngineer) *CompanyDetailUpdate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdate) RemoveEngineers(v ...*CompanyEngineer) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdu.RemoveEngineerIDs(ids...)
+	return _u.RemoveEngineerIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (cdu *CompanyDetailUpdate) Save(ctx context.Context) (int, error) {
-	cdu.defaults()
-	return withHooks(ctx, cdu.sqlSave, cdu.mutation, cdu.hooks)
+func (_u *CompanyDetailUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cdu *CompanyDetailUpdate) SaveX(ctx context.Context) int {
-	affected, err := cdu.Save(ctx)
+func (_u *CompanyDetailUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -686,180 +686,180 @@ func (cdu *CompanyDetailUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (cdu *CompanyDetailUpdate) Exec(ctx context.Context) error {
-	_, err := cdu.Save(ctx)
+func (_u *CompanyDetailUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cdu *CompanyDetailUpdate) ExecX(ctx context.Context) {
-	if err := cdu.Exec(ctx); err != nil {
+func (_u *CompanyDetailUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cdu *CompanyDetailUpdate) defaults() {
-	if _, ok := cdu.mutation.UpdatedAt(); !ok {
+func (_u *CompanyDetailUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := companydetail.UpdateDefaultUpdatedAt()
-		cdu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *CompanyDetailUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(companydetail.Table, companydetail.Columns, sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt))
-	if ps := cdu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := cdu.mutation.CompanyCode(); ok {
+	if value, ok := _u.mutation.CompanyCode(); ok {
 		_spec.SetField(companydetail.FieldCompanyCode, field.TypeInt, value)
 	}
-	if value, ok := cdu.mutation.AddedCompanyCode(); ok {
+	if value, ok := _u.mutation.AddedCompanyCode(); ok {
 		_spec.AddField(companydetail.FieldCompanyCode, field.TypeInt, value)
 	}
-	if value, ok := cdu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(companydetail.FieldName, field.TypeString, value)
 	}
-	if value, ok := cdu.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(companydetail.FieldAddress, field.TypeString, value)
 	}
-	if cdu.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(companydetail.FieldAddress, field.TypeString)
 	}
-	if value, ok := cdu.mutation.Phone(); ok {
+	if value, ok := _u.mutation.Phone(); ok {
 		_spec.SetField(companydetail.FieldPhone, field.TypeString, value)
 	}
-	if cdu.mutation.PhoneCleared() {
+	if _u.mutation.PhoneCleared() {
 		_spec.ClearField(companydetail.FieldPhone, field.TypeString)
 	}
-	if value, ok := cdu.mutation.Fax(); ok {
+	if value, ok := _u.mutation.Fax(); ok {
 		_spec.SetField(companydetail.FieldFax, field.TypeString, value)
 	}
-	if cdu.mutation.FaxCleared() {
+	if _u.mutation.FaxCleared() {
 		_spec.ClearField(companydetail.FieldFax, field.TypeString)
 	}
-	if value, ok := cdu.mutation.MobilePhone(); ok {
+	if value, ok := _u.mutation.MobilePhone(); ok {
 		_spec.SetField(companydetail.FieldMobilePhone, field.TypeString, value)
 	}
-	if cdu.mutation.MobilePhoneCleared() {
+	if _u.mutation.MobilePhoneCleared() {
 		_spec.ClearField(companydetail.FieldMobilePhone, field.TypeString)
 	}
-	if value, ok := cdu.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(companydetail.FieldEmail, field.TypeString, value)
 	}
-	if cdu.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(companydetail.FieldEmail, field.TypeString)
 	}
-	if value, ok := cdu.mutation.Website(); ok {
+	if value, ok := _u.mutation.Website(); ok {
 		_spec.SetField(companydetail.FieldWebsite, field.TypeString, value)
 	}
-	if cdu.mutation.WebsiteCleared() {
+	if _u.mutation.WebsiteCleared() {
 		_spec.ClearField(companydetail.FieldWebsite, field.TypeString)
 	}
-	if value, ok := cdu.mutation.TaxAdmin(); ok {
+	if value, ok := _u.mutation.TaxAdmin(); ok {
 		_spec.SetField(companydetail.FieldTaxAdmin, field.TypeString, value)
 	}
-	if cdu.mutation.TaxAdminCleared() {
+	if _u.mutation.TaxAdminCleared() {
 		_spec.ClearField(companydetail.FieldTaxAdmin, field.TypeString)
 	}
-	if value, ok := cdu.mutation.TaxNo(); ok {
+	if value, ok := _u.mutation.TaxNo(); ok {
 		_spec.SetField(companydetail.FieldTaxNo, field.TypeString, value)
 	}
-	if cdu.mutation.TaxNoCleared() {
+	if _u.mutation.TaxNoCleared() {
 		_spec.ClearField(companydetail.FieldTaxNo, field.TypeString)
 	}
-	if value, ok := cdu.mutation.ChamberInfo(); ok {
+	if value, ok := _u.mutation.ChamberInfo(); ok {
 		_spec.SetField(companydetail.FieldChamberInfo, field.TypeString, value)
 	}
-	if cdu.mutation.ChamberInfoCleared() {
+	if _u.mutation.ChamberInfoCleared() {
 		_spec.ClearField(companydetail.FieldChamberInfo, field.TypeString)
 	}
-	if value, ok := cdu.mutation.ChamberRegisterNo(); ok {
+	if value, ok := _u.mutation.ChamberRegisterNo(); ok {
 		_spec.SetField(companydetail.FieldChamberRegisterNo, field.TypeString, value)
 	}
-	if cdu.mutation.ChamberRegisterNoCleared() {
+	if _u.mutation.ChamberRegisterNoCleared() {
 		_spec.ClearField(companydetail.FieldChamberRegisterNo, field.TypeString)
 	}
-	if value, ok := cdu.mutation.VisaDate(); ok {
+	if value, ok := _u.mutation.VisaDate(); ok {
 		_spec.SetField(companydetail.FieldVisaDate, field.TypeTime, value)
 	}
-	if cdu.mutation.VisaDateCleared() {
+	if _u.mutation.VisaDateCleared() {
 		_spec.ClearField(companydetail.FieldVisaDate, field.TypeTime)
 	}
-	if value, ok := cdu.mutation.VisaEndDate(); ok {
+	if value, ok := _u.mutation.VisaEndDate(); ok {
 		_spec.SetField(companydetail.FieldVisaEndDate, field.TypeTime, value)
 	}
-	if cdu.mutation.VisaEndDateCleared() {
+	if _u.mutation.VisaEndDateCleared() {
 		_spec.ClearField(companydetail.FieldVisaEndDate, field.TypeTime)
 	}
-	if value, ok := cdu.mutation.VisaFinishedFor90Days(); ok {
+	if value, ok := _u.mutation.VisaFinishedFor90Days(); ok {
 		_spec.SetField(companydetail.FieldVisaFinishedFor90Days, field.TypeBool, value)
 	}
-	if cdu.mutation.VisaFinishedFor90DaysCleared() {
+	if _u.mutation.VisaFinishedFor90DaysCleared() {
 		_spec.ClearField(companydetail.FieldVisaFinishedFor90Days, field.TypeBool)
 	}
-	if value, ok := cdu.mutation.CorePersonAbsent90Days(); ok {
+	if value, ok := _u.mutation.CorePersonAbsent90Days(); ok {
 		_spec.SetField(companydetail.FieldCorePersonAbsent90Days, field.TypeBool, value)
 	}
-	if cdu.mutation.CorePersonAbsent90DaysCleared() {
+	if _u.mutation.CorePersonAbsent90DaysCleared() {
 		_spec.ClearField(companydetail.FieldCorePersonAbsent90Days, field.TypeBool)
 	}
-	if value, ok := cdu.mutation.IsClosed(); ok {
+	if value, ok := _u.mutation.IsClosed(); ok {
 		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
 	}
-	if value, ok := cdu.mutation.OwnerName(); ok {
+	if value, ok := _u.mutation.OwnerName(); ok {
 		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)
 	}
-	if cdu.mutation.OwnerNameCleared() {
+	if _u.mutation.OwnerNameCleared() {
 		_spec.ClearField(companydetail.FieldOwnerName, field.TypeString)
 	}
-	if value, ok := cdu.mutation.OwnerTcNo(); ok {
+	if value, ok := _u.mutation.OwnerTcNo(); ok {
 		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
 	}
-	if cdu.mutation.OwnerTcNoCleared() {
+	if _u.mutation.OwnerTcNoCleared() {
 		_spec.ClearField(companydetail.FieldOwnerTcNo, field.TypeString)
 	}
-	if value, ok := cdu.mutation.OwnerAddress(); ok {
+	if value, ok := _u.mutation.OwnerAddress(); ok {
 		_spec.SetField(companydetail.FieldOwnerAddress, field.TypeString, value)
 	}
-	if cdu.mutation.OwnerAddressCleared() {
+	if _u.mutation.OwnerAddressCleared() {
 		_spec.ClearField(companydetail.FieldOwnerAddress, field.TypeString)
 	}
-	if value, ok := cdu.mutation.OwnerPhone(); ok {
+	if value, ok := _u.mutation.OwnerPhone(); ok {
 		_spec.SetField(companydetail.FieldOwnerPhone, field.TypeString, value)
 	}
-	if cdu.mutation.OwnerPhoneCleared() {
+	if _u.mutation.OwnerPhoneCleared() {
 		_spec.ClearField(companydetail.FieldOwnerPhone, field.TypeString)
 	}
-	if value, ok := cdu.mutation.OwnerEmail(); ok {
+	if value, ok := _u.mutation.OwnerEmail(); ok {
 		_spec.SetField(companydetail.FieldOwnerEmail, field.TypeString, value)
 	}
-	if cdu.mutation.OwnerEmailCleared() {
+	if _u.mutation.OwnerEmailCleared() {
 		_spec.ClearField(companydetail.FieldOwnerEmail, field.TypeString)
 	}
-	if value, ok := cdu.mutation.OwnerRegisterNo(); ok {
+	if value, ok := _u.mutation.OwnerRegisterNo(); ok {
 		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeString, value)
 	}
-	if cdu.mutation.OwnerRegisterNoCleared() {
+	if _u.mutation.OwnerRegisterNoCleared() {
 		_spec.ClearField(companydetail.FieldOwnerRegisterNo, field.TypeString)
 	}
-	if value, ok := cdu.mutation.OwnerCareer(); ok {
+	if value, ok := _u.mutation.OwnerCareer(); ok {
 		_spec.SetField(companydetail.FieldOwnerCareer, field.TypeString, value)
 	}
-	if cdu.mutation.OwnerCareerCleared() {
+	if _u.mutation.OwnerCareerCleared() {
 		_spec.ClearField(companydetail.FieldOwnerCareer, field.TypeString)
 	}
-	if value, ok := cdu.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(companydetail.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := cdu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(companydetail.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if cdu.mutation.JobsCleared() {
+	if _u.mutation.JobsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -872,23 +872,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cdu.mutation.RemovedJobsIDs(); len(nodes) > 0 && !cdu.mutation.JobsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companydetail.JobsTable,
-			Columns: []string{companydetail.JobsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := cdu.mutation.JobsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.RemovedJobsIDs(); len(nodes) > 0 && !_u.mutation.JobsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -902,9 +886,25 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.JobsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cdu.mutation.UsersCleared() {
+	if _u.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -917,7 +917,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cdu.mutation.RemovedUsersIDs(); len(nodes) > 0 && !cdu.mutation.UsersCleared() {
+	if nodes := _u.mutation.RemovedUsersIDs(); len(nodes) > 0 && !_u.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -933,7 +933,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cdu.mutation.UsersIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.UsersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -949,7 +949,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cdu.mutation.TokensCleared() {
+	if _u.mutation.TokensCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -962,7 +962,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cdu.mutation.RemovedTokensIDs(); len(nodes) > 0 && !cdu.mutation.TokensCleared() {
+	if nodes := _u.mutation.RemovedTokensIDs(); len(nodes) > 0 && !_u.mutation.TokensCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -978,7 +978,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cdu.mutation.TokensIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.TokensIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -994,7 +994,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cdu.mutation.EngineersCleared() {
+	if _u.mutation.EngineersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1007,7 +1007,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cdu.mutation.RemovedEngineersIDs(); len(nodes) > 0 && !cdu.mutation.EngineersCleared() {
+	if nodes := _u.mutation.RemovedEngineersIDs(); len(nodes) > 0 && !_u.mutation.EngineersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1023,7 +1023,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cdu.mutation.EngineersIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.EngineersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1039,7 +1039,7 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, cdu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companydetail.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1047,8 +1047,8 @@ func (cdu *CompanyDetailUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		return 0, err
 	}
-	cdu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // CompanyDetailUpdateOne is the builder for updating a single CompanyDetail entity.
@@ -1060,665 +1060,665 @@ type CompanyDetailUpdateOne struct {
 }
 
 // SetCompanyCode sets the "CompanyCode" field.
-func (cduo *CompanyDetailUpdateOne) SetCompanyCode(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.ResetCompanyCode()
-	cduo.mutation.SetCompanyCode(i)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetCompanyCode(v int) *CompanyDetailUpdateOne {
+	_u.mutation.ResetCompanyCode()
+	_u.mutation.SetCompanyCode(v)
+	return _u
 }
 
 // SetNillableCompanyCode sets the "CompanyCode" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableCompanyCode(i *int) *CompanyDetailUpdateOne {
-	if i != nil {
-		cduo.SetCompanyCode(*i)
+func (_u *CompanyDetailUpdateOne) SetNillableCompanyCode(v *int) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetCompanyCode(*v)
 	}
-	return cduo
+	return _u
 }
 
-// AddCompanyCode adds i to the "CompanyCode" field.
-func (cduo *CompanyDetailUpdateOne) AddCompanyCode(i int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddCompanyCode(i)
-	return cduo
+// AddCompanyCode adds value to the "CompanyCode" field.
+func (_u *CompanyDetailUpdateOne) AddCompanyCode(v int) *CompanyDetailUpdateOne {
+	_u.mutation.AddCompanyCode(v)
+	return _u
 }
 
 // SetName sets the "Name" field.
-func (cduo *CompanyDetailUpdateOne) SetName(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetName(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetName(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableName(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetName(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableName(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return cduo
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (cduo *CompanyDetailUpdateOne) SetAddress(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetAddress(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetAddress(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableAddress(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetAddress(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableAddress(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (cduo *CompanyDetailUpdateOne) ClearAddress() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearAddress()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearAddress() *CompanyDetailUpdateOne {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetPhone sets the "Phone" field.
-func (cduo *CompanyDetailUpdateOne) SetPhone(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetPhone(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetPhone(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetPhone(v)
+	return _u
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillablePhone(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetPhone(*s)
+func (_u *CompanyDetailUpdateOne) SetNillablePhone(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetPhone(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (cduo *CompanyDetailUpdateOne) ClearPhone() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearPhone()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearPhone() *CompanyDetailUpdateOne {
+	_u.mutation.ClearPhone()
+	return _u
 }
 
 // SetFax sets the "Fax" field.
-func (cduo *CompanyDetailUpdateOne) SetFax(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetFax(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetFax(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetFax(v)
+	return _u
 }
 
 // SetNillableFax sets the "Fax" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableFax(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetFax(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableFax(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetFax(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearFax clears the value of the "Fax" field.
-func (cduo *CompanyDetailUpdateOne) ClearFax() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearFax()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearFax() *CompanyDetailUpdateOne {
+	_u.mutation.ClearFax()
+	return _u
 }
 
 // SetMobilePhone sets the "MobilePhone" field.
-func (cduo *CompanyDetailUpdateOne) SetMobilePhone(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetMobilePhone(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetMobilePhone(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetMobilePhone(v)
+	return _u
 }
 
 // SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableMobilePhone(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetMobilePhone(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableMobilePhone(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetMobilePhone(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearMobilePhone clears the value of the "MobilePhone" field.
-func (cduo *CompanyDetailUpdateOne) ClearMobilePhone() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearMobilePhone()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearMobilePhone() *CompanyDetailUpdateOne {
+	_u.mutation.ClearMobilePhone()
+	return _u
 }
 
 // SetEmail sets the "Email" field.
-func (cduo *CompanyDetailUpdateOne) SetEmail(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetEmail(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetEmail(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableEmail(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetEmail(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableEmail(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (cduo *CompanyDetailUpdateOne) ClearEmail() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearEmail()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearEmail() *CompanyDetailUpdateOne {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetWebsite sets the "Website" field.
-func (cduo *CompanyDetailUpdateOne) SetWebsite(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetWebsite(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetWebsite(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetWebsite(v)
+	return _u
 }
 
 // SetNillableWebsite sets the "Website" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableWebsite(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetWebsite(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableWebsite(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetWebsite(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearWebsite clears the value of the "Website" field.
-func (cduo *CompanyDetailUpdateOne) ClearWebsite() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearWebsite()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearWebsite() *CompanyDetailUpdateOne {
+	_u.mutation.ClearWebsite()
+	return _u
 }
 
 // SetTaxAdmin sets the "TaxAdmin" field.
-func (cduo *CompanyDetailUpdateOne) SetTaxAdmin(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetTaxAdmin(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetTaxAdmin(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetTaxAdmin(v)
+	return _u
 }
 
 // SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableTaxAdmin(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetTaxAdmin(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableTaxAdmin(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetTaxAdmin(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearTaxAdmin clears the value of the "TaxAdmin" field.
-func (cduo *CompanyDetailUpdateOne) ClearTaxAdmin() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearTaxAdmin()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearTaxAdmin() *CompanyDetailUpdateOne {
+	_u.mutation.ClearTaxAdmin()
+	return _u
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (cduo *CompanyDetailUpdateOne) SetTaxNo(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetTaxNo(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetTaxNo(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetTaxNo(v)
+	return _u
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableTaxNo(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetTaxNo(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableTaxNo(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetTaxNo(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearTaxNo clears the value of the "TaxNo" field.
-func (cduo *CompanyDetailUpdateOne) ClearTaxNo() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearTaxNo()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearTaxNo() *CompanyDetailUpdateOne {
+	_u.mutation.ClearTaxNo()
+	return _u
 }
 
 // SetChamberInfo sets the "ChamberInfo" field.
-func (cduo *CompanyDetailUpdateOne) SetChamberInfo(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetChamberInfo(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetChamberInfo(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetChamberInfo(v)
+	return _u
 }
 
 // SetNillableChamberInfo sets the "ChamberInfo" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableChamberInfo(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetChamberInfo(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableChamberInfo(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetChamberInfo(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearChamberInfo clears the value of the "ChamberInfo" field.
-func (cduo *CompanyDetailUpdateOne) ClearChamberInfo() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearChamberInfo()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearChamberInfo() *CompanyDetailUpdateOne {
+	_u.mutation.ClearChamberInfo()
+	return _u
 }
 
 // SetChamberRegisterNo sets the "ChamberRegisterNo" field.
-func (cduo *CompanyDetailUpdateOne) SetChamberRegisterNo(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetChamberRegisterNo(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetChamberRegisterNo(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetChamberRegisterNo(v)
+	return _u
 }
 
 // SetNillableChamberRegisterNo sets the "ChamberRegisterNo" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableChamberRegisterNo(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetChamberRegisterNo(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableChamberRegisterNo(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetChamberRegisterNo(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearChamberRegisterNo clears the value of the "ChamberRegisterNo" field.
-func (cduo *CompanyDetailUpdateOne) ClearChamberRegisterNo() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearChamberRegisterNo()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearChamberRegisterNo() *CompanyDetailUpdateOne {
+	_u.mutation.ClearChamberRegisterNo()
+	return _u
 }
 
 // SetVisaDate sets the "VisaDate" field.
-func (cduo *CompanyDetailUpdateOne) SetVisaDate(t time.Time) *CompanyDetailUpdateOne {
-	cduo.mutation.SetVisaDate(t)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetVisaDate(v time.Time) *CompanyDetailUpdateOne {
+	_u.mutation.SetVisaDate(v)
+	return _u
 }
 
 // SetNillableVisaDate sets the "VisaDate" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableVisaDate(t *time.Time) *CompanyDetailUpdateOne {
-	if t != nil {
-		cduo.SetVisaDate(*t)
+func (_u *CompanyDetailUpdateOne) SetNillableVisaDate(v *time.Time) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetVisaDate(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearVisaDate clears the value of the "VisaDate" field.
-func (cduo *CompanyDetailUpdateOne) ClearVisaDate() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearVisaDate()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearVisaDate() *CompanyDetailUpdateOne {
+	_u.mutation.ClearVisaDate()
+	return _u
 }
 
 // SetVisaEndDate sets the "VisaEndDate" field.
-func (cduo *CompanyDetailUpdateOne) SetVisaEndDate(t time.Time) *CompanyDetailUpdateOne {
-	cduo.mutation.SetVisaEndDate(t)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetVisaEndDate(v time.Time) *CompanyDetailUpdateOne {
+	_u.mutation.SetVisaEndDate(v)
+	return _u
 }
 
 // SetNillableVisaEndDate sets the "VisaEndDate" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableVisaEndDate(t *time.Time) *CompanyDetailUpdateOne {
-	if t != nil {
-		cduo.SetVisaEndDate(*t)
+func (_u *CompanyDetailUpdateOne) SetNillableVisaEndDate(v *time.Time) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetVisaEndDate(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearVisaEndDate clears the value of the "VisaEndDate" field.
-func (cduo *CompanyDetailUpdateOne) ClearVisaEndDate() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearVisaEndDate()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearVisaEndDate() *CompanyDetailUpdateOne {
+	_u.mutation.ClearVisaEndDate()
+	return _u
 }
 
 // SetVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field.
-func (cduo *CompanyDetailUpdateOne) SetVisaFinishedFor90Days(b bool) *CompanyDetailUpdateOne {
-	cduo.mutation.SetVisaFinishedFor90Days(b)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetVisaFinishedFor90Days(v bool) *CompanyDetailUpdateOne {
+	_u.mutation.SetVisaFinishedFor90Days(v)
+	return _u
 }
 
 // SetNillableVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableVisaFinishedFor90Days(b *bool) *CompanyDetailUpdateOne {
-	if b != nil {
-		cduo.SetVisaFinishedFor90Days(*b)
+func (_u *CompanyDetailUpdateOne) SetNillableVisaFinishedFor90Days(v *bool) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetVisaFinishedFor90Days(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearVisaFinishedFor90Days clears the value of the "VisaFinishedFor90Days" field.
-func (cduo *CompanyDetailUpdateOne) ClearVisaFinishedFor90Days() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearVisaFinishedFor90Days()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearVisaFinishedFor90Days() *CompanyDetailUpdateOne {
+	_u.mutation.ClearVisaFinishedFor90Days()
+	return _u
 }
 
 // SetCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field.
-func (cduo *CompanyDetailUpdateOne) SetCorePersonAbsent90Days(b bool) *CompanyDetailUpdateOne {
-	cduo.mutation.SetCorePersonAbsent90Days(b)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetCorePersonAbsent90Days(v bool) *CompanyDetailUpdateOne {
+	_u.mutation.SetCorePersonAbsent90Days(v)
+	return _u
 }
 
 // SetNillableCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableCorePersonAbsent90Days(b *bool) *CompanyDetailUpdateOne {
-	if b != nil {
-		cduo.SetCorePersonAbsent90Days(*b)
+func (_u *CompanyDetailUpdateOne) SetNillableCorePersonAbsent90Days(v *bool) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetCorePersonAbsent90Days(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearCorePersonAbsent90Days clears the value of the "CorePersonAbsent90Days" field.
-func (cduo *CompanyDetailUpdateOne) ClearCorePersonAbsent90Days() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearCorePersonAbsent90Days()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearCorePersonAbsent90Days() *CompanyDetailUpdateOne {
+	_u.mutation.ClearCorePersonAbsent90Days()
+	return _u
 }
 
 // SetIsClosed sets the "IsClosed" field.
-func (cduo *CompanyDetailUpdateOne) SetIsClosed(b bool) *CompanyDetailUpdateOne {
-	cduo.mutation.SetIsClosed(b)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetIsClosed(v bool) *CompanyDetailUpdateOne {
+	_u.mutation.SetIsClosed(v)
+	return _u
 }
 
 // SetNillableIsClosed sets the "IsClosed" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableIsClosed(b *bool) *CompanyDetailUpdateOne {
-	if b != nil {
-		cduo.SetIsClosed(*b)
+func (_u *CompanyDetailUpdateOne) SetNillableIsClosed(v *bool) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetIsClosed(*v)
 	}
-	return cduo
+	return _u
 }
 
 // SetOwnerName sets the "OwnerName" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerName(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetOwnerName(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetOwnerName(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetOwnerName(v)
+	return _u
 }
 
 // SetNillableOwnerName sets the "OwnerName" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerName(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetOwnerName(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableOwnerName(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetOwnerName(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearOwnerName clears the value of the "OwnerName" field.
-func (cduo *CompanyDetailUpdateOne) ClearOwnerName() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearOwnerName()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearOwnerName() *CompanyDetailUpdateOne {
+	_u.mutation.ClearOwnerName()
+	return _u
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerTcNo(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetOwnerTcNo(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetOwnerTcNo(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetOwnerTcNo(v)
+	return _u
 }
 
 // SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerTcNo(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetOwnerTcNo(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableOwnerTcNo(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetOwnerTcNo(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearOwnerTcNo clears the value of the "OwnerTcNo" field.
-func (cduo *CompanyDetailUpdateOne) ClearOwnerTcNo() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearOwnerTcNo()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearOwnerTcNo() *CompanyDetailUpdateOne {
+	_u.mutation.ClearOwnerTcNo()
+	return _u
 }
 
 // SetOwnerAddress sets the "OwnerAddress" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerAddress(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetOwnerAddress(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetOwnerAddress(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetOwnerAddress(v)
+	return _u
 }
 
 // SetNillableOwnerAddress sets the "OwnerAddress" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerAddress(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetOwnerAddress(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableOwnerAddress(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetOwnerAddress(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearOwnerAddress clears the value of the "OwnerAddress" field.
-func (cduo *CompanyDetailUpdateOne) ClearOwnerAddress() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearOwnerAddress()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearOwnerAddress() *CompanyDetailUpdateOne {
+	_u.mutation.ClearOwnerAddress()
+	return _u
 }
 
 // SetOwnerPhone sets the "OwnerPhone" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerPhone(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetOwnerPhone(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetOwnerPhone(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetOwnerPhone(v)
+	return _u
 }
 
 // SetNillableOwnerPhone sets the "OwnerPhone" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerPhone(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetOwnerPhone(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableOwnerPhone(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetOwnerPhone(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearOwnerPhone clears the value of the "OwnerPhone" field.
-func (cduo *CompanyDetailUpdateOne) ClearOwnerPhone() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearOwnerPhone()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearOwnerPhone() *CompanyDetailUpdateOne {
+	_u.mutation.ClearOwnerPhone()
+	return _u
 }
 
 // SetOwnerEmail sets the "OwnerEmail" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerEmail(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetOwnerEmail(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetOwnerEmail(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetOwnerEmail(v)
+	return _u
 }
 
 // SetNillableOwnerEmail sets the "OwnerEmail" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerEmail(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetOwnerEmail(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableOwnerEmail(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetOwnerEmail(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearOwnerEmail clears the value of the "OwnerEmail" field.
-func (cduo *CompanyDetailUpdateOne) ClearOwnerEmail() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearOwnerEmail()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearOwnerEmail() *CompanyDetailUpdateOne {
+	_u.mutation.ClearOwnerEmail()
+	return _u
 }
 
 // SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerRegisterNo(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetOwnerRegisterNo(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetOwnerRegisterNo(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetOwnerRegisterNo(v)
+	return _u
 }
 
 // SetNillableOwnerRegisterNo sets the "OwnerRegisterNo" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerRegisterNo(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetOwnerRegisterNo(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableOwnerRegisterNo(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetOwnerRegisterNo(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearOwnerRegisterNo clears the value of the "OwnerRegisterNo" field.
-func (cduo *CompanyDetailUpdateOne) ClearOwnerRegisterNo() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearOwnerRegisterNo()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearOwnerRegisterNo() *CompanyDetailUpdateOne {
+	_u.mutation.ClearOwnerRegisterNo()
+	return _u
 }
 
 // SetOwnerCareer sets the "OwnerCareer" field.
-func (cduo *CompanyDetailUpdateOne) SetOwnerCareer(s string) *CompanyDetailUpdateOne {
-	cduo.mutation.SetOwnerCareer(s)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetOwnerCareer(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetOwnerCareer(v)
+	return _u
 }
 
 // SetNillableOwnerCareer sets the "OwnerCareer" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableOwnerCareer(s *string) *CompanyDetailUpdateOne {
-	if s != nil {
-		cduo.SetOwnerCareer(*s)
+func (_u *CompanyDetailUpdateOne) SetNillableOwnerCareer(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetOwnerCareer(*v)
 	}
-	return cduo
+	return _u
 }
 
 // ClearOwnerCareer clears the value of the "OwnerCareer" field.
-func (cduo *CompanyDetailUpdateOne) ClearOwnerCareer() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearOwnerCareer()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearOwnerCareer() *CompanyDetailUpdateOne {
+	_u.mutation.ClearOwnerCareer()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (cduo *CompanyDetailUpdateOne) SetCreatedAt(t time.Time) *CompanyDetailUpdateOne {
-	cduo.mutation.SetCreatedAt(t)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetCreatedAt(v time.Time) *CompanyDetailUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (cduo *CompanyDetailUpdateOne) SetNillableCreatedAt(t *time.Time) *CompanyDetailUpdateOne {
-	if t != nil {
-		cduo.SetCreatedAt(*t)
+func (_u *CompanyDetailUpdateOne) SetNillableCreatedAt(v *time.Time) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return cduo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (cduo *CompanyDetailUpdateOne) SetUpdatedAt(t time.Time) *CompanyDetailUpdateOne {
-	cduo.mutation.SetUpdatedAt(t)
-	return cduo
+func (_u *CompanyDetailUpdateOne) SetUpdatedAt(v time.Time) *CompanyDetailUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
-func (cduo *CompanyDetailUpdateOne) AddJobIDs(ids ...int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddJobIDs(ids...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) AddJobIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddJobIDs(ids...)
+	return _u
 }
 
 // AddJobs adds the "jobs" edges to the JobRelations entity.
-func (cduo *CompanyDetailUpdateOne) AddJobs(j ...*JobRelations) *CompanyDetailUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *CompanyDetailUpdateOne) AddJobs(v ...*JobRelations) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cduo.AddJobIDs(ids...)
+	return _u.AddJobIDs(ids...)
 }
 
 // AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
-func (cduo *CompanyDetailUpdateOne) AddUserIDs(ids ...int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddUserIDs(ids...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) AddUserIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddUserIDs(ids...)
+	return _u
 }
 
 // AddUsers adds the "users" edges to the CompanyUser entity.
-func (cduo *CompanyDetailUpdateOne) AddUsers(c ...*CompanyUser) *CompanyDetailUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdateOne) AddUsers(v ...*CompanyUser) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cduo.AddUserIDs(ids...)
+	return _u.AddUserIDs(ids...)
 }
 
 // AddTokenIDs adds the "tokens" edge to the CompanyToken entity by IDs.
-func (cduo *CompanyDetailUpdateOne) AddTokenIDs(ids ...int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddTokenIDs(ids...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) AddTokenIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddTokenIDs(ids...)
+	return _u
 }
 
 // AddTokens adds the "tokens" edges to the CompanyToken entity.
-func (cduo *CompanyDetailUpdateOne) AddTokens(c ...*CompanyToken) *CompanyDetailUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdateOne) AddTokens(v ...*CompanyToken) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cduo.AddTokenIDs(ids...)
+	return _u.AddTokenIDs(ids...)
 }
 
 // AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
-func (cduo *CompanyDetailUpdateOne) AddEngineerIDs(ids ...int) *CompanyDetailUpdateOne {
-	cduo.mutation.AddEngineerIDs(ids...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) AddEngineerIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddEngineerIDs(ids...)
+	return _u
 }
 
 // AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
-func (cduo *CompanyDetailUpdateOne) AddEngineers(c ...*CompanyEngineer) *CompanyDetailUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdateOne) AddEngineers(v ...*CompanyEngineer) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cduo.AddEngineerIDs(ids...)
+	return _u.AddEngineerIDs(ids...)
 }
 
 // Mutation returns the CompanyDetailMutation object of the builder.
-func (cduo *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
-	return cduo.mutation
+func (_u *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
+	return _u.mutation
 }
 
 // ClearJobs clears all "jobs" edges to the JobRelations entity.
-func (cduo *CompanyDetailUpdateOne) ClearJobs() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearJobs()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearJobs() *CompanyDetailUpdateOne {
+	_u.mutation.ClearJobs()
+	return _u
 }
 
 // RemoveJobIDs removes the "jobs" edge to JobRelations entities by IDs.
-func (cduo *CompanyDetailUpdateOne) RemoveJobIDs(ids ...int) *CompanyDetailUpdateOne {
-	cduo.mutation.RemoveJobIDs(ids...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) RemoveJobIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemoveJobIDs(ids...)
+	return _u
 }
 
 // RemoveJobs removes "jobs" edges to JobRelations entities.
-func (cduo *CompanyDetailUpdateOne) RemoveJobs(j ...*JobRelations) *CompanyDetailUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *CompanyDetailUpdateOne) RemoveJobs(v ...*JobRelations) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cduo.RemoveJobIDs(ids...)
+	return _u.RemoveJobIDs(ids...)
 }
 
 // ClearUsers clears all "users" edges to the CompanyUser entity.
-func (cduo *CompanyDetailUpdateOne) ClearUsers() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearUsers()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearUsers() *CompanyDetailUpdateOne {
+	_u.mutation.ClearUsers()
+	return _u
 }
 
 // RemoveUserIDs removes the "users" edge to CompanyUser entities by IDs.
-func (cduo *CompanyDetailUpdateOne) RemoveUserIDs(ids ...int) *CompanyDetailUpdateOne {
-	cduo.mutation.RemoveUserIDs(ids...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) RemoveUserIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemoveUserIDs(ids...)
+	return _u
 }
 
 // RemoveUsers removes "users" edges to CompanyUser entities.
-func (cduo *CompanyDetailUpdateOne) RemoveUsers(c ...*CompanyUser) *CompanyDetailUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdateOne) RemoveUsers(v ...*CompanyUser) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cduo.RemoveUserIDs(ids...)
+	return _u.RemoveUserIDs(ids...)
 }
 
 // ClearTokens clears all "tokens" edges to the CompanyToken entity.
-func (cduo *CompanyDetailUpdateOne) ClearTokens() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearTokens()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearTokens() *CompanyDetailUpdateOne {
+	_u.mutation.ClearTokens()
+	return _u
 }
 
 // RemoveTokenIDs removes the "tokens" edge to CompanyToken entities by IDs.
-func (cduo *CompanyDetailUpdateOne) RemoveTokenIDs(ids ...int) *CompanyDetailUpdateOne {
-	cduo.mutation.RemoveTokenIDs(ids...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) RemoveTokenIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemoveTokenIDs(ids...)
+	return _u
 }
 
 // RemoveTokens removes "tokens" edges to CompanyToken entities.
-func (cduo *CompanyDetailUpdateOne) RemoveTokens(c ...*CompanyToken) *CompanyDetailUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdateOne) RemoveTokens(v ...*CompanyToken) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cduo.RemoveTokenIDs(ids...)
+	return _u.RemoveTokenIDs(ids...)
 }
 
 // ClearEngineers clears all "engineers" edges to the CompanyEngineer entity.
-func (cduo *CompanyDetailUpdateOne) ClearEngineers() *CompanyDetailUpdateOne {
-	cduo.mutation.ClearEngineers()
-	return cduo
+func (_u *CompanyDetailUpdateOne) ClearEngineers() *CompanyDetailUpdateOne {
+	_u.mutation.ClearEngineers()
+	return _u
 }
 
 // RemoveEngineerIDs removes the "engineers" edge to CompanyEngineer entities by IDs.
-func (cduo *CompanyDetailUpdateOne) RemoveEngineerIDs(ids ...int) *CompanyDetailUpdateOne {
-	cduo.mutation.RemoveEngineerIDs(ids...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) RemoveEngineerIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemoveEngineerIDs(ids...)
+	return _u
 }
 
 // RemoveEngineers removes "engineers" edges to CompanyEngineer entities.
-func (cduo *CompanyDetailUpdateOne) RemoveEngineers(c ...*CompanyEngineer) *CompanyDetailUpdateOne {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CompanyDetailUpdateOne) RemoveEngineers(v ...*CompanyEngineer) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cduo.RemoveEngineerIDs(ids...)
+	return _u.RemoveEngineerIDs(ids...)
 }
 
 // Where appends a list predicates to the CompanyDetailUpdate builder.
-func (cduo *CompanyDetailUpdateOne) Where(ps ...predicate.CompanyDetail) *CompanyDetailUpdateOne {
-	cduo.mutation.Where(ps...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) Where(ps ...predicate.CompanyDetail) *CompanyDetailUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (cduo *CompanyDetailUpdateOne) Select(field string, fields ...string) *CompanyDetailUpdateOne {
-	cduo.fields = append([]string{field}, fields...)
-	return cduo
+func (_u *CompanyDetailUpdateOne) Select(field string, fields ...string) *CompanyDetailUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated CompanyDetail entity.
-func (cduo *CompanyDetailUpdateOne) Save(ctx context.Context) (*CompanyDetail, error) {
-	cduo.defaults()
-	return withHooks(ctx, cduo.sqlSave, cduo.mutation, cduo.hooks)
+func (_u *CompanyDetailUpdateOne) Save(ctx context.Context) (*CompanyDetail, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cduo *CompanyDetailUpdateOne) SaveX(ctx context.Context) *CompanyDetail {
-	node, err := cduo.Save(ctx)
+func (_u *CompanyDetailUpdateOne) SaveX(ctx context.Context) *CompanyDetail {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1726,34 +1726,34 @@ func (cduo *CompanyDetailUpdateOne) SaveX(ctx context.Context) *CompanyDetail {
 }
 
 // Exec executes the query on the entity.
-func (cduo *CompanyDetailUpdateOne) Exec(ctx context.Context) error {
-	_, err := cduo.Save(ctx)
+func (_u *CompanyDetailUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cduo *CompanyDetailUpdateOne) ExecX(ctx context.Context) {
-	if err := cduo.Exec(ctx); err != nil {
+func (_u *CompanyDetailUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cduo *CompanyDetailUpdateOne) defaults() {
-	if _, ok := cduo.mutation.UpdatedAt(); !ok {
+func (_u *CompanyDetailUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := companydetail.UpdateDefaultUpdatedAt()
-		cduo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *CompanyDetail, err error) {
+func (_u *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *CompanyDetail, err error) {
 	_spec := sqlgraph.NewUpdateSpec(companydetail.Table, companydetail.Columns, sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt))
-	id, ok := cduo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "CompanyDetail.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := cduo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, companydetail.FieldID)
 		for _, f := range fields {
@@ -1765,158 +1765,158 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			}
 		}
 	}
-	if ps := cduo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := cduo.mutation.CompanyCode(); ok {
+	if value, ok := _u.mutation.CompanyCode(); ok {
 		_spec.SetField(companydetail.FieldCompanyCode, field.TypeInt, value)
 	}
-	if value, ok := cduo.mutation.AddedCompanyCode(); ok {
+	if value, ok := _u.mutation.AddedCompanyCode(); ok {
 		_spec.AddField(companydetail.FieldCompanyCode, field.TypeInt, value)
 	}
-	if value, ok := cduo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(companydetail.FieldName, field.TypeString, value)
 	}
-	if value, ok := cduo.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(companydetail.FieldAddress, field.TypeString, value)
 	}
-	if cduo.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(companydetail.FieldAddress, field.TypeString)
 	}
-	if value, ok := cduo.mutation.Phone(); ok {
+	if value, ok := _u.mutation.Phone(); ok {
 		_spec.SetField(companydetail.FieldPhone, field.TypeString, value)
 	}
-	if cduo.mutation.PhoneCleared() {
+	if _u.mutation.PhoneCleared() {
 		_spec.ClearField(companydetail.FieldPhone, field.TypeString)
 	}
-	if value, ok := cduo.mutation.Fax(); ok {
+	if value, ok := _u.mutation.Fax(); ok {
 		_spec.SetField(companydetail.FieldFax, field.TypeString, value)
 	}
-	if cduo.mutation.FaxCleared() {
+	if _u.mutation.FaxCleared() {
 		_spec.ClearField(companydetail.FieldFax, field.TypeString)
 	}
-	if value, ok := cduo.mutation.MobilePhone(); ok {
+	if value, ok := _u.mutation.MobilePhone(); ok {
 		_spec.SetField(companydetail.FieldMobilePhone, field.TypeString, value)
 	}
-	if cduo.mutation.MobilePhoneCleared() {
+	if _u.mutation.MobilePhoneCleared() {
 		_spec.ClearField(companydetail.FieldMobilePhone, field.TypeString)
 	}
-	if value, ok := cduo.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(companydetail.FieldEmail, field.TypeString, value)
 	}
-	if cduo.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(companydetail.FieldEmail, field.TypeString)
 	}
-	if value, ok := cduo.mutation.Website(); ok {
+	if value, ok := _u.mutation.Website(); ok {
 		_spec.SetField(companydetail.FieldWebsite, field.TypeString, value)
 	}
-	if cduo.mutation.WebsiteCleared() {
+	if _u.mutation.WebsiteCleared() {
 		_spec.ClearField(companydetail.FieldWebsite, field.TypeString)
 	}
-	if value, ok := cduo.mutation.TaxAdmin(); ok {
+	if value, ok := _u.mutation.TaxAdmin(); ok {
 		_spec.SetField(companydetail.FieldTaxAdmin, field.TypeString, value)
 	}
-	if cduo.mutation.TaxAdminCleared() {
+	if _u.mutation.TaxAdminCleared() {
 		_spec.ClearField(companydetail.FieldTaxAdmin, field.TypeString)
 	}
-	if value, ok := cduo.mutation.TaxNo(); ok {
+	if value, ok := _u.mutation.TaxNo(); ok {
 		_spec.SetField(companydetail.FieldTaxNo, field.TypeString, value)
 	}
-	if cduo.mutation.TaxNoCleared() {
+	if _u.mutation.TaxNoCleared() {
 		_spec.ClearField(companydetail.FieldTaxNo, field.TypeString)
 	}
-	if value, ok := cduo.mutation.ChamberInfo(); ok {
+	if value, ok := _u.mutation.ChamberInfo(); ok {
 		_spec.SetField(companydetail.FieldChamberInfo, field.TypeString, value)
 	}
-	if cduo.mutation.ChamberInfoCleared() {
+	if _u.mutation.ChamberInfoCleared() {
 		_spec.ClearField(companydetail.FieldChamberInfo, field.TypeString)
 	}
-	if value, ok := cduo.mutation.ChamberRegisterNo(); ok {
+	if value, ok := _u.mutation.ChamberRegisterNo(); ok {
 		_spec.SetField(companydetail.FieldChamberRegisterNo, field.TypeString, value)
 	}
-	if cduo.mutation.ChamberRegisterNoCleared() {
+	if _u.mutation.ChamberRegisterNoCleared() {
 		_spec.ClearField(companydetail.FieldChamberRegisterNo, field.TypeString)
 	}
-	if value, ok := cduo.mutation.VisaDate(); ok {
+	if value, ok := _u.mutation.VisaDate(); ok {
 		_spec.SetField(companydetail.FieldVisaDate, field.TypeTime, value)
 	}
-	if cduo.mutation.VisaDateCleared() {
+	if _u.mutation.VisaDateCleared() {
 		_spec.ClearField(companydetail.FieldVisaDate, field.TypeTime)
 	}
-	if value, ok := cduo.mutation.VisaEndDate(); ok {
+	if value, ok := _u.mutation.VisaEndDate(); ok {
 		_spec.SetField(companydetail.FieldVisaEndDate, field.TypeTime, value)
 	}
-	if cduo.mutation.VisaEndDateCleared() {
+	if _u.mutation.VisaEndDateCleared() {
 		_spec.ClearField(companydetail.FieldVisaEndDate, field.TypeTime)
 	}
-	if value, ok := cduo.mutation.VisaFinishedFor90Days(); ok {
+	if value, ok := _u.mutation.VisaFinishedFor90Days(); ok {
 		_spec.SetField(companydetail.FieldVisaFinishedFor90Days, field.TypeBool, value)
 	}
-	if cduo.mutation.VisaFinishedFor90DaysCleared() {
+	if _u.mutation.VisaFinishedFor90DaysCleared() {
 		_spec.ClearField(companydetail.FieldVisaFinishedFor90Days, field.TypeBool)
 	}
-	if value, ok := cduo.mutation.CorePersonAbsent90Days(); ok {
+	if value, ok := _u.mutation.CorePersonAbsent90Days(); ok {
 		_spec.SetField(companydetail.FieldCorePersonAbsent90Days, field.TypeBool, value)
 	}
-	if cduo.mutation.CorePersonAbsent90DaysCleared() {
+	if _u.mutation.CorePersonAbsent90DaysCleared() {
 		_spec.ClearField(companydetail.FieldCorePersonAbsent90Days, field.TypeBool)
 	}
-	if value, ok := cduo.mutation.IsClosed(); ok {
+	if value, ok := _u.mutation.IsClosed(); ok {
 		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
 	}
-	if value, ok := cduo.mutation.OwnerName(); ok {
+	if value, ok := _u.mutation.OwnerName(); ok {
 		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)
 	}
-	if cduo.mutation.OwnerNameCleared() {
+	if _u.mutation.OwnerNameCleared() {
 		_spec.ClearField(companydetail.FieldOwnerName, field.TypeString)
 	}
-	if value, ok := cduo.mutation.OwnerTcNo(); ok {
+	if value, ok := _u.mutation.OwnerTcNo(); ok {
 		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
 	}
-	if cduo.mutation.OwnerTcNoCleared() {
+	if _u.mutation.OwnerTcNoCleared() {
 		_spec.ClearField(companydetail.FieldOwnerTcNo, field.TypeString)
 	}
-	if value, ok := cduo.mutation.OwnerAddress(); ok {
+	if value, ok := _u.mutation.OwnerAddress(); ok {
 		_spec.SetField(companydetail.FieldOwnerAddress, field.TypeString, value)
 	}
-	if cduo.mutation.OwnerAddressCleared() {
+	if _u.mutation.OwnerAddressCleared() {
 		_spec.ClearField(companydetail.FieldOwnerAddress, field.TypeString)
 	}
-	if value, ok := cduo.mutation.OwnerPhone(); ok {
+	if value, ok := _u.mutation.OwnerPhone(); ok {
 		_spec.SetField(companydetail.FieldOwnerPhone, field.TypeString, value)
 	}
-	if cduo.mutation.OwnerPhoneCleared() {
+	if _u.mutation.OwnerPhoneCleared() {
 		_spec.ClearField(companydetail.FieldOwnerPhone, field.TypeString)
 	}
-	if value, ok := cduo.mutation.OwnerEmail(); ok {
+	if value, ok := _u.mutation.OwnerEmail(); ok {
 		_spec.SetField(companydetail.FieldOwnerEmail, field.TypeString, value)
 	}
-	if cduo.mutation.OwnerEmailCleared() {
+	if _u.mutation.OwnerEmailCleared() {
 		_spec.ClearField(companydetail.FieldOwnerEmail, field.TypeString)
 	}
-	if value, ok := cduo.mutation.OwnerRegisterNo(); ok {
+	if value, ok := _u.mutation.OwnerRegisterNo(); ok {
 		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeString, value)
 	}
-	if cduo.mutation.OwnerRegisterNoCleared() {
+	if _u.mutation.OwnerRegisterNoCleared() {
 		_spec.ClearField(companydetail.FieldOwnerRegisterNo, field.TypeString)
 	}
-	if value, ok := cduo.mutation.OwnerCareer(); ok {
+	if value, ok := _u.mutation.OwnerCareer(); ok {
 		_spec.SetField(companydetail.FieldOwnerCareer, field.TypeString, value)
 	}
-	if cduo.mutation.OwnerCareerCleared() {
+	if _u.mutation.OwnerCareerCleared() {
 		_spec.ClearField(companydetail.FieldOwnerCareer, field.TypeString)
 	}
-	if value, ok := cduo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(companydetail.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := cduo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(companydetail.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if cduo.mutation.JobsCleared() {
+	if _u.mutation.JobsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1929,23 +1929,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cduo.mutation.RemovedJobsIDs(); len(nodes) > 0 && !cduo.mutation.JobsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companydetail.JobsTable,
-			Columns: []string{companydetail.JobsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := cduo.mutation.JobsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.RemovedJobsIDs(); len(nodes) > 0 && !_u.mutation.JobsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1959,9 +1943,25 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.JobsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.JobsTable,
+			Columns: []string{companydetail.JobsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cduo.mutation.UsersCleared() {
+	if _u.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1974,7 +1974,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cduo.mutation.RemovedUsersIDs(); len(nodes) > 0 && !cduo.mutation.UsersCleared() {
+	if nodes := _u.mutation.RemovedUsersIDs(); len(nodes) > 0 && !_u.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1990,7 +1990,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cduo.mutation.UsersIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.UsersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2006,7 +2006,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cduo.mutation.TokensCleared() {
+	if _u.mutation.TokensCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2019,7 +2019,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cduo.mutation.RemovedTokensIDs(); len(nodes) > 0 && !cduo.mutation.TokensCleared() {
+	if nodes := _u.mutation.RemovedTokensIDs(); len(nodes) > 0 && !_u.mutation.TokensCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2035,7 +2035,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cduo.mutation.TokensIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.TokensIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2051,7 +2051,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cduo.mutation.EngineersCleared() {
+	if _u.mutation.EngineersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2064,7 +2064,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cduo.mutation.RemovedEngineersIDs(); len(nodes) > 0 && !cduo.mutation.EngineersCleared() {
+	if nodes := _u.mutation.RemovedEngineersIDs(); len(nodes) > 0 && !_u.mutation.EngineersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2080,7 +2080,7 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cduo.mutation.EngineersIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.EngineersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2096,10 +2096,10 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &CompanyDetail{config: cduo.config}
+	_node = &CompanyDetail{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, cduo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companydetail.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -2107,6 +2107,6 @@ func (cduo *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		}
 		return nil, err
 	}
-	cduo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

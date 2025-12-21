@@ -265,7 +265,6 @@ type ComplexityRoot struct {
 		PaymentNo                func(childComplexity int) int
 		PaymentType              func(childComplexity int) int
 		State                    func(childComplexity int) int
-		TotalPayment             func(childComplexity int) int
 		UpdatedAt                func(childComplexity int) int
 		YibfNo                   func(childComplexity int) int
 	}
@@ -1497,12 +1496,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobPayments.State(childComplexity), true
-	case "JobPayments.TotalPayment":
-		if e.complexity.JobPayments.TotalPayment == nil {
-			break
-		}
-
-		return e.complexity.JobPayments.TotalPayment(childComplexity), true
 	case "JobPayments.updatedAt":
 		if e.complexity.JobPayments.UpdatedAt == nil {
 			break
@@ -3008,7 +3001,6 @@ extend type Mutation {
   PaymentNo: Int
   PaymentDate: Time
   PaymentType: String
-  TotalPayment: Float
   LevelRequest: Float
   LevelApprove: Float
   Amount: Float
@@ -3027,7 +3019,6 @@ input JobPaymentsInput {
   PaymentNo: Int!
   PaymentDate: Time
   PaymentType: String
-  TotalPayment: Float
   LevelRequest: Float
   LevelApprove: Float
   Amount: Float
@@ -9272,35 +9263,6 @@ func (ec *executionContext) fieldContext_JobPayments_PaymentType(_ context.Conte
 	return fc, nil
 }
 
-func (ec *executionContext) _JobPayments_TotalPayment(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		ec.fieldContext_JobPayments_TotalPayment,
-		func(ctx context.Context) (any, error) {
-			return obj.TotalPayment, nil
-		},
-		nil,
-		ec.marshalOFloat2float64,
-		true,
-		false,
-	)
-}
-
-func (ec *executionContext) fieldContext_JobPayments_TotalPayment(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobPayments",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Float does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _JobPayments_LevelRequest(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
@@ -12277,8 +12239,6 @@ func (ec *executionContext) fieldContext_Mutation_upsertPayments(ctx context.Con
 				return ec.fieldContext_JobPayments_PaymentDate(ctx, field)
 			case "PaymentType":
 				return ec.fieldContext_JobPayments_PaymentType(ctx, field)
-			case "TotalPayment":
-				return ec.fieldContext_JobPayments_TotalPayment(ctx, field)
 			case "LevelRequest":
 				return ec.fieldContext_JobPayments_LevelRequest(ctx, field)
 			case "LevelApprove":
@@ -12367,8 +12327,6 @@ func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.
 				return ec.fieldContext_JobPayments_PaymentDate(ctx, field)
 			case "PaymentType":
 				return ec.fieldContext_JobPayments_PaymentType(ctx, field)
-			case "TotalPayment":
-				return ec.fieldContext_JobPayments_TotalPayment(ctx, field)
 			case "LevelRequest":
 				return ec.fieldContext_JobPayments_LevelRequest(ctx, field)
 			case "LevelApprove":
@@ -12457,8 +12415,6 @@ func (ec *executionContext) fieldContext_Mutation_updatePaymentStatus(ctx contex
 				return ec.fieldContext_JobPayments_PaymentDate(ctx, field)
 			case "PaymentType":
 				return ec.fieldContext_JobPayments_PaymentType(ctx, field)
-			case "TotalPayment":
-				return ec.fieldContext_JobPayments_TotalPayment(ctx, field)
 			case "LevelRequest":
 				return ec.fieldContext_JobPayments_LevelRequest(ctx, field)
 			case "LevelApprove":
@@ -14602,8 +14558,6 @@ func (ec *executionContext) fieldContext_Query_jobPayments(ctx context.Context, 
 				return ec.fieldContext_JobPayments_PaymentDate(ctx, field)
 			case "PaymentType":
 				return ec.fieldContext_JobPayments_PaymentType(ctx, field)
-			case "TotalPayment":
-				return ec.fieldContext_JobPayments_TotalPayment(ctx, field)
 			case "LevelRequest":
 				return ec.fieldContext_JobPayments_LevelRequest(ctx, field)
 			case "LevelApprove":
@@ -18290,7 +18244,7 @@ func (ec *executionContext) unmarshalInputJobPaymentsInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"PaymentNo", "PaymentDate", "PaymentType", "TotalPayment", "LevelRequest", "LevelApprove", "Amount", "YibfNo", "State"}
+	fieldsInOrder := [...]string{"PaymentNo", "PaymentDate", "PaymentType", "LevelRequest", "LevelApprove", "Amount", "YibfNo", "State"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -18318,13 +18272,6 @@ func (ec *executionContext) unmarshalInputJobPaymentsInput(ctx context.Context, 
 				return it, err
 			}
 			it.PaymentType = data
-		case "TotalPayment":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("TotalPayment"))
-			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.TotalPayment = data
 		case "LevelRequest":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("LevelRequest"))
 			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
@@ -19701,8 +19648,6 @@ func (ec *executionContext) _JobPayments(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._JobPayments_PaymentDate(ctx, field, obj)
 		case "PaymentType":
 			out.Values[i] = ec._JobPayments_PaymentType(ctx, field, obj)
-		case "TotalPayment":
-			out.Values[i] = ec._JobPayments_TotalPayment(ctx, field, obj)
 		case "LevelRequest":
 			out.Values[i] = ec._JobPayments_LevelRequest(ctx, field, obj)
 		case "LevelApprove":

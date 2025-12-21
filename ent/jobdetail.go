@@ -140,7 +140,7 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobDetail fields.
-func (jd *JobDetail) assignValues(columns []string, values []any) error {
+func (_m *JobDetail) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -151,219 +151,219 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jd.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobdetail.FieldYibfNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field YibfNo", values[i])
 			} else if value.Valid {
-				jd.YibfNo = int(value.Int64)
+				_m.YibfNo = int(value.Int64)
 			}
 		case jobdetail.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Title", values[i])
 			} else if value.Valid {
-				jd.Title = value.String
+				_m.Title = value.String
 			}
 		case jobdetail.FieldAdministration:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Administration", values[i])
 			} else if value.Valid {
-				jd.Administration = value.String
+				_m.Administration = value.String
 			}
 		case jobdetail.FieldState:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field State", values[i])
 			} else if value.Valid {
-				jd.State = value.String
+				_m.State = value.String
 			}
 		case jobdetail.FieldIsland:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Island", values[i])
 			} else if value.Valid {
-				jd.Island = value.String
+				_m.Island = value.String
 			}
 		case jobdetail.FieldParcel:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Parcel", values[i])
 			} else if value.Valid {
-				jd.Parcel = value.String
+				_m.Parcel = value.String
 			}
 		case jobdetail.FieldSheet:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Sheet", values[i])
 			} else if value.Valid {
-				jd.Sheet = value.String
+				_m.Sheet = value.String
 			}
 		case jobdetail.FieldContractDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field ContractDate", values[i])
 			} else if value.Valid {
-				jd.ContractDate = value.Time
+				_m.ContractDate = value.Time
 			}
 		case jobdetail.FieldStartDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field StartDate", values[i])
 			} else if value.Valid {
-				jd.StartDate = value.Time
+				_m.StartDate = value.Time
 			}
 		case jobdetail.FieldLicenseDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field LicenseDate", values[i])
 			} else if value.Valid {
-				jd.LicenseDate = value.Time
+				_m.LicenseDate = value.Time
 			}
 		case jobdetail.FieldLicenseNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field LicenseNo", values[i])
 			} else if value.Valid {
-				jd.LicenseNo = value.String
+				_m.LicenseNo = value.String
 			}
 		case jobdetail.FieldDistributionDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field DistributionDate", values[i])
 			} else if value.Valid {
-				jd.DistributionDate = value.Time
+				_m.DistributionDate = value.Time
 			}
 		case jobdetail.FieldCompletionDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CompletionDate", values[i])
 			} else if value.Valid {
-				jd.CompletionDate = value.Time
+				_m.CompletionDate = value.Time
 			}
 		case jobdetail.FieldLandArea:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field LandArea", values[i])
 			} else if value.Valid {
-				jd.LandArea = value.Float64
+				_m.LandArea = value.Float64
 			}
 		case jobdetail.FieldTotalArea:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field TotalArea", values[i])
 			} else if value.Valid {
-				jd.TotalArea = value.Float64
+				_m.TotalArea = value.Float64
 			}
 		case jobdetail.FieldConstructionArea:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field ConstructionArea", values[i])
 			} else if value.Valid {
-				jd.ConstructionArea = value.Float64
+				_m.ConstructionArea = value.Float64
 			}
 		case jobdetail.FieldLeftArea:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field LeftArea", values[i])
 			} else if value.Valid {
-				jd.LeftArea = value.Float64
+				_m.LeftArea = value.Float64
 			}
 		case jobdetail.FieldYDSAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field YDSAddress", values[i])
 			} else if value.Valid {
-				jd.YDSAddress = value.String
+				_m.YDSAddress = value.String
 			}
 		case jobdetail.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				jd.Address = value.String
+				_m.Address = value.String
 			}
 		case jobdetail.FieldBuildingClass:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field BuildingClass", values[i])
 			} else if value.Valid {
-				jd.BuildingClass = value.String
+				_m.BuildingClass = value.String
 			}
 		case jobdetail.FieldBuildingType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field BuildingType", values[i])
 			} else if value.Valid {
-				jd.BuildingType = value.String
+				_m.BuildingType = value.String
 			}
 		case jobdetail.FieldLevel:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field Level", values[i])
 			} else if value.Valid {
-				jd.Level = value.Float64
+				_m.Level = value.Float64
 			}
 		case jobdetail.FieldUnitPrice:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field UnitPrice", values[i])
 			} else if value.Valid {
-				jd.UnitPrice = value.Float64
+				_m.UnitPrice = value.Float64
 			}
 		case jobdetail.FieldFloorCount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field FloorCount", values[i])
 			} else if value.Valid {
-				jd.FloorCount = int(value.Int64)
+				_m.FloorCount = int(value.Int64)
 			}
 		case jobdetail.FieldBKSReferenceNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field BKSReferenceNo", values[i])
 			} else if value.Valid {
-				jd.BKSReferenceNo = value.String
+				_m.BKSReferenceNo = value.String
 			}
 		case jobdetail.FieldCoordinates:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Coordinates", values[i])
 			} else if value.Valid {
-				jd.Coordinates = value.String
+				_m.Coordinates = value.String
 			}
 		case jobdetail.FieldFolderNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field FolderNo", values[i])
 			} else if value.Valid {
-				jd.FolderNo = value.String
+				_m.FolderNo = value.String
 			}
 		case jobdetail.FieldUploadedFile:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field UploadedFile", values[i])
 			} else if value.Valid {
-				jd.UploadedFile = value.Bool
+				_m.UploadedFile = value.Bool
 			}
 		case jobdetail.FieldIndustryArea:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field IndustryArea", values[i])
 			} else if value.Valid {
-				jd.IndustryArea = value.Bool
+				_m.IndustryArea = value.Bool
 			}
 		case jobdetail.FieldClusterStructure:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field ClusterStructure", values[i])
 			} else if value.Valid {
-				jd.ClusterStructure = value.Bool
+				_m.ClusterStructure = value.Bool
 			}
 		case jobdetail.FieldIsLicenseExpired:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field IsLicenseExpired", values[i])
 			} else if value.Valid {
-				jd.IsLicenseExpired = value.Bool
+				_m.IsLicenseExpired = value.Bool
 			}
 		case jobdetail.FieldIsCompleted:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field IsCompleted", values[i])
 			} else if value.Valid {
-				jd.IsCompleted = value.Bool
+				_m.IsCompleted = value.Bool
 			}
 		case jobdetail.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Note", values[i])
 			} else if value.Valid {
-				jd.Note = value.String
+				_m.Note = value.String
 			}
 		case jobdetail.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jd.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobdetail.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jd.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		default:
-			jd.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -371,142 +371,142 @@ func (jd *JobDetail) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobDetail.
 // This includes values selected through modifiers, order, etc.
-func (jd *JobDetail) Value(name string) (ent.Value, error) {
-	return jd.selectValues.Get(name)
+func (_m *JobDetail) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryRelations queries the "relations" edge of the JobDetail entity.
-func (jd *JobDetail) QueryRelations() *JobRelationsQuery {
-	return NewJobDetailClient(jd.config).QueryRelations(jd)
+func (_m *JobDetail) QueryRelations() *JobRelationsQuery {
+	return NewJobDetailClient(_m.config).QueryRelations(_m)
 }
 
 // Update returns a builder for updating this JobDetail.
 // Note that you need to call JobDetail.Unwrap() before calling this method if this JobDetail
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jd *JobDetail) Update() *JobDetailUpdateOne {
-	return NewJobDetailClient(jd.config).UpdateOne(jd)
+func (_m *JobDetail) Update() *JobDetailUpdateOne {
+	return NewJobDetailClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobDetail entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jd *JobDetail) Unwrap() *JobDetail {
-	_tx, ok := jd.config.driver.(*txDriver)
+func (_m *JobDetail) Unwrap() *JobDetail {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobDetail is not a transactional entity")
 	}
-	jd.config.driver = _tx.drv
-	return jd
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (jd *JobDetail) String() string {
+func (_m *JobDetail) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobDetail(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jd.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("YibfNo=")
-	builder.WriteString(fmt.Sprintf("%v", jd.YibfNo))
+	builder.WriteString(fmt.Sprintf("%v", _m.YibfNo))
 	builder.WriteString(", ")
 	builder.WriteString("Title=")
-	builder.WriteString(jd.Title)
+	builder.WriteString(_m.Title)
 	builder.WriteString(", ")
 	builder.WriteString("Administration=")
-	builder.WriteString(jd.Administration)
+	builder.WriteString(_m.Administration)
 	builder.WriteString(", ")
 	builder.WriteString("State=")
-	builder.WriteString(jd.State)
+	builder.WriteString(_m.State)
 	builder.WriteString(", ")
 	builder.WriteString("Island=")
-	builder.WriteString(jd.Island)
+	builder.WriteString(_m.Island)
 	builder.WriteString(", ")
 	builder.WriteString("Parcel=")
-	builder.WriteString(jd.Parcel)
+	builder.WriteString(_m.Parcel)
 	builder.WriteString(", ")
 	builder.WriteString("Sheet=")
-	builder.WriteString(jd.Sheet)
+	builder.WriteString(_m.Sheet)
 	builder.WriteString(", ")
 	builder.WriteString("ContractDate=")
-	builder.WriteString(jd.ContractDate.Format(time.ANSIC))
+	builder.WriteString(_m.ContractDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("StartDate=")
-	builder.WriteString(jd.StartDate.Format(time.ANSIC))
+	builder.WriteString(_m.StartDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("LicenseDate=")
-	builder.WriteString(jd.LicenseDate.Format(time.ANSIC))
+	builder.WriteString(_m.LicenseDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("LicenseNo=")
-	builder.WriteString(jd.LicenseNo)
+	builder.WriteString(_m.LicenseNo)
 	builder.WriteString(", ")
 	builder.WriteString("DistributionDate=")
-	builder.WriteString(jd.DistributionDate.Format(time.ANSIC))
+	builder.WriteString(_m.DistributionDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("CompletionDate=")
-	builder.WriteString(jd.CompletionDate.Format(time.ANSIC))
+	builder.WriteString(_m.CompletionDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("LandArea=")
-	builder.WriteString(fmt.Sprintf("%v", jd.LandArea))
+	builder.WriteString(fmt.Sprintf("%v", _m.LandArea))
 	builder.WriteString(", ")
 	builder.WriteString("TotalArea=")
-	builder.WriteString(fmt.Sprintf("%v", jd.TotalArea))
+	builder.WriteString(fmt.Sprintf("%v", _m.TotalArea))
 	builder.WriteString(", ")
 	builder.WriteString("ConstructionArea=")
-	builder.WriteString(fmt.Sprintf("%v", jd.ConstructionArea))
+	builder.WriteString(fmt.Sprintf("%v", _m.ConstructionArea))
 	builder.WriteString(", ")
 	builder.WriteString("LeftArea=")
-	builder.WriteString(fmt.Sprintf("%v", jd.LeftArea))
+	builder.WriteString(fmt.Sprintf("%v", _m.LeftArea))
 	builder.WriteString(", ")
 	builder.WriteString("YDSAddress=")
-	builder.WriteString(jd.YDSAddress)
+	builder.WriteString(_m.YDSAddress)
 	builder.WriteString(", ")
 	builder.WriteString("Address=")
-	builder.WriteString(jd.Address)
+	builder.WriteString(_m.Address)
 	builder.WriteString(", ")
 	builder.WriteString("BuildingClass=")
-	builder.WriteString(jd.BuildingClass)
+	builder.WriteString(_m.BuildingClass)
 	builder.WriteString(", ")
 	builder.WriteString("BuildingType=")
-	builder.WriteString(jd.BuildingType)
+	builder.WriteString(_m.BuildingType)
 	builder.WriteString(", ")
 	builder.WriteString("Level=")
-	builder.WriteString(fmt.Sprintf("%v", jd.Level))
+	builder.WriteString(fmt.Sprintf("%v", _m.Level))
 	builder.WriteString(", ")
 	builder.WriteString("UnitPrice=")
-	builder.WriteString(fmt.Sprintf("%v", jd.UnitPrice))
+	builder.WriteString(fmt.Sprintf("%v", _m.UnitPrice))
 	builder.WriteString(", ")
 	builder.WriteString("FloorCount=")
-	builder.WriteString(fmt.Sprintf("%v", jd.FloorCount))
+	builder.WriteString(fmt.Sprintf("%v", _m.FloorCount))
 	builder.WriteString(", ")
 	builder.WriteString("BKSReferenceNo=")
-	builder.WriteString(jd.BKSReferenceNo)
+	builder.WriteString(_m.BKSReferenceNo)
 	builder.WriteString(", ")
 	builder.WriteString("Coordinates=")
-	builder.WriteString(jd.Coordinates)
+	builder.WriteString(_m.Coordinates)
 	builder.WriteString(", ")
 	builder.WriteString("FolderNo=")
-	builder.WriteString(jd.FolderNo)
+	builder.WriteString(_m.FolderNo)
 	builder.WriteString(", ")
 	builder.WriteString("UploadedFile=")
-	builder.WriteString(fmt.Sprintf("%v", jd.UploadedFile))
+	builder.WriteString(fmt.Sprintf("%v", _m.UploadedFile))
 	builder.WriteString(", ")
 	builder.WriteString("IndustryArea=")
-	builder.WriteString(fmt.Sprintf("%v", jd.IndustryArea))
+	builder.WriteString(fmt.Sprintf("%v", _m.IndustryArea))
 	builder.WriteString(", ")
 	builder.WriteString("ClusterStructure=")
-	builder.WriteString(fmt.Sprintf("%v", jd.ClusterStructure))
+	builder.WriteString(fmt.Sprintf("%v", _m.ClusterStructure))
 	builder.WriteString(", ")
 	builder.WriteString("IsLicenseExpired=")
-	builder.WriteString(fmt.Sprintf("%v", jd.IsLicenseExpired))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsLicenseExpired))
 	builder.WriteString(", ")
 	builder.WriteString("IsCompleted=")
-	builder.WriteString(fmt.Sprintf("%v", jd.IsCompleted))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsCompleted))
 	builder.WriteString(", ")
 	builder.WriteString("Note=")
-	builder.WriteString(jd.Note)
+	builder.WriteString(_m.Note)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jd.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jd.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

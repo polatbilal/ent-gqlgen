@@ -91,7 +91,7 @@ func (*JobFloor) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobFloor fields.
-func (jf *JobFloor) assignValues(columns []string, values []any) error {
+func (_m *JobFloor) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -102,82 +102,82 @@ func (jf *JobFloor) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jf.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobfloor.FieldYibfNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
 			} else if value.Valid {
-				jf.YibfNo = int(value.Int64)
+				_m.YibfNo = int(value.Int64)
 			}
 		case jobfloor.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				jf.Name = value.String
+				_m.Name = value.String
 			}
 		case jobfloor.FieldMetre:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Metre", values[i])
 			} else if value.Valid {
-				jf.Metre = value.String
+				_m.Metre = value.String
 			}
 		case jobfloor.FieldMoldDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field MoldDate", values[i])
 			} else if value.Valid {
-				jf.MoldDate = value.Time
+				_m.MoldDate = value.Time
 			}
 		case jobfloor.FieldConcreteDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field ConcreteDate", values[i])
 			} else if value.Valid {
-				jf.ConcreteDate = value.Time
+				_m.ConcreteDate = value.Time
 			}
 		case jobfloor.FieldSamples:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field Samples", values[i])
 			} else if value.Valid {
-				jf.Samples = int(value.Int64)
+				_m.Samples = int(value.Int64)
 			}
 		case jobfloor.FieldConcreteClass:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field ConcreteClass", values[i])
 			} else if value.Valid {
-				jf.ConcreteClass = value.String
+				_m.ConcreteClass = value.String
 			}
 		case jobfloor.FieldWeekResult:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field WeekResult", values[i])
 			} else if value.Valid {
-				jf.WeekResult = value.String
+				_m.WeekResult = value.String
 			}
 		case jobfloor.FieldMonthResult:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field MonthResult", values[i])
 			} else if value.Valid {
-				jf.MonthResult = value.String
+				_m.MonthResult = value.String
 			}
 		case jobfloor.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jf.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobfloor.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jf.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case jobfloor.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
-				jf.relations_id = new(int)
-				*jf.relations_id = int(value.Int64)
+				_m.relations_id = new(int)
+				*_m.relations_id = int(value.Int64)
 			}
 		default:
-			jf.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -185,70 +185,70 @@ func (jf *JobFloor) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobFloor.
 // This includes values selected through modifiers, order, etc.
-func (jf *JobFloor) Value(name string) (ent.Value, error) {
-	return jf.selectValues.Get(name)
+func (_m *JobFloor) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryFloor queries the "floor" edge of the JobFloor entity.
-func (jf *JobFloor) QueryFloor() *JobRelationsQuery {
-	return NewJobFloorClient(jf.config).QueryFloor(jf)
+func (_m *JobFloor) QueryFloor() *JobRelationsQuery {
+	return NewJobFloorClient(_m.config).QueryFloor(_m)
 }
 
 // Update returns a builder for updating this JobFloor.
 // Note that you need to call JobFloor.Unwrap() before calling this method if this JobFloor
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jf *JobFloor) Update() *JobFloorUpdateOne {
-	return NewJobFloorClient(jf.config).UpdateOne(jf)
+func (_m *JobFloor) Update() *JobFloorUpdateOne {
+	return NewJobFloorClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobFloor entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jf *JobFloor) Unwrap() *JobFloor {
-	_tx, ok := jf.config.driver.(*txDriver)
+func (_m *JobFloor) Unwrap() *JobFloor {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobFloor is not a transactional entity")
 	}
-	jf.config.driver = _tx.drv
-	return jf
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (jf *JobFloor) String() string {
+func (_m *JobFloor) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobFloor(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jf.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("yibfNo=")
-	builder.WriteString(fmt.Sprintf("%v", jf.YibfNo))
+	builder.WriteString(fmt.Sprintf("%v", _m.YibfNo))
 	builder.WriteString(", ")
 	builder.WriteString("Name=")
-	builder.WriteString(jf.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("Metre=")
-	builder.WriteString(jf.Metre)
+	builder.WriteString(_m.Metre)
 	builder.WriteString(", ")
 	builder.WriteString("MoldDate=")
-	builder.WriteString(jf.MoldDate.Format(time.ANSIC))
+	builder.WriteString(_m.MoldDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("ConcreteDate=")
-	builder.WriteString(jf.ConcreteDate.Format(time.ANSIC))
+	builder.WriteString(_m.ConcreteDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("Samples=")
-	builder.WriteString(fmt.Sprintf("%v", jf.Samples))
+	builder.WriteString(fmt.Sprintf("%v", _m.Samples))
 	builder.WriteString(", ")
 	builder.WriteString("ConcreteClass=")
-	builder.WriteString(jf.ConcreteClass)
+	builder.WriteString(_m.ConcreteClass)
 	builder.WriteString(", ")
 	builder.WriteString("WeekResult=")
-	builder.WriteString(jf.WeekResult)
+	builder.WriteString(_m.WeekResult)
 	builder.WriteString(", ")
 	builder.WriteString("MonthResult=")
-	builder.WriteString(jf.MonthResult)
+	builder.WriteString(_m.MonthResult)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jf.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jf.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

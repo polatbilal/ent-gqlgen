@@ -23,368 +23,368 @@ type CompanyEngineerCreate struct {
 }
 
 // SetName sets the "Name" field.
-func (cec *CompanyEngineerCreate) SetName(s string) *CompanyEngineerCreate {
-	cec.mutation.SetName(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetName(v string) *CompanyEngineerCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableName(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetName(*s)
+func (_c *CompanyEngineerCreate) SetNillableName(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetTcNo sets the "TcNo" field.
-func (cec *CompanyEngineerCreate) SetTcNo(s string) *CompanyEngineerCreate {
-	cec.mutation.SetTcNo(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetTcNo(v string) *CompanyEngineerCreate {
+	_c.mutation.SetTcNo(v)
+	return _c
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableTcNo(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetTcNo(*s)
+func (_c *CompanyEngineerCreate) SetNillableTcNo(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetTcNo(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetPhone sets the "Phone" field.
-func (cec *CompanyEngineerCreate) SetPhone(s string) *CompanyEngineerCreate {
-	cec.mutation.SetPhone(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetPhone(v string) *CompanyEngineerCreate {
+	_c.mutation.SetPhone(v)
+	return _c
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillablePhone(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetPhone(*s)
+func (_c *CompanyEngineerCreate) SetNillablePhone(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetPhone(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetEmail sets the "Email" field.
-func (cec *CompanyEngineerCreate) SetEmail(s string) *CompanyEngineerCreate {
-	cec.mutation.SetEmail(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetEmail(v string) *CompanyEngineerCreate {
+	_c.mutation.SetEmail(v)
+	return _c
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableEmail(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetEmail(*s)
+func (_c *CompanyEngineerCreate) SetNillableEmail(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetEmail(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetAddress sets the "Address" field.
-func (cec *CompanyEngineerCreate) SetAddress(s string) *CompanyEngineerCreate {
-	cec.mutation.SetAddress(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetAddress(v string) *CompanyEngineerCreate {
+	_c.mutation.SetAddress(v)
+	return _c
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableAddress(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetAddress(*s)
+func (_c *CompanyEngineerCreate) SetNillableAddress(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetAddress(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetCareer sets the "Career" field.
-func (cec *CompanyEngineerCreate) SetCareer(s string) *CompanyEngineerCreate {
-	cec.mutation.SetCareer(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetCareer(v string) *CompanyEngineerCreate {
+	_c.mutation.SetCareer(v)
+	return _c
 }
 
 // SetNillableCareer sets the "Career" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableCareer(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetCareer(*s)
+func (_c *CompanyEngineerCreate) SetNillableCareer(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetCareer(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetPosition sets the "Position" field.
-func (cec *CompanyEngineerCreate) SetPosition(s string) *CompanyEngineerCreate {
-	cec.mutation.SetPosition(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetPosition(v string) *CompanyEngineerCreate {
+	_c.mutation.SetPosition(v)
+	return _c
 }
 
 // SetNillablePosition sets the "Position" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillablePosition(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetPosition(*s)
+func (_c *CompanyEngineerCreate) SetNillablePosition(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetPosition(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (cec *CompanyEngineerCreate) SetRegisterNo(s string) *CompanyEngineerCreate {
-	cec.mutation.SetRegisterNo(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetRegisterNo(v string) *CompanyEngineerCreate {
+	_c.mutation.SetRegisterNo(v)
+	return _c
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableRegisterNo(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetRegisterNo(*s)
+func (_c *CompanyEngineerCreate) SetNillableRegisterNo(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetRegisterNo(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetCertNo sets the "CertNo" field.
-func (cec *CompanyEngineerCreate) SetCertNo(s string) *CompanyEngineerCreate {
-	cec.mutation.SetCertNo(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetCertNo(v string) *CompanyEngineerCreate {
+	_c.mutation.SetCertNo(v)
+	return _c
 }
 
 // SetNillableCertNo sets the "CertNo" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableCertNo(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetCertNo(*s)
+func (_c *CompanyEngineerCreate) SetNillableCertNo(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetCertNo(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetYDSID sets the "YDSID" field.
-func (cec *CompanyEngineerCreate) SetYDSID(i int) *CompanyEngineerCreate {
-	cec.mutation.SetYDSID(i)
-	return cec
+func (_c *CompanyEngineerCreate) SetYDSID(v int) *CompanyEngineerCreate {
+	_c.mutation.SetYDSID(v)
+	return _c
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableYDSID(i *int) *CompanyEngineerCreate {
-	if i != nil {
-		cec.SetYDSID(*i)
+func (_c *CompanyEngineerCreate) SetNillableYDSID(v *int) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetYDSID(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetEmployment sets the "Employment" field.
-func (cec *CompanyEngineerCreate) SetEmployment(t time.Time) *CompanyEngineerCreate {
-	cec.mutation.SetEmployment(t)
-	return cec
+func (_c *CompanyEngineerCreate) SetEmployment(v time.Time) *CompanyEngineerCreate {
+	_c.mutation.SetEmployment(v)
+	return _c
 }
 
 // SetNillableEmployment sets the "Employment" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableEmployment(t *time.Time) *CompanyEngineerCreate {
-	if t != nil {
-		cec.SetEmployment(*t)
+func (_c *CompanyEngineerCreate) SetNillableEmployment(v *time.Time) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetEmployment(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetStatus sets the "Status" field.
-func (cec *CompanyEngineerCreate) SetStatus(i int) *CompanyEngineerCreate {
-	cec.mutation.SetStatus(i)
-	return cec
+func (_c *CompanyEngineerCreate) SetStatus(v int) *CompanyEngineerCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "Status" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableStatus(i *int) *CompanyEngineerCreate {
-	if i != nil {
-		cec.SetStatus(*i)
+func (_c *CompanyEngineerCreate) SetNillableStatus(v *int) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetNote sets the "Note" field.
-func (cec *CompanyEngineerCreate) SetNote(s string) *CompanyEngineerCreate {
-	cec.mutation.SetNote(s)
-	return cec
+func (_c *CompanyEngineerCreate) SetNote(v string) *CompanyEngineerCreate {
+	_c.mutation.SetNote(v)
+	return _c
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableNote(s *string) *CompanyEngineerCreate {
-	if s != nil {
-		cec.SetNote(*s)
+func (_c *CompanyEngineerCreate) SetNillableNote(v *string) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetNote(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (cec *CompanyEngineerCreate) SetCreatedAt(t time.Time) *CompanyEngineerCreate {
-	cec.mutation.SetCreatedAt(t)
-	return cec
+func (_c *CompanyEngineerCreate) SetCreatedAt(v time.Time) *CompanyEngineerCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableCreatedAt(t *time.Time) *CompanyEngineerCreate {
-	if t != nil {
-		cec.SetCreatedAt(*t)
+func (_c *CompanyEngineerCreate) SetNillableCreatedAt(v *time.Time) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (cec *CompanyEngineerCreate) SetUpdatedAt(t time.Time) *CompanyEngineerCreate {
-	cec.mutation.SetUpdatedAt(t)
-	return cec
+func (_c *CompanyEngineerCreate) SetUpdatedAt(v time.Time) *CompanyEngineerCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableUpdatedAt(t *time.Time) *CompanyEngineerCreate {
-	if t != nil {
-		cec.SetUpdatedAt(*t)
+func (_c *CompanyEngineerCreate) SetNillableUpdatedAt(v *time.Time) *CompanyEngineerCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return cec
+	return _c
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (cec *CompanyEngineerCreate) SetCompanyID(id int) *CompanyEngineerCreate {
-	cec.mutation.SetCompanyID(id)
-	return cec
+func (_c *CompanyEngineerCreate) SetCompanyID(id int) *CompanyEngineerCreate {
+	_c.mutation.SetCompanyID(id)
+	return _c
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (cec *CompanyEngineerCreate) SetNillableCompanyID(id *int) *CompanyEngineerCreate {
+func (_c *CompanyEngineerCreate) SetNillableCompanyID(id *int) *CompanyEngineerCreate {
 	if id != nil {
-		cec = cec.SetCompanyID(*id)
+		_c = _c.SetCompanyID(*id)
 	}
-	return cec
+	return _c
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (cec *CompanyEngineerCreate) SetCompany(c *CompanyDetail) *CompanyEngineerCreate {
-	return cec.SetCompanyID(c.ID)
+func (_c *CompanyEngineerCreate) SetCompany(v *CompanyDetail) *CompanyEngineerCreate {
+	return _c.SetCompanyID(v.ID)
 }
 
 // AddStaticIDs adds the "statics" edge to the JobRelations entity by IDs.
-func (cec *CompanyEngineerCreate) AddStaticIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddStaticIDs(ids...)
-	return cec
+func (_c *CompanyEngineerCreate) AddStaticIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddStaticIDs(ids...)
+	return _c
 }
 
 // AddStatics adds the "statics" edges to the JobRelations entity.
-func (cec *CompanyEngineerCreate) AddStatics(j ...*JobRelations) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyEngineerCreate) AddStatics(v ...*JobRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cec.AddStaticIDs(ids...)
+	return _c.AddStaticIDs(ids...)
 }
 
 // AddMechanicIDs adds the "mechanics" edge to the JobRelations entity by IDs.
-func (cec *CompanyEngineerCreate) AddMechanicIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddMechanicIDs(ids...)
-	return cec
+func (_c *CompanyEngineerCreate) AddMechanicIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddMechanicIDs(ids...)
+	return _c
 }
 
 // AddMechanics adds the "mechanics" edges to the JobRelations entity.
-func (cec *CompanyEngineerCreate) AddMechanics(j ...*JobRelations) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyEngineerCreate) AddMechanics(v ...*JobRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cec.AddMechanicIDs(ids...)
+	return _c.AddMechanicIDs(ids...)
 }
 
 // AddElectricIDs adds the "electrics" edge to the JobRelations entity by IDs.
-func (cec *CompanyEngineerCreate) AddElectricIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddElectricIDs(ids...)
-	return cec
+func (_c *CompanyEngineerCreate) AddElectricIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddElectricIDs(ids...)
+	return _c
 }
 
 // AddElectrics adds the "electrics" edges to the JobRelations entity.
-func (cec *CompanyEngineerCreate) AddElectrics(j ...*JobRelations) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyEngineerCreate) AddElectrics(v ...*JobRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cec.AddElectricIDs(ids...)
+	return _c.AddElectricIDs(ids...)
 }
 
 // AddInspectorIDs adds the "inspectors" edge to the JobRelations entity by IDs.
-func (cec *CompanyEngineerCreate) AddInspectorIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddInspectorIDs(ids...)
-	return cec
+func (_c *CompanyEngineerCreate) AddInspectorIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddInspectorIDs(ids...)
+	return _c
 }
 
 // AddInspectors adds the "inspectors" edges to the JobRelations entity.
-func (cec *CompanyEngineerCreate) AddInspectors(j ...*JobRelations) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyEngineerCreate) AddInspectors(v ...*JobRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cec.AddInspectorIDs(ids...)
+	return _c.AddInspectorIDs(ids...)
 }
 
 // AddArchitectIDs adds the "architects" edge to the JobRelations entity by IDs.
-func (cec *CompanyEngineerCreate) AddArchitectIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddArchitectIDs(ids...)
-	return cec
+func (_c *CompanyEngineerCreate) AddArchitectIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddArchitectIDs(ids...)
+	return _c
 }
 
 // AddArchitects adds the "architects" edges to the JobRelations entity.
-func (cec *CompanyEngineerCreate) AddArchitects(j ...*JobRelations) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyEngineerCreate) AddArchitects(v ...*JobRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cec.AddArchitectIDs(ids...)
+	return _c.AddArchitectIDs(ids...)
 }
 
 // AddControllerIDs adds the "controllers" edge to the JobRelations entity by IDs.
-func (cec *CompanyEngineerCreate) AddControllerIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddControllerIDs(ids...)
-	return cec
+func (_c *CompanyEngineerCreate) AddControllerIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddControllerIDs(ids...)
+	return _c
 }
 
 // AddControllers adds the "controllers" edges to the JobRelations entity.
-func (cec *CompanyEngineerCreate) AddControllers(j ...*JobRelations) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyEngineerCreate) AddControllers(v ...*JobRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cec.AddControllerIDs(ids...)
+	return _c.AddControllerIDs(ids...)
 }
 
 // AddMechaniccontrollerIDs adds the "mechaniccontrollers" edge to the JobRelations entity by IDs.
-func (cec *CompanyEngineerCreate) AddMechaniccontrollerIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddMechaniccontrollerIDs(ids...)
-	return cec
+func (_c *CompanyEngineerCreate) AddMechaniccontrollerIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddMechaniccontrollerIDs(ids...)
+	return _c
 }
 
 // AddMechaniccontrollers adds the "mechaniccontrollers" edges to the JobRelations entity.
-func (cec *CompanyEngineerCreate) AddMechaniccontrollers(j ...*JobRelations) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyEngineerCreate) AddMechaniccontrollers(v ...*JobRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cec.AddMechaniccontrollerIDs(ids...)
+	return _c.AddMechaniccontrollerIDs(ids...)
 }
 
 // AddElectriccontrollerIDs adds the "electriccontrollers" edge to the JobRelations entity by IDs.
-func (cec *CompanyEngineerCreate) AddElectriccontrollerIDs(ids ...int) *CompanyEngineerCreate {
-	cec.mutation.AddElectriccontrollerIDs(ids...)
-	return cec
+func (_c *CompanyEngineerCreate) AddElectriccontrollerIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddElectriccontrollerIDs(ids...)
+	return _c
 }
 
 // AddElectriccontrollers adds the "electriccontrollers" edges to the JobRelations entity.
-func (cec *CompanyEngineerCreate) AddElectriccontrollers(j ...*JobRelations) *CompanyEngineerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyEngineerCreate) AddElectriccontrollers(v ...*JobRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cec.AddElectriccontrollerIDs(ids...)
+	return _c.AddElectriccontrollerIDs(ids...)
 }
 
 // Mutation returns the CompanyEngineerMutation object of the builder.
-func (cec *CompanyEngineerCreate) Mutation() *CompanyEngineerMutation {
-	return cec.mutation
+func (_c *CompanyEngineerCreate) Mutation() *CompanyEngineerMutation {
+	return _c.mutation
 }
 
 // Save creates the CompanyEngineer in the database.
-func (cec *CompanyEngineerCreate) Save(ctx context.Context) (*CompanyEngineer, error) {
-	cec.defaults()
-	return withHooks(ctx, cec.sqlSave, cec.mutation, cec.hooks)
+func (_c *CompanyEngineerCreate) Save(ctx context.Context) (*CompanyEngineer, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (cec *CompanyEngineerCreate) SaveX(ctx context.Context) *CompanyEngineer {
-	v, err := cec.Save(ctx)
+func (_c *CompanyEngineerCreate) SaveX(ctx context.Context) *CompanyEngineer {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -392,61 +392,61 @@ func (cec *CompanyEngineerCreate) SaveX(ctx context.Context) *CompanyEngineer {
 }
 
 // Exec executes the query.
-func (cec *CompanyEngineerCreate) Exec(ctx context.Context) error {
-	_, err := cec.Save(ctx)
+func (_c *CompanyEngineerCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cec *CompanyEngineerCreate) ExecX(ctx context.Context) {
-	if err := cec.Exec(ctx); err != nil {
+func (_c *CompanyEngineerCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cec *CompanyEngineerCreate) defaults() {
-	if _, ok := cec.mutation.Name(); !ok {
+func (_c *CompanyEngineerCreate) defaults() {
+	if _, ok := _c.mutation.Name(); !ok {
 		v := companyengineer.DefaultName
-		cec.mutation.SetName(v)
+		_c.mutation.SetName(v)
 	}
-	if _, ok := cec.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := companyengineer.DefaultStatus
-		cec.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := cec.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := companyengineer.DefaultCreatedAt()
-		cec.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := cec.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := companyengineer.DefaultUpdatedAt()
-		cec.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (cec *CompanyEngineerCreate) check() error {
-	if _, ok := cec.mutation.Name(); !ok {
+func (_c *CompanyEngineerCreate) check() error {
+	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "CompanyEngineer.Name"`)}
 	}
-	if _, ok := cec.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "Status", err: errors.New(`ent: missing required field "CompanyEngineer.Status"`)}
 	}
-	if _, ok := cec.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "CompanyEngineer.CreatedAt"`)}
 	}
-	if _, ok := cec.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "CompanyEngineer.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (cec *CompanyEngineerCreate) sqlSave(ctx context.Context) (*CompanyEngineer, error) {
-	if err := cec.check(); err != nil {
+func (_c *CompanyEngineerCreate) sqlSave(ctx context.Context) (*CompanyEngineer, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := cec.createSpec()
-	if err := sqlgraph.CreateNode(ctx, cec.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -454,77 +454,77 @@ func (cec *CompanyEngineerCreate) sqlSave(ctx context.Context) (*CompanyEngineer
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	cec.mutation.id = &_node.ID
-	cec.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.CreateSpec) {
+func (_c *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.CreateSpec) {
 	var (
-		_node = &CompanyEngineer{config: cec.config}
+		_node = &CompanyEngineer{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(companyengineer.Table, sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt))
 	)
-	if value, ok := cec.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(companyengineer.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := cec.mutation.TcNo(); ok {
+	if value, ok := _c.mutation.TcNo(); ok {
 		_spec.SetField(companyengineer.FieldTcNo, field.TypeString, value)
 		_node.TcNo = value
 	}
-	if value, ok := cec.mutation.Phone(); ok {
+	if value, ok := _c.mutation.Phone(); ok {
 		_spec.SetField(companyengineer.FieldPhone, field.TypeString, value)
 		_node.Phone = value
 	}
-	if value, ok := cec.mutation.Email(); ok {
+	if value, ok := _c.mutation.Email(); ok {
 		_spec.SetField(companyengineer.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := cec.mutation.Address(); ok {
+	if value, ok := _c.mutation.Address(); ok {
 		_spec.SetField(companyengineer.FieldAddress, field.TypeString, value)
 		_node.Address = value
 	}
-	if value, ok := cec.mutation.Career(); ok {
+	if value, ok := _c.mutation.Career(); ok {
 		_spec.SetField(companyengineer.FieldCareer, field.TypeString, value)
 		_node.Career = value
 	}
-	if value, ok := cec.mutation.Position(); ok {
+	if value, ok := _c.mutation.Position(); ok {
 		_spec.SetField(companyengineer.FieldPosition, field.TypeString, value)
 		_node.Position = value
 	}
-	if value, ok := cec.mutation.RegisterNo(); ok {
+	if value, ok := _c.mutation.RegisterNo(); ok {
 		_spec.SetField(companyengineer.FieldRegisterNo, field.TypeString, value)
 		_node.RegisterNo = value
 	}
-	if value, ok := cec.mutation.CertNo(); ok {
+	if value, ok := _c.mutation.CertNo(); ok {
 		_spec.SetField(companyengineer.FieldCertNo, field.TypeString, value)
 		_node.CertNo = value
 	}
-	if value, ok := cec.mutation.YDSID(); ok {
+	if value, ok := _c.mutation.YDSID(); ok {
 		_spec.SetField(companyengineer.FieldYDSID, field.TypeInt, value)
 		_node.YDSID = value
 	}
-	if value, ok := cec.mutation.Employment(); ok {
+	if value, ok := _c.mutation.Employment(); ok {
 		_spec.SetField(companyengineer.FieldEmployment, field.TypeTime, value)
 		_node.Employment = value
 	}
-	if value, ok := cec.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
-	if value, ok := cec.mutation.Note(); ok {
+	if value, ok := _c.mutation.Note(); ok {
 		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
 		_node.Note = value
 	}
-	if value, ok := cec.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(companyengineer.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := cec.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(companyengineer.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := cec.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -541,7 +541,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.StaticsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.StaticsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -557,7 +557,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.MechanicsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.MechanicsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -573,7 +573,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.ElectricsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ElectricsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -589,7 +589,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.InspectorsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.InspectorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -605,7 +605,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.ArchitectsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ArchitectsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -621,7 +621,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.ControllersIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ControllersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -637,7 +637,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.MechaniccontrollersIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.MechaniccontrollersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -653,7 +653,7 @@ func (cec *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Crea
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cec.mutation.ElectriccontrollersIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ElectriccontrollersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -680,16 +680,16 @@ type CompanyEngineerCreateBulk struct {
 }
 
 // Save creates the CompanyEngineer entities in the database.
-func (cecb *CompanyEngineerCreateBulk) Save(ctx context.Context) ([]*CompanyEngineer, error) {
-	if cecb.err != nil {
-		return nil, cecb.err
+func (_c *CompanyEngineerCreateBulk) Save(ctx context.Context) ([]*CompanyEngineer, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(cecb.builders))
-	nodes := make([]*CompanyEngineer, len(cecb.builders))
-	mutators := make([]Mutator, len(cecb.builders))
-	for i := range cecb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*CompanyEngineer, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := cecb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CompanyEngineerMutation)
@@ -703,11 +703,11 @@ func (cecb *CompanyEngineerCreateBulk) Save(ctx context.Context) ([]*CompanyEngi
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, cecb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, cecb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -731,7 +731,7 @@ func (cecb *CompanyEngineerCreateBulk) Save(ctx context.Context) ([]*CompanyEngi
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, cecb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -739,8 +739,8 @@ func (cecb *CompanyEngineerCreateBulk) Save(ctx context.Context) ([]*CompanyEngi
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cecb *CompanyEngineerCreateBulk) SaveX(ctx context.Context) []*CompanyEngineer {
-	v, err := cecb.Save(ctx)
+func (_c *CompanyEngineerCreateBulk) SaveX(ctx context.Context) []*CompanyEngineer {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -748,14 +748,14 @@ func (cecb *CompanyEngineerCreateBulk) SaveX(ctx context.Context) []*CompanyEngi
 }
 
 // Exec executes the query.
-func (cecb *CompanyEngineerCreateBulk) Exec(ctx context.Context) error {
-	_, err := cecb.Save(ctx)
+func (_c *CompanyEngineerCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cecb *CompanyEngineerCreateBulk) ExecX(ctx context.Context) {
-	if err := cecb.Exec(ctx); err != nil {
+func (_c *CompanyEngineerCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

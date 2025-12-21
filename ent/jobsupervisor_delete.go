@@ -20,56 +20,56 @@ type JobSupervisorDelete struct {
 }
 
 // Where appends a list predicates to the JobSupervisorDelete builder.
-func (jsd *JobSupervisorDelete) Where(ps ...predicate.JobSupervisor) *JobSupervisorDelete {
-	jsd.mutation.Where(ps...)
-	return jsd
+func (_d *JobSupervisorDelete) Where(ps ...predicate.JobSupervisor) *JobSupervisorDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (jsd *JobSupervisorDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, jsd.sqlExec, jsd.mutation, jsd.hooks)
+func (_d *JobSupervisorDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jsd *JobSupervisorDelete) ExecX(ctx context.Context) int {
-	n, err := jsd.Exec(ctx)
+func (_d *JobSupervisorDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (jsd *JobSupervisorDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *JobSupervisorDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(jobsupervisor.Table, sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt))
-	if ps := jsd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, jsd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	jsd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // JobSupervisorDeleteOne is the builder for deleting a single JobSupervisor entity.
 type JobSupervisorDeleteOne struct {
-	jsd *JobSupervisorDelete
+	_d *JobSupervisorDelete
 }
 
 // Where appends a list predicates to the JobSupervisorDelete builder.
-func (jsdo *JobSupervisorDeleteOne) Where(ps ...predicate.JobSupervisor) *JobSupervisorDeleteOne {
-	jsdo.jsd.mutation.Where(ps...)
-	return jsdo
+func (_d *JobSupervisorDeleteOne) Where(ps ...predicate.JobSupervisor) *JobSupervisorDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (jsdo *JobSupervisorDeleteOne) Exec(ctx context.Context) error {
-	n, err := jsdo.jsd.Exec(ctx)
+func (_d *JobSupervisorDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (jsdo *JobSupervisorDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jsdo *JobSupervisorDeleteOne) ExecX(ctx context.Context) {
-	if err := jsdo.Exec(ctx); err != nil {
+func (_d *JobSupervisorDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

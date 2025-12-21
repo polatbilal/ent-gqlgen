@@ -91,7 +91,7 @@ func (*JobContractor) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobContractor fields.
-func (jc *JobContractor) assignValues(columns []string, values []any) error {
+func (_m *JobContractor) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -102,87 +102,87 @@ func (jc *JobContractor) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jc.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobcontractor.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				jc.Name = value.String
+				_m.Name = value.String
 			}
 		case jobcontractor.FieldTcNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				jc.TcNo = value.String
+				_m.TcNo = value.String
 			}
 		case jobcontractor.FieldRegisterNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field RegisterNo", values[i])
 			} else if value.Valid {
-				jc.RegisterNo = value.String
+				_m.RegisterNo = value.String
 			}
 		case jobcontractor.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				jc.Address = value.String
+				_m.Address = value.String
 			}
 		case jobcontractor.FieldTaxNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
 			} else if value.Valid {
-				jc.TaxNo = value.String
+				_m.TaxNo = value.String
 			}
 		case jobcontractor.FieldMobilePhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field MobilePhone", values[i])
 			} else if value.Valid {
-				jc.MobilePhone = value.String
+				_m.MobilePhone = value.String
 			}
 		case jobcontractor.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Phone", values[i])
 			} else if value.Valid {
-				jc.Phone = value.String
+				_m.Phone = value.String
 			}
 		case jobcontractor.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Email", values[i])
 			} else if value.Valid {
-				jc.Email = value.String
+				_m.Email = value.String
 			}
 		case jobcontractor.FieldPersonType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field PersonType", values[i])
 			} else if value.Valid {
-				jc.PersonType = value.String
+				_m.PersonType = value.String
 			}
 		case jobcontractor.FieldYDSID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field YDSID", values[i])
 			} else if value.Valid {
-				jc.YDSID = int(value.Int64)
+				_m.YDSID = int(value.Int64)
 			}
 		case jobcontractor.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Note", values[i])
 			} else if value.Valid {
-				jc.Note = value.String
+				_m.Note = value.String
 			}
 		case jobcontractor.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jc.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobcontractor.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jc.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		default:
-			jc.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -190,101 +190,101 @@ func (jc *JobContractor) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobContractor.
 // This includes values selected through modifiers, order, etc.
-func (jc *JobContractor) Value(name string) (ent.Value, error) {
-	return jc.selectValues.Get(name)
+func (_m *JobContractor) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryContractors queries the "contractors" edge of the JobContractor entity.
-func (jc *JobContractor) QueryContractors() *JobRelationsQuery {
-	return NewJobContractorClient(jc.config).QueryContractors(jc)
+func (_m *JobContractor) QueryContractors() *JobRelationsQuery {
+	return NewJobContractorClient(_m.config).QueryContractors(_m)
 }
 
 // Update returns a builder for updating this JobContractor.
 // Note that you need to call JobContractor.Unwrap() before calling this method if this JobContractor
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jc *JobContractor) Update() *JobContractorUpdateOne {
-	return NewJobContractorClient(jc.config).UpdateOne(jc)
+func (_m *JobContractor) Update() *JobContractorUpdateOne {
+	return NewJobContractorClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobContractor entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jc *JobContractor) Unwrap() *JobContractor {
-	_tx, ok := jc.config.driver.(*txDriver)
+func (_m *JobContractor) Unwrap() *JobContractor {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobContractor is not a transactional entity")
 	}
-	jc.config.driver = _tx.drv
-	return jc
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (jc *JobContractor) String() string {
+func (_m *JobContractor) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobContractor(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jc.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("Name=")
-	builder.WriteString(jc.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(jc.TcNo)
+	builder.WriteString(_m.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("RegisterNo=")
-	builder.WriteString(jc.RegisterNo)
+	builder.WriteString(_m.RegisterNo)
 	builder.WriteString(", ")
 	builder.WriteString("Address=")
-	builder.WriteString(jc.Address)
+	builder.WriteString(_m.Address)
 	builder.WriteString(", ")
 	builder.WriteString("TaxNo=")
-	builder.WriteString(jc.TaxNo)
+	builder.WriteString(_m.TaxNo)
 	builder.WriteString(", ")
 	builder.WriteString("MobilePhone=")
-	builder.WriteString(jc.MobilePhone)
+	builder.WriteString(_m.MobilePhone)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
-	builder.WriteString(jc.Phone)
+	builder.WriteString(_m.Phone)
 	builder.WriteString(", ")
 	builder.WriteString("Email=")
-	builder.WriteString(jc.Email)
+	builder.WriteString(_m.Email)
 	builder.WriteString(", ")
 	builder.WriteString("PersonType=")
-	builder.WriteString(jc.PersonType)
+	builder.WriteString(_m.PersonType)
 	builder.WriteString(", ")
 	builder.WriteString("YDSID=")
-	builder.WriteString(fmt.Sprintf("%v", jc.YDSID))
+	builder.WriteString(fmt.Sprintf("%v", _m.YDSID))
 	builder.WriteString(", ")
 	builder.WriteString("Note=")
-	builder.WriteString(jc.Note)
+	builder.WriteString(_m.Note)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jc.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jc.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedContractors returns the Contractors named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jc *JobContractor) NamedContractors(name string) ([]*JobRelations, error) {
-	if jc.Edges.namedContractors == nil {
+func (_m *JobContractor) NamedContractors(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedContractors == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := jc.Edges.namedContractors[name]
+	nodes, ok := _m.Edges.namedContractors[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (jc *JobContractor) appendNamedContractors(name string, edges ...*JobRelations) {
-	if jc.Edges.namedContractors == nil {
-		jc.Edges.namedContractors = make(map[string][]*JobRelations)
+func (_m *JobContractor) appendNamedContractors(name string, edges ...*JobRelations) {
+	if _m.Edges.namedContractors == nil {
+		_m.Edges.namedContractors = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		jc.Edges.namedContractors[name] = []*JobRelations{}
+		_m.Edges.namedContractors[name] = []*JobRelations{}
 	} else {
-		jc.Edges.namedContractors[name] = append(jc.Edges.namedContractors[name], edges...)
+		_m.Edges.namedContractors[name] = append(_m.Edges.namedContractors[name], edges...)
 	}
 }
 

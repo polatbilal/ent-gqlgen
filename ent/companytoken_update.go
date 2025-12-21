@@ -24,157 +24,157 @@ type CompanyTokenUpdate struct {
 }
 
 // Where appends a list predicates to the CompanyTokenUpdate builder.
-func (ctu *CompanyTokenUpdate) Where(ps ...predicate.CompanyToken) *CompanyTokenUpdate {
-	ctu.mutation.Where(ps...)
-	return ctu
+func (_u *CompanyTokenUpdate) Where(ps ...predicate.CompanyToken) *CompanyTokenUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetYDKUsername sets the "YDKUsername" field.
-func (ctu *CompanyTokenUpdate) SetYDKUsername(s string) *CompanyTokenUpdate {
-	ctu.mutation.SetYDKUsername(s)
-	return ctu
+func (_u *CompanyTokenUpdate) SetYDKUsername(v string) *CompanyTokenUpdate {
+	_u.mutation.SetYDKUsername(v)
+	return _u
 }
 
 // SetNillableYDKUsername sets the "YDKUsername" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableYDKUsername(s *string) *CompanyTokenUpdate {
-	if s != nil {
-		ctu.SetYDKUsername(*s)
+func (_u *CompanyTokenUpdate) SetNillableYDKUsername(v *string) *CompanyTokenUpdate {
+	if v != nil {
+		_u.SetYDKUsername(*v)
 	}
-	return ctu
+	return _u
 }
 
 // ClearYDKUsername clears the value of the "YDKUsername" field.
-func (ctu *CompanyTokenUpdate) ClearYDKUsername() *CompanyTokenUpdate {
-	ctu.mutation.ClearYDKUsername()
-	return ctu
+func (_u *CompanyTokenUpdate) ClearYDKUsername() *CompanyTokenUpdate {
+	_u.mutation.ClearYDKUsername()
+	return _u
 }
 
 // SetYDKPassword sets the "YDKPassword" field.
-func (ctu *CompanyTokenUpdate) SetYDKPassword(s string) *CompanyTokenUpdate {
-	ctu.mutation.SetYDKPassword(s)
-	return ctu
+func (_u *CompanyTokenUpdate) SetYDKPassword(v string) *CompanyTokenUpdate {
+	_u.mutation.SetYDKPassword(v)
+	return _u
 }
 
 // SetNillableYDKPassword sets the "YDKPassword" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableYDKPassword(s *string) *CompanyTokenUpdate {
-	if s != nil {
-		ctu.SetYDKPassword(*s)
+func (_u *CompanyTokenUpdate) SetNillableYDKPassword(v *string) *CompanyTokenUpdate {
+	if v != nil {
+		_u.SetYDKPassword(*v)
 	}
-	return ctu
+	return _u
 }
 
 // ClearYDKPassword clears the value of the "YDKPassword" field.
-func (ctu *CompanyTokenUpdate) ClearYDKPassword() *CompanyTokenUpdate {
-	ctu.mutation.ClearYDKPassword()
-	return ctu
+func (_u *CompanyTokenUpdate) ClearYDKPassword() *CompanyTokenUpdate {
+	_u.mutation.ClearYDKPassword()
+	return _u
 }
 
 // SetToken sets the "Token" field.
-func (ctu *CompanyTokenUpdate) SetToken(s string) *CompanyTokenUpdate {
-	ctu.mutation.SetToken(s)
-	return ctu
+func (_u *CompanyTokenUpdate) SetToken(v string) *CompanyTokenUpdate {
+	_u.mutation.SetToken(v)
+	return _u
 }
 
 // SetNillableToken sets the "Token" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableToken(s *string) *CompanyTokenUpdate {
-	if s != nil {
-		ctu.SetToken(*s)
+func (_u *CompanyTokenUpdate) SetNillableToken(v *string) *CompanyTokenUpdate {
+	if v != nil {
+		_u.SetToken(*v)
 	}
-	return ctu
+	return _u
 }
 
 // ClearToken clears the value of the "Token" field.
-func (ctu *CompanyTokenUpdate) ClearToken() *CompanyTokenUpdate {
-	ctu.mutation.ClearToken()
-	return ctu
+func (_u *CompanyTokenUpdate) ClearToken() *CompanyTokenUpdate {
+	_u.mutation.ClearToken()
+	return _u
 }
 
 // SetDepartmentId sets the "DepartmentId" field.
-func (ctu *CompanyTokenUpdate) SetDepartmentId(i int) *CompanyTokenUpdate {
-	ctu.mutation.ResetDepartmentId()
-	ctu.mutation.SetDepartmentId(i)
-	return ctu
+func (_u *CompanyTokenUpdate) SetDepartmentId(v int) *CompanyTokenUpdate {
+	_u.mutation.ResetDepartmentId()
+	_u.mutation.SetDepartmentId(v)
+	return _u
 }
 
 // SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableDepartmentId(i *int) *CompanyTokenUpdate {
-	if i != nil {
-		ctu.SetDepartmentId(*i)
+func (_u *CompanyTokenUpdate) SetNillableDepartmentId(v *int) *CompanyTokenUpdate {
+	if v != nil {
+		_u.SetDepartmentId(*v)
 	}
-	return ctu
+	return _u
 }
 
-// AddDepartmentId adds i to the "DepartmentId" field.
-func (ctu *CompanyTokenUpdate) AddDepartmentId(i int) *CompanyTokenUpdate {
-	ctu.mutation.AddDepartmentId(i)
-	return ctu
+// AddDepartmentId adds value to the "DepartmentId" field.
+func (_u *CompanyTokenUpdate) AddDepartmentId(v int) *CompanyTokenUpdate {
+	_u.mutation.AddDepartmentId(v)
+	return _u
 }
 
 // ClearDepartmentId clears the value of the "DepartmentId" field.
-func (ctu *CompanyTokenUpdate) ClearDepartmentId() *CompanyTokenUpdate {
-	ctu.mutation.ClearDepartmentId()
-	return ctu
+func (_u *CompanyTokenUpdate) ClearDepartmentId() *CompanyTokenUpdate {
+	_u.mutation.ClearDepartmentId()
+	return _u
 }
 
 // SetCreatedAt sets the "createdAt" field.
-func (ctu *CompanyTokenUpdate) SetCreatedAt(t time.Time) *CompanyTokenUpdate {
-	ctu.mutation.SetCreatedAt(t)
-	return ctu
+func (_u *CompanyTokenUpdate) SetCreatedAt(v time.Time) *CompanyTokenUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableCreatedAt(t *time.Time) *CompanyTokenUpdate {
-	if t != nil {
-		ctu.SetCreatedAt(*t)
+func (_u *CompanyTokenUpdate) SetNillableCreatedAt(v *time.Time) *CompanyTokenUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return ctu
+	return _u
 }
 
 // SetUpdatedAt sets the "updatedAt" field.
-func (ctu *CompanyTokenUpdate) SetUpdatedAt(t time.Time) *CompanyTokenUpdate {
-	ctu.mutation.SetUpdatedAt(t)
-	return ctu
+func (_u *CompanyTokenUpdate) SetUpdatedAt(v time.Time) *CompanyTokenUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (ctu *CompanyTokenUpdate) SetCompanyID(id int) *CompanyTokenUpdate {
-	ctu.mutation.SetCompanyID(id)
-	return ctu
+func (_u *CompanyTokenUpdate) SetCompanyID(id int) *CompanyTokenUpdate {
+	_u.mutation.SetCompanyID(id)
+	return _u
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (ctu *CompanyTokenUpdate) SetNillableCompanyID(id *int) *CompanyTokenUpdate {
+func (_u *CompanyTokenUpdate) SetNillableCompanyID(id *int) *CompanyTokenUpdate {
 	if id != nil {
-		ctu = ctu.SetCompanyID(*id)
+		_u = _u.SetCompanyID(*id)
 	}
-	return ctu
+	return _u
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (ctu *CompanyTokenUpdate) SetCompany(c *CompanyDetail) *CompanyTokenUpdate {
-	return ctu.SetCompanyID(c.ID)
+func (_u *CompanyTokenUpdate) SetCompany(v *CompanyDetail) *CompanyTokenUpdate {
+	return _u.SetCompanyID(v.ID)
 }
 
 // Mutation returns the CompanyTokenMutation object of the builder.
-func (ctu *CompanyTokenUpdate) Mutation() *CompanyTokenMutation {
-	return ctu.mutation
+func (_u *CompanyTokenUpdate) Mutation() *CompanyTokenMutation {
+	return _u.mutation
 }
 
 // ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (ctu *CompanyTokenUpdate) ClearCompany() *CompanyTokenUpdate {
-	ctu.mutation.ClearCompany()
-	return ctu
+func (_u *CompanyTokenUpdate) ClearCompany() *CompanyTokenUpdate {
+	_u.mutation.ClearCompany()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ctu *CompanyTokenUpdate) Save(ctx context.Context) (int, error) {
-	ctu.defaults()
-	return withHooks(ctx, ctu.sqlSave, ctu.mutation, ctu.hooks)
+func (_u *CompanyTokenUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ctu *CompanyTokenUpdate) SaveX(ctx context.Context) int {
-	affected, err := ctu.Save(ctx)
+func (_u *CompanyTokenUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -182,69 +182,69 @@ func (ctu *CompanyTokenUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ctu *CompanyTokenUpdate) Exec(ctx context.Context) error {
-	_, err := ctu.Save(ctx)
+func (_u *CompanyTokenUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ctu *CompanyTokenUpdate) ExecX(ctx context.Context) {
-	if err := ctu.Exec(ctx); err != nil {
+func (_u *CompanyTokenUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ctu *CompanyTokenUpdate) defaults() {
-	if _, ok := ctu.mutation.UpdatedAt(); !ok {
+func (_u *CompanyTokenUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := companytoken.UpdateDefaultUpdatedAt()
-		ctu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *CompanyTokenUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(companytoken.Table, companytoken.Columns, sqlgraph.NewFieldSpec(companytoken.FieldID, field.TypeInt))
-	if ps := ctu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ctu.mutation.YDKUsername(); ok {
+	if value, ok := _u.mutation.YDKUsername(); ok {
 		_spec.SetField(companytoken.FieldYDKUsername, field.TypeString, value)
 	}
-	if ctu.mutation.YDKUsernameCleared() {
+	if _u.mutation.YDKUsernameCleared() {
 		_spec.ClearField(companytoken.FieldYDKUsername, field.TypeString)
 	}
-	if value, ok := ctu.mutation.YDKPassword(); ok {
+	if value, ok := _u.mutation.YDKPassword(); ok {
 		_spec.SetField(companytoken.FieldYDKPassword, field.TypeString, value)
 	}
-	if ctu.mutation.YDKPasswordCleared() {
+	if _u.mutation.YDKPasswordCleared() {
 		_spec.ClearField(companytoken.FieldYDKPassword, field.TypeString)
 	}
-	if value, ok := ctu.mutation.Token(); ok {
+	if value, ok := _u.mutation.Token(); ok {
 		_spec.SetField(companytoken.FieldToken, field.TypeString, value)
 	}
-	if ctu.mutation.TokenCleared() {
+	if _u.mutation.TokenCleared() {
 		_spec.ClearField(companytoken.FieldToken, field.TypeString)
 	}
-	if value, ok := ctu.mutation.DepartmentId(); ok {
+	if value, ok := _u.mutation.DepartmentId(); ok {
 		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
 	}
-	if value, ok := ctu.mutation.AddedDepartmentId(); ok {
+	if value, ok := _u.mutation.AddedDepartmentId(); ok {
 		_spec.AddField(companytoken.FieldDepartmentId, field.TypeInt, value)
 	}
-	if ctu.mutation.DepartmentIdCleared() {
+	if _u.mutation.DepartmentIdCleared() {
 		_spec.ClearField(companytoken.FieldDepartmentId, field.TypeInt)
 	}
-	if value, ok := ctu.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := ctu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(companytoken.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if ctu.mutation.CompanyCleared() {
+	if _u.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -257,7 +257,7 @@ func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ctu.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -273,7 +273,7 @@ func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ctu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companytoken.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -281,8 +281,8 @@ func (ctu *CompanyTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ctu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // CompanyTokenUpdateOne is the builder for updating a single CompanyToken entity.
@@ -294,164 +294,164 @@ type CompanyTokenUpdateOne struct {
 }
 
 // SetYDKUsername sets the "YDKUsername" field.
-func (ctuo *CompanyTokenUpdateOne) SetYDKUsername(s string) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetYDKUsername(s)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) SetYDKUsername(v string) *CompanyTokenUpdateOne {
+	_u.mutation.SetYDKUsername(v)
+	return _u
 }
 
 // SetNillableYDKUsername sets the "YDKUsername" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableYDKUsername(s *string) *CompanyTokenUpdateOne {
-	if s != nil {
-		ctuo.SetYDKUsername(*s)
+func (_u *CompanyTokenUpdateOne) SetNillableYDKUsername(v *string) *CompanyTokenUpdateOne {
+	if v != nil {
+		_u.SetYDKUsername(*v)
 	}
-	return ctuo
+	return _u
 }
 
 // ClearYDKUsername clears the value of the "YDKUsername" field.
-func (ctuo *CompanyTokenUpdateOne) ClearYDKUsername() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearYDKUsername()
-	return ctuo
+func (_u *CompanyTokenUpdateOne) ClearYDKUsername() *CompanyTokenUpdateOne {
+	_u.mutation.ClearYDKUsername()
+	return _u
 }
 
 // SetYDKPassword sets the "YDKPassword" field.
-func (ctuo *CompanyTokenUpdateOne) SetYDKPassword(s string) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetYDKPassword(s)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) SetYDKPassword(v string) *CompanyTokenUpdateOne {
+	_u.mutation.SetYDKPassword(v)
+	return _u
 }
 
 // SetNillableYDKPassword sets the "YDKPassword" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableYDKPassword(s *string) *CompanyTokenUpdateOne {
-	if s != nil {
-		ctuo.SetYDKPassword(*s)
+func (_u *CompanyTokenUpdateOne) SetNillableYDKPassword(v *string) *CompanyTokenUpdateOne {
+	if v != nil {
+		_u.SetYDKPassword(*v)
 	}
-	return ctuo
+	return _u
 }
 
 // ClearYDKPassword clears the value of the "YDKPassword" field.
-func (ctuo *CompanyTokenUpdateOne) ClearYDKPassword() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearYDKPassword()
-	return ctuo
+func (_u *CompanyTokenUpdateOne) ClearYDKPassword() *CompanyTokenUpdateOne {
+	_u.mutation.ClearYDKPassword()
+	return _u
 }
 
 // SetToken sets the "Token" field.
-func (ctuo *CompanyTokenUpdateOne) SetToken(s string) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetToken(s)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) SetToken(v string) *CompanyTokenUpdateOne {
+	_u.mutation.SetToken(v)
+	return _u
 }
 
 // SetNillableToken sets the "Token" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableToken(s *string) *CompanyTokenUpdateOne {
-	if s != nil {
-		ctuo.SetToken(*s)
+func (_u *CompanyTokenUpdateOne) SetNillableToken(v *string) *CompanyTokenUpdateOne {
+	if v != nil {
+		_u.SetToken(*v)
 	}
-	return ctuo
+	return _u
 }
 
 // ClearToken clears the value of the "Token" field.
-func (ctuo *CompanyTokenUpdateOne) ClearToken() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearToken()
-	return ctuo
+func (_u *CompanyTokenUpdateOne) ClearToken() *CompanyTokenUpdateOne {
+	_u.mutation.ClearToken()
+	return _u
 }
 
 // SetDepartmentId sets the "DepartmentId" field.
-func (ctuo *CompanyTokenUpdateOne) SetDepartmentId(i int) *CompanyTokenUpdateOne {
-	ctuo.mutation.ResetDepartmentId()
-	ctuo.mutation.SetDepartmentId(i)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) SetDepartmentId(v int) *CompanyTokenUpdateOne {
+	_u.mutation.ResetDepartmentId()
+	_u.mutation.SetDepartmentId(v)
+	return _u
 }
 
 // SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableDepartmentId(i *int) *CompanyTokenUpdateOne {
-	if i != nil {
-		ctuo.SetDepartmentId(*i)
+func (_u *CompanyTokenUpdateOne) SetNillableDepartmentId(v *int) *CompanyTokenUpdateOne {
+	if v != nil {
+		_u.SetDepartmentId(*v)
 	}
-	return ctuo
+	return _u
 }
 
-// AddDepartmentId adds i to the "DepartmentId" field.
-func (ctuo *CompanyTokenUpdateOne) AddDepartmentId(i int) *CompanyTokenUpdateOne {
-	ctuo.mutation.AddDepartmentId(i)
-	return ctuo
+// AddDepartmentId adds value to the "DepartmentId" field.
+func (_u *CompanyTokenUpdateOne) AddDepartmentId(v int) *CompanyTokenUpdateOne {
+	_u.mutation.AddDepartmentId(v)
+	return _u
 }
 
 // ClearDepartmentId clears the value of the "DepartmentId" field.
-func (ctuo *CompanyTokenUpdateOne) ClearDepartmentId() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearDepartmentId()
-	return ctuo
+func (_u *CompanyTokenUpdateOne) ClearDepartmentId() *CompanyTokenUpdateOne {
+	_u.mutation.ClearDepartmentId()
+	return _u
 }
 
 // SetCreatedAt sets the "createdAt" field.
-func (ctuo *CompanyTokenUpdateOne) SetCreatedAt(t time.Time) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetCreatedAt(t)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) SetCreatedAt(v time.Time) *CompanyTokenUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableCreatedAt(t *time.Time) *CompanyTokenUpdateOne {
-	if t != nil {
-		ctuo.SetCreatedAt(*t)
+func (_u *CompanyTokenUpdateOne) SetNillableCreatedAt(v *time.Time) *CompanyTokenUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return ctuo
+	return _u
 }
 
 // SetUpdatedAt sets the "updatedAt" field.
-func (ctuo *CompanyTokenUpdateOne) SetUpdatedAt(t time.Time) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetUpdatedAt(t)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) SetUpdatedAt(v time.Time) *CompanyTokenUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (ctuo *CompanyTokenUpdateOne) SetCompanyID(id int) *CompanyTokenUpdateOne {
-	ctuo.mutation.SetCompanyID(id)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) SetCompanyID(id int) *CompanyTokenUpdateOne {
+	_u.mutation.SetCompanyID(id)
+	return _u
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (ctuo *CompanyTokenUpdateOne) SetNillableCompanyID(id *int) *CompanyTokenUpdateOne {
+func (_u *CompanyTokenUpdateOne) SetNillableCompanyID(id *int) *CompanyTokenUpdateOne {
 	if id != nil {
-		ctuo = ctuo.SetCompanyID(*id)
+		_u = _u.SetCompanyID(*id)
 	}
-	return ctuo
+	return _u
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (ctuo *CompanyTokenUpdateOne) SetCompany(c *CompanyDetail) *CompanyTokenUpdateOne {
-	return ctuo.SetCompanyID(c.ID)
+func (_u *CompanyTokenUpdateOne) SetCompany(v *CompanyDetail) *CompanyTokenUpdateOne {
+	return _u.SetCompanyID(v.ID)
 }
 
 // Mutation returns the CompanyTokenMutation object of the builder.
-func (ctuo *CompanyTokenUpdateOne) Mutation() *CompanyTokenMutation {
-	return ctuo.mutation
+func (_u *CompanyTokenUpdateOne) Mutation() *CompanyTokenMutation {
+	return _u.mutation
 }
 
 // ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (ctuo *CompanyTokenUpdateOne) ClearCompany() *CompanyTokenUpdateOne {
-	ctuo.mutation.ClearCompany()
-	return ctuo
+func (_u *CompanyTokenUpdateOne) ClearCompany() *CompanyTokenUpdateOne {
+	_u.mutation.ClearCompany()
+	return _u
 }
 
 // Where appends a list predicates to the CompanyTokenUpdate builder.
-func (ctuo *CompanyTokenUpdateOne) Where(ps ...predicate.CompanyToken) *CompanyTokenUpdateOne {
-	ctuo.mutation.Where(ps...)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) Where(ps ...predicate.CompanyToken) *CompanyTokenUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ctuo *CompanyTokenUpdateOne) Select(field string, fields ...string) *CompanyTokenUpdateOne {
-	ctuo.fields = append([]string{field}, fields...)
-	return ctuo
+func (_u *CompanyTokenUpdateOne) Select(field string, fields ...string) *CompanyTokenUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated CompanyToken entity.
-func (ctuo *CompanyTokenUpdateOne) Save(ctx context.Context) (*CompanyToken, error) {
-	ctuo.defaults()
-	return withHooks(ctx, ctuo.sqlSave, ctuo.mutation, ctuo.hooks)
+func (_u *CompanyTokenUpdateOne) Save(ctx context.Context) (*CompanyToken, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ctuo *CompanyTokenUpdateOne) SaveX(ctx context.Context) *CompanyToken {
-	node, err := ctuo.Save(ctx)
+func (_u *CompanyTokenUpdateOne) SaveX(ctx context.Context) *CompanyToken {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -459,34 +459,34 @@ func (ctuo *CompanyTokenUpdateOne) SaveX(ctx context.Context) *CompanyToken {
 }
 
 // Exec executes the query on the entity.
-func (ctuo *CompanyTokenUpdateOne) Exec(ctx context.Context) error {
-	_, err := ctuo.Save(ctx)
+func (_u *CompanyTokenUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ctuo *CompanyTokenUpdateOne) ExecX(ctx context.Context) {
-	if err := ctuo.Exec(ctx); err != nil {
+func (_u *CompanyTokenUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ctuo *CompanyTokenUpdateOne) defaults() {
-	if _, ok := ctuo.mutation.UpdatedAt(); !ok {
+func (_u *CompanyTokenUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := companytoken.UpdateDefaultUpdatedAt()
-		ctuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyToken, err error) {
+func (_u *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyToken, err error) {
 	_spec := sqlgraph.NewUpdateSpec(companytoken.Table, companytoken.Columns, sqlgraph.NewFieldSpec(companytoken.FieldID, field.TypeInt))
-	id, ok := ctuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "CompanyToken.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ctuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, companytoken.FieldID)
 		for _, f := range fields {
@@ -498,47 +498,47 @@ func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyT
 			}
 		}
 	}
-	if ps := ctuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ctuo.mutation.YDKUsername(); ok {
+	if value, ok := _u.mutation.YDKUsername(); ok {
 		_spec.SetField(companytoken.FieldYDKUsername, field.TypeString, value)
 	}
-	if ctuo.mutation.YDKUsernameCleared() {
+	if _u.mutation.YDKUsernameCleared() {
 		_spec.ClearField(companytoken.FieldYDKUsername, field.TypeString)
 	}
-	if value, ok := ctuo.mutation.YDKPassword(); ok {
+	if value, ok := _u.mutation.YDKPassword(); ok {
 		_spec.SetField(companytoken.FieldYDKPassword, field.TypeString, value)
 	}
-	if ctuo.mutation.YDKPasswordCleared() {
+	if _u.mutation.YDKPasswordCleared() {
 		_spec.ClearField(companytoken.FieldYDKPassword, field.TypeString)
 	}
-	if value, ok := ctuo.mutation.Token(); ok {
+	if value, ok := _u.mutation.Token(); ok {
 		_spec.SetField(companytoken.FieldToken, field.TypeString, value)
 	}
-	if ctuo.mutation.TokenCleared() {
+	if _u.mutation.TokenCleared() {
 		_spec.ClearField(companytoken.FieldToken, field.TypeString)
 	}
-	if value, ok := ctuo.mutation.DepartmentId(); ok {
+	if value, ok := _u.mutation.DepartmentId(); ok {
 		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
 	}
-	if value, ok := ctuo.mutation.AddedDepartmentId(); ok {
+	if value, ok := _u.mutation.AddedDepartmentId(); ok {
 		_spec.AddField(companytoken.FieldDepartmentId, field.TypeInt, value)
 	}
-	if ctuo.mutation.DepartmentIdCleared() {
+	if _u.mutation.DepartmentIdCleared() {
 		_spec.ClearField(companytoken.FieldDepartmentId, field.TypeInt)
 	}
-	if value, ok := ctuo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := ctuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(companytoken.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if ctuo.mutation.CompanyCleared() {
+	if _u.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -551,7 +551,7 @@ func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyT
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ctuo.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -567,10 +567,10 @@ func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyT
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &CompanyToken{config: ctuo.config}
+	_node = &CompanyToken{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ctuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companytoken.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -578,6 +578,6 @@ func (ctuo *CompanyTokenUpdateOne) sqlSave(ctx context.Context) (_node *CompanyT
 		}
 		return nil, err
 	}
-	ctuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

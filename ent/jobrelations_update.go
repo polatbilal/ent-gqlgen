@@ -34,549 +34,549 @@ type JobRelationsUpdate struct {
 }
 
 // Where appends a list predicates to the JobRelationsUpdate builder.
-func (jru *JobRelationsUpdate) Where(ps ...predicate.JobRelations) *JobRelationsUpdate {
-	jru.mutation.Where(ps...)
-	return jru
+func (_u *JobRelationsUpdate) Where(ps ...predicate.JobRelations) *JobRelationsUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jru *JobRelationsUpdate) SetYibfNo(i int) *JobRelationsUpdate {
-	jru.mutation.ResetYibfNo()
-	jru.mutation.SetYibfNo(i)
-	return jru
+func (_u *JobRelationsUpdate) SetYibfNo(v int) *JobRelationsUpdate {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableYibfNo(i *int) *JobRelationsUpdate {
-	if i != nil {
-		jru.SetYibfNo(*i)
+func (_u *JobRelationsUpdate) SetNillableYibfNo(v *int) *JobRelationsUpdate {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jru
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jru *JobRelationsUpdate) AddYibfNo(i int) *JobRelationsUpdate {
-	jru.mutation.AddYibfNo(i)
-	return jru
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobRelationsUpdate) AddYibfNo(v int) *JobRelationsUpdate {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jru *JobRelationsUpdate) SetCreatedAt(t time.Time) *JobRelationsUpdate {
-	jru.mutation.SetCreatedAt(t)
-	return jru
+func (_u *JobRelationsUpdate) SetCreatedAt(v time.Time) *JobRelationsUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableCreatedAt(t *time.Time) *JobRelationsUpdate {
-	if t != nil {
-		jru.SetCreatedAt(*t)
+func (_u *JobRelationsUpdate) SetNillableCreatedAt(v *time.Time) *JobRelationsUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jru
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jru *JobRelationsUpdate) SetUpdatedAt(t time.Time) *JobRelationsUpdate {
-	jru.mutation.SetUpdatedAt(t)
-	return jru
+func (_u *JobRelationsUpdate) SetUpdatedAt(v time.Time) *JobRelationsUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetJobID sets the "job" edge to the JobDetail entity by ID.
-func (jru *JobRelationsUpdate) SetJobID(id int) *JobRelationsUpdate {
-	jru.mutation.SetJobID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetJobID(id int) *JobRelationsUpdate {
+	_u.mutation.SetJobID(id)
+	return _u
 }
 
 // SetNillableJobID sets the "job" edge to the JobDetail entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableJobID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableJobID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetJobID(*id)
+		_u = _u.SetJobID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetJob sets the "job" edge to the JobDetail entity.
-func (jru *JobRelationsUpdate) SetJob(j *JobDetail) *JobRelationsUpdate {
-	return jru.SetJobID(j.ID)
+func (_u *JobRelationsUpdate) SetJob(v *JobDetail) *JobRelationsUpdate {
+	return _u.SetJobID(v.ID)
 }
 
 // SetOwnerID sets the "owner" edge to the JobOwner entity by ID.
-func (jru *JobRelationsUpdate) SetOwnerID(id int) *JobRelationsUpdate {
-	jru.mutation.SetOwnerID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetOwnerID(id int) *JobRelationsUpdate {
+	_u.mutation.SetOwnerID(id)
+	return _u
 }
 
 // SetNillableOwnerID sets the "owner" edge to the JobOwner entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableOwnerID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableOwnerID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetOwnerID(*id)
+		_u = _u.SetOwnerID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetOwner sets the "owner" edge to the JobOwner entity.
-func (jru *JobRelationsUpdate) SetOwner(j *JobOwner) *JobRelationsUpdate {
-	return jru.SetOwnerID(j.ID)
+func (_u *JobRelationsUpdate) SetOwner(v *JobOwner) *JobRelationsUpdate {
+	return _u.SetOwnerID(v.ID)
 }
 
 // SetAuthorID sets the "author" edge to the JobAuthor entity by ID.
-func (jru *JobRelationsUpdate) SetAuthorID(id int) *JobRelationsUpdate {
-	jru.mutation.SetAuthorID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetAuthorID(id int) *JobRelationsUpdate {
+	_u.mutation.SetAuthorID(id)
+	return _u
 }
 
 // SetNillableAuthorID sets the "author" edge to the JobAuthor entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableAuthorID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableAuthorID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetAuthorID(*id)
+		_u = _u.SetAuthorID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetAuthor sets the "author" edge to the JobAuthor entity.
-func (jru *JobRelationsUpdate) SetAuthor(j *JobAuthor) *JobRelationsUpdate {
-	return jru.SetAuthorID(j.ID)
+func (_u *JobRelationsUpdate) SetAuthor(v *JobAuthor) *JobRelationsUpdate {
+	return _u.SetAuthorID(v.ID)
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (jru *JobRelationsUpdate) SetCompanyID(id int) *JobRelationsUpdate {
-	jru.mutation.SetCompanyID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetCompanyID(id int) *JobRelationsUpdate {
+	_u.mutation.SetCompanyID(id)
+	return _u
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableCompanyID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableCompanyID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetCompanyID(*id)
+		_u = _u.SetCompanyID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (jru *JobRelationsUpdate) SetCompany(c *CompanyDetail) *JobRelationsUpdate {
-	return jru.SetCompanyID(c.ID)
+func (_u *JobRelationsUpdate) SetCompany(v *CompanyDetail) *JobRelationsUpdate {
+	return _u.SetCompanyID(v.ID)
 }
 
 // SetProgressID sets the "progress" edge to the JobProgress entity by ID.
-func (jru *JobRelationsUpdate) SetProgressID(id int) *JobRelationsUpdate {
-	jru.mutation.SetProgressID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetProgressID(id int) *JobRelationsUpdate {
+	_u.mutation.SetProgressID(id)
+	return _u
 }
 
 // SetNillableProgressID sets the "progress" edge to the JobProgress entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableProgressID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableProgressID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetProgressID(*id)
+		_u = _u.SetProgressID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetProgress sets the "progress" edge to the JobProgress entity.
-func (jru *JobRelationsUpdate) SetProgress(j *JobProgress) *JobRelationsUpdate {
-	return jru.SetProgressID(j.ID)
+func (_u *JobRelationsUpdate) SetProgress(v *JobProgress) *JobRelationsUpdate {
+	return _u.SetProgressID(v.ID)
 }
 
 // SetContractorID sets the "contractor" edge to the JobContractor entity by ID.
-func (jru *JobRelationsUpdate) SetContractorID(id int) *JobRelationsUpdate {
-	jru.mutation.SetContractorID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetContractorID(id int) *JobRelationsUpdate {
+	_u.mutation.SetContractorID(id)
+	return _u
 }
 
 // SetNillableContractorID sets the "contractor" edge to the JobContractor entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableContractorID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableContractorID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetContractorID(*id)
+		_u = _u.SetContractorID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetContractor sets the "contractor" edge to the JobContractor entity.
-func (jru *JobRelationsUpdate) SetContractor(j *JobContractor) *JobRelationsUpdate {
-	return jru.SetContractorID(j.ID)
+func (_u *JobRelationsUpdate) SetContractor(v *JobContractor) *JobRelationsUpdate {
+	return _u.SetContractorID(v.ID)
 }
 
 // SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID.
-func (jru *JobRelationsUpdate) SetSupervisorID(id int) *JobRelationsUpdate {
-	jru.mutation.SetSupervisorID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetSupervisorID(id int) *JobRelationsUpdate {
+	_u.mutation.SetSupervisorID(id)
+	return _u
 }
 
 // SetNillableSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableSupervisorID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableSupervisorID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetSupervisorID(*id)
+		_u = _u.SetSupervisorID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetSupervisor sets the "supervisor" edge to the JobSupervisor entity.
-func (jru *JobRelationsUpdate) SetSupervisor(j *JobSupervisor) *JobRelationsUpdate {
-	return jru.SetSupervisorID(j.ID)
+func (_u *JobRelationsUpdate) SetSupervisor(v *JobSupervisor) *JobRelationsUpdate {
+	return _u.SetSupervisorID(v.ID)
 }
 
 // SetStaticID sets the "static" edge to the CompanyEngineer entity by ID.
-func (jru *JobRelationsUpdate) SetStaticID(id int) *JobRelationsUpdate {
-	jru.mutation.SetStaticID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetStaticID(id int) *JobRelationsUpdate {
+	_u.mutation.SetStaticID(id)
+	return _u
 }
 
 // SetNillableStaticID sets the "static" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableStaticID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableStaticID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetStaticID(*id)
+		_u = _u.SetStaticID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetStatic sets the "static" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) SetStatic(c *CompanyEngineer) *JobRelationsUpdate {
-	return jru.SetStaticID(c.ID)
+func (_u *JobRelationsUpdate) SetStatic(v *CompanyEngineer) *JobRelationsUpdate {
+	return _u.SetStaticID(v.ID)
 }
 
 // SetMechanicID sets the "mechanic" edge to the CompanyEngineer entity by ID.
-func (jru *JobRelationsUpdate) SetMechanicID(id int) *JobRelationsUpdate {
-	jru.mutation.SetMechanicID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetMechanicID(id int) *JobRelationsUpdate {
+	_u.mutation.SetMechanicID(id)
+	return _u
 }
 
 // SetNillableMechanicID sets the "mechanic" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableMechanicID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableMechanicID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetMechanicID(*id)
+		_u = _u.SetMechanicID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetMechanic sets the "mechanic" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) SetMechanic(c *CompanyEngineer) *JobRelationsUpdate {
-	return jru.SetMechanicID(c.ID)
+func (_u *JobRelationsUpdate) SetMechanic(v *CompanyEngineer) *JobRelationsUpdate {
+	return _u.SetMechanicID(v.ID)
 }
 
 // SetElectricID sets the "electric" edge to the CompanyEngineer entity by ID.
-func (jru *JobRelationsUpdate) SetElectricID(id int) *JobRelationsUpdate {
-	jru.mutation.SetElectricID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetElectricID(id int) *JobRelationsUpdate {
+	_u.mutation.SetElectricID(id)
+	return _u
 }
 
 // SetNillableElectricID sets the "electric" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableElectricID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableElectricID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetElectricID(*id)
+		_u = _u.SetElectricID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetElectric sets the "electric" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) SetElectric(c *CompanyEngineer) *JobRelationsUpdate {
-	return jru.SetElectricID(c.ID)
+func (_u *JobRelationsUpdate) SetElectric(v *CompanyEngineer) *JobRelationsUpdate {
+	return _u.SetElectricID(v.ID)
 }
 
 // SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
-func (jru *JobRelationsUpdate) SetInspectorID(id int) *JobRelationsUpdate {
-	jru.mutation.SetInspectorID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetInspectorID(id int) *JobRelationsUpdate {
+	_u.mutation.SetInspectorID(id)
+	return _u
 }
 
 // SetNillableInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableInspectorID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableInspectorID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetInspectorID(*id)
+		_u = _u.SetInspectorID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetInspector sets the "inspector" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) SetInspector(c *CompanyEngineer) *JobRelationsUpdate {
-	return jru.SetInspectorID(c.ID)
+func (_u *JobRelationsUpdate) SetInspector(v *CompanyEngineer) *JobRelationsUpdate {
+	return _u.SetInspectorID(v.ID)
 }
 
 // SetArchitectID sets the "architect" edge to the CompanyEngineer entity by ID.
-func (jru *JobRelationsUpdate) SetArchitectID(id int) *JobRelationsUpdate {
-	jru.mutation.SetArchitectID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetArchitectID(id int) *JobRelationsUpdate {
+	_u.mutation.SetArchitectID(id)
+	return _u
 }
 
 // SetNillableArchitectID sets the "architect" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableArchitectID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableArchitectID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetArchitectID(*id)
+		_u = _u.SetArchitectID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetArchitect sets the "architect" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) SetArchitect(c *CompanyEngineer) *JobRelationsUpdate {
-	return jru.SetArchitectID(c.ID)
+func (_u *JobRelationsUpdate) SetArchitect(v *CompanyEngineer) *JobRelationsUpdate {
+	return _u.SetArchitectID(v.ID)
 }
 
 // SetControllerID sets the "controller" edge to the CompanyEngineer entity by ID.
-func (jru *JobRelationsUpdate) SetControllerID(id int) *JobRelationsUpdate {
-	jru.mutation.SetControllerID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetControllerID(id int) *JobRelationsUpdate {
+	_u.mutation.SetControllerID(id)
+	return _u
 }
 
 // SetNillableControllerID sets the "controller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableControllerID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableControllerID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetControllerID(*id)
+		_u = _u.SetControllerID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetController sets the "controller" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) SetController(c *CompanyEngineer) *JobRelationsUpdate {
-	return jru.SetControllerID(c.ID)
+func (_u *JobRelationsUpdate) SetController(v *CompanyEngineer) *JobRelationsUpdate {
+	return _u.SetControllerID(v.ID)
 }
 
 // SetMechaniccontrollerID sets the "mechaniccontroller" edge to the CompanyEngineer entity by ID.
-func (jru *JobRelationsUpdate) SetMechaniccontrollerID(id int) *JobRelationsUpdate {
-	jru.mutation.SetMechaniccontrollerID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetMechaniccontrollerID(id int) *JobRelationsUpdate {
+	_u.mutation.SetMechaniccontrollerID(id)
+	return _u
 }
 
 // SetNillableMechaniccontrollerID sets the "mechaniccontroller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableMechaniccontrollerID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableMechaniccontrollerID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetMechaniccontrollerID(*id)
+		_u = _u.SetMechaniccontrollerID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetMechaniccontroller sets the "mechaniccontroller" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) SetMechaniccontroller(c *CompanyEngineer) *JobRelationsUpdate {
-	return jru.SetMechaniccontrollerID(c.ID)
+func (_u *JobRelationsUpdate) SetMechaniccontroller(v *CompanyEngineer) *JobRelationsUpdate {
+	return _u.SetMechaniccontrollerID(v.ID)
 }
 
 // SetElectriccontrollerID sets the "electriccontroller" edge to the CompanyEngineer entity by ID.
-func (jru *JobRelationsUpdate) SetElectriccontrollerID(id int) *JobRelationsUpdate {
-	jru.mutation.SetElectriccontrollerID(id)
-	return jru
+func (_u *JobRelationsUpdate) SetElectriccontrollerID(id int) *JobRelationsUpdate {
+	_u.mutation.SetElectriccontrollerID(id)
+	return _u
 }
 
 // SetNillableElectriccontrollerID sets the "electriccontroller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jru *JobRelationsUpdate) SetNillableElectriccontrollerID(id *int) *JobRelationsUpdate {
+func (_u *JobRelationsUpdate) SetNillableElectriccontrollerID(id *int) *JobRelationsUpdate {
 	if id != nil {
-		jru = jru.SetElectriccontrollerID(*id)
+		_u = _u.SetElectriccontrollerID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetElectriccontroller sets the "electriccontroller" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) SetElectriccontroller(c *CompanyEngineer) *JobRelationsUpdate {
-	return jru.SetElectriccontrollerID(c.ID)
+func (_u *JobRelationsUpdate) SetElectriccontroller(v *CompanyEngineer) *JobRelationsUpdate {
+	return _u.SetElectriccontrollerID(v.ID)
 }
 
 // AddFloorIDs adds the "floors" edge to the JobFloor entity by IDs.
-func (jru *JobRelationsUpdate) AddFloorIDs(ids ...int) *JobRelationsUpdate {
-	jru.mutation.AddFloorIDs(ids...)
-	return jru
+func (_u *JobRelationsUpdate) AddFloorIDs(ids ...int) *JobRelationsUpdate {
+	_u.mutation.AddFloorIDs(ids...)
+	return _u
 }
 
 // AddFloors adds the "floors" edges to the JobFloor entity.
-func (jru *JobRelationsUpdate) AddFloors(j ...*JobFloor) *JobRelationsUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdate) AddFloors(v ...*JobFloor) *JobRelationsUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jru.AddFloorIDs(ids...)
+	return _u.AddFloorIDs(ids...)
 }
 
 // AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
-func (jru *JobRelationsUpdate) AddPaymentIDs(ids ...int) *JobRelationsUpdate {
-	jru.mutation.AddPaymentIDs(ids...)
-	return jru
+func (_u *JobRelationsUpdate) AddPaymentIDs(ids ...int) *JobRelationsUpdate {
+	_u.mutation.AddPaymentIDs(ids...)
+	return _u
 }
 
 // AddPayments adds the "payments" edges to the JobPayments entity.
-func (jru *JobRelationsUpdate) AddPayments(j ...*JobPayments) *JobRelationsUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdate) AddPayments(v ...*JobPayments) *JobRelationsUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jru.AddPaymentIDs(ids...)
+	return _u.AddPaymentIDs(ids...)
 }
 
 // AddReceiptIDs adds the "receipts" edge to the JobReceipt entity by IDs.
-func (jru *JobRelationsUpdate) AddReceiptIDs(ids ...int) *JobRelationsUpdate {
-	jru.mutation.AddReceiptIDs(ids...)
-	return jru
+func (_u *JobRelationsUpdate) AddReceiptIDs(ids ...int) *JobRelationsUpdate {
+	_u.mutation.AddReceiptIDs(ids...)
+	return _u
 }
 
 // AddReceipts adds the "receipts" edges to the JobReceipt entity.
-func (jru *JobRelationsUpdate) AddReceipts(j ...*JobReceipt) *JobRelationsUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdate) AddReceipts(v ...*JobReceipt) *JobRelationsUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jru.AddReceiptIDs(ids...)
+	return _u.AddReceiptIDs(ids...)
 }
 
 // Mutation returns the JobRelationsMutation object of the builder.
-func (jru *JobRelationsUpdate) Mutation() *JobRelationsMutation {
-	return jru.mutation
+func (_u *JobRelationsUpdate) Mutation() *JobRelationsMutation {
+	return _u.mutation
 }
 
 // ClearJob clears the "job" edge to the JobDetail entity.
-func (jru *JobRelationsUpdate) ClearJob() *JobRelationsUpdate {
-	jru.mutation.ClearJob()
-	return jru
+func (_u *JobRelationsUpdate) ClearJob() *JobRelationsUpdate {
+	_u.mutation.ClearJob()
+	return _u
 }
 
 // ClearOwner clears the "owner" edge to the JobOwner entity.
-func (jru *JobRelationsUpdate) ClearOwner() *JobRelationsUpdate {
-	jru.mutation.ClearOwner()
-	return jru
+func (_u *JobRelationsUpdate) ClearOwner() *JobRelationsUpdate {
+	_u.mutation.ClearOwner()
+	return _u
 }
 
 // ClearAuthor clears the "author" edge to the JobAuthor entity.
-func (jru *JobRelationsUpdate) ClearAuthor() *JobRelationsUpdate {
-	jru.mutation.ClearAuthor()
-	return jru
+func (_u *JobRelationsUpdate) ClearAuthor() *JobRelationsUpdate {
+	_u.mutation.ClearAuthor()
+	return _u
 }
 
 // ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (jru *JobRelationsUpdate) ClearCompany() *JobRelationsUpdate {
-	jru.mutation.ClearCompany()
-	return jru
+func (_u *JobRelationsUpdate) ClearCompany() *JobRelationsUpdate {
+	_u.mutation.ClearCompany()
+	return _u
 }
 
 // ClearProgress clears the "progress" edge to the JobProgress entity.
-func (jru *JobRelationsUpdate) ClearProgress() *JobRelationsUpdate {
-	jru.mutation.ClearProgress()
-	return jru
+func (_u *JobRelationsUpdate) ClearProgress() *JobRelationsUpdate {
+	_u.mutation.ClearProgress()
+	return _u
 }
 
 // ClearContractor clears the "contractor" edge to the JobContractor entity.
-func (jru *JobRelationsUpdate) ClearContractor() *JobRelationsUpdate {
-	jru.mutation.ClearContractor()
-	return jru
+func (_u *JobRelationsUpdate) ClearContractor() *JobRelationsUpdate {
+	_u.mutation.ClearContractor()
+	return _u
 }
 
 // ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
-func (jru *JobRelationsUpdate) ClearSupervisor() *JobRelationsUpdate {
-	jru.mutation.ClearSupervisor()
-	return jru
+func (_u *JobRelationsUpdate) ClearSupervisor() *JobRelationsUpdate {
+	_u.mutation.ClearSupervisor()
+	return _u
 }
 
 // ClearStatic clears the "static" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) ClearStatic() *JobRelationsUpdate {
-	jru.mutation.ClearStatic()
-	return jru
+func (_u *JobRelationsUpdate) ClearStatic() *JobRelationsUpdate {
+	_u.mutation.ClearStatic()
+	return _u
 }
 
 // ClearMechanic clears the "mechanic" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) ClearMechanic() *JobRelationsUpdate {
-	jru.mutation.ClearMechanic()
-	return jru
+func (_u *JobRelationsUpdate) ClearMechanic() *JobRelationsUpdate {
+	_u.mutation.ClearMechanic()
+	return _u
 }
 
 // ClearElectric clears the "electric" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) ClearElectric() *JobRelationsUpdate {
-	jru.mutation.ClearElectric()
-	return jru
+func (_u *JobRelationsUpdate) ClearElectric() *JobRelationsUpdate {
+	_u.mutation.ClearElectric()
+	return _u
 }
 
 // ClearInspector clears the "inspector" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) ClearInspector() *JobRelationsUpdate {
-	jru.mutation.ClearInspector()
-	return jru
+func (_u *JobRelationsUpdate) ClearInspector() *JobRelationsUpdate {
+	_u.mutation.ClearInspector()
+	return _u
 }
 
 // ClearArchitect clears the "architect" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) ClearArchitect() *JobRelationsUpdate {
-	jru.mutation.ClearArchitect()
-	return jru
+func (_u *JobRelationsUpdate) ClearArchitect() *JobRelationsUpdate {
+	_u.mutation.ClearArchitect()
+	return _u
 }
 
 // ClearController clears the "controller" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) ClearController() *JobRelationsUpdate {
-	jru.mutation.ClearController()
-	return jru
+func (_u *JobRelationsUpdate) ClearController() *JobRelationsUpdate {
+	_u.mutation.ClearController()
+	return _u
 }
 
 // ClearMechaniccontroller clears the "mechaniccontroller" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) ClearMechaniccontroller() *JobRelationsUpdate {
-	jru.mutation.ClearMechaniccontroller()
-	return jru
+func (_u *JobRelationsUpdate) ClearMechaniccontroller() *JobRelationsUpdate {
+	_u.mutation.ClearMechaniccontroller()
+	return _u
 }
 
 // ClearElectriccontroller clears the "electriccontroller" edge to the CompanyEngineer entity.
-func (jru *JobRelationsUpdate) ClearElectriccontroller() *JobRelationsUpdate {
-	jru.mutation.ClearElectriccontroller()
-	return jru
+func (_u *JobRelationsUpdate) ClearElectriccontroller() *JobRelationsUpdate {
+	_u.mutation.ClearElectriccontroller()
+	return _u
 }
 
 // ClearFloors clears all "floors" edges to the JobFloor entity.
-func (jru *JobRelationsUpdate) ClearFloors() *JobRelationsUpdate {
-	jru.mutation.ClearFloors()
-	return jru
+func (_u *JobRelationsUpdate) ClearFloors() *JobRelationsUpdate {
+	_u.mutation.ClearFloors()
+	return _u
 }
 
 // RemoveFloorIDs removes the "floors" edge to JobFloor entities by IDs.
-func (jru *JobRelationsUpdate) RemoveFloorIDs(ids ...int) *JobRelationsUpdate {
-	jru.mutation.RemoveFloorIDs(ids...)
-	return jru
+func (_u *JobRelationsUpdate) RemoveFloorIDs(ids ...int) *JobRelationsUpdate {
+	_u.mutation.RemoveFloorIDs(ids...)
+	return _u
 }
 
 // RemoveFloors removes "floors" edges to JobFloor entities.
-func (jru *JobRelationsUpdate) RemoveFloors(j ...*JobFloor) *JobRelationsUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdate) RemoveFloors(v ...*JobFloor) *JobRelationsUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jru.RemoveFloorIDs(ids...)
+	return _u.RemoveFloorIDs(ids...)
 }
 
 // ClearPayments clears all "payments" edges to the JobPayments entity.
-func (jru *JobRelationsUpdate) ClearPayments() *JobRelationsUpdate {
-	jru.mutation.ClearPayments()
-	return jru
+func (_u *JobRelationsUpdate) ClearPayments() *JobRelationsUpdate {
+	_u.mutation.ClearPayments()
+	return _u
 }
 
 // RemovePaymentIDs removes the "payments" edge to JobPayments entities by IDs.
-func (jru *JobRelationsUpdate) RemovePaymentIDs(ids ...int) *JobRelationsUpdate {
-	jru.mutation.RemovePaymentIDs(ids...)
-	return jru
+func (_u *JobRelationsUpdate) RemovePaymentIDs(ids ...int) *JobRelationsUpdate {
+	_u.mutation.RemovePaymentIDs(ids...)
+	return _u
 }
 
 // RemovePayments removes "payments" edges to JobPayments entities.
-func (jru *JobRelationsUpdate) RemovePayments(j ...*JobPayments) *JobRelationsUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdate) RemovePayments(v ...*JobPayments) *JobRelationsUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jru.RemovePaymentIDs(ids...)
+	return _u.RemovePaymentIDs(ids...)
 }
 
 // ClearReceipts clears all "receipts" edges to the JobReceipt entity.
-func (jru *JobRelationsUpdate) ClearReceipts() *JobRelationsUpdate {
-	jru.mutation.ClearReceipts()
-	return jru
+func (_u *JobRelationsUpdate) ClearReceipts() *JobRelationsUpdate {
+	_u.mutation.ClearReceipts()
+	return _u
 }
 
 // RemoveReceiptIDs removes the "receipts" edge to JobReceipt entities by IDs.
-func (jru *JobRelationsUpdate) RemoveReceiptIDs(ids ...int) *JobRelationsUpdate {
-	jru.mutation.RemoveReceiptIDs(ids...)
-	return jru
+func (_u *JobRelationsUpdate) RemoveReceiptIDs(ids ...int) *JobRelationsUpdate {
+	_u.mutation.RemoveReceiptIDs(ids...)
+	return _u
 }
 
 // RemoveReceipts removes "receipts" edges to JobReceipt entities.
-func (jru *JobRelationsUpdate) RemoveReceipts(j ...*JobReceipt) *JobRelationsUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdate) RemoveReceipts(v ...*JobReceipt) *JobRelationsUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jru.RemoveReceiptIDs(ids...)
+	return _u.RemoveReceiptIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jru *JobRelationsUpdate) Save(ctx context.Context) (int, error) {
-	jru.defaults()
-	return withHooks(ctx, jru.sqlSave, jru.mutation, jru.hooks)
+func (_u *JobRelationsUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jru *JobRelationsUpdate) SaveX(ctx context.Context) int {
-	affected, err := jru.Save(ctx)
+func (_u *JobRelationsUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -584,48 +584,48 @@ func (jru *JobRelationsUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jru *JobRelationsUpdate) Exec(ctx context.Context) error {
-	_, err := jru.Save(ctx)
+func (_u *JobRelationsUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jru *JobRelationsUpdate) ExecX(ctx context.Context) {
-	if err := jru.Exec(ctx); err != nil {
+func (_u *JobRelationsUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jru *JobRelationsUpdate) defaults() {
-	if _, ok := jru.mutation.UpdatedAt(); !ok {
+func (_u *JobRelationsUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobrelations.UpdateDefaultUpdatedAt()
-		jru.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobRelationsUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobrelations.Table, jobrelations.Columns, sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt))
-	if ps := jru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jru.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobrelations.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jru.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobrelations.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jru.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobrelations.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jru.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobrelations.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jru.mutation.JobCleared() {
+	if _u.mutation.JobCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: true,
@@ -638,7 +638,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.JobIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.JobIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: true,
@@ -654,7 +654,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.OwnerCleared() {
+	if _u.mutation.OwnerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -667,7 +667,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.OwnerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.OwnerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -683,7 +683,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.AuthorCleared() {
+	if _u.mutation.AuthorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -696,7 +696,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.AuthorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.AuthorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -712,7 +712,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.CompanyCleared() {
+	if _u.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -725,7 +725,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -741,7 +741,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.ProgressCleared() {
+	if _u.mutation.ProgressCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -754,7 +754,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.ProgressIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ProgressIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -770,7 +770,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.ContractorCleared() {
+	if _u.mutation.ContractorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -783,7 +783,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.ContractorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ContractorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -799,7 +799,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.SupervisorCleared() {
+	if _u.mutation.SupervisorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -812,7 +812,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.SupervisorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.SupervisorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -828,7 +828,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.StaticCleared() {
+	if _u.mutation.StaticCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -841,7 +841,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.StaticIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.StaticIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -857,7 +857,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.MechanicCleared() {
+	if _u.mutation.MechanicCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -870,7 +870,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.MechanicIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.MechanicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -886,7 +886,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.ElectricCleared() {
+	if _u.mutation.ElectricCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -899,7 +899,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.ElectricIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ElectricIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -915,7 +915,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.InspectorCleared() {
+	if _u.mutation.InspectorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -928,7 +928,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.InspectorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.InspectorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -944,7 +944,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.ArchitectCleared() {
+	if _u.mutation.ArchitectCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -957,7 +957,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.ArchitectIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ArchitectIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -973,7 +973,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.ControllerCleared() {
+	if _u.mutation.ControllerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -986,7 +986,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.ControllerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ControllerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1002,7 +1002,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.MechaniccontrollerCleared() {
+	if _u.mutation.MechaniccontrollerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1015,7 +1015,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.MechaniccontrollerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.MechaniccontrollerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1031,7 +1031,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.ElectriccontrollerCleared() {
+	if _u.mutation.ElectriccontrollerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1044,7 +1044,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.ElectriccontrollerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ElectriccontrollerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1060,7 +1060,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.FloorsCleared() {
+	if _u.mutation.FloorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1073,7 +1073,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.RemovedFloorsIDs(); len(nodes) > 0 && !jru.mutation.FloorsCleared() {
+	if nodes := _u.mutation.RemovedFloorsIDs(); len(nodes) > 0 && !_u.mutation.FloorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1089,7 +1089,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.FloorsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.FloorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1105,7 +1105,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.PaymentsCleared() {
+	if _u.mutation.PaymentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1118,7 +1118,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.RemovedPaymentsIDs(); len(nodes) > 0 && !jru.mutation.PaymentsCleared() {
+	if nodes := _u.mutation.RemovedPaymentsIDs(); len(nodes) > 0 && !_u.mutation.PaymentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1134,7 +1134,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.PaymentsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.PaymentsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1150,7 +1150,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jru.mutation.ReceiptsCleared() {
+	if _u.mutation.ReceiptsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1163,7 +1163,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.RemovedReceiptsIDs(); len(nodes) > 0 && !jru.mutation.ReceiptsCleared() {
+	if nodes := _u.mutation.RemovedReceiptsIDs(); len(nodes) > 0 && !_u.mutation.ReceiptsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1179,7 +1179,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.ReceiptsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ReceiptsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1195,7 +1195,7 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jru.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobrelations.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1203,8 +1203,8 @@ func (jru *JobRelationsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	jru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobRelationsUpdateOne is the builder for updating a single JobRelations entity.
@@ -1216,556 +1216,556 @@ type JobRelationsUpdateOne struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jruo *JobRelationsUpdateOne) SetYibfNo(i int) *JobRelationsUpdateOne {
-	jruo.mutation.ResetYibfNo()
-	jruo.mutation.SetYibfNo(i)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetYibfNo(v int) *JobRelationsUpdateOne {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableYibfNo(i *int) *JobRelationsUpdateOne {
-	if i != nil {
-		jruo.SetYibfNo(*i)
+func (_u *JobRelationsUpdateOne) SetNillableYibfNo(v *int) *JobRelationsUpdateOne {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jruo
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jruo *JobRelationsUpdateOne) AddYibfNo(i int) *JobRelationsUpdateOne {
-	jruo.mutation.AddYibfNo(i)
-	return jruo
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobRelationsUpdateOne) AddYibfNo(v int) *JobRelationsUpdateOne {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jruo *JobRelationsUpdateOne) SetCreatedAt(t time.Time) *JobRelationsUpdateOne {
-	jruo.mutation.SetCreatedAt(t)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetCreatedAt(v time.Time) *JobRelationsUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableCreatedAt(t *time.Time) *JobRelationsUpdateOne {
-	if t != nil {
-		jruo.SetCreatedAt(*t)
+func (_u *JobRelationsUpdateOne) SetNillableCreatedAt(v *time.Time) *JobRelationsUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jruo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jruo *JobRelationsUpdateOne) SetUpdatedAt(t time.Time) *JobRelationsUpdateOne {
-	jruo.mutation.SetUpdatedAt(t)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetUpdatedAt(v time.Time) *JobRelationsUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetJobID sets the "job" edge to the JobDetail entity by ID.
-func (jruo *JobRelationsUpdateOne) SetJobID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetJobID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetJobID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetJobID(id)
+	return _u
 }
 
 // SetNillableJobID sets the "job" edge to the JobDetail entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableJobID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableJobID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetJobID(*id)
+		_u = _u.SetJobID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetJob sets the "job" edge to the JobDetail entity.
-func (jruo *JobRelationsUpdateOne) SetJob(j *JobDetail) *JobRelationsUpdateOne {
-	return jruo.SetJobID(j.ID)
+func (_u *JobRelationsUpdateOne) SetJob(v *JobDetail) *JobRelationsUpdateOne {
+	return _u.SetJobID(v.ID)
 }
 
 // SetOwnerID sets the "owner" edge to the JobOwner entity by ID.
-func (jruo *JobRelationsUpdateOne) SetOwnerID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetOwnerID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetOwnerID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetOwnerID(id)
+	return _u
 }
 
 // SetNillableOwnerID sets the "owner" edge to the JobOwner entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableOwnerID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableOwnerID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetOwnerID(*id)
+		_u = _u.SetOwnerID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetOwner sets the "owner" edge to the JobOwner entity.
-func (jruo *JobRelationsUpdateOne) SetOwner(j *JobOwner) *JobRelationsUpdateOne {
-	return jruo.SetOwnerID(j.ID)
+func (_u *JobRelationsUpdateOne) SetOwner(v *JobOwner) *JobRelationsUpdateOne {
+	return _u.SetOwnerID(v.ID)
 }
 
 // SetAuthorID sets the "author" edge to the JobAuthor entity by ID.
-func (jruo *JobRelationsUpdateOne) SetAuthorID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetAuthorID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetAuthorID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetAuthorID(id)
+	return _u
 }
 
 // SetNillableAuthorID sets the "author" edge to the JobAuthor entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableAuthorID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableAuthorID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetAuthorID(*id)
+		_u = _u.SetAuthorID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetAuthor sets the "author" edge to the JobAuthor entity.
-func (jruo *JobRelationsUpdateOne) SetAuthor(j *JobAuthor) *JobRelationsUpdateOne {
-	return jruo.SetAuthorID(j.ID)
+func (_u *JobRelationsUpdateOne) SetAuthor(v *JobAuthor) *JobRelationsUpdateOne {
+	return _u.SetAuthorID(v.ID)
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (jruo *JobRelationsUpdateOne) SetCompanyID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetCompanyID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetCompanyID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetCompanyID(id)
+	return _u
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableCompanyID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableCompanyID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetCompanyID(*id)
+		_u = _u.SetCompanyID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (jruo *JobRelationsUpdateOne) SetCompany(c *CompanyDetail) *JobRelationsUpdateOne {
-	return jruo.SetCompanyID(c.ID)
+func (_u *JobRelationsUpdateOne) SetCompany(v *CompanyDetail) *JobRelationsUpdateOne {
+	return _u.SetCompanyID(v.ID)
 }
 
 // SetProgressID sets the "progress" edge to the JobProgress entity by ID.
-func (jruo *JobRelationsUpdateOne) SetProgressID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetProgressID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetProgressID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetProgressID(id)
+	return _u
 }
 
 // SetNillableProgressID sets the "progress" edge to the JobProgress entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableProgressID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableProgressID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetProgressID(*id)
+		_u = _u.SetProgressID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetProgress sets the "progress" edge to the JobProgress entity.
-func (jruo *JobRelationsUpdateOne) SetProgress(j *JobProgress) *JobRelationsUpdateOne {
-	return jruo.SetProgressID(j.ID)
+func (_u *JobRelationsUpdateOne) SetProgress(v *JobProgress) *JobRelationsUpdateOne {
+	return _u.SetProgressID(v.ID)
 }
 
 // SetContractorID sets the "contractor" edge to the JobContractor entity by ID.
-func (jruo *JobRelationsUpdateOne) SetContractorID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetContractorID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetContractorID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetContractorID(id)
+	return _u
 }
 
 // SetNillableContractorID sets the "contractor" edge to the JobContractor entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableContractorID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableContractorID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetContractorID(*id)
+		_u = _u.SetContractorID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetContractor sets the "contractor" edge to the JobContractor entity.
-func (jruo *JobRelationsUpdateOne) SetContractor(j *JobContractor) *JobRelationsUpdateOne {
-	return jruo.SetContractorID(j.ID)
+func (_u *JobRelationsUpdateOne) SetContractor(v *JobContractor) *JobRelationsUpdateOne {
+	return _u.SetContractorID(v.ID)
 }
 
 // SetSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID.
-func (jruo *JobRelationsUpdateOne) SetSupervisorID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetSupervisorID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetSupervisorID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetSupervisorID(id)
+	return _u
 }
 
 // SetNillableSupervisorID sets the "supervisor" edge to the JobSupervisor entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableSupervisorID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableSupervisorID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetSupervisorID(*id)
+		_u = _u.SetSupervisorID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetSupervisor sets the "supervisor" edge to the JobSupervisor entity.
-func (jruo *JobRelationsUpdateOne) SetSupervisor(j *JobSupervisor) *JobRelationsUpdateOne {
-	return jruo.SetSupervisorID(j.ID)
+func (_u *JobRelationsUpdateOne) SetSupervisor(v *JobSupervisor) *JobRelationsUpdateOne {
+	return _u.SetSupervisorID(v.ID)
 }
 
 // SetStaticID sets the "static" edge to the CompanyEngineer entity by ID.
-func (jruo *JobRelationsUpdateOne) SetStaticID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetStaticID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetStaticID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetStaticID(id)
+	return _u
 }
 
 // SetNillableStaticID sets the "static" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableStaticID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableStaticID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetStaticID(*id)
+		_u = _u.SetStaticID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetStatic sets the "static" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) SetStatic(c *CompanyEngineer) *JobRelationsUpdateOne {
-	return jruo.SetStaticID(c.ID)
+func (_u *JobRelationsUpdateOne) SetStatic(v *CompanyEngineer) *JobRelationsUpdateOne {
+	return _u.SetStaticID(v.ID)
 }
 
 // SetMechanicID sets the "mechanic" edge to the CompanyEngineer entity by ID.
-func (jruo *JobRelationsUpdateOne) SetMechanicID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetMechanicID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetMechanicID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetMechanicID(id)
+	return _u
 }
 
 // SetNillableMechanicID sets the "mechanic" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableMechanicID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableMechanicID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetMechanicID(*id)
+		_u = _u.SetMechanicID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetMechanic sets the "mechanic" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) SetMechanic(c *CompanyEngineer) *JobRelationsUpdateOne {
-	return jruo.SetMechanicID(c.ID)
+func (_u *JobRelationsUpdateOne) SetMechanic(v *CompanyEngineer) *JobRelationsUpdateOne {
+	return _u.SetMechanicID(v.ID)
 }
 
 // SetElectricID sets the "electric" edge to the CompanyEngineer entity by ID.
-func (jruo *JobRelationsUpdateOne) SetElectricID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetElectricID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetElectricID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetElectricID(id)
+	return _u
 }
 
 // SetNillableElectricID sets the "electric" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableElectricID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableElectricID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetElectricID(*id)
+		_u = _u.SetElectricID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetElectric sets the "electric" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) SetElectric(c *CompanyEngineer) *JobRelationsUpdateOne {
-	return jruo.SetElectricID(c.ID)
+func (_u *JobRelationsUpdateOne) SetElectric(v *CompanyEngineer) *JobRelationsUpdateOne {
+	return _u.SetElectricID(v.ID)
 }
 
 // SetInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID.
-func (jruo *JobRelationsUpdateOne) SetInspectorID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetInspectorID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetInspectorID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetInspectorID(id)
+	return _u
 }
 
 // SetNillableInspectorID sets the "inspector" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableInspectorID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableInspectorID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetInspectorID(*id)
+		_u = _u.SetInspectorID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetInspector sets the "inspector" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) SetInspector(c *CompanyEngineer) *JobRelationsUpdateOne {
-	return jruo.SetInspectorID(c.ID)
+func (_u *JobRelationsUpdateOne) SetInspector(v *CompanyEngineer) *JobRelationsUpdateOne {
+	return _u.SetInspectorID(v.ID)
 }
 
 // SetArchitectID sets the "architect" edge to the CompanyEngineer entity by ID.
-func (jruo *JobRelationsUpdateOne) SetArchitectID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetArchitectID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetArchitectID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetArchitectID(id)
+	return _u
 }
 
 // SetNillableArchitectID sets the "architect" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableArchitectID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableArchitectID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetArchitectID(*id)
+		_u = _u.SetArchitectID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetArchitect sets the "architect" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) SetArchitect(c *CompanyEngineer) *JobRelationsUpdateOne {
-	return jruo.SetArchitectID(c.ID)
+func (_u *JobRelationsUpdateOne) SetArchitect(v *CompanyEngineer) *JobRelationsUpdateOne {
+	return _u.SetArchitectID(v.ID)
 }
 
 // SetControllerID sets the "controller" edge to the CompanyEngineer entity by ID.
-func (jruo *JobRelationsUpdateOne) SetControllerID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetControllerID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetControllerID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetControllerID(id)
+	return _u
 }
 
 // SetNillableControllerID sets the "controller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableControllerID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableControllerID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetControllerID(*id)
+		_u = _u.SetControllerID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetController sets the "controller" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) SetController(c *CompanyEngineer) *JobRelationsUpdateOne {
-	return jruo.SetControllerID(c.ID)
+func (_u *JobRelationsUpdateOne) SetController(v *CompanyEngineer) *JobRelationsUpdateOne {
+	return _u.SetControllerID(v.ID)
 }
 
 // SetMechaniccontrollerID sets the "mechaniccontroller" edge to the CompanyEngineer entity by ID.
-func (jruo *JobRelationsUpdateOne) SetMechaniccontrollerID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetMechaniccontrollerID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetMechaniccontrollerID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetMechaniccontrollerID(id)
+	return _u
 }
 
 // SetNillableMechaniccontrollerID sets the "mechaniccontroller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableMechaniccontrollerID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableMechaniccontrollerID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetMechaniccontrollerID(*id)
+		_u = _u.SetMechaniccontrollerID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetMechaniccontroller sets the "mechaniccontroller" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) SetMechaniccontroller(c *CompanyEngineer) *JobRelationsUpdateOne {
-	return jruo.SetMechaniccontrollerID(c.ID)
+func (_u *JobRelationsUpdateOne) SetMechaniccontroller(v *CompanyEngineer) *JobRelationsUpdateOne {
+	return _u.SetMechaniccontrollerID(v.ID)
 }
 
 // SetElectriccontrollerID sets the "electriccontroller" edge to the CompanyEngineer entity by ID.
-func (jruo *JobRelationsUpdateOne) SetElectriccontrollerID(id int) *JobRelationsUpdateOne {
-	jruo.mutation.SetElectriccontrollerID(id)
-	return jruo
+func (_u *JobRelationsUpdateOne) SetElectriccontrollerID(id int) *JobRelationsUpdateOne {
+	_u.mutation.SetElectriccontrollerID(id)
+	return _u
 }
 
 // SetNillableElectriccontrollerID sets the "electriccontroller" edge to the CompanyEngineer entity by ID if the given value is not nil.
-func (jruo *JobRelationsUpdateOne) SetNillableElectriccontrollerID(id *int) *JobRelationsUpdateOne {
+func (_u *JobRelationsUpdateOne) SetNillableElectriccontrollerID(id *int) *JobRelationsUpdateOne {
 	if id != nil {
-		jruo = jruo.SetElectriccontrollerID(*id)
+		_u = _u.SetElectriccontrollerID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetElectriccontroller sets the "electriccontroller" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) SetElectriccontroller(c *CompanyEngineer) *JobRelationsUpdateOne {
-	return jruo.SetElectriccontrollerID(c.ID)
+func (_u *JobRelationsUpdateOne) SetElectriccontroller(v *CompanyEngineer) *JobRelationsUpdateOne {
+	return _u.SetElectriccontrollerID(v.ID)
 }
 
 // AddFloorIDs adds the "floors" edge to the JobFloor entity by IDs.
-func (jruo *JobRelationsUpdateOne) AddFloorIDs(ids ...int) *JobRelationsUpdateOne {
-	jruo.mutation.AddFloorIDs(ids...)
-	return jruo
+func (_u *JobRelationsUpdateOne) AddFloorIDs(ids ...int) *JobRelationsUpdateOne {
+	_u.mutation.AddFloorIDs(ids...)
+	return _u
 }
 
 // AddFloors adds the "floors" edges to the JobFloor entity.
-func (jruo *JobRelationsUpdateOne) AddFloors(j ...*JobFloor) *JobRelationsUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdateOne) AddFloors(v ...*JobFloor) *JobRelationsUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jruo.AddFloorIDs(ids...)
+	return _u.AddFloorIDs(ids...)
 }
 
 // AddPaymentIDs adds the "payments" edge to the JobPayments entity by IDs.
-func (jruo *JobRelationsUpdateOne) AddPaymentIDs(ids ...int) *JobRelationsUpdateOne {
-	jruo.mutation.AddPaymentIDs(ids...)
-	return jruo
+func (_u *JobRelationsUpdateOne) AddPaymentIDs(ids ...int) *JobRelationsUpdateOne {
+	_u.mutation.AddPaymentIDs(ids...)
+	return _u
 }
 
 // AddPayments adds the "payments" edges to the JobPayments entity.
-func (jruo *JobRelationsUpdateOne) AddPayments(j ...*JobPayments) *JobRelationsUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdateOne) AddPayments(v ...*JobPayments) *JobRelationsUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jruo.AddPaymentIDs(ids...)
+	return _u.AddPaymentIDs(ids...)
 }
 
 // AddReceiptIDs adds the "receipts" edge to the JobReceipt entity by IDs.
-func (jruo *JobRelationsUpdateOne) AddReceiptIDs(ids ...int) *JobRelationsUpdateOne {
-	jruo.mutation.AddReceiptIDs(ids...)
-	return jruo
+func (_u *JobRelationsUpdateOne) AddReceiptIDs(ids ...int) *JobRelationsUpdateOne {
+	_u.mutation.AddReceiptIDs(ids...)
+	return _u
 }
 
 // AddReceipts adds the "receipts" edges to the JobReceipt entity.
-func (jruo *JobRelationsUpdateOne) AddReceipts(j ...*JobReceipt) *JobRelationsUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdateOne) AddReceipts(v ...*JobReceipt) *JobRelationsUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jruo.AddReceiptIDs(ids...)
+	return _u.AddReceiptIDs(ids...)
 }
 
 // Mutation returns the JobRelationsMutation object of the builder.
-func (jruo *JobRelationsUpdateOne) Mutation() *JobRelationsMutation {
-	return jruo.mutation
+func (_u *JobRelationsUpdateOne) Mutation() *JobRelationsMutation {
+	return _u.mutation
 }
 
 // ClearJob clears the "job" edge to the JobDetail entity.
-func (jruo *JobRelationsUpdateOne) ClearJob() *JobRelationsUpdateOne {
-	jruo.mutation.ClearJob()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearJob() *JobRelationsUpdateOne {
+	_u.mutation.ClearJob()
+	return _u
 }
 
 // ClearOwner clears the "owner" edge to the JobOwner entity.
-func (jruo *JobRelationsUpdateOne) ClearOwner() *JobRelationsUpdateOne {
-	jruo.mutation.ClearOwner()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearOwner() *JobRelationsUpdateOne {
+	_u.mutation.ClearOwner()
+	return _u
 }
 
 // ClearAuthor clears the "author" edge to the JobAuthor entity.
-func (jruo *JobRelationsUpdateOne) ClearAuthor() *JobRelationsUpdateOne {
-	jruo.mutation.ClearAuthor()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearAuthor() *JobRelationsUpdateOne {
+	_u.mutation.ClearAuthor()
+	return _u
 }
 
 // ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (jruo *JobRelationsUpdateOne) ClearCompany() *JobRelationsUpdateOne {
-	jruo.mutation.ClearCompany()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearCompany() *JobRelationsUpdateOne {
+	_u.mutation.ClearCompany()
+	return _u
 }
 
 // ClearProgress clears the "progress" edge to the JobProgress entity.
-func (jruo *JobRelationsUpdateOne) ClearProgress() *JobRelationsUpdateOne {
-	jruo.mutation.ClearProgress()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearProgress() *JobRelationsUpdateOne {
+	_u.mutation.ClearProgress()
+	return _u
 }
 
 // ClearContractor clears the "contractor" edge to the JobContractor entity.
-func (jruo *JobRelationsUpdateOne) ClearContractor() *JobRelationsUpdateOne {
-	jruo.mutation.ClearContractor()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearContractor() *JobRelationsUpdateOne {
+	_u.mutation.ClearContractor()
+	return _u
 }
 
 // ClearSupervisor clears the "supervisor" edge to the JobSupervisor entity.
-func (jruo *JobRelationsUpdateOne) ClearSupervisor() *JobRelationsUpdateOne {
-	jruo.mutation.ClearSupervisor()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearSupervisor() *JobRelationsUpdateOne {
+	_u.mutation.ClearSupervisor()
+	return _u
 }
 
 // ClearStatic clears the "static" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) ClearStatic() *JobRelationsUpdateOne {
-	jruo.mutation.ClearStatic()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearStatic() *JobRelationsUpdateOne {
+	_u.mutation.ClearStatic()
+	return _u
 }
 
 // ClearMechanic clears the "mechanic" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) ClearMechanic() *JobRelationsUpdateOne {
-	jruo.mutation.ClearMechanic()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearMechanic() *JobRelationsUpdateOne {
+	_u.mutation.ClearMechanic()
+	return _u
 }
 
 // ClearElectric clears the "electric" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) ClearElectric() *JobRelationsUpdateOne {
-	jruo.mutation.ClearElectric()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearElectric() *JobRelationsUpdateOne {
+	_u.mutation.ClearElectric()
+	return _u
 }
 
 // ClearInspector clears the "inspector" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) ClearInspector() *JobRelationsUpdateOne {
-	jruo.mutation.ClearInspector()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearInspector() *JobRelationsUpdateOne {
+	_u.mutation.ClearInspector()
+	return _u
 }
 
 // ClearArchitect clears the "architect" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) ClearArchitect() *JobRelationsUpdateOne {
-	jruo.mutation.ClearArchitect()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearArchitect() *JobRelationsUpdateOne {
+	_u.mutation.ClearArchitect()
+	return _u
 }
 
 // ClearController clears the "controller" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) ClearController() *JobRelationsUpdateOne {
-	jruo.mutation.ClearController()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearController() *JobRelationsUpdateOne {
+	_u.mutation.ClearController()
+	return _u
 }
 
 // ClearMechaniccontroller clears the "mechaniccontroller" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) ClearMechaniccontroller() *JobRelationsUpdateOne {
-	jruo.mutation.ClearMechaniccontroller()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearMechaniccontroller() *JobRelationsUpdateOne {
+	_u.mutation.ClearMechaniccontroller()
+	return _u
 }
 
 // ClearElectriccontroller clears the "electriccontroller" edge to the CompanyEngineer entity.
-func (jruo *JobRelationsUpdateOne) ClearElectriccontroller() *JobRelationsUpdateOne {
-	jruo.mutation.ClearElectriccontroller()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearElectriccontroller() *JobRelationsUpdateOne {
+	_u.mutation.ClearElectriccontroller()
+	return _u
 }
 
 // ClearFloors clears all "floors" edges to the JobFloor entity.
-func (jruo *JobRelationsUpdateOne) ClearFloors() *JobRelationsUpdateOne {
-	jruo.mutation.ClearFloors()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearFloors() *JobRelationsUpdateOne {
+	_u.mutation.ClearFloors()
+	return _u
 }
 
 // RemoveFloorIDs removes the "floors" edge to JobFloor entities by IDs.
-func (jruo *JobRelationsUpdateOne) RemoveFloorIDs(ids ...int) *JobRelationsUpdateOne {
-	jruo.mutation.RemoveFloorIDs(ids...)
-	return jruo
+func (_u *JobRelationsUpdateOne) RemoveFloorIDs(ids ...int) *JobRelationsUpdateOne {
+	_u.mutation.RemoveFloorIDs(ids...)
+	return _u
 }
 
 // RemoveFloors removes "floors" edges to JobFloor entities.
-func (jruo *JobRelationsUpdateOne) RemoveFloors(j ...*JobFloor) *JobRelationsUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdateOne) RemoveFloors(v ...*JobFloor) *JobRelationsUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jruo.RemoveFloorIDs(ids...)
+	return _u.RemoveFloorIDs(ids...)
 }
 
 // ClearPayments clears all "payments" edges to the JobPayments entity.
-func (jruo *JobRelationsUpdateOne) ClearPayments() *JobRelationsUpdateOne {
-	jruo.mutation.ClearPayments()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearPayments() *JobRelationsUpdateOne {
+	_u.mutation.ClearPayments()
+	return _u
 }
 
 // RemovePaymentIDs removes the "payments" edge to JobPayments entities by IDs.
-func (jruo *JobRelationsUpdateOne) RemovePaymentIDs(ids ...int) *JobRelationsUpdateOne {
-	jruo.mutation.RemovePaymentIDs(ids...)
-	return jruo
+func (_u *JobRelationsUpdateOne) RemovePaymentIDs(ids ...int) *JobRelationsUpdateOne {
+	_u.mutation.RemovePaymentIDs(ids...)
+	return _u
 }
 
 // RemovePayments removes "payments" edges to JobPayments entities.
-func (jruo *JobRelationsUpdateOne) RemovePayments(j ...*JobPayments) *JobRelationsUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdateOne) RemovePayments(v ...*JobPayments) *JobRelationsUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jruo.RemovePaymentIDs(ids...)
+	return _u.RemovePaymentIDs(ids...)
 }
 
 // ClearReceipts clears all "receipts" edges to the JobReceipt entity.
-func (jruo *JobRelationsUpdateOne) ClearReceipts() *JobRelationsUpdateOne {
-	jruo.mutation.ClearReceipts()
-	return jruo
+func (_u *JobRelationsUpdateOne) ClearReceipts() *JobRelationsUpdateOne {
+	_u.mutation.ClearReceipts()
+	return _u
 }
 
 // RemoveReceiptIDs removes the "receipts" edge to JobReceipt entities by IDs.
-func (jruo *JobRelationsUpdateOne) RemoveReceiptIDs(ids ...int) *JobRelationsUpdateOne {
-	jruo.mutation.RemoveReceiptIDs(ids...)
-	return jruo
+func (_u *JobRelationsUpdateOne) RemoveReceiptIDs(ids ...int) *JobRelationsUpdateOne {
+	_u.mutation.RemoveReceiptIDs(ids...)
+	return _u
 }
 
 // RemoveReceipts removes "receipts" edges to JobReceipt entities.
-func (jruo *JobRelationsUpdateOne) RemoveReceipts(j ...*JobReceipt) *JobRelationsUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobRelationsUpdateOne) RemoveReceipts(v ...*JobReceipt) *JobRelationsUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jruo.RemoveReceiptIDs(ids...)
+	return _u.RemoveReceiptIDs(ids...)
 }
 
 // Where appends a list predicates to the JobRelationsUpdate builder.
-func (jruo *JobRelationsUpdateOne) Where(ps ...predicate.JobRelations) *JobRelationsUpdateOne {
-	jruo.mutation.Where(ps...)
-	return jruo
+func (_u *JobRelationsUpdateOne) Where(ps ...predicate.JobRelations) *JobRelationsUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jruo *JobRelationsUpdateOne) Select(field string, fields ...string) *JobRelationsUpdateOne {
-	jruo.fields = append([]string{field}, fields...)
-	return jruo
+func (_u *JobRelationsUpdateOne) Select(field string, fields ...string) *JobRelationsUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobRelations entity.
-func (jruo *JobRelationsUpdateOne) Save(ctx context.Context) (*JobRelations, error) {
-	jruo.defaults()
-	return withHooks(ctx, jruo.sqlSave, jruo.mutation, jruo.hooks)
+func (_u *JobRelationsUpdateOne) Save(ctx context.Context) (*JobRelations, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jruo *JobRelationsUpdateOne) SaveX(ctx context.Context) *JobRelations {
-	node, err := jruo.Save(ctx)
+func (_u *JobRelationsUpdateOne) SaveX(ctx context.Context) *JobRelations {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1773,34 +1773,34 @@ func (jruo *JobRelationsUpdateOne) SaveX(ctx context.Context) *JobRelations {
 }
 
 // Exec executes the query on the entity.
-func (jruo *JobRelationsUpdateOne) Exec(ctx context.Context) error {
-	_, err := jruo.Save(ctx)
+func (_u *JobRelationsUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jruo *JobRelationsUpdateOne) ExecX(ctx context.Context) {
-	if err := jruo.Exec(ctx); err != nil {
+func (_u *JobRelationsUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jruo *JobRelationsUpdateOne) defaults() {
-	if _, ok := jruo.mutation.UpdatedAt(); !ok {
+func (_u *JobRelationsUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobrelations.UpdateDefaultUpdatedAt()
-		jruo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelations, err error) {
+func (_u *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelations, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobrelations.Table, jobrelations.Columns, sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt))
-	id, ok := jruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobRelations.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobrelations.FieldID)
 		for _, f := range fields {
@@ -1812,26 +1812,26 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 			}
 		}
 	}
-	if ps := jruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jruo.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobrelations.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jruo.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobrelations.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jruo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobrelations.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jruo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobrelations.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jruo.mutation.JobCleared() {
+	if _u.mutation.JobCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: true,
@@ -1844,7 +1844,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.JobIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.JobIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: true,
@@ -1860,7 +1860,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.OwnerCleared() {
+	if _u.mutation.OwnerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1873,7 +1873,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.OwnerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.OwnerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1889,7 +1889,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.AuthorCleared() {
+	if _u.mutation.AuthorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1902,7 +1902,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.AuthorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.AuthorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1918,7 +1918,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.CompanyCleared() {
+	if _u.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1931,7 +1931,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1947,7 +1947,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.ProgressCleared() {
+	if _u.mutation.ProgressCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1960,7 +1960,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.ProgressIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ProgressIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1976,7 +1976,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.ContractorCleared() {
+	if _u.mutation.ContractorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1989,7 +1989,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.ContractorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ContractorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2005,7 +2005,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.SupervisorCleared() {
+	if _u.mutation.SupervisorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2018,7 +2018,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.SupervisorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.SupervisorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2034,7 +2034,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.StaticCleared() {
+	if _u.mutation.StaticCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2047,7 +2047,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.StaticIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.StaticIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2063,7 +2063,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.MechanicCleared() {
+	if _u.mutation.MechanicCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2076,7 +2076,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.MechanicIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.MechanicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2092,7 +2092,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.ElectricCleared() {
+	if _u.mutation.ElectricCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2105,7 +2105,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.ElectricIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ElectricIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2121,7 +2121,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.InspectorCleared() {
+	if _u.mutation.InspectorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2134,7 +2134,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.InspectorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.InspectorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2150,7 +2150,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.ArchitectCleared() {
+	if _u.mutation.ArchitectCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2163,7 +2163,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.ArchitectIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ArchitectIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2179,7 +2179,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.ControllerCleared() {
+	if _u.mutation.ControllerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2192,7 +2192,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.ControllerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ControllerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2208,7 +2208,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.MechaniccontrollerCleared() {
+	if _u.mutation.MechaniccontrollerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2221,7 +2221,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.MechaniccontrollerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.MechaniccontrollerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2237,7 +2237,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.ElectriccontrollerCleared() {
+	if _u.mutation.ElectriccontrollerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2250,7 +2250,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.ElectriccontrollerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ElectriccontrollerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -2266,7 +2266,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.FloorsCleared() {
+	if _u.mutation.FloorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2279,7 +2279,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.RemovedFloorsIDs(); len(nodes) > 0 && !jruo.mutation.FloorsCleared() {
+	if nodes := _u.mutation.RemovedFloorsIDs(); len(nodes) > 0 && !_u.mutation.FloorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2295,7 +2295,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.FloorsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.FloorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2311,7 +2311,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.PaymentsCleared() {
+	if _u.mutation.PaymentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2324,7 +2324,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.RemovedPaymentsIDs(); len(nodes) > 0 && !jruo.mutation.PaymentsCleared() {
+	if nodes := _u.mutation.RemovedPaymentsIDs(); len(nodes) > 0 && !_u.mutation.PaymentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2340,7 +2340,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.PaymentsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.PaymentsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2356,7 +2356,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if jruo.mutation.ReceiptsCleared() {
+	if _u.mutation.ReceiptsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2369,7 +2369,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.RemovedReceiptsIDs(); len(nodes) > 0 && !jruo.mutation.ReceiptsCleared() {
+	if nodes := _u.mutation.RemovedReceiptsIDs(); len(nodes) > 0 && !_u.mutation.ReceiptsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2385,7 +2385,7 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.ReceiptsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ReceiptsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -2401,10 +2401,10 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobRelations{config: jruo.config}
+	_node = &JobRelations{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobrelations.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -2412,6 +2412,6 @@ func (jruo *JobRelationsUpdateOne) sqlSave(ctx context.Context) (_node *JobRelat
 		}
 		return nil, err
 	}
-	jruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

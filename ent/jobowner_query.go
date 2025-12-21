@@ -34,44 +34,44 @@ type JobOwnerQuery struct {
 }
 
 // Where adds a new predicate for the JobOwnerQuery builder.
-func (joq *JobOwnerQuery) Where(ps ...predicate.JobOwner) *JobOwnerQuery {
-	joq.predicates = append(joq.predicates, ps...)
-	return joq
+func (_q *JobOwnerQuery) Where(ps ...predicate.JobOwner) *JobOwnerQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (joq *JobOwnerQuery) Limit(limit int) *JobOwnerQuery {
-	joq.ctx.Limit = &limit
-	return joq
+func (_q *JobOwnerQuery) Limit(limit int) *JobOwnerQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (joq *JobOwnerQuery) Offset(offset int) *JobOwnerQuery {
-	joq.ctx.Offset = &offset
-	return joq
+func (_q *JobOwnerQuery) Offset(offset int) *JobOwnerQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (joq *JobOwnerQuery) Unique(unique bool) *JobOwnerQuery {
-	joq.ctx.Unique = &unique
-	return joq
+func (_q *JobOwnerQuery) Unique(unique bool) *JobOwnerQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (joq *JobOwnerQuery) Order(o ...jobowner.OrderOption) *JobOwnerQuery {
-	joq.order = append(joq.order, o...)
-	return joq
+func (_q *JobOwnerQuery) Order(o ...jobowner.OrderOption) *JobOwnerQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryOwners chains the current query on the "owners" edge.
-func (joq *JobOwnerQuery) QueryOwners() *JobRelationsQuery {
-	query := (&JobRelationsClient{config: joq.config}).Query()
+func (_q *JobOwnerQuery) QueryOwners() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := joq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := joq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -80,7 +80,7 @@ func (joq *JobOwnerQuery) QueryOwners() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobowner.OwnersTable, jobowner.OwnersColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(joq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -88,8 +88,8 @@ func (joq *JobOwnerQuery) QueryOwners() *JobRelationsQuery {
 
 // First returns the first JobOwner entity from the query.
 // Returns a *NotFoundError when no JobOwner was found.
-func (joq *JobOwnerQuery) First(ctx context.Context) (*JobOwner, error) {
-	nodes, err := joq.Limit(1).All(setContextOp(ctx, joq.ctx, ent.OpQueryFirst))
+func (_q *JobOwnerQuery) First(ctx context.Context) (*JobOwner, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -100,8 +100,8 @@ func (joq *JobOwnerQuery) First(ctx context.Context) (*JobOwner, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (joq *JobOwnerQuery) FirstX(ctx context.Context) *JobOwner {
-	node, err := joq.First(ctx)
+func (_q *JobOwnerQuery) FirstX(ctx context.Context) *JobOwner {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -110,9 +110,9 @@ func (joq *JobOwnerQuery) FirstX(ctx context.Context) *JobOwner {
 
 // FirstID returns the first JobOwner ID from the query.
 // Returns a *NotFoundError when no JobOwner ID was found.
-func (joq *JobOwnerQuery) FirstID(ctx context.Context) (id int, err error) {
+func (_q *JobOwnerQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = joq.Limit(1).IDs(setContextOp(ctx, joq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -123,8 +123,8 @@ func (joq *JobOwnerQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (joq *JobOwnerQuery) FirstIDX(ctx context.Context) int {
-	id, err := joq.FirstID(ctx)
+func (_q *JobOwnerQuery) FirstIDX(ctx context.Context) int {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -134,8 +134,8 @@ func (joq *JobOwnerQuery) FirstIDX(ctx context.Context) int {
 // Only returns a single JobOwner entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one JobOwner entity is found.
 // Returns a *NotFoundError when no JobOwner entities are found.
-func (joq *JobOwnerQuery) Only(ctx context.Context) (*JobOwner, error) {
-	nodes, err := joq.Limit(2).All(setContextOp(ctx, joq.ctx, ent.OpQueryOnly))
+func (_q *JobOwnerQuery) Only(ctx context.Context) (*JobOwner, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -150,8 +150,8 @@ func (joq *JobOwnerQuery) Only(ctx context.Context) (*JobOwner, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (joq *JobOwnerQuery) OnlyX(ctx context.Context) *JobOwner {
-	node, err := joq.Only(ctx)
+func (_q *JobOwnerQuery) OnlyX(ctx context.Context) *JobOwner {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -161,9 +161,9 @@ func (joq *JobOwnerQuery) OnlyX(ctx context.Context) *JobOwner {
 // OnlyID is like Only, but returns the only JobOwner ID in the query.
 // Returns a *NotSingularError when more than one JobOwner ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (joq *JobOwnerQuery) OnlyID(ctx context.Context) (id int, err error) {
+func (_q *JobOwnerQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = joq.Limit(2).IDs(setContextOp(ctx, joq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -178,8 +178,8 @@ func (joq *JobOwnerQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (joq *JobOwnerQuery) OnlyIDX(ctx context.Context) int {
-	id, err := joq.OnlyID(ctx)
+func (_q *JobOwnerQuery) OnlyIDX(ctx context.Context) int {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -187,18 +187,18 @@ func (joq *JobOwnerQuery) OnlyIDX(ctx context.Context) int {
 }
 
 // All executes the query and returns a list of JobOwners.
-func (joq *JobOwnerQuery) All(ctx context.Context) ([]*JobOwner, error) {
-	ctx = setContextOp(ctx, joq.ctx, ent.OpQueryAll)
-	if err := joq.prepareQuery(ctx); err != nil {
+func (_q *JobOwnerQuery) All(ctx context.Context) ([]*JobOwner, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*JobOwner, *JobOwnerQuery]()
-	return withInterceptors[[]*JobOwner](ctx, joq, qr, joq.inters)
+	return withInterceptors[[]*JobOwner](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (joq *JobOwnerQuery) AllX(ctx context.Context) []*JobOwner {
-	nodes, err := joq.All(ctx)
+func (_q *JobOwnerQuery) AllX(ctx context.Context) []*JobOwner {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -206,20 +206,20 @@ func (joq *JobOwnerQuery) AllX(ctx context.Context) []*JobOwner {
 }
 
 // IDs executes the query and returns a list of JobOwner IDs.
-func (joq *JobOwnerQuery) IDs(ctx context.Context) (ids []int, err error) {
-	if joq.ctx.Unique == nil && joq.path != nil {
-		joq.Unique(true)
+func (_q *JobOwnerQuery) IDs(ctx context.Context) (ids []int, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, joq.ctx, ent.OpQueryIDs)
-	if err = joq.Select(jobowner.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(jobowner.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (joq *JobOwnerQuery) IDsX(ctx context.Context) []int {
-	ids, err := joq.IDs(ctx)
+func (_q *JobOwnerQuery) IDsX(ctx context.Context) []int {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -227,17 +227,17 @@ func (joq *JobOwnerQuery) IDsX(ctx context.Context) []int {
 }
 
 // Count returns the count of the given query.
-func (joq *JobOwnerQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, joq.ctx, ent.OpQueryCount)
-	if err := joq.prepareQuery(ctx); err != nil {
+func (_q *JobOwnerQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, joq, querierCount[*JobOwnerQuery](), joq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*JobOwnerQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (joq *JobOwnerQuery) CountX(ctx context.Context) int {
-	count, err := joq.Count(ctx)
+func (_q *JobOwnerQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -245,9 +245,9 @@ func (joq *JobOwnerQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (joq *JobOwnerQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, joq.ctx, ent.OpQueryExist)
-	switch _, err := joq.FirstID(ctx); {
+func (_q *JobOwnerQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -258,8 +258,8 @@ func (joq *JobOwnerQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (joq *JobOwnerQuery) ExistX(ctx context.Context) bool {
-	exist, err := joq.Exist(ctx)
+func (_q *JobOwnerQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -268,32 +268,32 @@ func (joq *JobOwnerQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the JobOwnerQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (joq *JobOwnerQuery) Clone() *JobOwnerQuery {
-	if joq == nil {
+func (_q *JobOwnerQuery) Clone() *JobOwnerQuery {
+	if _q == nil {
 		return nil
 	}
 	return &JobOwnerQuery{
-		config:     joq.config,
-		ctx:        joq.ctx.Clone(),
-		order:      append([]jobowner.OrderOption{}, joq.order...),
-		inters:     append([]Interceptor{}, joq.inters...),
-		predicates: append([]predicate.JobOwner{}, joq.predicates...),
-		withOwners: joq.withOwners.Clone(),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]jobowner.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.JobOwner{}, _q.predicates...),
+		withOwners: _q.withOwners.Clone(),
 		// clone intermediate query.
-		sql:  joq.sql.Clone(),
-		path: joq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithOwners tells the query-builder to eager-load the nodes that are connected to
 // the "owners" edge. The optional arguments are used to configure the query builder of the edge.
-func (joq *JobOwnerQuery) WithOwners(opts ...func(*JobRelationsQuery)) *JobOwnerQuery {
-	query := (&JobRelationsClient{config: joq.config}).Query()
+func (_q *JobOwnerQuery) WithOwners(opts ...func(*JobRelationsQuery)) *JobOwnerQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	joq.withOwners = query
-	return joq
+	_q.withOwners = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -310,10 +310,10 @@ func (joq *JobOwnerQuery) WithOwners(opts ...func(*JobRelationsQuery)) *JobOwner
 //		GroupBy(jobowner.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (joq *JobOwnerQuery) GroupBy(field string, fields ...string) *JobOwnerGroupBy {
-	joq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &JobOwnerGroupBy{build: joq}
-	grbuild.flds = &joq.ctx.Fields
+func (_q *JobOwnerQuery) GroupBy(field string, fields ...string) *JobOwnerGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &JobOwnerGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = jobowner.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -331,97 +331,97 @@ func (joq *JobOwnerQuery) GroupBy(field string, fields ...string) *JobOwnerGroup
 //	client.JobOwner.Query().
 //		Select(jobowner.FieldName).
 //		Scan(ctx, &v)
-func (joq *JobOwnerQuery) Select(fields ...string) *JobOwnerSelect {
-	joq.ctx.Fields = append(joq.ctx.Fields, fields...)
-	sbuild := &JobOwnerSelect{JobOwnerQuery: joq}
+func (_q *JobOwnerQuery) Select(fields ...string) *JobOwnerSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &JobOwnerSelect{JobOwnerQuery: _q}
 	sbuild.label = jobowner.Label
-	sbuild.flds, sbuild.scan = &joq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a JobOwnerSelect configured with the given aggregations.
-func (joq *JobOwnerQuery) Aggregate(fns ...AggregateFunc) *JobOwnerSelect {
-	return joq.Select().Aggregate(fns...)
+func (_q *JobOwnerQuery) Aggregate(fns ...AggregateFunc) *JobOwnerSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (joq *JobOwnerQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range joq.inters {
+func (_q *JobOwnerQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, joq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range joq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !jobowner.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if joq.path != nil {
-		prev, err := joq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		joq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (joq *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobOwner, error) {
+func (_q *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobOwner, error) {
 	var (
 		nodes       = []*JobOwner{}
-		_spec       = joq.querySpec()
+		_spec       = _q.querySpec()
 		loadedTypes = [1]bool{
-			joq.withOwners != nil,
+			_q.withOwners != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*JobOwner).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &JobOwner{config: joq.config}
+		node := &JobOwner{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(joq.modifiers) > 0 {
-		_spec.Modifiers = joq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, joq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := joq.withOwners; query != nil {
-		if err := joq.loadOwners(ctx, query, nodes,
+	if query := _q.withOwners; query != nil {
+		if err := _q.loadOwners(ctx, query, nodes,
 			func(n *JobOwner) { n.Edges.Owners = []*JobRelations{} },
 			func(n *JobOwner, e *JobRelations) { n.Edges.Owners = append(n.Edges.Owners, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range joq.withNamedOwners {
-		if err := joq.loadOwners(ctx, query, nodes,
+	for name, query := range _q.withNamedOwners {
+		if err := _q.loadOwners(ctx, query, nodes,
 			func(n *JobOwner) { n.appendNamedOwners(name) },
 			func(n *JobOwner, e *JobRelations) { n.appendNamedOwners(name, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for i := range joq.loadTotal {
-		if err := joq.loadTotal[i](ctx, nodes); err != nil {
+	for i := range _q.loadTotal {
+		if err := _q.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (joq *JobOwnerQuery) loadOwners(ctx context.Context, query *JobRelationsQuery, nodes []*JobOwner, init func(*JobOwner), assign func(*JobOwner, *JobRelations)) error {
+func (_q *JobOwnerQuery) loadOwners(ctx context.Context, query *JobRelationsQuery, nodes []*JobOwner, init func(*JobOwner), assign func(*JobOwner, *JobRelations)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobOwner)
 	for i := range nodes {
@@ -453,27 +453,27 @@ func (joq *JobOwnerQuery) loadOwners(ctx context.Context, query *JobRelationsQue
 	return nil
 }
 
-func (joq *JobOwnerQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := joq.querySpec()
-	if len(joq.modifiers) > 0 {
-		_spec.Modifiers = joq.modifiers
+func (_q *JobOwnerQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = joq.ctx.Fields
-	if len(joq.ctx.Fields) > 0 {
-		_spec.Unique = joq.ctx.Unique != nil && *joq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, joq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (joq *JobOwnerQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *JobOwnerQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(jobowner.Table, jobowner.Columns, sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt))
-	_spec.From = joq.sql
-	if unique := joq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if joq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := joq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobowner.FieldID)
 		for i := range fields {
@@ -482,20 +482,20 @@ func (joq *JobOwnerQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := joq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := joq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := joq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := joq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -505,33 +505,33 @@ func (joq *JobOwnerQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (joq *JobOwnerQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(joq.driver.Dialect())
+func (_q *JobOwnerQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(jobowner.Table)
-	columns := joq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = jobowner.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if joq.sql != nil {
-		selector = joq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if joq.ctx.Unique != nil && *joq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range joq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range joq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := joq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := joq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -539,16 +539,16 @@ func (joq *JobOwnerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 
 // WithNamedOwners tells the query-builder to eager-load the nodes that are connected to the "owners"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (joq *JobOwnerQuery) WithNamedOwners(name string, opts ...func(*JobRelationsQuery)) *JobOwnerQuery {
-	query := (&JobRelationsClient{config: joq.config}).Query()
+func (_q *JobOwnerQuery) WithNamedOwners(name string, opts ...func(*JobRelationsQuery)) *JobOwnerQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if joq.withNamedOwners == nil {
-		joq.withNamedOwners = make(map[string]*JobRelationsQuery)
+	if _q.withNamedOwners == nil {
+		_q.withNamedOwners = make(map[string]*JobRelationsQuery)
 	}
-	joq.withNamedOwners[name] = query
-	return joq
+	_q.withNamedOwners[name] = query
+	return _q
 }
 
 // JobOwnerGroupBy is the group-by builder for JobOwner entities.
@@ -558,41 +558,41 @@ type JobOwnerGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (jogb *JobOwnerGroupBy) Aggregate(fns ...AggregateFunc) *JobOwnerGroupBy {
-	jogb.fns = append(jogb.fns, fns...)
-	return jogb
+func (_g *JobOwnerGroupBy) Aggregate(fns ...AggregateFunc) *JobOwnerGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jogb *JobOwnerGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jogb.build.ctx, ent.OpQueryGroupBy)
-	if err := jogb.build.prepareQuery(ctx); err != nil {
+func (_g *JobOwnerGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobOwnerQuery, *JobOwnerGroupBy](ctx, jogb.build, jogb, jogb.build.inters, v)
+	return scanWithInterceptors[*JobOwnerQuery, *JobOwnerGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (jogb *JobOwnerGroupBy) sqlScan(ctx context.Context, root *JobOwnerQuery, v any) error {
+func (_g *JobOwnerGroupBy) sqlScan(ctx context.Context, root *JobOwnerQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(jogb.fns))
-	for _, fn := range jogb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*jogb.flds)+len(jogb.fns))
-		for _, f := range *jogb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*jogb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jogb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -606,27 +606,27 @@ type JobOwnerSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (jos *JobOwnerSelect) Aggregate(fns ...AggregateFunc) *JobOwnerSelect {
-	jos.fns = append(jos.fns, fns...)
-	return jos
+func (_s *JobOwnerSelect) Aggregate(fns ...AggregateFunc) *JobOwnerSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jos *JobOwnerSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jos.ctx, ent.OpQuerySelect)
-	if err := jos.prepareQuery(ctx); err != nil {
+func (_s *JobOwnerSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobOwnerQuery, *JobOwnerSelect](ctx, jos.JobOwnerQuery, jos, jos.inters, v)
+	return scanWithInterceptors[*JobOwnerQuery, *JobOwnerSelect](ctx, _s.JobOwnerQuery, _s, _s.inters, v)
 }
 
-func (jos *JobOwnerSelect) sqlScan(ctx context.Context, root *JobOwnerQuery, v any) error {
+func (_s *JobOwnerSelect) sqlScan(ctx context.Context, root *JobOwnerQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(jos.fns))
-	for _, fn := range jos.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*jos.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -634,7 +634,7 @@ func (jos *JobOwnerSelect) sqlScan(ctx context.Context, root *JobOwnerQuery, v a
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jos.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

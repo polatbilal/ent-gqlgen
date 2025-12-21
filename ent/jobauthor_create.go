@@ -22,174 +22,174 @@ type JobAuthorCreate struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jac *JobAuthorCreate) SetYibfNo(i int) *JobAuthorCreate {
-	jac.mutation.SetYibfNo(i)
-	return jac
+func (_c *JobAuthorCreate) SetYibfNo(v int) *JobAuthorCreate {
+	_c.mutation.SetYibfNo(v)
+	return _c
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableYibfNo(i *int) *JobAuthorCreate {
-	if i != nil {
-		jac.SetYibfNo(*i)
+func (_c *JobAuthorCreate) SetNillableYibfNo(v *int) *JobAuthorCreate {
+	if v != nil {
+		_c.SetYibfNo(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetStatic sets the "Static" field.
-func (jac *JobAuthorCreate) SetStatic(s string) *JobAuthorCreate {
-	jac.mutation.SetStatic(s)
-	return jac
+func (_c *JobAuthorCreate) SetStatic(v string) *JobAuthorCreate {
+	_c.mutation.SetStatic(v)
+	return _c
 }
 
 // SetNillableStatic sets the "Static" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableStatic(s *string) *JobAuthorCreate {
-	if s != nil {
-		jac.SetStatic(*s)
+func (_c *JobAuthorCreate) SetNillableStatic(v *string) *JobAuthorCreate {
+	if v != nil {
+		_c.SetStatic(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetMechanic sets the "Mechanic" field.
-func (jac *JobAuthorCreate) SetMechanic(s string) *JobAuthorCreate {
-	jac.mutation.SetMechanic(s)
-	return jac
+func (_c *JobAuthorCreate) SetMechanic(v string) *JobAuthorCreate {
+	_c.mutation.SetMechanic(v)
+	return _c
 }
 
 // SetNillableMechanic sets the "Mechanic" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableMechanic(s *string) *JobAuthorCreate {
-	if s != nil {
-		jac.SetMechanic(*s)
+func (_c *JobAuthorCreate) SetNillableMechanic(v *string) *JobAuthorCreate {
+	if v != nil {
+		_c.SetMechanic(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetElectric sets the "Electric" field.
-func (jac *JobAuthorCreate) SetElectric(s string) *JobAuthorCreate {
-	jac.mutation.SetElectric(s)
-	return jac
+func (_c *JobAuthorCreate) SetElectric(v string) *JobAuthorCreate {
+	_c.mutation.SetElectric(v)
+	return _c
 }
 
 // SetNillableElectric sets the "Electric" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableElectric(s *string) *JobAuthorCreate {
-	if s != nil {
-		jac.SetElectric(*s)
+func (_c *JobAuthorCreate) SetNillableElectric(v *string) *JobAuthorCreate {
+	if v != nil {
+		_c.SetElectric(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetArchitect sets the "Architect" field.
-func (jac *JobAuthorCreate) SetArchitect(s string) *JobAuthorCreate {
-	jac.mutation.SetArchitect(s)
-	return jac
+func (_c *JobAuthorCreate) SetArchitect(v string) *JobAuthorCreate {
+	_c.mutation.SetArchitect(v)
+	return _c
 }
 
 // SetNillableArchitect sets the "Architect" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableArchitect(s *string) *JobAuthorCreate {
-	if s != nil {
-		jac.SetArchitect(*s)
+func (_c *JobAuthorCreate) SetNillableArchitect(v *string) *JobAuthorCreate {
+	if v != nil {
+		_c.SetArchitect(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetGeotechnicalEngineer sets the "GeotechnicalEngineer" field.
-func (jac *JobAuthorCreate) SetGeotechnicalEngineer(s string) *JobAuthorCreate {
-	jac.mutation.SetGeotechnicalEngineer(s)
-	return jac
+func (_c *JobAuthorCreate) SetGeotechnicalEngineer(v string) *JobAuthorCreate {
+	_c.mutation.SetGeotechnicalEngineer(v)
+	return _c
 }
 
 // SetNillableGeotechnicalEngineer sets the "GeotechnicalEngineer" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableGeotechnicalEngineer(s *string) *JobAuthorCreate {
-	if s != nil {
-		jac.SetGeotechnicalEngineer(*s)
+func (_c *JobAuthorCreate) SetNillableGeotechnicalEngineer(v *string) *JobAuthorCreate {
+	if v != nil {
+		_c.SetGeotechnicalEngineer(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetGeotechnicalGeologist sets the "GeotechnicalGeologist" field.
-func (jac *JobAuthorCreate) SetGeotechnicalGeologist(s string) *JobAuthorCreate {
-	jac.mutation.SetGeotechnicalGeologist(s)
-	return jac
+func (_c *JobAuthorCreate) SetGeotechnicalGeologist(v string) *JobAuthorCreate {
+	_c.mutation.SetGeotechnicalGeologist(v)
+	return _c
 }
 
 // SetNillableGeotechnicalGeologist sets the "GeotechnicalGeologist" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableGeotechnicalGeologist(s *string) *JobAuthorCreate {
-	if s != nil {
-		jac.SetGeotechnicalGeologist(*s)
+func (_c *JobAuthorCreate) SetNillableGeotechnicalGeologist(v *string) *JobAuthorCreate {
+	if v != nil {
+		_c.SetGeotechnicalGeologist(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field.
-func (jac *JobAuthorCreate) SetGeotechnicalGeophysicist(s string) *JobAuthorCreate {
-	jac.mutation.SetGeotechnicalGeophysicist(s)
-	return jac
+func (_c *JobAuthorCreate) SetGeotechnicalGeophysicist(v string) *JobAuthorCreate {
+	_c.mutation.SetGeotechnicalGeophysicist(v)
+	return _c
 }
 
 // SetNillableGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableGeotechnicalGeophysicist(s *string) *JobAuthorCreate {
-	if s != nil {
-		jac.SetGeotechnicalGeophysicist(*s)
+func (_c *JobAuthorCreate) SetNillableGeotechnicalGeophysicist(v *string) *JobAuthorCreate {
+	if v != nil {
+		_c.SetGeotechnicalGeophysicist(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jac *JobAuthorCreate) SetCreatedAt(t time.Time) *JobAuthorCreate {
-	jac.mutation.SetCreatedAt(t)
-	return jac
+func (_c *JobAuthorCreate) SetCreatedAt(v time.Time) *JobAuthorCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableCreatedAt(t *time.Time) *JobAuthorCreate {
-	if t != nil {
-		jac.SetCreatedAt(*t)
+func (_c *JobAuthorCreate) SetNillableCreatedAt(v *time.Time) *JobAuthorCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return jac
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jac *JobAuthorCreate) SetUpdatedAt(t time.Time) *JobAuthorCreate {
-	jac.mutation.SetUpdatedAt(t)
-	return jac
+func (_c *JobAuthorCreate) SetUpdatedAt(v time.Time) *JobAuthorCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (jac *JobAuthorCreate) SetNillableUpdatedAt(t *time.Time) *JobAuthorCreate {
-	if t != nil {
-		jac.SetUpdatedAt(*t)
+func (_c *JobAuthorCreate) SetNillableUpdatedAt(v *time.Time) *JobAuthorCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return jac
+	return _c
 }
 
 // AddAuthorIDs adds the "authors" edge to the JobRelations entity by IDs.
-func (jac *JobAuthorCreate) AddAuthorIDs(ids ...int) *JobAuthorCreate {
-	jac.mutation.AddAuthorIDs(ids...)
-	return jac
+func (_c *JobAuthorCreate) AddAuthorIDs(ids ...int) *JobAuthorCreate {
+	_c.mutation.AddAuthorIDs(ids...)
+	return _c
 }
 
 // AddAuthors adds the "authors" edges to the JobRelations entity.
-func (jac *JobAuthorCreate) AddAuthors(j ...*JobRelations) *JobAuthorCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *JobAuthorCreate) AddAuthors(v ...*JobRelations) *JobAuthorCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jac.AddAuthorIDs(ids...)
+	return _c.AddAuthorIDs(ids...)
 }
 
 // Mutation returns the JobAuthorMutation object of the builder.
-func (jac *JobAuthorCreate) Mutation() *JobAuthorMutation {
-	return jac.mutation
+func (_c *JobAuthorCreate) Mutation() *JobAuthorMutation {
+	return _c.mutation
 }
 
 // Save creates the JobAuthor in the database.
-func (jac *JobAuthorCreate) Save(ctx context.Context) (*JobAuthor, error) {
-	jac.defaults()
-	return withHooks(ctx, jac.sqlSave, jac.mutation, jac.hooks)
+func (_c *JobAuthorCreate) Save(ctx context.Context) (*JobAuthor, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (jac *JobAuthorCreate) SaveX(ctx context.Context) *JobAuthor {
-	v, err := jac.Save(ctx)
+func (_c *JobAuthorCreate) SaveX(ctx context.Context) *JobAuthor {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -197,47 +197,47 @@ func (jac *JobAuthorCreate) SaveX(ctx context.Context) *JobAuthor {
 }
 
 // Exec executes the query.
-func (jac *JobAuthorCreate) Exec(ctx context.Context) error {
-	_, err := jac.Save(ctx)
+func (_c *JobAuthorCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jac *JobAuthorCreate) ExecX(ctx context.Context) {
-	if err := jac.Exec(ctx); err != nil {
+func (_c *JobAuthorCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jac *JobAuthorCreate) defaults() {
-	if _, ok := jac.mutation.CreatedAt(); !ok {
+func (_c *JobAuthorCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobauthor.DefaultCreatedAt()
-		jac.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := jac.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := jobauthor.DefaultUpdatedAt()
-		jac.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (jac *JobAuthorCreate) check() error {
-	if _, ok := jac.mutation.CreatedAt(); !ok {
+func (_c *JobAuthorCreate) check() error {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobAuthor.CreatedAt"`)}
 	}
-	if _, ok := jac.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobAuthor.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (jac *JobAuthorCreate) sqlSave(ctx context.Context) (*JobAuthor, error) {
-	if err := jac.check(); err != nil {
+func (_c *JobAuthorCreate) sqlSave(ctx context.Context) (*JobAuthor, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := jac.createSpec()
-	if err := sqlgraph.CreateNode(ctx, jac.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -245,57 +245,57 @@ func (jac *JobAuthorCreate) sqlSave(ctx context.Context) (*JobAuthor, error) {
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	jac.mutation.id = &_node.ID
-	jac.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (jac *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
+func (_c *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobAuthor{config: jac.config}
+		_node = &JobAuthor{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobauthor.Table, sqlgraph.NewFieldSpec(jobauthor.FieldID, field.TypeInt))
 	)
-	if value, ok := jac.mutation.YibfNo(); ok {
+	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobauthor.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
 	}
-	if value, ok := jac.mutation.Static(); ok {
+	if value, ok := _c.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
 		_node.Static = value
 	}
-	if value, ok := jac.mutation.Mechanic(); ok {
+	if value, ok := _c.mutation.Mechanic(); ok {
 		_spec.SetField(jobauthor.FieldMechanic, field.TypeString, value)
 		_node.Mechanic = value
 	}
-	if value, ok := jac.mutation.Electric(); ok {
+	if value, ok := _c.mutation.Electric(); ok {
 		_spec.SetField(jobauthor.FieldElectric, field.TypeString, value)
 		_node.Electric = value
 	}
-	if value, ok := jac.mutation.Architect(); ok {
+	if value, ok := _c.mutation.Architect(); ok {
 		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
 		_node.Architect = value
 	}
-	if value, ok := jac.mutation.GeotechnicalEngineer(); ok {
+	if value, ok := _c.mutation.GeotechnicalEngineer(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalEngineer, field.TypeString, value)
 		_node.GeotechnicalEngineer = value
 	}
-	if value, ok := jac.mutation.GeotechnicalGeologist(); ok {
+	if value, ok := _c.mutation.GeotechnicalGeologist(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalGeologist, field.TypeString, value)
 		_node.GeotechnicalGeologist = value
 	}
-	if value, ok := jac.mutation.GeotechnicalGeophysicist(); ok {
+	if value, ok := _c.mutation.GeotechnicalGeophysicist(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString, value)
 		_node.GeotechnicalGeophysicist = value
 	}
-	if value, ok := jac.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := jac.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobauthor.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := jac.mutation.AuthorsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.AuthorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -322,16 +322,16 @@ type JobAuthorCreateBulk struct {
 }
 
 // Save creates the JobAuthor entities in the database.
-func (jacb *JobAuthorCreateBulk) Save(ctx context.Context) ([]*JobAuthor, error) {
-	if jacb.err != nil {
-		return nil, jacb.err
+func (_c *JobAuthorCreateBulk) Save(ctx context.Context) ([]*JobAuthor, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jacb.builders))
-	nodes := make([]*JobAuthor, len(jacb.builders))
-	mutators := make([]Mutator, len(jacb.builders))
-	for i := range jacb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*JobAuthor, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := jacb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*JobAuthorMutation)
@@ -345,11 +345,11 @@ func (jacb *JobAuthorCreateBulk) Save(ctx context.Context) ([]*JobAuthor, error)
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jacb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jacb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -373,7 +373,7 @@ func (jacb *JobAuthorCreateBulk) Save(ctx context.Context) ([]*JobAuthor, error)
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jacb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -381,8 +381,8 @@ func (jacb *JobAuthorCreateBulk) Save(ctx context.Context) ([]*JobAuthor, error)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jacb *JobAuthorCreateBulk) SaveX(ctx context.Context) []*JobAuthor {
-	v, err := jacb.Save(ctx)
+func (_c *JobAuthorCreateBulk) SaveX(ctx context.Context) []*JobAuthor {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -390,14 +390,14 @@ func (jacb *JobAuthorCreateBulk) SaveX(ctx context.Context) []*JobAuthor {
 }
 
 // Exec executes the query.
-func (jacb *JobAuthorCreateBulk) Exec(ctx context.Context) error {
-	_, err := jacb.Save(ctx)
+func (_c *JobAuthorCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jacb *JobAuthorCreateBulk) ExecX(ctx context.Context) {
-	if err := jacb.Exec(ctx); err != nil {
+func (_c *JobAuthorCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

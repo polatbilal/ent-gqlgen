@@ -22,122 +22,122 @@ type CompanyTokenCreate struct {
 }
 
 // SetYDKUsername sets the "YDKUsername" field.
-func (ctc *CompanyTokenCreate) SetYDKUsername(s string) *CompanyTokenCreate {
-	ctc.mutation.SetYDKUsername(s)
-	return ctc
+func (_c *CompanyTokenCreate) SetYDKUsername(v string) *CompanyTokenCreate {
+	_c.mutation.SetYDKUsername(v)
+	return _c
 }
 
 // SetNillableYDKUsername sets the "YDKUsername" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableYDKUsername(s *string) *CompanyTokenCreate {
-	if s != nil {
-		ctc.SetYDKUsername(*s)
+func (_c *CompanyTokenCreate) SetNillableYDKUsername(v *string) *CompanyTokenCreate {
+	if v != nil {
+		_c.SetYDKUsername(*v)
 	}
-	return ctc
+	return _c
 }
 
 // SetYDKPassword sets the "YDKPassword" field.
-func (ctc *CompanyTokenCreate) SetYDKPassword(s string) *CompanyTokenCreate {
-	ctc.mutation.SetYDKPassword(s)
-	return ctc
+func (_c *CompanyTokenCreate) SetYDKPassword(v string) *CompanyTokenCreate {
+	_c.mutation.SetYDKPassword(v)
+	return _c
 }
 
 // SetNillableYDKPassword sets the "YDKPassword" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableYDKPassword(s *string) *CompanyTokenCreate {
-	if s != nil {
-		ctc.SetYDKPassword(*s)
+func (_c *CompanyTokenCreate) SetNillableYDKPassword(v *string) *CompanyTokenCreate {
+	if v != nil {
+		_c.SetYDKPassword(*v)
 	}
-	return ctc
+	return _c
 }
 
 // SetToken sets the "Token" field.
-func (ctc *CompanyTokenCreate) SetToken(s string) *CompanyTokenCreate {
-	ctc.mutation.SetToken(s)
-	return ctc
+func (_c *CompanyTokenCreate) SetToken(v string) *CompanyTokenCreate {
+	_c.mutation.SetToken(v)
+	return _c
 }
 
 // SetNillableToken sets the "Token" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableToken(s *string) *CompanyTokenCreate {
-	if s != nil {
-		ctc.SetToken(*s)
+func (_c *CompanyTokenCreate) SetNillableToken(v *string) *CompanyTokenCreate {
+	if v != nil {
+		_c.SetToken(*v)
 	}
-	return ctc
+	return _c
 }
 
 // SetDepartmentId sets the "DepartmentId" field.
-func (ctc *CompanyTokenCreate) SetDepartmentId(i int) *CompanyTokenCreate {
-	ctc.mutation.SetDepartmentId(i)
-	return ctc
+func (_c *CompanyTokenCreate) SetDepartmentId(v int) *CompanyTokenCreate {
+	_c.mutation.SetDepartmentId(v)
+	return _c
 }
 
 // SetNillableDepartmentId sets the "DepartmentId" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableDepartmentId(i *int) *CompanyTokenCreate {
-	if i != nil {
-		ctc.SetDepartmentId(*i)
+func (_c *CompanyTokenCreate) SetNillableDepartmentId(v *int) *CompanyTokenCreate {
+	if v != nil {
+		_c.SetDepartmentId(*v)
 	}
-	return ctc
+	return _c
 }
 
 // SetCreatedAt sets the "createdAt" field.
-func (ctc *CompanyTokenCreate) SetCreatedAt(t time.Time) *CompanyTokenCreate {
-	ctc.mutation.SetCreatedAt(t)
-	return ctc
+func (_c *CompanyTokenCreate) SetCreatedAt(v time.Time) *CompanyTokenCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableCreatedAt(t *time.Time) *CompanyTokenCreate {
-	if t != nil {
-		ctc.SetCreatedAt(*t)
+func (_c *CompanyTokenCreate) SetNillableCreatedAt(v *time.Time) *CompanyTokenCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return ctc
+	return _c
 }
 
 // SetUpdatedAt sets the "updatedAt" field.
-func (ctc *CompanyTokenCreate) SetUpdatedAt(t time.Time) *CompanyTokenCreate {
-	ctc.mutation.SetUpdatedAt(t)
-	return ctc
+func (_c *CompanyTokenCreate) SetUpdatedAt(v time.Time) *CompanyTokenCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updatedAt" field if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableUpdatedAt(t *time.Time) *CompanyTokenCreate {
-	if t != nil {
-		ctc.SetUpdatedAt(*t)
+func (_c *CompanyTokenCreate) SetNillableUpdatedAt(v *time.Time) *CompanyTokenCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return ctc
+	return _c
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (ctc *CompanyTokenCreate) SetCompanyID(id int) *CompanyTokenCreate {
-	ctc.mutation.SetCompanyID(id)
-	return ctc
+func (_c *CompanyTokenCreate) SetCompanyID(id int) *CompanyTokenCreate {
+	_c.mutation.SetCompanyID(id)
+	return _c
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (ctc *CompanyTokenCreate) SetNillableCompanyID(id *int) *CompanyTokenCreate {
+func (_c *CompanyTokenCreate) SetNillableCompanyID(id *int) *CompanyTokenCreate {
 	if id != nil {
-		ctc = ctc.SetCompanyID(*id)
+		_c = _c.SetCompanyID(*id)
 	}
-	return ctc
+	return _c
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (ctc *CompanyTokenCreate) SetCompany(c *CompanyDetail) *CompanyTokenCreate {
-	return ctc.SetCompanyID(c.ID)
+func (_c *CompanyTokenCreate) SetCompany(v *CompanyDetail) *CompanyTokenCreate {
+	return _c.SetCompanyID(v.ID)
 }
 
 // Mutation returns the CompanyTokenMutation object of the builder.
-func (ctc *CompanyTokenCreate) Mutation() *CompanyTokenMutation {
-	return ctc.mutation
+func (_c *CompanyTokenCreate) Mutation() *CompanyTokenMutation {
+	return _c.mutation
 }
 
 // Save creates the CompanyToken in the database.
-func (ctc *CompanyTokenCreate) Save(ctx context.Context) (*CompanyToken, error) {
-	ctc.defaults()
-	return withHooks(ctx, ctc.sqlSave, ctc.mutation, ctc.hooks)
+func (_c *CompanyTokenCreate) Save(ctx context.Context) (*CompanyToken, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ctc *CompanyTokenCreate) SaveX(ctx context.Context) *CompanyToken {
-	v, err := ctc.Save(ctx)
+func (_c *CompanyTokenCreate) SaveX(ctx context.Context) *CompanyToken {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -145,47 +145,47 @@ func (ctc *CompanyTokenCreate) SaveX(ctx context.Context) *CompanyToken {
 }
 
 // Exec executes the query.
-func (ctc *CompanyTokenCreate) Exec(ctx context.Context) error {
-	_, err := ctc.Save(ctx)
+func (_c *CompanyTokenCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ctc *CompanyTokenCreate) ExecX(ctx context.Context) {
-	if err := ctc.Exec(ctx); err != nil {
+func (_c *CompanyTokenCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ctc *CompanyTokenCreate) defaults() {
-	if _, ok := ctc.mutation.CreatedAt(); !ok {
+func (_c *CompanyTokenCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := companytoken.DefaultCreatedAt()
-		ctc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := ctc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := companytoken.DefaultUpdatedAt()
-		ctc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ctc *CompanyTokenCreate) check() error {
-	if _, ok := ctc.mutation.CreatedAt(); !ok {
+func (_c *CompanyTokenCreate) check() error {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "createdAt", err: errors.New(`ent: missing required field "CompanyToken.createdAt"`)}
 	}
-	if _, ok := ctc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updatedAt", err: errors.New(`ent: missing required field "CompanyToken.updatedAt"`)}
 	}
 	return nil
 }
 
-func (ctc *CompanyTokenCreate) sqlSave(ctx context.Context) (*CompanyToken, error) {
-	if err := ctc.check(); err != nil {
+func (_c *CompanyTokenCreate) sqlSave(ctx context.Context) (*CompanyToken, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ctc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ctc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -193,41 +193,41 @@ func (ctc *CompanyTokenCreate) sqlSave(ctx context.Context) (*CompanyToken, erro
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	ctc.mutation.id = &_node.ID
-	ctc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ctc *CompanyTokenCreate) createSpec() (*CompanyToken, *sqlgraph.CreateSpec) {
+func (_c *CompanyTokenCreate) createSpec() (*CompanyToken, *sqlgraph.CreateSpec) {
 	var (
-		_node = &CompanyToken{config: ctc.config}
+		_node = &CompanyToken{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(companytoken.Table, sqlgraph.NewFieldSpec(companytoken.FieldID, field.TypeInt))
 	)
-	if value, ok := ctc.mutation.YDKUsername(); ok {
+	if value, ok := _c.mutation.YDKUsername(); ok {
 		_spec.SetField(companytoken.FieldYDKUsername, field.TypeString, value)
 		_node.YDKUsername = value
 	}
-	if value, ok := ctc.mutation.YDKPassword(); ok {
+	if value, ok := _c.mutation.YDKPassword(); ok {
 		_spec.SetField(companytoken.FieldYDKPassword, field.TypeString, value)
 		_node.YDKPassword = value
 	}
-	if value, ok := ctc.mutation.Token(); ok {
+	if value, ok := _c.mutation.Token(); ok {
 		_spec.SetField(companytoken.FieldToken, field.TypeString, value)
 		_node.Token = value
 	}
-	if value, ok := ctc.mutation.DepartmentId(); ok {
+	if value, ok := _c.mutation.DepartmentId(); ok {
 		_spec.SetField(companytoken.FieldDepartmentId, field.TypeInt, value)
 		_node.DepartmentId = value
 	}
-	if value, ok := ctc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(companytoken.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := ctc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(companytoken.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := ctc.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -255,16 +255,16 @@ type CompanyTokenCreateBulk struct {
 }
 
 // Save creates the CompanyToken entities in the database.
-func (ctcb *CompanyTokenCreateBulk) Save(ctx context.Context) ([]*CompanyToken, error) {
-	if ctcb.err != nil {
-		return nil, ctcb.err
+func (_c *CompanyTokenCreateBulk) Save(ctx context.Context) ([]*CompanyToken, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ctcb.builders))
-	nodes := make([]*CompanyToken, len(ctcb.builders))
-	mutators := make([]Mutator, len(ctcb.builders))
-	for i := range ctcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*CompanyToken, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ctcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CompanyTokenMutation)
@@ -278,11 +278,11 @@ func (ctcb *CompanyTokenCreateBulk) Save(ctx context.Context) ([]*CompanyToken, 
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ctcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ctcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -306,7 +306,7 @@ func (ctcb *CompanyTokenCreateBulk) Save(ctx context.Context) ([]*CompanyToken, 
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ctcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -314,8 +314,8 @@ func (ctcb *CompanyTokenCreateBulk) Save(ctx context.Context) ([]*CompanyToken, 
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ctcb *CompanyTokenCreateBulk) SaveX(ctx context.Context) []*CompanyToken {
-	v, err := ctcb.Save(ctx)
+func (_c *CompanyTokenCreateBulk) SaveX(ctx context.Context) []*CompanyToken {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -323,14 +323,14 @@ func (ctcb *CompanyTokenCreateBulk) SaveX(ctx context.Context) []*CompanyToken {
 }
 
 // Exec executes the query.
-func (ctcb *CompanyTokenCreateBulk) Exec(ctx context.Context) error {
-	_, err := ctcb.Save(ctx)
+func (_c *CompanyTokenCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ctcb *CompanyTokenCreateBulk) ExecX(ctx context.Context) {
-	if err := ctcb.Exec(ctx); err != nil {
+func (_c *CompanyTokenCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

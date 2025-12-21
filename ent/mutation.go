@@ -13623,8 +13623,6 @@ type JobPaymentsMutation struct {
 	_PaymentDate              *time.Time
 	_PaymentType              *string
 	_State                    *string
-	_TotalPayment             *float64
-	add_TotalPayment          *float64
 	_LevelRequest             *float64
 	add_LevelRequest          *float64
 	_LevelApprove             *float64
@@ -14003,76 +14001,6 @@ func (m *JobPaymentsMutation) StateCleared() bool {
 func (m *JobPaymentsMutation) ResetState() {
 	m._State = nil
 	delete(m.clearedFields, jobpayments.FieldState)
-}
-
-// SetTotalPayment sets the "TotalPayment" field.
-func (m *JobPaymentsMutation) SetTotalPayment(f float64) {
-	m._TotalPayment = &f
-	m.add_TotalPayment = nil
-}
-
-// TotalPayment returns the value of the "TotalPayment" field in the mutation.
-func (m *JobPaymentsMutation) TotalPayment() (r float64, exists bool) {
-	v := m._TotalPayment
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTotalPayment returns the old "TotalPayment" field's value of the JobPayments entity.
-// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobPaymentsMutation) OldTotalPayment(ctx context.Context) (v float64, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTotalPayment is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTotalPayment requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTotalPayment: %w", err)
-	}
-	return oldValue.TotalPayment, nil
-}
-
-// AddTotalPayment adds f to the "TotalPayment" field.
-func (m *JobPaymentsMutation) AddTotalPayment(f float64) {
-	if m.add_TotalPayment != nil {
-		*m.add_TotalPayment += f
-	} else {
-		m.add_TotalPayment = &f
-	}
-}
-
-// AddedTotalPayment returns the value that was added to the "TotalPayment" field in this mutation.
-func (m *JobPaymentsMutation) AddedTotalPayment() (r float64, exists bool) {
-	v := m.add_TotalPayment
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearTotalPayment clears the value of the "TotalPayment" field.
-func (m *JobPaymentsMutation) ClearTotalPayment() {
-	m._TotalPayment = nil
-	m.add_TotalPayment = nil
-	m.clearedFields[jobpayments.FieldTotalPayment] = struct{}{}
-}
-
-// TotalPaymentCleared returns if the "TotalPayment" field was cleared in this mutation.
-func (m *JobPaymentsMutation) TotalPaymentCleared() bool {
-	_, ok := m.clearedFields[jobpayments.FieldTotalPayment]
-	return ok
-}
-
-// ResetTotalPayment resets all changes to the "TotalPayment" field.
-func (m *JobPaymentsMutation) ResetTotalPayment() {
-	m._TotalPayment = nil
-	m.add_TotalPayment = nil
-	delete(m.clearedFields, jobpayments.FieldTotalPayment)
 }
 
 // SetLevelRequest sets the "LevelRequest" field.
@@ -14724,7 +14652,7 @@ func (m *JobPaymentsMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobPaymentsMutation) Fields() []string {
-	fields := make([]string, 0, 17)
+	fields := make([]string, 0, 16)
 	if m.yibfNo != nil {
 		fields = append(fields, jobpayments.FieldYibfNo)
 	}
@@ -14739,9 +14667,6 @@ func (m *JobPaymentsMutation) Fields() []string {
 	}
 	if m._State != nil {
 		fields = append(fields, jobpayments.FieldState)
-	}
-	if m._TotalPayment != nil {
-		fields = append(fields, jobpayments.FieldTotalPayment)
 	}
 	if m._LevelRequest != nil {
 		fields = append(fields, jobpayments.FieldLevelRequest)
@@ -14794,8 +14719,6 @@ func (m *JobPaymentsMutation) Field(name string) (ent.Value, bool) {
 		return m.PaymentType()
 	case jobpayments.FieldState:
 		return m.State()
-	case jobpayments.FieldTotalPayment:
-		return m.TotalPayment()
 	case jobpayments.FieldLevelRequest:
 		return m.LevelRequest()
 	case jobpayments.FieldLevelApprove:
@@ -14837,8 +14760,6 @@ func (m *JobPaymentsMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldPaymentType(ctx)
 	case jobpayments.FieldState:
 		return m.OldState(ctx)
-	case jobpayments.FieldTotalPayment:
-		return m.OldTotalPayment(ctx)
 	case jobpayments.FieldLevelRequest:
 		return m.OldLevelRequest(ctx)
 	case jobpayments.FieldLevelApprove:
@@ -14904,13 +14825,6 @@ func (m *JobPaymentsMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetState(v)
-		return nil
-	case jobpayments.FieldTotalPayment:
-		v, ok := value.(float64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTotalPayment(v)
 		return nil
 	case jobpayments.FieldLevelRequest:
 		v, ok := value.(float64)
@@ -15003,9 +14917,6 @@ func (m *JobPaymentsMutation) AddedFields() []string {
 	if m.add_PaymentNo != nil {
 		fields = append(fields, jobpayments.FieldPaymentNo)
 	}
-	if m.add_TotalPayment != nil {
-		fields = append(fields, jobpayments.FieldTotalPayment)
-	}
 	if m.add_LevelRequest != nil {
 		fields = append(fields, jobpayments.FieldLevelRequest)
 	}
@@ -15027,8 +14938,6 @@ func (m *JobPaymentsMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedYibfNo()
 	case jobpayments.FieldPaymentNo:
 		return m.AddedPaymentNo()
-	case jobpayments.FieldTotalPayment:
-		return m.AddedTotalPayment()
 	case jobpayments.FieldLevelRequest:
 		return m.AddedLevelRequest()
 	case jobpayments.FieldLevelApprove:
@@ -15057,13 +14966,6 @@ func (m *JobPaymentsMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPaymentNo(v)
-		return nil
-	case jobpayments.FieldTotalPayment:
-		v, ok := value.(float64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTotalPayment(v)
 		return nil
 	case jobpayments.FieldLevelRequest:
 		v, ok := value.(float64)
@@ -15102,9 +15004,6 @@ func (m *JobPaymentsMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(jobpayments.FieldState) {
 		fields = append(fields, jobpayments.FieldState)
-	}
-	if m.FieldCleared(jobpayments.FieldTotalPayment) {
-		fields = append(fields, jobpayments.FieldTotalPayment)
 	}
 	if m.FieldCleared(jobpayments.FieldLevelRequest) {
 		fields = append(fields, jobpayments.FieldLevelRequest)
@@ -15156,9 +15055,6 @@ func (m *JobPaymentsMutation) ClearField(name string) error {
 	case jobpayments.FieldState:
 		m.ClearState()
 		return nil
-	case jobpayments.FieldTotalPayment:
-		m.ClearTotalPayment()
-		return nil
 	case jobpayments.FieldLevelRequest:
 		m.ClearLevelRequest()
 		return nil
@@ -15208,9 +15104,6 @@ func (m *JobPaymentsMutation) ResetField(name string) error {
 		return nil
 	case jobpayments.FieldState:
 		m.ResetState()
-		return nil
-	case jobpayments.FieldTotalPayment:
-		m.ResetTotalPayment()
 		return nil
 	case jobpayments.FieldLevelRequest:
 		m.ResetLevelRequest()

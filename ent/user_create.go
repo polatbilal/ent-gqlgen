@@ -22,200 +22,200 @@ type UserCreate struct {
 }
 
 // SetUsername sets the "Username" field.
-func (uc *UserCreate) SetUsername(s string) *UserCreate {
-	uc.mutation.SetUsername(s)
-	return uc
+func (_c *UserCreate) SetUsername(v string) *UserCreate {
+	_c.mutation.SetUsername(v)
+	return _c
 }
 
 // SetName sets the "Name" field.
-func (uc *UserCreate) SetName(s string) *UserCreate {
-	uc.mutation.SetName(s)
-	return uc
+func (_c *UserCreate) SetName(v string) *UserCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (uc *UserCreate) SetNillableName(s *string) *UserCreate {
-	if s != nil {
-		uc.SetName(*s)
+func (_c *UserCreate) SetNillableName(v *string) *UserCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetEmail sets the "Email" field.
-func (uc *UserCreate) SetEmail(s string) *UserCreate {
-	uc.mutation.SetEmail(s)
-	return uc
+func (_c *UserCreate) SetEmail(v string) *UserCreate {
+	_c.mutation.SetEmail(v)
+	return _c
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (uc *UserCreate) SetNillableEmail(s *string) *UserCreate {
-	if s != nil {
-		uc.SetEmail(*s)
+func (_c *UserCreate) SetNillableEmail(v *string) *UserCreate {
+	if v != nil {
+		_c.SetEmail(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetPhone sets the "Phone" field.
-func (uc *UserCreate) SetPhone(s string) *UserCreate {
-	uc.mutation.SetPhone(s)
-	return uc
+func (_c *UserCreate) SetPhone(v string) *UserCreate {
+	_c.mutation.SetPhone(v)
+	return _c
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (uc *UserCreate) SetNillablePhone(s *string) *UserCreate {
-	if s != nil {
-		uc.SetPhone(*s)
+func (_c *UserCreate) SetNillablePhone(v *string) *UserCreate {
+	if v != nil {
+		_c.SetPhone(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetPassword sets the "Password" field.
-func (uc *UserCreate) SetPassword(s string) *UserCreate {
-	uc.mutation.SetPassword(s)
-	return uc
+func (_c *UserCreate) SetPassword(v string) *UserCreate {
+	_c.mutation.SetPassword(v)
+	return _c
 }
 
 // SetRole sets the "Role" field.
-func (uc *UserCreate) SetRole(s string) *UserCreate {
-	uc.mutation.SetRole(s)
-	return uc
+func (_c *UserCreate) SetRole(v string) *UserCreate {
+	_c.mutation.SetRole(v)
+	return _c
 }
 
 // SetNillableRole sets the "Role" field if the given value is not nil.
-func (uc *UserCreate) SetNillableRole(s *string) *UserCreate {
-	if s != nil {
-		uc.SetRole(*s)
+func (_c *UserCreate) SetNillableRole(v *string) *UserCreate {
+	if v != nil {
+		_c.SetRole(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetRefreshToken sets the "RefreshToken" field.
-func (uc *UserCreate) SetRefreshToken(s string) *UserCreate {
-	uc.mutation.SetRefreshToken(s)
-	return uc
+func (_c *UserCreate) SetRefreshToken(v string) *UserCreate {
+	_c.mutation.SetRefreshToken(v)
+	return _c
 }
 
 // SetNillableRefreshToken sets the "RefreshToken" field if the given value is not nil.
-func (uc *UserCreate) SetNillableRefreshToken(s *string) *UserCreate {
-	if s != nil {
-		uc.SetRefreshToken(*s)
+func (_c *UserCreate) SetNillableRefreshToken(v *string) *UserCreate {
+	if v != nil {
+		_c.SetRefreshToken(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field.
-func (uc *UserCreate) SetRefreshTokenExpireAt(t time.Time) *UserCreate {
-	uc.mutation.SetRefreshTokenExpireAt(t)
-	return uc
+func (_c *UserCreate) SetRefreshTokenExpireAt(v time.Time) *UserCreate {
+	_c.mutation.SetRefreshTokenExpireAt(v)
+	return _c
 }
 
 // SetNillableRefreshTokenExpireAt sets the "RefreshTokenExpireAt" field if the given value is not nil.
-func (uc *UserCreate) SetNillableRefreshTokenExpireAt(t *time.Time) *UserCreate {
-	if t != nil {
-		uc.SetRefreshTokenExpireAt(*t)
+func (_c *UserCreate) SetNillableRefreshTokenExpireAt(v *time.Time) *UserCreate {
+	if v != nil {
+		_c.SetRefreshTokenExpireAt(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetLicenseExpireDate sets the "LicenseExpireDate" field.
-func (uc *UserCreate) SetLicenseExpireDate(t time.Time) *UserCreate {
-	uc.mutation.SetLicenseExpireDate(t)
-	return uc
+func (_c *UserCreate) SetLicenseExpireDate(v time.Time) *UserCreate {
+	_c.mutation.SetLicenseExpireDate(v)
+	return _c
 }
 
 // SetNillableLicenseExpireDate sets the "LicenseExpireDate" field if the given value is not nil.
-func (uc *UserCreate) SetNillableLicenseExpireDate(t *time.Time) *UserCreate {
-	if t != nil {
-		uc.SetLicenseExpireDate(*t)
+func (_c *UserCreate) SetNillableLicenseExpireDate(v *time.Time) *UserCreate {
+	if v != nil {
+		_c.SetLicenseExpireDate(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetLastLogin sets the "LastLogin" field.
-func (uc *UserCreate) SetLastLogin(t time.Time) *UserCreate {
-	uc.mutation.SetLastLogin(t)
-	return uc
+func (_c *UserCreate) SetLastLogin(v time.Time) *UserCreate {
+	_c.mutation.SetLastLogin(v)
+	return _c
 }
 
 // SetNillableLastLogin sets the "LastLogin" field if the given value is not nil.
-func (uc *UserCreate) SetNillableLastLogin(t *time.Time) *UserCreate {
-	if t != nil {
-		uc.SetLastLogin(*t)
+func (_c *UserCreate) SetNillableLastLogin(v *time.Time) *UserCreate {
+	if v != nil {
+		_c.SetLastLogin(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetActive sets the "Active" field.
-func (uc *UserCreate) SetActive(b bool) *UserCreate {
-	uc.mutation.SetActive(b)
-	return uc
+func (_c *UserCreate) SetActive(v bool) *UserCreate {
+	_c.mutation.SetActive(v)
+	return _c
 }
 
 // SetNillableActive sets the "Active" field if the given value is not nil.
-func (uc *UserCreate) SetNillableActive(b *bool) *UserCreate {
-	if b != nil {
-		uc.SetActive(*b)
+func (_c *UserCreate) SetNillableActive(v *bool) *UserCreate {
+	if v != nil {
+		_c.SetActive(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (uc *UserCreate) SetCreatedAt(t time.Time) *UserCreate {
-	uc.mutation.SetCreatedAt(t)
-	return uc
+func (_c *UserCreate) SetCreatedAt(v time.Time) *UserCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (uc *UserCreate) SetNillableCreatedAt(t *time.Time) *UserCreate {
-	if t != nil {
-		uc.SetCreatedAt(*t)
+func (_c *UserCreate) SetNillableCreatedAt(v *time.Time) *UserCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return uc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (uc *UserCreate) SetUpdatedAt(t time.Time) *UserCreate {
-	uc.mutation.SetUpdatedAt(t)
-	return uc
+func (_c *UserCreate) SetUpdatedAt(v time.Time) *UserCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (uc *UserCreate) SetNillableUpdatedAt(t *time.Time) *UserCreate {
-	if t != nil {
-		uc.SetUpdatedAt(*t)
+func (_c *UserCreate) SetNillableUpdatedAt(v *time.Time) *UserCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return uc
+	return _c
 }
 
 // AddCompanyIDs adds the "companies" edge to the CompanyUser entity by IDs.
-func (uc *UserCreate) AddCompanyIDs(ids ...int) *UserCreate {
-	uc.mutation.AddCompanyIDs(ids...)
-	return uc
+func (_c *UserCreate) AddCompanyIDs(ids ...int) *UserCreate {
+	_c.mutation.AddCompanyIDs(ids...)
+	return _c
 }
 
 // AddCompanies adds the "companies" edges to the CompanyUser entity.
-func (uc *UserCreate) AddCompanies(c ...*CompanyUser) *UserCreate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_c *UserCreate) AddCompanies(v ...*CompanyUser) *UserCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return uc.AddCompanyIDs(ids...)
+	return _c.AddCompanyIDs(ids...)
 }
 
 // Mutation returns the UserMutation object of the builder.
-func (uc *UserCreate) Mutation() *UserMutation {
-	return uc.mutation
+func (_c *UserCreate) Mutation() *UserMutation {
+	return _c.mutation
 }
 
 // Save creates the User in the database.
-func (uc *UserCreate) Save(ctx context.Context) (*User, error) {
-	uc.defaults()
-	return withHooks(ctx, uc.sqlSave, uc.mutation, uc.hooks)
+func (_c *UserCreate) Save(ctx context.Context) (*User, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (uc *UserCreate) SaveX(ctx context.Context) *User {
-	v, err := uc.Save(ctx)
+func (_c *UserCreate) SaveX(ctx context.Context) *User {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -223,81 +223,86 @@ func (uc *UserCreate) SaveX(ctx context.Context) *User {
 }
 
 // Exec executes the query.
-func (uc *UserCreate) Exec(ctx context.Context) error {
-	_, err := uc.Save(ctx)
+func (_c *UserCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (uc *UserCreate) ExecX(ctx context.Context) {
-	if err := uc.Exec(ctx); err != nil {
+func (_c *UserCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (uc *UserCreate) defaults() {
-	if _, ok := uc.mutation.Name(); !ok {
+func (_c *UserCreate) defaults() {
+	if _, ok := _c.mutation.Name(); !ok {
 		v := user.DefaultName
-		uc.mutation.SetName(v)
+		_c.mutation.SetName(v)
 	}
-	if _, ok := uc.mutation.Email(); !ok {
+	if _, ok := _c.mutation.Email(); !ok {
 		v := user.DefaultEmail
-		uc.mutation.SetEmail(v)
+		_c.mutation.SetEmail(v)
 	}
-	if _, ok := uc.mutation.Role(); !ok {
+	if _, ok := _c.mutation.Role(); !ok {
 		v := user.DefaultRole
-		uc.mutation.SetRole(v)
+		_c.mutation.SetRole(v)
 	}
-	if _, ok := uc.mutation.Active(); !ok {
+	if _, ok := _c.mutation.Active(); !ok {
 		v := user.DefaultActive
-		uc.mutation.SetActive(v)
+		_c.mutation.SetActive(v)
 	}
-	if _, ok := uc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := user.DefaultCreatedAt()
-		uc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := uc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := user.DefaultUpdatedAt()
-		uc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (uc *UserCreate) check() error {
-	if _, ok := uc.mutation.Username(); !ok {
+func (_c *UserCreate) check() error {
+	if _, ok := _c.mutation.Username(); !ok {
 		return &ValidationError{Name: "Username", err: errors.New(`ent: missing required field "User.Username"`)}
 	}
-	if _, ok := uc.mutation.Name(); !ok {
+	if v, ok := _c.mutation.Username(); ok {
+		if err := user.UsernameValidator(v); err != nil {
+			return &ValidationError{Name: "Username", err: fmt.Errorf(`ent: validator failed for field "User.Username": %w`, err)}
+		}
+	}
+	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "User.Name"`)}
 	}
-	if _, ok := uc.mutation.Email(); !ok {
+	if _, ok := _c.mutation.Email(); !ok {
 		return &ValidationError{Name: "Email", err: errors.New(`ent: missing required field "User.Email"`)}
 	}
-	if _, ok := uc.mutation.Password(); !ok {
+	if _, ok := _c.mutation.Password(); !ok {
 		return &ValidationError{Name: "Password", err: errors.New(`ent: missing required field "User.Password"`)}
 	}
-	if _, ok := uc.mutation.Role(); !ok {
+	if _, ok := _c.mutation.Role(); !ok {
 		return &ValidationError{Name: "Role", err: errors.New(`ent: missing required field "User.Role"`)}
 	}
-	if _, ok := uc.mutation.Active(); !ok {
+	if _, ok := _c.mutation.Active(); !ok {
 		return &ValidationError{Name: "Active", err: errors.New(`ent: missing required field "User.Active"`)}
 	}
-	if _, ok := uc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "User.CreatedAt"`)}
 	}
-	if _, ok := uc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "User.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (uc *UserCreate) sqlSave(ctx context.Context) (*User, error) {
-	if err := uc.check(); err != nil {
+func (_c *UserCreate) sqlSave(ctx context.Context) (*User, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := uc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, uc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -305,69 +310,69 @@ func (uc *UserCreate) sqlSave(ctx context.Context) (*User, error) {
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	uc.mutation.id = &_node.ID
-	uc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
+func (_c *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	var (
-		_node = &User{config: uc.config}
+		_node = &User{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(user.Table, sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt))
 	)
-	if value, ok := uc.mutation.Username(); ok {
+	if value, ok := _c.mutation.Username(); ok {
 		_spec.SetField(user.FieldUsername, field.TypeString, value)
 		_node.Username = value
 	}
-	if value, ok := uc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(user.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := uc.mutation.Email(); ok {
+	if value, ok := _c.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := uc.mutation.Phone(); ok {
+	if value, ok := _c.mutation.Phone(); ok {
 		_spec.SetField(user.FieldPhone, field.TypeString, value)
 		_node.Phone = value
 	}
-	if value, ok := uc.mutation.Password(); ok {
+	if value, ok := _c.mutation.Password(); ok {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)
 		_node.Password = value
 	}
-	if value, ok := uc.mutation.Role(); ok {
+	if value, ok := _c.mutation.Role(); ok {
 		_spec.SetField(user.FieldRole, field.TypeString, value)
 		_node.Role = value
 	}
-	if value, ok := uc.mutation.RefreshToken(); ok {
+	if value, ok := _c.mutation.RefreshToken(); ok {
 		_spec.SetField(user.FieldRefreshToken, field.TypeString, value)
 		_node.RefreshToken = value
 	}
-	if value, ok := uc.mutation.RefreshTokenExpireAt(); ok {
+	if value, ok := _c.mutation.RefreshTokenExpireAt(); ok {
 		_spec.SetField(user.FieldRefreshTokenExpireAt, field.TypeTime, value)
 		_node.RefreshTokenExpireAt = value
 	}
-	if value, ok := uc.mutation.LicenseExpireDate(); ok {
+	if value, ok := _c.mutation.LicenseExpireDate(); ok {
 		_spec.SetField(user.FieldLicenseExpireDate, field.TypeTime, value)
 		_node.LicenseExpireDate = value
 	}
-	if value, ok := uc.mutation.LastLogin(); ok {
+	if value, ok := _c.mutation.LastLogin(); ok {
 		_spec.SetField(user.FieldLastLogin, field.TypeTime, value)
 		_node.LastLogin = value
 	}
-	if value, ok := uc.mutation.Active(); ok {
+	if value, ok := _c.mutation.Active(); ok {
 		_spec.SetField(user.FieldActive, field.TypeBool, value)
 		_node.Active = value
 	}
-	if value, ok := uc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := uc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(user.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := uc.mutation.CompaniesIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CompaniesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -394,16 +399,16 @@ type UserCreateBulk struct {
 }
 
 // Save creates the User entities in the database.
-func (ucb *UserCreateBulk) Save(ctx context.Context) ([]*User, error) {
-	if ucb.err != nil {
-		return nil, ucb.err
+func (_c *UserCreateBulk) Save(ctx context.Context) ([]*User, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ucb.builders))
-	nodes := make([]*User, len(ucb.builders))
-	mutators := make([]Mutator, len(ucb.builders))
-	for i := range ucb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*User, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ucb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*UserMutation)
@@ -417,11 +422,11 @@ func (ucb *UserCreateBulk) Save(ctx context.Context) ([]*User, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ucb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ucb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -445,7 +450,7 @@ func (ucb *UserCreateBulk) Save(ctx context.Context) ([]*User, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ucb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -453,8 +458,8 @@ func (ucb *UserCreateBulk) Save(ctx context.Context) ([]*User, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ucb *UserCreateBulk) SaveX(ctx context.Context) []*User {
-	v, err := ucb.Save(ctx)
+func (_c *UserCreateBulk) SaveX(ctx context.Context) []*User {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -462,14 +467,14 @@ func (ucb *UserCreateBulk) SaveX(ctx context.Context) []*User {
 }
 
 // Exec executes the query.
-func (ucb *UserCreateBulk) Exec(ctx context.Context) error {
-	_, err := ucb.Save(ctx)
+func (_c *UserCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ucb *UserCreateBulk) ExecX(ctx context.Context) {
-	if err := ucb.Exec(ctx); err != nil {
+func (_c *UserCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

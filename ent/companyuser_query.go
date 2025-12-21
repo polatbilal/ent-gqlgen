@@ -35,44 +35,44 @@ type CompanyUserQuery struct {
 }
 
 // Where adds a new predicate for the CompanyUserQuery builder.
-func (cuq *CompanyUserQuery) Where(ps ...predicate.CompanyUser) *CompanyUserQuery {
-	cuq.predicates = append(cuq.predicates, ps...)
-	return cuq
+func (_q *CompanyUserQuery) Where(ps ...predicate.CompanyUser) *CompanyUserQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (cuq *CompanyUserQuery) Limit(limit int) *CompanyUserQuery {
-	cuq.ctx.Limit = &limit
-	return cuq
+func (_q *CompanyUserQuery) Limit(limit int) *CompanyUserQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (cuq *CompanyUserQuery) Offset(offset int) *CompanyUserQuery {
-	cuq.ctx.Offset = &offset
-	return cuq
+func (_q *CompanyUserQuery) Offset(offset int) *CompanyUserQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (cuq *CompanyUserQuery) Unique(unique bool) *CompanyUserQuery {
-	cuq.ctx.Unique = &unique
-	return cuq
+func (_q *CompanyUserQuery) Unique(unique bool) *CompanyUserQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (cuq *CompanyUserQuery) Order(o ...companyuser.OrderOption) *CompanyUserQuery {
-	cuq.order = append(cuq.order, o...)
-	return cuq
+func (_q *CompanyUserQuery) Order(o ...companyuser.OrderOption) *CompanyUserQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryCompany chains the current query on the "company" edge.
-func (cuq *CompanyUserQuery) QueryCompany() *CompanyDetailQuery {
-	query := (&CompanyDetailClient{config: cuq.config}).Query()
+func (_q *CompanyUserQuery) QueryCompany() *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := cuq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := cuq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -81,20 +81,20 @@ func (cuq *CompanyUserQuery) QueryCompany() *CompanyDetailQuery {
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.CompanyTable, companyuser.CompanyColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(cuq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryUser chains the current query on the "user" edge.
-func (cuq *CompanyUserQuery) QueryUser() *UserQuery {
-	query := (&UserClient{config: cuq.config}).Query()
+func (_q *CompanyUserQuery) QueryUser() *UserQuery {
+	query := (&UserClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := cuq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := cuq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -103,7 +103,7 @@ func (cuq *CompanyUserQuery) QueryUser() *UserQuery {
 			sqlgraph.To(user.Table, user.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.UserTable, companyuser.UserColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(cuq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -111,8 +111,8 @@ func (cuq *CompanyUserQuery) QueryUser() *UserQuery {
 
 // First returns the first CompanyUser entity from the query.
 // Returns a *NotFoundError when no CompanyUser was found.
-func (cuq *CompanyUserQuery) First(ctx context.Context) (*CompanyUser, error) {
-	nodes, err := cuq.Limit(1).All(setContextOp(ctx, cuq.ctx, ent.OpQueryFirst))
+func (_q *CompanyUserQuery) First(ctx context.Context) (*CompanyUser, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -123,8 +123,8 @@ func (cuq *CompanyUserQuery) First(ctx context.Context) (*CompanyUser, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (cuq *CompanyUserQuery) FirstX(ctx context.Context) *CompanyUser {
-	node, err := cuq.First(ctx)
+func (_q *CompanyUserQuery) FirstX(ctx context.Context) *CompanyUser {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (cuq *CompanyUserQuery) FirstX(ctx context.Context) *CompanyUser {
 
 // FirstID returns the first CompanyUser ID from the query.
 // Returns a *NotFoundError when no CompanyUser ID was found.
-func (cuq *CompanyUserQuery) FirstID(ctx context.Context) (id int, err error) {
+func (_q *CompanyUserQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = cuq.Limit(1).IDs(setContextOp(ctx, cuq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -146,8 +146,8 @@ func (cuq *CompanyUserQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (cuq *CompanyUserQuery) FirstIDX(ctx context.Context) int {
-	id, err := cuq.FirstID(ctx)
+func (_q *CompanyUserQuery) FirstIDX(ctx context.Context) int {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -157,8 +157,8 @@ func (cuq *CompanyUserQuery) FirstIDX(ctx context.Context) int {
 // Only returns a single CompanyUser entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one CompanyUser entity is found.
 // Returns a *NotFoundError when no CompanyUser entities are found.
-func (cuq *CompanyUserQuery) Only(ctx context.Context) (*CompanyUser, error) {
-	nodes, err := cuq.Limit(2).All(setContextOp(ctx, cuq.ctx, ent.OpQueryOnly))
+func (_q *CompanyUserQuery) Only(ctx context.Context) (*CompanyUser, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +173,8 @@ func (cuq *CompanyUserQuery) Only(ctx context.Context) (*CompanyUser, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (cuq *CompanyUserQuery) OnlyX(ctx context.Context) *CompanyUser {
-	node, err := cuq.Only(ctx)
+func (_q *CompanyUserQuery) OnlyX(ctx context.Context) *CompanyUser {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -184,9 +184,9 @@ func (cuq *CompanyUserQuery) OnlyX(ctx context.Context) *CompanyUser {
 // OnlyID is like Only, but returns the only CompanyUser ID in the query.
 // Returns a *NotSingularError when more than one CompanyUser ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (cuq *CompanyUserQuery) OnlyID(ctx context.Context) (id int, err error) {
+func (_q *CompanyUserQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = cuq.Limit(2).IDs(setContextOp(ctx, cuq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -201,8 +201,8 @@ func (cuq *CompanyUserQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (cuq *CompanyUserQuery) OnlyIDX(ctx context.Context) int {
-	id, err := cuq.OnlyID(ctx)
+func (_q *CompanyUserQuery) OnlyIDX(ctx context.Context) int {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -210,18 +210,18 @@ func (cuq *CompanyUserQuery) OnlyIDX(ctx context.Context) int {
 }
 
 // All executes the query and returns a list of CompanyUsers.
-func (cuq *CompanyUserQuery) All(ctx context.Context) ([]*CompanyUser, error) {
-	ctx = setContextOp(ctx, cuq.ctx, ent.OpQueryAll)
-	if err := cuq.prepareQuery(ctx); err != nil {
+func (_q *CompanyUserQuery) All(ctx context.Context) ([]*CompanyUser, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*CompanyUser, *CompanyUserQuery]()
-	return withInterceptors[[]*CompanyUser](ctx, cuq, qr, cuq.inters)
+	return withInterceptors[[]*CompanyUser](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (cuq *CompanyUserQuery) AllX(ctx context.Context) []*CompanyUser {
-	nodes, err := cuq.All(ctx)
+func (_q *CompanyUserQuery) AllX(ctx context.Context) []*CompanyUser {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -229,20 +229,20 @@ func (cuq *CompanyUserQuery) AllX(ctx context.Context) []*CompanyUser {
 }
 
 // IDs executes the query and returns a list of CompanyUser IDs.
-func (cuq *CompanyUserQuery) IDs(ctx context.Context) (ids []int, err error) {
-	if cuq.ctx.Unique == nil && cuq.path != nil {
-		cuq.Unique(true)
+func (_q *CompanyUserQuery) IDs(ctx context.Context) (ids []int, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, cuq.ctx, ent.OpQueryIDs)
-	if err = cuq.Select(companyuser.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(companyuser.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (cuq *CompanyUserQuery) IDsX(ctx context.Context) []int {
-	ids, err := cuq.IDs(ctx)
+func (_q *CompanyUserQuery) IDsX(ctx context.Context) []int {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -250,17 +250,17 @@ func (cuq *CompanyUserQuery) IDsX(ctx context.Context) []int {
 }
 
 // Count returns the count of the given query.
-func (cuq *CompanyUserQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, cuq.ctx, ent.OpQueryCount)
-	if err := cuq.prepareQuery(ctx); err != nil {
+func (_q *CompanyUserQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, cuq, querierCount[*CompanyUserQuery](), cuq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*CompanyUserQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (cuq *CompanyUserQuery) CountX(ctx context.Context) int {
-	count, err := cuq.Count(ctx)
+func (_q *CompanyUserQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -268,9 +268,9 @@ func (cuq *CompanyUserQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (cuq *CompanyUserQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, cuq.ctx, ent.OpQueryExist)
-	switch _, err := cuq.FirstID(ctx); {
+func (_q *CompanyUserQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -281,8 +281,8 @@ func (cuq *CompanyUserQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (cuq *CompanyUserQuery) ExistX(ctx context.Context) bool {
-	exist, err := cuq.Exist(ctx)
+func (_q *CompanyUserQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -291,52 +291,52 @@ func (cuq *CompanyUserQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the CompanyUserQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (cuq *CompanyUserQuery) Clone() *CompanyUserQuery {
-	if cuq == nil {
+func (_q *CompanyUserQuery) Clone() *CompanyUserQuery {
+	if _q == nil {
 		return nil
 	}
 	return &CompanyUserQuery{
-		config:      cuq.config,
-		ctx:         cuq.ctx.Clone(),
-		order:       append([]companyuser.OrderOption{}, cuq.order...),
-		inters:      append([]Interceptor{}, cuq.inters...),
-		predicates:  append([]predicate.CompanyUser{}, cuq.predicates...),
-		withCompany: cuq.withCompany.Clone(),
-		withUser:    cuq.withUser.Clone(),
+		config:      _q.config,
+		ctx:         _q.ctx.Clone(),
+		order:       append([]companyuser.OrderOption{}, _q.order...),
+		inters:      append([]Interceptor{}, _q.inters...),
+		predicates:  append([]predicate.CompanyUser{}, _q.predicates...),
+		withCompany: _q.withCompany.Clone(),
+		withUser:    _q.withUser.Clone(),
 		// clone intermediate query.
-		sql:  cuq.sql.Clone(),
-		path: cuq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithCompany tells the query-builder to eager-load the nodes that are connected to
 // the "company" edge. The optional arguments are used to configure the query builder of the edge.
-func (cuq *CompanyUserQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *CompanyUserQuery {
-	query := (&CompanyDetailClient{config: cuq.config}).Query()
+func (_q *CompanyUserQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *CompanyUserQuery {
+	query := (&CompanyDetailClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cuq.withCompany = query
-	return cuq
+	_q.withCompany = query
+	return _q
 }
 
 // WithUser tells the query-builder to eager-load the nodes that are connected to
 // the "user" edge. The optional arguments are used to configure the query builder of the edge.
-func (cuq *CompanyUserQuery) WithUser(opts ...func(*UserQuery)) *CompanyUserQuery {
-	query := (&UserClient{config: cuq.config}).Query()
+func (_q *CompanyUserQuery) WithUser(opts ...func(*UserQuery)) *CompanyUserQuery {
+	query := (&UserClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cuq.withUser = query
-	return cuq
+	_q.withUser = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
-func (cuq *CompanyUserQuery) GroupBy(field string, fields ...string) *CompanyUserGroupBy {
-	cuq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &CompanyUserGroupBy{build: cuq}
-	grbuild.flds = &cuq.ctx.Fields
+func (_q *CompanyUserQuery) GroupBy(field string, fields ...string) *CompanyUserGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &CompanyUserGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = companyuser.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -344,56 +344,56 @@ func (cuq *CompanyUserQuery) GroupBy(field string, fields ...string) *CompanyUse
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
-func (cuq *CompanyUserQuery) Select(fields ...string) *CompanyUserSelect {
-	cuq.ctx.Fields = append(cuq.ctx.Fields, fields...)
-	sbuild := &CompanyUserSelect{CompanyUserQuery: cuq}
+func (_q *CompanyUserQuery) Select(fields ...string) *CompanyUserSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &CompanyUserSelect{CompanyUserQuery: _q}
 	sbuild.label = companyuser.Label
-	sbuild.flds, sbuild.scan = &cuq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a CompanyUserSelect configured with the given aggregations.
-func (cuq *CompanyUserQuery) Aggregate(fns ...AggregateFunc) *CompanyUserSelect {
-	return cuq.Select().Aggregate(fns...)
+func (_q *CompanyUserQuery) Aggregate(fns ...AggregateFunc) *CompanyUserSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (cuq *CompanyUserQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range cuq.inters {
+func (_q *CompanyUserQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, cuq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range cuq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !companyuser.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if cuq.path != nil {
-		prev, err := cuq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		cuq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (cuq *CompanyUserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*CompanyUser, error) {
+func (_q *CompanyUserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*CompanyUser, error) {
 	var (
 		nodes       = []*CompanyUser{}
-		withFKs     = cuq.withFKs
-		_spec       = cuq.querySpec()
+		withFKs     = _q.withFKs
+		_spec       = _q.querySpec()
 		loadedTypes = [2]bool{
-			cuq.withCompany != nil,
-			cuq.withUser != nil,
+			_q.withCompany != nil,
+			_q.withUser != nil,
 		}
 	)
-	if cuq.withCompany != nil || cuq.withUser != nil {
+	if _q.withCompany != nil || _q.withUser != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -403,44 +403,44 @@ func (cuq *CompanyUserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		return (*CompanyUser).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &CompanyUser{config: cuq.config}
+		node := &CompanyUser{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(cuq.modifiers) > 0 {
-		_spec.Modifiers = cuq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, cuq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := cuq.withCompany; query != nil {
-		if err := cuq.loadCompany(ctx, query, nodes, nil,
+	if query := _q.withCompany; query != nil {
+		if err := _q.loadCompany(ctx, query, nodes, nil,
 			func(n *CompanyUser, e *CompanyDetail) { n.Edges.Company = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := cuq.withUser; query != nil {
-		if err := cuq.loadUser(ctx, query, nodes, nil,
+	if query := _q.withUser; query != nil {
+		if err := _q.loadUser(ctx, query, nodes, nil,
 			func(n *CompanyUser, e *User) { n.Edges.User = e }); err != nil {
 			return nil, err
 		}
 	}
-	for i := range cuq.loadTotal {
-		if err := cuq.loadTotal[i](ctx, nodes); err != nil {
+	for i := range _q.loadTotal {
+		if err := _q.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (cuq *CompanyUserQuery) loadCompany(ctx context.Context, query *CompanyDetailQuery, nodes []*CompanyUser, init func(*CompanyUser), assign func(*CompanyUser, *CompanyDetail)) error {
+func (_q *CompanyUserQuery) loadCompany(ctx context.Context, query *CompanyDetailQuery, nodes []*CompanyUser, init func(*CompanyUser), assign func(*CompanyUser, *CompanyDetail)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*CompanyUser)
 	for i := range nodes {
@@ -472,7 +472,7 @@ func (cuq *CompanyUserQuery) loadCompany(ctx context.Context, query *CompanyDeta
 	}
 	return nil
 }
-func (cuq *CompanyUserQuery) loadUser(ctx context.Context, query *UserQuery, nodes []*CompanyUser, init func(*CompanyUser), assign func(*CompanyUser, *User)) error {
+func (_q *CompanyUserQuery) loadUser(ctx context.Context, query *UserQuery, nodes []*CompanyUser, init func(*CompanyUser), assign func(*CompanyUser, *User)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*CompanyUser)
 	for i := range nodes {
@@ -505,27 +505,27 @@ func (cuq *CompanyUserQuery) loadUser(ctx context.Context, query *UserQuery, nod
 	return nil
 }
 
-func (cuq *CompanyUserQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := cuq.querySpec()
-	if len(cuq.modifiers) > 0 {
-		_spec.Modifiers = cuq.modifiers
+func (_q *CompanyUserQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = cuq.ctx.Fields
-	if len(cuq.ctx.Fields) > 0 {
-		_spec.Unique = cuq.ctx.Unique != nil && *cuq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, cuq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (cuq *CompanyUserQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *CompanyUserQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(companyuser.Table, companyuser.Columns, sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt))
-	_spec.From = cuq.sql
-	if unique := cuq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if cuq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := cuq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, companyuser.FieldID)
 		for i := range fields {
@@ -534,20 +534,20 @@ func (cuq *CompanyUserQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := cuq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := cuq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := cuq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := cuq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -557,33 +557,33 @@ func (cuq *CompanyUserQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (cuq *CompanyUserQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(cuq.driver.Dialect())
+func (_q *CompanyUserQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(companyuser.Table)
-	columns := cuq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = companyuser.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if cuq.sql != nil {
-		selector = cuq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if cuq.ctx.Unique != nil && *cuq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range cuq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range cuq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := cuq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := cuq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -596,41 +596,41 @@ type CompanyUserGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (cugb *CompanyUserGroupBy) Aggregate(fns ...AggregateFunc) *CompanyUserGroupBy {
-	cugb.fns = append(cugb.fns, fns...)
-	return cugb
+func (_g *CompanyUserGroupBy) Aggregate(fns ...AggregateFunc) *CompanyUserGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (cugb *CompanyUserGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cugb.build.ctx, ent.OpQueryGroupBy)
-	if err := cugb.build.prepareQuery(ctx); err != nil {
+func (_g *CompanyUserGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*CompanyUserQuery, *CompanyUserGroupBy](ctx, cugb.build, cugb, cugb.build.inters, v)
+	return scanWithInterceptors[*CompanyUserQuery, *CompanyUserGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (cugb *CompanyUserGroupBy) sqlScan(ctx context.Context, root *CompanyUserQuery, v any) error {
+func (_g *CompanyUserGroupBy) sqlScan(ctx context.Context, root *CompanyUserQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(cugb.fns))
-	for _, fn := range cugb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*cugb.flds)+len(cugb.fns))
-		for _, f := range *cugb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*cugb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := cugb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -644,27 +644,27 @@ type CompanyUserSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (cus *CompanyUserSelect) Aggregate(fns ...AggregateFunc) *CompanyUserSelect {
-	cus.fns = append(cus.fns, fns...)
-	return cus
+func (_s *CompanyUserSelect) Aggregate(fns ...AggregateFunc) *CompanyUserSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (cus *CompanyUserSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cus.ctx, ent.OpQuerySelect)
-	if err := cus.prepareQuery(ctx); err != nil {
+func (_s *CompanyUserSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*CompanyUserQuery, *CompanyUserSelect](ctx, cus.CompanyUserQuery, cus, cus.inters, v)
+	return scanWithInterceptors[*CompanyUserQuery, *CompanyUserSelect](ctx, _s.CompanyUserQuery, _s, _s.inters, v)
 }
 
-func (cus *CompanyUserSelect) sqlScan(ctx context.Context, root *CompanyUserQuery, v any) error {
+func (_s *CompanyUserSelect) sqlScan(ctx context.Context, root *CompanyUserQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(cus.fns))
-	for _, fn := range cus.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*cus.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -672,7 +672,7 @@ func (cus *CompanyUserSelect) sqlScan(ctx context.Context, root *CompanyUserQuer
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := cus.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

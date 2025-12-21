@@ -80,11 +80,6 @@ func State(v string) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldState, v))
 }
 
-// TotalPayment applies equality check predicate on the "TotalPayment" field. It's identical to TotalPaymentEQ.
-func TotalPayment(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldTotalPayment, v))
-}
-
 // LevelRequest applies equality check predicate on the "LevelRequest" field. It's identical to LevelRequestEQ.
 func LevelRequest(v float64) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldLevelRequest, v))
@@ -418,56 +413,6 @@ func StateEqualFold(v string) predicate.JobPayments {
 // StateContainsFold applies the ContainsFold predicate on the "State" field.
 func StateContainsFold(v string) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldContainsFold(FieldState, v))
-}
-
-// TotalPaymentEQ applies the EQ predicate on the "TotalPayment" field.
-func TotalPaymentEQ(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldTotalPayment, v))
-}
-
-// TotalPaymentNEQ applies the NEQ predicate on the "TotalPayment" field.
-func TotalPaymentNEQ(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNEQ(FieldTotalPayment, v))
-}
-
-// TotalPaymentIn applies the In predicate on the "TotalPayment" field.
-func TotalPaymentIn(vs ...float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIn(FieldTotalPayment, vs...))
-}
-
-// TotalPaymentNotIn applies the NotIn predicate on the "TotalPayment" field.
-func TotalPaymentNotIn(vs ...float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotIn(FieldTotalPayment, vs...))
-}
-
-// TotalPaymentGT applies the GT predicate on the "TotalPayment" field.
-func TotalPaymentGT(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGT(FieldTotalPayment, v))
-}
-
-// TotalPaymentGTE applies the GTE predicate on the "TotalPayment" field.
-func TotalPaymentGTE(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGTE(FieldTotalPayment, v))
-}
-
-// TotalPaymentLT applies the LT predicate on the "TotalPayment" field.
-func TotalPaymentLT(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLT(FieldTotalPayment, v))
-}
-
-// TotalPaymentLTE applies the LTE predicate on the "TotalPayment" field.
-func TotalPaymentLTE(v float64) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLTE(FieldTotalPayment, v))
-}
-
-// TotalPaymentIsNil applies the IsNil predicate on the "TotalPayment" field.
-func TotalPaymentIsNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIsNull(FieldTotalPayment))
-}
-
-// TotalPaymentNotNil applies the NotNil predicate on the "TotalPayment" field.
-func TotalPaymentNotNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotNull(FieldTotalPayment))
 }
 
 // LevelRequestEQ applies the EQ predicate on the "LevelRequest" field.

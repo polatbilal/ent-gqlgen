@@ -25,435 +25,435 @@ type CompanyDetailCreate struct {
 }
 
 // SetCompanyCode sets the "CompanyCode" field.
-func (cdc *CompanyDetailCreate) SetCompanyCode(i int) *CompanyDetailCreate {
-	cdc.mutation.SetCompanyCode(i)
-	return cdc
+func (_c *CompanyDetailCreate) SetCompanyCode(v int) *CompanyDetailCreate {
+	_c.mutation.SetCompanyCode(v)
+	return _c
 }
 
 // SetName sets the "Name" field.
-func (cdc *CompanyDetailCreate) SetName(s string) *CompanyDetailCreate {
-	cdc.mutation.SetName(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetName(v string) *CompanyDetailCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableName(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetName(*s)
+func (_c *CompanyDetailCreate) SetNillableName(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetAddress sets the "Address" field.
-func (cdc *CompanyDetailCreate) SetAddress(s string) *CompanyDetailCreate {
-	cdc.mutation.SetAddress(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetAddress(v string) *CompanyDetailCreate {
+	_c.mutation.SetAddress(v)
+	return _c
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableAddress(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetAddress(*s)
+func (_c *CompanyDetailCreate) SetNillableAddress(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetAddress(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetPhone sets the "Phone" field.
-func (cdc *CompanyDetailCreate) SetPhone(s string) *CompanyDetailCreate {
-	cdc.mutation.SetPhone(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetPhone(v string) *CompanyDetailCreate {
+	_c.mutation.SetPhone(v)
+	return _c
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillablePhone(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetPhone(*s)
+func (_c *CompanyDetailCreate) SetNillablePhone(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetPhone(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetFax sets the "Fax" field.
-func (cdc *CompanyDetailCreate) SetFax(s string) *CompanyDetailCreate {
-	cdc.mutation.SetFax(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetFax(v string) *CompanyDetailCreate {
+	_c.mutation.SetFax(v)
+	return _c
 }
 
 // SetNillableFax sets the "Fax" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableFax(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetFax(*s)
+func (_c *CompanyDetailCreate) SetNillableFax(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetFax(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetMobilePhone sets the "MobilePhone" field.
-func (cdc *CompanyDetailCreate) SetMobilePhone(s string) *CompanyDetailCreate {
-	cdc.mutation.SetMobilePhone(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetMobilePhone(v string) *CompanyDetailCreate {
+	_c.mutation.SetMobilePhone(v)
+	return _c
 }
 
 // SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableMobilePhone(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetMobilePhone(*s)
+func (_c *CompanyDetailCreate) SetNillableMobilePhone(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetMobilePhone(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetEmail sets the "Email" field.
-func (cdc *CompanyDetailCreate) SetEmail(s string) *CompanyDetailCreate {
-	cdc.mutation.SetEmail(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetEmail(v string) *CompanyDetailCreate {
+	_c.mutation.SetEmail(v)
+	return _c
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableEmail(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetEmail(*s)
+func (_c *CompanyDetailCreate) SetNillableEmail(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetEmail(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetWebsite sets the "Website" field.
-func (cdc *CompanyDetailCreate) SetWebsite(s string) *CompanyDetailCreate {
-	cdc.mutation.SetWebsite(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetWebsite(v string) *CompanyDetailCreate {
+	_c.mutation.SetWebsite(v)
+	return _c
 }
 
 // SetNillableWebsite sets the "Website" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableWebsite(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetWebsite(*s)
+func (_c *CompanyDetailCreate) SetNillableWebsite(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetWebsite(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetTaxAdmin sets the "TaxAdmin" field.
-func (cdc *CompanyDetailCreate) SetTaxAdmin(s string) *CompanyDetailCreate {
-	cdc.mutation.SetTaxAdmin(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetTaxAdmin(v string) *CompanyDetailCreate {
+	_c.mutation.SetTaxAdmin(v)
+	return _c
 }
 
 // SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableTaxAdmin(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetTaxAdmin(*s)
+func (_c *CompanyDetailCreate) SetNillableTaxAdmin(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetTaxAdmin(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (cdc *CompanyDetailCreate) SetTaxNo(s string) *CompanyDetailCreate {
-	cdc.mutation.SetTaxNo(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetTaxNo(v string) *CompanyDetailCreate {
+	_c.mutation.SetTaxNo(v)
+	return _c
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableTaxNo(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetTaxNo(*s)
+func (_c *CompanyDetailCreate) SetNillableTaxNo(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetTaxNo(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetChamberInfo sets the "ChamberInfo" field.
-func (cdc *CompanyDetailCreate) SetChamberInfo(s string) *CompanyDetailCreate {
-	cdc.mutation.SetChamberInfo(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetChamberInfo(v string) *CompanyDetailCreate {
+	_c.mutation.SetChamberInfo(v)
+	return _c
 }
 
 // SetNillableChamberInfo sets the "ChamberInfo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableChamberInfo(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetChamberInfo(*s)
+func (_c *CompanyDetailCreate) SetNillableChamberInfo(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetChamberInfo(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetChamberRegisterNo sets the "ChamberRegisterNo" field.
-func (cdc *CompanyDetailCreate) SetChamberRegisterNo(s string) *CompanyDetailCreate {
-	cdc.mutation.SetChamberRegisterNo(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetChamberRegisterNo(v string) *CompanyDetailCreate {
+	_c.mutation.SetChamberRegisterNo(v)
+	return _c
 }
 
 // SetNillableChamberRegisterNo sets the "ChamberRegisterNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableChamberRegisterNo(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetChamberRegisterNo(*s)
+func (_c *CompanyDetailCreate) SetNillableChamberRegisterNo(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetChamberRegisterNo(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetVisaDate sets the "VisaDate" field.
-func (cdc *CompanyDetailCreate) SetVisaDate(t time.Time) *CompanyDetailCreate {
-	cdc.mutation.SetVisaDate(t)
-	return cdc
+func (_c *CompanyDetailCreate) SetVisaDate(v time.Time) *CompanyDetailCreate {
+	_c.mutation.SetVisaDate(v)
+	return _c
 }
 
 // SetNillableVisaDate sets the "VisaDate" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableVisaDate(t *time.Time) *CompanyDetailCreate {
-	if t != nil {
-		cdc.SetVisaDate(*t)
+func (_c *CompanyDetailCreate) SetNillableVisaDate(v *time.Time) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetVisaDate(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetVisaEndDate sets the "VisaEndDate" field.
-func (cdc *CompanyDetailCreate) SetVisaEndDate(t time.Time) *CompanyDetailCreate {
-	cdc.mutation.SetVisaEndDate(t)
-	return cdc
+func (_c *CompanyDetailCreate) SetVisaEndDate(v time.Time) *CompanyDetailCreate {
+	_c.mutation.SetVisaEndDate(v)
+	return _c
 }
 
 // SetNillableVisaEndDate sets the "VisaEndDate" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableVisaEndDate(t *time.Time) *CompanyDetailCreate {
-	if t != nil {
-		cdc.SetVisaEndDate(*t)
+func (_c *CompanyDetailCreate) SetNillableVisaEndDate(v *time.Time) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetVisaEndDate(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field.
-func (cdc *CompanyDetailCreate) SetVisaFinishedFor90Days(b bool) *CompanyDetailCreate {
-	cdc.mutation.SetVisaFinishedFor90Days(b)
-	return cdc
+func (_c *CompanyDetailCreate) SetVisaFinishedFor90Days(v bool) *CompanyDetailCreate {
+	_c.mutation.SetVisaFinishedFor90Days(v)
+	return _c
 }
 
 // SetNillableVisaFinishedFor90Days sets the "VisaFinishedFor90Days" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableVisaFinishedFor90Days(b *bool) *CompanyDetailCreate {
-	if b != nil {
-		cdc.SetVisaFinishedFor90Days(*b)
+func (_c *CompanyDetailCreate) SetNillableVisaFinishedFor90Days(v *bool) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetVisaFinishedFor90Days(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field.
-func (cdc *CompanyDetailCreate) SetCorePersonAbsent90Days(b bool) *CompanyDetailCreate {
-	cdc.mutation.SetCorePersonAbsent90Days(b)
-	return cdc
+func (_c *CompanyDetailCreate) SetCorePersonAbsent90Days(v bool) *CompanyDetailCreate {
+	_c.mutation.SetCorePersonAbsent90Days(v)
+	return _c
 }
 
 // SetNillableCorePersonAbsent90Days sets the "CorePersonAbsent90Days" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableCorePersonAbsent90Days(b *bool) *CompanyDetailCreate {
-	if b != nil {
-		cdc.SetCorePersonAbsent90Days(*b)
+func (_c *CompanyDetailCreate) SetNillableCorePersonAbsent90Days(v *bool) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetCorePersonAbsent90Days(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetIsClosed sets the "IsClosed" field.
-func (cdc *CompanyDetailCreate) SetIsClosed(b bool) *CompanyDetailCreate {
-	cdc.mutation.SetIsClosed(b)
-	return cdc
+func (_c *CompanyDetailCreate) SetIsClosed(v bool) *CompanyDetailCreate {
+	_c.mutation.SetIsClosed(v)
+	return _c
 }
 
 // SetNillableIsClosed sets the "IsClosed" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableIsClosed(b *bool) *CompanyDetailCreate {
-	if b != nil {
-		cdc.SetIsClosed(*b)
+func (_c *CompanyDetailCreate) SetNillableIsClosed(v *bool) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetIsClosed(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetOwnerName sets the "OwnerName" field.
-func (cdc *CompanyDetailCreate) SetOwnerName(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerName(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetOwnerName(v string) *CompanyDetailCreate {
+	_c.mutation.SetOwnerName(v)
+	return _c
 }
 
 // SetNillableOwnerName sets the "OwnerName" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerName(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerName(*s)
+func (_c *CompanyDetailCreate) SetNillableOwnerName(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetOwnerName(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetOwnerTcNo sets the "OwnerTcNo" field.
-func (cdc *CompanyDetailCreate) SetOwnerTcNo(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerTcNo(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetOwnerTcNo(v string) *CompanyDetailCreate {
+	_c.mutation.SetOwnerTcNo(v)
+	return _c
 }
 
 // SetNillableOwnerTcNo sets the "OwnerTcNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerTcNo(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerTcNo(*s)
+func (_c *CompanyDetailCreate) SetNillableOwnerTcNo(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetOwnerTcNo(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetOwnerAddress sets the "OwnerAddress" field.
-func (cdc *CompanyDetailCreate) SetOwnerAddress(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerAddress(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetOwnerAddress(v string) *CompanyDetailCreate {
+	_c.mutation.SetOwnerAddress(v)
+	return _c
 }
 
 // SetNillableOwnerAddress sets the "OwnerAddress" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerAddress(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerAddress(*s)
+func (_c *CompanyDetailCreate) SetNillableOwnerAddress(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetOwnerAddress(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetOwnerPhone sets the "OwnerPhone" field.
-func (cdc *CompanyDetailCreate) SetOwnerPhone(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerPhone(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetOwnerPhone(v string) *CompanyDetailCreate {
+	_c.mutation.SetOwnerPhone(v)
+	return _c
 }
 
 // SetNillableOwnerPhone sets the "OwnerPhone" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerPhone(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerPhone(*s)
+func (_c *CompanyDetailCreate) SetNillableOwnerPhone(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetOwnerPhone(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetOwnerEmail sets the "OwnerEmail" field.
-func (cdc *CompanyDetailCreate) SetOwnerEmail(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerEmail(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetOwnerEmail(v string) *CompanyDetailCreate {
+	_c.mutation.SetOwnerEmail(v)
+	return _c
 }
 
 // SetNillableOwnerEmail sets the "OwnerEmail" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerEmail(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerEmail(*s)
+func (_c *CompanyDetailCreate) SetNillableOwnerEmail(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetOwnerEmail(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetOwnerRegisterNo sets the "OwnerRegisterNo" field.
-func (cdc *CompanyDetailCreate) SetOwnerRegisterNo(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerRegisterNo(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetOwnerRegisterNo(v string) *CompanyDetailCreate {
+	_c.mutation.SetOwnerRegisterNo(v)
+	return _c
 }
 
 // SetNillableOwnerRegisterNo sets the "OwnerRegisterNo" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerRegisterNo(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerRegisterNo(*s)
+func (_c *CompanyDetailCreate) SetNillableOwnerRegisterNo(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetOwnerRegisterNo(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetOwnerCareer sets the "OwnerCareer" field.
-func (cdc *CompanyDetailCreate) SetOwnerCareer(s string) *CompanyDetailCreate {
-	cdc.mutation.SetOwnerCareer(s)
-	return cdc
+func (_c *CompanyDetailCreate) SetOwnerCareer(v string) *CompanyDetailCreate {
+	_c.mutation.SetOwnerCareer(v)
+	return _c
 }
 
 // SetNillableOwnerCareer sets the "OwnerCareer" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableOwnerCareer(s *string) *CompanyDetailCreate {
-	if s != nil {
-		cdc.SetOwnerCareer(*s)
+func (_c *CompanyDetailCreate) SetNillableOwnerCareer(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetOwnerCareer(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (cdc *CompanyDetailCreate) SetCreatedAt(t time.Time) *CompanyDetailCreate {
-	cdc.mutation.SetCreatedAt(t)
-	return cdc
+func (_c *CompanyDetailCreate) SetCreatedAt(v time.Time) *CompanyDetailCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableCreatedAt(t *time.Time) *CompanyDetailCreate {
-	if t != nil {
-		cdc.SetCreatedAt(*t)
+func (_c *CompanyDetailCreate) SetNillableCreatedAt(v *time.Time) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return cdc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (cdc *CompanyDetailCreate) SetUpdatedAt(t time.Time) *CompanyDetailCreate {
-	cdc.mutation.SetUpdatedAt(t)
-	return cdc
+func (_c *CompanyDetailCreate) SetUpdatedAt(v time.Time) *CompanyDetailCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (cdc *CompanyDetailCreate) SetNillableUpdatedAt(t *time.Time) *CompanyDetailCreate {
-	if t != nil {
-		cdc.SetUpdatedAt(*t)
+func (_c *CompanyDetailCreate) SetNillableUpdatedAt(v *time.Time) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return cdc
+	return _c
 }
 
 // AddJobIDs adds the "jobs" edge to the JobRelations entity by IDs.
-func (cdc *CompanyDetailCreate) AddJobIDs(ids ...int) *CompanyDetailCreate {
-	cdc.mutation.AddJobIDs(ids...)
-	return cdc
+func (_c *CompanyDetailCreate) AddJobIDs(ids ...int) *CompanyDetailCreate {
+	_c.mutation.AddJobIDs(ids...)
+	return _c
 }
 
 // AddJobs adds the "jobs" edges to the JobRelations entity.
-func (cdc *CompanyDetailCreate) AddJobs(j ...*JobRelations) *CompanyDetailCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *CompanyDetailCreate) AddJobs(v ...*JobRelations) *CompanyDetailCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdc.AddJobIDs(ids...)
+	return _c.AddJobIDs(ids...)
 }
 
 // AddUserIDs adds the "users" edge to the CompanyUser entity by IDs.
-func (cdc *CompanyDetailCreate) AddUserIDs(ids ...int) *CompanyDetailCreate {
-	cdc.mutation.AddUserIDs(ids...)
-	return cdc
+func (_c *CompanyDetailCreate) AddUserIDs(ids ...int) *CompanyDetailCreate {
+	_c.mutation.AddUserIDs(ids...)
+	return _c
 }
 
 // AddUsers adds the "users" edges to the CompanyUser entity.
-func (cdc *CompanyDetailCreate) AddUsers(c ...*CompanyUser) *CompanyDetailCreate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_c *CompanyDetailCreate) AddUsers(v ...*CompanyUser) *CompanyDetailCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdc.AddUserIDs(ids...)
+	return _c.AddUserIDs(ids...)
 }
 
 // AddTokenIDs adds the "tokens" edge to the CompanyToken entity by IDs.
-func (cdc *CompanyDetailCreate) AddTokenIDs(ids ...int) *CompanyDetailCreate {
-	cdc.mutation.AddTokenIDs(ids...)
-	return cdc
+func (_c *CompanyDetailCreate) AddTokenIDs(ids ...int) *CompanyDetailCreate {
+	_c.mutation.AddTokenIDs(ids...)
+	return _c
 }
 
 // AddTokens adds the "tokens" edges to the CompanyToken entity.
-func (cdc *CompanyDetailCreate) AddTokens(c ...*CompanyToken) *CompanyDetailCreate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_c *CompanyDetailCreate) AddTokens(v ...*CompanyToken) *CompanyDetailCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdc.AddTokenIDs(ids...)
+	return _c.AddTokenIDs(ids...)
 }
 
 // AddEngineerIDs adds the "engineers" edge to the CompanyEngineer entity by IDs.
-func (cdc *CompanyDetailCreate) AddEngineerIDs(ids ...int) *CompanyDetailCreate {
-	cdc.mutation.AddEngineerIDs(ids...)
-	return cdc
+func (_c *CompanyDetailCreate) AddEngineerIDs(ids ...int) *CompanyDetailCreate {
+	_c.mutation.AddEngineerIDs(ids...)
+	return _c
 }
 
 // AddEngineers adds the "engineers" edges to the CompanyEngineer entity.
-func (cdc *CompanyDetailCreate) AddEngineers(c ...*CompanyEngineer) *CompanyDetailCreate {
-	ids := make([]int, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_c *CompanyDetailCreate) AddEngineers(v ...*CompanyEngineer) *CompanyDetailCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cdc.AddEngineerIDs(ids...)
+	return _c.AddEngineerIDs(ids...)
 }
 
 // Mutation returns the CompanyDetailMutation object of the builder.
-func (cdc *CompanyDetailCreate) Mutation() *CompanyDetailMutation {
-	return cdc.mutation
+func (_c *CompanyDetailCreate) Mutation() *CompanyDetailMutation {
+	return _c.mutation
 }
 
 // Save creates the CompanyDetail in the database.
-func (cdc *CompanyDetailCreate) Save(ctx context.Context) (*CompanyDetail, error) {
-	cdc.defaults()
-	return withHooks(ctx, cdc.sqlSave, cdc.mutation, cdc.hooks)
+func (_c *CompanyDetailCreate) Save(ctx context.Context) (*CompanyDetail, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (cdc *CompanyDetailCreate) SaveX(ctx context.Context) *CompanyDetail {
-	v, err := cdc.Save(ctx)
+func (_c *CompanyDetailCreate) SaveX(ctx context.Context) *CompanyDetail {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -461,72 +461,72 @@ func (cdc *CompanyDetailCreate) SaveX(ctx context.Context) *CompanyDetail {
 }
 
 // Exec executes the query.
-func (cdc *CompanyDetailCreate) Exec(ctx context.Context) error {
-	_, err := cdc.Save(ctx)
+func (_c *CompanyDetailCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cdc *CompanyDetailCreate) ExecX(ctx context.Context) {
-	if err := cdc.Exec(ctx); err != nil {
+func (_c *CompanyDetailCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cdc *CompanyDetailCreate) defaults() {
-	if _, ok := cdc.mutation.Name(); !ok {
+func (_c *CompanyDetailCreate) defaults() {
+	if _, ok := _c.mutation.Name(); !ok {
 		v := companydetail.DefaultName
-		cdc.mutation.SetName(v)
+		_c.mutation.SetName(v)
 	}
-	if _, ok := cdc.mutation.VisaFinishedFor90Days(); !ok {
+	if _, ok := _c.mutation.VisaFinishedFor90Days(); !ok {
 		v := companydetail.DefaultVisaFinishedFor90Days
-		cdc.mutation.SetVisaFinishedFor90Days(v)
+		_c.mutation.SetVisaFinishedFor90Days(v)
 	}
-	if _, ok := cdc.mutation.CorePersonAbsent90Days(); !ok {
+	if _, ok := _c.mutation.CorePersonAbsent90Days(); !ok {
 		v := companydetail.DefaultCorePersonAbsent90Days
-		cdc.mutation.SetCorePersonAbsent90Days(v)
+		_c.mutation.SetCorePersonAbsent90Days(v)
 	}
-	if _, ok := cdc.mutation.IsClosed(); !ok {
+	if _, ok := _c.mutation.IsClosed(); !ok {
 		v := companydetail.DefaultIsClosed
-		cdc.mutation.SetIsClosed(v)
+		_c.mutation.SetIsClosed(v)
 	}
-	if _, ok := cdc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := companydetail.DefaultCreatedAt()
-		cdc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := cdc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := companydetail.DefaultUpdatedAt()
-		cdc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (cdc *CompanyDetailCreate) check() error {
-	if _, ok := cdc.mutation.CompanyCode(); !ok {
+func (_c *CompanyDetailCreate) check() error {
+	if _, ok := _c.mutation.CompanyCode(); !ok {
 		return &ValidationError{Name: "CompanyCode", err: errors.New(`ent: missing required field "CompanyDetail.CompanyCode"`)}
 	}
-	if _, ok := cdc.mutation.Name(); !ok {
+	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "CompanyDetail.Name"`)}
 	}
-	if _, ok := cdc.mutation.IsClosed(); !ok {
+	if _, ok := _c.mutation.IsClosed(); !ok {
 		return &ValidationError{Name: "IsClosed", err: errors.New(`ent: missing required field "CompanyDetail.IsClosed"`)}
 	}
-	if _, ok := cdc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "CompanyDetail.CreatedAt"`)}
 	}
-	if _, ok := cdc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "CompanyDetail.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (cdc *CompanyDetailCreate) sqlSave(ctx context.Context) (*CompanyDetail, error) {
-	if err := cdc.check(); err != nil {
+func (_c *CompanyDetailCreate) sqlSave(ctx context.Context) (*CompanyDetail, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := cdc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, cdc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -534,121 +534,121 @@ func (cdc *CompanyDetailCreate) sqlSave(ctx context.Context) (*CompanyDetail, er
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	cdc.mutation.id = &_node.ID
-	cdc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpec) {
+func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpec) {
 	var (
-		_node = &CompanyDetail{config: cdc.config}
+		_node = &CompanyDetail{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(companydetail.Table, sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt))
 	)
-	if value, ok := cdc.mutation.CompanyCode(); ok {
+	if value, ok := _c.mutation.CompanyCode(); ok {
 		_spec.SetField(companydetail.FieldCompanyCode, field.TypeInt, value)
 		_node.CompanyCode = value
 	}
-	if value, ok := cdc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(companydetail.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := cdc.mutation.Address(); ok {
+	if value, ok := _c.mutation.Address(); ok {
 		_spec.SetField(companydetail.FieldAddress, field.TypeString, value)
 		_node.Address = value
 	}
-	if value, ok := cdc.mutation.Phone(); ok {
+	if value, ok := _c.mutation.Phone(); ok {
 		_spec.SetField(companydetail.FieldPhone, field.TypeString, value)
 		_node.Phone = value
 	}
-	if value, ok := cdc.mutation.Fax(); ok {
+	if value, ok := _c.mutation.Fax(); ok {
 		_spec.SetField(companydetail.FieldFax, field.TypeString, value)
 		_node.Fax = value
 	}
-	if value, ok := cdc.mutation.MobilePhone(); ok {
+	if value, ok := _c.mutation.MobilePhone(); ok {
 		_spec.SetField(companydetail.FieldMobilePhone, field.TypeString, value)
 		_node.MobilePhone = value
 	}
-	if value, ok := cdc.mutation.Email(); ok {
+	if value, ok := _c.mutation.Email(); ok {
 		_spec.SetField(companydetail.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := cdc.mutation.Website(); ok {
+	if value, ok := _c.mutation.Website(); ok {
 		_spec.SetField(companydetail.FieldWebsite, field.TypeString, value)
 		_node.Website = value
 	}
-	if value, ok := cdc.mutation.TaxAdmin(); ok {
+	if value, ok := _c.mutation.TaxAdmin(); ok {
 		_spec.SetField(companydetail.FieldTaxAdmin, field.TypeString, value)
 		_node.TaxAdmin = value
 	}
-	if value, ok := cdc.mutation.TaxNo(); ok {
+	if value, ok := _c.mutation.TaxNo(); ok {
 		_spec.SetField(companydetail.FieldTaxNo, field.TypeString, value)
 		_node.TaxNo = value
 	}
-	if value, ok := cdc.mutation.ChamberInfo(); ok {
+	if value, ok := _c.mutation.ChamberInfo(); ok {
 		_spec.SetField(companydetail.FieldChamberInfo, field.TypeString, value)
 		_node.ChamberInfo = value
 	}
-	if value, ok := cdc.mutation.ChamberRegisterNo(); ok {
+	if value, ok := _c.mutation.ChamberRegisterNo(); ok {
 		_spec.SetField(companydetail.FieldChamberRegisterNo, field.TypeString, value)
 		_node.ChamberRegisterNo = value
 	}
-	if value, ok := cdc.mutation.VisaDate(); ok {
+	if value, ok := _c.mutation.VisaDate(); ok {
 		_spec.SetField(companydetail.FieldVisaDate, field.TypeTime, value)
 		_node.VisaDate = value
 	}
-	if value, ok := cdc.mutation.VisaEndDate(); ok {
+	if value, ok := _c.mutation.VisaEndDate(); ok {
 		_spec.SetField(companydetail.FieldVisaEndDate, field.TypeTime, value)
 		_node.VisaEndDate = value
 	}
-	if value, ok := cdc.mutation.VisaFinishedFor90Days(); ok {
+	if value, ok := _c.mutation.VisaFinishedFor90Days(); ok {
 		_spec.SetField(companydetail.FieldVisaFinishedFor90Days, field.TypeBool, value)
 		_node.VisaFinishedFor90Days = value
 	}
-	if value, ok := cdc.mutation.CorePersonAbsent90Days(); ok {
+	if value, ok := _c.mutation.CorePersonAbsent90Days(); ok {
 		_spec.SetField(companydetail.FieldCorePersonAbsent90Days, field.TypeBool, value)
 		_node.CorePersonAbsent90Days = value
 	}
-	if value, ok := cdc.mutation.IsClosed(); ok {
+	if value, ok := _c.mutation.IsClosed(); ok {
 		_spec.SetField(companydetail.FieldIsClosed, field.TypeBool, value)
 		_node.IsClosed = value
 	}
-	if value, ok := cdc.mutation.OwnerName(); ok {
+	if value, ok := _c.mutation.OwnerName(); ok {
 		_spec.SetField(companydetail.FieldOwnerName, field.TypeString, value)
 		_node.OwnerName = value
 	}
-	if value, ok := cdc.mutation.OwnerTcNo(); ok {
+	if value, ok := _c.mutation.OwnerTcNo(); ok {
 		_spec.SetField(companydetail.FieldOwnerTcNo, field.TypeString, value)
 		_node.OwnerTcNo = value
 	}
-	if value, ok := cdc.mutation.OwnerAddress(); ok {
+	if value, ok := _c.mutation.OwnerAddress(); ok {
 		_spec.SetField(companydetail.FieldOwnerAddress, field.TypeString, value)
 		_node.OwnerAddress = value
 	}
-	if value, ok := cdc.mutation.OwnerPhone(); ok {
+	if value, ok := _c.mutation.OwnerPhone(); ok {
 		_spec.SetField(companydetail.FieldOwnerPhone, field.TypeString, value)
 		_node.OwnerPhone = value
 	}
-	if value, ok := cdc.mutation.OwnerEmail(); ok {
+	if value, ok := _c.mutation.OwnerEmail(); ok {
 		_spec.SetField(companydetail.FieldOwnerEmail, field.TypeString, value)
 		_node.OwnerEmail = value
 	}
-	if value, ok := cdc.mutation.OwnerRegisterNo(); ok {
+	if value, ok := _c.mutation.OwnerRegisterNo(); ok {
 		_spec.SetField(companydetail.FieldOwnerRegisterNo, field.TypeString, value)
 		_node.OwnerRegisterNo = value
 	}
-	if value, ok := cdc.mutation.OwnerCareer(); ok {
+	if value, ok := _c.mutation.OwnerCareer(); ok {
 		_spec.SetField(companydetail.FieldOwnerCareer, field.TypeString, value)
 		_node.OwnerCareer = value
 	}
-	if value, ok := cdc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(companydetail.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := cdc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(companydetail.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := cdc.mutation.JobsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.JobsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -664,7 +664,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cdc.mutation.UsersIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.UsersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -680,7 +680,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cdc.mutation.TokensIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.TokensIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -696,7 +696,7 @@ func (cdc *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSp
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cdc.mutation.EngineersIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.EngineersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -723,16 +723,16 @@ type CompanyDetailCreateBulk struct {
 }
 
 // Save creates the CompanyDetail entities in the database.
-func (cdcb *CompanyDetailCreateBulk) Save(ctx context.Context) ([]*CompanyDetail, error) {
-	if cdcb.err != nil {
-		return nil, cdcb.err
+func (_c *CompanyDetailCreateBulk) Save(ctx context.Context) ([]*CompanyDetail, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(cdcb.builders))
-	nodes := make([]*CompanyDetail, len(cdcb.builders))
-	mutators := make([]Mutator, len(cdcb.builders))
-	for i := range cdcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*CompanyDetail, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := cdcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CompanyDetailMutation)
@@ -746,11 +746,11 @@ func (cdcb *CompanyDetailCreateBulk) Save(ctx context.Context) ([]*CompanyDetail
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, cdcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, cdcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -774,7 +774,7 @@ func (cdcb *CompanyDetailCreateBulk) Save(ctx context.Context) ([]*CompanyDetail
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, cdcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -782,8 +782,8 @@ func (cdcb *CompanyDetailCreateBulk) Save(ctx context.Context) ([]*CompanyDetail
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cdcb *CompanyDetailCreateBulk) SaveX(ctx context.Context) []*CompanyDetail {
-	v, err := cdcb.Save(ctx)
+func (_c *CompanyDetailCreateBulk) SaveX(ctx context.Context) []*CompanyDetail {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -791,14 +791,14 @@ func (cdcb *CompanyDetailCreateBulk) SaveX(ctx context.Context) []*CompanyDetail
 }
 
 // Exec executes the query.
-func (cdcb *CompanyDetailCreateBulk) Exec(ctx context.Context) error {
-	_, err := cdcb.Save(ctx)
+func (_c *CompanyDetailCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cdcb *CompanyDetailCreateBulk) ExecX(ctx context.Context) {
-	if err := cdcb.Exec(ctx); err != nil {
+func (_c *CompanyDetailCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

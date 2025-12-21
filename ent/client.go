@@ -378,8 +378,8 @@ func (c *CompanyDetailClient) Update() *CompanyDetailUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CompanyDetailClient) UpdateOne(cd *CompanyDetail) *CompanyDetailUpdateOne {
-	mutation := newCompanyDetailMutation(c.config, OpUpdateOne, withCompanyDetail(cd))
+func (c *CompanyDetailClient) UpdateOne(_m *CompanyDetail) *CompanyDetailUpdateOne {
+	mutation := newCompanyDetailMutation(c.config, OpUpdateOne, withCompanyDetail(_m))
 	return &CompanyDetailUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -396,8 +396,8 @@ func (c *CompanyDetailClient) Delete() *CompanyDetailDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CompanyDetailClient) DeleteOne(cd *CompanyDetail) *CompanyDetailDeleteOne {
-	return c.DeleteOneID(cd.ID)
+func (c *CompanyDetailClient) DeleteOne(_m *CompanyDetail) *CompanyDetailDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -432,64 +432,64 @@ func (c *CompanyDetailClient) GetX(ctx context.Context, id int) *CompanyDetail {
 }
 
 // QueryJobs queries the jobs edge of a CompanyDetail.
-func (c *CompanyDetailClient) QueryJobs(cd *CompanyDetail) *JobRelationsQuery {
+func (c *CompanyDetailClient) QueryJobs(_m *CompanyDetail) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cd.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.JobsTable, companydetail.JobsColumn),
 		)
-		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryUsers queries the users edge of a CompanyDetail.
-func (c *CompanyDetailClient) QueryUsers(cd *CompanyDetail) *CompanyUserQuery {
+func (c *CompanyDetailClient) QueryUsers(_m *CompanyDetail) *CompanyUserQuery {
 	query := (&CompanyUserClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cd.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.UsersTable, companydetail.UsersColumn),
 		)
-		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryTokens queries the tokens edge of a CompanyDetail.
-func (c *CompanyDetailClient) QueryTokens(cd *CompanyDetail) *CompanyTokenQuery {
+func (c *CompanyDetailClient) QueryTokens(_m *CompanyDetail) *CompanyTokenQuery {
 	query := (&CompanyTokenClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cd.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
 			sqlgraph.To(companytoken.Table, companytoken.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.TokensTable, companydetail.TokensColumn),
 		)
-		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryEngineers queries the engineers edge of a CompanyDetail.
-func (c *CompanyDetailClient) QueryEngineers(cd *CompanyDetail) *CompanyEngineerQuery {
+func (c *CompanyDetailClient) QueryEngineers(_m *CompanyDetail) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cd.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
 		)
-		fromV = sqlgraph.Neighbors(cd.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -575,8 +575,8 @@ func (c *CompanyEngineerClient) Update() *CompanyEngineerUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CompanyEngineerClient) UpdateOne(ce *CompanyEngineer) *CompanyEngineerUpdateOne {
-	mutation := newCompanyEngineerMutation(c.config, OpUpdateOne, withCompanyEngineer(ce))
+func (c *CompanyEngineerClient) UpdateOne(_m *CompanyEngineer) *CompanyEngineerUpdateOne {
+	mutation := newCompanyEngineerMutation(c.config, OpUpdateOne, withCompanyEngineer(_m))
 	return &CompanyEngineerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -593,8 +593,8 @@ func (c *CompanyEngineerClient) Delete() *CompanyEngineerDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CompanyEngineerClient) DeleteOne(ce *CompanyEngineer) *CompanyEngineerDeleteOne {
-	return c.DeleteOneID(ce.ID)
+func (c *CompanyEngineerClient) DeleteOne(_m *CompanyEngineer) *CompanyEngineerDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -629,144 +629,144 @@ func (c *CompanyEngineerClient) GetX(ctx context.Context, id int) *CompanyEngine
 }
 
 // QueryCompany queries the company edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryCompany(ce *CompanyEngineer) *CompanyDetailQuery {
+func (c *CompanyEngineerClient) QueryCompany(_m *CompanyEngineer) *CompanyDetailQuery {
 	query := (&CompanyDetailClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.CompanyTable, companyengineer.CompanyColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryStatics queries the statics edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryStatics(ce *CompanyEngineer) *JobRelationsQuery {
+func (c *CompanyEngineerClient) QueryStatics(_m *CompanyEngineer) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.StaticsTable, companyengineer.StaticsColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryMechanics queries the mechanics edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryMechanics(ce *CompanyEngineer) *JobRelationsQuery {
+func (c *CompanyEngineerClient) QueryMechanics(_m *CompanyEngineer) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.MechanicsTable, companyengineer.MechanicsColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryElectrics queries the electrics edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryElectrics(ce *CompanyEngineer) *JobRelationsQuery {
+func (c *CompanyEngineerClient) QueryElectrics(_m *CompanyEngineer) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ElectricsTable, companyengineer.ElectricsColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryInspectors queries the inspectors edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryInspectors(ce *CompanyEngineer) *JobRelationsQuery {
+func (c *CompanyEngineerClient) QueryInspectors(_m *CompanyEngineer) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.InspectorsTable, companyengineer.InspectorsColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryArchitects queries the architects edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryArchitects(ce *CompanyEngineer) *JobRelationsQuery {
+func (c *CompanyEngineerClient) QueryArchitects(_m *CompanyEngineer) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ArchitectsTable, companyengineer.ArchitectsColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryControllers queries the controllers edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryControllers(ce *CompanyEngineer) *JobRelationsQuery {
+func (c *CompanyEngineerClient) QueryControllers(_m *CompanyEngineer) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ControllersTable, companyengineer.ControllersColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryMechaniccontrollers queries the mechaniccontrollers edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryMechaniccontrollers(ce *CompanyEngineer) *JobRelationsQuery {
+func (c *CompanyEngineerClient) QueryMechaniccontrollers(_m *CompanyEngineer) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.MechaniccontrollersTable, companyengineer.MechaniccontrollersColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryElectriccontrollers queries the electriccontrollers edge of a CompanyEngineer.
-func (c *CompanyEngineerClient) QueryElectriccontrollers(ce *CompanyEngineer) *JobRelationsQuery {
+func (c *CompanyEngineerClient) QueryElectriccontrollers(_m *CompanyEngineer) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ce.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyengineer.Table, companyengineer.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ElectriccontrollersTable, companyengineer.ElectriccontrollersColumn),
 		)
-		fromV = sqlgraph.Neighbors(ce.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -852,8 +852,8 @@ func (c *CompanyTokenClient) Update() *CompanyTokenUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CompanyTokenClient) UpdateOne(ct *CompanyToken) *CompanyTokenUpdateOne {
-	mutation := newCompanyTokenMutation(c.config, OpUpdateOne, withCompanyToken(ct))
+func (c *CompanyTokenClient) UpdateOne(_m *CompanyToken) *CompanyTokenUpdateOne {
+	mutation := newCompanyTokenMutation(c.config, OpUpdateOne, withCompanyToken(_m))
 	return &CompanyTokenUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -870,8 +870,8 @@ func (c *CompanyTokenClient) Delete() *CompanyTokenDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CompanyTokenClient) DeleteOne(ct *CompanyToken) *CompanyTokenDeleteOne {
-	return c.DeleteOneID(ct.ID)
+func (c *CompanyTokenClient) DeleteOne(_m *CompanyToken) *CompanyTokenDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -906,16 +906,16 @@ func (c *CompanyTokenClient) GetX(ctx context.Context, id int) *CompanyToken {
 }
 
 // QueryCompany queries the company edge of a CompanyToken.
-func (c *CompanyTokenClient) QueryCompany(ct *CompanyToken) *CompanyDetailQuery {
+func (c *CompanyTokenClient) QueryCompany(_m *CompanyToken) *CompanyDetailQuery {
 	query := (&CompanyDetailClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ct.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companytoken.Table, companytoken.FieldID, id),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companytoken.CompanyTable, companytoken.CompanyColumn),
 		)
-		fromV = sqlgraph.Neighbors(ct.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1001,8 +1001,8 @@ func (c *CompanyUserClient) Update() *CompanyUserUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CompanyUserClient) UpdateOne(cu *CompanyUser) *CompanyUserUpdateOne {
-	mutation := newCompanyUserMutation(c.config, OpUpdateOne, withCompanyUser(cu))
+func (c *CompanyUserClient) UpdateOne(_m *CompanyUser) *CompanyUserUpdateOne {
+	mutation := newCompanyUserMutation(c.config, OpUpdateOne, withCompanyUser(_m))
 	return &CompanyUserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1019,8 +1019,8 @@ func (c *CompanyUserClient) Delete() *CompanyUserDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CompanyUserClient) DeleteOne(cu *CompanyUser) *CompanyUserDeleteOne {
-	return c.DeleteOneID(cu.ID)
+func (c *CompanyUserClient) DeleteOne(_m *CompanyUser) *CompanyUserDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1055,32 +1055,32 @@ func (c *CompanyUserClient) GetX(ctx context.Context, id int) *CompanyUser {
 }
 
 // QueryCompany queries the company edge of a CompanyUser.
-func (c *CompanyUserClient) QueryCompany(cu *CompanyUser) *CompanyDetailQuery {
+func (c *CompanyUserClient) QueryCompany(_m *CompanyUser) *CompanyDetailQuery {
 	query := (&CompanyDetailClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cu.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyuser.Table, companyuser.FieldID, id),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.CompanyTable, companyuser.CompanyColumn),
 		)
-		fromV = sqlgraph.Neighbors(cu.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryUser queries the user edge of a CompanyUser.
-func (c *CompanyUserClient) QueryUser(cu *CompanyUser) *UserQuery {
+func (c *CompanyUserClient) QueryUser(_m *CompanyUser) *UserQuery {
 	query := (&UserClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cu.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companyuser.Table, companyuser.FieldID, id),
 			sqlgraph.To(user.Table, user.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.UserTable, companyuser.UserColumn),
 		)
-		fromV = sqlgraph.Neighbors(cu.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1166,8 +1166,8 @@ func (c *JobAuthorClient) Update() *JobAuthorUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobAuthorClient) UpdateOne(ja *JobAuthor) *JobAuthorUpdateOne {
-	mutation := newJobAuthorMutation(c.config, OpUpdateOne, withJobAuthor(ja))
+func (c *JobAuthorClient) UpdateOne(_m *JobAuthor) *JobAuthorUpdateOne {
+	mutation := newJobAuthorMutation(c.config, OpUpdateOne, withJobAuthor(_m))
 	return &JobAuthorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1184,8 +1184,8 @@ func (c *JobAuthorClient) Delete() *JobAuthorDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobAuthorClient) DeleteOne(ja *JobAuthor) *JobAuthorDeleteOne {
-	return c.DeleteOneID(ja.ID)
+func (c *JobAuthorClient) DeleteOne(_m *JobAuthor) *JobAuthorDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1220,16 +1220,16 @@ func (c *JobAuthorClient) GetX(ctx context.Context, id int) *JobAuthor {
 }
 
 // QueryAuthors queries the authors edge of a JobAuthor.
-func (c *JobAuthorClient) QueryAuthors(ja *JobAuthor) *JobRelationsQuery {
+func (c *JobAuthorClient) QueryAuthors(_m *JobAuthor) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ja.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobauthor.Table, jobauthor.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobauthor.AuthorsTable, jobauthor.AuthorsColumn),
 		)
-		fromV = sqlgraph.Neighbors(ja.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1315,8 +1315,8 @@ func (c *JobContractorClient) Update() *JobContractorUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobContractorClient) UpdateOne(jc *JobContractor) *JobContractorUpdateOne {
-	mutation := newJobContractorMutation(c.config, OpUpdateOne, withJobContractor(jc))
+func (c *JobContractorClient) UpdateOne(_m *JobContractor) *JobContractorUpdateOne {
+	mutation := newJobContractorMutation(c.config, OpUpdateOne, withJobContractor(_m))
 	return &JobContractorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1333,8 +1333,8 @@ func (c *JobContractorClient) Delete() *JobContractorDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobContractorClient) DeleteOne(jc *JobContractor) *JobContractorDeleteOne {
-	return c.DeleteOneID(jc.ID)
+func (c *JobContractorClient) DeleteOne(_m *JobContractor) *JobContractorDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1369,16 +1369,16 @@ func (c *JobContractorClient) GetX(ctx context.Context, id int) *JobContractor {
 }
 
 // QueryContractors queries the contractors edge of a JobContractor.
-func (c *JobContractorClient) QueryContractors(jc *JobContractor) *JobRelationsQuery {
+func (c *JobContractorClient) QueryContractors(_m *JobContractor) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jc.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobcontractor.Table, jobcontractor.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobcontractor.ContractorsTable, jobcontractor.ContractorsColumn),
 		)
-		fromV = sqlgraph.Neighbors(jc.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1464,8 +1464,8 @@ func (c *JobDetailClient) Update() *JobDetailUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobDetailClient) UpdateOne(jd *JobDetail) *JobDetailUpdateOne {
-	mutation := newJobDetailMutation(c.config, OpUpdateOne, withJobDetail(jd))
+func (c *JobDetailClient) UpdateOne(_m *JobDetail) *JobDetailUpdateOne {
+	mutation := newJobDetailMutation(c.config, OpUpdateOne, withJobDetail(_m))
 	return &JobDetailUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1482,8 +1482,8 @@ func (c *JobDetailClient) Delete() *JobDetailDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobDetailClient) DeleteOne(jd *JobDetail) *JobDetailDeleteOne {
-	return c.DeleteOneID(jd.ID)
+func (c *JobDetailClient) DeleteOne(_m *JobDetail) *JobDetailDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1518,16 +1518,16 @@ func (c *JobDetailClient) GetX(ctx context.Context, id int) *JobDetail {
 }
 
 // QueryRelations queries the relations edge of a JobDetail.
-func (c *JobDetailClient) QueryRelations(jd *JobDetail) *JobRelationsQuery {
+func (c *JobDetailClient) QueryRelations(_m *JobDetail) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jd.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobdetail.Table, jobdetail.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, false, jobdetail.RelationsTable, jobdetail.RelationsColumn),
 		)
-		fromV = sqlgraph.Neighbors(jd.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1613,8 +1613,8 @@ func (c *JobFloorClient) Update() *JobFloorUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobFloorClient) UpdateOne(jf *JobFloor) *JobFloorUpdateOne {
-	mutation := newJobFloorMutation(c.config, OpUpdateOne, withJobFloor(jf))
+func (c *JobFloorClient) UpdateOne(_m *JobFloor) *JobFloorUpdateOne {
+	mutation := newJobFloorMutation(c.config, OpUpdateOne, withJobFloor(_m))
 	return &JobFloorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1631,8 +1631,8 @@ func (c *JobFloorClient) Delete() *JobFloorDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobFloorClient) DeleteOne(jf *JobFloor) *JobFloorDeleteOne {
-	return c.DeleteOneID(jf.ID)
+func (c *JobFloorClient) DeleteOne(_m *JobFloor) *JobFloorDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1667,16 +1667,16 @@ func (c *JobFloorClient) GetX(ctx context.Context, id int) *JobFloor {
 }
 
 // QueryFloor queries the floor edge of a JobFloor.
-func (c *JobFloorClient) QueryFloor(jf *JobFloor) *JobRelationsQuery {
+func (c *JobFloorClient) QueryFloor(_m *JobFloor) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jf.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobfloor.Table, jobfloor.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobfloor.FloorTable, jobfloor.FloorColumn),
 		)
-		fromV = sqlgraph.Neighbors(jf.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1762,8 +1762,8 @@ func (c *JobOwnerClient) Update() *JobOwnerUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobOwnerClient) UpdateOne(jo *JobOwner) *JobOwnerUpdateOne {
-	mutation := newJobOwnerMutation(c.config, OpUpdateOne, withJobOwner(jo))
+func (c *JobOwnerClient) UpdateOne(_m *JobOwner) *JobOwnerUpdateOne {
+	mutation := newJobOwnerMutation(c.config, OpUpdateOne, withJobOwner(_m))
 	return &JobOwnerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1780,8 +1780,8 @@ func (c *JobOwnerClient) Delete() *JobOwnerDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobOwnerClient) DeleteOne(jo *JobOwner) *JobOwnerDeleteOne {
-	return c.DeleteOneID(jo.ID)
+func (c *JobOwnerClient) DeleteOne(_m *JobOwner) *JobOwnerDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1816,16 +1816,16 @@ func (c *JobOwnerClient) GetX(ctx context.Context, id int) *JobOwner {
 }
 
 // QueryOwners queries the owners edge of a JobOwner.
-func (c *JobOwnerClient) QueryOwners(jo *JobOwner) *JobRelationsQuery {
+func (c *JobOwnerClient) QueryOwners(_m *JobOwner) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jo.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobowner.Table, jobowner.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobowner.OwnersTable, jobowner.OwnersColumn),
 		)
-		fromV = sqlgraph.Neighbors(jo.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1911,8 +1911,8 @@ func (c *JobPaymentsClient) Update() *JobPaymentsUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobPaymentsClient) UpdateOne(jp *JobPayments) *JobPaymentsUpdateOne {
-	mutation := newJobPaymentsMutation(c.config, OpUpdateOne, withJobPayments(jp))
+func (c *JobPaymentsClient) UpdateOne(_m *JobPayments) *JobPaymentsUpdateOne {
+	mutation := newJobPaymentsMutation(c.config, OpUpdateOne, withJobPayments(_m))
 	return &JobPaymentsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1929,8 +1929,8 @@ func (c *JobPaymentsClient) Delete() *JobPaymentsDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobPaymentsClient) DeleteOne(jp *JobPayments) *JobPaymentsDeleteOne {
-	return c.DeleteOneID(jp.ID)
+func (c *JobPaymentsClient) DeleteOne(_m *JobPayments) *JobPaymentsDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1965,16 +1965,16 @@ func (c *JobPaymentsClient) GetX(ctx context.Context, id int) *JobPayments {
 }
 
 // QueryPayments queries the payments edge of a JobPayments.
-func (c *JobPaymentsClient) QueryPayments(jp *JobPayments) *JobRelationsQuery {
+func (c *JobPaymentsClient) QueryPayments(_m *JobPayments) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jp.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobpayments.Table, jobpayments.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobpayments.PaymentsTable, jobpayments.PaymentsColumn),
 		)
-		fromV = sqlgraph.Neighbors(jp.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -2060,8 +2060,8 @@ func (c *JobProgressClient) Update() *JobProgressUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobProgressClient) UpdateOne(jp *JobProgress) *JobProgressUpdateOne {
-	mutation := newJobProgressMutation(c.config, OpUpdateOne, withJobProgress(jp))
+func (c *JobProgressClient) UpdateOne(_m *JobProgress) *JobProgressUpdateOne {
+	mutation := newJobProgressMutation(c.config, OpUpdateOne, withJobProgress(_m))
 	return &JobProgressUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2078,8 +2078,8 @@ func (c *JobProgressClient) Delete() *JobProgressDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobProgressClient) DeleteOne(jp *JobProgress) *JobProgressDeleteOne {
-	return c.DeleteOneID(jp.ID)
+func (c *JobProgressClient) DeleteOne(_m *JobProgress) *JobProgressDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2114,16 +2114,16 @@ func (c *JobProgressClient) GetX(ctx context.Context, id int) *JobProgress {
 }
 
 // QueryProgress queries the progress edge of a JobProgress.
-func (c *JobProgressClient) QueryProgress(jp *JobProgress) *JobRelationsQuery {
+func (c *JobProgressClient) QueryProgress(_m *JobProgress) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jp.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobprogress.Table, jobprogress.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobprogress.ProgressTable, jobprogress.ProgressColumn),
 		)
-		fromV = sqlgraph.Neighbors(jp.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -2209,8 +2209,8 @@ func (c *JobReceiptClient) Update() *JobReceiptUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobReceiptClient) UpdateOne(jr *JobReceipt) *JobReceiptUpdateOne {
-	mutation := newJobReceiptMutation(c.config, OpUpdateOne, withJobReceipt(jr))
+func (c *JobReceiptClient) UpdateOne(_m *JobReceipt) *JobReceiptUpdateOne {
+	mutation := newJobReceiptMutation(c.config, OpUpdateOne, withJobReceipt(_m))
 	return &JobReceiptUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2227,8 +2227,8 @@ func (c *JobReceiptClient) Delete() *JobReceiptDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobReceiptClient) DeleteOne(jr *JobReceipt) *JobReceiptDeleteOne {
-	return c.DeleteOneID(jr.ID)
+func (c *JobReceiptClient) DeleteOne(_m *JobReceipt) *JobReceiptDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2263,16 +2263,16 @@ func (c *JobReceiptClient) GetX(ctx context.Context, id int) *JobReceipt {
 }
 
 // QueryReceipt queries the receipt edge of a JobReceipt.
-func (c *JobReceiptClient) QueryReceipt(jr *JobReceipt) *JobRelationsQuery {
+func (c *JobReceiptClient) QueryReceipt(_m *JobReceipt) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobreceipt.Table, jobreceipt.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobreceipt.ReceiptTable, jobreceipt.ReceiptColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -2358,8 +2358,8 @@ func (c *JobRelationsClient) Update() *JobRelationsUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobRelationsClient) UpdateOne(jr *JobRelations) *JobRelationsUpdateOne {
-	mutation := newJobRelationsMutation(c.config, OpUpdateOne, withJobRelations(jr))
+func (c *JobRelationsClient) UpdateOne(_m *JobRelations) *JobRelationsUpdateOne {
+	mutation := newJobRelationsMutation(c.config, OpUpdateOne, withJobRelations(_m))
 	return &JobRelationsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2376,8 +2376,8 @@ func (c *JobRelationsClient) Delete() *JobRelationsDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobRelationsClient) DeleteOne(jr *JobRelations) *JobRelationsDeleteOne {
-	return c.DeleteOneID(jr.ID)
+func (c *JobRelationsClient) DeleteOne(_m *JobRelations) *JobRelationsDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2412,288 +2412,288 @@ func (c *JobRelationsClient) GetX(ctx context.Context, id int) *JobRelations {
 }
 
 // QueryJob queries the job edge of a JobRelations.
-func (c *JobRelationsClient) QueryJob(jr *JobRelations) *JobDetailQuery {
+func (c *JobRelationsClient) QueryJob(_m *JobRelations) *JobDetailQuery {
 	query := (&JobDetailClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, true, jobrelations.JobTable, jobrelations.JobColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryOwner queries the owner edge of a JobRelations.
-func (c *JobRelationsClient) QueryOwner(jr *JobRelations) *JobOwnerQuery {
+func (c *JobRelationsClient) QueryOwner(_m *JobRelations) *JobOwnerQuery {
 	query := (&JobOwnerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobowner.Table, jobowner.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.OwnerTable, jobrelations.OwnerColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryAuthor queries the author edge of a JobRelations.
-func (c *JobRelationsClient) QueryAuthor(jr *JobRelations) *JobAuthorQuery {
+func (c *JobRelationsClient) QueryAuthor(_m *JobRelations) *JobAuthorQuery {
 	query := (&JobAuthorClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobauthor.Table, jobauthor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.AuthorTable, jobrelations.AuthorColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryCompany queries the company edge of a JobRelations.
-func (c *JobRelationsClient) QueryCompany(jr *JobRelations) *CompanyDetailQuery {
+func (c *JobRelationsClient) QueryCompany(_m *JobRelations) *CompanyDetailQuery {
 	query := (&CompanyDetailClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.CompanyTable, jobrelations.CompanyColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryProgress queries the progress edge of a JobRelations.
-func (c *JobRelationsClient) QueryProgress(jr *JobRelations) *JobProgressQuery {
+func (c *JobRelationsClient) QueryProgress(_m *JobRelations) *JobProgressQuery {
 	query := (&JobProgressClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobprogress.Table, jobprogress.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ProgressTable, jobrelations.ProgressColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryContractor queries the contractor edge of a JobRelations.
-func (c *JobRelationsClient) QueryContractor(jr *JobRelations) *JobContractorQuery {
+func (c *JobRelationsClient) QueryContractor(_m *JobRelations) *JobContractorQuery {
 	query := (&JobContractorClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobcontractor.Table, jobcontractor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ContractorTable, jobrelations.ContractorColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QuerySupervisor queries the supervisor edge of a JobRelations.
-func (c *JobRelationsClient) QuerySupervisor(jr *JobRelations) *JobSupervisorQuery {
+func (c *JobRelationsClient) QuerySupervisor(_m *JobRelations) *JobSupervisorQuery {
 	query := (&JobSupervisorClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobsupervisor.Table, jobsupervisor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.SupervisorTable, jobrelations.SupervisorColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryStatic queries the static edge of a JobRelations.
-func (c *JobRelationsClient) QueryStatic(jr *JobRelations) *CompanyEngineerQuery {
+func (c *JobRelationsClient) QueryStatic(_m *JobRelations) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.StaticTable, jobrelations.StaticColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryMechanic queries the mechanic edge of a JobRelations.
-func (c *JobRelationsClient) QueryMechanic(jr *JobRelations) *CompanyEngineerQuery {
+func (c *JobRelationsClient) QueryMechanic(_m *JobRelations) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.MechanicTable, jobrelations.MechanicColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryElectric queries the electric edge of a JobRelations.
-func (c *JobRelationsClient) QueryElectric(jr *JobRelations) *CompanyEngineerQuery {
+func (c *JobRelationsClient) QueryElectric(_m *JobRelations) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ElectricTable, jobrelations.ElectricColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryInspector queries the inspector edge of a JobRelations.
-func (c *JobRelationsClient) QueryInspector(jr *JobRelations) *CompanyEngineerQuery {
+func (c *JobRelationsClient) QueryInspector(_m *JobRelations) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.InspectorTable, jobrelations.InspectorColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryArchitect queries the architect edge of a JobRelations.
-func (c *JobRelationsClient) QueryArchitect(jr *JobRelations) *CompanyEngineerQuery {
+func (c *JobRelationsClient) QueryArchitect(_m *JobRelations) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ArchitectTable, jobrelations.ArchitectColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryController queries the controller edge of a JobRelations.
-func (c *JobRelationsClient) QueryController(jr *JobRelations) *CompanyEngineerQuery {
+func (c *JobRelationsClient) QueryController(_m *JobRelations) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ControllerTable, jobrelations.ControllerColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryMechaniccontroller queries the mechaniccontroller edge of a JobRelations.
-func (c *JobRelationsClient) QueryMechaniccontroller(jr *JobRelations) *CompanyEngineerQuery {
+func (c *JobRelationsClient) QueryMechaniccontroller(_m *JobRelations) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.MechaniccontrollerTable, jobrelations.MechaniccontrollerColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryElectriccontroller queries the electriccontroller edge of a JobRelations.
-func (c *JobRelationsClient) QueryElectriccontroller(jr *JobRelations) *CompanyEngineerQuery {
+func (c *JobRelationsClient) QueryElectriccontroller(_m *JobRelations) *CompanyEngineerQuery {
 	query := (&CompanyEngineerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ElectriccontrollerTable, jobrelations.ElectriccontrollerColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryFloors queries the floors edge of a JobRelations.
-func (c *JobRelationsClient) QueryFloors(jr *JobRelations) *JobFloorQuery {
+func (c *JobRelationsClient) QueryFloors(_m *JobRelations) *JobFloorQuery {
 	query := (&JobFloorClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobfloor.Table, jobfloor.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.FloorsTable, jobrelations.FloorsColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryPayments queries the payments edge of a JobRelations.
-func (c *JobRelationsClient) QueryPayments(jr *JobRelations) *JobPaymentsQuery {
+func (c *JobRelationsClient) QueryPayments(_m *JobRelations) *JobPaymentsQuery {
 	query := (&JobPaymentsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobpayments.Table, jobpayments.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.PaymentsTable, jobrelations.PaymentsColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryReceipts queries the receipts edge of a JobRelations.
-func (c *JobRelationsClient) QueryReceipts(jr *JobRelations) *JobReceiptQuery {
+func (c *JobRelationsClient) QueryReceipts(_m *JobRelations) *JobReceiptQuery {
 	query := (&JobReceiptClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := jr.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobrelations.Table, jobrelations.FieldID, id),
 			sqlgraph.To(jobreceipt.Table, jobreceipt.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.ReceiptsTable, jobrelations.ReceiptsColumn),
 		)
-		fromV = sqlgraph.Neighbors(jr.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -2779,8 +2779,8 @@ func (c *JobSupervisorClient) Update() *JobSupervisorUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *JobSupervisorClient) UpdateOne(js *JobSupervisor) *JobSupervisorUpdateOne {
-	mutation := newJobSupervisorMutation(c.config, OpUpdateOne, withJobSupervisor(js))
+func (c *JobSupervisorClient) UpdateOne(_m *JobSupervisor) *JobSupervisorUpdateOne {
+	mutation := newJobSupervisorMutation(c.config, OpUpdateOne, withJobSupervisor(_m))
 	return &JobSupervisorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2797,8 +2797,8 @@ func (c *JobSupervisorClient) Delete() *JobSupervisorDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *JobSupervisorClient) DeleteOne(js *JobSupervisor) *JobSupervisorDeleteOne {
-	return c.DeleteOneID(js.ID)
+func (c *JobSupervisorClient) DeleteOne(_m *JobSupervisor) *JobSupervisorDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2833,16 +2833,16 @@ func (c *JobSupervisorClient) GetX(ctx context.Context, id int) *JobSupervisor {
 }
 
 // QuerySupervisors queries the supervisors edge of a JobSupervisor.
-func (c *JobSupervisorClient) QuerySupervisors(js *JobSupervisor) *JobRelationsQuery {
+func (c *JobSupervisorClient) QuerySupervisors(_m *JobSupervisor) *JobRelationsQuery {
 	query := (&JobRelationsClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := js.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(jobsupervisor.Table, jobsupervisor.FieldID, id),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobsupervisor.SupervisorsTable, jobsupervisor.SupervisorsColumn),
 		)
-		fromV = sqlgraph.Neighbors(js.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -2928,8 +2928,8 @@ func (c *UserClient) Update() *UserUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserClient) UpdateOne(u *User) *UserUpdateOne {
-	mutation := newUserMutation(c.config, OpUpdateOne, withUser(u))
+func (c *UserClient) UpdateOne(_m *User) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUser(_m))
 	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2946,8 +2946,8 @@ func (c *UserClient) Delete() *UserDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserClient) DeleteOne(u *User) *UserDeleteOne {
-	return c.DeleteOneID(u.ID)
+func (c *UserClient) DeleteOne(_m *User) *UserDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2982,16 +2982,16 @@ func (c *UserClient) GetX(ctx context.Context, id int) *User {
 }
 
 // QueryCompanies queries the companies edge of a User.
-func (c *UserClient) QueryCompanies(u *User) *CompanyUserQuery {
+func (c *UserClient) QueryCompanies(_m *User) *CompanyUserQuery {
 	query := (&CompanyUserClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := u.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(user.Table, user.FieldID, id),
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, user.CompaniesTable, user.CompaniesColumn),
 		)
-		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query

@@ -24,152 +24,152 @@ type JobReceiptUpdate struct {
 }
 
 // Where appends a list predicates to the JobReceiptUpdate builder.
-func (jru *JobReceiptUpdate) Where(ps ...predicate.JobReceipt) *JobReceiptUpdate {
-	jru.mutation.Where(ps...)
-	return jru
+func (_u *JobReceiptUpdate) Where(ps ...predicate.JobReceipt) *JobReceiptUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jru *JobReceiptUpdate) SetYibfNo(i int) *JobReceiptUpdate {
-	jru.mutation.ResetYibfNo()
-	jru.mutation.SetYibfNo(i)
-	return jru
+func (_u *JobReceiptUpdate) SetYibfNo(v int) *JobReceiptUpdate {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jru *JobReceiptUpdate) SetNillableYibfNo(i *int) *JobReceiptUpdate {
-	if i != nil {
-		jru.SetYibfNo(*i)
+func (_u *JobReceiptUpdate) SetNillableYibfNo(v *int) *JobReceiptUpdate {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jru
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jru *JobReceiptUpdate) AddYibfNo(i int) *JobReceiptUpdate {
-	jru.mutation.AddYibfNo(i)
-	return jru
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobReceiptUpdate) AddYibfNo(v int) *JobReceiptUpdate {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetReceiptDate sets the "receiptDate" field.
-func (jru *JobReceiptUpdate) SetReceiptDate(t time.Time) *JobReceiptUpdate {
-	jru.mutation.SetReceiptDate(t)
-	return jru
+func (_u *JobReceiptUpdate) SetReceiptDate(v time.Time) *JobReceiptUpdate {
+	_u.mutation.SetReceiptDate(v)
+	return _u
 }
 
 // SetNillableReceiptDate sets the "receiptDate" field if the given value is not nil.
-func (jru *JobReceiptUpdate) SetNillableReceiptDate(t *time.Time) *JobReceiptUpdate {
-	if t != nil {
-		jru.SetReceiptDate(*t)
+func (_u *JobReceiptUpdate) SetNillableReceiptDate(v *time.Time) *JobReceiptUpdate {
+	if v != nil {
+		_u.SetReceiptDate(*v)
 	}
-	return jru
+	return _u
 }
 
 // SetAmount sets the "Amount" field.
-func (jru *JobReceiptUpdate) SetAmount(f float64) *JobReceiptUpdate {
-	jru.mutation.ResetAmount()
-	jru.mutation.SetAmount(f)
-	return jru
+func (_u *JobReceiptUpdate) SetAmount(v float64) *JobReceiptUpdate {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "Amount" field if the given value is not nil.
-func (jru *JobReceiptUpdate) SetNillableAmount(f *float64) *JobReceiptUpdate {
-	if f != nil {
-		jru.SetAmount(*f)
+func (_u *JobReceiptUpdate) SetNillableAmount(v *float64) *JobReceiptUpdate {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return jru
+	return _u
 }
 
-// AddAmount adds f to the "Amount" field.
-func (jru *JobReceiptUpdate) AddAmount(f float64) *JobReceiptUpdate {
-	jru.mutation.AddAmount(f)
-	return jru
+// AddAmount adds value to the "Amount" field.
+func (_u *JobReceiptUpdate) AddAmount(v float64) *JobReceiptUpdate {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // ClearAmount clears the value of the "Amount" field.
-func (jru *JobReceiptUpdate) ClearAmount() *JobReceiptUpdate {
-	jru.mutation.ClearAmount()
-	return jru
+func (_u *JobReceiptUpdate) ClearAmount() *JobReceiptUpdate {
+	_u.mutation.ClearAmount()
+	return _u
 }
 
 // SetNote sets the "Note" field.
-func (jru *JobReceiptUpdate) SetNote(s string) *JobReceiptUpdate {
-	jru.mutation.SetNote(s)
-	return jru
+func (_u *JobReceiptUpdate) SetNote(v string) *JobReceiptUpdate {
+	_u.mutation.SetNote(v)
+	return _u
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jru *JobReceiptUpdate) SetNillableNote(s *string) *JobReceiptUpdate {
-	if s != nil {
-		jru.SetNote(*s)
+func (_u *JobReceiptUpdate) SetNillableNote(v *string) *JobReceiptUpdate {
+	if v != nil {
+		_u.SetNote(*v)
 	}
-	return jru
+	return _u
 }
 
 // ClearNote clears the value of the "Note" field.
-func (jru *JobReceiptUpdate) ClearNote() *JobReceiptUpdate {
-	jru.mutation.ClearNote()
-	return jru
+func (_u *JobReceiptUpdate) ClearNote() *JobReceiptUpdate {
+	_u.mutation.ClearNote()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jru *JobReceiptUpdate) SetCreatedAt(t time.Time) *JobReceiptUpdate {
-	jru.mutation.SetCreatedAt(t)
-	return jru
+func (_u *JobReceiptUpdate) SetCreatedAt(v time.Time) *JobReceiptUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jru *JobReceiptUpdate) SetNillableCreatedAt(t *time.Time) *JobReceiptUpdate {
-	if t != nil {
-		jru.SetCreatedAt(*t)
+func (_u *JobReceiptUpdate) SetNillableCreatedAt(v *time.Time) *JobReceiptUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jru
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jru *JobReceiptUpdate) SetUpdatedAt(t time.Time) *JobReceiptUpdate {
-	jru.mutation.SetUpdatedAt(t)
-	return jru
+func (_u *JobReceiptUpdate) SetUpdatedAt(v time.Time) *JobReceiptUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetReceiptID sets the "receipt" edge to the JobRelations entity by ID.
-func (jru *JobReceiptUpdate) SetReceiptID(id int) *JobReceiptUpdate {
-	jru.mutation.SetReceiptID(id)
-	return jru
+func (_u *JobReceiptUpdate) SetReceiptID(id int) *JobReceiptUpdate {
+	_u.mutation.SetReceiptID(id)
+	return _u
 }
 
 // SetNillableReceiptID sets the "receipt" edge to the JobRelations entity by ID if the given value is not nil.
-func (jru *JobReceiptUpdate) SetNillableReceiptID(id *int) *JobReceiptUpdate {
+func (_u *JobReceiptUpdate) SetNillableReceiptID(id *int) *JobReceiptUpdate {
 	if id != nil {
-		jru = jru.SetReceiptID(*id)
+		_u = _u.SetReceiptID(*id)
 	}
-	return jru
+	return _u
 }
 
 // SetReceipt sets the "receipt" edge to the JobRelations entity.
-func (jru *JobReceiptUpdate) SetReceipt(j *JobRelations) *JobReceiptUpdate {
-	return jru.SetReceiptID(j.ID)
+func (_u *JobReceiptUpdate) SetReceipt(v *JobRelations) *JobReceiptUpdate {
+	return _u.SetReceiptID(v.ID)
 }
 
 // Mutation returns the JobReceiptMutation object of the builder.
-func (jru *JobReceiptUpdate) Mutation() *JobReceiptMutation {
-	return jru.mutation
+func (_u *JobReceiptUpdate) Mutation() *JobReceiptMutation {
+	return _u.mutation
 }
 
 // ClearReceipt clears the "receipt" edge to the JobRelations entity.
-func (jru *JobReceiptUpdate) ClearReceipt() *JobReceiptUpdate {
-	jru.mutation.ClearReceipt()
-	return jru
+func (_u *JobReceiptUpdate) ClearReceipt() *JobReceiptUpdate {
+	_u.mutation.ClearReceipt()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jru *JobReceiptUpdate) Save(ctx context.Context) (int, error) {
-	jru.defaults()
-	return withHooks(ctx, jru.sqlSave, jru.mutation, jru.hooks)
+func (_u *JobReceiptUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jru *JobReceiptUpdate) SaveX(ctx context.Context) int {
-	affected, err := jru.Save(ctx)
+func (_u *JobReceiptUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -177,66 +177,66 @@ func (jru *JobReceiptUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jru *JobReceiptUpdate) Exec(ctx context.Context) error {
-	_, err := jru.Save(ctx)
+func (_u *JobReceiptUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jru *JobReceiptUpdate) ExecX(ctx context.Context) {
-	if err := jru.Exec(ctx); err != nil {
+func (_u *JobReceiptUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jru *JobReceiptUpdate) defaults() {
-	if _, ok := jru.mutation.UpdatedAt(); !ok {
+func (_u *JobReceiptUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobreceipt.UpdateDefaultUpdatedAt()
-		jru.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jru *JobReceiptUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobReceiptUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobreceipt.Table, jobreceipt.Columns, sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt))
-	if ps := jru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jru.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobreceipt.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jru.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobreceipt.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jru.mutation.ReceiptDate(); ok {
+	if value, ok := _u.mutation.ReceiptDate(); ok {
 		_spec.SetField(jobreceipt.FieldReceiptDate, field.TypeTime, value)
 	}
-	if value, ok := jru.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(jobreceipt.FieldAmount, field.TypeFloat64, value)
 	}
-	if value, ok := jru.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(jobreceipt.FieldAmount, field.TypeFloat64, value)
 	}
-	if jru.mutation.AmountCleared() {
+	if _u.mutation.AmountCleared() {
 		_spec.ClearField(jobreceipt.FieldAmount, field.TypeFloat64)
 	}
-	if value, ok := jru.mutation.Note(); ok {
+	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(jobreceipt.FieldNote, field.TypeString, value)
 	}
-	if jru.mutation.NoteCleared() {
+	if _u.mutation.NoteCleared() {
 		_spec.ClearField(jobreceipt.FieldNote, field.TypeString)
 	}
-	if value, ok := jru.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobreceipt.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jru.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobreceipt.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jru.mutation.ReceiptCleared() {
+	if _u.mutation.ReceiptCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -249,7 +249,7 @@ func (jru *JobReceiptUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jru.mutation.ReceiptIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ReceiptIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -265,7 +265,7 @@ func (jru *JobReceiptUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jru.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobreceipt.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -273,8 +273,8 @@ func (jru *JobReceiptUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	jru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobReceiptUpdateOne is the builder for updating a single JobReceipt entity.
@@ -286,159 +286,159 @@ type JobReceiptUpdateOne struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jruo *JobReceiptUpdateOne) SetYibfNo(i int) *JobReceiptUpdateOne {
-	jruo.mutation.ResetYibfNo()
-	jruo.mutation.SetYibfNo(i)
-	return jruo
+func (_u *JobReceiptUpdateOne) SetYibfNo(v int) *JobReceiptUpdateOne {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jruo *JobReceiptUpdateOne) SetNillableYibfNo(i *int) *JobReceiptUpdateOne {
-	if i != nil {
-		jruo.SetYibfNo(*i)
+func (_u *JobReceiptUpdateOne) SetNillableYibfNo(v *int) *JobReceiptUpdateOne {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jruo
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jruo *JobReceiptUpdateOne) AddYibfNo(i int) *JobReceiptUpdateOne {
-	jruo.mutation.AddYibfNo(i)
-	return jruo
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobReceiptUpdateOne) AddYibfNo(v int) *JobReceiptUpdateOne {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetReceiptDate sets the "receiptDate" field.
-func (jruo *JobReceiptUpdateOne) SetReceiptDate(t time.Time) *JobReceiptUpdateOne {
-	jruo.mutation.SetReceiptDate(t)
-	return jruo
+func (_u *JobReceiptUpdateOne) SetReceiptDate(v time.Time) *JobReceiptUpdateOne {
+	_u.mutation.SetReceiptDate(v)
+	return _u
 }
 
 // SetNillableReceiptDate sets the "receiptDate" field if the given value is not nil.
-func (jruo *JobReceiptUpdateOne) SetNillableReceiptDate(t *time.Time) *JobReceiptUpdateOne {
-	if t != nil {
-		jruo.SetReceiptDate(*t)
+func (_u *JobReceiptUpdateOne) SetNillableReceiptDate(v *time.Time) *JobReceiptUpdateOne {
+	if v != nil {
+		_u.SetReceiptDate(*v)
 	}
-	return jruo
+	return _u
 }
 
 // SetAmount sets the "Amount" field.
-func (jruo *JobReceiptUpdateOne) SetAmount(f float64) *JobReceiptUpdateOne {
-	jruo.mutation.ResetAmount()
-	jruo.mutation.SetAmount(f)
-	return jruo
+func (_u *JobReceiptUpdateOne) SetAmount(v float64) *JobReceiptUpdateOne {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "Amount" field if the given value is not nil.
-func (jruo *JobReceiptUpdateOne) SetNillableAmount(f *float64) *JobReceiptUpdateOne {
-	if f != nil {
-		jruo.SetAmount(*f)
+func (_u *JobReceiptUpdateOne) SetNillableAmount(v *float64) *JobReceiptUpdateOne {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return jruo
+	return _u
 }
 
-// AddAmount adds f to the "Amount" field.
-func (jruo *JobReceiptUpdateOne) AddAmount(f float64) *JobReceiptUpdateOne {
-	jruo.mutation.AddAmount(f)
-	return jruo
+// AddAmount adds value to the "Amount" field.
+func (_u *JobReceiptUpdateOne) AddAmount(v float64) *JobReceiptUpdateOne {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // ClearAmount clears the value of the "Amount" field.
-func (jruo *JobReceiptUpdateOne) ClearAmount() *JobReceiptUpdateOne {
-	jruo.mutation.ClearAmount()
-	return jruo
+func (_u *JobReceiptUpdateOne) ClearAmount() *JobReceiptUpdateOne {
+	_u.mutation.ClearAmount()
+	return _u
 }
 
 // SetNote sets the "Note" field.
-func (jruo *JobReceiptUpdateOne) SetNote(s string) *JobReceiptUpdateOne {
-	jruo.mutation.SetNote(s)
-	return jruo
+func (_u *JobReceiptUpdateOne) SetNote(v string) *JobReceiptUpdateOne {
+	_u.mutation.SetNote(v)
+	return _u
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jruo *JobReceiptUpdateOne) SetNillableNote(s *string) *JobReceiptUpdateOne {
-	if s != nil {
-		jruo.SetNote(*s)
+func (_u *JobReceiptUpdateOne) SetNillableNote(v *string) *JobReceiptUpdateOne {
+	if v != nil {
+		_u.SetNote(*v)
 	}
-	return jruo
+	return _u
 }
 
 // ClearNote clears the value of the "Note" field.
-func (jruo *JobReceiptUpdateOne) ClearNote() *JobReceiptUpdateOne {
-	jruo.mutation.ClearNote()
-	return jruo
+func (_u *JobReceiptUpdateOne) ClearNote() *JobReceiptUpdateOne {
+	_u.mutation.ClearNote()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jruo *JobReceiptUpdateOne) SetCreatedAt(t time.Time) *JobReceiptUpdateOne {
-	jruo.mutation.SetCreatedAt(t)
-	return jruo
+func (_u *JobReceiptUpdateOne) SetCreatedAt(v time.Time) *JobReceiptUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jruo *JobReceiptUpdateOne) SetNillableCreatedAt(t *time.Time) *JobReceiptUpdateOne {
-	if t != nil {
-		jruo.SetCreatedAt(*t)
+func (_u *JobReceiptUpdateOne) SetNillableCreatedAt(v *time.Time) *JobReceiptUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jruo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jruo *JobReceiptUpdateOne) SetUpdatedAt(t time.Time) *JobReceiptUpdateOne {
-	jruo.mutation.SetUpdatedAt(t)
-	return jruo
+func (_u *JobReceiptUpdateOne) SetUpdatedAt(v time.Time) *JobReceiptUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetReceiptID sets the "receipt" edge to the JobRelations entity by ID.
-func (jruo *JobReceiptUpdateOne) SetReceiptID(id int) *JobReceiptUpdateOne {
-	jruo.mutation.SetReceiptID(id)
-	return jruo
+func (_u *JobReceiptUpdateOne) SetReceiptID(id int) *JobReceiptUpdateOne {
+	_u.mutation.SetReceiptID(id)
+	return _u
 }
 
 // SetNillableReceiptID sets the "receipt" edge to the JobRelations entity by ID if the given value is not nil.
-func (jruo *JobReceiptUpdateOne) SetNillableReceiptID(id *int) *JobReceiptUpdateOne {
+func (_u *JobReceiptUpdateOne) SetNillableReceiptID(id *int) *JobReceiptUpdateOne {
 	if id != nil {
-		jruo = jruo.SetReceiptID(*id)
+		_u = _u.SetReceiptID(*id)
 	}
-	return jruo
+	return _u
 }
 
 // SetReceipt sets the "receipt" edge to the JobRelations entity.
-func (jruo *JobReceiptUpdateOne) SetReceipt(j *JobRelations) *JobReceiptUpdateOne {
-	return jruo.SetReceiptID(j.ID)
+func (_u *JobReceiptUpdateOne) SetReceipt(v *JobRelations) *JobReceiptUpdateOne {
+	return _u.SetReceiptID(v.ID)
 }
 
 // Mutation returns the JobReceiptMutation object of the builder.
-func (jruo *JobReceiptUpdateOne) Mutation() *JobReceiptMutation {
-	return jruo.mutation
+func (_u *JobReceiptUpdateOne) Mutation() *JobReceiptMutation {
+	return _u.mutation
 }
 
 // ClearReceipt clears the "receipt" edge to the JobRelations entity.
-func (jruo *JobReceiptUpdateOne) ClearReceipt() *JobReceiptUpdateOne {
-	jruo.mutation.ClearReceipt()
-	return jruo
+func (_u *JobReceiptUpdateOne) ClearReceipt() *JobReceiptUpdateOne {
+	_u.mutation.ClearReceipt()
+	return _u
 }
 
 // Where appends a list predicates to the JobReceiptUpdate builder.
-func (jruo *JobReceiptUpdateOne) Where(ps ...predicate.JobReceipt) *JobReceiptUpdateOne {
-	jruo.mutation.Where(ps...)
-	return jruo
+func (_u *JobReceiptUpdateOne) Where(ps ...predicate.JobReceipt) *JobReceiptUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jruo *JobReceiptUpdateOne) Select(field string, fields ...string) *JobReceiptUpdateOne {
-	jruo.fields = append([]string{field}, fields...)
-	return jruo
+func (_u *JobReceiptUpdateOne) Select(field string, fields ...string) *JobReceiptUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobReceipt entity.
-func (jruo *JobReceiptUpdateOne) Save(ctx context.Context) (*JobReceipt, error) {
-	jruo.defaults()
-	return withHooks(ctx, jruo.sqlSave, jruo.mutation, jruo.hooks)
+func (_u *JobReceiptUpdateOne) Save(ctx context.Context) (*JobReceipt, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jruo *JobReceiptUpdateOne) SaveX(ctx context.Context) *JobReceipt {
-	node, err := jruo.Save(ctx)
+func (_u *JobReceiptUpdateOne) SaveX(ctx context.Context) *JobReceipt {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -446,34 +446,34 @@ func (jruo *JobReceiptUpdateOne) SaveX(ctx context.Context) *JobReceipt {
 }
 
 // Exec executes the query on the entity.
-func (jruo *JobReceiptUpdateOne) Exec(ctx context.Context) error {
-	_, err := jruo.Save(ctx)
+func (_u *JobReceiptUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jruo *JobReceiptUpdateOne) ExecX(ctx context.Context) {
-	if err := jruo.Exec(ctx); err != nil {
+func (_u *JobReceiptUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jruo *JobReceiptUpdateOne) defaults() {
-	if _, ok := jruo.mutation.UpdatedAt(); !ok {
+func (_u *JobReceiptUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobreceipt.UpdateDefaultUpdatedAt()
-		jruo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jruo *JobReceiptUpdateOne) sqlSave(ctx context.Context) (_node *JobReceipt, err error) {
+func (_u *JobReceiptUpdateOne) sqlSave(ctx context.Context) (_node *JobReceipt, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobreceipt.Table, jobreceipt.Columns, sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt))
-	id, ok := jruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobReceipt.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobreceipt.FieldID)
 		for _, f := range fields {
@@ -485,44 +485,44 @@ func (jruo *JobReceiptUpdateOne) sqlSave(ctx context.Context) (_node *JobReceipt
 			}
 		}
 	}
-	if ps := jruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jruo.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobreceipt.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jruo.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobreceipt.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jruo.mutation.ReceiptDate(); ok {
+	if value, ok := _u.mutation.ReceiptDate(); ok {
 		_spec.SetField(jobreceipt.FieldReceiptDate, field.TypeTime, value)
 	}
-	if value, ok := jruo.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(jobreceipt.FieldAmount, field.TypeFloat64, value)
 	}
-	if value, ok := jruo.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(jobreceipt.FieldAmount, field.TypeFloat64, value)
 	}
-	if jruo.mutation.AmountCleared() {
+	if _u.mutation.AmountCleared() {
 		_spec.ClearField(jobreceipt.FieldAmount, field.TypeFloat64)
 	}
-	if value, ok := jruo.mutation.Note(); ok {
+	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(jobreceipt.FieldNote, field.TypeString, value)
 	}
-	if jruo.mutation.NoteCleared() {
+	if _u.mutation.NoteCleared() {
 		_spec.ClearField(jobreceipt.FieldNote, field.TypeString)
 	}
-	if value, ok := jruo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobreceipt.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jruo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobreceipt.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jruo.mutation.ReceiptCleared() {
+	if _u.mutation.ReceiptCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -535,7 +535,7 @@ func (jruo *JobReceiptUpdateOne) sqlSave(ctx context.Context) (_node *JobReceipt
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jruo.mutation.ReceiptIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ReceiptIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -551,10 +551,10 @@ func (jruo *JobReceiptUpdateOne) sqlSave(ctx context.Context) (_node *JobReceipt
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobReceipt{config: jruo.config}
+	_node = &JobReceipt{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobreceipt.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -562,6 +562,6 @@ func (jruo *JobReceiptUpdateOne) sqlSave(ctx context.Context) (_node *JobReceipt
 		}
 		return nil, err
 	}
-	jruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -24,8 +24,6 @@ const (
 	FieldPaymentType = "payment_type"
 	// FieldState holds the string denoting the state field in the database.
 	FieldState = "state"
-	// FieldTotalPayment holds the string denoting the totalpayment field in the database.
-	FieldTotalPayment = "total_payment"
 	// FieldLevelRequest holds the string denoting the levelrequest field in the database.
 	FieldLevelRequest = "level_request"
 	// FieldLevelApprove holds the string denoting the levelapprove field in the database.
@@ -69,7 +67,6 @@ var Columns = []string{
 	FieldPaymentDate,
 	FieldPaymentType,
 	FieldState,
-	FieldTotalPayment,
 	FieldLevelRequest,
 	FieldLevelApprove,
 	FieldAmount,
@@ -156,11 +153,6 @@ func ByPaymentType(opts ...sql.OrderTermOption) OrderOption {
 // ByState orders the results by the State field.
 func ByState(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldState, opts...).ToFunc()
-}
-
-// ByTotalPayment orders the results by the TotalPayment field.
-func ByTotalPayment(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTotalPayment, opts...).ToFunc()
 }
 
 // ByLevelRequest orders the results by the LevelRequest field.

@@ -24,276 +24,276 @@ type JobOwnerUpdate struct {
 }
 
 // Where appends a list predicates to the JobOwnerUpdate builder.
-func (jou *JobOwnerUpdate) Where(ps ...predicate.JobOwner) *JobOwnerUpdate {
-	jou.mutation.Where(ps...)
-	return jou
+func (_u *JobOwnerUpdate) Where(ps ...predicate.JobOwner) *JobOwnerUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "Name" field.
-func (jou *JobOwnerUpdate) SetName(s string) *JobOwnerUpdate {
-	jou.mutation.SetName(s)
-	return jou
+func (_u *JobOwnerUpdate) SetName(v string) *JobOwnerUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableName(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetName(*s)
+func (_u *JobOwnerUpdate) SetNillableName(v *string) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return jou
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (jou *JobOwnerUpdate) SetAddress(s string) *JobOwnerUpdate {
-	jou.mutation.SetAddress(s)
-	return jou
+func (_u *JobOwnerUpdate) SetAddress(v string) *JobOwnerUpdate {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableAddress(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetAddress(*s)
+func (_u *JobOwnerUpdate) SetNillableAddress(v *string) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return jou
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (jou *JobOwnerUpdate) ClearAddress() *JobOwnerUpdate {
-	jou.mutation.ClearAddress()
-	return jou
+func (_u *JobOwnerUpdate) ClearAddress() *JobOwnerUpdate {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jou *JobOwnerUpdate) SetTcNo(s string) *JobOwnerUpdate {
-	jou.mutation.SetTcNo(s)
-	return jou
+func (_u *JobOwnerUpdate) SetTcNo(v string) *JobOwnerUpdate {
+	_u.mutation.SetTcNo(v)
+	return _u
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableTcNo(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetTcNo(*s)
+func (_u *JobOwnerUpdate) SetNillableTcNo(v *string) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetTcNo(*v)
 	}
-	return jou
+	return _u
 }
 
 // ClearTcNo clears the value of the "TcNo" field.
-func (jou *JobOwnerUpdate) ClearTcNo() *JobOwnerUpdate {
-	jou.mutation.ClearTcNo()
-	return jou
+func (_u *JobOwnerUpdate) ClearTcNo() *JobOwnerUpdate {
+	_u.mutation.ClearTcNo()
+	return _u
 }
 
 // SetTaxAdmin sets the "TaxAdmin" field.
-func (jou *JobOwnerUpdate) SetTaxAdmin(s string) *JobOwnerUpdate {
-	jou.mutation.SetTaxAdmin(s)
-	return jou
+func (_u *JobOwnerUpdate) SetTaxAdmin(v string) *JobOwnerUpdate {
+	_u.mutation.SetTaxAdmin(v)
+	return _u
 }
 
 // SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableTaxAdmin(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetTaxAdmin(*s)
+func (_u *JobOwnerUpdate) SetNillableTaxAdmin(v *string) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetTaxAdmin(*v)
 	}
-	return jou
+	return _u
 }
 
 // ClearTaxAdmin clears the value of the "TaxAdmin" field.
-func (jou *JobOwnerUpdate) ClearTaxAdmin() *JobOwnerUpdate {
-	jou.mutation.ClearTaxAdmin()
-	return jou
+func (_u *JobOwnerUpdate) ClearTaxAdmin() *JobOwnerUpdate {
+	_u.mutation.ClearTaxAdmin()
+	return _u
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jou *JobOwnerUpdate) SetTaxNo(s string) *JobOwnerUpdate {
-	jou.mutation.SetTaxNo(s)
-	return jou
+func (_u *JobOwnerUpdate) SetTaxNo(v string) *JobOwnerUpdate {
+	_u.mutation.SetTaxNo(v)
+	return _u
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableTaxNo(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetTaxNo(*s)
+func (_u *JobOwnerUpdate) SetNillableTaxNo(v *string) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetTaxNo(*v)
 	}
-	return jou
+	return _u
 }
 
 // ClearTaxNo clears the value of the "TaxNo" field.
-func (jou *JobOwnerUpdate) ClearTaxNo() *JobOwnerUpdate {
-	jou.mutation.ClearTaxNo()
-	return jou
+func (_u *JobOwnerUpdate) ClearTaxNo() *JobOwnerUpdate {
+	_u.mutation.ClearTaxNo()
+	return _u
 }
 
 // SetPhone sets the "Phone" field.
-func (jou *JobOwnerUpdate) SetPhone(s string) *JobOwnerUpdate {
-	jou.mutation.SetPhone(s)
-	return jou
+func (_u *JobOwnerUpdate) SetPhone(v string) *JobOwnerUpdate {
+	_u.mutation.SetPhone(v)
+	return _u
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillablePhone(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetPhone(*s)
+func (_u *JobOwnerUpdate) SetNillablePhone(v *string) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetPhone(*v)
 	}
-	return jou
+	return _u
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (jou *JobOwnerUpdate) ClearPhone() *JobOwnerUpdate {
-	jou.mutation.ClearPhone()
-	return jou
+func (_u *JobOwnerUpdate) ClearPhone() *JobOwnerUpdate {
+	_u.mutation.ClearPhone()
+	return _u
 }
 
 // SetEmail sets the "Email" field.
-func (jou *JobOwnerUpdate) SetEmail(s string) *JobOwnerUpdate {
-	jou.mutation.SetEmail(s)
-	return jou
+func (_u *JobOwnerUpdate) SetEmail(v string) *JobOwnerUpdate {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableEmail(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetEmail(*s)
+func (_u *JobOwnerUpdate) SetNillableEmail(v *string) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return jou
+	return _u
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (jou *JobOwnerUpdate) ClearEmail() *JobOwnerUpdate {
-	jou.mutation.ClearEmail()
-	return jou
+func (_u *JobOwnerUpdate) ClearEmail() *JobOwnerUpdate {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetYDSID sets the "YDSID" field.
-func (jou *JobOwnerUpdate) SetYDSID(i int) *JobOwnerUpdate {
-	jou.mutation.ResetYDSID()
-	jou.mutation.SetYDSID(i)
-	return jou
+func (_u *JobOwnerUpdate) SetYDSID(v int) *JobOwnerUpdate {
+	_u.mutation.ResetYDSID()
+	_u.mutation.SetYDSID(v)
+	return _u
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableYDSID(i *int) *JobOwnerUpdate {
-	if i != nil {
-		jou.SetYDSID(*i)
+func (_u *JobOwnerUpdate) SetNillableYDSID(v *int) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetYDSID(*v)
 	}
-	return jou
+	return _u
 }
 
-// AddYDSID adds i to the "YDSID" field.
-func (jou *JobOwnerUpdate) AddYDSID(i int) *JobOwnerUpdate {
-	jou.mutation.AddYDSID(i)
-	return jou
+// AddYDSID adds value to the "YDSID" field.
+func (_u *JobOwnerUpdate) AddYDSID(v int) *JobOwnerUpdate {
+	_u.mutation.AddYDSID(v)
+	return _u
 }
 
 // ClearYDSID clears the value of the "YDSID" field.
-func (jou *JobOwnerUpdate) ClearYDSID() *JobOwnerUpdate {
-	jou.mutation.ClearYDSID()
-	return jou
+func (_u *JobOwnerUpdate) ClearYDSID() *JobOwnerUpdate {
+	_u.mutation.ClearYDSID()
+	return _u
 }
 
 // SetShareholder sets the "Shareholder" field.
-func (jou *JobOwnerUpdate) SetShareholder(b bool) *JobOwnerUpdate {
-	jou.mutation.SetShareholder(b)
-	return jou
+func (_u *JobOwnerUpdate) SetShareholder(v bool) *JobOwnerUpdate {
+	_u.mutation.SetShareholder(v)
+	return _u
 }
 
 // SetNillableShareholder sets the "Shareholder" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableShareholder(b *bool) *JobOwnerUpdate {
-	if b != nil {
-		jou.SetShareholder(*b)
+func (_u *JobOwnerUpdate) SetNillableShareholder(v *bool) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetShareholder(*v)
 	}
-	return jou
+	return _u
 }
 
 // SetNote sets the "Note" field.
-func (jou *JobOwnerUpdate) SetNote(s string) *JobOwnerUpdate {
-	jou.mutation.SetNote(s)
-	return jou
+func (_u *JobOwnerUpdate) SetNote(v string) *JobOwnerUpdate {
+	_u.mutation.SetNote(v)
+	return _u
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableNote(s *string) *JobOwnerUpdate {
-	if s != nil {
-		jou.SetNote(*s)
+func (_u *JobOwnerUpdate) SetNillableNote(v *string) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetNote(*v)
 	}
-	return jou
+	return _u
 }
 
 // ClearNote clears the value of the "Note" field.
-func (jou *JobOwnerUpdate) ClearNote() *JobOwnerUpdate {
-	jou.mutation.ClearNote()
-	return jou
+func (_u *JobOwnerUpdate) ClearNote() *JobOwnerUpdate {
+	_u.mutation.ClearNote()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jou *JobOwnerUpdate) SetCreatedAt(t time.Time) *JobOwnerUpdate {
-	jou.mutation.SetCreatedAt(t)
-	return jou
+func (_u *JobOwnerUpdate) SetCreatedAt(v time.Time) *JobOwnerUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jou *JobOwnerUpdate) SetNillableCreatedAt(t *time.Time) *JobOwnerUpdate {
-	if t != nil {
-		jou.SetCreatedAt(*t)
+func (_u *JobOwnerUpdate) SetNillableCreatedAt(v *time.Time) *JobOwnerUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jou
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jou *JobOwnerUpdate) SetUpdatedAt(t time.Time) *JobOwnerUpdate {
-	jou.mutation.SetUpdatedAt(t)
-	return jou
+func (_u *JobOwnerUpdate) SetUpdatedAt(v time.Time) *JobOwnerUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddOwnerIDs adds the "owners" edge to the JobRelations entity by IDs.
-func (jou *JobOwnerUpdate) AddOwnerIDs(ids ...int) *JobOwnerUpdate {
-	jou.mutation.AddOwnerIDs(ids...)
-	return jou
+func (_u *JobOwnerUpdate) AddOwnerIDs(ids ...int) *JobOwnerUpdate {
+	_u.mutation.AddOwnerIDs(ids...)
+	return _u
 }
 
 // AddOwners adds the "owners" edges to the JobRelations entity.
-func (jou *JobOwnerUpdate) AddOwners(j ...*JobRelations) *JobOwnerUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobOwnerUpdate) AddOwners(v ...*JobRelations) *JobOwnerUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jou.AddOwnerIDs(ids...)
+	return _u.AddOwnerIDs(ids...)
 }
 
 // Mutation returns the JobOwnerMutation object of the builder.
-func (jou *JobOwnerUpdate) Mutation() *JobOwnerMutation {
-	return jou.mutation
+func (_u *JobOwnerUpdate) Mutation() *JobOwnerMutation {
+	return _u.mutation
 }
 
 // ClearOwners clears all "owners" edges to the JobRelations entity.
-func (jou *JobOwnerUpdate) ClearOwners() *JobOwnerUpdate {
-	jou.mutation.ClearOwners()
-	return jou
+func (_u *JobOwnerUpdate) ClearOwners() *JobOwnerUpdate {
+	_u.mutation.ClearOwners()
+	return _u
 }
 
 // RemoveOwnerIDs removes the "owners" edge to JobRelations entities by IDs.
-func (jou *JobOwnerUpdate) RemoveOwnerIDs(ids ...int) *JobOwnerUpdate {
-	jou.mutation.RemoveOwnerIDs(ids...)
-	return jou
+func (_u *JobOwnerUpdate) RemoveOwnerIDs(ids ...int) *JobOwnerUpdate {
+	_u.mutation.RemoveOwnerIDs(ids...)
+	return _u
 }
 
 // RemoveOwners removes "owners" edges to JobRelations entities.
-func (jou *JobOwnerUpdate) RemoveOwners(j ...*JobRelations) *JobOwnerUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobOwnerUpdate) RemoveOwners(v ...*JobRelations) *JobOwnerUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jou.RemoveOwnerIDs(ids...)
+	return _u.RemoveOwnerIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jou *JobOwnerUpdate) Save(ctx context.Context) (int, error) {
-	jou.defaults()
-	return withHooks(ctx, jou.sqlSave, jou.mutation, jou.hooks)
+func (_u *JobOwnerUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jou *JobOwnerUpdate) SaveX(ctx context.Context) int {
-	affected, err := jou.Save(ctx)
+func (_u *JobOwnerUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -301,99 +301,99 @@ func (jou *JobOwnerUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jou *JobOwnerUpdate) Exec(ctx context.Context) error {
-	_, err := jou.Save(ctx)
+func (_u *JobOwnerUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jou *JobOwnerUpdate) ExecX(ctx context.Context) {
-	if err := jou.Exec(ctx); err != nil {
+func (_u *JobOwnerUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jou *JobOwnerUpdate) defaults() {
-	if _, ok := jou.mutation.UpdatedAt(); !ok {
+func (_u *JobOwnerUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobowner.UpdateDefaultUpdatedAt()
-		jou.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobOwnerUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobowner.Table, jobowner.Columns, sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt))
-	if ps := jou.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jou.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(jobowner.FieldName, field.TypeString, value)
 	}
-	if value, ok := jou.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(jobowner.FieldAddress, field.TypeString, value)
 	}
-	if jou.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(jobowner.FieldAddress, field.TypeString)
 	}
-	if value, ok := jou.mutation.TcNo(); ok {
+	if value, ok := _u.mutation.TcNo(); ok {
 		_spec.SetField(jobowner.FieldTcNo, field.TypeString, value)
 	}
-	if jou.mutation.TcNoCleared() {
+	if _u.mutation.TcNoCleared() {
 		_spec.ClearField(jobowner.FieldTcNo, field.TypeString)
 	}
-	if value, ok := jou.mutation.TaxAdmin(); ok {
+	if value, ok := _u.mutation.TaxAdmin(); ok {
 		_spec.SetField(jobowner.FieldTaxAdmin, field.TypeString, value)
 	}
-	if jou.mutation.TaxAdminCleared() {
+	if _u.mutation.TaxAdminCleared() {
 		_spec.ClearField(jobowner.FieldTaxAdmin, field.TypeString)
 	}
-	if value, ok := jou.mutation.TaxNo(); ok {
+	if value, ok := _u.mutation.TaxNo(); ok {
 		_spec.SetField(jobowner.FieldTaxNo, field.TypeString, value)
 	}
-	if jou.mutation.TaxNoCleared() {
+	if _u.mutation.TaxNoCleared() {
 		_spec.ClearField(jobowner.FieldTaxNo, field.TypeString)
 	}
-	if value, ok := jou.mutation.Phone(); ok {
+	if value, ok := _u.mutation.Phone(); ok {
 		_spec.SetField(jobowner.FieldPhone, field.TypeString, value)
 	}
-	if jou.mutation.PhoneCleared() {
+	if _u.mutation.PhoneCleared() {
 		_spec.ClearField(jobowner.FieldPhone, field.TypeString)
 	}
-	if value, ok := jou.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(jobowner.FieldEmail, field.TypeString, value)
 	}
-	if jou.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(jobowner.FieldEmail, field.TypeString)
 	}
-	if value, ok := jou.mutation.YDSID(); ok {
+	if value, ok := _u.mutation.YDSID(); ok {
 		_spec.SetField(jobowner.FieldYDSID, field.TypeInt, value)
 	}
-	if value, ok := jou.mutation.AddedYDSID(); ok {
+	if value, ok := _u.mutation.AddedYDSID(); ok {
 		_spec.AddField(jobowner.FieldYDSID, field.TypeInt, value)
 	}
-	if jou.mutation.YDSIDCleared() {
+	if _u.mutation.YDSIDCleared() {
 		_spec.ClearField(jobowner.FieldYDSID, field.TypeInt)
 	}
-	if value, ok := jou.mutation.Shareholder(); ok {
+	if value, ok := _u.mutation.Shareholder(); ok {
 		_spec.SetField(jobowner.FieldShareholder, field.TypeBool, value)
 	}
-	if value, ok := jou.mutation.Note(); ok {
+	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
 	}
-	if jou.mutation.NoteCleared() {
+	if _u.mutation.NoteCleared() {
 		_spec.ClearField(jobowner.FieldNote, field.TypeString)
 	}
-	if value, ok := jou.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jou.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobowner.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jou.mutation.OwnersCleared() {
+	if _u.mutation.OwnersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -406,7 +406,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jou.mutation.RemovedOwnersIDs(); len(nodes) > 0 && !jou.mutation.OwnersCleared() {
+	if nodes := _u.mutation.RemovedOwnersIDs(); len(nodes) > 0 && !_u.mutation.OwnersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -422,7 +422,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jou.mutation.OwnersIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.OwnersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -438,7 +438,7 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jou.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobowner.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -446,8 +446,8 @@ func (jou *JobOwnerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	jou.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobOwnerUpdateOne is the builder for updating a single JobOwner entity.
@@ -459,283 +459,283 @@ type JobOwnerUpdateOne struct {
 }
 
 // SetName sets the "Name" field.
-func (jouo *JobOwnerUpdateOne) SetName(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetName(s)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetName(v string) *JobOwnerUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableName(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetName(*s)
+func (_u *JobOwnerUpdateOne) SetNillableName(v *string) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return jouo
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (jouo *JobOwnerUpdateOne) SetAddress(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetAddress(s)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetAddress(v string) *JobOwnerUpdateOne {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableAddress(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetAddress(*s)
+func (_u *JobOwnerUpdateOne) SetNillableAddress(v *string) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return jouo
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (jouo *JobOwnerUpdateOne) ClearAddress() *JobOwnerUpdateOne {
-	jouo.mutation.ClearAddress()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearAddress() *JobOwnerUpdateOne {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jouo *JobOwnerUpdateOne) SetTcNo(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetTcNo(s)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetTcNo(v string) *JobOwnerUpdateOne {
+	_u.mutation.SetTcNo(v)
+	return _u
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableTcNo(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetTcNo(*s)
+func (_u *JobOwnerUpdateOne) SetNillableTcNo(v *string) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetTcNo(*v)
 	}
-	return jouo
+	return _u
 }
 
 // ClearTcNo clears the value of the "TcNo" field.
-func (jouo *JobOwnerUpdateOne) ClearTcNo() *JobOwnerUpdateOne {
-	jouo.mutation.ClearTcNo()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearTcNo() *JobOwnerUpdateOne {
+	_u.mutation.ClearTcNo()
+	return _u
 }
 
 // SetTaxAdmin sets the "TaxAdmin" field.
-func (jouo *JobOwnerUpdateOne) SetTaxAdmin(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetTaxAdmin(s)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetTaxAdmin(v string) *JobOwnerUpdateOne {
+	_u.mutation.SetTaxAdmin(v)
+	return _u
 }
 
 // SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableTaxAdmin(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetTaxAdmin(*s)
+func (_u *JobOwnerUpdateOne) SetNillableTaxAdmin(v *string) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetTaxAdmin(*v)
 	}
-	return jouo
+	return _u
 }
 
 // ClearTaxAdmin clears the value of the "TaxAdmin" field.
-func (jouo *JobOwnerUpdateOne) ClearTaxAdmin() *JobOwnerUpdateOne {
-	jouo.mutation.ClearTaxAdmin()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearTaxAdmin() *JobOwnerUpdateOne {
+	_u.mutation.ClearTaxAdmin()
+	return _u
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jouo *JobOwnerUpdateOne) SetTaxNo(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetTaxNo(s)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetTaxNo(v string) *JobOwnerUpdateOne {
+	_u.mutation.SetTaxNo(v)
+	return _u
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableTaxNo(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetTaxNo(*s)
+func (_u *JobOwnerUpdateOne) SetNillableTaxNo(v *string) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetTaxNo(*v)
 	}
-	return jouo
+	return _u
 }
 
 // ClearTaxNo clears the value of the "TaxNo" field.
-func (jouo *JobOwnerUpdateOne) ClearTaxNo() *JobOwnerUpdateOne {
-	jouo.mutation.ClearTaxNo()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearTaxNo() *JobOwnerUpdateOne {
+	_u.mutation.ClearTaxNo()
+	return _u
 }
 
 // SetPhone sets the "Phone" field.
-func (jouo *JobOwnerUpdateOne) SetPhone(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetPhone(s)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetPhone(v string) *JobOwnerUpdateOne {
+	_u.mutation.SetPhone(v)
+	return _u
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillablePhone(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetPhone(*s)
+func (_u *JobOwnerUpdateOne) SetNillablePhone(v *string) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetPhone(*v)
 	}
-	return jouo
+	return _u
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (jouo *JobOwnerUpdateOne) ClearPhone() *JobOwnerUpdateOne {
-	jouo.mutation.ClearPhone()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearPhone() *JobOwnerUpdateOne {
+	_u.mutation.ClearPhone()
+	return _u
 }
 
 // SetEmail sets the "Email" field.
-func (jouo *JobOwnerUpdateOne) SetEmail(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetEmail(s)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetEmail(v string) *JobOwnerUpdateOne {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableEmail(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetEmail(*s)
+func (_u *JobOwnerUpdateOne) SetNillableEmail(v *string) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return jouo
+	return _u
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (jouo *JobOwnerUpdateOne) ClearEmail() *JobOwnerUpdateOne {
-	jouo.mutation.ClearEmail()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearEmail() *JobOwnerUpdateOne {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetYDSID sets the "YDSID" field.
-func (jouo *JobOwnerUpdateOne) SetYDSID(i int) *JobOwnerUpdateOne {
-	jouo.mutation.ResetYDSID()
-	jouo.mutation.SetYDSID(i)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetYDSID(v int) *JobOwnerUpdateOne {
+	_u.mutation.ResetYDSID()
+	_u.mutation.SetYDSID(v)
+	return _u
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableYDSID(i *int) *JobOwnerUpdateOne {
-	if i != nil {
-		jouo.SetYDSID(*i)
+func (_u *JobOwnerUpdateOne) SetNillableYDSID(v *int) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetYDSID(*v)
 	}
-	return jouo
+	return _u
 }
 
-// AddYDSID adds i to the "YDSID" field.
-func (jouo *JobOwnerUpdateOne) AddYDSID(i int) *JobOwnerUpdateOne {
-	jouo.mutation.AddYDSID(i)
-	return jouo
+// AddYDSID adds value to the "YDSID" field.
+func (_u *JobOwnerUpdateOne) AddYDSID(v int) *JobOwnerUpdateOne {
+	_u.mutation.AddYDSID(v)
+	return _u
 }
 
 // ClearYDSID clears the value of the "YDSID" field.
-func (jouo *JobOwnerUpdateOne) ClearYDSID() *JobOwnerUpdateOne {
-	jouo.mutation.ClearYDSID()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearYDSID() *JobOwnerUpdateOne {
+	_u.mutation.ClearYDSID()
+	return _u
 }
 
 // SetShareholder sets the "Shareholder" field.
-func (jouo *JobOwnerUpdateOne) SetShareholder(b bool) *JobOwnerUpdateOne {
-	jouo.mutation.SetShareholder(b)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetShareholder(v bool) *JobOwnerUpdateOne {
+	_u.mutation.SetShareholder(v)
+	return _u
 }
 
 // SetNillableShareholder sets the "Shareholder" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableShareholder(b *bool) *JobOwnerUpdateOne {
-	if b != nil {
-		jouo.SetShareholder(*b)
+func (_u *JobOwnerUpdateOne) SetNillableShareholder(v *bool) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetShareholder(*v)
 	}
-	return jouo
+	return _u
 }
 
 // SetNote sets the "Note" field.
-func (jouo *JobOwnerUpdateOne) SetNote(s string) *JobOwnerUpdateOne {
-	jouo.mutation.SetNote(s)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetNote(v string) *JobOwnerUpdateOne {
+	_u.mutation.SetNote(v)
+	return _u
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableNote(s *string) *JobOwnerUpdateOne {
-	if s != nil {
-		jouo.SetNote(*s)
+func (_u *JobOwnerUpdateOne) SetNillableNote(v *string) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetNote(*v)
 	}
-	return jouo
+	return _u
 }
 
 // ClearNote clears the value of the "Note" field.
-func (jouo *JobOwnerUpdateOne) ClearNote() *JobOwnerUpdateOne {
-	jouo.mutation.ClearNote()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearNote() *JobOwnerUpdateOne {
+	_u.mutation.ClearNote()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jouo *JobOwnerUpdateOne) SetCreatedAt(t time.Time) *JobOwnerUpdateOne {
-	jouo.mutation.SetCreatedAt(t)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetCreatedAt(v time.Time) *JobOwnerUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jouo *JobOwnerUpdateOne) SetNillableCreatedAt(t *time.Time) *JobOwnerUpdateOne {
-	if t != nil {
-		jouo.SetCreatedAt(*t)
+func (_u *JobOwnerUpdateOne) SetNillableCreatedAt(v *time.Time) *JobOwnerUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jouo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jouo *JobOwnerUpdateOne) SetUpdatedAt(t time.Time) *JobOwnerUpdateOne {
-	jouo.mutation.SetUpdatedAt(t)
-	return jouo
+func (_u *JobOwnerUpdateOne) SetUpdatedAt(v time.Time) *JobOwnerUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddOwnerIDs adds the "owners" edge to the JobRelations entity by IDs.
-func (jouo *JobOwnerUpdateOne) AddOwnerIDs(ids ...int) *JobOwnerUpdateOne {
-	jouo.mutation.AddOwnerIDs(ids...)
-	return jouo
+func (_u *JobOwnerUpdateOne) AddOwnerIDs(ids ...int) *JobOwnerUpdateOne {
+	_u.mutation.AddOwnerIDs(ids...)
+	return _u
 }
 
 // AddOwners adds the "owners" edges to the JobRelations entity.
-func (jouo *JobOwnerUpdateOne) AddOwners(j ...*JobRelations) *JobOwnerUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobOwnerUpdateOne) AddOwners(v ...*JobRelations) *JobOwnerUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jouo.AddOwnerIDs(ids...)
+	return _u.AddOwnerIDs(ids...)
 }
 
 // Mutation returns the JobOwnerMutation object of the builder.
-func (jouo *JobOwnerUpdateOne) Mutation() *JobOwnerMutation {
-	return jouo.mutation
+func (_u *JobOwnerUpdateOne) Mutation() *JobOwnerMutation {
+	return _u.mutation
 }
 
 // ClearOwners clears all "owners" edges to the JobRelations entity.
-func (jouo *JobOwnerUpdateOne) ClearOwners() *JobOwnerUpdateOne {
-	jouo.mutation.ClearOwners()
-	return jouo
+func (_u *JobOwnerUpdateOne) ClearOwners() *JobOwnerUpdateOne {
+	_u.mutation.ClearOwners()
+	return _u
 }
 
 // RemoveOwnerIDs removes the "owners" edge to JobRelations entities by IDs.
-func (jouo *JobOwnerUpdateOne) RemoveOwnerIDs(ids ...int) *JobOwnerUpdateOne {
-	jouo.mutation.RemoveOwnerIDs(ids...)
-	return jouo
+func (_u *JobOwnerUpdateOne) RemoveOwnerIDs(ids ...int) *JobOwnerUpdateOne {
+	_u.mutation.RemoveOwnerIDs(ids...)
+	return _u
 }
 
 // RemoveOwners removes "owners" edges to JobRelations entities.
-func (jouo *JobOwnerUpdateOne) RemoveOwners(j ...*JobRelations) *JobOwnerUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobOwnerUpdateOne) RemoveOwners(v ...*JobRelations) *JobOwnerUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jouo.RemoveOwnerIDs(ids...)
+	return _u.RemoveOwnerIDs(ids...)
 }
 
 // Where appends a list predicates to the JobOwnerUpdate builder.
-func (jouo *JobOwnerUpdateOne) Where(ps ...predicate.JobOwner) *JobOwnerUpdateOne {
-	jouo.mutation.Where(ps...)
-	return jouo
+func (_u *JobOwnerUpdateOne) Where(ps ...predicate.JobOwner) *JobOwnerUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jouo *JobOwnerUpdateOne) Select(field string, fields ...string) *JobOwnerUpdateOne {
-	jouo.fields = append([]string{field}, fields...)
-	return jouo
+func (_u *JobOwnerUpdateOne) Select(field string, fields ...string) *JobOwnerUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobOwner entity.
-func (jouo *JobOwnerUpdateOne) Save(ctx context.Context) (*JobOwner, error) {
-	jouo.defaults()
-	return withHooks(ctx, jouo.sqlSave, jouo.mutation, jouo.hooks)
+func (_u *JobOwnerUpdateOne) Save(ctx context.Context) (*JobOwner, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jouo *JobOwnerUpdateOne) SaveX(ctx context.Context) *JobOwner {
-	node, err := jouo.Save(ctx)
+func (_u *JobOwnerUpdateOne) SaveX(ctx context.Context) *JobOwner {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -743,34 +743,34 @@ func (jouo *JobOwnerUpdateOne) SaveX(ctx context.Context) *JobOwner {
 }
 
 // Exec executes the query on the entity.
-func (jouo *JobOwnerUpdateOne) Exec(ctx context.Context) error {
-	_, err := jouo.Save(ctx)
+func (_u *JobOwnerUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jouo *JobOwnerUpdateOne) ExecX(ctx context.Context) {
-	if err := jouo.Exec(ctx); err != nil {
+func (_u *JobOwnerUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jouo *JobOwnerUpdateOne) defaults() {
-	if _, ok := jouo.mutation.UpdatedAt(); !ok {
+func (_u *JobOwnerUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobowner.UpdateDefaultUpdatedAt()
-		jouo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, err error) {
+func (_u *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobowner.Table, jobowner.Columns, sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt))
-	id, ok := jouo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobOwner.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jouo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobowner.FieldID)
 		for _, f := range fields {
@@ -782,77 +782,77 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 			}
 		}
 	}
-	if ps := jouo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jouo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(jobowner.FieldName, field.TypeString, value)
 	}
-	if value, ok := jouo.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(jobowner.FieldAddress, field.TypeString, value)
 	}
-	if jouo.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(jobowner.FieldAddress, field.TypeString)
 	}
-	if value, ok := jouo.mutation.TcNo(); ok {
+	if value, ok := _u.mutation.TcNo(); ok {
 		_spec.SetField(jobowner.FieldTcNo, field.TypeString, value)
 	}
-	if jouo.mutation.TcNoCleared() {
+	if _u.mutation.TcNoCleared() {
 		_spec.ClearField(jobowner.FieldTcNo, field.TypeString)
 	}
-	if value, ok := jouo.mutation.TaxAdmin(); ok {
+	if value, ok := _u.mutation.TaxAdmin(); ok {
 		_spec.SetField(jobowner.FieldTaxAdmin, field.TypeString, value)
 	}
-	if jouo.mutation.TaxAdminCleared() {
+	if _u.mutation.TaxAdminCleared() {
 		_spec.ClearField(jobowner.FieldTaxAdmin, field.TypeString)
 	}
-	if value, ok := jouo.mutation.TaxNo(); ok {
+	if value, ok := _u.mutation.TaxNo(); ok {
 		_spec.SetField(jobowner.FieldTaxNo, field.TypeString, value)
 	}
-	if jouo.mutation.TaxNoCleared() {
+	if _u.mutation.TaxNoCleared() {
 		_spec.ClearField(jobowner.FieldTaxNo, field.TypeString)
 	}
-	if value, ok := jouo.mutation.Phone(); ok {
+	if value, ok := _u.mutation.Phone(); ok {
 		_spec.SetField(jobowner.FieldPhone, field.TypeString, value)
 	}
-	if jouo.mutation.PhoneCleared() {
+	if _u.mutation.PhoneCleared() {
 		_spec.ClearField(jobowner.FieldPhone, field.TypeString)
 	}
-	if value, ok := jouo.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(jobowner.FieldEmail, field.TypeString, value)
 	}
-	if jouo.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(jobowner.FieldEmail, field.TypeString)
 	}
-	if value, ok := jouo.mutation.YDSID(); ok {
+	if value, ok := _u.mutation.YDSID(); ok {
 		_spec.SetField(jobowner.FieldYDSID, field.TypeInt, value)
 	}
-	if value, ok := jouo.mutation.AddedYDSID(); ok {
+	if value, ok := _u.mutation.AddedYDSID(); ok {
 		_spec.AddField(jobowner.FieldYDSID, field.TypeInt, value)
 	}
-	if jouo.mutation.YDSIDCleared() {
+	if _u.mutation.YDSIDCleared() {
 		_spec.ClearField(jobowner.FieldYDSID, field.TypeInt)
 	}
-	if value, ok := jouo.mutation.Shareholder(); ok {
+	if value, ok := _u.mutation.Shareholder(); ok {
 		_spec.SetField(jobowner.FieldShareholder, field.TypeBool, value)
 	}
-	if value, ok := jouo.mutation.Note(); ok {
+	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
 	}
-	if jouo.mutation.NoteCleared() {
+	if _u.mutation.NoteCleared() {
 		_spec.ClearField(jobowner.FieldNote, field.TypeString)
 	}
-	if value, ok := jouo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jouo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobowner.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jouo.mutation.OwnersCleared() {
+	if _u.mutation.OwnersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -865,7 +865,7 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jouo.mutation.RemovedOwnersIDs(); len(nodes) > 0 && !jouo.mutation.OwnersCleared() {
+	if nodes := _u.mutation.RemovedOwnersIDs(); len(nodes) > 0 && !_u.mutation.OwnersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -881,7 +881,7 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jouo.mutation.OwnersIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.OwnersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -897,10 +897,10 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobOwner{config: jouo.config}
+	_node = &JobOwner{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jouo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobowner.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -908,6 +908,6 @@ func (jouo *JobOwnerUpdateOne) sqlSave(ctx context.Context) (_node *JobOwner, er
 		}
 		return nil, err
 	}
-	jouo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

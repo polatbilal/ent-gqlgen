@@ -24,302 +24,302 @@ type JobContractorUpdate struct {
 }
 
 // Where appends a list predicates to the JobContractorUpdate builder.
-func (jcu *JobContractorUpdate) Where(ps ...predicate.JobContractor) *JobContractorUpdate {
-	jcu.mutation.Where(ps...)
-	return jcu
+func (_u *JobContractorUpdate) Where(ps ...predicate.JobContractor) *JobContractorUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "Name" field.
-func (jcu *JobContractorUpdate) SetName(s string) *JobContractorUpdate {
-	jcu.mutation.SetName(s)
-	return jcu
+func (_u *JobContractorUpdate) SetName(v string) *JobContractorUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableName(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetName(*s)
+func (_u *JobContractorUpdate) SetNillableName(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return jcu
+	return _u
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jcu *JobContractorUpdate) SetTcNo(s string) *JobContractorUpdate {
-	jcu.mutation.SetTcNo(s)
-	return jcu
+func (_u *JobContractorUpdate) SetTcNo(v string) *JobContractorUpdate {
+	_u.mutation.SetTcNo(v)
+	return _u
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableTcNo(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetTcNo(*s)
+func (_u *JobContractorUpdate) SetNillableTcNo(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetTcNo(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearTcNo clears the value of the "TcNo" field.
-func (jcu *JobContractorUpdate) ClearTcNo() *JobContractorUpdate {
-	jcu.mutation.ClearTcNo()
-	return jcu
+func (_u *JobContractorUpdate) ClearTcNo() *JobContractorUpdate {
+	_u.mutation.ClearTcNo()
+	return _u
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jcu *JobContractorUpdate) SetRegisterNo(s string) *JobContractorUpdate {
-	jcu.mutation.SetRegisterNo(s)
-	return jcu
+func (_u *JobContractorUpdate) SetRegisterNo(v string) *JobContractorUpdate {
+	_u.mutation.SetRegisterNo(v)
+	return _u
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableRegisterNo(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetRegisterNo(*s)
+func (_u *JobContractorUpdate) SetNillableRegisterNo(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetRegisterNo(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearRegisterNo clears the value of the "RegisterNo" field.
-func (jcu *JobContractorUpdate) ClearRegisterNo() *JobContractorUpdate {
-	jcu.mutation.ClearRegisterNo()
-	return jcu
+func (_u *JobContractorUpdate) ClearRegisterNo() *JobContractorUpdate {
+	_u.mutation.ClearRegisterNo()
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (jcu *JobContractorUpdate) SetAddress(s string) *JobContractorUpdate {
-	jcu.mutation.SetAddress(s)
-	return jcu
+func (_u *JobContractorUpdate) SetAddress(v string) *JobContractorUpdate {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableAddress(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetAddress(*s)
+func (_u *JobContractorUpdate) SetNillableAddress(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (jcu *JobContractorUpdate) ClearAddress() *JobContractorUpdate {
-	jcu.mutation.ClearAddress()
-	return jcu
+func (_u *JobContractorUpdate) ClearAddress() *JobContractorUpdate {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jcu *JobContractorUpdate) SetTaxNo(s string) *JobContractorUpdate {
-	jcu.mutation.SetTaxNo(s)
-	return jcu
+func (_u *JobContractorUpdate) SetTaxNo(v string) *JobContractorUpdate {
+	_u.mutation.SetTaxNo(v)
+	return _u
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableTaxNo(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetTaxNo(*s)
+func (_u *JobContractorUpdate) SetNillableTaxNo(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetTaxNo(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearTaxNo clears the value of the "TaxNo" field.
-func (jcu *JobContractorUpdate) ClearTaxNo() *JobContractorUpdate {
-	jcu.mutation.ClearTaxNo()
-	return jcu
+func (_u *JobContractorUpdate) ClearTaxNo() *JobContractorUpdate {
+	_u.mutation.ClearTaxNo()
+	return _u
 }
 
 // SetMobilePhone sets the "MobilePhone" field.
-func (jcu *JobContractorUpdate) SetMobilePhone(s string) *JobContractorUpdate {
-	jcu.mutation.SetMobilePhone(s)
-	return jcu
+func (_u *JobContractorUpdate) SetMobilePhone(v string) *JobContractorUpdate {
+	_u.mutation.SetMobilePhone(v)
+	return _u
 }
 
 // SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableMobilePhone(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetMobilePhone(*s)
+func (_u *JobContractorUpdate) SetNillableMobilePhone(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetMobilePhone(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearMobilePhone clears the value of the "MobilePhone" field.
-func (jcu *JobContractorUpdate) ClearMobilePhone() *JobContractorUpdate {
-	jcu.mutation.ClearMobilePhone()
-	return jcu
+func (_u *JobContractorUpdate) ClearMobilePhone() *JobContractorUpdate {
+	_u.mutation.ClearMobilePhone()
+	return _u
 }
 
 // SetPhone sets the "Phone" field.
-func (jcu *JobContractorUpdate) SetPhone(s string) *JobContractorUpdate {
-	jcu.mutation.SetPhone(s)
-	return jcu
+func (_u *JobContractorUpdate) SetPhone(v string) *JobContractorUpdate {
+	_u.mutation.SetPhone(v)
+	return _u
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillablePhone(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetPhone(*s)
+func (_u *JobContractorUpdate) SetNillablePhone(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetPhone(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (jcu *JobContractorUpdate) ClearPhone() *JobContractorUpdate {
-	jcu.mutation.ClearPhone()
-	return jcu
+func (_u *JobContractorUpdate) ClearPhone() *JobContractorUpdate {
+	_u.mutation.ClearPhone()
+	return _u
 }
 
 // SetEmail sets the "Email" field.
-func (jcu *JobContractorUpdate) SetEmail(s string) *JobContractorUpdate {
-	jcu.mutation.SetEmail(s)
-	return jcu
+func (_u *JobContractorUpdate) SetEmail(v string) *JobContractorUpdate {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableEmail(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetEmail(*s)
+func (_u *JobContractorUpdate) SetNillableEmail(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (jcu *JobContractorUpdate) ClearEmail() *JobContractorUpdate {
-	jcu.mutation.ClearEmail()
-	return jcu
+func (_u *JobContractorUpdate) ClearEmail() *JobContractorUpdate {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetPersonType sets the "PersonType" field.
-func (jcu *JobContractorUpdate) SetPersonType(s string) *JobContractorUpdate {
-	jcu.mutation.SetPersonType(s)
-	return jcu
+func (_u *JobContractorUpdate) SetPersonType(v string) *JobContractorUpdate {
+	_u.mutation.SetPersonType(v)
+	return _u
 }
 
 // SetNillablePersonType sets the "PersonType" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillablePersonType(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetPersonType(*s)
+func (_u *JobContractorUpdate) SetNillablePersonType(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetPersonType(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearPersonType clears the value of the "PersonType" field.
-func (jcu *JobContractorUpdate) ClearPersonType() *JobContractorUpdate {
-	jcu.mutation.ClearPersonType()
-	return jcu
+func (_u *JobContractorUpdate) ClearPersonType() *JobContractorUpdate {
+	_u.mutation.ClearPersonType()
+	return _u
 }
 
 // SetYDSID sets the "YDSID" field.
-func (jcu *JobContractorUpdate) SetYDSID(i int) *JobContractorUpdate {
-	jcu.mutation.ResetYDSID()
-	jcu.mutation.SetYDSID(i)
-	return jcu
+func (_u *JobContractorUpdate) SetYDSID(v int) *JobContractorUpdate {
+	_u.mutation.ResetYDSID()
+	_u.mutation.SetYDSID(v)
+	return _u
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableYDSID(i *int) *JobContractorUpdate {
-	if i != nil {
-		jcu.SetYDSID(*i)
+func (_u *JobContractorUpdate) SetNillableYDSID(v *int) *JobContractorUpdate {
+	if v != nil {
+		_u.SetYDSID(*v)
 	}
-	return jcu
+	return _u
 }
 
-// AddYDSID adds i to the "YDSID" field.
-func (jcu *JobContractorUpdate) AddYDSID(i int) *JobContractorUpdate {
-	jcu.mutation.AddYDSID(i)
-	return jcu
+// AddYDSID adds value to the "YDSID" field.
+func (_u *JobContractorUpdate) AddYDSID(v int) *JobContractorUpdate {
+	_u.mutation.AddYDSID(v)
+	return _u
 }
 
 // ClearYDSID clears the value of the "YDSID" field.
-func (jcu *JobContractorUpdate) ClearYDSID() *JobContractorUpdate {
-	jcu.mutation.ClearYDSID()
-	return jcu
+func (_u *JobContractorUpdate) ClearYDSID() *JobContractorUpdate {
+	_u.mutation.ClearYDSID()
+	return _u
 }
 
 // SetNote sets the "Note" field.
-func (jcu *JobContractorUpdate) SetNote(s string) *JobContractorUpdate {
-	jcu.mutation.SetNote(s)
-	return jcu
+func (_u *JobContractorUpdate) SetNote(v string) *JobContractorUpdate {
+	_u.mutation.SetNote(v)
+	return _u
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableNote(s *string) *JobContractorUpdate {
-	if s != nil {
-		jcu.SetNote(*s)
+func (_u *JobContractorUpdate) SetNillableNote(v *string) *JobContractorUpdate {
+	if v != nil {
+		_u.SetNote(*v)
 	}
-	return jcu
+	return _u
 }
 
 // ClearNote clears the value of the "Note" field.
-func (jcu *JobContractorUpdate) ClearNote() *JobContractorUpdate {
-	jcu.mutation.ClearNote()
-	return jcu
+func (_u *JobContractorUpdate) ClearNote() *JobContractorUpdate {
+	_u.mutation.ClearNote()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jcu *JobContractorUpdate) SetCreatedAt(t time.Time) *JobContractorUpdate {
-	jcu.mutation.SetCreatedAt(t)
-	return jcu
+func (_u *JobContractorUpdate) SetCreatedAt(v time.Time) *JobContractorUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jcu *JobContractorUpdate) SetNillableCreatedAt(t *time.Time) *JobContractorUpdate {
-	if t != nil {
-		jcu.SetCreatedAt(*t)
+func (_u *JobContractorUpdate) SetNillableCreatedAt(v *time.Time) *JobContractorUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jcu
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jcu *JobContractorUpdate) SetUpdatedAt(t time.Time) *JobContractorUpdate {
-	jcu.mutation.SetUpdatedAt(t)
-	return jcu
+func (_u *JobContractorUpdate) SetUpdatedAt(v time.Time) *JobContractorUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddContractorIDs adds the "contractors" edge to the JobRelations entity by IDs.
-func (jcu *JobContractorUpdate) AddContractorIDs(ids ...int) *JobContractorUpdate {
-	jcu.mutation.AddContractorIDs(ids...)
-	return jcu
+func (_u *JobContractorUpdate) AddContractorIDs(ids ...int) *JobContractorUpdate {
+	_u.mutation.AddContractorIDs(ids...)
+	return _u
 }
 
 // AddContractors adds the "contractors" edges to the JobRelations entity.
-func (jcu *JobContractorUpdate) AddContractors(j ...*JobRelations) *JobContractorUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobContractorUpdate) AddContractors(v ...*JobRelations) *JobContractorUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jcu.AddContractorIDs(ids...)
+	return _u.AddContractorIDs(ids...)
 }
 
 // Mutation returns the JobContractorMutation object of the builder.
-func (jcu *JobContractorUpdate) Mutation() *JobContractorMutation {
-	return jcu.mutation
+func (_u *JobContractorUpdate) Mutation() *JobContractorMutation {
+	return _u.mutation
 }
 
 // ClearContractors clears all "contractors" edges to the JobRelations entity.
-func (jcu *JobContractorUpdate) ClearContractors() *JobContractorUpdate {
-	jcu.mutation.ClearContractors()
-	return jcu
+func (_u *JobContractorUpdate) ClearContractors() *JobContractorUpdate {
+	_u.mutation.ClearContractors()
+	return _u
 }
 
 // RemoveContractorIDs removes the "contractors" edge to JobRelations entities by IDs.
-func (jcu *JobContractorUpdate) RemoveContractorIDs(ids ...int) *JobContractorUpdate {
-	jcu.mutation.RemoveContractorIDs(ids...)
-	return jcu
+func (_u *JobContractorUpdate) RemoveContractorIDs(ids ...int) *JobContractorUpdate {
+	_u.mutation.RemoveContractorIDs(ids...)
+	return _u
 }
 
 // RemoveContractors removes "contractors" edges to JobRelations entities.
-func (jcu *JobContractorUpdate) RemoveContractors(j ...*JobRelations) *JobContractorUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobContractorUpdate) RemoveContractors(v ...*JobRelations) *JobContractorUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jcu.RemoveContractorIDs(ids...)
+	return _u.RemoveContractorIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jcu *JobContractorUpdate) Save(ctx context.Context) (int, error) {
-	jcu.defaults()
-	return withHooks(ctx, jcu.sqlSave, jcu.mutation, jcu.hooks)
+func (_u *JobContractorUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jcu *JobContractorUpdate) SaveX(ctx context.Context) int {
-	affected, err := jcu.Save(ctx)
+func (_u *JobContractorUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -327,108 +327,108 @@ func (jcu *JobContractorUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jcu *JobContractorUpdate) Exec(ctx context.Context) error {
-	_, err := jcu.Save(ctx)
+func (_u *JobContractorUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jcu *JobContractorUpdate) ExecX(ctx context.Context) {
-	if err := jcu.Exec(ctx); err != nil {
+func (_u *JobContractorUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jcu *JobContractorUpdate) defaults() {
-	if _, ok := jcu.mutation.UpdatedAt(); !ok {
+func (_u *JobContractorUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobcontractor.UpdateDefaultUpdatedAt()
-		jcu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobContractorUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobcontractor.Table, jobcontractor.Columns, sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt))
-	if ps := jcu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jcu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(jobcontractor.FieldName, field.TypeString, value)
 	}
-	if value, ok := jcu.mutation.TcNo(); ok {
+	if value, ok := _u.mutation.TcNo(); ok {
 		_spec.SetField(jobcontractor.FieldTcNo, field.TypeString, value)
 	}
-	if jcu.mutation.TcNoCleared() {
+	if _u.mutation.TcNoCleared() {
 		_spec.ClearField(jobcontractor.FieldTcNo, field.TypeString)
 	}
-	if value, ok := jcu.mutation.RegisterNo(); ok {
+	if value, ok := _u.mutation.RegisterNo(); ok {
 		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeString, value)
 	}
-	if jcu.mutation.RegisterNoCleared() {
+	if _u.mutation.RegisterNoCleared() {
 		_spec.ClearField(jobcontractor.FieldRegisterNo, field.TypeString)
 	}
-	if value, ok := jcu.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(jobcontractor.FieldAddress, field.TypeString, value)
 	}
-	if jcu.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(jobcontractor.FieldAddress, field.TypeString)
 	}
-	if value, ok := jcu.mutation.TaxNo(); ok {
+	if value, ok := _u.mutation.TaxNo(); ok {
 		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeString, value)
 	}
-	if jcu.mutation.TaxNoCleared() {
+	if _u.mutation.TaxNoCleared() {
 		_spec.ClearField(jobcontractor.FieldTaxNo, field.TypeString)
 	}
-	if value, ok := jcu.mutation.MobilePhone(); ok {
+	if value, ok := _u.mutation.MobilePhone(); ok {
 		_spec.SetField(jobcontractor.FieldMobilePhone, field.TypeString, value)
 	}
-	if jcu.mutation.MobilePhoneCleared() {
+	if _u.mutation.MobilePhoneCleared() {
 		_spec.ClearField(jobcontractor.FieldMobilePhone, field.TypeString)
 	}
-	if value, ok := jcu.mutation.Phone(); ok {
+	if value, ok := _u.mutation.Phone(); ok {
 		_spec.SetField(jobcontractor.FieldPhone, field.TypeString, value)
 	}
-	if jcu.mutation.PhoneCleared() {
+	if _u.mutation.PhoneCleared() {
 		_spec.ClearField(jobcontractor.FieldPhone, field.TypeString)
 	}
-	if value, ok := jcu.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(jobcontractor.FieldEmail, field.TypeString, value)
 	}
-	if jcu.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(jobcontractor.FieldEmail, field.TypeString)
 	}
-	if value, ok := jcu.mutation.PersonType(); ok {
+	if value, ok := _u.mutation.PersonType(); ok {
 		_spec.SetField(jobcontractor.FieldPersonType, field.TypeString, value)
 	}
-	if jcu.mutation.PersonTypeCleared() {
+	if _u.mutation.PersonTypeCleared() {
 		_spec.ClearField(jobcontractor.FieldPersonType, field.TypeString)
 	}
-	if value, ok := jcu.mutation.YDSID(); ok {
+	if value, ok := _u.mutation.YDSID(); ok {
 		_spec.SetField(jobcontractor.FieldYDSID, field.TypeInt, value)
 	}
-	if value, ok := jcu.mutation.AddedYDSID(); ok {
+	if value, ok := _u.mutation.AddedYDSID(); ok {
 		_spec.AddField(jobcontractor.FieldYDSID, field.TypeInt, value)
 	}
-	if jcu.mutation.YDSIDCleared() {
+	if _u.mutation.YDSIDCleared() {
 		_spec.ClearField(jobcontractor.FieldYDSID, field.TypeInt)
 	}
-	if value, ok := jcu.mutation.Note(); ok {
+	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(jobcontractor.FieldNote, field.TypeString, value)
 	}
-	if jcu.mutation.NoteCleared() {
+	if _u.mutation.NoteCleared() {
 		_spec.ClearField(jobcontractor.FieldNote, field.TypeString)
 	}
-	if value, ok := jcu.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jcu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jcu.mutation.ContractorsCleared() {
+	if _u.mutation.ContractorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -441,7 +441,7 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jcu.mutation.RemovedContractorsIDs(); len(nodes) > 0 && !jcu.mutation.ContractorsCleared() {
+	if nodes := _u.mutation.RemovedContractorsIDs(); len(nodes) > 0 && !_u.mutation.ContractorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -457,7 +457,7 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jcu.mutation.ContractorsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ContractorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -473,7 +473,7 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jcu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobcontractor.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -481,8 +481,8 @@ func (jcu *JobContractorUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		return 0, err
 	}
-	jcu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobContractorUpdateOne is the builder for updating a single JobContractor entity.
@@ -494,309 +494,309 @@ type JobContractorUpdateOne struct {
 }
 
 // SetName sets the "Name" field.
-func (jcuo *JobContractorUpdateOne) SetName(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetName(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetName(v string) *JobContractorUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableName(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetName(*s)
+func (_u *JobContractorUpdateOne) SetNillableName(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jcuo *JobContractorUpdateOne) SetTcNo(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetTcNo(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetTcNo(v string) *JobContractorUpdateOne {
+	_u.mutation.SetTcNo(v)
+	return _u
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableTcNo(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetTcNo(*s)
+func (_u *JobContractorUpdateOne) SetNillableTcNo(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetTcNo(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearTcNo clears the value of the "TcNo" field.
-func (jcuo *JobContractorUpdateOne) ClearTcNo() *JobContractorUpdateOne {
-	jcuo.mutation.ClearTcNo()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearTcNo() *JobContractorUpdateOne {
+	_u.mutation.ClearTcNo()
+	return _u
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jcuo *JobContractorUpdateOne) SetRegisterNo(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetRegisterNo(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetRegisterNo(v string) *JobContractorUpdateOne {
+	_u.mutation.SetRegisterNo(v)
+	return _u
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableRegisterNo(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetRegisterNo(*s)
+func (_u *JobContractorUpdateOne) SetNillableRegisterNo(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetRegisterNo(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearRegisterNo clears the value of the "RegisterNo" field.
-func (jcuo *JobContractorUpdateOne) ClearRegisterNo() *JobContractorUpdateOne {
-	jcuo.mutation.ClearRegisterNo()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearRegisterNo() *JobContractorUpdateOne {
+	_u.mutation.ClearRegisterNo()
+	return _u
 }
 
 // SetAddress sets the "Address" field.
-func (jcuo *JobContractorUpdateOne) SetAddress(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetAddress(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetAddress(v string) *JobContractorUpdateOne {
+	_u.mutation.SetAddress(v)
+	return _u
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableAddress(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetAddress(*s)
+func (_u *JobContractorUpdateOne) SetNillableAddress(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetAddress(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearAddress clears the value of the "Address" field.
-func (jcuo *JobContractorUpdateOne) ClearAddress() *JobContractorUpdateOne {
-	jcuo.mutation.ClearAddress()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearAddress() *JobContractorUpdateOne {
+	_u.mutation.ClearAddress()
+	return _u
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jcuo *JobContractorUpdateOne) SetTaxNo(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetTaxNo(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetTaxNo(v string) *JobContractorUpdateOne {
+	_u.mutation.SetTaxNo(v)
+	return _u
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableTaxNo(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetTaxNo(*s)
+func (_u *JobContractorUpdateOne) SetNillableTaxNo(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetTaxNo(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearTaxNo clears the value of the "TaxNo" field.
-func (jcuo *JobContractorUpdateOne) ClearTaxNo() *JobContractorUpdateOne {
-	jcuo.mutation.ClearTaxNo()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearTaxNo() *JobContractorUpdateOne {
+	_u.mutation.ClearTaxNo()
+	return _u
 }
 
 // SetMobilePhone sets the "MobilePhone" field.
-func (jcuo *JobContractorUpdateOne) SetMobilePhone(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetMobilePhone(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetMobilePhone(v string) *JobContractorUpdateOne {
+	_u.mutation.SetMobilePhone(v)
+	return _u
 }
 
 // SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableMobilePhone(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetMobilePhone(*s)
+func (_u *JobContractorUpdateOne) SetNillableMobilePhone(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetMobilePhone(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearMobilePhone clears the value of the "MobilePhone" field.
-func (jcuo *JobContractorUpdateOne) ClearMobilePhone() *JobContractorUpdateOne {
-	jcuo.mutation.ClearMobilePhone()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearMobilePhone() *JobContractorUpdateOne {
+	_u.mutation.ClearMobilePhone()
+	return _u
 }
 
 // SetPhone sets the "Phone" field.
-func (jcuo *JobContractorUpdateOne) SetPhone(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetPhone(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetPhone(v string) *JobContractorUpdateOne {
+	_u.mutation.SetPhone(v)
+	return _u
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillablePhone(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetPhone(*s)
+func (_u *JobContractorUpdateOne) SetNillablePhone(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetPhone(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearPhone clears the value of the "Phone" field.
-func (jcuo *JobContractorUpdateOne) ClearPhone() *JobContractorUpdateOne {
-	jcuo.mutation.ClearPhone()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearPhone() *JobContractorUpdateOne {
+	_u.mutation.ClearPhone()
+	return _u
 }
 
 // SetEmail sets the "Email" field.
-func (jcuo *JobContractorUpdateOne) SetEmail(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetEmail(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetEmail(v string) *JobContractorUpdateOne {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableEmail(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetEmail(*s)
+func (_u *JobContractorUpdateOne) SetNillableEmail(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearEmail clears the value of the "Email" field.
-func (jcuo *JobContractorUpdateOne) ClearEmail() *JobContractorUpdateOne {
-	jcuo.mutation.ClearEmail()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearEmail() *JobContractorUpdateOne {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetPersonType sets the "PersonType" field.
-func (jcuo *JobContractorUpdateOne) SetPersonType(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetPersonType(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetPersonType(v string) *JobContractorUpdateOne {
+	_u.mutation.SetPersonType(v)
+	return _u
 }
 
 // SetNillablePersonType sets the "PersonType" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillablePersonType(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetPersonType(*s)
+func (_u *JobContractorUpdateOne) SetNillablePersonType(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetPersonType(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearPersonType clears the value of the "PersonType" field.
-func (jcuo *JobContractorUpdateOne) ClearPersonType() *JobContractorUpdateOne {
-	jcuo.mutation.ClearPersonType()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearPersonType() *JobContractorUpdateOne {
+	_u.mutation.ClearPersonType()
+	return _u
 }
 
 // SetYDSID sets the "YDSID" field.
-func (jcuo *JobContractorUpdateOne) SetYDSID(i int) *JobContractorUpdateOne {
-	jcuo.mutation.ResetYDSID()
-	jcuo.mutation.SetYDSID(i)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetYDSID(v int) *JobContractorUpdateOne {
+	_u.mutation.ResetYDSID()
+	_u.mutation.SetYDSID(v)
+	return _u
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableYDSID(i *int) *JobContractorUpdateOne {
-	if i != nil {
-		jcuo.SetYDSID(*i)
+func (_u *JobContractorUpdateOne) SetNillableYDSID(v *int) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetYDSID(*v)
 	}
-	return jcuo
+	return _u
 }
 
-// AddYDSID adds i to the "YDSID" field.
-func (jcuo *JobContractorUpdateOne) AddYDSID(i int) *JobContractorUpdateOne {
-	jcuo.mutation.AddYDSID(i)
-	return jcuo
+// AddYDSID adds value to the "YDSID" field.
+func (_u *JobContractorUpdateOne) AddYDSID(v int) *JobContractorUpdateOne {
+	_u.mutation.AddYDSID(v)
+	return _u
 }
 
 // ClearYDSID clears the value of the "YDSID" field.
-func (jcuo *JobContractorUpdateOne) ClearYDSID() *JobContractorUpdateOne {
-	jcuo.mutation.ClearYDSID()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearYDSID() *JobContractorUpdateOne {
+	_u.mutation.ClearYDSID()
+	return _u
 }
 
 // SetNote sets the "Note" field.
-func (jcuo *JobContractorUpdateOne) SetNote(s string) *JobContractorUpdateOne {
-	jcuo.mutation.SetNote(s)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetNote(v string) *JobContractorUpdateOne {
+	_u.mutation.SetNote(v)
+	return _u
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableNote(s *string) *JobContractorUpdateOne {
-	if s != nil {
-		jcuo.SetNote(*s)
+func (_u *JobContractorUpdateOne) SetNillableNote(v *string) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetNote(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // ClearNote clears the value of the "Note" field.
-func (jcuo *JobContractorUpdateOne) ClearNote() *JobContractorUpdateOne {
-	jcuo.mutation.ClearNote()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearNote() *JobContractorUpdateOne {
+	_u.mutation.ClearNote()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jcuo *JobContractorUpdateOne) SetCreatedAt(t time.Time) *JobContractorUpdateOne {
-	jcuo.mutation.SetCreatedAt(t)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetCreatedAt(v time.Time) *JobContractorUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jcuo *JobContractorUpdateOne) SetNillableCreatedAt(t *time.Time) *JobContractorUpdateOne {
-	if t != nil {
-		jcuo.SetCreatedAt(*t)
+func (_u *JobContractorUpdateOne) SetNillableCreatedAt(v *time.Time) *JobContractorUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jcuo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jcuo *JobContractorUpdateOne) SetUpdatedAt(t time.Time) *JobContractorUpdateOne {
-	jcuo.mutation.SetUpdatedAt(t)
-	return jcuo
+func (_u *JobContractorUpdateOne) SetUpdatedAt(v time.Time) *JobContractorUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddContractorIDs adds the "contractors" edge to the JobRelations entity by IDs.
-func (jcuo *JobContractorUpdateOne) AddContractorIDs(ids ...int) *JobContractorUpdateOne {
-	jcuo.mutation.AddContractorIDs(ids...)
-	return jcuo
+func (_u *JobContractorUpdateOne) AddContractorIDs(ids ...int) *JobContractorUpdateOne {
+	_u.mutation.AddContractorIDs(ids...)
+	return _u
 }
 
 // AddContractors adds the "contractors" edges to the JobRelations entity.
-func (jcuo *JobContractorUpdateOne) AddContractors(j ...*JobRelations) *JobContractorUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobContractorUpdateOne) AddContractors(v ...*JobRelations) *JobContractorUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jcuo.AddContractorIDs(ids...)
+	return _u.AddContractorIDs(ids...)
 }
 
 // Mutation returns the JobContractorMutation object of the builder.
-func (jcuo *JobContractorUpdateOne) Mutation() *JobContractorMutation {
-	return jcuo.mutation
+func (_u *JobContractorUpdateOne) Mutation() *JobContractorMutation {
+	return _u.mutation
 }
 
 // ClearContractors clears all "contractors" edges to the JobRelations entity.
-func (jcuo *JobContractorUpdateOne) ClearContractors() *JobContractorUpdateOne {
-	jcuo.mutation.ClearContractors()
-	return jcuo
+func (_u *JobContractorUpdateOne) ClearContractors() *JobContractorUpdateOne {
+	_u.mutation.ClearContractors()
+	return _u
 }
 
 // RemoveContractorIDs removes the "contractors" edge to JobRelations entities by IDs.
-func (jcuo *JobContractorUpdateOne) RemoveContractorIDs(ids ...int) *JobContractorUpdateOne {
-	jcuo.mutation.RemoveContractorIDs(ids...)
-	return jcuo
+func (_u *JobContractorUpdateOne) RemoveContractorIDs(ids ...int) *JobContractorUpdateOne {
+	_u.mutation.RemoveContractorIDs(ids...)
+	return _u
 }
 
 // RemoveContractors removes "contractors" edges to JobRelations entities.
-func (jcuo *JobContractorUpdateOne) RemoveContractors(j ...*JobRelations) *JobContractorUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobContractorUpdateOne) RemoveContractors(v ...*JobRelations) *JobContractorUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jcuo.RemoveContractorIDs(ids...)
+	return _u.RemoveContractorIDs(ids...)
 }
 
 // Where appends a list predicates to the JobContractorUpdate builder.
-func (jcuo *JobContractorUpdateOne) Where(ps ...predicate.JobContractor) *JobContractorUpdateOne {
-	jcuo.mutation.Where(ps...)
-	return jcuo
+func (_u *JobContractorUpdateOne) Where(ps ...predicate.JobContractor) *JobContractorUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jcuo *JobContractorUpdateOne) Select(field string, fields ...string) *JobContractorUpdateOne {
-	jcuo.fields = append([]string{field}, fields...)
-	return jcuo
+func (_u *JobContractorUpdateOne) Select(field string, fields ...string) *JobContractorUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobContractor entity.
-func (jcuo *JobContractorUpdateOne) Save(ctx context.Context) (*JobContractor, error) {
-	jcuo.defaults()
-	return withHooks(ctx, jcuo.sqlSave, jcuo.mutation, jcuo.hooks)
+func (_u *JobContractorUpdateOne) Save(ctx context.Context) (*JobContractor, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jcuo *JobContractorUpdateOne) SaveX(ctx context.Context) *JobContractor {
-	node, err := jcuo.Save(ctx)
+func (_u *JobContractorUpdateOne) SaveX(ctx context.Context) *JobContractor {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -804,34 +804,34 @@ func (jcuo *JobContractorUpdateOne) SaveX(ctx context.Context) *JobContractor {
 }
 
 // Exec executes the query on the entity.
-func (jcuo *JobContractorUpdateOne) Exec(ctx context.Context) error {
-	_, err := jcuo.Save(ctx)
+func (_u *JobContractorUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jcuo *JobContractorUpdateOne) ExecX(ctx context.Context) {
-	if err := jcuo.Exec(ctx); err != nil {
+func (_u *JobContractorUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jcuo *JobContractorUpdateOne) defaults() {
-	if _, ok := jcuo.mutation.UpdatedAt(); !ok {
+func (_u *JobContractorUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobcontractor.UpdateDefaultUpdatedAt()
-		jcuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobContractor, err error) {
+func (_u *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobContractor, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobcontractor.Table, jobcontractor.Columns, sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt))
-	id, ok := jcuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobContractor.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jcuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobcontractor.FieldID)
 		for _, f := range fields {
@@ -843,86 +843,86 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 			}
 		}
 	}
-	if ps := jcuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jcuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(jobcontractor.FieldName, field.TypeString, value)
 	}
-	if value, ok := jcuo.mutation.TcNo(); ok {
+	if value, ok := _u.mutation.TcNo(); ok {
 		_spec.SetField(jobcontractor.FieldTcNo, field.TypeString, value)
 	}
-	if jcuo.mutation.TcNoCleared() {
+	if _u.mutation.TcNoCleared() {
 		_spec.ClearField(jobcontractor.FieldTcNo, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.RegisterNo(); ok {
+	if value, ok := _u.mutation.RegisterNo(); ok {
 		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeString, value)
 	}
-	if jcuo.mutation.RegisterNoCleared() {
+	if _u.mutation.RegisterNoCleared() {
 		_spec.ClearField(jobcontractor.FieldRegisterNo, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.Address(); ok {
+	if value, ok := _u.mutation.Address(); ok {
 		_spec.SetField(jobcontractor.FieldAddress, field.TypeString, value)
 	}
-	if jcuo.mutation.AddressCleared() {
+	if _u.mutation.AddressCleared() {
 		_spec.ClearField(jobcontractor.FieldAddress, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.TaxNo(); ok {
+	if value, ok := _u.mutation.TaxNo(); ok {
 		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeString, value)
 	}
-	if jcuo.mutation.TaxNoCleared() {
+	if _u.mutation.TaxNoCleared() {
 		_spec.ClearField(jobcontractor.FieldTaxNo, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.MobilePhone(); ok {
+	if value, ok := _u.mutation.MobilePhone(); ok {
 		_spec.SetField(jobcontractor.FieldMobilePhone, field.TypeString, value)
 	}
-	if jcuo.mutation.MobilePhoneCleared() {
+	if _u.mutation.MobilePhoneCleared() {
 		_spec.ClearField(jobcontractor.FieldMobilePhone, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.Phone(); ok {
+	if value, ok := _u.mutation.Phone(); ok {
 		_spec.SetField(jobcontractor.FieldPhone, field.TypeString, value)
 	}
-	if jcuo.mutation.PhoneCleared() {
+	if _u.mutation.PhoneCleared() {
 		_spec.ClearField(jobcontractor.FieldPhone, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(jobcontractor.FieldEmail, field.TypeString, value)
 	}
-	if jcuo.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(jobcontractor.FieldEmail, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.PersonType(); ok {
+	if value, ok := _u.mutation.PersonType(); ok {
 		_spec.SetField(jobcontractor.FieldPersonType, field.TypeString, value)
 	}
-	if jcuo.mutation.PersonTypeCleared() {
+	if _u.mutation.PersonTypeCleared() {
 		_spec.ClearField(jobcontractor.FieldPersonType, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.YDSID(); ok {
+	if value, ok := _u.mutation.YDSID(); ok {
 		_spec.SetField(jobcontractor.FieldYDSID, field.TypeInt, value)
 	}
-	if value, ok := jcuo.mutation.AddedYDSID(); ok {
+	if value, ok := _u.mutation.AddedYDSID(); ok {
 		_spec.AddField(jobcontractor.FieldYDSID, field.TypeInt, value)
 	}
-	if jcuo.mutation.YDSIDCleared() {
+	if _u.mutation.YDSIDCleared() {
 		_spec.ClearField(jobcontractor.FieldYDSID, field.TypeInt)
 	}
-	if value, ok := jcuo.mutation.Note(); ok {
+	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(jobcontractor.FieldNote, field.TypeString, value)
 	}
-	if jcuo.mutation.NoteCleared() {
+	if _u.mutation.NoteCleared() {
 		_spec.ClearField(jobcontractor.FieldNote, field.TypeString)
 	}
-	if value, ok := jcuo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jcuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jcuo.mutation.ContractorsCleared() {
+	if _u.mutation.ContractorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -935,7 +935,7 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jcuo.mutation.RemovedContractorsIDs(); len(nodes) > 0 && !jcuo.mutation.ContractorsCleared() {
+	if nodes := _u.mutation.RemovedContractorsIDs(); len(nodes) > 0 && !_u.mutation.ContractorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -951,7 +951,7 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jcuo.mutation.ContractorsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ContractorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -967,10 +967,10 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobContractor{config: jcuo.config}
+	_node = &JobContractor{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jcuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobcontractor.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -978,6 +978,6 @@ func (jcuo *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobCont
 		}
 		return nil, err
 	}
-	jcuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

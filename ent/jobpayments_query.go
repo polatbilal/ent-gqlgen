@@ -33,44 +33,44 @@ type JobPaymentsQuery struct {
 }
 
 // Where adds a new predicate for the JobPaymentsQuery builder.
-func (jpq *JobPaymentsQuery) Where(ps ...predicate.JobPayments) *JobPaymentsQuery {
-	jpq.predicates = append(jpq.predicates, ps...)
-	return jpq
+func (_q *JobPaymentsQuery) Where(ps ...predicate.JobPayments) *JobPaymentsQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (jpq *JobPaymentsQuery) Limit(limit int) *JobPaymentsQuery {
-	jpq.ctx.Limit = &limit
-	return jpq
+func (_q *JobPaymentsQuery) Limit(limit int) *JobPaymentsQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (jpq *JobPaymentsQuery) Offset(offset int) *JobPaymentsQuery {
-	jpq.ctx.Offset = &offset
-	return jpq
+func (_q *JobPaymentsQuery) Offset(offset int) *JobPaymentsQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (jpq *JobPaymentsQuery) Unique(unique bool) *JobPaymentsQuery {
-	jpq.ctx.Unique = &unique
-	return jpq
+func (_q *JobPaymentsQuery) Unique(unique bool) *JobPaymentsQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (jpq *JobPaymentsQuery) Order(o ...jobpayments.OrderOption) *JobPaymentsQuery {
-	jpq.order = append(jpq.order, o...)
-	return jpq
+func (_q *JobPaymentsQuery) Order(o ...jobpayments.OrderOption) *JobPaymentsQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryPayments chains the current query on the "payments" edge.
-func (jpq *JobPaymentsQuery) QueryPayments() *JobRelationsQuery {
-	query := (&JobRelationsClient{config: jpq.config}).Query()
+func (_q *JobPaymentsQuery) QueryPayments() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jpq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jpq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -79,7 +79,7 @@ func (jpq *JobPaymentsQuery) QueryPayments() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobpayments.PaymentsTable, jobpayments.PaymentsColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jpq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -87,8 +87,8 @@ func (jpq *JobPaymentsQuery) QueryPayments() *JobRelationsQuery {
 
 // First returns the first JobPayments entity from the query.
 // Returns a *NotFoundError when no JobPayments was found.
-func (jpq *JobPaymentsQuery) First(ctx context.Context) (*JobPayments, error) {
-	nodes, err := jpq.Limit(1).All(setContextOp(ctx, jpq.ctx, ent.OpQueryFirst))
+func (_q *JobPaymentsQuery) First(ctx context.Context) (*JobPayments, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -99,8 +99,8 @@ func (jpq *JobPaymentsQuery) First(ctx context.Context) (*JobPayments, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (jpq *JobPaymentsQuery) FirstX(ctx context.Context) *JobPayments {
-	node, err := jpq.First(ctx)
+func (_q *JobPaymentsQuery) FirstX(ctx context.Context) *JobPayments {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -109,9 +109,9 @@ func (jpq *JobPaymentsQuery) FirstX(ctx context.Context) *JobPayments {
 
 // FirstID returns the first JobPayments ID from the query.
 // Returns a *NotFoundError when no JobPayments ID was found.
-func (jpq *JobPaymentsQuery) FirstID(ctx context.Context) (id int, err error) {
+func (_q *JobPaymentsQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jpq.Limit(1).IDs(setContextOp(ctx, jpq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -122,8 +122,8 @@ func (jpq *JobPaymentsQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (jpq *JobPaymentsQuery) FirstIDX(ctx context.Context) int {
-	id, err := jpq.FirstID(ctx)
+func (_q *JobPaymentsQuery) FirstIDX(ctx context.Context) int {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -133,8 +133,8 @@ func (jpq *JobPaymentsQuery) FirstIDX(ctx context.Context) int {
 // Only returns a single JobPayments entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one JobPayments entity is found.
 // Returns a *NotFoundError when no JobPayments entities are found.
-func (jpq *JobPaymentsQuery) Only(ctx context.Context) (*JobPayments, error) {
-	nodes, err := jpq.Limit(2).All(setContextOp(ctx, jpq.ctx, ent.OpQueryOnly))
+func (_q *JobPaymentsQuery) Only(ctx context.Context) (*JobPayments, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -149,8 +149,8 @@ func (jpq *JobPaymentsQuery) Only(ctx context.Context) (*JobPayments, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (jpq *JobPaymentsQuery) OnlyX(ctx context.Context) *JobPayments {
-	node, err := jpq.Only(ctx)
+func (_q *JobPaymentsQuery) OnlyX(ctx context.Context) *JobPayments {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -160,9 +160,9 @@ func (jpq *JobPaymentsQuery) OnlyX(ctx context.Context) *JobPayments {
 // OnlyID is like Only, but returns the only JobPayments ID in the query.
 // Returns a *NotSingularError when more than one JobPayments ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (jpq *JobPaymentsQuery) OnlyID(ctx context.Context) (id int, err error) {
+func (_q *JobPaymentsQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jpq.Limit(2).IDs(setContextOp(ctx, jpq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -177,8 +177,8 @@ func (jpq *JobPaymentsQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (jpq *JobPaymentsQuery) OnlyIDX(ctx context.Context) int {
-	id, err := jpq.OnlyID(ctx)
+func (_q *JobPaymentsQuery) OnlyIDX(ctx context.Context) int {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -186,18 +186,18 @@ func (jpq *JobPaymentsQuery) OnlyIDX(ctx context.Context) int {
 }
 
 // All executes the query and returns a list of JobPaymentsSlice.
-func (jpq *JobPaymentsQuery) All(ctx context.Context) ([]*JobPayments, error) {
-	ctx = setContextOp(ctx, jpq.ctx, ent.OpQueryAll)
-	if err := jpq.prepareQuery(ctx); err != nil {
+func (_q *JobPaymentsQuery) All(ctx context.Context) ([]*JobPayments, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*JobPayments, *JobPaymentsQuery]()
-	return withInterceptors[[]*JobPayments](ctx, jpq, qr, jpq.inters)
+	return withInterceptors[[]*JobPayments](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (jpq *JobPaymentsQuery) AllX(ctx context.Context) []*JobPayments {
-	nodes, err := jpq.All(ctx)
+func (_q *JobPaymentsQuery) AllX(ctx context.Context) []*JobPayments {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -205,20 +205,20 @@ func (jpq *JobPaymentsQuery) AllX(ctx context.Context) []*JobPayments {
 }
 
 // IDs executes the query and returns a list of JobPayments IDs.
-func (jpq *JobPaymentsQuery) IDs(ctx context.Context) (ids []int, err error) {
-	if jpq.ctx.Unique == nil && jpq.path != nil {
-		jpq.Unique(true)
+func (_q *JobPaymentsQuery) IDs(ctx context.Context) (ids []int, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, jpq.ctx, ent.OpQueryIDs)
-	if err = jpq.Select(jobpayments.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(jobpayments.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (jpq *JobPaymentsQuery) IDsX(ctx context.Context) []int {
-	ids, err := jpq.IDs(ctx)
+func (_q *JobPaymentsQuery) IDsX(ctx context.Context) []int {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -226,17 +226,17 @@ func (jpq *JobPaymentsQuery) IDsX(ctx context.Context) []int {
 }
 
 // Count returns the count of the given query.
-func (jpq *JobPaymentsQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jpq.ctx, ent.OpQueryCount)
-	if err := jpq.prepareQuery(ctx); err != nil {
+func (_q *JobPaymentsQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, jpq, querierCount[*JobPaymentsQuery](), jpq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*JobPaymentsQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (jpq *JobPaymentsQuery) CountX(ctx context.Context) int {
-	count, err := jpq.Count(ctx)
+func (_q *JobPaymentsQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -244,9 +244,9 @@ func (jpq *JobPaymentsQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (jpq *JobPaymentsQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jpq.ctx, ent.OpQueryExist)
-	switch _, err := jpq.FirstID(ctx); {
+func (_q *JobPaymentsQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -257,8 +257,8 @@ func (jpq *JobPaymentsQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (jpq *JobPaymentsQuery) ExistX(ctx context.Context) bool {
-	exist, err := jpq.Exist(ctx)
+func (_q *JobPaymentsQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -267,32 +267,32 @@ func (jpq *JobPaymentsQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the JobPaymentsQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (jpq *JobPaymentsQuery) Clone() *JobPaymentsQuery {
-	if jpq == nil {
+func (_q *JobPaymentsQuery) Clone() *JobPaymentsQuery {
+	if _q == nil {
 		return nil
 	}
 	return &JobPaymentsQuery{
-		config:       jpq.config,
-		ctx:          jpq.ctx.Clone(),
-		order:        append([]jobpayments.OrderOption{}, jpq.order...),
-		inters:       append([]Interceptor{}, jpq.inters...),
-		predicates:   append([]predicate.JobPayments{}, jpq.predicates...),
-		withPayments: jpq.withPayments.Clone(),
+		config:       _q.config,
+		ctx:          _q.ctx.Clone(),
+		order:        append([]jobpayments.OrderOption{}, _q.order...),
+		inters:       append([]Interceptor{}, _q.inters...),
+		predicates:   append([]predicate.JobPayments{}, _q.predicates...),
+		withPayments: _q.withPayments.Clone(),
 		// clone intermediate query.
-		sql:  jpq.sql.Clone(),
-		path: jpq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithPayments tells the query-builder to eager-load the nodes that are connected to
 // the "payments" edge. The optional arguments are used to configure the query builder of the edge.
-func (jpq *JobPaymentsQuery) WithPayments(opts ...func(*JobRelationsQuery)) *JobPaymentsQuery {
-	query := (&JobRelationsClient{config: jpq.config}).Query()
+func (_q *JobPaymentsQuery) WithPayments(opts ...func(*JobRelationsQuery)) *JobPaymentsQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jpq.withPayments = query
-	return jpq
+	_q.withPayments = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -309,10 +309,10 @@ func (jpq *JobPaymentsQuery) WithPayments(opts ...func(*JobRelationsQuery)) *Job
 //		GroupBy(jobpayments.FieldYibfNo).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (jpq *JobPaymentsQuery) GroupBy(field string, fields ...string) *JobPaymentsGroupBy {
-	jpq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &JobPaymentsGroupBy{build: jpq}
-	grbuild.flds = &jpq.ctx.Fields
+func (_q *JobPaymentsQuery) GroupBy(field string, fields ...string) *JobPaymentsGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &JobPaymentsGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = jobpayments.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -330,55 +330,55 @@ func (jpq *JobPaymentsQuery) GroupBy(field string, fields ...string) *JobPayment
 //	client.JobPayments.Query().
 //		Select(jobpayments.FieldYibfNo).
 //		Scan(ctx, &v)
-func (jpq *JobPaymentsQuery) Select(fields ...string) *JobPaymentsSelect {
-	jpq.ctx.Fields = append(jpq.ctx.Fields, fields...)
-	sbuild := &JobPaymentsSelect{JobPaymentsQuery: jpq}
+func (_q *JobPaymentsQuery) Select(fields ...string) *JobPaymentsSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &JobPaymentsSelect{JobPaymentsQuery: _q}
 	sbuild.label = jobpayments.Label
-	sbuild.flds, sbuild.scan = &jpq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a JobPaymentsSelect configured with the given aggregations.
-func (jpq *JobPaymentsQuery) Aggregate(fns ...AggregateFunc) *JobPaymentsSelect {
-	return jpq.Select().Aggregate(fns...)
+func (_q *JobPaymentsQuery) Aggregate(fns ...AggregateFunc) *JobPaymentsSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (jpq *JobPaymentsQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range jpq.inters {
+func (_q *JobPaymentsQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, jpq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range jpq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !jobpayments.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if jpq.path != nil {
-		prev, err := jpq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		jpq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (jpq *JobPaymentsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobPayments, error) {
+func (_q *JobPaymentsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobPayments, error) {
 	var (
 		nodes       = []*JobPayments{}
-		withFKs     = jpq.withFKs
-		_spec       = jpq.querySpec()
+		withFKs     = _q.withFKs
+		_spec       = _q.querySpec()
 		loadedTypes = [1]bool{
-			jpq.withPayments != nil,
+			_q.withPayments != nil,
 		}
 	)
-	if jpq.withPayments != nil {
+	if _q.withPayments != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -388,38 +388,38 @@ func (jpq *JobPaymentsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		return (*JobPayments).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &JobPayments{config: jpq.config}
+		node := &JobPayments{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jpq.modifiers) > 0 {
-		_spec.Modifiers = jpq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, jpq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := jpq.withPayments; query != nil {
-		if err := jpq.loadPayments(ctx, query, nodes, nil,
+	if query := _q.withPayments; query != nil {
+		if err := _q.loadPayments(ctx, query, nodes, nil,
 			func(n *JobPayments, e *JobRelations) { n.Edges.Payments = e }); err != nil {
 			return nil, err
 		}
 	}
-	for i := range jpq.loadTotal {
-		if err := jpq.loadTotal[i](ctx, nodes); err != nil {
+	for i := range _q.loadTotal {
+		if err := _q.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (jpq *JobPaymentsQuery) loadPayments(ctx context.Context, query *JobRelationsQuery, nodes []*JobPayments, init func(*JobPayments), assign func(*JobPayments, *JobRelations)) error {
+func (_q *JobPaymentsQuery) loadPayments(ctx context.Context, query *JobRelationsQuery, nodes []*JobPayments, init func(*JobPayments), assign func(*JobPayments, *JobRelations)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobPayments)
 	for i := range nodes {
@@ -452,27 +452,27 @@ func (jpq *JobPaymentsQuery) loadPayments(ctx context.Context, query *JobRelatio
 	return nil
 }
 
-func (jpq *JobPaymentsQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := jpq.querySpec()
-	if len(jpq.modifiers) > 0 {
-		_spec.Modifiers = jpq.modifiers
+func (_q *JobPaymentsQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = jpq.ctx.Fields
-	if len(jpq.ctx.Fields) > 0 {
-		_spec.Unique = jpq.ctx.Unique != nil && *jpq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, jpq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (jpq *JobPaymentsQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *JobPaymentsQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(jobpayments.Table, jobpayments.Columns, sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt))
-	_spec.From = jpq.sql
-	if unique := jpq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if jpq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := jpq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobpayments.FieldID)
 		for i := range fields {
@@ -481,20 +481,20 @@ func (jpq *JobPaymentsQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := jpq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := jpq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := jpq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := jpq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -504,33 +504,33 @@ func (jpq *JobPaymentsQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (jpq *JobPaymentsQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(jpq.driver.Dialect())
+func (_q *JobPaymentsQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(jobpayments.Table)
-	columns := jpq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = jobpayments.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if jpq.sql != nil {
-		selector = jpq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if jpq.ctx.Unique != nil && *jpq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range jpq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range jpq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := jpq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := jpq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -543,41 +543,41 @@ type JobPaymentsGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (jpgb *JobPaymentsGroupBy) Aggregate(fns ...AggregateFunc) *JobPaymentsGroupBy {
-	jpgb.fns = append(jpgb.fns, fns...)
-	return jpgb
+func (_g *JobPaymentsGroupBy) Aggregate(fns ...AggregateFunc) *JobPaymentsGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jpgb *JobPaymentsGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jpgb.build.ctx, ent.OpQueryGroupBy)
-	if err := jpgb.build.prepareQuery(ctx); err != nil {
+func (_g *JobPaymentsGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobPaymentsQuery, *JobPaymentsGroupBy](ctx, jpgb.build, jpgb, jpgb.build.inters, v)
+	return scanWithInterceptors[*JobPaymentsQuery, *JobPaymentsGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (jpgb *JobPaymentsGroupBy) sqlScan(ctx context.Context, root *JobPaymentsQuery, v any) error {
+func (_g *JobPaymentsGroupBy) sqlScan(ctx context.Context, root *JobPaymentsQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(jpgb.fns))
-	for _, fn := range jpgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*jpgb.flds)+len(jpgb.fns))
-		for _, f := range *jpgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*jpgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jpgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -591,27 +591,27 @@ type JobPaymentsSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (jps *JobPaymentsSelect) Aggregate(fns ...AggregateFunc) *JobPaymentsSelect {
-	jps.fns = append(jps.fns, fns...)
-	return jps
+func (_s *JobPaymentsSelect) Aggregate(fns ...AggregateFunc) *JobPaymentsSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jps *JobPaymentsSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jps.ctx, ent.OpQuerySelect)
-	if err := jps.prepareQuery(ctx); err != nil {
+func (_s *JobPaymentsSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobPaymentsQuery, *JobPaymentsSelect](ctx, jps.JobPaymentsQuery, jps, jps.inters, v)
+	return scanWithInterceptors[*JobPaymentsQuery, *JobPaymentsSelect](ctx, _s.JobPaymentsQuery, _s, _s.inters, v)
 }
 
-func (jps *JobPaymentsSelect) sqlScan(ctx context.Context, root *JobPaymentsQuery, v any) error {
+func (_s *JobPaymentsSelect) sqlScan(ctx context.Context, root *JobPaymentsQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(jps.fns))
-	for _, fn := range jps.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*jps.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -619,7 +619,7 @@ func (jps *JobPaymentsSelect) sqlScan(ctx context.Context, root *JobPaymentsQuer
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jps.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

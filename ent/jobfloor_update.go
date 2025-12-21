@@ -24,246 +24,246 @@ type JobFloorUpdate struct {
 }
 
 // Where appends a list predicates to the JobFloorUpdate builder.
-func (jfu *JobFloorUpdate) Where(ps ...predicate.JobFloor) *JobFloorUpdate {
-	jfu.mutation.Where(ps...)
-	return jfu
+func (_u *JobFloorUpdate) Where(ps ...predicate.JobFloor) *JobFloorUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jfu *JobFloorUpdate) SetYibfNo(i int) *JobFloorUpdate {
-	jfu.mutation.ResetYibfNo()
-	jfu.mutation.SetYibfNo(i)
-	return jfu
+func (_u *JobFloorUpdate) SetYibfNo(v int) *JobFloorUpdate {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableYibfNo(i *int) *JobFloorUpdate {
-	if i != nil {
-		jfu.SetYibfNo(*i)
+func (_u *JobFloorUpdate) SetNillableYibfNo(v *int) *JobFloorUpdate {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jfu
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jfu *JobFloorUpdate) AddYibfNo(i int) *JobFloorUpdate {
-	jfu.mutation.AddYibfNo(i)
-	return jfu
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobFloorUpdate) AddYibfNo(v int) *JobFloorUpdate {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetName sets the "Name" field.
-func (jfu *JobFloorUpdate) SetName(s string) *JobFloorUpdate {
-	jfu.mutation.SetName(s)
-	return jfu
+func (_u *JobFloorUpdate) SetName(v string) *JobFloorUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableName(s *string) *JobFloorUpdate {
-	if s != nil {
-		jfu.SetName(*s)
+func (_u *JobFloorUpdate) SetNillableName(v *string) *JobFloorUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return jfu
+	return _u
 }
 
 // SetMetre sets the "Metre" field.
-func (jfu *JobFloorUpdate) SetMetre(s string) *JobFloorUpdate {
-	jfu.mutation.SetMetre(s)
-	return jfu
+func (_u *JobFloorUpdate) SetMetre(v string) *JobFloorUpdate {
+	_u.mutation.SetMetre(v)
+	return _u
 }
 
 // SetNillableMetre sets the "Metre" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableMetre(s *string) *JobFloorUpdate {
-	if s != nil {
-		jfu.SetMetre(*s)
+func (_u *JobFloorUpdate) SetNillableMetre(v *string) *JobFloorUpdate {
+	if v != nil {
+		_u.SetMetre(*v)
 	}
-	return jfu
+	return _u
 }
 
 // SetMoldDate sets the "MoldDate" field.
-func (jfu *JobFloorUpdate) SetMoldDate(t time.Time) *JobFloorUpdate {
-	jfu.mutation.SetMoldDate(t)
-	return jfu
+func (_u *JobFloorUpdate) SetMoldDate(v time.Time) *JobFloorUpdate {
+	_u.mutation.SetMoldDate(v)
+	return _u
 }
 
 // SetNillableMoldDate sets the "MoldDate" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableMoldDate(t *time.Time) *JobFloorUpdate {
-	if t != nil {
-		jfu.SetMoldDate(*t)
+func (_u *JobFloorUpdate) SetNillableMoldDate(v *time.Time) *JobFloorUpdate {
+	if v != nil {
+		_u.SetMoldDate(*v)
 	}
-	return jfu
+	return _u
 }
 
 // ClearMoldDate clears the value of the "MoldDate" field.
-func (jfu *JobFloorUpdate) ClearMoldDate() *JobFloorUpdate {
-	jfu.mutation.ClearMoldDate()
-	return jfu
+func (_u *JobFloorUpdate) ClearMoldDate() *JobFloorUpdate {
+	_u.mutation.ClearMoldDate()
+	return _u
 }
 
 // SetConcreteDate sets the "ConcreteDate" field.
-func (jfu *JobFloorUpdate) SetConcreteDate(t time.Time) *JobFloorUpdate {
-	jfu.mutation.SetConcreteDate(t)
-	return jfu
+func (_u *JobFloorUpdate) SetConcreteDate(v time.Time) *JobFloorUpdate {
+	_u.mutation.SetConcreteDate(v)
+	return _u
 }
 
 // SetNillableConcreteDate sets the "ConcreteDate" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableConcreteDate(t *time.Time) *JobFloorUpdate {
-	if t != nil {
-		jfu.SetConcreteDate(*t)
+func (_u *JobFloorUpdate) SetNillableConcreteDate(v *time.Time) *JobFloorUpdate {
+	if v != nil {
+		_u.SetConcreteDate(*v)
 	}
-	return jfu
+	return _u
 }
 
 // ClearConcreteDate clears the value of the "ConcreteDate" field.
-func (jfu *JobFloorUpdate) ClearConcreteDate() *JobFloorUpdate {
-	jfu.mutation.ClearConcreteDate()
-	return jfu
+func (_u *JobFloorUpdate) ClearConcreteDate() *JobFloorUpdate {
+	_u.mutation.ClearConcreteDate()
+	return _u
 }
 
 // SetSamples sets the "Samples" field.
-func (jfu *JobFloorUpdate) SetSamples(i int) *JobFloorUpdate {
-	jfu.mutation.ResetSamples()
-	jfu.mutation.SetSamples(i)
-	return jfu
+func (_u *JobFloorUpdate) SetSamples(v int) *JobFloorUpdate {
+	_u.mutation.ResetSamples()
+	_u.mutation.SetSamples(v)
+	return _u
 }
 
 // SetNillableSamples sets the "Samples" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableSamples(i *int) *JobFloorUpdate {
-	if i != nil {
-		jfu.SetSamples(*i)
+func (_u *JobFloorUpdate) SetNillableSamples(v *int) *JobFloorUpdate {
+	if v != nil {
+		_u.SetSamples(*v)
 	}
-	return jfu
+	return _u
 }
 
-// AddSamples adds i to the "Samples" field.
-func (jfu *JobFloorUpdate) AddSamples(i int) *JobFloorUpdate {
-	jfu.mutation.AddSamples(i)
-	return jfu
+// AddSamples adds value to the "Samples" field.
+func (_u *JobFloorUpdate) AddSamples(v int) *JobFloorUpdate {
+	_u.mutation.AddSamples(v)
+	return _u
 }
 
 // ClearSamples clears the value of the "Samples" field.
-func (jfu *JobFloorUpdate) ClearSamples() *JobFloorUpdate {
-	jfu.mutation.ClearSamples()
-	return jfu
+func (_u *JobFloorUpdate) ClearSamples() *JobFloorUpdate {
+	_u.mutation.ClearSamples()
+	return _u
 }
 
 // SetConcreteClass sets the "ConcreteClass" field.
-func (jfu *JobFloorUpdate) SetConcreteClass(s string) *JobFloorUpdate {
-	jfu.mutation.SetConcreteClass(s)
-	return jfu
+func (_u *JobFloorUpdate) SetConcreteClass(v string) *JobFloorUpdate {
+	_u.mutation.SetConcreteClass(v)
+	return _u
 }
 
 // SetNillableConcreteClass sets the "ConcreteClass" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableConcreteClass(s *string) *JobFloorUpdate {
-	if s != nil {
-		jfu.SetConcreteClass(*s)
+func (_u *JobFloorUpdate) SetNillableConcreteClass(v *string) *JobFloorUpdate {
+	if v != nil {
+		_u.SetConcreteClass(*v)
 	}
-	return jfu
+	return _u
 }
 
 // ClearConcreteClass clears the value of the "ConcreteClass" field.
-func (jfu *JobFloorUpdate) ClearConcreteClass() *JobFloorUpdate {
-	jfu.mutation.ClearConcreteClass()
-	return jfu
+func (_u *JobFloorUpdate) ClearConcreteClass() *JobFloorUpdate {
+	_u.mutation.ClearConcreteClass()
+	return _u
 }
 
 // SetWeekResult sets the "WeekResult" field.
-func (jfu *JobFloorUpdate) SetWeekResult(s string) *JobFloorUpdate {
-	jfu.mutation.SetWeekResult(s)
-	return jfu
+func (_u *JobFloorUpdate) SetWeekResult(v string) *JobFloorUpdate {
+	_u.mutation.SetWeekResult(v)
+	return _u
 }
 
 // SetNillableWeekResult sets the "WeekResult" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableWeekResult(s *string) *JobFloorUpdate {
-	if s != nil {
-		jfu.SetWeekResult(*s)
+func (_u *JobFloorUpdate) SetNillableWeekResult(v *string) *JobFloorUpdate {
+	if v != nil {
+		_u.SetWeekResult(*v)
 	}
-	return jfu
+	return _u
 }
 
 // ClearWeekResult clears the value of the "WeekResult" field.
-func (jfu *JobFloorUpdate) ClearWeekResult() *JobFloorUpdate {
-	jfu.mutation.ClearWeekResult()
-	return jfu
+func (_u *JobFloorUpdate) ClearWeekResult() *JobFloorUpdate {
+	_u.mutation.ClearWeekResult()
+	return _u
 }
 
 // SetMonthResult sets the "MonthResult" field.
-func (jfu *JobFloorUpdate) SetMonthResult(s string) *JobFloorUpdate {
-	jfu.mutation.SetMonthResult(s)
-	return jfu
+func (_u *JobFloorUpdate) SetMonthResult(v string) *JobFloorUpdate {
+	_u.mutation.SetMonthResult(v)
+	return _u
 }
 
 // SetNillableMonthResult sets the "MonthResult" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableMonthResult(s *string) *JobFloorUpdate {
-	if s != nil {
-		jfu.SetMonthResult(*s)
+func (_u *JobFloorUpdate) SetNillableMonthResult(v *string) *JobFloorUpdate {
+	if v != nil {
+		_u.SetMonthResult(*v)
 	}
-	return jfu
+	return _u
 }
 
 // ClearMonthResult clears the value of the "MonthResult" field.
-func (jfu *JobFloorUpdate) ClearMonthResult() *JobFloorUpdate {
-	jfu.mutation.ClearMonthResult()
-	return jfu
+func (_u *JobFloorUpdate) ClearMonthResult() *JobFloorUpdate {
+	_u.mutation.ClearMonthResult()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jfu *JobFloorUpdate) SetCreatedAt(t time.Time) *JobFloorUpdate {
-	jfu.mutation.SetCreatedAt(t)
-	return jfu
+func (_u *JobFloorUpdate) SetCreatedAt(v time.Time) *JobFloorUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableCreatedAt(t *time.Time) *JobFloorUpdate {
-	if t != nil {
-		jfu.SetCreatedAt(*t)
+func (_u *JobFloorUpdate) SetNillableCreatedAt(v *time.Time) *JobFloorUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jfu
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jfu *JobFloorUpdate) SetUpdatedAt(t time.Time) *JobFloorUpdate {
-	jfu.mutation.SetUpdatedAt(t)
-	return jfu
+func (_u *JobFloorUpdate) SetUpdatedAt(v time.Time) *JobFloorUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetFloorID sets the "floor" edge to the JobRelations entity by ID.
-func (jfu *JobFloorUpdate) SetFloorID(id int) *JobFloorUpdate {
-	jfu.mutation.SetFloorID(id)
-	return jfu
+func (_u *JobFloorUpdate) SetFloorID(id int) *JobFloorUpdate {
+	_u.mutation.SetFloorID(id)
+	return _u
 }
 
 // SetNillableFloorID sets the "floor" edge to the JobRelations entity by ID if the given value is not nil.
-func (jfu *JobFloorUpdate) SetNillableFloorID(id *int) *JobFloorUpdate {
+func (_u *JobFloorUpdate) SetNillableFloorID(id *int) *JobFloorUpdate {
 	if id != nil {
-		jfu = jfu.SetFloorID(*id)
+		_u = _u.SetFloorID(*id)
 	}
-	return jfu
+	return _u
 }
 
 // SetFloor sets the "floor" edge to the JobRelations entity.
-func (jfu *JobFloorUpdate) SetFloor(j *JobRelations) *JobFloorUpdate {
-	return jfu.SetFloorID(j.ID)
+func (_u *JobFloorUpdate) SetFloor(v *JobRelations) *JobFloorUpdate {
+	return _u.SetFloorID(v.ID)
 }
 
 // Mutation returns the JobFloorMutation object of the builder.
-func (jfu *JobFloorUpdate) Mutation() *JobFloorMutation {
-	return jfu.mutation
+func (_u *JobFloorUpdate) Mutation() *JobFloorMutation {
+	return _u.mutation
 }
 
 // ClearFloor clears the "floor" edge to the JobRelations entity.
-func (jfu *JobFloorUpdate) ClearFloor() *JobFloorUpdate {
-	jfu.mutation.ClearFloor()
-	return jfu
+func (_u *JobFloorUpdate) ClearFloor() *JobFloorUpdate {
+	_u.mutation.ClearFloor()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jfu *JobFloorUpdate) Save(ctx context.Context) (int, error) {
-	jfu.defaults()
-	return withHooks(ctx, jfu.sqlSave, jfu.mutation, jfu.hooks)
+func (_u *JobFloorUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jfu *JobFloorUpdate) SaveX(ctx context.Context) int {
-	affected, err := jfu.Save(ctx)
+func (_u *JobFloorUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -271,93 +271,93 @@ func (jfu *JobFloorUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jfu *JobFloorUpdate) Exec(ctx context.Context) error {
-	_, err := jfu.Save(ctx)
+func (_u *JobFloorUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jfu *JobFloorUpdate) ExecX(ctx context.Context) {
-	if err := jfu.Exec(ctx); err != nil {
+func (_u *JobFloorUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jfu *JobFloorUpdate) defaults() {
-	if _, ok := jfu.mutation.UpdatedAt(); !ok {
+func (_u *JobFloorUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobfloor.UpdateDefaultUpdatedAt()
-		jfu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jfu *JobFloorUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobFloorUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobfloor.Table, jobfloor.Columns, sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt))
-	if ps := jfu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jfu.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobfloor.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jfu.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobfloor.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jfu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(jobfloor.FieldName, field.TypeString, value)
 	}
-	if value, ok := jfu.mutation.Metre(); ok {
+	if value, ok := _u.mutation.Metre(); ok {
 		_spec.SetField(jobfloor.FieldMetre, field.TypeString, value)
 	}
-	if value, ok := jfu.mutation.MoldDate(); ok {
+	if value, ok := _u.mutation.MoldDate(); ok {
 		_spec.SetField(jobfloor.FieldMoldDate, field.TypeTime, value)
 	}
-	if jfu.mutation.MoldDateCleared() {
+	if _u.mutation.MoldDateCleared() {
 		_spec.ClearField(jobfloor.FieldMoldDate, field.TypeTime)
 	}
-	if value, ok := jfu.mutation.ConcreteDate(); ok {
+	if value, ok := _u.mutation.ConcreteDate(); ok {
 		_spec.SetField(jobfloor.FieldConcreteDate, field.TypeTime, value)
 	}
-	if jfu.mutation.ConcreteDateCleared() {
+	if _u.mutation.ConcreteDateCleared() {
 		_spec.ClearField(jobfloor.FieldConcreteDate, field.TypeTime)
 	}
-	if value, ok := jfu.mutation.Samples(); ok {
+	if value, ok := _u.mutation.Samples(); ok {
 		_spec.SetField(jobfloor.FieldSamples, field.TypeInt, value)
 	}
-	if value, ok := jfu.mutation.AddedSamples(); ok {
+	if value, ok := _u.mutation.AddedSamples(); ok {
 		_spec.AddField(jobfloor.FieldSamples, field.TypeInt, value)
 	}
-	if jfu.mutation.SamplesCleared() {
+	if _u.mutation.SamplesCleared() {
 		_spec.ClearField(jobfloor.FieldSamples, field.TypeInt)
 	}
-	if value, ok := jfu.mutation.ConcreteClass(); ok {
+	if value, ok := _u.mutation.ConcreteClass(); ok {
 		_spec.SetField(jobfloor.FieldConcreteClass, field.TypeString, value)
 	}
-	if jfu.mutation.ConcreteClassCleared() {
+	if _u.mutation.ConcreteClassCleared() {
 		_spec.ClearField(jobfloor.FieldConcreteClass, field.TypeString)
 	}
-	if value, ok := jfu.mutation.WeekResult(); ok {
+	if value, ok := _u.mutation.WeekResult(); ok {
 		_spec.SetField(jobfloor.FieldWeekResult, field.TypeString, value)
 	}
-	if jfu.mutation.WeekResultCleared() {
+	if _u.mutation.WeekResultCleared() {
 		_spec.ClearField(jobfloor.FieldWeekResult, field.TypeString)
 	}
-	if value, ok := jfu.mutation.MonthResult(); ok {
+	if value, ok := _u.mutation.MonthResult(); ok {
 		_spec.SetField(jobfloor.FieldMonthResult, field.TypeString, value)
 	}
-	if jfu.mutation.MonthResultCleared() {
+	if _u.mutation.MonthResultCleared() {
 		_spec.ClearField(jobfloor.FieldMonthResult, field.TypeString)
 	}
-	if value, ok := jfu.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobfloor.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jfu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobfloor.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jfu.mutation.FloorCleared() {
+	if _u.mutation.FloorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -370,7 +370,7 @@ func (jfu *JobFloorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jfu.mutation.FloorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.FloorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -386,7 +386,7 @@ func (jfu *JobFloorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jfu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobfloor.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -394,8 +394,8 @@ func (jfu *JobFloorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	jfu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobFloorUpdateOne is the builder for updating a single JobFloor entity.
@@ -407,253 +407,253 @@ type JobFloorUpdateOne struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jfuo *JobFloorUpdateOne) SetYibfNo(i int) *JobFloorUpdateOne {
-	jfuo.mutation.ResetYibfNo()
-	jfuo.mutation.SetYibfNo(i)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetYibfNo(v int) *JobFloorUpdateOne {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableYibfNo(i *int) *JobFloorUpdateOne {
-	if i != nil {
-		jfuo.SetYibfNo(*i)
+func (_u *JobFloorUpdateOne) SetNillableYibfNo(v *int) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jfuo
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jfuo *JobFloorUpdateOne) AddYibfNo(i int) *JobFloorUpdateOne {
-	jfuo.mutation.AddYibfNo(i)
-	return jfuo
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobFloorUpdateOne) AddYibfNo(v int) *JobFloorUpdateOne {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // SetName sets the "Name" field.
-func (jfuo *JobFloorUpdateOne) SetName(s string) *JobFloorUpdateOne {
-	jfuo.mutation.SetName(s)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetName(v string) *JobFloorUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableName(s *string) *JobFloorUpdateOne {
-	if s != nil {
-		jfuo.SetName(*s)
+func (_u *JobFloorUpdateOne) SetNillableName(v *string) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return jfuo
+	return _u
 }
 
 // SetMetre sets the "Metre" field.
-func (jfuo *JobFloorUpdateOne) SetMetre(s string) *JobFloorUpdateOne {
-	jfuo.mutation.SetMetre(s)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetMetre(v string) *JobFloorUpdateOne {
+	_u.mutation.SetMetre(v)
+	return _u
 }
 
 // SetNillableMetre sets the "Metre" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableMetre(s *string) *JobFloorUpdateOne {
-	if s != nil {
-		jfuo.SetMetre(*s)
+func (_u *JobFloorUpdateOne) SetNillableMetre(v *string) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetMetre(*v)
 	}
-	return jfuo
+	return _u
 }
 
 // SetMoldDate sets the "MoldDate" field.
-func (jfuo *JobFloorUpdateOne) SetMoldDate(t time.Time) *JobFloorUpdateOne {
-	jfuo.mutation.SetMoldDate(t)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetMoldDate(v time.Time) *JobFloorUpdateOne {
+	_u.mutation.SetMoldDate(v)
+	return _u
 }
 
 // SetNillableMoldDate sets the "MoldDate" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableMoldDate(t *time.Time) *JobFloorUpdateOne {
-	if t != nil {
-		jfuo.SetMoldDate(*t)
+func (_u *JobFloorUpdateOne) SetNillableMoldDate(v *time.Time) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetMoldDate(*v)
 	}
-	return jfuo
+	return _u
 }
 
 // ClearMoldDate clears the value of the "MoldDate" field.
-func (jfuo *JobFloorUpdateOne) ClearMoldDate() *JobFloorUpdateOne {
-	jfuo.mutation.ClearMoldDate()
-	return jfuo
+func (_u *JobFloorUpdateOne) ClearMoldDate() *JobFloorUpdateOne {
+	_u.mutation.ClearMoldDate()
+	return _u
 }
 
 // SetConcreteDate sets the "ConcreteDate" field.
-func (jfuo *JobFloorUpdateOne) SetConcreteDate(t time.Time) *JobFloorUpdateOne {
-	jfuo.mutation.SetConcreteDate(t)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetConcreteDate(v time.Time) *JobFloorUpdateOne {
+	_u.mutation.SetConcreteDate(v)
+	return _u
 }
 
 // SetNillableConcreteDate sets the "ConcreteDate" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableConcreteDate(t *time.Time) *JobFloorUpdateOne {
-	if t != nil {
-		jfuo.SetConcreteDate(*t)
+func (_u *JobFloorUpdateOne) SetNillableConcreteDate(v *time.Time) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetConcreteDate(*v)
 	}
-	return jfuo
+	return _u
 }
 
 // ClearConcreteDate clears the value of the "ConcreteDate" field.
-func (jfuo *JobFloorUpdateOne) ClearConcreteDate() *JobFloorUpdateOne {
-	jfuo.mutation.ClearConcreteDate()
-	return jfuo
+func (_u *JobFloorUpdateOne) ClearConcreteDate() *JobFloorUpdateOne {
+	_u.mutation.ClearConcreteDate()
+	return _u
 }
 
 // SetSamples sets the "Samples" field.
-func (jfuo *JobFloorUpdateOne) SetSamples(i int) *JobFloorUpdateOne {
-	jfuo.mutation.ResetSamples()
-	jfuo.mutation.SetSamples(i)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetSamples(v int) *JobFloorUpdateOne {
+	_u.mutation.ResetSamples()
+	_u.mutation.SetSamples(v)
+	return _u
 }
 
 // SetNillableSamples sets the "Samples" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableSamples(i *int) *JobFloorUpdateOne {
-	if i != nil {
-		jfuo.SetSamples(*i)
+func (_u *JobFloorUpdateOne) SetNillableSamples(v *int) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetSamples(*v)
 	}
-	return jfuo
+	return _u
 }
 
-// AddSamples adds i to the "Samples" field.
-func (jfuo *JobFloorUpdateOne) AddSamples(i int) *JobFloorUpdateOne {
-	jfuo.mutation.AddSamples(i)
-	return jfuo
+// AddSamples adds value to the "Samples" field.
+func (_u *JobFloorUpdateOne) AddSamples(v int) *JobFloorUpdateOne {
+	_u.mutation.AddSamples(v)
+	return _u
 }
 
 // ClearSamples clears the value of the "Samples" field.
-func (jfuo *JobFloorUpdateOne) ClearSamples() *JobFloorUpdateOne {
-	jfuo.mutation.ClearSamples()
-	return jfuo
+func (_u *JobFloorUpdateOne) ClearSamples() *JobFloorUpdateOne {
+	_u.mutation.ClearSamples()
+	return _u
 }
 
 // SetConcreteClass sets the "ConcreteClass" field.
-func (jfuo *JobFloorUpdateOne) SetConcreteClass(s string) *JobFloorUpdateOne {
-	jfuo.mutation.SetConcreteClass(s)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetConcreteClass(v string) *JobFloorUpdateOne {
+	_u.mutation.SetConcreteClass(v)
+	return _u
 }
 
 // SetNillableConcreteClass sets the "ConcreteClass" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableConcreteClass(s *string) *JobFloorUpdateOne {
-	if s != nil {
-		jfuo.SetConcreteClass(*s)
+func (_u *JobFloorUpdateOne) SetNillableConcreteClass(v *string) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetConcreteClass(*v)
 	}
-	return jfuo
+	return _u
 }
 
 // ClearConcreteClass clears the value of the "ConcreteClass" field.
-func (jfuo *JobFloorUpdateOne) ClearConcreteClass() *JobFloorUpdateOne {
-	jfuo.mutation.ClearConcreteClass()
-	return jfuo
+func (_u *JobFloorUpdateOne) ClearConcreteClass() *JobFloorUpdateOne {
+	_u.mutation.ClearConcreteClass()
+	return _u
 }
 
 // SetWeekResult sets the "WeekResult" field.
-func (jfuo *JobFloorUpdateOne) SetWeekResult(s string) *JobFloorUpdateOne {
-	jfuo.mutation.SetWeekResult(s)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetWeekResult(v string) *JobFloorUpdateOne {
+	_u.mutation.SetWeekResult(v)
+	return _u
 }
 
 // SetNillableWeekResult sets the "WeekResult" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableWeekResult(s *string) *JobFloorUpdateOne {
-	if s != nil {
-		jfuo.SetWeekResult(*s)
+func (_u *JobFloorUpdateOne) SetNillableWeekResult(v *string) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetWeekResult(*v)
 	}
-	return jfuo
+	return _u
 }
 
 // ClearWeekResult clears the value of the "WeekResult" field.
-func (jfuo *JobFloorUpdateOne) ClearWeekResult() *JobFloorUpdateOne {
-	jfuo.mutation.ClearWeekResult()
-	return jfuo
+func (_u *JobFloorUpdateOne) ClearWeekResult() *JobFloorUpdateOne {
+	_u.mutation.ClearWeekResult()
+	return _u
 }
 
 // SetMonthResult sets the "MonthResult" field.
-func (jfuo *JobFloorUpdateOne) SetMonthResult(s string) *JobFloorUpdateOne {
-	jfuo.mutation.SetMonthResult(s)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetMonthResult(v string) *JobFloorUpdateOne {
+	_u.mutation.SetMonthResult(v)
+	return _u
 }
 
 // SetNillableMonthResult sets the "MonthResult" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableMonthResult(s *string) *JobFloorUpdateOne {
-	if s != nil {
-		jfuo.SetMonthResult(*s)
+func (_u *JobFloorUpdateOne) SetNillableMonthResult(v *string) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetMonthResult(*v)
 	}
-	return jfuo
+	return _u
 }
 
 // ClearMonthResult clears the value of the "MonthResult" field.
-func (jfuo *JobFloorUpdateOne) ClearMonthResult() *JobFloorUpdateOne {
-	jfuo.mutation.ClearMonthResult()
-	return jfuo
+func (_u *JobFloorUpdateOne) ClearMonthResult() *JobFloorUpdateOne {
+	_u.mutation.ClearMonthResult()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jfuo *JobFloorUpdateOne) SetCreatedAt(t time.Time) *JobFloorUpdateOne {
-	jfuo.mutation.SetCreatedAt(t)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetCreatedAt(v time.Time) *JobFloorUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableCreatedAt(t *time.Time) *JobFloorUpdateOne {
-	if t != nil {
-		jfuo.SetCreatedAt(*t)
+func (_u *JobFloorUpdateOne) SetNillableCreatedAt(v *time.Time) *JobFloorUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jfuo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jfuo *JobFloorUpdateOne) SetUpdatedAt(t time.Time) *JobFloorUpdateOne {
-	jfuo.mutation.SetUpdatedAt(t)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetUpdatedAt(v time.Time) *JobFloorUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetFloorID sets the "floor" edge to the JobRelations entity by ID.
-func (jfuo *JobFloorUpdateOne) SetFloorID(id int) *JobFloorUpdateOne {
-	jfuo.mutation.SetFloorID(id)
-	return jfuo
+func (_u *JobFloorUpdateOne) SetFloorID(id int) *JobFloorUpdateOne {
+	_u.mutation.SetFloorID(id)
+	return _u
 }
 
 // SetNillableFloorID sets the "floor" edge to the JobRelations entity by ID if the given value is not nil.
-func (jfuo *JobFloorUpdateOne) SetNillableFloorID(id *int) *JobFloorUpdateOne {
+func (_u *JobFloorUpdateOne) SetNillableFloorID(id *int) *JobFloorUpdateOne {
 	if id != nil {
-		jfuo = jfuo.SetFloorID(*id)
+		_u = _u.SetFloorID(*id)
 	}
-	return jfuo
+	return _u
 }
 
 // SetFloor sets the "floor" edge to the JobRelations entity.
-func (jfuo *JobFloorUpdateOne) SetFloor(j *JobRelations) *JobFloorUpdateOne {
-	return jfuo.SetFloorID(j.ID)
+func (_u *JobFloorUpdateOne) SetFloor(v *JobRelations) *JobFloorUpdateOne {
+	return _u.SetFloorID(v.ID)
 }
 
 // Mutation returns the JobFloorMutation object of the builder.
-func (jfuo *JobFloorUpdateOne) Mutation() *JobFloorMutation {
-	return jfuo.mutation
+func (_u *JobFloorUpdateOne) Mutation() *JobFloorMutation {
+	return _u.mutation
 }
 
 // ClearFloor clears the "floor" edge to the JobRelations entity.
-func (jfuo *JobFloorUpdateOne) ClearFloor() *JobFloorUpdateOne {
-	jfuo.mutation.ClearFloor()
-	return jfuo
+func (_u *JobFloorUpdateOne) ClearFloor() *JobFloorUpdateOne {
+	_u.mutation.ClearFloor()
+	return _u
 }
 
 // Where appends a list predicates to the JobFloorUpdate builder.
-func (jfuo *JobFloorUpdateOne) Where(ps ...predicate.JobFloor) *JobFloorUpdateOne {
-	jfuo.mutation.Where(ps...)
-	return jfuo
+func (_u *JobFloorUpdateOne) Where(ps ...predicate.JobFloor) *JobFloorUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jfuo *JobFloorUpdateOne) Select(field string, fields ...string) *JobFloorUpdateOne {
-	jfuo.fields = append([]string{field}, fields...)
-	return jfuo
+func (_u *JobFloorUpdateOne) Select(field string, fields ...string) *JobFloorUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobFloor entity.
-func (jfuo *JobFloorUpdateOne) Save(ctx context.Context) (*JobFloor, error) {
-	jfuo.defaults()
-	return withHooks(ctx, jfuo.sqlSave, jfuo.mutation, jfuo.hooks)
+func (_u *JobFloorUpdateOne) Save(ctx context.Context) (*JobFloor, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jfuo *JobFloorUpdateOne) SaveX(ctx context.Context) *JobFloor {
-	node, err := jfuo.Save(ctx)
+func (_u *JobFloorUpdateOne) SaveX(ctx context.Context) *JobFloor {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -661,34 +661,34 @@ func (jfuo *JobFloorUpdateOne) SaveX(ctx context.Context) *JobFloor {
 }
 
 // Exec executes the query on the entity.
-func (jfuo *JobFloorUpdateOne) Exec(ctx context.Context) error {
-	_, err := jfuo.Save(ctx)
+func (_u *JobFloorUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jfuo *JobFloorUpdateOne) ExecX(ctx context.Context) {
-	if err := jfuo.Exec(ctx); err != nil {
+func (_u *JobFloorUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jfuo *JobFloorUpdateOne) defaults() {
-	if _, ok := jfuo.mutation.UpdatedAt(); !ok {
+func (_u *JobFloorUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobfloor.UpdateDefaultUpdatedAt()
-		jfuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jfuo *JobFloorUpdateOne) sqlSave(ctx context.Context) (_node *JobFloor, err error) {
+func (_u *JobFloorUpdateOne) sqlSave(ctx context.Context) (_node *JobFloor, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobfloor.Table, jobfloor.Columns, sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt))
-	id, ok := jfuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobFloor.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jfuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobfloor.FieldID)
 		for _, f := range fields {
@@ -700,71 +700,71 @@ func (jfuo *JobFloorUpdateOne) sqlSave(ctx context.Context) (_node *JobFloor, er
 			}
 		}
 	}
-	if ps := jfuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jfuo.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobfloor.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jfuo.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobfloor.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jfuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(jobfloor.FieldName, field.TypeString, value)
 	}
-	if value, ok := jfuo.mutation.Metre(); ok {
+	if value, ok := _u.mutation.Metre(); ok {
 		_spec.SetField(jobfloor.FieldMetre, field.TypeString, value)
 	}
-	if value, ok := jfuo.mutation.MoldDate(); ok {
+	if value, ok := _u.mutation.MoldDate(); ok {
 		_spec.SetField(jobfloor.FieldMoldDate, field.TypeTime, value)
 	}
-	if jfuo.mutation.MoldDateCleared() {
+	if _u.mutation.MoldDateCleared() {
 		_spec.ClearField(jobfloor.FieldMoldDate, field.TypeTime)
 	}
-	if value, ok := jfuo.mutation.ConcreteDate(); ok {
+	if value, ok := _u.mutation.ConcreteDate(); ok {
 		_spec.SetField(jobfloor.FieldConcreteDate, field.TypeTime, value)
 	}
-	if jfuo.mutation.ConcreteDateCleared() {
+	if _u.mutation.ConcreteDateCleared() {
 		_spec.ClearField(jobfloor.FieldConcreteDate, field.TypeTime)
 	}
-	if value, ok := jfuo.mutation.Samples(); ok {
+	if value, ok := _u.mutation.Samples(); ok {
 		_spec.SetField(jobfloor.FieldSamples, field.TypeInt, value)
 	}
-	if value, ok := jfuo.mutation.AddedSamples(); ok {
+	if value, ok := _u.mutation.AddedSamples(); ok {
 		_spec.AddField(jobfloor.FieldSamples, field.TypeInt, value)
 	}
-	if jfuo.mutation.SamplesCleared() {
+	if _u.mutation.SamplesCleared() {
 		_spec.ClearField(jobfloor.FieldSamples, field.TypeInt)
 	}
-	if value, ok := jfuo.mutation.ConcreteClass(); ok {
+	if value, ok := _u.mutation.ConcreteClass(); ok {
 		_spec.SetField(jobfloor.FieldConcreteClass, field.TypeString, value)
 	}
-	if jfuo.mutation.ConcreteClassCleared() {
+	if _u.mutation.ConcreteClassCleared() {
 		_spec.ClearField(jobfloor.FieldConcreteClass, field.TypeString)
 	}
-	if value, ok := jfuo.mutation.WeekResult(); ok {
+	if value, ok := _u.mutation.WeekResult(); ok {
 		_spec.SetField(jobfloor.FieldWeekResult, field.TypeString, value)
 	}
-	if jfuo.mutation.WeekResultCleared() {
+	if _u.mutation.WeekResultCleared() {
 		_spec.ClearField(jobfloor.FieldWeekResult, field.TypeString)
 	}
-	if value, ok := jfuo.mutation.MonthResult(); ok {
+	if value, ok := _u.mutation.MonthResult(); ok {
 		_spec.SetField(jobfloor.FieldMonthResult, field.TypeString, value)
 	}
-	if jfuo.mutation.MonthResultCleared() {
+	if _u.mutation.MonthResultCleared() {
 		_spec.ClearField(jobfloor.FieldMonthResult, field.TypeString)
 	}
-	if value, ok := jfuo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobfloor.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jfuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobfloor.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jfuo.mutation.FloorCleared() {
+	if _u.mutation.FloorCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -777,7 +777,7 @@ func (jfuo *JobFloorUpdateOne) sqlSave(ctx context.Context) (_node *JobFloor, er
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jfuo.mutation.FloorIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.FloorIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -793,10 +793,10 @@ func (jfuo *JobFloorUpdateOne) sqlSave(ctx context.Context) (_node *JobFloor, er
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobFloor{config: jfuo.config}
+	_node = &JobFloor{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jfuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobfloor.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -804,6 +804,6 @@ func (jfuo *JobFloorUpdateOne) sqlSave(ctx context.Context) (_node *JobFloor, er
 		}
 		return nil, err
 	}
-	jfuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

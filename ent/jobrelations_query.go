@@ -64,44 +64,44 @@ type JobRelationsQuery struct {
 }
 
 // Where adds a new predicate for the JobRelationsQuery builder.
-func (jrq *JobRelationsQuery) Where(ps ...predicate.JobRelations) *JobRelationsQuery {
-	jrq.predicates = append(jrq.predicates, ps...)
-	return jrq
+func (_q *JobRelationsQuery) Where(ps ...predicate.JobRelations) *JobRelationsQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (jrq *JobRelationsQuery) Limit(limit int) *JobRelationsQuery {
-	jrq.ctx.Limit = &limit
-	return jrq
+func (_q *JobRelationsQuery) Limit(limit int) *JobRelationsQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (jrq *JobRelationsQuery) Offset(offset int) *JobRelationsQuery {
-	jrq.ctx.Offset = &offset
-	return jrq
+func (_q *JobRelationsQuery) Offset(offset int) *JobRelationsQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (jrq *JobRelationsQuery) Unique(unique bool) *JobRelationsQuery {
-	jrq.ctx.Unique = &unique
-	return jrq
+func (_q *JobRelationsQuery) Unique(unique bool) *JobRelationsQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (jrq *JobRelationsQuery) Order(o ...jobrelations.OrderOption) *JobRelationsQuery {
-	jrq.order = append(jrq.order, o...)
-	return jrq
+func (_q *JobRelationsQuery) Order(o ...jobrelations.OrderOption) *JobRelationsQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryJob chains the current query on the "job" edge.
-func (jrq *JobRelationsQuery) QueryJob() *JobDetailQuery {
-	query := (&JobDetailClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryJob() *JobDetailQuery {
+	query := (&JobDetailClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -110,20 +110,20 @@ func (jrq *JobRelationsQuery) QueryJob() *JobDetailQuery {
 			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, true, jobrelations.JobTable, jobrelations.JobColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryOwner chains the current query on the "owner" edge.
-func (jrq *JobRelationsQuery) QueryOwner() *JobOwnerQuery {
-	query := (&JobOwnerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryOwner() *JobOwnerQuery {
+	query := (&JobOwnerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -132,20 +132,20 @@ func (jrq *JobRelationsQuery) QueryOwner() *JobOwnerQuery {
 			sqlgraph.To(jobowner.Table, jobowner.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.OwnerTable, jobrelations.OwnerColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryAuthor chains the current query on the "author" edge.
-func (jrq *JobRelationsQuery) QueryAuthor() *JobAuthorQuery {
-	query := (&JobAuthorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryAuthor() *JobAuthorQuery {
+	query := (&JobAuthorClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -154,20 +154,20 @@ func (jrq *JobRelationsQuery) QueryAuthor() *JobAuthorQuery {
 			sqlgraph.To(jobauthor.Table, jobauthor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.AuthorTable, jobrelations.AuthorColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryCompany chains the current query on the "company" edge.
-func (jrq *JobRelationsQuery) QueryCompany() *CompanyDetailQuery {
-	query := (&CompanyDetailClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryCompany() *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -176,20 +176,20 @@ func (jrq *JobRelationsQuery) QueryCompany() *CompanyDetailQuery {
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.CompanyTable, jobrelations.CompanyColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryProgress chains the current query on the "progress" edge.
-func (jrq *JobRelationsQuery) QueryProgress() *JobProgressQuery {
-	query := (&JobProgressClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryProgress() *JobProgressQuery {
+	query := (&JobProgressClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -198,20 +198,20 @@ func (jrq *JobRelationsQuery) QueryProgress() *JobProgressQuery {
 			sqlgraph.To(jobprogress.Table, jobprogress.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ProgressTable, jobrelations.ProgressColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryContractor chains the current query on the "contractor" edge.
-func (jrq *JobRelationsQuery) QueryContractor() *JobContractorQuery {
-	query := (&JobContractorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryContractor() *JobContractorQuery {
+	query := (&JobContractorClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -220,20 +220,20 @@ func (jrq *JobRelationsQuery) QueryContractor() *JobContractorQuery {
 			sqlgraph.To(jobcontractor.Table, jobcontractor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ContractorTable, jobrelations.ContractorColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QuerySupervisor chains the current query on the "supervisor" edge.
-func (jrq *JobRelationsQuery) QuerySupervisor() *JobSupervisorQuery {
-	query := (&JobSupervisorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QuerySupervisor() *JobSupervisorQuery {
+	query := (&JobSupervisorClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -242,20 +242,20 @@ func (jrq *JobRelationsQuery) QuerySupervisor() *JobSupervisorQuery {
 			sqlgraph.To(jobsupervisor.Table, jobsupervisor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.SupervisorTable, jobrelations.SupervisorColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryStatic chains the current query on the "static" edge.
-func (jrq *JobRelationsQuery) QueryStatic() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryStatic() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -264,20 +264,20 @@ func (jrq *JobRelationsQuery) QueryStatic() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.StaticTable, jobrelations.StaticColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryMechanic chains the current query on the "mechanic" edge.
-func (jrq *JobRelationsQuery) QueryMechanic() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryMechanic() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -286,20 +286,20 @@ func (jrq *JobRelationsQuery) QueryMechanic() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.MechanicTable, jobrelations.MechanicColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryElectric chains the current query on the "electric" edge.
-func (jrq *JobRelationsQuery) QueryElectric() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryElectric() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -308,20 +308,20 @@ func (jrq *JobRelationsQuery) QueryElectric() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ElectricTable, jobrelations.ElectricColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryInspector chains the current query on the "inspector" edge.
-func (jrq *JobRelationsQuery) QueryInspector() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryInspector() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -330,20 +330,20 @@ func (jrq *JobRelationsQuery) QueryInspector() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.InspectorTable, jobrelations.InspectorColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryArchitect chains the current query on the "architect" edge.
-func (jrq *JobRelationsQuery) QueryArchitect() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryArchitect() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -352,20 +352,20 @@ func (jrq *JobRelationsQuery) QueryArchitect() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ArchitectTable, jobrelations.ArchitectColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryController chains the current query on the "controller" edge.
-func (jrq *JobRelationsQuery) QueryController() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryController() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -374,20 +374,20 @@ func (jrq *JobRelationsQuery) QueryController() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ControllerTable, jobrelations.ControllerColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryMechaniccontroller chains the current query on the "mechaniccontroller" edge.
-func (jrq *JobRelationsQuery) QueryMechaniccontroller() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryMechaniccontroller() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -396,20 +396,20 @@ func (jrq *JobRelationsQuery) QueryMechaniccontroller() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.MechaniccontrollerTable, jobrelations.MechaniccontrollerColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryElectriccontroller chains the current query on the "electriccontroller" edge.
-func (jrq *JobRelationsQuery) QueryElectriccontroller() *CompanyEngineerQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryElectriccontroller() *CompanyEngineerQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -418,20 +418,20 @@ func (jrq *JobRelationsQuery) QueryElectriccontroller() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ElectriccontrollerTable, jobrelations.ElectriccontrollerColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryFloors chains the current query on the "floors" edge.
-func (jrq *JobRelationsQuery) QueryFloors() *JobFloorQuery {
-	query := (&JobFloorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryFloors() *JobFloorQuery {
+	query := (&JobFloorClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -440,20 +440,20 @@ func (jrq *JobRelationsQuery) QueryFloors() *JobFloorQuery {
 			sqlgraph.To(jobfloor.Table, jobfloor.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.FloorsTable, jobrelations.FloorsColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryPayments chains the current query on the "payments" edge.
-func (jrq *JobRelationsQuery) QueryPayments() *JobPaymentsQuery {
-	query := (&JobPaymentsClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryPayments() *JobPaymentsQuery {
+	query := (&JobPaymentsClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -462,20 +462,20 @@ func (jrq *JobRelationsQuery) QueryPayments() *JobPaymentsQuery {
 			sqlgraph.To(jobpayments.Table, jobpayments.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.PaymentsTable, jobrelations.PaymentsColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryReceipts chains the current query on the "receipts" edge.
-func (jrq *JobRelationsQuery) QueryReceipts() *JobReceiptQuery {
-	query := (&JobReceiptClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) QueryReceipts() *JobReceiptQuery {
+	query := (&JobReceiptClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -484,7 +484,7 @@ func (jrq *JobRelationsQuery) QueryReceipts() *JobReceiptQuery {
 			sqlgraph.To(jobreceipt.Table, jobreceipt.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.ReceiptsTable, jobrelations.ReceiptsColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -492,8 +492,8 @@ func (jrq *JobRelationsQuery) QueryReceipts() *JobReceiptQuery {
 
 // First returns the first JobRelations entity from the query.
 // Returns a *NotFoundError when no JobRelations was found.
-func (jrq *JobRelationsQuery) First(ctx context.Context) (*JobRelations, error) {
-	nodes, err := jrq.Limit(1).All(setContextOp(ctx, jrq.ctx, ent.OpQueryFirst))
+func (_q *JobRelationsQuery) First(ctx context.Context) (*JobRelations, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -504,8 +504,8 @@ func (jrq *JobRelationsQuery) First(ctx context.Context) (*JobRelations, error) 
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (jrq *JobRelationsQuery) FirstX(ctx context.Context) *JobRelations {
-	node, err := jrq.First(ctx)
+func (_q *JobRelationsQuery) FirstX(ctx context.Context) *JobRelations {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -514,9 +514,9 @@ func (jrq *JobRelationsQuery) FirstX(ctx context.Context) *JobRelations {
 
 // FirstID returns the first JobRelations ID from the query.
 // Returns a *NotFoundError when no JobRelations ID was found.
-func (jrq *JobRelationsQuery) FirstID(ctx context.Context) (id int, err error) {
+func (_q *JobRelationsQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jrq.Limit(1).IDs(setContextOp(ctx, jrq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -527,8 +527,8 @@ func (jrq *JobRelationsQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (jrq *JobRelationsQuery) FirstIDX(ctx context.Context) int {
-	id, err := jrq.FirstID(ctx)
+func (_q *JobRelationsQuery) FirstIDX(ctx context.Context) int {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -538,8 +538,8 @@ func (jrq *JobRelationsQuery) FirstIDX(ctx context.Context) int {
 // Only returns a single JobRelations entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one JobRelations entity is found.
 // Returns a *NotFoundError when no JobRelations entities are found.
-func (jrq *JobRelationsQuery) Only(ctx context.Context) (*JobRelations, error) {
-	nodes, err := jrq.Limit(2).All(setContextOp(ctx, jrq.ctx, ent.OpQueryOnly))
+func (_q *JobRelationsQuery) Only(ctx context.Context) (*JobRelations, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -554,8 +554,8 @@ func (jrq *JobRelationsQuery) Only(ctx context.Context) (*JobRelations, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (jrq *JobRelationsQuery) OnlyX(ctx context.Context) *JobRelations {
-	node, err := jrq.Only(ctx)
+func (_q *JobRelationsQuery) OnlyX(ctx context.Context) *JobRelations {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -565,9 +565,9 @@ func (jrq *JobRelationsQuery) OnlyX(ctx context.Context) *JobRelations {
 // OnlyID is like Only, but returns the only JobRelations ID in the query.
 // Returns a *NotSingularError when more than one JobRelations ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (jrq *JobRelationsQuery) OnlyID(ctx context.Context) (id int, err error) {
+func (_q *JobRelationsQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jrq.Limit(2).IDs(setContextOp(ctx, jrq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -582,8 +582,8 @@ func (jrq *JobRelationsQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (jrq *JobRelationsQuery) OnlyIDX(ctx context.Context) int {
-	id, err := jrq.OnlyID(ctx)
+func (_q *JobRelationsQuery) OnlyIDX(ctx context.Context) int {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -591,18 +591,18 @@ func (jrq *JobRelationsQuery) OnlyIDX(ctx context.Context) int {
 }
 
 // All executes the query and returns a list of JobRelationsSlice.
-func (jrq *JobRelationsQuery) All(ctx context.Context) ([]*JobRelations, error) {
-	ctx = setContextOp(ctx, jrq.ctx, ent.OpQueryAll)
-	if err := jrq.prepareQuery(ctx); err != nil {
+func (_q *JobRelationsQuery) All(ctx context.Context) ([]*JobRelations, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*JobRelations, *JobRelationsQuery]()
-	return withInterceptors[[]*JobRelations](ctx, jrq, qr, jrq.inters)
+	return withInterceptors[[]*JobRelations](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (jrq *JobRelationsQuery) AllX(ctx context.Context) []*JobRelations {
-	nodes, err := jrq.All(ctx)
+func (_q *JobRelationsQuery) AllX(ctx context.Context) []*JobRelations {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -610,20 +610,20 @@ func (jrq *JobRelationsQuery) AllX(ctx context.Context) []*JobRelations {
 }
 
 // IDs executes the query and returns a list of JobRelations IDs.
-func (jrq *JobRelationsQuery) IDs(ctx context.Context) (ids []int, err error) {
-	if jrq.ctx.Unique == nil && jrq.path != nil {
-		jrq.Unique(true)
+func (_q *JobRelationsQuery) IDs(ctx context.Context) (ids []int, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, jrq.ctx, ent.OpQueryIDs)
-	if err = jrq.Select(jobrelations.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(jobrelations.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (jrq *JobRelationsQuery) IDsX(ctx context.Context) []int {
-	ids, err := jrq.IDs(ctx)
+func (_q *JobRelationsQuery) IDsX(ctx context.Context) []int {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -631,17 +631,17 @@ func (jrq *JobRelationsQuery) IDsX(ctx context.Context) []int {
 }
 
 // Count returns the count of the given query.
-func (jrq *JobRelationsQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jrq.ctx, ent.OpQueryCount)
-	if err := jrq.prepareQuery(ctx); err != nil {
+func (_q *JobRelationsQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, jrq, querierCount[*JobRelationsQuery](), jrq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*JobRelationsQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (jrq *JobRelationsQuery) CountX(ctx context.Context) int {
-	count, err := jrq.Count(ctx)
+func (_q *JobRelationsQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -649,9 +649,9 @@ func (jrq *JobRelationsQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (jrq *JobRelationsQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jrq.ctx, ent.OpQueryExist)
-	switch _, err := jrq.FirstID(ctx); {
+func (_q *JobRelationsQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -662,8 +662,8 @@ func (jrq *JobRelationsQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (jrq *JobRelationsQuery) ExistX(ctx context.Context) bool {
-	exist, err := jrq.Exist(ctx)
+func (_q *JobRelationsQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -672,236 +672,236 @@ func (jrq *JobRelationsQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the JobRelationsQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (jrq *JobRelationsQuery) Clone() *JobRelationsQuery {
-	if jrq == nil {
+func (_q *JobRelationsQuery) Clone() *JobRelationsQuery {
+	if _q == nil {
 		return nil
 	}
 	return &JobRelationsQuery{
-		config:                 jrq.config,
-		ctx:                    jrq.ctx.Clone(),
-		order:                  append([]jobrelations.OrderOption{}, jrq.order...),
-		inters:                 append([]Interceptor{}, jrq.inters...),
-		predicates:             append([]predicate.JobRelations{}, jrq.predicates...),
-		withJob:                jrq.withJob.Clone(),
-		withOwner:              jrq.withOwner.Clone(),
-		withAuthor:             jrq.withAuthor.Clone(),
-		withCompany:            jrq.withCompany.Clone(),
-		withProgress:           jrq.withProgress.Clone(),
-		withContractor:         jrq.withContractor.Clone(),
-		withSupervisor:         jrq.withSupervisor.Clone(),
-		withStatic:             jrq.withStatic.Clone(),
-		withMechanic:           jrq.withMechanic.Clone(),
-		withElectric:           jrq.withElectric.Clone(),
-		withInspector:          jrq.withInspector.Clone(),
-		withArchitect:          jrq.withArchitect.Clone(),
-		withController:         jrq.withController.Clone(),
-		withMechaniccontroller: jrq.withMechaniccontroller.Clone(),
-		withElectriccontroller: jrq.withElectriccontroller.Clone(),
-		withFloors:             jrq.withFloors.Clone(),
-		withPayments:           jrq.withPayments.Clone(),
-		withReceipts:           jrq.withReceipts.Clone(),
+		config:                 _q.config,
+		ctx:                    _q.ctx.Clone(),
+		order:                  append([]jobrelations.OrderOption{}, _q.order...),
+		inters:                 append([]Interceptor{}, _q.inters...),
+		predicates:             append([]predicate.JobRelations{}, _q.predicates...),
+		withJob:                _q.withJob.Clone(),
+		withOwner:              _q.withOwner.Clone(),
+		withAuthor:             _q.withAuthor.Clone(),
+		withCompany:            _q.withCompany.Clone(),
+		withProgress:           _q.withProgress.Clone(),
+		withContractor:         _q.withContractor.Clone(),
+		withSupervisor:         _q.withSupervisor.Clone(),
+		withStatic:             _q.withStatic.Clone(),
+		withMechanic:           _q.withMechanic.Clone(),
+		withElectric:           _q.withElectric.Clone(),
+		withInspector:          _q.withInspector.Clone(),
+		withArchitect:          _q.withArchitect.Clone(),
+		withController:         _q.withController.Clone(),
+		withMechaniccontroller: _q.withMechaniccontroller.Clone(),
+		withElectriccontroller: _q.withElectriccontroller.Clone(),
+		withFloors:             _q.withFloors.Clone(),
+		withPayments:           _q.withPayments.Clone(),
+		withReceipts:           _q.withReceipts.Clone(),
 		// clone intermediate query.
-		sql:  jrq.sql.Clone(),
-		path: jrq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithJob tells the query-builder to eager-load the nodes that are connected to
 // the "job" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithJob(opts ...func(*JobDetailQuery)) *JobRelationsQuery {
-	query := (&JobDetailClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithJob(opts ...func(*JobDetailQuery)) *JobRelationsQuery {
+	query := (&JobDetailClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withJob = query
-	return jrq
+	_q.withJob = query
+	return _q
 }
 
 // WithOwner tells the query-builder to eager-load the nodes that are connected to
 // the "owner" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithOwner(opts ...func(*JobOwnerQuery)) *JobRelationsQuery {
-	query := (&JobOwnerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithOwner(opts ...func(*JobOwnerQuery)) *JobRelationsQuery {
+	query := (&JobOwnerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withOwner = query
-	return jrq
+	_q.withOwner = query
+	return _q
 }
 
 // WithAuthor tells the query-builder to eager-load the nodes that are connected to
 // the "author" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithAuthor(opts ...func(*JobAuthorQuery)) *JobRelationsQuery {
-	query := (&JobAuthorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithAuthor(opts ...func(*JobAuthorQuery)) *JobRelationsQuery {
+	query := (&JobAuthorClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withAuthor = query
-	return jrq
+	_q.withAuthor = query
+	return _q
 }
 
 // WithCompany tells the query-builder to eager-load the nodes that are connected to
 // the "company" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *JobRelationsQuery {
-	query := (&CompanyDetailClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *JobRelationsQuery {
+	query := (&CompanyDetailClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withCompany = query
-	return jrq
+	_q.withCompany = query
+	return _q
 }
 
 // WithProgress tells the query-builder to eager-load the nodes that are connected to
 // the "progress" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithProgress(opts ...func(*JobProgressQuery)) *JobRelationsQuery {
-	query := (&JobProgressClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithProgress(opts ...func(*JobProgressQuery)) *JobRelationsQuery {
+	query := (&JobProgressClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withProgress = query
-	return jrq
+	_q.withProgress = query
+	return _q
 }
 
 // WithContractor tells the query-builder to eager-load the nodes that are connected to
 // the "contractor" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithContractor(opts ...func(*JobContractorQuery)) *JobRelationsQuery {
-	query := (&JobContractorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithContractor(opts ...func(*JobContractorQuery)) *JobRelationsQuery {
+	query := (&JobContractorClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withContractor = query
-	return jrq
+	_q.withContractor = query
+	return _q
 }
 
 // WithSupervisor tells the query-builder to eager-load the nodes that are connected to
 // the "supervisor" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithSupervisor(opts ...func(*JobSupervisorQuery)) *JobRelationsQuery {
-	query := (&JobSupervisorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithSupervisor(opts ...func(*JobSupervisorQuery)) *JobRelationsQuery {
+	query := (&JobSupervisorClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withSupervisor = query
-	return jrq
+	_q.withSupervisor = query
+	return _q
 }
 
 // WithStatic tells the query-builder to eager-load the nodes that are connected to
 // the "static" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithStatic(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithStatic(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withStatic = query
-	return jrq
+	_q.withStatic = query
+	return _q
 }
 
 // WithMechanic tells the query-builder to eager-load the nodes that are connected to
 // the "mechanic" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithMechanic(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithMechanic(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withMechanic = query
-	return jrq
+	_q.withMechanic = query
+	return _q
 }
 
 // WithElectric tells the query-builder to eager-load the nodes that are connected to
 // the "electric" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithElectric(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithElectric(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withElectric = query
-	return jrq
+	_q.withElectric = query
+	return _q
 }
 
 // WithInspector tells the query-builder to eager-load the nodes that are connected to
 // the "inspector" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithInspector(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithInspector(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withInspector = query
-	return jrq
+	_q.withInspector = query
+	return _q
 }
 
 // WithArchitect tells the query-builder to eager-load the nodes that are connected to
 // the "architect" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithArchitect(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithArchitect(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withArchitect = query
-	return jrq
+	_q.withArchitect = query
+	return _q
 }
 
 // WithController tells the query-builder to eager-load the nodes that are connected to
 // the "controller" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithController(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithController(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withController = query
-	return jrq
+	_q.withController = query
+	return _q
 }
 
 // WithMechaniccontroller tells the query-builder to eager-load the nodes that are connected to
 // the "mechaniccontroller" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithMechaniccontroller(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithMechaniccontroller(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withMechaniccontroller = query
-	return jrq
+	_q.withMechaniccontroller = query
+	return _q
 }
 
 // WithElectriccontroller tells the query-builder to eager-load the nodes that are connected to
 // the "electriccontroller" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithElectriccontroller(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
-	query := (&CompanyEngineerClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithElectriccontroller(opts ...func(*CompanyEngineerQuery)) *JobRelationsQuery {
+	query := (&CompanyEngineerClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withElectriccontroller = query
-	return jrq
+	_q.withElectriccontroller = query
+	return _q
 }
 
 // WithFloors tells the query-builder to eager-load the nodes that are connected to
 // the "floors" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithFloors(opts ...func(*JobFloorQuery)) *JobRelationsQuery {
-	query := (&JobFloorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithFloors(opts ...func(*JobFloorQuery)) *JobRelationsQuery {
+	query := (&JobFloorClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withFloors = query
-	return jrq
+	_q.withFloors = query
+	return _q
 }
 
 // WithPayments tells the query-builder to eager-load the nodes that are connected to
 // the "payments" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithPayments(opts ...func(*JobPaymentsQuery)) *JobRelationsQuery {
-	query := (&JobPaymentsClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithPayments(opts ...func(*JobPaymentsQuery)) *JobRelationsQuery {
+	query := (&JobPaymentsClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withPayments = query
-	return jrq
+	_q.withPayments = query
+	return _q
 }
 
 // WithReceipts tells the query-builder to eager-load the nodes that are connected to
 // the "receipts" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithReceipts(opts ...func(*JobReceiptQuery)) *JobRelationsQuery {
-	query := (&JobReceiptClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithReceipts(opts ...func(*JobReceiptQuery)) *JobRelationsQuery {
+	query := (&JobReceiptClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withReceipts = query
-	return jrq
+	_q.withReceipts = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -918,10 +918,10 @@ func (jrq *JobRelationsQuery) WithReceipts(opts ...func(*JobReceiptQuery)) *JobR
 //		GroupBy(jobrelations.FieldYibfNo).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (jrq *JobRelationsQuery) GroupBy(field string, fields ...string) *JobRelationsGroupBy {
-	jrq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &JobRelationsGroupBy{build: jrq}
-	grbuild.flds = &jrq.ctx.Fields
+func (_q *JobRelationsQuery) GroupBy(field string, fields ...string) *JobRelationsGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &JobRelationsGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = jobrelations.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -939,72 +939,72 @@ func (jrq *JobRelationsQuery) GroupBy(field string, fields ...string) *JobRelati
 //	client.JobRelations.Query().
 //		Select(jobrelations.FieldYibfNo).
 //		Scan(ctx, &v)
-func (jrq *JobRelationsQuery) Select(fields ...string) *JobRelationsSelect {
-	jrq.ctx.Fields = append(jrq.ctx.Fields, fields...)
-	sbuild := &JobRelationsSelect{JobRelationsQuery: jrq}
+func (_q *JobRelationsQuery) Select(fields ...string) *JobRelationsSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &JobRelationsSelect{JobRelationsQuery: _q}
 	sbuild.label = jobrelations.Label
-	sbuild.flds, sbuild.scan = &jrq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a JobRelationsSelect configured with the given aggregations.
-func (jrq *JobRelationsQuery) Aggregate(fns ...AggregateFunc) *JobRelationsSelect {
-	return jrq.Select().Aggregate(fns...)
+func (_q *JobRelationsQuery) Aggregate(fns ...AggregateFunc) *JobRelationsSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (jrq *JobRelationsQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range jrq.inters {
+func (_q *JobRelationsQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, jrq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range jrq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !jobrelations.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if jrq.path != nil {
-		prev, err := jrq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		jrq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobRelations, error) {
+func (_q *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobRelations, error) {
 	var (
 		nodes       = []*JobRelations{}
-		withFKs     = jrq.withFKs
-		_spec       = jrq.querySpec()
+		withFKs     = _q.withFKs
+		_spec       = _q.querySpec()
 		loadedTypes = [18]bool{
-			jrq.withJob != nil,
-			jrq.withOwner != nil,
-			jrq.withAuthor != nil,
-			jrq.withCompany != nil,
-			jrq.withProgress != nil,
-			jrq.withContractor != nil,
-			jrq.withSupervisor != nil,
-			jrq.withStatic != nil,
-			jrq.withMechanic != nil,
-			jrq.withElectric != nil,
-			jrq.withInspector != nil,
-			jrq.withArchitect != nil,
-			jrq.withController != nil,
-			jrq.withMechaniccontroller != nil,
-			jrq.withElectriccontroller != nil,
-			jrq.withFloors != nil,
-			jrq.withPayments != nil,
-			jrq.withReceipts != nil,
+			_q.withJob != nil,
+			_q.withOwner != nil,
+			_q.withAuthor != nil,
+			_q.withCompany != nil,
+			_q.withProgress != nil,
+			_q.withContractor != nil,
+			_q.withSupervisor != nil,
+			_q.withStatic != nil,
+			_q.withMechanic != nil,
+			_q.withElectric != nil,
+			_q.withInspector != nil,
+			_q.withArchitect != nil,
+			_q.withController != nil,
+			_q.withMechaniccontroller != nil,
+			_q.withElectriccontroller != nil,
+			_q.withFloors != nil,
+			_q.withPayments != nil,
+			_q.withReceipts != nil,
 		}
 	)
-	if jrq.withJob != nil || jrq.withOwner != nil || jrq.withAuthor != nil || jrq.withCompany != nil || jrq.withProgress != nil || jrq.withContractor != nil || jrq.withSupervisor != nil || jrq.withStatic != nil || jrq.withMechanic != nil || jrq.withElectric != nil || jrq.withInspector != nil || jrq.withArchitect != nil || jrq.withController != nil || jrq.withMechaniccontroller != nil || jrq.withElectriccontroller != nil {
+	if _q.withJob != nil || _q.withOwner != nil || _q.withAuthor != nil || _q.withCompany != nil || _q.withProgress != nil || _q.withContractor != nil || _q.withSupervisor != nil || _q.withStatic != nil || _q.withMechanic != nil || _q.withElectric != nil || _q.withInspector != nil || _q.withArchitect != nil || _q.withController != nil || _q.withMechaniccontroller != nil || _q.withElectriccontroller != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -1014,164 +1014,164 @@ func (jrq *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		return (*JobRelations).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &JobRelations{config: jrq.config}
+		node := &JobRelations{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jrq.modifiers) > 0 {
-		_spec.Modifiers = jrq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, jrq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := jrq.withJob; query != nil {
-		if err := jrq.loadJob(ctx, query, nodes, nil,
+	if query := _q.withJob; query != nil {
+		if err := _q.loadJob(ctx, query, nodes, nil,
 			func(n *JobRelations, e *JobDetail) { n.Edges.Job = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withOwner; query != nil {
-		if err := jrq.loadOwner(ctx, query, nodes, nil,
+	if query := _q.withOwner; query != nil {
+		if err := _q.loadOwner(ctx, query, nodes, nil,
 			func(n *JobRelations, e *JobOwner) { n.Edges.Owner = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withAuthor; query != nil {
-		if err := jrq.loadAuthor(ctx, query, nodes, nil,
+	if query := _q.withAuthor; query != nil {
+		if err := _q.loadAuthor(ctx, query, nodes, nil,
 			func(n *JobRelations, e *JobAuthor) { n.Edges.Author = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withCompany; query != nil {
-		if err := jrq.loadCompany(ctx, query, nodes, nil,
+	if query := _q.withCompany; query != nil {
+		if err := _q.loadCompany(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyDetail) { n.Edges.Company = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withProgress; query != nil {
-		if err := jrq.loadProgress(ctx, query, nodes, nil,
+	if query := _q.withProgress; query != nil {
+		if err := _q.loadProgress(ctx, query, nodes, nil,
 			func(n *JobRelations, e *JobProgress) { n.Edges.Progress = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withContractor; query != nil {
-		if err := jrq.loadContractor(ctx, query, nodes, nil,
+	if query := _q.withContractor; query != nil {
+		if err := _q.loadContractor(ctx, query, nodes, nil,
 			func(n *JobRelations, e *JobContractor) { n.Edges.Contractor = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withSupervisor; query != nil {
-		if err := jrq.loadSupervisor(ctx, query, nodes, nil,
+	if query := _q.withSupervisor; query != nil {
+		if err := _q.loadSupervisor(ctx, query, nodes, nil,
 			func(n *JobRelations, e *JobSupervisor) { n.Edges.Supervisor = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withStatic; query != nil {
-		if err := jrq.loadStatic(ctx, query, nodes, nil,
+	if query := _q.withStatic; query != nil {
+		if err := _q.loadStatic(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyEngineer) { n.Edges.Static = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withMechanic; query != nil {
-		if err := jrq.loadMechanic(ctx, query, nodes, nil,
+	if query := _q.withMechanic; query != nil {
+		if err := _q.loadMechanic(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyEngineer) { n.Edges.Mechanic = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withElectric; query != nil {
-		if err := jrq.loadElectric(ctx, query, nodes, nil,
+	if query := _q.withElectric; query != nil {
+		if err := _q.loadElectric(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyEngineer) { n.Edges.Electric = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withInspector; query != nil {
-		if err := jrq.loadInspector(ctx, query, nodes, nil,
+	if query := _q.withInspector; query != nil {
+		if err := _q.loadInspector(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyEngineer) { n.Edges.Inspector = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withArchitect; query != nil {
-		if err := jrq.loadArchitect(ctx, query, nodes, nil,
+	if query := _q.withArchitect; query != nil {
+		if err := _q.loadArchitect(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyEngineer) { n.Edges.Architect = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withController; query != nil {
-		if err := jrq.loadController(ctx, query, nodes, nil,
+	if query := _q.withController; query != nil {
+		if err := _q.loadController(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyEngineer) { n.Edges.Controller = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withMechaniccontroller; query != nil {
-		if err := jrq.loadMechaniccontroller(ctx, query, nodes, nil,
+	if query := _q.withMechaniccontroller; query != nil {
+		if err := _q.loadMechaniccontroller(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyEngineer) { n.Edges.Mechaniccontroller = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withElectriccontroller; query != nil {
-		if err := jrq.loadElectriccontroller(ctx, query, nodes, nil,
+	if query := _q.withElectriccontroller; query != nil {
+		if err := _q.loadElectriccontroller(ctx, query, nodes, nil,
 			func(n *JobRelations, e *CompanyEngineer) { n.Edges.Electriccontroller = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withFloors; query != nil {
-		if err := jrq.loadFloors(ctx, query, nodes,
+	if query := _q.withFloors; query != nil {
+		if err := _q.loadFloors(ctx, query, nodes,
 			func(n *JobRelations) { n.Edges.Floors = []*JobFloor{} },
 			func(n *JobRelations, e *JobFloor) { n.Edges.Floors = append(n.Edges.Floors, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withPayments; query != nil {
-		if err := jrq.loadPayments(ctx, query, nodes,
+	if query := _q.withPayments; query != nil {
+		if err := _q.loadPayments(ctx, query, nodes,
 			func(n *JobRelations) { n.Edges.Payments = []*JobPayments{} },
 			func(n *JobRelations, e *JobPayments) { n.Edges.Payments = append(n.Edges.Payments, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := jrq.withReceipts; query != nil {
-		if err := jrq.loadReceipts(ctx, query, nodes,
+	if query := _q.withReceipts; query != nil {
+		if err := _q.loadReceipts(ctx, query, nodes,
 			func(n *JobRelations) { n.Edges.Receipts = []*JobReceipt{} },
 			func(n *JobRelations, e *JobReceipt) { n.Edges.Receipts = append(n.Edges.Receipts, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range jrq.withNamedFloors {
-		if err := jrq.loadFloors(ctx, query, nodes,
+	for name, query := range _q.withNamedFloors {
+		if err := _q.loadFloors(ctx, query, nodes,
 			func(n *JobRelations) { n.appendNamedFloors(name) },
 			func(n *JobRelations, e *JobFloor) { n.appendNamedFloors(name, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range jrq.withNamedPayments {
-		if err := jrq.loadPayments(ctx, query, nodes,
+	for name, query := range _q.withNamedPayments {
+		if err := _q.loadPayments(ctx, query, nodes,
 			func(n *JobRelations) { n.appendNamedPayments(name) },
 			func(n *JobRelations, e *JobPayments) { n.appendNamedPayments(name, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range jrq.withNamedReceipts {
-		if err := jrq.loadReceipts(ctx, query, nodes,
+	for name, query := range _q.withNamedReceipts {
+		if err := _q.loadReceipts(ctx, query, nodes,
 			func(n *JobRelations) { n.appendNamedReceipts(name) },
 			func(n *JobRelations, e *JobReceipt) { n.appendNamedReceipts(name, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for i := range jrq.loadTotal {
-		if err := jrq.loadTotal[i](ctx, nodes); err != nil {
+	for i := range _q.loadTotal {
+		if err := _q.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (jrq *JobRelationsQuery) loadJob(ctx context.Context, query *JobDetailQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobDetail)) error {
+func (_q *JobRelationsQuery) loadJob(ctx context.Context, query *JobDetailQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobDetail)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1203,7 +1203,7 @@ func (jrq *JobRelationsQuery) loadJob(ctx context.Context, query *JobDetailQuery
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadOwner(ctx context.Context, query *JobOwnerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobOwner)) error {
+func (_q *JobRelationsQuery) loadOwner(ctx context.Context, query *JobOwnerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobOwner)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1235,7 +1235,7 @@ func (jrq *JobRelationsQuery) loadOwner(ctx context.Context, query *JobOwnerQuer
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadAuthor(ctx context.Context, query *JobAuthorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobAuthor)) error {
+func (_q *JobRelationsQuery) loadAuthor(ctx context.Context, query *JobAuthorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobAuthor)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1267,7 +1267,7 @@ func (jrq *JobRelationsQuery) loadAuthor(ctx context.Context, query *JobAuthorQu
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadCompany(ctx context.Context, query *CompanyDetailQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyDetail)) error {
+func (_q *JobRelationsQuery) loadCompany(ctx context.Context, query *CompanyDetailQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyDetail)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1299,7 +1299,7 @@ func (jrq *JobRelationsQuery) loadCompany(ctx context.Context, query *CompanyDet
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadProgress(ctx context.Context, query *JobProgressQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobProgress)) error {
+func (_q *JobRelationsQuery) loadProgress(ctx context.Context, query *JobProgressQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobProgress)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1331,7 +1331,7 @@ func (jrq *JobRelationsQuery) loadProgress(ctx context.Context, query *JobProgre
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadContractor(ctx context.Context, query *JobContractorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobContractor)) error {
+func (_q *JobRelationsQuery) loadContractor(ctx context.Context, query *JobContractorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobContractor)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1363,7 +1363,7 @@ func (jrq *JobRelationsQuery) loadContractor(ctx context.Context, query *JobCont
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadSupervisor(ctx context.Context, query *JobSupervisorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobSupervisor)) error {
+func (_q *JobRelationsQuery) loadSupervisor(ctx context.Context, query *JobSupervisorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobSupervisor)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1395,7 +1395,7 @@ func (jrq *JobRelationsQuery) loadSupervisor(ctx context.Context, query *JobSupe
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadStatic(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
+func (_q *JobRelationsQuery) loadStatic(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1427,7 +1427,7 @@ func (jrq *JobRelationsQuery) loadStatic(ctx context.Context, query *CompanyEngi
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadMechanic(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
+func (_q *JobRelationsQuery) loadMechanic(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1459,7 +1459,7 @@ func (jrq *JobRelationsQuery) loadMechanic(ctx context.Context, query *CompanyEn
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadElectric(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
+func (_q *JobRelationsQuery) loadElectric(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1491,7 +1491,7 @@ func (jrq *JobRelationsQuery) loadElectric(ctx context.Context, query *CompanyEn
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadInspector(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
+func (_q *JobRelationsQuery) loadInspector(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1523,7 +1523,7 @@ func (jrq *JobRelationsQuery) loadInspector(ctx context.Context, query *CompanyE
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadArchitect(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
+func (_q *JobRelationsQuery) loadArchitect(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1555,7 +1555,7 @@ func (jrq *JobRelationsQuery) loadArchitect(ctx context.Context, query *CompanyE
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadController(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
+func (_q *JobRelationsQuery) loadController(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1587,7 +1587,7 @@ func (jrq *JobRelationsQuery) loadController(ctx context.Context, query *Company
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadMechaniccontroller(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
+func (_q *JobRelationsQuery) loadMechaniccontroller(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1619,7 +1619,7 @@ func (jrq *JobRelationsQuery) loadMechaniccontroller(ctx context.Context, query 
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadElectriccontroller(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
+func (_q *JobRelationsQuery) loadElectriccontroller(ctx context.Context, query *CompanyEngineerQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *CompanyEngineer)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobRelations)
 	for i := range nodes {
@@ -1651,7 +1651,7 @@ func (jrq *JobRelationsQuery) loadElectriccontroller(ctx context.Context, query 
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadFloors(ctx context.Context, query *JobFloorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobFloor)) error {
+func (_q *JobRelationsQuery) loadFloors(ctx context.Context, query *JobFloorQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobFloor)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobRelations)
 	for i := range nodes {
@@ -1682,7 +1682,7 @@ func (jrq *JobRelationsQuery) loadFloors(ctx context.Context, query *JobFloorQue
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadPayments(ctx context.Context, query *JobPaymentsQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobPayments)) error {
+func (_q *JobRelationsQuery) loadPayments(ctx context.Context, query *JobPaymentsQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobPayments)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobRelations)
 	for i := range nodes {
@@ -1713,7 +1713,7 @@ func (jrq *JobRelationsQuery) loadPayments(ctx context.Context, query *JobPaymen
 	}
 	return nil
 }
-func (jrq *JobRelationsQuery) loadReceipts(ctx context.Context, query *JobReceiptQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobReceipt)) error {
+func (_q *JobRelationsQuery) loadReceipts(ctx context.Context, query *JobReceiptQuery, nodes []*JobRelations, init func(*JobRelations), assign func(*JobRelations, *JobReceipt)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*JobRelations)
 	for i := range nodes {
@@ -1745,27 +1745,27 @@ func (jrq *JobRelationsQuery) loadReceipts(ctx context.Context, query *JobReceip
 	return nil
 }
 
-func (jrq *JobRelationsQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := jrq.querySpec()
-	if len(jrq.modifiers) > 0 {
-		_spec.Modifiers = jrq.modifiers
+func (_q *JobRelationsQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = jrq.ctx.Fields
-	if len(jrq.ctx.Fields) > 0 {
-		_spec.Unique = jrq.ctx.Unique != nil && *jrq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, jrq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (jrq *JobRelationsQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *JobRelationsQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(jobrelations.Table, jobrelations.Columns, sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt))
-	_spec.From = jrq.sql
-	if unique := jrq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if jrq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := jrq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobrelations.FieldID)
 		for i := range fields {
@@ -1774,20 +1774,20 @@ func (jrq *JobRelationsQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := jrq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := jrq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := jrq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := jrq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -1797,33 +1797,33 @@ func (jrq *JobRelationsQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (jrq *JobRelationsQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(jrq.driver.Dialect())
+func (_q *JobRelationsQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(jobrelations.Table)
-	columns := jrq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = jobrelations.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if jrq.sql != nil {
-		selector = jrq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if jrq.ctx.Unique != nil && *jrq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range jrq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range jrq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := jrq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := jrq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -1831,44 +1831,44 @@ func (jrq *JobRelationsQuery) sqlQuery(ctx context.Context) *sql.Selector {
 
 // WithNamedFloors tells the query-builder to eager-load the nodes that are connected to the "floors"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithNamedFloors(name string, opts ...func(*JobFloorQuery)) *JobRelationsQuery {
-	query := (&JobFloorClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithNamedFloors(name string, opts ...func(*JobFloorQuery)) *JobRelationsQuery {
+	query := (&JobFloorClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if jrq.withNamedFloors == nil {
-		jrq.withNamedFloors = make(map[string]*JobFloorQuery)
+	if _q.withNamedFloors == nil {
+		_q.withNamedFloors = make(map[string]*JobFloorQuery)
 	}
-	jrq.withNamedFloors[name] = query
-	return jrq
+	_q.withNamedFloors[name] = query
+	return _q
 }
 
 // WithNamedPayments tells the query-builder to eager-load the nodes that are connected to the "payments"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithNamedPayments(name string, opts ...func(*JobPaymentsQuery)) *JobRelationsQuery {
-	query := (&JobPaymentsClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithNamedPayments(name string, opts ...func(*JobPaymentsQuery)) *JobRelationsQuery {
+	query := (&JobPaymentsClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if jrq.withNamedPayments == nil {
-		jrq.withNamedPayments = make(map[string]*JobPaymentsQuery)
+	if _q.withNamedPayments == nil {
+		_q.withNamedPayments = make(map[string]*JobPaymentsQuery)
 	}
-	jrq.withNamedPayments[name] = query
-	return jrq
+	_q.withNamedPayments[name] = query
+	return _q
 }
 
 // WithNamedReceipts tells the query-builder to eager-load the nodes that are connected to the "receipts"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobRelationsQuery) WithNamedReceipts(name string, opts ...func(*JobReceiptQuery)) *JobRelationsQuery {
-	query := (&JobReceiptClient{config: jrq.config}).Query()
+func (_q *JobRelationsQuery) WithNamedReceipts(name string, opts ...func(*JobReceiptQuery)) *JobRelationsQuery {
+	query := (&JobReceiptClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if jrq.withNamedReceipts == nil {
-		jrq.withNamedReceipts = make(map[string]*JobReceiptQuery)
+	if _q.withNamedReceipts == nil {
+		_q.withNamedReceipts = make(map[string]*JobReceiptQuery)
 	}
-	jrq.withNamedReceipts[name] = query
-	return jrq
+	_q.withNamedReceipts[name] = query
+	return _q
 }
 
 // JobRelationsGroupBy is the group-by builder for JobRelations entities.
@@ -1878,41 +1878,41 @@ type JobRelationsGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (jrgb *JobRelationsGroupBy) Aggregate(fns ...AggregateFunc) *JobRelationsGroupBy {
-	jrgb.fns = append(jrgb.fns, fns...)
-	return jrgb
+func (_g *JobRelationsGroupBy) Aggregate(fns ...AggregateFunc) *JobRelationsGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jrgb *JobRelationsGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jrgb.build.ctx, ent.OpQueryGroupBy)
-	if err := jrgb.build.prepareQuery(ctx); err != nil {
+func (_g *JobRelationsGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobRelationsQuery, *JobRelationsGroupBy](ctx, jrgb.build, jrgb, jrgb.build.inters, v)
+	return scanWithInterceptors[*JobRelationsQuery, *JobRelationsGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (jrgb *JobRelationsGroupBy) sqlScan(ctx context.Context, root *JobRelationsQuery, v any) error {
+func (_g *JobRelationsGroupBy) sqlScan(ctx context.Context, root *JobRelationsQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(jrgb.fns))
-	for _, fn := range jrgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*jrgb.flds)+len(jrgb.fns))
-		for _, f := range *jrgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*jrgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jrgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -1926,27 +1926,27 @@ type JobRelationsSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (jrs *JobRelationsSelect) Aggregate(fns ...AggregateFunc) *JobRelationsSelect {
-	jrs.fns = append(jrs.fns, fns...)
-	return jrs
+func (_s *JobRelationsSelect) Aggregate(fns ...AggregateFunc) *JobRelationsSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jrs *JobRelationsSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jrs.ctx, ent.OpQuerySelect)
-	if err := jrs.prepareQuery(ctx); err != nil {
+func (_s *JobRelationsSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobRelationsQuery, *JobRelationsSelect](ctx, jrs.JobRelationsQuery, jrs, jrs.inters, v)
+	return scanWithInterceptors[*JobRelationsQuery, *JobRelationsSelect](ctx, _s.JobRelationsQuery, _s, _s.inters, v)
 }
 
-func (jrs *JobRelationsSelect) sqlScan(ctx context.Context, root *JobRelationsQuery, v any) error {
+func (_s *JobRelationsSelect) sqlScan(ctx context.Context, root *JobRelationsQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(jrs.fns))
-	for _, fn := range jrs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*jrs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -1954,7 +1954,7 @@ func (jrs *JobRelationsSelect) sqlScan(ctx context.Context, root *JobRelationsQu
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jrs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

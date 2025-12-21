@@ -22,216 +22,216 @@ type JobContractorCreate struct {
 }
 
 // SetName sets the "Name" field.
-func (jcc *JobContractorCreate) SetName(s string) *JobContractorCreate {
-	jcc.mutation.SetName(s)
-	return jcc
+func (_c *JobContractorCreate) SetName(v string) *JobContractorCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableName(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetName(*s)
+func (_c *JobContractorCreate) SetNillableName(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetTcNo sets the "TcNo" field.
-func (jcc *JobContractorCreate) SetTcNo(s string) *JobContractorCreate {
-	jcc.mutation.SetTcNo(s)
-	return jcc
+func (_c *JobContractorCreate) SetTcNo(v string) *JobContractorCreate {
+	_c.mutation.SetTcNo(v)
+	return _c
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableTcNo(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetTcNo(*s)
+func (_c *JobContractorCreate) SetNillableTcNo(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetTcNo(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetRegisterNo sets the "RegisterNo" field.
-func (jcc *JobContractorCreate) SetRegisterNo(s string) *JobContractorCreate {
-	jcc.mutation.SetRegisterNo(s)
-	return jcc
+func (_c *JobContractorCreate) SetRegisterNo(v string) *JobContractorCreate {
+	_c.mutation.SetRegisterNo(v)
+	return _c
 }
 
 // SetNillableRegisterNo sets the "RegisterNo" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableRegisterNo(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetRegisterNo(*s)
+func (_c *JobContractorCreate) SetNillableRegisterNo(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetRegisterNo(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetAddress sets the "Address" field.
-func (jcc *JobContractorCreate) SetAddress(s string) *JobContractorCreate {
-	jcc.mutation.SetAddress(s)
-	return jcc
+func (_c *JobContractorCreate) SetAddress(v string) *JobContractorCreate {
+	_c.mutation.SetAddress(v)
+	return _c
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableAddress(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetAddress(*s)
+func (_c *JobContractorCreate) SetNillableAddress(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetAddress(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (jcc *JobContractorCreate) SetTaxNo(s string) *JobContractorCreate {
-	jcc.mutation.SetTaxNo(s)
-	return jcc
+func (_c *JobContractorCreate) SetTaxNo(v string) *JobContractorCreate {
+	_c.mutation.SetTaxNo(v)
+	return _c
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableTaxNo(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetTaxNo(*s)
+func (_c *JobContractorCreate) SetNillableTaxNo(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetTaxNo(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetMobilePhone sets the "MobilePhone" field.
-func (jcc *JobContractorCreate) SetMobilePhone(s string) *JobContractorCreate {
-	jcc.mutation.SetMobilePhone(s)
-	return jcc
+func (_c *JobContractorCreate) SetMobilePhone(v string) *JobContractorCreate {
+	_c.mutation.SetMobilePhone(v)
+	return _c
 }
 
 // SetNillableMobilePhone sets the "MobilePhone" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableMobilePhone(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetMobilePhone(*s)
+func (_c *JobContractorCreate) SetNillableMobilePhone(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetMobilePhone(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetPhone sets the "Phone" field.
-func (jcc *JobContractorCreate) SetPhone(s string) *JobContractorCreate {
-	jcc.mutation.SetPhone(s)
-	return jcc
+func (_c *JobContractorCreate) SetPhone(v string) *JobContractorCreate {
+	_c.mutation.SetPhone(v)
+	return _c
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillablePhone(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetPhone(*s)
+func (_c *JobContractorCreate) SetNillablePhone(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetPhone(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetEmail sets the "Email" field.
-func (jcc *JobContractorCreate) SetEmail(s string) *JobContractorCreate {
-	jcc.mutation.SetEmail(s)
-	return jcc
+func (_c *JobContractorCreate) SetEmail(v string) *JobContractorCreate {
+	_c.mutation.SetEmail(v)
+	return _c
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableEmail(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetEmail(*s)
+func (_c *JobContractorCreate) SetNillableEmail(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetEmail(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetPersonType sets the "PersonType" field.
-func (jcc *JobContractorCreate) SetPersonType(s string) *JobContractorCreate {
-	jcc.mutation.SetPersonType(s)
-	return jcc
+func (_c *JobContractorCreate) SetPersonType(v string) *JobContractorCreate {
+	_c.mutation.SetPersonType(v)
+	return _c
 }
 
 // SetNillablePersonType sets the "PersonType" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillablePersonType(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetPersonType(*s)
+func (_c *JobContractorCreate) SetNillablePersonType(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetPersonType(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetYDSID sets the "YDSID" field.
-func (jcc *JobContractorCreate) SetYDSID(i int) *JobContractorCreate {
-	jcc.mutation.SetYDSID(i)
-	return jcc
+func (_c *JobContractorCreate) SetYDSID(v int) *JobContractorCreate {
+	_c.mutation.SetYDSID(v)
+	return _c
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableYDSID(i *int) *JobContractorCreate {
-	if i != nil {
-		jcc.SetYDSID(*i)
+func (_c *JobContractorCreate) SetNillableYDSID(v *int) *JobContractorCreate {
+	if v != nil {
+		_c.SetYDSID(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetNote sets the "Note" field.
-func (jcc *JobContractorCreate) SetNote(s string) *JobContractorCreate {
-	jcc.mutation.SetNote(s)
-	return jcc
+func (_c *JobContractorCreate) SetNote(v string) *JobContractorCreate {
+	_c.mutation.SetNote(v)
+	return _c
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableNote(s *string) *JobContractorCreate {
-	if s != nil {
-		jcc.SetNote(*s)
+func (_c *JobContractorCreate) SetNillableNote(v *string) *JobContractorCreate {
+	if v != nil {
+		_c.SetNote(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jcc *JobContractorCreate) SetCreatedAt(t time.Time) *JobContractorCreate {
-	jcc.mutation.SetCreatedAt(t)
-	return jcc
+func (_c *JobContractorCreate) SetCreatedAt(v time.Time) *JobContractorCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableCreatedAt(t *time.Time) *JobContractorCreate {
-	if t != nil {
-		jcc.SetCreatedAt(*t)
+func (_c *JobContractorCreate) SetNillableCreatedAt(v *time.Time) *JobContractorCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return jcc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jcc *JobContractorCreate) SetUpdatedAt(t time.Time) *JobContractorCreate {
-	jcc.mutation.SetUpdatedAt(t)
-	return jcc
+func (_c *JobContractorCreate) SetUpdatedAt(v time.Time) *JobContractorCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (jcc *JobContractorCreate) SetNillableUpdatedAt(t *time.Time) *JobContractorCreate {
-	if t != nil {
-		jcc.SetUpdatedAt(*t)
+func (_c *JobContractorCreate) SetNillableUpdatedAt(v *time.Time) *JobContractorCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return jcc
+	return _c
 }
 
 // AddContractorIDs adds the "contractors" edge to the JobRelations entity by IDs.
-func (jcc *JobContractorCreate) AddContractorIDs(ids ...int) *JobContractorCreate {
-	jcc.mutation.AddContractorIDs(ids...)
-	return jcc
+func (_c *JobContractorCreate) AddContractorIDs(ids ...int) *JobContractorCreate {
+	_c.mutation.AddContractorIDs(ids...)
+	return _c
 }
 
 // AddContractors adds the "contractors" edges to the JobRelations entity.
-func (jcc *JobContractorCreate) AddContractors(j ...*JobRelations) *JobContractorCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *JobContractorCreate) AddContractors(v ...*JobRelations) *JobContractorCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jcc.AddContractorIDs(ids...)
+	return _c.AddContractorIDs(ids...)
 }
 
 // Mutation returns the JobContractorMutation object of the builder.
-func (jcc *JobContractorCreate) Mutation() *JobContractorMutation {
-	return jcc.mutation
+func (_c *JobContractorCreate) Mutation() *JobContractorMutation {
+	return _c.mutation
 }
 
 // Save creates the JobContractor in the database.
-func (jcc *JobContractorCreate) Save(ctx context.Context) (*JobContractor, error) {
-	jcc.defaults()
-	return withHooks(ctx, jcc.sqlSave, jcc.mutation, jcc.hooks)
+func (_c *JobContractorCreate) Save(ctx context.Context) (*JobContractor, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (jcc *JobContractorCreate) SaveX(ctx context.Context) *JobContractor {
-	v, err := jcc.Save(ctx)
+func (_c *JobContractorCreate) SaveX(ctx context.Context) *JobContractor {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -239,54 +239,54 @@ func (jcc *JobContractorCreate) SaveX(ctx context.Context) *JobContractor {
 }
 
 // Exec executes the query.
-func (jcc *JobContractorCreate) Exec(ctx context.Context) error {
-	_, err := jcc.Save(ctx)
+func (_c *JobContractorCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jcc *JobContractorCreate) ExecX(ctx context.Context) {
-	if err := jcc.Exec(ctx); err != nil {
+func (_c *JobContractorCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jcc *JobContractorCreate) defaults() {
-	if _, ok := jcc.mutation.Name(); !ok {
+func (_c *JobContractorCreate) defaults() {
+	if _, ok := _c.mutation.Name(); !ok {
 		v := jobcontractor.DefaultName
-		jcc.mutation.SetName(v)
+		_c.mutation.SetName(v)
 	}
-	if _, ok := jcc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobcontractor.DefaultCreatedAt()
-		jcc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := jcc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := jobcontractor.DefaultUpdatedAt()
-		jcc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (jcc *JobContractorCreate) check() error {
-	if _, ok := jcc.mutation.Name(); !ok {
+func (_c *JobContractorCreate) check() error {
+	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "JobContractor.Name"`)}
 	}
-	if _, ok := jcc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobContractor.CreatedAt"`)}
 	}
-	if _, ok := jcc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobContractor.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (jcc *JobContractorCreate) sqlSave(ctx context.Context) (*JobContractor, error) {
-	if err := jcc.check(); err != nil {
+func (_c *JobContractorCreate) sqlSave(ctx context.Context) (*JobContractor, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := jcc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, jcc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -294,69 +294,69 @@ func (jcc *JobContractorCreate) sqlSave(ctx context.Context) (*JobContractor, er
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	jcc.mutation.id = &_node.ID
-	jcc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (jcc *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSpec) {
+func (_c *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobContractor{config: jcc.config}
+		_node = &JobContractor{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobcontractor.Table, sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt))
 	)
-	if value, ok := jcc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(jobcontractor.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := jcc.mutation.TcNo(); ok {
+	if value, ok := _c.mutation.TcNo(); ok {
 		_spec.SetField(jobcontractor.FieldTcNo, field.TypeString, value)
 		_node.TcNo = value
 	}
-	if value, ok := jcc.mutation.RegisterNo(); ok {
+	if value, ok := _c.mutation.RegisterNo(); ok {
 		_spec.SetField(jobcontractor.FieldRegisterNo, field.TypeString, value)
 		_node.RegisterNo = value
 	}
-	if value, ok := jcc.mutation.Address(); ok {
+	if value, ok := _c.mutation.Address(); ok {
 		_spec.SetField(jobcontractor.FieldAddress, field.TypeString, value)
 		_node.Address = value
 	}
-	if value, ok := jcc.mutation.TaxNo(); ok {
+	if value, ok := _c.mutation.TaxNo(); ok {
 		_spec.SetField(jobcontractor.FieldTaxNo, field.TypeString, value)
 		_node.TaxNo = value
 	}
-	if value, ok := jcc.mutation.MobilePhone(); ok {
+	if value, ok := _c.mutation.MobilePhone(); ok {
 		_spec.SetField(jobcontractor.FieldMobilePhone, field.TypeString, value)
 		_node.MobilePhone = value
 	}
-	if value, ok := jcc.mutation.Phone(); ok {
+	if value, ok := _c.mutation.Phone(); ok {
 		_spec.SetField(jobcontractor.FieldPhone, field.TypeString, value)
 		_node.Phone = value
 	}
-	if value, ok := jcc.mutation.Email(); ok {
+	if value, ok := _c.mutation.Email(); ok {
 		_spec.SetField(jobcontractor.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := jcc.mutation.PersonType(); ok {
+	if value, ok := _c.mutation.PersonType(); ok {
 		_spec.SetField(jobcontractor.FieldPersonType, field.TypeString, value)
 		_node.PersonType = value
 	}
-	if value, ok := jcc.mutation.YDSID(); ok {
+	if value, ok := _c.mutation.YDSID(); ok {
 		_spec.SetField(jobcontractor.FieldYDSID, field.TypeInt, value)
 		_node.YDSID = value
 	}
-	if value, ok := jcc.mutation.Note(); ok {
+	if value, ok := _c.mutation.Note(); ok {
 		_spec.SetField(jobcontractor.FieldNote, field.TypeString, value)
 		_node.Note = value
 	}
-	if value, ok := jcc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := jcc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobcontractor.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := jcc.mutation.ContractorsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ContractorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -383,16 +383,16 @@ type JobContractorCreateBulk struct {
 }
 
 // Save creates the JobContractor entities in the database.
-func (jccb *JobContractorCreateBulk) Save(ctx context.Context) ([]*JobContractor, error) {
-	if jccb.err != nil {
-		return nil, jccb.err
+func (_c *JobContractorCreateBulk) Save(ctx context.Context) ([]*JobContractor, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jccb.builders))
-	nodes := make([]*JobContractor, len(jccb.builders))
-	mutators := make([]Mutator, len(jccb.builders))
-	for i := range jccb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*JobContractor, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := jccb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*JobContractorMutation)
@@ -406,11 +406,11 @@ func (jccb *JobContractorCreateBulk) Save(ctx context.Context) ([]*JobContractor
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jccb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jccb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -434,7 +434,7 @@ func (jccb *JobContractorCreateBulk) Save(ctx context.Context) ([]*JobContractor
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jccb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -442,8 +442,8 @@ func (jccb *JobContractorCreateBulk) Save(ctx context.Context) ([]*JobContractor
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jccb *JobContractorCreateBulk) SaveX(ctx context.Context) []*JobContractor {
-	v, err := jccb.Save(ctx)
+func (_c *JobContractorCreateBulk) SaveX(ctx context.Context) []*JobContractor {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -451,14 +451,14 @@ func (jccb *JobContractorCreateBulk) SaveX(ctx context.Context) []*JobContractor
 }
 
 // Exec executes the query.
-func (jccb *JobContractorCreateBulk) Exec(ctx context.Context) error {
-	_, err := jccb.Save(ctx)
+func (_c *JobContractorCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jccb *JobContractorCreateBulk) ExecX(ctx context.Context) {
-	if err := jccb.Exec(ctx); err != nil {
+func (_c *JobContractorCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

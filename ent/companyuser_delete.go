@@ -20,56 +20,56 @@ type CompanyUserDelete struct {
 }
 
 // Where appends a list predicates to the CompanyUserDelete builder.
-func (cud *CompanyUserDelete) Where(ps ...predicate.CompanyUser) *CompanyUserDelete {
-	cud.mutation.Where(ps...)
-	return cud
+func (_d *CompanyUserDelete) Where(ps ...predicate.CompanyUser) *CompanyUserDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (cud *CompanyUserDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, cud.sqlExec, cud.mutation, cud.hooks)
+func (_d *CompanyUserDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cud *CompanyUserDelete) ExecX(ctx context.Context) int {
-	n, err := cud.Exec(ctx)
+func (_d *CompanyUserDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (cud *CompanyUserDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *CompanyUserDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(companyuser.Table, sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt))
-	if ps := cud.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, cud.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	cud.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // CompanyUserDeleteOne is the builder for deleting a single CompanyUser entity.
 type CompanyUserDeleteOne struct {
-	cud *CompanyUserDelete
+	_d *CompanyUserDelete
 }
 
 // Where appends a list predicates to the CompanyUserDelete builder.
-func (cudo *CompanyUserDeleteOne) Where(ps ...predicate.CompanyUser) *CompanyUserDeleteOne {
-	cudo.cud.mutation.Where(ps...)
-	return cudo
+func (_d *CompanyUserDeleteOne) Where(ps ...predicate.CompanyUser) *CompanyUserDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (cudo *CompanyUserDeleteOne) Exec(ctx context.Context) error {
-	n, err := cudo.cud.Exec(ctx)
+func (_d *CompanyUserDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (cudo *CompanyUserDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cudo *CompanyUserDeleteOne) ExecX(ctx context.Context) {
-	if err := cudo.Exec(ctx); err != nil {
+func (_d *CompanyUserDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

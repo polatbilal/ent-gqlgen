@@ -22,520 +22,520 @@ type JobDetailCreate struct {
 }
 
 // SetYibfNo sets the "YibfNo" field.
-func (jdc *JobDetailCreate) SetYibfNo(i int) *JobDetailCreate {
-	jdc.mutation.SetYibfNo(i)
-	return jdc
+func (_c *JobDetailCreate) SetYibfNo(v int) *JobDetailCreate {
+	_c.mutation.SetYibfNo(v)
+	return _c
 }
 
 // SetTitle sets the "Title" field.
-func (jdc *JobDetailCreate) SetTitle(s string) *JobDetailCreate {
-	jdc.mutation.SetTitle(s)
-	return jdc
+func (_c *JobDetailCreate) SetTitle(v string) *JobDetailCreate {
+	_c.mutation.SetTitle(v)
+	return _c
 }
 
 // SetNillableTitle sets the "Title" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableTitle(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetTitle(*s)
+func (_c *JobDetailCreate) SetNillableTitle(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetTitle(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetAdministration sets the "Administration" field.
-func (jdc *JobDetailCreate) SetAdministration(s string) *JobDetailCreate {
-	jdc.mutation.SetAdministration(s)
-	return jdc
+func (_c *JobDetailCreate) SetAdministration(v string) *JobDetailCreate {
+	_c.mutation.SetAdministration(v)
+	return _c
 }
 
 // SetNillableAdministration sets the "Administration" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableAdministration(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetAdministration(*s)
+func (_c *JobDetailCreate) SetNillableAdministration(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetAdministration(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetState sets the "State" field.
-func (jdc *JobDetailCreate) SetState(s string) *JobDetailCreate {
-	jdc.mutation.SetState(s)
-	return jdc
+func (_c *JobDetailCreate) SetState(v string) *JobDetailCreate {
+	_c.mutation.SetState(v)
+	return _c
 }
 
 // SetNillableState sets the "State" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableState(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetState(*s)
+func (_c *JobDetailCreate) SetNillableState(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetState(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetIsland sets the "Island" field.
-func (jdc *JobDetailCreate) SetIsland(s string) *JobDetailCreate {
-	jdc.mutation.SetIsland(s)
-	return jdc
+func (_c *JobDetailCreate) SetIsland(v string) *JobDetailCreate {
+	_c.mutation.SetIsland(v)
+	return _c
 }
 
 // SetNillableIsland sets the "Island" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableIsland(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetIsland(*s)
+func (_c *JobDetailCreate) SetNillableIsland(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetIsland(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetParcel sets the "Parcel" field.
-func (jdc *JobDetailCreate) SetParcel(s string) *JobDetailCreate {
-	jdc.mutation.SetParcel(s)
-	return jdc
+func (_c *JobDetailCreate) SetParcel(v string) *JobDetailCreate {
+	_c.mutation.SetParcel(v)
+	return _c
 }
 
 // SetNillableParcel sets the "Parcel" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableParcel(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetParcel(*s)
+func (_c *JobDetailCreate) SetNillableParcel(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetParcel(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetSheet sets the "Sheet" field.
-func (jdc *JobDetailCreate) SetSheet(s string) *JobDetailCreate {
-	jdc.mutation.SetSheet(s)
-	return jdc
+func (_c *JobDetailCreate) SetSheet(v string) *JobDetailCreate {
+	_c.mutation.SetSheet(v)
+	return _c
 }
 
 // SetNillableSheet sets the "Sheet" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableSheet(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetSheet(*s)
+func (_c *JobDetailCreate) SetNillableSheet(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetSheet(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetContractDate sets the "ContractDate" field.
-func (jdc *JobDetailCreate) SetContractDate(t time.Time) *JobDetailCreate {
-	jdc.mutation.SetContractDate(t)
-	return jdc
+func (_c *JobDetailCreate) SetContractDate(v time.Time) *JobDetailCreate {
+	_c.mutation.SetContractDate(v)
+	return _c
 }
 
 // SetNillableContractDate sets the "ContractDate" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableContractDate(t *time.Time) *JobDetailCreate {
-	if t != nil {
-		jdc.SetContractDate(*t)
+func (_c *JobDetailCreate) SetNillableContractDate(v *time.Time) *JobDetailCreate {
+	if v != nil {
+		_c.SetContractDate(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetStartDate sets the "StartDate" field.
-func (jdc *JobDetailCreate) SetStartDate(t time.Time) *JobDetailCreate {
-	jdc.mutation.SetStartDate(t)
-	return jdc
+func (_c *JobDetailCreate) SetStartDate(v time.Time) *JobDetailCreate {
+	_c.mutation.SetStartDate(v)
+	return _c
 }
 
 // SetNillableStartDate sets the "StartDate" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableStartDate(t *time.Time) *JobDetailCreate {
-	if t != nil {
-		jdc.SetStartDate(*t)
+func (_c *JobDetailCreate) SetNillableStartDate(v *time.Time) *JobDetailCreate {
+	if v != nil {
+		_c.SetStartDate(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetLicenseDate sets the "LicenseDate" field.
-func (jdc *JobDetailCreate) SetLicenseDate(t time.Time) *JobDetailCreate {
-	jdc.mutation.SetLicenseDate(t)
-	return jdc
+func (_c *JobDetailCreate) SetLicenseDate(v time.Time) *JobDetailCreate {
+	_c.mutation.SetLicenseDate(v)
+	return _c
 }
 
 // SetNillableLicenseDate sets the "LicenseDate" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableLicenseDate(t *time.Time) *JobDetailCreate {
-	if t != nil {
-		jdc.SetLicenseDate(*t)
+func (_c *JobDetailCreate) SetNillableLicenseDate(v *time.Time) *JobDetailCreate {
+	if v != nil {
+		_c.SetLicenseDate(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetLicenseNo sets the "LicenseNo" field.
-func (jdc *JobDetailCreate) SetLicenseNo(s string) *JobDetailCreate {
-	jdc.mutation.SetLicenseNo(s)
-	return jdc
+func (_c *JobDetailCreate) SetLicenseNo(v string) *JobDetailCreate {
+	_c.mutation.SetLicenseNo(v)
+	return _c
 }
 
 // SetNillableLicenseNo sets the "LicenseNo" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableLicenseNo(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetLicenseNo(*s)
+func (_c *JobDetailCreate) SetNillableLicenseNo(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetLicenseNo(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetDistributionDate sets the "DistributionDate" field.
-func (jdc *JobDetailCreate) SetDistributionDate(t time.Time) *JobDetailCreate {
-	jdc.mutation.SetDistributionDate(t)
-	return jdc
+func (_c *JobDetailCreate) SetDistributionDate(v time.Time) *JobDetailCreate {
+	_c.mutation.SetDistributionDate(v)
+	return _c
 }
 
 // SetNillableDistributionDate sets the "DistributionDate" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableDistributionDate(t *time.Time) *JobDetailCreate {
-	if t != nil {
-		jdc.SetDistributionDate(*t)
+func (_c *JobDetailCreate) SetNillableDistributionDate(v *time.Time) *JobDetailCreate {
+	if v != nil {
+		_c.SetDistributionDate(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetCompletionDate sets the "CompletionDate" field.
-func (jdc *JobDetailCreate) SetCompletionDate(t time.Time) *JobDetailCreate {
-	jdc.mutation.SetCompletionDate(t)
-	return jdc
+func (_c *JobDetailCreate) SetCompletionDate(v time.Time) *JobDetailCreate {
+	_c.mutation.SetCompletionDate(v)
+	return _c
 }
 
 // SetNillableCompletionDate sets the "CompletionDate" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableCompletionDate(t *time.Time) *JobDetailCreate {
-	if t != nil {
-		jdc.SetCompletionDate(*t)
+func (_c *JobDetailCreate) SetNillableCompletionDate(v *time.Time) *JobDetailCreate {
+	if v != nil {
+		_c.SetCompletionDate(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetLandArea sets the "LandArea" field.
-func (jdc *JobDetailCreate) SetLandArea(f float64) *JobDetailCreate {
-	jdc.mutation.SetLandArea(f)
-	return jdc
+func (_c *JobDetailCreate) SetLandArea(v float64) *JobDetailCreate {
+	_c.mutation.SetLandArea(v)
+	return _c
 }
 
 // SetNillableLandArea sets the "LandArea" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableLandArea(f *float64) *JobDetailCreate {
-	if f != nil {
-		jdc.SetLandArea(*f)
+func (_c *JobDetailCreate) SetNillableLandArea(v *float64) *JobDetailCreate {
+	if v != nil {
+		_c.SetLandArea(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetTotalArea sets the "TotalArea" field.
-func (jdc *JobDetailCreate) SetTotalArea(f float64) *JobDetailCreate {
-	jdc.mutation.SetTotalArea(f)
-	return jdc
+func (_c *JobDetailCreate) SetTotalArea(v float64) *JobDetailCreate {
+	_c.mutation.SetTotalArea(v)
+	return _c
 }
 
 // SetNillableTotalArea sets the "TotalArea" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableTotalArea(f *float64) *JobDetailCreate {
-	if f != nil {
-		jdc.SetTotalArea(*f)
+func (_c *JobDetailCreate) SetNillableTotalArea(v *float64) *JobDetailCreate {
+	if v != nil {
+		_c.SetTotalArea(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetConstructionArea sets the "ConstructionArea" field.
-func (jdc *JobDetailCreate) SetConstructionArea(f float64) *JobDetailCreate {
-	jdc.mutation.SetConstructionArea(f)
-	return jdc
+func (_c *JobDetailCreate) SetConstructionArea(v float64) *JobDetailCreate {
+	_c.mutation.SetConstructionArea(v)
+	return _c
 }
 
 // SetNillableConstructionArea sets the "ConstructionArea" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableConstructionArea(f *float64) *JobDetailCreate {
-	if f != nil {
-		jdc.SetConstructionArea(*f)
+func (_c *JobDetailCreate) SetNillableConstructionArea(v *float64) *JobDetailCreate {
+	if v != nil {
+		_c.SetConstructionArea(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetLeftArea sets the "LeftArea" field.
-func (jdc *JobDetailCreate) SetLeftArea(f float64) *JobDetailCreate {
-	jdc.mutation.SetLeftArea(f)
-	return jdc
+func (_c *JobDetailCreate) SetLeftArea(v float64) *JobDetailCreate {
+	_c.mutation.SetLeftArea(v)
+	return _c
 }
 
 // SetNillableLeftArea sets the "LeftArea" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableLeftArea(f *float64) *JobDetailCreate {
-	if f != nil {
-		jdc.SetLeftArea(*f)
+func (_c *JobDetailCreate) SetNillableLeftArea(v *float64) *JobDetailCreate {
+	if v != nil {
+		_c.SetLeftArea(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetYDSAddress sets the "YDSAddress" field.
-func (jdc *JobDetailCreate) SetYDSAddress(s string) *JobDetailCreate {
-	jdc.mutation.SetYDSAddress(s)
-	return jdc
+func (_c *JobDetailCreate) SetYDSAddress(v string) *JobDetailCreate {
+	_c.mutation.SetYDSAddress(v)
+	return _c
 }
 
 // SetNillableYDSAddress sets the "YDSAddress" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableYDSAddress(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetYDSAddress(*s)
+func (_c *JobDetailCreate) SetNillableYDSAddress(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetYDSAddress(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetAddress sets the "Address" field.
-func (jdc *JobDetailCreate) SetAddress(s string) *JobDetailCreate {
-	jdc.mutation.SetAddress(s)
-	return jdc
+func (_c *JobDetailCreate) SetAddress(v string) *JobDetailCreate {
+	_c.mutation.SetAddress(v)
+	return _c
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableAddress(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetAddress(*s)
+func (_c *JobDetailCreate) SetNillableAddress(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetAddress(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetBuildingClass sets the "BuildingClass" field.
-func (jdc *JobDetailCreate) SetBuildingClass(s string) *JobDetailCreate {
-	jdc.mutation.SetBuildingClass(s)
-	return jdc
+func (_c *JobDetailCreate) SetBuildingClass(v string) *JobDetailCreate {
+	_c.mutation.SetBuildingClass(v)
+	return _c
 }
 
 // SetNillableBuildingClass sets the "BuildingClass" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableBuildingClass(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetBuildingClass(*s)
+func (_c *JobDetailCreate) SetNillableBuildingClass(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetBuildingClass(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetBuildingType sets the "BuildingType" field.
-func (jdc *JobDetailCreate) SetBuildingType(s string) *JobDetailCreate {
-	jdc.mutation.SetBuildingType(s)
-	return jdc
+func (_c *JobDetailCreate) SetBuildingType(v string) *JobDetailCreate {
+	_c.mutation.SetBuildingType(v)
+	return _c
 }
 
 // SetNillableBuildingType sets the "BuildingType" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableBuildingType(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetBuildingType(*s)
+func (_c *JobDetailCreate) SetNillableBuildingType(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetBuildingType(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetLevel sets the "Level" field.
-func (jdc *JobDetailCreate) SetLevel(f float64) *JobDetailCreate {
-	jdc.mutation.SetLevel(f)
-	return jdc
+func (_c *JobDetailCreate) SetLevel(v float64) *JobDetailCreate {
+	_c.mutation.SetLevel(v)
+	return _c
 }
 
 // SetNillableLevel sets the "Level" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableLevel(f *float64) *JobDetailCreate {
-	if f != nil {
-		jdc.SetLevel(*f)
+func (_c *JobDetailCreate) SetNillableLevel(v *float64) *JobDetailCreate {
+	if v != nil {
+		_c.SetLevel(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetUnitPrice sets the "UnitPrice" field.
-func (jdc *JobDetailCreate) SetUnitPrice(f float64) *JobDetailCreate {
-	jdc.mutation.SetUnitPrice(f)
-	return jdc
+func (_c *JobDetailCreate) SetUnitPrice(v float64) *JobDetailCreate {
+	_c.mutation.SetUnitPrice(v)
+	return _c
 }
 
 // SetNillableUnitPrice sets the "UnitPrice" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableUnitPrice(f *float64) *JobDetailCreate {
-	if f != nil {
-		jdc.SetUnitPrice(*f)
+func (_c *JobDetailCreate) SetNillableUnitPrice(v *float64) *JobDetailCreate {
+	if v != nil {
+		_c.SetUnitPrice(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetFloorCount sets the "FloorCount" field.
-func (jdc *JobDetailCreate) SetFloorCount(i int) *JobDetailCreate {
-	jdc.mutation.SetFloorCount(i)
-	return jdc
+func (_c *JobDetailCreate) SetFloorCount(v int) *JobDetailCreate {
+	_c.mutation.SetFloorCount(v)
+	return _c
 }
 
 // SetNillableFloorCount sets the "FloorCount" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableFloorCount(i *int) *JobDetailCreate {
-	if i != nil {
-		jdc.SetFloorCount(*i)
+func (_c *JobDetailCreate) SetNillableFloorCount(v *int) *JobDetailCreate {
+	if v != nil {
+		_c.SetFloorCount(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetBKSReferenceNo sets the "BKSReferenceNo" field.
-func (jdc *JobDetailCreate) SetBKSReferenceNo(s string) *JobDetailCreate {
-	jdc.mutation.SetBKSReferenceNo(s)
-	return jdc
+func (_c *JobDetailCreate) SetBKSReferenceNo(v string) *JobDetailCreate {
+	_c.mutation.SetBKSReferenceNo(v)
+	return _c
 }
 
 // SetNillableBKSReferenceNo sets the "BKSReferenceNo" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableBKSReferenceNo(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetBKSReferenceNo(*s)
+func (_c *JobDetailCreate) SetNillableBKSReferenceNo(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetBKSReferenceNo(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetCoordinates sets the "Coordinates" field.
-func (jdc *JobDetailCreate) SetCoordinates(s string) *JobDetailCreate {
-	jdc.mutation.SetCoordinates(s)
-	return jdc
+func (_c *JobDetailCreate) SetCoordinates(v string) *JobDetailCreate {
+	_c.mutation.SetCoordinates(v)
+	return _c
 }
 
 // SetNillableCoordinates sets the "Coordinates" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableCoordinates(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetCoordinates(*s)
+func (_c *JobDetailCreate) SetNillableCoordinates(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetCoordinates(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetFolderNo sets the "FolderNo" field.
-func (jdc *JobDetailCreate) SetFolderNo(s string) *JobDetailCreate {
-	jdc.mutation.SetFolderNo(s)
-	return jdc
+func (_c *JobDetailCreate) SetFolderNo(v string) *JobDetailCreate {
+	_c.mutation.SetFolderNo(v)
+	return _c
 }
 
 // SetNillableFolderNo sets the "FolderNo" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableFolderNo(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetFolderNo(*s)
+func (_c *JobDetailCreate) SetNillableFolderNo(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetFolderNo(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetUploadedFile sets the "UploadedFile" field.
-func (jdc *JobDetailCreate) SetUploadedFile(b bool) *JobDetailCreate {
-	jdc.mutation.SetUploadedFile(b)
-	return jdc
+func (_c *JobDetailCreate) SetUploadedFile(v bool) *JobDetailCreate {
+	_c.mutation.SetUploadedFile(v)
+	return _c
 }
 
 // SetNillableUploadedFile sets the "UploadedFile" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableUploadedFile(b *bool) *JobDetailCreate {
-	if b != nil {
-		jdc.SetUploadedFile(*b)
+func (_c *JobDetailCreate) SetNillableUploadedFile(v *bool) *JobDetailCreate {
+	if v != nil {
+		_c.SetUploadedFile(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetIndustryArea sets the "IndustryArea" field.
-func (jdc *JobDetailCreate) SetIndustryArea(b bool) *JobDetailCreate {
-	jdc.mutation.SetIndustryArea(b)
-	return jdc
+func (_c *JobDetailCreate) SetIndustryArea(v bool) *JobDetailCreate {
+	_c.mutation.SetIndustryArea(v)
+	return _c
 }
 
 // SetNillableIndustryArea sets the "IndustryArea" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableIndustryArea(b *bool) *JobDetailCreate {
-	if b != nil {
-		jdc.SetIndustryArea(*b)
+func (_c *JobDetailCreate) SetNillableIndustryArea(v *bool) *JobDetailCreate {
+	if v != nil {
+		_c.SetIndustryArea(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetClusterStructure sets the "ClusterStructure" field.
-func (jdc *JobDetailCreate) SetClusterStructure(b bool) *JobDetailCreate {
-	jdc.mutation.SetClusterStructure(b)
-	return jdc
+func (_c *JobDetailCreate) SetClusterStructure(v bool) *JobDetailCreate {
+	_c.mutation.SetClusterStructure(v)
+	return _c
 }
 
 // SetNillableClusterStructure sets the "ClusterStructure" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableClusterStructure(b *bool) *JobDetailCreate {
-	if b != nil {
-		jdc.SetClusterStructure(*b)
+func (_c *JobDetailCreate) SetNillableClusterStructure(v *bool) *JobDetailCreate {
+	if v != nil {
+		_c.SetClusterStructure(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetIsLicenseExpired sets the "IsLicenseExpired" field.
-func (jdc *JobDetailCreate) SetIsLicenseExpired(b bool) *JobDetailCreate {
-	jdc.mutation.SetIsLicenseExpired(b)
-	return jdc
+func (_c *JobDetailCreate) SetIsLicenseExpired(v bool) *JobDetailCreate {
+	_c.mutation.SetIsLicenseExpired(v)
+	return _c
 }
 
 // SetNillableIsLicenseExpired sets the "IsLicenseExpired" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableIsLicenseExpired(b *bool) *JobDetailCreate {
-	if b != nil {
-		jdc.SetIsLicenseExpired(*b)
+func (_c *JobDetailCreate) SetNillableIsLicenseExpired(v *bool) *JobDetailCreate {
+	if v != nil {
+		_c.SetIsLicenseExpired(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetIsCompleted sets the "IsCompleted" field.
-func (jdc *JobDetailCreate) SetIsCompleted(b bool) *JobDetailCreate {
-	jdc.mutation.SetIsCompleted(b)
-	return jdc
+func (_c *JobDetailCreate) SetIsCompleted(v bool) *JobDetailCreate {
+	_c.mutation.SetIsCompleted(v)
+	return _c
 }
 
 // SetNillableIsCompleted sets the "IsCompleted" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableIsCompleted(b *bool) *JobDetailCreate {
-	if b != nil {
-		jdc.SetIsCompleted(*b)
+func (_c *JobDetailCreate) SetNillableIsCompleted(v *bool) *JobDetailCreate {
+	if v != nil {
+		_c.SetIsCompleted(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetNote sets the "Note" field.
-func (jdc *JobDetailCreate) SetNote(s string) *JobDetailCreate {
-	jdc.mutation.SetNote(s)
-	return jdc
+func (_c *JobDetailCreate) SetNote(v string) *JobDetailCreate {
+	_c.mutation.SetNote(v)
+	return _c
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableNote(s *string) *JobDetailCreate {
-	if s != nil {
-		jdc.SetNote(*s)
+func (_c *JobDetailCreate) SetNillableNote(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetNote(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jdc *JobDetailCreate) SetCreatedAt(t time.Time) *JobDetailCreate {
-	jdc.mutation.SetCreatedAt(t)
-	return jdc
+func (_c *JobDetailCreate) SetCreatedAt(v time.Time) *JobDetailCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableCreatedAt(t *time.Time) *JobDetailCreate {
-	if t != nil {
-		jdc.SetCreatedAt(*t)
+func (_c *JobDetailCreate) SetNillableCreatedAt(v *time.Time) *JobDetailCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jdc *JobDetailCreate) SetUpdatedAt(t time.Time) *JobDetailCreate {
-	jdc.mutation.SetUpdatedAt(t)
-	return jdc
+func (_c *JobDetailCreate) SetUpdatedAt(v time.Time) *JobDetailCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableUpdatedAt(t *time.Time) *JobDetailCreate {
-	if t != nil {
-		jdc.SetUpdatedAt(*t)
+func (_c *JobDetailCreate) SetNillableUpdatedAt(v *time.Time) *JobDetailCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return jdc
+	return _c
 }
 
 // SetRelationsID sets the "relations" edge to the JobRelations entity by ID.
-func (jdc *JobDetailCreate) SetRelationsID(id int) *JobDetailCreate {
-	jdc.mutation.SetRelationsID(id)
-	return jdc
+func (_c *JobDetailCreate) SetRelationsID(id int) *JobDetailCreate {
+	_c.mutation.SetRelationsID(id)
+	return _c
 }
 
 // SetNillableRelationsID sets the "relations" edge to the JobRelations entity by ID if the given value is not nil.
-func (jdc *JobDetailCreate) SetNillableRelationsID(id *int) *JobDetailCreate {
+func (_c *JobDetailCreate) SetNillableRelationsID(id *int) *JobDetailCreate {
 	if id != nil {
-		jdc = jdc.SetRelationsID(*id)
+		_c = _c.SetRelationsID(*id)
 	}
-	return jdc
+	return _c
 }
 
 // SetRelations sets the "relations" edge to the JobRelations entity.
-func (jdc *JobDetailCreate) SetRelations(j *JobRelations) *JobDetailCreate {
-	return jdc.SetRelationsID(j.ID)
+func (_c *JobDetailCreate) SetRelations(v *JobRelations) *JobDetailCreate {
+	return _c.SetRelationsID(v.ID)
 }
 
 // Mutation returns the JobDetailMutation object of the builder.
-func (jdc *JobDetailCreate) Mutation() *JobDetailMutation {
-	return jdc.mutation
+func (_c *JobDetailCreate) Mutation() *JobDetailMutation {
+	return _c.mutation
 }
 
 // Save creates the JobDetail in the database.
-func (jdc *JobDetailCreate) Save(ctx context.Context) (*JobDetail, error) {
-	jdc.defaults()
-	return withHooks(ctx, jdc.sqlSave, jdc.mutation, jdc.hooks)
+func (_c *JobDetailCreate) Save(ctx context.Context) (*JobDetail, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (jdc *JobDetailCreate) SaveX(ctx context.Context) *JobDetail {
-	v, err := jdc.Save(ctx)
+func (_c *JobDetailCreate) SaveX(ctx context.Context) *JobDetail {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -543,70 +543,70 @@ func (jdc *JobDetailCreate) SaveX(ctx context.Context) *JobDetail {
 }
 
 // Exec executes the query.
-func (jdc *JobDetailCreate) Exec(ctx context.Context) error {
-	_, err := jdc.Save(ctx)
+func (_c *JobDetailCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jdc *JobDetailCreate) ExecX(ctx context.Context) {
-	if err := jdc.Exec(ctx); err != nil {
+func (_c *JobDetailCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jdc *JobDetailCreate) defaults() {
-	if _, ok := jdc.mutation.UploadedFile(); !ok {
+func (_c *JobDetailCreate) defaults() {
+	if _, ok := _c.mutation.UploadedFile(); !ok {
 		v := jobdetail.DefaultUploadedFile
-		jdc.mutation.SetUploadedFile(v)
+		_c.mutation.SetUploadedFile(v)
 	}
-	if _, ok := jdc.mutation.IndustryArea(); !ok {
+	if _, ok := _c.mutation.IndustryArea(); !ok {
 		v := jobdetail.DefaultIndustryArea
-		jdc.mutation.SetIndustryArea(v)
+		_c.mutation.SetIndustryArea(v)
 	}
-	if _, ok := jdc.mutation.ClusterStructure(); !ok {
+	if _, ok := _c.mutation.ClusterStructure(); !ok {
 		v := jobdetail.DefaultClusterStructure
-		jdc.mutation.SetClusterStructure(v)
+		_c.mutation.SetClusterStructure(v)
 	}
-	if _, ok := jdc.mutation.IsLicenseExpired(); !ok {
+	if _, ok := _c.mutation.IsLicenseExpired(); !ok {
 		v := jobdetail.DefaultIsLicenseExpired
-		jdc.mutation.SetIsLicenseExpired(v)
+		_c.mutation.SetIsLicenseExpired(v)
 	}
-	if _, ok := jdc.mutation.IsCompleted(); !ok {
+	if _, ok := _c.mutation.IsCompleted(); !ok {
 		v := jobdetail.DefaultIsCompleted
-		jdc.mutation.SetIsCompleted(v)
+		_c.mutation.SetIsCompleted(v)
 	}
-	if _, ok := jdc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobdetail.DefaultCreatedAt()
-		jdc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := jdc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := jobdetail.DefaultUpdatedAt()
-		jdc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (jdc *JobDetailCreate) check() error {
-	if _, ok := jdc.mutation.YibfNo(); !ok {
+func (_c *JobDetailCreate) check() error {
+	if _, ok := _c.mutation.YibfNo(); !ok {
 		return &ValidationError{Name: "YibfNo", err: errors.New(`ent: missing required field "JobDetail.YibfNo"`)}
 	}
-	if _, ok := jdc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobDetail.CreatedAt"`)}
 	}
-	if _, ok := jdc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobDetail.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (jdc *JobDetailCreate) sqlSave(ctx context.Context) (*JobDetail, error) {
-	if err := jdc.check(); err != nil {
+func (_c *JobDetailCreate) sqlSave(ctx context.Context) (*JobDetail, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := jdc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, jdc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -614,157 +614,157 @@ func (jdc *JobDetailCreate) sqlSave(ctx context.Context) (*JobDetail, error) {
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	jdc.mutation.id = &_node.ID
-	jdc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (jdc *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
+func (_c *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobDetail{config: jdc.config}
+		_node = &JobDetail{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobdetail.Table, sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt))
 	)
-	if value, ok := jdc.mutation.YibfNo(); ok {
+	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobdetail.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
 	}
-	if value, ok := jdc.mutation.Title(); ok {
+	if value, ok := _c.mutation.Title(); ok {
 		_spec.SetField(jobdetail.FieldTitle, field.TypeString, value)
 		_node.Title = value
 	}
-	if value, ok := jdc.mutation.Administration(); ok {
+	if value, ok := _c.mutation.Administration(); ok {
 		_spec.SetField(jobdetail.FieldAdministration, field.TypeString, value)
 		_node.Administration = value
 	}
-	if value, ok := jdc.mutation.State(); ok {
+	if value, ok := _c.mutation.State(); ok {
 		_spec.SetField(jobdetail.FieldState, field.TypeString, value)
 		_node.State = value
 	}
-	if value, ok := jdc.mutation.Island(); ok {
+	if value, ok := _c.mutation.Island(); ok {
 		_spec.SetField(jobdetail.FieldIsland, field.TypeString, value)
 		_node.Island = value
 	}
-	if value, ok := jdc.mutation.Parcel(); ok {
+	if value, ok := _c.mutation.Parcel(); ok {
 		_spec.SetField(jobdetail.FieldParcel, field.TypeString, value)
 		_node.Parcel = value
 	}
-	if value, ok := jdc.mutation.Sheet(); ok {
+	if value, ok := _c.mutation.Sheet(); ok {
 		_spec.SetField(jobdetail.FieldSheet, field.TypeString, value)
 		_node.Sheet = value
 	}
-	if value, ok := jdc.mutation.ContractDate(); ok {
+	if value, ok := _c.mutation.ContractDate(); ok {
 		_spec.SetField(jobdetail.FieldContractDate, field.TypeTime, value)
 		_node.ContractDate = value
 	}
-	if value, ok := jdc.mutation.StartDate(); ok {
+	if value, ok := _c.mutation.StartDate(); ok {
 		_spec.SetField(jobdetail.FieldStartDate, field.TypeTime, value)
 		_node.StartDate = value
 	}
-	if value, ok := jdc.mutation.LicenseDate(); ok {
+	if value, ok := _c.mutation.LicenseDate(); ok {
 		_spec.SetField(jobdetail.FieldLicenseDate, field.TypeTime, value)
 		_node.LicenseDate = value
 	}
-	if value, ok := jdc.mutation.LicenseNo(); ok {
+	if value, ok := _c.mutation.LicenseNo(); ok {
 		_spec.SetField(jobdetail.FieldLicenseNo, field.TypeString, value)
 		_node.LicenseNo = value
 	}
-	if value, ok := jdc.mutation.DistributionDate(); ok {
+	if value, ok := _c.mutation.DistributionDate(); ok {
 		_spec.SetField(jobdetail.FieldDistributionDate, field.TypeTime, value)
 		_node.DistributionDate = value
 	}
-	if value, ok := jdc.mutation.CompletionDate(); ok {
+	if value, ok := _c.mutation.CompletionDate(); ok {
 		_spec.SetField(jobdetail.FieldCompletionDate, field.TypeTime, value)
 		_node.CompletionDate = value
 	}
-	if value, ok := jdc.mutation.LandArea(); ok {
+	if value, ok := _c.mutation.LandArea(); ok {
 		_spec.SetField(jobdetail.FieldLandArea, field.TypeFloat64, value)
 		_node.LandArea = value
 	}
-	if value, ok := jdc.mutation.TotalArea(); ok {
+	if value, ok := _c.mutation.TotalArea(); ok {
 		_spec.SetField(jobdetail.FieldTotalArea, field.TypeFloat64, value)
 		_node.TotalArea = value
 	}
-	if value, ok := jdc.mutation.ConstructionArea(); ok {
+	if value, ok := _c.mutation.ConstructionArea(); ok {
 		_spec.SetField(jobdetail.FieldConstructionArea, field.TypeFloat64, value)
 		_node.ConstructionArea = value
 	}
-	if value, ok := jdc.mutation.LeftArea(); ok {
+	if value, ok := _c.mutation.LeftArea(); ok {
 		_spec.SetField(jobdetail.FieldLeftArea, field.TypeFloat64, value)
 		_node.LeftArea = value
 	}
-	if value, ok := jdc.mutation.YDSAddress(); ok {
+	if value, ok := _c.mutation.YDSAddress(); ok {
 		_spec.SetField(jobdetail.FieldYDSAddress, field.TypeString, value)
 		_node.YDSAddress = value
 	}
-	if value, ok := jdc.mutation.Address(); ok {
+	if value, ok := _c.mutation.Address(); ok {
 		_spec.SetField(jobdetail.FieldAddress, field.TypeString, value)
 		_node.Address = value
 	}
-	if value, ok := jdc.mutation.BuildingClass(); ok {
+	if value, ok := _c.mutation.BuildingClass(); ok {
 		_spec.SetField(jobdetail.FieldBuildingClass, field.TypeString, value)
 		_node.BuildingClass = value
 	}
-	if value, ok := jdc.mutation.BuildingType(); ok {
+	if value, ok := _c.mutation.BuildingType(); ok {
 		_spec.SetField(jobdetail.FieldBuildingType, field.TypeString, value)
 		_node.BuildingType = value
 	}
-	if value, ok := jdc.mutation.Level(); ok {
+	if value, ok := _c.mutation.Level(); ok {
 		_spec.SetField(jobdetail.FieldLevel, field.TypeFloat64, value)
 		_node.Level = value
 	}
-	if value, ok := jdc.mutation.UnitPrice(); ok {
+	if value, ok := _c.mutation.UnitPrice(); ok {
 		_spec.SetField(jobdetail.FieldUnitPrice, field.TypeFloat64, value)
 		_node.UnitPrice = value
 	}
-	if value, ok := jdc.mutation.FloorCount(); ok {
+	if value, ok := _c.mutation.FloorCount(); ok {
 		_spec.SetField(jobdetail.FieldFloorCount, field.TypeInt, value)
 		_node.FloorCount = value
 	}
-	if value, ok := jdc.mutation.BKSReferenceNo(); ok {
+	if value, ok := _c.mutation.BKSReferenceNo(); ok {
 		_spec.SetField(jobdetail.FieldBKSReferenceNo, field.TypeString, value)
 		_node.BKSReferenceNo = value
 	}
-	if value, ok := jdc.mutation.Coordinates(); ok {
+	if value, ok := _c.mutation.Coordinates(); ok {
 		_spec.SetField(jobdetail.FieldCoordinates, field.TypeString, value)
 		_node.Coordinates = value
 	}
-	if value, ok := jdc.mutation.FolderNo(); ok {
+	if value, ok := _c.mutation.FolderNo(); ok {
 		_spec.SetField(jobdetail.FieldFolderNo, field.TypeString, value)
 		_node.FolderNo = value
 	}
-	if value, ok := jdc.mutation.UploadedFile(); ok {
+	if value, ok := _c.mutation.UploadedFile(); ok {
 		_spec.SetField(jobdetail.FieldUploadedFile, field.TypeBool, value)
 		_node.UploadedFile = value
 	}
-	if value, ok := jdc.mutation.IndustryArea(); ok {
+	if value, ok := _c.mutation.IndustryArea(); ok {
 		_spec.SetField(jobdetail.FieldIndustryArea, field.TypeBool, value)
 		_node.IndustryArea = value
 	}
-	if value, ok := jdc.mutation.ClusterStructure(); ok {
+	if value, ok := _c.mutation.ClusterStructure(); ok {
 		_spec.SetField(jobdetail.FieldClusterStructure, field.TypeBool, value)
 		_node.ClusterStructure = value
 	}
-	if value, ok := jdc.mutation.IsLicenseExpired(); ok {
+	if value, ok := _c.mutation.IsLicenseExpired(); ok {
 		_spec.SetField(jobdetail.FieldIsLicenseExpired, field.TypeBool, value)
 		_node.IsLicenseExpired = value
 	}
-	if value, ok := jdc.mutation.IsCompleted(); ok {
+	if value, ok := _c.mutation.IsCompleted(); ok {
 		_spec.SetField(jobdetail.FieldIsCompleted, field.TypeBool, value)
 		_node.IsCompleted = value
 	}
-	if value, ok := jdc.mutation.Note(); ok {
+	if value, ok := _c.mutation.Note(); ok {
 		_spec.SetField(jobdetail.FieldNote, field.TypeString, value)
 		_node.Note = value
 	}
-	if value, ok := jdc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobdetail.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := jdc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobdetail.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := jdc.mutation.RelationsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.RelationsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -791,16 +791,16 @@ type JobDetailCreateBulk struct {
 }
 
 // Save creates the JobDetail entities in the database.
-func (jdcb *JobDetailCreateBulk) Save(ctx context.Context) ([]*JobDetail, error) {
-	if jdcb.err != nil {
-		return nil, jdcb.err
+func (_c *JobDetailCreateBulk) Save(ctx context.Context) ([]*JobDetail, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jdcb.builders))
-	nodes := make([]*JobDetail, len(jdcb.builders))
-	mutators := make([]Mutator, len(jdcb.builders))
-	for i := range jdcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*JobDetail, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := jdcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*JobDetailMutation)
@@ -814,11 +814,11 @@ func (jdcb *JobDetailCreateBulk) Save(ctx context.Context) ([]*JobDetail, error)
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jdcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jdcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -842,7 +842,7 @@ func (jdcb *JobDetailCreateBulk) Save(ctx context.Context) ([]*JobDetail, error)
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jdcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -850,8 +850,8 @@ func (jdcb *JobDetailCreateBulk) Save(ctx context.Context) ([]*JobDetail, error)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jdcb *JobDetailCreateBulk) SaveX(ctx context.Context) []*JobDetail {
-	v, err := jdcb.Save(ctx)
+func (_c *JobDetailCreateBulk) SaveX(ctx context.Context) []*JobDetail {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -859,14 +859,14 @@ func (jdcb *JobDetailCreateBulk) SaveX(ctx context.Context) []*JobDetail {
 }
 
 // Exec executes the query.
-func (jdcb *JobDetailCreateBulk) Exec(ctx context.Context) error {
-	_, err := jdcb.Save(ctx)
+func (_c *JobDetailCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jdcb *JobDetailCreateBulk) ExecX(ctx context.Context) {
-	if err := jdcb.Exec(ctx); err != nil {
+func (_c *JobDetailCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

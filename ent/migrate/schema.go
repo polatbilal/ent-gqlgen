@@ -284,7 +284,6 @@ var (
 		{Name: "payment_date", Type: field.TypeTime},
 		{Name: "payment_type", Type: field.TypeString, Nullable: true},
 		{Name: "state", Type: field.TypeString, Nullable: true},
-		{Name: "total_payment", Type: field.TypeFloat64, Nullable: true},
 		{Name: "level_request", Type: field.TypeFloat64, Nullable: true},
 		{Name: "level_approve", Type: field.TypeFloat64, Nullable: true},
 		{Name: "amount", Type: field.TypeFloat64, Nullable: true},
@@ -306,7 +305,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "job_payments_job_relations_payments",
-				Columns:    []*schema.Column{JobPaymentsColumns[18]},
+				Columns:    []*schema.Column{JobPaymentsColumns[17]},
 				RefColumns: []*schema.Column{JobRelationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -502,7 +501,7 @@ var (
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "username", Type: field.TypeString, Unique: true},
+		{Name: "username", Type: field.TypeString, Unique: true, Size: 191},
 		{Name: "name", Type: field.TypeString, Default: ""},
 		{Name: "email", Type: field.TypeString, Default: ""},
 		{Name: "phone", Type: field.TypeString, Nullable: true},

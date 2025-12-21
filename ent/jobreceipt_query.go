@@ -33,44 +33,44 @@ type JobReceiptQuery struct {
 }
 
 // Where adds a new predicate for the JobReceiptQuery builder.
-func (jrq *JobReceiptQuery) Where(ps ...predicate.JobReceipt) *JobReceiptQuery {
-	jrq.predicates = append(jrq.predicates, ps...)
-	return jrq
+func (_q *JobReceiptQuery) Where(ps ...predicate.JobReceipt) *JobReceiptQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (jrq *JobReceiptQuery) Limit(limit int) *JobReceiptQuery {
-	jrq.ctx.Limit = &limit
-	return jrq
+func (_q *JobReceiptQuery) Limit(limit int) *JobReceiptQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (jrq *JobReceiptQuery) Offset(offset int) *JobReceiptQuery {
-	jrq.ctx.Offset = &offset
-	return jrq
+func (_q *JobReceiptQuery) Offset(offset int) *JobReceiptQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (jrq *JobReceiptQuery) Unique(unique bool) *JobReceiptQuery {
-	jrq.ctx.Unique = &unique
-	return jrq
+func (_q *JobReceiptQuery) Unique(unique bool) *JobReceiptQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (jrq *JobReceiptQuery) Order(o ...jobreceipt.OrderOption) *JobReceiptQuery {
-	jrq.order = append(jrq.order, o...)
-	return jrq
+func (_q *JobReceiptQuery) Order(o ...jobreceipt.OrderOption) *JobReceiptQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryReceipt chains the current query on the "receipt" edge.
-func (jrq *JobReceiptQuery) QueryReceipt() *JobRelationsQuery {
-	query := (&JobRelationsClient{config: jrq.config}).Query()
+func (_q *JobReceiptQuery) QueryReceipt() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jrq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jrq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -79,7 +79,7 @@ func (jrq *JobReceiptQuery) QueryReceipt() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobreceipt.ReceiptTable, jobreceipt.ReceiptColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jrq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -87,8 +87,8 @@ func (jrq *JobReceiptQuery) QueryReceipt() *JobRelationsQuery {
 
 // First returns the first JobReceipt entity from the query.
 // Returns a *NotFoundError when no JobReceipt was found.
-func (jrq *JobReceiptQuery) First(ctx context.Context) (*JobReceipt, error) {
-	nodes, err := jrq.Limit(1).All(setContextOp(ctx, jrq.ctx, ent.OpQueryFirst))
+func (_q *JobReceiptQuery) First(ctx context.Context) (*JobReceipt, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -99,8 +99,8 @@ func (jrq *JobReceiptQuery) First(ctx context.Context) (*JobReceipt, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (jrq *JobReceiptQuery) FirstX(ctx context.Context) *JobReceipt {
-	node, err := jrq.First(ctx)
+func (_q *JobReceiptQuery) FirstX(ctx context.Context) *JobReceipt {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -109,9 +109,9 @@ func (jrq *JobReceiptQuery) FirstX(ctx context.Context) *JobReceipt {
 
 // FirstID returns the first JobReceipt ID from the query.
 // Returns a *NotFoundError when no JobReceipt ID was found.
-func (jrq *JobReceiptQuery) FirstID(ctx context.Context) (id int, err error) {
+func (_q *JobReceiptQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jrq.Limit(1).IDs(setContextOp(ctx, jrq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -122,8 +122,8 @@ func (jrq *JobReceiptQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (jrq *JobReceiptQuery) FirstIDX(ctx context.Context) int {
-	id, err := jrq.FirstID(ctx)
+func (_q *JobReceiptQuery) FirstIDX(ctx context.Context) int {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -133,8 +133,8 @@ func (jrq *JobReceiptQuery) FirstIDX(ctx context.Context) int {
 // Only returns a single JobReceipt entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one JobReceipt entity is found.
 // Returns a *NotFoundError when no JobReceipt entities are found.
-func (jrq *JobReceiptQuery) Only(ctx context.Context) (*JobReceipt, error) {
-	nodes, err := jrq.Limit(2).All(setContextOp(ctx, jrq.ctx, ent.OpQueryOnly))
+func (_q *JobReceiptQuery) Only(ctx context.Context) (*JobReceipt, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -149,8 +149,8 @@ func (jrq *JobReceiptQuery) Only(ctx context.Context) (*JobReceipt, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (jrq *JobReceiptQuery) OnlyX(ctx context.Context) *JobReceipt {
-	node, err := jrq.Only(ctx)
+func (_q *JobReceiptQuery) OnlyX(ctx context.Context) *JobReceipt {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -160,9 +160,9 @@ func (jrq *JobReceiptQuery) OnlyX(ctx context.Context) *JobReceipt {
 // OnlyID is like Only, but returns the only JobReceipt ID in the query.
 // Returns a *NotSingularError when more than one JobReceipt ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (jrq *JobReceiptQuery) OnlyID(ctx context.Context) (id int, err error) {
+func (_q *JobReceiptQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jrq.Limit(2).IDs(setContextOp(ctx, jrq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -177,8 +177,8 @@ func (jrq *JobReceiptQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (jrq *JobReceiptQuery) OnlyIDX(ctx context.Context) int {
-	id, err := jrq.OnlyID(ctx)
+func (_q *JobReceiptQuery) OnlyIDX(ctx context.Context) int {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -186,18 +186,18 @@ func (jrq *JobReceiptQuery) OnlyIDX(ctx context.Context) int {
 }
 
 // All executes the query and returns a list of JobReceipts.
-func (jrq *JobReceiptQuery) All(ctx context.Context) ([]*JobReceipt, error) {
-	ctx = setContextOp(ctx, jrq.ctx, ent.OpQueryAll)
-	if err := jrq.prepareQuery(ctx); err != nil {
+func (_q *JobReceiptQuery) All(ctx context.Context) ([]*JobReceipt, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*JobReceipt, *JobReceiptQuery]()
-	return withInterceptors[[]*JobReceipt](ctx, jrq, qr, jrq.inters)
+	return withInterceptors[[]*JobReceipt](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (jrq *JobReceiptQuery) AllX(ctx context.Context) []*JobReceipt {
-	nodes, err := jrq.All(ctx)
+func (_q *JobReceiptQuery) AllX(ctx context.Context) []*JobReceipt {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -205,20 +205,20 @@ func (jrq *JobReceiptQuery) AllX(ctx context.Context) []*JobReceipt {
 }
 
 // IDs executes the query and returns a list of JobReceipt IDs.
-func (jrq *JobReceiptQuery) IDs(ctx context.Context) (ids []int, err error) {
-	if jrq.ctx.Unique == nil && jrq.path != nil {
-		jrq.Unique(true)
+func (_q *JobReceiptQuery) IDs(ctx context.Context) (ids []int, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, jrq.ctx, ent.OpQueryIDs)
-	if err = jrq.Select(jobreceipt.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(jobreceipt.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (jrq *JobReceiptQuery) IDsX(ctx context.Context) []int {
-	ids, err := jrq.IDs(ctx)
+func (_q *JobReceiptQuery) IDsX(ctx context.Context) []int {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -226,17 +226,17 @@ func (jrq *JobReceiptQuery) IDsX(ctx context.Context) []int {
 }
 
 // Count returns the count of the given query.
-func (jrq *JobReceiptQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jrq.ctx, ent.OpQueryCount)
-	if err := jrq.prepareQuery(ctx); err != nil {
+func (_q *JobReceiptQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, jrq, querierCount[*JobReceiptQuery](), jrq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*JobReceiptQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (jrq *JobReceiptQuery) CountX(ctx context.Context) int {
-	count, err := jrq.Count(ctx)
+func (_q *JobReceiptQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -244,9 +244,9 @@ func (jrq *JobReceiptQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (jrq *JobReceiptQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jrq.ctx, ent.OpQueryExist)
-	switch _, err := jrq.FirstID(ctx); {
+func (_q *JobReceiptQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -257,8 +257,8 @@ func (jrq *JobReceiptQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (jrq *JobReceiptQuery) ExistX(ctx context.Context) bool {
-	exist, err := jrq.Exist(ctx)
+func (_q *JobReceiptQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -267,32 +267,32 @@ func (jrq *JobReceiptQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the JobReceiptQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (jrq *JobReceiptQuery) Clone() *JobReceiptQuery {
-	if jrq == nil {
+func (_q *JobReceiptQuery) Clone() *JobReceiptQuery {
+	if _q == nil {
 		return nil
 	}
 	return &JobReceiptQuery{
-		config:      jrq.config,
-		ctx:         jrq.ctx.Clone(),
-		order:       append([]jobreceipt.OrderOption{}, jrq.order...),
-		inters:      append([]Interceptor{}, jrq.inters...),
-		predicates:  append([]predicate.JobReceipt{}, jrq.predicates...),
-		withReceipt: jrq.withReceipt.Clone(),
+		config:      _q.config,
+		ctx:         _q.ctx.Clone(),
+		order:       append([]jobreceipt.OrderOption{}, _q.order...),
+		inters:      append([]Interceptor{}, _q.inters...),
+		predicates:  append([]predicate.JobReceipt{}, _q.predicates...),
+		withReceipt: _q.withReceipt.Clone(),
 		// clone intermediate query.
-		sql:  jrq.sql.Clone(),
-		path: jrq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithReceipt tells the query-builder to eager-load the nodes that are connected to
 // the "receipt" edge. The optional arguments are used to configure the query builder of the edge.
-func (jrq *JobReceiptQuery) WithReceipt(opts ...func(*JobRelationsQuery)) *JobReceiptQuery {
-	query := (&JobRelationsClient{config: jrq.config}).Query()
+func (_q *JobReceiptQuery) WithReceipt(opts ...func(*JobRelationsQuery)) *JobReceiptQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jrq.withReceipt = query
-	return jrq
+	_q.withReceipt = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -309,10 +309,10 @@ func (jrq *JobReceiptQuery) WithReceipt(opts ...func(*JobRelationsQuery)) *JobRe
 //		GroupBy(jobreceipt.FieldYibfNo).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (jrq *JobReceiptQuery) GroupBy(field string, fields ...string) *JobReceiptGroupBy {
-	jrq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &JobReceiptGroupBy{build: jrq}
-	grbuild.flds = &jrq.ctx.Fields
+func (_q *JobReceiptQuery) GroupBy(field string, fields ...string) *JobReceiptGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &JobReceiptGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = jobreceipt.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -330,55 +330,55 @@ func (jrq *JobReceiptQuery) GroupBy(field string, fields ...string) *JobReceiptG
 //	client.JobReceipt.Query().
 //		Select(jobreceipt.FieldYibfNo).
 //		Scan(ctx, &v)
-func (jrq *JobReceiptQuery) Select(fields ...string) *JobReceiptSelect {
-	jrq.ctx.Fields = append(jrq.ctx.Fields, fields...)
-	sbuild := &JobReceiptSelect{JobReceiptQuery: jrq}
+func (_q *JobReceiptQuery) Select(fields ...string) *JobReceiptSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &JobReceiptSelect{JobReceiptQuery: _q}
 	sbuild.label = jobreceipt.Label
-	sbuild.flds, sbuild.scan = &jrq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a JobReceiptSelect configured with the given aggregations.
-func (jrq *JobReceiptQuery) Aggregate(fns ...AggregateFunc) *JobReceiptSelect {
-	return jrq.Select().Aggregate(fns...)
+func (_q *JobReceiptQuery) Aggregate(fns ...AggregateFunc) *JobReceiptSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (jrq *JobReceiptQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range jrq.inters {
+func (_q *JobReceiptQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, jrq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range jrq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !jobreceipt.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if jrq.path != nil {
-		prev, err := jrq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		jrq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (jrq *JobReceiptQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobReceipt, error) {
+func (_q *JobReceiptQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobReceipt, error) {
 	var (
 		nodes       = []*JobReceipt{}
-		withFKs     = jrq.withFKs
-		_spec       = jrq.querySpec()
+		withFKs     = _q.withFKs
+		_spec       = _q.querySpec()
 		loadedTypes = [1]bool{
-			jrq.withReceipt != nil,
+			_q.withReceipt != nil,
 		}
 	)
-	if jrq.withReceipt != nil {
+	if _q.withReceipt != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -388,38 +388,38 @@ func (jrq *JobReceiptQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*
 		return (*JobReceipt).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &JobReceipt{config: jrq.config}
+		node := &JobReceipt{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jrq.modifiers) > 0 {
-		_spec.Modifiers = jrq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, jrq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := jrq.withReceipt; query != nil {
-		if err := jrq.loadReceipt(ctx, query, nodes, nil,
+	if query := _q.withReceipt; query != nil {
+		if err := _q.loadReceipt(ctx, query, nodes, nil,
 			func(n *JobReceipt, e *JobRelations) { n.Edges.Receipt = e }); err != nil {
 			return nil, err
 		}
 	}
-	for i := range jrq.loadTotal {
-		if err := jrq.loadTotal[i](ctx, nodes); err != nil {
+	for i := range _q.loadTotal {
+		if err := _q.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (jrq *JobReceiptQuery) loadReceipt(ctx context.Context, query *JobRelationsQuery, nodes []*JobReceipt, init func(*JobReceipt), assign func(*JobReceipt, *JobRelations)) error {
+func (_q *JobReceiptQuery) loadReceipt(ctx context.Context, query *JobRelationsQuery, nodes []*JobReceipt, init func(*JobReceipt), assign func(*JobReceipt, *JobRelations)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobReceipt)
 	for i := range nodes {
@@ -452,27 +452,27 @@ func (jrq *JobReceiptQuery) loadReceipt(ctx context.Context, query *JobRelations
 	return nil
 }
 
-func (jrq *JobReceiptQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := jrq.querySpec()
-	if len(jrq.modifiers) > 0 {
-		_spec.Modifiers = jrq.modifiers
+func (_q *JobReceiptQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = jrq.ctx.Fields
-	if len(jrq.ctx.Fields) > 0 {
-		_spec.Unique = jrq.ctx.Unique != nil && *jrq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, jrq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (jrq *JobReceiptQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *JobReceiptQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(jobreceipt.Table, jobreceipt.Columns, sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt))
-	_spec.From = jrq.sql
-	if unique := jrq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if jrq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := jrq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobreceipt.FieldID)
 		for i := range fields {
@@ -481,20 +481,20 @@ func (jrq *JobReceiptQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := jrq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := jrq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := jrq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := jrq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -504,33 +504,33 @@ func (jrq *JobReceiptQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (jrq *JobReceiptQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(jrq.driver.Dialect())
+func (_q *JobReceiptQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(jobreceipt.Table)
-	columns := jrq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = jobreceipt.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if jrq.sql != nil {
-		selector = jrq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if jrq.ctx.Unique != nil && *jrq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range jrq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range jrq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := jrq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := jrq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -543,41 +543,41 @@ type JobReceiptGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (jrgb *JobReceiptGroupBy) Aggregate(fns ...AggregateFunc) *JobReceiptGroupBy {
-	jrgb.fns = append(jrgb.fns, fns...)
-	return jrgb
+func (_g *JobReceiptGroupBy) Aggregate(fns ...AggregateFunc) *JobReceiptGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jrgb *JobReceiptGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jrgb.build.ctx, ent.OpQueryGroupBy)
-	if err := jrgb.build.prepareQuery(ctx); err != nil {
+func (_g *JobReceiptGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobReceiptQuery, *JobReceiptGroupBy](ctx, jrgb.build, jrgb, jrgb.build.inters, v)
+	return scanWithInterceptors[*JobReceiptQuery, *JobReceiptGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (jrgb *JobReceiptGroupBy) sqlScan(ctx context.Context, root *JobReceiptQuery, v any) error {
+func (_g *JobReceiptGroupBy) sqlScan(ctx context.Context, root *JobReceiptQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(jrgb.fns))
-	for _, fn := range jrgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*jrgb.flds)+len(jrgb.fns))
-		for _, f := range *jrgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*jrgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jrgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -591,27 +591,27 @@ type JobReceiptSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (jrs *JobReceiptSelect) Aggregate(fns ...AggregateFunc) *JobReceiptSelect {
-	jrs.fns = append(jrs.fns, fns...)
-	return jrs
+func (_s *JobReceiptSelect) Aggregate(fns ...AggregateFunc) *JobReceiptSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jrs *JobReceiptSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jrs.ctx, ent.OpQuerySelect)
-	if err := jrs.prepareQuery(ctx); err != nil {
+func (_s *JobReceiptSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobReceiptQuery, *JobReceiptSelect](ctx, jrs.JobReceiptQuery, jrs, jrs.inters, v)
+	return scanWithInterceptors[*JobReceiptQuery, *JobReceiptSelect](ctx, _s.JobReceiptQuery, _s, _s.inters, v)
 }
 
-func (jrs *JobReceiptSelect) sqlScan(ctx context.Context, root *JobReceiptQuery, v any) error {
+func (_s *JobReceiptSelect) sqlScan(ctx context.Context, root *JobReceiptQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(jrs.fns))
-	for _, fn := range jrs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*jrs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -619,7 +619,7 @@ func (jrs *JobReceiptSelect) sqlScan(ctx context.Context, root *JobReceiptQuery,
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jrs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

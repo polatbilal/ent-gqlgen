@@ -24,248 +24,248 @@ type JobAuthorUpdate struct {
 }
 
 // Where appends a list predicates to the JobAuthorUpdate builder.
-func (jau *JobAuthorUpdate) Where(ps ...predicate.JobAuthor) *JobAuthorUpdate {
-	jau.mutation.Where(ps...)
-	return jau
+func (_u *JobAuthorUpdate) Where(ps ...predicate.JobAuthor) *JobAuthorUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jau *JobAuthorUpdate) SetYibfNo(i int) *JobAuthorUpdate {
-	jau.mutation.ResetYibfNo()
-	jau.mutation.SetYibfNo(i)
-	return jau
+func (_u *JobAuthorUpdate) SetYibfNo(v int) *JobAuthorUpdate {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableYibfNo(i *int) *JobAuthorUpdate {
-	if i != nil {
-		jau.SetYibfNo(*i)
+func (_u *JobAuthorUpdate) SetNillableYibfNo(v *int) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jau
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jau *JobAuthorUpdate) AddYibfNo(i int) *JobAuthorUpdate {
-	jau.mutation.AddYibfNo(i)
-	return jau
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobAuthorUpdate) AddYibfNo(v int) *JobAuthorUpdate {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // ClearYibfNo clears the value of the "yibfNo" field.
-func (jau *JobAuthorUpdate) ClearYibfNo() *JobAuthorUpdate {
-	jau.mutation.ClearYibfNo()
-	return jau
+func (_u *JobAuthorUpdate) ClearYibfNo() *JobAuthorUpdate {
+	_u.mutation.ClearYibfNo()
+	return _u
 }
 
 // SetStatic sets the "Static" field.
-func (jau *JobAuthorUpdate) SetStatic(s string) *JobAuthorUpdate {
-	jau.mutation.SetStatic(s)
-	return jau
+func (_u *JobAuthorUpdate) SetStatic(v string) *JobAuthorUpdate {
+	_u.mutation.SetStatic(v)
+	return _u
 }
 
 // SetNillableStatic sets the "Static" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableStatic(s *string) *JobAuthorUpdate {
-	if s != nil {
-		jau.SetStatic(*s)
+func (_u *JobAuthorUpdate) SetNillableStatic(v *string) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetStatic(*v)
 	}
-	return jau
+	return _u
 }
 
 // ClearStatic clears the value of the "Static" field.
-func (jau *JobAuthorUpdate) ClearStatic() *JobAuthorUpdate {
-	jau.mutation.ClearStatic()
-	return jau
+func (_u *JobAuthorUpdate) ClearStatic() *JobAuthorUpdate {
+	_u.mutation.ClearStatic()
+	return _u
 }
 
 // SetMechanic sets the "Mechanic" field.
-func (jau *JobAuthorUpdate) SetMechanic(s string) *JobAuthorUpdate {
-	jau.mutation.SetMechanic(s)
-	return jau
+func (_u *JobAuthorUpdate) SetMechanic(v string) *JobAuthorUpdate {
+	_u.mutation.SetMechanic(v)
+	return _u
 }
 
 // SetNillableMechanic sets the "Mechanic" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableMechanic(s *string) *JobAuthorUpdate {
-	if s != nil {
-		jau.SetMechanic(*s)
+func (_u *JobAuthorUpdate) SetNillableMechanic(v *string) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetMechanic(*v)
 	}
-	return jau
+	return _u
 }
 
 // ClearMechanic clears the value of the "Mechanic" field.
-func (jau *JobAuthorUpdate) ClearMechanic() *JobAuthorUpdate {
-	jau.mutation.ClearMechanic()
-	return jau
+func (_u *JobAuthorUpdate) ClearMechanic() *JobAuthorUpdate {
+	_u.mutation.ClearMechanic()
+	return _u
 }
 
 // SetElectric sets the "Electric" field.
-func (jau *JobAuthorUpdate) SetElectric(s string) *JobAuthorUpdate {
-	jau.mutation.SetElectric(s)
-	return jau
+func (_u *JobAuthorUpdate) SetElectric(v string) *JobAuthorUpdate {
+	_u.mutation.SetElectric(v)
+	return _u
 }
 
 // SetNillableElectric sets the "Electric" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableElectric(s *string) *JobAuthorUpdate {
-	if s != nil {
-		jau.SetElectric(*s)
+func (_u *JobAuthorUpdate) SetNillableElectric(v *string) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetElectric(*v)
 	}
-	return jau
+	return _u
 }
 
 // ClearElectric clears the value of the "Electric" field.
-func (jau *JobAuthorUpdate) ClearElectric() *JobAuthorUpdate {
-	jau.mutation.ClearElectric()
-	return jau
+func (_u *JobAuthorUpdate) ClearElectric() *JobAuthorUpdate {
+	_u.mutation.ClearElectric()
+	return _u
 }
 
 // SetArchitect sets the "Architect" field.
-func (jau *JobAuthorUpdate) SetArchitect(s string) *JobAuthorUpdate {
-	jau.mutation.SetArchitect(s)
-	return jau
+func (_u *JobAuthorUpdate) SetArchitect(v string) *JobAuthorUpdate {
+	_u.mutation.SetArchitect(v)
+	return _u
 }
 
 // SetNillableArchitect sets the "Architect" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableArchitect(s *string) *JobAuthorUpdate {
-	if s != nil {
-		jau.SetArchitect(*s)
+func (_u *JobAuthorUpdate) SetNillableArchitect(v *string) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetArchitect(*v)
 	}
-	return jau
+	return _u
 }
 
 // ClearArchitect clears the value of the "Architect" field.
-func (jau *JobAuthorUpdate) ClearArchitect() *JobAuthorUpdate {
-	jau.mutation.ClearArchitect()
-	return jau
+func (_u *JobAuthorUpdate) ClearArchitect() *JobAuthorUpdate {
+	_u.mutation.ClearArchitect()
+	return _u
 }
 
 // SetGeotechnicalEngineer sets the "GeotechnicalEngineer" field.
-func (jau *JobAuthorUpdate) SetGeotechnicalEngineer(s string) *JobAuthorUpdate {
-	jau.mutation.SetGeotechnicalEngineer(s)
-	return jau
+func (_u *JobAuthorUpdate) SetGeotechnicalEngineer(v string) *JobAuthorUpdate {
+	_u.mutation.SetGeotechnicalEngineer(v)
+	return _u
 }
 
 // SetNillableGeotechnicalEngineer sets the "GeotechnicalEngineer" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableGeotechnicalEngineer(s *string) *JobAuthorUpdate {
-	if s != nil {
-		jau.SetGeotechnicalEngineer(*s)
+func (_u *JobAuthorUpdate) SetNillableGeotechnicalEngineer(v *string) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetGeotechnicalEngineer(*v)
 	}
-	return jau
+	return _u
 }
 
 // ClearGeotechnicalEngineer clears the value of the "GeotechnicalEngineer" field.
-func (jau *JobAuthorUpdate) ClearGeotechnicalEngineer() *JobAuthorUpdate {
-	jau.mutation.ClearGeotechnicalEngineer()
-	return jau
+func (_u *JobAuthorUpdate) ClearGeotechnicalEngineer() *JobAuthorUpdate {
+	_u.mutation.ClearGeotechnicalEngineer()
+	return _u
 }
 
 // SetGeotechnicalGeologist sets the "GeotechnicalGeologist" field.
-func (jau *JobAuthorUpdate) SetGeotechnicalGeologist(s string) *JobAuthorUpdate {
-	jau.mutation.SetGeotechnicalGeologist(s)
-	return jau
+func (_u *JobAuthorUpdate) SetGeotechnicalGeologist(v string) *JobAuthorUpdate {
+	_u.mutation.SetGeotechnicalGeologist(v)
+	return _u
 }
 
 // SetNillableGeotechnicalGeologist sets the "GeotechnicalGeologist" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableGeotechnicalGeologist(s *string) *JobAuthorUpdate {
-	if s != nil {
-		jau.SetGeotechnicalGeologist(*s)
+func (_u *JobAuthorUpdate) SetNillableGeotechnicalGeologist(v *string) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetGeotechnicalGeologist(*v)
 	}
-	return jau
+	return _u
 }
 
 // ClearGeotechnicalGeologist clears the value of the "GeotechnicalGeologist" field.
-func (jau *JobAuthorUpdate) ClearGeotechnicalGeologist() *JobAuthorUpdate {
-	jau.mutation.ClearGeotechnicalGeologist()
-	return jau
+func (_u *JobAuthorUpdate) ClearGeotechnicalGeologist() *JobAuthorUpdate {
+	_u.mutation.ClearGeotechnicalGeologist()
+	return _u
 }
 
 // SetGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field.
-func (jau *JobAuthorUpdate) SetGeotechnicalGeophysicist(s string) *JobAuthorUpdate {
-	jau.mutation.SetGeotechnicalGeophysicist(s)
-	return jau
+func (_u *JobAuthorUpdate) SetGeotechnicalGeophysicist(v string) *JobAuthorUpdate {
+	_u.mutation.SetGeotechnicalGeophysicist(v)
+	return _u
 }
 
 // SetNillableGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableGeotechnicalGeophysicist(s *string) *JobAuthorUpdate {
-	if s != nil {
-		jau.SetGeotechnicalGeophysicist(*s)
+func (_u *JobAuthorUpdate) SetNillableGeotechnicalGeophysicist(v *string) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetGeotechnicalGeophysicist(*v)
 	}
-	return jau
+	return _u
 }
 
 // ClearGeotechnicalGeophysicist clears the value of the "GeotechnicalGeophysicist" field.
-func (jau *JobAuthorUpdate) ClearGeotechnicalGeophysicist() *JobAuthorUpdate {
-	jau.mutation.ClearGeotechnicalGeophysicist()
-	return jau
+func (_u *JobAuthorUpdate) ClearGeotechnicalGeophysicist() *JobAuthorUpdate {
+	_u.mutation.ClearGeotechnicalGeophysicist()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jau *JobAuthorUpdate) SetCreatedAt(t time.Time) *JobAuthorUpdate {
-	jau.mutation.SetCreatedAt(t)
-	return jau
+func (_u *JobAuthorUpdate) SetCreatedAt(v time.Time) *JobAuthorUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jau *JobAuthorUpdate) SetNillableCreatedAt(t *time.Time) *JobAuthorUpdate {
-	if t != nil {
-		jau.SetCreatedAt(*t)
+func (_u *JobAuthorUpdate) SetNillableCreatedAt(v *time.Time) *JobAuthorUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jau
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jau *JobAuthorUpdate) SetUpdatedAt(t time.Time) *JobAuthorUpdate {
-	jau.mutation.SetUpdatedAt(t)
-	return jau
+func (_u *JobAuthorUpdate) SetUpdatedAt(v time.Time) *JobAuthorUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddAuthorIDs adds the "authors" edge to the JobRelations entity by IDs.
-func (jau *JobAuthorUpdate) AddAuthorIDs(ids ...int) *JobAuthorUpdate {
-	jau.mutation.AddAuthorIDs(ids...)
-	return jau
+func (_u *JobAuthorUpdate) AddAuthorIDs(ids ...int) *JobAuthorUpdate {
+	_u.mutation.AddAuthorIDs(ids...)
+	return _u
 }
 
 // AddAuthors adds the "authors" edges to the JobRelations entity.
-func (jau *JobAuthorUpdate) AddAuthors(j ...*JobRelations) *JobAuthorUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobAuthorUpdate) AddAuthors(v ...*JobRelations) *JobAuthorUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jau.AddAuthorIDs(ids...)
+	return _u.AddAuthorIDs(ids...)
 }
 
 // Mutation returns the JobAuthorMutation object of the builder.
-func (jau *JobAuthorUpdate) Mutation() *JobAuthorMutation {
-	return jau.mutation
+func (_u *JobAuthorUpdate) Mutation() *JobAuthorMutation {
+	return _u.mutation
 }
 
 // ClearAuthors clears all "authors" edges to the JobRelations entity.
-func (jau *JobAuthorUpdate) ClearAuthors() *JobAuthorUpdate {
-	jau.mutation.ClearAuthors()
-	return jau
+func (_u *JobAuthorUpdate) ClearAuthors() *JobAuthorUpdate {
+	_u.mutation.ClearAuthors()
+	return _u
 }
 
 // RemoveAuthorIDs removes the "authors" edge to JobRelations entities by IDs.
-func (jau *JobAuthorUpdate) RemoveAuthorIDs(ids ...int) *JobAuthorUpdate {
-	jau.mutation.RemoveAuthorIDs(ids...)
-	return jau
+func (_u *JobAuthorUpdate) RemoveAuthorIDs(ids ...int) *JobAuthorUpdate {
+	_u.mutation.RemoveAuthorIDs(ids...)
+	return _u
 }
 
 // RemoveAuthors removes "authors" edges to JobRelations entities.
-func (jau *JobAuthorUpdate) RemoveAuthors(j ...*JobRelations) *JobAuthorUpdate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobAuthorUpdate) RemoveAuthors(v ...*JobRelations) *JobAuthorUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jau.RemoveAuthorIDs(ids...)
+	return _u.RemoveAuthorIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (jau *JobAuthorUpdate) Save(ctx context.Context) (int, error) {
-	jau.defaults()
-	return withHooks(ctx, jau.sqlSave, jau.mutation, jau.hooks)
+func (_u *JobAuthorUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jau *JobAuthorUpdate) SaveX(ctx context.Context) int {
-	affected, err := jau.Save(ctx)
+func (_u *JobAuthorUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -273,93 +273,93 @@ func (jau *JobAuthorUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (jau *JobAuthorUpdate) Exec(ctx context.Context) error {
-	_, err := jau.Save(ctx)
+func (_u *JobAuthorUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jau *JobAuthorUpdate) ExecX(ctx context.Context) {
-	if err := jau.Exec(ctx); err != nil {
+func (_u *JobAuthorUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jau *JobAuthorUpdate) defaults() {
-	if _, ok := jau.mutation.UpdatedAt(); !ok {
+func (_u *JobAuthorUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobauthor.UpdateDefaultUpdatedAt()
-		jau.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *JobAuthorUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobauthor.Table, jobauthor.Columns, sqlgraph.NewFieldSpec(jobauthor.FieldID, field.TypeInt))
-	if ps := jau.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jau.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobauthor.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jau.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobauthor.FieldYibfNo, field.TypeInt, value)
 	}
-	if jau.mutation.YibfNoCleared() {
+	if _u.mutation.YibfNoCleared() {
 		_spec.ClearField(jobauthor.FieldYibfNo, field.TypeInt)
 	}
-	if value, ok := jau.mutation.Static(); ok {
+	if value, ok := _u.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
 	}
-	if jau.mutation.StaticCleared() {
+	if _u.mutation.StaticCleared() {
 		_spec.ClearField(jobauthor.FieldStatic, field.TypeString)
 	}
-	if value, ok := jau.mutation.Mechanic(); ok {
+	if value, ok := _u.mutation.Mechanic(); ok {
 		_spec.SetField(jobauthor.FieldMechanic, field.TypeString, value)
 	}
-	if jau.mutation.MechanicCleared() {
+	if _u.mutation.MechanicCleared() {
 		_spec.ClearField(jobauthor.FieldMechanic, field.TypeString)
 	}
-	if value, ok := jau.mutation.Electric(); ok {
+	if value, ok := _u.mutation.Electric(); ok {
 		_spec.SetField(jobauthor.FieldElectric, field.TypeString, value)
 	}
-	if jau.mutation.ElectricCleared() {
+	if _u.mutation.ElectricCleared() {
 		_spec.ClearField(jobauthor.FieldElectric, field.TypeString)
 	}
-	if value, ok := jau.mutation.Architect(); ok {
+	if value, ok := _u.mutation.Architect(); ok {
 		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
 	}
-	if jau.mutation.ArchitectCleared() {
+	if _u.mutation.ArchitectCleared() {
 		_spec.ClearField(jobauthor.FieldArchitect, field.TypeString)
 	}
-	if value, ok := jau.mutation.GeotechnicalEngineer(); ok {
+	if value, ok := _u.mutation.GeotechnicalEngineer(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalEngineer, field.TypeString, value)
 	}
-	if jau.mutation.GeotechnicalEngineerCleared() {
+	if _u.mutation.GeotechnicalEngineerCleared() {
 		_spec.ClearField(jobauthor.FieldGeotechnicalEngineer, field.TypeString)
 	}
-	if value, ok := jau.mutation.GeotechnicalGeologist(); ok {
+	if value, ok := _u.mutation.GeotechnicalGeologist(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalGeologist, field.TypeString, value)
 	}
-	if jau.mutation.GeotechnicalGeologistCleared() {
+	if _u.mutation.GeotechnicalGeologistCleared() {
 		_spec.ClearField(jobauthor.FieldGeotechnicalGeologist, field.TypeString)
 	}
-	if value, ok := jau.mutation.GeotechnicalGeophysicist(); ok {
+	if value, ok := _u.mutation.GeotechnicalGeophysicist(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString, value)
 	}
-	if jau.mutation.GeotechnicalGeophysicistCleared() {
+	if _u.mutation.GeotechnicalGeophysicistCleared() {
 		_spec.ClearField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString)
 	}
-	if value, ok := jau.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jau.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobauthor.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jau.mutation.AuthorsCleared() {
+	if _u.mutation.AuthorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -372,7 +372,7 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jau.mutation.RemovedAuthorsIDs(); len(nodes) > 0 && !jau.mutation.AuthorsCleared() {
+	if nodes := _u.mutation.RemovedAuthorsIDs(); len(nodes) > 0 && !_u.mutation.AuthorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -388,7 +388,7 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jau.mutation.AuthorsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.AuthorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -404,7 +404,7 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, jau.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobauthor.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -412,8 +412,8 @@ func (jau *JobAuthorUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	jau.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // JobAuthorUpdateOne is the builder for updating a single JobAuthor entity.
@@ -425,255 +425,255 @@ type JobAuthorUpdateOne struct {
 }
 
 // SetYibfNo sets the "yibfNo" field.
-func (jauo *JobAuthorUpdateOne) SetYibfNo(i int) *JobAuthorUpdateOne {
-	jauo.mutation.ResetYibfNo()
-	jauo.mutation.SetYibfNo(i)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetYibfNo(v int) *JobAuthorUpdateOne {
+	_u.mutation.ResetYibfNo()
+	_u.mutation.SetYibfNo(v)
+	return _u
 }
 
 // SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableYibfNo(i *int) *JobAuthorUpdateOne {
-	if i != nil {
-		jauo.SetYibfNo(*i)
+func (_u *JobAuthorUpdateOne) SetNillableYibfNo(v *int) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetYibfNo(*v)
 	}
-	return jauo
+	return _u
 }
 
-// AddYibfNo adds i to the "yibfNo" field.
-func (jauo *JobAuthorUpdateOne) AddYibfNo(i int) *JobAuthorUpdateOne {
-	jauo.mutation.AddYibfNo(i)
-	return jauo
+// AddYibfNo adds value to the "yibfNo" field.
+func (_u *JobAuthorUpdateOne) AddYibfNo(v int) *JobAuthorUpdateOne {
+	_u.mutation.AddYibfNo(v)
+	return _u
 }
 
 // ClearYibfNo clears the value of the "yibfNo" field.
-func (jauo *JobAuthorUpdateOne) ClearYibfNo() *JobAuthorUpdateOne {
-	jauo.mutation.ClearYibfNo()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearYibfNo() *JobAuthorUpdateOne {
+	_u.mutation.ClearYibfNo()
+	return _u
 }
 
 // SetStatic sets the "Static" field.
-func (jauo *JobAuthorUpdateOne) SetStatic(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetStatic(s)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetStatic(v string) *JobAuthorUpdateOne {
+	_u.mutation.SetStatic(v)
+	return _u
 }
 
 // SetNillableStatic sets the "Static" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableStatic(s *string) *JobAuthorUpdateOne {
-	if s != nil {
-		jauo.SetStatic(*s)
+func (_u *JobAuthorUpdateOne) SetNillableStatic(v *string) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetStatic(*v)
 	}
-	return jauo
+	return _u
 }
 
 // ClearStatic clears the value of the "Static" field.
-func (jauo *JobAuthorUpdateOne) ClearStatic() *JobAuthorUpdateOne {
-	jauo.mutation.ClearStatic()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearStatic() *JobAuthorUpdateOne {
+	_u.mutation.ClearStatic()
+	return _u
 }
 
 // SetMechanic sets the "Mechanic" field.
-func (jauo *JobAuthorUpdateOne) SetMechanic(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetMechanic(s)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetMechanic(v string) *JobAuthorUpdateOne {
+	_u.mutation.SetMechanic(v)
+	return _u
 }
 
 // SetNillableMechanic sets the "Mechanic" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableMechanic(s *string) *JobAuthorUpdateOne {
-	if s != nil {
-		jauo.SetMechanic(*s)
+func (_u *JobAuthorUpdateOne) SetNillableMechanic(v *string) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetMechanic(*v)
 	}
-	return jauo
+	return _u
 }
 
 // ClearMechanic clears the value of the "Mechanic" field.
-func (jauo *JobAuthorUpdateOne) ClearMechanic() *JobAuthorUpdateOne {
-	jauo.mutation.ClearMechanic()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearMechanic() *JobAuthorUpdateOne {
+	_u.mutation.ClearMechanic()
+	return _u
 }
 
 // SetElectric sets the "Electric" field.
-func (jauo *JobAuthorUpdateOne) SetElectric(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetElectric(s)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetElectric(v string) *JobAuthorUpdateOne {
+	_u.mutation.SetElectric(v)
+	return _u
 }
 
 // SetNillableElectric sets the "Electric" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableElectric(s *string) *JobAuthorUpdateOne {
-	if s != nil {
-		jauo.SetElectric(*s)
+func (_u *JobAuthorUpdateOne) SetNillableElectric(v *string) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetElectric(*v)
 	}
-	return jauo
+	return _u
 }
 
 // ClearElectric clears the value of the "Electric" field.
-func (jauo *JobAuthorUpdateOne) ClearElectric() *JobAuthorUpdateOne {
-	jauo.mutation.ClearElectric()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearElectric() *JobAuthorUpdateOne {
+	_u.mutation.ClearElectric()
+	return _u
 }
 
 // SetArchitect sets the "Architect" field.
-func (jauo *JobAuthorUpdateOne) SetArchitect(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetArchitect(s)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetArchitect(v string) *JobAuthorUpdateOne {
+	_u.mutation.SetArchitect(v)
+	return _u
 }
 
 // SetNillableArchitect sets the "Architect" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableArchitect(s *string) *JobAuthorUpdateOne {
-	if s != nil {
-		jauo.SetArchitect(*s)
+func (_u *JobAuthorUpdateOne) SetNillableArchitect(v *string) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetArchitect(*v)
 	}
-	return jauo
+	return _u
 }
 
 // ClearArchitect clears the value of the "Architect" field.
-func (jauo *JobAuthorUpdateOne) ClearArchitect() *JobAuthorUpdateOne {
-	jauo.mutation.ClearArchitect()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearArchitect() *JobAuthorUpdateOne {
+	_u.mutation.ClearArchitect()
+	return _u
 }
 
 // SetGeotechnicalEngineer sets the "GeotechnicalEngineer" field.
-func (jauo *JobAuthorUpdateOne) SetGeotechnicalEngineer(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetGeotechnicalEngineer(s)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetGeotechnicalEngineer(v string) *JobAuthorUpdateOne {
+	_u.mutation.SetGeotechnicalEngineer(v)
+	return _u
 }
 
 // SetNillableGeotechnicalEngineer sets the "GeotechnicalEngineer" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableGeotechnicalEngineer(s *string) *JobAuthorUpdateOne {
-	if s != nil {
-		jauo.SetGeotechnicalEngineer(*s)
+func (_u *JobAuthorUpdateOne) SetNillableGeotechnicalEngineer(v *string) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetGeotechnicalEngineer(*v)
 	}
-	return jauo
+	return _u
 }
 
 // ClearGeotechnicalEngineer clears the value of the "GeotechnicalEngineer" field.
-func (jauo *JobAuthorUpdateOne) ClearGeotechnicalEngineer() *JobAuthorUpdateOne {
-	jauo.mutation.ClearGeotechnicalEngineer()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearGeotechnicalEngineer() *JobAuthorUpdateOne {
+	_u.mutation.ClearGeotechnicalEngineer()
+	return _u
 }
 
 // SetGeotechnicalGeologist sets the "GeotechnicalGeologist" field.
-func (jauo *JobAuthorUpdateOne) SetGeotechnicalGeologist(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetGeotechnicalGeologist(s)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetGeotechnicalGeologist(v string) *JobAuthorUpdateOne {
+	_u.mutation.SetGeotechnicalGeologist(v)
+	return _u
 }
 
 // SetNillableGeotechnicalGeologist sets the "GeotechnicalGeologist" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableGeotechnicalGeologist(s *string) *JobAuthorUpdateOne {
-	if s != nil {
-		jauo.SetGeotechnicalGeologist(*s)
+func (_u *JobAuthorUpdateOne) SetNillableGeotechnicalGeologist(v *string) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetGeotechnicalGeologist(*v)
 	}
-	return jauo
+	return _u
 }
 
 // ClearGeotechnicalGeologist clears the value of the "GeotechnicalGeologist" field.
-func (jauo *JobAuthorUpdateOne) ClearGeotechnicalGeologist() *JobAuthorUpdateOne {
-	jauo.mutation.ClearGeotechnicalGeologist()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearGeotechnicalGeologist() *JobAuthorUpdateOne {
+	_u.mutation.ClearGeotechnicalGeologist()
+	return _u
 }
 
 // SetGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field.
-func (jauo *JobAuthorUpdateOne) SetGeotechnicalGeophysicist(s string) *JobAuthorUpdateOne {
-	jauo.mutation.SetGeotechnicalGeophysicist(s)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetGeotechnicalGeophysicist(v string) *JobAuthorUpdateOne {
+	_u.mutation.SetGeotechnicalGeophysicist(v)
+	return _u
 }
 
 // SetNillableGeotechnicalGeophysicist sets the "GeotechnicalGeophysicist" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableGeotechnicalGeophysicist(s *string) *JobAuthorUpdateOne {
-	if s != nil {
-		jauo.SetGeotechnicalGeophysicist(*s)
+func (_u *JobAuthorUpdateOne) SetNillableGeotechnicalGeophysicist(v *string) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetGeotechnicalGeophysicist(*v)
 	}
-	return jauo
+	return _u
 }
 
 // ClearGeotechnicalGeophysicist clears the value of the "GeotechnicalGeophysicist" field.
-func (jauo *JobAuthorUpdateOne) ClearGeotechnicalGeophysicist() *JobAuthorUpdateOne {
-	jauo.mutation.ClearGeotechnicalGeophysicist()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearGeotechnicalGeophysicist() *JobAuthorUpdateOne {
+	_u.mutation.ClearGeotechnicalGeophysicist()
+	return _u
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (jauo *JobAuthorUpdateOne) SetCreatedAt(t time.Time) *JobAuthorUpdateOne {
-	jauo.mutation.SetCreatedAt(t)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetCreatedAt(v time.Time) *JobAuthorUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (jauo *JobAuthorUpdateOne) SetNillableCreatedAt(t *time.Time) *JobAuthorUpdateOne {
-	if t != nil {
-		jauo.SetCreatedAt(*t)
+func (_u *JobAuthorUpdateOne) SetNillableCreatedAt(v *time.Time) *JobAuthorUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
 	}
-	return jauo
+	return _u
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (jauo *JobAuthorUpdateOne) SetUpdatedAt(t time.Time) *JobAuthorUpdateOne {
-	jauo.mutation.SetUpdatedAt(t)
-	return jauo
+func (_u *JobAuthorUpdateOne) SetUpdatedAt(v time.Time) *JobAuthorUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // AddAuthorIDs adds the "authors" edge to the JobRelations entity by IDs.
-func (jauo *JobAuthorUpdateOne) AddAuthorIDs(ids ...int) *JobAuthorUpdateOne {
-	jauo.mutation.AddAuthorIDs(ids...)
-	return jauo
+func (_u *JobAuthorUpdateOne) AddAuthorIDs(ids ...int) *JobAuthorUpdateOne {
+	_u.mutation.AddAuthorIDs(ids...)
+	return _u
 }
 
 // AddAuthors adds the "authors" edges to the JobRelations entity.
-func (jauo *JobAuthorUpdateOne) AddAuthors(j ...*JobRelations) *JobAuthorUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobAuthorUpdateOne) AddAuthors(v ...*JobRelations) *JobAuthorUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jauo.AddAuthorIDs(ids...)
+	return _u.AddAuthorIDs(ids...)
 }
 
 // Mutation returns the JobAuthorMutation object of the builder.
-func (jauo *JobAuthorUpdateOne) Mutation() *JobAuthorMutation {
-	return jauo.mutation
+func (_u *JobAuthorUpdateOne) Mutation() *JobAuthorMutation {
+	return _u.mutation
 }
 
 // ClearAuthors clears all "authors" edges to the JobRelations entity.
-func (jauo *JobAuthorUpdateOne) ClearAuthors() *JobAuthorUpdateOne {
-	jauo.mutation.ClearAuthors()
-	return jauo
+func (_u *JobAuthorUpdateOne) ClearAuthors() *JobAuthorUpdateOne {
+	_u.mutation.ClearAuthors()
+	return _u
 }
 
 // RemoveAuthorIDs removes the "authors" edge to JobRelations entities by IDs.
-func (jauo *JobAuthorUpdateOne) RemoveAuthorIDs(ids ...int) *JobAuthorUpdateOne {
-	jauo.mutation.RemoveAuthorIDs(ids...)
-	return jauo
+func (_u *JobAuthorUpdateOne) RemoveAuthorIDs(ids ...int) *JobAuthorUpdateOne {
+	_u.mutation.RemoveAuthorIDs(ids...)
+	return _u
 }
 
 // RemoveAuthors removes "authors" edges to JobRelations entities.
-func (jauo *JobAuthorUpdateOne) RemoveAuthors(j ...*JobRelations) *JobAuthorUpdateOne {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_u *JobAuthorUpdateOne) RemoveAuthors(v ...*JobRelations) *JobAuthorUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return jauo.RemoveAuthorIDs(ids...)
+	return _u.RemoveAuthorIDs(ids...)
 }
 
 // Where appends a list predicates to the JobAuthorUpdate builder.
-func (jauo *JobAuthorUpdateOne) Where(ps ...predicate.JobAuthor) *JobAuthorUpdateOne {
-	jauo.mutation.Where(ps...)
-	return jauo
+func (_u *JobAuthorUpdateOne) Where(ps ...predicate.JobAuthor) *JobAuthorUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (jauo *JobAuthorUpdateOne) Select(field string, fields ...string) *JobAuthorUpdateOne {
-	jauo.fields = append([]string{field}, fields...)
-	return jauo
+func (_u *JobAuthorUpdateOne) Select(field string, fields ...string) *JobAuthorUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated JobAuthor entity.
-func (jauo *JobAuthorUpdateOne) Save(ctx context.Context) (*JobAuthor, error) {
-	jauo.defaults()
-	return withHooks(ctx, jauo.sqlSave, jauo.mutation, jauo.hooks)
+func (_u *JobAuthorUpdateOne) Save(ctx context.Context) (*JobAuthor, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jauo *JobAuthorUpdateOne) SaveX(ctx context.Context) *JobAuthor {
-	node, err := jauo.Save(ctx)
+func (_u *JobAuthorUpdateOne) SaveX(ctx context.Context) *JobAuthor {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -681,34 +681,34 @@ func (jauo *JobAuthorUpdateOne) SaveX(ctx context.Context) *JobAuthor {
 }
 
 // Exec executes the query on the entity.
-func (jauo *JobAuthorUpdateOne) Exec(ctx context.Context) error {
-	_, err := jauo.Save(ctx)
+func (_u *JobAuthorUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jauo *JobAuthorUpdateOne) ExecX(ctx context.Context) {
-	if err := jauo.Exec(ctx); err != nil {
+func (_u *JobAuthorUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (jauo *JobAuthorUpdateOne) defaults() {
-	if _, ok := jauo.mutation.UpdatedAt(); !ok {
+func (_u *JobAuthorUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := jobauthor.UpdateDefaultUpdatedAt()
-		jauo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, err error) {
+func (_u *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, err error) {
 	_spec := sqlgraph.NewUpdateSpec(jobauthor.Table, jobauthor.Columns, sqlgraph.NewFieldSpec(jobauthor.FieldID, field.TypeInt))
-	id, ok := jauo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "JobAuthor.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := jauo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobauthor.FieldID)
 		for _, f := range fields {
@@ -720,71 +720,71 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 			}
 		}
 	}
-	if ps := jauo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := jauo.mutation.YibfNo(); ok {
+	if value, ok := _u.mutation.YibfNo(); ok {
 		_spec.SetField(jobauthor.FieldYibfNo, field.TypeInt, value)
 	}
-	if value, ok := jauo.mutation.AddedYibfNo(); ok {
+	if value, ok := _u.mutation.AddedYibfNo(); ok {
 		_spec.AddField(jobauthor.FieldYibfNo, field.TypeInt, value)
 	}
-	if jauo.mutation.YibfNoCleared() {
+	if _u.mutation.YibfNoCleared() {
 		_spec.ClearField(jobauthor.FieldYibfNo, field.TypeInt)
 	}
-	if value, ok := jauo.mutation.Static(); ok {
+	if value, ok := _u.mutation.Static(); ok {
 		_spec.SetField(jobauthor.FieldStatic, field.TypeString, value)
 	}
-	if jauo.mutation.StaticCleared() {
+	if _u.mutation.StaticCleared() {
 		_spec.ClearField(jobauthor.FieldStatic, field.TypeString)
 	}
-	if value, ok := jauo.mutation.Mechanic(); ok {
+	if value, ok := _u.mutation.Mechanic(); ok {
 		_spec.SetField(jobauthor.FieldMechanic, field.TypeString, value)
 	}
-	if jauo.mutation.MechanicCleared() {
+	if _u.mutation.MechanicCleared() {
 		_spec.ClearField(jobauthor.FieldMechanic, field.TypeString)
 	}
-	if value, ok := jauo.mutation.Electric(); ok {
+	if value, ok := _u.mutation.Electric(); ok {
 		_spec.SetField(jobauthor.FieldElectric, field.TypeString, value)
 	}
-	if jauo.mutation.ElectricCleared() {
+	if _u.mutation.ElectricCleared() {
 		_spec.ClearField(jobauthor.FieldElectric, field.TypeString)
 	}
-	if value, ok := jauo.mutation.Architect(); ok {
+	if value, ok := _u.mutation.Architect(); ok {
 		_spec.SetField(jobauthor.FieldArchitect, field.TypeString, value)
 	}
-	if jauo.mutation.ArchitectCleared() {
+	if _u.mutation.ArchitectCleared() {
 		_spec.ClearField(jobauthor.FieldArchitect, field.TypeString)
 	}
-	if value, ok := jauo.mutation.GeotechnicalEngineer(); ok {
+	if value, ok := _u.mutation.GeotechnicalEngineer(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalEngineer, field.TypeString, value)
 	}
-	if jauo.mutation.GeotechnicalEngineerCleared() {
+	if _u.mutation.GeotechnicalEngineerCleared() {
 		_spec.ClearField(jobauthor.FieldGeotechnicalEngineer, field.TypeString)
 	}
-	if value, ok := jauo.mutation.GeotechnicalGeologist(); ok {
+	if value, ok := _u.mutation.GeotechnicalGeologist(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalGeologist, field.TypeString, value)
 	}
-	if jauo.mutation.GeotechnicalGeologistCleared() {
+	if _u.mutation.GeotechnicalGeologistCleared() {
 		_spec.ClearField(jobauthor.FieldGeotechnicalGeologist, field.TypeString)
 	}
-	if value, ok := jauo.mutation.GeotechnicalGeophysicist(); ok {
+	if value, ok := _u.mutation.GeotechnicalGeophysicist(); ok {
 		_spec.SetField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString, value)
 	}
-	if jauo.mutation.GeotechnicalGeophysicistCleared() {
+	if _u.mutation.GeotechnicalGeophysicistCleared() {
 		_spec.ClearField(jobauthor.FieldGeotechnicalGeophysicist, field.TypeString)
 	}
-	if value, ok := jauo.mutation.CreatedAt(); ok {
+	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobauthor.FieldCreatedAt, field.TypeTime, value)
 	}
-	if value, ok := jauo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobauthor.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if jauo.mutation.AuthorsCleared() {
+	if _u.mutation.AuthorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -797,7 +797,7 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jauo.mutation.RemovedAuthorsIDs(); len(nodes) > 0 && !jauo.mutation.AuthorsCleared() {
+	if nodes := _u.mutation.RemovedAuthorsIDs(); len(nodes) > 0 && !_u.mutation.AuthorsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -813,7 +813,7 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := jauo.mutation.AuthorsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.AuthorsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -829,10 +829,10 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &JobAuthor{config: jauo.config}
+	_node = &JobAuthor{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, jauo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobauthor.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -840,6 +840,6 @@ func (jauo *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, 
 		}
 		return nil, err
 	}
-	jauo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

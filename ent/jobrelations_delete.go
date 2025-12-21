@@ -20,56 +20,56 @@ type JobRelationsDelete struct {
 }
 
 // Where appends a list predicates to the JobRelationsDelete builder.
-func (jrd *JobRelationsDelete) Where(ps ...predicate.JobRelations) *JobRelationsDelete {
-	jrd.mutation.Where(ps...)
-	return jrd
+func (_d *JobRelationsDelete) Where(ps ...predicate.JobRelations) *JobRelationsDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (jrd *JobRelationsDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, jrd.sqlExec, jrd.mutation, jrd.hooks)
+func (_d *JobRelationsDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jrd *JobRelationsDelete) ExecX(ctx context.Context) int {
-	n, err := jrd.Exec(ctx)
+func (_d *JobRelationsDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (jrd *JobRelationsDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *JobRelationsDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(jobrelations.Table, sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt))
-	if ps := jrd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, jrd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	jrd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // JobRelationsDeleteOne is the builder for deleting a single JobRelations entity.
 type JobRelationsDeleteOne struct {
-	jrd *JobRelationsDelete
+	_d *JobRelationsDelete
 }
 
 // Where appends a list predicates to the JobRelationsDelete builder.
-func (jrdo *JobRelationsDeleteOne) Where(ps ...predicate.JobRelations) *JobRelationsDeleteOne {
-	jrdo.jrd.mutation.Where(ps...)
-	return jrdo
+func (_d *JobRelationsDeleteOne) Where(ps ...predicate.JobRelations) *JobRelationsDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (jrdo *JobRelationsDeleteOne) Exec(ctx context.Context) error {
-	n, err := jrdo.jrd.Exec(ctx)
+func (_d *JobRelationsDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (jrdo *JobRelationsDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jrdo *JobRelationsDeleteOne) ExecX(ctx context.Context) {
-	if err := jrdo.Exec(ctx); err != nil {
+func (_d *JobRelationsDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

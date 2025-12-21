@@ -83,7 +83,7 @@ func (*JobReceipt) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobReceipt fields.
-func (jr *JobReceipt) assignValues(columns []string, values []any) error {
+func (_m *JobReceipt) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -94,52 +94,52 @@ func (jr *JobReceipt) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jr.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobreceipt.FieldYibfNo:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field yibfNo", values[i])
 			} else if value.Valid {
-				jr.YibfNo = int(value.Int64)
+				_m.YibfNo = int(value.Int64)
 			}
 		case jobreceipt.FieldReceiptDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field receiptDate", values[i])
 			} else if value.Valid {
-				jr.ReceiptDate = value.Time
+				_m.ReceiptDate = value.Time
 			}
 		case jobreceipt.FieldAmount:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field Amount", values[i])
 			} else if value.Valid {
-				jr.Amount = value.Float64
+				_m.Amount = value.Float64
 			}
 		case jobreceipt.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Note", values[i])
 			} else if value.Valid {
-				jr.Note = value.String
+				_m.Note = value.String
 			}
 		case jobreceipt.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jr.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobreceipt.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jr.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case jobreceipt.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
-				jr.relations_id = new(int)
-				*jr.relations_id = int(value.Int64)
+				_m.relations_id = new(int)
+				*_m.relations_id = int(value.Int64)
 			}
 		default:
-			jr.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -147,55 +147,55 @@ func (jr *JobReceipt) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobReceipt.
 // This includes values selected through modifiers, order, etc.
-func (jr *JobReceipt) Value(name string) (ent.Value, error) {
-	return jr.selectValues.Get(name)
+func (_m *JobReceipt) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryReceipt queries the "receipt" edge of the JobReceipt entity.
-func (jr *JobReceipt) QueryReceipt() *JobRelationsQuery {
-	return NewJobReceiptClient(jr.config).QueryReceipt(jr)
+func (_m *JobReceipt) QueryReceipt() *JobRelationsQuery {
+	return NewJobReceiptClient(_m.config).QueryReceipt(_m)
 }
 
 // Update returns a builder for updating this JobReceipt.
 // Note that you need to call JobReceipt.Unwrap() before calling this method if this JobReceipt
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jr *JobReceipt) Update() *JobReceiptUpdateOne {
-	return NewJobReceiptClient(jr.config).UpdateOne(jr)
+func (_m *JobReceipt) Update() *JobReceiptUpdateOne {
+	return NewJobReceiptClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobReceipt entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jr *JobReceipt) Unwrap() *JobReceipt {
-	_tx, ok := jr.config.driver.(*txDriver)
+func (_m *JobReceipt) Unwrap() *JobReceipt {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobReceipt is not a transactional entity")
 	}
-	jr.config.driver = _tx.drv
-	return jr
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (jr *JobReceipt) String() string {
+func (_m *JobReceipt) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobReceipt(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jr.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("yibfNo=")
-	builder.WriteString(fmt.Sprintf("%v", jr.YibfNo))
+	builder.WriteString(fmt.Sprintf("%v", _m.YibfNo))
 	builder.WriteString(", ")
 	builder.WriteString("receiptDate=")
-	builder.WriteString(jr.ReceiptDate.Format(time.ANSIC))
+	builder.WriteString(_m.ReceiptDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("Amount=")
-	builder.WriteString(fmt.Sprintf("%v", jr.Amount))
+	builder.WriteString(fmt.Sprintf("%v", _m.Amount))
 	builder.WriteString(", ")
 	builder.WriteString("Note=")
-	builder.WriteString(jr.Note)
+	builder.WriteString(_m.Note)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jr.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jr.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

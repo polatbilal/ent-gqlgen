@@ -91,7 +91,7 @@ func (*JobOwner) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the JobOwner fields.
-func (jo *JobOwner) assignValues(columns []string, values []any) error {
+func (_m *JobOwner) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -102,81 +102,81 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			jo.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case jobowner.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				jo.Name = value.String
+				_m.Name = value.String
 			}
 		case jobowner.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Address", values[i])
 			} else if value.Valid {
-				jo.Address = value.String
+				_m.Address = value.String
 			}
 		case jobowner.FieldTcNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
 			} else if value.Valid {
-				jo.TcNo = value.String
+				_m.TcNo = value.String
 			}
 		case jobowner.FieldTaxAdmin:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxAdmin", values[i])
 			} else if value.Valid {
-				jo.TaxAdmin = value.String
+				_m.TaxAdmin = value.String
 			}
 		case jobowner.FieldTaxNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
 			} else if value.Valid {
-				jo.TaxNo = value.String
+				_m.TaxNo = value.String
 			}
 		case jobowner.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Phone", values[i])
 			} else if value.Valid {
-				jo.Phone = value.String
+				_m.Phone = value.String
 			}
 		case jobowner.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Email", values[i])
 			} else if value.Valid {
-				jo.Email = value.String
+				_m.Email = value.String
 			}
 		case jobowner.FieldYDSID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field YDSID", values[i])
 			} else if value.Valid {
-				jo.YDSID = int(value.Int64)
+				_m.YDSID = int(value.Int64)
 			}
 		case jobowner.FieldShareholder:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field Shareholder", values[i])
 			} else if value.Valid {
-				jo.Shareholder = value.Bool
+				_m.Shareholder = value.Bool
 			}
 		case jobowner.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Note", values[i])
 			} else if value.Valid {
-				jo.Note = value.String
+				_m.Note = value.String
 			}
 		case jobowner.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field CreatedAt", values[i])
 			} else if value.Valid {
-				jo.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case jobowner.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field UpdatedAt", values[i])
 			} else if value.Valid {
-				jo.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		default:
-			jo.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -184,98 +184,98 @@ func (jo *JobOwner) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the JobOwner.
 // This includes values selected through modifiers, order, etc.
-func (jo *JobOwner) Value(name string) (ent.Value, error) {
-	return jo.selectValues.Get(name)
+func (_m *JobOwner) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryOwners queries the "owners" edge of the JobOwner entity.
-func (jo *JobOwner) QueryOwners() *JobRelationsQuery {
-	return NewJobOwnerClient(jo.config).QueryOwners(jo)
+func (_m *JobOwner) QueryOwners() *JobRelationsQuery {
+	return NewJobOwnerClient(_m.config).QueryOwners(_m)
 }
 
 // Update returns a builder for updating this JobOwner.
 // Note that you need to call JobOwner.Unwrap() before calling this method if this JobOwner
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (jo *JobOwner) Update() *JobOwnerUpdateOne {
-	return NewJobOwnerClient(jo.config).UpdateOne(jo)
+func (_m *JobOwner) Update() *JobOwnerUpdateOne {
+	return NewJobOwnerClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the JobOwner entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (jo *JobOwner) Unwrap() *JobOwner {
-	_tx, ok := jo.config.driver.(*txDriver)
+func (_m *JobOwner) Unwrap() *JobOwner {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: JobOwner is not a transactional entity")
 	}
-	jo.config.driver = _tx.drv
-	return jo
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (jo *JobOwner) String() string {
+func (_m *JobOwner) String() string {
 	var builder strings.Builder
 	builder.WriteString("JobOwner(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", jo.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("Name=")
-	builder.WriteString(jo.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("Address=")
-	builder.WriteString(jo.Address)
+	builder.WriteString(_m.Address)
 	builder.WriteString(", ")
 	builder.WriteString("TcNo=")
-	builder.WriteString(jo.TcNo)
+	builder.WriteString(_m.TcNo)
 	builder.WriteString(", ")
 	builder.WriteString("TaxAdmin=")
-	builder.WriteString(jo.TaxAdmin)
+	builder.WriteString(_m.TaxAdmin)
 	builder.WriteString(", ")
 	builder.WriteString("TaxNo=")
-	builder.WriteString(jo.TaxNo)
+	builder.WriteString(_m.TaxNo)
 	builder.WriteString(", ")
 	builder.WriteString("Phone=")
-	builder.WriteString(jo.Phone)
+	builder.WriteString(_m.Phone)
 	builder.WriteString(", ")
 	builder.WriteString("Email=")
-	builder.WriteString(jo.Email)
+	builder.WriteString(_m.Email)
 	builder.WriteString(", ")
 	builder.WriteString("YDSID=")
-	builder.WriteString(fmt.Sprintf("%v", jo.YDSID))
+	builder.WriteString(fmt.Sprintf("%v", _m.YDSID))
 	builder.WriteString(", ")
 	builder.WriteString("Shareholder=")
-	builder.WriteString(fmt.Sprintf("%v", jo.Shareholder))
+	builder.WriteString(fmt.Sprintf("%v", _m.Shareholder))
 	builder.WriteString(", ")
 	builder.WriteString("Note=")
-	builder.WriteString(jo.Note)
+	builder.WriteString(_m.Note)
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
-	builder.WriteString(jo.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("UpdatedAt=")
-	builder.WriteString(jo.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
 // NamedOwners returns the Owners named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (jo *JobOwner) NamedOwners(name string) ([]*JobRelations, error) {
-	if jo.Edges.namedOwners == nil {
+func (_m *JobOwner) NamedOwners(name string) ([]*JobRelations, error) {
+	if _m.Edges.namedOwners == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := jo.Edges.namedOwners[name]
+	nodes, ok := _m.Edges.namedOwners[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (jo *JobOwner) appendNamedOwners(name string, edges ...*JobRelations) {
-	if jo.Edges.namedOwners == nil {
-		jo.Edges.namedOwners = make(map[string][]*JobRelations)
+func (_m *JobOwner) appendNamedOwners(name string, edges ...*JobRelations) {
+	if _m.Edges.namedOwners == nil {
+		_m.Edges.namedOwners = make(map[string][]*JobRelations)
 	}
 	if len(edges) == 0 {
-		jo.Edges.namedOwners[name] = []*JobRelations{}
+		_m.Edges.namedOwners[name] = []*JobRelations{}
 	} else {
-		jo.Edges.namedOwners[name] = append(jo.Edges.namedOwners[name], edges...)
+		_m.Edges.namedOwners[name] = append(_m.Edges.namedOwners[name], edges...)
 	}
 }
 

@@ -33,44 +33,44 @@ type JobFloorQuery struct {
 }
 
 // Where adds a new predicate for the JobFloorQuery builder.
-func (jfq *JobFloorQuery) Where(ps ...predicate.JobFloor) *JobFloorQuery {
-	jfq.predicates = append(jfq.predicates, ps...)
-	return jfq
+func (_q *JobFloorQuery) Where(ps ...predicate.JobFloor) *JobFloorQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (jfq *JobFloorQuery) Limit(limit int) *JobFloorQuery {
-	jfq.ctx.Limit = &limit
-	return jfq
+func (_q *JobFloorQuery) Limit(limit int) *JobFloorQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (jfq *JobFloorQuery) Offset(offset int) *JobFloorQuery {
-	jfq.ctx.Offset = &offset
-	return jfq
+func (_q *JobFloorQuery) Offset(offset int) *JobFloorQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (jfq *JobFloorQuery) Unique(unique bool) *JobFloorQuery {
-	jfq.ctx.Unique = &unique
-	return jfq
+func (_q *JobFloorQuery) Unique(unique bool) *JobFloorQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (jfq *JobFloorQuery) Order(o ...jobfloor.OrderOption) *JobFloorQuery {
-	jfq.order = append(jfq.order, o...)
-	return jfq
+func (_q *JobFloorQuery) Order(o ...jobfloor.OrderOption) *JobFloorQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryFloor chains the current query on the "floor" edge.
-func (jfq *JobFloorQuery) QueryFloor() *JobRelationsQuery {
-	query := (&JobRelationsClient{config: jfq.config}).Query()
+func (_q *JobFloorQuery) QueryFloor() *JobRelationsQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := jfq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := jfq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -79,7 +79,7 @@ func (jfq *JobFloorQuery) QueryFloor() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobfloor.FloorTable, jobfloor.FloorColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(jfq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -87,8 +87,8 @@ func (jfq *JobFloorQuery) QueryFloor() *JobRelationsQuery {
 
 // First returns the first JobFloor entity from the query.
 // Returns a *NotFoundError when no JobFloor was found.
-func (jfq *JobFloorQuery) First(ctx context.Context) (*JobFloor, error) {
-	nodes, err := jfq.Limit(1).All(setContextOp(ctx, jfq.ctx, ent.OpQueryFirst))
+func (_q *JobFloorQuery) First(ctx context.Context) (*JobFloor, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -99,8 +99,8 @@ func (jfq *JobFloorQuery) First(ctx context.Context) (*JobFloor, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (jfq *JobFloorQuery) FirstX(ctx context.Context) *JobFloor {
-	node, err := jfq.First(ctx)
+func (_q *JobFloorQuery) FirstX(ctx context.Context) *JobFloor {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -109,9 +109,9 @@ func (jfq *JobFloorQuery) FirstX(ctx context.Context) *JobFloor {
 
 // FirstID returns the first JobFloor ID from the query.
 // Returns a *NotFoundError when no JobFloor ID was found.
-func (jfq *JobFloorQuery) FirstID(ctx context.Context) (id int, err error) {
+func (_q *JobFloorQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jfq.Limit(1).IDs(setContextOp(ctx, jfq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -122,8 +122,8 @@ func (jfq *JobFloorQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (jfq *JobFloorQuery) FirstIDX(ctx context.Context) int {
-	id, err := jfq.FirstID(ctx)
+func (_q *JobFloorQuery) FirstIDX(ctx context.Context) int {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -133,8 +133,8 @@ func (jfq *JobFloorQuery) FirstIDX(ctx context.Context) int {
 // Only returns a single JobFloor entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one JobFloor entity is found.
 // Returns a *NotFoundError when no JobFloor entities are found.
-func (jfq *JobFloorQuery) Only(ctx context.Context) (*JobFloor, error) {
-	nodes, err := jfq.Limit(2).All(setContextOp(ctx, jfq.ctx, ent.OpQueryOnly))
+func (_q *JobFloorQuery) Only(ctx context.Context) (*JobFloor, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -149,8 +149,8 @@ func (jfq *JobFloorQuery) Only(ctx context.Context) (*JobFloor, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (jfq *JobFloorQuery) OnlyX(ctx context.Context) *JobFloor {
-	node, err := jfq.Only(ctx)
+func (_q *JobFloorQuery) OnlyX(ctx context.Context) *JobFloor {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -160,9 +160,9 @@ func (jfq *JobFloorQuery) OnlyX(ctx context.Context) *JobFloor {
 // OnlyID is like Only, but returns the only JobFloor ID in the query.
 // Returns a *NotSingularError when more than one JobFloor ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (jfq *JobFloorQuery) OnlyID(ctx context.Context) (id int, err error) {
+func (_q *JobFloorQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = jfq.Limit(2).IDs(setContextOp(ctx, jfq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -177,8 +177,8 @@ func (jfq *JobFloorQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (jfq *JobFloorQuery) OnlyIDX(ctx context.Context) int {
-	id, err := jfq.OnlyID(ctx)
+func (_q *JobFloorQuery) OnlyIDX(ctx context.Context) int {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -186,18 +186,18 @@ func (jfq *JobFloorQuery) OnlyIDX(ctx context.Context) int {
 }
 
 // All executes the query and returns a list of JobFloors.
-func (jfq *JobFloorQuery) All(ctx context.Context) ([]*JobFloor, error) {
-	ctx = setContextOp(ctx, jfq.ctx, ent.OpQueryAll)
-	if err := jfq.prepareQuery(ctx); err != nil {
+func (_q *JobFloorQuery) All(ctx context.Context) ([]*JobFloor, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*JobFloor, *JobFloorQuery]()
-	return withInterceptors[[]*JobFloor](ctx, jfq, qr, jfq.inters)
+	return withInterceptors[[]*JobFloor](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (jfq *JobFloorQuery) AllX(ctx context.Context) []*JobFloor {
-	nodes, err := jfq.All(ctx)
+func (_q *JobFloorQuery) AllX(ctx context.Context) []*JobFloor {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -205,20 +205,20 @@ func (jfq *JobFloorQuery) AllX(ctx context.Context) []*JobFloor {
 }
 
 // IDs executes the query and returns a list of JobFloor IDs.
-func (jfq *JobFloorQuery) IDs(ctx context.Context) (ids []int, err error) {
-	if jfq.ctx.Unique == nil && jfq.path != nil {
-		jfq.Unique(true)
+func (_q *JobFloorQuery) IDs(ctx context.Context) (ids []int, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, jfq.ctx, ent.OpQueryIDs)
-	if err = jfq.Select(jobfloor.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(jobfloor.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (jfq *JobFloorQuery) IDsX(ctx context.Context) []int {
-	ids, err := jfq.IDs(ctx)
+func (_q *JobFloorQuery) IDsX(ctx context.Context) []int {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -226,17 +226,17 @@ func (jfq *JobFloorQuery) IDsX(ctx context.Context) []int {
 }
 
 // Count returns the count of the given query.
-func (jfq *JobFloorQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, jfq.ctx, ent.OpQueryCount)
-	if err := jfq.prepareQuery(ctx); err != nil {
+func (_q *JobFloorQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, jfq, querierCount[*JobFloorQuery](), jfq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*JobFloorQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (jfq *JobFloorQuery) CountX(ctx context.Context) int {
-	count, err := jfq.Count(ctx)
+func (_q *JobFloorQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -244,9 +244,9 @@ func (jfq *JobFloorQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (jfq *JobFloorQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, jfq.ctx, ent.OpQueryExist)
-	switch _, err := jfq.FirstID(ctx); {
+func (_q *JobFloorQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -257,8 +257,8 @@ func (jfq *JobFloorQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (jfq *JobFloorQuery) ExistX(ctx context.Context) bool {
-	exist, err := jfq.Exist(ctx)
+func (_q *JobFloorQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -267,32 +267,32 @@ func (jfq *JobFloorQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the JobFloorQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (jfq *JobFloorQuery) Clone() *JobFloorQuery {
-	if jfq == nil {
+func (_q *JobFloorQuery) Clone() *JobFloorQuery {
+	if _q == nil {
 		return nil
 	}
 	return &JobFloorQuery{
-		config:     jfq.config,
-		ctx:        jfq.ctx.Clone(),
-		order:      append([]jobfloor.OrderOption{}, jfq.order...),
-		inters:     append([]Interceptor{}, jfq.inters...),
-		predicates: append([]predicate.JobFloor{}, jfq.predicates...),
-		withFloor:  jfq.withFloor.Clone(),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]jobfloor.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.JobFloor{}, _q.predicates...),
+		withFloor:  _q.withFloor.Clone(),
 		// clone intermediate query.
-		sql:  jfq.sql.Clone(),
-		path: jfq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithFloor tells the query-builder to eager-load the nodes that are connected to
 // the "floor" edge. The optional arguments are used to configure the query builder of the edge.
-func (jfq *JobFloorQuery) WithFloor(opts ...func(*JobRelationsQuery)) *JobFloorQuery {
-	query := (&JobRelationsClient{config: jfq.config}).Query()
+func (_q *JobFloorQuery) WithFloor(opts ...func(*JobRelationsQuery)) *JobFloorQuery {
+	query := (&JobRelationsClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	jfq.withFloor = query
-	return jfq
+	_q.withFloor = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -309,10 +309,10 @@ func (jfq *JobFloorQuery) WithFloor(opts ...func(*JobRelationsQuery)) *JobFloorQ
 //		GroupBy(jobfloor.FieldYibfNo).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (jfq *JobFloorQuery) GroupBy(field string, fields ...string) *JobFloorGroupBy {
-	jfq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &JobFloorGroupBy{build: jfq}
-	grbuild.flds = &jfq.ctx.Fields
+func (_q *JobFloorQuery) GroupBy(field string, fields ...string) *JobFloorGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &JobFloorGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = jobfloor.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -330,55 +330,55 @@ func (jfq *JobFloorQuery) GroupBy(field string, fields ...string) *JobFloorGroup
 //	client.JobFloor.Query().
 //		Select(jobfloor.FieldYibfNo).
 //		Scan(ctx, &v)
-func (jfq *JobFloorQuery) Select(fields ...string) *JobFloorSelect {
-	jfq.ctx.Fields = append(jfq.ctx.Fields, fields...)
-	sbuild := &JobFloorSelect{JobFloorQuery: jfq}
+func (_q *JobFloorQuery) Select(fields ...string) *JobFloorSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &JobFloorSelect{JobFloorQuery: _q}
 	sbuild.label = jobfloor.Label
-	sbuild.flds, sbuild.scan = &jfq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a JobFloorSelect configured with the given aggregations.
-func (jfq *JobFloorQuery) Aggregate(fns ...AggregateFunc) *JobFloorSelect {
-	return jfq.Select().Aggregate(fns...)
+func (_q *JobFloorQuery) Aggregate(fns ...AggregateFunc) *JobFloorSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (jfq *JobFloorQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range jfq.inters {
+func (_q *JobFloorQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, jfq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range jfq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !jobfloor.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if jfq.path != nil {
-		prev, err := jfq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		jfq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (jfq *JobFloorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobFloor, error) {
+func (_q *JobFloorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*JobFloor, error) {
 	var (
 		nodes       = []*JobFloor{}
-		withFKs     = jfq.withFKs
-		_spec       = jfq.querySpec()
+		withFKs     = _q.withFKs
+		_spec       = _q.querySpec()
 		loadedTypes = [1]bool{
-			jfq.withFloor != nil,
+			_q.withFloor != nil,
 		}
 	)
-	if jfq.withFloor != nil {
+	if _q.withFloor != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -388,38 +388,38 @@ func (jfq *JobFloorQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 		return (*JobFloor).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &JobFloor{config: jfq.config}
+		node := &JobFloor{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(jfq.modifiers) > 0 {
-		_spec.Modifiers = jfq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, jfq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := jfq.withFloor; query != nil {
-		if err := jfq.loadFloor(ctx, query, nodes, nil,
+	if query := _q.withFloor; query != nil {
+		if err := _q.loadFloor(ctx, query, nodes, nil,
 			func(n *JobFloor, e *JobRelations) { n.Edges.Floor = e }); err != nil {
 			return nil, err
 		}
 	}
-	for i := range jfq.loadTotal {
-		if err := jfq.loadTotal[i](ctx, nodes); err != nil {
+	for i := range _q.loadTotal {
+		if err := _q.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (jfq *JobFloorQuery) loadFloor(ctx context.Context, query *JobRelationsQuery, nodes []*JobFloor, init func(*JobFloor), assign func(*JobFloor, *JobRelations)) error {
+func (_q *JobFloorQuery) loadFloor(ctx context.Context, query *JobRelationsQuery, nodes []*JobFloor, init func(*JobFloor), assign func(*JobFloor, *JobRelations)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*JobFloor)
 	for i := range nodes {
@@ -452,27 +452,27 @@ func (jfq *JobFloorQuery) loadFloor(ctx context.Context, query *JobRelationsQuer
 	return nil
 }
 
-func (jfq *JobFloorQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := jfq.querySpec()
-	if len(jfq.modifiers) > 0 {
-		_spec.Modifiers = jfq.modifiers
+func (_q *JobFloorQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = jfq.ctx.Fields
-	if len(jfq.ctx.Fields) > 0 {
-		_spec.Unique = jfq.ctx.Unique != nil && *jfq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, jfq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (jfq *JobFloorQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *JobFloorQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(jobfloor.Table, jobfloor.Columns, sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt))
-	_spec.From = jfq.sql
-	if unique := jfq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if jfq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := jfq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, jobfloor.FieldID)
 		for i := range fields {
@@ -481,20 +481,20 @@ func (jfq *JobFloorQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := jfq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := jfq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := jfq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := jfq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -504,33 +504,33 @@ func (jfq *JobFloorQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (jfq *JobFloorQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(jfq.driver.Dialect())
+func (_q *JobFloorQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(jobfloor.Table)
-	columns := jfq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = jobfloor.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if jfq.sql != nil {
-		selector = jfq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if jfq.ctx.Unique != nil && *jfq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range jfq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range jfq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := jfq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := jfq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -543,41 +543,41 @@ type JobFloorGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (jfgb *JobFloorGroupBy) Aggregate(fns ...AggregateFunc) *JobFloorGroupBy {
-	jfgb.fns = append(jfgb.fns, fns...)
-	return jfgb
+func (_g *JobFloorGroupBy) Aggregate(fns ...AggregateFunc) *JobFloorGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jfgb *JobFloorGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jfgb.build.ctx, ent.OpQueryGroupBy)
-	if err := jfgb.build.prepareQuery(ctx); err != nil {
+func (_g *JobFloorGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobFloorQuery, *JobFloorGroupBy](ctx, jfgb.build, jfgb, jfgb.build.inters, v)
+	return scanWithInterceptors[*JobFloorQuery, *JobFloorGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (jfgb *JobFloorGroupBy) sqlScan(ctx context.Context, root *JobFloorQuery, v any) error {
+func (_g *JobFloorGroupBy) sqlScan(ctx context.Context, root *JobFloorQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(jfgb.fns))
-	for _, fn := range jfgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*jfgb.flds)+len(jfgb.fns))
-		for _, f := range *jfgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*jfgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jfgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -591,27 +591,27 @@ type JobFloorSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (jfs *JobFloorSelect) Aggregate(fns ...AggregateFunc) *JobFloorSelect {
-	jfs.fns = append(jfs.fns, fns...)
-	return jfs
+func (_s *JobFloorSelect) Aggregate(fns ...AggregateFunc) *JobFloorSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (jfs *JobFloorSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, jfs.ctx, ent.OpQuerySelect)
-	if err := jfs.prepareQuery(ctx); err != nil {
+func (_s *JobFloorSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*JobFloorQuery, *JobFloorSelect](ctx, jfs.JobFloorQuery, jfs, jfs.inters, v)
+	return scanWithInterceptors[*JobFloorQuery, *JobFloorSelect](ctx, _s.JobFloorQuery, _s, _s.inters, v)
 }
 
-func (jfs *JobFloorSelect) sqlScan(ctx context.Context, root *JobFloorQuery, v any) error {
+func (_s *JobFloorSelect) sqlScan(ctx context.Context, root *JobFloorQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(jfs.fns))
-	for _, fn := range jfs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*jfs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -619,7 +619,7 @@ func (jfs *JobFloorSelect) sqlScan(ctx context.Context, root *JobFloorQuery, v a
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := jfs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

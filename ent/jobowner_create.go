@@ -22,202 +22,202 @@ type JobOwnerCreate struct {
 }
 
 // SetName sets the "Name" field.
-func (joc *JobOwnerCreate) SetName(s string) *JobOwnerCreate {
-	joc.mutation.SetName(s)
-	return joc
+func (_c *JobOwnerCreate) SetName(v string) *JobOwnerCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "Name" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableName(s *string) *JobOwnerCreate {
-	if s != nil {
-		joc.SetName(*s)
+func (_c *JobOwnerCreate) SetNillableName(v *string) *JobOwnerCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetAddress sets the "Address" field.
-func (joc *JobOwnerCreate) SetAddress(s string) *JobOwnerCreate {
-	joc.mutation.SetAddress(s)
-	return joc
+func (_c *JobOwnerCreate) SetAddress(v string) *JobOwnerCreate {
+	_c.mutation.SetAddress(v)
+	return _c
 }
 
 // SetNillableAddress sets the "Address" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableAddress(s *string) *JobOwnerCreate {
-	if s != nil {
-		joc.SetAddress(*s)
+func (_c *JobOwnerCreate) SetNillableAddress(v *string) *JobOwnerCreate {
+	if v != nil {
+		_c.SetAddress(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetTcNo sets the "TcNo" field.
-func (joc *JobOwnerCreate) SetTcNo(s string) *JobOwnerCreate {
-	joc.mutation.SetTcNo(s)
-	return joc
+func (_c *JobOwnerCreate) SetTcNo(v string) *JobOwnerCreate {
+	_c.mutation.SetTcNo(v)
+	return _c
 }
 
 // SetNillableTcNo sets the "TcNo" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableTcNo(s *string) *JobOwnerCreate {
-	if s != nil {
-		joc.SetTcNo(*s)
+func (_c *JobOwnerCreate) SetNillableTcNo(v *string) *JobOwnerCreate {
+	if v != nil {
+		_c.SetTcNo(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetTaxAdmin sets the "TaxAdmin" field.
-func (joc *JobOwnerCreate) SetTaxAdmin(s string) *JobOwnerCreate {
-	joc.mutation.SetTaxAdmin(s)
-	return joc
+func (_c *JobOwnerCreate) SetTaxAdmin(v string) *JobOwnerCreate {
+	_c.mutation.SetTaxAdmin(v)
+	return _c
 }
 
 // SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableTaxAdmin(s *string) *JobOwnerCreate {
-	if s != nil {
-		joc.SetTaxAdmin(*s)
+func (_c *JobOwnerCreate) SetNillableTaxAdmin(v *string) *JobOwnerCreate {
+	if v != nil {
+		_c.SetTaxAdmin(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetTaxNo sets the "TaxNo" field.
-func (joc *JobOwnerCreate) SetTaxNo(s string) *JobOwnerCreate {
-	joc.mutation.SetTaxNo(s)
-	return joc
+func (_c *JobOwnerCreate) SetTaxNo(v string) *JobOwnerCreate {
+	_c.mutation.SetTaxNo(v)
+	return _c
 }
 
 // SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableTaxNo(s *string) *JobOwnerCreate {
-	if s != nil {
-		joc.SetTaxNo(*s)
+func (_c *JobOwnerCreate) SetNillableTaxNo(v *string) *JobOwnerCreate {
+	if v != nil {
+		_c.SetTaxNo(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetPhone sets the "Phone" field.
-func (joc *JobOwnerCreate) SetPhone(s string) *JobOwnerCreate {
-	joc.mutation.SetPhone(s)
-	return joc
+func (_c *JobOwnerCreate) SetPhone(v string) *JobOwnerCreate {
+	_c.mutation.SetPhone(v)
+	return _c
 }
 
 // SetNillablePhone sets the "Phone" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillablePhone(s *string) *JobOwnerCreate {
-	if s != nil {
-		joc.SetPhone(*s)
+func (_c *JobOwnerCreate) SetNillablePhone(v *string) *JobOwnerCreate {
+	if v != nil {
+		_c.SetPhone(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetEmail sets the "Email" field.
-func (joc *JobOwnerCreate) SetEmail(s string) *JobOwnerCreate {
-	joc.mutation.SetEmail(s)
-	return joc
+func (_c *JobOwnerCreate) SetEmail(v string) *JobOwnerCreate {
+	_c.mutation.SetEmail(v)
+	return _c
 }
 
 // SetNillableEmail sets the "Email" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableEmail(s *string) *JobOwnerCreate {
-	if s != nil {
-		joc.SetEmail(*s)
+func (_c *JobOwnerCreate) SetNillableEmail(v *string) *JobOwnerCreate {
+	if v != nil {
+		_c.SetEmail(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetYDSID sets the "YDSID" field.
-func (joc *JobOwnerCreate) SetYDSID(i int) *JobOwnerCreate {
-	joc.mutation.SetYDSID(i)
-	return joc
+func (_c *JobOwnerCreate) SetYDSID(v int) *JobOwnerCreate {
+	_c.mutation.SetYDSID(v)
+	return _c
 }
 
 // SetNillableYDSID sets the "YDSID" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableYDSID(i *int) *JobOwnerCreate {
-	if i != nil {
-		joc.SetYDSID(*i)
+func (_c *JobOwnerCreate) SetNillableYDSID(v *int) *JobOwnerCreate {
+	if v != nil {
+		_c.SetYDSID(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetShareholder sets the "Shareholder" field.
-func (joc *JobOwnerCreate) SetShareholder(b bool) *JobOwnerCreate {
-	joc.mutation.SetShareholder(b)
-	return joc
+func (_c *JobOwnerCreate) SetShareholder(v bool) *JobOwnerCreate {
+	_c.mutation.SetShareholder(v)
+	return _c
 }
 
 // SetNillableShareholder sets the "Shareholder" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableShareholder(b *bool) *JobOwnerCreate {
-	if b != nil {
-		joc.SetShareholder(*b)
+func (_c *JobOwnerCreate) SetNillableShareholder(v *bool) *JobOwnerCreate {
+	if v != nil {
+		_c.SetShareholder(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetNote sets the "Note" field.
-func (joc *JobOwnerCreate) SetNote(s string) *JobOwnerCreate {
-	joc.mutation.SetNote(s)
-	return joc
+func (_c *JobOwnerCreate) SetNote(v string) *JobOwnerCreate {
+	_c.mutation.SetNote(v)
+	return _c
 }
 
 // SetNillableNote sets the "Note" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableNote(s *string) *JobOwnerCreate {
-	if s != nil {
-		joc.SetNote(*s)
+func (_c *JobOwnerCreate) SetNillableNote(v *string) *JobOwnerCreate {
+	if v != nil {
+		_c.SetNote(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
-func (joc *JobOwnerCreate) SetCreatedAt(t time.Time) *JobOwnerCreate {
-	joc.mutation.SetCreatedAt(t)
-	return joc
+func (_c *JobOwnerCreate) SetCreatedAt(v time.Time) *JobOwnerCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "CreatedAt" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableCreatedAt(t *time.Time) *JobOwnerCreate {
-	if t != nil {
-		joc.SetCreatedAt(*t)
+func (_c *JobOwnerCreate) SetNillableCreatedAt(v *time.Time) *JobOwnerCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return joc
+	return _c
 }
 
 // SetUpdatedAt sets the "UpdatedAt" field.
-func (joc *JobOwnerCreate) SetUpdatedAt(t time.Time) *JobOwnerCreate {
-	joc.mutation.SetUpdatedAt(t)
-	return joc
+func (_c *JobOwnerCreate) SetUpdatedAt(v time.Time) *JobOwnerCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "UpdatedAt" field if the given value is not nil.
-func (joc *JobOwnerCreate) SetNillableUpdatedAt(t *time.Time) *JobOwnerCreate {
-	if t != nil {
-		joc.SetUpdatedAt(*t)
+func (_c *JobOwnerCreate) SetNillableUpdatedAt(v *time.Time) *JobOwnerCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return joc
+	return _c
 }
 
 // AddOwnerIDs adds the "owners" edge to the JobRelations entity by IDs.
-func (joc *JobOwnerCreate) AddOwnerIDs(ids ...int) *JobOwnerCreate {
-	joc.mutation.AddOwnerIDs(ids...)
-	return joc
+func (_c *JobOwnerCreate) AddOwnerIDs(ids ...int) *JobOwnerCreate {
+	_c.mutation.AddOwnerIDs(ids...)
+	return _c
 }
 
 // AddOwners adds the "owners" edges to the JobRelations entity.
-func (joc *JobOwnerCreate) AddOwners(j ...*JobRelations) *JobOwnerCreate {
-	ids := make([]int, len(j))
-	for i := range j {
-		ids[i] = j[i].ID
+func (_c *JobOwnerCreate) AddOwners(v ...*JobRelations) *JobOwnerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return joc.AddOwnerIDs(ids...)
+	return _c.AddOwnerIDs(ids...)
 }
 
 // Mutation returns the JobOwnerMutation object of the builder.
-func (joc *JobOwnerCreate) Mutation() *JobOwnerMutation {
-	return joc.mutation
+func (_c *JobOwnerCreate) Mutation() *JobOwnerMutation {
+	return _c.mutation
 }
 
 // Save creates the JobOwner in the database.
-func (joc *JobOwnerCreate) Save(ctx context.Context) (*JobOwner, error) {
-	joc.defaults()
-	return withHooks(ctx, joc.sqlSave, joc.mutation, joc.hooks)
+func (_c *JobOwnerCreate) Save(ctx context.Context) (*JobOwner, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (joc *JobOwnerCreate) SaveX(ctx context.Context) *JobOwner {
-	v, err := joc.Save(ctx)
+func (_c *JobOwnerCreate) SaveX(ctx context.Context) *JobOwner {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -225,61 +225,61 @@ func (joc *JobOwnerCreate) SaveX(ctx context.Context) *JobOwner {
 }
 
 // Exec executes the query.
-func (joc *JobOwnerCreate) Exec(ctx context.Context) error {
-	_, err := joc.Save(ctx)
+func (_c *JobOwnerCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (joc *JobOwnerCreate) ExecX(ctx context.Context) {
-	if err := joc.Exec(ctx); err != nil {
+func (_c *JobOwnerCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (joc *JobOwnerCreate) defaults() {
-	if _, ok := joc.mutation.Name(); !ok {
+func (_c *JobOwnerCreate) defaults() {
+	if _, ok := _c.mutation.Name(); !ok {
 		v := jobowner.DefaultName
-		joc.mutation.SetName(v)
+		_c.mutation.SetName(v)
 	}
-	if _, ok := joc.mutation.Shareholder(); !ok {
+	if _, ok := _c.mutation.Shareholder(); !ok {
 		v := jobowner.DefaultShareholder
-		joc.mutation.SetShareholder(v)
+		_c.mutation.SetShareholder(v)
 	}
-	if _, ok := joc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobowner.DefaultCreatedAt()
-		joc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := joc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := jobowner.DefaultUpdatedAt()
-		joc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (joc *JobOwnerCreate) check() error {
-	if _, ok := joc.mutation.Name(); !ok {
+func (_c *JobOwnerCreate) check() error {
+	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "JobOwner.Name"`)}
 	}
-	if _, ok := joc.mutation.Shareholder(); !ok {
+	if _, ok := _c.mutation.Shareholder(); !ok {
 		return &ValidationError{Name: "Shareholder", err: errors.New(`ent: missing required field "JobOwner.Shareholder"`)}
 	}
-	if _, ok := joc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "CreatedAt", err: errors.New(`ent: missing required field "JobOwner.CreatedAt"`)}
 	}
-	if _, ok := joc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "UpdatedAt", err: errors.New(`ent: missing required field "JobOwner.UpdatedAt"`)}
 	}
 	return nil
 }
 
-func (joc *JobOwnerCreate) sqlSave(ctx context.Context) (*JobOwner, error) {
-	if err := joc.check(); err != nil {
+func (_c *JobOwnerCreate) sqlSave(ctx context.Context) (*JobOwner, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := joc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, joc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -287,65 +287,65 @@ func (joc *JobOwnerCreate) sqlSave(ctx context.Context) (*JobOwner, error) {
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	joc.mutation.id = &_node.ID
-	joc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (joc *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
+func (_c *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 	var (
-		_node = &JobOwner{config: joc.config}
+		_node = &JobOwner{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobowner.Table, sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt))
 	)
-	if value, ok := joc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(jobowner.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := joc.mutation.Address(); ok {
+	if value, ok := _c.mutation.Address(); ok {
 		_spec.SetField(jobowner.FieldAddress, field.TypeString, value)
 		_node.Address = value
 	}
-	if value, ok := joc.mutation.TcNo(); ok {
+	if value, ok := _c.mutation.TcNo(); ok {
 		_spec.SetField(jobowner.FieldTcNo, field.TypeString, value)
 		_node.TcNo = value
 	}
-	if value, ok := joc.mutation.TaxAdmin(); ok {
+	if value, ok := _c.mutation.TaxAdmin(); ok {
 		_spec.SetField(jobowner.FieldTaxAdmin, field.TypeString, value)
 		_node.TaxAdmin = value
 	}
-	if value, ok := joc.mutation.TaxNo(); ok {
+	if value, ok := _c.mutation.TaxNo(); ok {
 		_spec.SetField(jobowner.FieldTaxNo, field.TypeString, value)
 		_node.TaxNo = value
 	}
-	if value, ok := joc.mutation.Phone(); ok {
+	if value, ok := _c.mutation.Phone(); ok {
 		_spec.SetField(jobowner.FieldPhone, field.TypeString, value)
 		_node.Phone = value
 	}
-	if value, ok := joc.mutation.Email(); ok {
+	if value, ok := _c.mutation.Email(); ok {
 		_spec.SetField(jobowner.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := joc.mutation.YDSID(); ok {
+	if value, ok := _c.mutation.YDSID(); ok {
 		_spec.SetField(jobowner.FieldYDSID, field.TypeInt, value)
 		_node.YDSID = value
 	}
-	if value, ok := joc.mutation.Shareholder(); ok {
+	if value, ok := _c.mutation.Shareholder(); ok {
 		_spec.SetField(jobowner.FieldShareholder, field.TypeBool, value)
 		_node.Shareholder = value
 	}
-	if value, ok := joc.mutation.Note(); ok {
+	if value, ok := _c.mutation.Note(); ok {
 		_spec.SetField(jobowner.FieldNote, field.TypeString, value)
 		_node.Note = value
 	}
-	if value, ok := joc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobowner.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := joc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(jobowner.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := joc.mutation.OwnersIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.OwnersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -372,16 +372,16 @@ type JobOwnerCreateBulk struct {
 }
 
 // Save creates the JobOwner entities in the database.
-func (jocb *JobOwnerCreateBulk) Save(ctx context.Context) ([]*JobOwner, error) {
-	if jocb.err != nil {
-		return nil, jocb.err
+func (_c *JobOwnerCreateBulk) Save(ctx context.Context) ([]*JobOwner, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(jocb.builders))
-	nodes := make([]*JobOwner, len(jocb.builders))
-	mutators := make([]Mutator, len(jocb.builders))
-	for i := range jocb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*JobOwner, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := jocb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*JobOwnerMutation)
@@ -395,11 +395,11 @@ func (jocb *JobOwnerCreateBulk) Save(ctx context.Context) ([]*JobOwner, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, jocb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, jocb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -423,7 +423,7 @@ func (jocb *JobOwnerCreateBulk) Save(ctx context.Context) ([]*JobOwner, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, jocb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -431,8 +431,8 @@ func (jocb *JobOwnerCreateBulk) Save(ctx context.Context) ([]*JobOwner, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (jocb *JobOwnerCreateBulk) SaveX(ctx context.Context) []*JobOwner {
-	v, err := jocb.Save(ctx)
+func (_c *JobOwnerCreateBulk) SaveX(ctx context.Context) []*JobOwner {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -440,14 +440,14 @@ func (jocb *JobOwnerCreateBulk) SaveX(ctx context.Context) []*JobOwner {
 }
 
 // Exec executes the query.
-func (jocb *JobOwnerCreateBulk) Exec(ctx context.Context) error {
-	_, err := jocb.Save(ctx)
+func (_c *JobOwnerCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (jocb *JobOwnerCreateBulk) ExecX(ctx context.Context) {
-	if err := jocb.Exec(ctx); err != nil {
+func (_c *JobOwnerCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

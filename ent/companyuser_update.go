@@ -24,74 +24,74 @@ type CompanyUserUpdate struct {
 }
 
 // Where appends a list predicates to the CompanyUserUpdate builder.
-func (cuu *CompanyUserUpdate) Where(ps ...predicate.CompanyUser) *CompanyUserUpdate {
-	cuu.mutation.Where(ps...)
-	return cuu
+func (_u *CompanyUserUpdate) Where(ps ...predicate.CompanyUser) *CompanyUserUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (cuu *CompanyUserUpdate) SetCompanyID(id int) *CompanyUserUpdate {
-	cuu.mutation.SetCompanyID(id)
-	return cuu
+func (_u *CompanyUserUpdate) SetCompanyID(id int) *CompanyUserUpdate {
+	_u.mutation.SetCompanyID(id)
+	return _u
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (cuu *CompanyUserUpdate) SetNillableCompanyID(id *int) *CompanyUserUpdate {
+func (_u *CompanyUserUpdate) SetNillableCompanyID(id *int) *CompanyUserUpdate {
 	if id != nil {
-		cuu = cuu.SetCompanyID(*id)
+		_u = _u.SetCompanyID(*id)
 	}
-	return cuu
+	return _u
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (cuu *CompanyUserUpdate) SetCompany(c *CompanyDetail) *CompanyUserUpdate {
-	return cuu.SetCompanyID(c.ID)
+func (_u *CompanyUserUpdate) SetCompany(v *CompanyDetail) *CompanyUserUpdate {
+	return _u.SetCompanyID(v.ID)
 }
 
 // SetUserID sets the "user" edge to the User entity by ID.
-func (cuu *CompanyUserUpdate) SetUserID(id int) *CompanyUserUpdate {
-	cuu.mutation.SetUserID(id)
-	return cuu
+func (_u *CompanyUserUpdate) SetUserID(id int) *CompanyUserUpdate {
+	_u.mutation.SetUserID(id)
+	return _u
 }
 
 // SetNillableUserID sets the "user" edge to the User entity by ID if the given value is not nil.
-func (cuu *CompanyUserUpdate) SetNillableUserID(id *int) *CompanyUserUpdate {
+func (_u *CompanyUserUpdate) SetNillableUserID(id *int) *CompanyUserUpdate {
 	if id != nil {
-		cuu = cuu.SetUserID(*id)
+		_u = _u.SetUserID(*id)
 	}
-	return cuu
+	return _u
 }
 
 // SetUser sets the "user" edge to the User entity.
-func (cuu *CompanyUserUpdate) SetUser(u *User) *CompanyUserUpdate {
-	return cuu.SetUserID(u.ID)
+func (_u *CompanyUserUpdate) SetUser(v *User) *CompanyUserUpdate {
+	return _u.SetUserID(v.ID)
 }
 
 // Mutation returns the CompanyUserMutation object of the builder.
-func (cuu *CompanyUserUpdate) Mutation() *CompanyUserMutation {
-	return cuu.mutation
+func (_u *CompanyUserUpdate) Mutation() *CompanyUserMutation {
+	return _u.mutation
 }
 
 // ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (cuu *CompanyUserUpdate) ClearCompany() *CompanyUserUpdate {
-	cuu.mutation.ClearCompany()
-	return cuu
+func (_u *CompanyUserUpdate) ClearCompany() *CompanyUserUpdate {
+	_u.mutation.ClearCompany()
+	return _u
 }
 
 // ClearUser clears the "user" edge to the User entity.
-func (cuu *CompanyUserUpdate) ClearUser() *CompanyUserUpdate {
-	cuu.mutation.ClearUser()
-	return cuu
+func (_u *CompanyUserUpdate) ClearUser() *CompanyUserUpdate {
+	_u.mutation.ClearUser()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (cuu *CompanyUserUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, cuu.sqlSave, cuu.mutation, cuu.hooks)
+func (_u *CompanyUserUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cuu *CompanyUserUpdate) SaveX(ctx context.Context) int {
-	affected, err := cuu.Save(ctx)
+func (_u *CompanyUserUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -99,28 +99,28 @@ func (cuu *CompanyUserUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (cuu *CompanyUserUpdate) Exec(ctx context.Context) error {
-	_, err := cuu.Save(ctx)
+func (_u *CompanyUserUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cuu *CompanyUserUpdate) ExecX(ctx context.Context) {
-	if err := cuu.Exec(ctx); err != nil {
+func (_u *CompanyUserUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *CompanyUserUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(companyuser.Table, companyuser.Columns, sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt))
-	if ps := cuu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if cuu.mutation.CompanyCleared() {
+	if _u.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -133,7 +133,7 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuu.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -149,7 +149,7 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cuu.mutation.UserCleared() {
+	if _u.mutation.UserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -162,7 +162,7 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuu.mutation.UserIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -178,7 +178,7 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, cuu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companyuser.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -186,8 +186,8 @@ func (cuu *CompanyUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	cuu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // CompanyUserUpdateOne is the builder for updating a single CompanyUser entity.
@@ -199,81 +199,81 @@ type CompanyUserUpdateOne struct {
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
-func (cuuo *CompanyUserUpdateOne) SetCompanyID(id int) *CompanyUserUpdateOne {
-	cuuo.mutation.SetCompanyID(id)
-	return cuuo
+func (_u *CompanyUserUpdateOne) SetCompanyID(id int) *CompanyUserUpdateOne {
+	_u.mutation.SetCompanyID(id)
+	return _u
 }
 
 // SetNillableCompanyID sets the "company" edge to the CompanyDetail entity by ID if the given value is not nil.
-func (cuuo *CompanyUserUpdateOne) SetNillableCompanyID(id *int) *CompanyUserUpdateOne {
+func (_u *CompanyUserUpdateOne) SetNillableCompanyID(id *int) *CompanyUserUpdateOne {
 	if id != nil {
-		cuuo = cuuo.SetCompanyID(*id)
+		_u = _u.SetCompanyID(*id)
 	}
-	return cuuo
+	return _u
 }
 
 // SetCompany sets the "company" edge to the CompanyDetail entity.
-func (cuuo *CompanyUserUpdateOne) SetCompany(c *CompanyDetail) *CompanyUserUpdateOne {
-	return cuuo.SetCompanyID(c.ID)
+func (_u *CompanyUserUpdateOne) SetCompany(v *CompanyDetail) *CompanyUserUpdateOne {
+	return _u.SetCompanyID(v.ID)
 }
 
 // SetUserID sets the "user" edge to the User entity by ID.
-func (cuuo *CompanyUserUpdateOne) SetUserID(id int) *CompanyUserUpdateOne {
-	cuuo.mutation.SetUserID(id)
-	return cuuo
+func (_u *CompanyUserUpdateOne) SetUserID(id int) *CompanyUserUpdateOne {
+	_u.mutation.SetUserID(id)
+	return _u
 }
 
 // SetNillableUserID sets the "user" edge to the User entity by ID if the given value is not nil.
-func (cuuo *CompanyUserUpdateOne) SetNillableUserID(id *int) *CompanyUserUpdateOne {
+func (_u *CompanyUserUpdateOne) SetNillableUserID(id *int) *CompanyUserUpdateOne {
 	if id != nil {
-		cuuo = cuuo.SetUserID(*id)
+		_u = _u.SetUserID(*id)
 	}
-	return cuuo
+	return _u
 }
 
 // SetUser sets the "user" edge to the User entity.
-func (cuuo *CompanyUserUpdateOne) SetUser(u *User) *CompanyUserUpdateOne {
-	return cuuo.SetUserID(u.ID)
+func (_u *CompanyUserUpdateOne) SetUser(v *User) *CompanyUserUpdateOne {
+	return _u.SetUserID(v.ID)
 }
 
 // Mutation returns the CompanyUserMutation object of the builder.
-func (cuuo *CompanyUserUpdateOne) Mutation() *CompanyUserMutation {
-	return cuuo.mutation
+func (_u *CompanyUserUpdateOne) Mutation() *CompanyUserMutation {
+	return _u.mutation
 }
 
 // ClearCompany clears the "company" edge to the CompanyDetail entity.
-func (cuuo *CompanyUserUpdateOne) ClearCompany() *CompanyUserUpdateOne {
-	cuuo.mutation.ClearCompany()
-	return cuuo
+func (_u *CompanyUserUpdateOne) ClearCompany() *CompanyUserUpdateOne {
+	_u.mutation.ClearCompany()
+	return _u
 }
 
 // ClearUser clears the "user" edge to the User entity.
-func (cuuo *CompanyUserUpdateOne) ClearUser() *CompanyUserUpdateOne {
-	cuuo.mutation.ClearUser()
-	return cuuo
+func (_u *CompanyUserUpdateOne) ClearUser() *CompanyUserUpdateOne {
+	_u.mutation.ClearUser()
+	return _u
 }
 
 // Where appends a list predicates to the CompanyUserUpdate builder.
-func (cuuo *CompanyUserUpdateOne) Where(ps ...predicate.CompanyUser) *CompanyUserUpdateOne {
-	cuuo.mutation.Where(ps...)
-	return cuuo
+func (_u *CompanyUserUpdateOne) Where(ps ...predicate.CompanyUser) *CompanyUserUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (cuuo *CompanyUserUpdateOne) Select(field string, fields ...string) *CompanyUserUpdateOne {
-	cuuo.fields = append([]string{field}, fields...)
-	return cuuo
+func (_u *CompanyUserUpdateOne) Select(field string, fields ...string) *CompanyUserUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated CompanyUser entity.
-func (cuuo *CompanyUserUpdateOne) Save(ctx context.Context) (*CompanyUser, error) {
-	return withHooks(ctx, cuuo.sqlSave, cuuo.mutation, cuuo.hooks)
+func (_u *CompanyUserUpdateOne) Save(ctx context.Context) (*CompanyUser, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cuuo *CompanyUserUpdateOne) SaveX(ctx context.Context) *CompanyUser {
-	node, err := cuuo.Save(ctx)
+func (_u *CompanyUserUpdateOne) SaveX(ctx context.Context) *CompanyUser {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -281,26 +281,26 @@ func (cuuo *CompanyUserUpdateOne) SaveX(ctx context.Context) *CompanyUser {
 }
 
 // Exec executes the query on the entity.
-func (cuuo *CompanyUserUpdateOne) Exec(ctx context.Context) error {
-	_, err := cuuo.Save(ctx)
+func (_u *CompanyUserUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cuuo *CompanyUserUpdateOne) ExecX(ctx context.Context) {
-	if err := cuuo.Exec(ctx); err != nil {
+func (_u *CompanyUserUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUser, err error) {
+func (_u *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUser, err error) {
 	_spec := sqlgraph.NewUpdateSpec(companyuser.Table, companyuser.Columns, sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt))
-	id, ok := cuuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "CompanyUser.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := cuuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, companyuser.FieldID)
 		for _, f := range fields {
@@ -312,14 +312,14 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 			}
 		}
 	}
-	if ps := cuuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if cuuo.mutation.CompanyCleared() {
+	if _u.mutation.CompanyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -332,7 +332,7 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuuo.mutation.CompanyIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -348,7 +348,7 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cuuo.mutation.UserCleared() {
+	if _u.mutation.UserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -361,7 +361,7 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuuo.mutation.UserIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -377,10 +377,10 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &CompanyUser{config: cuuo.config}
+	_node = &CompanyUser{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, cuuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companyuser.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -388,6 +388,6 @@ func (cuuo *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUs
 		}
 		return nil, err
 	}
-	cuuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }
