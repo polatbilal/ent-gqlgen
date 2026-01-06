@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
@@ -43,7 +44,7 @@ func (r *mutationResolver) UpsertUser(ctx context.Context, input model.UserInput
 		newUser, err := client.User.Create().
 			SetUsername(*input.Username).
 			SetName(*input.Name).
-			SetEmail(*input.Email).
+			SetNillableEmail(input.Email).
 			SetNillablePhone(input.Phone).
 			SetPassword(string(hashedPassword)).
 			SetNillableRole(input.Role).
@@ -108,60 +109,67 @@ func (r *mutationResolver) UpsertUser(ctx context.Context, input model.UserInput
 		return nil, fmt.Errorf("kullanıcı güncellenirken hata: %v", err)
 	}
 
-	// Şirketleri güncelle
-	if len(input.CompanyIDs) == 0 {
-		return nil, fmt.Errorf("en az bir şirket ID'si belirtilmelidir")
-	}
+	// İstek yapan kullanıcının bilgilerini al
+	claims := middlewares.CtxValue(ctx)
 
-	// Mevcut şirket bağlantılarını al
-	existingCompanies, err := updatedUser.QueryCompanies().QueryCompany().IDs(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("mevcut şirket bağlantıları kontrol edilirken hata: %v", err)
-	}
+	// Eğer kullanıcı kendisini güncelliyorsa şirket güncellemesini atla
+	// (Kullanıcı kendinde sadece şirket bilgisi gösteriyor, güncelleme işlemi yapmıyor)
+	if claims != nil && !strings.EqualFold(claims.Username, *input.Username) {
+		// Şirketleri güncelle (sadece başka bir kullanıcıyı güncelliyorsa)
+		if len(input.CompanyIDs) == 0 {
+			return nil, fmt.Errorf("en az bir şirket ID'si belirtilmelidir")
+		}
 
-	// Yeni şirket ID'lerini map'e dönüştür
-	newCompanyMap := make(map[int]bool)
-	for _, companyID := range input.CompanyIDs {
-		newCompanyMap[*companyID] = true
-	}
+		// Mevcut şirket bağlantılarını al
+		existingCompanies, err := updatedUser.QueryCompanies().QueryCompany().IDs(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("mevcut şirket bağlantıları kontrol edilirken hata: %v", err)
+		}
 
-	// Silinmesi gereken bağlantıları bul ve sil
-	for _, existingID := range existingCompanies {
-		if !newCompanyMap[existingID] {
-			// Bu şirket yeni listede yok, bağlantıyı sil
-			_, err = client.CompanyUser.Delete().
-				Where(
-					companyuser.And(
-						companyuser.HasUserWith(user.IDEQ(updatedUser.ID)),
-						companyuser.HasCompanyWith(companydetail.IDEQ(existingID)),
-					),
-				).
-				Exec(ctx)
-			if err != nil {
-				return nil, fmt.Errorf("şirket bağlantısı silinirken hata: %v", err)
+		// Yeni şirket ID'lerini map'e dönüştür
+		newCompanyMap := make(map[int]bool)
+		for _, companyID := range input.CompanyIDs {
+			newCompanyMap[*companyID] = true
+		}
+
+		// Silinmesi gereken bağlantıları bul ve sil
+		for _, existingID := range existingCompanies {
+			if !newCompanyMap[existingID] {
+				// Bu şirket yeni listede yok, bağlantıyı sil
+				_, err = client.CompanyUser.Delete().
+					Where(
+						companyuser.And(
+							companyuser.HasUserWith(user.IDEQ(updatedUser.ID)),
+							companyuser.HasCompanyWith(companydetail.IDEQ(existingID)),
+						),
+					).
+					Exec(ctx)
+				if err != nil {
+					return nil, fmt.Errorf("şirket bağlantısı silinirken hata: %v", err)
+				}
 			}
 		}
-	}
 
-	// Mevcut şirketleri map'e dönüştür
-	existingCompanyMap := make(map[int]bool)
-	for _, id := range existingCompanies {
-		existingCompanyMap[id] = true
-	}
-
-	// Yeni şirket bağlantılarını ekle
-	for _, companyID := range input.CompanyIDs {
-		if existingCompanyMap[*companyID] {
-			continue
+		// Mevcut şirketleri map'e dönüştür
+		existingCompanyMap := make(map[int]bool)
+		for _, id := range existingCompanies {
+			existingCompanyMap[id] = true
 		}
 
-		_, err = client.CompanyUser.Create().
-			SetUser(updatedUser).
-			SetCompanyID(*companyID).
-			Save(ctx)
+		// Yeni şirket bağlantılarını ekle
+		for _, companyID := range input.CompanyIDs {
+			if existingCompanyMap[*companyID] {
+				continue
+			}
 
-		if err != nil {
-			return nil, fmt.Errorf("şirket bağlantısı oluşturulurken hata: %v", err)
+			_, err = client.CompanyUser.Create().
+				SetUser(updatedUser).
+				SetCompanyID(*companyID).
+				Save(ctx)
+
+			if err != nil {
+				return nil, fmt.Errorf("şirket bağlantısı oluşturulurken hata: %v", err)
+			}
 		}
 	}
 
