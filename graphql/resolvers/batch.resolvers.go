@@ -8,7 +8,10 @@ package resolvers
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
 	"strings"
+	"time"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
@@ -24,6 +27,31 @@ import (
 	"github.com/polatbilal/ent-gqlgen/middlewares"
 )
 
+// logBatchError batch işlemlerinde oluşan hataları log dosyasına yazar
+func logBatchError(yibfNo int, errorType, message string) {
+	// logs klasörünü oluştur (yoksa)
+	if err := os.MkdirAll("logs", 0755); err != nil {
+		log.Printf("Log klasörü oluşturulamadı: %v", err)
+		return
+	}
+
+	// Log dosyasını aç (varsa append, yoksa oluştur)
+	logFile, err := os.OpenFile("logs/batch_errors.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Printf("Log dosyası açılamadı: %v", err)
+		return
+	}
+	defer logFile.Close()
+
+	// Log mesajını formatla ve yaz
+	timestamp := time.Now().Format("2006-01-02 15:04:05")
+	logMessage := fmt.Sprintf("[%s] YibfNo: %d | Tip: %s | %s\n", timestamp, yibfNo, errorType, message)
+
+	if _, err := logFile.WriteString(logMessage); err != nil {
+		log.Printf("Log dosyasına yazılamadı: %v", err)
+	}
+}
+
 // JobBatchMutation is the resolver for the jobBatchMutation field.
 func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
 	maxRetries := 3
@@ -37,9 +65,19 @@ func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.Job
 		result, err := r.ExecuteBatchMutation(ctx, input)
 		if err != nil {
 			lastErr = err
+
+			// Eğer kayıt skip edildiyse (kritik alan eksik), başarılı say
+			if strings.HasPrefix(err.Error(), "skipped:") {
+				fmt.Printf("📋 Kayıt atlandı (YibfNo: %d): %s\n", input.YibfNo, err.Error())
+				logBatchError(input.YibfNo, "SKIPPED", err.Error())
+				return &model.JobBatchResult{}, nil // Boş result döndür, hata yok
+			}
+
 			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+				logBatchError(input.YibfNo, "DUPLICATE_KEY", err.Error())
 				continue
 			}
+			logBatchError(input.YibfNo, "ERROR", err.Error())
 			return nil, err
 		}
 		return result, nil
@@ -171,26 +209,19 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			ownerInput := *input.OwnerInput
 			ownerInput.YibfNo = &input.YibfNo
 
-			if existingRelations.Edges.Owner != nil {
-				// Mevcut owner'ı güncelle
-				owner, err = r.UpdateOwner(txCtx, ownerInput)
-				if err != nil {
-					fmt.Printf("Owner güncelleme hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("mal sahibi güncellenirken hata: %w", err)
-				}
-				fmt.Printf("Owner başarıyla güncellendi: %+v\n", owner)
-			} else {
-				// Yeni owner oluştur
-				owner, err = r.CreateOwner(txCtx, ownerInput)
-				if err != nil {
-					fmt.Printf("Owner oluşturma hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("mal sahibi oluşturulurken hata: %w", err)
-				}
-				fmt.Printf("Owner başarıyla oluşturuldu: %+v\n", owner)
+			// CreateOwner zaten varsa günceller, yoksa oluşturur
+			owner, err = r.CreateOwner(txCtx, ownerInput)
+			if err != nil {
+				// Owner kritik bir alan, eksikse bu YibfNo'yu skip et
+				fmt.Printf("❌ Owner eksik, YibfNo atlanıyor: %d\n", input.YibfNo)
+				logBatchError(input.YibfNo, "OWNER_MISSING", fmt.Sprintf("Mal sahibi bilgisi eksik: %v", err))
+				_ = tx.Rollback()
+				return nil, fmt.Errorf("skipped: mal sahibi bilgisi eksik - %w", err)
+			}
+			fmt.Printf("Owner başarıyla işlendi: %+v\n", owner)
 
-				// İlişkilendirmeyi güncelle
+			// Eğer ilişkilendirme yoksa ekle
+			if existingRelations.Edges.Owner == nil {
 				update := tx.JobRelations.UpdateOne(relations)
 				update.SetOwner(owner)
 				if _, err = update.Save(txCtx); err != nil {
@@ -204,40 +235,33 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			owner = existingRelations.Edges.Owner
 		}
 
-		// Contractor işlemi
+		// Contractor işlemi (opsiyonel, eksik olabilir)
 		if input.ContractorInput != nil {
 			fmt.Println("Contractor işlemi başlıyor...")
 			contractorInput := *input.ContractorInput
 			contractorInput.YibfNo = &input.YibfNo
 
-			if existingRelations.Edges.Contractor != nil {
-				// Mevcut contractor'ı güncelle
-				contractor, err = r.UpdateContractor(txCtx, contractorInput)
-				if err != nil {
-					fmt.Printf("Contractor güncelleme hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("yüklenici güncellenirken hata: %w", err)
-				}
-				fmt.Printf("Contractor başarıyla güncellendi: %+v\n", contractor)
+			// CreateContractor zaten varsa günceller, yoksa oluşturur
+			contractor, err = r.CreateContractor(txCtx, contractorInput)
+			if err != nil {
+				// Contractor opsiyonel, eksikse atla ama devam et
+				fmt.Printf("⚠️  Contractor işlemi atlandı (YibfNo: %d): %v\n", input.YibfNo, err)
+				logBatchError(input.YibfNo, "CONTRACTOR_WARNING", fmt.Sprintf("Yüklenici bilgisi eksik: %v", err))
+				contractor = existingRelations.Edges.Contractor // Mevcut değeri koru
 			} else {
-				// Yeni contractor oluştur
-				contractor, err = r.CreateContractor(txCtx, contractorInput)
-				if err != nil {
-					fmt.Printf("Contractor oluşturma hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("yüklenici oluşturulurken hata: %w", err)
-				}
-				fmt.Printf("Contractor başarıyla oluşturuldu: %+v\n", contractor)
+				fmt.Printf("Contractor başarıyla işlendi: %+v\n", contractor)
 
-				// İlişkilendirmeyi güncelle
-				update := tx.JobRelations.UpdateOne(relations)
-				update.SetContractor(contractor)
-				if _, err = update.Save(txCtx); err != nil {
-					fmt.Printf("Contractor ilişkilendirme hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("yüklenici ilişkilendirilirken hata: %w", err)
+				// Eğer ilişkilendirme yoksa ekle
+				if existingRelations.Edges.Contractor == nil {
+					update := tx.JobRelations.UpdateOne(relations)
+					update.SetContractor(contractor)
+					if _, err = update.Save(txCtx); err != nil {
+						fmt.Printf("Contractor ilişkilendirme hatası: %v\n", err)
+						_ = tx.Rollback()
+						return nil, fmt.Errorf("yüklenici ilişkilendirilirken hata: %w", err)
+					}
+					fmt.Println("Contractor ilişkilendirmesi başarıyla güncellendi")
 				}
-				fmt.Println("Contractor ilişkilendirmesi başarıyla güncellendi")
 			}
 		} else {
 			contractor = existingRelations.Edges.Contractor
@@ -249,34 +273,27 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			authorInput := *input.AuthorInput
 			authorInput.YibfNo = &input.YibfNo
 
-			if existingRelations.Edges.Author != nil {
-				// Mevcut author'ı güncelle
-				author, err = r.UpdateAuthor(txCtx, input.YibfNo, authorInput)
-				if err != nil {
-					fmt.Printf("Author güncelleme hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("proje müellifi güncellenirken hata: %w", err)
-				}
-				fmt.Printf("Author başarıyla güncellendi: %+v\n", author)
+			// CreateAuthor zaten varsa günceller, yoksa oluşturur
+			author, err = r.CreateAuthor(txCtx, authorInput)
+			if err != nil {
+				// Eksik bilgi varsa hata verme, sadece uyar ve devam et
+				fmt.Printf("⚠️  Author işlemi atlandı (YibfNo: %d): %v\n", input.YibfNo, err)
+				logBatchError(input.YibfNo, "AUTHOR_WARNING", fmt.Sprintf("Proje müellifi bilgisi eksik: %v", err))
+				author = existingRelations.Edges.Author // Mevcut değeri koru
 			} else {
-				// Yeni author oluştur
-				author, err = r.CreateAuthor(txCtx, authorInput)
-				if err != nil {
-					fmt.Printf("Author oluşturma hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("proje müellifi oluşturulurken hata: %w", err)
-				}
-				fmt.Printf("Author başarıyla oluşturuldu: %+v\n", author)
+				fmt.Printf("Author başarıyla işlendi: %+v\n", author)
 
-				// İlişkilendirmeyi güncelle
-				update := tx.JobRelations.UpdateOne(relations)
-				update.SetAuthor(author)
-				if _, err = update.Save(txCtx); err != nil {
-					fmt.Printf("Author ilişkilendirme hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("proje müellifi ilişkilendirilirken hata: %w", err)
+				// Eğer ilişkilendirme yoksa ekle
+				if existingRelations.Edges.Author == nil {
+					update := tx.JobRelations.UpdateOne(relations)
+					update.SetAuthor(author)
+					if _, err = update.Save(txCtx); err != nil {
+						fmt.Printf("Author ilişkilendirme hatası: %v\n", err)
+						_ = tx.Rollback()
+						return nil, fmt.Errorf("proje müellifi ilişkilendirilirken hata: %w", err)
+					}
+					fmt.Println("Author ilişkilendirmesi başarıyla güncellendi")
 				}
-				fmt.Println("Author ilişkilendirmesi başarıyla güncellendi")
 			}
 		} else {
 			author = existingRelations.Edges.Author
@@ -288,34 +305,27 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			supervisorInput := *input.SupervisorInput
 			supervisorInput.YibfNo = &input.YibfNo
 
-			if existingRelations.Edges.Supervisor != nil {
-				// Mevcut supervisor'ı güncelle
-				supervisor, err = r.UpdateSupervisor(txCtx, supervisorInput)
-				if err != nil {
-					fmt.Printf("Supervisor güncelleme hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("şantiye şefi güncellenirken hata: %w", err)
-				}
-				fmt.Printf("Supervisor başarıyla güncellendi: %+v\n", supervisor)
+			// CreateSupervisor zaten varsa günceller, yoksa oluşturur
+			supervisor, err = r.CreateSupervisor(txCtx, supervisorInput)
+			if err != nil {
+				// Eksik bilgi varsa hata verme, sadece uyar ve devam et
+				fmt.Printf("⚠️  Supervisor işlemi atlandı (YibfNo: %d): %v\n", input.YibfNo, err)
+				logBatchError(input.YibfNo, "SUPERVISOR_WARNING", fmt.Sprintf("Şantiye şefi bilgisi eksik: %v", err))
+				supervisor = existingRelations.Edges.Supervisor // Mevcut değeri koru
 			} else {
-				// Yeni supervisor oluştur
-				supervisor, err = r.CreateSupervisor(txCtx, supervisorInput)
-				if err != nil {
-					fmt.Printf("Supervisor oluşturma hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("şantiye şefi oluşturulurken hata: %w", err)
-				}
-				fmt.Printf("Supervisor başarıyla oluşturuldu: %+v\n", supervisor)
+				fmt.Printf("Supervisor başarıyla işlendi: %+v\n", supervisor)
 
-				// İlişkilendirmeyi güncelle
-				update := tx.JobRelations.UpdateOne(relations)
-				update.SetSupervisor(supervisor)
-				if _, err = update.Save(txCtx); err != nil {
-					fmt.Printf("Supervisor ilişkilendirme hatası: %v\n", err)
-					_ = tx.Rollback()
-					return nil, fmt.Errorf("şantiye şefi ilişkilendirilirken hata: %w", err)
+				// Eğer ilişkilendirme yoksa ekle
+				if existingRelations.Edges.Supervisor == nil {
+					update := tx.JobRelations.UpdateOne(relations)
+					update.SetSupervisor(supervisor)
+					if _, err = update.Save(txCtx); err != nil {
+						fmt.Printf("Supervisor ilişkilendirme hatası: %v\n", err)
+						_ = tx.Rollback()
+						return nil, fmt.Errorf("şantiye şefi ilişkilendirilirken hata: %w", err)
+					}
+					fmt.Println("Supervisor ilişkilendirmesi başarıyla güncellendi")
 				}
-				fmt.Println("Supervisor ilişkilendirmesi başarıyla güncellendi")
 			}
 		} else {
 			supervisor = existingRelations.Edges.Supervisor
@@ -931,9 +941,19 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int, state *s
 	// Kullanıcının şirketlerine göre filtrele
 	query = query.Where(jobrelations.HasCompanyWith(companydetail.CompanyCodeIn(companyCodes...)))
 
-	// State kontrolü - state değeri "all" değilse bitmişleri gösterme
+	// State kontrolü - state değeri "all" değilse bitmişleri ve fesihlileri gösterme
 	if state == nil || *state != "all" {
-		query = query.Where(jobrelations.HasJobWith(jobdetail.StateNEQ("Bitmiş")))
+		excludedStates := []string{
+			"Bitmiş",
+			"Fesihli Tespitli",
+			"Ruhsat Redli (Ceza Sonucu)",
+			"Fesihli Tespitsiz",
+			"Fesihli Tespitsiz (Ceza Sebebiyle)",
+			"Veri Aktarımı Bekleyen (Fesihli)",
+			"Migrasyon Fesihli Eksik Müellif",
+			"Kısmi Bitmiş",
+		}
+		query = query.Where(jobrelations.HasJobWith(jobdetail.StateNotIn(excludedStates...)))
 	}
 
 	// Eğer yibfNo belirtilmişse filtreleme yap

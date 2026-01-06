@@ -8,6 +8,7 @@ package resolvers
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
@@ -21,11 +22,16 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 	client := middlewares.GetClientFromContext(ctx)
 
 	// YDSID ile supervisor var mı kontrol edelim
-	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.YDSIDEQ(input.Ydsid)).Only(ctx)
-	if ent.IsNotFound(err) {
-		// Supervisor yoksa yeni oluşturalım
-		supervisor, err = client.JobSupervisor.Create().
-			SetName(*input.Name).
+	supervisor, err := client.JobSupervisor.Query().Where(jobsupervisor.YDSIDEQ(input.Ydsid)).First(ctx)
+
+	if err != nil && !ent.IsNotFound(err) {
+		return nil, fmt.Errorf("supervisor aranırken hata oluştu: %w", err)
+	}
+
+	if supervisor != nil {
+		// Supervisor varsa güncelle
+		supervisor, err = supervisor.Update().
+			SetNillableName(input.Name).
 			SetNillableAddress(input.Address).
 			SetNillablePhone(input.Phone).
 			SetNillableEmail(input.Email).
@@ -35,14 +41,47 @@ func (r *mutationResolver) CreateSupervisor(ctx context.Context, input model.Job
 			SetNillableRegisterNo(input.RegisterNo).
 			SetNillableSocialSecurityNo(input.SocialSecurityNo).
 			SetNillableSchoolGraduation(input.SchoolGraduation).
-			SetYDSID(input.Ydsid).
 			Save(ctx)
-
 		if err != nil {
-			return nil, fmt.Errorf("failed to create supervisor: %w", err)
+			return nil, fmt.Errorf("supervisor güncellenirken hata oluştu: %w", err)
 		}
-	} else if err != nil {
-		return nil, fmt.Errorf("failed to check supervisor: %w", err)
+		return supervisor, nil
+	}
+
+	// Supervisor yoksa yeni oluşturalım
+	// Name alanı zorunlu, eğer nil ise hata döndür
+	if input.Name == nil {
+		return nil, fmt.Errorf("supervisor oluşturmak için isim gerekli")
+	}
+
+	supervisor, err = client.JobSupervisor.Create().
+		SetName(*input.Name).
+		SetNillableAddress(input.Address).
+		SetNillablePhone(input.Phone).
+		SetNillableEmail(input.Email).
+		SetNillableTcNo(input.TcNo).
+		SetNillablePosition(input.Position).
+		SetNillableCareer(input.Career).
+		SetNillableRegisterNo(input.RegisterNo).
+		SetNillableSocialSecurityNo(input.SocialSecurityNo).
+		SetNillableSchoolGraduation(input.SchoolGraduation).
+		SetYDSID(input.Ydsid).
+		Save(ctx)
+
+	if err != nil {
+		// Race condition: Duplicate key hatası alındıysa tekrar kontrol et
+		if strings.Contains(err.Error(), "Duplicate entry") || strings.Contains(err.Error(), "duplicate key") {
+			fmt.Printf("🔄 Duplicate key hatası, tekrar kontrol ediliyor (YDSID: %d)\n", input.Ydsid)
+			// Tekrar sorgula, başka bir thread oluşturmuş olabilir
+			existingSupervisor, queryErr := client.JobSupervisor.Query().
+				Where(jobsupervisor.YDSIDEQ(input.Ydsid)).
+				First(ctx)
+			if queryErr == nil && existingSupervisor != nil {
+				fmt.Printf("✅ Mevcut supervisor bulundu ve döndürülüyor (YDSID: %d)\n", input.Ydsid)
+				return existingSupervisor, nil
+			}
+		}
+		return nil, fmt.Errorf("failed to create supervisor: %w", err)
 	}
 
 	return supervisor, nil

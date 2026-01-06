@@ -8,6 +8,7 @@ package resolvers
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
@@ -21,28 +22,66 @@ func (r *mutationResolver) CreateContractor(ctx context.Context, input model.Job
 	client := middlewares.GetClientFromContext(ctx)
 
 	// YDSID ile Contractor var mı kontrol edelim
-	contractor, err := client.JobContractor.Query().Where(jobcontractor.YDSIDEQ(input.Ydsid)).Only(ctx)
-	if ent.IsNotFound(err) {
-		// Contractor yoksa yeni oluşturalım
-		contractor, err = client.JobContractor.Create().
-			SetName(*input.Name).
+	contractor, err := client.JobContractor.Query().Where(jobcontractor.YDSIDEQ(input.Ydsid)).First(ctx)
+
+	if err != nil && !ent.IsNotFound(err) {
+		return nil, fmt.Errorf("contractor aranırken hata oluştu: %w", err)
+	}
+
+	if contractor != nil {
+		// Contractor varsa güncelle
+		contractor, err = contractor.Update().
+			SetNillableName(input.Name).
 			SetNillableTcNo(input.TcNo).
 			SetNillableRegisterNo(input.RegisterNo).
 			SetNillableAddress(input.Address).
 			SetNillableTaxNo(input.TaxNo).
 			SetNillableMobilePhone(input.MobilePhone).
-			SetNillableAddress(input.Address).
 			SetNillablePhone(input.Phone).
 			SetNillableEmail(input.Email).
 			SetNillablePersonType(input.PersonType).
-			SetYDSID(input.Ydsid).
+			SetNillableNote(input.Note).
 			Save(ctx)
-
 		if err != nil {
-			return nil, fmt.Errorf("failed to create contractor: %w", err)
+			return nil, fmt.Errorf("contractor güncellenirken hata oluştu: %w", err)
 		}
-	} else if err != nil {
-		return nil, fmt.Errorf("failed to check contractor: %w", err)
+		return contractor, nil
+	}
+
+	// Contractor yoksa yeni oluşturalım
+	// Name alanı zorunlu, eğer nil ise hata döndür
+	if input.Name == nil {
+		return nil, fmt.Errorf("contractor oluşturmak için isim gerekli")
+	}
+
+	contractor, err = client.JobContractor.Create().
+		SetName(*input.Name).
+		SetNillableTcNo(input.TcNo).
+		SetNillableRegisterNo(input.RegisterNo).
+		SetNillableAddress(input.Address).
+		SetNillableTaxNo(input.TaxNo).
+		SetNillableMobilePhone(input.MobilePhone).
+		SetNillableAddress(input.Address).
+		SetNillablePhone(input.Phone).
+		SetNillableEmail(input.Email).
+		SetNillablePersonType(input.PersonType).
+		SetYDSID(input.Ydsid).
+		Save(ctx)
+
+	if err != nil {
+		// Race condition: Duplicate key hatası alındıysa tekrar kontrol et
+		if strings.Contains(err.Error(), "Duplicate entry") || strings.Contains(err.Error(), "duplicate key") {
+			fmt.Printf("🔄 Duplicate key hatası, tekrar kontrol ediliyor (YDSID: %d)\n", input.Ydsid)
+			// Tekrar sorgula, başka bir thread oluşturmuş olabilir
+			existingContractor, queryErr := client.JobContractor.Query().
+				Where(jobcontractor.YDSIDEQ(input.Ydsid)).
+				First(ctx)
+			if queryErr == nil && existingContractor != nil {
+				fmt.Printf("✅ Mevcut contractor bulundu ve döndürülüyor (YDSID: %d)\n", input.Ydsid)
+				return existingContractor, nil
+			}
+		}
+		return nil, fmt.Errorf("failed to create contractor: %w", err)
 	}
 
 	return contractor, nil

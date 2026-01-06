@@ -103,7 +103,7 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 	client := middlewares.GetClientFromContext(ctx)
 
 	// İş detayını bul
-	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(yibfNo)).Only(ctx)
+	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(yibfNo)).First(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("iş ayrıntısı bulunamadı: %v", err)
 	}

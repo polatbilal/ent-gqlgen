@@ -8,6 +8,7 @@ package resolvers
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
@@ -48,6 +49,11 @@ func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuth
 	}
 
 	// Mevcut author yoksa yeni oluştur
+	// YibfNo alanı zorunlu, eğer nil ise hata döndür
+	if input.YibfNo == nil {
+		return nil, fmt.Errorf("author oluşturmak için YibfNo gerekli")
+	}
+
 	author, err := client.JobAuthor.Create().
 		SetYibfNo(*input.YibfNo).
 		SetNillableStatic(input.Static).
@@ -59,6 +65,18 @@ func (r *mutationResolver) CreateAuthor(ctx context.Context, input model.JobAuth
 		SetNillableGeotechnicalGeophysicist(input.GeotechnicalGeophysicist).
 		Save(ctx)
 	if err != nil {
+		// Race condition: Duplicate key hatası alındıysa tekrar kontrol et
+		if strings.Contains(err.Error(), "Duplicate entry") || strings.Contains(err.Error(), "duplicate key") {
+			fmt.Printf("🔄 Duplicate key hatası, tekrar kontrol ediliyor (YibfNo: %d)\n", *input.YibfNo)
+			// Tekrar sorgula, başka bir thread oluşturmuş olabilir
+			existingAuthor, queryErr := client.JobAuthor.Query().
+				Where(jobauthor.YibfNoEQ(*input.YibfNo)).
+				First(ctx)
+			if queryErr == nil && existingAuthor != nil {
+				fmt.Printf("✅ Mevcut author bulundu ve döndürülüyor (YibfNo: %d)\n", *input.YibfNo)
+				return existingAuthor, nil
+			}
+		}
 		return nil, fmt.Errorf("failed to create author: %w", err)
 	}
 

@@ -8,6 +8,7 @@ package resolvers
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
@@ -50,6 +51,11 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 	}
 
 	// Mevcut owner yoksa yeni oluştur
+	// Name alanı zorunlu, eğer nil ise hata döndür
+	if input.Name == nil {
+		return nil, fmt.Errorf("owner oluşturmak için isim gerekli")
+	}
+
 	owner, err := client.JobOwner.Create().
 		SetYDSID(input.Ydsid).
 		SetName(*input.Name).
@@ -61,6 +67,18 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 		SetNillableShareholder(input.Shareholder).
 		Save(ctx)
 	if err != nil {
+		// Race condition: Duplicate key hatası alındıysa tekrar kontrol et
+		if strings.Contains(err.Error(), "Duplicate entry") || strings.Contains(err.Error(), "duplicate key") {
+			fmt.Printf("🔄 Duplicate key hatası, tekrar kontrol ediliyor (YDSID: %d)\n", input.Ydsid)
+			// Tekrar sorgula, başka bir thread oluşturmuş olabilir
+			existingOwner, queryErr := client.JobOwner.Query().
+				Where(jobowner.YDSIDEQ(input.Ydsid)).
+				First(ctx)
+			if queryErr == nil && existingOwner != nil {
+				fmt.Printf("✅ Mevcut owner bulundu ve döndürülüyor (YDSID: %d)\n", input.Ydsid)
+				return existingOwner, nil
+			}
+		}
 		return nil, fmt.Errorf("owner oluşturulurken hata oluştu: %w", err)
 	}
 
