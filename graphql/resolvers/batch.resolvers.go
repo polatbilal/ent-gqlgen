@@ -8,10 +8,7 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	"log"
-	"os"
 	"strings"
-	"time"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
@@ -25,32 +22,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/graphql/helpers"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
+	"github.com/polatbilal/ent-gqlgen/tools"
 )
-
-// logBatchError batch işlemlerinde oluşan hataları log dosyasına yazar
-func logBatchError(yibfNo int, errorType, message string) {
-	// logs klasörünü oluştur (yoksa)
-	if err := os.MkdirAll("logs", 0755); err != nil {
-		log.Printf("Log klasörü oluşturulamadı: %v", err)
-		return
-	}
-
-	// Log dosyasını aç (varsa append, yoksa oluştur)
-	logFile, err := os.OpenFile("logs/batch_errors.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		log.Printf("Log dosyası açılamadı: %v", err)
-		return
-	}
-	defer logFile.Close()
-
-	// Log mesajını formatla ve yaz
-	timestamp := time.Now().Format("2006-01-02 15:04:05")
-	logMessage := fmt.Sprintf("[%s] YibfNo: %d | Tip: %s | %s\n", timestamp, yibfNo, errorType, message)
-
-	if _, err := logFile.WriteString(logMessage); err != nil {
-		log.Printf("Log dosyasına yazılamadı: %v", err)
-	}
-}
 
 // JobBatchMutation is the resolver for the jobBatchMutation field.
 func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
@@ -69,15 +42,15 @@ func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.Job
 			// Eğer kayıt skip edildiyse (kritik alan eksik), başarılı say
 			if strings.HasPrefix(err.Error(), "skipped:") {
 				fmt.Printf("📋 Kayıt atlandı (YibfNo: %d): %s\n", input.YibfNo, err.Error())
-				logBatchError(input.YibfNo, "SKIPPED", err.Error())
+				tools.LogBatchError(input.YibfNo, "SKIPPED", err.Error())
 				return &model.JobBatchResult{}, nil // Boş result döndür, hata yok
 			}
 
 			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-				logBatchError(input.YibfNo, "DUPLICATE_KEY", err.Error())
+				tools.LogBatchError(input.YibfNo, "DUPLICATE_KEY", err.Error())
 				continue
 			}
-			logBatchError(input.YibfNo, "ERROR", err.Error())
+			tools.LogBatchError(input.YibfNo, "ERROR", err.Error())
 			return nil, err
 		}
 		return result, nil
@@ -214,7 +187,7 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			if err != nil {
 				// Owner kritik bir alan, eksikse bu YibfNo'yu skip et
 				fmt.Printf("❌ Owner eksik, YibfNo atlanıyor: %d\n", input.YibfNo)
-				logBatchError(input.YibfNo, "OWNER_MISSING", fmt.Sprintf("Mal sahibi bilgisi eksik: %v", err))
+				tools.LogBatchError(input.YibfNo, "OWNER_MISSING", fmt.Sprintf("Mal sahibi bilgisi eksik: %v", err))
 				_ = tx.Rollback()
 				return nil, fmt.Errorf("skipped: mal sahibi bilgisi eksik - %w", err)
 			}
@@ -246,7 +219,7 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			if err != nil {
 				// Contractor opsiyonel, eksikse atla ama devam et
 				fmt.Printf("⚠️  Contractor işlemi atlandı (YibfNo: %d): %v\n", input.YibfNo, err)
-				logBatchError(input.YibfNo, "CONTRACTOR_WARNING", fmt.Sprintf("Yüklenici bilgisi eksik: %v", err))
+				tools.LogBatchError(input.YibfNo, "CONTRACTOR_WARNING", fmt.Sprintf("Yüklenici bilgisi eksik: %v", err))
 				contractor = existingRelations.Edges.Contractor // Mevcut değeri koru
 			} else {
 				fmt.Printf("Contractor başarıyla işlendi: %+v\n", contractor)
@@ -278,7 +251,7 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			if err != nil {
 				// Eksik bilgi varsa hata verme, sadece uyar ve devam et
 				fmt.Printf("⚠️  Author işlemi atlandı (YibfNo: %d): %v\n", input.YibfNo, err)
-				logBatchError(input.YibfNo, "AUTHOR_WARNING", fmt.Sprintf("Proje müellifi bilgisi eksik: %v", err))
+				tools.LogBatchError(input.YibfNo, "AUTHOR_WARNING", fmt.Sprintf("Proje müellifi bilgisi eksik: %v", err))
 				author = existingRelations.Edges.Author // Mevcut değeri koru
 			} else {
 				fmt.Printf("Author başarıyla işlendi: %+v\n", author)
@@ -310,7 +283,7 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			if err != nil {
 				// Eksik bilgi varsa hata verme, sadece uyar ve devam et
 				fmt.Printf("⚠️  Supervisor işlemi atlandı (YibfNo: %d): %v\n", input.YibfNo, err)
-				logBatchError(input.YibfNo, "SUPERVISOR_WARNING", fmt.Sprintf("Şantiye şefi bilgisi eksik: %v", err))
+				tools.LogBatchError(input.YibfNo, "SUPERVISOR_WARNING", fmt.Sprintf("Şantiye şefi bilgisi eksik: %v", err))
 				supervisor = existingRelations.Edges.Supervisor // Mevcut değeri koru
 			} else {
 				fmt.Printf("Supervisor başarıyla işlendi: %+v\n", supervisor)

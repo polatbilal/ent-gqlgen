@@ -95,6 +95,31 @@ func Website(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldWebsite, v))
 }
 
+// YDSAddress applies equality check predicate on the "YDSAddress" field. It's identical to YDSAddressEQ.
+func YDSAddress(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSAddress, v))
+}
+
+// YDSPhone applies equality check predicate on the "YDSPhone" field. It's identical to YDSPhoneEQ.
+func YDSPhone(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSPhone, v))
+}
+
+// YDSMobilePhone applies equality check predicate on the "YDSMobilePhone" field. It's identical to YDSMobilePhoneEQ.
+func YDSMobilePhone(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSMobilePhone, v))
+}
+
+// YDSEmail applies equality check predicate on the "YDSEmail" field. It's identical to YDSEmailEQ.
+func YDSEmail(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSEmail, v))
+}
+
+// YDSWebsite applies equality check predicate on the "YDSWebsite" field. It's identical to YDSWebsiteEQ.
+func YDSWebsite(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSWebsite, v))
+}
+
 // TaxAdmin applies equality check predicate on the "TaxAdmin" field. It's identical to TaxAdminEQ.
 func TaxAdmin(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldEQ(FieldTaxAdmin, v))
@@ -738,6 +763,381 @@ func WebsiteEqualFold(v string) predicate.CompanyDetail {
 // WebsiteContainsFold applies the ContainsFold predicate on the "Website" field.
 func WebsiteContainsFold(v string) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.FieldContainsFold(FieldWebsite, v))
+}
+
+// YDSAddressEQ applies the EQ predicate on the "YDSAddress" field.
+func YDSAddressEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSAddress, v))
+}
+
+// YDSAddressNEQ applies the NEQ predicate on the "YDSAddress" field.
+func YDSAddressNEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldYDSAddress, v))
+}
+
+// YDSAddressIn applies the In predicate on the "YDSAddress" field.
+func YDSAddressIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldYDSAddress, vs...))
+}
+
+// YDSAddressNotIn applies the NotIn predicate on the "YDSAddress" field.
+func YDSAddressNotIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldYDSAddress, vs...))
+}
+
+// YDSAddressGT applies the GT predicate on the "YDSAddress" field.
+func YDSAddressGT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldYDSAddress, v))
+}
+
+// YDSAddressGTE applies the GTE predicate on the "YDSAddress" field.
+func YDSAddressGTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldYDSAddress, v))
+}
+
+// YDSAddressLT applies the LT predicate on the "YDSAddress" field.
+func YDSAddressLT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldYDSAddress, v))
+}
+
+// YDSAddressLTE applies the LTE predicate on the "YDSAddress" field.
+func YDSAddressLTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldYDSAddress, v))
+}
+
+// YDSAddressContains applies the Contains predicate on the "YDSAddress" field.
+func YDSAddressContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldYDSAddress, v))
+}
+
+// YDSAddressHasPrefix applies the HasPrefix predicate on the "YDSAddress" field.
+func YDSAddressHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldYDSAddress, v))
+}
+
+// YDSAddressHasSuffix applies the HasSuffix predicate on the "YDSAddress" field.
+func YDSAddressHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldYDSAddress, v))
+}
+
+// YDSAddressIsNil applies the IsNil predicate on the "YDSAddress" field.
+func YDSAddressIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldYDSAddress))
+}
+
+// YDSAddressNotNil applies the NotNil predicate on the "YDSAddress" field.
+func YDSAddressNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldYDSAddress))
+}
+
+// YDSAddressEqualFold applies the EqualFold predicate on the "YDSAddress" field.
+func YDSAddressEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldYDSAddress, v))
+}
+
+// YDSAddressContainsFold applies the ContainsFold predicate on the "YDSAddress" field.
+func YDSAddressContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldYDSAddress, v))
+}
+
+// YDSPhoneEQ applies the EQ predicate on the "YDSPhone" field.
+func YDSPhoneEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSPhone, v))
+}
+
+// YDSPhoneNEQ applies the NEQ predicate on the "YDSPhone" field.
+func YDSPhoneNEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldYDSPhone, v))
+}
+
+// YDSPhoneIn applies the In predicate on the "YDSPhone" field.
+func YDSPhoneIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldYDSPhone, vs...))
+}
+
+// YDSPhoneNotIn applies the NotIn predicate on the "YDSPhone" field.
+func YDSPhoneNotIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldYDSPhone, vs...))
+}
+
+// YDSPhoneGT applies the GT predicate on the "YDSPhone" field.
+func YDSPhoneGT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldYDSPhone, v))
+}
+
+// YDSPhoneGTE applies the GTE predicate on the "YDSPhone" field.
+func YDSPhoneGTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldYDSPhone, v))
+}
+
+// YDSPhoneLT applies the LT predicate on the "YDSPhone" field.
+func YDSPhoneLT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldYDSPhone, v))
+}
+
+// YDSPhoneLTE applies the LTE predicate on the "YDSPhone" field.
+func YDSPhoneLTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldYDSPhone, v))
+}
+
+// YDSPhoneContains applies the Contains predicate on the "YDSPhone" field.
+func YDSPhoneContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldYDSPhone, v))
+}
+
+// YDSPhoneHasPrefix applies the HasPrefix predicate on the "YDSPhone" field.
+func YDSPhoneHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldYDSPhone, v))
+}
+
+// YDSPhoneHasSuffix applies the HasSuffix predicate on the "YDSPhone" field.
+func YDSPhoneHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldYDSPhone, v))
+}
+
+// YDSPhoneIsNil applies the IsNil predicate on the "YDSPhone" field.
+func YDSPhoneIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldYDSPhone))
+}
+
+// YDSPhoneNotNil applies the NotNil predicate on the "YDSPhone" field.
+func YDSPhoneNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldYDSPhone))
+}
+
+// YDSPhoneEqualFold applies the EqualFold predicate on the "YDSPhone" field.
+func YDSPhoneEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldYDSPhone, v))
+}
+
+// YDSPhoneContainsFold applies the ContainsFold predicate on the "YDSPhone" field.
+func YDSPhoneContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldYDSPhone, v))
+}
+
+// YDSMobilePhoneEQ applies the EQ predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneNEQ applies the NEQ predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneNEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneIn applies the In predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldYDSMobilePhone, vs...))
+}
+
+// YDSMobilePhoneNotIn applies the NotIn predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneNotIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldYDSMobilePhone, vs...))
+}
+
+// YDSMobilePhoneGT applies the GT predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneGT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneGTE applies the GTE predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneGTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneLT applies the LT predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneLT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneLTE applies the LTE predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneLTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneContains applies the Contains predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneHasPrefix applies the HasPrefix predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneHasSuffix applies the HasSuffix predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneIsNil applies the IsNil predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldYDSMobilePhone))
+}
+
+// YDSMobilePhoneNotNil applies the NotNil predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldYDSMobilePhone))
+}
+
+// YDSMobilePhoneEqualFold applies the EqualFold predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldYDSMobilePhone, v))
+}
+
+// YDSMobilePhoneContainsFold applies the ContainsFold predicate on the "YDSMobilePhone" field.
+func YDSMobilePhoneContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldYDSMobilePhone, v))
+}
+
+// YDSEmailEQ applies the EQ predicate on the "YDSEmail" field.
+func YDSEmailEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSEmail, v))
+}
+
+// YDSEmailNEQ applies the NEQ predicate on the "YDSEmail" field.
+func YDSEmailNEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldYDSEmail, v))
+}
+
+// YDSEmailIn applies the In predicate on the "YDSEmail" field.
+func YDSEmailIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldYDSEmail, vs...))
+}
+
+// YDSEmailNotIn applies the NotIn predicate on the "YDSEmail" field.
+func YDSEmailNotIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldYDSEmail, vs...))
+}
+
+// YDSEmailGT applies the GT predicate on the "YDSEmail" field.
+func YDSEmailGT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldYDSEmail, v))
+}
+
+// YDSEmailGTE applies the GTE predicate on the "YDSEmail" field.
+func YDSEmailGTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldYDSEmail, v))
+}
+
+// YDSEmailLT applies the LT predicate on the "YDSEmail" field.
+func YDSEmailLT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldYDSEmail, v))
+}
+
+// YDSEmailLTE applies the LTE predicate on the "YDSEmail" field.
+func YDSEmailLTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldYDSEmail, v))
+}
+
+// YDSEmailContains applies the Contains predicate on the "YDSEmail" field.
+func YDSEmailContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldYDSEmail, v))
+}
+
+// YDSEmailHasPrefix applies the HasPrefix predicate on the "YDSEmail" field.
+func YDSEmailHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldYDSEmail, v))
+}
+
+// YDSEmailHasSuffix applies the HasSuffix predicate on the "YDSEmail" field.
+func YDSEmailHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldYDSEmail, v))
+}
+
+// YDSEmailIsNil applies the IsNil predicate on the "YDSEmail" field.
+func YDSEmailIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldYDSEmail))
+}
+
+// YDSEmailNotNil applies the NotNil predicate on the "YDSEmail" field.
+func YDSEmailNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldYDSEmail))
+}
+
+// YDSEmailEqualFold applies the EqualFold predicate on the "YDSEmail" field.
+func YDSEmailEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldYDSEmail, v))
+}
+
+// YDSEmailContainsFold applies the ContainsFold predicate on the "YDSEmail" field.
+func YDSEmailContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldYDSEmail, v))
+}
+
+// YDSWebsiteEQ applies the EQ predicate on the "YDSWebsite" field.
+func YDSWebsiteEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEQ(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteNEQ applies the NEQ predicate on the "YDSWebsite" field.
+func YDSWebsiteNEQ(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNEQ(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteIn applies the In predicate on the "YDSWebsite" field.
+func YDSWebsiteIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIn(FieldYDSWebsite, vs...))
+}
+
+// YDSWebsiteNotIn applies the NotIn predicate on the "YDSWebsite" field.
+func YDSWebsiteNotIn(vs ...string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotIn(FieldYDSWebsite, vs...))
+}
+
+// YDSWebsiteGT applies the GT predicate on the "YDSWebsite" field.
+func YDSWebsiteGT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGT(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteGTE applies the GTE predicate on the "YDSWebsite" field.
+func YDSWebsiteGTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldGTE(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteLT applies the LT predicate on the "YDSWebsite" field.
+func YDSWebsiteLT(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLT(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteLTE applies the LTE predicate on the "YDSWebsite" field.
+func YDSWebsiteLTE(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldLTE(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteContains applies the Contains predicate on the "YDSWebsite" field.
+func YDSWebsiteContains(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContains(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteHasPrefix applies the HasPrefix predicate on the "YDSWebsite" field.
+func YDSWebsiteHasPrefix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasPrefix(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteHasSuffix applies the HasSuffix predicate on the "YDSWebsite" field.
+func YDSWebsiteHasSuffix(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldHasSuffix(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteIsNil applies the IsNil predicate on the "YDSWebsite" field.
+func YDSWebsiteIsNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldIsNull(FieldYDSWebsite))
+}
+
+// YDSWebsiteNotNil applies the NotNil predicate on the "YDSWebsite" field.
+func YDSWebsiteNotNil() predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldNotNull(FieldYDSWebsite))
+}
+
+// YDSWebsiteEqualFold applies the EqualFold predicate on the "YDSWebsite" field.
+func YDSWebsiteEqualFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldEqualFold(FieldYDSWebsite, v))
+}
+
+// YDSWebsiteContainsFold applies the ContainsFold predicate on the "YDSWebsite" field.
+func YDSWebsiteContainsFold(v string) predicate.CompanyDetail {
+	return predicate.CompanyDetail(sql.FieldContainsFold(FieldYDSWebsite, v))
 }
 
 // TaxAdminEQ applies the EQ predicate on the "TaxAdmin" field.

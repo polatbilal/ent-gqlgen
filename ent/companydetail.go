@@ -33,6 +33,16 @@ type CompanyDetail struct {
 	Email string `json:"Email,omitempty"`
 	// Website holds the value of the "Website" field.
 	Website string `json:"Website,omitempty"`
+	// YDSAddress holds the value of the "YDSAddress" field.
+	YDSAddress string `json:"YDSAddress,omitempty"`
+	// YDSPhone holds the value of the "YDSPhone" field.
+	YDSPhone string `json:"YDSPhone,omitempty"`
+	// YDSMobilePhone holds the value of the "YDSMobilePhone" field.
+	YDSMobilePhone string `json:"YDSMobilePhone,omitempty"`
+	// YDSEmail holds the value of the "YDSEmail" field.
+	YDSEmail string `json:"YDSEmail,omitempty"`
+	// YDSWebsite holds the value of the "YDSWebsite" field.
+	YDSWebsite string `json:"YDSWebsite,omitempty"`
 	// TaxAdmin holds the value of the "TaxAdmin" field.
 	TaxAdmin string `json:"TaxAdmin,omitempty"`
 	// TaxNo holds the value of the "TaxNo" field.
@@ -142,7 +152,7 @@ func (*CompanyDetail) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case companydetail.FieldID, companydetail.FieldCompanyCode:
 			values[i] = new(sql.NullInt64)
-		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldFax, companydetail.FieldMobilePhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldTaxAdmin, companydetail.FieldTaxNo, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerRegisterNo, companydetail.FieldOwnerCareer:
+		case companydetail.FieldName, companydetail.FieldAddress, companydetail.FieldPhone, companydetail.FieldFax, companydetail.FieldMobilePhone, companydetail.FieldEmail, companydetail.FieldWebsite, companydetail.FieldYDSAddress, companydetail.FieldYDSPhone, companydetail.FieldYDSMobilePhone, companydetail.FieldYDSEmail, companydetail.FieldYDSWebsite, companydetail.FieldTaxAdmin, companydetail.FieldTaxNo, companydetail.FieldChamberInfo, companydetail.FieldChamberRegisterNo, companydetail.FieldOwnerName, companydetail.FieldOwnerTcNo, companydetail.FieldOwnerAddress, companydetail.FieldOwnerPhone, companydetail.FieldOwnerEmail, companydetail.FieldOwnerRegisterNo, companydetail.FieldOwnerCareer:
 			values[i] = new(sql.NullString)
 		case companydetail.FieldVisaDate, companydetail.FieldVisaEndDate, companydetail.FieldCreatedAt, companydetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -214,6 +224,36 @@ func (_m *CompanyDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Website", values[i])
 			} else if value.Valid {
 				_m.Website = value.String
+			}
+		case companydetail.FieldYDSAddress:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field YDSAddress", values[i])
+			} else if value.Valid {
+				_m.YDSAddress = value.String
+			}
+		case companydetail.FieldYDSPhone:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field YDSPhone", values[i])
+			} else if value.Valid {
+				_m.YDSPhone = value.String
+			}
+		case companydetail.FieldYDSMobilePhone:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field YDSMobilePhone", values[i])
+			} else if value.Valid {
+				_m.YDSMobilePhone = value.String
+			}
+		case companydetail.FieldYDSEmail:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field YDSEmail", values[i])
+			} else if value.Valid {
+				_m.YDSEmail = value.String
+			}
+		case companydetail.FieldYDSWebsite:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field YDSWebsite", values[i])
+			} else if value.Valid {
+				_m.YDSWebsite = value.String
 			}
 		case companydetail.FieldTaxAdmin:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -402,6 +442,21 @@ func (_m *CompanyDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("Website=")
 	builder.WriteString(_m.Website)
+	builder.WriteString(", ")
+	builder.WriteString("YDSAddress=")
+	builder.WriteString(_m.YDSAddress)
+	builder.WriteString(", ")
+	builder.WriteString("YDSPhone=")
+	builder.WriteString(_m.YDSPhone)
+	builder.WriteString(", ")
+	builder.WriteString("YDSMobilePhone=")
+	builder.WriteString(_m.YDSMobilePhone)
+	builder.WriteString(", ")
+	builder.WriteString("YDSEmail=")
+	builder.WriteString(_m.YDSEmail)
+	builder.WriteString(", ")
+	builder.WriteString("YDSWebsite=")
+	builder.WriteString(_m.YDSWebsite)
 	builder.WriteString(", ")
 	builder.WriteString("TaxAdmin=")
 	builder.WriteString(_m.TaxAdmin)

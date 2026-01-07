@@ -8,6 +8,11 @@ type CompanyDetail {
   MobilePhone: String
   Email: String
   Website: String
+  YDSAddress: String
+  YDSPhone: String
+  YDSMobilePhone: String
+  YDSEmail: String
+  YDSWebsite: String
   TaxAdmin: String
   TaxNo: String
   ChamberInfo: String
@@ -36,6 +41,11 @@ input CompanyDetailInput {
   MobilePhone: String
   Email: String
   Website: String
+  YDSAddress: String
+  YDSPhone: String
+  YDSMobilePhone: String
+  YDSEmail: String
+  YDSWebsite: String
   TaxAdmin: String
   TaxNo: String
   ChamberInfo: String

@@ -70,6 +70,11 @@ type CompanyDetailMutation struct {
 	_MobilePhone            *string
 	_Email                  *string
 	_Website                *string
+	_YDSAddress             *string
+	_YDSPhone               *string
+	_YDSMobilePhone         *string
+	_YDSEmail               *string
+	_YDSWebsite             *string
 	_TaxAdmin               *string
 	_TaxNo                  *string
 	_ChamberInfo            *string
@@ -588,6 +593,251 @@ func (m *CompanyDetailMutation) WebsiteCleared() bool {
 func (m *CompanyDetailMutation) ResetWebsite() {
 	m._Website = nil
 	delete(m.clearedFields, companydetail.FieldWebsite)
+}
+
+// SetYDSAddress sets the "YDSAddress" field.
+func (m *CompanyDetailMutation) SetYDSAddress(s string) {
+	m._YDSAddress = &s
+}
+
+// YDSAddress returns the value of the "YDSAddress" field in the mutation.
+func (m *CompanyDetailMutation) YDSAddress() (r string, exists bool) {
+	v := m._YDSAddress
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYDSAddress returns the old "YDSAddress" field's value of the CompanyDetail entity.
+// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyDetailMutation) OldYDSAddress(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYDSAddress is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYDSAddress requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYDSAddress: %w", err)
+	}
+	return oldValue.YDSAddress, nil
+}
+
+// ClearYDSAddress clears the value of the "YDSAddress" field.
+func (m *CompanyDetailMutation) ClearYDSAddress() {
+	m._YDSAddress = nil
+	m.clearedFields[companydetail.FieldYDSAddress] = struct{}{}
+}
+
+// YDSAddressCleared returns if the "YDSAddress" field was cleared in this mutation.
+func (m *CompanyDetailMutation) YDSAddressCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldYDSAddress]
+	return ok
+}
+
+// ResetYDSAddress resets all changes to the "YDSAddress" field.
+func (m *CompanyDetailMutation) ResetYDSAddress() {
+	m._YDSAddress = nil
+	delete(m.clearedFields, companydetail.FieldYDSAddress)
+}
+
+// SetYDSPhone sets the "YDSPhone" field.
+func (m *CompanyDetailMutation) SetYDSPhone(s string) {
+	m._YDSPhone = &s
+}
+
+// YDSPhone returns the value of the "YDSPhone" field in the mutation.
+func (m *CompanyDetailMutation) YDSPhone() (r string, exists bool) {
+	v := m._YDSPhone
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYDSPhone returns the old "YDSPhone" field's value of the CompanyDetail entity.
+// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyDetailMutation) OldYDSPhone(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYDSPhone is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYDSPhone requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYDSPhone: %w", err)
+	}
+	return oldValue.YDSPhone, nil
+}
+
+// ClearYDSPhone clears the value of the "YDSPhone" field.
+func (m *CompanyDetailMutation) ClearYDSPhone() {
+	m._YDSPhone = nil
+	m.clearedFields[companydetail.FieldYDSPhone] = struct{}{}
+}
+
+// YDSPhoneCleared returns if the "YDSPhone" field was cleared in this mutation.
+func (m *CompanyDetailMutation) YDSPhoneCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldYDSPhone]
+	return ok
+}
+
+// ResetYDSPhone resets all changes to the "YDSPhone" field.
+func (m *CompanyDetailMutation) ResetYDSPhone() {
+	m._YDSPhone = nil
+	delete(m.clearedFields, companydetail.FieldYDSPhone)
+}
+
+// SetYDSMobilePhone sets the "YDSMobilePhone" field.
+func (m *CompanyDetailMutation) SetYDSMobilePhone(s string) {
+	m._YDSMobilePhone = &s
+}
+
+// YDSMobilePhone returns the value of the "YDSMobilePhone" field in the mutation.
+func (m *CompanyDetailMutation) YDSMobilePhone() (r string, exists bool) {
+	v := m._YDSMobilePhone
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYDSMobilePhone returns the old "YDSMobilePhone" field's value of the CompanyDetail entity.
+// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyDetailMutation) OldYDSMobilePhone(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYDSMobilePhone is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYDSMobilePhone requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYDSMobilePhone: %w", err)
+	}
+	return oldValue.YDSMobilePhone, nil
+}
+
+// ClearYDSMobilePhone clears the value of the "YDSMobilePhone" field.
+func (m *CompanyDetailMutation) ClearYDSMobilePhone() {
+	m._YDSMobilePhone = nil
+	m.clearedFields[companydetail.FieldYDSMobilePhone] = struct{}{}
+}
+
+// YDSMobilePhoneCleared returns if the "YDSMobilePhone" field was cleared in this mutation.
+func (m *CompanyDetailMutation) YDSMobilePhoneCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldYDSMobilePhone]
+	return ok
+}
+
+// ResetYDSMobilePhone resets all changes to the "YDSMobilePhone" field.
+func (m *CompanyDetailMutation) ResetYDSMobilePhone() {
+	m._YDSMobilePhone = nil
+	delete(m.clearedFields, companydetail.FieldYDSMobilePhone)
+}
+
+// SetYDSEmail sets the "YDSEmail" field.
+func (m *CompanyDetailMutation) SetYDSEmail(s string) {
+	m._YDSEmail = &s
+}
+
+// YDSEmail returns the value of the "YDSEmail" field in the mutation.
+func (m *CompanyDetailMutation) YDSEmail() (r string, exists bool) {
+	v := m._YDSEmail
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYDSEmail returns the old "YDSEmail" field's value of the CompanyDetail entity.
+// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyDetailMutation) OldYDSEmail(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYDSEmail is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYDSEmail requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYDSEmail: %w", err)
+	}
+	return oldValue.YDSEmail, nil
+}
+
+// ClearYDSEmail clears the value of the "YDSEmail" field.
+func (m *CompanyDetailMutation) ClearYDSEmail() {
+	m._YDSEmail = nil
+	m.clearedFields[companydetail.FieldYDSEmail] = struct{}{}
+}
+
+// YDSEmailCleared returns if the "YDSEmail" field was cleared in this mutation.
+func (m *CompanyDetailMutation) YDSEmailCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldYDSEmail]
+	return ok
+}
+
+// ResetYDSEmail resets all changes to the "YDSEmail" field.
+func (m *CompanyDetailMutation) ResetYDSEmail() {
+	m._YDSEmail = nil
+	delete(m.clearedFields, companydetail.FieldYDSEmail)
+}
+
+// SetYDSWebsite sets the "YDSWebsite" field.
+func (m *CompanyDetailMutation) SetYDSWebsite(s string) {
+	m._YDSWebsite = &s
+}
+
+// YDSWebsite returns the value of the "YDSWebsite" field in the mutation.
+func (m *CompanyDetailMutation) YDSWebsite() (r string, exists bool) {
+	v := m._YDSWebsite
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldYDSWebsite returns the old "YDSWebsite" field's value of the CompanyDetail entity.
+// If the CompanyDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CompanyDetailMutation) OldYDSWebsite(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldYDSWebsite is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldYDSWebsite requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldYDSWebsite: %w", err)
+	}
+	return oldValue.YDSWebsite, nil
+}
+
+// ClearYDSWebsite clears the value of the "YDSWebsite" field.
+func (m *CompanyDetailMutation) ClearYDSWebsite() {
+	m._YDSWebsite = nil
+	m.clearedFields[companydetail.FieldYDSWebsite] = struct{}{}
+}
+
+// YDSWebsiteCleared returns if the "YDSWebsite" field was cleared in this mutation.
+func (m *CompanyDetailMutation) YDSWebsiteCleared() bool {
+	_, ok := m.clearedFields[companydetail.FieldYDSWebsite]
+	return ok
+}
+
+// ResetYDSWebsite resets all changes to the "YDSWebsite" field.
+func (m *CompanyDetailMutation) ResetYDSWebsite() {
+	m._YDSWebsite = nil
+	delete(m.clearedFields, companydetail.FieldYDSWebsite)
 }
 
 // SetTaxAdmin sets the "TaxAdmin" field.
@@ -1683,7 +1933,7 @@ func (m *CompanyDetailMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CompanyDetailMutation) Fields() []string {
-	fields := make([]string, 0, 26)
+	fields := make([]string, 0, 31)
 	if m._CompanyCode != nil {
 		fields = append(fields, companydetail.FieldCompanyCode)
 	}
@@ -1707,6 +1957,21 @@ func (m *CompanyDetailMutation) Fields() []string {
 	}
 	if m._Website != nil {
 		fields = append(fields, companydetail.FieldWebsite)
+	}
+	if m._YDSAddress != nil {
+		fields = append(fields, companydetail.FieldYDSAddress)
+	}
+	if m._YDSPhone != nil {
+		fields = append(fields, companydetail.FieldYDSPhone)
+	}
+	if m._YDSMobilePhone != nil {
+		fields = append(fields, companydetail.FieldYDSMobilePhone)
+	}
+	if m._YDSEmail != nil {
+		fields = append(fields, companydetail.FieldYDSEmail)
+	}
+	if m._YDSWebsite != nil {
+		fields = append(fields, companydetail.FieldYDSWebsite)
 	}
 	if m._TaxAdmin != nil {
 		fields = append(fields, companydetail.FieldTaxAdmin)
@@ -1786,6 +2051,16 @@ func (m *CompanyDetailMutation) Field(name string) (ent.Value, bool) {
 		return m.Email()
 	case companydetail.FieldWebsite:
 		return m.Website()
+	case companydetail.FieldYDSAddress:
+		return m.YDSAddress()
+	case companydetail.FieldYDSPhone:
+		return m.YDSPhone()
+	case companydetail.FieldYDSMobilePhone:
+		return m.YDSMobilePhone()
+	case companydetail.FieldYDSEmail:
+		return m.YDSEmail()
+	case companydetail.FieldYDSWebsite:
+		return m.YDSWebsite()
 	case companydetail.FieldTaxAdmin:
 		return m.TaxAdmin()
 	case companydetail.FieldTaxNo:
@@ -1847,6 +2122,16 @@ func (m *CompanyDetailMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldEmail(ctx)
 	case companydetail.FieldWebsite:
 		return m.OldWebsite(ctx)
+	case companydetail.FieldYDSAddress:
+		return m.OldYDSAddress(ctx)
+	case companydetail.FieldYDSPhone:
+		return m.OldYDSPhone(ctx)
+	case companydetail.FieldYDSMobilePhone:
+		return m.OldYDSMobilePhone(ctx)
+	case companydetail.FieldYDSEmail:
+		return m.OldYDSEmail(ctx)
+	case companydetail.FieldYDSWebsite:
+		return m.OldYDSWebsite(ctx)
 	case companydetail.FieldTaxAdmin:
 		return m.OldTaxAdmin(ctx)
 	case companydetail.FieldTaxNo:
@@ -1947,6 +2232,41 @@ func (m *CompanyDetailMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetWebsite(v)
+		return nil
+	case companydetail.FieldYDSAddress:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYDSAddress(v)
+		return nil
+	case companydetail.FieldYDSPhone:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYDSPhone(v)
+		return nil
+	case companydetail.FieldYDSMobilePhone:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYDSMobilePhone(v)
+		return nil
+	case companydetail.FieldYDSEmail:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYDSEmail(v)
+		return nil
+	case companydetail.FieldYDSWebsite:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetYDSWebsite(v)
 		return nil
 	case companydetail.FieldTaxAdmin:
 		v, ok := value.(string)
@@ -2137,6 +2457,21 @@ func (m *CompanyDetailMutation) ClearedFields() []string {
 	if m.FieldCleared(companydetail.FieldWebsite) {
 		fields = append(fields, companydetail.FieldWebsite)
 	}
+	if m.FieldCleared(companydetail.FieldYDSAddress) {
+		fields = append(fields, companydetail.FieldYDSAddress)
+	}
+	if m.FieldCleared(companydetail.FieldYDSPhone) {
+		fields = append(fields, companydetail.FieldYDSPhone)
+	}
+	if m.FieldCleared(companydetail.FieldYDSMobilePhone) {
+		fields = append(fields, companydetail.FieldYDSMobilePhone)
+	}
+	if m.FieldCleared(companydetail.FieldYDSEmail) {
+		fields = append(fields, companydetail.FieldYDSEmail)
+	}
+	if m.FieldCleared(companydetail.FieldYDSWebsite) {
+		fields = append(fields, companydetail.FieldYDSWebsite)
+	}
 	if m.FieldCleared(companydetail.FieldTaxAdmin) {
 		fields = append(fields, companydetail.FieldTaxAdmin)
 	}
@@ -2214,6 +2549,21 @@ func (m *CompanyDetailMutation) ClearField(name string) error {
 	case companydetail.FieldWebsite:
 		m.ClearWebsite()
 		return nil
+	case companydetail.FieldYDSAddress:
+		m.ClearYDSAddress()
+		return nil
+	case companydetail.FieldYDSPhone:
+		m.ClearYDSPhone()
+		return nil
+	case companydetail.FieldYDSMobilePhone:
+		m.ClearYDSMobilePhone()
+		return nil
+	case companydetail.FieldYDSEmail:
+		m.ClearYDSEmail()
+		return nil
+	case companydetail.FieldYDSWebsite:
+		m.ClearYDSWebsite()
+		return nil
 	case companydetail.FieldTaxAdmin:
 		m.ClearTaxAdmin()
 		return nil
@@ -2290,6 +2640,21 @@ func (m *CompanyDetailMutation) ResetField(name string) error {
 		return nil
 	case companydetail.FieldWebsite:
 		m.ResetWebsite()
+		return nil
+	case companydetail.FieldYDSAddress:
+		m.ResetYDSAddress()
+		return nil
+	case companydetail.FieldYDSPhone:
+		m.ResetYDSPhone()
+		return nil
+	case companydetail.FieldYDSMobilePhone:
+		m.ResetYDSMobilePhone()
+		return nil
+	case companydetail.FieldYDSEmail:
+		m.ResetYDSEmail()
+		return nil
+	case companydetail.FieldYDSWebsite:
+		m.ResetYDSWebsite()
 		return nil
 	case companydetail.FieldTaxAdmin:
 		m.ResetTaxAdmin()

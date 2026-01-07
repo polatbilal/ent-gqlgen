@@ -135,6 +135,31 @@ func (_q *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				selectedFields = append(selectedFields, companydetail.FieldWebsite)
 				fieldSeen[companydetail.FieldWebsite] = struct{}{}
 			}
+		case "ydsaddress":
+			if _, ok := fieldSeen[companydetail.FieldYDSAddress]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldYDSAddress)
+				fieldSeen[companydetail.FieldYDSAddress] = struct{}{}
+			}
+		case "ydsphone":
+			if _, ok := fieldSeen[companydetail.FieldYDSPhone]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldYDSPhone)
+				fieldSeen[companydetail.FieldYDSPhone] = struct{}{}
+			}
+		case "ydsmobilephone":
+			if _, ok := fieldSeen[companydetail.FieldYDSMobilePhone]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldYDSMobilePhone)
+				fieldSeen[companydetail.FieldYDSMobilePhone] = struct{}{}
+			}
+		case "ydsemail":
+			if _, ok := fieldSeen[companydetail.FieldYDSEmail]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldYDSEmail)
+				fieldSeen[companydetail.FieldYDSEmail] = struct{}{}
+			}
+		case "ydswebsite":
+			if _, ok := fieldSeen[companydetail.FieldYDSWebsite]; !ok {
+				selectedFields = append(selectedFields, companydetail.FieldYDSWebsite)
+				fieldSeen[companydetail.FieldYDSWebsite] = struct{}{}
+			}
 		case "taxadmin":
 			if _, ok := fieldSeen[companydetail.FieldTaxAdmin]; !ok {
 				selectedFields = append(selectedFields, companydetail.FieldTaxAdmin)

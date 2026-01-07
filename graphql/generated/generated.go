@@ -99,6 +99,11 @@ type ComplexityRoot struct {
 		VisaEndDate            func(childComplexity int) int
 		VisaFinishedFor90Days  func(childComplexity int) int
 		Website                func(childComplexity int) int
+		YDSAddress             func(childComplexity int) int
+		YDSEmail               func(childComplexity int) int
+		YDSMobilePhone         func(childComplexity int) int
+		YDSPhone               func(childComplexity int) int
+		YDSWebsite             func(childComplexity int) int
 	}
 
 	CompanyEngineer struct {
@@ -687,6 +692,36 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.CompanyDetail.Website(childComplexity), true
+	case "CompanyDetail.YDSAddress":
+		if e.complexity.CompanyDetail.YDSAddress == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.YDSAddress(childComplexity), true
+	case "CompanyDetail.YDSEmail":
+		if e.complexity.CompanyDetail.YDSEmail == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.YDSEmail(childComplexity), true
+	case "CompanyDetail.YDSMobilePhone":
+		if e.complexity.CompanyDetail.YDSMobilePhone == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.YDSMobilePhone(childComplexity), true
+	case "CompanyDetail.YDSPhone":
+		if e.complexity.CompanyDetail.YDSPhone == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.YDSPhone(childComplexity), true
+	case "CompanyDetail.YDSWebsite":
+		if e.complexity.CompanyDetail.YDSWebsite == nil {
+			break
+		}
+
+		return e.complexity.CompanyDetail.YDSWebsite(childComplexity), true
 
 	case "CompanyEngineer.Address":
 		if e.complexity.CompanyEngineer.Address == nil {
@@ -2596,6 +2631,11 @@ extend type Mutation {
   MobilePhone: String
   Email: String
   Website: String
+  YDSAddress: String
+  YDSPhone: String
+  YDSMobilePhone: String
+  YDSEmail: String
+  YDSWebsite: String
   TaxAdmin: String
   TaxNo: String
   ChamberInfo: String
@@ -2624,6 +2664,11 @@ input CompanyDetailInput {
   MobilePhone: String
   Email: String
   Website: String
+  YDSAddress: String
+  YDSPhone: String
+  YDSMobilePhone: String
+  YDSEmail: String
+  YDSWebsite: String
   TaxAdmin: String
   TaxNo: String
   ChamberInfo: String
@@ -4235,6 +4280,16 @@ func (ec *executionContext) fieldContext_CompanyBatchResult_company(_ context.Co
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
 				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_CompanyDetail_YDSAddress(ctx, field)
+			case "YDSPhone":
+				return ec.fieldContext_CompanyDetail_YDSPhone(ctx, field)
+			case "YDSMobilePhone":
+				return ec.fieldContext_CompanyDetail_YDSMobilePhone(ctx, field)
+			case "YDSEmail":
+				return ec.fieldContext_CompanyDetail_YDSEmail(ctx, field)
+			case "YDSWebsite":
+				return ec.fieldContext_CompanyDetail_YDSWebsite(ctx, field)
 			case "TaxAdmin":
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
@@ -4564,6 +4619,151 @@ func (ec *executionContext) _CompanyDetail_Website(ctx context.Context, field gr
 }
 
 func (ec *executionContext) fieldContext_CompanyDetail_Website(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_YDSAddress(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_YDSAddress,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSAddress, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_YDSAddress(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_YDSPhone(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_YDSPhone,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSPhone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_YDSPhone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_YDSMobilePhone(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_YDSMobilePhone,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSMobilePhone, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_YDSMobilePhone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_YDSEmail(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_YDSEmail,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSEmail, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_YDSEmail(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CompanyDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CompanyDetail_YDSWebsite(ctx context.Context, field graphql.CollectedField, obj *ent.CompanyDetail) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_CompanyDetail_YDSWebsite,
+		func(ctx context.Context) (any, error) {
+			return obj.YDSWebsite, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_CompanyDetail_YDSWebsite(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "CompanyDetail",
 		Field:      field,
@@ -5517,6 +5717,16 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Company(_ context.Conte
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
 				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_CompanyDetail_YDSAddress(ctx, field)
+			case "YDSPhone":
+				return ec.fieldContext_CompanyDetail_YDSPhone(ctx, field)
+			case "YDSMobilePhone":
+				return ec.fieldContext_CompanyDetail_YDSMobilePhone(ctx, field)
+			case "YDSEmail":
+				return ec.fieldContext_CompanyDetail_YDSEmail(ctx, field)
+			case "YDSWebsite":
+				return ec.fieldContext_CompanyDetail_YDSWebsite(ctx, field)
 			case "TaxAdmin":
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
@@ -6380,6 +6590,16 @@ func (ec *executionContext) fieldContext_JobBatchResult_company(_ context.Contex
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
 				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_CompanyDetail_YDSAddress(ctx, field)
+			case "YDSPhone":
+				return ec.fieldContext_CompanyDetail_YDSPhone(ctx, field)
+			case "YDSMobilePhone":
+				return ec.fieldContext_CompanyDetail_YDSMobilePhone(ctx, field)
+			case "YDSEmail":
+				return ec.fieldContext_CompanyDetail_YDSEmail(ctx, field)
+			case "YDSWebsite":
+				return ec.fieldContext_CompanyDetail_YDSWebsite(ctx, field)
 			case "TaxAdmin":
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
@@ -10858,6 +11078,16 @@ func (ec *executionContext) fieldContext_Mutation_updateCompany(ctx context.Cont
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
 				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_CompanyDetail_YDSAddress(ctx, field)
+			case "YDSPhone":
+				return ec.fieldContext_CompanyDetail_YDSPhone(ctx, field)
+			case "YDSMobilePhone":
+				return ec.fieldContext_CompanyDetail_YDSMobilePhone(ctx, field)
+			case "YDSEmail":
+				return ec.fieldContext_CompanyDetail_YDSEmail(ctx, field)
+			case "YDSWebsite":
+				return ec.fieldContext_CompanyDetail_YDSWebsite(ctx, field)
 			case "TaxAdmin":
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
@@ -13287,6 +13517,16 @@ func (ec *executionContext) fieldContext_Query_company(ctx context.Context, fiel
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
 				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_CompanyDetail_YDSAddress(ctx, field)
+			case "YDSPhone":
+				return ec.fieldContext_CompanyDetail_YDSPhone(ctx, field)
+			case "YDSMobilePhone":
+				return ec.fieldContext_CompanyDetail_YDSMobilePhone(ctx, field)
+			case "YDSEmail":
+				return ec.fieldContext_CompanyDetail_YDSEmail(ctx, field)
+			case "YDSWebsite":
+				return ec.fieldContext_CompanyDetail_YDSWebsite(ctx, field)
 			case "TaxAdmin":
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
@@ -13393,6 +13633,16 @@ func (ec *executionContext) fieldContext_Query_companyByCode(ctx context.Context
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
 				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_CompanyDetail_YDSAddress(ctx, field)
+			case "YDSPhone":
+				return ec.fieldContext_CompanyDetail_YDSPhone(ctx, field)
+			case "YDSMobilePhone":
+				return ec.fieldContext_CompanyDetail_YDSMobilePhone(ctx, field)
+			case "YDSEmail":
+				return ec.fieldContext_CompanyDetail_YDSEmail(ctx, field)
+			case "YDSWebsite":
+				return ec.fieldContext_CompanyDetail_YDSWebsite(ctx, field)
 			case "TaxAdmin":
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
@@ -15449,6 +15699,16 @@ func (ec *executionContext) fieldContext_User_Companies(_ context.Context, field
 				return ec.fieldContext_CompanyDetail_Email(ctx, field)
 			case "Website":
 				return ec.fieldContext_CompanyDetail_Website(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_CompanyDetail_YDSAddress(ctx, field)
+			case "YDSPhone":
+				return ec.fieldContext_CompanyDetail_YDSPhone(ctx, field)
+			case "YDSMobilePhone":
+				return ec.fieldContext_CompanyDetail_YDSMobilePhone(ctx, field)
+			case "YDSEmail":
+				return ec.fieldContext_CompanyDetail_YDSEmail(ctx, field)
+			case "YDSWebsite":
+				return ec.fieldContext_CompanyDetail_YDSWebsite(ctx, field)
 			case "TaxAdmin":
 				return ec.fieldContext_CompanyDetail_TaxAdmin(ctx, field)
 			case "TaxNo":
@@ -16982,7 +17242,7 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"CompanyCode", "DepartmentId", "Name", "Address", "Phone", "Fax", "MobilePhone", "Email", "Website", "TaxAdmin", "TaxNo", "ChamberInfo", "ChamberRegisterNo", "VisaDate", "VisaEndDate", "visa_finished_for_90days", "core_person_absent_90days", "isClosed", "OwnerName", "OwnerTcNo", "OwnerAddress", "OwnerPhone", "OwnerEmail", "OwnerRegisterNo", "OwnerCareer"}
+	fieldsInOrder := [...]string{"CompanyCode", "DepartmentId", "Name", "Address", "Phone", "Fax", "MobilePhone", "Email", "Website", "YDSAddress", "YDSPhone", "YDSMobilePhone", "YDSEmail", "YDSWebsite", "TaxAdmin", "TaxNo", "ChamberInfo", "ChamberRegisterNo", "VisaDate", "VisaEndDate", "visa_finished_for_90days", "core_person_absent_90days", "isClosed", "OwnerName", "OwnerTcNo", "OwnerAddress", "OwnerPhone", "OwnerEmail", "OwnerRegisterNo", "OwnerCareer"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -17052,6 +17312,41 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 				return it, err
 			}
 			it.Website = data
+		case "YDSAddress":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSAddress"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YDSAddress = data
+		case "YDSPhone":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSPhone"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YDSPhone = data
+		case "YDSMobilePhone":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSMobilePhone"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YDSMobilePhone = data
+		case "YDSEmail":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSEmail"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YDSEmail = data
+		case "YDSWebsite":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YDSWebsite"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YDSWebsite = data
 		case "TaxAdmin":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("TaxAdmin"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -18805,6 +19100,16 @@ func (ec *executionContext) _CompanyDetail(ctx context.Context, sel ast.Selectio
 			out.Values[i] = ec._CompanyDetail_Email(ctx, field, obj)
 		case "Website":
 			out.Values[i] = ec._CompanyDetail_Website(ctx, field, obj)
+		case "YDSAddress":
+			out.Values[i] = ec._CompanyDetail_YDSAddress(ctx, field, obj)
+		case "YDSPhone":
+			out.Values[i] = ec._CompanyDetail_YDSPhone(ctx, field, obj)
+		case "YDSMobilePhone":
+			out.Values[i] = ec._CompanyDetail_YDSMobilePhone(ctx, field, obj)
+		case "YDSEmail":
+			out.Values[i] = ec._CompanyDetail_YDSEmail(ctx, field, obj)
+		case "YDSWebsite":
+			out.Values[i] = ec._CompanyDetail_YDSWebsite(ctx, field, obj)
 		case "TaxAdmin":
 			out.Values[i] = ec._CompanyDetail_TaxAdmin(ctx, field, obj)
 		case "TaxNo":

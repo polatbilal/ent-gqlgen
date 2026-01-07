@@ -30,6 +30,16 @@ const (
 	FieldEmail = "email"
 	// FieldWebsite holds the string denoting the website field in the database.
 	FieldWebsite = "website"
+	// FieldYDSAddress holds the string denoting the ydsaddress field in the database.
+	FieldYDSAddress = "yds_address"
+	// FieldYDSPhone holds the string denoting the ydsphone field in the database.
+	FieldYDSPhone = "yds_phone"
+	// FieldYDSMobilePhone holds the string denoting the ydsmobilephone field in the database.
+	FieldYDSMobilePhone = "yds_mobile_phone"
+	// FieldYDSEmail holds the string denoting the ydsemail field in the database.
+	FieldYDSEmail = "yds_email"
+	// FieldYDSWebsite holds the string denoting the ydswebsite field in the database.
+	FieldYDSWebsite = "yds_website"
 	// FieldTaxAdmin holds the string denoting the taxadmin field in the database.
 	FieldTaxAdmin = "tax_admin"
 	// FieldTaxNo holds the string denoting the taxno field in the database.
@@ -117,6 +127,11 @@ var Columns = []string{
 	FieldMobilePhone,
 	FieldEmail,
 	FieldWebsite,
+	FieldYDSAddress,
+	FieldYDSPhone,
+	FieldYDSMobilePhone,
+	FieldYDSEmail,
+	FieldYDSWebsite,
 	FieldTaxAdmin,
 	FieldTaxNo,
 	FieldChamberInfo,
@@ -210,6 +225,31 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 // ByWebsite orders the results by the Website field.
 func ByWebsite(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldWebsite, opts...).ToFunc()
+}
+
+// ByYDSAddress orders the results by the YDSAddress field.
+func ByYDSAddress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSAddress, opts...).ToFunc()
+}
+
+// ByYDSPhone orders the results by the YDSPhone field.
+func ByYDSPhone(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSPhone, opts...).ToFunc()
+}
+
+// ByYDSMobilePhone orders the results by the YDSMobilePhone field.
+func ByYDSMobilePhone(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSMobilePhone, opts...).ToFunc()
+}
+
+// ByYDSEmail orders the results by the YDSEmail field.
+func ByYDSEmail(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSEmail, opts...).ToFunc()
+}
+
+// ByYDSWebsite orders the results by the YDSWebsite field.
+func ByYDSWebsite(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldYDSWebsite, opts...).ToFunc()
 }
 
 // ByTaxAdmin orders the results by the TaxAdmin field.

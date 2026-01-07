@@ -187,6 +187,106 @@ func (_u *CompanyDetailUpdate) ClearWebsite() *CompanyDetailUpdate {
 	return _u
 }
 
+// SetYDSAddress sets the "YDSAddress" field.
+func (_u *CompanyDetailUpdate) SetYDSAddress(v string) *CompanyDetailUpdate {
+	_u.mutation.SetYDSAddress(v)
+	return _u
+}
+
+// SetNillableYDSAddress sets the "YDSAddress" field if the given value is not nil.
+func (_u *CompanyDetailUpdate) SetNillableYDSAddress(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetYDSAddress(*v)
+	}
+	return _u
+}
+
+// ClearYDSAddress clears the value of the "YDSAddress" field.
+func (_u *CompanyDetailUpdate) ClearYDSAddress() *CompanyDetailUpdate {
+	_u.mutation.ClearYDSAddress()
+	return _u
+}
+
+// SetYDSPhone sets the "YDSPhone" field.
+func (_u *CompanyDetailUpdate) SetYDSPhone(v string) *CompanyDetailUpdate {
+	_u.mutation.SetYDSPhone(v)
+	return _u
+}
+
+// SetNillableYDSPhone sets the "YDSPhone" field if the given value is not nil.
+func (_u *CompanyDetailUpdate) SetNillableYDSPhone(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetYDSPhone(*v)
+	}
+	return _u
+}
+
+// ClearYDSPhone clears the value of the "YDSPhone" field.
+func (_u *CompanyDetailUpdate) ClearYDSPhone() *CompanyDetailUpdate {
+	_u.mutation.ClearYDSPhone()
+	return _u
+}
+
+// SetYDSMobilePhone sets the "YDSMobilePhone" field.
+func (_u *CompanyDetailUpdate) SetYDSMobilePhone(v string) *CompanyDetailUpdate {
+	_u.mutation.SetYDSMobilePhone(v)
+	return _u
+}
+
+// SetNillableYDSMobilePhone sets the "YDSMobilePhone" field if the given value is not nil.
+func (_u *CompanyDetailUpdate) SetNillableYDSMobilePhone(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetYDSMobilePhone(*v)
+	}
+	return _u
+}
+
+// ClearYDSMobilePhone clears the value of the "YDSMobilePhone" field.
+func (_u *CompanyDetailUpdate) ClearYDSMobilePhone() *CompanyDetailUpdate {
+	_u.mutation.ClearYDSMobilePhone()
+	return _u
+}
+
+// SetYDSEmail sets the "YDSEmail" field.
+func (_u *CompanyDetailUpdate) SetYDSEmail(v string) *CompanyDetailUpdate {
+	_u.mutation.SetYDSEmail(v)
+	return _u
+}
+
+// SetNillableYDSEmail sets the "YDSEmail" field if the given value is not nil.
+func (_u *CompanyDetailUpdate) SetNillableYDSEmail(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetYDSEmail(*v)
+	}
+	return _u
+}
+
+// ClearYDSEmail clears the value of the "YDSEmail" field.
+func (_u *CompanyDetailUpdate) ClearYDSEmail() *CompanyDetailUpdate {
+	_u.mutation.ClearYDSEmail()
+	return _u
+}
+
+// SetYDSWebsite sets the "YDSWebsite" field.
+func (_u *CompanyDetailUpdate) SetYDSWebsite(v string) *CompanyDetailUpdate {
+	_u.mutation.SetYDSWebsite(v)
+	return _u
+}
+
+// SetNillableYDSWebsite sets the "YDSWebsite" field if the given value is not nil.
+func (_u *CompanyDetailUpdate) SetNillableYDSWebsite(v *string) *CompanyDetailUpdate {
+	if v != nil {
+		_u.SetYDSWebsite(*v)
+	}
+	return _u
+}
+
+// ClearYDSWebsite clears the value of the "YDSWebsite" field.
+func (_u *CompanyDetailUpdate) ClearYDSWebsite() *CompanyDetailUpdate {
+	_u.mutation.ClearYDSWebsite()
+	return _u
+}
+
 // SetTaxAdmin sets the "TaxAdmin" field.
 func (_u *CompanyDetailUpdate) SetTaxAdmin(v string) *CompanyDetailUpdate {
 	_u.mutation.SetTaxAdmin(v)
@@ -760,6 +860,36 @@ func (_u *CompanyDetailUpdate) sqlSave(ctx context.Context) (_node int, err erro
 	if _u.mutation.WebsiteCleared() {
 		_spec.ClearField(companydetail.FieldWebsite, field.TypeString)
 	}
+	if value, ok := _u.mutation.YDSAddress(); ok {
+		_spec.SetField(companydetail.FieldYDSAddress, field.TypeString, value)
+	}
+	if _u.mutation.YDSAddressCleared() {
+		_spec.ClearField(companydetail.FieldYDSAddress, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSPhone(); ok {
+		_spec.SetField(companydetail.FieldYDSPhone, field.TypeString, value)
+	}
+	if _u.mutation.YDSPhoneCleared() {
+		_spec.ClearField(companydetail.FieldYDSPhone, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSMobilePhone(); ok {
+		_spec.SetField(companydetail.FieldYDSMobilePhone, field.TypeString, value)
+	}
+	if _u.mutation.YDSMobilePhoneCleared() {
+		_spec.ClearField(companydetail.FieldYDSMobilePhone, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSEmail(); ok {
+		_spec.SetField(companydetail.FieldYDSEmail, field.TypeString, value)
+	}
+	if _u.mutation.YDSEmailCleared() {
+		_spec.ClearField(companydetail.FieldYDSEmail, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSWebsite(); ok {
+		_spec.SetField(companydetail.FieldYDSWebsite, field.TypeString, value)
+	}
+	if _u.mutation.YDSWebsiteCleared() {
+		_spec.ClearField(companydetail.FieldYDSWebsite, field.TypeString)
+	}
 	if value, ok := _u.mutation.TaxAdmin(); ok {
 		_spec.SetField(companydetail.FieldTaxAdmin, field.TypeString, value)
 	}
@@ -1211,6 +1341,106 @@ func (_u *CompanyDetailUpdateOne) SetNillableWebsite(v *string) *CompanyDetailUp
 // ClearWebsite clears the value of the "Website" field.
 func (_u *CompanyDetailUpdateOne) ClearWebsite() *CompanyDetailUpdateOne {
 	_u.mutation.ClearWebsite()
+	return _u
+}
+
+// SetYDSAddress sets the "YDSAddress" field.
+func (_u *CompanyDetailUpdateOne) SetYDSAddress(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetYDSAddress(v)
+	return _u
+}
+
+// SetNillableYDSAddress sets the "YDSAddress" field if the given value is not nil.
+func (_u *CompanyDetailUpdateOne) SetNillableYDSAddress(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetYDSAddress(*v)
+	}
+	return _u
+}
+
+// ClearYDSAddress clears the value of the "YDSAddress" field.
+func (_u *CompanyDetailUpdateOne) ClearYDSAddress() *CompanyDetailUpdateOne {
+	_u.mutation.ClearYDSAddress()
+	return _u
+}
+
+// SetYDSPhone sets the "YDSPhone" field.
+func (_u *CompanyDetailUpdateOne) SetYDSPhone(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetYDSPhone(v)
+	return _u
+}
+
+// SetNillableYDSPhone sets the "YDSPhone" field if the given value is not nil.
+func (_u *CompanyDetailUpdateOne) SetNillableYDSPhone(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetYDSPhone(*v)
+	}
+	return _u
+}
+
+// ClearYDSPhone clears the value of the "YDSPhone" field.
+func (_u *CompanyDetailUpdateOne) ClearYDSPhone() *CompanyDetailUpdateOne {
+	_u.mutation.ClearYDSPhone()
+	return _u
+}
+
+// SetYDSMobilePhone sets the "YDSMobilePhone" field.
+func (_u *CompanyDetailUpdateOne) SetYDSMobilePhone(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetYDSMobilePhone(v)
+	return _u
+}
+
+// SetNillableYDSMobilePhone sets the "YDSMobilePhone" field if the given value is not nil.
+func (_u *CompanyDetailUpdateOne) SetNillableYDSMobilePhone(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetYDSMobilePhone(*v)
+	}
+	return _u
+}
+
+// ClearYDSMobilePhone clears the value of the "YDSMobilePhone" field.
+func (_u *CompanyDetailUpdateOne) ClearYDSMobilePhone() *CompanyDetailUpdateOne {
+	_u.mutation.ClearYDSMobilePhone()
+	return _u
+}
+
+// SetYDSEmail sets the "YDSEmail" field.
+func (_u *CompanyDetailUpdateOne) SetYDSEmail(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetYDSEmail(v)
+	return _u
+}
+
+// SetNillableYDSEmail sets the "YDSEmail" field if the given value is not nil.
+func (_u *CompanyDetailUpdateOne) SetNillableYDSEmail(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetYDSEmail(*v)
+	}
+	return _u
+}
+
+// ClearYDSEmail clears the value of the "YDSEmail" field.
+func (_u *CompanyDetailUpdateOne) ClearYDSEmail() *CompanyDetailUpdateOne {
+	_u.mutation.ClearYDSEmail()
+	return _u
+}
+
+// SetYDSWebsite sets the "YDSWebsite" field.
+func (_u *CompanyDetailUpdateOne) SetYDSWebsite(v string) *CompanyDetailUpdateOne {
+	_u.mutation.SetYDSWebsite(v)
+	return _u
+}
+
+// SetNillableYDSWebsite sets the "YDSWebsite" field if the given value is not nil.
+func (_u *CompanyDetailUpdateOne) SetNillableYDSWebsite(v *string) *CompanyDetailUpdateOne {
+	if v != nil {
+		_u.SetYDSWebsite(*v)
+	}
+	return _u
+}
+
+// ClearYDSWebsite clears the value of the "YDSWebsite" field.
+func (_u *CompanyDetailUpdateOne) ClearYDSWebsite() *CompanyDetailUpdateOne {
+	_u.mutation.ClearYDSWebsite()
 	return _u
 }
 
@@ -1816,6 +2046,36 @@ func (_u *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *CompanyDe
 	}
 	if _u.mutation.WebsiteCleared() {
 		_spec.ClearField(companydetail.FieldWebsite, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSAddress(); ok {
+		_spec.SetField(companydetail.FieldYDSAddress, field.TypeString, value)
+	}
+	if _u.mutation.YDSAddressCleared() {
+		_spec.ClearField(companydetail.FieldYDSAddress, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSPhone(); ok {
+		_spec.SetField(companydetail.FieldYDSPhone, field.TypeString, value)
+	}
+	if _u.mutation.YDSPhoneCleared() {
+		_spec.ClearField(companydetail.FieldYDSPhone, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSMobilePhone(); ok {
+		_spec.SetField(companydetail.FieldYDSMobilePhone, field.TypeString, value)
+	}
+	if _u.mutation.YDSMobilePhoneCleared() {
+		_spec.ClearField(companydetail.FieldYDSMobilePhone, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSEmail(); ok {
+		_spec.SetField(companydetail.FieldYDSEmail, field.TypeString, value)
+	}
+	if _u.mutation.YDSEmailCleared() {
+		_spec.ClearField(companydetail.FieldYDSEmail, field.TypeString)
+	}
+	if value, ok := _u.mutation.YDSWebsite(); ok {
+		_spec.SetField(companydetail.FieldYDSWebsite, field.TypeString, value)
+	}
+	if _u.mutation.YDSWebsiteCleared() {
+		_spec.ClearField(companydetail.FieldYDSWebsite, field.TypeString)
 	}
 	if value, ok := _u.mutation.TaxAdmin(); ok {
 		_spec.SetField(companydetail.FieldTaxAdmin, field.TypeString, value)

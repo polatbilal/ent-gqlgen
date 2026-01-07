@@ -128,6 +128,76 @@ func (_c *CompanyDetailCreate) SetNillableWebsite(v *string) *CompanyDetailCreat
 	return _c
 }
 
+// SetYDSAddress sets the "YDSAddress" field.
+func (_c *CompanyDetailCreate) SetYDSAddress(v string) *CompanyDetailCreate {
+	_c.mutation.SetYDSAddress(v)
+	return _c
+}
+
+// SetNillableYDSAddress sets the "YDSAddress" field if the given value is not nil.
+func (_c *CompanyDetailCreate) SetNillableYDSAddress(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetYDSAddress(*v)
+	}
+	return _c
+}
+
+// SetYDSPhone sets the "YDSPhone" field.
+func (_c *CompanyDetailCreate) SetYDSPhone(v string) *CompanyDetailCreate {
+	_c.mutation.SetYDSPhone(v)
+	return _c
+}
+
+// SetNillableYDSPhone sets the "YDSPhone" field if the given value is not nil.
+func (_c *CompanyDetailCreate) SetNillableYDSPhone(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetYDSPhone(*v)
+	}
+	return _c
+}
+
+// SetYDSMobilePhone sets the "YDSMobilePhone" field.
+func (_c *CompanyDetailCreate) SetYDSMobilePhone(v string) *CompanyDetailCreate {
+	_c.mutation.SetYDSMobilePhone(v)
+	return _c
+}
+
+// SetNillableYDSMobilePhone sets the "YDSMobilePhone" field if the given value is not nil.
+func (_c *CompanyDetailCreate) SetNillableYDSMobilePhone(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetYDSMobilePhone(*v)
+	}
+	return _c
+}
+
+// SetYDSEmail sets the "YDSEmail" field.
+func (_c *CompanyDetailCreate) SetYDSEmail(v string) *CompanyDetailCreate {
+	_c.mutation.SetYDSEmail(v)
+	return _c
+}
+
+// SetNillableYDSEmail sets the "YDSEmail" field if the given value is not nil.
+func (_c *CompanyDetailCreate) SetNillableYDSEmail(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetYDSEmail(*v)
+	}
+	return _c
+}
+
+// SetYDSWebsite sets the "YDSWebsite" field.
+func (_c *CompanyDetailCreate) SetYDSWebsite(v string) *CompanyDetailCreate {
+	_c.mutation.SetYDSWebsite(v)
+	return _c
+}
+
+// SetNillableYDSWebsite sets the "YDSWebsite" field if the given value is not nil.
+func (_c *CompanyDetailCreate) SetNillableYDSWebsite(v *string) *CompanyDetailCreate {
+	if v != nil {
+		_c.SetYDSWebsite(*v)
+	}
+	return _c
+}
+
 // SetTaxAdmin sets the "TaxAdmin" field.
 func (_c *CompanyDetailCreate) SetTaxAdmin(v string) *CompanyDetailCreate {
 	_c.mutation.SetTaxAdmin(v)
@@ -575,6 +645,26 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 	if value, ok := _c.mutation.Website(); ok {
 		_spec.SetField(companydetail.FieldWebsite, field.TypeString, value)
 		_node.Website = value
+	}
+	if value, ok := _c.mutation.YDSAddress(); ok {
+		_spec.SetField(companydetail.FieldYDSAddress, field.TypeString, value)
+		_node.YDSAddress = value
+	}
+	if value, ok := _c.mutation.YDSPhone(); ok {
+		_spec.SetField(companydetail.FieldYDSPhone, field.TypeString, value)
+		_node.YDSPhone = value
+	}
+	if value, ok := _c.mutation.YDSMobilePhone(); ok {
+		_spec.SetField(companydetail.FieldYDSMobilePhone, field.TypeString, value)
+		_node.YDSMobilePhone = value
+	}
+	if value, ok := _c.mutation.YDSEmail(); ok {
+		_spec.SetField(companydetail.FieldYDSEmail, field.TypeString, value)
+		_node.YDSEmail = value
+	}
+	if value, ok := _c.mutation.YDSWebsite(); ok {
+		_spec.SetField(companydetail.FieldYDSWebsite, field.TypeString, value)
+		_node.YDSWebsite = value
 	}
 	if value, ok := _c.mutation.TaxAdmin(); ok {
 		_spec.SetField(companydetail.FieldTaxAdmin, field.TypeString, value)

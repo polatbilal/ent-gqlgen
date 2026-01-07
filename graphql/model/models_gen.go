@@ -42,6 +42,11 @@ type CompanyDetailInput struct {
 	MobilePhone            *string    `json:"MobilePhone,omitempty"`
 	Email                  *string    `json:"Email,omitempty"`
 	Website                *string    `json:"Website,omitempty"`
+	YDSAddress             *string    `json:"YDSAddress,omitempty"`
+	YDSPhone               *string    `json:"YDSPhone,omitempty"`
+	YDSMobilePhone         *string    `json:"YDSMobilePhone,omitempty"`
+	YDSEmail               *string    `json:"YDSEmail,omitempty"`
+	YDSWebsite             *string    `json:"YDSWebsite,omitempty"`
 	TaxAdmin               *string    `json:"TaxAdmin,omitempty"`
 	TaxNo                  *string    `json:"TaxNo,omitempty"`
 	ChamberInfo            *string    `json:"ChamberInfo,omitempty"`

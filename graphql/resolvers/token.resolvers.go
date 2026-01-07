@@ -56,14 +56,13 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 			}
 
 			company, err := client.CompanyDetail.Create().
-				SetName(*input.CompanyInput.Name).
 				SetCompanyCode(*input.CompanyInput.CompanyCode).
-				SetNillableAddress(input.CompanyInput.Address).
-				SetNillablePhone(input.CompanyInput.Phone).
-				SetNillableFax(input.CompanyInput.Fax).
-				SetNillableMobilePhone(input.CompanyInput.MobilePhone).
-				SetNillableEmail(input.CompanyInput.Email).
-				SetNillableWebsite(input.CompanyInput.Website).
+				SetName(*input.CompanyInput.Name).
+				SetNillableYDSAddress(input.CompanyInput.YDSAddress).
+				SetNillableYDSPhone(input.CompanyInput.YDSPhone).
+				SetNillableYDSMobilePhone(input.CompanyInput.YDSMobilePhone).
+				SetNillableYDSEmail(input.CompanyInput.YDSEmail).
+				SetNillableYDSWebsite(input.CompanyInput.YDSWebsite).
 				SetNillableTaxAdmin(input.CompanyInput.TaxAdmin).
 				SetNillableTaxNo(input.CompanyInput.TaxNo).
 				SetNillableChamberInfo(input.CompanyInput.ChamberInfo).
