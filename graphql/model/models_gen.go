@@ -178,6 +178,7 @@ type JobEngineerInput struct {
 }
 
 type JobFloorInput struct {
+	ID            *int       `json:"id,omitempty"`
 	Name          *string    `json:"Name,omitempty"`
 	Metre         *string    `json:"Metre,omitempty"`
 	MoldDate      *time.Time `json:"MoldDate,omitempty"`

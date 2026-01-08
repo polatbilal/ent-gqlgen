@@ -20,6 +20,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/graphql/helpers"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // CompanyCode is the resolver for the CompanyCode field.
@@ -54,6 +56,13 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		return nil, err
 	}
 
+	// Address için Title Case dönüşümü
+	var titleCaseAddress *string
+	if input.Address != nil {
+		caser := cases.Title(language.Turkish).String(strings.ToLower(*input.Address))
+		titleCaseAddress = &caser
+	}
+
 	// İş detayını oluştur
 	jobDetail, err := client.JobDetail.Create().
 		SetYibfNo(*input.YibfNo).
@@ -74,7 +83,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableConstructionArea(input.ConstructionArea).
 		SetNillableLeftArea(input.LeftArea).
 		SetNillableYDSAddress(input.YDSAddress).
-		SetNillableAddress(input.Address).
+		SetNillableAddress(titleCaseAddress).
 		SetNillableBuildingClass(input.BuildingClass).
 		SetNillableBuildingType(input.BuildingType).
 		SetNillableLevel(input.Level).
@@ -108,6 +117,13 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		return nil, fmt.Errorf("iş ayrıntısı bulunamadı: %v", err)
 	}
 
+	// Address için Title Case dönüşümü
+	var titleCaseAddress *string
+	if input.Address != nil {
+		caser := cases.Title(language.Turkish).String(strings.ToLower(*input.Address))
+		titleCaseAddress = &caser
+	}
+
 	// İş detayını güncelle
 	jobDetail, err = client.JobDetail.UpdateOne(jobDetail).
 		SetNillableYibfNo(input.YibfNo).
@@ -128,7 +144,7 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		SetNillableConstructionArea(input.ConstructionArea).
 		SetNillableLeftArea(input.LeftArea).
 		SetNillableYDSAddress(input.YDSAddress).
-		SetNillableAddress(input.Address).
+		SetNillableAddress(titleCaseAddress).
 		SetNillableBuildingClass(input.BuildingClass).
 		SetNillableBuildingType(input.BuildingType).
 		SetNillableLevel(input.Level).

@@ -313,7 +313,6 @@ type ComplexityRoot struct {
 		CreateAuthor          func(childComplexity int, input model.JobAuthorInput) int
 		CreateContractor      func(childComplexity int, input model.JobContractorInput) int
 		CreateEngineer        func(childComplexity int, input model.CompanyEngineerInput) int
-		CreateFloor           func(childComplexity int, input model.JobFloorInput) int
 		CreateJob             func(childComplexity int, input model.JobInput) int
 		CreateJobPayments     func(childComplexity int, input model.JobPaymentsInput) int
 		CreateOwner           func(childComplexity int, input model.JobOwnerInput) int
@@ -331,14 +330,13 @@ type ComplexityRoot struct {
 		UpdateContractor      func(childComplexity int, input model.JobContractorInput) int
 		UpdateEngineer        func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
 		UpdateEngineerByYdsid func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
-		UpdateFloor           func(childComplexity int, id int, input model.JobFloorInput) int
 		UpdateJob             func(childComplexity int, yibfNo int, input model.JobInput) int
 		UpdateJobEngineer     func(childComplexity int, input model.JobEngineerInput) int
 		UpdateOwner           func(childComplexity int, input model.JobOwnerInput) int
 		UpdatePaymentStatus   func(childComplexity int, id int, input model.JobPaymentStatusInput) int
 		UpdateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
 		UpsertEngineer        func(childComplexity int, input model.CompanyEngineerInput) int
-		UpsertFloor           func(childComplexity int, id *int, input model.JobFloorInput) int
+		UpsertFloor           func(childComplexity int, input model.JobFloorInput) int
 		UpsertJobReceipts     func(childComplexity int, id *int, input model.JobReceiptInput) int
 		UpsertPayments        func(childComplexity int, id *int, input model.JobPaymentsInput) int
 		UpsertProgress        func(childComplexity int, input model.JobProgressInput) int
@@ -413,9 +411,7 @@ type MutationResolver interface {
 	CreateEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	UpdateEngineer(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
 	UpdateEngineerByYdsid(ctx context.Context, ydsid int, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error)
-	CreateFloor(ctx context.Context, input model.JobFloorInput) (*ent.JobFloor, error)
-	UpdateFloor(ctx context.Context, id int, input model.JobFloorInput) (*ent.JobFloor, error)
-	UpsertFloor(ctx context.Context, id *int, input model.JobFloorInput) (*ent.JobFloor, error)
+	UpsertFloor(ctx context.Context, input model.JobFloorInput) (*ent.JobFloor, error)
 	DeleteFloor(ctx context.Context, id int) (*ent.JobFloor, error)
 	CreateJob(ctx context.Context, input model.JobInput) (*ent.JobDetail, error)
 	UpdateJob(ctx context.Context, yibfNo int, input model.JobInput) (*ent.JobDetail, error)
@@ -1741,17 +1737,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateEngineer(childComplexity, args["input"].(model.CompanyEngineerInput)), true
-	case "Mutation.createFloor":
-		if e.complexity.Mutation.CreateFloor == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createFloor_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateFloor(childComplexity, args["input"].(model.JobFloorInput)), true
 	case "Mutation.createJob":
 		if e.complexity.Mutation.CreateJob == nil {
 			break
@@ -1939,17 +1924,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateEngineerByYdsid(childComplexity, args["ydsid"].(int), args["input"].(model.CompanyEngineerInput)), true
-	case "Mutation.updateFloor":
-		if e.complexity.Mutation.UpdateFloor == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateFloor_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateFloor(childComplexity, args["id"].(int), args["input"].(model.JobFloorInput)), true
 	case "Mutation.updateJob":
 		if e.complexity.Mutation.UpdateJob == nil {
 			break
@@ -2026,7 +2000,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpsertFloor(childComplexity, args["id"].(*int), args["input"].(model.JobFloorInput)), true
+		return e.complexity.Mutation.UpsertFloor(childComplexity, args["input"].(model.JobFloorInput)), true
 	case "Mutation.upsertJobReceipts":
 		if e.complexity.Mutation.UpsertJobReceipts == nil {
 			break
@@ -2830,6 +2804,7 @@ extend type Mutation {
 }
 
 input JobFloorInput {
+  id: Int
   Name: String
   Metre: String
   MoldDate: Time
@@ -2848,15 +2823,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  createFloor(input: JobFloorInput!): JobFloor!
-    @goField(forceResolver: true)
-    @auth
-
-  updateFloor(id: Int!, input: JobFloorInput!): JobFloor!
-    @goField(forceResolver: true)
-    @auth
-
-  upsertFloor(id: Int, input: JobFloorInput!): JobFloor!
+  upsertFloor(input: JobFloorInput!): JobFloor!
     @goField(forceResolver: true)
     @auth
 
@@ -3320,17 +3287,6 @@ func (ec *executionContext) field_Mutation_createEngineer_args(ctx context.Conte
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_createFloor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_createJobPayments_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3553,22 +3509,6 @@ func (ec *executionContext) field_Mutation_updateEngineer_args(ctx context.Conte
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_updateFloor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNInt2int)
-	if err != nil {
-		return nil, err
-	}
-	args["id"] = arg0
-	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg1
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_updateJobEngineer_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -3648,16 +3588,11 @@ func (ec *executionContext) field_Mutation_upsertEngineer_args(ctx context.Conte
 func (ec *executionContext) field_Mutation_upsertFloor_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalOInt2ᚖint)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput)
 	if err != nil {
 		return nil, err
 	}
-	args["id"] = arg0
-	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobFloorInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobFloorInput)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg1
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -11637,158 +11572,6 @@ func (ec *executionContext) fieldContext_Mutation_updateEngineerByYDSID(ctx cont
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_createFloor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		ec.fieldContext_Mutation_createFloor,
-		func(ctx context.Context) (any, error) {
-			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().CreateFloor(ctx, fc.Args["input"].(model.JobFloorInput))
-		},
-		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
-			directive0 := next
-
-			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
-					var zeroVal *ent.JobFloor
-					return zeroVal, errors.New("directive auth is not implemented")
-				}
-				return ec.directives.Auth(ctx, nil, directive0)
-			}
-
-			next = directive1
-			return next
-		},
-		ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor,
-		true,
-		true,
-	)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createFloor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_JobFloor_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_JobFloor_Name(ctx, field)
-			case "Metre":
-				return ec.fieldContext_JobFloor_Metre(ctx, field)
-			case "MoldDate":
-				return ec.fieldContext_JobFloor_MoldDate(ctx, field)
-			case "ConcreteDate":
-				return ec.fieldContext_JobFloor_ConcreteDate(ctx, field)
-			case "Samples":
-				return ec.fieldContext_JobFloor_Samples(ctx, field)
-			case "ConcreteClass":
-				return ec.fieldContext_JobFloor_ConcreteClass(ctx, field)
-			case "WeekResult":
-				return ec.fieldContext_JobFloor_WeekResult(ctx, field)
-			case "MonthResult":
-				return ec.fieldContext_JobFloor_MonthResult(ctx, field)
-			case "Job":
-				return ec.fieldContext_JobFloor_Job(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type JobFloor", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createFloor_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateFloor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		ec.fieldContext_Mutation_updateFloor,
-		func(ctx context.Context) (any, error) {
-			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateFloor(ctx, fc.Args["id"].(int), fc.Args["input"].(model.JobFloorInput))
-		},
-		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
-			directive0 := next
-
-			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
-					var zeroVal *ent.JobFloor
-					return zeroVal, errors.New("directive auth is not implemented")
-				}
-				return ec.directives.Auth(ctx, nil, directive0)
-			}
-
-			next = directive1
-			return next
-		},
-		ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor,
-		true,
-		true,
-	)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateFloor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_JobFloor_id(ctx, field)
-			case "Name":
-				return ec.fieldContext_JobFloor_Name(ctx, field)
-			case "Metre":
-				return ec.fieldContext_JobFloor_Metre(ctx, field)
-			case "MoldDate":
-				return ec.fieldContext_JobFloor_MoldDate(ctx, field)
-			case "ConcreteDate":
-				return ec.fieldContext_JobFloor_ConcreteDate(ctx, field)
-			case "Samples":
-				return ec.fieldContext_JobFloor_Samples(ctx, field)
-			case "ConcreteClass":
-				return ec.fieldContext_JobFloor_ConcreteClass(ctx, field)
-			case "WeekResult":
-				return ec.fieldContext_JobFloor_WeekResult(ctx, field)
-			case "MonthResult":
-				return ec.fieldContext_JobFloor_MonthResult(ctx, field)
-			case "Job":
-				return ec.fieldContext_JobFloor_Job(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type JobFloor", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateFloor_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Mutation_upsertFloor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
@@ -11797,7 +11580,7 @@ func (ec *executionContext) _Mutation_upsertFloor(ctx context.Context, field gra
 		ec.fieldContext_Mutation_upsertFloor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpsertFloor(ctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobFloorInput))
+			return ec.resolvers.Mutation().UpsertFloor(ctx, fc.Args["input"].(model.JobFloorInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
@@ -18032,13 +17815,20 @@ func (ec *executionContext) unmarshalInputJobFloorInput(ctx context.Context, obj
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Name", "Metre", "MoldDate", "ConcreteDate", "Samples", "ConcreteClass", "WeekResult", "MonthResult", "YibfNo"}
+	fieldsInOrder := [...]string{"id", "Name", "Metre", "MoldDate", "ConcreteDate", "Samples", "ConcreteClass", "WeekResult", "MonthResult", "YibfNo"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
 		case "Name":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Name"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -20265,20 +20055,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "updateEngineerByYDSID":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateEngineerByYDSID(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createFloor":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createFloor(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updateFloor":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateFloor(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++

@@ -33,83 +33,16 @@ func (r *jobFloorResolver) Job(ctx context.Context, obj *ent.JobFloor) (*ent.Job
 	return relations.QueryJob().Only(ctx)
 }
 
-// CreateFloor is the resolver for the createFloor field.
-func (r *mutationResolver) CreateFloor(ctx context.Context, input model.JobFloorInput) (*ent.JobFloor, error) {
-	client := middlewares.GetClientFromContext(ctx)
-
-	caser := cases.Title(language.Turkish)
-	titleCaseName := caser.String(strings.ToLower(*input.Name))
-	uppercaseConcreteClass := strings.ToUpper(*input.ConcreteClass)
-
-	floor, err := client.JobFloor.Create().
-		SetYibfNo(*input.YibfNo).
-		SetName(titleCaseName).
-		SetMetre(*input.Metre).
-		SetNillableMoldDate(input.MoldDate).
-		SetNillableConcreteDate(input.ConcreteDate).
-		SetNillableSamples(input.Samples).
-		SetNillableConcreteClass(&uppercaseConcreteClass).
-		SetNillableWeekResult(input.WeekResult).
-		SetNillableMonthResult(input.MonthResult).
-		Save(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	// JobRelations'ı bul
-	relations, err := client.JobRelations.Query().Where(jobrelations.YibfNoEQ(*input.YibfNo)).Only(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("iş ilişkileri bulunamadı: %v", err)
-	}
-
-	// Floor'u JobRelations'a ekle
-	_, err = relations.Update().
-		AddFloors(floor).
-		Save(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("katman iş ilişkilerine eklenemedi: %v", err)
-	}
-
-	return floor, nil
-}
-
-// UpdateFloor is the resolver for the updateFloor field.
-func (r *mutationResolver) UpdateFloor(ctx context.Context, id int, input model.JobFloorInput) (*ent.JobFloor, error) {
-	client := middlewares.GetClientFromContext(ctx)
-
-	caser := cases.Title(language.Turkish)
-	titleCaseName := caser.String(strings.ToLower(*input.Name))
-	uppercaseConcreteClass := strings.ToUpper(*input.ConcreteClass)
-
-	// Update Floor
-	floor, err := client.JobFloor.UpdateOneID(id).
-		SetNillableName(&titleCaseName).
-		SetNillableMetre(input.Metre).
-		SetNillableMoldDate(input.MoldDate).
-		SetNillableConcreteDate(input.ConcreteDate).
-		SetNillableSamples(input.Samples).
-		SetNillableConcreteClass(&uppercaseConcreteClass).
-		SetNillableWeekResult(input.WeekResult).
-		SetNillableMonthResult(input.MonthResult).
-		Save(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to update floor: %v", err)
-	}
-
-	return floor, nil
-}
-
 // UpsertFloor is the resolver for the upsertFloor field.
-func (r *mutationResolver) UpsertFloor(ctx context.Context, id *int, input model.JobFloorInput) (*ent.JobFloor, error) {
+func (r *mutationResolver) UpsertFloor(ctx context.Context, input model.JobFloorInput) (*ent.JobFloor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	caser := cases.Title(language.Turkish)
-	titleCaseName := caser.String(strings.ToLower(*input.Name))
+	titleCaseName := cases.Title(language.Turkish).String(strings.ToLower(*input.Name))
 	uppercaseConcreteClass := strings.ToUpper(*input.ConcreteClass)
 
-	if id != nil {
+	if input.ID != nil {
 		// ID varsa güncelle
-		updateQuery := client.JobFloor.UpdateOneID(*id).
+		updateQuery := client.JobFloor.UpdateOneID(*input.ID).
 			SetNillableName(&titleCaseName).
 			SetNillableMetre(input.Metre).
 			SetNillableMoldDate(input.MoldDate).
