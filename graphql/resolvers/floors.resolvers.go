@@ -17,6 +17,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/graphql/generated"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // Job is the resolver for the Job field.
@@ -35,12 +37,13 @@ func (r *jobFloorResolver) Job(ctx context.Context, obj *ent.JobFloor) (*ent.Job
 func (r *mutationResolver) CreateFloor(ctx context.Context, input model.JobFloorInput) (*ent.JobFloor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	uppercaseName := strings.ToUpper(*input.Name)
+	caser := cases.Title(language.Turkish)
+	titleCaseName := caser.String(strings.ToLower(*input.Name))
 	uppercaseConcreteClass := strings.ToUpper(*input.ConcreteClass)
 
 	floor, err := client.JobFloor.Create().
 		SetYibfNo(*input.YibfNo).
-		SetName(uppercaseName).
+		SetName(titleCaseName).
 		SetMetre(*input.Metre).
 		SetNillableMoldDate(input.MoldDate).
 		SetNillableConcreteDate(input.ConcreteDate).
@@ -74,12 +77,13 @@ func (r *mutationResolver) CreateFloor(ctx context.Context, input model.JobFloor
 func (r *mutationResolver) UpdateFloor(ctx context.Context, id int, input model.JobFloorInput) (*ent.JobFloor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	uppercaseName := strings.ToUpper(*input.Name)
+	caser := cases.Title(language.Turkish)
+	titleCaseName := caser.String(strings.ToLower(*input.Name))
 	uppercaseConcreteClass := strings.ToUpper(*input.ConcreteClass)
 
 	// Update Floor
 	floor, err := client.JobFloor.UpdateOneID(id).
-		SetNillableName(&uppercaseName).
+		SetNillableName(&titleCaseName).
 		SetNillableMetre(input.Metre).
 		SetNillableMoldDate(input.MoldDate).
 		SetNillableConcreteDate(input.ConcreteDate).
@@ -99,13 +103,14 @@ func (r *mutationResolver) UpdateFloor(ctx context.Context, id int, input model.
 func (r *mutationResolver) UpsertFloor(ctx context.Context, id *int, input model.JobFloorInput) (*ent.JobFloor, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	uppercaseName := strings.ToUpper(*input.Name)
+	caser := cases.Title(language.Turkish)
+	titleCaseName := caser.String(strings.ToLower(*input.Name))
 	uppercaseConcreteClass := strings.ToUpper(*input.ConcreteClass)
 
 	if id != nil {
 		// ID varsa güncelle
 		updateQuery := client.JobFloor.UpdateOneID(*id).
-			SetNillableName(&uppercaseName).
+			SetNillableName(&titleCaseName).
 			SetNillableMetre(input.Metre).
 			SetNillableMoldDate(input.MoldDate).
 			SetNillableConcreteDate(input.ConcreteDate).
@@ -135,7 +140,7 @@ func (r *mutationResolver) UpsertFloor(ctx context.Context, id *int, input model
 
 	createQuery := client.JobFloor.Create().
 		SetYibfNo(*input.YibfNo).
-		SetName(uppercaseName).
+		SetName(titleCaseName).
 		SetMetre(*input.Metre).
 		SetNillableMoldDate(input.MoldDate).
 		SetNillableConcreteDate(input.ConcreteDate).
