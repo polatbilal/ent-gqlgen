@@ -111,7 +111,7 @@ func Employment(v time.Time) predicate.CompanyEngineer {
 }
 
 // Status applies equality check predicate on the "Status" field. It's identical to StatusEQ.
-func Status(v int) predicate.CompanyEngineer {
+func Status(v bool) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldEQ(FieldStatus, v))
 }
 
@@ -896,43 +896,13 @@ func EmploymentNotNil() predicate.CompanyEngineer {
 }
 
 // StatusEQ applies the EQ predicate on the "Status" field.
-func StatusEQ(v int) predicate.CompanyEngineer {
+func StatusEQ(v bool) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldEQ(FieldStatus, v))
 }
 
 // StatusNEQ applies the NEQ predicate on the "Status" field.
-func StatusNEQ(v int) predicate.CompanyEngineer {
+func StatusNEQ(v bool) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.FieldNEQ(FieldStatus, v))
-}
-
-// StatusIn applies the In predicate on the "Status" field.
-func StatusIn(vs ...int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldIn(FieldStatus, vs...))
-}
-
-// StatusNotIn applies the NotIn predicate on the "Status" field.
-func StatusNotIn(vs ...int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldNotIn(FieldStatus, vs...))
-}
-
-// StatusGT applies the GT predicate on the "Status" field.
-func StatusGT(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldGT(FieldStatus, v))
-}
-
-// StatusGTE applies the GTE predicate on the "Status" field.
-func StatusGTE(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldGTE(FieldStatus, v))
-}
-
-// StatusLT applies the LT predicate on the "Status" field.
-func StatusLT(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldLT(FieldStatus, v))
-}
-
-// StatusLTE applies the LTE predicate on the "Status" field.
-func StatusLTE(v int) predicate.CompanyEngineer {
-	return predicate.CompanyEngineer(sql.FieldLTE(FieldStatus, v))
 }
 
 // NoteEQ applies the EQ predicate on the "Note" field.

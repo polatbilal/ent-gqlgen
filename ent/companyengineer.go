@@ -41,7 +41,7 @@ type CompanyEngineer struct {
 	// Employment holds the value of the "Employment" field.
 	Employment time.Time `json:"Employment,omitempty"`
 	// Status holds the value of the "Status" field.
-	Status int `json:"Status,omitempty"`
+	Status bool `json:"Status,omitempty"`
 	// Note holds the value of the "Note" field.
 	Note string `json:"Note,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
@@ -179,7 +179,9 @@ func (*CompanyEngineer) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case companyengineer.FieldID, companyengineer.FieldYDSID, companyengineer.FieldStatus:
+		case companyengineer.FieldStatus:
+			values[i] = new(sql.NullBool)
+		case companyengineer.FieldID, companyengineer.FieldYDSID:
 			values[i] = new(sql.NullInt64)
 		case companyengineer.FieldName, companyengineer.FieldTcNo, companyengineer.FieldPhone, companyengineer.FieldEmail, companyengineer.FieldAddress, companyengineer.FieldCareer, companyengineer.FieldPosition, companyengineer.FieldRegisterNo, companyengineer.FieldCertNo, companyengineer.FieldNote:
 			values[i] = new(sql.NullString)
@@ -275,10 +277,10 @@ func (_m *CompanyEngineer) assignValues(columns []string, values []any) error {
 				_m.Employment = value.Time
 			}
 		case companyengineer.FieldStatus:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field Status", values[i])
 			} else if value.Valid {
-				_m.Status = int(value.Int64)
+				_m.Status = value.Bool
 			}
 		case companyengineer.FieldNote:
 			if value, ok := values[i].(*sql.NullString); !ok {

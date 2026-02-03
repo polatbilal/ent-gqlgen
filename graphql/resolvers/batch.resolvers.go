@@ -914,19 +914,31 @@ func (r *queryResolver) JobBatchQuery(ctx context.Context, yibfNo *int, state *s
 	// Kullanıcının şirketlerine göre filtrele
 	query = query.Where(jobrelations.HasCompanyWith(companydetail.CompanyCodeIn(companyCodes...)))
 
-	// State kontrolü - state değeri "all" değilse bitmişleri ve fesihlileri gösterme
-	if state == nil || *state != "all" {
-		excludedStates := []string{
-			"Bitmiş",
-			"Fesihli Tespitli",
-			"Ruhsat Redli (Ceza Sonucu)",
-			"Fesihli Tespitsiz",
-			"Fesihli Tespitsiz (Ceza Sebebiyle)",
-			"Veri Aktarımı Bekleyen (Fesihli)",
-			"Migrasyon Fesihli Eksik Müellif",
-			"Kısmi Bitmiş",
+	// State kontrolü
+	if state != nil {
+		switch *state {
+		case "all":
+			// Tüm kayıtları getir, filtre uygulanmaz
+
+		case "active":
+			// Sadece güncel olanları getir
+			query = query.Where(jobrelations.HasJobWith(jobdetail.StateEQ("Güncel")))
+
+		case "other":
+			// Güncel ve bitmiş olmayanları getir - fesihliler vs.
+			excludedStates := []string{
+				"Güncel",
+				"Bitmiş",
+			}
+			query = query.Where(jobrelations.HasJobWith(jobdetail.StateNotIn(excludedStates...)))
+
+		default:
+			// state değeri tanınmayan bir değerse, active gibi davran
+			query = query.Where(jobrelations.HasJobWith(jobdetail.StateEQ("Güncel")))
 		}
-		query = query.Where(jobrelations.HasJobWith(jobdetail.StateNotIn(excludedStates...)))
+	} else {
+		// state nil ise - active gibi davran (varsayılan davranış)
+		query = query.Where(jobrelations.HasJobWith(jobdetail.StateEQ("Güncel")))
 	}
 
 	// Eğer yibfNo belirtilmişse filtreleme yap

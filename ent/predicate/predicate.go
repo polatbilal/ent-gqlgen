@@ -18,6 +18,21 @@ type CompanyToken func(*sql.Selector)
 // CompanyUser is the predicate function for companyuser builders.
 type CompanyUser func(*sql.Selector)
 
+// FinanceAccount is the predicate function for financeaccount builders.
+type FinanceAccount func(*sql.Selector)
+
+// FinanceClass is the predicate function for financeclass builders.
+type FinanceClass func(*sql.Selector)
+
+// FinanceGroup is the predicate function for financegroup builders.
+type FinanceGroup func(*sql.Selector)
+
+// FinanceOperation is the predicate function for financeoperation builders.
+type FinanceOperation func(*sql.Selector)
+
+// FinanceResource is the predicate function for financeresource builders.
+type FinanceResource func(*sql.Selector)
+
 // JobAuthor is the predicate function for jobauthor builders.
 type JobAuthor func(*sql.Selector)
 

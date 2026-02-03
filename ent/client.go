@@ -19,6 +19,11 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
+	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
@@ -45,6 +50,16 @@ type Client struct {
 	CompanyToken *CompanyTokenClient
 	// CompanyUser is the client for interacting with the CompanyUser builders.
 	CompanyUser *CompanyUserClient
+	// FinanceAccount is the client for interacting with the FinanceAccount builders.
+	FinanceAccount *FinanceAccountClient
+	// FinanceClass is the client for interacting with the FinanceClass builders.
+	FinanceClass *FinanceClassClient
+	// FinanceGroup is the client for interacting with the FinanceGroup builders.
+	FinanceGroup *FinanceGroupClient
+	// FinanceOperation is the client for interacting with the FinanceOperation builders.
+	FinanceOperation *FinanceOperationClient
+	// FinanceResource is the client for interacting with the FinanceResource builders.
+	FinanceResource *FinanceResourceClient
 	// JobAuthor is the client for interacting with the JobAuthor builders.
 	JobAuthor *JobAuthorClient
 	// JobContractor is the client for interacting with the JobContractor builders.
@@ -84,6 +99,11 @@ func (c *Client) init() {
 	c.CompanyEngineer = NewCompanyEngineerClient(c.config)
 	c.CompanyToken = NewCompanyTokenClient(c.config)
 	c.CompanyUser = NewCompanyUserClient(c.config)
+	c.FinanceAccount = NewFinanceAccountClient(c.config)
+	c.FinanceClass = NewFinanceClassClient(c.config)
+	c.FinanceGroup = NewFinanceGroupClient(c.config)
+	c.FinanceOperation = NewFinanceOperationClient(c.config)
+	c.FinanceResource = NewFinanceResourceClient(c.config)
 	c.JobAuthor = NewJobAuthorClient(c.config)
 	c.JobContractor = NewJobContractorClient(c.config)
 	c.JobDetail = NewJobDetailClient(c.config)
@@ -185,23 +205,28 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:             ctx,
-		config:          cfg,
-		CompanyDetail:   NewCompanyDetailClient(cfg),
-		CompanyEngineer: NewCompanyEngineerClient(cfg),
-		CompanyToken:    NewCompanyTokenClient(cfg),
-		CompanyUser:     NewCompanyUserClient(cfg),
-		JobAuthor:       NewJobAuthorClient(cfg),
-		JobContractor:   NewJobContractorClient(cfg),
-		JobDetail:       NewJobDetailClient(cfg),
-		JobFloor:        NewJobFloorClient(cfg),
-		JobOwner:        NewJobOwnerClient(cfg),
-		JobPayments:     NewJobPaymentsClient(cfg),
-		JobProgress:     NewJobProgressClient(cfg),
-		JobReceipt:      NewJobReceiptClient(cfg),
-		JobRelations:    NewJobRelationsClient(cfg),
-		JobSupervisor:   NewJobSupervisorClient(cfg),
-		User:            NewUserClient(cfg),
+		ctx:              ctx,
+		config:           cfg,
+		CompanyDetail:    NewCompanyDetailClient(cfg),
+		CompanyEngineer:  NewCompanyEngineerClient(cfg),
+		CompanyToken:     NewCompanyTokenClient(cfg),
+		CompanyUser:      NewCompanyUserClient(cfg),
+		FinanceAccount:   NewFinanceAccountClient(cfg),
+		FinanceClass:     NewFinanceClassClient(cfg),
+		FinanceGroup:     NewFinanceGroupClient(cfg),
+		FinanceOperation: NewFinanceOperationClient(cfg),
+		FinanceResource:  NewFinanceResourceClient(cfg),
+		JobAuthor:        NewJobAuthorClient(cfg),
+		JobContractor:    NewJobContractorClient(cfg),
+		JobDetail:        NewJobDetailClient(cfg),
+		JobFloor:         NewJobFloorClient(cfg),
+		JobOwner:         NewJobOwnerClient(cfg),
+		JobPayments:      NewJobPaymentsClient(cfg),
+		JobProgress:      NewJobProgressClient(cfg),
+		JobReceipt:       NewJobReceiptClient(cfg),
+		JobRelations:     NewJobRelationsClient(cfg),
+		JobSupervisor:    NewJobSupervisorClient(cfg),
+		User:             NewUserClient(cfg),
 	}, nil
 }
 
@@ -219,23 +244,28 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:             ctx,
-		config:          cfg,
-		CompanyDetail:   NewCompanyDetailClient(cfg),
-		CompanyEngineer: NewCompanyEngineerClient(cfg),
-		CompanyToken:    NewCompanyTokenClient(cfg),
-		CompanyUser:     NewCompanyUserClient(cfg),
-		JobAuthor:       NewJobAuthorClient(cfg),
-		JobContractor:   NewJobContractorClient(cfg),
-		JobDetail:       NewJobDetailClient(cfg),
-		JobFloor:        NewJobFloorClient(cfg),
-		JobOwner:        NewJobOwnerClient(cfg),
-		JobPayments:     NewJobPaymentsClient(cfg),
-		JobProgress:     NewJobProgressClient(cfg),
-		JobReceipt:      NewJobReceiptClient(cfg),
-		JobRelations:    NewJobRelationsClient(cfg),
-		JobSupervisor:   NewJobSupervisorClient(cfg),
-		User:            NewUserClient(cfg),
+		ctx:              ctx,
+		config:           cfg,
+		CompanyDetail:    NewCompanyDetailClient(cfg),
+		CompanyEngineer:  NewCompanyEngineerClient(cfg),
+		CompanyToken:     NewCompanyTokenClient(cfg),
+		CompanyUser:      NewCompanyUserClient(cfg),
+		FinanceAccount:   NewFinanceAccountClient(cfg),
+		FinanceClass:     NewFinanceClassClient(cfg),
+		FinanceGroup:     NewFinanceGroupClient(cfg),
+		FinanceOperation: NewFinanceOperationClient(cfg),
+		FinanceResource:  NewFinanceResourceClient(cfg),
+		JobAuthor:        NewJobAuthorClient(cfg),
+		JobContractor:    NewJobContractorClient(cfg),
+		JobDetail:        NewJobDetailClient(cfg),
+		JobFloor:         NewJobFloorClient(cfg),
+		JobOwner:         NewJobOwnerClient(cfg),
+		JobPayments:      NewJobPaymentsClient(cfg),
+		JobProgress:      NewJobProgressClient(cfg),
+		JobReceipt:       NewJobReceiptClient(cfg),
+		JobRelations:     NewJobRelationsClient(cfg),
+		JobSupervisor:    NewJobSupervisorClient(cfg),
+		User:             NewUserClient(cfg),
 	}, nil
 }
 
@@ -265,9 +295,11 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.CompanyDetail, c.CompanyEngineer, c.CompanyToken, c.CompanyUser, c.JobAuthor,
-		c.JobContractor, c.JobDetail, c.JobFloor, c.JobOwner, c.JobPayments,
-		c.JobProgress, c.JobReceipt, c.JobRelations, c.JobSupervisor, c.User,
+		c.CompanyDetail, c.CompanyEngineer, c.CompanyToken, c.CompanyUser,
+		c.FinanceAccount, c.FinanceClass, c.FinanceGroup, c.FinanceOperation,
+		c.FinanceResource, c.JobAuthor, c.JobContractor, c.JobDetail, c.JobFloor,
+		c.JobOwner, c.JobPayments, c.JobProgress, c.JobReceipt, c.JobRelations,
+		c.JobSupervisor, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -277,9 +309,11 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.CompanyDetail, c.CompanyEngineer, c.CompanyToken, c.CompanyUser, c.JobAuthor,
-		c.JobContractor, c.JobDetail, c.JobFloor, c.JobOwner, c.JobPayments,
-		c.JobProgress, c.JobReceipt, c.JobRelations, c.JobSupervisor, c.User,
+		c.CompanyDetail, c.CompanyEngineer, c.CompanyToken, c.CompanyUser,
+		c.FinanceAccount, c.FinanceClass, c.FinanceGroup, c.FinanceOperation,
+		c.FinanceResource, c.JobAuthor, c.JobContractor, c.JobDetail, c.JobFloor,
+		c.JobOwner, c.JobPayments, c.JobProgress, c.JobReceipt, c.JobRelations,
+		c.JobSupervisor, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -296,6 +330,16 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.CompanyToken.mutate(ctx, m)
 	case *CompanyUserMutation:
 		return c.CompanyUser.mutate(ctx, m)
+	case *FinanceAccountMutation:
+		return c.FinanceAccount.mutate(ctx, m)
+	case *FinanceClassMutation:
+		return c.FinanceClass.mutate(ctx, m)
+	case *FinanceGroupMutation:
+		return c.FinanceGroup.mutate(ctx, m)
+	case *FinanceOperationMutation:
+		return c.FinanceOperation.mutate(ctx, m)
+	case *FinanceResourceMutation:
+		return c.FinanceResource.mutate(ctx, m)
 	case *JobAuthorMutation:
 		return c.JobAuthor.mutate(ctx, m)
 	case *JobContractorMutation:
@@ -488,6 +532,70 @@ func (c *CompanyDetailClient) QueryEngineers(_m *CompanyDetail) *CompanyEngineer
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryOperations queries the operations edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryOperations(_m *CompanyDetail) *FinanceOperationQuery {
+	query := (&FinanceOperationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
+			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.OperationsTable, companydetail.OperationsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryMethods queries the methods edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryMethods(_m *CompanyDetail) *FinanceClassQuery {
+	query := (&FinanceClassClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
+			sqlgraph.To(financeclass.Table, financeclass.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.MethodsTable, companydetail.MethodsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryResources queries the resources edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryResources(_m *CompanyDetail) *FinanceResourceQuery {
+	query := (&FinanceResourceClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
+			sqlgraph.To(financeresource.Table, financeresource.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.ResourcesTable, companydetail.ResourcesColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryAccounts queries the accounts edge of a CompanyDetail.
+func (c *CompanyDetailClient) QueryAccounts(_m *CompanyDetail) *FinanceAccountQuery {
+	query := (&FinanceAccountClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, id),
+			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.AccountsTable, companydetail.AccountsColumn),
 		)
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
@@ -1108,6 +1216,863 @@ func (c *CompanyUserClient) mutate(ctx context.Context, m *CompanyUserMutation) 
 		return (&CompanyUserDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown CompanyUser mutation op: %q", m.Op())
+	}
+}
+
+// FinanceAccountClient is a client for the FinanceAccount schema.
+type FinanceAccountClient struct {
+	config
+}
+
+// NewFinanceAccountClient returns a client for the FinanceAccount from the given config.
+func NewFinanceAccountClient(c config) *FinanceAccountClient {
+	return &FinanceAccountClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `financeaccount.Hooks(f(g(h())))`.
+func (c *FinanceAccountClient) Use(hooks ...Hook) {
+	c.hooks.FinanceAccount = append(c.hooks.FinanceAccount, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `financeaccount.Intercept(f(g(h())))`.
+func (c *FinanceAccountClient) Intercept(interceptors ...Interceptor) {
+	c.inters.FinanceAccount = append(c.inters.FinanceAccount, interceptors...)
+}
+
+// Create returns a builder for creating a FinanceAccount entity.
+func (c *FinanceAccountClient) Create() *FinanceAccountCreate {
+	mutation := newFinanceAccountMutation(c.config, OpCreate)
+	return &FinanceAccountCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of FinanceAccount entities.
+func (c *FinanceAccountClient) CreateBulk(builders ...*FinanceAccountCreate) *FinanceAccountCreateBulk {
+	return &FinanceAccountCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FinanceAccountClient) MapCreateBulk(slice any, setFunc func(*FinanceAccountCreate, int)) *FinanceAccountCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FinanceAccountCreateBulk{err: fmt.Errorf("calling to FinanceAccountClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FinanceAccountCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FinanceAccountCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for FinanceAccount.
+func (c *FinanceAccountClient) Update() *FinanceAccountUpdate {
+	mutation := newFinanceAccountMutation(c.config, OpUpdate)
+	return &FinanceAccountUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FinanceAccountClient) UpdateOne(_m *FinanceAccount) *FinanceAccountUpdateOne {
+	mutation := newFinanceAccountMutation(c.config, OpUpdateOne, withFinanceAccount(_m))
+	return &FinanceAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FinanceAccountClient) UpdateOneID(id int) *FinanceAccountUpdateOne {
+	mutation := newFinanceAccountMutation(c.config, OpUpdateOne, withFinanceAccountID(id))
+	return &FinanceAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for FinanceAccount.
+func (c *FinanceAccountClient) Delete() *FinanceAccountDelete {
+	mutation := newFinanceAccountMutation(c.config, OpDelete)
+	return &FinanceAccountDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FinanceAccountClient) DeleteOne(_m *FinanceAccount) *FinanceAccountDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FinanceAccountClient) DeleteOneID(id int) *FinanceAccountDeleteOne {
+	builder := c.Delete().Where(financeaccount.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FinanceAccountDeleteOne{builder}
+}
+
+// Query returns a query builder for FinanceAccount.
+func (c *FinanceAccountClient) Query() *FinanceAccountQuery {
+	return &FinanceAccountQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFinanceAccount},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a FinanceAccount entity by its id.
+func (c *FinanceAccountClient) Get(ctx context.Context, id int) (*FinanceAccount, error) {
+	return c.Query().Where(financeaccount.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FinanceAccountClient) GetX(ctx context.Context, id int) *FinanceAccount {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCompany queries the company edge of a FinanceAccount.
+func (c *FinanceAccountClient) QueryCompany(_m *FinanceAccount) *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeaccount.Table, financeaccount.FieldID, id),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeaccount.CompanyTable, financeaccount.CompanyColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryAccounts queries the accounts edge of a FinanceAccount.
+func (c *FinanceAccountClient) QueryAccounts(_m *FinanceAccount) *FinanceOperationQuery {
+	query := (&FinanceOperationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeaccount.Table, financeaccount.FieldID, id),
+			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, financeaccount.AccountsTable, financeaccount.AccountsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *FinanceAccountClient) Hooks() []Hook {
+	return c.hooks.FinanceAccount
+}
+
+// Interceptors returns the client interceptors.
+func (c *FinanceAccountClient) Interceptors() []Interceptor {
+	return c.inters.FinanceAccount
+}
+
+func (c *FinanceAccountClient) mutate(ctx context.Context, m *FinanceAccountMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FinanceAccountCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FinanceAccountUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FinanceAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FinanceAccountDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown FinanceAccount mutation op: %q", m.Op())
+	}
+}
+
+// FinanceClassClient is a client for the FinanceClass schema.
+type FinanceClassClient struct {
+	config
+}
+
+// NewFinanceClassClient returns a client for the FinanceClass from the given config.
+func NewFinanceClassClient(c config) *FinanceClassClient {
+	return &FinanceClassClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `financeclass.Hooks(f(g(h())))`.
+func (c *FinanceClassClient) Use(hooks ...Hook) {
+	c.hooks.FinanceClass = append(c.hooks.FinanceClass, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `financeclass.Intercept(f(g(h())))`.
+func (c *FinanceClassClient) Intercept(interceptors ...Interceptor) {
+	c.inters.FinanceClass = append(c.inters.FinanceClass, interceptors...)
+}
+
+// Create returns a builder for creating a FinanceClass entity.
+func (c *FinanceClassClient) Create() *FinanceClassCreate {
+	mutation := newFinanceClassMutation(c.config, OpCreate)
+	return &FinanceClassCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of FinanceClass entities.
+func (c *FinanceClassClient) CreateBulk(builders ...*FinanceClassCreate) *FinanceClassCreateBulk {
+	return &FinanceClassCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FinanceClassClient) MapCreateBulk(slice any, setFunc func(*FinanceClassCreate, int)) *FinanceClassCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FinanceClassCreateBulk{err: fmt.Errorf("calling to FinanceClassClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FinanceClassCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FinanceClassCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for FinanceClass.
+func (c *FinanceClassClient) Update() *FinanceClassUpdate {
+	mutation := newFinanceClassMutation(c.config, OpUpdate)
+	return &FinanceClassUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FinanceClassClient) UpdateOne(_m *FinanceClass) *FinanceClassUpdateOne {
+	mutation := newFinanceClassMutation(c.config, OpUpdateOne, withFinanceClass(_m))
+	return &FinanceClassUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FinanceClassClient) UpdateOneID(id int) *FinanceClassUpdateOne {
+	mutation := newFinanceClassMutation(c.config, OpUpdateOne, withFinanceClassID(id))
+	return &FinanceClassUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for FinanceClass.
+func (c *FinanceClassClient) Delete() *FinanceClassDelete {
+	mutation := newFinanceClassMutation(c.config, OpDelete)
+	return &FinanceClassDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FinanceClassClient) DeleteOne(_m *FinanceClass) *FinanceClassDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FinanceClassClient) DeleteOneID(id int) *FinanceClassDeleteOne {
+	builder := c.Delete().Where(financeclass.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FinanceClassDeleteOne{builder}
+}
+
+// Query returns a query builder for FinanceClass.
+func (c *FinanceClassClient) Query() *FinanceClassQuery {
+	return &FinanceClassQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFinanceClass},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a FinanceClass entity by its id.
+func (c *FinanceClassClient) Get(ctx context.Context, id int) (*FinanceClass, error) {
+	return c.Query().Where(financeclass.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FinanceClassClient) GetX(ctx context.Context, id int) *FinanceClass {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCompany queries the company edge of a FinanceClass.
+func (c *FinanceClassClient) QueryCompany(_m *FinanceClass) *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeclass.Table, financeclass.FieldID, id),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeclass.CompanyTable, financeclass.CompanyColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryMethods queries the methods edge of a FinanceClass.
+func (c *FinanceClassClient) QueryMethods(_m *FinanceClass) *FinanceOperationQuery {
+	query := (&FinanceOperationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeclass.Table, financeclass.FieldID, id),
+			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, financeclass.MethodsTable, financeclass.MethodsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *FinanceClassClient) Hooks() []Hook {
+	return c.hooks.FinanceClass
+}
+
+// Interceptors returns the client interceptors.
+func (c *FinanceClassClient) Interceptors() []Interceptor {
+	return c.inters.FinanceClass
+}
+
+func (c *FinanceClassClient) mutate(ctx context.Context, m *FinanceClassMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FinanceClassCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FinanceClassUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FinanceClassUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FinanceClassDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown FinanceClass mutation op: %q", m.Op())
+	}
+}
+
+// FinanceGroupClient is a client for the FinanceGroup schema.
+type FinanceGroupClient struct {
+	config
+}
+
+// NewFinanceGroupClient returns a client for the FinanceGroup from the given config.
+func NewFinanceGroupClient(c config) *FinanceGroupClient {
+	return &FinanceGroupClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `financegroup.Hooks(f(g(h())))`.
+func (c *FinanceGroupClient) Use(hooks ...Hook) {
+	c.hooks.FinanceGroup = append(c.hooks.FinanceGroup, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `financegroup.Intercept(f(g(h())))`.
+func (c *FinanceGroupClient) Intercept(interceptors ...Interceptor) {
+	c.inters.FinanceGroup = append(c.inters.FinanceGroup, interceptors...)
+}
+
+// Create returns a builder for creating a FinanceGroup entity.
+func (c *FinanceGroupClient) Create() *FinanceGroupCreate {
+	mutation := newFinanceGroupMutation(c.config, OpCreate)
+	return &FinanceGroupCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of FinanceGroup entities.
+func (c *FinanceGroupClient) CreateBulk(builders ...*FinanceGroupCreate) *FinanceGroupCreateBulk {
+	return &FinanceGroupCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FinanceGroupClient) MapCreateBulk(slice any, setFunc func(*FinanceGroupCreate, int)) *FinanceGroupCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FinanceGroupCreateBulk{err: fmt.Errorf("calling to FinanceGroupClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FinanceGroupCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FinanceGroupCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for FinanceGroup.
+func (c *FinanceGroupClient) Update() *FinanceGroupUpdate {
+	mutation := newFinanceGroupMutation(c.config, OpUpdate)
+	return &FinanceGroupUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FinanceGroupClient) UpdateOne(_m *FinanceGroup) *FinanceGroupUpdateOne {
+	mutation := newFinanceGroupMutation(c.config, OpUpdateOne, withFinanceGroup(_m))
+	return &FinanceGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FinanceGroupClient) UpdateOneID(id int) *FinanceGroupUpdateOne {
+	mutation := newFinanceGroupMutation(c.config, OpUpdateOne, withFinanceGroupID(id))
+	return &FinanceGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for FinanceGroup.
+func (c *FinanceGroupClient) Delete() *FinanceGroupDelete {
+	mutation := newFinanceGroupMutation(c.config, OpDelete)
+	return &FinanceGroupDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FinanceGroupClient) DeleteOne(_m *FinanceGroup) *FinanceGroupDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FinanceGroupClient) DeleteOneID(id int) *FinanceGroupDeleteOne {
+	builder := c.Delete().Where(financegroup.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FinanceGroupDeleteOne{builder}
+}
+
+// Query returns a query builder for FinanceGroup.
+func (c *FinanceGroupClient) Query() *FinanceGroupQuery {
+	return &FinanceGroupQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFinanceGroup},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a FinanceGroup entity by its id.
+func (c *FinanceGroupClient) Get(ctx context.Context, id int) (*FinanceGroup, error) {
+	return c.Query().Where(financegroup.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FinanceGroupClient) GetX(ctx context.Context, id int) *FinanceGroup {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryGroups queries the groups edge of a FinanceGroup.
+func (c *FinanceGroupClient) QueryGroups(_m *FinanceGroup) *FinanceOperationQuery {
+	query := (&FinanceOperationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financegroup.Table, financegroup.FieldID, id),
+			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, financegroup.GroupsTable, financegroup.GroupsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *FinanceGroupClient) Hooks() []Hook {
+	return c.hooks.FinanceGroup
+}
+
+// Interceptors returns the client interceptors.
+func (c *FinanceGroupClient) Interceptors() []Interceptor {
+	return c.inters.FinanceGroup
+}
+
+func (c *FinanceGroupClient) mutate(ctx context.Context, m *FinanceGroupMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FinanceGroupCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FinanceGroupUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FinanceGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FinanceGroupDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown FinanceGroup mutation op: %q", m.Op())
+	}
+}
+
+// FinanceOperationClient is a client for the FinanceOperation schema.
+type FinanceOperationClient struct {
+	config
+}
+
+// NewFinanceOperationClient returns a client for the FinanceOperation from the given config.
+func NewFinanceOperationClient(c config) *FinanceOperationClient {
+	return &FinanceOperationClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `financeoperation.Hooks(f(g(h())))`.
+func (c *FinanceOperationClient) Use(hooks ...Hook) {
+	c.hooks.FinanceOperation = append(c.hooks.FinanceOperation, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `financeoperation.Intercept(f(g(h())))`.
+func (c *FinanceOperationClient) Intercept(interceptors ...Interceptor) {
+	c.inters.FinanceOperation = append(c.inters.FinanceOperation, interceptors...)
+}
+
+// Create returns a builder for creating a FinanceOperation entity.
+func (c *FinanceOperationClient) Create() *FinanceOperationCreate {
+	mutation := newFinanceOperationMutation(c.config, OpCreate)
+	return &FinanceOperationCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of FinanceOperation entities.
+func (c *FinanceOperationClient) CreateBulk(builders ...*FinanceOperationCreate) *FinanceOperationCreateBulk {
+	return &FinanceOperationCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FinanceOperationClient) MapCreateBulk(slice any, setFunc func(*FinanceOperationCreate, int)) *FinanceOperationCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FinanceOperationCreateBulk{err: fmt.Errorf("calling to FinanceOperationClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FinanceOperationCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FinanceOperationCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for FinanceOperation.
+func (c *FinanceOperationClient) Update() *FinanceOperationUpdate {
+	mutation := newFinanceOperationMutation(c.config, OpUpdate)
+	return &FinanceOperationUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FinanceOperationClient) UpdateOne(_m *FinanceOperation) *FinanceOperationUpdateOne {
+	mutation := newFinanceOperationMutation(c.config, OpUpdateOne, withFinanceOperation(_m))
+	return &FinanceOperationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FinanceOperationClient) UpdateOneID(id int) *FinanceOperationUpdateOne {
+	mutation := newFinanceOperationMutation(c.config, OpUpdateOne, withFinanceOperationID(id))
+	return &FinanceOperationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for FinanceOperation.
+func (c *FinanceOperationClient) Delete() *FinanceOperationDelete {
+	mutation := newFinanceOperationMutation(c.config, OpDelete)
+	return &FinanceOperationDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FinanceOperationClient) DeleteOne(_m *FinanceOperation) *FinanceOperationDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FinanceOperationClient) DeleteOneID(id int) *FinanceOperationDeleteOne {
+	builder := c.Delete().Where(financeoperation.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FinanceOperationDeleteOne{builder}
+}
+
+// Query returns a query builder for FinanceOperation.
+func (c *FinanceOperationClient) Query() *FinanceOperationQuery {
+	return &FinanceOperationQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFinanceOperation},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a FinanceOperation entity by its id.
+func (c *FinanceOperationClient) Get(ctx context.Context, id int) (*FinanceOperation, error) {
+	return c.Query().Where(financeoperation.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FinanceOperationClient) GetX(ctx context.Context, id int) *FinanceOperation {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryAccount queries the account edge of a FinanceOperation.
+func (c *FinanceOperationClient) QueryAccount(_m *FinanceOperation) *FinanceAccountQuery {
+	query := (&FinanceAccountClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
+			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.AccountTable, financeoperation.AccountColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryMethod queries the method edge of a FinanceOperation.
+func (c *FinanceOperationClient) QueryMethod(_m *FinanceOperation) *FinanceClassQuery {
+	query := (&FinanceClassClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
+			sqlgraph.To(financeclass.Table, financeclass.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.MethodTable, financeoperation.MethodColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryCompany queries the company edge of a FinanceOperation.
+func (c *FinanceOperationClient) QueryCompany(_m *FinanceOperation) *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.CompanyTable, financeoperation.CompanyColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryResource queries the resource edge of a FinanceOperation.
+func (c *FinanceOperationClient) QueryResource(_m *FinanceOperation) *FinanceResourceQuery {
+	query := (&FinanceResourceClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
+			sqlgraph.To(financeresource.Table, financeresource.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.ResourceTable, financeoperation.ResourceColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryGroup queries the group edge of a FinanceOperation.
+func (c *FinanceOperationClient) QueryGroup(_m *FinanceOperation) *FinanceGroupQuery {
+	query := (&FinanceGroupClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
+			sqlgraph.To(financegroup.Table, financegroup.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.GroupTable, financeoperation.GroupColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *FinanceOperationClient) Hooks() []Hook {
+	return c.hooks.FinanceOperation
+}
+
+// Interceptors returns the client interceptors.
+func (c *FinanceOperationClient) Interceptors() []Interceptor {
+	return c.inters.FinanceOperation
+}
+
+func (c *FinanceOperationClient) mutate(ctx context.Context, m *FinanceOperationMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FinanceOperationCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FinanceOperationUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FinanceOperationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FinanceOperationDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown FinanceOperation mutation op: %q", m.Op())
+	}
+}
+
+// FinanceResourceClient is a client for the FinanceResource schema.
+type FinanceResourceClient struct {
+	config
+}
+
+// NewFinanceResourceClient returns a client for the FinanceResource from the given config.
+func NewFinanceResourceClient(c config) *FinanceResourceClient {
+	return &FinanceResourceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `financeresource.Hooks(f(g(h())))`.
+func (c *FinanceResourceClient) Use(hooks ...Hook) {
+	c.hooks.FinanceResource = append(c.hooks.FinanceResource, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `financeresource.Intercept(f(g(h())))`.
+func (c *FinanceResourceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.FinanceResource = append(c.inters.FinanceResource, interceptors...)
+}
+
+// Create returns a builder for creating a FinanceResource entity.
+func (c *FinanceResourceClient) Create() *FinanceResourceCreate {
+	mutation := newFinanceResourceMutation(c.config, OpCreate)
+	return &FinanceResourceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of FinanceResource entities.
+func (c *FinanceResourceClient) CreateBulk(builders ...*FinanceResourceCreate) *FinanceResourceCreateBulk {
+	return &FinanceResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FinanceResourceClient) MapCreateBulk(slice any, setFunc func(*FinanceResourceCreate, int)) *FinanceResourceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FinanceResourceCreateBulk{err: fmt.Errorf("calling to FinanceResourceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FinanceResourceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FinanceResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for FinanceResource.
+func (c *FinanceResourceClient) Update() *FinanceResourceUpdate {
+	mutation := newFinanceResourceMutation(c.config, OpUpdate)
+	return &FinanceResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FinanceResourceClient) UpdateOne(_m *FinanceResource) *FinanceResourceUpdateOne {
+	mutation := newFinanceResourceMutation(c.config, OpUpdateOne, withFinanceResource(_m))
+	return &FinanceResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FinanceResourceClient) UpdateOneID(id int) *FinanceResourceUpdateOne {
+	mutation := newFinanceResourceMutation(c.config, OpUpdateOne, withFinanceResourceID(id))
+	return &FinanceResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for FinanceResource.
+func (c *FinanceResourceClient) Delete() *FinanceResourceDelete {
+	mutation := newFinanceResourceMutation(c.config, OpDelete)
+	return &FinanceResourceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FinanceResourceClient) DeleteOne(_m *FinanceResource) *FinanceResourceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FinanceResourceClient) DeleteOneID(id int) *FinanceResourceDeleteOne {
+	builder := c.Delete().Where(financeresource.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FinanceResourceDeleteOne{builder}
+}
+
+// Query returns a query builder for FinanceResource.
+func (c *FinanceResourceClient) Query() *FinanceResourceQuery {
+	return &FinanceResourceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFinanceResource},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a FinanceResource entity by its id.
+func (c *FinanceResourceClient) Get(ctx context.Context, id int) (*FinanceResource, error) {
+	return c.Query().Where(financeresource.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FinanceResourceClient) GetX(ctx context.Context, id int) *FinanceResource {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCompany queries the company edge of a FinanceResource.
+func (c *FinanceResourceClient) QueryCompany(_m *FinanceResource) *CompanyDetailQuery {
+	query := (&CompanyDetailClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeresource.Table, financeresource.FieldID, id),
+			sqlgraph.To(companydetail.Table, companydetail.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeresource.CompanyTable, financeresource.CompanyColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryResources queries the resources edge of a FinanceResource.
+func (c *FinanceResourceClient) QueryResources(_m *FinanceResource) *FinanceOperationQuery {
+	query := (&FinanceOperationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeresource.Table, financeresource.FieldID, id),
+			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, financeresource.ResourcesTable, financeresource.ResourcesColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *FinanceResourceClient) Hooks() []Hook {
+	return c.hooks.FinanceResource
+}
+
+// Interceptors returns the client interceptors.
+func (c *FinanceResourceClient) Interceptors() []Interceptor {
+	return c.inters.FinanceResource
+}
+
+func (c *FinanceResourceClient) mutate(ctx context.Context, m *FinanceResourceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FinanceResourceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FinanceResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FinanceResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FinanceResourceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown FinanceResource mutation op: %q", m.Op())
 	}
 }
 
@@ -3025,12 +3990,14 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		CompanyDetail, CompanyEngineer, CompanyToken, CompanyUser, JobAuthor,
+		CompanyDetail, CompanyEngineer, CompanyToken, CompanyUser, FinanceAccount,
+		FinanceClass, FinanceGroup, FinanceOperation, FinanceResource, JobAuthor,
 		JobContractor, JobDetail, JobFloor, JobOwner, JobPayments, JobProgress,
 		JobReceipt, JobRelations, JobSupervisor, User []ent.Hook
 	}
 	inters struct {
-		CompanyDetail, CompanyEngineer, CompanyToken, CompanyUser, JobAuthor,
+		CompanyDetail, CompanyEngineer, CompanyToken, CompanyUser, FinanceAccount,
+		FinanceClass, FinanceGroup, FinanceOperation, FinanceResource, JobAuthor,
 		JobContractor, JobDetail, JobFloor, JobOwner, JobPayments, JobProgress,
 		JobReceipt, JobRelations, JobSupervisor, User []ent.Interceptor
 	}

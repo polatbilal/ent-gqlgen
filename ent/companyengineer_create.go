@@ -177,13 +177,13 @@ func (_c *CompanyEngineerCreate) SetNillableEmployment(v *time.Time) *CompanyEng
 }
 
 // SetStatus sets the "Status" field.
-func (_c *CompanyEngineerCreate) SetStatus(v int) *CompanyEngineerCreate {
+func (_c *CompanyEngineerCreate) SetStatus(v bool) *CompanyEngineerCreate {
 	_c.mutation.SetStatus(v)
 	return _c
 }
 
 // SetNillableStatus sets the "Status" field if the given value is not nil.
-func (_c *CompanyEngineerCreate) SetNillableStatus(v *int) *CompanyEngineerCreate {
+func (_c *CompanyEngineerCreate) SetNillableStatus(v *bool) *CompanyEngineerCreate {
 	if v != nil {
 		_c.SetStatus(*v)
 	}
@@ -509,7 +509,7 @@ func (_c *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Creat
 		_node.Employment = value
 	}
 	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)
+		_spec.SetField(companyengineer.FieldStatus, field.TypeBool, value)
 		_node.Status = value
 	}
 	if value, ok := _c.mutation.Note(); ok {

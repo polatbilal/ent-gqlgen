@@ -11,7 +11,7 @@ type CompanyEngineer {
   RegisterNo: String
   CertNo: String
   Employment: Time
-  Status: Int
+  Status: Boolean
   Note: String
   CompanyCode: Int
   Company: CompanyDetail
@@ -31,7 +31,7 @@ input CompanyEngineerInput {
   RegisterNo: String
   CertNo: String
   Employment: Time
-  Status: Int
+  Status: Boolean
   Note: String
 }
 

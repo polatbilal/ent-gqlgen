@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+	"github.com/shopspring/decimal"
 )
 
 // ID filters vertices based on their ID field.
@@ -91,7 +92,7 @@ func LevelApprove(v float64) predicate.JobPayments {
 }
 
 // Amount applies equality check predicate on the "Amount" field. It's identical to AmountEQ.
-func Amount(v float64) predicate.JobPayments {
+func Amount(v *decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldAmount, v))
 }
 
@@ -123,6 +124,11 @@ func InvoiceReceived(v bool) predicate.JobPayments {
 // InvoiceReceivedDate applies equality check predicate on the "InvoiceReceivedDate" field. It's identical to InvoiceReceivedDateEQ.
 func InvoiceReceivedDate(v time.Time) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceReceivedDate, v))
+}
+
+// InvoiceAmount applies equality check predicate on the "InvoiceAmount" field. It's identical to InvoiceAmountEQ.
+func InvoiceAmount(v *decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceAmount, v))
 }
 
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
@@ -516,42 +522,42 @@ func LevelApproveNotNil() predicate.JobPayments {
 }
 
 // AmountEQ applies the EQ predicate on the "Amount" field.
-func AmountEQ(v float64) predicate.JobPayments {
+func AmountEQ(v *decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldAmount, v))
 }
 
 // AmountNEQ applies the NEQ predicate on the "Amount" field.
-func AmountNEQ(v float64) predicate.JobPayments {
+func AmountNEQ(v *decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNEQ(FieldAmount, v))
 }
 
 // AmountIn applies the In predicate on the "Amount" field.
-func AmountIn(vs ...float64) predicate.JobPayments {
+func AmountIn(vs ...*decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldIn(FieldAmount, vs...))
 }
 
 // AmountNotIn applies the NotIn predicate on the "Amount" field.
-func AmountNotIn(vs ...float64) predicate.JobPayments {
+func AmountNotIn(vs ...*decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNotIn(FieldAmount, vs...))
 }
 
 // AmountGT applies the GT predicate on the "Amount" field.
-func AmountGT(v float64) predicate.JobPayments {
+func AmountGT(v *decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldGT(FieldAmount, v))
 }
 
 // AmountGTE applies the GTE predicate on the "Amount" field.
-func AmountGTE(v float64) predicate.JobPayments {
+func AmountGTE(v *decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldGTE(FieldAmount, v))
 }
 
 // AmountLT applies the LT predicate on the "Amount" field.
-func AmountLT(v float64) predicate.JobPayments {
+func AmountLT(v *decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldLT(FieldAmount, v))
 }
 
 // AmountLTE applies the LTE predicate on the "Amount" field.
-func AmountLTE(v float64) predicate.JobPayments {
+func AmountLTE(v *decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldLTE(FieldAmount, v))
 }
 
@@ -773,6 +779,56 @@ func InvoiceReceivedDateIsNil() predicate.JobPayments {
 // InvoiceReceivedDateNotNil applies the NotNil predicate on the "InvoiceReceivedDate" field.
 func InvoiceReceivedDateNotNil() predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceReceivedDate))
+}
+
+// InvoiceAmountEQ applies the EQ predicate on the "InvoiceAmount" field.
+func InvoiceAmountEQ(v *decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceAmount, v))
+}
+
+// InvoiceAmountNEQ applies the NEQ predicate on the "InvoiceAmount" field.
+func InvoiceAmountNEQ(v *decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldInvoiceAmount, v))
+}
+
+// InvoiceAmountIn applies the In predicate on the "InvoiceAmount" field.
+func InvoiceAmountIn(vs ...*decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldInvoiceAmount, vs...))
+}
+
+// InvoiceAmountNotIn applies the NotIn predicate on the "InvoiceAmount" field.
+func InvoiceAmountNotIn(vs ...*decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldInvoiceAmount, vs...))
+}
+
+// InvoiceAmountGT applies the GT predicate on the "InvoiceAmount" field.
+func InvoiceAmountGT(v *decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldInvoiceAmount, v))
+}
+
+// InvoiceAmountGTE applies the GTE predicate on the "InvoiceAmount" field.
+func InvoiceAmountGTE(v *decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldInvoiceAmount, v))
+}
+
+// InvoiceAmountLT applies the LT predicate on the "InvoiceAmount" field.
+func InvoiceAmountLT(v *decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldInvoiceAmount, v))
+}
+
+// InvoiceAmountLTE applies the LTE predicate on the "InvoiceAmount" field.
+func InvoiceAmountLTE(v *decimal.NullDecimal) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldInvoiceAmount, v))
+}
+
+// InvoiceAmountIsNil applies the IsNil predicate on the "InvoiceAmount" field.
+func InvoiceAmountIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldInvoiceAmount))
+}
+
+// InvoiceAmountNotNil applies the NotNil predicate on the "InvoiceAmount" field.
+func InvoiceAmountNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceAmount))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

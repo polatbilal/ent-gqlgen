@@ -42,6 +42,8 @@ const (
 	FieldInvoiceReceived = "invoice_received"
 	// FieldInvoiceReceivedDate holds the string denoting the invoicereceiveddate field in the database.
 	FieldInvoiceReceivedDate = "invoice_received_date"
+	// FieldInvoiceAmount holds the string denoting the invoiceamount field in the database.
+	FieldInvoiceAmount = "invoice_amount"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -76,6 +78,7 @@ var Columns = []string{
 	FieldInvoiceIssuedDate,
 	FieldInvoiceReceived,
 	FieldInvoiceReceivedDate,
+	FieldInvoiceAmount,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -198,6 +201,11 @@ func ByInvoiceReceived(opts ...sql.OrderTermOption) OrderOption {
 // ByInvoiceReceivedDate orders the results by the InvoiceReceivedDate field.
 func ByInvoiceReceivedDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldInvoiceReceivedDate, opts...).ToFunc()
+}
+
+// ByInvoiceAmount orders the results by the InvoiceAmount field.
+func ByInvoiceAmount(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInvoiceAmount, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

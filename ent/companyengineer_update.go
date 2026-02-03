@@ -252,23 +252,16 @@ func (_u *CompanyEngineerUpdate) ClearEmployment() *CompanyEngineerUpdate {
 }
 
 // SetStatus sets the "Status" field.
-func (_u *CompanyEngineerUpdate) SetStatus(v int) *CompanyEngineerUpdate {
-	_u.mutation.ResetStatus()
+func (_u *CompanyEngineerUpdate) SetStatus(v bool) *CompanyEngineerUpdate {
 	_u.mutation.SetStatus(v)
 	return _u
 }
 
 // SetNillableStatus sets the "Status" field if the given value is not nil.
-func (_u *CompanyEngineerUpdate) SetNillableStatus(v *int) *CompanyEngineerUpdate {
+func (_u *CompanyEngineerUpdate) SetNillableStatus(v *bool) *CompanyEngineerUpdate {
 	if v != nil {
 		_u.SetStatus(*v)
 	}
-	return _u
-}
-
-// AddStatus adds value to the "Status" field.
-func (_u *CompanyEngineerUpdate) AddStatus(v int) *CompanyEngineerUpdate {
-	_u.mutation.AddStatus(v)
 	return _u
 }
 
@@ -742,10 +735,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 		_spec.ClearField(companyengineer.FieldEmployment, field.TypeTime)
 	}
 	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)
-	}
-	if value, ok := _u.mutation.AddedStatus(); ok {
-		_spec.AddField(companyengineer.FieldStatus, field.TypeInt, value)
+		_spec.SetField(companyengineer.FieldStatus, field.TypeBool, value)
 	}
 	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)
@@ -1390,23 +1380,16 @@ func (_u *CompanyEngineerUpdateOne) ClearEmployment() *CompanyEngineerUpdateOne 
 }
 
 // SetStatus sets the "Status" field.
-func (_u *CompanyEngineerUpdateOne) SetStatus(v int) *CompanyEngineerUpdateOne {
-	_u.mutation.ResetStatus()
+func (_u *CompanyEngineerUpdateOne) SetStatus(v bool) *CompanyEngineerUpdateOne {
 	_u.mutation.SetStatus(v)
 	return _u
 }
 
 // SetNillableStatus sets the "Status" field if the given value is not nil.
-func (_u *CompanyEngineerUpdateOne) SetNillableStatus(v *int) *CompanyEngineerUpdateOne {
+func (_u *CompanyEngineerUpdateOne) SetNillableStatus(v *bool) *CompanyEngineerUpdateOne {
 	if v != nil {
 		_u.SetStatus(*v)
 	}
-	return _u
-}
-
-// AddStatus adds value to the "Status" field.
-func (_u *CompanyEngineerUpdateOne) AddStatus(v int) *CompanyEngineerUpdateOne {
-	_u.mutation.AddStatus(v)
 	return _u
 }
 
@@ -1910,10 +1893,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 		_spec.ClearField(companyengineer.FieldEmployment, field.TypeTime)
 	}
 	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(companyengineer.FieldStatus, field.TypeInt, value)
-	}
-	if value, ok := _u.mutation.AddedStatus(); ok {
-		_spec.AddField(companyengineer.FieldStatus, field.TypeInt, value)
+		_spec.SetField(companyengineer.FieldStatus, field.TypeBool, value)
 	}
 	if value, ok := _u.mutation.Note(); ok {
 		_spec.SetField(companyengineer.FieldNote, field.TypeString, value)

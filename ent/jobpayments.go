@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/shopspring/decimal"
 )
 
 // JobPayments is the model entity for the JobPayments schema.
@@ -33,7 +34,7 @@ type JobPayments struct {
 	// LevelApprove holds the value of the "LevelApprove" field.
 	LevelApprove float64 `json:"LevelApprove,omitempty"`
 	// Amount holds the value of the "Amount" field.
-	Amount float64 `json:"Amount,omitempty"`
+	Amount *decimal.NullDecimal `json:"Amount,omitempty"`
 	// AtMunicipality holds the value of the "AtMunicipality" field.
 	AtMunicipality bool `json:"AtMunicipality,omitempty"`
 	// MunicipalityDeliveryDate holds the value of the "MunicipalityDeliveryDate" field.
@@ -46,6 +47,8 @@ type JobPayments struct {
 	InvoiceReceived bool `json:"InvoiceReceived,omitempty"`
 	// InvoiceReceivedDate holds the value of the "InvoiceReceivedDate" field.
 	InvoiceReceivedDate time.Time `json:"InvoiceReceivedDate,omitempty"`
+	// InvoiceAmount holds the value of the "InvoiceAmount" field.
+	InvoiceAmount *decimal.NullDecimal `json:"InvoiceAmount,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -84,9 +87,11 @@ func (*JobPayments) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case jobpayments.FieldAmount, jobpayments.FieldInvoiceAmount:
+			values[i] = new(decimal.NullDecimal)
 		case jobpayments.FieldAtMunicipality, jobpayments.FieldInvoiceIssued, jobpayments.FieldInvoiceReceived:
 			values[i] = new(sql.NullBool)
-		case jobpayments.FieldLevelRequest, jobpayments.FieldLevelApprove, jobpayments.FieldAmount:
+		case jobpayments.FieldLevelRequest, jobpayments.FieldLevelApprove:
 			values[i] = new(sql.NullFloat64)
 		case jobpayments.FieldID, jobpayments.FieldYibfNo, jobpayments.FieldPaymentNo:
 			values[i] = new(sql.NullInt64)
@@ -160,10 +165,10 @@ func (_m *JobPayments) assignValues(columns []string, values []any) error {
 				_m.LevelApprove = value.Float64
 			}
 		case jobpayments.FieldAmount:
-			if value, ok := values[i].(*sql.NullFloat64); !ok {
+			if value, ok := values[i].(*decimal.NullDecimal); !ok {
 				return fmt.Errorf("unexpected type %T for field Amount", values[i])
-			} else if value.Valid {
-				_m.Amount = value.Float64
+			} else if value != nil {
+				_m.Amount = value
 			}
 		case jobpayments.FieldAtMunicipality:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -200,6 +205,12 @@ func (_m *JobPayments) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field InvoiceReceivedDate", values[i])
 			} else if value.Valid {
 				_m.InvoiceReceivedDate = value.Time
+			}
+		case jobpayments.FieldInvoiceAmount:
+			if value, ok := values[i].(*decimal.NullDecimal); !ok {
+				return fmt.Errorf("unexpected type %T for field InvoiceAmount", values[i])
+			} else if value != nil {
+				_m.InvoiceAmount = value
 			}
 		case jobpayments.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -302,6 +313,9 @@ func (_m *JobPayments) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("InvoiceReceivedDate=")
 	builder.WriteString(_m.InvoiceReceivedDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("InvoiceAmount=")
+	builder.WriteString(fmt.Sprintf("%v", _m.InvoiceAmount))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))

@@ -57,6 +57,66 @@ func (f CompanyUserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CompanyUserMutation", m)
 }
 
+// The FinanceAccountFunc type is an adapter to allow the use of ordinary
+// function as FinanceAccount mutator.
+type FinanceAccountFunc func(context.Context, *ent.FinanceAccountMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FinanceAccountFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FinanceAccountMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinanceAccountMutation", m)
+}
+
+// The FinanceClassFunc type is an adapter to allow the use of ordinary
+// function as FinanceClass mutator.
+type FinanceClassFunc func(context.Context, *ent.FinanceClassMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FinanceClassFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FinanceClassMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinanceClassMutation", m)
+}
+
+// The FinanceGroupFunc type is an adapter to allow the use of ordinary
+// function as FinanceGroup mutator.
+type FinanceGroupFunc func(context.Context, *ent.FinanceGroupMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FinanceGroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FinanceGroupMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinanceGroupMutation", m)
+}
+
+// The FinanceOperationFunc type is an adapter to allow the use of ordinary
+// function as FinanceOperation mutator.
+type FinanceOperationFunc func(context.Context, *ent.FinanceOperationMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FinanceOperationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FinanceOperationMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinanceOperationMutation", m)
+}
+
+// The FinanceResourceFunc type is an adapter to allow the use of ordinary
+// function as FinanceResource mutator.
+type FinanceResourceFunc func(context.Context, *ent.FinanceResourceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FinanceResourceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FinanceResourceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinanceResourceMutation", m)
+}
+
 // The JobAuthorFunc type is an adapter to allow the use of ordinary
 // function as JobAuthor mutator.
 type JobAuthorFunc func(context.Context, *ent.JobAuthorMutation) (ent.Value, error)

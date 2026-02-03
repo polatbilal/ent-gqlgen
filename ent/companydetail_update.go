@@ -15,6 +15,10 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
@@ -681,6 +685,66 @@ func (_u *CompanyDetailUpdate) AddEngineers(v ...*CompanyEngineer) *CompanyDetai
 	return _u.AddEngineerIDs(ids...)
 }
 
+// AddOperationIDs adds the "operations" edge to the FinanceOperation entity by IDs.
+func (_u *CompanyDetailUpdate) AddOperationIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddOperationIDs(ids...)
+	return _u
+}
+
+// AddOperations adds the "operations" edges to the FinanceOperation entity.
+func (_u *CompanyDetailUpdate) AddOperations(v ...*FinanceOperation) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddOperationIDs(ids...)
+}
+
+// AddMethodIDs adds the "methods" edge to the FinanceClass entity by IDs.
+func (_u *CompanyDetailUpdate) AddMethodIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddMethodIDs(ids...)
+	return _u
+}
+
+// AddMethods adds the "methods" edges to the FinanceClass entity.
+func (_u *CompanyDetailUpdate) AddMethods(v ...*FinanceClass) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddMethodIDs(ids...)
+}
+
+// AddResourceIDs adds the "resources" edge to the FinanceResource entity by IDs.
+func (_u *CompanyDetailUpdate) AddResourceIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddResourceIDs(ids...)
+	return _u
+}
+
+// AddResources adds the "resources" edges to the FinanceResource entity.
+func (_u *CompanyDetailUpdate) AddResources(v ...*FinanceResource) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddResourceIDs(ids...)
+}
+
+// AddAccountIDs adds the "accounts" edge to the FinanceAccount entity by IDs.
+func (_u *CompanyDetailUpdate) AddAccountIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddAccountIDs(ids...)
+	return _u
+}
+
+// AddAccounts adds the "accounts" edges to the FinanceAccount entity.
+func (_u *CompanyDetailUpdate) AddAccounts(v ...*FinanceAccount) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddAccountIDs(ids...)
+}
+
 // Mutation returns the CompanyDetailMutation object of the builder.
 func (_u *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
 	return _u.mutation
@@ -768,6 +832,90 @@ func (_u *CompanyDetailUpdate) RemoveEngineers(v ...*CompanyEngineer) *CompanyDe
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveEngineerIDs(ids...)
+}
+
+// ClearOperations clears all "operations" edges to the FinanceOperation entity.
+func (_u *CompanyDetailUpdate) ClearOperations() *CompanyDetailUpdate {
+	_u.mutation.ClearOperations()
+	return _u
+}
+
+// RemoveOperationIDs removes the "operations" edge to FinanceOperation entities by IDs.
+func (_u *CompanyDetailUpdate) RemoveOperationIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemoveOperationIDs(ids...)
+	return _u
+}
+
+// RemoveOperations removes "operations" edges to FinanceOperation entities.
+func (_u *CompanyDetailUpdate) RemoveOperations(v ...*FinanceOperation) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveOperationIDs(ids...)
+}
+
+// ClearMethods clears all "methods" edges to the FinanceClass entity.
+func (_u *CompanyDetailUpdate) ClearMethods() *CompanyDetailUpdate {
+	_u.mutation.ClearMethods()
+	return _u
+}
+
+// RemoveMethodIDs removes the "methods" edge to FinanceClass entities by IDs.
+func (_u *CompanyDetailUpdate) RemoveMethodIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemoveMethodIDs(ids...)
+	return _u
+}
+
+// RemoveMethods removes "methods" edges to FinanceClass entities.
+func (_u *CompanyDetailUpdate) RemoveMethods(v ...*FinanceClass) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveMethodIDs(ids...)
+}
+
+// ClearResources clears all "resources" edges to the FinanceResource entity.
+func (_u *CompanyDetailUpdate) ClearResources() *CompanyDetailUpdate {
+	_u.mutation.ClearResources()
+	return _u
+}
+
+// RemoveResourceIDs removes the "resources" edge to FinanceResource entities by IDs.
+func (_u *CompanyDetailUpdate) RemoveResourceIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemoveResourceIDs(ids...)
+	return _u
+}
+
+// RemoveResources removes "resources" edges to FinanceResource entities.
+func (_u *CompanyDetailUpdate) RemoveResources(v ...*FinanceResource) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveResourceIDs(ids...)
+}
+
+// ClearAccounts clears all "accounts" edges to the FinanceAccount entity.
+func (_u *CompanyDetailUpdate) ClearAccounts() *CompanyDetailUpdate {
+	_u.mutation.ClearAccounts()
+	return _u
+}
+
+// RemoveAccountIDs removes the "accounts" edge to FinanceAccount entities by IDs.
+func (_u *CompanyDetailUpdate) RemoveAccountIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemoveAccountIDs(ids...)
+	return _u
+}
+
+// RemoveAccounts removes "accounts" edges to FinanceAccount entities.
+func (_u *CompanyDetailUpdate) RemoveAccounts(v ...*FinanceAccount) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveAccountIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -1162,6 +1310,186 @@ func (_u *CompanyDetailUpdate) sqlSave(ctx context.Context) (_node int, err erro
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.OperationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.OperationsTable,
+			Columns: []string{companydetail.OperationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedOperationsIDs(); len(nodes) > 0 && !_u.mutation.OperationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.OperationsTable,
+			Columns: []string{companydetail.OperationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.OperationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.OperationsTable,
+			Columns: []string{companydetail.OperationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.MethodsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.MethodsTable,
+			Columns: []string{companydetail.MethodsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedMethodsIDs(); len(nodes) > 0 && !_u.mutation.MethodsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.MethodsTable,
+			Columns: []string{companydetail.MethodsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.MethodsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.MethodsTable,
+			Columns: []string{companydetail.MethodsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.ResourcesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.ResourcesTable,
+			Columns: []string{companydetail.ResourcesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedResourcesIDs(); len(nodes) > 0 && !_u.mutation.ResourcesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.ResourcesTable,
+			Columns: []string{companydetail.ResourcesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.ResourcesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.ResourcesTable,
+			Columns: []string{companydetail.ResourcesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.AccountsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.AccountsTable,
+			Columns: []string{companydetail.AccountsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedAccountsIDs(); len(nodes) > 0 && !_u.mutation.AccountsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.AccountsTable,
+			Columns: []string{companydetail.AccountsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.AccountsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.AccountsTable,
+			Columns: []string{companydetail.AccountsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -1838,6 +2166,66 @@ func (_u *CompanyDetailUpdateOne) AddEngineers(v ...*CompanyEngineer) *CompanyDe
 	return _u.AddEngineerIDs(ids...)
 }
 
+// AddOperationIDs adds the "operations" edge to the FinanceOperation entity by IDs.
+func (_u *CompanyDetailUpdateOne) AddOperationIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddOperationIDs(ids...)
+	return _u
+}
+
+// AddOperations adds the "operations" edges to the FinanceOperation entity.
+func (_u *CompanyDetailUpdateOne) AddOperations(v ...*FinanceOperation) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddOperationIDs(ids...)
+}
+
+// AddMethodIDs adds the "methods" edge to the FinanceClass entity by IDs.
+func (_u *CompanyDetailUpdateOne) AddMethodIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddMethodIDs(ids...)
+	return _u
+}
+
+// AddMethods adds the "methods" edges to the FinanceClass entity.
+func (_u *CompanyDetailUpdateOne) AddMethods(v ...*FinanceClass) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddMethodIDs(ids...)
+}
+
+// AddResourceIDs adds the "resources" edge to the FinanceResource entity by IDs.
+func (_u *CompanyDetailUpdateOne) AddResourceIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddResourceIDs(ids...)
+	return _u
+}
+
+// AddResources adds the "resources" edges to the FinanceResource entity.
+func (_u *CompanyDetailUpdateOne) AddResources(v ...*FinanceResource) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddResourceIDs(ids...)
+}
+
+// AddAccountIDs adds the "accounts" edge to the FinanceAccount entity by IDs.
+func (_u *CompanyDetailUpdateOne) AddAccountIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddAccountIDs(ids...)
+	return _u
+}
+
+// AddAccounts adds the "accounts" edges to the FinanceAccount entity.
+func (_u *CompanyDetailUpdateOne) AddAccounts(v ...*FinanceAccount) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddAccountIDs(ids...)
+}
+
 // Mutation returns the CompanyDetailMutation object of the builder.
 func (_u *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
 	return _u.mutation
@@ -1925,6 +2313,90 @@ func (_u *CompanyDetailUpdateOne) RemoveEngineers(v ...*CompanyEngineer) *Compan
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveEngineerIDs(ids...)
+}
+
+// ClearOperations clears all "operations" edges to the FinanceOperation entity.
+func (_u *CompanyDetailUpdateOne) ClearOperations() *CompanyDetailUpdateOne {
+	_u.mutation.ClearOperations()
+	return _u
+}
+
+// RemoveOperationIDs removes the "operations" edge to FinanceOperation entities by IDs.
+func (_u *CompanyDetailUpdateOne) RemoveOperationIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemoveOperationIDs(ids...)
+	return _u
+}
+
+// RemoveOperations removes "operations" edges to FinanceOperation entities.
+func (_u *CompanyDetailUpdateOne) RemoveOperations(v ...*FinanceOperation) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveOperationIDs(ids...)
+}
+
+// ClearMethods clears all "methods" edges to the FinanceClass entity.
+func (_u *CompanyDetailUpdateOne) ClearMethods() *CompanyDetailUpdateOne {
+	_u.mutation.ClearMethods()
+	return _u
+}
+
+// RemoveMethodIDs removes the "methods" edge to FinanceClass entities by IDs.
+func (_u *CompanyDetailUpdateOne) RemoveMethodIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemoveMethodIDs(ids...)
+	return _u
+}
+
+// RemoveMethods removes "methods" edges to FinanceClass entities.
+func (_u *CompanyDetailUpdateOne) RemoveMethods(v ...*FinanceClass) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveMethodIDs(ids...)
+}
+
+// ClearResources clears all "resources" edges to the FinanceResource entity.
+func (_u *CompanyDetailUpdateOne) ClearResources() *CompanyDetailUpdateOne {
+	_u.mutation.ClearResources()
+	return _u
+}
+
+// RemoveResourceIDs removes the "resources" edge to FinanceResource entities by IDs.
+func (_u *CompanyDetailUpdateOne) RemoveResourceIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemoveResourceIDs(ids...)
+	return _u
+}
+
+// RemoveResources removes "resources" edges to FinanceResource entities.
+func (_u *CompanyDetailUpdateOne) RemoveResources(v ...*FinanceResource) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveResourceIDs(ids...)
+}
+
+// ClearAccounts clears all "accounts" edges to the FinanceAccount entity.
+func (_u *CompanyDetailUpdateOne) ClearAccounts() *CompanyDetailUpdateOne {
+	_u.mutation.ClearAccounts()
+	return _u
+}
+
+// RemoveAccountIDs removes the "accounts" edge to FinanceAccount entities by IDs.
+func (_u *CompanyDetailUpdateOne) RemoveAccountIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemoveAccountIDs(ids...)
+	return _u
+}
+
+// RemoveAccounts removes "accounts" edges to FinanceAccount entities.
+func (_u *CompanyDetailUpdateOne) RemoveAccounts(v ...*FinanceAccount) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveAccountIDs(ids...)
 }
 
 // Where appends a list predicates to the CompanyDetailUpdate builder.
@@ -2349,6 +2821,186 @@ func (_u *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *CompanyDe
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.OperationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.OperationsTable,
+			Columns: []string{companydetail.OperationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedOperationsIDs(); len(nodes) > 0 && !_u.mutation.OperationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.OperationsTable,
+			Columns: []string{companydetail.OperationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.OperationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.OperationsTable,
+			Columns: []string{companydetail.OperationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.MethodsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.MethodsTable,
+			Columns: []string{companydetail.MethodsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedMethodsIDs(); len(nodes) > 0 && !_u.mutation.MethodsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.MethodsTable,
+			Columns: []string{companydetail.MethodsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.MethodsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.MethodsTable,
+			Columns: []string{companydetail.MethodsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.ResourcesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.ResourcesTable,
+			Columns: []string{companydetail.ResourcesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedResourcesIDs(); len(nodes) > 0 && !_u.mutation.ResourcesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.ResourcesTable,
+			Columns: []string{companydetail.ResourcesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.ResourcesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.ResourcesTable,
+			Columns: []string{companydetail.ResourcesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.AccountsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.AccountsTable,
+			Columns: []string{companydetail.AccountsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedAccountsIDs(); len(nodes) > 0 && !_u.mutation.AccountsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.AccountsTable,
+			Columns: []string{companydetail.AccountsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.AccountsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.AccountsTable,
+			Columns: []string{companydetail.AccountsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

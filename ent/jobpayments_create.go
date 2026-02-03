@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/shopspring/decimal"
 )
 
 // JobPaymentsCreate is the builder for creating a JobPayments entity.
@@ -120,16 +121,8 @@ func (_c *JobPaymentsCreate) SetNillableLevelApprove(v *float64) *JobPaymentsCre
 }
 
 // SetAmount sets the "Amount" field.
-func (_c *JobPaymentsCreate) SetAmount(v float64) *JobPaymentsCreate {
+func (_c *JobPaymentsCreate) SetAmount(v *decimal.NullDecimal) *JobPaymentsCreate {
 	_c.mutation.SetAmount(v)
-	return _c
-}
-
-// SetNillableAmount sets the "Amount" field if the given value is not nil.
-func (_c *JobPaymentsCreate) SetNillableAmount(v *float64) *JobPaymentsCreate {
-	if v != nil {
-		_c.SetAmount(*v)
-	}
 	return _c
 }
 
@@ -214,6 +207,12 @@ func (_c *JobPaymentsCreate) SetNillableInvoiceReceivedDate(v *time.Time) *JobPa
 	if v != nil {
 		_c.SetInvoiceReceivedDate(*v)
 	}
+	return _c
+}
+
+// SetInvoiceAmount sets the "InvoiceAmount" field.
+func (_c *JobPaymentsCreate) SetInvoiceAmount(v *decimal.NullDecimal) *JobPaymentsCreate {
+	_c.mutation.SetInvoiceAmount(v)
 	return _c
 }
 
@@ -402,7 +401,7 @@ func (_c *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) {
 		_node.LevelApprove = value
 	}
 	if value, ok := _c.mutation.Amount(); ok {
-		_spec.SetField(jobpayments.FieldAmount, field.TypeFloat64, value)
+		_spec.SetField(jobpayments.FieldAmount, field.TypeOther, value)
 		_node.Amount = value
 	}
 	if value, ok := _c.mutation.AtMunicipality(); ok {
@@ -428,6 +427,10 @@ func (_c *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.InvoiceReceivedDate(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime, value)
 		_node.InvoiceReceivedDate = value
+	}
+	if value, ok := _c.mutation.InvoiceAmount(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceAmount, field.TypeOther, value)
+		_node.InvoiceAmount = value
 	}
 	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)

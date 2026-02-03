@@ -128,8 +128,6 @@ func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, in
 func (r *queryResolver) CompanyToken(ctx context.Context, companyCode *int) (*ent.CompanyToken, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	fmt.Println("companyCode", companyCode)
-
 	// Önce departmentId olarak deneyelim
 	companyToken, err := client.CompanyToken.Query().
 		Where(companytoken.DepartmentIdEQ(*companyCode)).

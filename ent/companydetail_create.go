@@ -14,6 +14,10 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 )
 
@@ -510,6 +514,66 @@ func (_c *CompanyDetailCreate) AddEngineers(v ...*CompanyEngineer) *CompanyDetai
 	return _c.AddEngineerIDs(ids...)
 }
 
+// AddOperationIDs adds the "operations" edge to the FinanceOperation entity by IDs.
+func (_c *CompanyDetailCreate) AddOperationIDs(ids ...int) *CompanyDetailCreate {
+	_c.mutation.AddOperationIDs(ids...)
+	return _c
+}
+
+// AddOperations adds the "operations" edges to the FinanceOperation entity.
+func (_c *CompanyDetailCreate) AddOperations(v ...*FinanceOperation) *CompanyDetailCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddOperationIDs(ids...)
+}
+
+// AddMethodIDs adds the "methods" edge to the FinanceClass entity by IDs.
+func (_c *CompanyDetailCreate) AddMethodIDs(ids ...int) *CompanyDetailCreate {
+	_c.mutation.AddMethodIDs(ids...)
+	return _c
+}
+
+// AddMethods adds the "methods" edges to the FinanceClass entity.
+func (_c *CompanyDetailCreate) AddMethods(v ...*FinanceClass) *CompanyDetailCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddMethodIDs(ids...)
+}
+
+// AddResourceIDs adds the "resources" edge to the FinanceResource entity by IDs.
+func (_c *CompanyDetailCreate) AddResourceIDs(ids ...int) *CompanyDetailCreate {
+	_c.mutation.AddResourceIDs(ids...)
+	return _c
+}
+
+// AddResources adds the "resources" edges to the FinanceResource entity.
+func (_c *CompanyDetailCreate) AddResources(v ...*FinanceResource) *CompanyDetailCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddResourceIDs(ids...)
+}
+
+// AddAccountIDs adds the "accounts" edge to the FinanceAccount entity by IDs.
+func (_c *CompanyDetailCreate) AddAccountIDs(ids ...int) *CompanyDetailCreate {
+	_c.mutation.AddAccountIDs(ids...)
+	return _c
+}
+
+// AddAccounts adds the "accounts" edges to the FinanceAccount entity.
+func (_c *CompanyDetailCreate) AddAccounts(v ...*FinanceAccount) *CompanyDetailCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddAccountIDs(ids...)
+}
+
 // Mutation returns the CompanyDetailMutation object of the builder.
 func (_c *CompanyDetailCreate) Mutation() *CompanyDetailMutation {
 	return _c.mutation
@@ -795,6 +859,70 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.OperationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.OperationsTable,
+			Columns: []string{companydetail.OperationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.MethodsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.MethodsTable,
+			Columns: []string{companydetail.MethodsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.ResourcesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.ResourcesTable,
+			Columns: []string{companydetail.ResourcesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.AccountsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.AccountsTable,
+			Columns: []string{companydetail.AccountsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

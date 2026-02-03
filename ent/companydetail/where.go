@@ -2287,6 +2287,98 @@ func HasEngineersWith(preds ...predicate.CompanyEngineer) predicate.CompanyDetai
 	})
 }
 
+// HasOperations applies the HasEdge predicate on the "operations" edge.
+func HasOperations() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, OperationsTable, OperationsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasOperationsWith applies the HasEdge predicate on the "operations" edge with a given conditions (other predicates).
+func HasOperationsWith(preds ...predicate.FinanceOperation) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newOperationsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasMethods applies the HasEdge predicate on the "methods" edge.
+func HasMethods() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, MethodsTable, MethodsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasMethodsWith applies the HasEdge predicate on the "methods" edge with a given conditions (other predicates).
+func HasMethodsWith(preds ...predicate.FinanceClass) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newMethodsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasResources applies the HasEdge predicate on the "resources" edge.
+func HasResources() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, ResourcesTable, ResourcesColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasResourcesWith applies the HasEdge predicate on the "resources" edge with a given conditions (other predicates).
+func HasResourcesWith(preds ...predicate.FinanceResource) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newResourcesStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasAccounts applies the HasEdge predicate on the "accounts" edge.
+func HasAccounts() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, AccountsTable, AccountsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasAccountsWith applies the HasEdge predicate on the "accounts" edge with a given conditions (other predicates).
+func HasAccountsWith(preds ...predicate.FinanceAccount) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newAccountsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.CompanyDetail) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.AndPredicates(predicates...))

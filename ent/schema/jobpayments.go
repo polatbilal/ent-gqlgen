@@ -4,8 +4,10 @@ import (
 	"time"
 
 	"entgo.io/ent"
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"github.com/shopspring/decimal"
 )
 
 // JobProgress holds the schema definition for the JobProgress entity.
@@ -23,13 +25,24 @@ func (JobPayments) Fields() []ent.Field {
 		field.String("State").Optional(),
 		field.Float("LevelRequest").Optional(),
 		field.Float("LevelApprove").Optional(),
-		field.Float("Amount").Optional(),
+		field.
+			Other("Amount", &decimal.NullDecimal{}).
+			Optional().
+			SchemaType(map[string]string{
+				dialect.Postgres: "numeric(12,2)",
+			}),
 		field.Bool("AtMunicipality").Optional().Default(false),
 		field.Time("MunicipalityDeliveryDate").Optional(),
 		field.Bool("InvoiceIssued").Optional().Default(false),
 		field.Time("InvoiceIssuedDate").Optional(),
 		field.Bool("InvoiceReceived").Optional().Default(false),
 		field.Time("InvoiceReceivedDate").Optional(),
+		field.
+			Other("InvoiceAmount", &decimal.NullDecimal{}).
+			Optional().
+			SchemaType(map[string]string{
+				dialect.Postgres: "numeric(12,2)",
+			}),
 
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),

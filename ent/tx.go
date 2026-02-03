@@ -20,6 +20,16 @@ type Tx struct {
 	CompanyToken *CompanyTokenClient
 	// CompanyUser is the client for interacting with the CompanyUser builders.
 	CompanyUser *CompanyUserClient
+	// FinanceAccount is the client for interacting with the FinanceAccount builders.
+	FinanceAccount *FinanceAccountClient
+	// FinanceClass is the client for interacting with the FinanceClass builders.
+	FinanceClass *FinanceClassClient
+	// FinanceGroup is the client for interacting with the FinanceGroup builders.
+	FinanceGroup *FinanceGroupClient
+	// FinanceOperation is the client for interacting with the FinanceOperation builders.
+	FinanceOperation *FinanceOperationClient
+	// FinanceResource is the client for interacting with the FinanceResource builders.
+	FinanceResource *FinanceResourceClient
 	// JobAuthor is the client for interacting with the JobAuthor builders.
 	JobAuthor *JobAuthorClient
 	// JobContractor is the client for interacting with the JobContractor builders.
@@ -177,6 +187,11 @@ func (tx *Tx) init() {
 	tx.CompanyEngineer = NewCompanyEngineerClient(tx.config)
 	tx.CompanyToken = NewCompanyTokenClient(tx.config)
 	tx.CompanyUser = NewCompanyUserClient(tx.config)
+	tx.FinanceAccount = NewFinanceAccountClient(tx.config)
+	tx.FinanceClass = NewFinanceClassClient(tx.config)
+	tx.FinanceGroup = NewFinanceGroupClient(tx.config)
+	tx.FinanceOperation = NewFinanceOperationClient(tx.config)
+	tx.FinanceResource = NewFinanceResourceClient(tx.config)
 	tx.JobAuthor = NewJobAuthorClient(tx.config)
 	tx.JobContractor = NewJobContractorClient(tx.config)
 	tx.JobDetail = NewJobDetailClient(tx.config)

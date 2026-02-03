@@ -5,18 +5,18 @@ go 1.25.5
 require (
 	entgo.io/ent v0.14.5
 	github.com/99designs/gqlgen v0.17.85
-	github.com/go-sql-driver/mysql v1.9.3
 	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/joho/godotenv v1.5.1
+	github.com/lib/pq v1.10.9
+	github.com/shopspring/decimal v1.4.0
 	github.com/valyala/fasthttp v1.68.0
 	github.com/vektah/gqlparser/v2 v2.5.31
 	golang.org/x/sync v0.19.0
 )
 
 require (
-	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/bmatcuk/doublestar v1.3.4 // indirect

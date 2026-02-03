@@ -56,6 +56,54 @@ func (_m *CompanyDetail) Engineers(ctx context.Context) (result []*CompanyEngine
 	return result, err
 }
 
+func (_m *CompanyDetail) Operations(ctx context.Context) (result []*FinanceOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.OperationsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *CompanyDetail) Methods(ctx context.Context) (result []*FinanceClass, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedMethods(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.MethodsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryMethods().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *CompanyDetail) Resources(ctx context.Context) (result []*FinanceResource, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedResources(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.ResourcesOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryResources().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *CompanyDetail) Accounts(ctx context.Context) (result []*FinanceAccount, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedAccounts(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.AccountsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryAccounts().All(ctx)
+	}
+	return result, err
+}
+
 func (_m *CompanyEngineer) Company(ctx context.Context) (*CompanyDetail, error) {
 	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
@@ -182,6 +230,118 @@ func (_m *CompanyUser) User(ctx context.Context) (*User, error) {
 		result, err = _m.QueryUser().Only(ctx)
 	}
 	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceAccount) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceAccount) Accounts(ctx context.Context) (result []*FinanceOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedAccounts(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.AccountsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryAccounts().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceClass) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceClass) Methods(ctx context.Context) (result []*FinanceOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedMethods(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.MethodsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryMethods().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceGroup) Groups(ctx context.Context) (result []*FinanceOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedGroups(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.GroupsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryGroups().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceOperation) Account(ctx context.Context) (*FinanceAccount, error) {
+	result, err := _m.Edges.AccountOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryAccount().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceOperation) Method(ctx context.Context) (*FinanceClass, error) {
+	result, err := _m.Edges.MethodOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryMethod().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceOperation) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceOperation) Resource(ctx context.Context) (*FinanceResource, error) {
+	result, err := _m.Edges.ResourceOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryResource().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceOperation) Group(ctx context.Context) (*FinanceGroup, error) {
+	result, err := _m.Edges.GroupOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryGroup().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceResource) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceResource) Resources(ctx context.Context) (result []*FinanceOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedResources(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.ResourcesOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryResources().All(ctx)
+	}
+	return result, err
 }
 
 func (_m *JobAuthor) Authors(ctx context.Context) (result []*JobRelations, err error) {

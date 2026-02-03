@@ -95,16 +95,28 @@ type CompanyDetailEdges struct {
 	Tokens []*CompanyToken `json:"tokens,omitempty"`
 	// Engineers holds the value of the engineers edge.
 	Engineers []*CompanyEngineer `json:"engineers,omitempty"`
+	// Operations holds the value of the operations edge.
+	Operations []*FinanceOperation `json:"operations,omitempty"`
+	// Methods holds the value of the methods edge.
+	Methods []*FinanceClass `json:"methods,omitempty"`
+	// Resources holds the value of the resources edge.
+	Resources []*FinanceResource `json:"resources,omitempty"`
+	// Accounts holds the value of the accounts edge.
+	Accounts []*FinanceAccount `json:"accounts,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [4]bool
+	loadedTypes [8]bool
 	// totalCount holds the count of the edges above.
-	totalCount [4]map[string]int
+	totalCount [8]map[string]int
 
-	namedJobs      map[string][]*JobRelations
-	namedUsers     map[string][]*CompanyUser
-	namedTokens    map[string][]*CompanyToken
-	namedEngineers map[string][]*CompanyEngineer
+	namedJobs       map[string][]*JobRelations
+	namedUsers      map[string][]*CompanyUser
+	namedTokens     map[string][]*CompanyToken
+	namedEngineers  map[string][]*CompanyEngineer
+	namedOperations map[string][]*FinanceOperation
+	namedMethods    map[string][]*FinanceClass
+	namedResources  map[string][]*FinanceResource
+	namedAccounts   map[string][]*FinanceAccount
 }
 
 // JobsOrErr returns the Jobs value or an error if the edge
@@ -141,6 +153,42 @@ func (e CompanyDetailEdges) EngineersOrErr() ([]*CompanyEngineer, error) {
 		return e.Engineers, nil
 	}
 	return nil, &NotLoadedError{edge: "engineers"}
+}
+
+// OperationsOrErr returns the Operations value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) OperationsOrErr() ([]*FinanceOperation, error) {
+	if e.loadedTypes[4] {
+		return e.Operations, nil
+	}
+	return nil, &NotLoadedError{edge: "operations"}
+}
+
+// MethodsOrErr returns the Methods value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) MethodsOrErr() ([]*FinanceClass, error) {
+	if e.loadedTypes[5] {
+		return e.Methods, nil
+	}
+	return nil, &NotLoadedError{edge: "methods"}
+}
+
+// ResourcesOrErr returns the Resources value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) ResourcesOrErr() ([]*FinanceResource, error) {
+	if e.loadedTypes[6] {
+		return e.Resources, nil
+	}
+	return nil, &NotLoadedError{edge: "resources"}
+}
+
+// AccountsOrErr returns the Accounts value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) AccountsOrErr() ([]*FinanceAccount, error) {
+	if e.loadedTypes[7] {
+		return e.Accounts, nil
+	}
+	return nil, &NotLoadedError{edge: "accounts"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -396,6 +444,26 @@ func (_m *CompanyDetail) QueryEngineers() *CompanyEngineerQuery {
 	return NewCompanyDetailClient(_m.config).QueryEngineers(_m)
 }
 
+// QueryOperations queries the "operations" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryOperations() *FinanceOperationQuery {
+	return NewCompanyDetailClient(_m.config).QueryOperations(_m)
+}
+
+// QueryMethods queries the "methods" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryMethods() *FinanceClassQuery {
+	return NewCompanyDetailClient(_m.config).QueryMethods(_m)
+}
+
+// QueryResources queries the "resources" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryResources() *FinanceResourceQuery {
+	return NewCompanyDetailClient(_m.config).QueryResources(_m)
+}
+
+// QueryAccounts queries the "accounts" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryAccounts() *FinanceAccountQuery {
+	return NewCompanyDetailClient(_m.config).QueryAccounts(_m)
+}
+
 // Update returns a builder for updating this CompanyDetail.
 // Note that you need to call CompanyDetail.Unwrap() before calling this method if this CompanyDetail
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -608,6 +676,102 @@ func (_m *CompanyDetail) appendNamedEngineers(name string, edges ...*CompanyEngi
 		_m.Edges.namedEngineers[name] = []*CompanyEngineer{}
 	} else {
 		_m.Edges.namedEngineers[name] = append(_m.Edges.namedEngineers[name], edges...)
+	}
+}
+
+// NamedOperations returns the Operations named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *CompanyDetail) NamedOperations(name string) ([]*FinanceOperation, error) {
+	if _m.Edges.namedOperations == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedOperations[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *CompanyDetail) appendNamedOperations(name string, edges ...*FinanceOperation) {
+	if _m.Edges.namedOperations == nil {
+		_m.Edges.namedOperations = make(map[string][]*FinanceOperation)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedOperations[name] = []*FinanceOperation{}
+	} else {
+		_m.Edges.namedOperations[name] = append(_m.Edges.namedOperations[name], edges...)
+	}
+}
+
+// NamedMethods returns the Methods named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *CompanyDetail) NamedMethods(name string) ([]*FinanceClass, error) {
+	if _m.Edges.namedMethods == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedMethods[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *CompanyDetail) appendNamedMethods(name string, edges ...*FinanceClass) {
+	if _m.Edges.namedMethods == nil {
+		_m.Edges.namedMethods = make(map[string][]*FinanceClass)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedMethods[name] = []*FinanceClass{}
+	} else {
+		_m.Edges.namedMethods[name] = append(_m.Edges.namedMethods[name], edges...)
+	}
+}
+
+// NamedResources returns the Resources named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *CompanyDetail) NamedResources(name string) ([]*FinanceResource, error) {
+	if _m.Edges.namedResources == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedResources[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *CompanyDetail) appendNamedResources(name string, edges ...*FinanceResource) {
+	if _m.Edges.namedResources == nil {
+		_m.Edges.namedResources = make(map[string][]*FinanceResource)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedResources[name] = []*FinanceResource{}
+	} else {
+		_m.Edges.namedResources[name] = append(_m.Edges.namedResources[name], edges...)
+	}
+}
+
+// NamedAccounts returns the Accounts named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *CompanyDetail) NamedAccounts(name string) ([]*FinanceAccount, error) {
+	if _m.Edges.namedAccounts == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedAccounts[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *CompanyDetail) appendNamedAccounts(name string, edges ...*FinanceAccount) {
+	if _m.Edges.namedAccounts == nil {
+		_m.Edges.namedAccounts = make(map[string][]*FinanceAccount)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedAccounts[name] = []*FinanceAccount{}
+	} else {
+		_m.Edges.namedAccounts[name] = append(_m.Edges.namedAccounts[name], edges...)
 	}
 }
 

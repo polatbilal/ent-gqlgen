@@ -16,6 +16,11 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
+	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
@@ -87,21 +92,26 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			companydetail.Table:   companydetail.ValidColumn,
-			companyengineer.Table: companyengineer.ValidColumn,
-			companytoken.Table:    companytoken.ValidColumn,
-			companyuser.Table:     companyuser.ValidColumn,
-			jobauthor.Table:       jobauthor.ValidColumn,
-			jobcontractor.Table:   jobcontractor.ValidColumn,
-			jobdetail.Table:       jobdetail.ValidColumn,
-			jobfloor.Table:        jobfloor.ValidColumn,
-			jobowner.Table:        jobowner.ValidColumn,
-			jobpayments.Table:     jobpayments.ValidColumn,
-			jobprogress.Table:     jobprogress.ValidColumn,
-			jobreceipt.Table:      jobreceipt.ValidColumn,
-			jobrelations.Table:    jobrelations.ValidColumn,
-			jobsupervisor.Table:   jobsupervisor.ValidColumn,
-			user.Table:            user.ValidColumn,
+			companydetail.Table:    companydetail.ValidColumn,
+			companyengineer.Table:  companyengineer.ValidColumn,
+			companytoken.Table:     companytoken.ValidColumn,
+			companyuser.Table:      companyuser.ValidColumn,
+			financeaccount.Table:   financeaccount.ValidColumn,
+			financeclass.Table:     financeclass.ValidColumn,
+			financegroup.Table:     financegroup.ValidColumn,
+			financeoperation.Table: financeoperation.ValidColumn,
+			financeresource.Table:  financeresource.ValidColumn,
+			jobauthor.Table:        jobauthor.ValidColumn,
+			jobcontractor.Table:    jobcontractor.ValidColumn,
+			jobdetail.Table:        jobdetail.ValidColumn,
+			jobfloor.Table:         jobfloor.ValidColumn,
+			jobowner.Table:         jobowner.ValidColumn,
+			jobpayments.Table:      jobpayments.ValidColumn,
+			jobprogress.Table:      jobprogress.ValidColumn,
+			jobreceipt.Table:       jobreceipt.ValidColumn,
+			jobrelations.Table:     jobrelations.ValidColumn,
+			jobsupervisor.Table:    jobsupervisor.ValidColumn,
+			user.Table:             user.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

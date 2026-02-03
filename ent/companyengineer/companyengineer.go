@@ -174,7 +174,7 @@ var (
 	// DefaultName holds the default value on creation for the "Name" field.
 	DefaultName string
 	// DefaultStatus holds the default value on creation for the "Status" field.
-	DefaultStatus int
+	DefaultStatus bool
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.

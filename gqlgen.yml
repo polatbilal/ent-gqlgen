@@ -90,3 +90,8 @@ models:
   Time:
     model:
       - github.com/polatbilal/ent-gqlgen/graphql/scalars.Time
+  Decimal:
+    model:
+      - github.com/polatbilal/ent-gqlgen/graphql/scalars.Decimal
+
+

@@ -15,6 +15,11 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
+	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
@@ -27,6 +32,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 	"github.com/polatbilal/ent-gqlgen/ent/user"
+	"github.com/shopspring/decimal"
 )
 
 const (
@@ -38,21 +44,26 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeCompanyDetail   = "CompanyDetail"
-	TypeCompanyEngineer = "CompanyEngineer"
-	TypeCompanyToken    = "CompanyToken"
-	TypeCompanyUser     = "CompanyUser"
-	TypeJobAuthor       = "JobAuthor"
-	TypeJobContractor   = "JobContractor"
-	TypeJobDetail       = "JobDetail"
-	TypeJobFloor        = "JobFloor"
-	TypeJobOwner        = "JobOwner"
-	TypeJobPayments     = "JobPayments"
-	TypeJobProgress     = "JobProgress"
-	TypeJobReceipt      = "JobReceipt"
-	TypeJobRelations    = "JobRelations"
-	TypeJobSupervisor   = "JobSupervisor"
-	TypeUser            = "User"
+	TypeCompanyDetail    = "CompanyDetail"
+	TypeCompanyEngineer  = "CompanyEngineer"
+	TypeCompanyToken     = "CompanyToken"
+	TypeCompanyUser      = "CompanyUser"
+	TypeFinanceAccount   = "FinanceAccount"
+	TypeFinanceClass     = "FinanceClass"
+	TypeFinanceGroup     = "FinanceGroup"
+	TypeFinanceOperation = "FinanceOperation"
+	TypeFinanceResource  = "FinanceResource"
+	TypeJobAuthor        = "JobAuthor"
+	TypeJobContractor    = "JobContractor"
+	TypeJobDetail        = "JobDetail"
+	TypeJobFloor         = "JobFloor"
+	TypeJobOwner         = "JobOwner"
+	TypeJobPayments      = "JobPayments"
+	TypeJobProgress      = "JobProgress"
+	TypeJobReceipt       = "JobReceipt"
+	TypeJobRelations     = "JobRelations"
+	TypeJobSupervisor    = "JobSupervisor"
+	TypeUser             = "User"
 )
 
 // CompanyDetailMutation represents an operation that mutates the CompanyDetail nodes in the graph.
@@ -106,6 +117,18 @@ type CompanyDetailMutation struct {
 	engineers               map[int]struct{}
 	removedengineers        map[int]struct{}
 	clearedengineers        bool
+	operations              map[int]struct{}
+	removedoperations       map[int]struct{}
+	clearedoperations       bool
+	methods                 map[int]struct{}
+	removedmethods          map[int]struct{}
+	clearedmethods          bool
+	resources               map[int]struct{}
+	removedresources        map[int]struct{}
+	clearedresources        bool
+	accounts                map[int]struct{}
+	removedaccounts         map[int]struct{}
+	clearedaccounts         bool
 	done                    bool
 	oldValue                func(context.Context) (*CompanyDetail, error)
 	predicates              []predicate.CompanyDetail
@@ -1899,6 +1922,222 @@ func (m *CompanyDetailMutation) ResetEngineers() {
 	m.removedengineers = nil
 }
 
+// AddOperationIDs adds the "operations" edge to the FinanceOperation entity by ids.
+func (m *CompanyDetailMutation) AddOperationIDs(ids ...int) {
+	if m.operations == nil {
+		m.operations = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.operations[ids[i]] = struct{}{}
+	}
+}
+
+// ClearOperations clears the "operations" edge to the FinanceOperation entity.
+func (m *CompanyDetailMutation) ClearOperations() {
+	m.clearedoperations = true
+}
+
+// OperationsCleared reports if the "operations" edge to the FinanceOperation entity was cleared.
+func (m *CompanyDetailMutation) OperationsCleared() bool {
+	return m.clearedoperations
+}
+
+// RemoveOperationIDs removes the "operations" edge to the FinanceOperation entity by IDs.
+func (m *CompanyDetailMutation) RemoveOperationIDs(ids ...int) {
+	if m.removedoperations == nil {
+		m.removedoperations = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.operations, ids[i])
+		m.removedoperations[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedOperations returns the removed IDs of the "operations" edge to the FinanceOperation entity.
+func (m *CompanyDetailMutation) RemovedOperationsIDs() (ids []int) {
+	for id := range m.removedoperations {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// OperationsIDs returns the "operations" edge IDs in the mutation.
+func (m *CompanyDetailMutation) OperationsIDs() (ids []int) {
+	for id := range m.operations {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetOperations resets all changes to the "operations" edge.
+func (m *CompanyDetailMutation) ResetOperations() {
+	m.operations = nil
+	m.clearedoperations = false
+	m.removedoperations = nil
+}
+
+// AddMethodIDs adds the "methods" edge to the FinanceClass entity by ids.
+func (m *CompanyDetailMutation) AddMethodIDs(ids ...int) {
+	if m.methods == nil {
+		m.methods = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.methods[ids[i]] = struct{}{}
+	}
+}
+
+// ClearMethods clears the "methods" edge to the FinanceClass entity.
+func (m *CompanyDetailMutation) ClearMethods() {
+	m.clearedmethods = true
+}
+
+// MethodsCleared reports if the "methods" edge to the FinanceClass entity was cleared.
+func (m *CompanyDetailMutation) MethodsCleared() bool {
+	return m.clearedmethods
+}
+
+// RemoveMethodIDs removes the "methods" edge to the FinanceClass entity by IDs.
+func (m *CompanyDetailMutation) RemoveMethodIDs(ids ...int) {
+	if m.removedmethods == nil {
+		m.removedmethods = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.methods, ids[i])
+		m.removedmethods[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedMethods returns the removed IDs of the "methods" edge to the FinanceClass entity.
+func (m *CompanyDetailMutation) RemovedMethodsIDs() (ids []int) {
+	for id := range m.removedmethods {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// MethodsIDs returns the "methods" edge IDs in the mutation.
+func (m *CompanyDetailMutation) MethodsIDs() (ids []int) {
+	for id := range m.methods {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetMethods resets all changes to the "methods" edge.
+func (m *CompanyDetailMutation) ResetMethods() {
+	m.methods = nil
+	m.clearedmethods = false
+	m.removedmethods = nil
+}
+
+// AddResourceIDs adds the "resources" edge to the FinanceResource entity by ids.
+func (m *CompanyDetailMutation) AddResourceIDs(ids ...int) {
+	if m.resources == nil {
+		m.resources = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.resources[ids[i]] = struct{}{}
+	}
+}
+
+// ClearResources clears the "resources" edge to the FinanceResource entity.
+func (m *CompanyDetailMutation) ClearResources() {
+	m.clearedresources = true
+}
+
+// ResourcesCleared reports if the "resources" edge to the FinanceResource entity was cleared.
+func (m *CompanyDetailMutation) ResourcesCleared() bool {
+	return m.clearedresources
+}
+
+// RemoveResourceIDs removes the "resources" edge to the FinanceResource entity by IDs.
+func (m *CompanyDetailMutation) RemoveResourceIDs(ids ...int) {
+	if m.removedresources == nil {
+		m.removedresources = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.resources, ids[i])
+		m.removedresources[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedResources returns the removed IDs of the "resources" edge to the FinanceResource entity.
+func (m *CompanyDetailMutation) RemovedResourcesIDs() (ids []int) {
+	for id := range m.removedresources {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResourcesIDs returns the "resources" edge IDs in the mutation.
+func (m *CompanyDetailMutation) ResourcesIDs() (ids []int) {
+	for id := range m.resources {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetResources resets all changes to the "resources" edge.
+func (m *CompanyDetailMutation) ResetResources() {
+	m.resources = nil
+	m.clearedresources = false
+	m.removedresources = nil
+}
+
+// AddAccountIDs adds the "accounts" edge to the FinanceAccount entity by ids.
+func (m *CompanyDetailMutation) AddAccountIDs(ids ...int) {
+	if m.accounts == nil {
+		m.accounts = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.accounts[ids[i]] = struct{}{}
+	}
+}
+
+// ClearAccounts clears the "accounts" edge to the FinanceAccount entity.
+func (m *CompanyDetailMutation) ClearAccounts() {
+	m.clearedaccounts = true
+}
+
+// AccountsCleared reports if the "accounts" edge to the FinanceAccount entity was cleared.
+func (m *CompanyDetailMutation) AccountsCleared() bool {
+	return m.clearedaccounts
+}
+
+// RemoveAccountIDs removes the "accounts" edge to the FinanceAccount entity by IDs.
+func (m *CompanyDetailMutation) RemoveAccountIDs(ids ...int) {
+	if m.removedaccounts == nil {
+		m.removedaccounts = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.accounts, ids[i])
+		m.removedaccounts[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedAccounts returns the removed IDs of the "accounts" edge to the FinanceAccount entity.
+func (m *CompanyDetailMutation) RemovedAccountsIDs() (ids []int) {
+	for id := range m.removedaccounts {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// AccountsIDs returns the "accounts" edge IDs in the mutation.
+func (m *CompanyDetailMutation) AccountsIDs() (ids []int) {
+	for id := range m.accounts {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetAccounts resets all changes to the "accounts" edge.
+func (m *CompanyDetailMutation) ResetAccounts() {
+	m.accounts = nil
+	m.clearedaccounts = false
+	m.removedaccounts = nil
+}
+
 // Where appends a list predicates to the CompanyDetailMutation builder.
 func (m *CompanyDetailMutation) Where(ps ...predicate.CompanyDetail) {
 	m.predicates = append(m.predicates, ps...)
@@ -2716,7 +2955,7 @@ func (m *CompanyDetailMutation) ResetField(name string) error {
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *CompanyDetailMutation) AddedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 8)
 	if m.jobs != nil {
 		edges = append(edges, companydetail.EdgeJobs)
 	}
@@ -2728,6 +2967,18 @@ func (m *CompanyDetailMutation) AddedEdges() []string {
 	}
 	if m.engineers != nil {
 		edges = append(edges, companydetail.EdgeEngineers)
+	}
+	if m.operations != nil {
+		edges = append(edges, companydetail.EdgeOperations)
+	}
+	if m.methods != nil {
+		edges = append(edges, companydetail.EdgeMethods)
+	}
+	if m.resources != nil {
+		edges = append(edges, companydetail.EdgeResources)
+	}
+	if m.accounts != nil {
+		edges = append(edges, companydetail.EdgeAccounts)
 	}
 	return edges
 }
@@ -2760,13 +3011,37 @@ func (m *CompanyDetailMutation) AddedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
+	case companydetail.EdgeOperations:
+		ids := make([]ent.Value, 0, len(m.operations))
+		for id := range m.operations {
+			ids = append(ids, id)
+		}
+		return ids
+	case companydetail.EdgeMethods:
+		ids := make([]ent.Value, 0, len(m.methods))
+		for id := range m.methods {
+			ids = append(ids, id)
+		}
+		return ids
+	case companydetail.EdgeResources:
+		ids := make([]ent.Value, 0, len(m.resources))
+		for id := range m.resources {
+			ids = append(ids, id)
+		}
+		return ids
+	case companydetail.EdgeAccounts:
+		ids := make([]ent.Value, 0, len(m.accounts))
+		for id := range m.accounts {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *CompanyDetailMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 8)
 	if m.removedjobs != nil {
 		edges = append(edges, companydetail.EdgeJobs)
 	}
@@ -2778,6 +3053,18 @@ func (m *CompanyDetailMutation) RemovedEdges() []string {
 	}
 	if m.removedengineers != nil {
 		edges = append(edges, companydetail.EdgeEngineers)
+	}
+	if m.removedoperations != nil {
+		edges = append(edges, companydetail.EdgeOperations)
+	}
+	if m.removedmethods != nil {
+		edges = append(edges, companydetail.EdgeMethods)
+	}
+	if m.removedresources != nil {
+		edges = append(edges, companydetail.EdgeResources)
+	}
+	if m.removedaccounts != nil {
+		edges = append(edges, companydetail.EdgeAccounts)
 	}
 	return edges
 }
@@ -2810,13 +3097,37 @@ func (m *CompanyDetailMutation) RemovedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
+	case companydetail.EdgeOperations:
+		ids := make([]ent.Value, 0, len(m.removedoperations))
+		for id := range m.removedoperations {
+			ids = append(ids, id)
+		}
+		return ids
+	case companydetail.EdgeMethods:
+		ids := make([]ent.Value, 0, len(m.removedmethods))
+		for id := range m.removedmethods {
+			ids = append(ids, id)
+		}
+		return ids
+	case companydetail.EdgeResources:
+		ids := make([]ent.Value, 0, len(m.removedresources))
+		for id := range m.removedresources {
+			ids = append(ids, id)
+		}
+		return ids
+	case companydetail.EdgeAccounts:
+		ids := make([]ent.Value, 0, len(m.removedaccounts))
+		for id := range m.removedaccounts {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *CompanyDetailMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 8)
 	if m.clearedjobs {
 		edges = append(edges, companydetail.EdgeJobs)
 	}
@@ -2828,6 +3139,18 @@ func (m *CompanyDetailMutation) ClearedEdges() []string {
 	}
 	if m.clearedengineers {
 		edges = append(edges, companydetail.EdgeEngineers)
+	}
+	if m.clearedoperations {
+		edges = append(edges, companydetail.EdgeOperations)
+	}
+	if m.clearedmethods {
+		edges = append(edges, companydetail.EdgeMethods)
+	}
+	if m.clearedresources {
+		edges = append(edges, companydetail.EdgeResources)
+	}
+	if m.clearedaccounts {
+		edges = append(edges, companydetail.EdgeAccounts)
 	}
 	return edges
 }
@@ -2844,6 +3167,14 @@ func (m *CompanyDetailMutation) EdgeCleared(name string) bool {
 		return m.clearedtokens
 	case companydetail.EdgeEngineers:
 		return m.clearedengineers
+	case companydetail.EdgeOperations:
+		return m.clearedoperations
+	case companydetail.EdgeMethods:
+		return m.clearedmethods
+	case companydetail.EdgeResources:
+		return m.clearedresources
+	case companydetail.EdgeAccounts:
+		return m.clearedaccounts
 	}
 	return false
 }
@@ -2872,6 +3203,18 @@ func (m *CompanyDetailMutation) ResetEdge(name string) error {
 	case companydetail.EdgeEngineers:
 		m.ResetEngineers()
 		return nil
+	case companydetail.EdgeOperations:
+		m.ResetOperations()
+		return nil
+	case companydetail.EdgeMethods:
+		m.ResetMethods()
+		return nil
+	case companydetail.EdgeResources:
+		m.ResetResources()
+		return nil
+	case companydetail.EdgeAccounts:
+		m.ResetAccounts()
+		return nil
 	}
 	return fmt.Errorf("unknown CompanyDetail edge %s", name)
 }
@@ -2894,8 +3237,7 @@ type CompanyEngineerMutation struct {
 	_YDSID                     *int
 	add_YDSID                  *int
 	_Employment                *time.Time
-	_Status                    *int
-	add_Status                 *int
+	_Status                    *bool
 	_Note                      *string
 	_CreatedAt                 *time.Time
 	_UpdatedAt                 *time.Time
@@ -3577,13 +3919,12 @@ func (m *CompanyEngineerMutation) ResetEmployment() {
 }
 
 // SetStatus sets the "Status" field.
-func (m *CompanyEngineerMutation) SetStatus(i int) {
-	m._Status = &i
-	m.add_Status = nil
+func (m *CompanyEngineerMutation) SetStatus(b bool) {
+	m._Status = &b
 }
 
 // Status returns the value of the "Status" field in the mutation.
-func (m *CompanyEngineerMutation) Status() (r int, exists bool) {
+func (m *CompanyEngineerMutation) Status() (r bool, exists bool) {
 	v := m._Status
 	if v == nil {
 		return
@@ -3594,7 +3935,7 @@ func (m *CompanyEngineerMutation) Status() (r int, exists bool) {
 // OldStatus returns the old "Status" field's value of the CompanyEngineer entity.
 // If the CompanyEngineer object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CompanyEngineerMutation) OldStatus(ctx context.Context) (v int, err error) {
+func (m *CompanyEngineerMutation) OldStatus(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -3608,28 +3949,9 @@ func (m *CompanyEngineerMutation) OldStatus(ctx context.Context) (v int, err err
 	return oldValue.Status, nil
 }
 
-// AddStatus adds i to the "Status" field.
-func (m *CompanyEngineerMutation) AddStatus(i int) {
-	if m.add_Status != nil {
-		*m.add_Status += i
-	} else {
-		m.add_Status = &i
-	}
-}
-
-// AddedStatus returns the value that was added to the "Status" field in this mutation.
-func (m *CompanyEngineerMutation) AddedStatus() (r int, exists bool) {
-	v := m.add_Status
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ResetStatus resets all changes to the "Status" field.
 func (m *CompanyEngineerMutation) ResetStatus() {
 	m._Status = nil
-	m.add_Status = nil
 }
 
 // SetNote sets the "Note" field.
@@ -4468,7 +4790,7 @@ func (m *CompanyEngineerMutation) SetField(name string, value ent.Value) error {
 		m.SetEmployment(v)
 		return nil
 	case companyengineer.FieldStatus:
-		v, ok := value.(int)
+		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -4506,9 +4828,6 @@ func (m *CompanyEngineerMutation) AddedFields() []string {
 	if m.add_YDSID != nil {
 		fields = append(fields, companyengineer.FieldYDSID)
 	}
-	if m.add_Status != nil {
-		fields = append(fields, companyengineer.FieldStatus)
-	}
 	return fields
 }
 
@@ -4519,8 +4838,6 @@ func (m *CompanyEngineerMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case companyengineer.FieldYDSID:
 		return m.AddedYDSID()
-	case companyengineer.FieldStatus:
-		return m.AddedStatus()
 	}
 	return nil, false
 }
@@ -4536,13 +4853,6 @@ func (m *CompanyEngineerMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddYDSID(v)
-		return nil
-	case companyengineer.FieldStatus:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddStatus(v)
 		return nil
 	}
 	return fmt.Errorf("unknown CompanyEngineer numeric field %s", name)
@@ -6140,6 +6450,3244 @@ func (m *CompanyUserMutation) ResetEdge(name string) error {
 		return nil
 	}
 	return fmt.Errorf("unknown CompanyUser edge %s", name)
+}
+
+// FinanceAccountMutation represents an operation that mutates the FinanceAccount nodes in the graph.
+type FinanceAccountMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *int
+	_Name           *string
+	_AccountNumber  *string
+	createdAt       *time.Time
+	updatedAt       *time.Time
+	clearedFields   map[string]struct{}
+	company         *int
+	clearedcompany  bool
+	accounts        map[int]struct{}
+	removedaccounts map[int]struct{}
+	clearedaccounts bool
+	done            bool
+	oldValue        func(context.Context) (*FinanceAccount, error)
+	predicates      []predicate.FinanceAccount
+}
+
+var _ ent.Mutation = (*FinanceAccountMutation)(nil)
+
+// financeaccountOption allows management of the mutation configuration using functional options.
+type financeaccountOption func(*FinanceAccountMutation)
+
+// newFinanceAccountMutation creates new mutation for the FinanceAccount entity.
+func newFinanceAccountMutation(c config, op Op, opts ...financeaccountOption) *FinanceAccountMutation {
+	m := &FinanceAccountMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeFinanceAccount,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withFinanceAccountID sets the ID field of the mutation.
+func withFinanceAccountID(id int) financeaccountOption {
+	return func(m *FinanceAccountMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *FinanceAccount
+		)
+		m.oldValue = func(ctx context.Context) (*FinanceAccount, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().FinanceAccount.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withFinanceAccount sets the old FinanceAccount of the mutation.
+func withFinanceAccount(node *FinanceAccount) financeaccountOption {
+	return func(m *FinanceAccountMutation) {
+		m.oldValue = func(context.Context) (*FinanceAccount, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m FinanceAccountMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m FinanceAccountMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *FinanceAccountMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *FinanceAccountMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().FinanceAccount.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetName sets the "Name" field.
+func (m *FinanceAccountMutation) SetName(s string) {
+	m._Name = &s
+}
+
+// Name returns the value of the "Name" field in the mutation.
+func (m *FinanceAccountMutation) Name() (r string, exists bool) {
+	v := m._Name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "Name" field's value of the FinanceAccount entity.
+// If the FinanceAccount object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceAccountMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "Name" field.
+func (m *FinanceAccountMutation) ResetName() {
+	m._Name = nil
+}
+
+// SetAccountNumber sets the "AccountNumber" field.
+func (m *FinanceAccountMutation) SetAccountNumber(s string) {
+	m._AccountNumber = &s
+}
+
+// AccountNumber returns the value of the "AccountNumber" field in the mutation.
+func (m *FinanceAccountMutation) AccountNumber() (r string, exists bool) {
+	v := m._AccountNumber
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAccountNumber returns the old "AccountNumber" field's value of the FinanceAccount entity.
+// If the FinanceAccount object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceAccountMutation) OldAccountNumber(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAccountNumber is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAccountNumber requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAccountNumber: %w", err)
+	}
+	return oldValue.AccountNumber, nil
+}
+
+// ResetAccountNumber resets all changes to the "AccountNumber" field.
+func (m *FinanceAccountMutation) ResetAccountNumber() {
+	m._AccountNumber = nil
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (m *FinanceAccountMutation) SetCreatedAt(t time.Time) {
+	m.createdAt = &t
+}
+
+// CreatedAt returns the value of the "createdAt" field in the mutation.
+func (m *FinanceAccountMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.createdAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "createdAt" field's value of the FinanceAccount entity.
+// If the FinanceAccount object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceAccountMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "createdAt" field.
+func (m *FinanceAccountMutation) ResetCreatedAt() {
+	m.createdAt = nil
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (m *FinanceAccountMutation) SetUpdatedAt(t time.Time) {
+	m.updatedAt = &t
+}
+
+// UpdatedAt returns the value of the "updatedAt" field in the mutation.
+func (m *FinanceAccountMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updatedAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updatedAt" field's value of the FinanceAccount entity.
+// If the FinanceAccount object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceAccountMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updatedAt" field.
+func (m *FinanceAccountMutation) ResetUpdatedAt() {
+	m.updatedAt = nil
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by id.
+func (m *FinanceAccountMutation) SetCompanyID(id int) {
+	m.company = &id
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (m *FinanceAccountMutation) ClearCompany() {
+	m.clearedcompany = true
+}
+
+// CompanyCleared reports if the "company" edge to the CompanyDetail entity was cleared.
+func (m *FinanceAccountMutation) CompanyCleared() bool {
+	return m.clearedcompany
+}
+
+// CompanyID returns the "company" edge ID in the mutation.
+func (m *FinanceAccountMutation) CompanyID() (id int, exists bool) {
+	if m.company != nil {
+		return *m.company, true
+	}
+	return
+}
+
+// CompanyIDs returns the "company" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// CompanyID instead. It exists only for internal usage by the builders.
+func (m *FinanceAccountMutation) CompanyIDs() (ids []int) {
+	if id := m.company; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetCompany resets all changes to the "company" edge.
+func (m *FinanceAccountMutation) ResetCompany() {
+	m.company = nil
+	m.clearedcompany = false
+}
+
+// AddAccountIDs adds the "accounts" edge to the FinanceOperation entity by ids.
+func (m *FinanceAccountMutation) AddAccountIDs(ids ...int) {
+	if m.accounts == nil {
+		m.accounts = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.accounts[ids[i]] = struct{}{}
+	}
+}
+
+// ClearAccounts clears the "accounts" edge to the FinanceOperation entity.
+func (m *FinanceAccountMutation) ClearAccounts() {
+	m.clearedaccounts = true
+}
+
+// AccountsCleared reports if the "accounts" edge to the FinanceOperation entity was cleared.
+func (m *FinanceAccountMutation) AccountsCleared() bool {
+	return m.clearedaccounts
+}
+
+// RemoveAccountIDs removes the "accounts" edge to the FinanceOperation entity by IDs.
+func (m *FinanceAccountMutation) RemoveAccountIDs(ids ...int) {
+	if m.removedaccounts == nil {
+		m.removedaccounts = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.accounts, ids[i])
+		m.removedaccounts[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedAccounts returns the removed IDs of the "accounts" edge to the FinanceOperation entity.
+func (m *FinanceAccountMutation) RemovedAccountsIDs() (ids []int) {
+	for id := range m.removedaccounts {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// AccountsIDs returns the "accounts" edge IDs in the mutation.
+func (m *FinanceAccountMutation) AccountsIDs() (ids []int) {
+	for id := range m.accounts {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetAccounts resets all changes to the "accounts" edge.
+func (m *FinanceAccountMutation) ResetAccounts() {
+	m.accounts = nil
+	m.clearedaccounts = false
+	m.removedaccounts = nil
+}
+
+// Where appends a list predicates to the FinanceAccountMutation builder.
+func (m *FinanceAccountMutation) Where(ps ...predicate.FinanceAccount) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the FinanceAccountMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *FinanceAccountMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.FinanceAccount, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *FinanceAccountMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *FinanceAccountMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (FinanceAccount).
+func (m *FinanceAccountMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *FinanceAccountMutation) Fields() []string {
+	fields := make([]string, 0, 4)
+	if m._Name != nil {
+		fields = append(fields, financeaccount.FieldName)
+	}
+	if m._AccountNumber != nil {
+		fields = append(fields, financeaccount.FieldAccountNumber)
+	}
+	if m.createdAt != nil {
+		fields = append(fields, financeaccount.FieldCreatedAt)
+	}
+	if m.updatedAt != nil {
+		fields = append(fields, financeaccount.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *FinanceAccountMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case financeaccount.FieldName:
+		return m.Name()
+	case financeaccount.FieldAccountNumber:
+		return m.AccountNumber()
+	case financeaccount.FieldCreatedAt:
+		return m.CreatedAt()
+	case financeaccount.FieldUpdatedAt:
+		return m.UpdatedAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *FinanceAccountMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case financeaccount.FieldName:
+		return m.OldName(ctx)
+	case financeaccount.FieldAccountNumber:
+		return m.OldAccountNumber(ctx)
+	case financeaccount.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case financeaccount.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown FinanceAccount field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceAccountMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case financeaccount.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case financeaccount.FieldAccountNumber:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAccountNumber(v)
+		return nil
+	case financeaccount.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case financeaccount.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceAccount field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *FinanceAccountMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *FinanceAccountMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceAccountMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinanceAccount numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *FinanceAccountMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *FinanceAccountMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *FinanceAccountMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown FinanceAccount nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *FinanceAccountMutation) ResetField(name string) error {
+	switch name {
+	case financeaccount.FieldName:
+		m.ResetName()
+		return nil
+	case financeaccount.FieldAccountNumber:
+		m.ResetAccountNumber()
+		return nil
+	case financeaccount.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case financeaccount.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceAccount field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *FinanceAccountMutation) AddedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.company != nil {
+		edges = append(edges, financeaccount.EdgeCompany)
+	}
+	if m.accounts != nil {
+		edges = append(edges, financeaccount.EdgeAccounts)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *FinanceAccountMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case financeaccount.EdgeCompany:
+		if id := m.company; id != nil {
+			return []ent.Value{*id}
+		}
+	case financeaccount.EdgeAccounts:
+		ids := make([]ent.Value, 0, len(m.accounts))
+		for id := range m.accounts {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *FinanceAccountMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.removedaccounts != nil {
+		edges = append(edges, financeaccount.EdgeAccounts)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *FinanceAccountMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case financeaccount.EdgeAccounts:
+		ids := make([]ent.Value, 0, len(m.removedaccounts))
+		for id := range m.removedaccounts {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *FinanceAccountMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.clearedcompany {
+		edges = append(edges, financeaccount.EdgeCompany)
+	}
+	if m.clearedaccounts {
+		edges = append(edges, financeaccount.EdgeAccounts)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *FinanceAccountMutation) EdgeCleared(name string) bool {
+	switch name {
+	case financeaccount.EdgeCompany:
+		return m.clearedcompany
+	case financeaccount.EdgeAccounts:
+		return m.clearedaccounts
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *FinanceAccountMutation) ClearEdge(name string) error {
+	switch name {
+	case financeaccount.EdgeCompany:
+		m.ClearCompany()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceAccount unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *FinanceAccountMutation) ResetEdge(name string) error {
+	switch name {
+	case financeaccount.EdgeCompany:
+		m.ResetCompany()
+		return nil
+	case financeaccount.EdgeAccounts:
+		m.ResetAccounts()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceAccount edge %s", name)
+}
+
+// FinanceClassMutation represents an operation that mutates the FinanceClass nodes in the graph.
+type FinanceClassMutation struct {
+	config
+	op             Op
+	typ            string
+	id             *int
+	_Name          *string
+	createdAt      *time.Time
+	updatedAt      *time.Time
+	clearedFields  map[string]struct{}
+	company        *int
+	clearedcompany bool
+	methods        map[int]struct{}
+	removedmethods map[int]struct{}
+	clearedmethods bool
+	done           bool
+	oldValue       func(context.Context) (*FinanceClass, error)
+	predicates     []predicate.FinanceClass
+}
+
+var _ ent.Mutation = (*FinanceClassMutation)(nil)
+
+// financeclassOption allows management of the mutation configuration using functional options.
+type financeclassOption func(*FinanceClassMutation)
+
+// newFinanceClassMutation creates new mutation for the FinanceClass entity.
+func newFinanceClassMutation(c config, op Op, opts ...financeclassOption) *FinanceClassMutation {
+	m := &FinanceClassMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeFinanceClass,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withFinanceClassID sets the ID field of the mutation.
+func withFinanceClassID(id int) financeclassOption {
+	return func(m *FinanceClassMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *FinanceClass
+		)
+		m.oldValue = func(ctx context.Context) (*FinanceClass, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().FinanceClass.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withFinanceClass sets the old FinanceClass of the mutation.
+func withFinanceClass(node *FinanceClass) financeclassOption {
+	return func(m *FinanceClassMutation) {
+		m.oldValue = func(context.Context) (*FinanceClass, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m FinanceClassMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m FinanceClassMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *FinanceClassMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *FinanceClassMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().FinanceClass.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetName sets the "Name" field.
+func (m *FinanceClassMutation) SetName(s string) {
+	m._Name = &s
+}
+
+// Name returns the value of the "Name" field in the mutation.
+func (m *FinanceClassMutation) Name() (r string, exists bool) {
+	v := m._Name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "Name" field's value of the FinanceClass entity.
+// If the FinanceClass object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceClassMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "Name" field.
+func (m *FinanceClassMutation) ResetName() {
+	m._Name = nil
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (m *FinanceClassMutation) SetCreatedAt(t time.Time) {
+	m.createdAt = &t
+}
+
+// CreatedAt returns the value of the "createdAt" field in the mutation.
+func (m *FinanceClassMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.createdAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "createdAt" field's value of the FinanceClass entity.
+// If the FinanceClass object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceClassMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "createdAt" field.
+func (m *FinanceClassMutation) ResetCreatedAt() {
+	m.createdAt = nil
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (m *FinanceClassMutation) SetUpdatedAt(t time.Time) {
+	m.updatedAt = &t
+}
+
+// UpdatedAt returns the value of the "updatedAt" field in the mutation.
+func (m *FinanceClassMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updatedAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updatedAt" field's value of the FinanceClass entity.
+// If the FinanceClass object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceClassMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updatedAt" field.
+func (m *FinanceClassMutation) ResetUpdatedAt() {
+	m.updatedAt = nil
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by id.
+func (m *FinanceClassMutation) SetCompanyID(id int) {
+	m.company = &id
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (m *FinanceClassMutation) ClearCompany() {
+	m.clearedcompany = true
+}
+
+// CompanyCleared reports if the "company" edge to the CompanyDetail entity was cleared.
+func (m *FinanceClassMutation) CompanyCleared() bool {
+	return m.clearedcompany
+}
+
+// CompanyID returns the "company" edge ID in the mutation.
+func (m *FinanceClassMutation) CompanyID() (id int, exists bool) {
+	if m.company != nil {
+		return *m.company, true
+	}
+	return
+}
+
+// CompanyIDs returns the "company" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// CompanyID instead. It exists only for internal usage by the builders.
+func (m *FinanceClassMutation) CompanyIDs() (ids []int) {
+	if id := m.company; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetCompany resets all changes to the "company" edge.
+func (m *FinanceClassMutation) ResetCompany() {
+	m.company = nil
+	m.clearedcompany = false
+}
+
+// AddMethodIDs adds the "methods" edge to the FinanceOperation entity by ids.
+func (m *FinanceClassMutation) AddMethodIDs(ids ...int) {
+	if m.methods == nil {
+		m.methods = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.methods[ids[i]] = struct{}{}
+	}
+}
+
+// ClearMethods clears the "methods" edge to the FinanceOperation entity.
+func (m *FinanceClassMutation) ClearMethods() {
+	m.clearedmethods = true
+}
+
+// MethodsCleared reports if the "methods" edge to the FinanceOperation entity was cleared.
+func (m *FinanceClassMutation) MethodsCleared() bool {
+	return m.clearedmethods
+}
+
+// RemoveMethodIDs removes the "methods" edge to the FinanceOperation entity by IDs.
+func (m *FinanceClassMutation) RemoveMethodIDs(ids ...int) {
+	if m.removedmethods == nil {
+		m.removedmethods = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.methods, ids[i])
+		m.removedmethods[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedMethods returns the removed IDs of the "methods" edge to the FinanceOperation entity.
+func (m *FinanceClassMutation) RemovedMethodsIDs() (ids []int) {
+	for id := range m.removedmethods {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// MethodsIDs returns the "methods" edge IDs in the mutation.
+func (m *FinanceClassMutation) MethodsIDs() (ids []int) {
+	for id := range m.methods {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetMethods resets all changes to the "methods" edge.
+func (m *FinanceClassMutation) ResetMethods() {
+	m.methods = nil
+	m.clearedmethods = false
+	m.removedmethods = nil
+}
+
+// Where appends a list predicates to the FinanceClassMutation builder.
+func (m *FinanceClassMutation) Where(ps ...predicate.FinanceClass) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the FinanceClassMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *FinanceClassMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.FinanceClass, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *FinanceClassMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *FinanceClassMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (FinanceClass).
+func (m *FinanceClassMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *FinanceClassMutation) Fields() []string {
+	fields := make([]string, 0, 3)
+	if m._Name != nil {
+		fields = append(fields, financeclass.FieldName)
+	}
+	if m.createdAt != nil {
+		fields = append(fields, financeclass.FieldCreatedAt)
+	}
+	if m.updatedAt != nil {
+		fields = append(fields, financeclass.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *FinanceClassMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case financeclass.FieldName:
+		return m.Name()
+	case financeclass.FieldCreatedAt:
+		return m.CreatedAt()
+	case financeclass.FieldUpdatedAt:
+		return m.UpdatedAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *FinanceClassMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case financeclass.FieldName:
+		return m.OldName(ctx)
+	case financeclass.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case financeclass.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown FinanceClass field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceClassMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case financeclass.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case financeclass.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case financeclass.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceClass field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *FinanceClassMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *FinanceClassMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceClassMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinanceClass numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *FinanceClassMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *FinanceClassMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *FinanceClassMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown FinanceClass nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *FinanceClassMutation) ResetField(name string) error {
+	switch name {
+	case financeclass.FieldName:
+		m.ResetName()
+		return nil
+	case financeclass.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case financeclass.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceClass field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *FinanceClassMutation) AddedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.company != nil {
+		edges = append(edges, financeclass.EdgeCompany)
+	}
+	if m.methods != nil {
+		edges = append(edges, financeclass.EdgeMethods)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *FinanceClassMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case financeclass.EdgeCompany:
+		if id := m.company; id != nil {
+			return []ent.Value{*id}
+		}
+	case financeclass.EdgeMethods:
+		ids := make([]ent.Value, 0, len(m.methods))
+		for id := range m.methods {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *FinanceClassMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.removedmethods != nil {
+		edges = append(edges, financeclass.EdgeMethods)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *FinanceClassMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case financeclass.EdgeMethods:
+		ids := make([]ent.Value, 0, len(m.removedmethods))
+		for id := range m.removedmethods {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *FinanceClassMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.clearedcompany {
+		edges = append(edges, financeclass.EdgeCompany)
+	}
+	if m.clearedmethods {
+		edges = append(edges, financeclass.EdgeMethods)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *FinanceClassMutation) EdgeCleared(name string) bool {
+	switch name {
+	case financeclass.EdgeCompany:
+		return m.clearedcompany
+	case financeclass.EdgeMethods:
+		return m.clearedmethods
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *FinanceClassMutation) ClearEdge(name string) error {
+	switch name {
+	case financeclass.EdgeCompany:
+		m.ClearCompany()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceClass unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *FinanceClassMutation) ResetEdge(name string) error {
+	switch name {
+	case financeclass.EdgeCompany:
+		m.ResetCompany()
+		return nil
+	case financeclass.EdgeMethods:
+		m.ResetMethods()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceClass edge %s", name)
+}
+
+// FinanceGroupMutation represents an operation that mutates the FinanceGroup nodes in the graph.
+type FinanceGroupMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	_Type         *string
+	_Description  *string
+	clearedFields map[string]struct{}
+	groups        map[int]struct{}
+	removedgroups map[int]struct{}
+	clearedgroups bool
+	done          bool
+	oldValue      func(context.Context) (*FinanceGroup, error)
+	predicates    []predicate.FinanceGroup
+}
+
+var _ ent.Mutation = (*FinanceGroupMutation)(nil)
+
+// financegroupOption allows management of the mutation configuration using functional options.
+type financegroupOption func(*FinanceGroupMutation)
+
+// newFinanceGroupMutation creates new mutation for the FinanceGroup entity.
+func newFinanceGroupMutation(c config, op Op, opts ...financegroupOption) *FinanceGroupMutation {
+	m := &FinanceGroupMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeFinanceGroup,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withFinanceGroupID sets the ID field of the mutation.
+func withFinanceGroupID(id int) financegroupOption {
+	return func(m *FinanceGroupMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *FinanceGroup
+		)
+		m.oldValue = func(ctx context.Context) (*FinanceGroup, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().FinanceGroup.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withFinanceGroup sets the old FinanceGroup of the mutation.
+func withFinanceGroup(node *FinanceGroup) financegroupOption {
+	return func(m *FinanceGroupMutation) {
+		m.oldValue = func(context.Context) (*FinanceGroup, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m FinanceGroupMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m FinanceGroupMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *FinanceGroupMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *FinanceGroupMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().FinanceGroup.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetType sets the "Type" field.
+func (m *FinanceGroupMutation) SetType(s string) {
+	m._Type = &s
+}
+
+// GetType returns the value of the "Type" field in the mutation.
+func (m *FinanceGroupMutation) GetType() (r string, exists bool) {
+	v := m._Type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldType returns the old "Type" field's value of the FinanceGroup entity.
+// If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceGroupMutation) OldType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldType: %w", err)
+	}
+	return oldValue.Type, nil
+}
+
+// ResetType resets all changes to the "Type" field.
+func (m *FinanceGroupMutation) ResetType() {
+	m._Type = nil
+}
+
+// SetDescription sets the "Description" field.
+func (m *FinanceGroupMutation) SetDescription(s string) {
+	m._Description = &s
+}
+
+// Description returns the value of the "Description" field in the mutation.
+func (m *FinanceGroupMutation) Description() (r string, exists bool) {
+	v := m._Description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "Description" field's value of the FinanceGroup entity.
+// If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceGroupMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ResetDescription resets all changes to the "Description" field.
+func (m *FinanceGroupMutation) ResetDescription() {
+	m._Description = nil
+}
+
+// AddGroupIDs adds the "groups" edge to the FinanceOperation entity by ids.
+func (m *FinanceGroupMutation) AddGroupIDs(ids ...int) {
+	if m.groups == nil {
+		m.groups = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.groups[ids[i]] = struct{}{}
+	}
+}
+
+// ClearGroups clears the "groups" edge to the FinanceOperation entity.
+func (m *FinanceGroupMutation) ClearGroups() {
+	m.clearedgroups = true
+}
+
+// GroupsCleared reports if the "groups" edge to the FinanceOperation entity was cleared.
+func (m *FinanceGroupMutation) GroupsCleared() bool {
+	return m.clearedgroups
+}
+
+// RemoveGroupIDs removes the "groups" edge to the FinanceOperation entity by IDs.
+func (m *FinanceGroupMutation) RemoveGroupIDs(ids ...int) {
+	if m.removedgroups == nil {
+		m.removedgroups = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.groups, ids[i])
+		m.removedgroups[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedGroups returns the removed IDs of the "groups" edge to the FinanceOperation entity.
+func (m *FinanceGroupMutation) RemovedGroupsIDs() (ids []int) {
+	for id := range m.removedgroups {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// GroupsIDs returns the "groups" edge IDs in the mutation.
+func (m *FinanceGroupMutation) GroupsIDs() (ids []int) {
+	for id := range m.groups {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetGroups resets all changes to the "groups" edge.
+func (m *FinanceGroupMutation) ResetGroups() {
+	m.groups = nil
+	m.clearedgroups = false
+	m.removedgroups = nil
+}
+
+// Where appends a list predicates to the FinanceGroupMutation builder.
+func (m *FinanceGroupMutation) Where(ps ...predicate.FinanceGroup) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the FinanceGroupMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *FinanceGroupMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.FinanceGroup, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *FinanceGroupMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *FinanceGroupMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (FinanceGroup).
+func (m *FinanceGroupMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *FinanceGroupMutation) Fields() []string {
+	fields := make([]string, 0, 2)
+	if m._Type != nil {
+		fields = append(fields, financegroup.FieldType)
+	}
+	if m._Description != nil {
+		fields = append(fields, financegroup.FieldDescription)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *FinanceGroupMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case financegroup.FieldType:
+		return m.GetType()
+	case financegroup.FieldDescription:
+		return m.Description()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *FinanceGroupMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case financegroup.FieldType:
+		return m.OldType(ctx)
+	case financegroup.FieldDescription:
+		return m.OldDescription(ctx)
+	}
+	return nil, fmt.Errorf("unknown FinanceGroup field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceGroupMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case financegroup.FieldType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetType(v)
+		return nil
+	case financegroup.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceGroup field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *FinanceGroupMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *FinanceGroupMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceGroupMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinanceGroup numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *FinanceGroupMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *FinanceGroupMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *FinanceGroupMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown FinanceGroup nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *FinanceGroupMutation) ResetField(name string) error {
+	switch name {
+	case financegroup.FieldType:
+		m.ResetType()
+		return nil
+	case financegroup.FieldDescription:
+		m.ResetDescription()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceGroup field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *FinanceGroupMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.groups != nil {
+		edges = append(edges, financegroup.EdgeGroups)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *FinanceGroupMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case financegroup.EdgeGroups:
+		ids := make([]ent.Value, 0, len(m.groups))
+		for id := range m.groups {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *FinanceGroupMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.removedgroups != nil {
+		edges = append(edges, financegroup.EdgeGroups)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *FinanceGroupMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case financegroup.EdgeGroups:
+		ids := make([]ent.Value, 0, len(m.removedgroups))
+		for id := range m.removedgroups {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *FinanceGroupMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedgroups {
+		edges = append(edges, financegroup.EdgeGroups)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *FinanceGroupMutation) EdgeCleared(name string) bool {
+	switch name {
+	case financegroup.EdgeGroups:
+		return m.clearedgroups
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *FinanceGroupMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinanceGroup unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *FinanceGroupMutation) ResetEdge(name string) error {
+	switch name {
+	case financegroup.EdgeGroups:
+		m.ResetGroups()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceGroup edge %s", name)
+}
+
+// FinanceOperationMutation represents an operation that mutates the FinanceOperation nodes in the graph.
+type FinanceOperationMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *int
+	_Operation      *string
+	_Date           *time.Time
+	_Debit          *string
+	_Credit         *string
+	_Description    *string
+	createdAt       *time.Time
+	updatedAt       *time.Time
+	clearedFields   map[string]struct{}
+	account         *int
+	clearedaccount  bool
+	method          *int
+	clearedmethod   bool
+	company         *int
+	clearedcompany  bool
+	resource        *int
+	clearedresource bool
+	group           *int
+	clearedgroup    bool
+	done            bool
+	oldValue        func(context.Context) (*FinanceOperation, error)
+	predicates      []predicate.FinanceOperation
+}
+
+var _ ent.Mutation = (*FinanceOperationMutation)(nil)
+
+// financeoperationOption allows management of the mutation configuration using functional options.
+type financeoperationOption func(*FinanceOperationMutation)
+
+// newFinanceOperationMutation creates new mutation for the FinanceOperation entity.
+func newFinanceOperationMutation(c config, op Op, opts ...financeoperationOption) *FinanceOperationMutation {
+	m := &FinanceOperationMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeFinanceOperation,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withFinanceOperationID sets the ID field of the mutation.
+func withFinanceOperationID(id int) financeoperationOption {
+	return func(m *FinanceOperationMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *FinanceOperation
+		)
+		m.oldValue = func(ctx context.Context) (*FinanceOperation, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().FinanceOperation.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withFinanceOperation sets the old FinanceOperation of the mutation.
+func withFinanceOperation(node *FinanceOperation) financeoperationOption {
+	return func(m *FinanceOperationMutation) {
+		m.oldValue = func(context.Context) (*FinanceOperation, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m FinanceOperationMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m FinanceOperationMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *FinanceOperationMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *FinanceOperationMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().FinanceOperation.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetOperation sets the "Operation" field.
+func (m *FinanceOperationMutation) SetOperation(s string) {
+	m._Operation = &s
+}
+
+// Operation returns the value of the "Operation" field in the mutation.
+func (m *FinanceOperationMutation) Operation() (r string, exists bool) {
+	v := m._Operation
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOperation returns the old "Operation" field's value of the FinanceOperation entity.
+// If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceOperationMutation) OldOperation(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOperation is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOperation requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOperation: %w", err)
+	}
+	return oldValue.Operation, nil
+}
+
+// ResetOperation resets all changes to the "Operation" field.
+func (m *FinanceOperationMutation) ResetOperation() {
+	m._Operation = nil
+}
+
+// SetDate sets the "Date" field.
+func (m *FinanceOperationMutation) SetDate(t time.Time) {
+	m._Date = &t
+}
+
+// Date returns the value of the "Date" field in the mutation.
+func (m *FinanceOperationMutation) Date() (r time.Time, exists bool) {
+	v := m._Date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDate returns the old "Date" field's value of the FinanceOperation entity.
+// If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceOperationMutation) OldDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDate: %w", err)
+	}
+	return oldValue.Date, nil
+}
+
+// ResetDate resets all changes to the "Date" field.
+func (m *FinanceOperationMutation) ResetDate() {
+	m._Date = nil
+}
+
+// SetDebit sets the "Debit" field.
+func (m *FinanceOperationMutation) SetDebit(s string) {
+	m._Debit = &s
+}
+
+// Debit returns the value of the "Debit" field in the mutation.
+func (m *FinanceOperationMutation) Debit() (r string, exists bool) {
+	v := m._Debit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDebit returns the old "Debit" field's value of the FinanceOperation entity.
+// If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceOperationMutation) OldDebit(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDebit is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDebit requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDebit: %w", err)
+	}
+	return oldValue.Debit, nil
+}
+
+// ResetDebit resets all changes to the "Debit" field.
+func (m *FinanceOperationMutation) ResetDebit() {
+	m._Debit = nil
+}
+
+// SetCredit sets the "Credit" field.
+func (m *FinanceOperationMutation) SetCredit(s string) {
+	m._Credit = &s
+}
+
+// Credit returns the value of the "Credit" field in the mutation.
+func (m *FinanceOperationMutation) Credit() (r string, exists bool) {
+	v := m._Credit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCredit returns the old "Credit" field's value of the FinanceOperation entity.
+// If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceOperationMutation) OldCredit(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCredit is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCredit requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCredit: %w", err)
+	}
+	return oldValue.Credit, nil
+}
+
+// ResetCredit resets all changes to the "Credit" field.
+func (m *FinanceOperationMutation) ResetCredit() {
+	m._Credit = nil
+}
+
+// SetDescription sets the "Description" field.
+func (m *FinanceOperationMutation) SetDescription(s string) {
+	m._Description = &s
+}
+
+// Description returns the value of the "Description" field in the mutation.
+func (m *FinanceOperationMutation) Description() (r string, exists bool) {
+	v := m._Description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "Description" field's value of the FinanceOperation entity.
+// If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceOperationMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ResetDescription resets all changes to the "Description" field.
+func (m *FinanceOperationMutation) ResetDescription() {
+	m._Description = nil
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (m *FinanceOperationMutation) SetCreatedAt(t time.Time) {
+	m.createdAt = &t
+}
+
+// CreatedAt returns the value of the "createdAt" field in the mutation.
+func (m *FinanceOperationMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.createdAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "createdAt" field's value of the FinanceOperation entity.
+// If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceOperationMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "createdAt" field.
+func (m *FinanceOperationMutation) ResetCreatedAt() {
+	m.createdAt = nil
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (m *FinanceOperationMutation) SetUpdatedAt(t time.Time) {
+	m.updatedAt = &t
+}
+
+// UpdatedAt returns the value of the "updatedAt" field in the mutation.
+func (m *FinanceOperationMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updatedAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updatedAt" field's value of the FinanceOperation entity.
+// If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceOperationMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updatedAt" field.
+func (m *FinanceOperationMutation) ResetUpdatedAt() {
+	m.updatedAt = nil
+}
+
+// SetAccountID sets the "account" edge to the FinanceAccount entity by id.
+func (m *FinanceOperationMutation) SetAccountID(id int) {
+	m.account = &id
+}
+
+// ClearAccount clears the "account" edge to the FinanceAccount entity.
+func (m *FinanceOperationMutation) ClearAccount() {
+	m.clearedaccount = true
+}
+
+// AccountCleared reports if the "account" edge to the FinanceAccount entity was cleared.
+func (m *FinanceOperationMutation) AccountCleared() bool {
+	return m.clearedaccount
+}
+
+// AccountID returns the "account" edge ID in the mutation.
+func (m *FinanceOperationMutation) AccountID() (id int, exists bool) {
+	if m.account != nil {
+		return *m.account, true
+	}
+	return
+}
+
+// AccountIDs returns the "account" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// AccountID instead. It exists only for internal usage by the builders.
+func (m *FinanceOperationMutation) AccountIDs() (ids []int) {
+	if id := m.account; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetAccount resets all changes to the "account" edge.
+func (m *FinanceOperationMutation) ResetAccount() {
+	m.account = nil
+	m.clearedaccount = false
+}
+
+// SetMethodID sets the "method" edge to the FinanceClass entity by id.
+func (m *FinanceOperationMutation) SetMethodID(id int) {
+	m.method = &id
+}
+
+// ClearMethod clears the "method" edge to the FinanceClass entity.
+func (m *FinanceOperationMutation) ClearMethod() {
+	m.clearedmethod = true
+}
+
+// MethodCleared reports if the "method" edge to the FinanceClass entity was cleared.
+func (m *FinanceOperationMutation) MethodCleared() bool {
+	return m.clearedmethod
+}
+
+// MethodID returns the "method" edge ID in the mutation.
+func (m *FinanceOperationMutation) MethodID() (id int, exists bool) {
+	if m.method != nil {
+		return *m.method, true
+	}
+	return
+}
+
+// MethodIDs returns the "method" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// MethodID instead. It exists only for internal usage by the builders.
+func (m *FinanceOperationMutation) MethodIDs() (ids []int) {
+	if id := m.method; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetMethod resets all changes to the "method" edge.
+func (m *FinanceOperationMutation) ResetMethod() {
+	m.method = nil
+	m.clearedmethod = false
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by id.
+func (m *FinanceOperationMutation) SetCompanyID(id int) {
+	m.company = &id
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (m *FinanceOperationMutation) ClearCompany() {
+	m.clearedcompany = true
+}
+
+// CompanyCleared reports if the "company" edge to the CompanyDetail entity was cleared.
+func (m *FinanceOperationMutation) CompanyCleared() bool {
+	return m.clearedcompany
+}
+
+// CompanyID returns the "company" edge ID in the mutation.
+func (m *FinanceOperationMutation) CompanyID() (id int, exists bool) {
+	if m.company != nil {
+		return *m.company, true
+	}
+	return
+}
+
+// CompanyIDs returns the "company" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// CompanyID instead. It exists only for internal usage by the builders.
+func (m *FinanceOperationMutation) CompanyIDs() (ids []int) {
+	if id := m.company; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetCompany resets all changes to the "company" edge.
+func (m *FinanceOperationMutation) ResetCompany() {
+	m.company = nil
+	m.clearedcompany = false
+}
+
+// SetResourceID sets the "resource" edge to the FinanceResource entity by id.
+func (m *FinanceOperationMutation) SetResourceID(id int) {
+	m.resource = &id
+}
+
+// ClearResource clears the "resource" edge to the FinanceResource entity.
+func (m *FinanceOperationMutation) ClearResource() {
+	m.clearedresource = true
+}
+
+// ResourceCleared reports if the "resource" edge to the FinanceResource entity was cleared.
+func (m *FinanceOperationMutation) ResourceCleared() bool {
+	return m.clearedresource
+}
+
+// ResourceID returns the "resource" edge ID in the mutation.
+func (m *FinanceOperationMutation) ResourceID() (id int, exists bool) {
+	if m.resource != nil {
+		return *m.resource, true
+	}
+	return
+}
+
+// ResourceIDs returns the "resource" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ResourceID instead. It exists only for internal usage by the builders.
+func (m *FinanceOperationMutation) ResourceIDs() (ids []int) {
+	if id := m.resource; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetResource resets all changes to the "resource" edge.
+func (m *FinanceOperationMutation) ResetResource() {
+	m.resource = nil
+	m.clearedresource = false
+}
+
+// SetGroupID sets the "group" edge to the FinanceGroup entity by id.
+func (m *FinanceOperationMutation) SetGroupID(id int) {
+	m.group = &id
+}
+
+// ClearGroup clears the "group" edge to the FinanceGroup entity.
+func (m *FinanceOperationMutation) ClearGroup() {
+	m.clearedgroup = true
+}
+
+// GroupCleared reports if the "group" edge to the FinanceGroup entity was cleared.
+func (m *FinanceOperationMutation) GroupCleared() bool {
+	return m.clearedgroup
+}
+
+// GroupID returns the "group" edge ID in the mutation.
+func (m *FinanceOperationMutation) GroupID() (id int, exists bool) {
+	if m.group != nil {
+		return *m.group, true
+	}
+	return
+}
+
+// GroupIDs returns the "group" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// GroupID instead. It exists only for internal usage by the builders.
+func (m *FinanceOperationMutation) GroupIDs() (ids []int) {
+	if id := m.group; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetGroup resets all changes to the "group" edge.
+func (m *FinanceOperationMutation) ResetGroup() {
+	m.group = nil
+	m.clearedgroup = false
+}
+
+// Where appends a list predicates to the FinanceOperationMutation builder.
+func (m *FinanceOperationMutation) Where(ps ...predicate.FinanceOperation) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the FinanceOperationMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *FinanceOperationMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.FinanceOperation, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *FinanceOperationMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *FinanceOperationMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (FinanceOperation).
+func (m *FinanceOperationMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *FinanceOperationMutation) Fields() []string {
+	fields := make([]string, 0, 7)
+	if m._Operation != nil {
+		fields = append(fields, financeoperation.FieldOperation)
+	}
+	if m._Date != nil {
+		fields = append(fields, financeoperation.FieldDate)
+	}
+	if m._Debit != nil {
+		fields = append(fields, financeoperation.FieldDebit)
+	}
+	if m._Credit != nil {
+		fields = append(fields, financeoperation.FieldCredit)
+	}
+	if m._Description != nil {
+		fields = append(fields, financeoperation.FieldDescription)
+	}
+	if m.createdAt != nil {
+		fields = append(fields, financeoperation.FieldCreatedAt)
+	}
+	if m.updatedAt != nil {
+		fields = append(fields, financeoperation.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *FinanceOperationMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case financeoperation.FieldOperation:
+		return m.Operation()
+	case financeoperation.FieldDate:
+		return m.Date()
+	case financeoperation.FieldDebit:
+		return m.Debit()
+	case financeoperation.FieldCredit:
+		return m.Credit()
+	case financeoperation.FieldDescription:
+		return m.Description()
+	case financeoperation.FieldCreatedAt:
+		return m.CreatedAt()
+	case financeoperation.FieldUpdatedAt:
+		return m.UpdatedAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *FinanceOperationMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case financeoperation.FieldOperation:
+		return m.OldOperation(ctx)
+	case financeoperation.FieldDate:
+		return m.OldDate(ctx)
+	case financeoperation.FieldDebit:
+		return m.OldDebit(ctx)
+	case financeoperation.FieldCredit:
+		return m.OldCredit(ctx)
+	case financeoperation.FieldDescription:
+		return m.OldDescription(ctx)
+	case financeoperation.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case financeoperation.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown FinanceOperation field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceOperationMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case financeoperation.FieldOperation:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOperation(v)
+		return nil
+	case financeoperation.FieldDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDate(v)
+		return nil
+	case financeoperation.FieldDebit:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDebit(v)
+		return nil
+	case financeoperation.FieldCredit:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCredit(v)
+		return nil
+	case financeoperation.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	case financeoperation.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case financeoperation.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceOperation field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *FinanceOperationMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *FinanceOperationMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceOperationMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinanceOperation numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *FinanceOperationMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *FinanceOperationMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *FinanceOperationMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown FinanceOperation nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *FinanceOperationMutation) ResetField(name string) error {
+	switch name {
+	case financeoperation.FieldOperation:
+		m.ResetOperation()
+		return nil
+	case financeoperation.FieldDate:
+		m.ResetDate()
+		return nil
+	case financeoperation.FieldDebit:
+		m.ResetDebit()
+		return nil
+	case financeoperation.FieldCredit:
+		m.ResetCredit()
+		return nil
+	case financeoperation.FieldDescription:
+		m.ResetDescription()
+		return nil
+	case financeoperation.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case financeoperation.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceOperation field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *FinanceOperationMutation) AddedEdges() []string {
+	edges := make([]string, 0, 5)
+	if m.account != nil {
+		edges = append(edges, financeoperation.EdgeAccount)
+	}
+	if m.method != nil {
+		edges = append(edges, financeoperation.EdgeMethod)
+	}
+	if m.company != nil {
+		edges = append(edges, financeoperation.EdgeCompany)
+	}
+	if m.resource != nil {
+		edges = append(edges, financeoperation.EdgeResource)
+	}
+	if m.group != nil {
+		edges = append(edges, financeoperation.EdgeGroup)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *FinanceOperationMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case financeoperation.EdgeAccount:
+		if id := m.account; id != nil {
+			return []ent.Value{*id}
+		}
+	case financeoperation.EdgeMethod:
+		if id := m.method; id != nil {
+			return []ent.Value{*id}
+		}
+	case financeoperation.EdgeCompany:
+		if id := m.company; id != nil {
+			return []ent.Value{*id}
+		}
+	case financeoperation.EdgeResource:
+		if id := m.resource; id != nil {
+			return []ent.Value{*id}
+		}
+	case financeoperation.EdgeGroup:
+		if id := m.group; id != nil {
+			return []ent.Value{*id}
+		}
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *FinanceOperationMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 5)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *FinanceOperationMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *FinanceOperationMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 5)
+	if m.clearedaccount {
+		edges = append(edges, financeoperation.EdgeAccount)
+	}
+	if m.clearedmethod {
+		edges = append(edges, financeoperation.EdgeMethod)
+	}
+	if m.clearedcompany {
+		edges = append(edges, financeoperation.EdgeCompany)
+	}
+	if m.clearedresource {
+		edges = append(edges, financeoperation.EdgeResource)
+	}
+	if m.clearedgroup {
+		edges = append(edges, financeoperation.EdgeGroup)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *FinanceOperationMutation) EdgeCleared(name string) bool {
+	switch name {
+	case financeoperation.EdgeAccount:
+		return m.clearedaccount
+	case financeoperation.EdgeMethod:
+		return m.clearedmethod
+	case financeoperation.EdgeCompany:
+		return m.clearedcompany
+	case financeoperation.EdgeResource:
+		return m.clearedresource
+	case financeoperation.EdgeGroup:
+		return m.clearedgroup
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *FinanceOperationMutation) ClearEdge(name string) error {
+	switch name {
+	case financeoperation.EdgeAccount:
+		m.ClearAccount()
+		return nil
+	case financeoperation.EdgeMethod:
+		m.ClearMethod()
+		return nil
+	case financeoperation.EdgeCompany:
+		m.ClearCompany()
+		return nil
+	case financeoperation.EdgeResource:
+		m.ClearResource()
+		return nil
+	case financeoperation.EdgeGroup:
+		m.ClearGroup()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceOperation unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *FinanceOperationMutation) ResetEdge(name string) error {
+	switch name {
+	case financeoperation.EdgeAccount:
+		m.ResetAccount()
+		return nil
+	case financeoperation.EdgeMethod:
+		m.ResetMethod()
+		return nil
+	case financeoperation.EdgeCompany:
+		m.ResetCompany()
+		return nil
+	case financeoperation.EdgeResource:
+		m.ResetResource()
+		return nil
+	case financeoperation.EdgeGroup:
+		m.ResetGroup()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceOperation edge %s", name)
+}
+
+// FinanceResourceMutation represents an operation that mutates the FinanceResource nodes in the graph.
+type FinanceResourceMutation struct {
+	config
+	op               Op
+	typ              string
+	id               *int
+	_Name            *string
+	createdAt        *time.Time
+	updatedAt        *time.Time
+	clearedFields    map[string]struct{}
+	company          *int
+	clearedcompany   bool
+	resources        map[int]struct{}
+	removedresources map[int]struct{}
+	clearedresources bool
+	done             bool
+	oldValue         func(context.Context) (*FinanceResource, error)
+	predicates       []predicate.FinanceResource
+}
+
+var _ ent.Mutation = (*FinanceResourceMutation)(nil)
+
+// financeresourceOption allows management of the mutation configuration using functional options.
+type financeresourceOption func(*FinanceResourceMutation)
+
+// newFinanceResourceMutation creates new mutation for the FinanceResource entity.
+func newFinanceResourceMutation(c config, op Op, opts ...financeresourceOption) *FinanceResourceMutation {
+	m := &FinanceResourceMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeFinanceResource,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withFinanceResourceID sets the ID field of the mutation.
+func withFinanceResourceID(id int) financeresourceOption {
+	return func(m *FinanceResourceMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *FinanceResource
+		)
+		m.oldValue = func(ctx context.Context) (*FinanceResource, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().FinanceResource.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withFinanceResource sets the old FinanceResource of the mutation.
+func withFinanceResource(node *FinanceResource) financeresourceOption {
+	return func(m *FinanceResourceMutation) {
+		m.oldValue = func(context.Context) (*FinanceResource, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m FinanceResourceMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m FinanceResourceMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *FinanceResourceMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *FinanceResourceMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().FinanceResource.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetName sets the "Name" field.
+func (m *FinanceResourceMutation) SetName(s string) {
+	m._Name = &s
+}
+
+// Name returns the value of the "Name" field in the mutation.
+func (m *FinanceResourceMutation) Name() (r string, exists bool) {
+	v := m._Name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "Name" field's value of the FinanceResource entity.
+// If the FinanceResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceResourceMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "Name" field.
+func (m *FinanceResourceMutation) ResetName() {
+	m._Name = nil
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (m *FinanceResourceMutation) SetCreatedAt(t time.Time) {
+	m.createdAt = &t
+}
+
+// CreatedAt returns the value of the "createdAt" field in the mutation.
+func (m *FinanceResourceMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.createdAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "createdAt" field's value of the FinanceResource entity.
+// If the FinanceResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceResourceMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "createdAt" field.
+func (m *FinanceResourceMutation) ResetCreatedAt() {
+	m.createdAt = nil
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (m *FinanceResourceMutation) SetUpdatedAt(t time.Time) {
+	m.updatedAt = &t
+}
+
+// UpdatedAt returns the value of the "updatedAt" field in the mutation.
+func (m *FinanceResourceMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updatedAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updatedAt" field's value of the FinanceResource entity.
+// If the FinanceResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceResourceMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updatedAt" field.
+func (m *FinanceResourceMutation) ResetUpdatedAt() {
+	m.updatedAt = nil
+}
+
+// SetCompanyID sets the "company" edge to the CompanyDetail entity by id.
+func (m *FinanceResourceMutation) SetCompanyID(id int) {
+	m.company = &id
+}
+
+// ClearCompany clears the "company" edge to the CompanyDetail entity.
+func (m *FinanceResourceMutation) ClearCompany() {
+	m.clearedcompany = true
+}
+
+// CompanyCleared reports if the "company" edge to the CompanyDetail entity was cleared.
+func (m *FinanceResourceMutation) CompanyCleared() bool {
+	return m.clearedcompany
+}
+
+// CompanyID returns the "company" edge ID in the mutation.
+func (m *FinanceResourceMutation) CompanyID() (id int, exists bool) {
+	if m.company != nil {
+		return *m.company, true
+	}
+	return
+}
+
+// CompanyIDs returns the "company" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// CompanyID instead. It exists only for internal usage by the builders.
+func (m *FinanceResourceMutation) CompanyIDs() (ids []int) {
+	if id := m.company; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetCompany resets all changes to the "company" edge.
+func (m *FinanceResourceMutation) ResetCompany() {
+	m.company = nil
+	m.clearedcompany = false
+}
+
+// AddResourceIDs adds the "resources" edge to the FinanceOperation entity by ids.
+func (m *FinanceResourceMutation) AddResourceIDs(ids ...int) {
+	if m.resources == nil {
+		m.resources = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.resources[ids[i]] = struct{}{}
+	}
+}
+
+// ClearResources clears the "resources" edge to the FinanceOperation entity.
+func (m *FinanceResourceMutation) ClearResources() {
+	m.clearedresources = true
+}
+
+// ResourcesCleared reports if the "resources" edge to the FinanceOperation entity was cleared.
+func (m *FinanceResourceMutation) ResourcesCleared() bool {
+	return m.clearedresources
+}
+
+// RemoveResourceIDs removes the "resources" edge to the FinanceOperation entity by IDs.
+func (m *FinanceResourceMutation) RemoveResourceIDs(ids ...int) {
+	if m.removedresources == nil {
+		m.removedresources = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.resources, ids[i])
+		m.removedresources[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedResources returns the removed IDs of the "resources" edge to the FinanceOperation entity.
+func (m *FinanceResourceMutation) RemovedResourcesIDs() (ids []int) {
+	for id := range m.removedresources {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResourcesIDs returns the "resources" edge IDs in the mutation.
+func (m *FinanceResourceMutation) ResourcesIDs() (ids []int) {
+	for id := range m.resources {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetResources resets all changes to the "resources" edge.
+func (m *FinanceResourceMutation) ResetResources() {
+	m.resources = nil
+	m.clearedresources = false
+	m.removedresources = nil
+}
+
+// Where appends a list predicates to the FinanceResourceMutation builder.
+func (m *FinanceResourceMutation) Where(ps ...predicate.FinanceResource) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the FinanceResourceMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *FinanceResourceMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.FinanceResource, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *FinanceResourceMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *FinanceResourceMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (FinanceResource).
+func (m *FinanceResourceMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *FinanceResourceMutation) Fields() []string {
+	fields := make([]string, 0, 3)
+	if m._Name != nil {
+		fields = append(fields, financeresource.FieldName)
+	}
+	if m.createdAt != nil {
+		fields = append(fields, financeresource.FieldCreatedAt)
+	}
+	if m.updatedAt != nil {
+		fields = append(fields, financeresource.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *FinanceResourceMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case financeresource.FieldName:
+		return m.Name()
+	case financeresource.FieldCreatedAt:
+		return m.CreatedAt()
+	case financeresource.FieldUpdatedAt:
+		return m.UpdatedAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *FinanceResourceMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case financeresource.FieldName:
+		return m.OldName(ctx)
+	case financeresource.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case financeresource.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown FinanceResource field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceResourceMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case financeresource.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case financeresource.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case financeresource.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceResource field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *FinanceResourceMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *FinanceResourceMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinanceResourceMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinanceResource numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *FinanceResourceMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *FinanceResourceMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *FinanceResourceMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown FinanceResource nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *FinanceResourceMutation) ResetField(name string) error {
+	switch name {
+	case financeresource.FieldName:
+		m.ResetName()
+		return nil
+	case financeresource.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case financeresource.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceResource field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *FinanceResourceMutation) AddedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.company != nil {
+		edges = append(edges, financeresource.EdgeCompany)
+	}
+	if m.resources != nil {
+		edges = append(edges, financeresource.EdgeResources)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *FinanceResourceMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case financeresource.EdgeCompany:
+		if id := m.company; id != nil {
+			return []ent.Value{*id}
+		}
+	case financeresource.EdgeResources:
+		ids := make([]ent.Value, 0, len(m.resources))
+		for id := range m.resources {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *FinanceResourceMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.removedresources != nil {
+		edges = append(edges, financeresource.EdgeResources)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *FinanceResourceMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case financeresource.EdgeResources:
+		ids := make([]ent.Value, 0, len(m.removedresources))
+		for id := range m.removedresources {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *FinanceResourceMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.clearedcompany {
+		edges = append(edges, financeresource.EdgeCompany)
+	}
+	if m.clearedresources {
+		edges = append(edges, financeresource.EdgeResources)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *FinanceResourceMutation) EdgeCleared(name string) bool {
+	switch name {
+	case financeresource.EdgeCompany:
+		return m.clearedcompany
+	case financeresource.EdgeResources:
+		return m.clearedresources
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *FinanceResourceMutation) ClearEdge(name string) error {
+	switch name {
+	case financeresource.EdgeCompany:
+		m.ClearCompany()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceResource unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *FinanceResourceMutation) ResetEdge(name string) error {
+	switch name {
+	case financeresource.EdgeCompany:
+		m.ResetCompany()
+		return nil
+	case financeresource.EdgeResources:
+		m.ResetResources()
+		return nil
+	}
+	return fmt.Errorf("unknown FinanceResource edge %s", name)
 }
 
 // JobAuthorMutation represents an operation that mutates the JobAuthor nodes in the graph.
@@ -13992,14 +17540,14 @@ type JobPaymentsMutation struct {
 	add_LevelRequest          *float64
 	_LevelApprove             *float64
 	add_LevelApprove          *float64
-	_Amount                   *float64
-	add_Amount                *float64
+	_Amount                   **decimal.NullDecimal
 	_AtMunicipality           *bool
 	_MunicipalityDeliveryDate *time.Time
 	_InvoiceIssued            *bool
 	_InvoiceIssuedDate        *time.Time
 	_InvoiceReceived          *bool
 	_InvoiceReceivedDate      *time.Time
+	_InvoiceAmount            **decimal.NullDecimal
 	_CreatedAt                *time.Time
 	_UpdatedAt                *time.Time
 	clearedFields             map[string]struct{}
@@ -14509,13 +18057,12 @@ func (m *JobPaymentsMutation) ResetLevelApprove() {
 }
 
 // SetAmount sets the "Amount" field.
-func (m *JobPaymentsMutation) SetAmount(f float64) {
-	m._Amount = &f
-	m.add_Amount = nil
+func (m *JobPaymentsMutation) SetAmount(dd *decimal.NullDecimal) {
+	m._Amount = &dd
 }
 
 // Amount returns the value of the "Amount" field in the mutation.
-func (m *JobPaymentsMutation) Amount() (r float64, exists bool) {
+func (m *JobPaymentsMutation) Amount() (r *decimal.NullDecimal, exists bool) {
 	v := m._Amount
 	if v == nil {
 		return
@@ -14526,7 +18073,7 @@ func (m *JobPaymentsMutation) Amount() (r float64, exists bool) {
 // OldAmount returns the old "Amount" field's value of the JobPayments entity.
 // If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobPaymentsMutation) OldAmount(ctx context.Context) (v float64, err error) {
+func (m *JobPaymentsMutation) OldAmount(ctx context.Context) (v *decimal.NullDecimal, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAmount is only allowed on UpdateOne operations")
 	}
@@ -14540,28 +18087,9 @@ func (m *JobPaymentsMutation) OldAmount(ctx context.Context) (v float64, err err
 	return oldValue.Amount, nil
 }
 
-// AddAmount adds f to the "Amount" field.
-func (m *JobPaymentsMutation) AddAmount(f float64) {
-	if m.add_Amount != nil {
-		*m.add_Amount += f
-	} else {
-		m.add_Amount = &f
-	}
-}
-
-// AddedAmount returns the value that was added to the "Amount" field in this mutation.
-func (m *JobPaymentsMutation) AddedAmount() (r float64, exists bool) {
-	v := m.add_Amount
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearAmount clears the value of the "Amount" field.
 func (m *JobPaymentsMutation) ClearAmount() {
 	m._Amount = nil
-	m.add_Amount = nil
 	m.clearedFields[jobpayments.FieldAmount] = struct{}{}
 }
 
@@ -14574,7 +18102,6 @@ func (m *JobPaymentsMutation) AmountCleared() bool {
 // ResetAmount resets all changes to the "Amount" field.
 func (m *JobPaymentsMutation) ResetAmount() {
 	m._Amount = nil
-	m.add_Amount = nil
 	delete(m.clearedFields, jobpayments.FieldAmount)
 }
 
@@ -14872,6 +18399,55 @@ func (m *JobPaymentsMutation) ResetInvoiceReceivedDate() {
 	delete(m.clearedFields, jobpayments.FieldInvoiceReceivedDate)
 }
 
+// SetInvoiceAmount sets the "InvoiceAmount" field.
+func (m *JobPaymentsMutation) SetInvoiceAmount(dd *decimal.NullDecimal) {
+	m._InvoiceAmount = &dd
+}
+
+// InvoiceAmount returns the value of the "InvoiceAmount" field in the mutation.
+func (m *JobPaymentsMutation) InvoiceAmount() (r *decimal.NullDecimal, exists bool) {
+	v := m._InvoiceAmount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInvoiceAmount returns the old "InvoiceAmount" field's value of the JobPayments entity.
+// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobPaymentsMutation) OldInvoiceAmount(ctx context.Context) (v *decimal.NullDecimal, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInvoiceAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInvoiceAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInvoiceAmount: %w", err)
+	}
+	return oldValue.InvoiceAmount, nil
+}
+
+// ClearInvoiceAmount clears the value of the "InvoiceAmount" field.
+func (m *JobPaymentsMutation) ClearInvoiceAmount() {
+	m._InvoiceAmount = nil
+	m.clearedFields[jobpayments.FieldInvoiceAmount] = struct{}{}
+}
+
+// InvoiceAmountCleared returns if the "InvoiceAmount" field was cleared in this mutation.
+func (m *JobPaymentsMutation) InvoiceAmountCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldInvoiceAmount]
+	return ok
+}
+
+// ResetInvoiceAmount resets all changes to the "InvoiceAmount" field.
+func (m *JobPaymentsMutation) ResetInvoiceAmount() {
+	m._InvoiceAmount = nil
+	delete(m.clearedFields, jobpayments.FieldInvoiceAmount)
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (m *JobPaymentsMutation) SetCreatedAt(t time.Time) {
 	m._CreatedAt = &t
@@ -15017,7 +18593,7 @@ func (m *JobPaymentsMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobPaymentsMutation) Fields() []string {
-	fields := make([]string, 0, 16)
+	fields := make([]string, 0, 17)
 	if m.yibfNo != nil {
 		fields = append(fields, jobpayments.FieldYibfNo)
 	}
@@ -15059,6 +18635,9 @@ func (m *JobPaymentsMutation) Fields() []string {
 	}
 	if m._InvoiceReceivedDate != nil {
 		fields = append(fields, jobpayments.FieldInvoiceReceivedDate)
+	}
+	if m._InvoiceAmount != nil {
+		fields = append(fields, jobpayments.FieldInvoiceAmount)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, jobpayments.FieldCreatedAt)
@@ -15102,6 +18681,8 @@ func (m *JobPaymentsMutation) Field(name string) (ent.Value, bool) {
 		return m.InvoiceReceived()
 	case jobpayments.FieldInvoiceReceivedDate:
 		return m.InvoiceReceivedDate()
+	case jobpayments.FieldInvoiceAmount:
+		return m.InvoiceAmount()
 	case jobpayments.FieldCreatedAt:
 		return m.CreatedAt()
 	case jobpayments.FieldUpdatedAt:
@@ -15143,6 +18724,8 @@ func (m *JobPaymentsMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldInvoiceReceived(ctx)
 	case jobpayments.FieldInvoiceReceivedDate:
 		return m.OldInvoiceReceivedDate(ctx)
+	case jobpayments.FieldInvoiceAmount:
+		return m.OldInvoiceAmount(ctx)
 	case jobpayments.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case jobpayments.FieldUpdatedAt:
@@ -15206,7 +18789,7 @@ func (m *JobPaymentsMutation) SetField(name string, value ent.Value) error {
 		m.SetLevelApprove(v)
 		return nil
 	case jobpayments.FieldAmount:
-		v, ok := value.(float64)
+		v, ok := value.(*decimal.NullDecimal)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -15254,6 +18837,13 @@ func (m *JobPaymentsMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetInvoiceReceivedDate(v)
 		return nil
+	case jobpayments.FieldInvoiceAmount:
+		v, ok := value.(*decimal.NullDecimal)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInvoiceAmount(v)
+		return nil
 	case jobpayments.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -15288,9 +18878,6 @@ func (m *JobPaymentsMutation) AddedFields() []string {
 	if m.add_LevelApprove != nil {
 		fields = append(fields, jobpayments.FieldLevelApprove)
 	}
-	if m.add_Amount != nil {
-		fields = append(fields, jobpayments.FieldAmount)
-	}
 	return fields
 }
 
@@ -15307,8 +18894,6 @@ func (m *JobPaymentsMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedLevelRequest()
 	case jobpayments.FieldLevelApprove:
 		return m.AddedLevelApprove()
-	case jobpayments.FieldAmount:
-		return m.AddedAmount()
 	}
 	return nil, false
 }
@@ -15345,13 +18930,6 @@ func (m *JobPaymentsMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddLevelApprove(v)
-		return nil
-	case jobpayments.FieldAmount:
-		v, ok := value.(float64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddAmount(v)
 		return nil
 	}
 	return fmt.Errorf("unknown JobPayments numeric field %s", name)
@@ -15396,6 +18974,9 @@ func (m *JobPaymentsMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(jobpayments.FieldInvoiceReceivedDate) {
 		fields = append(fields, jobpayments.FieldInvoiceReceivedDate)
+	}
+	if m.FieldCleared(jobpayments.FieldInvoiceAmount) {
+		fields = append(fields, jobpayments.FieldInvoiceAmount)
 	}
 	return fields
 }
@@ -15447,6 +19028,9 @@ func (m *JobPaymentsMutation) ClearField(name string) error {
 	case jobpayments.FieldInvoiceReceivedDate:
 		m.ClearInvoiceReceivedDate()
 		return nil
+	case jobpayments.FieldInvoiceAmount:
+		m.ClearInvoiceAmount()
+		return nil
 	}
 	return fmt.Errorf("unknown JobPayments nullable field %s", name)
 }
@@ -15496,6 +19080,9 @@ func (m *JobPaymentsMutation) ResetField(name string) error {
 		return nil
 	case jobpayments.FieldInvoiceReceivedDate:
 		m.ResetInvoiceReceivedDate()
+		return nil
+	case jobpayments.FieldInvoiceAmount:
+		m.ResetInvoiceAmount()
 		return nil
 	case jobpayments.FieldCreatedAt:
 		m.ResetCreatedAt()

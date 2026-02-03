@@ -16,7 +16,7 @@ type CompanyEngineer struct {
 // Fields of the CompanyEngineer.
 func (CompanyEngineer) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("Name").Default(""),
+		field.String("Name").Default("İSİM YOK"),
 		field.String("TcNo").Optional(),
 		field.String("Phone").Optional(),
 		field.String("Email").Optional(),
@@ -27,7 +27,7 @@ func (CompanyEngineer) Fields() []ent.Field {
 		field.String("CertNo").Optional(),
 		field.Int("YDSID").Optional().Unique(),
 		field.Time("Employment").Optional(),
-		field.Int("Status").Default(1),
+		field.Bool("Status").Default(true),
 		field.String("Note").Optional(),
 
 		field.Time("CreatedAt").Default(time.Now),

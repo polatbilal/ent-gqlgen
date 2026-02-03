@@ -16,6 +16,10 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
@@ -23,20 +27,28 @@ import (
 // CompanyDetailQuery is the builder for querying CompanyDetail entities.
 type CompanyDetailQuery struct {
 	config
-	ctx                *QueryContext
-	order              []companydetail.OrderOption
-	inters             []Interceptor
-	predicates         []predicate.CompanyDetail
-	withJobs           *JobRelationsQuery
-	withUsers          *CompanyUserQuery
-	withTokens         *CompanyTokenQuery
-	withEngineers      *CompanyEngineerQuery
-	modifiers          []func(*sql.Selector)
-	loadTotal          []func(context.Context, []*CompanyDetail) error
-	withNamedJobs      map[string]*JobRelationsQuery
-	withNamedUsers     map[string]*CompanyUserQuery
-	withNamedTokens    map[string]*CompanyTokenQuery
-	withNamedEngineers map[string]*CompanyEngineerQuery
+	ctx                 *QueryContext
+	order               []companydetail.OrderOption
+	inters              []Interceptor
+	predicates          []predicate.CompanyDetail
+	withJobs            *JobRelationsQuery
+	withUsers           *CompanyUserQuery
+	withTokens          *CompanyTokenQuery
+	withEngineers       *CompanyEngineerQuery
+	withOperations      *FinanceOperationQuery
+	withMethods         *FinanceClassQuery
+	withResources       *FinanceResourceQuery
+	withAccounts        *FinanceAccountQuery
+	modifiers           []func(*sql.Selector)
+	loadTotal           []func(context.Context, []*CompanyDetail) error
+	withNamedJobs       map[string]*JobRelationsQuery
+	withNamedUsers      map[string]*CompanyUserQuery
+	withNamedTokens     map[string]*CompanyTokenQuery
+	withNamedEngineers  map[string]*CompanyEngineerQuery
+	withNamedOperations map[string]*FinanceOperationQuery
+	withNamedMethods    map[string]*FinanceClassQuery
+	withNamedResources  map[string]*FinanceResourceQuery
+	withNamedAccounts   map[string]*FinanceAccountQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -154,6 +166,94 @@ func (_q *CompanyDetailQuery) QueryEngineers() *CompanyEngineerQuery {
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryOperations chains the current query on the "operations" edge.
+func (_q *CompanyDetailQuery) QueryOperations() *FinanceOperationQuery {
+	query := (&FinanceOperationClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.OperationsTable, companydetail.OperationsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryMethods chains the current query on the "methods" edge.
+func (_q *CompanyDetailQuery) QueryMethods() *FinanceClassQuery {
+	query := (&FinanceClassClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(financeclass.Table, financeclass.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.MethodsTable, companydetail.MethodsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryResources chains the current query on the "resources" edge.
+func (_q *CompanyDetailQuery) QueryResources() *FinanceResourceQuery {
+	query := (&FinanceResourceClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(financeresource.Table, financeresource.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.ResourcesTable, companydetail.ResourcesColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryAccounts chains the current query on the "accounts" edge.
+func (_q *CompanyDetailQuery) QueryAccounts() *FinanceAccountQuery {
+	query := (&FinanceAccountClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.AccountsTable, companydetail.AccountsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
@@ -348,15 +448,19 @@ func (_q *CompanyDetailQuery) Clone() *CompanyDetailQuery {
 		return nil
 	}
 	return &CompanyDetailQuery{
-		config:        _q.config,
-		ctx:           _q.ctx.Clone(),
-		order:         append([]companydetail.OrderOption{}, _q.order...),
-		inters:        append([]Interceptor{}, _q.inters...),
-		predicates:    append([]predicate.CompanyDetail{}, _q.predicates...),
-		withJobs:      _q.withJobs.Clone(),
-		withUsers:     _q.withUsers.Clone(),
-		withTokens:    _q.withTokens.Clone(),
-		withEngineers: _q.withEngineers.Clone(),
+		config:         _q.config,
+		ctx:            _q.ctx.Clone(),
+		order:          append([]companydetail.OrderOption{}, _q.order...),
+		inters:         append([]Interceptor{}, _q.inters...),
+		predicates:     append([]predicate.CompanyDetail{}, _q.predicates...),
+		withJobs:       _q.withJobs.Clone(),
+		withUsers:      _q.withUsers.Clone(),
+		withTokens:     _q.withTokens.Clone(),
+		withEngineers:  _q.withEngineers.Clone(),
+		withOperations: _q.withOperations.Clone(),
+		withMethods:    _q.withMethods.Clone(),
+		withResources:  _q.withResources.Clone(),
+		withAccounts:   _q.withAccounts.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -404,6 +508,50 @@ func (_q *CompanyDetailQuery) WithEngineers(opts ...func(*CompanyEngineerQuery))
 		opt(query)
 	}
 	_q.withEngineers = query
+	return _q
+}
+
+// WithOperations tells the query-builder to eager-load the nodes that are connected to
+// the "operations" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithOperations(opts ...func(*FinanceOperationQuery)) *CompanyDetailQuery {
+	query := (&FinanceOperationClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withOperations = query
+	return _q
+}
+
+// WithMethods tells the query-builder to eager-load the nodes that are connected to
+// the "methods" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithMethods(opts ...func(*FinanceClassQuery)) *CompanyDetailQuery {
+	query := (&FinanceClassClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withMethods = query
+	return _q
+}
+
+// WithResources tells the query-builder to eager-load the nodes that are connected to
+// the "resources" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithResources(opts ...func(*FinanceResourceQuery)) *CompanyDetailQuery {
+	query := (&FinanceResourceClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withResources = query
+	return _q
+}
+
+// WithAccounts tells the query-builder to eager-load the nodes that are connected to
+// the "accounts" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithAccounts(opts ...func(*FinanceAccountQuery)) *CompanyDetailQuery {
+	query := (&FinanceAccountClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withAccounts = query
 	return _q
 }
 
@@ -485,11 +633,15 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 	var (
 		nodes       = []*CompanyDetail{}
 		_spec       = _q.querySpec()
-		loadedTypes = [4]bool{
+		loadedTypes = [8]bool{
 			_q.withJobs != nil,
 			_q.withUsers != nil,
 			_q.withTokens != nil,
 			_q.withEngineers != nil,
+			_q.withOperations != nil,
+			_q.withMethods != nil,
+			_q.withResources != nil,
+			_q.withAccounts != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -541,6 +693,34 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			return nil, err
 		}
 	}
+	if query := _q.withOperations; query != nil {
+		if err := _q.loadOperations(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.Operations = []*FinanceOperation{} },
+			func(n *CompanyDetail, e *FinanceOperation) { n.Edges.Operations = append(n.Edges.Operations, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withMethods; query != nil {
+		if err := _q.loadMethods(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.Methods = []*FinanceClass{} },
+			func(n *CompanyDetail, e *FinanceClass) { n.Edges.Methods = append(n.Edges.Methods, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withResources; query != nil {
+		if err := _q.loadResources(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.Resources = []*FinanceResource{} },
+			func(n *CompanyDetail, e *FinanceResource) { n.Edges.Resources = append(n.Edges.Resources, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withAccounts; query != nil {
+		if err := _q.loadAccounts(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.Accounts = []*FinanceAccount{} },
+			func(n *CompanyDetail, e *FinanceAccount) { n.Edges.Accounts = append(n.Edges.Accounts, e) }); err != nil {
+			return nil, err
+		}
+	}
 	for name, query := range _q.withNamedJobs {
 		if err := _q.loadJobs(ctx, query, nodes,
 			func(n *CompanyDetail) { n.appendNamedJobs(name) },
@@ -566,6 +746,34 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		if err := _q.loadEngineers(ctx, query, nodes,
 			func(n *CompanyDetail) { n.appendNamedEngineers(name) },
 			func(n *CompanyDetail, e *CompanyEngineer) { n.appendNamedEngineers(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range _q.withNamedOperations {
+		if err := _q.loadOperations(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedOperations(name) },
+			func(n *CompanyDetail, e *FinanceOperation) { n.appendNamedOperations(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range _q.withNamedMethods {
+		if err := _q.loadMethods(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedMethods(name) },
+			func(n *CompanyDetail, e *FinanceClass) { n.appendNamedMethods(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range _q.withNamedResources {
+		if err := _q.loadResources(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedResources(name) },
+			func(n *CompanyDetail, e *FinanceResource) { n.appendNamedResources(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range _q.withNamedAccounts {
+		if err := _q.loadAccounts(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedAccounts(name) },
+			func(n *CompanyDetail, e *FinanceAccount) { n.appendNamedAccounts(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -683,6 +891,130 @@ func (_q *CompanyDetailQuery) loadEngineers(ctx context.Context, query *CompanyE
 	query.withFKs = true
 	query.Where(predicate.CompanyEngineer(func(s *sql.Selector) {
 		s.Where(sql.InValues(s.C(companydetail.EngineersColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *CompanyDetailQuery) loadOperations(ctx context.Context, query *FinanceOperationQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceOperation)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.FinanceOperation(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.OperationsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *CompanyDetailQuery) loadMethods(ctx context.Context, query *FinanceClassQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceClass)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.FinanceClass(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.MethodsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *CompanyDetailQuery) loadResources(ctx context.Context, query *FinanceResourceQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceResource)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.FinanceResource(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.ResourcesColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *CompanyDetailQuery) loadAccounts(ctx context.Context, query *FinanceAccountQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceAccount)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.FinanceAccount(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.AccountsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -839,6 +1171,62 @@ func (_q *CompanyDetailQuery) WithNamedEngineers(name string, opts ...func(*Comp
 		_q.withNamedEngineers = make(map[string]*CompanyEngineerQuery)
 	}
 	_q.withNamedEngineers[name] = query
+	return _q
+}
+
+// WithNamedOperations tells the query-builder to eager-load the nodes that are connected to the "operations"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithNamedOperations(name string, opts ...func(*FinanceOperationQuery)) *CompanyDetailQuery {
+	query := (&FinanceOperationClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if _q.withNamedOperations == nil {
+		_q.withNamedOperations = make(map[string]*FinanceOperationQuery)
+	}
+	_q.withNamedOperations[name] = query
+	return _q
+}
+
+// WithNamedMethods tells the query-builder to eager-load the nodes that are connected to the "methods"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithNamedMethods(name string, opts ...func(*FinanceClassQuery)) *CompanyDetailQuery {
+	query := (&FinanceClassClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if _q.withNamedMethods == nil {
+		_q.withNamedMethods = make(map[string]*FinanceClassQuery)
+	}
+	_q.withNamedMethods[name] = query
+	return _q
+}
+
+// WithNamedResources tells the query-builder to eager-load the nodes that are connected to the "resources"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithNamedResources(name string, opts ...func(*FinanceResourceQuery)) *CompanyDetailQuery {
+	query := (&FinanceResourceClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if _q.withNamedResources == nil {
+		_q.withNamedResources = make(map[string]*FinanceResourceQuery)
+	}
+	_q.withNamedResources[name] = query
+	return _q
+}
+
+// WithNamedAccounts tells the query-builder to eager-load the nodes that are connected to the "accounts"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithNamedAccounts(name string, opts ...func(*FinanceAccountQuery)) *CompanyDetailQuery {
+	query := (&FinanceAccountClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if _q.withNamedAccounts == nil {
+		_q.withNamedAccounts = make(map[string]*FinanceAccountQuery)
+	}
+	_q.withNamedAccounts[name] = query
 	return _q
 }
 

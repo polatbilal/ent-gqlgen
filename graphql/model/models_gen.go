@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
+	"github.com/shopspring/decimal"
 )
 
 type AdministrationCount struct {
@@ -79,7 +80,7 @@ type CompanyEngineerInput struct {
 	RegisterNo  *string    `json:"RegisterNo,omitempty"`
 	CertNo      *string    `json:"CertNo,omitempty"`
 	Employment  *time.Time `json:"Employment,omitempty"`
-	Status      *int       `json:"Status,omitempty"`
+	Status      *bool      `json:"Status,omitempty"`
 	Note        *string    `json:"Note,omitempty"`
 }
 
@@ -243,23 +244,24 @@ type JobOwnerInput struct {
 }
 
 type JobPaymentStatusInput struct {
-	AtMunicipality           *bool      `json:"AtMunicipality,omitempty"`
-	MunicipalityDeliveryDate *time.Time `json:"MunicipalityDeliveryDate,omitempty"`
-	InvoiceIssued            *bool      `json:"InvoiceIssued,omitempty"`
-	InvoiceIssuedDate        *time.Time `json:"InvoiceIssuedDate,omitempty"`
-	InvoiceReceived          *bool      `json:"InvoiceReceived,omitempty"`
-	InvoiceReceivedDate      *time.Time `json:"InvoiceReceivedDate,omitempty"`
+	AtMunicipality           *bool                `json:"AtMunicipality,omitempty"`
+	MunicipalityDeliveryDate *time.Time           `json:"MunicipalityDeliveryDate,omitempty"`
+	InvoiceIssued            *bool                `json:"InvoiceIssued,omitempty"`
+	InvoiceIssuedDate        *time.Time           `json:"InvoiceIssuedDate,omitempty"`
+	InvoiceReceived          *bool                `json:"InvoiceReceived,omitempty"`
+	InvoiceReceivedDate      *time.Time           `json:"InvoiceReceivedDate,omitempty"`
+	InvoiceAmount            *decimal.NullDecimal `json:"InvoiceAmount,omitempty"`
 }
 
 type JobPaymentsInput struct {
-	PaymentNo    int        `json:"PaymentNo"`
-	PaymentDate  *time.Time `json:"PaymentDate,omitempty"`
-	PaymentType  *string    `json:"PaymentType,omitempty"`
-	LevelRequest *float64   `json:"LevelRequest,omitempty"`
-	LevelApprove *float64   `json:"LevelApprove,omitempty"`
-	Amount       *float64   `json:"Amount,omitempty"`
-	YibfNo       *int       `json:"YibfNo,omitempty"`
-	State        *string    `json:"State,omitempty"`
+	PaymentNo    int                  `json:"PaymentNo"`
+	PaymentDate  *time.Time           `json:"PaymentDate,omitempty"`
+	PaymentType  *string              `json:"PaymentType,omitempty"`
+	LevelRequest *float64             `json:"LevelRequest,omitempty"`
+	LevelApprove *float64             `json:"LevelApprove,omitempty"`
+	Amount       *decimal.NullDecimal `json:"Amount,omitempty"`
+	YibfNo       *int                 `json:"YibfNo,omitempty"`
+	State        *string              `json:"State,omitempty"`
 }
 
 type JobProgressInput struct {

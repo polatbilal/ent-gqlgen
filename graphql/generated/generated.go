@@ -17,6 +17,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/graphql/scalars"
+	"github.com/shopspring/decimal"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -259,6 +260,7 @@ type ComplexityRoot struct {
 		Amount                   func(childComplexity int) int
 		AtMunicipality           func(childComplexity int) int
 		ID                       func(childComplexity int) int
+		InvoiceAmount            func(childComplexity int) int
 		InvoiceIssued            func(childComplexity int) int
 		InvoiceIssuedDate        func(childComplexity int) int
 		InvoiceReceived          func(childComplexity int) int
@@ -1461,6 +1463,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobPayments.ID(childComplexity), true
+	case "JobPayments.InvoiceAmount":
+		if e.complexity.JobPayments.InvoiceAmount == nil {
+			break
+		}
+
+		return e.complexity.JobPayments.InvoiceAmount(childComplexity), true
 	case "JobPayments.InvoiceIssued":
 		if e.complexity.JobPayments.InvoiceIssued == nil {
 			break
@@ -2493,6 +2501,7 @@ var sources = []*ast.Source{
 directive @auth on FIELD_DEFINITION
 
 scalar Time
+scalar Decimal
 
 type AuthPayload {
   token: String!
@@ -2735,7 +2744,7 @@ extend type Mutation {
   RegisterNo: String
   CertNo: String
   Employment: Time
-  Status: Int
+  Status: Boolean
   Note: String
   CompanyCode: Int
   Company: CompanyDetail
@@ -2755,7 +2764,7 @@ input CompanyEngineerInput {
   RegisterNo: String
   CertNo: String
   Employment: Time
-  Status: Int
+  Status: Boolean
   Note: String
 }
 
@@ -3015,7 +3024,7 @@ extend type Mutation {
   PaymentType: String
   LevelRequest: Float
   LevelApprove: Float
-  Amount: Float
+  Amount: Decimal
   State: String
   YibfNo: Int
   AtMunicipality: Boolean
@@ -3024,6 +3033,7 @@ extend type Mutation {
   InvoiceIssuedDate: Time
   InvoiceReceived: Boolean
   InvoiceReceivedDate: Time
+  InvoiceAmount: Decimal
   updatedAt: Time
 }
 
@@ -3033,7 +3043,7 @@ input JobPaymentsInput {
   PaymentType: String
   LevelRequest: Float
   LevelApprove: Float
-  Amount: Float
+  Amount: Decimal
   YibfNo: Int
   State: String
 }
@@ -3045,6 +3055,7 @@ input JobPaymentStatusInput {
   InvoiceIssuedDate: Time
   InvoiceReceived: Boolean
   InvoiceReceivedDate: Time
+  InvoiceAmount: Decimal
 }
 
 extend type Query {
@@ -5533,7 +5544,7 @@ func (ec *executionContext) _CompanyEngineer_Status(ctx context.Context, field g
 			return obj.Status, nil
 		},
 		nil,
-		ec.marshalOInt2int,
+		ec.marshalOBoolean2bool,
 		true,
 		false,
 	)
@@ -5546,7 +5557,7 @@ func (ec *executionContext) fieldContext_CompanyEngineer_Status(_ context.Contex
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type Boolean does not have child fields")
 		},
 	}
 	return fc, nil
@@ -9486,7 +9497,7 @@ func (ec *executionContext) _JobPayments_Amount(ctx context.Context, field graph
 			return obj.Amount, nil
 		},
 		nil,
-		ec.marshalOFloat2float64,
+		ec.marshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal,
 		true,
 		false,
 	)
@@ -9499,7 +9510,7 @@ func (ec *executionContext) fieldContext_JobPayments_Amount(_ context.Context, f
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Float does not have child fields")
+			return nil, errors.New("field of type Decimal does not have child fields")
 		},
 	}
 	return fc, nil
@@ -9732,6 +9743,35 @@ func (ec *executionContext) fieldContext_JobPayments_InvoiceReceivedDate(_ conte
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobPayments_InvoiceAmount(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobPayments_InvoiceAmount,
+		func(ctx context.Context) (any, error) {
+			return obj.InvoiceAmount, nil
+		},
+		nil,
+		ec.marshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobPayments_InvoiceAmount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobPayments",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Decimal does not have child fields")
 		},
 	}
 	return fc, nil
@@ -12274,6 +12314,8 @@ func (ec *executionContext) fieldContext_Mutation_upsertPayments(ctx context.Con
 				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
 			case "InvoiceReceivedDate":
 				return ec.fieldContext_JobPayments_InvoiceReceivedDate(ctx, field)
+			case "InvoiceAmount":
+				return ec.fieldContext_JobPayments_InvoiceAmount(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
 			}
@@ -12362,6 +12404,8 @@ func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.
 				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
 			case "InvoiceReceivedDate":
 				return ec.fieldContext_JobPayments_InvoiceReceivedDate(ctx, field)
+			case "InvoiceAmount":
+				return ec.fieldContext_JobPayments_InvoiceAmount(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
 			}
@@ -12450,6 +12494,8 @@ func (ec *executionContext) fieldContext_Mutation_updatePaymentStatus(ctx contex
 				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
 			case "InvoiceReceivedDate":
 				return ec.fieldContext_JobPayments_InvoiceReceivedDate(ctx, field)
+			case "InvoiceAmount":
+				return ec.fieldContext_JobPayments_InvoiceAmount(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
 			}
@@ -14613,6 +14659,8 @@ func (ec *executionContext) fieldContext_Query_jobPayments(ctx context.Context, 
 				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
 			case "InvoiceReceivedDate":
 				return ec.fieldContext_JobPayments_InvoiceReceivedDate(ctx, field)
+			case "InvoiceAmount":
+				return ec.fieldContext_JobPayments_InvoiceAmount(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_JobPayments_updatedAt(ctx, field)
 			}
@@ -17355,7 +17403,7 @@ func (ec *executionContext) unmarshalInputCompanyEngineerInput(ctx context.Conte
 			it.Employment = data
 		case "Status":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Status"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -18267,7 +18315,7 @@ func (ec *executionContext) unmarshalInputJobPaymentStatusInput(ctx context.Cont
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"AtMunicipality", "MunicipalityDeliveryDate", "InvoiceIssued", "InvoiceIssuedDate", "InvoiceReceived", "InvoiceReceivedDate"}
+	fieldsInOrder := [...]string{"AtMunicipality", "MunicipalityDeliveryDate", "InvoiceIssued", "InvoiceIssuedDate", "InvoiceReceived", "InvoiceReceivedDate", "InvoiceAmount"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -18316,6 +18364,13 @@ func (ec *executionContext) unmarshalInputJobPaymentStatusInput(ctx context.Cont
 				return it, err
 			}
 			it.InvoiceReceivedDate = data
+		case "InvoiceAmount":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("InvoiceAmount"))
+			data, err := ec.unmarshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.InvoiceAmount = data
 		}
 	}
 
@@ -18373,7 +18428,7 @@ func (ec *executionContext) unmarshalInputJobPaymentsInput(ctx context.Context, 
 			it.LevelApprove = data
 		case "Amount":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Amount"))
-			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			data, err := ec.unmarshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -19765,6 +19820,8 @@ func (ec *executionContext) _JobPayments(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._JobPayments_InvoiceReceived(ctx, field, obj)
 		case "InvoiceReceivedDate":
 			out.Values[i] = ec._JobPayments_InvoiceReceivedDate(ctx, field, obj)
+		case "InvoiceAmount":
+			out.Values[i] = ec._JobPayments_InvoiceAmount(ctx, field, obj)
 		case "updatedAt":
 			out.Values[i] = ec._JobPayments_updatedAt(ctx, field, obj)
 		default:
@@ -22172,6 +22229,24 @@ func (ec *executionContext) unmarshalOCompanyTokenInput2ᚖgithubᚗcomᚋpolatb
 	}
 	res, err := ec.unmarshalInputCompanyTokenInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal(ctx context.Context, v any) (*decimal.NullDecimal, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := scalars.UnmarshalDecimal(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal(ctx context.Context, sel ast.SelectionSet, v *decimal.NullDecimal) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	_ = sel
+	_ = ctx
+	res := scalars.MarshalDecimal(*v)
+	return res
 }
 
 func (ec *executionContext) unmarshalOEngineerFilterInput2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐEngineerFilterInput(ctx context.Context, v any) (*model.EngineerFilterInput, error) {

@@ -45,7 +45,7 @@ func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input mo
 			SetNillablePaymentType(input.PaymentType).
 			SetNillableLevelRequest(input.LevelRequest).
 			SetNillableLevelApprove(input.LevelApprove).
-			SetNillableAmount(input.Amount).
+			SetAmount(input.Amount).
 			SetNillableState(input.State)
 
 		payment, err := updateQuery.Save(ctx)
@@ -81,7 +81,7 @@ func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input mo
 		SetState(*input.State).
 		SetLevelRequest(*input.LevelRequest).
 		SetLevelApprove(*input.LevelApprove).
-		SetAmount(*input.Amount).
+		SetAmount(input.Amount).
 		SetPayments(relations) // İlişkiyi direkt oluşturma sırasında ekle
 
 	payment, err := createQuery.Save(ctx)
@@ -108,10 +108,11 @@ func (r *mutationResolver) CreateJobPayments(ctx context.Context, input model.Jo
 		SetPaymentType(*input.PaymentType).
 		SetLevelRequest(*input.LevelRequest).
 		SetLevelApprove(*input.LevelApprove).
-		SetAmount(*input.Amount).
+		SetAmount(input.Amount).
 		SetState(*input.State).
 		SetYibfNo(*input.YibfNo).
 		Save(ctx)
+
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +138,8 @@ func (r *mutationResolver) UpdatePaymentStatus(ctx context.Context, id int, inpu
 		SetNillableInvoiceIssued(input.InvoiceIssued).
 		SetNillableInvoiceIssuedDate(input.InvoiceIssuedDate).
 		SetNillableInvoiceReceived(input.InvoiceReceived).
-		SetNillableInvoiceReceivedDate(input.InvoiceReceivedDate)
+		SetNillableInvoiceReceivedDate(input.InvoiceReceivedDate).
+		SetInvoiceAmount(input.InvoiceAmount)
 
 	paymentStatus, err := updatePaymentStatus.Save(ctx)
 	if err != nil {

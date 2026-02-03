@@ -38,4 +38,5 @@ GOOS=windows GOARCH=amd64 go build -o ydsapi.exe server.go
 Linux
 -----------------------
 set GOOS=linux && set GOARCH=amd64&& go build -o ydsapi server.go
+GOOS=linux GOARCH=amd64 go build -o ydsapi server.go
 ```

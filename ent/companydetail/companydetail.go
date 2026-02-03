@@ -84,6 +84,14 @@ const (
 	EdgeTokens = "tokens"
 	// EdgeEngineers holds the string denoting the engineers edge name in mutations.
 	EdgeEngineers = "engineers"
+	// EdgeOperations holds the string denoting the operations edge name in mutations.
+	EdgeOperations = "operations"
+	// EdgeMethods holds the string denoting the methods edge name in mutations.
+	EdgeMethods = "methods"
+	// EdgeResources holds the string denoting the resources edge name in mutations.
+	EdgeResources = "resources"
+	// EdgeAccounts holds the string denoting the accounts edge name in mutations.
+	EdgeAccounts = "accounts"
 	// Table holds the table name of the companydetail in the database.
 	Table = "company_details"
 	// JobsTable is the table that holds the jobs relation/edge.
@@ -114,6 +122,34 @@ const (
 	EngineersInverseTable = "company_engineers"
 	// EngineersColumn is the table column denoting the engineers relation/edge.
 	EngineersColumn = "company_id"
+	// OperationsTable is the table that holds the operations relation/edge.
+	OperationsTable = "finance_operations"
+	// OperationsInverseTable is the table name for the FinanceOperation entity.
+	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
+	OperationsInverseTable = "finance_operations"
+	// OperationsColumn is the table column denoting the operations relation/edge.
+	OperationsColumn = "company_id"
+	// MethodsTable is the table that holds the methods relation/edge.
+	MethodsTable = "finance_classes"
+	// MethodsInverseTable is the table name for the FinanceClass entity.
+	// It exists in this package in order to avoid circular dependency with the "financeclass" package.
+	MethodsInverseTable = "finance_classes"
+	// MethodsColumn is the table column denoting the methods relation/edge.
+	MethodsColumn = "company_id"
+	// ResourcesTable is the table that holds the resources relation/edge.
+	ResourcesTable = "finance_resources"
+	// ResourcesInverseTable is the table name for the FinanceResource entity.
+	// It exists in this package in order to avoid circular dependency with the "financeresource" package.
+	ResourcesInverseTable = "finance_resources"
+	// ResourcesColumn is the table column denoting the resources relation/edge.
+	ResourcesColumn = "company_id"
+	// AccountsTable is the table that holds the accounts relation/edge.
+	AccountsTable = "finance_accounts"
+	// AccountsInverseTable is the table name for the FinanceAccount entity.
+	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
+	AccountsInverseTable = "finance_accounts"
+	// AccountsColumn is the table column denoting the accounts relation/edge.
+	AccountsColumn = "company_id"
 )
 
 // Columns holds all SQL columns for companydetail fields.
@@ -397,6 +433,62 @@ func ByEngineers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newEngineersStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByOperationsCount orders the results by operations count.
+func ByOperationsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newOperationsStep(), opts...)
+	}
+}
+
+// ByOperations orders the results by operations terms.
+func ByOperations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newOperationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByMethodsCount orders the results by methods count.
+func ByMethodsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newMethodsStep(), opts...)
+	}
+}
+
+// ByMethods orders the results by methods terms.
+func ByMethods(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newMethodsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByResourcesCount orders the results by resources count.
+func ByResourcesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newResourcesStep(), opts...)
+	}
+}
+
+// ByResources orders the results by resources terms.
+func ByResources(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newResourcesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByAccountsCount orders the results by accounts count.
+func ByAccountsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newAccountsStep(), opts...)
+	}
+}
+
+// ByAccounts orders the results by accounts terms.
+func ByAccounts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newAccountsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newJobsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -423,5 +515,33 @@ func newEngineersStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(EngineersInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, EngineersTable, EngineersColumn),
+	)
+}
+func newOperationsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(OperationsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, OperationsTable, OperationsColumn),
+	)
+}
+func newMethodsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(MethodsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, MethodsTable, MethodsColumn),
+	)
+}
+func newResourcesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ResourcesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ResourcesTable, ResourcesColumn),
+	)
+}
+func newAccountsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(AccountsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, AccountsTable, AccountsColumn),
 	)
 }

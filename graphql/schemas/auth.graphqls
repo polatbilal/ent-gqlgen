@@ -6,6 +6,7 @@ directive @goField(
 directive @auth on FIELD_DEFINITION
 
 scalar Time
+scalar Decimal
 
 type AuthPayload {
   token: String!
