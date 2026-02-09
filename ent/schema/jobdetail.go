@@ -25,6 +25,7 @@ func (JobDetail) Fields() []ent.Field {
 		field.String("Sheet").Optional(),
 		field.Time("ContractDate").Optional(),
 		field.Time("StartDate").Optional(),
+		field.String("StartNote").Optional(),
 		field.Time("LicenseDate").Optional(),
 		field.String("LicenseNo").Optional(),
 		field.Time("DistributionDate").Optional(),

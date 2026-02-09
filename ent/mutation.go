@@ -12100,6 +12100,7 @@ type JobDetailMutation struct {
 	_Sheet               *string
 	_ContractDate        *time.Time
 	_StartDate           *time.Time
+	_StartNote           *string
 	_LicenseDate         *time.Time
 	_LicenseNo           *string
 	_DistributionDate    *time.Time
@@ -12685,6 +12686,55 @@ func (m *JobDetailMutation) StartDateCleared() bool {
 func (m *JobDetailMutation) ResetStartDate() {
 	m._StartDate = nil
 	delete(m.clearedFields, jobdetail.FieldStartDate)
+}
+
+// SetStartNote sets the "StartNote" field.
+func (m *JobDetailMutation) SetStartNote(s string) {
+	m._StartNote = &s
+}
+
+// StartNote returns the value of the "StartNote" field in the mutation.
+func (m *JobDetailMutation) StartNote() (r string, exists bool) {
+	v := m._StartNote
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStartNote returns the old "StartNote" field's value of the JobDetail entity.
+// If the JobDetail object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobDetailMutation) OldStartNote(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStartNote is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStartNote requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStartNote: %w", err)
+	}
+	return oldValue.StartNote, nil
+}
+
+// ClearStartNote clears the value of the "StartNote" field.
+func (m *JobDetailMutation) ClearStartNote() {
+	m._StartNote = nil
+	m.clearedFields[jobdetail.FieldStartNote] = struct{}{}
+}
+
+// StartNoteCleared returns if the "StartNote" field was cleared in this mutation.
+func (m *JobDetailMutation) StartNoteCleared() bool {
+	_, ok := m.clearedFields[jobdetail.FieldStartNote]
+	return ok
+}
+
+// ResetStartNote resets all changes to the "StartNote" field.
+func (m *JobDetailMutation) ResetStartNote() {
+	m._StartNote = nil
+	delete(m.clearedFields, jobdetail.FieldStartNote)
 }
 
 // SetLicenseDate sets the "LicenseDate" field.
@@ -14155,7 +14205,7 @@ func (m *JobDetailMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobDetailMutation) Fields() []string {
-	fields := make([]string, 0, 35)
+	fields := make([]string, 0, 36)
 	if m._YibfNo != nil {
 		fields = append(fields, jobdetail.FieldYibfNo)
 	}
@@ -14182,6 +14232,9 @@ func (m *JobDetailMutation) Fields() []string {
 	}
 	if m._StartDate != nil {
 		fields = append(fields, jobdetail.FieldStartDate)
+	}
+	if m._StartNote != nil {
+		fields = append(fields, jobdetail.FieldStartNote)
 	}
 	if m._LicenseDate != nil {
 		fields = append(fields, jobdetail.FieldLicenseDate)
@@ -14287,6 +14340,8 @@ func (m *JobDetailMutation) Field(name string) (ent.Value, bool) {
 		return m.ContractDate()
 	case jobdetail.FieldStartDate:
 		return m.StartDate()
+	case jobdetail.FieldStartNote:
+		return m.StartNote()
 	case jobdetail.FieldLicenseDate:
 		return m.LicenseDate()
 	case jobdetail.FieldLicenseNo:
@@ -14366,6 +14421,8 @@ func (m *JobDetailMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldContractDate(ctx)
 	case jobdetail.FieldStartDate:
 		return m.OldStartDate(ctx)
+	case jobdetail.FieldStartNote:
+		return m.OldStartNote(ctx)
 	case jobdetail.FieldLicenseDate:
 		return m.OldLicenseDate(ctx)
 	case jobdetail.FieldLicenseNo:
@@ -14489,6 +14546,13 @@ func (m *JobDetailMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStartDate(v)
+		return nil
+	case jobdetail.FieldStartNote:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStartNote(v)
 		return nil
 	case jobdetail.FieldLicenseDate:
 		v, ok := value.(time.Time)
@@ -14825,6 +14889,9 @@ func (m *JobDetailMutation) ClearedFields() []string {
 	if m.FieldCleared(jobdetail.FieldStartDate) {
 		fields = append(fields, jobdetail.FieldStartDate)
 	}
+	if m.FieldCleared(jobdetail.FieldStartNote) {
+		fields = append(fields, jobdetail.FieldStartNote)
+	}
 	if m.FieldCleared(jobdetail.FieldLicenseDate) {
 		fields = append(fields, jobdetail.FieldLicenseDate)
 	}
@@ -14935,6 +15002,9 @@ func (m *JobDetailMutation) ClearField(name string) error {
 	case jobdetail.FieldStartDate:
 		m.ClearStartDate()
 		return nil
+	case jobdetail.FieldStartNote:
+		m.ClearStartNote()
+		return nil
 	case jobdetail.FieldLicenseDate:
 		m.ClearLicenseDate()
 		return nil
@@ -15041,6 +15111,9 @@ func (m *JobDetailMutation) ResetField(name string) error {
 		return nil
 	case jobdetail.FieldStartDate:
 		m.ResetStartDate()
+		return nil
+	case jobdetail.FieldStartNote:
+		m.ResetStartNote()
 		return nil
 	case jobdetail.FieldLicenseDate:
 		m.ResetLicenseDate()

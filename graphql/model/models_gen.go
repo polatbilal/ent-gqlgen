@@ -110,13 +110,14 @@ type JobAuthorInput struct {
 }
 
 type JobBatchInput struct {
-	YibfNo          int                 `json:"YibfNo"`
-	JobInput        *JobInput           `json:"jobInput,omitempty"`
-	OwnerInput      *JobOwnerInput      `json:"ownerInput,omitempty"`
-	ContractorInput *JobContractorInput `json:"contractorInput,omitempty"`
-	AuthorInput     *JobAuthorInput     `json:"authorInput,omitempty"`
-	SupervisorInput *JobSupervisorInput `json:"supervisorInput,omitempty"`
-	EngineerInput   *JobEngineerInput   `json:"engineerInput,omitempty"`
+	YibfNo            int                 `json:"YibfNo"`
+	JobInput          *JobInput           `json:"jobInput,omitempty"`
+	JobStartDateInput *JobStartDateInput  `json:"jobStartDateInput,omitempty"`
+	OwnerInput        *JobOwnerInput      `json:"ownerInput,omitempty"`
+	ContractorInput   *JobContractorInput `json:"contractorInput,omitempty"`
+	AuthorInput       *JobAuthorInput     `json:"authorInput,omitempty"`
+	SupervisorInput   *JobSupervisorInput `json:"supervisorInput,omitempty"`
+	EngineerInput     *JobEngineerInput   `json:"engineerInput,omitempty"`
 }
 
 type JobBatchResult struct {
@@ -202,7 +203,6 @@ type JobInput struct {
 	Sheet            *string    `json:"Sheet,omitempty"`
 	DistributionDate *time.Time `json:"DistributionDate,omitempty"`
 	ContractDate     *time.Time `json:"ContractDate,omitempty"`
-	StartDate        *time.Time `json:"StartDate,omitempty"`
 	LicenseDate      *time.Time `json:"LicenseDate,omitempty"`
 	LicenseNo        *string    `json:"LicenseNo,omitempty"`
 	CompletionDate   *time.Time `json:"CompletionDate,omitempty"`
@@ -280,6 +280,12 @@ type JobReceiptInput struct {
 	ReceiptDate *time.Time `json:"ReceiptDate,omitempty"`
 	Amount      *float64   `json:"Amount,omitempty"`
 	Note        *string    `json:"Note,omitempty"`
+}
+
+type JobStartDateInput struct {
+	YibfNo    *int       `json:"YibfNo,omitempty"`
+	StartDate *time.Time `json:"StartDate,omitempty"`
+	StartNote *string    `json:"StartNote,omitempty"`
 }
 
 type JobSupervisorInput struct {

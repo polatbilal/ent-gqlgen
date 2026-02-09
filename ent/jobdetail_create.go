@@ -139,6 +139,20 @@ func (_c *JobDetailCreate) SetNillableStartDate(v *time.Time) *JobDetailCreate {
 	return _c
 }
 
+// SetStartNote sets the "StartNote" field.
+func (_c *JobDetailCreate) SetStartNote(v string) *JobDetailCreate {
+	_c.mutation.SetStartNote(v)
+	return _c
+}
+
+// SetNillableStartNote sets the "StartNote" field if the given value is not nil.
+func (_c *JobDetailCreate) SetNillableStartNote(v *string) *JobDetailCreate {
+	if v != nil {
+		_c.SetStartNote(*v)
+	}
+	return _c
+}
+
 // SetLicenseDate sets the "LicenseDate" field.
 func (_c *JobDetailCreate) SetLicenseDate(v time.Time) *JobDetailCreate {
 	_c.mutation.SetLicenseDate(v)
@@ -659,6 +673,10 @@ func (_c *JobDetailCreate) createSpec() (*JobDetail, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.StartDate(); ok {
 		_spec.SetField(jobdetail.FieldStartDate, field.TypeTime, value)
 		_node.StartDate = value
+	}
+	if value, ok := _c.mutation.StartNote(); ok {
+		_spec.SetField(jobdetail.FieldStartNote, field.TypeString, value)
+		_node.StartNote = value
 	}
 	if value, ok := _c.mutation.LicenseDate(); ok {
 		_spec.SetField(jobdetail.FieldLicenseDate, field.TypeTime, value)

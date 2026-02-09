@@ -48,11 +48,11 @@ func Connect() (*ent.Client, error) {
 		return nil, err
 	}
 
-	// Bağlantı havuzu yapılandırması - çok daha sıkı ayarlar
-	db.SetMaxIdleConns(5)                   // Boşta bekleyen bağlantı sayısını minimize ediyoruz
-	db.SetMaxOpenConns(20)                  // Maksimum bağlantı sayısını azaltıyoruz
-	db.SetConnMaxLifetime(2 * time.Minute)  // Bağlantı yaşam süresini kısaltıyoruz
-	db.SetConnMaxIdleTime(30 * time.Second) // Boşta bekleme süresini çok kısa tutuyoruz
+	// Bağlantı havuzu yapılandırması - server ortamı için optimize edildi
+	db.SetMaxIdleConns(10)                  // Batch işlemler için yeterli boşta bağlantı
+	db.SetMaxOpenConns(50)                  // Eşzamanlı batch işlemler için artırıldı
+	db.SetConnMaxLifetime(5 * time.Minute)  // Daha uzun yaşam süresi
+	db.SetConnMaxIdleTime(90 * time.Second) // Transaction'lar için yeterli süre
 
 	// Bağlantı havuzunu test et
 	if err = db.Ping(); err != nil {

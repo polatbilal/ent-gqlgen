@@ -74,7 +74,6 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 		SetNillableSheet(input.Sheet).
 		SetNillableDistributionDate(input.DistributionDate).
 		SetNillableContractDate(input.ContractDate).
-		SetNillableStartDate(input.StartDate).
 		SetNillableLicenseDate(input.LicenseDate).
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableCompletionDate(input.CompletionDate).
@@ -135,7 +134,6 @@ func (r *mutationResolver) UpdateJob(ctx context.Context, yibfNo int, input mode
 		SetNillableSheet(input.Sheet).
 		SetNillableDistributionDate(input.DistributionDate).
 		SetNillableContractDate(input.ContractDate).
-		SetNillableStartDate(input.StartDate).
 		SetNillableLicenseDate(input.LicenseDate).
 		SetNillableLicenseNo(input.LicenseNo).
 		SetNillableCompletionDate(input.CompletionDate).
@@ -414,6 +412,29 @@ func (r *mutationResolver) UpdateJobEngineer(ctx context.Context, input model.Jo
 		MechanicController: updatedRelations.Edges.Mechaniccontroller,
 		ElectricController: updatedRelations.Edges.Electriccontroller,
 	}, nil
+}
+
+// UpdateJobStartDate is the resolver for the updateJobStartDate field.
+func (r *mutationResolver) UpdateJobStartDate(ctx context.Context, input model.JobStartDateInput) (*ent.JobDetail, error) {
+	client := middlewares.GetClientFromContext(ctx)
+
+	// İş detayını bul
+	jobDetail, err := client.JobDetail.Query().Where(jobdetail.YibfNoEQ(*input.YibfNo)).First(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("iş ayrıntısı bulunamadı: %v", err)
+	}
+
+	// StartDate ve StartNote'u güncelle
+	jobDetail, err = client.JobDetail.UpdateOne(jobDetail).
+		SetNillableStartDate(input.StartDate).
+		SetNillableStartNote(input.StartNote).
+		Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("iş başlangıç tarihi güncellenemedi: %v", err)
+	}
+
+	return jobDetail, nil
 }
 
 // JobCounts is the resolver for the jobCounts field.

@@ -32,6 +32,8 @@ const (
 	FieldContractDate = "contract_date"
 	// FieldStartDate holds the string denoting the startdate field in the database.
 	FieldStartDate = "start_date"
+	// FieldStartNote holds the string denoting the startnote field in the database.
+	FieldStartNote = "start_note"
 	// FieldLicenseDate holds the string denoting the licensedate field in the database.
 	FieldLicenseDate = "license_date"
 	// FieldLicenseNo holds the string denoting the licenseno field in the database.
@@ -109,6 +111,7 @@ var Columns = []string{
 	FieldSheet,
 	FieldContractDate,
 	FieldStartDate,
+	FieldStartNote,
 	FieldLicenseDate,
 	FieldLicenseNo,
 	FieldDistributionDate,
@@ -217,6 +220,11 @@ func ByContractDate(opts ...sql.OrderTermOption) OrderOption {
 // ByStartDate orders the results by the StartDate field.
 func ByStartDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStartDate, opts...).ToFunc()
+}
+
+// ByStartNote orders the results by the StartNote field.
+func ByStartNote(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStartNote, opts...).ToFunc()
 }
 
 // ByLicenseDate orders the results by the LicenseDate field.

@@ -100,6 +100,11 @@ func StartDate(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldStartDate, v))
 }
 
+// StartNote applies equality check predicate on the "StartNote" field. It's identical to StartNoteEQ.
+func StartNote(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldStartNote, v))
+}
+
 // LicenseDate applies equality check predicate on the "LicenseDate" field. It's identical to LicenseDateEQ.
 func LicenseDate(v time.Time) predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldEQ(FieldLicenseDate, v))
@@ -818,6 +823,81 @@ func StartDateIsNil() predicate.JobDetail {
 // StartDateNotNil applies the NotNil predicate on the "StartDate" field.
 func StartDateNotNil() predicate.JobDetail {
 	return predicate.JobDetail(sql.FieldNotNull(FieldStartDate))
+}
+
+// StartNoteEQ applies the EQ predicate on the "StartNote" field.
+func StartNoteEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEQ(FieldStartNote, v))
+}
+
+// StartNoteNEQ applies the NEQ predicate on the "StartNote" field.
+func StartNoteNEQ(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNEQ(FieldStartNote, v))
+}
+
+// StartNoteIn applies the In predicate on the "StartNote" field.
+func StartNoteIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIn(FieldStartNote, vs...))
+}
+
+// StartNoteNotIn applies the NotIn predicate on the "StartNote" field.
+func StartNoteNotIn(vs ...string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotIn(FieldStartNote, vs...))
+}
+
+// StartNoteGT applies the GT predicate on the "StartNote" field.
+func StartNoteGT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGT(FieldStartNote, v))
+}
+
+// StartNoteGTE applies the GTE predicate on the "StartNote" field.
+func StartNoteGTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldGTE(FieldStartNote, v))
+}
+
+// StartNoteLT applies the LT predicate on the "StartNote" field.
+func StartNoteLT(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLT(FieldStartNote, v))
+}
+
+// StartNoteLTE applies the LTE predicate on the "StartNote" field.
+func StartNoteLTE(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldLTE(FieldStartNote, v))
+}
+
+// StartNoteContains applies the Contains predicate on the "StartNote" field.
+func StartNoteContains(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContains(FieldStartNote, v))
+}
+
+// StartNoteHasPrefix applies the HasPrefix predicate on the "StartNote" field.
+func StartNoteHasPrefix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasPrefix(FieldStartNote, v))
+}
+
+// StartNoteHasSuffix applies the HasSuffix predicate on the "StartNote" field.
+func StartNoteHasSuffix(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldHasSuffix(FieldStartNote, v))
+}
+
+// StartNoteIsNil applies the IsNil predicate on the "StartNote" field.
+func StartNoteIsNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldIsNull(FieldStartNote))
+}
+
+// StartNoteNotNil applies the NotNil predicate on the "StartNote" field.
+func StartNoteNotNil() predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldNotNull(FieldStartNote))
+}
+
+// StartNoteEqualFold applies the EqualFold predicate on the "StartNote" field.
+func StartNoteEqualFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldEqualFold(FieldStartNote, v))
+}
+
+// StartNoteContainsFold applies the ContainsFold predicate on the "StartNote" field.
+func StartNoteContainsFold(v string) predicate.JobDetail {
+	return predicate.JobDetail(sql.FieldContainsFold(FieldStartNote, v))
 }
 
 // LicenseDateEQ applies the EQ predicate on the "LicenseDate" field.

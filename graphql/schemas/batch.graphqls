@@ -17,6 +17,7 @@ type CompanyBatchResult {
 input JobBatchInput {
   YibfNo: Int!
   jobInput: JobInput
+  jobStartDateInput: JobStartDateInput
   ownerInput: JobOwnerInput
   contractorInput: JobContractorInput
   authorInput: JobAuthorInput

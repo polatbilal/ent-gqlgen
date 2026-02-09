@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
@@ -27,12 +28,27 @@ import (
 
 // JobBatchMutation is the resolver for the jobBatchMutation field.
 func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
+	// Semaphore acquire - maksimum eşzamanlılığı sınırla (max 10 paralel batch işlem)
+	r.Resolver.batchSemaphore.Acquire()
+	defer r.Resolver.batchSemaphore.Release()
+
+	// Context timeout ekle - batch işlem için 2 dakika
+	ctx, cancel := context.WithTimeout(ctx, 2*time.Minute)
+	defer cancel()
+
 	maxRetries := 3
 	var lastErr error
 
 	for attempt := 0; attempt < maxRetries; attempt++ {
 		if attempt > 0 {
 			fmt.Printf("Yeniden deneme %d/%d\n", attempt+1, maxRetries)
+		}
+
+		// Context iptal edildi mi kontrol et
+		select {
+		case <-ctx.Done():
+			return nil, fmt.Errorf("batch işlem zaman aşımına uğradı: %w", ctx.Err())
+		default:
 		}
 
 		result, err := r.ExecuteBatchMutation(ctx, input)
@@ -95,6 +111,14 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			panic(v)
 		}
 	}()
+
+	// Context timeout kontrolü
+	select {
+	case <-ctx.Done():
+		_ = tx.Rollback()
+		return nil, fmt.Errorf("transaction zaman aşımına uğradı: %w", ctx.Err())
+	default:
+	}
 
 	txCtx := ent.NewContext(ctx, tx.Client())
 
@@ -174,6 +198,20 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			}
 		} else {
 			job = existingRelations.Edges.Job
+		}
+
+		// StartDate güncelleme işlemi
+		if input.JobStartDateInput != nil {
+			fmt.Println("StartDate işlemi başlıyor...")
+			startDateInput := *input.JobStartDateInput
+			startDateInput.YibfNo = &input.YibfNo
+			job, err = r.UpdateJobStartDate(txCtx, startDateInput)
+			if err != nil {
+				fmt.Printf("StartDate güncelleme hatası: %v\n", err)
+				_ = tx.Rollback()
+				return nil, fmt.Errorf("iş başlangıç tarihi güncellenirken hata: %w", err)
+			}
+			fmt.Printf("StartDate başarıyla güncellendi: %+v\n", job)
 		}
 
 		// Owner işlemi
@@ -536,6 +574,20 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 		}
 	}
 
+	// StartDate güncelleme işlemi (hem yeni hem mevcut kayıtlar için)
+	if input.JobStartDateInput != nil {
+		fmt.Println("StartDate işlemi başlıyor...")
+		startDateInput := *input.JobStartDateInput
+		startDateInput.YibfNo = &input.YibfNo
+		job, err = r.UpdateJobStartDate(txCtx, startDateInput)
+		if err != nil {
+			fmt.Printf("StartDate güncelleme hatası: %v\n", err)
+			_ = tx.Rollback()
+			return nil, fmt.Errorf("iş başlangıç tarihi güncellenirken hata: %w", err)
+		}
+		fmt.Printf("StartDate başarıyla güncellendi: %+v\n", job)
+	}
+
 	// Mühendis ilişkilerini güncelle (opsiyonel)
 	var jobEngineer *model.JobEngineer
 	if input.EngineerInput != nil {
@@ -617,6 +669,10 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 
 // DeleteBatchMutation is the resolver for the deleteBatchMutation field.
 func (r *mutationResolver) DeleteBatchMutation(ctx context.Context, yibfNo int) (*model.JobBatchResult, error) {
+	// Context timeout ekle - delete işlem için 1 dakika
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)
+	defer cancel()
+
 	client := middlewares.GetClientFromContext(ctx)
 	if client == nil {
 		return nil, fmt.Errorf("client nil")
@@ -652,6 +708,14 @@ func (r *mutationResolver) DeleteBatchMutation(ctx context.Context, yibfNo int) 
 			panic(v)
 		}
 	}()
+
+	// Context timeout kontrolü
+	select {
+	case <-ctx.Done():
+		_ = tx.Rollback()
+		return nil, fmt.Errorf("delete transaction zaman aşımına uğradı: %w", ctx.Err())
+	default:
+	}
 
 	txCtx := ent.NewContext(ctx, tx.Client())
 

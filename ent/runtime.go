@@ -177,31 +177,31 @@ func init() {
 	jobdetailFields := schema.JobDetail{}.Fields()
 	_ = jobdetailFields
 	// jobdetailDescUploadedFile is the schema descriptor for UploadedFile field.
-	jobdetailDescUploadedFile := jobdetailFields[27].Descriptor()
+	jobdetailDescUploadedFile := jobdetailFields[28].Descriptor()
 	// jobdetail.DefaultUploadedFile holds the default value on creation for the UploadedFile field.
 	jobdetail.DefaultUploadedFile = jobdetailDescUploadedFile.Default.(bool)
 	// jobdetailDescIndustryArea is the schema descriptor for IndustryArea field.
-	jobdetailDescIndustryArea := jobdetailFields[28].Descriptor()
+	jobdetailDescIndustryArea := jobdetailFields[29].Descriptor()
 	// jobdetail.DefaultIndustryArea holds the default value on creation for the IndustryArea field.
 	jobdetail.DefaultIndustryArea = jobdetailDescIndustryArea.Default.(bool)
 	// jobdetailDescClusterStructure is the schema descriptor for ClusterStructure field.
-	jobdetailDescClusterStructure := jobdetailFields[29].Descriptor()
+	jobdetailDescClusterStructure := jobdetailFields[30].Descriptor()
 	// jobdetail.DefaultClusterStructure holds the default value on creation for the ClusterStructure field.
 	jobdetail.DefaultClusterStructure = jobdetailDescClusterStructure.Default.(bool)
 	// jobdetailDescIsLicenseExpired is the schema descriptor for IsLicenseExpired field.
-	jobdetailDescIsLicenseExpired := jobdetailFields[30].Descriptor()
+	jobdetailDescIsLicenseExpired := jobdetailFields[31].Descriptor()
 	// jobdetail.DefaultIsLicenseExpired holds the default value on creation for the IsLicenseExpired field.
 	jobdetail.DefaultIsLicenseExpired = jobdetailDescIsLicenseExpired.Default.(bool)
 	// jobdetailDescIsCompleted is the schema descriptor for IsCompleted field.
-	jobdetailDescIsCompleted := jobdetailFields[31].Descriptor()
+	jobdetailDescIsCompleted := jobdetailFields[32].Descriptor()
 	// jobdetail.DefaultIsCompleted holds the default value on creation for the IsCompleted field.
 	jobdetail.DefaultIsCompleted = jobdetailDescIsCompleted.Default.(bool)
 	// jobdetailDescCreatedAt is the schema descriptor for CreatedAt field.
-	jobdetailDescCreatedAt := jobdetailFields[33].Descriptor()
+	jobdetailDescCreatedAt := jobdetailFields[34].Descriptor()
 	// jobdetail.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobdetail.DefaultCreatedAt = jobdetailDescCreatedAt.Default.(func() time.Time)
 	// jobdetailDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	jobdetailDescUpdatedAt := jobdetailFields[34].Descriptor()
+	jobdetailDescUpdatedAt := jobdetailFields[35].Descriptor()
 	// jobdetail.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobdetail.DefaultUpdatedAt = jobdetailDescUpdatedAt.Default.(func() time.Time)
 	// jobdetail.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.

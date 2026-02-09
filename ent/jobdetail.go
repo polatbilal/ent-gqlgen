@@ -36,6 +36,8 @@ type JobDetail struct {
 	ContractDate time.Time `json:"ContractDate,omitempty"`
 	// StartDate holds the value of the "StartDate" field.
 	StartDate time.Time `json:"StartDate,omitempty"`
+	// StartNote holds the value of the "StartNote" field.
+	StartNote string `json:"StartNote,omitempty"`
 	// LicenseDate holds the value of the "LicenseDate" field.
 	LicenseDate time.Time `json:"LicenseDate,omitempty"`
 	// LicenseNo holds the value of the "LicenseNo" field.
@@ -127,7 +129,7 @@ func (*JobDetail) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullFloat64)
 		case jobdetail.FieldID, jobdetail.FieldYibfNo, jobdetail.FieldFloorCount:
 			values[i] = new(sql.NullInt64)
-		case jobdetail.FieldTitle, jobdetail.FieldAdministration, jobdetail.FieldState, jobdetail.FieldIsland, jobdetail.FieldParcel, jobdetail.FieldSheet, jobdetail.FieldLicenseNo, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBKSReferenceNo, jobdetail.FieldCoordinates, jobdetail.FieldFolderNo, jobdetail.FieldNote:
+		case jobdetail.FieldTitle, jobdetail.FieldAdministration, jobdetail.FieldState, jobdetail.FieldIsland, jobdetail.FieldParcel, jobdetail.FieldSheet, jobdetail.FieldStartNote, jobdetail.FieldLicenseNo, jobdetail.FieldYDSAddress, jobdetail.FieldAddress, jobdetail.FieldBuildingClass, jobdetail.FieldBuildingType, jobdetail.FieldBKSReferenceNo, jobdetail.FieldCoordinates, jobdetail.FieldFolderNo, jobdetail.FieldNote:
 			values[i] = new(sql.NullString)
 		case jobdetail.FieldContractDate, jobdetail.FieldStartDate, jobdetail.FieldLicenseDate, jobdetail.FieldDistributionDate, jobdetail.FieldCompletionDate, jobdetail.FieldCreatedAt, jobdetail.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -205,6 +207,12 @@ func (_m *JobDetail) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field StartDate", values[i])
 			} else if value.Valid {
 				_m.StartDate = value.Time
+			}
+		case jobdetail.FieldStartNote:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field StartNote", values[i])
+			} else if value.Valid {
+				_m.StartNote = value.String
 			}
 		case jobdetail.FieldLicenseDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -429,6 +437,9 @@ func (_m *JobDetail) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("StartDate=")
 	builder.WriteString(_m.StartDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("StartNote=")
+	builder.WriteString(_m.StartNote)
 	builder.WriteString(", ")
 	builder.WriteString("LicenseDate=")
 	builder.WriteString(_m.LicenseDate.Format(time.ANSIC))

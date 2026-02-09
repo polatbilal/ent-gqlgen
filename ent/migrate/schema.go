@@ -329,6 +329,7 @@ var (
 		{Name: "sheet", Type: field.TypeString, Nullable: true},
 		{Name: "contract_date", Type: field.TypeTime, Nullable: true},
 		{Name: "start_date", Type: field.TypeTime, Nullable: true},
+		{Name: "start_note", Type: field.TypeString, Nullable: true},
 		{Name: "license_date", Type: field.TypeTime, Nullable: true},
 		{Name: "license_no", Type: field.TypeString, Nullable: true},
 		{Name: "distribution_date", Type: field.TypeTime, Nullable: true},

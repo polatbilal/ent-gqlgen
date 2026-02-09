@@ -1629,6 +1629,11 @@ func (_q *JobDetailQuery) collectField(ctx context.Context, oneNode bool, opCtx 
 				selectedFields = append(selectedFields, jobdetail.FieldStartDate)
 				fieldSeen[jobdetail.FieldStartDate] = struct{}{}
 			}
+		case "startnote":
+			if _, ok := fieldSeen[jobdetail.FieldStartNote]; !ok {
+				selectedFields = append(selectedFields, jobdetail.FieldStartNote)
+				fieldSeen[jobdetail.FieldStartNote] = struct{}{}
+			}
 		case "licensedate":
 			if _, ok := fieldSeen[jobdetail.FieldLicenseDate]; !ok {
 				selectedFields = append(selectedFields, jobdetail.FieldLicenseDate)

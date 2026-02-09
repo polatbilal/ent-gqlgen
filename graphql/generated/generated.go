@@ -208,6 +208,7 @@ type ComplexityRoot struct {
 		Parcel           func(childComplexity int) int
 		Sheet            func(childComplexity int) int
 		StartDate        func(childComplexity int) int
+		StartNote        func(childComplexity int) int
 		State            func(childComplexity int) int
 		Title            func(childComplexity int) int
 		TotalArea        func(childComplexity int) int
@@ -334,6 +335,7 @@ type ComplexityRoot struct {
 		UpdateEngineerByYdsid func(childComplexity int, ydsid int, input model.CompanyEngineerInput) int
 		UpdateJob             func(childComplexity int, yibfNo int, input model.JobInput) int
 		UpdateJobEngineer     func(childComplexity int, input model.JobEngineerInput) int
+		UpdateJobStartDate    func(childComplexity int, input model.JobStartDateInput) int
 		UpdateOwner           func(childComplexity int, input model.JobOwnerInput) int
 		UpdatePaymentStatus   func(childComplexity int, id int, input model.JobPaymentStatusInput) int
 		UpdateSupervisor      func(childComplexity int, input model.JobSupervisorInput) int
@@ -418,6 +420,7 @@ type MutationResolver interface {
 	CreateJob(ctx context.Context, input model.JobInput) (*ent.JobDetail, error)
 	UpdateJob(ctx context.Context, yibfNo int, input model.JobInput) (*ent.JobDetail, error)
 	UpdateJobEngineer(ctx context.Context, input model.JobEngineerInput) (*model.JobEngineer, error)
+	UpdateJobStartDate(ctx context.Context, input model.JobStartDateInput) (*ent.JobDetail, error)
 	CreateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error)
 	UpdateOwner(ctx context.Context, input model.JobOwnerInput) (*ent.JobOwner, error)
 	UpsertPayments(ctx context.Context, id *int, input model.JobPaymentsInput) (*ent.JobPayments, error)
@@ -1219,6 +1222,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobDetail.StartDate(childComplexity), true
+	case "JobDetail.StartNote":
+		if e.complexity.JobDetail.StartNote == nil {
+			break
+		}
+
+		return e.complexity.JobDetail.StartNote(childComplexity), true
 	case "JobDetail.State":
 		if e.complexity.JobDetail.State == nil {
 			break
@@ -1954,6 +1963,17 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateJobEngineer(childComplexity, args["input"].(model.JobEngineerInput)), true
+	case "Mutation.updateJobStartDate":
+		if e.complexity.Mutation.UpdateJobStartDate == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateJobStartDate_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateJobStartDate(childComplexity, args["input"].(model.JobStartDateInput)), true
 	case "Mutation.updateOwner":
 		if e.complexity.Mutation.UpdateOwner == nil {
 			break
@@ -2394,6 +2414,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputJobPaymentsInput,
 		ec.unmarshalInputJobProgressInput,
 		ec.unmarshalInputJobReceiptInput,
+		ec.unmarshalInputJobStartDateInput,
 		ec.unmarshalInputJobSupervisorInput,
 		ec.unmarshalInputUserInput,
 	)
@@ -2571,6 +2592,7 @@ type CompanyBatchResult {
 input JobBatchInput {
   YibfNo: Int!
   jobInput: JobInput
+  jobStartDateInput: JobStartDateInput
   ownerInput: JobOwnerInput
   contractorInput: JobContractorInput
   authorInput: JobAuthorInput
@@ -2853,6 +2875,7 @@ type JobDetail {
   DistributionDate: Time
   ContractDate: Time
   StartDate: Time
+  StartNote: String
   LicenseDate: Time
   LicenseNo: String
   CompletionDate: Time
@@ -2889,7 +2912,6 @@ input JobInput {
   Sheet: String
   DistributionDate: Time
   ContractDate: Time
-  StartDate: Time
   LicenseDate: Time
   LicenseNo: String
   CompletionDate: Time
@@ -2939,6 +2961,12 @@ input JobEngineerInput {
   ElectricController: Int
 }
 
+input JobStartDateInput {
+  YibfNo: Int
+  StartDate: Time
+  StartNote: String
+}
+
 type JobCounts {
   current: Int!
   pending: Int!
@@ -2967,6 +2995,10 @@ extend type Mutation {
     @auth
 
   updateJobEngineer(input: JobEngineerInput!): JobEngineer!
+    @goField(forceResolver: true)
+    @auth
+
+  updateJobStartDate(input: JobStartDateInput!): JobDetail!
     @goField(forceResolver: true)
     @auth
 }
@@ -3524,6 +3556,17 @@ func (ec *executionContext) field_Mutation_updateJobEngineer_args(ctx context.Co
 	var err error
 	args := map[string]any{}
 	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobEngineerInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobEngineerInput)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateJobStartDate_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNJobStartDateInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobStartDateInput)
 	if err != nil {
 		return nil, err
 	}
@@ -6137,6 +6180,8 @@ func (ec *executionContext) fieldContext_JobBatchResult_job(_ context.Context, f
 				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
 			case "StartDate":
 				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "StartNote":
+				return ec.fieldContext_JobDetail_StartNote(ctx, field)
 			case "LicenseDate":
 				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
 			case "LicenseNo":
@@ -7427,6 +7472,35 @@ func (ec *executionContext) fieldContext_JobDetail_StartDate(_ context.Context, 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _JobDetail_StartNote(ctx context.Context, field graphql.CollectedField, obj *ent.JobDetail) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_JobDetail_StartNote,
+		func(ctx context.Context) (any, error) {
+			return obj.StartNote, nil
+		},
+		nil,
+		ec.marshalOString2string,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_JobDetail_StartNote(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "JobDetail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -8941,6 +9015,8 @@ func (ec *executionContext) fieldContext_JobFloor_Job(_ context.Context, field g
 				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
 			case "StartDate":
 				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "StartNote":
+				return ec.fieldContext_JobDetail_StartNote(ctx, field)
 			case "LicenseDate":
 				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
 			case "LicenseNo":
@@ -11826,6 +11902,8 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
 			case "StartDate":
 				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "StartNote":
+				return ec.fieldContext_JobDetail_StartNote(ctx, field)
 			case "LicenseDate":
 				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
 			case "LicenseNo":
@@ -11952,6 +12030,8 @@ func (ec *executionContext) fieldContext_Mutation_updateJob(ctx context.Context,
 				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
 			case "StartDate":
 				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "StartNote":
+				return ec.fieldContext_JobDetail_StartNote(ctx, field)
 			case "LicenseDate":
 				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
 			case "LicenseNo":
@@ -12084,6 +12164,134 @@ func (ec *executionContext) fieldContext_Mutation_updateJobEngineer(ctx context.
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_updateJobEngineer_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateJobStartDate(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateJobStartDate,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateJobStartDate(ctx, fc.Args["input"].(model.JobStartDateInput))
+		},
+		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
+			directive0 := next
+
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.Auth == nil {
+					var zeroVal *ent.JobDetail
+					return zeroVal, errors.New("directive auth is not implemented")
+				}
+				return ec.directives.Auth(ctx, nil, directive0)
+			}
+
+			next = directive1
+			return next
+		},
+		ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateJobStartDate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_JobDetail_id(ctx, field)
+			case "CompanyCode":
+				return ec.fieldContext_JobDetail_CompanyCode(ctx, field)
+			case "YibfNo":
+				return ec.fieldContext_JobDetail_YibfNo(ctx, field)
+			case "Title":
+				return ec.fieldContext_JobDetail_Title(ctx, field)
+			case "Administration":
+				return ec.fieldContext_JobDetail_Administration(ctx, field)
+			case "State":
+				return ec.fieldContext_JobDetail_State(ctx, field)
+			case "Island":
+				return ec.fieldContext_JobDetail_Island(ctx, field)
+			case "Parcel":
+				return ec.fieldContext_JobDetail_Parcel(ctx, field)
+			case "Sheet":
+				return ec.fieldContext_JobDetail_Sheet(ctx, field)
+			case "DistributionDate":
+				return ec.fieldContext_JobDetail_DistributionDate(ctx, field)
+			case "ContractDate":
+				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
+			case "StartDate":
+				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "StartNote":
+				return ec.fieldContext_JobDetail_StartNote(ctx, field)
+			case "LicenseDate":
+				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
+			case "LicenseNo":
+				return ec.fieldContext_JobDetail_LicenseNo(ctx, field)
+			case "CompletionDate":
+				return ec.fieldContext_JobDetail_CompletionDate(ctx, field)
+			case "LandArea":
+				return ec.fieldContext_JobDetail_LandArea(ctx, field)
+			case "TotalArea":
+				return ec.fieldContext_JobDetail_TotalArea(ctx, field)
+			case "ConstructionArea":
+				return ec.fieldContext_JobDetail_ConstructionArea(ctx, field)
+			case "LeftArea":
+				return ec.fieldContext_JobDetail_LeftArea(ctx, field)
+			case "YDSAddress":
+				return ec.fieldContext_JobDetail_YDSAddress(ctx, field)
+			case "Address":
+				return ec.fieldContext_JobDetail_Address(ctx, field)
+			case "BuildingClass":
+				return ec.fieldContext_JobDetail_BuildingClass(ctx, field)
+			case "BuildingType":
+				return ec.fieldContext_JobDetail_BuildingType(ctx, field)
+			case "Level":
+				return ec.fieldContext_JobDetail_Level(ctx, field)
+			case "UnitPrice":
+				return ec.fieldContext_JobDetail_UnitPrice(ctx, field)
+			case "FloorCount":
+				return ec.fieldContext_JobDetail_FloorCount(ctx, field)
+			case "BKSReferenceNo":
+				return ec.fieldContext_JobDetail_BKSReferenceNo(ctx, field)
+			case "Coordinates":
+				return ec.fieldContext_JobDetail_Coordinates(ctx, field)
+			case "FolderNo":
+				return ec.fieldContext_JobDetail_FolderNo(ctx, field)
+			case "UploadedFile":
+				return ec.fieldContext_JobDetail_UploadedFile(ctx, field)
+			case "IndustryArea":
+				return ec.fieldContext_JobDetail_IndustryArea(ctx, field)
+			case "ClusterStructure":
+				return ec.fieldContext_JobDetail_ClusterStructure(ctx, field)
+			case "IsLicenseExpired":
+				return ec.fieldContext_JobDetail_IsLicenseExpired(ctx, field)
+			case "IsCompleted":
+				return ec.fieldContext_JobDetail_IsCompleted(ctx, field)
+			case "Note":
+				return ec.fieldContext_JobDetail_Note(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type JobDetail", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateJobStartDate_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -14116,6 +14324,8 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
 			case "StartDate":
 				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "StartNote":
+				return ec.fieldContext_JobDetail_StartNote(ctx, field)
 			case "LicenseDate":
 				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
 			case "LicenseNo":
@@ -14231,6 +14441,8 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_JobDetail_ContractDate(ctx, field)
 			case "StartDate":
 				return ec.fieldContext_JobDetail_StartDate(ctx, field)
+			case "StartNote":
+				return ec.fieldContext_JobDetail_StartNote(ctx, field)
 			case "LicenseDate":
 				return ec.fieldContext_JobDetail_LicenseDate(ctx, field)
 			case "LicenseNo":
@@ -17600,7 +17812,7 @@ func (ec *executionContext) unmarshalInputJobBatchInput(ctx context.Context, obj
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"YibfNo", "jobInput", "ownerInput", "contractorInput", "authorInput", "supervisorInput", "engineerInput"}
+	fieldsInOrder := [...]string{"YibfNo", "jobInput", "jobStartDateInput", "ownerInput", "contractorInput", "authorInput", "supervisorInput", "engineerInput"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -17621,6 +17833,13 @@ func (ec *executionContext) unmarshalInputJobBatchInput(ctx context.Context, obj
 				return it, err
 			}
 			it.JobInput = data
+		case "jobStartDateInput":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("jobStartDateInput"))
+			data, err := ec.unmarshalOJobStartDateInput2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobStartDateInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.JobStartDateInput = data
 		case "ownerInput":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ownerInput"))
 			data, err := ec.unmarshalOJobOwnerInput2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobOwnerInput(ctx, v)
@@ -17953,7 +18172,7 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"CompanyCode", "YibfNo", "Title", "Administration", "State", "Island", "Parcel", "Sheet", "DistributionDate", "ContractDate", "StartDate", "LicenseDate", "LicenseNo", "CompletionDate", "LandArea", "TotalArea", "ConstructionArea", "LeftArea", "YDSAddress", "Address", "BuildingClass", "BuildingType", "Level", "UnitPrice", "FloorCount", "BKSReferenceNo", "Coordinates", "FolderNo", "UploadedFile", "IndustryArea", "ClusterStructure", "IsLicenseExpired", "IsCompleted", "Note"}
+	fieldsInOrder := [...]string{"CompanyCode", "YibfNo", "Title", "Administration", "State", "Island", "Parcel", "Sheet", "DistributionDate", "ContractDate", "LicenseDate", "LicenseNo", "CompletionDate", "LandArea", "TotalArea", "ConstructionArea", "LeftArea", "YDSAddress", "Address", "BuildingClass", "BuildingType", "Level", "UnitPrice", "FloorCount", "BKSReferenceNo", "Coordinates", "FolderNo", "UploadedFile", "IndustryArea", "ClusterStructure", "IsLicenseExpired", "IsCompleted", "Note"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -18030,13 +18249,6 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 				return it, err
 			}
 			it.ContractDate = data
-		case "StartDate":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("StartDate"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.StartDate = data
 		case "LicenseDate":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("LicenseDate"))
 			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
@@ -18571,6 +18783,47 @@ func (ec *executionContext) unmarshalInputJobReceiptInput(ctx context.Context, o
 				return it, err
 			}
 			it.Note = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputJobStartDateInput(ctx context.Context, obj any) (model.JobStartDateInput, error) {
+	var it model.JobStartDateInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"YibfNo", "StartDate", "StartNote"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "YibfNo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("YibfNo"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.YibfNo = data
+		case "StartDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("StartDate"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.StartDate = data
+		case "StartNote":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("StartNote"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.StartNote = data
 		}
 	}
 
@@ -19511,6 +19764,8 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 			out.Values[i] = ec._JobDetail_ContractDate(ctx, field, obj)
 		case "StartDate":
 			out.Values[i] = ec._JobDetail_StartDate(ctx, field, obj)
+		case "StartNote":
+			out.Values[i] = ec._JobDetail_StartNote(ctx, field, obj)
 		case "LicenseDate":
 			out.Values[i] = ec._JobDetail_LicenseDate(ctx, field, obj)
 		case "LicenseNo":
@@ -20147,6 +20402,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "updateJobEngineer":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateJobEngineer(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateJobStartDate":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateJobStartDate(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -21766,6 +22028,11 @@ func (ec *executionContext) unmarshalNJobReceiptInput2githubᚗcomᚋpolatbilal�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNJobStartDateInput2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobStartDateInput(ctx context.Context, v any) (model.JobStartDateInput, error) {
+	res, err := ec.unmarshalInputJobStartDateInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalNJobSupervisor2githubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor(ctx context.Context, sel ast.SelectionSet, v ent.JobSupervisor) graphql.Marshaler {
 	return ec._JobSupervisor(ctx, sel, &v)
 }
@@ -22647,6 +22914,14 @@ func (ec *executionContext) marshalOJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋen
 		return graphql.Null
 	}
 	return ec._JobReceipt(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOJobStartDateInput2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobStartDateInput(ctx context.Context, v any) (*model.JobStartDateInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputJobStartDateInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOJobSupervisor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobSupervisor(ctx context.Context, sel ast.SelectionSet, v *ent.JobSupervisor) graphql.Marshaler {

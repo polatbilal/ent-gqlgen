@@ -210,6 +210,26 @@ func (_u *JobDetailUpdate) ClearStartDate() *JobDetailUpdate {
 	return _u
 }
 
+// SetStartNote sets the "StartNote" field.
+func (_u *JobDetailUpdate) SetStartNote(v string) *JobDetailUpdate {
+	_u.mutation.SetStartNote(v)
+	return _u
+}
+
+// SetNillableStartNote sets the "StartNote" field if the given value is not nil.
+func (_u *JobDetailUpdate) SetNillableStartNote(v *string) *JobDetailUpdate {
+	if v != nil {
+		_u.SetStartNote(*v)
+	}
+	return _u
+}
+
+// ClearStartNote clears the value of the "StartNote" field.
+func (_u *JobDetailUpdate) ClearStartNote() *JobDetailUpdate {
+	_u.mutation.ClearStartNote()
+	return _u
+}
+
 // SetLicenseDate sets the "LicenseDate" field.
 func (_u *JobDetailUpdate) SetLicenseDate(v time.Time) *JobDetailUpdate {
 	_u.mutation.SetLicenseDate(v)
@@ -888,6 +908,12 @@ func (_u *JobDetailUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.StartDateCleared() {
 		_spec.ClearField(jobdetail.FieldStartDate, field.TypeTime)
 	}
+	if value, ok := _u.mutation.StartNote(); ok {
+		_spec.SetField(jobdetail.FieldStartNote, field.TypeString, value)
+	}
+	if _u.mutation.StartNoteCleared() {
+		_spec.ClearField(jobdetail.FieldStartNote, field.TypeString)
+	}
 	if value, ok := _u.mutation.LicenseDate(); ok {
 		_spec.SetField(jobdetail.FieldLicenseDate, field.TypeTime, value)
 	}
@@ -1286,6 +1312,26 @@ func (_u *JobDetailUpdateOne) SetNillableStartDate(v *time.Time) *JobDetailUpdat
 // ClearStartDate clears the value of the "StartDate" field.
 func (_u *JobDetailUpdateOne) ClearStartDate() *JobDetailUpdateOne {
 	_u.mutation.ClearStartDate()
+	return _u
+}
+
+// SetStartNote sets the "StartNote" field.
+func (_u *JobDetailUpdateOne) SetStartNote(v string) *JobDetailUpdateOne {
+	_u.mutation.SetStartNote(v)
+	return _u
+}
+
+// SetNillableStartNote sets the "StartNote" field if the given value is not nil.
+func (_u *JobDetailUpdateOne) SetNillableStartNote(v *string) *JobDetailUpdateOne {
+	if v != nil {
+		_u.SetStartNote(*v)
+	}
+	return _u
+}
+
+// ClearStartNote clears the value of the "StartNote" field.
+func (_u *JobDetailUpdateOne) ClearStartNote() *JobDetailUpdateOne {
+	_u.mutation.ClearStartNote()
 	return _u
 }
 
@@ -1996,6 +2042,12 @@ func (_u *JobDetailUpdateOne) sqlSave(ctx context.Context) (_node *JobDetail, er
 	}
 	if _u.mutation.StartDateCleared() {
 		_spec.ClearField(jobdetail.FieldStartDate, field.TypeTime)
+	}
+	if value, ok := _u.mutation.StartNote(); ok {
+		_spec.SetField(jobdetail.FieldStartNote, field.TypeString, value)
+	}
+	if _u.mutation.StartNoteCleared() {
+		_spec.ClearField(jobdetail.FieldStartNote, field.TypeString)
 	}
 	if value, ok := _u.mutation.LicenseDate(); ok {
 		_spec.SetField(jobdetail.FieldLicenseDate, field.TypeTime, value)

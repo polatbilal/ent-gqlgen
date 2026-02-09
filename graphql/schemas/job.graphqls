@@ -12,6 +12,7 @@ type JobDetail {
   DistributionDate: Time
   ContractDate: Time
   StartDate: Time
+  StartNote: String
   LicenseDate: Time
   LicenseNo: String
   CompletionDate: Time
@@ -48,7 +49,6 @@ input JobInput {
   Sheet: String
   DistributionDate: Time
   ContractDate: Time
-  StartDate: Time
   LicenseDate: Time
   LicenseNo: String
   CompletionDate: Time
@@ -98,6 +98,12 @@ input JobEngineerInput {
   ElectricController: Int
 }
 
+input JobStartDateInput {
+  YibfNo: Int
+  StartDate: Time
+  StartNote: String
+}
+
 type JobCounts {
   current: Int!
   pending: Int!
@@ -126,6 +132,10 @@ extend type Mutation {
     @auth
 
   updateJobEngineer(input: JobEngineerInput!): JobEngineer!
+    @goField(forceResolver: true)
+    @auth
+
+  updateJobStartDate(input: JobStartDateInput!): JobDetail!
     @goField(forceResolver: true)
     @auth
 }
