@@ -38,12 +38,14 @@ const (
 	FieldInvoiceIssued = "invoice_issued"
 	// FieldInvoiceIssuedDate holds the string denoting the invoiceissueddate field in the database.
 	FieldInvoiceIssuedDate = "invoice_issued_date"
+	// FieldInvoiceIssuedAmount holds the string denoting the invoiceissuedamount field in the database.
+	FieldInvoiceIssuedAmount = "invoice_issued_amount"
 	// FieldInvoiceReceived holds the string denoting the invoicereceived field in the database.
 	FieldInvoiceReceived = "invoice_received"
 	// FieldInvoiceReceivedDate holds the string denoting the invoicereceiveddate field in the database.
 	FieldInvoiceReceivedDate = "invoice_received_date"
-	// FieldInvoiceAmount holds the string denoting the invoiceamount field in the database.
-	FieldInvoiceAmount = "invoice_amount"
+	// FieldInvoiceReceivedAmount holds the string denoting the invoicereceivedamount field in the database.
+	FieldInvoiceReceivedAmount = "invoice_received_amount"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -76,9 +78,10 @@ var Columns = []string{
 	FieldMunicipalityDeliveryDate,
 	FieldInvoiceIssued,
 	FieldInvoiceIssuedDate,
+	FieldInvoiceIssuedAmount,
 	FieldInvoiceReceived,
 	FieldInvoiceReceivedDate,
-	FieldInvoiceAmount,
+	FieldInvoiceReceivedAmount,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -193,6 +196,11 @@ func ByInvoiceIssuedDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldInvoiceIssuedDate, opts...).ToFunc()
 }
 
+// ByInvoiceIssuedAmount orders the results by the InvoiceIssuedAmount field.
+func ByInvoiceIssuedAmount(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInvoiceIssuedAmount, opts...).ToFunc()
+}
+
 // ByInvoiceReceived orders the results by the InvoiceReceived field.
 func ByInvoiceReceived(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldInvoiceReceived, opts...).ToFunc()
@@ -203,9 +211,9 @@ func ByInvoiceReceivedDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldInvoiceReceivedDate, opts...).ToFunc()
 }
 
-// ByInvoiceAmount orders the results by the InvoiceAmount field.
-func ByInvoiceAmount(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldInvoiceAmount, opts...).ToFunc()
+// ByInvoiceReceivedAmount orders the results by the InvoiceReceivedAmount field.
+func ByInvoiceReceivedAmount(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInvoiceReceivedAmount, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

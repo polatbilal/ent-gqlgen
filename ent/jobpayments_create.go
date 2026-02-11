@@ -182,6 +182,12 @@ func (_c *JobPaymentsCreate) SetNillableInvoiceIssuedDate(v *time.Time) *JobPaym
 	return _c
 }
 
+// SetInvoiceIssuedAmount sets the "InvoiceIssuedAmount" field.
+func (_c *JobPaymentsCreate) SetInvoiceIssuedAmount(v *decimal.NullDecimal) *JobPaymentsCreate {
+	_c.mutation.SetInvoiceIssuedAmount(v)
+	return _c
+}
+
 // SetInvoiceReceived sets the "InvoiceReceived" field.
 func (_c *JobPaymentsCreate) SetInvoiceReceived(v bool) *JobPaymentsCreate {
 	_c.mutation.SetInvoiceReceived(v)
@@ -210,9 +216,9 @@ func (_c *JobPaymentsCreate) SetNillableInvoiceReceivedDate(v *time.Time) *JobPa
 	return _c
 }
 
-// SetInvoiceAmount sets the "InvoiceAmount" field.
-func (_c *JobPaymentsCreate) SetInvoiceAmount(v *decimal.NullDecimal) *JobPaymentsCreate {
-	_c.mutation.SetInvoiceAmount(v)
+// SetInvoiceReceivedAmount sets the "InvoiceReceivedAmount" field.
+func (_c *JobPaymentsCreate) SetInvoiceReceivedAmount(v *decimal.NullDecimal) *JobPaymentsCreate {
+	_c.mutation.SetInvoiceReceivedAmount(v)
 	return _c
 }
 
@@ -420,6 +426,10 @@ func (_c *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime, value)
 		_node.InvoiceIssuedDate = value
 	}
+	if value, ok := _c.mutation.InvoiceIssuedAmount(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther, value)
+		_node.InvoiceIssuedAmount = value
+	}
 	if value, ok := _c.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
 		_node.InvoiceReceived = value
@@ -428,9 +438,9 @@ func (_c *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) {
 		_spec.SetField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime, value)
 		_node.InvoiceReceivedDate = value
 	}
-	if value, ok := _c.mutation.InvoiceAmount(); ok {
-		_spec.SetField(jobpayments.FieldInvoiceAmount, field.TypeOther, value)
-		_node.InvoiceAmount = value
+	if value, ok := _c.mutation.InvoiceReceivedAmount(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceivedAmount, field.TypeOther, value)
+		_node.InvoiceReceivedAmount = value
 	}
 	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)

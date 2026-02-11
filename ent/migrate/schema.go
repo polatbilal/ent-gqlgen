@@ -430,9 +430,10 @@ var (
 		{Name: "municipality_delivery_date", Type: field.TypeTime, Nullable: true},
 		{Name: "invoice_issued", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "invoice_issued_date", Type: field.TypeTime, Nullable: true},
+		{Name: "invoice_issued_amount", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(12,2)"}},
 		{Name: "invoice_received", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "invoice_received_date", Type: field.TypeTime, Nullable: true},
-		{Name: "invoice_amount", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(12,2)"}},
+		{Name: "invoice_received_amount", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(12,2)"}},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "relations_id", Type: field.TypeInt, Nullable: true},
@@ -445,7 +446,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "job_payments_job_relations_payments",
-				Columns:    []*schema.Column{JobPaymentsColumns[18]},
+				Columns:    []*schema.Column{JobPaymentsColumns[19]},
 				RefColumns: []*schema.Column{JobRelationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

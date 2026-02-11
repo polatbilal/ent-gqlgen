@@ -278,6 +278,18 @@ func (_u *JobPaymentsUpdate) ClearInvoiceIssuedDate() *JobPaymentsUpdate {
 	return _u
 }
 
+// SetInvoiceIssuedAmount sets the "InvoiceIssuedAmount" field.
+func (_u *JobPaymentsUpdate) SetInvoiceIssuedAmount(v *decimal.NullDecimal) *JobPaymentsUpdate {
+	_u.mutation.SetInvoiceIssuedAmount(v)
+	return _u
+}
+
+// ClearInvoiceIssuedAmount clears the value of the "InvoiceIssuedAmount" field.
+func (_u *JobPaymentsUpdate) ClearInvoiceIssuedAmount() *JobPaymentsUpdate {
+	_u.mutation.ClearInvoiceIssuedAmount()
+	return _u
+}
+
 // SetInvoiceReceived sets the "InvoiceReceived" field.
 func (_u *JobPaymentsUpdate) SetInvoiceReceived(v bool) *JobPaymentsUpdate {
 	_u.mutation.SetInvoiceReceived(v)
@@ -318,15 +330,15 @@ func (_u *JobPaymentsUpdate) ClearInvoiceReceivedDate() *JobPaymentsUpdate {
 	return _u
 }
 
-// SetInvoiceAmount sets the "InvoiceAmount" field.
-func (_u *JobPaymentsUpdate) SetInvoiceAmount(v *decimal.NullDecimal) *JobPaymentsUpdate {
-	_u.mutation.SetInvoiceAmount(v)
+// SetInvoiceReceivedAmount sets the "InvoiceReceivedAmount" field.
+func (_u *JobPaymentsUpdate) SetInvoiceReceivedAmount(v *decimal.NullDecimal) *JobPaymentsUpdate {
+	_u.mutation.SetInvoiceReceivedAmount(v)
 	return _u
 }
 
-// ClearInvoiceAmount clears the value of the "InvoiceAmount" field.
-func (_u *JobPaymentsUpdate) ClearInvoiceAmount() *JobPaymentsUpdate {
-	_u.mutation.ClearInvoiceAmount()
+// ClearInvoiceReceivedAmount clears the value of the "InvoiceReceivedAmount" field.
+func (_u *JobPaymentsUpdate) ClearInvoiceReceivedAmount() *JobPaymentsUpdate {
+	_u.mutation.ClearInvoiceReceivedAmount()
 	return _u
 }
 
@@ -503,6 +515,12 @@ func (_u *JobPaymentsUpdate) sqlSave(ctx context.Context) (_node int, err error)
 	if _u.mutation.InvoiceIssuedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime)
 	}
+	if value, ok := _u.mutation.InvoiceIssuedAmount(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther, value)
+	}
+	if _u.mutation.InvoiceIssuedAmountCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther)
+	}
 	if value, ok := _u.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
 	}
@@ -515,11 +533,11 @@ func (_u *JobPaymentsUpdate) sqlSave(ctx context.Context) (_node int, err error)
 	if _u.mutation.InvoiceReceivedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime)
 	}
-	if value, ok := _u.mutation.InvoiceAmount(); ok {
-		_spec.SetField(jobpayments.FieldInvoiceAmount, field.TypeOther, value)
+	if value, ok := _u.mutation.InvoiceReceivedAmount(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceivedAmount, field.TypeOther, value)
 	}
-	if _u.mutation.InvoiceAmountCleared() {
-		_spec.ClearField(jobpayments.FieldInvoiceAmount, field.TypeOther)
+	if _u.mutation.InvoiceReceivedAmountCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceReceivedAmount, field.TypeOther)
 	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)
@@ -824,6 +842,18 @@ func (_u *JobPaymentsUpdateOne) ClearInvoiceIssuedDate() *JobPaymentsUpdateOne {
 	return _u
 }
 
+// SetInvoiceIssuedAmount sets the "InvoiceIssuedAmount" field.
+func (_u *JobPaymentsUpdateOne) SetInvoiceIssuedAmount(v *decimal.NullDecimal) *JobPaymentsUpdateOne {
+	_u.mutation.SetInvoiceIssuedAmount(v)
+	return _u
+}
+
+// ClearInvoiceIssuedAmount clears the value of the "InvoiceIssuedAmount" field.
+func (_u *JobPaymentsUpdateOne) ClearInvoiceIssuedAmount() *JobPaymentsUpdateOne {
+	_u.mutation.ClearInvoiceIssuedAmount()
+	return _u
+}
+
 // SetInvoiceReceived sets the "InvoiceReceived" field.
 func (_u *JobPaymentsUpdateOne) SetInvoiceReceived(v bool) *JobPaymentsUpdateOne {
 	_u.mutation.SetInvoiceReceived(v)
@@ -864,15 +894,15 @@ func (_u *JobPaymentsUpdateOne) ClearInvoiceReceivedDate() *JobPaymentsUpdateOne
 	return _u
 }
 
-// SetInvoiceAmount sets the "InvoiceAmount" field.
-func (_u *JobPaymentsUpdateOne) SetInvoiceAmount(v *decimal.NullDecimal) *JobPaymentsUpdateOne {
-	_u.mutation.SetInvoiceAmount(v)
+// SetInvoiceReceivedAmount sets the "InvoiceReceivedAmount" field.
+func (_u *JobPaymentsUpdateOne) SetInvoiceReceivedAmount(v *decimal.NullDecimal) *JobPaymentsUpdateOne {
+	_u.mutation.SetInvoiceReceivedAmount(v)
 	return _u
 }
 
-// ClearInvoiceAmount clears the value of the "InvoiceAmount" field.
-func (_u *JobPaymentsUpdateOne) ClearInvoiceAmount() *JobPaymentsUpdateOne {
-	_u.mutation.ClearInvoiceAmount()
+// ClearInvoiceReceivedAmount clears the value of the "InvoiceReceivedAmount" field.
+func (_u *JobPaymentsUpdateOne) ClearInvoiceReceivedAmount() *JobPaymentsUpdateOne {
+	_u.mutation.ClearInvoiceReceivedAmount()
 	return _u
 }
 
@@ -1079,6 +1109,12 @@ func (_u *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPayments
 	if _u.mutation.InvoiceIssuedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime)
 	}
+	if value, ok := _u.mutation.InvoiceIssuedAmount(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther, value)
+	}
+	if _u.mutation.InvoiceIssuedAmountCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther)
+	}
 	if value, ok := _u.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
 	}
@@ -1091,11 +1127,11 @@ func (_u *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPayments
 	if _u.mutation.InvoiceReceivedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceReceivedDate, field.TypeTime)
 	}
-	if value, ok := _u.mutation.InvoiceAmount(); ok {
-		_spec.SetField(jobpayments.FieldInvoiceAmount, field.TypeOther, value)
+	if value, ok := _u.mutation.InvoiceReceivedAmount(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceReceivedAmount, field.TypeOther, value)
 	}
-	if _u.mutation.InvoiceAmountCleared() {
-		_spec.ClearField(jobpayments.FieldInvoiceAmount, field.TypeOther)
+	if _u.mutation.InvoiceReceivedAmountCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceReceivedAmount, field.TypeOther)
 	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)

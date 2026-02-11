@@ -43,12 +43,14 @@ type JobPayments struct {
 	InvoiceIssued bool `json:"InvoiceIssued,omitempty"`
 	// InvoiceIssuedDate holds the value of the "InvoiceIssuedDate" field.
 	InvoiceIssuedDate time.Time `json:"InvoiceIssuedDate,omitempty"`
+	// InvoiceIssuedAmount holds the value of the "InvoiceIssuedAmount" field.
+	InvoiceIssuedAmount *decimal.NullDecimal `json:"InvoiceIssuedAmount,omitempty"`
 	// InvoiceReceived holds the value of the "InvoiceReceived" field.
 	InvoiceReceived bool `json:"InvoiceReceived,omitempty"`
 	// InvoiceReceivedDate holds the value of the "InvoiceReceivedDate" field.
 	InvoiceReceivedDate time.Time `json:"InvoiceReceivedDate,omitempty"`
-	// InvoiceAmount holds the value of the "InvoiceAmount" field.
-	InvoiceAmount *decimal.NullDecimal `json:"InvoiceAmount,omitempty"`
+	// InvoiceReceivedAmount holds the value of the "InvoiceReceivedAmount" field.
+	InvoiceReceivedAmount *decimal.NullDecimal `json:"InvoiceReceivedAmount,omitempty"`
 	// CreatedAt holds the value of the "CreatedAt" field.
 	CreatedAt time.Time `json:"CreatedAt,omitempty"`
 	// UpdatedAt holds the value of the "UpdatedAt" field.
@@ -87,7 +89,7 @@ func (*JobPayments) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case jobpayments.FieldAmount, jobpayments.FieldInvoiceAmount:
+		case jobpayments.FieldAmount, jobpayments.FieldInvoiceIssuedAmount, jobpayments.FieldInvoiceReceivedAmount:
 			values[i] = new(decimal.NullDecimal)
 		case jobpayments.FieldAtMunicipality, jobpayments.FieldInvoiceIssued, jobpayments.FieldInvoiceReceived:
 			values[i] = new(sql.NullBool)
@@ -194,6 +196,12 @@ func (_m *JobPayments) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.InvoiceIssuedDate = value.Time
 			}
+		case jobpayments.FieldInvoiceIssuedAmount:
+			if value, ok := values[i].(*decimal.NullDecimal); !ok {
+				return fmt.Errorf("unexpected type %T for field InvoiceIssuedAmount", values[i])
+			} else if value != nil {
+				_m.InvoiceIssuedAmount = value
+			}
 		case jobpayments.FieldInvoiceReceived:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field InvoiceReceived", values[i])
@@ -206,11 +214,11 @@ func (_m *JobPayments) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.InvoiceReceivedDate = value.Time
 			}
-		case jobpayments.FieldInvoiceAmount:
+		case jobpayments.FieldInvoiceReceivedAmount:
 			if value, ok := values[i].(*decimal.NullDecimal); !ok {
-				return fmt.Errorf("unexpected type %T for field InvoiceAmount", values[i])
+				return fmt.Errorf("unexpected type %T for field InvoiceReceivedAmount", values[i])
 			} else if value != nil {
-				_m.InvoiceAmount = value
+				_m.InvoiceReceivedAmount = value
 			}
 		case jobpayments.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -308,14 +316,17 @@ func (_m *JobPayments) String() string {
 	builder.WriteString("InvoiceIssuedDate=")
 	builder.WriteString(_m.InvoiceIssuedDate.Format(time.ANSIC))
 	builder.WriteString(", ")
+	builder.WriteString("InvoiceIssuedAmount=")
+	builder.WriteString(fmt.Sprintf("%v", _m.InvoiceIssuedAmount))
+	builder.WriteString(", ")
 	builder.WriteString("InvoiceReceived=")
 	builder.WriteString(fmt.Sprintf("%v", _m.InvoiceReceived))
 	builder.WriteString(", ")
 	builder.WriteString("InvoiceReceivedDate=")
 	builder.WriteString(_m.InvoiceReceivedDate.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("InvoiceAmount=")
-	builder.WriteString(fmt.Sprintf("%v", _m.InvoiceAmount))
+	builder.WriteString("InvoiceReceivedAmount=")
+	builder.WriteString(fmt.Sprintf("%v", _m.InvoiceReceivedAmount))
 	builder.WriteString(", ")
 	builder.WriteString("CreatedAt=")
 	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))

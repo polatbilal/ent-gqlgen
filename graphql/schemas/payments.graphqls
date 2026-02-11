@@ -12,9 +12,10 @@ type JobPayments {
   MunicipalityDeliveryDate: Time
   InvoiceIssued: Boolean
   InvoiceIssuedDate: Time
+  InvoiceIssuedAmount: Decimal
   InvoiceReceived: Boolean
   InvoiceReceivedDate: Time
-  InvoiceAmount: Decimal
+  InvoiceReceivedAmount: Decimal
   updatedAt: Time
 }
 
@@ -34,9 +35,10 @@ input JobPaymentStatusInput {
   MunicipalityDeliveryDate: Time
   InvoiceIssued: Boolean
   InvoiceIssuedDate: Time
+  InvoiceIssuedAmount: Decimal
   InvoiceReceived: Boolean
   InvoiceReceivedDate: Time
-  InvoiceAmount: Decimal
+  InvoiceReceivedAmount: Decimal
 }
 
 extend type Query {

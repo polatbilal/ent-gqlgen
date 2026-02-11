@@ -137,9 +137,10 @@ func (r *mutationResolver) UpdatePaymentStatus(ctx context.Context, id int, inpu
 		SetNillableMunicipalityDeliveryDate(input.MunicipalityDeliveryDate).
 		SetNillableInvoiceIssued(input.InvoiceIssued).
 		SetNillableInvoiceIssuedDate(input.InvoiceIssuedDate).
+		SetInvoiceIssuedAmount(input.InvoiceIssuedAmount).
 		SetNillableInvoiceReceived(input.InvoiceReceived).
 		SetNillableInvoiceReceivedDate(input.InvoiceReceivedDate).
-		SetInvoiceAmount(input.InvoiceAmount)
+		SetInvoiceReceivedAmount(input.InvoiceReceivedAmount)
 
 	paymentStatus, err := updatePaymentStatus.Save(ctx)
 	if err != nil {

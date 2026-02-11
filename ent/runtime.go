@@ -269,15 +269,15 @@ func init() {
 	// jobpayments.DefaultInvoiceIssued holds the default value on creation for the InvoiceIssued field.
 	jobpayments.DefaultInvoiceIssued = jobpaymentsDescInvoiceIssued.Default.(bool)
 	// jobpaymentsDescInvoiceReceived is the schema descriptor for InvoiceReceived field.
-	jobpaymentsDescInvoiceReceived := jobpaymentsFields[12].Descriptor()
+	jobpaymentsDescInvoiceReceived := jobpaymentsFields[13].Descriptor()
 	// jobpayments.DefaultInvoiceReceived holds the default value on creation for the InvoiceReceived field.
 	jobpayments.DefaultInvoiceReceived = jobpaymentsDescInvoiceReceived.Default.(bool)
 	// jobpaymentsDescCreatedAt is the schema descriptor for CreatedAt field.
-	jobpaymentsDescCreatedAt := jobpaymentsFields[15].Descriptor()
+	jobpaymentsDescCreatedAt := jobpaymentsFields[16].Descriptor()
 	// jobpayments.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobpayments.DefaultCreatedAt = jobpaymentsDescCreatedAt.Default.(func() time.Time)
 	// jobpaymentsDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	jobpaymentsDescUpdatedAt := jobpaymentsFields[16].Descriptor()
+	jobpaymentsDescUpdatedAt := jobpaymentsFields[17].Descriptor()
 	// jobpayments.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobpayments.DefaultUpdatedAt = jobpaymentsDescUpdatedAt.Default.(func() time.Time)
 	// jobpayments.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.

@@ -17618,9 +17618,10 @@ type JobPaymentsMutation struct {
 	_MunicipalityDeliveryDate *time.Time
 	_InvoiceIssued            *bool
 	_InvoiceIssuedDate        *time.Time
+	_InvoiceIssuedAmount      **decimal.NullDecimal
 	_InvoiceReceived          *bool
 	_InvoiceReceivedDate      *time.Time
-	_InvoiceAmount            **decimal.NullDecimal
+	_InvoiceReceivedAmount    **decimal.NullDecimal
 	_CreatedAt                *time.Time
 	_UpdatedAt                *time.Time
 	clearedFields             map[string]struct{}
@@ -18374,6 +18375,55 @@ func (m *JobPaymentsMutation) ResetInvoiceIssuedDate() {
 	delete(m.clearedFields, jobpayments.FieldInvoiceIssuedDate)
 }
 
+// SetInvoiceIssuedAmount sets the "InvoiceIssuedAmount" field.
+func (m *JobPaymentsMutation) SetInvoiceIssuedAmount(dd *decimal.NullDecimal) {
+	m._InvoiceIssuedAmount = &dd
+}
+
+// InvoiceIssuedAmount returns the value of the "InvoiceIssuedAmount" field in the mutation.
+func (m *JobPaymentsMutation) InvoiceIssuedAmount() (r *decimal.NullDecimal, exists bool) {
+	v := m._InvoiceIssuedAmount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInvoiceIssuedAmount returns the old "InvoiceIssuedAmount" field's value of the JobPayments entity.
+// If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *JobPaymentsMutation) OldInvoiceIssuedAmount(ctx context.Context) (v *decimal.NullDecimal, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInvoiceIssuedAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInvoiceIssuedAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInvoiceIssuedAmount: %w", err)
+	}
+	return oldValue.InvoiceIssuedAmount, nil
+}
+
+// ClearInvoiceIssuedAmount clears the value of the "InvoiceIssuedAmount" field.
+func (m *JobPaymentsMutation) ClearInvoiceIssuedAmount() {
+	m._InvoiceIssuedAmount = nil
+	m.clearedFields[jobpayments.FieldInvoiceIssuedAmount] = struct{}{}
+}
+
+// InvoiceIssuedAmountCleared returns if the "InvoiceIssuedAmount" field was cleared in this mutation.
+func (m *JobPaymentsMutation) InvoiceIssuedAmountCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldInvoiceIssuedAmount]
+	return ok
+}
+
+// ResetInvoiceIssuedAmount resets all changes to the "InvoiceIssuedAmount" field.
+func (m *JobPaymentsMutation) ResetInvoiceIssuedAmount() {
+	m._InvoiceIssuedAmount = nil
+	delete(m.clearedFields, jobpayments.FieldInvoiceIssuedAmount)
+}
+
 // SetInvoiceReceived sets the "InvoiceReceived" field.
 func (m *JobPaymentsMutation) SetInvoiceReceived(b bool) {
 	m._InvoiceReceived = &b
@@ -18472,53 +18522,53 @@ func (m *JobPaymentsMutation) ResetInvoiceReceivedDate() {
 	delete(m.clearedFields, jobpayments.FieldInvoiceReceivedDate)
 }
 
-// SetInvoiceAmount sets the "InvoiceAmount" field.
-func (m *JobPaymentsMutation) SetInvoiceAmount(dd *decimal.NullDecimal) {
-	m._InvoiceAmount = &dd
+// SetInvoiceReceivedAmount sets the "InvoiceReceivedAmount" field.
+func (m *JobPaymentsMutation) SetInvoiceReceivedAmount(dd *decimal.NullDecimal) {
+	m._InvoiceReceivedAmount = &dd
 }
 
-// InvoiceAmount returns the value of the "InvoiceAmount" field in the mutation.
-func (m *JobPaymentsMutation) InvoiceAmount() (r *decimal.NullDecimal, exists bool) {
-	v := m._InvoiceAmount
+// InvoiceReceivedAmount returns the value of the "InvoiceReceivedAmount" field in the mutation.
+func (m *JobPaymentsMutation) InvoiceReceivedAmount() (r *decimal.NullDecimal, exists bool) {
+	v := m._InvoiceReceivedAmount
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldInvoiceAmount returns the old "InvoiceAmount" field's value of the JobPayments entity.
+// OldInvoiceReceivedAmount returns the old "InvoiceReceivedAmount" field's value of the JobPayments entity.
 // If the JobPayments object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *JobPaymentsMutation) OldInvoiceAmount(ctx context.Context) (v *decimal.NullDecimal, err error) {
+func (m *JobPaymentsMutation) OldInvoiceReceivedAmount(ctx context.Context) (v *decimal.NullDecimal, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldInvoiceAmount is only allowed on UpdateOne operations")
+		return v, errors.New("OldInvoiceReceivedAmount is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldInvoiceAmount requires an ID field in the mutation")
+		return v, errors.New("OldInvoiceReceivedAmount requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldInvoiceAmount: %w", err)
+		return v, fmt.Errorf("querying old value for OldInvoiceReceivedAmount: %w", err)
 	}
-	return oldValue.InvoiceAmount, nil
+	return oldValue.InvoiceReceivedAmount, nil
 }
 
-// ClearInvoiceAmount clears the value of the "InvoiceAmount" field.
-func (m *JobPaymentsMutation) ClearInvoiceAmount() {
-	m._InvoiceAmount = nil
-	m.clearedFields[jobpayments.FieldInvoiceAmount] = struct{}{}
+// ClearInvoiceReceivedAmount clears the value of the "InvoiceReceivedAmount" field.
+func (m *JobPaymentsMutation) ClearInvoiceReceivedAmount() {
+	m._InvoiceReceivedAmount = nil
+	m.clearedFields[jobpayments.FieldInvoiceReceivedAmount] = struct{}{}
 }
 
-// InvoiceAmountCleared returns if the "InvoiceAmount" field was cleared in this mutation.
-func (m *JobPaymentsMutation) InvoiceAmountCleared() bool {
-	_, ok := m.clearedFields[jobpayments.FieldInvoiceAmount]
+// InvoiceReceivedAmountCleared returns if the "InvoiceReceivedAmount" field was cleared in this mutation.
+func (m *JobPaymentsMutation) InvoiceReceivedAmountCleared() bool {
+	_, ok := m.clearedFields[jobpayments.FieldInvoiceReceivedAmount]
 	return ok
 }
 
-// ResetInvoiceAmount resets all changes to the "InvoiceAmount" field.
-func (m *JobPaymentsMutation) ResetInvoiceAmount() {
-	m._InvoiceAmount = nil
-	delete(m.clearedFields, jobpayments.FieldInvoiceAmount)
+// ResetInvoiceReceivedAmount resets all changes to the "InvoiceReceivedAmount" field.
+func (m *JobPaymentsMutation) ResetInvoiceReceivedAmount() {
+	m._InvoiceReceivedAmount = nil
+	delete(m.clearedFields, jobpayments.FieldInvoiceReceivedAmount)
 }
 
 // SetCreatedAt sets the "CreatedAt" field.
@@ -18666,7 +18716,7 @@ func (m *JobPaymentsMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *JobPaymentsMutation) Fields() []string {
-	fields := make([]string, 0, 17)
+	fields := make([]string, 0, 18)
 	if m.yibfNo != nil {
 		fields = append(fields, jobpayments.FieldYibfNo)
 	}
@@ -18703,14 +18753,17 @@ func (m *JobPaymentsMutation) Fields() []string {
 	if m._InvoiceIssuedDate != nil {
 		fields = append(fields, jobpayments.FieldInvoiceIssuedDate)
 	}
+	if m._InvoiceIssuedAmount != nil {
+		fields = append(fields, jobpayments.FieldInvoiceIssuedAmount)
+	}
 	if m._InvoiceReceived != nil {
 		fields = append(fields, jobpayments.FieldInvoiceReceived)
 	}
 	if m._InvoiceReceivedDate != nil {
 		fields = append(fields, jobpayments.FieldInvoiceReceivedDate)
 	}
-	if m._InvoiceAmount != nil {
-		fields = append(fields, jobpayments.FieldInvoiceAmount)
+	if m._InvoiceReceivedAmount != nil {
+		fields = append(fields, jobpayments.FieldInvoiceReceivedAmount)
 	}
 	if m._CreatedAt != nil {
 		fields = append(fields, jobpayments.FieldCreatedAt)
@@ -18750,12 +18803,14 @@ func (m *JobPaymentsMutation) Field(name string) (ent.Value, bool) {
 		return m.InvoiceIssued()
 	case jobpayments.FieldInvoiceIssuedDate:
 		return m.InvoiceIssuedDate()
+	case jobpayments.FieldInvoiceIssuedAmount:
+		return m.InvoiceIssuedAmount()
 	case jobpayments.FieldInvoiceReceived:
 		return m.InvoiceReceived()
 	case jobpayments.FieldInvoiceReceivedDate:
 		return m.InvoiceReceivedDate()
-	case jobpayments.FieldInvoiceAmount:
-		return m.InvoiceAmount()
+	case jobpayments.FieldInvoiceReceivedAmount:
+		return m.InvoiceReceivedAmount()
 	case jobpayments.FieldCreatedAt:
 		return m.CreatedAt()
 	case jobpayments.FieldUpdatedAt:
@@ -18793,12 +18848,14 @@ func (m *JobPaymentsMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldInvoiceIssued(ctx)
 	case jobpayments.FieldInvoiceIssuedDate:
 		return m.OldInvoiceIssuedDate(ctx)
+	case jobpayments.FieldInvoiceIssuedAmount:
+		return m.OldInvoiceIssuedAmount(ctx)
 	case jobpayments.FieldInvoiceReceived:
 		return m.OldInvoiceReceived(ctx)
 	case jobpayments.FieldInvoiceReceivedDate:
 		return m.OldInvoiceReceivedDate(ctx)
-	case jobpayments.FieldInvoiceAmount:
-		return m.OldInvoiceAmount(ctx)
+	case jobpayments.FieldInvoiceReceivedAmount:
+		return m.OldInvoiceReceivedAmount(ctx)
 	case jobpayments.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case jobpayments.FieldUpdatedAt:
@@ -18896,6 +18953,13 @@ func (m *JobPaymentsMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetInvoiceIssuedDate(v)
 		return nil
+	case jobpayments.FieldInvoiceIssuedAmount:
+		v, ok := value.(*decimal.NullDecimal)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInvoiceIssuedAmount(v)
+		return nil
 	case jobpayments.FieldInvoiceReceived:
 		v, ok := value.(bool)
 		if !ok {
@@ -18910,12 +18974,12 @@ func (m *JobPaymentsMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetInvoiceReceivedDate(v)
 		return nil
-	case jobpayments.FieldInvoiceAmount:
+	case jobpayments.FieldInvoiceReceivedAmount:
 		v, ok := value.(*decimal.NullDecimal)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetInvoiceAmount(v)
+		m.SetInvoiceReceivedAmount(v)
 		return nil
 	case jobpayments.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -19042,14 +19106,17 @@ func (m *JobPaymentsMutation) ClearedFields() []string {
 	if m.FieldCleared(jobpayments.FieldInvoiceIssuedDate) {
 		fields = append(fields, jobpayments.FieldInvoiceIssuedDate)
 	}
+	if m.FieldCleared(jobpayments.FieldInvoiceIssuedAmount) {
+		fields = append(fields, jobpayments.FieldInvoiceIssuedAmount)
+	}
 	if m.FieldCleared(jobpayments.FieldInvoiceReceived) {
 		fields = append(fields, jobpayments.FieldInvoiceReceived)
 	}
 	if m.FieldCleared(jobpayments.FieldInvoiceReceivedDate) {
 		fields = append(fields, jobpayments.FieldInvoiceReceivedDate)
 	}
-	if m.FieldCleared(jobpayments.FieldInvoiceAmount) {
-		fields = append(fields, jobpayments.FieldInvoiceAmount)
+	if m.FieldCleared(jobpayments.FieldInvoiceReceivedAmount) {
+		fields = append(fields, jobpayments.FieldInvoiceReceivedAmount)
 	}
 	return fields
 }
@@ -19095,14 +19162,17 @@ func (m *JobPaymentsMutation) ClearField(name string) error {
 	case jobpayments.FieldInvoiceIssuedDate:
 		m.ClearInvoiceIssuedDate()
 		return nil
+	case jobpayments.FieldInvoiceIssuedAmount:
+		m.ClearInvoiceIssuedAmount()
+		return nil
 	case jobpayments.FieldInvoiceReceived:
 		m.ClearInvoiceReceived()
 		return nil
 	case jobpayments.FieldInvoiceReceivedDate:
 		m.ClearInvoiceReceivedDate()
 		return nil
-	case jobpayments.FieldInvoiceAmount:
-		m.ClearInvoiceAmount()
+	case jobpayments.FieldInvoiceReceivedAmount:
+		m.ClearInvoiceReceivedAmount()
 		return nil
 	}
 	return fmt.Errorf("unknown JobPayments nullable field %s", name)
@@ -19148,14 +19218,17 @@ func (m *JobPaymentsMutation) ResetField(name string) error {
 	case jobpayments.FieldInvoiceIssuedDate:
 		m.ResetInvoiceIssuedDate()
 		return nil
+	case jobpayments.FieldInvoiceIssuedAmount:
+		m.ResetInvoiceIssuedAmount()
+		return nil
 	case jobpayments.FieldInvoiceReceived:
 		m.ResetInvoiceReceived()
 		return nil
 	case jobpayments.FieldInvoiceReceivedDate:
 		m.ResetInvoiceReceivedDate()
 		return nil
-	case jobpayments.FieldInvoiceAmount:
-		m.ResetInvoiceAmount()
+	case jobpayments.FieldInvoiceReceivedAmount:
+		m.ResetInvoiceReceivedAmount()
 		return nil
 	case jobpayments.FieldCreatedAt:
 		m.ResetCreatedAt()
