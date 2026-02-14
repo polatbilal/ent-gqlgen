@@ -145,7 +145,6 @@ var (
 	FinanceAccountsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString, Default: ""},
-		{Name: "account_number", Type: field.TypeString, Default: ""},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
@@ -158,7 +157,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "finance_accounts_company_details_accounts",
-				Columns:    []*schema.Column{FinanceAccountsColumns[5]},
+				Columns:    []*schema.Column{FinanceAccountsColumns[4]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -167,7 +166,11 @@ var (
 	// FinanceClassesColumns holds the columns for the "finance_classes" table.
 	FinanceClassesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "category", Type: field.TypeString, Nullable: true},
 		{Name: "name", Type: field.TypeString},
+		{Name: "deleted_name", Type: field.TypeString, Nullable: true},
+		{Name: "deleted_date", Type: field.TypeTime, Nullable: true},
+		{Name: "status", Type: field.TypeBool, Default: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
@@ -180,7 +183,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "finance_classes_company_details_methods",
-				Columns:    []*schema.Column{FinanceClassesColumns[4]},
+				Columns:    []*schema.Column{FinanceClassesColumns[8]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -189,8 +192,13 @@ var (
 	// FinanceGroupsColumns holds the columns for the "finance_groups" table.
 	FinanceGroupsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "type", Type: field.TypeString},
-		{Name: "description", Type: field.TypeString},
+		{Name: "category", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "deleted_name", Type: field.TypeString, Nullable: true},
+		{Name: "deleted_date", Type: field.TypeTime, Nullable: true},
+		{Name: "status", Type: field.TypeBool, Default: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
 	}
 	// FinanceGroupsTable holds the schema information for the "finance_groups" table.
 	FinanceGroupsTable = &schema.Table{

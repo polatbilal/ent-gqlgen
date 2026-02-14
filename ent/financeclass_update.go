@@ -30,6 +30,26 @@ func (_u *FinanceClassUpdate) Where(ps ...predicate.FinanceClass) *FinanceClassU
 	return _u
 }
 
+// SetCategory sets the "Category" field.
+func (_u *FinanceClassUpdate) SetCategory(v string) *FinanceClassUpdate {
+	_u.mutation.SetCategory(v)
+	return _u
+}
+
+// SetNillableCategory sets the "Category" field if the given value is not nil.
+func (_u *FinanceClassUpdate) SetNillableCategory(v *string) *FinanceClassUpdate {
+	if v != nil {
+		_u.SetCategory(*v)
+	}
+	return _u
+}
+
+// ClearCategory clears the value of the "Category" field.
+func (_u *FinanceClassUpdate) ClearCategory() *FinanceClassUpdate {
+	_u.mutation.ClearCategory()
+	return _u
+}
+
 // SetName sets the "Name" field.
 func (_u *FinanceClassUpdate) SetName(v string) *FinanceClassUpdate {
 	_u.mutation.SetName(v)
@@ -40,6 +60,60 @@ func (_u *FinanceClassUpdate) SetName(v string) *FinanceClassUpdate {
 func (_u *FinanceClassUpdate) SetNillableName(v *string) *FinanceClassUpdate {
 	if v != nil {
 		_u.SetName(*v)
+	}
+	return _u
+}
+
+// SetDeletedName sets the "DeletedName" field.
+func (_u *FinanceClassUpdate) SetDeletedName(v string) *FinanceClassUpdate {
+	_u.mutation.SetDeletedName(v)
+	return _u
+}
+
+// SetNillableDeletedName sets the "DeletedName" field if the given value is not nil.
+func (_u *FinanceClassUpdate) SetNillableDeletedName(v *string) *FinanceClassUpdate {
+	if v != nil {
+		_u.SetDeletedName(*v)
+	}
+	return _u
+}
+
+// ClearDeletedName clears the value of the "DeletedName" field.
+func (_u *FinanceClassUpdate) ClearDeletedName() *FinanceClassUpdate {
+	_u.mutation.ClearDeletedName()
+	return _u
+}
+
+// SetDeletedDate sets the "DeletedDate" field.
+func (_u *FinanceClassUpdate) SetDeletedDate(v time.Time) *FinanceClassUpdate {
+	_u.mutation.SetDeletedDate(v)
+	return _u
+}
+
+// SetNillableDeletedDate sets the "DeletedDate" field if the given value is not nil.
+func (_u *FinanceClassUpdate) SetNillableDeletedDate(v *time.Time) *FinanceClassUpdate {
+	if v != nil {
+		_u.SetDeletedDate(*v)
+	}
+	return _u
+}
+
+// ClearDeletedDate clears the value of the "DeletedDate" field.
+func (_u *FinanceClassUpdate) ClearDeletedDate() *FinanceClassUpdate {
+	_u.mutation.ClearDeletedDate()
+	return _u
+}
+
+// SetStatus sets the "Status" field.
+func (_u *FinanceClassUpdate) SetStatus(v bool) *FinanceClassUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "Status" field if the given value is not nil.
+func (_u *FinanceClassUpdate) SetNillableStatus(v *bool) *FinanceClassUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
 	return _u
 }
@@ -175,8 +249,29 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 			}
 		}
 	}
+	if value, ok := _u.mutation.Category(); ok {
+		_spec.SetField(financeclass.FieldCategory, field.TypeString, value)
+	}
+	if _u.mutation.CategoryCleared() {
+		_spec.ClearField(financeclass.FieldCategory, field.TypeString)
+	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(financeclass.FieldName, field.TypeString, value)
+	}
+	if value, ok := _u.mutation.DeletedName(); ok {
+		_spec.SetField(financeclass.FieldDeletedName, field.TypeString, value)
+	}
+	if _u.mutation.DeletedNameCleared() {
+		_spec.ClearField(financeclass.FieldDeletedName, field.TypeString)
+	}
+	if value, ok := _u.mutation.DeletedDate(); ok {
+		_spec.SetField(financeclass.FieldDeletedDate, field.TypeTime, value)
+	}
+	if _u.mutation.DeletedDateCleared() {
+		_spec.ClearField(financeclass.FieldDeletedDate, field.TypeTime)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(financeclass.FieldStatus, field.TypeBool, value)
 	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(financeclass.FieldCreatedAt, field.TypeTime, value)
@@ -278,6 +373,26 @@ type FinanceClassUpdateOne struct {
 	mutation *FinanceClassMutation
 }
 
+// SetCategory sets the "Category" field.
+func (_u *FinanceClassUpdateOne) SetCategory(v string) *FinanceClassUpdateOne {
+	_u.mutation.SetCategory(v)
+	return _u
+}
+
+// SetNillableCategory sets the "Category" field if the given value is not nil.
+func (_u *FinanceClassUpdateOne) SetNillableCategory(v *string) *FinanceClassUpdateOne {
+	if v != nil {
+		_u.SetCategory(*v)
+	}
+	return _u
+}
+
+// ClearCategory clears the value of the "Category" field.
+func (_u *FinanceClassUpdateOne) ClearCategory() *FinanceClassUpdateOne {
+	_u.mutation.ClearCategory()
+	return _u
+}
+
 // SetName sets the "Name" field.
 func (_u *FinanceClassUpdateOne) SetName(v string) *FinanceClassUpdateOne {
 	_u.mutation.SetName(v)
@@ -288,6 +403,60 @@ func (_u *FinanceClassUpdateOne) SetName(v string) *FinanceClassUpdateOne {
 func (_u *FinanceClassUpdateOne) SetNillableName(v *string) *FinanceClassUpdateOne {
 	if v != nil {
 		_u.SetName(*v)
+	}
+	return _u
+}
+
+// SetDeletedName sets the "DeletedName" field.
+func (_u *FinanceClassUpdateOne) SetDeletedName(v string) *FinanceClassUpdateOne {
+	_u.mutation.SetDeletedName(v)
+	return _u
+}
+
+// SetNillableDeletedName sets the "DeletedName" field if the given value is not nil.
+func (_u *FinanceClassUpdateOne) SetNillableDeletedName(v *string) *FinanceClassUpdateOne {
+	if v != nil {
+		_u.SetDeletedName(*v)
+	}
+	return _u
+}
+
+// ClearDeletedName clears the value of the "DeletedName" field.
+func (_u *FinanceClassUpdateOne) ClearDeletedName() *FinanceClassUpdateOne {
+	_u.mutation.ClearDeletedName()
+	return _u
+}
+
+// SetDeletedDate sets the "DeletedDate" field.
+func (_u *FinanceClassUpdateOne) SetDeletedDate(v time.Time) *FinanceClassUpdateOne {
+	_u.mutation.SetDeletedDate(v)
+	return _u
+}
+
+// SetNillableDeletedDate sets the "DeletedDate" field if the given value is not nil.
+func (_u *FinanceClassUpdateOne) SetNillableDeletedDate(v *time.Time) *FinanceClassUpdateOne {
+	if v != nil {
+		_u.SetDeletedDate(*v)
+	}
+	return _u
+}
+
+// ClearDeletedDate clears the value of the "DeletedDate" field.
+func (_u *FinanceClassUpdateOne) ClearDeletedDate() *FinanceClassUpdateOne {
+	_u.mutation.ClearDeletedDate()
+	return _u
+}
+
+// SetStatus sets the "Status" field.
+func (_u *FinanceClassUpdateOne) SetStatus(v bool) *FinanceClassUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "Status" field if the given value is not nil.
+func (_u *FinanceClassUpdateOne) SetNillableStatus(v *bool) *FinanceClassUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
 	return _u
 }
@@ -453,8 +622,29 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 			}
 		}
 	}
+	if value, ok := _u.mutation.Category(); ok {
+		_spec.SetField(financeclass.FieldCategory, field.TypeString, value)
+	}
+	if _u.mutation.CategoryCleared() {
+		_spec.ClearField(financeclass.FieldCategory, field.TypeString)
+	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(financeclass.FieldName, field.TypeString, value)
+	}
+	if value, ok := _u.mutation.DeletedName(); ok {
+		_spec.SetField(financeclass.FieldDeletedName, field.TypeString, value)
+	}
+	if _u.mutation.DeletedNameCleared() {
+		_spec.ClearField(financeclass.FieldDeletedName, field.TypeString)
+	}
+	if value, ok := _u.mutation.DeletedDate(); ok {
+		_spec.SetField(financeclass.FieldDeletedDate, field.TypeTime, value)
+	}
+	if _u.mutation.DeletedDateCleared() {
+		_spec.ClearField(financeclass.FieldDeletedDate, field.TypeTime)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(financeclass.FieldStatus, field.TypeBool, value)
 	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(financeclass.FieldCreatedAt, field.TypeTime, value)

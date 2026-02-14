@@ -17,6 +17,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/database"
 	"github.com/polatbilal/ent-gqlgen/ent/migrate"
 	"github.com/polatbilal/ent-gqlgen/graphql/resolvers"
+	"github.com/polatbilal/ent-gqlgen/hooks"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
 	"github.com/polatbilal/ent-gqlgen/services"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
@@ -118,6 +119,9 @@ func main() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 	defer client.Close()
+
+	// Register encryption hooks
+	hooks.RegisterCompanyTokenHooks(client)
 
 	// Lisans kontrolü job'ını başlat
 	licenseChecker := services.NewLicenseChecker(client)

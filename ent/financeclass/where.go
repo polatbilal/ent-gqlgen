@@ -55,9 +55,29 @@ func IDLTE(id int) predicate.FinanceClass {
 	return predicate.FinanceClass(sql.FieldLTE(FieldID, id))
 }
 
+// Category applies equality check predicate on the "Category" field. It's identical to CategoryEQ.
+func Category(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEQ(FieldCategory, v))
+}
+
 // Name applies equality check predicate on the "Name" field. It's identical to NameEQ.
 func Name(v string) predicate.FinanceClass {
 	return predicate.FinanceClass(sql.FieldEQ(FieldName, v))
+}
+
+// DeletedName applies equality check predicate on the "DeletedName" field. It's identical to DeletedNameEQ.
+func DeletedName(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEQ(FieldDeletedName, v))
+}
+
+// DeletedDate applies equality check predicate on the "DeletedDate" field. It's identical to DeletedDateEQ.
+func DeletedDate(v time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEQ(FieldDeletedDate, v))
+}
+
+// Status applies equality check predicate on the "Status" field. It's identical to StatusEQ.
+func Status(v bool) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEQ(FieldStatus, v))
 }
 
 // CreatedAt applies equality check predicate on the "createdAt" field. It's identical to CreatedAtEQ.
@@ -68,6 +88,81 @@ func CreatedAt(v time.Time) predicate.FinanceClass {
 // UpdatedAt applies equality check predicate on the "updatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.FinanceClass {
 	return predicate.FinanceClass(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// CategoryEQ applies the EQ predicate on the "Category" field.
+func CategoryEQ(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEQ(FieldCategory, v))
+}
+
+// CategoryNEQ applies the NEQ predicate on the "Category" field.
+func CategoryNEQ(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNEQ(FieldCategory, v))
+}
+
+// CategoryIn applies the In predicate on the "Category" field.
+func CategoryIn(vs ...string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldIn(FieldCategory, vs...))
+}
+
+// CategoryNotIn applies the NotIn predicate on the "Category" field.
+func CategoryNotIn(vs ...string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNotIn(FieldCategory, vs...))
+}
+
+// CategoryGT applies the GT predicate on the "Category" field.
+func CategoryGT(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldGT(FieldCategory, v))
+}
+
+// CategoryGTE applies the GTE predicate on the "Category" field.
+func CategoryGTE(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldGTE(FieldCategory, v))
+}
+
+// CategoryLT applies the LT predicate on the "Category" field.
+func CategoryLT(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldLT(FieldCategory, v))
+}
+
+// CategoryLTE applies the LTE predicate on the "Category" field.
+func CategoryLTE(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldLTE(FieldCategory, v))
+}
+
+// CategoryContains applies the Contains predicate on the "Category" field.
+func CategoryContains(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldContains(FieldCategory, v))
+}
+
+// CategoryHasPrefix applies the HasPrefix predicate on the "Category" field.
+func CategoryHasPrefix(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldHasPrefix(FieldCategory, v))
+}
+
+// CategoryHasSuffix applies the HasSuffix predicate on the "Category" field.
+func CategoryHasSuffix(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldHasSuffix(FieldCategory, v))
+}
+
+// CategoryIsNil applies the IsNil predicate on the "Category" field.
+func CategoryIsNil() predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldIsNull(FieldCategory))
+}
+
+// CategoryNotNil applies the NotNil predicate on the "Category" field.
+func CategoryNotNil() predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNotNull(FieldCategory))
+}
+
+// CategoryEqualFold applies the EqualFold predicate on the "Category" field.
+func CategoryEqualFold(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEqualFold(FieldCategory, v))
+}
+
+// CategoryContainsFold applies the ContainsFold predicate on the "Category" field.
+func CategoryContainsFold(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldContainsFold(FieldCategory, v))
 }
 
 // NameEQ applies the EQ predicate on the "Name" field.
@@ -133,6 +228,141 @@ func NameEqualFold(v string) predicate.FinanceClass {
 // NameContainsFold applies the ContainsFold predicate on the "Name" field.
 func NameContainsFold(v string) predicate.FinanceClass {
 	return predicate.FinanceClass(sql.FieldContainsFold(FieldName, v))
+}
+
+// DeletedNameEQ applies the EQ predicate on the "DeletedName" field.
+func DeletedNameEQ(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEQ(FieldDeletedName, v))
+}
+
+// DeletedNameNEQ applies the NEQ predicate on the "DeletedName" field.
+func DeletedNameNEQ(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNEQ(FieldDeletedName, v))
+}
+
+// DeletedNameIn applies the In predicate on the "DeletedName" field.
+func DeletedNameIn(vs ...string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldIn(FieldDeletedName, vs...))
+}
+
+// DeletedNameNotIn applies the NotIn predicate on the "DeletedName" field.
+func DeletedNameNotIn(vs ...string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNotIn(FieldDeletedName, vs...))
+}
+
+// DeletedNameGT applies the GT predicate on the "DeletedName" field.
+func DeletedNameGT(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldGT(FieldDeletedName, v))
+}
+
+// DeletedNameGTE applies the GTE predicate on the "DeletedName" field.
+func DeletedNameGTE(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldGTE(FieldDeletedName, v))
+}
+
+// DeletedNameLT applies the LT predicate on the "DeletedName" field.
+func DeletedNameLT(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldLT(FieldDeletedName, v))
+}
+
+// DeletedNameLTE applies the LTE predicate on the "DeletedName" field.
+func DeletedNameLTE(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldLTE(FieldDeletedName, v))
+}
+
+// DeletedNameContains applies the Contains predicate on the "DeletedName" field.
+func DeletedNameContains(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldContains(FieldDeletedName, v))
+}
+
+// DeletedNameHasPrefix applies the HasPrefix predicate on the "DeletedName" field.
+func DeletedNameHasPrefix(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldHasPrefix(FieldDeletedName, v))
+}
+
+// DeletedNameHasSuffix applies the HasSuffix predicate on the "DeletedName" field.
+func DeletedNameHasSuffix(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldHasSuffix(FieldDeletedName, v))
+}
+
+// DeletedNameIsNil applies the IsNil predicate on the "DeletedName" field.
+func DeletedNameIsNil() predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldIsNull(FieldDeletedName))
+}
+
+// DeletedNameNotNil applies the NotNil predicate on the "DeletedName" field.
+func DeletedNameNotNil() predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNotNull(FieldDeletedName))
+}
+
+// DeletedNameEqualFold applies the EqualFold predicate on the "DeletedName" field.
+func DeletedNameEqualFold(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEqualFold(FieldDeletedName, v))
+}
+
+// DeletedNameContainsFold applies the ContainsFold predicate on the "DeletedName" field.
+func DeletedNameContainsFold(v string) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldContainsFold(FieldDeletedName, v))
+}
+
+// DeletedDateEQ applies the EQ predicate on the "DeletedDate" field.
+func DeletedDateEQ(v time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEQ(FieldDeletedDate, v))
+}
+
+// DeletedDateNEQ applies the NEQ predicate on the "DeletedDate" field.
+func DeletedDateNEQ(v time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNEQ(FieldDeletedDate, v))
+}
+
+// DeletedDateIn applies the In predicate on the "DeletedDate" field.
+func DeletedDateIn(vs ...time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldIn(FieldDeletedDate, vs...))
+}
+
+// DeletedDateNotIn applies the NotIn predicate on the "DeletedDate" field.
+func DeletedDateNotIn(vs ...time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNotIn(FieldDeletedDate, vs...))
+}
+
+// DeletedDateGT applies the GT predicate on the "DeletedDate" field.
+func DeletedDateGT(v time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldGT(FieldDeletedDate, v))
+}
+
+// DeletedDateGTE applies the GTE predicate on the "DeletedDate" field.
+func DeletedDateGTE(v time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldGTE(FieldDeletedDate, v))
+}
+
+// DeletedDateLT applies the LT predicate on the "DeletedDate" field.
+func DeletedDateLT(v time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldLT(FieldDeletedDate, v))
+}
+
+// DeletedDateLTE applies the LTE predicate on the "DeletedDate" field.
+func DeletedDateLTE(v time.Time) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldLTE(FieldDeletedDate, v))
+}
+
+// DeletedDateIsNil applies the IsNil predicate on the "DeletedDate" field.
+func DeletedDateIsNil() predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldIsNull(FieldDeletedDate))
+}
+
+// DeletedDateNotNil applies the NotNil predicate on the "DeletedDate" field.
+func DeletedDateNotNil() predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNotNull(FieldDeletedDate))
+}
+
+// StatusEQ applies the EQ predicate on the "Status" field.
+func StatusEQ(v bool) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldEQ(FieldStatus, v))
+}
+
+// StatusNEQ applies the NEQ predicate on the "Status" field.
+func StatusNEQ(v bool) predicate.FinanceClass {
+	return predicate.FinanceClass(sql.FieldNEQ(FieldStatus, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "createdAt" field.

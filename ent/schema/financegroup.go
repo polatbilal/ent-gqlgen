@@ -1,6 +1,8 @@
 package schema
 
 import (
+	"time"
+
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
@@ -14,8 +16,14 @@ type FinanceGroup struct {
 // Fields of the FinanceGroup.
 func (FinanceGroup) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("Type"),
-		field.String("Description"),
+		field.String("Category"),
+		field.String("Name"),
+		field.String("DeletedName").Optional(),
+		field.Time("DeletedDate").Optional(),
+		field.Bool("Status").Default(true),
+
+		field.Time("createdAt").Default(time.Now),
+		field.Time("updatedAt").Default(time.Now).UpdateDefault(time.Now),
 	}
 }
 

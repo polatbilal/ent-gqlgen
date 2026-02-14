@@ -3,6 +3,8 @@
 package financegroup
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
@@ -53,144 +55,384 @@ func IDLTE(id int) predicate.FinanceGroup {
 	return predicate.FinanceGroup(sql.FieldLTE(FieldID, id))
 }
 
-// Type applies equality check predicate on the "Type" field. It's identical to TypeEQ.
-func Type(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldEQ(FieldType, v))
+// Category applies equality check predicate on the "Category" field. It's identical to CategoryEQ.
+func Category(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldCategory, v))
 }
 
-// Description applies equality check predicate on the "Description" field. It's identical to DescriptionEQ.
-func Description(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldEQ(FieldDescription, v))
+// Name applies equality check predicate on the "Name" field. It's identical to NameEQ.
+func Name(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldName, v))
 }
 
-// TypeEQ applies the EQ predicate on the "Type" field.
-func TypeEQ(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldEQ(FieldType, v))
+// DeletedName applies equality check predicate on the "DeletedName" field. It's identical to DeletedNameEQ.
+func DeletedName(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldDeletedName, v))
 }
 
-// TypeNEQ applies the NEQ predicate on the "Type" field.
-func TypeNEQ(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldNEQ(FieldType, v))
+// DeletedDate applies equality check predicate on the "DeletedDate" field. It's identical to DeletedDateEQ.
+func DeletedDate(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldDeletedDate, v))
 }
 
-// TypeIn applies the In predicate on the "Type" field.
-func TypeIn(vs ...string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldIn(FieldType, vs...))
+// Status applies equality check predicate on the "Status" field. It's identical to StatusEQ.
+func Status(v bool) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldStatus, v))
 }
 
-// TypeNotIn applies the NotIn predicate on the "Type" field.
-func TypeNotIn(vs ...string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldNotIn(FieldType, vs...))
+// CreatedAt applies equality check predicate on the "createdAt" field. It's identical to CreatedAtEQ.
+func CreatedAt(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// TypeGT applies the GT predicate on the "Type" field.
-func TypeGT(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldGT(FieldType, v))
+// UpdatedAt applies equality check predicate on the "updatedAt" field. It's identical to UpdatedAtEQ.
+func UpdatedAt(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// TypeGTE applies the GTE predicate on the "Type" field.
-func TypeGTE(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldGTE(FieldType, v))
+// CategoryEQ applies the EQ predicate on the "Category" field.
+func CategoryEQ(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldCategory, v))
 }
 
-// TypeLT applies the LT predicate on the "Type" field.
-func TypeLT(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldLT(FieldType, v))
+// CategoryNEQ applies the NEQ predicate on the "Category" field.
+func CategoryNEQ(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNEQ(FieldCategory, v))
 }
 
-// TypeLTE applies the LTE predicate on the "Type" field.
-func TypeLTE(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldLTE(FieldType, v))
+// CategoryIn applies the In predicate on the "Category" field.
+func CategoryIn(vs ...string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldIn(FieldCategory, vs...))
 }
 
-// TypeContains applies the Contains predicate on the "Type" field.
-func TypeContains(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldContains(FieldType, v))
+// CategoryNotIn applies the NotIn predicate on the "Category" field.
+func CategoryNotIn(vs ...string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNotIn(FieldCategory, vs...))
 }
 
-// TypeHasPrefix applies the HasPrefix predicate on the "Type" field.
-func TypeHasPrefix(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldHasPrefix(FieldType, v))
+// CategoryGT applies the GT predicate on the "Category" field.
+func CategoryGT(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGT(FieldCategory, v))
 }
 
-// TypeHasSuffix applies the HasSuffix predicate on the "Type" field.
-func TypeHasSuffix(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldHasSuffix(FieldType, v))
+// CategoryGTE applies the GTE predicate on the "Category" field.
+func CategoryGTE(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGTE(FieldCategory, v))
 }
 
-// TypeEqualFold applies the EqualFold predicate on the "Type" field.
-func TypeEqualFold(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldEqualFold(FieldType, v))
+// CategoryLT applies the LT predicate on the "Category" field.
+func CategoryLT(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLT(FieldCategory, v))
 }
 
-// TypeContainsFold applies the ContainsFold predicate on the "Type" field.
-func TypeContainsFold(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldContainsFold(FieldType, v))
+// CategoryLTE applies the LTE predicate on the "Category" field.
+func CategoryLTE(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLTE(FieldCategory, v))
 }
 
-// DescriptionEQ applies the EQ predicate on the "Description" field.
-func DescriptionEQ(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldEQ(FieldDescription, v))
+// CategoryContains applies the Contains predicate on the "Category" field.
+func CategoryContains(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldContains(FieldCategory, v))
 }
 
-// DescriptionNEQ applies the NEQ predicate on the "Description" field.
-func DescriptionNEQ(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldNEQ(FieldDescription, v))
+// CategoryHasPrefix applies the HasPrefix predicate on the "Category" field.
+func CategoryHasPrefix(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldHasPrefix(FieldCategory, v))
 }
 
-// DescriptionIn applies the In predicate on the "Description" field.
-func DescriptionIn(vs ...string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldIn(FieldDescription, vs...))
+// CategoryHasSuffix applies the HasSuffix predicate on the "Category" field.
+func CategoryHasSuffix(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldHasSuffix(FieldCategory, v))
 }
 
-// DescriptionNotIn applies the NotIn predicate on the "Description" field.
-func DescriptionNotIn(vs ...string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldNotIn(FieldDescription, vs...))
+// CategoryEqualFold applies the EqualFold predicate on the "Category" field.
+func CategoryEqualFold(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEqualFold(FieldCategory, v))
 }
 
-// DescriptionGT applies the GT predicate on the "Description" field.
-func DescriptionGT(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldGT(FieldDescription, v))
+// CategoryContainsFold applies the ContainsFold predicate on the "Category" field.
+func CategoryContainsFold(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldContainsFold(FieldCategory, v))
 }
 
-// DescriptionGTE applies the GTE predicate on the "Description" field.
-func DescriptionGTE(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldGTE(FieldDescription, v))
+// NameEQ applies the EQ predicate on the "Name" field.
+func NameEQ(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldName, v))
 }
 
-// DescriptionLT applies the LT predicate on the "Description" field.
-func DescriptionLT(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldLT(FieldDescription, v))
+// NameNEQ applies the NEQ predicate on the "Name" field.
+func NameNEQ(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNEQ(FieldName, v))
 }
 
-// DescriptionLTE applies the LTE predicate on the "Description" field.
-func DescriptionLTE(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldLTE(FieldDescription, v))
+// NameIn applies the In predicate on the "Name" field.
+func NameIn(vs ...string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldIn(FieldName, vs...))
 }
 
-// DescriptionContains applies the Contains predicate on the "Description" field.
-func DescriptionContains(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldContains(FieldDescription, v))
+// NameNotIn applies the NotIn predicate on the "Name" field.
+func NameNotIn(vs ...string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNotIn(FieldName, vs...))
 }
 
-// DescriptionHasPrefix applies the HasPrefix predicate on the "Description" field.
-func DescriptionHasPrefix(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldHasPrefix(FieldDescription, v))
+// NameGT applies the GT predicate on the "Name" field.
+func NameGT(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGT(FieldName, v))
 }
 
-// DescriptionHasSuffix applies the HasSuffix predicate on the "Description" field.
-func DescriptionHasSuffix(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldHasSuffix(FieldDescription, v))
+// NameGTE applies the GTE predicate on the "Name" field.
+func NameGTE(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGTE(FieldName, v))
 }
 
-// DescriptionEqualFold applies the EqualFold predicate on the "Description" field.
-func DescriptionEqualFold(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldEqualFold(FieldDescription, v))
+// NameLT applies the LT predicate on the "Name" field.
+func NameLT(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLT(FieldName, v))
 }
 
-// DescriptionContainsFold applies the ContainsFold predicate on the "Description" field.
-func DescriptionContainsFold(v string) predicate.FinanceGroup {
-	return predicate.FinanceGroup(sql.FieldContainsFold(FieldDescription, v))
+// NameLTE applies the LTE predicate on the "Name" field.
+func NameLTE(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLTE(FieldName, v))
+}
+
+// NameContains applies the Contains predicate on the "Name" field.
+func NameContains(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldContains(FieldName, v))
+}
+
+// NameHasPrefix applies the HasPrefix predicate on the "Name" field.
+func NameHasPrefix(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldHasPrefix(FieldName, v))
+}
+
+// NameHasSuffix applies the HasSuffix predicate on the "Name" field.
+func NameHasSuffix(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldHasSuffix(FieldName, v))
+}
+
+// NameEqualFold applies the EqualFold predicate on the "Name" field.
+func NameEqualFold(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEqualFold(FieldName, v))
+}
+
+// NameContainsFold applies the ContainsFold predicate on the "Name" field.
+func NameContainsFold(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldContainsFold(FieldName, v))
+}
+
+// DeletedNameEQ applies the EQ predicate on the "DeletedName" field.
+func DeletedNameEQ(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldDeletedName, v))
+}
+
+// DeletedNameNEQ applies the NEQ predicate on the "DeletedName" field.
+func DeletedNameNEQ(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNEQ(FieldDeletedName, v))
+}
+
+// DeletedNameIn applies the In predicate on the "DeletedName" field.
+func DeletedNameIn(vs ...string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldIn(FieldDeletedName, vs...))
+}
+
+// DeletedNameNotIn applies the NotIn predicate on the "DeletedName" field.
+func DeletedNameNotIn(vs ...string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNotIn(FieldDeletedName, vs...))
+}
+
+// DeletedNameGT applies the GT predicate on the "DeletedName" field.
+func DeletedNameGT(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGT(FieldDeletedName, v))
+}
+
+// DeletedNameGTE applies the GTE predicate on the "DeletedName" field.
+func DeletedNameGTE(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGTE(FieldDeletedName, v))
+}
+
+// DeletedNameLT applies the LT predicate on the "DeletedName" field.
+func DeletedNameLT(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLT(FieldDeletedName, v))
+}
+
+// DeletedNameLTE applies the LTE predicate on the "DeletedName" field.
+func DeletedNameLTE(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLTE(FieldDeletedName, v))
+}
+
+// DeletedNameContains applies the Contains predicate on the "DeletedName" field.
+func DeletedNameContains(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldContains(FieldDeletedName, v))
+}
+
+// DeletedNameHasPrefix applies the HasPrefix predicate on the "DeletedName" field.
+func DeletedNameHasPrefix(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldHasPrefix(FieldDeletedName, v))
+}
+
+// DeletedNameHasSuffix applies the HasSuffix predicate on the "DeletedName" field.
+func DeletedNameHasSuffix(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldHasSuffix(FieldDeletedName, v))
+}
+
+// DeletedNameIsNil applies the IsNil predicate on the "DeletedName" field.
+func DeletedNameIsNil() predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldIsNull(FieldDeletedName))
+}
+
+// DeletedNameNotNil applies the NotNil predicate on the "DeletedName" field.
+func DeletedNameNotNil() predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNotNull(FieldDeletedName))
+}
+
+// DeletedNameEqualFold applies the EqualFold predicate on the "DeletedName" field.
+func DeletedNameEqualFold(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEqualFold(FieldDeletedName, v))
+}
+
+// DeletedNameContainsFold applies the ContainsFold predicate on the "DeletedName" field.
+func DeletedNameContainsFold(v string) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldContainsFold(FieldDeletedName, v))
+}
+
+// DeletedDateEQ applies the EQ predicate on the "DeletedDate" field.
+func DeletedDateEQ(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldDeletedDate, v))
+}
+
+// DeletedDateNEQ applies the NEQ predicate on the "DeletedDate" field.
+func DeletedDateNEQ(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNEQ(FieldDeletedDate, v))
+}
+
+// DeletedDateIn applies the In predicate on the "DeletedDate" field.
+func DeletedDateIn(vs ...time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldIn(FieldDeletedDate, vs...))
+}
+
+// DeletedDateNotIn applies the NotIn predicate on the "DeletedDate" field.
+func DeletedDateNotIn(vs ...time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNotIn(FieldDeletedDate, vs...))
+}
+
+// DeletedDateGT applies the GT predicate on the "DeletedDate" field.
+func DeletedDateGT(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGT(FieldDeletedDate, v))
+}
+
+// DeletedDateGTE applies the GTE predicate on the "DeletedDate" field.
+func DeletedDateGTE(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGTE(FieldDeletedDate, v))
+}
+
+// DeletedDateLT applies the LT predicate on the "DeletedDate" field.
+func DeletedDateLT(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLT(FieldDeletedDate, v))
+}
+
+// DeletedDateLTE applies the LTE predicate on the "DeletedDate" field.
+func DeletedDateLTE(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLTE(FieldDeletedDate, v))
+}
+
+// DeletedDateIsNil applies the IsNil predicate on the "DeletedDate" field.
+func DeletedDateIsNil() predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldIsNull(FieldDeletedDate))
+}
+
+// DeletedDateNotNil applies the NotNil predicate on the "DeletedDate" field.
+func DeletedDateNotNil() predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNotNull(FieldDeletedDate))
+}
+
+// StatusEQ applies the EQ predicate on the "Status" field.
+func StatusEQ(v bool) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldStatus, v))
+}
+
+// StatusNEQ applies the NEQ predicate on the "Status" field.
+func StatusNEQ(v bool) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNEQ(FieldStatus, v))
+}
+
+// CreatedAtEQ applies the EQ predicate on the "createdAt" field.
+func CreatedAtEQ(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldCreatedAt, v))
+}
+
+// CreatedAtNEQ applies the NEQ predicate on the "createdAt" field.
+func CreatedAtNEQ(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNEQ(FieldCreatedAt, v))
+}
+
+// CreatedAtIn applies the In predicate on the "createdAt" field.
+func CreatedAtIn(vs ...time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldIn(FieldCreatedAt, vs...))
+}
+
+// CreatedAtNotIn applies the NotIn predicate on the "createdAt" field.
+func CreatedAtNotIn(vs ...time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNotIn(FieldCreatedAt, vs...))
+}
+
+// CreatedAtGT applies the GT predicate on the "createdAt" field.
+func CreatedAtGT(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGT(FieldCreatedAt, v))
+}
+
+// CreatedAtGTE applies the GTE predicate on the "createdAt" field.
+func CreatedAtGTE(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGTE(FieldCreatedAt, v))
+}
+
+// CreatedAtLT applies the LT predicate on the "createdAt" field.
+func CreatedAtLT(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLT(FieldCreatedAt, v))
+}
+
+// CreatedAtLTE applies the LTE predicate on the "createdAt" field.
+func CreatedAtLTE(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLTE(FieldCreatedAt, v))
+}
+
+// UpdatedAtEQ applies the EQ predicate on the "updatedAt" field.
+func UpdatedAtEQ(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// UpdatedAtNEQ applies the NEQ predicate on the "updatedAt" field.
+func UpdatedAtNEQ(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNEQ(FieldUpdatedAt, v))
+}
+
+// UpdatedAtIn applies the In predicate on the "updatedAt" field.
+func UpdatedAtIn(vs ...time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldIn(FieldUpdatedAt, vs...))
+}
+
+// UpdatedAtNotIn applies the NotIn predicate on the "updatedAt" field.
+func UpdatedAtNotIn(vs ...time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldNotIn(FieldUpdatedAt, vs...))
+}
+
+// UpdatedAtGT applies the GT predicate on the "updatedAt" field.
+func UpdatedAtGT(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGT(FieldUpdatedAt, v))
+}
+
+// UpdatedAtGTE applies the GTE predicate on the "updatedAt" field.
+func UpdatedAtGTE(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldGTE(FieldUpdatedAt, v))
+}
+
+// UpdatedAtLT applies the LT predicate on the "updatedAt" field.
+func UpdatedAtLT(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLT(FieldUpdatedAt, v))
+}
+
+// UpdatedAtLTE applies the LTE predicate on the "updatedAt" field.
+func UpdatedAtLTE(v time.Time) predicate.FinanceGroup {
+	return predicate.FinanceGroup(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
 // HasGroups applies the HasEdge predicate on the "groups" edge.

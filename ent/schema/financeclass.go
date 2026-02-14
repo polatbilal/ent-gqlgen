@@ -16,7 +16,11 @@ type FinanceClass struct {
 // Fields of the FinanceClass.
 func (FinanceClass) Fields() []ent.Field {
 	return []ent.Field{
+		field.String("Category").Optional(),
 		field.String("Name"),
+		field.String("DeletedName").Optional(),
+		field.Time("DeletedDate").Optional(),
+		field.Bool("Status").Default(true),
 
 		field.Time("createdAt").Default(time.Now),
 		field.Time("updatedAt").Default(time.Now).UpdateDefault(time.Now),

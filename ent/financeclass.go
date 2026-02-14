@@ -18,8 +18,16 @@ type FinanceClass struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// Category holds the value of the "Category" field.
+	Category string `json:"Category,omitempty"`
 	// Name holds the value of the "Name" field.
 	Name string `json:"Name,omitempty"`
+	// DeletedName holds the value of the "DeletedName" field.
+	DeletedName string `json:"DeletedName,omitempty"`
+	// DeletedDate holds the value of the "DeletedDate" field.
+	DeletedDate time.Time `json:"DeletedDate,omitempty"`
+	// Status holds the value of the "Status" field.
+	Status bool `json:"Status,omitempty"`
 	// CreatedAt holds the value of the "createdAt" field.
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 	// UpdatedAt holds the value of the "updatedAt" field.
@@ -71,11 +79,13 @@ func (*FinanceClass) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case financeclass.FieldStatus:
+			values[i] = new(sql.NullBool)
 		case financeclass.FieldID:
 			values[i] = new(sql.NullInt64)
-		case financeclass.FieldName:
+		case financeclass.FieldCategory, financeclass.FieldName, financeclass.FieldDeletedName:
 			values[i] = new(sql.NullString)
-		case financeclass.FieldCreatedAt, financeclass.FieldUpdatedAt:
+		case financeclass.FieldDeletedDate, financeclass.FieldCreatedAt, financeclass.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case financeclass.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
@@ -100,11 +110,35 @@ func (_m *FinanceClass) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = int(value.Int64)
+		case financeclass.FieldCategory:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Category", values[i])
+			} else if value.Valid {
+				_m.Category = value.String
+			}
 		case financeclass.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
 				_m.Name = value.String
+			}
+		case financeclass.FieldDeletedName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field DeletedName", values[i])
+			} else if value.Valid {
+				_m.DeletedName = value.String
+			}
+		case financeclass.FieldDeletedDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field DeletedDate", values[i])
+			} else if value.Valid {
+				_m.DeletedDate = value.Time
+			}
+		case financeclass.FieldStatus:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field Status", values[i])
+			} else if value.Valid {
+				_m.Status = value.Bool
 			}
 		case financeclass.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -171,8 +205,20 @@ func (_m *FinanceClass) String() string {
 	var builder strings.Builder
 	builder.WriteString("FinanceClass(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	builder.WriteString("Category=")
+	builder.WriteString(_m.Category)
+	builder.WriteString(", ")
 	builder.WriteString("Name=")
 	builder.WriteString(_m.Name)
+	builder.WriteString(", ")
+	builder.WriteString("DeletedName=")
+	builder.WriteString(_m.DeletedName)
+	builder.WriteString(", ")
+	builder.WriteString("DeletedDate=")
+	builder.WriteString(_m.DeletedDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("Status=")
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("createdAt=")
 	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))

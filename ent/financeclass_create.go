@@ -22,9 +22,65 @@ type FinanceClassCreate struct {
 	hooks    []Hook
 }
 
+// SetCategory sets the "Category" field.
+func (_c *FinanceClassCreate) SetCategory(v string) *FinanceClassCreate {
+	_c.mutation.SetCategory(v)
+	return _c
+}
+
+// SetNillableCategory sets the "Category" field if the given value is not nil.
+func (_c *FinanceClassCreate) SetNillableCategory(v *string) *FinanceClassCreate {
+	if v != nil {
+		_c.SetCategory(*v)
+	}
+	return _c
+}
+
 // SetName sets the "Name" field.
 func (_c *FinanceClassCreate) SetName(v string) *FinanceClassCreate {
 	_c.mutation.SetName(v)
+	return _c
+}
+
+// SetDeletedName sets the "DeletedName" field.
+func (_c *FinanceClassCreate) SetDeletedName(v string) *FinanceClassCreate {
+	_c.mutation.SetDeletedName(v)
+	return _c
+}
+
+// SetNillableDeletedName sets the "DeletedName" field if the given value is not nil.
+func (_c *FinanceClassCreate) SetNillableDeletedName(v *string) *FinanceClassCreate {
+	if v != nil {
+		_c.SetDeletedName(*v)
+	}
+	return _c
+}
+
+// SetDeletedDate sets the "DeletedDate" field.
+func (_c *FinanceClassCreate) SetDeletedDate(v time.Time) *FinanceClassCreate {
+	_c.mutation.SetDeletedDate(v)
+	return _c
+}
+
+// SetNillableDeletedDate sets the "DeletedDate" field if the given value is not nil.
+func (_c *FinanceClassCreate) SetNillableDeletedDate(v *time.Time) *FinanceClassCreate {
+	if v != nil {
+		_c.SetDeletedDate(*v)
+	}
+	return _c
+}
+
+// SetStatus sets the "Status" field.
+func (_c *FinanceClassCreate) SetStatus(v bool) *FinanceClassCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "Status" field if the given value is not nil.
+func (_c *FinanceClassCreate) SetNillableStatus(v *bool) *FinanceClassCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
 	return _c
 }
 
@@ -125,6 +181,10 @@ func (_c *FinanceClassCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *FinanceClassCreate) defaults() {
+	if _, ok := _c.mutation.Status(); !ok {
+		v := financeclass.DefaultStatus
+		_c.mutation.SetStatus(v)
+	}
 	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := financeclass.DefaultCreatedAt()
 		_c.mutation.SetCreatedAt(v)
@@ -139,6 +199,9 @@ func (_c *FinanceClassCreate) defaults() {
 func (_c *FinanceClassCreate) check() error {
 	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "FinanceClass.Name"`)}
+	}
+	if _, ok := _c.mutation.Status(); !ok {
+		return &ValidationError{Name: "Status", err: errors.New(`ent: missing required field "FinanceClass.Status"`)}
 	}
 	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "createdAt", err: errors.New(`ent: missing required field "FinanceClass.createdAt"`)}
@@ -172,9 +235,25 @@ func (_c *FinanceClassCreate) createSpec() (*FinanceClass, *sqlgraph.CreateSpec)
 		_node = &FinanceClass{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(financeclass.Table, sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt))
 	)
+	if value, ok := _c.mutation.Category(); ok {
+		_spec.SetField(financeclass.FieldCategory, field.TypeString, value)
+		_node.Category = value
+	}
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(financeclass.FieldName, field.TypeString, value)
 		_node.Name = value
+	}
+	if value, ok := _c.mutation.DeletedName(); ok {
+		_spec.SetField(financeclass.FieldDeletedName, field.TypeString, value)
+		_node.DeletedName = value
+	}
+	if value, ok := _c.mutation.DeletedDate(); ok {
+		_spec.SetField(financeclass.FieldDeletedDate, field.TypeTime, value)
+		_node.DeletedDate = value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(financeclass.FieldStatus, field.TypeBool, value)
+		_node.Status = value
 	}
 	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(financeclass.FieldCreatedAt, field.TypeTime, value)

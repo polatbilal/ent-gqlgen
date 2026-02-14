@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -28,31 +29,105 @@ func (_u *FinanceGroupUpdate) Where(ps ...predicate.FinanceGroup) *FinanceGroupU
 	return _u
 }
 
-// SetType sets the "Type" field.
-func (_u *FinanceGroupUpdate) SetType(v string) *FinanceGroupUpdate {
-	_u.mutation.SetType(v)
+// SetCategory sets the "Category" field.
+func (_u *FinanceGroupUpdate) SetCategory(v string) *FinanceGroupUpdate {
+	_u.mutation.SetCategory(v)
 	return _u
 }
 
-// SetNillableType sets the "Type" field if the given value is not nil.
-func (_u *FinanceGroupUpdate) SetNillableType(v *string) *FinanceGroupUpdate {
+// SetNillableCategory sets the "Category" field if the given value is not nil.
+func (_u *FinanceGroupUpdate) SetNillableCategory(v *string) *FinanceGroupUpdate {
 	if v != nil {
-		_u.SetType(*v)
+		_u.SetCategory(*v)
 	}
 	return _u
 }
 
-// SetDescription sets the "Description" field.
-func (_u *FinanceGroupUpdate) SetDescription(v string) *FinanceGroupUpdate {
-	_u.mutation.SetDescription(v)
+// SetName sets the "Name" field.
+func (_u *FinanceGroupUpdate) SetName(v string) *FinanceGroupUpdate {
+	_u.mutation.SetName(v)
 	return _u
 }
 
-// SetNillableDescription sets the "Description" field if the given value is not nil.
-func (_u *FinanceGroupUpdate) SetNillableDescription(v *string) *FinanceGroupUpdate {
+// SetNillableName sets the "Name" field if the given value is not nil.
+func (_u *FinanceGroupUpdate) SetNillableName(v *string) *FinanceGroupUpdate {
 	if v != nil {
-		_u.SetDescription(*v)
+		_u.SetName(*v)
 	}
+	return _u
+}
+
+// SetDeletedName sets the "DeletedName" field.
+func (_u *FinanceGroupUpdate) SetDeletedName(v string) *FinanceGroupUpdate {
+	_u.mutation.SetDeletedName(v)
+	return _u
+}
+
+// SetNillableDeletedName sets the "DeletedName" field if the given value is not nil.
+func (_u *FinanceGroupUpdate) SetNillableDeletedName(v *string) *FinanceGroupUpdate {
+	if v != nil {
+		_u.SetDeletedName(*v)
+	}
+	return _u
+}
+
+// ClearDeletedName clears the value of the "DeletedName" field.
+func (_u *FinanceGroupUpdate) ClearDeletedName() *FinanceGroupUpdate {
+	_u.mutation.ClearDeletedName()
+	return _u
+}
+
+// SetDeletedDate sets the "DeletedDate" field.
+func (_u *FinanceGroupUpdate) SetDeletedDate(v time.Time) *FinanceGroupUpdate {
+	_u.mutation.SetDeletedDate(v)
+	return _u
+}
+
+// SetNillableDeletedDate sets the "DeletedDate" field if the given value is not nil.
+func (_u *FinanceGroupUpdate) SetNillableDeletedDate(v *time.Time) *FinanceGroupUpdate {
+	if v != nil {
+		_u.SetDeletedDate(*v)
+	}
+	return _u
+}
+
+// ClearDeletedDate clears the value of the "DeletedDate" field.
+func (_u *FinanceGroupUpdate) ClearDeletedDate() *FinanceGroupUpdate {
+	_u.mutation.ClearDeletedDate()
+	return _u
+}
+
+// SetStatus sets the "Status" field.
+func (_u *FinanceGroupUpdate) SetStatus(v bool) *FinanceGroupUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "Status" field if the given value is not nil.
+func (_u *FinanceGroupUpdate) SetNillableStatus(v *bool) *FinanceGroupUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (_u *FinanceGroupUpdate) SetCreatedAt(v time.Time) *FinanceGroupUpdate {
+	_u.mutation.SetCreatedAt(v)
+	return _u
+}
+
+// SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
+func (_u *FinanceGroupUpdate) SetNillableCreatedAt(v *time.Time) *FinanceGroupUpdate {
+	if v != nil {
+		_u.SetCreatedAt(*v)
+	}
+	return _u
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (_u *FinanceGroupUpdate) SetUpdatedAt(v time.Time) *FinanceGroupUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
@@ -99,6 +174,7 @@ func (_u *FinanceGroupUpdate) RemoveGroups(v ...*FinanceOperation) *FinanceGroup
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (_u *FinanceGroupUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
 	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
@@ -124,6 +200,14 @@ func (_u *FinanceGroupUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (_u *FinanceGroupUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
+		v := financegroup.UpdateDefaultUpdatedAt()
+		_u.mutation.SetUpdatedAt(v)
+	}
+}
+
 func (_u *FinanceGroupUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(financegroup.Table, financegroup.Columns, sqlgraph.NewFieldSpec(financegroup.FieldID, field.TypeInt))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
@@ -133,11 +217,32 @@ func (_u *FinanceGroupUpdate) sqlSave(ctx context.Context) (_node int, err error
 			}
 		}
 	}
-	if value, ok := _u.mutation.GetType(); ok {
-		_spec.SetField(financegroup.FieldType, field.TypeString, value)
+	if value, ok := _u.mutation.Category(); ok {
+		_spec.SetField(financegroup.FieldCategory, field.TypeString, value)
 	}
-	if value, ok := _u.mutation.Description(); ok {
-		_spec.SetField(financegroup.FieldDescription, field.TypeString, value)
+	if value, ok := _u.mutation.Name(); ok {
+		_spec.SetField(financegroup.FieldName, field.TypeString, value)
+	}
+	if value, ok := _u.mutation.DeletedName(); ok {
+		_spec.SetField(financegroup.FieldDeletedName, field.TypeString, value)
+	}
+	if _u.mutation.DeletedNameCleared() {
+		_spec.ClearField(financegroup.FieldDeletedName, field.TypeString)
+	}
+	if value, ok := _u.mutation.DeletedDate(); ok {
+		_spec.SetField(financegroup.FieldDeletedDate, field.TypeTime, value)
+	}
+	if _u.mutation.DeletedDateCleared() {
+		_spec.ClearField(financegroup.FieldDeletedDate, field.TypeTime)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(financegroup.FieldStatus, field.TypeBool, value)
+	}
+	if value, ok := _u.mutation.CreatedAt(); ok {
+		_spec.SetField(financegroup.FieldCreatedAt, field.TypeTime, value)
+	}
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(financegroup.FieldUpdatedAt, field.TypeTime, value)
 	}
 	if _u.mutation.GroupsCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -204,31 +309,105 @@ type FinanceGroupUpdateOne struct {
 	mutation *FinanceGroupMutation
 }
 
-// SetType sets the "Type" field.
-func (_u *FinanceGroupUpdateOne) SetType(v string) *FinanceGroupUpdateOne {
-	_u.mutation.SetType(v)
+// SetCategory sets the "Category" field.
+func (_u *FinanceGroupUpdateOne) SetCategory(v string) *FinanceGroupUpdateOne {
+	_u.mutation.SetCategory(v)
 	return _u
 }
 
-// SetNillableType sets the "Type" field if the given value is not nil.
-func (_u *FinanceGroupUpdateOne) SetNillableType(v *string) *FinanceGroupUpdateOne {
+// SetNillableCategory sets the "Category" field if the given value is not nil.
+func (_u *FinanceGroupUpdateOne) SetNillableCategory(v *string) *FinanceGroupUpdateOne {
 	if v != nil {
-		_u.SetType(*v)
+		_u.SetCategory(*v)
 	}
 	return _u
 }
 
-// SetDescription sets the "Description" field.
-func (_u *FinanceGroupUpdateOne) SetDescription(v string) *FinanceGroupUpdateOne {
-	_u.mutation.SetDescription(v)
+// SetName sets the "Name" field.
+func (_u *FinanceGroupUpdateOne) SetName(v string) *FinanceGroupUpdateOne {
+	_u.mutation.SetName(v)
 	return _u
 }
 
-// SetNillableDescription sets the "Description" field if the given value is not nil.
-func (_u *FinanceGroupUpdateOne) SetNillableDescription(v *string) *FinanceGroupUpdateOne {
+// SetNillableName sets the "Name" field if the given value is not nil.
+func (_u *FinanceGroupUpdateOne) SetNillableName(v *string) *FinanceGroupUpdateOne {
 	if v != nil {
-		_u.SetDescription(*v)
+		_u.SetName(*v)
 	}
+	return _u
+}
+
+// SetDeletedName sets the "DeletedName" field.
+func (_u *FinanceGroupUpdateOne) SetDeletedName(v string) *FinanceGroupUpdateOne {
+	_u.mutation.SetDeletedName(v)
+	return _u
+}
+
+// SetNillableDeletedName sets the "DeletedName" field if the given value is not nil.
+func (_u *FinanceGroupUpdateOne) SetNillableDeletedName(v *string) *FinanceGroupUpdateOne {
+	if v != nil {
+		_u.SetDeletedName(*v)
+	}
+	return _u
+}
+
+// ClearDeletedName clears the value of the "DeletedName" field.
+func (_u *FinanceGroupUpdateOne) ClearDeletedName() *FinanceGroupUpdateOne {
+	_u.mutation.ClearDeletedName()
+	return _u
+}
+
+// SetDeletedDate sets the "DeletedDate" field.
+func (_u *FinanceGroupUpdateOne) SetDeletedDate(v time.Time) *FinanceGroupUpdateOne {
+	_u.mutation.SetDeletedDate(v)
+	return _u
+}
+
+// SetNillableDeletedDate sets the "DeletedDate" field if the given value is not nil.
+func (_u *FinanceGroupUpdateOne) SetNillableDeletedDate(v *time.Time) *FinanceGroupUpdateOne {
+	if v != nil {
+		_u.SetDeletedDate(*v)
+	}
+	return _u
+}
+
+// ClearDeletedDate clears the value of the "DeletedDate" field.
+func (_u *FinanceGroupUpdateOne) ClearDeletedDate() *FinanceGroupUpdateOne {
+	_u.mutation.ClearDeletedDate()
+	return _u
+}
+
+// SetStatus sets the "Status" field.
+func (_u *FinanceGroupUpdateOne) SetStatus(v bool) *FinanceGroupUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "Status" field if the given value is not nil.
+func (_u *FinanceGroupUpdateOne) SetNillableStatus(v *bool) *FinanceGroupUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (_u *FinanceGroupUpdateOne) SetCreatedAt(v time.Time) *FinanceGroupUpdateOne {
+	_u.mutation.SetCreatedAt(v)
+	return _u
+}
+
+// SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
+func (_u *FinanceGroupUpdateOne) SetNillableCreatedAt(v *time.Time) *FinanceGroupUpdateOne {
+	if v != nil {
+		_u.SetCreatedAt(*v)
+	}
+	return _u
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (_u *FinanceGroupUpdateOne) SetUpdatedAt(v time.Time) *FinanceGroupUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
@@ -288,6 +467,7 @@ func (_u *FinanceGroupUpdateOne) Select(field string, fields ...string) *Finance
 
 // Save executes the query and returns the updated FinanceGroup entity.
 func (_u *FinanceGroupUpdateOne) Save(ctx context.Context) (*FinanceGroup, error) {
+	_u.defaults()
 	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
@@ -310,6 +490,14 @@ func (_u *FinanceGroupUpdateOne) Exec(ctx context.Context) error {
 func (_u *FinanceGroupUpdateOne) ExecX(ctx context.Context) {
 	if err := _u.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (_u *FinanceGroupUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
+		v := financegroup.UpdateDefaultUpdatedAt()
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
@@ -339,11 +527,32 @@ func (_u *FinanceGroupUpdateOne) sqlSave(ctx context.Context) (_node *FinanceGro
 			}
 		}
 	}
-	if value, ok := _u.mutation.GetType(); ok {
-		_spec.SetField(financegroup.FieldType, field.TypeString, value)
+	if value, ok := _u.mutation.Category(); ok {
+		_spec.SetField(financegroup.FieldCategory, field.TypeString, value)
 	}
-	if value, ok := _u.mutation.Description(); ok {
-		_spec.SetField(financegroup.FieldDescription, field.TypeString, value)
+	if value, ok := _u.mutation.Name(); ok {
+		_spec.SetField(financegroup.FieldName, field.TypeString, value)
+	}
+	if value, ok := _u.mutation.DeletedName(); ok {
+		_spec.SetField(financegroup.FieldDeletedName, field.TypeString, value)
+	}
+	if _u.mutation.DeletedNameCleared() {
+		_spec.ClearField(financegroup.FieldDeletedName, field.TypeString)
+	}
+	if value, ok := _u.mutation.DeletedDate(); ok {
+		_spec.SetField(financegroup.FieldDeletedDate, field.TypeTime, value)
+	}
+	if _u.mutation.DeletedDateCleared() {
+		_spec.ClearField(financegroup.FieldDeletedDate, field.TypeTime)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(financegroup.FieldStatus, field.TypeBool, value)
+	}
+	if value, ok := _u.mutation.CreatedAt(); ok {
+		_spec.SetField(financegroup.FieldCreatedAt, field.TypeTime, value)
+	}
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(financegroup.FieldUpdatedAt, field.TypeTime, value)
 	}
 	if _u.mutation.GroupsCleared() {
 		edge := &sqlgraph.EdgeSpec{

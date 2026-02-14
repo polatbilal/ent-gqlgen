@@ -3,6 +3,8 @@
 package financegroup
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 )
@@ -12,10 +14,20 @@ const (
 	Label = "finance_group"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldType holds the string denoting the type field in the database.
-	FieldType = "type"
-	// FieldDescription holds the string denoting the description field in the database.
-	FieldDescription = "description"
+	// FieldCategory holds the string denoting the category field in the database.
+	FieldCategory = "category"
+	// FieldName holds the string denoting the name field in the database.
+	FieldName = "name"
+	// FieldDeletedName holds the string denoting the deletedname field in the database.
+	FieldDeletedName = "deleted_name"
+	// FieldDeletedDate holds the string denoting the deleteddate field in the database.
+	FieldDeletedDate = "deleted_date"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
+	// FieldCreatedAt holds the string denoting the createdat field in the database.
+	FieldCreatedAt = "created_at"
+	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
+	FieldUpdatedAt = "updated_at"
 	// EdgeGroups holds the string denoting the groups edge name in mutations.
 	EdgeGroups = "groups"
 	// Table holds the table name of the financegroup in the database.
@@ -32,8 +44,13 @@ const (
 // Columns holds all SQL columns for financegroup fields.
 var Columns = []string{
 	FieldID,
-	FieldType,
-	FieldDescription,
+	FieldCategory,
+	FieldName,
+	FieldDeletedName,
+	FieldDeletedDate,
+	FieldStatus,
+	FieldCreatedAt,
+	FieldUpdatedAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -46,6 +63,17 @@ func ValidColumn(column string) bool {
 	return false
 }
 
+var (
+	// DefaultStatus holds the default value on creation for the "Status" field.
+	DefaultStatus bool
+	// DefaultCreatedAt holds the default value on creation for the "createdAt" field.
+	DefaultCreatedAt func() time.Time
+	// DefaultUpdatedAt holds the default value on creation for the "updatedAt" field.
+	DefaultUpdatedAt func() time.Time
+	// UpdateDefaultUpdatedAt holds the default value on update for the "updatedAt" field.
+	UpdateDefaultUpdatedAt func() time.Time
+)
+
 // OrderOption defines the ordering options for the FinanceGroup queries.
 type OrderOption func(*sql.Selector)
 
@@ -54,14 +82,39 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByType orders the results by the Type field.
-func ByType(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldType, opts...).ToFunc()
+// ByCategory orders the results by the Category field.
+func ByCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCategory, opts...).ToFunc()
 }
 
-// ByDescription orders the results by the Description field.
-func ByDescription(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDescription, opts...).ToFunc()
+// ByName orders the results by the Name field.
+func ByName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldName, opts...).ToFunc()
+}
+
+// ByDeletedName orders the results by the DeletedName field.
+func ByDeletedName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDeletedName, opts...).ToFunc()
+}
+
+// ByDeletedDate orders the results by the DeletedDate field.
+func ByDeletedDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDeletedDate, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the Status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByCreatedAt orders the results by the createdAt field.
+func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
+}
+
+// ByUpdatedAt orders the results by the updatedAt field.
+func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
 // ByGroupsCount orders the results by groups count.

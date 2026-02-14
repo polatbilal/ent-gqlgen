@@ -5,6 +5,7 @@ package ent
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -16,10 +17,20 @@ type FinanceGroup struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Type holds the value of the "Type" field.
-	Type string `json:"Type,omitempty"`
-	// Description holds the value of the "Description" field.
-	Description string `json:"Description,omitempty"`
+	// Category holds the value of the "Category" field.
+	Category string `json:"Category,omitempty"`
+	// Name holds the value of the "Name" field.
+	Name string `json:"Name,omitempty"`
+	// DeletedName holds the value of the "DeletedName" field.
+	DeletedName string `json:"DeletedName,omitempty"`
+	// DeletedDate holds the value of the "DeletedDate" field.
+	DeletedDate time.Time `json:"DeletedDate,omitempty"`
+	// Status holds the value of the "Status" field.
+	Status bool `json:"Status,omitempty"`
+	// CreatedAt holds the value of the "createdAt" field.
+	CreatedAt time.Time `json:"createdAt,omitempty"`
+	// UpdatedAt holds the value of the "updatedAt" field.
+	UpdatedAt time.Time `json:"updatedAt,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the FinanceGroupQuery when eager-loading is set.
 	Edges        FinanceGroupEdges `json:"edges"`
@@ -53,10 +64,14 @@ func (*FinanceGroup) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case financegroup.FieldStatus:
+			values[i] = new(sql.NullBool)
 		case financegroup.FieldID:
 			values[i] = new(sql.NullInt64)
-		case financegroup.FieldType, financegroup.FieldDescription:
+		case financegroup.FieldCategory, financegroup.FieldName, financegroup.FieldDeletedName:
 			values[i] = new(sql.NullString)
+		case financegroup.FieldDeletedDate, financegroup.FieldCreatedAt, financegroup.FieldUpdatedAt:
+			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -78,17 +93,47 @@ func (_m *FinanceGroup) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = int(value.Int64)
-		case financegroup.FieldType:
+		case financegroup.FieldCategory:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Type", values[i])
+				return fmt.Errorf("unexpected type %T for field Category", values[i])
 			} else if value.Valid {
-				_m.Type = value.String
+				_m.Category = value.String
 			}
-		case financegroup.FieldDescription:
+		case financegroup.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Description", values[i])
+				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
-				_m.Description = value.String
+				_m.Name = value.String
+			}
+		case financegroup.FieldDeletedName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field DeletedName", values[i])
+			} else if value.Valid {
+				_m.DeletedName = value.String
+			}
+		case financegroup.FieldDeletedDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field DeletedDate", values[i])
+			} else if value.Valid {
+				_m.DeletedDate = value.Time
+			}
+		case financegroup.FieldStatus:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field Status", values[i])
+			} else if value.Valid {
+				_m.Status = value.Bool
+			}
+		case financegroup.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field createdAt", values[i])
+			} else if value.Valid {
+				_m.CreatedAt = value.Time
+			}
+		case financegroup.FieldUpdatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field updatedAt", values[i])
+			} else if value.Valid {
+				_m.UpdatedAt = value.Time
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -131,11 +176,26 @@ func (_m *FinanceGroup) String() string {
 	var builder strings.Builder
 	builder.WriteString("FinanceGroup(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("Type=")
-	builder.WriteString(_m.Type)
+	builder.WriteString("Category=")
+	builder.WriteString(_m.Category)
 	builder.WriteString(", ")
-	builder.WriteString("Description=")
-	builder.WriteString(_m.Description)
+	builder.WriteString("Name=")
+	builder.WriteString(_m.Name)
+	builder.WriteString(", ")
+	builder.WriteString("DeletedName=")
+	builder.WriteString(_m.DeletedName)
+	builder.WriteString(", ")
+	builder.WriteString("DeletedDate=")
+	builder.WriteString(_m.DeletedDate.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("Status=")
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
+	builder.WriteString(", ")
+	builder.WriteString("createdAt=")
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("updatedAt=")
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

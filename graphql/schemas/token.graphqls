@@ -1,9 +1,9 @@
 type CompanyToken {
   Token: String
   DepartmentId: Int
-  CompanyCode: Int
+  CompanyCode: Int @goField(forceResolver: true)
   YDKUsername: String
-  YDKPassword: String
+  YDKPassword: String @goField(forceResolver: true)
 }
 
 input CompanyTokenInput {

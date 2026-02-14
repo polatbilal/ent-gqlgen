@@ -394,6 +394,8 @@ type CompanyEngineerResolver interface {
 }
 type CompanyTokenResolver interface {
 	CompanyCode(ctx context.Context, obj *ent.CompanyToken) (*int, error)
+
+	YDKPassword(ctx context.Context, obj *ent.CompanyToken) (*string, error)
 }
 type JobDetailResolver interface {
 	CompanyCode(ctx context.Context, obj *ent.JobDetail) (int, error)
@@ -3225,9 +3227,9 @@ extend type Mutation {
 	{Name: "../schemas/token.graphqls", Input: `type CompanyToken {
   Token: String
   DepartmentId: Int
-  CompanyCode: Int
+  CompanyCode: Int @goField(forceResolver: true)
   YDKUsername: String
-  YDKPassword: String
+  YDKPassword: String @goField(forceResolver: true)
 }
 
 input CompanyTokenInput {
@@ -5887,10 +5889,10 @@ func (ec *executionContext) _CompanyToken_YDKPassword(ctx context.Context, field
 		field,
 		ec.fieldContext_CompanyToken_YDKPassword,
 		func(ctx context.Context) (any, error) {
-			return obj.YDKPassword, nil
+			return ec.resolvers.CompanyToken().YDKPassword(ctx, obj)
 		},
 		nil,
-		ec.marshalOString2string,
+		ec.marshalOString2ᚖstring,
 		true,
 		false,
 	)
@@ -5900,8 +5902,8 @@ func (ec *executionContext) fieldContext_CompanyToken_YDKPassword(_ context.Cont
 	fc = &graphql.FieldContext{
 		Object:     "CompanyToken",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
@@ -19498,7 +19500,38 @@ func (ec *executionContext) _CompanyToken(ctx context.Context, sel ast.Selection
 		case "YDKUsername":
 			out.Values[i] = ec._CompanyToken_YDKUsername(ctx, field, obj)
 		case "YDKPassword":
-			out.Values[i] = ec._CompanyToken_YDKPassword(ctx, field, obj)
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._CompanyToken_YDKPassword(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

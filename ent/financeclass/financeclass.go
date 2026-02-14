@@ -14,8 +14,16 @@ const (
 	Label = "finance_class"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldCategory holds the string denoting the category field in the database.
+	FieldCategory = "category"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
+	// FieldDeletedName holds the string denoting the deletedname field in the database.
+	FieldDeletedName = "deleted_name"
+	// FieldDeletedDate holds the string denoting the deleteddate field in the database.
+	FieldDeletedDate = "deleted_date"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -45,7 +53,11 @@ const (
 // Columns holds all SQL columns for financeclass fields.
 var Columns = []string{
 	FieldID,
+	FieldCategory,
 	FieldName,
+	FieldDeletedName,
+	FieldDeletedDate,
+	FieldStatus,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -72,6 +84,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultStatus holds the default value on creation for the "Status" field.
+	DefaultStatus bool
 	// DefaultCreatedAt holds the default value on creation for the "createdAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "updatedAt" field.
@@ -88,9 +102,29 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
+// ByCategory orders the results by the Category field.
+func ByCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCategory, opts...).ToFunc()
+}
+
 // ByName orders the results by the Name field.
 func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
+}
+
+// ByDeletedName orders the results by the DeletedName field.
+func ByDeletedName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDeletedName, opts...).ToFunc()
+}
+
+// ByDeletedDate orders the results by the DeletedDate field.
+func ByDeletedDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDeletedDate, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the Status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the createdAt field.

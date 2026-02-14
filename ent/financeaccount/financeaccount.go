@@ -16,8 +16,6 @@ const (
 	FieldID = "id"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
-	// FieldAccountNumber holds the string denoting the accountnumber field in the database.
-	FieldAccountNumber = "account_number"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -48,7 +46,6 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldName,
-	FieldAccountNumber,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -77,8 +74,6 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultName holds the default value on creation for the "Name" field.
 	DefaultName string
-	// DefaultAccountNumber holds the default value on creation for the "AccountNumber" field.
-	DefaultAccountNumber string
 	// DefaultCreatedAt holds the default value on creation for the "createdAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "updatedAt" field.
@@ -98,11 +93,6 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByName orders the results by the Name field.
 func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
-}
-
-// ByAccountNumber orders the results by the AccountNumber field.
-func ByAccountNumber(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAccountNumber, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the createdAt field.

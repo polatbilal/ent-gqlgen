@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -20,15 +21,85 @@ type FinanceGroupCreate struct {
 	hooks    []Hook
 }
 
-// SetType sets the "Type" field.
-func (_c *FinanceGroupCreate) SetType(v string) *FinanceGroupCreate {
-	_c.mutation.SetType(v)
+// SetCategory sets the "Category" field.
+func (_c *FinanceGroupCreate) SetCategory(v string) *FinanceGroupCreate {
+	_c.mutation.SetCategory(v)
 	return _c
 }
 
-// SetDescription sets the "Description" field.
-func (_c *FinanceGroupCreate) SetDescription(v string) *FinanceGroupCreate {
-	_c.mutation.SetDescription(v)
+// SetName sets the "Name" field.
+func (_c *FinanceGroupCreate) SetName(v string) *FinanceGroupCreate {
+	_c.mutation.SetName(v)
+	return _c
+}
+
+// SetDeletedName sets the "DeletedName" field.
+func (_c *FinanceGroupCreate) SetDeletedName(v string) *FinanceGroupCreate {
+	_c.mutation.SetDeletedName(v)
+	return _c
+}
+
+// SetNillableDeletedName sets the "DeletedName" field if the given value is not nil.
+func (_c *FinanceGroupCreate) SetNillableDeletedName(v *string) *FinanceGroupCreate {
+	if v != nil {
+		_c.SetDeletedName(*v)
+	}
+	return _c
+}
+
+// SetDeletedDate sets the "DeletedDate" field.
+func (_c *FinanceGroupCreate) SetDeletedDate(v time.Time) *FinanceGroupCreate {
+	_c.mutation.SetDeletedDate(v)
+	return _c
+}
+
+// SetNillableDeletedDate sets the "DeletedDate" field if the given value is not nil.
+func (_c *FinanceGroupCreate) SetNillableDeletedDate(v *time.Time) *FinanceGroupCreate {
+	if v != nil {
+		_c.SetDeletedDate(*v)
+	}
+	return _c
+}
+
+// SetStatus sets the "Status" field.
+func (_c *FinanceGroupCreate) SetStatus(v bool) *FinanceGroupCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "Status" field if the given value is not nil.
+func (_c *FinanceGroupCreate) SetNillableStatus(v *bool) *FinanceGroupCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (_c *FinanceGroupCreate) SetCreatedAt(v time.Time) *FinanceGroupCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
+}
+
+// SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
+func (_c *FinanceGroupCreate) SetNillableCreatedAt(v *time.Time) *FinanceGroupCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
+	}
+	return _c
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (_c *FinanceGroupCreate) SetUpdatedAt(v time.Time) *FinanceGroupCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
+}
+
+// SetNillableUpdatedAt sets the "updatedAt" field if the given value is not nil.
+func (_c *FinanceGroupCreate) SetNillableUpdatedAt(v *time.Time) *FinanceGroupCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
+	}
 	return _c
 }
 
@@ -54,6 +125,7 @@ func (_c *FinanceGroupCreate) Mutation() *FinanceGroupMutation {
 
 // Save creates the FinanceGroup in the database.
 func (_c *FinanceGroupCreate) Save(ctx context.Context) (*FinanceGroup, error) {
+	_c.defaults()
 	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
@@ -79,13 +151,38 @@ func (_c *FinanceGroupCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (_c *FinanceGroupCreate) defaults() {
+	if _, ok := _c.mutation.Status(); !ok {
+		v := financegroup.DefaultStatus
+		_c.mutation.SetStatus(v)
+	}
+	if _, ok := _c.mutation.CreatedAt(); !ok {
+		v := financegroup.DefaultCreatedAt()
+		_c.mutation.SetCreatedAt(v)
+	}
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
+		v := financegroup.DefaultUpdatedAt()
+		_c.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (_c *FinanceGroupCreate) check() error {
-	if _, ok := _c.mutation.GetType(); !ok {
-		return &ValidationError{Name: "Type", err: errors.New(`ent: missing required field "FinanceGroup.Type"`)}
+	if _, ok := _c.mutation.Category(); !ok {
+		return &ValidationError{Name: "Category", err: errors.New(`ent: missing required field "FinanceGroup.Category"`)}
 	}
-	if _, ok := _c.mutation.Description(); !ok {
-		return &ValidationError{Name: "Description", err: errors.New(`ent: missing required field "FinanceGroup.Description"`)}
+	if _, ok := _c.mutation.Name(); !ok {
+		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "FinanceGroup.Name"`)}
+	}
+	if _, ok := _c.mutation.Status(); !ok {
+		return &ValidationError{Name: "Status", err: errors.New(`ent: missing required field "FinanceGroup.Status"`)}
+	}
+	if _, ok := _c.mutation.CreatedAt(); !ok {
+		return &ValidationError{Name: "createdAt", err: errors.New(`ent: missing required field "FinanceGroup.createdAt"`)}
+	}
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
+		return &ValidationError{Name: "updatedAt", err: errors.New(`ent: missing required field "FinanceGroup.updatedAt"`)}
 	}
 	return nil
 }
@@ -113,13 +210,33 @@ func (_c *FinanceGroupCreate) createSpec() (*FinanceGroup, *sqlgraph.CreateSpec)
 		_node = &FinanceGroup{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(financegroup.Table, sqlgraph.NewFieldSpec(financegroup.FieldID, field.TypeInt))
 	)
-	if value, ok := _c.mutation.GetType(); ok {
-		_spec.SetField(financegroup.FieldType, field.TypeString, value)
-		_node.Type = value
+	if value, ok := _c.mutation.Category(); ok {
+		_spec.SetField(financegroup.FieldCategory, field.TypeString, value)
+		_node.Category = value
 	}
-	if value, ok := _c.mutation.Description(); ok {
-		_spec.SetField(financegroup.FieldDescription, field.TypeString, value)
-		_node.Description = value
+	if value, ok := _c.mutation.Name(); ok {
+		_spec.SetField(financegroup.FieldName, field.TypeString, value)
+		_node.Name = value
+	}
+	if value, ok := _c.mutation.DeletedName(); ok {
+		_spec.SetField(financegroup.FieldDeletedName, field.TypeString, value)
+		_node.DeletedName = value
+	}
+	if value, ok := _c.mutation.DeletedDate(); ok {
+		_spec.SetField(financegroup.FieldDeletedDate, field.TypeTime, value)
+		_node.DeletedDate = value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(financegroup.FieldStatus, field.TypeBool, value)
+		_node.Status = value
+	}
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(financegroup.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(financegroup.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	if nodes := _c.mutation.GroupsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -158,6 +275,7 @@ func (_c *FinanceGroupCreateBulk) Save(ctx context.Context) ([]*FinanceGroup, er
 	for i := range _c.builders {
 		func(i int, root context.Context) {
 			builder := _c.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*FinanceGroupMutation)
 				if !ok {

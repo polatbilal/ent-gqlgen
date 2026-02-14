@@ -60,11 +60,6 @@ func Name(v string) predicate.FinanceAccount {
 	return predicate.FinanceAccount(sql.FieldEQ(FieldName, v))
 }
 
-// AccountNumber applies equality check predicate on the "AccountNumber" field. It's identical to AccountNumberEQ.
-func AccountNumber(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldEQ(FieldAccountNumber, v))
-}
-
 // CreatedAt applies equality check predicate on the "createdAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.FinanceAccount {
 	return predicate.FinanceAccount(sql.FieldEQ(FieldCreatedAt, v))
@@ -138,71 +133,6 @@ func NameEqualFold(v string) predicate.FinanceAccount {
 // NameContainsFold applies the ContainsFold predicate on the "Name" field.
 func NameContainsFold(v string) predicate.FinanceAccount {
 	return predicate.FinanceAccount(sql.FieldContainsFold(FieldName, v))
-}
-
-// AccountNumberEQ applies the EQ predicate on the "AccountNumber" field.
-func AccountNumberEQ(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldEQ(FieldAccountNumber, v))
-}
-
-// AccountNumberNEQ applies the NEQ predicate on the "AccountNumber" field.
-func AccountNumberNEQ(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldNEQ(FieldAccountNumber, v))
-}
-
-// AccountNumberIn applies the In predicate on the "AccountNumber" field.
-func AccountNumberIn(vs ...string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldIn(FieldAccountNumber, vs...))
-}
-
-// AccountNumberNotIn applies the NotIn predicate on the "AccountNumber" field.
-func AccountNumberNotIn(vs ...string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldNotIn(FieldAccountNumber, vs...))
-}
-
-// AccountNumberGT applies the GT predicate on the "AccountNumber" field.
-func AccountNumberGT(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldGT(FieldAccountNumber, v))
-}
-
-// AccountNumberGTE applies the GTE predicate on the "AccountNumber" field.
-func AccountNumberGTE(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldGTE(FieldAccountNumber, v))
-}
-
-// AccountNumberLT applies the LT predicate on the "AccountNumber" field.
-func AccountNumberLT(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldLT(FieldAccountNumber, v))
-}
-
-// AccountNumberLTE applies the LTE predicate on the "AccountNumber" field.
-func AccountNumberLTE(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldLTE(FieldAccountNumber, v))
-}
-
-// AccountNumberContains applies the Contains predicate on the "AccountNumber" field.
-func AccountNumberContains(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldContains(FieldAccountNumber, v))
-}
-
-// AccountNumberHasPrefix applies the HasPrefix predicate on the "AccountNumber" field.
-func AccountNumberHasPrefix(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldHasPrefix(FieldAccountNumber, v))
-}
-
-// AccountNumberHasSuffix applies the HasSuffix predicate on the "AccountNumber" field.
-func AccountNumberHasSuffix(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldHasSuffix(FieldAccountNumber, v))
-}
-
-// AccountNumberEqualFold applies the EqualFold predicate on the "AccountNumber" field.
-func AccountNumberEqualFold(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldEqualFold(FieldAccountNumber, v))
-}
-
-// AccountNumberContainsFold applies the ContainsFold predicate on the "AccountNumber" field.
-func AccountNumberContainsFold(v string) predicate.FinanceAccount {
-	return predicate.FinanceAccount(sql.FieldContainsFold(FieldAccountNumber, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "createdAt" field.

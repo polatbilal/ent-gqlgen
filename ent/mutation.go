@@ -6459,7 +6459,6 @@ type FinanceAccountMutation struct {
 	typ             string
 	id              *int
 	_Name           *string
-	_AccountNumber  *string
 	createdAt       *time.Time
 	updatedAt       *time.Time
 	clearedFields   map[string]struct{}
@@ -6605,42 +6604,6 @@ func (m *FinanceAccountMutation) OldName(ctx context.Context) (v string, err err
 // ResetName resets all changes to the "Name" field.
 func (m *FinanceAccountMutation) ResetName() {
 	m._Name = nil
-}
-
-// SetAccountNumber sets the "AccountNumber" field.
-func (m *FinanceAccountMutation) SetAccountNumber(s string) {
-	m._AccountNumber = &s
-}
-
-// AccountNumber returns the value of the "AccountNumber" field in the mutation.
-func (m *FinanceAccountMutation) AccountNumber() (r string, exists bool) {
-	v := m._AccountNumber
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAccountNumber returns the old "AccountNumber" field's value of the FinanceAccount entity.
-// If the FinanceAccount object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinanceAccountMutation) OldAccountNumber(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAccountNumber is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAccountNumber requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAccountNumber: %w", err)
-	}
-	return oldValue.AccountNumber, nil
-}
-
-// ResetAccountNumber resets all changes to the "AccountNumber" field.
-func (m *FinanceAccountMutation) ResetAccountNumber() {
-	m._AccountNumber = nil
 }
 
 // SetCreatedAt sets the "createdAt" field.
@@ -6842,12 +6805,9 @@ func (m *FinanceAccountMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *FinanceAccountMutation) Fields() []string {
-	fields := make([]string, 0, 4)
+	fields := make([]string, 0, 3)
 	if m._Name != nil {
 		fields = append(fields, financeaccount.FieldName)
-	}
-	if m._AccountNumber != nil {
-		fields = append(fields, financeaccount.FieldAccountNumber)
 	}
 	if m.createdAt != nil {
 		fields = append(fields, financeaccount.FieldCreatedAt)
@@ -6865,8 +6825,6 @@ func (m *FinanceAccountMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case financeaccount.FieldName:
 		return m.Name()
-	case financeaccount.FieldAccountNumber:
-		return m.AccountNumber()
 	case financeaccount.FieldCreatedAt:
 		return m.CreatedAt()
 	case financeaccount.FieldUpdatedAt:
@@ -6882,8 +6840,6 @@ func (m *FinanceAccountMutation) OldField(ctx context.Context, name string) (ent
 	switch name {
 	case financeaccount.FieldName:
 		return m.OldName(ctx)
-	case financeaccount.FieldAccountNumber:
-		return m.OldAccountNumber(ctx)
 	case financeaccount.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case financeaccount.FieldUpdatedAt:
@@ -6903,13 +6859,6 @@ func (m *FinanceAccountMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetName(v)
-		return nil
-	case financeaccount.FieldAccountNumber:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAccountNumber(v)
 		return nil
 	case financeaccount.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -6976,9 +6925,6 @@ func (m *FinanceAccountMutation) ResetField(name string) error {
 	switch name {
 	case financeaccount.FieldName:
 		m.ResetName()
-		return nil
-	case financeaccount.FieldAccountNumber:
-		m.ResetAccountNumber()
 		return nil
 	case financeaccount.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -7098,7 +7044,11 @@ type FinanceClassMutation struct {
 	op             Op
 	typ            string
 	id             *int
+	_Category      *string
 	_Name          *string
+	_DeletedName   *string
+	_DeletedDate   *time.Time
+	_Status        *bool
 	createdAt      *time.Time
 	updatedAt      *time.Time
 	clearedFields  map[string]struct{}
@@ -7210,6 +7160,55 @@ func (m *FinanceClassMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
+// SetCategory sets the "Category" field.
+func (m *FinanceClassMutation) SetCategory(s string) {
+	m._Category = &s
+}
+
+// Category returns the value of the "Category" field in the mutation.
+func (m *FinanceClassMutation) Category() (r string, exists bool) {
+	v := m._Category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCategory returns the old "Category" field's value of the FinanceClass entity.
+// If the FinanceClass object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceClassMutation) OldCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
+	}
+	return oldValue.Category, nil
+}
+
+// ClearCategory clears the value of the "Category" field.
+func (m *FinanceClassMutation) ClearCategory() {
+	m._Category = nil
+	m.clearedFields[financeclass.FieldCategory] = struct{}{}
+}
+
+// CategoryCleared returns if the "Category" field was cleared in this mutation.
+func (m *FinanceClassMutation) CategoryCleared() bool {
+	_, ok := m.clearedFields[financeclass.FieldCategory]
+	return ok
+}
+
+// ResetCategory resets all changes to the "Category" field.
+func (m *FinanceClassMutation) ResetCategory() {
+	m._Category = nil
+	delete(m.clearedFields, financeclass.FieldCategory)
+}
+
 // SetName sets the "Name" field.
 func (m *FinanceClassMutation) SetName(s string) {
 	m._Name = &s
@@ -7244,6 +7243,140 @@ func (m *FinanceClassMutation) OldName(ctx context.Context) (v string, err error
 // ResetName resets all changes to the "Name" field.
 func (m *FinanceClassMutation) ResetName() {
 	m._Name = nil
+}
+
+// SetDeletedName sets the "DeletedName" field.
+func (m *FinanceClassMutation) SetDeletedName(s string) {
+	m._DeletedName = &s
+}
+
+// DeletedName returns the value of the "DeletedName" field in the mutation.
+func (m *FinanceClassMutation) DeletedName() (r string, exists bool) {
+	v := m._DeletedName
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedName returns the old "DeletedName" field's value of the FinanceClass entity.
+// If the FinanceClass object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceClassMutation) OldDeletedName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedName: %w", err)
+	}
+	return oldValue.DeletedName, nil
+}
+
+// ClearDeletedName clears the value of the "DeletedName" field.
+func (m *FinanceClassMutation) ClearDeletedName() {
+	m._DeletedName = nil
+	m.clearedFields[financeclass.FieldDeletedName] = struct{}{}
+}
+
+// DeletedNameCleared returns if the "DeletedName" field was cleared in this mutation.
+func (m *FinanceClassMutation) DeletedNameCleared() bool {
+	_, ok := m.clearedFields[financeclass.FieldDeletedName]
+	return ok
+}
+
+// ResetDeletedName resets all changes to the "DeletedName" field.
+func (m *FinanceClassMutation) ResetDeletedName() {
+	m._DeletedName = nil
+	delete(m.clearedFields, financeclass.FieldDeletedName)
+}
+
+// SetDeletedDate sets the "DeletedDate" field.
+func (m *FinanceClassMutation) SetDeletedDate(t time.Time) {
+	m._DeletedDate = &t
+}
+
+// DeletedDate returns the value of the "DeletedDate" field in the mutation.
+func (m *FinanceClassMutation) DeletedDate() (r time.Time, exists bool) {
+	v := m._DeletedDate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedDate returns the old "DeletedDate" field's value of the FinanceClass entity.
+// If the FinanceClass object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceClassMutation) OldDeletedDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedDate: %w", err)
+	}
+	return oldValue.DeletedDate, nil
+}
+
+// ClearDeletedDate clears the value of the "DeletedDate" field.
+func (m *FinanceClassMutation) ClearDeletedDate() {
+	m._DeletedDate = nil
+	m.clearedFields[financeclass.FieldDeletedDate] = struct{}{}
+}
+
+// DeletedDateCleared returns if the "DeletedDate" field was cleared in this mutation.
+func (m *FinanceClassMutation) DeletedDateCleared() bool {
+	_, ok := m.clearedFields[financeclass.FieldDeletedDate]
+	return ok
+}
+
+// ResetDeletedDate resets all changes to the "DeletedDate" field.
+func (m *FinanceClassMutation) ResetDeletedDate() {
+	m._DeletedDate = nil
+	delete(m.clearedFields, financeclass.FieldDeletedDate)
+}
+
+// SetStatus sets the "Status" field.
+func (m *FinanceClassMutation) SetStatus(b bool) {
+	m._Status = &b
+}
+
+// Status returns the value of the "Status" field in the mutation.
+func (m *FinanceClassMutation) Status() (r bool, exists bool) {
+	v := m._Status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "Status" field's value of the FinanceClass entity.
+// If the FinanceClass object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceClassMutation) OldStatus(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ResetStatus resets all changes to the "Status" field.
+func (m *FinanceClassMutation) ResetStatus() {
+	m._Status = nil
 }
 
 // SetCreatedAt sets the "createdAt" field.
@@ -7445,9 +7578,21 @@ func (m *FinanceClassMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *FinanceClassMutation) Fields() []string {
-	fields := make([]string, 0, 3)
+	fields := make([]string, 0, 7)
+	if m._Category != nil {
+		fields = append(fields, financeclass.FieldCategory)
+	}
 	if m._Name != nil {
 		fields = append(fields, financeclass.FieldName)
+	}
+	if m._DeletedName != nil {
+		fields = append(fields, financeclass.FieldDeletedName)
+	}
+	if m._DeletedDate != nil {
+		fields = append(fields, financeclass.FieldDeletedDate)
+	}
+	if m._Status != nil {
+		fields = append(fields, financeclass.FieldStatus)
 	}
 	if m.createdAt != nil {
 		fields = append(fields, financeclass.FieldCreatedAt)
@@ -7463,8 +7608,16 @@ func (m *FinanceClassMutation) Fields() []string {
 // schema.
 func (m *FinanceClassMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case financeclass.FieldCategory:
+		return m.Category()
 	case financeclass.FieldName:
 		return m.Name()
+	case financeclass.FieldDeletedName:
+		return m.DeletedName()
+	case financeclass.FieldDeletedDate:
+		return m.DeletedDate()
+	case financeclass.FieldStatus:
+		return m.Status()
 	case financeclass.FieldCreatedAt:
 		return m.CreatedAt()
 	case financeclass.FieldUpdatedAt:
@@ -7478,8 +7631,16 @@ func (m *FinanceClassMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *FinanceClassMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case financeclass.FieldCategory:
+		return m.OldCategory(ctx)
 	case financeclass.FieldName:
 		return m.OldName(ctx)
+	case financeclass.FieldDeletedName:
+		return m.OldDeletedName(ctx)
+	case financeclass.FieldDeletedDate:
+		return m.OldDeletedDate(ctx)
+	case financeclass.FieldStatus:
+		return m.OldStatus(ctx)
 	case financeclass.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case financeclass.FieldUpdatedAt:
@@ -7493,12 +7654,40 @@ func (m *FinanceClassMutation) OldField(ctx context.Context, name string) (ent.V
 // type.
 func (m *FinanceClassMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case financeclass.FieldCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCategory(v)
+		return nil
 	case financeclass.FieldName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetName(v)
+		return nil
+	case financeclass.FieldDeletedName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedName(v)
+		return nil
+	case financeclass.FieldDeletedDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedDate(v)
+		return nil
+	case financeclass.FieldStatus:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
 		return nil
 	case financeclass.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -7543,7 +7732,17 @@ func (m *FinanceClassMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *FinanceClassMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(financeclass.FieldCategory) {
+		fields = append(fields, financeclass.FieldCategory)
+	}
+	if m.FieldCleared(financeclass.FieldDeletedName) {
+		fields = append(fields, financeclass.FieldDeletedName)
+	}
+	if m.FieldCleared(financeclass.FieldDeletedDate) {
+		fields = append(fields, financeclass.FieldDeletedDate)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -7556,6 +7755,17 @@ func (m *FinanceClassMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *FinanceClassMutation) ClearField(name string) error {
+	switch name {
+	case financeclass.FieldCategory:
+		m.ClearCategory()
+		return nil
+	case financeclass.FieldDeletedName:
+		m.ClearDeletedName()
+		return nil
+	case financeclass.FieldDeletedDate:
+		m.ClearDeletedDate()
+		return nil
+	}
 	return fmt.Errorf("unknown FinanceClass nullable field %s", name)
 }
 
@@ -7563,8 +7773,20 @@ func (m *FinanceClassMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *FinanceClassMutation) ResetField(name string) error {
 	switch name {
+	case financeclass.FieldCategory:
+		m.ResetCategory()
+		return nil
 	case financeclass.FieldName:
 		m.ResetName()
+		return nil
+	case financeclass.FieldDeletedName:
+		m.ResetDeletedName()
+		return nil
+	case financeclass.FieldDeletedDate:
+		m.ResetDeletedDate()
+		return nil
+	case financeclass.FieldStatus:
+		m.ResetStatus()
 		return nil
 	case financeclass.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -7684,8 +7906,13 @@ type FinanceGroupMutation struct {
 	op            Op
 	typ           string
 	id            *int
-	_Type         *string
-	_Description  *string
+	_Category     *string
+	_Name         *string
+	_DeletedName  *string
+	_DeletedDate  *time.Time
+	_Status       *bool
+	createdAt     *time.Time
+	updatedAt     *time.Time
 	clearedFields map[string]struct{}
 	groups        map[int]struct{}
 	removedgroups map[int]struct{}
@@ -7793,76 +8020,282 @@ func (m *FinanceGroupMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
-// SetType sets the "Type" field.
-func (m *FinanceGroupMutation) SetType(s string) {
-	m._Type = &s
+// SetCategory sets the "Category" field.
+func (m *FinanceGroupMutation) SetCategory(s string) {
+	m._Category = &s
 }
 
-// GetType returns the value of the "Type" field in the mutation.
-func (m *FinanceGroupMutation) GetType() (r string, exists bool) {
-	v := m._Type
+// Category returns the value of the "Category" field in the mutation.
+func (m *FinanceGroupMutation) Category() (r string, exists bool) {
+	v := m._Category
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldType returns the old "Type" field's value of the FinanceGroup entity.
+// OldCategory returns the old "Category" field's value of the FinanceGroup entity.
 // If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinanceGroupMutation) OldType(ctx context.Context) (v string, err error) {
+func (m *FinanceGroupMutation) OldCategory(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldType is only allowed on UpdateOne operations")
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldType requires an ID field in the mutation")
+		return v, errors.New("OldCategory requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldType: %w", err)
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
 	}
-	return oldValue.Type, nil
+	return oldValue.Category, nil
 }
 
-// ResetType resets all changes to the "Type" field.
-func (m *FinanceGroupMutation) ResetType() {
-	m._Type = nil
+// ResetCategory resets all changes to the "Category" field.
+func (m *FinanceGroupMutation) ResetCategory() {
+	m._Category = nil
 }
 
-// SetDescription sets the "Description" field.
-func (m *FinanceGroupMutation) SetDescription(s string) {
-	m._Description = &s
+// SetName sets the "Name" field.
+func (m *FinanceGroupMutation) SetName(s string) {
+	m._Name = &s
 }
 
-// Description returns the value of the "Description" field in the mutation.
-func (m *FinanceGroupMutation) Description() (r string, exists bool) {
-	v := m._Description
+// Name returns the value of the "Name" field in the mutation.
+func (m *FinanceGroupMutation) Name() (r string, exists bool) {
+	v := m._Name
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldDescription returns the old "Description" field's value of the FinanceGroup entity.
+// OldName returns the old "Name" field's value of the FinanceGroup entity.
 // If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinanceGroupMutation) OldDescription(ctx context.Context) (v string, err error) {
+func (m *FinanceGroupMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDescription requires an ID field in the mutation")
+		return v, errors.New("OldName requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
 	}
-	return oldValue.Description, nil
+	return oldValue.Name, nil
 }
 
-// ResetDescription resets all changes to the "Description" field.
-func (m *FinanceGroupMutation) ResetDescription() {
-	m._Description = nil
+// ResetName resets all changes to the "Name" field.
+func (m *FinanceGroupMutation) ResetName() {
+	m._Name = nil
+}
+
+// SetDeletedName sets the "DeletedName" field.
+func (m *FinanceGroupMutation) SetDeletedName(s string) {
+	m._DeletedName = &s
+}
+
+// DeletedName returns the value of the "DeletedName" field in the mutation.
+func (m *FinanceGroupMutation) DeletedName() (r string, exists bool) {
+	v := m._DeletedName
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedName returns the old "DeletedName" field's value of the FinanceGroup entity.
+// If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceGroupMutation) OldDeletedName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedName: %w", err)
+	}
+	return oldValue.DeletedName, nil
+}
+
+// ClearDeletedName clears the value of the "DeletedName" field.
+func (m *FinanceGroupMutation) ClearDeletedName() {
+	m._DeletedName = nil
+	m.clearedFields[financegroup.FieldDeletedName] = struct{}{}
+}
+
+// DeletedNameCleared returns if the "DeletedName" field was cleared in this mutation.
+func (m *FinanceGroupMutation) DeletedNameCleared() bool {
+	_, ok := m.clearedFields[financegroup.FieldDeletedName]
+	return ok
+}
+
+// ResetDeletedName resets all changes to the "DeletedName" field.
+func (m *FinanceGroupMutation) ResetDeletedName() {
+	m._DeletedName = nil
+	delete(m.clearedFields, financegroup.FieldDeletedName)
+}
+
+// SetDeletedDate sets the "DeletedDate" field.
+func (m *FinanceGroupMutation) SetDeletedDate(t time.Time) {
+	m._DeletedDate = &t
+}
+
+// DeletedDate returns the value of the "DeletedDate" field in the mutation.
+func (m *FinanceGroupMutation) DeletedDate() (r time.Time, exists bool) {
+	v := m._DeletedDate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedDate returns the old "DeletedDate" field's value of the FinanceGroup entity.
+// If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceGroupMutation) OldDeletedDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedDate: %w", err)
+	}
+	return oldValue.DeletedDate, nil
+}
+
+// ClearDeletedDate clears the value of the "DeletedDate" field.
+func (m *FinanceGroupMutation) ClearDeletedDate() {
+	m._DeletedDate = nil
+	m.clearedFields[financegroup.FieldDeletedDate] = struct{}{}
+}
+
+// DeletedDateCleared returns if the "DeletedDate" field was cleared in this mutation.
+func (m *FinanceGroupMutation) DeletedDateCleared() bool {
+	_, ok := m.clearedFields[financegroup.FieldDeletedDate]
+	return ok
+}
+
+// ResetDeletedDate resets all changes to the "DeletedDate" field.
+func (m *FinanceGroupMutation) ResetDeletedDate() {
+	m._DeletedDate = nil
+	delete(m.clearedFields, financegroup.FieldDeletedDate)
+}
+
+// SetStatus sets the "Status" field.
+func (m *FinanceGroupMutation) SetStatus(b bool) {
+	m._Status = &b
+}
+
+// Status returns the value of the "Status" field in the mutation.
+func (m *FinanceGroupMutation) Status() (r bool, exists bool) {
+	v := m._Status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "Status" field's value of the FinanceGroup entity.
+// If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceGroupMutation) OldStatus(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ResetStatus resets all changes to the "Status" field.
+func (m *FinanceGroupMutation) ResetStatus() {
+	m._Status = nil
+}
+
+// SetCreatedAt sets the "createdAt" field.
+func (m *FinanceGroupMutation) SetCreatedAt(t time.Time) {
+	m.createdAt = &t
+}
+
+// CreatedAt returns the value of the "createdAt" field in the mutation.
+func (m *FinanceGroupMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.createdAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "createdAt" field's value of the FinanceGroup entity.
+// If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceGroupMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "createdAt" field.
+func (m *FinanceGroupMutation) ResetCreatedAt() {
+	m.createdAt = nil
+}
+
+// SetUpdatedAt sets the "updatedAt" field.
+func (m *FinanceGroupMutation) SetUpdatedAt(t time.Time) {
+	m.updatedAt = &t
+}
+
+// UpdatedAt returns the value of the "updatedAt" field in the mutation.
+func (m *FinanceGroupMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updatedAt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updatedAt" field's value of the FinanceGroup entity.
+// If the FinanceGroup object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinanceGroupMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updatedAt" field.
+func (m *FinanceGroupMutation) ResetUpdatedAt() {
+	m.updatedAt = nil
 }
 
 // AddGroupIDs adds the "groups" edge to the FinanceOperation entity by ids.
@@ -7953,12 +8386,27 @@ func (m *FinanceGroupMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *FinanceGroupMutation) Fields() []string {
-	fields := make([]string, 0, 2)
-	if m._Type != nil {
-		fields = append(fields, financegroup.FieldType)
+	fields := make([]string, 0, 7)
+	if m._Category != nil {
+		fields = append(fields, financegroup.FieldCategory)
 	}
-	if m._Description != nil {
-		fields = append(fields, financegroup.FieldDescription)
+	if m._Name != nil {
+		fields = append(fields, financegroup.FieldName)
+	}
+	if m._DeletedName != nil {
+		fields = append(fields, financegroup.FieldDeletedName)
+	}
+	if m._DeletedDate != nil {
+		fields = append(fields, financegroup.FieldDeletedDate)
+	}
+	if m._Status != nil {
+		fields = append(fields, financegroup.FieldStatus)
+	}
+	if m.createdAt != nil {
+		fields = append(fields, financegroup.FieldCreatedAt)
+	}
+	if m.updatedAt != nil {
+		fields = append(fields, financegroup.FieldUpdatedAt)
 	}
 	return fields
 }
@@ -7968,10 +8416,20 @@ func (m *FinanceGroupMutation) Fields() []string {
 // schema.
 func (m *FinanceGroupMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case financegroup.FieldType:
-		return m.GetType()
-	case financegroup.FieldDescription:
-		return m.Description()
+	case financegroup.FieldCategory:
+		return m.Category()
+	case financegroup.FieldName:
+		return m.Name()
+	case financegroup.FieldDeletedName:
+		return m.DeletedName()
+	case financegroup.FieldDeletedDate:
+		return m.DeletedDate()
+	case financegroup.FieldStatus:
+		return m.Status()
+	case financegroup.FieldCreatedAt:
+		return m.CreatedAt()
+	case financegroup.FieldUpdatedAt:
+		return m.UpdatedAt()
 	}
 	return nil, false
 }
@@ -7981,10 +8439,20 @@ func (m *FinanceGroupMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *FinanceGroupMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case financegroup.FieldType:
-		return m.OldType(ctx)
-	case financegroup.FieldDescription:
-		return m.OldDescription(ctx)
+	case financegroup.FieldCategory:
+		return m.OldCategory(ctx)
+	case financegroup.FieldName:
+		return m.OldName(ctx)
+	case financegroup.FieldDeletedName:
+		return m.OldDeletedName(ctx)
+	case financegroup.FieldDeletedDate:
+		return m.OldDeletedDate(ctx)
+	case financegroup.FieldStatus:
+		return m.OldStatus(ctx)
+	case financegroup.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case financegroup.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
 	}
 	return nil, fmt.Errorf("unknown FinanceGroup field %s", name)
 }
@@ -7994,19 +8462,54 @@ func (m *FinanceGroupMutation) OldField(ctx context.Context, name string) (ent.V
 // type.
 func (m *FinanceGroupMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case financegroup.FieldType:
+	case financegroup.FieldCategory:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetType(v)
+		m.SetCategory(v)
 		return nil
-	case financegroup.FieldDescription:
+	case financegroup.FieldName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetDescription(v)
+		m.SetName(v)
+		return nil
+	case financegroup.FieldDeletedName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedName(v)
+		return nil
+	case financegroup.FieldDeletedDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedDate(v)
+		return nil
+	case financegroup.FieldStatus:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case financegroup.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case financegroup.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
 		return nil
 	}
 	return fmt.Errorf("unknown FinanceGroup field %s", name)
@@ -8037,7 +8540,14 @@ func (m *FinanceGroupMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *FinanceGroupMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(financegroup.FieldDeletedName) {
+		fields = append(fields, financegroup.FieldDeletedName)
+	}
+	if m.FieldCleared(financegroup.FieldDeletedDate) {
+		fields = append(fields, financegroup.FieldDeletedDate)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -8050,6 +8560,14 @@ func (m *FinanceGroupMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *FinanceGroupMutation) ClearField(name string) error {
+	switch name {
+	case financegroup.FieldDeletedName:
+		m.ClearDeletedName()
+		return nil
+	case financegroup.FieldDeletedDate:
+		m.ClearDeletedDate()
+		return nil
+	}
 	return fmt.Errorf("unknown FinanceGroup nullable field %s", name)
 }
 
@@ -8057,11 +8575,26 @@ func (m *FinanceGroupMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *FinanceGroupMutation) ResetField(name string) error {
 	switch name {
-	case financegroup.FieldType:
-		m.ResetType()
+	case financegroup.FieldCategory:
+		m.ResetCategory()
 		return nil
-	case financegroup.FieldDescription:
-		m.ResetDescription()
+	case financegroup.FieldName:
+		m.ResetName()
+		return nil
+	case financegroup.FieldDeletedName:
+		m.ResetDeletedName()
+		return nil
+	case financegroup.FieldDeletedDate:
+		m.ResetDeletedDate()
+		return nil
+	case financegroup.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case financegroup.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case financegroup.FieldUpdatedAt:
+		m.ResetUpdatedAt()
 		return nil
 	}
 	return fmt.Errorf("unknown FinanceGroup field %s", name)

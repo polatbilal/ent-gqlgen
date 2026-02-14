@@ -8,6 +8,8 @@ package resolvers
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
@@ -15,6 +17,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/graphql/generated"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
+	"github.com/polatbilal/ent-gqlgen/utils/crypto"
 )
 
 // CompanyCode is the resolver for the CompanyCode field.
@@ -28,6 +31,32 @@ func (r *companyTokenResolver) CompanyCode(ctx context.Context, obj *ent.Company
 	}
 
 	return &company.CompanyCode, nil
+}
+
+// YDKPassword is the resolver for the YDKPassword field.
+func (r *companyTokenResolver) YDKPassword(ctx context.Context, obj *ent.CompanyToken) (*string, error) {
+	// YDKPassword boşsa direkt nil dön
+	if obj.YDKPassword == "" {
+		return nil, nil
+	}
+
+	// Encryption key'i environment'dan al
+	encryptionKey := os.Getenv("ENCRYPTION_KEY")
+	if len(encryptionKey) != 32 {
+		log.Println("Warning: ENCRYPTION_KEY must be exactly 32 bytes for AES-256")
+		// Key yoksa şifreli veriyi olduğu gibi dön
+		return &obj.YDKPassword, nil
+	}
+
+	// Şifreyi çöz
+	decryptedPassword, err := crypto.Decrypt(obj.YDKPassword, []byte(encryptionKey))
+	if err != nil {
+		log.Printf("Error decrypting YDKPassword: %v", err)
+		// Decrypt hatası varsa şifreli veriyi dön
+		return &obj.YDKPassword, nil
+	}
+
+	return &decryptedPassword, nil
 }
 
 // UpsertToken, token yoksa oluşturur varsa günceller

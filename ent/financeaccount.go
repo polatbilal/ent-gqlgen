@@ -20,8 +20,6 @@ type FinanceAccount struct {
 	ID int `json:"id,omitempty"`
 	// Name holds the value of the "Name" field.
 	Name string `json:"Name,omitempty"`
-	// AccountNumber holds the value of the "AccountNumber" field.
-	AccountNumber string `json:"AccountNumber,omitempty"`
 	// CreatedAt holds the value of the "createdAt" field.
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 	// UpdatedAt holds the value of the "updatedAt" field.
@@ -75,7 +73,7 @@ func (*FinanceAccount) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case financeaccount.FieldID:
 			values[i] = new(sql.NullInt64)
-		case financeaccount.FieldName, financeaccount.FieldAccountNumber:
+		case financeaccount.FieldName:
 			values[i] = new(sql.NullString)
 		case financeaccount.FieldCreatedAt, financeaccount.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -107,12 +105,6 @@ func (_m *FinanceAccount) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
 				_m.Name = value.String
-			}
-		case financeaccount.FieldAccountNumber:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field AccountNumber", values[i])
-			} else if value.Valid {
-				_m.AccountNumber = value.String
 			}
 		case financeaccount.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -181,9 +173,6 @@ func (_m *FinanceAccount) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("Name=")
 	builder.WriteString(_m.Name)
-	builder.WriteString(", ")
-	builder.WriteString("AccountNumber=")
-	builder.WriteString(_m.AccountNumber)
 	builder.WriteString(", ")
 	builder.WriteString("createdAt=")
 	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))

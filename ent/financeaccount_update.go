@@ -44,20 +44,6 @@ func (_u *FinanceAccountUpdate) SetNillableName(v *string) *FinanceAccountUpdate
 	return _u
 }
 
-// SetAccountNumber sets the "AccountNumber" field.
-func (_u *FinanceAccountUpdate) SetAccountNumber(v string) *FinanceAccountUpdate {
-	_u.mutation.SetAccountNumber(v)
-	return _u
-}
-
-// SetNillableAccountNumber sets the "AccountNumber" field if the given value is not nil.
-func (_u *FinanceAccountUpdate) SetNillableAccountNumber(v *string) *FinanceAccountUpdate {
-	if v != nil {
-		_u.SetAccountNumber(*v)
-	}
-	return _u
-}
-
 // SetCreatedAt sets the "createdAt" field.
 func (_u *FinanceAccountUpdate) SetCreatedAt(v time.Time) *FinanceAccountUpdate {
 	_u.mutation.SetCreatedAt(v)
@@ -192,9 +178,6 @@ func (_u *FinanceAccountUpdate) sqlSave(ctx context.Context) (_node int, err err
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(financeaccount.FieldName, field.TypeString, value)
 	}
-	if value, ok := _u.mutation.AccountNumber(); ok {
-		_spec.SetField(financeaccount.FieldAccountNumber, field.TypeString, value)
-	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(financeaccount.FieldCreatedAt, field.TypeTime, value)
 	}
@@ -305,20 +288,6 @@ func (_u *FinanceAccountUpdateOne) SetName(v string) *FinanceAccountUpdateOne {
 func (_u *FinanceAccountUpdateOne) SetNillableName(v *string) *FinanceAccountUpdateOne {
 	if v != nil {
 		_u.SetName(*v)
-	}
-	return _u
-}
-
-// SetAccountNumber sets the "AccountNumber" field.
-func (_u *FinanceAccountUpdateOne) SetAccountNumber(v string) *FinanceAccountUpdateOne {
-	_u.mutation.SetAccountNumber(v)
-	return _u
-}
-
-// SetNillableAccountNumber sets the "AccountNumber" field if the given value is not nil.
-func (_u *FinanceAccountUpdateOne) SetNillableAccountNumber(v *string) *FinanceAccountUpdateOne {
-	if v != nil {
-		_u.SetAccountNumber(*v)
 	}
 	return _u
 }
@@ -486,9 +455,6 @@ func (_u *FinanceAccountUpdateOne) sqlSave(ctx context.Context) (_node *FinanceA
 	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(financeaccount.FieldName, field.TypeString, value)
-	}
-	if value, ok := _u.mutation.AccountNumber(); ok {
-		_spec.SetField(financeaccount.FieldAccountNumber, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(financeaccount.FieldCreatedAt, field.TypeTime, value)

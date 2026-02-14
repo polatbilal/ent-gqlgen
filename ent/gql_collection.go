@@ -813,11 +813,6 @@ func (_q *FinanceAccountQuery) collectField(ctx context.Context, oneNode bool, o
 				selectedFields = append(selectedFields, financeaccount.FieldName)
 				fieldSeen[financeaccount.FieldName] = struct{}{}
 			}
-		case "accountnumber":
-			if _, ok := fieldSeen[financeaccount.FieldAccountNumber]; !ok {
-				selectedFields = append(selectedFields, financeaccount.FieldAccountNumber)
-				fieldSeen[financeaccount.FieldAccountNumber] = struct{}{}
-			}
 		case "createdat":
 			if _, ok := fieldSeen[financeaccount.FieldCreatedAt]; !ok {
 				selectedFields = append(selectedFields, financeaccount.FieldCreatedAt)
@@ -911,10 +906,30 @@ func (_q *FinanceClassQuery) collectField(ctx context.Context, oneNode bool, opC
 			_q.WithNamedMethods(alias, func(wq *FinanceOperationQuery) {
 				*wq = *query
 			})
+		case "category":
+			if _, ok := fieldSeen[financeclass.FieldCategory]; !ok {
+				selectedFields = append(selectedFields, financeclass.FieldCategory)
+				fieldSeen[financeclass.FieldCategory] = struct{}{}
+			}
 		case "name":
 			if _, ok := fieldSeen[financeclass.FieldName]; !ok {
 				selectedFields = append(selectedFields, financeclass.FieldName)
 				fieldSeen[financeclass.FieldName] = struct{}{}
+			}
+		case "deletedname":
+			if _, ok := fieldSeen[financeclass.FieldDeletedName]; !ok {
+				selectedFields = append(selectedFields, financeclass.FieldDeletedName)
+				fieldSeen[financeclass.FieldDeletedName] = struct{}{}
+			}
+		case "deleteddate":
+			if _, ok := fieldSeen[financeclass.FieldDeletedDate]; !ok {
+				selectedFields = append(selectedFields, financeclass.FieldDeletedDate)
+				fieldSeen[financeclass.FieldDeletedDate] = struct{}{}
+			}
+		case "status":
+			if _, ok := fieldSeen[financeclass.FieldStatus]; !ok {
+				selectedFields = append(selectedFields, financeclass.FieldStatus)
+				fieldSeen[financeclass.FieldStatus] = struct{}{}
 			}
 		case "createdat":
 			if _, ok := fieldSeen[financeclass.FieldCreatedAt]; !ok {
@@ -998,15 +1013,40 @@ func (_q *FinanceGroupQuery) collectField(ctx context.Context, oneNode bool, opC
 			_q.WithNamedGroups(alias, func(wq *FinanceOperationQuery) {
 				*wq = *query
 			})
-		case "type":
-			if _, ok := fieldSeen[financegroup.FieldType]; !ok {
-				selectedFields = append(selectedFields, financegroup.FieldType)
-				fieldSeen[financegroup.FieldType] = struct{}{}
+		case "category":
+			if _, ok := fieldSeen[financegroup.FieldCategory]; !ok {
+				selectedFields = append(selectedFields, financegroup.FieldCategory)
+				fieldSeen[financegroup.FieldCategory] = struct{}{}
 			}
-		case "description":
-			if _, ok := fieldSeen[financegroup.FieldDescription]; !ok {
-				selectedFields = append(selectedFields, financegroup.FieldDescription)
-				fieldSeen[financegroup.FieldDescription] = struct{}{}
+		case "name":
+			if _, ok := fieldSeen[financegroup.FieldName]; !ok {
+				selectedFields = append(selectedFields, financegroup.FieldName)
+				fieldSeen[financegroup.FieldName] = struct{}{}
+			}
+		case "deletedname":
+			if _, ok := fieldSeen[financegroup.FieldDeletedName]; !ok {
+				selectedFields = append(selectedFields, financegroup.FieldDeletedName)
+				fieldSeen[financegroup.FieldDeletedName] = struct{}{}
+			}
+		case "deleteddate":
+			if _, ok := fieldSeen[financegroup.FieldDeletedDate]; !ok {
+				selectedFields = append(selectedFields, financegroup.FieldDeletedDate)
+				fieldSeen[financegroup.FieldDeletedDate] = struct{}{}
+			}
+		case "status":
+			if _, ok := fieldSeen[financegroup.FieldStatus]; !ok {
+				selectedFields = append(selectedFields, financegroup.FieldStatus)
+				fieldSeen[financegroup.FieldStatus] = struct{}{}
+			}
+		case "createdat":
+			if _, ok := fieldSeen[financegroup.FieldCreatedAt]; !ok {
+				selectedFields = append(selectedFields, financegroup.FieldCreatedAt)
+				fieldSeen[financegroup.FieldCreatedAt] = struct{}{}
+			}
+		case "updatedat":
+			if _, ok := fieldSeen[financegroup.FieldUpdatedAt]; !ok {
+				selectedFields = append(selectedFields, financegroup.FieldUpdatedAt)
+				fieldSeen[financegroup.FieldUpdatedAt] = struct{}{}
 			}
 		case "id":
 		case "__typename":

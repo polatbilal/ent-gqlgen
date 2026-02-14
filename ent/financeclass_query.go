@@ -339,12 +339,12 @@ func (_q *FinanceClassQuery) WithMethods(opts ...func(*FinanceOperationQuery)) *
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"Name,omitempty"`
+//		Category string `json:"Category,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.FinanceClass.Query().
-//		GroupBy(financeclass.FieldName).
+//		GroupBy(financeclass.FieldCategory).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *FinanceClassQuery) GroupBy(field string, fields ...string) *FinanceClassGroupBy {
@@ -362,11 +362,11 @@ func (_q *FinanceClassQuery) GroupBy(field string, fields ...string) *FinanceCla
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"Name,omitempty"`
+//		Category string `json:"Category,omitempty"`
 //	}
 //
 //	client.FinanceClass.Query().
-//		Select(financeclass.FieldName).
+//		Select(financeclass.FieldCategory).
 //		Scan(ctx, &v)
 func (_q *FinanceClassQuery) Select(fields ...string) *FinanceClassSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

@@ -17,7 +17,6 @@ type FinanceAccount struct {
 func (FinanceAccount) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Name").Default(""),
-		field.String("AccountNumber").Default(""),
 
 		field.Time("createdAt").Default(time.Now),
 		field.Time("updatedAt").Default(time.Now).UpdateDefault(time.Now),
