@@ -40,6 +40,8 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// EdgeOwners holds the string denoting the owners edge name in mutations.
 	EdgeOwners = "owners"
+	// EdgeFinanceRelations holds the string denoting the finance_relations edge name in mutations.
+	EdgeFinanceRelations = "finance_relations"
 	// Table holds the table name of the jobowner in the database.
 	Table = "job_owners"
 	// OwnersTable is the table that holds the owners relation/edge.
@@ -49,6 +51,13 @@ const (
 	OwnersInverseTable = "job_relations"
 	// OwnersColumn is the table column denoting the owners relation/edge.
 	OwnersColumn = "owner_id"
+	// FinanceRelationsTable is the table that holds the finance_relations relation/edge.
+	FinanceRelationsTable = "finance_relations"
+	// FinanceRelationsInverseTable is the table name for the FinanceRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "financerelations" package.
+	FinanceRelationsInverseTable = "finance_relations"
+	// FinanceRelationsColumn is the table column denoting the finance_relations relation/edge.
+	FinanceRelationsColumn = "job_owner_id"
 )
 
 // Columns holds all SQL columns for jobowner fields.
@@ -172,10 +181,31 @@ func ByOwners(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newOwnersStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByFinanceRelationsCount orders the results by finance_relations count.
+func ByFinanceRelationsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newFinanceRelationsStep(), opts...)
+	}
+}
+
+// ByFinanceRelations orders the results by finance_relations terms.
+func ByFinanceRelations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newFinanceRelationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newOwnersStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(OwnersInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, OwnersTable, OwnersColumn),
+	)
+}
+func newFinanceRelationsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(FinanceRelationsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, FinanceRelationsTable, FinanceRelationsColumn),
 	)
 }

@@ -31,5 +31,6 @@ func (FinanceGroup) Fields() []ent.Field {
 func (FinanceGroup) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("groups", FinanceOperation.Type).StorageKey(edge.Column("group_id")),
+		edge.To("finance_account_relations", FinanceRelations.Type).StorageKey(edge.Column("group_id")),
 	}
 }

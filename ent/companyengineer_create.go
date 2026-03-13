@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 )
 
@@ -371,6 +372,21 @@ func (_c *CompanyEngineerCreate) AddElectriccontrollers(v ...*JobRelations) *Com
 	return _c.AddElectriccontrollerIDs(ids...)
 }
 
+// AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by IDs.
+func (_c *CompanyEngineerCreate) AddFinanceRelationIDs(ids ...int) *CompanyEngineerCreate {
+	_c.mutation.AddFinanceRelationIDs(ids...)
+	return _c
+}
+
+// AddFinanceRelations adds the "finance_relations" edges to the FinanceRelations entity.
+func (_c *CompanyEngineerCreate) AddFinanceRelations(v ...*FinanceRelations) *CompanyEngineerCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddFinanceRelationIDs(ids...)
+}
+
 // Mutation returns the CompanyEngineerMutation object of the builder.
 func (_c *CompanyEngineerCreate) Mutation() *CompanyEngineerMutation {
 	return _c.mutation
@@ -662,6 +678,22 @@ func (_c *CompanyEngineerCreate) createSpec() (*CompanyEngineer, *sqlgraph.Creat
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.FinanceRelationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companyengineer.FinanceRelationsTable,
+			Columns: []string{companyengineer.FinanceRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

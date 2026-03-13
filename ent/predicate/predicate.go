@@ -12,6 +12,9 @@ type CompanyDetail func(*sql.Selector)
 // CompanyEngineer is the predicate function for companyengineer builders.
 type CompanyEngineer func(*sql.Selector)
 
+// CompanyPersonnel is the predicate function for companypersonnel builders.
+type CompanyPersonnel func(*sql.Selector)
+
 // CompanyToken is the predicate function for companytoken builders.
 type CompanyToken func(*sql.Selector)
 
@@ -29,6 +32,9 @@ type FinanceGroup func(*sql.Selector)
 
 // FinanceOperation is the predicate function for financeoperation builders.
 type FinanceOperation func(*sql.Selector)
+
+// FinanceRelations is the predicate function for financerelations builders.
+type FinanceRelations func(*sql.Selector)
 
 // FinanceResource is the predicate function for financeresource builders.
 type FinanceResource func(*sql.Selector)

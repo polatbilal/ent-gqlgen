@@ -30,6 +30,8 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// EdgeGroups holds the string denoting the groups edge name in mutations.
 	EdgeGroups = "groups"
+	// EdgeFinanceAccountRelations holds the string denoting the finance_account_relations edge name in mutations.
+	EdgeFinanceAccountRelations = "finance_account_relations"
 	// Table holds the table name of the financegroup in the database.
 	Table = "finance_groups"
 	// GroupsTable is the table that holds the groups relation/edge.
@@ -39,6 +41,13 @@ const (
 	GroupsInverseTable = "finance_operations"
 	// GroupsColumn is the table column denoting the groups relation/edge.
 	GroupsColumn = "group_id"
+	// FinanceAccountRelationsTable is the table that holds the finance_account_relations relation/edge.
+	FinanceAccountRelationsTable = "finance_relations"
+	// FinanceAccountRelationsInverseTable is the table name for the FinanceRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "financerelations" package.
+	FinanceAccountRelationsInverseTable = "finance_relations"
+	// FinanceAccountRelationsColumn is the table column denoting the finance_account_relations relation/edge.
+	FinanceAccountRelationsColumn = "group_id"
 )
 
 // Columns holds all SQL columns for financegroup fields.
@@ -130,10 +139,31 @@ func ByGroups(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newGroupsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByFinanceAccountRelationsCount orders the results by finance_account_relations count.
+func ByFinanceAccountRelationsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newFinanceAccountRelationsStep(), opts...)
+	}
+}
+
+// ByFinanceAccountRelations orders the results by finance_account_relations terms.
+func ByFinanceAccountRelations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newFinanceAccountRelationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newGroupsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(GroupsInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, GroupsTable, GroupsColumn),
+	)
+}
+func newFinanceAccountRelationsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(FinanceAccountRelationsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, FinanceAccountRelationsTable, FinanceAccountRelationsColumn),
 	)
 }

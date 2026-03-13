@@ -470,21 +470,21 @@ func UpdatedAtLTE(v time.Time) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
-// HasAccount applies the HasEdge predicate on the "account" edge.
-func HasAccount() predicate.FinanceOperation {
+// HasRelations applies the HasEdge predicate on the "relations" edge.
+func HasRelations() predicate.FinanceOperation {
 	return predicate.FinanceOperation(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, AccountTable, AccountColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, RelationsTable, RelationsColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasAccountWith applies the HasEdge predicate on the "account" edge with a given conditions (other predicates).
-func HasAccountWith(preds ...predicate.FinanceAccount) predicate.FinanceOperation {
+// HasRelationsWith applies the HasEdge predicate on the "relations" edge with a given conditions (other predicates).
+func HasRelationsWith(preds ...predicate.FinanceRelations) predicate.FinanceOperation {
 	return predicate.FinanceOperation(func(s *sql.Selector) {
-		step := newAccountStep()
+		step := newRelationsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

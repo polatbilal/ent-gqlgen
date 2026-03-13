@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
@@ -146,6 +147,21 @@ func (_u *FinanceGroupUpdate) AddGroups(v ...*FinanceOperation) *FinanceGroupUpd
 	return _u.AddGroupIDs(ids...)
 }
 
+// AddFinanceAccountRelationIDs adds the "finance_account_relations" edge to the FinanceRelations entity by IDs.
+func (_u *FinanceGroupUpdate) AddFinanceAccountRelationIDs(ids ...int) *FinanceGroupUpdate {
+	_u.mutation.AddFinanceAccountRelationIDs(ids...)
+	return _u
+}
+
+// AddFinanceAccountRelations adds the "finance_account_relations" edges to the FinanceRelations entity.
+func (_u *FinanceGroupUpdate) AddFinanceAccountRelations(v ...*FinanceRelations) *FinanceGroupUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddFinanceAccountRelationIDs(ids...)
+}
+
 // Mutation returns the FinanceGroupMutation object of the builder.
 func (_u *FinanceGroupUpdate) Mutation() *FinanceGroupMutation {
 	return _u.mutation
@@ -170,6 +186,27 @@ func (_u *FinanceGroupUpdate) RemoveGroups(v ...*FinanceOperation) *FinanceGroup
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveGroupIDs(ids...)
+}
+
+// ClearFinanceAccountRelations clears all "finance_account_relations" edges to the FinanceRelations entity.
+func (_u *FinanceGroupUpdate) ClearFinanceAccountRelations() *FinanceGroupUpdate {
+	_u.mutation.ClearFinanceAccountRelations()
+	return _u
+}
+
+// RemoveFinanceAccountRelationIDs removes the "finance_account_relations" edge to FinanceRelations entities by IDs.
+func (_u *FinanceGroupUpdate) RemoveFinanceAccountRelationIDs(ids ...int) *FinanceGroupUpdate {
+	_u.mutation.RemoveFinanceAccountRelationIDs(ids...)
+	return _u
+}
+
+// RemoveFinanceAccountRelations removes "finance_account_relations" edges to FinanceRelations entities.
+func (_u *FinanceGroupUpdate) RemoveFinanceAccountRelations(v ...*FinanceRelations) *FinanceGroupUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveFinanceAccountRelationIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -282,6 +319,51 @@ func (_u *FinanceGroupUpdate) sqlSave(ctx context.Context) (_node int, err error
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.FinanceAccountRelationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financegroup.FinanceAccountRelationsTable,
+			Columns: []string{financegroup.FinanceAccountRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedFinanceAccountRelationsIDs(); len(nodes) > 0 && !_u.mutation.FinanceAccountRelationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financegroup.FinanceAccountRelationsTable,
+			Columns: []string{financegroup.FinanceAccountRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.FinanceAccountRelationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financegroup.FinanceAccountRelationsTable,
+			Columns: []string{financegroup.FinanceAccountRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -426,6 +508,21 @@ func (_u *FinanceGroupUpdateOne) AddGroups(v ...*FinanceOperation) *FinanceGroup
 	return _u.AddGroupIDs(ids...)
 }
 
+// AddFinanceAccountRelationIDs adds the "finance_account_relations" edge to the FinanceRelations entity by IDs.
+func (_u *FinanceGroupUpdateOne) AddFinanceAccountRelationIDs(ids ...int) *FinanceGroupUpdateOne {
+	_u.mutation.AddFinanceAccountRelationIDs(ids...)
+	return _u
+}
+
+// AddFinanceAccountRelations adds the "finance_account_relations" edges to the FinanceRelations entity.
+func (_u *FinanceGroupUpdateOne) AddFinanceAccountRelations(v ...*FinanceRelations) *FinanceGroupUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddFinanceAccountRelationIDs(ids...)
+}
+
 // Mutation returns the FinanceGroupMutation object of the builder.
 func (_u *FinanceGroupUpdateOne) Mutation() *FinanceGroupMutation {
 	return _u.mutation
@@ -450,6 +547,27 @@ func (_u *FinanceGroupUpdateOne) RemoveGroups(v ...*FinanceOperation) *FinanceGr
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveGroupIDs(ids...)
+}
+
+// ClearFinanceAccountRelations clears all "finance_account_relations" edges to the FinanceRelations entity.
+func (_u *FinanceGroupUpdateOne) ClearFinanceAccountRelations() *FinanceGroupUpdateOne {
+	_u.mutation.ClearFinanceAccountRelations()
+	return _u
+}
+
+// RemoveFinanceAccountRelationIDs removes the "finance_account_relations" edge to FinanceRelations entities by IDs.
+func (_u *FinanceGroupUpdateOne) RemoveFinanceAccountRelationIDs(ids ...int) *FinanceGroupUpdateOne {
+	_u.mutation.RemoveFinanceAccountRelationIDs(ids...)
+	return _u
+}
+
+// RemoveFinanceAccountRelations removes "finance_account_relations" edges to FinanceRelations entities.
+func (_u *FinanceGroupUpdateOne) RemoveFinanceAccountRelations(v ...*FinanceRelations) *FinanceGroupUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveFinanceAccountRelationIDs(ids...)
 }
 
 // Where appends a list predicates to the FinanceGroupUpdate builder.
@@ -592,6 +710,51 @@ func (_u *FinanceGroupUpdateOne) sqlSave(ctx context.Context) (_node *FinanceGro
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.FinanceAccountRelationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financegroup.FinanceAccountRelationsTable,
+			Columns: []string{financegroup.FinanceAccountRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedFinanceAccountRelationsIDs(); len(nodes) > 0 && !_u.mutation.FinanceAccountRelationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financegroup.FinanceAccountRelationsTable,
+			Columns: []string{financegroup.FinanceAccountRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.FinanceAccountRelationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financegroup.FinanceAccountRelationsTable,
+			Columns: []string{financegroup.FinanceAccountRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

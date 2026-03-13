@@ -65,5 +65,6 @@ func (CompanyDetail) Edges() []ent.Edge {
 		edge.To("methods", FinanceClass.Type).StorageKey(edge.Column("company_id")),
 		edge.To("resources", FinanceResource.Type).StorageKey(edge.Column("company_id")),
 		edge.To("accounts", FinanceAccount.Type).StorageKey(edge.Column("company_id")),
+		edge.To("personnels", CompanyPersonnel.Type).StorageKey(edge.Column("company_id")),
 	}
 }

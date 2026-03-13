@@ -1267,6 +1267,29 @@ func HasElectriccontrollersWith(preds ...predicate.JobRelations) predicate.Compa
 	})
 }
 
+// HasFinanceRelations applies the HasEdge predicate on the "finance_relations" edge.
+func HasFinanceRelations() predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, FinanceRelationsTable, FinanceRelationsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasFinanceRelationsWith applies the HasEdge predicate on the "finance_relations" edge with a given conditions (other predicates).
+func HasFinanceRelationsWith(preds ...predicate.FinanceRelations) predicate.CompanyEngineer {
+	return predicate.CompanyEngineer(func(s *sql.Selector) {
+		step := newFinanceRelationsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.CompanyEngineer) predicate.CompanyEngineer {
 	return predicate.CompanyEngineer(sql.AndPredicates(predicates...))

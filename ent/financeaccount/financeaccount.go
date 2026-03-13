@@ -16,6 +16,20 @@ const (
 	FieldID = "id"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
+	// FieldTcNo holds the string denoting the tcno field in the database.
+	FieldTcNo = "tc_no"
+	// FieldTaxNo holds the string denoting the taxno field in the database.
+	FieldTaxNo = "tax_no"
+	// FieldTaxAdmin holds the string denoting the taxadmin field in the database.
+	FieldTaxAdmin = "tax_admin"
+	// FieldPhone holds the string denoting the phone field in the database.
+	FieldPhone = "phone"
+	// FieldEmail holds the string denoting the email field in the database.
+	FieldEmail = "email"
+	// FieldAddress holds the string denoting the address field in the database.
+	FieldAddress = "address"
+	// FieldNote holds the string denoting the note field in the database.
+	FieldNote = "note"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -24,6 +38,8 @@ const (
 	EdgeCompany = "company"
 	// EdgeAccounts holds the string denoting the accounts edge name in mutations.
 	EdgeAccounts = "accounts"
+	// EdgeFinanceRelations holds the string denoting the finance_relations edge name in mutations.
+	EdgeFinanceRelations = "finance_relations"
 	// Table holds the table name of the financeaccount in the database.
 	Table = "finance_accounts"
 	// CompanyTable is the table that holds the company relation/edge.
@@ -40,12 +56,26 @@ const (
 	AccountsInverseTable = "finance_operations"
 	// AccountsColumn is the table column denoting the accounts relation/edge.
 	AccountsColumn = "account_id"
+	// FinanceRelationsTable is the table that holds the finance_relations relation/edge.
+	FinanceRelationsTable = "finance_relations"
+	// FinanceRelationsInverseTable is the table name for the FinanceRelations entity.
+	// It exists in this package in order to avoid circular dependency with the "financerelations" package.
+	FinanceRelationsInverseTable = "finance_relations"
+	// FinanceRelationsColumn is the table column denoting the finance_relations relation/edge.
+	FinanceRelationsColumn = "finance_account_id"
 )
 
 // Columns holds all SQL columns for financeaccount fields.
 var Columns = []string{
 	FieldID,
 	FieldName,
+	FieldTcNo,
+	FieldTaxNo,
+	FieldTaxAdmin,
+	FieldPhone,
+	FieldEmail,
+	FieldAddress,
+	FieldNote,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -95,6 +125,41 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
+// ByTcNo orders the results by the TcNo field.
+func ByTcNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTcNo, opts...).ToFunc()
+}
+
+// ByTaxNo orders the results by the TaxNo field.
+func ByTaxNo(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTaxNo, opts...).ToFunc()
+}
+
+// ByTaxAdmin orders the results by the TaxAdmin field.
+func ByTaxAdmin(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTaxAdmin, opts...).ToFunc()
+}
+
+// ByPhone orders the results by the Phone field.
+func ByPhone(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPhone, opts...).ToFunc()
+}
+
+// ByEmail orders the results by the Email field.
+func ByEmail(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldEmail, opts...).ToFunc()
+}
+
+// ByAddress orders the results by the Address field.
+func ByAddress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAddress, opts...).ToFunc()
+}
+
+// ByNote orders the results by the Note field.
+func ByNote(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldNote, opts...).ToFunc()
+}
+
 // ByCreatedAt orders the results by the createdAt field.
 func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
@@ -125,6 +190,20 @@ func ByAccounts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newAccountsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByFinanceRelationsCount orders the results by finance_relations count.
+func ByFinanceRelationsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newFinanceRelationsStep(), opts...)
+	}
+}
+
+// ByFinanceRelations orders the results by finance_relations terms.
+func ByFinanceRelations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newFinanceRelationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newCompanyStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -137,5 +216,12 @@ func newAccountsStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(AccountsInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, AccountsTable, AccountsColumn),
+	)
+}
+func newFinanceRelationsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(FinanceRelationsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, FinanceRelationsTable, FinanceRelationsColumn),
 	)
 }

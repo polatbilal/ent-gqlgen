@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
-	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 )
 
@@ -83,23 +83,23 @@ func (_c *FinanceOperationCreate) SetNillableUpdatedAt(v *time.Time) *FinanceOpe
 	return _c
 }
 
-// SetAccountID sets the "account" edge to the FinanceAccount entity by ID.
-func (_c *FinanceOperationCreate) SetAccountID(id int) *FinanceOperationCreate {
-	_c.mutation.SetAccountID(id)
+// SetRelationsID sets the "relations" edge to the FinanceRelations entity by ID.
+func (_c *FinanceOperationCreate) SetRelationsID(id int) *FinanceOperationCreate {
+	_c.mutation.SetRelationsID(id)
 	return _c
 }
 
-// SetNillableAccountID sets the "account" edge to the FinanceAccount entity by ID if the given value is not nil.
-func (_c *FinanceOperationCreate) SetNillableAccountID(id *int) *FinanceOperationCreate {
+// SetNillableRelationsID sets the "relations" edge to the FinanceRelations entity by ID if the given value is not nil.
+func (_c *FinanceOperationCreate) SetNillableRelationsID(id *int) *FinanceOperationCreate {
 	if id != nil {
-		_c = _c.SetAccountID(*id)
+		_c = _c.SetRelationsID(*id)
 	}
 	return _c
 }
 
-// SetAccount sets the "account" edge to the FinanceAccount entity.
-func (_c *FinanceOperationCreate) SetAccount(v *FinanceAccount) *FinanceOperationCreate {
-	return _c.SetAccountID(v.ID)
+// SetRelations sets the "relations" edge to the FinanceRelations entity.
+func (_c *FinanceOperationCreate) SetRelations(v *FinanceRelations) *FinanceOperationCreate {
+	return _c.SetRelationsID(v.ID)
 }
 
 // SetMethodID sets the "method" edge to the FinanceClass entity by ID.
@@ -300,21 +300,21 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 		_spec.SetField(financeoperation.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := _c.mutation.AccountIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.RelationsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   financeoperation.AccountTable,
-			Columns: []string{financeoperation.AccountColumn},
+			Table:   financeoperation.RelationsTable,
+			Columns: []string{financeoperation.RelationsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.account_id = &nodes[0]
+		_node.relations_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := _c.mutation.MethodIDs(); len(nodes) > 0 {

@@ -60,6 +60,41 @@ func Name(v string) predicate.FinanceAccount {
 	return predicate.FinanceAccount(sql.FieldEQ(FieldName, v))
 }
 
+// TcNo applies equality check predicate on the "TcNo" field. It's identical to TcNoEQ.
+func TcNo(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldTcNo, v))
+}
+
+// TaxNo applies equality check predicate on the "TaxNo" field. It's identical to TaxNoEQ.
+func TaxNo(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldTaxNo, v))
+}
+
+// TaxAdmin applies equality check predicate on the "TaxAdmin" field. It's identical to TaxAdminEQ.
+func TaxAdmin(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldTaxAdmin, v))
+}
+
+// Phone applies equality check predicate on the "Phone" field. It's identical to PhoneEQ.
+func Phone(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldPhone, v))
+}
+
+// Email applies equality check predicate on the "Email" field. It's identical to EmailEQ.
+func Email(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldEmail, v))
+}
+
+// Address applies equality check predicate on the "Address" field. It's identical to AddressEQ.
+func Address(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldAddress, v))
+}
+
+// Note applies equality check predicate on the "Note" field. It's identical to NoteEQ.
+func Note(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldNote, v))
+}
+
 // CreatedAt applies equality check predicate on the "createdAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.FinanceAccount {
 	return predicate.FinanceAccount(sql.FieldEQ(FieldCreatedAt, v))
@@ -133,6 +168,531 @@ func NameEqualFold(v string) predicate.FinanceAccount {
 // NameContainsFold applies the ContainsFold predicate on the "Name" field.
 func NameContainsFold(v string) predicate.FinanceAccount {
 	return predicate.FinanceAccount(sql.FieldContainsFold(FieldName, v))
+}
+
+// TcNoEQ applies the EQ predicate on the "TcNo" field.
+func TcNoEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldTcNo, v))
+}
+
+// TcNoNEQ applies the NEQ predicate on the "TcNo" field.
+func TcNoNEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNEQ(FieldTcNo, v))
+}
+
+// TcNoIn applies the In predicate on the "TcNo" field.
+func TcNoIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIn(FieldTcNo, vs...))
+}
+
+// TcNoNotIn applies the NotIn predicate on the "TcNo" field.
+func TcNoNotIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotIn(FieldTcNo, vs...))
+}
+
+// TcNoGT applies the GT predicate on the "TcNo" field.
+func TcNoGT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGT(FieldTcNo, v))
+}
+
+// TcNoGTE applies the GTE predicate on the "TcNo" field.
+func TcNoGTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGTE(FieldTcNo, v))
+}
+
+// TcNoLT applies the LT predicate on the "TcNo" field.
+func TcNoLT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLT(FieldTcNo, v))
+}
+
+// TcNoLTE applies the LTE predicate on the "TcNo" field.
+func TcNoLTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLTE(FieldTcNo, v))
+}
+
+// TcNoContains applies the Contains predicate on the "TcNo" field.
+func TcNoContains(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContains(FieldTcNo, v))
+}
+
+// TcNoHasPrefix applies the HasPrefix predicate on the "TcNo" field.
+func TcNoHasPrefix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasPrefix(FieldTcNo, v))
+}
+
+// TcNoHasSuffix applies the HasSuffix predicate on the "TcNo" field.
+func TcNoHasSuffix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasSuffix(FieldTcNo, v))
+}
+
+// TcNoIsNil applies the IsNil predicate on the "TcNo" field.
+func TcNoIsNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIsNull(FieldTcNo))
+}
+
+// TcNoNotNil applies the NotNil predicate on the "TcNo" field.
+func TcNoNotNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotNull(FieldTcNo))
+}
+
+// TcNoEqualFold applies the EqualFold predicate on the "TcNo" field.
+func TcNoEqualFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEqualFold(FieldTcNo, v))
+}
+
+// TcNoContainsFold applies the ContainsFold predicate on the "TcNo" field.
+func TcNoContainsFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContainsFold(FieldTcNo, v))
+}
+
+// TaxNoEQ applies the EQ predicate on the "TaxNo" field.
+func TaxNoEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldTaxNo, v))
+}
+
+// TaxNoNEQ applies the NEQ predicate on the "TaxNo" field.
+func TaxNoNEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNEQ(FieldTaxNo, v))
+}
+
+// TaxNoIn applies the In predicate on the "TaxNo" field.
+func TaxNoIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIn(FieldTaxNo, vs...))
+}
+
+// TaxNoNotIn applies the NotIn predicate on the "TaxNo" field.
+func TaxNoNotIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotIn(FieldTaxNo, vs...))
+}
+
+// TaxNoGT applies the GT predicate on the "TaxNo" field.
+func TaxNoGT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGT(FieldTaxNo, v))
+}
+
+// TaxNoGTE applies the GTE predicate on the "TaxNo" field.
+func TaxNoGTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGTE(FieldTaxNo, v))
+}
+
+// TaxNoLT applies the LT predicate on the "TaxNo" field.
+func TaxNoLT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLT(FieldTaxNo, v))
+}
+
+// TaxNoLTE applies the LTE predicate on the "TaxNo" field.
+func TaxNoLTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLTE(FieldTaxNo, v))
+}
+
+// TaxNoContains applies the Contains predicate on the "TaxNo" field.
+func TaxNoContains(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContains(FieldTaxNo, v))
+}
+
+// TaxNoHasPrefix applies the HasPrefix predicate on the "TaxNo" field.
+func TaxNoHasPrefix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasPrefix(FieldTaxNo, v))
+}
+
+// TaxNoHasSuffix applies the HasSuffix predicate on the "TaxNo" field.
+func TaxNoHasSuffix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasSuffix(FieldTaxNo, v))
+}
+
+// TaxNoIsNil applies the IsNil predicate on the "TaxNo" field.
+func TaxNoIsNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIsNull(FieldTaxNo))
+}
+
+// TaxNoNotNil applies the NotNil predicate on the "TaxNo" field.
+func TaxNoNotNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotNull(FieldTaxNo))
+}
+
+// TaxNoEqualFold applies the EqualFold predicate on the "TaxNo" field.
+func TaxNoEqualFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEqualFold(FieldTaxNo, v))
+}
+
+// TaxNoContainsFold applies the ContainsFold predicate on the "TaxNo" field.
+func TaxNoContainsFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContainsFold(FieldTaxNo, v))
+}
+
+// TaxAdminEQ applies the EQ predicate on the "TaxAdmin" field.
+func TaxAdminEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldTaxAdmin, v))
+}
+
+// TaxAdminNEQ applies the NEQ predicate on the "TaxAdmin" field.
+func TaxAdminNEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNEQ(FieldTaxAdmin, v))
+}
+
+// TaxAdminIn applies the In predicate on the "TaxAdmin" field.
+func TaxAdminIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIn(FieldTaxAdmin, vs...))
+}
+
+// TaxAdminNotIn applies the NotIn predicate on the "TaxAdmin" field.
+func TaxAdminNotIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotIn(FieldTaxAdmin, vs...))
+}
+
+// TaxAdminGT applies the GT predicate on the "TaxAdmin" field.
+func TaxAdminGT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGT(FieldTaxAdmin, v))
+}
+
+// TaxAdminGTE applies the GTE predicate on the "TaxAdmin" field.
+func TaxAdminGTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGTE(FieldTaxAdmin, v))
+}
+
+// TaxAdminLT applies the LT predicate on the "TaxAdmin" field.
+func TaxAdminLT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLT(FieldTaxAdmin, v))
+}
+
+// TaxAdminLTE applies the LTE predicate on the "TaxAdmin" field.
+func TaxAdminLTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLTE(FieldTaxAdmin, v))
+}
+
+// TaxAdminContains applies the Contains predicate on the "TaxAdmin" field.
+func TaxAdminContains(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContains(FieldTaxAdmin, v))
+}
+
+// TaxAdminHasPrefix applies the HasPrefix predicate on the "TaxAdmin" field.
+func TaxAdminHasPrefix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasPrefix(FieldTaxAdmin, v))
+}
+
+// TaxAdminHasSuffix applies the HasSuffix predicate on the "TaxAdmin" field.
+func TaxAdminHasSuffix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasSuffix(FieldTaxAdmin, v))
+}
+
+// TaxAdminIsNil applies the IsNil predicate on the "TaxAdmin" field.
+func TaxAdminIsNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIsNull(FieldTaxAdmin))
+}
+
+// TaxAdminNotNil applies the NotNil predicate on the "TaxAdmin" field.
+func TaxAdminNotNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotNull(FieldTaxAdmin))
+}
+
+// TaxAdminEqualFold applies the EqualFold predicate on the "TaxAdmin" field.
+func TaxAdminEqualFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEqualFold(FieldTaxAdmin, v))
+}
+
+// TaxAdminContainsFold applies the ContainsFold predicate on the "TaxAdmin" field.
+func TaxAdminContainsFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContainsFold(FieldTaxAdmin, v))
+}
+
+// PhoneEQ applies the EQ predicate on the "Phone" field.
+func PhoneEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldPhone, v))
+}
+
+// PhoneNEQ applies the NEQ predicate on the "Phone" field.
+func PhoneNEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNEQ(FieldPhone, v))
+}
+
+// PhoneIn applies the In predicate on the "Phone" field.
+func PhoneIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIn(FieldPhone, vs...))
+}
+
+// PhoneNotIn applies the NotIn predicate on the "Phone" field.
+func PhoneNotIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotIn(FieldPhone, vs...))
+}
+
+// PhoneGT applies the GT predicate on the "Phone" field.
+func PhoneGT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGT(FieldPhone, v))
+}
+
+// PhoneGTE applies the GTE predicate on the "Phone" field.
+func PhoneGTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGTE(FieldPhone, v))
+}
+
+// PhoneLT applies the LT predicate on the "Phone" field.
+func PhoneLT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLT(FieldPhone, v))
+}
+
+// PhoneLTE applies the LTE predicate on the "Phone" field.
+func PhoneLTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLTE(FieldPhone, v))
+}
+
+// PhoneContains applies the Contains predicate on the "Phone" field.
+func PhoneContains(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContains(FieldPhone, v))
+}
+
+// PhoneHasPrefix applies the HasPrefix predicate on the "Phone" field.
+func PhoneHasPrefix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasPrefix(FieldPhone, v))
+}
+
+// PhoneHasSuffix applies the HasSuffix predicate on the "Phone" field.
+func PhoneHasSuffix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasSuffix(FieldPhone, v))
+}
+
+// PhoneIsNil applies the IsNil predicate on the "Phone" field.
+func PhoneIsNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIsNull(FieldPhone))
+}
+
+// PhoneNotNil applies the NotNil predicate on the "Phone" field.
+func PhoneNotNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotNull(FieldPhone))
+}
+
+// PhoneEqualFold applies the EqualFold predicate on the "Phone" field.
+func PhoneEqualFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEqualFold(FieldPhone, v))
+}
+
+// PhoneContainsFold applies the ContainsFold predicate on the "Phone" field.
+func PhoneContainsFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContainsFold(FieldPhone, v))
+}
+
+// EmailEQ applies the EQ predicate on the "Email" field.
+func EmailEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldEmail, v))
+}
+
+// EmailNEQ applies the NEQ predicate on the "Email" field.
+func EmailNEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNEQ(FieldEmail, v))
+}
+
+// EmailIn applies the In predicate on the "Email" field.
+func EmailIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIn(FieldEmail, vs...))
+}
+
+// EmailNotIn applies the NotIn predicate on the "Email" field.
+func EmailNotIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotIn(FieldEmail, vs...))
+}
+
+// EmailGT applies the GT predicate on the "Email" field.
+func EmailGT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGT(FieldEmail, v))
+}
+
+// EmailGTE applies the GTE predicate on the "Email" field.
+func EmailGTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGTE(FieldEmail, v))
+}
+
+// EmailLT applies the LT predicate on the "Email" field.
+func EmailLT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLT(FieldEmail, v))
+}
+
+// EmailLTE applies the LTE predicate on the "Email" field.
+func EmailLTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLTE(FieldEmail, v))
+}
+
+// EmailContains applies the Contains predicate on the "Email" field.
+func EmailContains(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContains(FieldEmail, v))
+}
+
+// EmailHasPrefix applies the HasPrefix predicate on the "Email" field.
+func EmailHasPrefix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasPrefix(FieldEmail, v))
+}
+
+// EmailHasSuffix applies the HasSuffix predicate on the "Email" field.
+func EmailHasSuffix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasSuffix(FieldEmail, v))
+}
+
+// EmailIsNil applies the IsNil predicate on the "Email" field.
+func EmailIsNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIsNull(FieldEmail))
+}
+
+// EmailNotNil applies the NotNil predicate on the "Email" field.
+func EmailNotNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotNull(FieldEmail))
+}
+
+// EmailEqualFold applies the EqualFold predicate on the "Email" field.
+func EmailEqualFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEqualFold(FieldEmail, v))
+}
+
+// EmailContainsFold applies the ContainsFold predicate on the "Email" field.
+func EmailContainsFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContainsFold(FieldEmail, v))
+}
+
+// AddressEQ applies the EQ predicate on the "Address" field.
+func AddressEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldAddress, v))
+}
+
+// AddressNEQ applies the NEQ predicate on the "Address" field.
+func AddressNEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNEQ(FieldAddress, v))
+}
+
+// AddressIn applies the In predicate on the "Address" field.
+func AddressIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIn(FieldAddress, vs...))
+}
+
+// AddressNotIn applies the NotIn predicate on the "Address" field.
+func AddressNotIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotIn(FieldAddress, vs...))
+}
+
+// AddressGT applies the GT predicate on the "Address" field.
+func AddressGT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGT(FieldAddress, v))
+}
+
+// AddressGTE applies the GTE predicate on the "Address" field.
+func AddressGTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGTE(FieldAddress, v))
+}
+
+// AddressLT applies the LT predicate on the "Address" field.
+func AddressLT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLT(FieldAddress, v))
+}
+
+// AddressLTE applies the LTE predicate on the "Address" field.
+func AddressLTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLTE(FieldAddress, v))
+}
+
+// AddressContains applies the Contains predicate on the "Address" field.
+func AddressContains(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContains(FieldAddress, v))
+}
+
+// AddressHasPrefix applies the HasPrefix predicate on the "Address" field.
+func AddressHasPrefix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasPrefix(FieldAddress, v))
+}
+
+// AddressHasSuffix applies the HasSuffix predicate on the "Address" field.
+func AddressHasSuffix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasSuffix(FieldAddress, v))
+}
+
+// AddressIsNil applies the IsNil predicate on the "Address" field.
+func AddressIsNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIsNull(FieldAddress))
+}
+
+// AddressNotNil applies the NotNil predicate on the "Address" field.
+func AddressNotNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotNull(FieldAddress))
+}
+
+// AddressEqualFold applies the EqualFold predicate on the "Address" field.
+func AddressEqualFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEqualFold(FieldAddress, v))
+}
+
+// AddressContainsFold applies the ContainsFold predicate on the "Address" field.
+func AddressContainsFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContainsFold(FieldAddress, v))
+}
+
+// NoteEQ applies the EQ predicate on the "Note" field.
+func NoteEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEQ(FieldNote, v))
+}
+
+// NoteNEQ applies the NEQ predicate on the "Note" field.
+func NoteNEQ(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNEQ(FieldNote, v))
+}
+
+// NoteIn applies the In predicate on the "Note" field.
+func NoteIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIn(FieldNote, vs...))
+}
+
+// NoteNotIn applies the NotIn predicate on the "Note" field.
+func NoteNotIn(vs ...string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotIn(FieldNote, vs...))
+}
+
+// NoteGT applies the GT predicate on the "Note" field.
+func NoteGT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGT(FieldNote, v))
+}
+
+// NoteGTE applies the GTE predicate on the "Note" field.
+func NoteGTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldGTE(FieldNote, v))
+}
+
+// NoteLT applies the LT predicate on the "Note" field.
+func NoteLT(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLT(FieldNote, v))
+}
+
+// NoteLTE applies the LTE predicate on the "Note" field.
+func NoteLTE(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldLTE(FieldNote, v))
+}
+
+// NoteContains applies the Contains predicate on the "Note" field.
+func NoteContains(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContains(FieldNote, v))
+}
+
+// NoteHasPrefix applies the HasPrefix predicate on the "Note" field.
+func NoteHasPrefix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasPrefix(FieldNote, v))
+}
+
+// NoteHasSuffix applies the HasSuffix predicate on the "Note" field.
+func NoteHasSuffix(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldHasSuffix(FieldNote, v))
+}
+
+// NoteIsNil applies the IsNil predicate on the "Note" field.
+func NoteIsNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldIsNull(FieldNote))
+}
+
+// NoteNotNil applies the NotNil predicate on the "Note" field.
+func NoteNotNil() predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldNotNull(FieldNote))
+}
+
+// NoteEqualFold applies the EqualFold predicate on the "Note" field.
+func NoteEqualFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldEqualFold(FieldNote, v))
+}
+
+// NoteContainsFold applies the ContainsFold predicate on the "Note" field.
+func NoteContainsFold(v string) predicate.FinanceAccount {
+	return predicate.FinanceAccount(sql.FieldContainsFold(FieldNote, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "createdAt" field.
@@ -253,6 +813,29 @@ func HasAccounts() predicate.FinanceAccount {
 func HasAccountsWith(preds ...predicate.FinanceOperation) predicate.FinanceAccount {
 	return predicate.FinanceAccount(func(s *sql.Selector) {
 		step := newAccountsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasFinanceRelations applies the HasEdge predicate on the "finance_relations" edge.
+func HasFinanceRelations() predicate.FinanceAccount {
+	return predicate.FinanceAccount(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, FinanceRelationsTable, FinanceRelationsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasFinanceRelationsWith applies the HasEdge predicate on the "finance_relations" edge with a given conditions (other predicates).
+func HasFinanceRelationsWith(preds ...predicate.FinanceRelations) predicate.FinanceAccount {
+	return predicate.FinanceAccount(func(s *sql.Selector) {
+		step := newFinanceRelationsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

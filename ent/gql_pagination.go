@@ -13,12 +13,14 @@ import (
 	"github.com/99designs/gqlgen/graphql/errcode"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companypersonnel"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
@@ -607,6 +609,255 @@ func (_m *CompanyEngineer) ToEdge(order *CompanyEngineerOrder) *CompanyEngineerE
 		order = DefaultCompanyEngineerOrder
 	}
 	return &CompanyEngineerEdge{
+		Node:   _m,
+		Cursor: order.Field.toCursor(_m),
+	}
+}
+
+// CompanyPersonnelEdge is the edge representation of CompanyPersonnel.
+type CompanyPersonnelEdge struct {
+	Node   *CompanyPersonnel `json:"node"`
+	Cursor Cursor            `json:"cursor"`
+}
+
+// CompanyPersonnelConnection is the connection containing edges to CompanyPersonnel.
+type CompanyPersonnelConnection struct {
+	Edges      []*CompanyPersonnelEdge `json:"edges"`
+	PageInfo   PageInfo                `json:"pageInfo"`
+	TotalCount int                     `json:"totalCount"`
+}
+
+func (c *CompanyPersonnelConnection) build(nodes []*CompanyPersonnel, pager *companypersonnelPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *CompanyPersonnel
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *CompanyPersonnel {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *CompanyPersonnel {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*CompanyPersonnelEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &CompanyPersonnelEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// CompanyPersonnelPaginateOption enables pagination customization.
+type CompanyPersonnelPaginateOption func(*companypersonnelPager) error
+
+// WithCompanyPersonnelOrder configures pagination ordering.
+func WithCompanyPersonnelOrder(order *CompanyPersonnelOrder) CompanyPersonnelPaginateOption {
+	if order == nil {
+		order = DefaultCompanyPersonnelOrder
+	}
+	o := *order
+	return func(pager *companypersonnelPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultCompanyPersonnelOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithCompanyPersonnelFilter configures pagination filter.
+func WithCompanyPersonnelFilter(filter func(*CompanyPersonnelQuery) (*CompanyPersonnelQuery, error)) CompanyPersonnelPaginateOption {
+	return func(pager *companypersonnelPager) error {
+		if filter == nil {
+			return errors.New("CompanyPersonnelQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type companypersonnelPager struct {
+	reverse bool
+	order   *CompanyPersonnelOrder
+	filter  func(*CompanyPersonnelQuery) (*CompanyPersonnelQuery, error)
+}
+
+func newCompanyPersonnelPager(opts []CompanyPersonnelPaginateOption, reverse bool) (*companypersonnelPager, error) {
+	pager := &companypersonnelPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultCompanyPersonnelOrder
+	}
+	return pager, nil
+}
+
+func (p *companypersonnelPager) applyFilter(query *CompanyPersonnelQuery) (*CompanyPersonnelQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *companypersonnelPager) toCursor(_m *CompanyPersonnel) Cursor {
+	return p.order.Field.toCursor(_m)
+}
+
+func (p *companypersonnelPager) applyCursors(query *CompanyPersonnelQuery, after, before *Cursor) (*CompanyPersonnelQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultCompanyPersonnelOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *companypersonnelPager) applyOrder(query *CompanyPersonnelQuery) *CompanyPersonnelQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultCompanyPersonnelOrder.Field {
+		query = query.Order(DefaultCompanyPersonnelOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *companypersonnelPager) orderExpr(query *CompanyPersonnelQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultCompanyPersonnelOrder.Field {
+			b.Comma().Ident(DefaultCompanyPersonnelOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to CompanyPersonnel.
+func (_m *CompanyPersonnelQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...CompanyPersonnelPaginateOption,
+) (*CompanyPersonnelConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newCompanyPersonnelPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if _m, err = pager.applyFilter(_m); err != nil {
+		return nil, err
+	}
+	conn := &CompanyPersonnelConnection{Edges: []*CompanyPersonnelEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := _m.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if _m, err = pager.applyCursors(_m, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		_m.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := _m.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	_m = pager.applyOrder(_m)
+	nodes, err := _m.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// CompanyPersonnelOrderField defines the ordering field of CompanyPersonnel.
+type CompanyPersonnelOrderField struct {
+	// Value extracts the ordering value from the given CompanyPersonnel.
+	Value    func(*CompanyPersonnel) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) companypersonnel.OrderOption
+	toCursor func(*CompanyPersonnel) Cursor
+}
+
+// CompanyPersonnelOrder defines the ordering of CompanyPersonnel.
+type CompanyPersonnelOrder struct {
+	Direction OrderDirection              `json:"direction"`
+	Field     *CompanyPersonnelOrderField `json:"field"`
+}
+
+// DefaultCompanyPersonnelOrder is the default ordering of CompanyPersonnel.
+var DefaultCompanyPersonnelOrder = &CompanyPersonnelOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &CompanyPersonnelOrderField{
+		Value: func(_m *CompanyPersonnel) (ent.Value, error) {
+			return _m.ID, nil
+		},
+		column: companypersonnel.FieldID,
+		toTerm: companypersonnel.ByID,
+		toCursor: func(_m *CompanyPersonnel) Cursor {
+			return Cursor{ID: _m.ID}
+		},
+	},
+}
+
+// ToEdge converts CompanyPersonnel into CompanyPersonnelEdge.
+func (_m *CompanyPersonnel) ToEdge(order *CompanyPersonnelOrder) *CompanyPersonnelEdge {
+	if order == nil {
+		order = DefaultCompanyPersonnelOrder
+	}
+	return &CompanyPersonnelEdge{
 		Node:   _m,
 		Cursor: order.Field.toCursor(_m),
 	}
@@ -2101,6 +2352,255 @@ func (_m *FinanceOperation) ToEdge(order *FinanceOperationOrder) *FinanceOperati
 		order = DefaultFinanceOperationOrder
 	}
 	return &FinanceOperationEdge{
+		Node:   _m,
+		Cursor: order.Field.toCursor(_m),
+	}
+}
+
+// FinanceRelationsEdge is the edge representation of FinanceRelations.
+type FinanceRelationsEdge struct {
+	Node   *FinanceRelations `json:"node"`
+	Cursor Cursor            `json:"cursor"`
+}
+
+// FinanceRelationsConnection is the connection containing edges to FinanceRelations.
+type FinanceRelationsConnection struct {
+	Edges      []*FinanceRelationsEdge `json:"edges"`
+	PageInfo   PageInfo                `json:"pageInfo"`
+	TotalCount int                     `json:"totalCount"`
+}
+
+func (c *FinanceRelationsConnection) build(nodes []*FinanceRelations, pager *financerelationsPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *FinanceRelations
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *FinanceRelations {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *FinanceRelations {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*FinanceRelationsEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &FinanceRelationsEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// FinanceRelationsPaginateOption enables pagination customization.
+type FinanceRelationsPaginateOption func(*financerelationsPager) error
+
+// WithFinanceRelationsOrder configures pagination ordering.
+func WithFinanceRelationsOrder(order *FinanceRelationsOrder) FinanceRelationsPaginateOption {
+	if order == nil {
+		order = DefaultFinanceRelationsOrder
+	}
+	o := *order
+	return func(pager *financerelationsPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultFinanceRelationsOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithFinanceRelationsFilter configures pagination filter.
+func WithFinanceRelationsFilter(filter func(*FinanceRelationsQuery) (*FinanceRelationsQuery, error)) FinanceRelationsPaginateOption {
+	return func(pager *financerelationsPager) error {
+		if filter == nil {
+			return errors.New("FinanceRelationsQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type financerelationsPager struct {
+	reverse bool
+	order   *FinanceRelationsOrder
+	filter  func(*FinanceRelationsQuery) (*FinanceRelationsQuery, error)
+}
+
+func newFinanceRelationsPager(opts []FinanceRelationsPaginateOption, reverse bool) (*financerelationsPager, error) {
+	pager := &financerelationsPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultFinanceRelationsOrder
+	}
+	return pager, nil
+}
+
+func (p *financerelationsPager) applyFilter(query *FinanceRelationsQuery) (*FinanceRelationsQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *financerelationsPager) toCursor(_m *FinanceRelations) Cursor {
+	return p.order.Field.toCursor(_m)
+}
+
+func (p *financerelationsPager) applyCursors(query *FinanceRelationsQuery, after, before *Cursor) (*FinanceRelationsQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceRelationsOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *financerelationsPager) applyOrder(query *FinanceRelationsQuery) *FinanceRelationsQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceRelationsOrder.Field {
+		query = query.Order(DefaultFinanceRelationsOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *financerelationsPager) orderExpr(query *FinanceRelationsQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceRelationsOrder.Field {
+			b.Comma().Ident(DefaultFinanceRelationsOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to FinanceRelations.
+func (_m *FinanceRelationsQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...FinanceRelationsPaginateOption,
+) (*FinanceRelationsConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newFinanceRelationsPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if _m, err = pager.applyFilter(_m); err != nil {
+		return nil, err
+	}
+	conn := &FinanceRelationsConnection{Edges: []*FinanceRelationsEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := _m.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if _m, err = pager.applyCursors(_m, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		_m.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := _m.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	_m = pager.applyOrder(_m)
+	nodes, err := _m.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// FinanceRelationsOrderField defines the ordering field of FinanceRelations.
+type FinanceRelationsOrderField struct {
+	// Value extracts the ordering value from the given FinanceRelations.
+	Value    func(*FinanceRelations) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) financerelations.OrderOption
+	toCursor func(*FinanceRelations) Cursor
+}
+
+// FinanceRelationsOrder defines the ordering of FinanceRelations.
+type FinanceRelationsOrder struct {
+	Direction OrderDirection              `json:"direction"`
+	Field     *FinanceRelationsOrderField `json:"field"`
+}
+
+// DefaultFinanceRelationsOrder is the default ordering of FinanceRelations.
+var DefaultFinanceRelationsOrder = &FinanceRelationsOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &FinanceRelationsOrderField{
+		Value: func(_m *FinanceRelations) (ent.Value, error) {
+			return _m.ID, nil
+		},
+		column: financerelations.FieldID,
+		toTerm: financerelations.ByID,
+		toCursor: func(_m *FinanceRelations) Cursor {
+			return Cursor{ID: _m.ID}
+		},
+	},
+}
+
+// ToEdge converts FinanceRelations into FinanceRelationsEdge.
+func (_m *FinanceRelations) ToEdge(order *FinanceRelationsOrder) *FinanceRelationsEdge {
+	if order == nil {
+		order = DefaultFinanceRelationsOrder
+	}
+	return &FinanceRelationsEdge{
 		Node:   _m,
 		Cursor: order.Field.toCursor(_m),
 	}

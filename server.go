@@ -16,6 +16,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/polatbilal/ent-gqlgen/database"
 	"github.com/polatbilal/ent-gqlgen/ent/migrate"
+	"github.com/polatbilal/ent-gqlgen/graphql/helpers"
 	"github.com/polatbilal/ent-gqlgen/graphql/resolvers"
 	"github.com/polatbilal/ent-gqlgen/hooks"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
@@ -137,6 +138,13 @@ func main() {
 	); !errors.Is(err, nil) {
 		log.Fatalf("Error: failed creating schema resources %v\n", err)
 	}
+
+	// Mevcut kayıtlar için FinanceRelations migration
+	result, migErr := helpers.MigrateExistingAccounts(context.Background(), client)
+	if migErr != nil {
+		log.Printf("Migration hatası: %v", migErr)
+	}
+	log.Println(result)
 
 	// Configure the GraphQL server
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))

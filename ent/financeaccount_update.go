@@ -14,6 +14,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
@@ -41,6 +42,146 @@ func (_u *FinanceAccountUpdate) SetNillableName(v *string) *FinanceAccountUpdate
 	if v != nil {
 		_u.SetName(*v)
 	}
+	return _u
+}
+
+// SetTcNo sets the "TcNo" field.
+func (_u *FinanceAccountUpdate) SetTcNo(v string) *FinanceAccountUpdate {
+	_u.mutation.SetTcNo(v)
+	return _u
+}
+
+// SetNillableTcNo sets the "TcNo" field if the given value is not nil.
+func (_u *FinanceAccountUpdate) SetNillableTcNo(v *string) *FinanceAccountUpdate {
+	if v != nil {
+		_u.SetTcNo(*v)
+	}
+	return _u
+}
+
+// ClearTcNo clears the value of the "TcNo" field.
+func (_u *FinanceAccountUpdate) ClearTcNo() *FinanceAccountUpdate {
+	_u.mutation.ClearTcNo()
+	return _u
+}
+
+// SetTaxNo sets the "TaxNo" field.
+func (_u *FinanceAccountUpdate) SetTaxNo(v string) *FinanceAccountUpdate {
+	_u.mutation.SetTaxNo(v)
+	return _u
+}
+
+// SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
+func (_u *FinanceAccountUpdate) SetNillableTaxNo(v *string) *FinanceAccountUpdate {
+	if v != nil {
+		_u.SetTaxNo(*v)
+	}
+	return _u
+}
+
+// ClearTaxNo clears the value of the "TaxNo" field.
+func (_u *FinanceAccountUpdate) ClearTaxNo() *FinanceAccountUpdate {
+	_u.mutation.ClearTaxNo()
+	return _u
+}
+
+// SetTaxAdmin sets the "TaxAdmin" field.
+func (_u *FinanceAccountUpdate) SetTaxAdmin(v string) *FinanceAccountUpdate {
+	_u.mutation.SetTaxAdmin(v)
+	return _u
+}
+
+// SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
+func (_u *FinanceAccountUpdate) SetNillableTaxAdmin(v *string) *FinanceAccountUpdate {
+	if v != nil {
+		_u.SetTaxAdmin(*v)
+	}
+	return _u
+}
+
+// ClearTaxAdmin clears the value of the "TaxAdmin" field.
+func (_u *FinanceAccountUpdate) ClearTaxAdmin() *FinanceAccountUpdate {
+	_u.mutation.ClearTaxAdmin()
+	return _u
+}
+
+// SetPhone sets the "Phone" field.
+func (_u *FinanceAccountUpdate) SetPhone(v string) *FinanceAccountUpdate {
+	_u.mutation.SetPhone(v)
+	return _u
+}
+
+// SetNillablePhone sets the "Phone" field if the given value is not nil.
+func (_u *FinanceAccountUpdate) SetNillablePhone(v *string) *FinanceAccountUpdate {
+	if v != nil {
+		_u.SetPhone(*v)
+	}
+	return _u
+}
+
+// ClearPhone clears the value of the "Phone" field.
+func (_u *FinanceAccountUpdate) ClearPhone() *FinanceAccountUpdate {
+	_u.mutation.ClearPhone()
+	return _u
+}
+
+// SetEmail sets the "Email" field.
+func (_u *FinanceAccountUpdate) SetEmail(v string) *FinanceAccountUpdate {
+	_u.mutation.SetEmail(v)
+	return _u
+}
+
+// SetNillableEmail sets the "Email" field if the given value is not nil.
+func (_u *FinanceAccountUpdate) SetNillableEmail(v *string) *FinanceAccountUpdate {
+	if v != nil {
+		_u.SetEmail(*v)
+	}
+	return _u
+}
+
+// ClearEmail clears the value of the "Email" field.
+func (_u *FinanceAccountUpdate) ClearEmail() *FinanceAccountUpdate {
+	_u.mutation.ClearEmail()
+	return _u
+}
+
+// SetAddress sets the "Address" field.
+func (_u *FinanceAccountUpdate) SetAddress(v string) *FinanceAccountUpdate {
+	_u.mutation.SetAddress(v)
+	return _u
+}
+
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (_u *FinanceAccountUpdate) SetNillableAddress(v *string) *FinanceAccountUpdate {
+	if v != nil {
+		_u.SetAddress(*v)
+	}
+	return _u
+}
+
+// ClearAddress clears the value of the "Address" field.
+func (_u *FinanceAccountUpdate) ClearAddress() *FinanceAccountUpdate {
+	_u.mutation.ClearAddress()
+	return _u
+}
+
+// SetNote sets the "Note" field.
+func (_u *FinanceAccountUpdate) SetNote(v string) *FinanceAccountUpdate {
+	_u.mutation.SetNote(v)
+	return _u
+}
+
+// SetNillableNote sets the "Note" field if the given value is not nil.
+func (_u *FinanceAccountUpdate) SetNillableNote(v *string) *FinanceAccountUpdate {
+	if v != nil {
+		_u.SetNote(*v)
+	}
+	return _u
+}
+
+// ClearNote clears the value of the "Note" field.
+func (_u *FinanceAccountUpdate) ClearNote() *FinanceAccountUpdate {
+	_u.mutation.ClearNote()
 	return _u
 }
 
@@ -98,6 +239,21 @@ func (_u *FinanceAccountUpdate) AddAccounts(v ...*FinanceOperation) *FinanceAcco
 	return _u.AddAccountIDs(ids...)
 }
 
+// AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by IDs.
+func (_u *FinanceAccountUpdate) AddFinanceRelationIDs(ids ...int) *FinanceAccountUpdate {
+	_u.mutation.AddFinanceRelationIDs(ids...)
+	return _u
+}
+
+// AddFinanceRelations adds the "finance_relations" edges to the FinanceRelations entity.
+func (_u *FinanceAccountUpdate) AddFinanceRelations(v ...*FinanceRelations) *FinanceAccountUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddFinanceRelationIDs(ids...)
+}
+
 // Mutation returns the FinanceAccountMutation object of the builder.
 func (_u *FinanceAccountUpdate) Mutation() *FinanceAccountMutation {
 	return _u.mutation
@@ -128,6 +284,27 @@ func (_u *FinanceAccountUpdate) RemoveAccounts(v ...*FinanceOperation) *FinanceA
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveAccountIDs(ids...)
+}
+
+// ClearFinanceRelations clears all "finance_relations" edges to the FinanceRelations entity.
+func (_u *FinanceAccountUpdate) ClearFinanceRelations() *FinanceAccountUpdate {
+	_u.mutation.ClearFinanceRelations()
+	return _u
+}
+
+// RemoveFinanceRelationIDs removes the "finance_relations" edge to FinanceRelations entities by IDs.
+func (_u *FinanceAccountUpdate) RemoveFinanceRelationIDs(ids ...int) *FinanceAccountUpdate {
+	_u.mutation.RemoveFinanceRelationIDs(ids...)
+	return _u
+}
+
+// RemoveFinanceRelations removes "finance_relations" edges to FinanceRelations entities.
+func (_u *FinanceAccountUpdate) RemoveFinanceRelations(v ...*FinanceRelations) *FinanceAccountUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveFinanceRelationIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -177,6 +354,48 @@ func (_u *FinanceAccountUpdate) sqlSave(ctx context.Context) (_node int, err err
 	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(financeaccount.FieldName, field.TypeString, value)
+	}
+	if value, ok := _u.mutation.TcNo(); ok {
+		_spec.SetField(financeaccount.FieldTcNo, field.TypeString, value)
+	}
+	if _u.mutation.TcNoCleared() {
+		_spec.ClearField(financeaccount.FieldTcNo, field.TypeString)
+	}
+	if value, ok := _u.mutation.TaxNo(); ok {
+		_spec.SetField(financeaccount.FieldTaxNo, field.TypeString, value)
+	}
+	if _u.mutation.TaxNoCleared() {
+		_spec.ClearField(financeaccount.FieldTaxNo, field.TypeString)
+	}
+	if value, ok := _u.mutation.TaxAdmin(); ok {
+		_spec.SetField(financeaccount.FieldTaxAdmin, field.TypeString, value)
+	}
+	if _u.mutation.TaxAdminCleared() {
+		_spec.ClearField(financeaccount.FieldTaxAdmin, field.TypeString)
+	}
+	if value, ok := _u.mutation.Phone(); ok {
+		_spec.SetField(financeaccount.FieldPhone, field.TypeString, value)
+	}
+	if _u.mutation.PhoneCleared() {
+		_spec.ClearField(financeaccount.FieldPhone, field.TypeString)
+	}
+	if value, ok := _u.mutation.Email(); ok {
+		_spec.SetField(financeaccount.FieldEmail, field.TypeString, value)
+	}
+	if _u.mutation.EmailCleared() {
+		_spec.ClearField(financeaccount.FieldEmail, field.TypeString)
+	}
+	if value, ok := _u.mutation.Address(); ok {
+		_spec.SetField(financeaccount.FieldAddress, field.TypeString, value)
+	}
+	if _u.mutation.AddressCleared() {
+		_spec.ClearField(financeaccount.FieldAddress, field.TypeString)
+	}
+	if value, ok := _u.mutation.Note(); ok {
+		_spec.SetField(financeaccount.FieldNote, field.TypeString, value)
+	}
+	if _u.mutation.NoteCleared() {
+		_spec.ClearField(financeaccount.FieldNote, field.TypeString)
 	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(financeaccount.FieldCreatedAt, field.TypeTime, value)
@@ -258,6 +477,51 @@ func (_u *FinanceAccountUpdate) sqlSave(ctx context.Context) (_node int, err err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if _u.mutation.FinanceRelationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financeaccount.FinanceRelationsTable,
+			Columns: []string{financeaccount.FinanceRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedFinanceRelationsIDs(); len(nodes) > 0 && !_u.mutation.FinanceRelationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financeaccount.FinanceRelationsTable,
+			Columns: []string{financeaccount.FinanceRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.FinanceRelationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financeaccount.FinanceRelationsTable,
+			Columns: []string{financeaccount.FinanceRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{financeaccount.Label}
@@ -289,6 +553,146 @@ func (_u *FinanceAccountUpdateOne) SetNillableName(v *string) *FinanceAccountUpd
 	if v != nil {
 		_u.SetName(*v)
 	}
+	return _u
+}
+
+// SetTcNo sets the "TcNo" field.
+func (_u *FinanceAccountUpdateOne) SetTcNo(v string) *FinanceAccountUpdateOne {
+	_u.mutation.SetTcNo(v)
+	return _u
+}
+
+// SetNillableTcNo sets the "TcNo" field if the given value is not nil.
+func (_u *FinanceAccountUpdateOne) SetNillableTcNo(v *string) *FinanceAccountUpdateOne {
+	if v != nil {
+		_u.SetTcNo(*v)
+	}
+	return _u
+}
+
+// ClearTcNo clears the value of the "TcNo" field.
+func (_u *FinanceAccountUpdateOne) ClearTcNo() *FinanceAccountUpdateOne {
+	_u.mutation.ClearTcNo()
+	return _u
+}
+
+// SetTaxNo sets the "TaxNo" field.
+func (_u *FinanceAccountUpdateOne) SetTaxNo(v string) *FinanceAccountUpdateOne {
+	_u.mutation.SetTaxNo(v)
+	return _u
+}
+
+// SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
+func (_u *FinanceAccountUpdateOne) SetNillableTaxNo(v *string) *FinanceAccountUpdateOne {
+	if v != nil {
+		_u.SetTaxNo(*v)
+	}
+	return _u
+}
+
+// ClearTaxNo clears the value of the "TaxNo" field.
+func (_u *FinanceAccountUpdateOne) ClearTaxNo() *FinanceAccountUpdateOne {
+	_u.mutation.ClearTaxNo()
+	return _u
+}
+
+// SetTaxAdmin sets the "TaxAdmin" field.
+func (_u *FinanceAccountUpdateOne) SetTaxAdmin(v string) *FinanceAccountUpdateOne {
+	_u.mutation.SetTaxAdmin(v)
+	return _u
+}
+
+// SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
+func (_u *FinanceAccountUpdateOne) SetNillableTaxAdmin(v *string) *FinanceAccountUpdateOne {
+	if v != nil {
+		_u.SetTaxAdmin(*v)
+	}
+	return _u
+}
+
+// ClearTaxAdmin clears the value of the "TaxAdmin" field.
+func (_u *FinanceAccountUpdateOne) ClearTaxAdmin() *FinanceAccountUpdateOne {
+	_u.mutation.ClearTaxAdmin()
+	return _u
+}
+
+// SetPhone sets the "Phone" field.
+func (_u *FinanceAccountUpdateOne) SetPhone(v string) *FinanceAccountUpdateOne {
+	_u.mutation.SetPhone(v)
+	return _u
+}
+
+// SetNillablePhone sets the "Phone" field if the given value is not nil.
+func (_u *FinanceAccountUpdateOne) SetNillablePhone(v *string) *FinanceAccountUpdateOne {
+	if v != nil {
+		_u.SetPhone(*v)
+	}
+	return _u
+}
+
+// ClearPhone clears the value of the "Phone" field.
+func (_u *FinanceAccountUpdateOne) ClearPhone() *FinanceAccountUpdateOne {
+	_u.mutation.ClearPhone()
+	return _u
+}
+
+// SetEmail sets the "Email" field.
+func (_u *FinanceAccountUpdateOne) SetEmail(v string) *FinanceAccountUpdateOne {
+	_u.mutation.SetEmail(v)
+	return _u
+}
+
+// SetNillableEmail sets the "Email" field if the given value is not nil.
+func (_u *FinanceAccountUpdateOne) SetNillableEmail(v *string) *FinanceAccountUpdateOne {
+	if v != nil {
+		_u.SetEmail(*v)
+	}
+	return _u
+}
+
+// ClearEmail clears the value of the "Email" field.
+func (_u *FinanceAccountUpdateOne) ClearEmail() *FinanceAccountUpdateOne {
+	_u.mutation.ClearEmail()
+	return _u
+}
+
+// SetAddress sets the "Address" field.
+func (_u *FinanceAccountUpdateOne) SetAddress(v string) *FinanceAccountUpdateOne {
+	_u.mutation.SetAddress(v)
+	return _u
+}
+
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (_u *FinanceAccountUpdateOne) SetNillableAddress(v *string) *FinanceAccountUpdateOne {
+	if v != nil {
+		_u.SetAddress(*v)
+	}
+	return _u
+}
+
+// ClearAddress clears the value of the "Address" field.
+func (_u *FinanceAccountUpdateOne) ClearAddress() *FinanceAccountUpdateOne {
+	_u.mutation.ClearAddress()
+	return _u
+}
+
+// SetNote sets the "Note" field.
+func (_u *FinanceAccountUpdateOne) SetNote(v string) *FinanceAccountUpdateOne {
+	_u.mutation.SetNote(v)
+	return _u
+}
+
+// SetNillableNote sets the "Note" field if the given value is not nil.
+func (_u *FinanceAccountUpdateOne) SetNillableNote(v *string) *FinanceAccountUpdateOne {
+	if v != nil {
+		_u.SetNote(*v)
+	}
+	return _u
+}
+
+// ClearNote clears the value of the "Note" field.
+func (_u *FinanceAccountUpdateOne) ClearNote() *FinanceAccountUpdateOne {
+	_u.mutation.ClearNote()
 	return _u
 }
 
@@ -346,6 +750,21 @@ func (_u *FinanceAccountUpdateOne) AddAccounts(v ...*FinanceOperation) *FinanceA
 	return _u.AddAccountIDs(ids...)
 }
 
+// AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by IDs.
+func (_u *FinanceAccountUpdateOne) AddFinanceRelationIDs(ids ...int) *FinanceAccountUpdateOne {
+	_u.mutation.AddFinanceRelationIDs(ids...)
+	return _u
+}
+
+// AddFinanceRelations adds the "finance_relations" edges to the FinanceRelations entity.
+func (_u *FinanceAccountUpdateOne) AddFinanceRelations(v ...*FinanceRelations) *FinanceAccountUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddFinanceRelationIDs(ids...)
+}
+
 // Mutation returns the FinanceAccountMutation object of the builder.
 func (_u *FinanceAccountUpdateOne) Mutation() *FinanceAccountMutation {
 	return _u.mutation
@@ -376,6 +795,27 @@ func (_u *FinanceAccountUpdateOne) RemoveAccounts(v ...*FinanceOperation) *Finan
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveAccountIDs(ids...)
+}
+
+// ClearFinanceRelations clears all "finance_relations" edges to the FinanceRelations entity.
+func (_u *FinanceAccountUpdateOne) ClearFinanceRelations() *FinanceAccountUpdateOne {
+	_u.mutation.ClearFinanceRelations()
+	return _u
+}
+
+// RemoveFinanceRelationIDs removes the "finance_relations" edge to FinanceRelations entities by IDs.
+func (_u *FinanceAccountUpdateOne) RemoveFinanceRelationIDs(ids ...int) *FinanceAccountUpdateOne {
+	_u.mutation.RemoveFinanceRelationIDs(ids...)
+	return _u
+}
+
+// RemoveFinanceRelations removes "finance_relations" edges to FinanceRelations entities.
+func (_u *FinanceAccountUpdateOne) RemoveFinanceRelations(v ...*FinanceRelations) *FinanceAccountUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveFinanceRelationIDs(ids...)
 }
 
 // Where appends a list predicates to the FinanceAccountUpdate builder.
@@ -456,6 +896,48 @@ func (_u *FinanceAccountUpdateOne) sqlSave(ctx context.Context) (_node *FinanceA
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(financeaccount.FieldName, field.TypeString, value)
 	}
+	if value, ok := _u.mutation.TcNo(); ok {
+		_spec.SetField(financeaccount.FieldTcNo, field.TypeString, value)
+	}
+	if _u.mutation.TcNoCleared() {
+		_spec.ClearField(financeaccount.FieldTcNo, field.TypeString)
+	}
+	if value, ok := _u.mutation.TaxNo(); ok {
+		_spec.SetField(financeaccount.FieldTaxNo, field.TypeString, value)
+	}
+	if _u.mutation.TaxNoCleared() {
+		_spec.ClearField(financeaccount.FieldTaxNo, field.TypeString)
+	}
+	if value, ok := _u.mutation.TaxAdmin(); ok {
+		_spec.SetField(financeaccount.FieldTaxAdmin, field.TypeString, value)
+	}
+	if _u.mutation.TaxAdminCleared() {
+		_spec.ClearField(financeaccount.FieldTaxAdmin, field.TypeString)
+	}
+	if value, ok := _u.mutation.Phone(); ok {
+		_spec.SetField(financeaccount.FieldPhone, field.TypeString, value)
+	}
+	if _u.mutation.PhoneCleared() {
+		_spec.ClearField(financeaccount.FieldPhone, field.TypeString)
+	}
+	if value, ok := _u.mutation.Email(); ok {
+		_spec.SetField(financeaccount.FieldEmail, field.TypeString, value)
+	}
+	if _u.mutation.EmailCleared() {
+		_spec.ClearField(financeaccount.FieldEmail, field.TypeString)
+	}
+	if value, ok := _u.mutation.Address(); ok {
+		_spec.SetField(financeaccount.FieldAddress, field.TypeString, value)
+	}
+	if _u.mutation.AddressCleared() {
+		_spec.ClearField(financeaccount.FieldAddress, field.TypeString)
+	}
+	if value, ok := _u.mutation.Note(); ok {
+		_spec.SetField(financeaccount.FieldNote, field.TypeString, value)
+	}
+	if _u.mutation.NoteCleared() {
+		_spec.ClearField(financeaccount.FieldNote, field.TypeString)
+	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(financeaccount.FieldCreatedAt, field.TypeTime, value)
 	}
@@ -529,6 +1011,51 @@ func (_u *FinanceAccountUpdateOne) sqlSave(ctx context.Context) (_node *FinanceA
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.FinanceRelationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financeaccount.FinanceRelationsTable,
+			Columns: []string{financeaccount.FinanceRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedFinanceRelationsIDs(); len(nodes) > 0 && !_u.mutation.FinanceRelationsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financeaccount.FinanceRelationsTable,
+			Columns: []string{financeaccount.FinanceRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.FinanceRelationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financeaccount.FinanceRelationsTable,
+			Columns: []string{financeaccount.FinanceRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

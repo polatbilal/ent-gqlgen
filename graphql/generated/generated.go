@@ -2523,7 +2523,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schemas/auth.graphqls", Input: `directive @goField(
+	{Name: "../schemas/auth.graphql", Input: `directive @goField(
   forceResolver: Boolean
   Name: String
 ) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
@@ -2551,7 +2551,7 @@ type Mutation {
   login(username: String!, password: String!): AuthPayload!
 }
 `, BuiltIn: false},
-	{Name: "../schemas/author.graphqls", Input: `type JobAuthor {
+	{Name: "../schemas/author.graphql", Input: `type JobAuthor {
   id: ID!
   Static: String
   Mechanic: String
@@ -2582,7 +2582,7 @@ extend type Mutation {
   updateAuthor(yibfNo: Int!, input: JobAuthorInput!): JobAuthor @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/batch.graphqls", Input: `type JobBatchResult {
+	{Name: "../schemas/batch.graphql", Input: `type JobBatchResult {
   job: JobDetail
   owner: JobOwner
   contractor: JobContractor
@@ -2635,7 +2635,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/company.graphqls", Input: `type CompanyDetail {
+	{Name: "../schemas/company.graphql", Input: `type CompanyDetail {
   id: ID
   CompanyCode: Int
   Name: String!
@@ -2714,7 +2714,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/contractors.graphqls", Input: `# Job Contractor
+	{Name: "../schemas/contractors.graphql", Input: `# Job Contractor
 type JobContractor {
   id: ID
   Name: String
@@ -2762,7 +2762,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/engineer.graphqls", Input: `type CompanyEngineer {
+	{Name: "../schemas/engineer.graphql", Input: `type CompanyEngineer {
   id: ID!
   YDSID: Int
   Name: String
@@ -2830,7 +2830,7 @@ extend type Mutation {
   ): CompanyEngineer! @goField(forceResolver: true) @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/floors.graphqls", Input: `type JobFloor {
+	{Name: "../schemas/floors.graphql", Input: `type JobFloor {
   id: ID!
   Name: String
   Metre: String
@@ -2870,7 +2870,7 @@ extend type Mutation {
   deleteFloor(id: Int!): JobFloor! @goField(forceResolver: true) @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/job.graphqls", Input: `# JobDetail
+	{Name: "../schemas/job.graphql", Input: `# JobDetail
 type JobDetail {
   id: ID!
   CompanyCode: Int!
@@ -3012,7 +3012,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/owner.graphqls", Input: `# Job Owner
+	{Name: "../schemas/owner.graphql", Input: `# Job Owner
 type JobOwner {
   id: ID!
   Name: String
@@ -3058,7 +3058,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/payments.graphqls", Input: `type JobPayments {
+	{Name: "../schemas/payments.graphql", Input: `type JobPayments {
   id: Int
   PaymentNo: Int
   PaymentDate: Time
@@ -3119,7 +3119,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/progress.graphqls", Input: `type JobProgress {
+	{Name: "../schemas/progress.graphql", Input: `type JobProgress {
   id: ID!
   One: Int
   Two: Int
@@ -3149,7 +3149,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/receipts.graphqls", Input: `type JobReceipt {
+	{Name: "../schemas/receipts.graphql", Input: `type JobReceipt {
   id: Int
   YibfNo: Int
   ReceiptDate: Time
@@ -3177,7 +3177,7 @@ extend type Mutation {
 
   deleteJobReceipts(id: Int!): JobReceipt @goField(forceResolver: true) @auth
 }`, BuiltIn: false},
-	{Name: "../schemas/supervisor.graphqls", Input: `type JobSupervisor {
+	{Name: "../schemas/supervisor.graphql", Input: `type JobSupervisor {
   id: ID!
   Name: String
   Address: String
@@ -3224,7 +3224,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/token.graphqls", Input: `type CompanyToken {
+	{Name: "../schemas/token.graphql", Input: `type CompanyToken {
   Token: String
   DepartmentId: Int
   CompanyCode: Int @goField(forceResolver: true)
@@ -3253,7 +3253,7 @@ extend type Mutation {
     @auth
 }
 `, BuiltIn: false},
-	{Name: "../schemas/user.graphqls", Input: `type User {
+	{Name: "../schemas/user.graphql", Input: `type User {
   id: ID
   Username: String!
   Name: String

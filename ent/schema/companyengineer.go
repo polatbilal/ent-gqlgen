@@ -49,5 +49,7 @@ func (CompanyEngineer) Edges() []ent.Edge {
 		edge.To("controllers", JobRelations.Type).StorageKey(edge.Column("controller_id")),
 		edge.To("mechaniccontrollers", JobRelations.Type).StorageKey(edge.Column("mechaniccontroller_id")),
 		edge.To("electriccontrollers", JobRelations.Type).StorageKey(edge.Column("electriccontroller_id")),
+
+		edge.To("finance_relations", FinanceRelations.Type).StorageKey(edge.Column("company_engineer_id")),
 	}
 }

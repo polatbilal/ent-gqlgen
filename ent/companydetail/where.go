@@ -2379,6 +2379,29 @@ func HasAccountsWith(preds ...predicate.FinanceAccount) predicate.CompanyDetail 
 	})
 }
 
+// HasPersonnels applies the HasEdge predicate on the "personnels" edge.
+func HasPersonnels() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PersonnelsTable, PersonnelsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasPersonnelsWith applies the HasEdge predicate on the "personnels" edge with a given conditions (other predicates).
+func HasPersonnelsWith(preds ...predicate.CompanyPersonnel) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newPersonnelsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.CompanyDetail) predicate.CompanyDetail {
 	return predicate.CompanyDetail(sql.AndPredicates(predicates...))

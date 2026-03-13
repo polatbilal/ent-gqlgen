@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 )
 
 // FinanceGroupCreate is the builder for creating a FinanceGroup entity.
@@ -116,6 +117,21 @@ func (_c *FinanceGroupCreate) AddGroups(v ...*FinanceOperation) *FinanceGroupCre
 		ids[i] = v[i].ID
 	}
 	return _c.AddGroupIDs(ids...)
+}
+
+// AddFinanceAccountRelationIDs adds the "finance_account_relations" edge to the FinanceRelations entity by IDs.
+func (_c *FinanceGroupCreate) AddFinanceAccountRelationIDs(ids ...int) *FinanceGroupCreate {
+	_c.mutation.AddFinanceAccountRelationIDs(ids...)
+	return _c
+}
+
+// AddFinanceAccountRelations adds the "finance_account_relations" edges to the FinanceRelations entity.
+func (_c *FinanceGroupCreate) AddFinanceAccountRelations(v ...*FinanceRelations) *FinanceGroupCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddFinanceAccountRelationIDs(ids...)
 }
 
 // Mutation returns the FinanceGroupMutation object of the builder.
@@ -247,6 +263,22 @@ func (_c *FinanceGroupCreate) createSpec() (*FinanceGroup, *sqlgraph.CreateSpec)
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.FinanceAccountRelationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financegroup.FinanceAccountRelationsTable,
+			Columns: []string{financegroup.FinanceAccountRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

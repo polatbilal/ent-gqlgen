@@ -10,10 +10,10 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
-	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 )
 
@@ -43,14 +43,15 @@ type FinanceOperation struct {
 	account_id   *int
 	class_id     *int
 	group_id     *int
+	relations_id *int
 	resource_id  *int
 	selectValues sql.SelectValues
 }
 
 // FinanceOperationEdges holds the relations/edges for other nodes in the graph.
 type FinanceOperationEdges struct {
-	// Account holds the value of the account edge.
-	Account *FinanceAccount `json:"account,omitempty"`
+	// Relations holds the value of the relations edge.
+	Relations *FinanceRelations `json:"relations,omitempty"`
 	// Method holds the value of the method edge.
 	Method *FinanceClass `json:"method,omitempty"`
 	// Company holds the value of the company edge.
@@ -66,15 +67,15 @@ type FinanceOperationEdges struct {
 	totalCount [5]map[string]int
 }
 
-// AccountOrErr returns the Account value or an error if the edge
+// RelationsOrErr returns the Relations value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e FinanceOperationEdges) AccountOrErr() (*FinanceAccount, error) {
-	if e.Account != nil {
-		return e.Account, nil
+func (e FinanceOperationEdges) RelationsOrErr() (*FinanceRelations, error) {
+	if e.Relations != nil {
+		return e.Relations, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: financeaccount.Label}
+		return nil, &NotFoundError{label: financerelations.Label}
 	}
-	return nil, &NotLoadedError{edge: "account"}
+	return nil, &NotLoadedError{edge: "relations"}
 }
 
 // MethodOrErr returns the Method value or an error if the edge
@@ -140,7 +141,9 @@ func (*FinanceOperation) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case financeoperation.ForeignKeys[3]: // group_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[4]: // resource_id
+		case financeoperation.ForeignKeys[4]: // relations_id
+			values[i] = new(sql.NullInt64)
+		case financeoperation.ForeignKeys[5]: // resource_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -235,6 +238,13 @@ func (_m *FinanceOperation) assignValues(columns []string, values []any) error {
 			}
 		case financeoperation.ForeignKeys[4]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
+			} else if value.Valid {
+				_m.relations_id = new(int)
+				*_m.relations_id = int(value.Int64)
+			}
+		case financeoperation.ForeignKeys[5]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field resource_id", value)
 			} else if value.Valid {
 				_m.resource_id = new(int)
@@ -253,9 +263,9 @@ func (_m *FinanceOperation) Value(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
 }
 
-// QueryAccount queries the "account" edge of the FinanceOperation entity.
-func (_m *FinanceOperation) QueryAccount() *FinanceAccountQuery {
-	return NewFinanceOperationClient(_m.config).QueryAccount(_m)
+// QueryRelations queries the "relations" edge of the FinanceOperation entity.
+func (_m *FinanceOperation) QueryRelations() *FinanceRelationsQuery {
+	return NewFinanceOperationClient(_m.config).QueryRelations(_m)
 }
 
 // QueryMethod queries the "method" edge of the FinanceOperation entity.

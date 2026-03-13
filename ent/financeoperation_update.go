@@ -12,10 +12,10 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
-	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
@@ -123,23 +123,23 @@ func (_u *FinanceOperationUpdate) SetUpdatedAt(v time.Time) *FinanceOperationUpd
 	return _u
 }
 
-// SetAccountID sets the "account" edge to the FinanceAccount entity by ID.
-func (_u *FinanceOperationUpdate) SetAccountID(id int) *FinanceOperationUpdate {
-	_u.mutation.SetAccountID(id)
+// SetRelationsID sets the "relations" edge to the FinanceRelations entity by ID.
+func (_u *FinanceOperationUpdate) SetRelationsID(id int) *FinanceOperationUpdate {
+	_u.mutation.SetRelationsID(id)
 	return _u
 }
 
-// SetNillableAccountID sets the "account" edge to the FinanceAccount entity by ID if the given value is not nil.
-func (_u *FinanceOperationUpdate) SetNillableAccountID(id *int) *FinanceOperationUpdate {
+// SetNillableRelationsID sets the "relations" edge to the FinanceRelations entity by ID if the given value is not nil.
+func (_u *FinanceOperationUpdate) SetNillableRelationsID(id *int) *FinanceOperationUpdate {
 	if id != nil {
-		_u = _u.SetAccountID(*id)
+		_u = _u.SetRelationsID(*id)
 	}
 	return _u
 }
 
-// SetAccount sets the "account" edge to the FinanceAccount entity.
-func (_u *FinanceOperationUpdate) SetAccount(v *FinanceAccount) *FinanceOperationUpdate {
-	return _u.SetAccountID(v.ID)
+// SetRelations sets the "relations" edge to the FinanceRelations entity.
+func (_u *FinanceOperationUpdate) SetRelations(v *FinanceRelations) *FinanceOperationUpdate {
+	return _u.SetRelationsID(v.ID)
 }
 
 // SetMethodID sets the "method" edge to the FinanceClass entity by ID.
@@ -223,9 +223,9 @@ func (_u *FinanceOperationUpdate) Mutation() *FinanceOperationMutation {
 	return _u.mutation
 }
 
-// ClearAccount clears the "account" edge to the FinanceAccount entity.
-func (_u *FinanceOperationUpdate) ClearAccount() *FinanceOperationUpdate {
-	_u.mutation.ClearAccount()
+// ClearRelations clears the "relations" edge to the FinanceRelations entity.
+func (_u *FinanceOperationUpdate) ClearRelations() *FinanceOperationUpdate {
+	_u.mutation.ClearRelations()
 	return _u
 }
 
@@ -319,28 +319,28 @@ func (_u *FinanceOperationUpdate) sqlSave(ctx context.Context) (_node int, err e
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(financeoperation.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.AccountCleared() {
+	if _u.mutation.RelationsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   financeoperation.AccountTable,
-			Columns: []string{financeoperation.AccountColumn},
+			Table:   financeoperation.RelationsTable,
+			Columns: []string{financeoperation.RelationsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := _u.mutation.AccountIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.RelationsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   financeoperation.AccountTable,
-			Columns: []string{financeoperation.AccountColumn},
+			Table:   financeoperation.RelationsTable,
+			Columns: []string{financeoperation.RelationsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -574,23 +574,23 @@ func (_u *FinanceOperationUpdateOne) SetUpdatedAt(v time.Time) *FinanceOperation
 	return _u
 }
 
-// SetAccountID sets the "account" edge to the FinanceAccount entity by ID.
-func (_u *FinanceOperationUpdateOne) SetAccountID(id int) *FinanceOperationUpdateOne {
-	_u.mutation.SetAccountID(id)
+// SetRelationsID sets the "relations" edge to the FinanceRelations entity by ID.
+func (_u *FinanceOperationUpdateOne) SetRelationsID(id int) *FinanceOperationUpdateOne {
+	_u.mutation.SetRelationsID(id)
 	return _u
 }
 
-// SetNillableAccountID sets the "account" edge to the FinanceAccount entity by ID if the given value is not nil.
-func (_u *FinanceOperationUpdateOne) SetNillableAccountID(id *int) *FinanceOperationUpdateOne {
+// SetNillableRelationsID sets the "relations" edge to the FinanceRelations entity by ID if the given value is not nil.
+func (_u *FinanceOperationUpdateOne) SetNillableRelationsID(id *int) *FinanceOperationUpdateOne {
 	if id != nil {
-		_u = _u.SetAccountID(*id)
+		_u = _u.SetRelationsID(*id)
 	}
 	return _u
 }
 
-// SetAccount sets the "account" edge to the FinanceAccount entity.
-func (_u *FinanceOperationUpdateOne) SetAccount(v *FinanceAccount) *FinanceOperationUpdateOne {
-	return _u.SetAccountID(v.ID)
+// SetRelations sets the "relations" edge to the FinanceRelations entity.
+func (_u *FinanceOperationUpdateOne) SetRelations(v *FinanceRelations) *FinanceOperationUpdateOne {
+	return _u.SetRelationsID(v.ID)
 }
 
 // SetMethodID sets the "method" edge to the FinanceClass entity by ID.
@@ -674,9 +674,9 @@ func (_u *FinanceOperationUpdateOne) Mutation() *FinanceOperationMutation {
 	return _u.mutation
 }
 
-// ClearAccount clears the "account" edge to the FinanceAccount entity.
-func (_u *FinanceOperationUpdateOne) ClearAccount() *FinanceOperationUpdateOne {
-	_u.mutation.ClearAccount()
+// ClearRelations clears the "relations" edge to the FinanceRelations entity.
+func (_u *FinanceOperationUpdateOne) ClearRelations() *FinanceOperationUpdateOne {
+	_u.mutation.ClearRelations()
 	return _u
 }
 
@@ -800,28 +800,28 @@ func (_u *FinanceOperationUpdateOne) sqlSave(ctx context.Context) (_node *Financ
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(financeoperation.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.AccountCleared() {
+	if _u.mutation.RelationsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   financeoperation.AccountTable,
-			Columns: []string{financeoperation.AccountColumn},
+			Table:   financeoperation.RelationsTable,
+			Columns: []string{financeoperation.RelationsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := _u.mutation.AccountIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.RelationsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   financeoperation.AccountTable,
-			Columns: []string{financeoperation.AccountColumn},
+			Table:   financeoperation.RelationsTable,
+			Columns: []string{financeoperation.RelationsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

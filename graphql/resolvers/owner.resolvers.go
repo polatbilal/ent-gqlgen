@@ -13,6 +13,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
 	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/graphql/helpers"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
 )
@@ -80,6 +81,12 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 			}
 		}
 		return nil, fmt.Errorf("owner oluşturulurken hata oluştu: %w", err)
+	}
+
+	// Otomatik FinanceRelations kaydı oluştur
+	if relErr := helpers.CreateFinanceRelation(ctx, client, "job_owner", owner.ID, "Yapı Sahibi"); relErr != nil {
+		// İlişki oluşturulamazsa log at ama owner'ı döndür
+		fmt.Printf("⚠️ Owner oluşturuldu ama FinanceRelations eklenemedi: %v\n", relErr)
 	}
 
 	return owner, nil

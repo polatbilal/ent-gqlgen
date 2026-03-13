@@ -15,6 +15,7 @@ type CompanyEngineer {
   Note: String
   CompanyCode: Int
   Company: CompanyDetail
+  Job: [JobDetail]
 }
 
 input CompanyEngineerInput {

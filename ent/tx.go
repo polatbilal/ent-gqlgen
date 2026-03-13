@@ -16,6 +16,8 @@ type Tx struct {
 	CompanyDetail *CompanyDetailClient
 	// CompanyEngineer is the client for interacting with the CompanyEngineer builders.
 	CompanyEngineer *CompanyEngineerClient
+	// CompanyPersonnel is the client for interacting with the CompanyPersonnel builders.
+	CompanyPersonnel *CompanyPersonnelClient
 	// CompanyToken is the client for interacting with the CompanyToken builders.
 	CompanyToken *CompanyTokenClient
 	// CompanyUser is the client for interacting with the CompanyUser builders.
@@ -28,6 +30,8 @@ type Tx struct {
 	FinanceGroup *FinanceGroupClient
 	// FinanceOperation is the client for interacting with the FinanceOperation builders.
 	FinanceOperation *FinanceOperationClient
+	// FinanceRelations is the client for interacting with the FinanceRelations builders.
+	FinanceRelations *FinanceRelationsClient
 	// FinanceResource is the client for interacting with the FinanceResource builders.
 	FinanceResource *FinanceResourceClient
 	// JobAuthor is the client for interacting with the JobAuthor builders.
@@ -185,12 +189,14 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.CompanyDetail = NewCompanyDetailClient(tx.config)
 	tx.CompanyEngineer = NewCompanyEngineerClient(tx.config)
+	tx.CompanyPersonnel = NewCompanyPersonnelClient(tx.config)
 	tx.CompanyToken = NewCompanyTokenClient(tx.config)
 	tx.CompanyUser = NewCompanyUserClient(tx.config)
 	tx.FinanceAccount = NewFinanceAccountClient(tx.config)
 	tx.FinanceClass = NewFinanceClassClient(tx.config)
 	tx.FinanceGroup = NewFinanceGroupClient(tx.config)
 	tx.FinanceOperation = NewFinanceOperationClient(tx.config)
+	tx.FinanceRelations = NewFinanceRelationsClient(tx.config)
 	tx.FinanceResource = NewFinanceResourceClient(tx.config)
 	tx.JobAuthor = NewJobAuthorClient(tx.config)
 	tx.JobContractor = NewJobContractorClient(tx.config)

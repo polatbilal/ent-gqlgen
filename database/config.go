@@ -35,7 +35,7 @@ func GetClient() (*ent.Client, error) {
 
 func Connect() (*ent.Client, error) {
 	// databaseURL := os.Getenv("MYSQL_URL")
-	databaseURL := os.Getenv("PSQL_URL")
+	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL == "" {
 		log.Printf("Error: DATABASE_URL environment variable is not set")
 		return nil, fmt.Errorf("DATABASE_URL environment variable is not set")

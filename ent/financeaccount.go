@@ -20,6 +20,20 @@ type FinanceAccount struct {
 	ID int `json:"id,omitempty"`
 	// Name holds the value of the "Name" field.
 	Name string `json:"Name,omitempty"`
+	// TcNo holds the value of the "TcNo" field.
+	TcNo string `json:"TcNo,omitempty"`
+	// TaxNo holds the value of the "TaxNo" field.
+	TaxNo string `json:"TaxNo,omitempty"`
+	// TaxAdmin holds the value of the "TaxAdmin" field.
+	TaxAdmin string `json:"TaxAdmin,omitempty"`
+	// Phone holds the value of the "Phone" field.
+	Phone string `json:"Phone,omitempty"`
+	// Email holds the value of the "Email" field.
+	Email string `json:"Email,omitempty"`
+	// Address holds the value of the "Address" field.
+	Address string `json:"Address,omitempty"`
+	// Note holds the value of the "Note" field.
+	Note string `json:"Note,omitempty"`
 	// CreatedAt holds the value of the "createdAt" field.
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 	// UpdatedAt holds the value of the "updatedAt" field.
@@ -37,13 +51,16 @@ type FinanceAccountEdges struct {
 	Company *CompanyDetail `json:"company,omitempty"`
 	// Accounts holds the value of the accounts edge.
 	Accounts []*FinanceOperation `json:"accounts,omitempty"`
+	// FinanceRelations holds the value of the finance_relations edge.
+	FinanceRelations []*FinanceRelations `json:"finance_relations,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
+	loadedTypes [3]bool
 	// totalCount holds the count of the edges above.
-	totalCount [2]map[string]int
+	totalCount [3]map[string]int
 
-	namedAccounts map[string][]*FinanceOperation
+	namedAccounts         map[string][]*FinanceOperation
+	namedFinanceRelations map[string][]*FinanceRelations
 }
 
 // CompanyOrErr returns the Company value or an error if the edge
@@ -66,6 +83,15 @@ func (e FinanceAccountEdges) AccountsOrErr() ([]*FinanceOperation, error) {
 	return nil, &NotLoadedError{edge: "accounts"}
 }
 
+// FinanceRelationsOrErr returns the FinanceRelations value or an error if the edge
+// was not loaded in eager-loading.
+func (e FinanceAccountEdges) FinanceRelationsOrErr() ([]*FinanceRelations, error) {
+	if e.loadedTypes[2] {
+		return e.FinanceRelations, nil
+	}
+	return nil, &NotLoadedError{edge: "finance_relations"}
+}
+
 // scanValues returns the types for scanning values from sql.Rows.
 func (*FinanceAccount) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
@@ -73,7 +99,7 @@ func (*FinanceAccount) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case financeaccount.FieldID:
 			values[i] = new(sql.NullInt64)
-		case financeaccount.FieldName:
+		case financeaccount.FieldName, financeaccount.FieldTcNo, financeaccount.FieldTaxNo, financeaccount.FieldTaxAdmin, financeaccount.FieldPhone, financeaccount.FieldEmail, financeaccount.FieldAddress, financeaccount.FieldNote:
 			values[i] = new(sql.NullString)
 		case financeaccount.FieldCreatedAt, financeaccount.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -105,6 +131,48 @@ func (_m *FinanceAccount) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field Name", values[i])
 			} else if value.Valid {
 				_m.Name = value.String
+			}
+		case financeaccount.FieldTcNo:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field TcNo", values[i])
+			} else if value.Valid {
+				_m.TcNo = value.String
+			}
+		case financeaccount.FieldTaxNo:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field TaxNo", values[i])
+			} else if value.Valid {
+				_m.TaxNo = value.String
+			}
+		case financeaccount.FieldTaxAdmin:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field TaxAdmin", values[i])
+			} else if value.Valid {
+				_m.TaxAdmin = value.String
+			}
+		case financeaccount.FieldPhone:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Phone", values[i])
+			} else if value.Valid {
+				_m.Phone = value.String
+			}
+		case financeaccount.FieldEmail:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Email", values[i])
+			} else if value.Valid {
+				_m.Email = value.String
+			}
+		case financeaccount.FieldAddress:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Address", values[i])
+			} else if value.Valid {
+				_m.Address = value.String
+			}
+		case financeaccount.FieldNote:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Note", values[i])
+			} else if value.Valid {
+				_m.Note = value.String
 			}
 		case financeaccount.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -148,6 +216,11 @@ func (_m *FinanceAccount) QueryAccounts() *FinanceOperationQuery {
 	return NewFinanceAccountClient(_m.config).QueryAccounts(_m)
 }
 
+// QueryFinanceRelations queries the "finance_relations" edge of the FinanceAccount entity.
+func (_m *FinanceAccount) QueryFinanceRelations() *FinanceRelationsQuery {
+	return NewFinanceAccountClient(_m.config).QueryFinanceRelations(_m)
+}
+
 // Update returns a builder for updating this FinanceAccount.
 // Note that you need to call FinanceAccount.Unwrap() before calling this method if this FinanceAccount
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -173,6 +246,27 @@ func (_m *FinanceAccount) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("Name=")
 	builder.WriteString(_m.Name)
+	builder.WriteString(", ")
+	builder.WriteString("TcNo=")
+	builder.WriteString(_m.TcNo)
+	builder.WriteString(", ")
+	builder.WriteString("TaxNo=")
+	builder.WriteString(_m.TaxNo)
+	builder.WriteString(", ")
+	builder.WriteString("TaxAdmin=")
+	builder.WriteString(_m.TaxAdmin)
+	builder.WriteString(", ")
+	builder.WriteString("Phone=")
+	builder.WriteString(_m.Phone)
+	builder.WriteString(", ")
+	builder.WriteString("Email=")
+	builder.WriteString(_m.Email)
+	builder.WriteString(", ")
+	builder.WriteString("Address=")
+	builder.WriteString(_m.Address)
+	builder.WriteString(", ")
+	builder.WriteString("Note=")
+	builder.WriteString(_m.Note)
 	builder.WriteString(", ")
 	builder.WriteString("createdAt=")
 	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
@@ -204,6 +298,30 @@ func (_m *FinanceAccount) appendNamedAccounts(name string, edges ...*FinanceOper
 		_m.Edges.namedAccounts[name] = []*FinanceOperation{}
 	} else {
 		_m.Edges.namedAccounts[name] = append(_m.Edges.namedAccounts[name], edges...)
+	}
+}
+
+// NamedFinanceRelations returns the FinanceRelations named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *FinanceAccount) NamedFinanceRelations(name string) ([]*FinanceRelations, error) {
+	if _m.Edges.namedFinanceRelations == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedFinanceRelations[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *FinanceAccount) appendNamedFinanceRelations(name string, edges ...*FinanceRelations) {
+	if _m.Edges.namedFinanceRelations == nil {
+		_m.Edges.namedFinanceRelations = make(map[string][]*FinanceRelations)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedFinanceRelations[name] = []*FinanceRelations{}
+	} else {
+		_m.Edges.namedFinanceRelations[name] = append(_m.Edges.namedFinanceRelations[name], edges...)
 	}
 }
 

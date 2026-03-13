@@ -13,6 +13,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 )
 
 // FinanceAccountCreate is the builder for creating a FinanceAccount entity.
@@ -32,6 +33,104 @@ func (_c *FinanceAccountCreate) SetName(v string) *FinanceAccountCreate {
 func (_c *FinanceAccountCreate) SetNillableName(v *string) *FinanceAccountCreate {
 	if v != nil {
 		_c.SetName(*v)
+	}
+	return _c
+}
+
+// SetTcNo sets the "TcNo" field.
+func (_c *FinanceAccountCreate) SetTcNo(v string) *FinanceAccountCreate {
+	_c.mutation.SetTcNo(v)
+	return _c
+}
+
+// SetNillableTcNo sets the "TcNo" field if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillableTcNo(v *string) *FinanceAccountCreate {
+	if v != nil {
+		_c.SetTcNo(*v)
+	}
+	return _c
+}
+
+// SetTaxNo sets the "TaxNo" field.
+func (_c *FinanceAccountCreate) SetTaxNo(v string) *FinanceAccountCreate {
+	_c.mutation.SetTaxNo(v)
+	return _c
+}
+
+// SetNillableTaxNo sets the "TaxNo" field if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillableTaxNo(v *string) *FinanceAccountCreate {
+	if v != nil {
+		_c.SetTaxNo(*v)
+	}
+	return _c
+}
+
+// SetTaxAdmin sets the "TaxAdmin" field.
+func (_c *FinanceAccountCreate) SetTaxAdmin(v string) *FinanceAccountCreate {
+	_c.mutation.SetTaxAdmin(v)
+	return _c
+}
+
+// SetNillableTaxAdmin sets the "TaxAdmin" field if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillableTaxAdmin(v *string) *FinanceAccountCreate {
+	if v != nil {
+		_c.SetTaxAdmin(*v)
+	}
+	return _c
+}
+
+// SetPhone sets the "Phone" field.
+func (_c *FinanceAccountCreate) SetPhone(v string) *FinanceAccountCreate {
+	_c.mutation.SetPhone(v)
+	return _c
+}
+
+// SetNillablePhone sets the "Phone" field if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillablePhone(v *string) *FinanceAccountCreate {
+	if v != nil {
+		_c.SetPhone(*v)
+	}
+	return _c
+}
+
+// SetEmail sets the "Email" field.
+func (_c *FinanceAccountCreate) SetEmail(v string) *FinanceAccountCreate {
+	_c.mutation.SetEmail(v)
+	return _c
+}
+
+// SetNillableEmail sets the "Email" field if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillableEmail(v *string) *FinanceAccountCreate {
+	if v != nil {
+		_c.SetEmail(*v)
+	}
+	return _c
+}
+
+// SetAddress sets the "Address" field.
+func (_c *FinanceAccountCreate) SetAddress(v string) *FinanceAccountCreate {
+	_c.mutation.SetAddress(v)
+	return _c
+}
+
+// SetNillableAddress sets the "Address" field if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillableAddress(v *string) *FinanceAccountCreate {
+	if v != nil {
+		_c.SetAddress(*v)
+	}
+	return _c
+}
+
+// SetNote sets the "Note" field.
+func (_c *FinanceAccountCreate) SetNote(v string) *FinanceAccountCreate {
+	_c.mutation.SetNote(v)
+	return _c
+}
+
+// SetNillableNote sets the "Note" field if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillableNote(v *string) *FinanceAccountCreate {
+	if v != nil {
+		_c.SetNote(*v)
 	}
 	return _c
 }
@@ -96,6 +195,21 @@ func (_c *FinanceAccountCreate) AddAccounts(v ...*FinanceOperation) *FinanceAcco
 		ids[i] = v[i].ID
 	}
 	return _c.AddAccountIDs(ids...)
+}
+
+// AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by IDs.
+func (_c *FinanceAccountCreate) AddFinanceRelationIDs(ids ...int) *FinanceAccountCreate {
+	_c.mutation.AddFinanceRelationIDs(ids...)
+	return _c
+}
+
+// AddFinanceRelations adds the "finance_relations" edges to the FinanceRelations entity.
+func (_c *FinanceAccountCreate) AddFinanceRelations(v ...*FinanceRelations) *FinanceAccountCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddFinanceRelationIDs(ids...)
 }
 
 // Mutation returns the FinanceAccountMutation object of the builder.
@@ -188,6 +302,34 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 		_spec.SetField(financeaccount.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
+	if value, ok := _c.mutation.TcNo(); ok {
+		_spec.SetField(financeaccount.FieldTcNo, field.TypeString, value)
+		_node.TcNo = value
+	}
+	if value, ok := _c.mutation.TaxNo(); ok {
+		_spec.SetField(financeaccount.FieldTaxNo, field.TypeString, value)
+		_node.TaxNo = value
+	}
+	if value, ok := _c.mutation.TaxAdmin(); ok {
+		_spec.SetField(financeaccount.FieldTaxAdmin, field.TypeString, value)
+		_node.TaxAdmin = value
+	}
+	if value, ok := _c.mutation.Phone(); ok {
+		_spec.SetField(financeaccount.FieldPhone, field.TypeString, value)
+		_node.Phone = value
+	}
+	if value, ok := _c.mutation.Email(); ok {
+		_spec.SetField(financeaccount.FieldEmail, field.TypeString, value)
+		_node.Email = value
+	}
+	if value, ok := _c.mutation.Address(); ok {
+		_spec.SetField(financeaccount.FieldAddress, field.TypeString, value)
+		_node.Address = value
+	}
+	if value, ok := _c.mutation.Note(); ok {
+		_spec.SetField(financeaccount.FieldNote, field.TypeString, value)
+		_node.Note = value
+	}
 	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(financeaccount.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
@@ -222,6 +364,22 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.FinanceRelationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financeaccount.FinanceRelationsTable,
+			Columns: []string{financeaccount.FinanceRelationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

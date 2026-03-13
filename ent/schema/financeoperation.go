@@ -30,7 +30,7 @@ func (FinanceOperation) Fields() []ent.Field {
 // Edges of the FinanceOperation.
 func (FinanceOperation) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("account", FinanceAccount.Type).Ref("accounts").Unique(),
+		edge.From("relations", FinanceRelations.Type).Ref("operations").Unique(),
 		edge.From("method", FinanceClass.Type).Ref("methods").Unique(),
 		edge.From("company", CompanyDetail.Type).Ref("operations").Unique(),
 		edge.From("resource", FinanceResource.Type).Ref("resources").Unique(),

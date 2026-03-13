@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
+	"github.com/polatbilal/ent-gqlgen/ent/companypersonnel"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
@@ -745,6 +746,21 @@ func (_u *CompanyDetailUpdate) AddAccounts(v ...*FinanceAccount) *CompanyDetailU
 	return _u.AddAccountIDs(ids...)
 }
 
+// AddPersonnelIDs adds the "personnels" edge to the CompanyPersonnel entity by IDs.
+func (_u *CompanyDetailUpdate) AddPersonnelIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.AddPersonnelIDs(ids...)
+	return _u
+}
+
+// AddPersonnels adds the "personnels" edges to the CompanyPersonnel entity.
+func (_u *CompanyDetailUpdate) AddPersonnels(v ...*CompanyPersonnel) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddPersonnelIDs(ids...)
+}
+
 // Mutation returns the CompanyDetailMutation object of the builder.
 func (_u *CompanyDetailUpdate) Mutation() *CompanyDetailMutation {
 	return _u.mutation
@@ -916,6 +932,27 @@ func (_u *CompanyDetailUpdate) RemoveAccounts(v ...*FinanceAccount) *CompanyDeta
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveAccountIDs(ids...)
+}
+
+// ClearPersonnels clears all "personnels" edges to the CompanyPersonnel entity.
+func (_u *CompanyDetailUpdate) ClearPersonnels() *CompanyDetailUpdate {
+	_u.mutation.ClearPersonnels()
+	return _u
+}
+
+// RemovePersonnelIDs removes the "personnels" edge to CompanyPersonnel entities by IDs.
+func (_u *CompanyDetailUpdate) RemovePersonnelIDs(ids ...int) *CompanyDetailUpdate {
+	_u.mutation.RemovePersonnelIDs(ids...)
+	return _u
+}
+
+// RemovePersonnels removes "personnels" edges to CompanyPersonnel entities.
+func (_u *CompanyDetailUpdate) RemovePersonnels(v ...*CompanyPersonnel) *CompanyDetailUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemovePersonnelIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -1490,6 +1527,51 @@ func (_u *CompanyDetailUpdate) sqlSave(ctx context.Context) (_node int, err erro
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.PersonnelsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.PersonnelsTable,
+			Columns: []string{companydetail.PersonnelsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companypersonnel.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedPersonnelsIDs(); len(nodes) > 0 && !_u.mutation.PersonnelsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.PersonnelsTable,
+			Columns: []string{companydetail.PersonnelsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companypersonnel.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.PersonnelsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.PersonnelsTable,
+			Columns: []string{companydetail.PersonnelsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companypersonnel.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -2226,6 +2308,21 @@ func (_u *CompanyDetailUpdateOne) AddAccounts(v ...*FinanceAccount) *CompanyDeta
 	return _u.AddAccountIDs(ids...)
 }
 
+// AddPersonnelIDs adds the "personnels" edge to the CompanyPersonnel entity by IDs.
+func (_u *CompanyDetailUpdateOne) AddPersonnelIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.AddPersonnelIDs(ids...)
+	return _u
+}
+
+// AddPersonnels adds the "personnels" edges to the CompanyPersonnel entity.
+func (_u *CompanyDetailUpdateOne) AddPersonnels(v ...*CompanyPersonnel) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddPersonnelIDs(ids...)
+}
+
 // Mutation returns the CompanyDetailMutation object of the builder.
 func (_u *CompanyDetailUpdateOne) Mutation() *CompanyDetailMutation {
 	return _u.mutation
@@ -2397,6 +2494,27 @@ func (_u *CompanyDetailUpdateOne) RemoveAccounts(v ...*FinanceAccount) *CompanyD
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveAccountIDs(ids...)
+}
+
+// ClearPersonnels clears all "personnels" edges to the CompanyPersonnel entity.
+func (_u *CompanyDetailUpdateOne) ClearPersonnels() *CompanyDetailUpdateOne {
+	_u.mutation.ClearPersonnels()
+	return _u
+}
+
+// RemovePersonnelIDs removes the "personnels" edge to CompanyPersonnel entities by IDs.
+func (_u *CompanyDetailUpdateOne) RemovePersonnelIDs(ids ...int) *CompanyDetailUpdateOne {
+	_u.mutation.RemovePersonnelIDs(ids...)
+	return _u
+}
+
+// RemovePersonnels removes "personnels" edges to CompanyPersonnel entities.
+func (_u *CompanyDetailUpdateOne) RemovePersonnels(v ...*CompanyPersonnel) *CompanyDetailUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemovePersonnelIDs(ids...)
 }
 
 // Where appends a list predicates to the CompanyDetailUpdate builder.
@@ -3001,6 +3119,51 @@ func (_u *CompanyDetailUpdateOne) sqlSave(ctx context.Context) (_node *CompanyDe
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.PersonnelsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.PersonnelsTable,
+			Columns: []string{companydetail.PersonnelsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companypersonnel.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedPersonnelsIDs(); len(nodes) > 0 && !_u.mutation.PersonnelsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.PersonnelsTable,
+			Columns: []string{companydetail.PersonnelsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companypersonnel.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.PersonnelsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   companydetail.PersonnelsTable,
+			Columns: []string{companydetail.PersonnelsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(companypersonnel.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
