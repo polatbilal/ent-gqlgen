@@ -70,7 +70,7 @@ func main() {
 
 	// CORS ayarları
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000, http://localhost:4000, http://192.168.1.8:4000, https://dev.bilalpolat.tr, https://main.bilalpolat.tr, https://yds.polat.dev",
+		AllowOrigins:     "http://localhost:3000, http://localhost:4000, http://192.168.1.8:4000, https://yds.polat.dev",
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Requested-With",
 		ExposeHeaders:    "Content-Length",
@@ -88,10 +88,10 @@ func main() {
 			origin = c.Get("Origin")
 		} else if secFetchSite == "cross-site" {
 			// Cross-site request ise ve origin yoksa, production URL'yi kullan
-			origin = "https://dev.bilalpolat.tr"
+			origin = "https://yds.polat.dev"
 		} else {
 			// Local development için IP adresini kullan
-			origin = "http://192.168.1.8:4000"
+			origin = "http://localhost:4000"
 		}
 
 		// CORS header'larını ayarla

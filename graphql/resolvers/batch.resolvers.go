@@ -17,6 +17,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
 	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
+	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
 	"github.com/polatbilal/ent-gqlgen/ent/user"
@@ -27,52 +28,30 @@ import (
 )
 
 // JobBatchMutation is the resolver for the jobBatchMutation field.
-func (r *mutationResolver) JobBatchMutation(ctx context.Context, input model.JobBatchInput) (*model.JobBatchResult, error) {
-	// Semaphore acquire - maksimum eşzamanlılığı sınırla (max 10 paralel batch işlem)
-	r.Resolver.batchSemaphore.Acquire()
-	defer r.Resolver.batchSemaphore.Release()
-
-	// Context timeout ekle - batch işlem için 2 dakika
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Minute)
-	defer cancel()
-
-	maxRetries := 3
-	var lastErr error
-
-	for attempt := 0; attempt < maxRetries; attempt++ {
-		if attempt > 0 {
-			fmt.Printf("Yeniden deneme %d/%d\n", attempt+1, maxRetries)
-		}
-
-		// Context iptal edildi mi kontrol et
-		select {
-		case <-ctx.Done():
-			return nil, fmt.Errorf("batch işlem zaman aşımına uğradı: %w", ctx.Err())
-		default:
-		}
-
-		result, err := r.ExecuteBatchMutation(ctx, input)
-		if err != nil {
-			lastErr = err
-
-			// Eğer kayıt skip edildiyse (kritik alan eksik), başarılı say
-			if strings.HasPrefix(err.Error(), "skipped:") {
-				fmt.Printf("📋 Kayıt atlandı (YibfNo: %d): %s\n", input.YibfNo, err.Error())
-				tools.LogBatchError(input.YibfNo, "SKIPPED", err.Error())
-				return &model.JobBatchResult{}, nil // Boş result döndür, hata yok
-			}
-
-			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-				tools.LogBatchError(input.YibfNo, "DUPLICATE_KEY", err.Error())
-				continue
-			}
-			tools.LogBatchError(input.YibfNo, "ERROR", err.Error())
-			return nil, err
-		}
-		return result, nil
+func (r *mutationResolver) JobBatchMutation(ctx context.Context, inputs []*model.JobBatchInput) (*model.JobBulkResult, error) {
+	result := &model.JobBulkResult{
+		Successful: make([]*model.JobBatchResult, 0),
+		Failed:     make([]*model.JobBulkError, 0),
 	}
 
-	return nil, fmt.Errorf("maksimum deneme sayısına ulaşıldı, son hata: %w", lastErr)
+	for _, input := range inputs {
+		if input == nil {
+			continue
+		}
+
+		res, err := r.ExecuteBatchMutation(ctx, *input)
+		if err != nil {
+			result.Failed = append(result.Failed, &model.JobBulkError{
+				YibfNo: input.YibfNo,
+				Error:  err.Error(),
+			})
+		} else if res != nil && res.Job != nil {
+			// Sadece geçerli sonuçları başarılı listesine ekle (atlanmış kayıtlar vs. hariç)
+			result.Successful = append(result.Successful, res)
+		}
+	}
+
+	return result, nil
 }
 
 // ExecuteBatchMutation is the resolver for the executeBatchMutation field.
@@ -351,11 +330,37 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 		jobInput.YibfNo = &input.YibfNo
 		job, err = r.CreateJob(txCtx, jobInput)
 		if err != nil {
-			fmt.Printf("İş oluşturma hatası: %v\n", err)
-			_ = tx.Rollback()
-			return nil, fmt.Errorf("iş oluşturulurken hata: %w", err)
+			// "iş zaten mevcut" hatası: JobDetail var ama JobRelations yok (yarım kalmış kayıt)
+			if strings.Contains(err.Error(), "iş zaten mevcut") {
+				fmt.Printf("⚠️  JobDetail zaten mevcut ama JobRelations yok, kurtarma moduna geçiliyor (YibfNo: %d)\n", input.YibfNo)
+
+				// Mevcut JobDetail'i çek ve güncelle
+				existingJob, queryErr := tx.JobDetail.Query().
+					Where(jobdetail.YibfNoEQ(input.YibfNo)).
+					Only(txCtx)
+				if queryErr != nil {
+					fmt.Printf("Mevcut iş çekilemedi: %v\n", queryErr)
+					_ = tx.Rollback()
+					return nil, fmt.Errorf("mevcut iş çekilirken hata: %w", queryErr)
+				}
+
+				// UpdateJob ile güncelle
+				job, err = r.UpdateJob(txCtx, input.YibfNo, jobInput)
+				if err != nil {
+					fmt.Printf("Mevcut iş güncellenemedi: %v\n", err)
+					// Güncelleme başarısız olsa da devam et, mevcut kaydı kullan
+					job = existingJob
+				} else {
+					fmt.Printf("Mevcut iş başarıyla güncellendi: %+v\n", job)
+				}
+			} else {
+				fmt.Printf("İş oluşturma hatası: %v\n", err)
+				_ = tx.Rollback()
+				return nil, fmt.Errorf("iş oluşturulurken hata: %w", err)
+			}
+		} else {
+			fmt.Printf("İş başarıyla oluşturuldu: %+v\n", job)
 		}
-		fmt.Printf("İş başarıyla oluşturuldu: %+v\n", job)
 
 		// CompanyCode ile şirketi bul
 		company, err := tx.CompanyDetail.Query().
@@ -381,7 +386,7 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			return nil, fmt.Errorf("bu şirket için iş oluşturma yetkiniz yok")
 		}
 
-		// İlişkileri oluştur
+		// JobRelations oluştur (kurtarma modunda da buraya gelinir)
 		relations, err = tx.JobRelations.Create().
 			SetYibfNo(input.YibfNo).
 			SetJob(job).
@@ -452,20 +457,40 @@ func (r *mutationResolver) ExecuteBatchMutation(ctx context.Context, input model
 			}
 		}
 
-		p, err := tx.JobProgress.Create().
-			SetYibfNo(input.YibfNo).
-			SetOne(int(one)).
-			SetTwo(int(two)).
-			SetThree(int(three)).
-			SetFour(int(four)).
-			SetFive(int(five)).
-			SetSix(int(six)).
-			Save(txCtx)
+		// Progress: mevcut progress varsa güncelle, yoksa oluştur
+		existingProgress, progressQueryErr := tx.JobProgress.Query().
+			Where(jobprogress.YibfNoEQ(input.YibfNo)).
+			First(txCtx)
+
+		var p *ent.JobProgress
+		if progressQueryErr == nil && existingProgress != nil {
+			// Zaten varsa güncelle
+			fmt.Printf("Progress zaten mevcut, güncelleniyor (YibfNo: %d)\n", input.YibfNo)
+			p, err = existingProgress.Update().
+				SetOne(int(one)).
+				SetTwo(int(two)).
+				SetThree(int(three)).
+				SetFour(int(four)).
+				SetFive(int(five)).
+				SetSix(int(six)).
+				Save(txCtx)
+		} else {
+			// Yoksa yeni oluştur
+			p, err = tx.JobProgress.Create().
+				SetYibfNo(input.YibfNo).
+				SetOne(int(one)).
+				SetTwo(int(two)).
+				SetThree(int(three)).
+				SetFour(int(four)).
+				SetFive(int(five)).
+				SetSix(int(six)).
+				Save(txCtx)
+		}
 
 		if err != nil {
-			fmt.Printf("Progress oluşturma hatası: %v\n", err)
+			fmt.Printf("Progress işlemi hatası: %v\n", err)
 			_ = tx.Rollback()
-			return nil, fmt.Errorf("progress oluşturulamadı: %w", err)
+			return nil, fmt.Errorf("progress oluşturulamadı/güncellenemedi: %w", err)
 		}
 
 		// Progress'i JobRelations ile ilişkilendir

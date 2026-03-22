@@ -34,6 +34,11 @@ func (r *companyEngineerResolver) CompanyCode(ctx context.Context, obj *ent.Comp
 	return &company.CompanyCode, nil
 }
 
+// Job is the resolver for the Job field.
+func (r *companyEngineerResolver) Job(ctx context.Context, obj *ent.CompanyEngineer) ([]*ent.JobDetail, error) {
+	panic(fmt.Errorf("not implemented: Job - Job"))
+}
+
 // UpsertEngineer is the resolver for the upsertEngineer field.
 func (r *mutationResolver) UpsertEngineer(ctx context.Context, input model.CompanyEngineerInput) (*ent.CompanyEngineer, error) {
 	client := middlewares.GetClientFromContext(ctx)

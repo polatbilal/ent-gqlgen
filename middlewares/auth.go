@@ -72,6 +72,11 @@ func CtxValue(ctx context.Context) *services.JwtCustomClaim {
 }
 
 func GetClientFromContext(ctx context.Context) *ent.Client {
+	// Önce context'te tx client var mı kontrol et (batch mutation gibi transaction'lar için)
+	if txClient := ent.FromContext(ctx); txClient != nil {
+		return txClient
+	}
+	// Yoksa global DB client'ını döndür
 	client, err := database.GetClient()
 	if err != nil {
 		return nil

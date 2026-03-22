@@ -131,6 +131,16 @@ type JobBatchResult struct {
 	Company    *ent.CompanyDetail `json:"company,omitempty"`
 }
 
+type JobBulkError struct {
+	YibfNo int    `json:"yibfNo"`
+	Error  string `json:"error"`
+}
+
+type JobBulkResult struct {
+	Successful []*JobBatchResult `json:"successful"`
+	Failed     []*JobBulkError   `json:"failed"`
+}
+
 type JobContractorInput struct {
 	ID          *string `json:"id,omitempty"`
 	YibfNo      *int    `json:"YibfNo,omitempty"`

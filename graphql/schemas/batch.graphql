@@ -14,6 +14,16 @@ type CompanyBatchResult {
   companyToken: CompanyToken
 }
 
+type JobBulkError {
+  yibfNo: Int!
+  error: String!
+}
+
+type JobBulkResult {
+  successful: [JobBatchResult!]!
+  failed: [JobBulkError!]!
+}
+
 input JobBatchInput {
   YibfNo: Int!
   jobInput: JobInput
@@ -38,7 +48,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  jobBatchMutation(input: JobBatchInput!): JobBatchResult!
+  jobBatchMutation(inputs: [JobBatchInput!]!): JobBulkResult!
     @goField(forceResolver: true)
     @auth
 
