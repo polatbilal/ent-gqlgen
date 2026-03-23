@@ -125,9 +125,9 @@ func MigrateExistingAccounts(ctx context.Context, client *ent.Client) (string, e
 	skipped = 0 // Zaten ilişkisi olanlar sorguya dahil edilmedi
 
 	result := fmt.Sprintf("Migration tamamlandı: %d oluşturuldu, %d atlandı, %d başarısız\n"+
-		"Detay: %d JobOwner, %d CompanyEngineer, %d CompanyPersonnel işlendi",
+		"Detay: %d JobOwner, %d CompanyEngineer, %d CompanyPersonnel, %d FinanceAccount işlendi",
 		created, skipped, failed,
-		len(owners), len(engineers), len(personnels))
+		len(owners), len(engineers), len(personnels), len(accounts))
 
 	log.Printf("📊 %s", result)
 	return result, nil
