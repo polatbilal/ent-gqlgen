@@ -8,6 +8,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companypersonnel"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
 )
@@ -36,6 +37,8 @@ func CreateFinanceRelation(ctx context.Context, client *ent.Client, accountType 
 		create.SetCompanyEngineerID(accountID)
 	case "company_personnel":
 		create.SetCompanyPersonnelID(accountID)
+	case "finance_account":
+		create.SetFinanceAccountID(accountID)
 	default:
 		return fmt.Errorf("bilinmeyen account tipi: %s", accountType)
 	}
@@ -97,6 +100,22 @@ func MigrateExistingAccounts(ctx context.Context, client *ent.Client) (string, e
 	for _, pers := range personnels {
 		if err := CreateFinanceRelation(ctx, client, "company_personnel", pers.ID, "Personel"); err != nil {
 			log.Printf("⚠️ CompanyPersonnel (ID: %d) için FinanceRelations oluşturulamadı: %v", pers.ID, err)
+			failed++
+		} else {
+			created++
+		}
+	}
+
+	// 4. FinanceRelations'ı olmayan FinanceAccount'ları bul
+	accounts, err := client.FinanceAccount.Query().
+		Where(financeaccount.Not(financeaccount.HasFinanceRelations())).
+		All(ctx)
+	if err != nil {
+		return "", fmt.Errorf("finans hesapları sorgulanırken hata: %v", err)
+	}
+	for _, acc := range accounts {
+		if err := CreateFinanceRelation(ctx, client, "finance_account", acc.ID, "Cari Hesap"); err != nil {
+			log.Printf("⚠️ FinanceAccount (ID: %d) için FinanceRelations oluşturulamadı: %v", acc.ID, err)
 			failed++
 		} else {
 			created++
