@@ -94,7 +94,8 @@ func (r *mutationResolver) Login(ctx context.Context, username string, password 
 	// Token'ı veritabanına kaydet
 	err = client.User.UpdateOneID(user.ID).
 		SetRefreshToken(token).
-		SetRefreshTokenExpireAt(time.Now().Add(24 * time.Hour)).
+		SetRefreshTokenExpireAt(time.Now().Add(9 * time.Hour)).
+		SetLastLogin(time.Now()).
 		Exec(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("token kaydedilemedi: %v", err)
