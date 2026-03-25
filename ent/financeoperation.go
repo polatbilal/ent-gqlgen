@@ -40,7 +40,6 @@ type FinanceOperation struct {
 	// The values are being populated by the FinanceOperationQuery when eager-loading is set.
 	Edges        FinanceOperationEdges `json:"edges"`
 	company_id   *int
-	account_id   *int
 	class_id     *int
 	group_id     *int
 	relations_id *int
@@ -135,15 +134,13 @@ func (*FinanceOperation) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullTime)
 		case financeoperation.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[1]: // account_id
+		case financeoperation.ForeignKeys[1]: // class_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[2]: // class_id
+		case financeoperation.ForeignKeys[2]: // group_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[3]: // group_id
+		case financeoperation.ForeignKeys[3]: // relations_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[4]: // relations_id
-			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[5]: // resource_id
+		case financeoperation.ForeignKeys[4]: // resource_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -217,33 +214,26 @@ func (_m *FinanceOperation) assignValues(columns []string, values []any) error {
 			}
 		case financeoperation.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field account_id", value)
-			} else if value.Valid {
-				_m.account_id = new(int)
-				*_m.account_id = int(value.Int64)
-			}
-		case financeoperation.ForeignKeys[2]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field class_id", value)
 			} else if value.Valid {
 				_m.class_id = new(int)
 				*_m.class_id = int(value.Int64)
 			}
-		case financeoperation.ForeignKeys[3]:
+		case financeoperation.ForeignKeys[2]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field group_id", value)
 			} else if value.Valid {
 				_m.group_id = new(int)
 				*_m.group_id = int(value.Int64)
 			}
-		case financeoperation.ForeignKeys[4]:
+		case financeoperation.ForeignKeys[3]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
 			} else if value.Valid {
 				_m.relations_id = new(int)
 				*_m.relations_id = int(value.Int64)
 			}
-		case financeoperation.ForeignKeys[5]:
+		case financeoperation.ForeignKeys[4]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field resource_id", value)
 			} else if value.Valid {

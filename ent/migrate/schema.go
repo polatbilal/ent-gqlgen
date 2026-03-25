@@ -253,7 +253,6 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
-		{Name: "account_id", Type: field.TypeInt, Nullable: true},
 		{Name: "class_id", Type: field.TypeInt, Nullable: true},
 		{Name: "group_id", Type: field.TypeInt, Nullable: true},
 		{Name: "relations_id", Type: field.TypeInt, Nullable: true},
@@ -272,32 +271,26 @@ var (
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "finance_operations_finance_accounts_accounts",
-				Columns:    []*schema.Column{FinanceOperationsColumns[9]},
-				RefColumns: []*schema.Column{FinanceAccountsColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
 				Symbol:     "finance_operations_finance_classes_methods",
-				Columns:    []*schema.Column{FinanceOperationsColumns[10]},
+				Columns:    []*schema.Column{FinanceOperationsColumns[9]},
 				RefColumns: []*schema.Column{FinanceClassesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "finance_operations_finance_groups_groups",
-				Columns:    []*schema.Column{FinanceOperationsColumns[11]},
+				Columns:    []*schema.Column{FinanceOperationsColumns[10]},
 				RefColumns: []*schema.Column{FinanceGroupsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "finance_operations_finance_relations_operations",
-				Columns:    []*schema.Column{FinanceOperationsColumns[12]},
+				Columns:    []*schema.Column{FinanceOperationsColumns[11]},
 				RefColumns: []*schema.Column{FinanceRelationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "finance_operations_finance_resources_resources",
-				Columns:    []*schema.Column{FinanceOperationsColumns[13]},
+				Columns:    []*schema.Column{FinanceOperationsColumns[12]},
 				RefColumns: []*schema.Column{FinanceResourcesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -798,11 +791,10 @@ func init() {
 	FinanceAccountsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	FinanceClassesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	FinanceOperationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
-	FinanceOperationsTable.ForeignKeys[1].RefTable = FinanceAccountsTable
-	FinanceOperationsTable.ForeignKeys[2].RefTable = FinanceClassesTable
-	FinanceOperationsTable.ForeignKeys[3].RefTable = FinanceGroupsTable
-	FinanceOperationsTable.ForeignKeys[4].RefTable = FinanceRelationsTable
-	FinanceOperationsTable.ForeignKeys[5].RefTable = FinanceResourcesTable
+	FinanceOperationsTable.ForeignKeys[1].RefTable = FinanceClassesTable
+	FinanceOperationsTable.ForeignKeys[2].RefTable = FinanceGroupsTable
+	FinanceOperationsTable.ForeignKeys[3].RefTable = FinanceRelationsTable
+	FinanceOperationsTable.ForeignKeys[4].RefTable = FinanceResourcesTable
 	FinanceRelationsTable.ForeignKeys[0].RefTable = CompanyEngineersTable
 	FinanceRelationsTable.ForeignKeys[1].RefTable = CompanyPersonnelsTable
 	FinanceRelationsTable.ForeignKeys[2].RefTable = FinanceAccountsTable

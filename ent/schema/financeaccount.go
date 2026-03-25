@@ -34,7 +34,6 @@ func (FinanceAccount) Fields() []ent.Field {
 func (FinanceAccount) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("company", CompanyDetail.Type).Ref("accounts").Unique(),
-		edge.To("accounts", FinanceOperation.Type).StorageKey(edge.Column("account_id")),
 		edge.To("finance_relations", FinanceRelations.Type).StorageKey(edge.Column("finance_account_id")),
 	}
 }

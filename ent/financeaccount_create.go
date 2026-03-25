@@ -12,7 +12,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
-	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 )
 
@@ -182,21 +181,6 @@ func (_c *FinanceAccountCreate) SetCompany(v *CompanyDetail) *FinanceAccountCrea
 	return _c.SetCompanyID(v.ID)
 }
 
-// AddAccountIDs adds the "accounts" edge to the FinanceOperation entity by IDs.
-func (_c *FinanceAccountCreate) AddAccountIDs(ids ...int) *FinanceAccountCreate {
-	_c.mutation.AddAccountIDs(ids...)
-	return _c
-}
-
-// AddAccounts adds the "accounts" edges to the FinanceOperation entity.
-func (_c *FinanceAccountCreate) AddAccounts(v ...*FinanceOperation) *FinanceAccountCreate {
-	ids := make([]int, len(v))
-	for i := range v {
-		ids[i] = v[i].ID
-	}
-	return _c.AddAccountIDs(ids...)
-}
-
 // AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by IDs.
 func (_c *FinanceAccountCreate) AddFinanceRelationIDs(ids ...int) *FinanceAccountCreate {
 	_c.mutation.AddFinanceRelationIDs(ids...)
@@ -353,22 +337,6 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.company_id = &nodes[0]
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := _c.mutation.AccountsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   financeaccount.AccountsTable,
-			Columns: []string{financeaccount.AccountsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := _c.mutation.FinanceRelationsIDs(); len(nodes) > 0 {

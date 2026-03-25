@@ -49,17 +49,14 @@ type FinanceAccount struct {
 type FinanceAccountEdges struct {
 	// Company holds the value of the company edge.
 	Company *CompanyDetail `json:"company,omitempty"`
-	// Accounts holds the value of the accounts edge.
-	Accounts []*FinanceOperation `json:"accounts,omitempty"`
 	// FinanceRelations holds the value of the finance_relations edge.
 	FinanceRelations []*FinanceRelations `json:"finance_relations,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [3]bool
+	loadedTypes [2]bool
 	// totalCount holds the count of the edges above.
-	totalCount [3]map[string]int
+	totalCount [2]map[string]int
 
-	namedAccounts         map[string][]*FinanceOperation
 	namedFinanceRelations map[string][]*FinanceRelations
 }
 
@@ -74,19 +71,10 @@ func (e FinanceAccountEdges) CompanyOrErr() (*CompanyDetail, error) {
 	return nil, &NotLoadedError{edge: "company"}
 }
 
-// AccountsOrErr returns the Accounts value or an error if the edge
-// was not loaded in eager-loading.
-func (e FinanceAccountEdges) AccountsOrErr() ([]*FinanceOperation, error) {
-	if e.loadedTypes[1] {
-		return e.Accounts, nil
-	}
-	return nil, &NotLoadedError{edge: "accounts"}
-}
-
 // FinanceRelationsOrErr returns the FinanceRelations value or an error if the edge
 // was not loaded in eager-loading.
 func (e FinanceAccountEdges) FinanceRelationsOrErr() ([]*FinanceRelations, error) {
-	if e.loadedTypes[2] {
+	if e.loadedTypes[1] {
 		return e.FinanceRelations, nil
 	}
 	return nil, &NotLoadedError{edge: "finance_relations"}
@@ -211,11 +199,6 @@ func (_m *FinanceAccount) QueryCompany() *CompanyDetailQuery {
 	return NewFinanceAccountClient(_m.config).QueryCompany(_m)
 }
 
-// QueryAccounts queries the "accounts" edge of the FinanceAccount entity.
-func (_m *FinanceAccount) QueryAccounts() *FinanceOperationQuery {
-	return NewFinanceAccountClient(_m.config).QueryAccounts(_m)
-}
-
 // QueryFinanceRelations queries the "finance_relations" edge of the FinanceAccount entity.
 func (_m *FinanceAccount) QueryFinanceRelations() *FinanceRelationsQuery {
 	return NewFinanceAccountClient(_m.config).QueryFinanceRelations(_m)
@@ -275,30 +258,6 @@ func (_m *FinanceAccount) String() string {
 	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedAccounts returns the Accounts named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (_m *FinanceAccount) NamedAccounts(name string) ([]*FinanceOperation, error) {
-	if _m.Edges.namedAccounts == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := _m.Edges.namedAccounts[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (_m *FinanceAccount) appendNamedAccounts(name string, edges ...*FinanceOperation) {
-	if _m.Edges.namedAccounts == nil {
-		_m.Edges.namedAccounts = make(map[string][]*FinanceOperation)
-	}
-	if len(edges) == 0 {
-		_m.Edges.namedAccounts[name] = []*FinanceOperation{}
-	} else {
-		_m.Edges.namedAccounts[name] = append(_m.Edges.namedAccounts[name], edges...)
-	}
 }
 
 // NamedFinanceRelations returns the FinanceRelations named value or an error if the edge was not

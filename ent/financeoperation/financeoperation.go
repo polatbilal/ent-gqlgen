@@ -93,7 +93,6 @@ var Columns = []string{
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",
-	"account_id",
 	"class_id",
 	"group_id",
 	"relations_id",

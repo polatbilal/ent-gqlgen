@@ -284,18 +284,6 @@ func (_m *FinanceAccount) Company(ctx context.Context) (*CompanyDetail, error) {
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceAccount) Accounts(ctx context.Context) (result []*FinanceOperation, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedAccounts(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.AccountsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryAccounts().All(ctx)
-	}
-	return result, err
-}
-
 func (_m *FinanceAccount) FinanceRelations(ctx context.Context) (result []*FinanceRelations, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
 		result, err = _m.NamedFinanceRelations(graphql.GetFieldContext(ctx).Field.Alias)

@@ -7722,9 +7722,6 @@ type FinanceAccountMutation struct {
 	clearedFields            map[string]struct{}
 	company                  *int
 	clearedcompany           bool
-	accounts                 map[int]struct{}
-	removedaccounts          map[int]struct{}
-	clearedaccounts          bool
 	finance_relations        map[int]struct{}
 	removedfinance_relations map[int]struct{}
 	clearedfinance_relations bool
@@ -8321,60 +8318,6 @@ func (m *FinanceAccountMutation) ResetCompany() {
 	m.clearedcompany = false
 }
 
-// AddAccountIDs adds the "accounts" edge to the FinanceOperation entity by ids.
-func (m *FinanceAccountMutation) AddAccountIDs(ids ...int) {
-	if m.accounts == nil {
-		m.accounts = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.accounts[ids[i]] = struct{}{}
-	}
-}
-
-// ClearAccounts clears the "accounts" edge to the FinanceOperation entity.
-func (m *FinanceAccountMutation) ClearAccounts() {
-	m.clearedaccounts = true
-}
-
-// AccountsCleared reports if the "accounts" edge to the FinanceOperation entity was cleared.
-func (m *FinanceAccountMutation) AccountsCleared() bool {
-	return m.clearedaccounts
-}
-
-// RemoveAccountIDs removes the "accounts" edge to the FinanceOperation entity by IDs.
-func (m *FinanceAccountMutation) RemoveAccountIDs(ids ...int) {
-	if m.removedaccounts == nil {
-		m.removedaccounts = make(map[int]struct{})
-	}
-	for i := range ids {
-		delete(m.accounts, ids[i])
-		m.removedaccounts[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedAccounts returns the removed IDs of the "accounts" edge to the FinanceOperation entity.
-func (m *FinanceAccountMutation) RemovedAccountsIDs() (ids []int) {
-	for id := range m.removedaccounts {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// AccountsIDs returns the "accounts" edge IDs in the mutation.
-func (m *FinanceAccountMutation) AccountsIDs() (ids []int) {
-	for id := range m.accounts {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetAccounts resets all changes to the "accounts" edge.
-func (m *FinanceAccountMutation) ResetAccounts() {
-	m.accounts = nil
-	m.clearedaccounts = false
-	m.removedaccounts = nil
-}
-
 // AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by ids.
 func (m *FinanceAccountMutation) AddFinanceRelationIDs(ids ...int) {
 	if m.finance_relations == nil {
@@ -8760,12 +8703,9 @@ func (m *FinanceAccountMutation) ResetField(name string) error {
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *FinanceAccountMutation) AddedEdges() []string {
-	edges := make([]string, 0, 3)
+	edges := make([]string, 0, 2)
 	if m.company != nil {
 		edges = append(edges, financeaccount.EdgeCompany)
-	}
-	if m.accounts != nil {
-		edges = append(edges, financeaccount.EdgeAccounts)
 	}
 	if m.finance_relations != nil {
 		edges = append(edges, financeaccount.EdgeFinanceRelations)
@@ -8781,12 +8721,6 @@ func (m *FinanceAccountMutation) AddedIDs(name string) []ent.Value {
 		if id := m.company; id != nil {
 			return []ent.Value{*id}
 		}
-	case financeaccount.EdgeAccounts:
-		ids := make([]ent.Value, 0, len(m.accounts))
-		for id := range m.accounts {
-			ids = append(ids, id)
-		}
-		return ids
 	case financeaccount.EdgeFinanceRelations:
 		ids := make([]ent.Value, 0, len(m.finance_relations))
 		for id := range m.finance_relations {
@@ -8799,10 +8733,7 @@ func (m *FinanceAccountMutation) AddedIDs(name string) []ent.Value {
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *FinanceAccountMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 3)
-	if m.removedaccounts != nil {
-		edges = append(edges, financeaccount.EdgeAccounts)
-	}
+	edges := make([]string, 0, 2)
 	if m.removedfinance_relations != nil {
 		edges = append(edges, financeaccount.EdgeFinanceRelations)
 	}
@@ -8813,12 +8744,6 @@ func (m *FinanceAccountMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *FinanceAccountMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case financeaccount.EdgeAccounts:
-		ids := make([]ent.Value, 0, len(m.removedaccounts))
-		for id := range m.removedaccounts {
-			ids = append(ids, id)
-		}
-		return ids
 	case financeaccount.EdgeFinanceRelations:
 		ids := make([]ent.Value, 0, len(m.removedfinance_relations))
 		for id := range m.removedfinance_relations {
@@ -8831,12 +8756,9 @@ func (m *FinanceAccountMutation) RemovedIDs(name string) []ent.Value {
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *FinanceAccountMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 3)
+	edges := make([]string, 0, 2)
 	if m.clearedcompany {
 		edges = append(edges, financeaccount.EdgeCompany)
-	}
-	if m.clearedaccounts {
-		edges = append(edges, financeaccount.EdgeAccounts)
 	}
 	if m.clearedfinance_relations {
 		edges = append(edges, financeaccount.EdgeFinanceRelations)
@@ -8850,8 +8772,6 @@ func (m *FinanceAccountMutation) EdgeCleared(name string) bool {
 	switch name {
 	case financeaccount.EdgeCompany:
 		return m.clearedcompany
-	case financeaccount.EdgeAccounts:
-		return m.clearedaccounts
 	case financeaccount.EdgeFinanceRelations:
 		return m.clearedfinance_relations
 	}
@@ -8875,9 +8795,6 @@ func (m *FinanceAccountMutation) ResetEdge(name string) error {
 	switch name {
 	case financeaccount.EdgeCompany:
 		m.ResetCompany()
-		return nil
-	case financeaccount.EdgeAccounts:
-		m.ResetAccounts()
 		return nil
 	case financeaccount.EdgeFinanceRelations:
 		m.ResetFinanceRelations()

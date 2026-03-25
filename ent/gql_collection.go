@@ -957,19 +957,6 @@ func (_q *FinanceAccountQuery) collectField(ctx context.Context, oneNode bool, o
 			}
 			_q.withCompany = query
 
-		case "accounts":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceOperationClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financeoperationImplementors)...); err != nil {
-				return err
-			}
-			_q.WithNamedAccounts(alias, func(wq *FinanceOperationQuery) {
-				*wq = *query
-			})
-
 		case "financeRelations":
 			var (
 				alias = field.Alias

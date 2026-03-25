@@ -36,8 +36,6 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// EdgeCompany holds the string denoting the company edge name in mutations.
 	EdgeCompany = "company"
-	// EdgeAccounts holds the string denoting the accounts edge name in mutations.
-	EdgeAccounts = "accounts"
 	// EdgeFinanceRelations holds the string denoting the finance_relations edge name in mutations.
 	EdgeFinanceRelations = "finance_relations"
 	// Table holds the table name of the financeaccount in the database.
@@ -49,13 +47,6 @@ const (
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
-	// AccountsTable is the table that holds the accounts relation/edge.
-	AccountsTable = "finance_operations"
-	// AccountsInverseTable is the table name for the FinanceOperation entity.
-	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	AccountsInverseTable = "finance_operations"
-	// AccountsColumn is the table column denoting the accounts relation/edge.
-	AccountsColumn = "account_id"
 	// FinanceRelationsTable is the table that holds the finance_relations relation/edge.
 	FinanceRelationsTable = "finance_relations"
 	// FinanceRelationsInverseTable is the table name for the FinanceRelations entity.
@@ -177,20 +168,6 @@ func ByCompanyField(field string, opts ...sql.OrderTermOption) OrderOption {
 	}
 }
 
-// ByAccountsCount orders the results by accounts count.
-func ByAccountsCount(opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newAccountsStep(), opts...)
-	}
-}
-
-// ByAccounts orders the results by accounts terms.
-func ByAccounts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newAccountsStep(), append([]sql.OrderTerm{term}, terms...)...)
-	}
-}
-
 // ByFinanceRelationsCount orders the results by finance_relations count.
 func ByFinanceRelationsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
@@ -209,13 +186,6 @@ func newCompanyStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(CompanyInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
-	)
-}
-func newAccountsStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(AccountsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, AccountsTable, AccountsColumn),
 	)
 }
 func newFinanceRelationsStep() *sqlgraph.Step {

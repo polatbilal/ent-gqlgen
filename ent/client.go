@@ -1556,22 +1556,6 @@ func (c *FinanceAccountClient) QueryCompany(_m *FinanceAccount) *CompanyDetailQu
 	return query
 }
 
-// QueryAccounts queries the accounts edge of a FinanceAccount.
-func (c *FinanceAccountClient) QueryAccounts(_m *FinanceAccount) *FinanceOperationQuery {
-	query := (&FinanceOperationClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := _m.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(financeaccount.Table, financeaccount.FieldID, id),
-			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, financeaccount.AccountsTable, financeaccount.AccountsColumn),
-		)
-		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
 // QueryFinanceRelations queries the finance_relations edge of a FinanceAccount.
 func (c *FinanceAccountClient) QueryFinanceRelations(_m *FinanceAccount) *FinanceRelationsQuery {
 	query := (&FinanceRelationsClient{config: c.config}).Query()
