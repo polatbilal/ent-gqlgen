@@ -12,9 +12,16 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
+	"github.com/polatbilal/ent-gqlgen/graphql/generated"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
+	"github.com/shopspring/decimal"
 )
+
+// InvoiceIssuedAmount is the resolver for the InvoiceIssuedAmount field.
+func (r *jobPaymentsResolver) InvoiceIssuedAmount(ctx context.Context, obj *ent.JobPayments) (*decimal.NullDecimal, error) {
+	panic(fmt.Errorf("not implemented: InvoiceIssuedAmount - InvoiceIssuedAmount"))
+}
 
 // UpsertPayments is the resolver for the upsertPayments field.
 func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input model.JobPaymentsInput) (*ent.JobPayments, error) {
@@ -84,6 +91,18 @@ func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input mo
 		SetAmount(input.Amount).
 		SetPayments(relations) // İlişkiyi direkt oluşturma sırasında ekle
 
+		// Eğer hakediş tutarı 0 ise (amount == 0.00) varsayılan değerleri set et
+	if input.Amount != nil && input.Amount.Valid && input.Amount.Decimal.IsZero() {
+		createQuery.
+			SetAtMunicipality(true).
+			SetMunicipalityDeliveryDate(*input.PaymentDate).
+			SetInvoiceIssued(true).
+			SetInvoiceIssuedDate(*input.PaymentDate).
+			SetInvoiceReceived(true).
+			SetInvoiceReceivedDate(*input.PaymentDate).
+			SetInvoiceReceivedAmount(input.Amount)
+	}
+
 	payment, err := createQuery.Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("ödeme oluşturulamadı: %v", err)
@@ -137,7 +156,6 @@ func (r *mutationResolver) UpdatePaymentStatus(ctx context.Context, id int, inpu
 		SetNillableMunicipalityDeliveryDate(input.MunicipalityDeliveryDate).
 		SetNillableInvoiceIssued(input.InvoiceIssued).
 		SetNillableInvoiceIssuedDate(input.InvoiceIssuedDate).
-		SetInvoiceIssuedAmount(input.InvoiceIssuedAmount).
 		SetNillableInvoiceReceived(input.InvoiceReceived).
 		SetNillableInvoiceReceivedDate(input.InvoiceReceivedDate).
 		SetInvoiceReceivedAmount(input.InvoiceReceivedAmount)
@@ -186,3 +204,8 @@ func (r *queryResolver) JobPayments(ctx context.Context, id *int, yibfNo *int) (
 
 	return nil, fmt.Errorf("beklenmeyen durum")
 }
+
+// JobPayments returns generated.JobPaymentsResolver implementation.
+func (r *Resolver) JobPayments() generated.JobPaymentsResolver { return &jobPaymentsResolver{r} }
+
+type jobPaymentsResolver struct{ *Resolver }
