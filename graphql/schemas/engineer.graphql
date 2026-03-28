@@ -39,6 +39,7 @@ input CompanyEngineerInput {
 input EngineerFilterInput {
   id: ID
   YDSID: Int
+  CompanyCode: Int
 }
 
 extend type Query {

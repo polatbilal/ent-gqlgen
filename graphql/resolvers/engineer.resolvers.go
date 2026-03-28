@@ -300,6 +300,9 @@ func (r *queryResolver) Engineer(ctx context.Context, filter *model.EngineerFilt
 		if filter.Ydsid != nil {
 			query = query.Where(companyengineer.YDSIDEQ(int(*filter.Ydsid)))
 		}
+		if filter.CompanyCode != nil {
+			query = query.Where(companyengineer.HasCompanyWith(companydetail.CompanyCodeEQ(int(*filter.CompanyCode))))
+		}
 	}
 
 	// Sorguyu çalıştır ve sonuçları al
