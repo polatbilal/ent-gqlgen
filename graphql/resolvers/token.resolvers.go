@@ -63,11 +63,6 @@ func (r *companyTokenResolver) YDKPassword(ctx context.Context, obj *ent.Company
 func (r *mutationResolver) UpsertToken(ctx context.Context, departmentID int, input model.CompanyTokenInput) (*ent.CompanyToken, error) {
 	client := middlewares.GetClientFromContext(ctx)
 
-	// Yetkili kullanıcıyı kontrol et
-	if userRole := middlewares.CtxValue(ctx); userRole == nil || userRole.Role != "Admin" {
-		return nil, fmt.Errorf("yetkiniz yok")
-	}
-
 	// Önce token'ı kontrol et
 	existingToken, err := client.CompanyToken.Query().Where(companytoken.DepartmentIdEQ(departmentID)).Only(ctx)
 	if err != nil {
