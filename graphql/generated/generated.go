@@ -322,7 +322,6 @@ type ComplexityRoot struct {
 		AtMunicipality           func(childComplexity int) int
 		ID                       func(childComplexity int) int
 		InvoiceIssued            func(childComplexity int) int
-		InvoiceIssuedAmount      func(childComplexity int) int
 		InvoiceIssuedDate        func(childComplexity int) int
 		InvoiceReceived          func(childComplexity int) int
 		InvoiceReceivedAmount    func(childComplexity int) int
@@ -1802,12 +1801,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.JobPayments.InvoiceIssued(childComplexity), true
-	case "JobPayments.InvoiceIssuedAmount":
-		if e.complexity.JobPayments.InvoiceIssuedAmount == nil {
-			break
-		}
-
-		return e.complexity.JobPayments.InvoiceIssuedAmount(childComplexity), true
 	case "JobPayments.InvoiceIssuedDate":
 		if e.complexity.JobPayments.InvoiceIssuedDate == nil {
 			break
@@ -3451,7 +3444,6 @@ extend type Mutation {
   MunicipalityDeliveryDate: Time
   InvoiceIssued: Boolean
   InvoiceIssuedDate: Time
-  InvoiceIssuedAmount: Decimal
   InvoiceReceived: Boolean
   InvoiceReceivedDate: Time
   InvoiceReceivedAmount: Decimal
@@ -3474,7 +3466,6 @@ input JobPaymentStatusInput {
   MunicipalityDeliveryDate: Time
   InvoiceIssued: Boolean
   InvoiceIssuedDate: Time
-  InvoiceIssuedAmount: Decimal
   InvoiceReceived: Boolean
   InvoiceReceivedDate: Time
   InvoiceReceivedAmount: Decimal
@@ -11848,35 +11839,6 @@ func (ec *executionContext) fieldContext_JobPayments_InvoiceIssuedDate(_ context
 	return fc, nil
 }
 
-func (ec *executionContext) _JobPayments_InvoiceIssuedAmount(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		ec.fieldContext_JobPayments_InvoiceIssuedAmount,
-		func(ctx context.Context) (any, error) {
-			return obj.InvoiceIssuedAmount, nil
-		},
-		nil,
-		ec.marshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal,
-		true,
-		false,
-	)
-}
-
-func (ec *executionContext) fieldContext_JobPayments_InvoiceIssuedAmount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "JobPayments",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Decimal does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _JobPayments_InvoiceReceived(ctx context.Context, field graphql.CollectedField, obj *ent.JobPayments) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
@@ -14625,8 +14587,6 @@ func (ec *executionContext) fieldContext_Mutation_upsertPayments(ctx context.Con
 				return ec.fieldContext_JobPayments_InvoiceIssued(ctx, field)
 			case "InvoiceIssuedDate":
 				return ec.fieldContext_JobPayments_InvoiceIssuedDate(ctx, field)
-			case "InvoiceIssuedAmount":
-				return ec.fieldContext_JobPayments_InvoiceIssuedAmount(ctx, field)
 			case "InvoiceReceived":
 				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
 			case "InvoiceReceivedDate":
@@ -14717,8 +14677,6 @@ func (ec *executionContext) fieldContext_Mutation_createJobPayments(ctx context.
 				return ec.fieldContext_JobPayments_InvoiceIssued(ctx, field)
 			case "InvoiceIssuedDate":
 				return ec.fieldContext_JobPayments_InvoiceIssuedDate(ctx, field)
-			case "InvoiceIssuedAmount":
-				return ec.fieldContext_JobPayments_InvoiceIssuedAmount(ctx, field)
 			case "InvoiceReceived":
 				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
 			case "InvoiceReceivedDate":
@@ -14809,8 +14767,6 @@ func (ec *executionContext) fieldContext_Mutation_updatePaymentStatus(ctx contex
 				return ec.fieldContext_JobPayments_InvoiceIssued(ctx, field)
 			case "InvoiceIssuedDate":
 				return ec.fieldContext_JobPayments_InvoiceIssuedDate(ctx, field)
-			case "InvoiceIssuedAmount":
-				return ec.fieldContext_JobPayments_InvoiceIssuedAmount(ctx, field)
 			case "InvoiceReceived":
 				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
 			case "InvoiceReceivedDate":
@@ -16984,8 +16940,6 @@ func (ec *executionContext) fieldContext_Query_jobPayments(ctx context.Context, 
 				return ec.fieldContext_JobPayments_InvoiceIssued(ctx, field)
 			case "InvoiceIssuedDate":
 				return ec.fieldContext_JobPayments_InvoiceIssuedDate(ctx, field)
-			case "InvoiceIssuedAmount":
-				return ec.fieldContext_JobPayments_InvoiceIssuedAmount(ctx, field)
 			case "InvoiceReceived":
 				return ec.fieldContext_JobPayments_InvoiceReceived(ctx, field)
 			case "InvoiceReceivedDate":
@@ -20646,7 +20600,7 @@ func (ec *executionContext) unmarshalInputJobPaymentStatusInput(ctx context.Cont
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"AtMunicipality", "MunicipalityDeliveryDate", "InvoiceIssued", "InvoiceIssuedDate", "InvoiceIssuedAmount", "InvoiceReceived", "InvoiceReceivedDate", "InvoiceReceivedAmount"}
+	fieldsInOrder := [...]string{"AtMunicipality", "MunicipalityDeliveryDate", "InvoiceIssued", "InvoiceIssuedDate", "InvoiceReceived", "InvoiceReceivedDate", "InvoiceReceivedAmount"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -20681,13 +20635,6 @@ func (ec *executionContext) unmarshalInputJobPaymentStatusInput(ctx context.Cont
 				return it, err
 			}
 			it.InvoiceIssuedDate = data
-		case "InvoiceIssuedAmount":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("InvoiceIssuedAmount"))
-			data, err := ec.unmarshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.InvoiceIssuedAmount = data
 		case "InvoiceReceived":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("InvoiceReceived"))
 			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
@@ -23051,8 +22998,6 @@ func (ec *executionContext) _JobPayments(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._JobPayments_InvoiceIssued(ctx, field, obj)
 		case "InvoiceIssuedDate":
 			out.Values[i] = ec._JobPayments_InvoiceIssuedDate(ctx, field, obj)
-		case "InvoiceIssuedAmount":
-			out.Values[i] = ec._JobPayments_InvoiceIssuedAmount(ctx, field, obj)
 		case "InvoiceReceived":
 			out.Values[i] = ec._JobPayments_InvoiceReceived(ctx, field, obj)
 		case "InvoiceReceivedDate":

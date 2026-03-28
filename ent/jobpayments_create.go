@@ -22,13 +22,13 @@ type JobPaymentsCreate struct {
 	hooks    []Hook
 }
 
-// SetYibfNo sets the "yibfNo" field.
+// SetYibfNo sets the "YibfNo" field.
 func (_c *JobPaymentsCreate) SetYibfNo(v int) *JobPaymentsCreate {
 	_c.mutation.SetYibfNo(v)
 	return _c
 }
 
-// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+// SetNillableYibfNo sets the "YibfNo" field if the given value is not nil.
 func (_c *JobPaymentsCreate) SetNillableYibfNo(v *int) *JobPaymentsCreate {
 	if v != nil {
 		_c.SetYibfNo(*v)
@@ -179,12 +179,6 @@ func (_c *JobPaymentsCreate) SetNillableInvoiceIssuedDate(v *time.Time) *JobPaym
 	if v != nil {
 		_c.SetInvoiceIssuedDate(*v)
 	}
-	return _c
-}
-
-// SetInvoiceIssuedAmount sets the "InvoiceIssuedAmount" field.
-func (_c *JobPaymentsCreate) SetInvoiceIssuedAmount(v *decimal.NullDecimal) *JobPaymentsCreate {
-	_c.mutation.SetInvoiceIssuedAmount(v)
 	return _c
 }
 
@@ -341,7 +335,7 @@ func (_c *JobPaymentsCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (_c *JobPaymentsCreate) check() error {
 	if _, ok := _c.mutation.YibfNo(); !ok {
-		return &ValidationError{Name: "yibfNo", err: errors.New(`ent: missing required field "JobPayments.yibfNo"`)}
+		return &ValidationError{Name: "YibfNo", err: errors.New(`ent: missing required field "JobPayments.YibfNo"`)}
 	}
 	if _, ok := _c.mutation.PaymentDate(); !ok {
 		return &ValidationError{Name: "PaymentDate", err: errors.New(`ent: missing required field "JobPayments.PaymentDate"`)}
@@ -425,10 +419,6 @@ func (_c *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.InvoiceIssuedDate(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime, value)
 		_node.InvoiceIssuedDate = value
-	}
-	if value, ok := _c.mutation.InvoiceIssuedAmount(); ok {
-		_spec.SetField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther, value)
-		_node.InvoiceIssuedAmount = value
 	}
 	if value, ok := _c.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)

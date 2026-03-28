@@ -38,8 +38,6 @@ const (
 	FieldInvoiceIssued = "invoice_issued"
 	// FieldInvoiceIssuedDate holds the string denoting the invoiceissueddate field in the database.
 	FieldInvoiceIssuedDate = "invoice_issued_date"
-	// FieldInvoiceIssuedAmount holds the string denoting the invoiceissuedamount field in the database.
-	FieldInvoiceIssuedAmount = "invoice_issued_amount"
 	// FieldInvoiceReceived holds the string denoting the invoicereceived field in the database.
 	FieldInvoiceReceived = "invoice_received"
 	// FieldInvoiceReceivedDate holds the string denoting the invoicereceiveddate field in the database.
@@ -78,7 +76,6 @@ var Columns = []string{
 	FieldMunicipalityDeliveryDate,
 	FieldInvoiceIssued,
 	FieldInvoiceIssuedDate,
-	FieldInvoiceIssuedAmount,
 	FieldInvoiceReceived,
 	FieldInvoiceReceivedDate,
 	FieldInvoiceReceivedAmount,
@@ -108,7 +105,7 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultYibfNo holds the default value on creation for the "yibfNo" field.
+	// DefaultYibfNo holds the default value on creation for the "YibfNo" field.
 	DefaultYibfNo int
 	// DefaultPaymentNo holds the default value on creation for the "PaymentNo" field.
 	DefaultPaymentNo int
@@ -136,7 +133,7 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByYibfNo orders the results by the yibfNo field.
+// ByYibfNo orders the results by the YibfNo field.
 func ByYibfNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldYibfNo, opts...).ToFunc()
 }
@@ -194,11 +191,6 @@ func ByInvoiceIssued(opts ...sql.OrderTermOption) OrderOption {
 // ByInvoiceIssuedDate orders the results by the InvoiceIssuedDate field.
 func ByInvoiceIssuedDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldInvoiceIssuedDate, opts...).ToFunc()
-}
-
-// ByInvoiceIssuedAmount orders the results by the InvoiceIssuedAmount field.
-func ByInvoiceIssuedAmount(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldInvoiceIssuedAmount, opts...).ToFunc()
 }
 
 // ByInvoiceReceived orders the results by the InvoiceReceived field.

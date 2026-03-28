@@ -30,14 +30,14 @@ func (_u *JobPaymentsUpdate) Where(ps ...predicate.JobPayments) *JobPaymentsUpda
 	return _u
 }
 
-// SetYibfNo sets the "yibfNo" field.
+// SetYibfNo sets the "YibfNo" field.
 func (_u *JobPaymentsUpdate) SetYibfNo(v int) *JobPaymentsUpdate {
 	_u.mutation.ResetYibfNo()
 	_u.mutation.SetYibfNo(v)
 	return _u
 }
 
-// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+// SetNillableYibfNo sets the "YibfNo" field if the given value is not nil.
 func (_u *JobPaymentsUpdate) SetNillableYibfNo(v *int) *JobPaymentsUpdate {
 	if v != nil {
 		_u.SetYibfNo(*v)
@@ -45,7 +45,7 @@ func (_u *JobPaymentsUpdate) SetNillableYibfNo(v *int) *JobPaymentsUpdate {
 	return _u
 }
 
-// AddYibfNo adds value to the "yibfNo" field.
+// AddYibfNo adds value to the "YibfNo" field.
 func (_u *JobPaymentsUpdate) AddYibfNo(v int) *JobPaymentsUpdate {
 	_u.mutation.AddYibfNo(v)
 	return _u
@@ -278,18 +278,6 @@ func (_u *JobPaymentsUpdate) ClearInvoiceIssuedDate() *JobPaymentsUpdate {
 	return _u
 }
 
-// SetInvoiceIssuedAmount sets the "InvoiceIssuedAmount" field.
-func (_u *JobPaymentsUpdate) SetInvoiceIssuedAmount(v *decimal.NullDecimal) *JobPaymentsUpdate {
-	_u.mutation.SetInvoiceIssuedAmount(v)
-	return _u
-}
-
-// ClearInvoiceIssuedAmount clears the value of the "InvoiceIssuedAmount" field.
-func (_u *JobPaymentsUpdate) ClearInvoiceIssuedAmount() *JobPaymentsUpdate {
-	_u.mutation.ClearInvoiceIssuedAmount()
-	return _u
-}
-
 // SetInvoiceReceived sets the "InvoiceReceived" field.
 func (_u *JobPaymentsUpdate) SetInvoiceReceived(v bool) *JobPaymentsUpdate {
 	_u.mutation.SetInvoiceReceived(v)
@@ -515,12 +503,6 @@ func (_u *JobPaymentsUpdate) sqlSave(ctx context.Context) (_node int, err error)
 	if _u.mutation.InvoiceIssuedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime)
 	}
-	if value, ok := _u.mutation.InvoiceIssuedAmount(); ok {
-		_spec.SetField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther, value)
-	}
-	if _u.mutation.InvoiceIssuedAmountCleared() {
-		_spec.ClearField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther)
-	}
 	if value, ok := _u.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)
 	}
@@ -594,14 +576,14 @@ type JobPaymentsUpdateOne struct {
 	mutation *JobPaymentsMutation
 }
 
-// SetYibfNo sets the "yibfNo" field.
+// SetYibfNo sets the "YibfNo" field.
 func (_u *JobPaymentsUpdateOne) SetYibfNo(v int) *JobPaymentsUpdateOne {
 	_u.mutation.ResetYibfNo()
 	_u.mutation.SetYibfNo(v)
 	return _u
 }
 
-// SetNillableYibfNo sets the "yibfNo" field if the given value is not nil.
+// SetNillableYibfNo sets the "YibfNo" field if the given value is not nil.
 func (_u *JobPaymentsUpdateOne) SetNillableYibfNo(v *int) *JobPaymentsUpdateOne {
 	if v != nil {
 		_u.SetYibfNo(*v)
@@ -609,7 +591,7 @@ func (_u *JobPaymentsUpdateOne) SetNillableYibfNo(v *int) *JobPaymentsUpdateOne 
 	return _u
 }
 
-// AddYibfNo adds value to the "yibfNo" field.
+// AddYibfNo adds value to the "YibfNo" field.
 func (_u *JobPaymentsUpdateOne) AddYibfNo(v int) *JobPaymentsUpdateOne {
 	_u.mutation.AddYibfNo(v)
 	return _u
@@ -839,18 +821,6 @@ func (_u *JobPaymentsUpdateOne) SetNillableInvoiceIssuedDate(v *time.Time) *JobP
 // ClearInvoiceIssuedDate clears the value of the "InvoiceIssuedDate" field.
 func (_u *JobPaymentsUpdateOne) ClearInvoiceIssuedDate() *JobPaymentsUpdateOne {
 	_u.mutation.ClearInvoiceIssuedDate()
-	return _u
-}
-
-// SetInvoiceIssuedAmount sets the "InvoiceIssuedAmount" field.
-func (_u *JobPaymentsUpdateOne) SetInvoiceIssuedAmount(v *decimal.NullDecimal) *JobPaymentsUpdateOne {
-	_u.mutation.SetInvoiceIssuedAmount(v)
-	return _u
-}
-
-// ClearInvoiceIssuedAmount clears the value of the "InvoiceIssuedAmount" field.
-func (_u *JobPaymentsUpdateOne) ClearInvoiceIssuedAmount() *JobPaymentsUpdateOne {
-	_u.mutation.ClearInvoiceIssuedAmount()
 	return _u
 }
 
@@ -1108,12 +1078,6 @@ func (_u *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPayments
 	}
 	if _u.mutation.InvoiceIssuedDateCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceIssuedDate, field.TypeTime)
-	}
-	if value, ok := _u.mutation.InvoiceIssuedAmount(); ok {
-		_spec.SetField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther, value)
-	}
-	if _u.mutation.InvoiceIssuedAmountCleared() {
-		_spec.ClearField(jobpayments.FieldInvoiceIssuedAmount, field.TypeOther)
 	}
 	if value, ok := _u.mutation.InvoiceReceived(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceived, field.TypeBool, value)

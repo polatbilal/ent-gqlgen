@@ -12,16 +12,9 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
-	"github.com/polatbilal/ent-gqlgen/graphql/generated"
 	"github.com/polatbilal/ent-gqlgen/graphql/model"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
-	"github.com/shopspring/decimal"
 )
-
-// InvoiceIssuedAmount is the resolver for the InvoiceIssuedAmount field.
-func (r *jobPaymentsResolver) InvoiceIssuedAmount(ctx context.Context, obj *ent.JobPayments) (*decimal.NullDecimal, error) {
-	panic(fmt.Errorf("not implemented: InvoiceIssuedAmount - InvoiceIssuedAmount"))
-}
 
 // UpsertPayments is the resolver for the upsertPayments field.
 func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input model.JobPaymentsInput) (*ent.JobPayments, error) {
@@ -204,8 +197,3 @@ func (r *queryResolver) JobPayments(ctx context.Context, id *int, yibfNo *int) (
 
 	return nil, fmt.Errorf("beklenmeyen durum")
 }
-
-// JobPayments returns generated.JobPaymentsResolver implementation.
-func (r *Resolver) JobPayments() generated.JobPaymentsResolver { return &jobPaymentsResolver{r} }
-
-type jobPaymentsResolver struct{ *Resolver }

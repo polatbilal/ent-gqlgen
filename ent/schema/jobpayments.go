@@ -18,7 +18,7 @@ type JobPayments struct {
 // Fields of the JobProgress.
 func (JobPayments) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("yibfNo").Default(0),
+		field.Int("YibfNo").Default(0),
 		field.Int("PaymentNo").Optional().Default(0),
 		field.Time("PaymentDate").Default(time.Now),
 		field.String("PaymentType").Optional(),
@@ -35,12 +35,6 @@ func (JobPayments) Fields() []ent.Field {
 		field.Time("MunicipalityDeliveryDate").Optional(),
 		field.Bool("InvoiceIssued").Optional().Default(false),
 		field.Time("InvoiceIssuedDate").Optional(),
-		field.
-			Other("InvoiceIssuedAmount", &decimal.NullDecimal{}).
-			Optional().
-			SchemaType(map[string]string{
-				dialect.Postgres: "numeric(12,2)",
-			}),
 		field.Bool("InvoiceReceived").Optional().Default(false),
 		field.Time("InvoiceReceivedDate").Optional(),
 		field.

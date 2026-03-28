@@ -12,7 +12,6 @@ type JobPayments {
   MunicipalityDeliveryDate: Time
   InvoiceIssued: Boolean
   InvoiceIssuedDate: Time
-  InvoiceIssuedAmount: Decimal
   InvoiceReceived: Boolean
   InvoiceReceivedDate: Time
   InvoiceReceivedAmount: Decimal
@@ -35,7 +34,6 @@ input JobPaymentStatusInput {
   MunicipalityDeliveryDate: Time
   InvoiceIssued: Boolean
   InvoiceIssuedDate: Time
-  InvoiceIssuedAmount: Decimal
   InvoiceReceived: Boolean
   InvoiceReceivedDate: Time
   InvoiceReceivedAmount: Decimal

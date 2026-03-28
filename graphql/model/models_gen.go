@@ -258,7 +258,6 @@ type JobPaymentStatusInput struct {
 	MunicipalityDeliveryDate *time.Time           `json:"MunicipalityDeliveryDate,omitempty"`
 	InvoiceIssued            *bool                `json:"InvoiceIssued,omitempty"`
 	InvoiceIssuedDate        *time.Time           `json:"InvoiceIssuedDate,omitempty"`
-	InvoiceIssuedAmount      *decimal.NullDecimal `json:"InvoiceIssuedAmount,omitempty"`
 	InvoiceReceived          *bool                `json:"InvoiceReceived,omitempty"`
 	InvoiceReceivedDate      *time.Time           `json:"InvoiceReceivedDate,omitempty"`
 	InvoiceReceivedAmount    *decimal.NullDecimal `json:"InvoiceReceivedAmount,omitempty"`

@@ -301,7 +301,7 @@ func (_q *JobPaymentsQuery) WithPayments(opts ...func(*JobRelationsQuery)) *JobP
 // Example:
 //
 //	var v []struct {
-//		YibfNo int `json:"yibfNo,omitempty"`
+//		YibfNo int `json:"YibfNo,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -324,7 +324,7 @@ func (_q *JobPaymentsQuery) GroupBy(field string, fields ...string) *JobPayments
 // Example:
 //
 //	var v []struct {
-//		YibfNo int `json:"yibfNo,omitempty"`
+//		YibfNo int `json:"YibfNo,omitempty"`
 //	}
 //
 //	client.JobPayments.Query().

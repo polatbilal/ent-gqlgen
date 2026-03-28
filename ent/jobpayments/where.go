@@ -56,7 +56,7 @@ func IDLTE(id int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldLTE(FieldID, id))
 }
 
-// YibfNo applies equality check predicate on the "yibfNo" field. It's identical to YibfNoEQ.
+// YibfNo applies equality check predicate on the "YibfNo" field. It's identical to YibfNoEQ.
 func YibfNo(v int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldYibfNo, v))
 }
@@ -116,11 +116,6 @@ func InvoiceIssuedDate(v time.Time) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceIssuedDate, v))
 }
 
-// InvoiceIssuedAmount applies equality check predicate on the "InvoiceIssuedAmount" field. It's identical to InvoiceIssuedAmountEQ.
-func InvoiceIssuedAmount(v *decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceIssuedAmount, v))
-}
-
 // InvoiceReceived applies equality check predicate on the "InvoiceReceived" field. It's identical to InvoiceReceivedEQ.
 func InvoiceReceived(v bool) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceReceived, v))
@@ -146,42 +141,42 @@ func UpdatedAt(v time.Time) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// YibfNoEQ applies the EQ predicate on the "yibfNo" field.
+// YibfNoEQ applies the EQ predicate on the "YibfNo" field.
 func YibfNoEQ(v int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldYibfNo, v))
 }
 
-// YibfNoNEQ applies the NEQ predicate on the "yibfNo" field.
+// YibfNoNEQ applies the NEQ predicate on the "YibfNo" field.
 func YibfNoNEQ(v int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNEQ(FieldYibfNo, v))
 }
 
-// YibfNoIn applies the In predicate on the "yibfNo" field.
+// YibfNoIn applies the In predicate on the "YibfNo" field.
 func YibfNoIn(vs ...int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldIn(FieldYibfNo, vs...))
 }
 
-// YibfNoNotIn applies the NotIn predicate on the "yibfNo" field.
+// YibfNoNotIn applies the NotIn predicate on the "YibfNo" field.
 func YibfNoNotIn(vs ...int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNotIn(FieldYibfNo, vs...))
 }
 
-// YibfNoGT applies the GT predicate on the "yibfNo" field.
+// YibfNoGT applies the GT predicate on the "YibfNo" field.
 func YibfNoGT(v int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldGT(FieldYibfNo, v))
 }
 
-// YibfNoGTE applies the GTE predicate on the "yibfNo" field.
+// YibfNoGTE applies the GTE predicate on the "YibfNo" field.
 func YibfNoGTE(v int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldGTE(FieldYibfNo, v))
 }
 
-// YibfNoLT applies the LT predicate on the "yibfNo" field.
+// YibfNoLT applies the LT predicate on the "YibfNo" field.
 func YibfNoLT(v int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldLT(FieldYibfNo, v))
 }
 
-// YibfNoLTE applies the LTE predicate on the "yibfNo" field.
+// YibfNoLTE applies the LTE predicate on the "YibfNo" field.
 func YibfNoLTE(v int) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldLTE(FieldYibfNo, v))
 }
@@ -714,56 +709,6 @@ func InvoiceIssuedDateIsNil() predicate.JobPayments {
 // InvoiceIssuedDateNotNil applies the NotNil predicate on the "InvoiceIssuedDate" field.
 func InvoiceIssuedDateNotNil() predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceIssuedDate))
-}
-
-// InvoiceIssuedAmountEQ applies the EQ predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountEQ(v *decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceIssuedAmount, v))
-}
-
-// InvoiceIssuedAmountNEQ applies the NEQ predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountNEQ(v *decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNEQ(FieldInvoiceIssuedAmount, v))
-}
-
-// InvoiceIssuedAmountIn applies the In predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountIn(vs ...*decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIn(FieldInvoiceIssuedAmount, vs...))
-}
-
-// InvoiceIssuedAmountNotIn applies the NotIn predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountNotIn(vs ...*decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotIn(FieldInvoiceIssuedAmount, vs...))
-}
-
-// InvoiceIssuedAmountGT applies the GT predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountGT(v *decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGT(FieldInvoiceIssuedAmount, v))
-}
-
-// InvoiceIssuedAmountGTE applies the GTE predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountGTE(v *decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldGTE(FieldInvoiceIssuedAmount, v))
-}
-
-// InvoiceIssuedAmountLT applies the LT predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountLT(v *decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLT(FieldInvoiceIssuedAmount, v))
-}
-
-// InvoiceIssuedAmountLTE applies the LTE predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountLTE(v *decimal.NullDecimal) predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldLTE(FieldInvoiceIssuedAmount, v))
-}
-
-// InvoiceIssuedAmountIsNil applies the IsNil predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountIsNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldIsNull(FieldInvoiceIssuedAmount))
-}
-
-// InvoiceIssuedAmountNotNil applies the NotNil predicate on the "InvoiceIssuedAmount" field.
-func InvoiceIssuedAmountNotNil() predicate.JobPayments {
-	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceIssuedAmount))
 }
 
 // InvoiceReceivedEQ applies the EQ predicate on the "InvoiceReceived" field.
