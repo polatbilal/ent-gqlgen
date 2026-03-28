@@ -92,7 +92,7 @@ func (r *mutationResolver) UpsertPayments(ctx context.Context, id *int, input mo
 		SetPayments(relations) // İlişkiyi direkt oluşturma sırasında ekle
 
 		// Eğer hakediş tutarı 0 ise (amount == 0.00) varsayılan değerleri set et
-	if input.Amount != nil && input.Amount.Valid && input.Amount.Decimal.IsZero() {
+	if input.Amount != nil && input.Amount.Valid && input.Amount.Decimal.IsZero() && (*input.State == "Hakediş Ödendi" || *input.State == "Hakediş Ödeme Bekliyor") {
 		createQuery.
 			SetAtMunicipality(true).
 			SetMunicipalityDeliveryDate(*input.PaymentDate).
