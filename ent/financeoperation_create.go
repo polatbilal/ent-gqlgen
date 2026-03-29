@@ -16,6 +16,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
+	"github.com/shopspring/decimal"
 )
 
 // FinanceOperationCreate is the builder for creating a FinanceOperation entity.
@@ -32,13 +33,13 @@ func (_c *FinanceOperationCreate) SetDate(v time.Time) *FinanceOperationCreate {
 }
 
 // SetDebit sets the "Debit" field.
-func (_c *FinanceOperationCreate) SetDebit(v string) *FinanceOperationCreate {
+func (_c *FinanceOperationCreate) SetDebit(v *decimal.NullDecimal) *FinanceOperationCreate {
 	_c.mutation.SetDebit(v)
 	return _c
 }
 
 // SetCredit sets the "Credit" field.
-func (_c *FinanceOperationCreate) SetCredit(v string) *FinanceOperationCreate {
+func (_c *FinanceOperationCreate) SetCredit(v *decimal.NullDecimal) *FinanceOperationCreate {
 	_c.mutation.SetCredit(v)
 	return _c
 }
@@ -241,12 +242,6 @@ func (_c *FinanceOperationCreate) check() error {
 	if _, ok := _c.mutation.Date(); !ok {
 		return &ValidationError{Name: "Date", err: errors.New(`ent: missing required field "FinanceOperation.Date"`)}
 	}
-	if _, ok := _c.mutation.Debit(); !ok {
-		return &ValidationError{Name: "Debit", err: errors.New(`ent: missing required field "FinanceOperation.Debit"`)}
-	}
-	if _, ok := _c.mutation.Credit(); !ok {
-		return &ValidationError{Name: "Credit", err: errors.New(`ent: missing required field "FinanceOperation.Credit"`)}
-	}
 	if _, ok := _c.mutation.Description(); !ok {
 		return &ValidationError{Name: "Description", err: errors.New(`ent: missing required field "FinanceOperation.Description"`)}
 	}
@@ -287,11 +282,11 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 		_node.Date = value
 	}
 	if value, ok := _c.mutation.Debit(); ok {
-		_spec.SetField(financeoperation.FieldDebit, field.TypeString, value)
+		_spec.SetField(financeoperation.FieldDebit, field.TypeOther, value)
 		_node.Debit = value
 	}
 	if value, ok := _c.mutation.Credit(); ok {
-		_spec.SetField(financeoperation.FieldCredit, field.TypeString, value)
+		_spec.SetField(financeoperation.FieldCredit, field.TypeOther, value)
 		_node.Credit = value
 	}
 	if value, ok := _c.mutation.Description(); ok {

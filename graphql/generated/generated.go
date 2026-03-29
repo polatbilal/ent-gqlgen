@@ -425,8 +425,6 @@ type CompanyTokenResolver interface {
 type FinanceOperationResolver interface {
 	Name(ctx context.Context, obj *ent.FinanceOperation) (*string, error)
 	OperationDate(ctx context.Context, obj *ent.FinanceOperation) (*time.Time, error)
-	Debit(ctx context.Context, obj *ent.FinanceOperation) (*decimal.NullDecimal, error)
-	Credit(ctx context.Context, obj *ent.FinanceOperation) (*decimal.NullDecimal, error)
 }
 type JobDetailResolver interface {
 	CompanyCode(ctx context.Context, obj *ent.JobDetail) (int, error)
@@ -6628,7 +6626,7 @@ func (ec *executionContext) _FinanceOperation_Debit(ctx context.Context, field g
 		field,
 		ec.fieldContext_FinanceOperation_Debit,
 		func(ctx context.Context) (any, error) {
-			return ec.Resolvers.FinanceOperation().Debit(ctx, obj)
+			return obj.Debit, nil
 		},
 		nil,
 		ec.marshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal,
@@ -6641,8 +6639,8 @@ func (ec *executionContext) fieldContext_FinanceOperation_Debit(_ context.Contex
 	fc = &graphql.FieldContext{
 		Object:     "FinanceOperation",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Decimal does not have child fields")
 		},
@@ -6657,7 +6655,7 @@ func (ec *executionContext) _FinanceOperation_Credit(ctx context.Context, field 
 		field,
 		ec.fieldContext_FinanceOperation_Credit,
 		func(ctx context.Context) (any, error) {
-			return ec.Resolvers.FinanceOperation().Credit(ctx, obj)
+			return obj.Credit, nil
 		},
 		nil,
 		ec.marshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal,
@@ -6670,8 +6668,8 @@ func (ec *executionContext) fieldContext_FinanceOperation_Credit(_ context.Conte
 	fc = &graphql.FieldContext{
 		Object:     "FinanceOperation",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Decimal does not have child fields")
 		},
@@ -20817,71 +20815,9 @@ func (ec *executionContext) _FinanceOperation(ctx context.Context, sel ast.Selec
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "Debit":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._FinanceOperation_Debit(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = ec._FinanceOperation_Debit(ctx, field, obj)
 		case "Credit":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._FinanceOperation_Credit(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = ec._FinanceOperation_Credit(ctx, field, obj)
 		case "Description":
 			out.Values[i] = ec._FinanceOperation_Description(ctx, field, obj)
 		case "Company":

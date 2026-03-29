@@ -15,6 +15,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
+	"github.com/shopspring/decimal"
 )
 
 // FinanceOperation is the model entity for the FinanceOperation schema.
@@ -25,9 +26,9 @@ type FinanceOperation struct {
 	// Date holds the value of the "Date" field.
 	Date time.Time `json:"Date,omitempty"`
 	// Debit holds the value of the "Debit" field.
-	Debit string `json:"Debit,omitempty"`
+	Debit *decimal.NullDecimal `json:"Debit,omitempty"`
 	// Credit holds the value of the "Credit" field.
-	Credit string `json:"Credit,omitempty"`
+	Credit *decimal.NullDecimal `json:"Credit,omitempty"`
 	// Description holds the value of the "Description" field.
 	Description string `json:"Description,omitempty"`
 	// CreatedAt holds the value of the "createdAt" field.
@@ -138,9 +139,11 @@ func (*FinanceOperation) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case financeoperation.FieldDebit, financeoperation.FieldCredit:
+			values[i] = new(decimal.NullDecimal)
 		case financeoperation.FieldID:
 			values[i] = new(sql.NullInt64)
-		case financeoperation.FieldDebit, financeoperation.FieldCredit, financeoperation.FieldDescription:
+		case financeoperation.FieldDescription:
 			values[i] = new(sql.NullString)
 		case financeoperation.FieldDate, financeoperation.FieldCreatedAt, financeoperation.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -184,16 +187,16 @@ func (_m *FinanceOperation) assignValues(columns []string, values []any) error {
 				_m.Date = value.Time
 			}
 		case financeoperation.FieldDebit:
-			if value, ok := values[i].(*sql.NullString); !ok {
+			if value, ok := values[i].(*decimal.NullDecimal); !ok {
 				return fmt.Errorf("unexpected type %T for field Debit", values[i])
-			} else if value.Valid {
-				_m.Debit = value.String
+			} else if value != nil {
+				_m.Debit = value
 			}
 		case financeoperation.FieldCredit:
-			if value, ok := values[i].(*sql.NullString); !ok {
+			if value, ok := values[i].(*decimal.NullDecimal); !ok {
 				return fmt.Errorf("unexpected type %T for field Credit", values[i])
-			} else if value.Valid {
-				_m.Credit = value.String
+			} else if value != nil {
+				_m.Credit = value
 			}
 		case financeoperation.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -325,10 +328,10 @@ func (_m *FinanceOperation) String() string {
 	builder.WriteString(_m.Date.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("Debit=")
-	builder.WriteString(_m.Debit)
+	builder.WriteString(fmt.Sprintf("%v", _m.Debit))
 	builder.WriteString(", ")
 	builder.WriteString("Credit=")
-	builder.WriteString(_m.Credit)
+	builder.WriteString(fmt.Sprintf("%v", _m.Credit))
 	builder.WriteString(", ")
 	builder.WriteString("Description=")
 	builder.WriteString(_m.Description)

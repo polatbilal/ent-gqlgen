@@ -12,7 +12,6 @@ import (
 
 	"github.com/polatbilal/ent-gqlgen/ent"
 	"github.com/polatbilal/ent-gqlgen/graphql/generated"
-	"github.com/shopspring/decimal"
 )
 
 // Name is the resolver for the Name field.
@@ -25,19 +24,24 @@ func (r *financeOperationResolver) OperationDate(ctx context.Context, obj *ent.F
 	panic(fmt.Errorf("not implemented: OperationDate - OperationDate"))
 }
 
-// Debit is the resolver for the Debit field.
-func (r *financeOperationResolver) Debit(ctx context.Context, obj *ent.FinanceOperation) (*decimal.NullDecimal, error) {
-	panic(fmt.Errorf("not implemented: Debit - Debit"))
-}
-
-// Credit is the resolver for the Credit field.
-func (r *financeOperationResolver) Credit(ctx context.Context, obj *ent.FinanceOperation) (*decimal.NullDecimal, error) {
-	panic(fmt.Errorf("not implemented: Credit - Credit"))
-}
-
 // FinanceOperation returns generated.FinanceOperationResolver implementation.
 func (r *Resolver) FinanceOperation() generated.FinanceOperationResolver {
 	return &financeOperationResolver{r}
 }
 
 type financeOperationResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//    it when you're done.
+//  - You have helper methods in this file. Move them out to keep these resolver files clean.
+/*
+	func (r *financeOperationResolver) Debit(ctx context.Context, obj *ent.FinanceOperation) (*decimal.NullDecimal, error) {
+	panic(fmt.Errorf("not implemented: Debit - Debit"))
+}
+func (r *financeOperationResolver) Credit(ctx context.Context, obj *ent.FinanceOperation) (*decimal.NullDecimal, error) {
+	panic(fmt.Errorf("not implemented: Credit - Credit"))
+}
+*/

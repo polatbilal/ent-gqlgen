@@ -18,6 +18,7 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+	"github.com/shopspring/decimal"
 )
 
 // FinanceOperationUpdate is the builder for updating FinanceOperation entities.
@@ -48,30 +49,26 @@ func (_u *FinanceOperationUpdate) SetNillableDate(v *time.Time) *FinanceOperatio
 }
 
 // SetDebit sets the "Debit" field.
-func (_u *FinanceOperationUpdate) SetDebit(v string) *FinanceOperationUpdate {
+func (_u *FinanceOperationUpdate) SetDebit(v *decimal.NullDecimal) *FinanceOperationUpdate {
 	_u.mutation.SetDebit(v)
 	return _u
 }
 
-// SetNillableDebit sets the "Debit" field if the given value is not nil.
-func (_u *FinanceOperationUpdate) SetNillableDebit(v *string) *FinanceOperationUpdate {
-	if v != nil {
-		_u.SetDebit(*v)
-	}
+// ClearDebit clears the value of the "Debit" field.
+func (_u *FinanceOperationUpdate) ClearDebit() *FinanceOperationUpdate {
+	_u.mutation.ClearDebit()
 	return _u
 }
 
 // SetCredit sets the "Credit" field.
-func (_u *FinanceOperationUpdate) SetCredit(v string) *FinanceOperationUpdate {
+func (_u *FinanceOperationUpdate) SetCredit(v *decimal.NullDecimal) *FinanceOperationUpdate {
 	_u.mutation.SetCredit(v)
 	return _u
 }
 
-// SetNillableCredit sets the "Credit" field if the given value is not nil.
-func (_u *FinanceOperationUpdate) SetNillableCredit(v *string) *FinanceOperationUpdate {
-	if v != nil {
-		_u.SetCredit(*v)
-	}
+// ClearCredit clears the value of the "Credit" field.
+func (_u *FinanceOperationUpdate) ClearCredit() *FinanceOperationUpdate {
+	_u.mutation.ClearCredit()
 	return _u
 }
 
@@ -313,10 +310,16 @@ func (_u *FinanceOperationUpdate) sqlSave(ctx context.Context) (_node int, err e
 		_spec.SetField(financeoperation.FieldDate, field.TypeTime, value)
 	}
 	if value, ok := _u.mutation.Debit(); ok {
-		_spec.SetField(financeoperation.FieldDebit, field.TypeString, value)
+		_spec.SetField(financeoperation.FieldDebit, field.TypeOther, value)
+	}
+	if _u.mutation.DebitCleared() {
+		_spec.ClearField(financeoperation.FieldDebit, field.TypeOther)
 	}
 	if value, ok := _u.mutation.Credit(); ok {
-		_spec.SetField(financeoperation.FieldCredit, field.TypeString, value)
+		_spec.SetField(financeoperation.FieldCredit, field.TypeOther, value)
+	}
+	if _u.mutation.CreditCleared() {
+		_spec.ClearField(financeoperation.FieldCredit, field.TypeOther)
 	}
 	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(financeoperation.FieldDescription, field.TypeString, value)
@@ -536,30 +539,26 @@ func (_u *FinanceOperationUpdateOne) SetNillableDate(v *time.Time) *FinanceOpera
 }
 
 // SetDebit sets the "Debit" field.
-func (_u *FinanceOperationUpdateOne) SetDebit(v string) *FinanceOperationUpdateOne {
+func (_u *FinanceOperationUpdateOne) SetDebit(v *decimal.NullDecimal) *FinanceOperationUpdateOne {
 	_u.mutation.SetDebit(v)
 	return _u
 }
 
-// SetNillableDebit sets the "Debit" field if the given value is not nil.
-func (_u *FinanceOperationUpdateOne) SetNillableDebit(v *string) *FinanceOperationUpdateOne {
-	if v != nil {
-		_u.SetDebit(*v)
-	}
+// ClearDebit clears the value of the "Debit" field.
+func (_u *FinanceOperationUpdateOne) ClearDebit() *FinanceOperationUpdateOne {
+	_u.mutation.ClearDebit()
 	return _u
 }
 
 // SetCredit sets the "Credit" field.
-func (_u *FinanceOperationUpdateOne) SetCredit(v string) *FinanceOperationUpdateOne {
+func (_u *FinanceOperationUpdateOne) SetCredit(v *decimal.NullDecimal) *FinanceOperationUpdateOne {
 	_u.mutation.SetCredit(v)
 	return _u
 }
 
-// SetNillableCredit sets the "Credit" field if the given value is not nil.
-func (_u *FinanceOperationUpdateOne) SetNillableCredit(v *string) *FinanceOperationUpdateOne {
-	if v != nil {
-		_u.SetCredit(*v)
-	}
+// ClearCredit clears the value of the "Credit" field.
+func (_u *FinanceOperationUpdateOne) ClearCredit() *FinanceOperationUpdateOne {
+	_u.mutation.ClearCredit()
 	return _u
 }
 
@@ -831,10 +830,16 @@ func (_u *FinanceOperationUpdateOne) sqlSave(ctx context.Context) (_node *Financ
 		_spec.SetField(financeoperation.FieldDate, field.TypeTime, value)
 	}
 	if value, ok := _u.mutation.Debit(); ok {
-		_spec.SetField(financeoperation.FieldDebit, field.TypeString, value)
+		_spec.SetField(financeoperation.FieldDebit, field.TypeOther, value)
+	}
+	if _u.mutation.DebitCleared() {
+		_spec.ClearField(financeoperation.FieldDebit, field.TypeOther)
 	}
 	if value, ok := _u.mutation.Credit(); ok {
-		_spec.SetField(financeoperation.FieldCredit, field.TypeString, value)
+		_spec.SetField(financeoperation.FieldCredit, field.TypeOther, value)
+	}
+	if _u.mutation.CreditCleared() {
+		_spec.ClearField(financeoperation.FieldCredit, field.TypeOther)
 	}
 	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(financeoperation.FieldDescription, field.TypeString, value)

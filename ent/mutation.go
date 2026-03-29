@@ -9430,8 +9430,8 @@ type FinanceOperationMutation struct {
 	typ              string
 	id               *int
 	_Date            *time.Time
-	_Debit           *string
-	_Credit          *string
+	_Debit           **decimal.NullDecimal
+	_Credit          **decimal.NullDecimal
 	_Description     *string
 	createdAt        *time.Time
 	updatedAt        *time.Time
@@ -9588,12 +9588,12 @@ func (m *FinanceOperationMutation) ResetDate() {
 }
 
 // SetDebit sets the "Debit" field.
-func (m *FinanceOperationMutation) SetDebit(s string) {
-	m._Debit = &s
+func (m *FinanceOperationMutation) SetDebit(dd *decimal.NullDecimal) {
+	m._Debit = &dd
 }
 
 // Debit returns the value of the "Debit" field in the mutation.
-func (m *FinanceOperationMutation) Debit() (r string, exists bool) {
+func (m *FinanceOperationMutation) Debit() (r *decimal.NullDecimal, exists bool) {
 	v := m._Debit
 	if v == nil {
 		return
@@ -9604,7 +9604,7 @@ func (m *FinanceOperationMutation) Debit() (r string, exists bool) {
 // OldDebit returns the old "Debit" field's value of the FinanceOperation entity.
 // If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinanceOperationMutation) OldDebit(ctx context.Context) (v string, err error) {
+func (m *FinanceOperationMutation) OldDebit(ctx context.Context) (v *decimal.NullDecimal, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDebit is only allowed on UpdateOne operations")
 	}
@@ -9618,18 +9618,31 @@ func (m *FinanceOperationMutation) OldDebit(ctx context.Context) (v string, err 
 	return oldValue.Debit, nil
 }
 
+// ClearDebit clears the value of the "Debit" field.
+func (m *FinanceOperationMutation) ClearDebit() {
+	m._Debit = nil
+	m.clearedFields[financeoperation.FieldDebit] = struct{}{}
+}
+
+// DebitCleared returns if the "Debit" field was cleared in this mutation.
+func (m *FinanceOperationMutation) DebitCleared() bool {
+	_, ok := m.clearedFields[financeoperation.FieldDebit]
+	return ok
+}
+
 // ResetDebit resets all changes to the "Debit" field.
 func (m *FinanceOperationMutation) ResetDebit() {
 	m._Debit = nil
+	delete(m.clearedFields, financeoperation.FieldDebit)
 }
 
 // SetCredit sets the "Credit" field.
-func (m *FinanceOperationMutation) SetCredit(s string) {
-	m._Credit = &s
+func (m *FinanceOperationMutation) SetCredit(dd *decimal.NullDecimal) {
+	m._Credit = &dd
 }
 
 // Credit returns the value of the "Credit" field in the mutation.
-func (m *FinanceOperationMutation) Credit() (r string, exists bool) {
+func (m *FinanceOperationMutation) Credit() (r *decimal.NullDecimal, exists bool) {
 	v := m._Credit
 	if v == nil {
 		return
@@ -9640,7 +9653,7 @@ func (m *FinanceOperationMutation) Credit() (r string, exists bool) {
 // OldCredit returns the old "Credit" field's value of the FinanceOperation entity.
 // If the FinanceOperation object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinanceOperationMutation) OldCredit(ctx context.Context) (v string, err error) {
+func (m *FinanceOperationMutation) OldCredit(ctx context.Context) (v *decimal.NullDecimal, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCredit is only allowed on UpdateOne operations")
 	}
@@ -9654,9 +9667,22 @@ func (m *FinanceOperationMutation) OldCredit(ctx context.Context) (v string, err
 	return oldValue.Credit, nil
 }
 
+// ClearCredit clears the value of the "Credit" field.
+func (m *FinanceOperationMutation) ClearCredit() {
+	m._Credit = nil
+	m.clearedFields[financeoperation.FieldCredit] = struct{}{}
+}
+
+// CreditCleared returns if the "Credit" field was cleared in this mutation.
+func (m *FinanceOperationMutation) CreditCleared() bool {
+	_, ok := m.clearedFields[financeoperation.FieldCredit]
+	return ok
+}
+
 // ResetCredit resets all changes to the "Credit" field.
 func (m *FinanceOperationMutation) ResetCredit() {
 	m._Credit = nil
+	delete(m.clearedFields, financeoperation.FieldCredit)
 }
 
 // SetDescription sets the "Description" field.
@@ -10112,14 +10138,14 @@ func (m *FinanceOperationMutation) SetField(name string, value ent.Value) error 
 		m.SetDate(v)
 		return nil
 	case financeoperation.FieldDebit:
-		v, ok := value.(string)
+		v, ok := value.(*decimal.NullDecimal)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDebit(v)
 		return nil
 	case financeoperation.FieldCredit:
-		v, ok := value.(string)
+		v, ok := value.(*decimal.NullDecimal)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -10175,7 +10201,14 @@ func (m *FinanceOperationMutation) AddField(name string, value ent.Value) error 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *FinanceOperationMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(financeoperation.FieldDebit) {
+		fields = append(fields, financeoperation.FieldDebit)
+	}
+	if m.FieldCleared(financeoperation.FieldCredit) {
+		fields = append(fields, financeoperation.FieldCredit)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -10188,6 +10221,14 @@ func (m *FinanceOperationMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *FinanceOperationMutation) ClearField(name string) error {
+	switch name {
+	case financeoperation.FieldDebit:
+		m.ClearDebit()
+		return nil
+	case financeoperation.FieldCredit:
+		m.ClearCredit()
+		return nil
+	}
 	return fmt.Errorf("unknown FinanceOperation nullable field %s", name)
 }
 

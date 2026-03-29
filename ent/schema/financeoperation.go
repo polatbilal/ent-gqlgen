@@ -4,8 +4,10 @@ import (
 	"time"
 
 	"entgo.io/ent"
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"github.com/shopspring/decimal"
 )
 
 // FinanceOperation holds the schema definition for the FinanceOperation entity.
@@ -17,8 +19,18 @@ type FinanceOperation struct {
 func (FinanceOperation) Fields() []ent.Field {
 	return []ent.Field{
 		field.Time("Date"),
-		field.String("Debit"),
-		field.String("Credit"),
+		field.
+			Other("Debit", &decimal.NullDecimal{}).
+			Optional().
+			SchemaType(map[string]string{
+				dialect.Postgres: "numeric(12,2)",
+			}),
+		field.
+			Other("Credit", &decimal.NullDecimal{}).
+			Optional().
+			SchemaType(map[string]string{
+				dialect.Postgres: "numeric(12,2)",
+			}),
 		field.String("Description"),
 
 		field.Time("createdAt").Default(time.Now),

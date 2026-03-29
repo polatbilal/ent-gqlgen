@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+	"github.com/shopspring/decimal"
 )
 
 // ID filters vertices based on their ID field.
@@ -61,12 +62,12 @@ func Date(v time.Time) predicate.FinanceOperation {
 }
 
 // Debit applies equality check predicate on the "Debit" field. It's identical to DebitEQ.
-func Debit(v string) predicate.FinanceOperation {
+func Debit(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldEQ(FieldDebit, v))
 }
 
 // Credit applies equality check predicate on the "Credit" field. It's identical to CreditEQ.
-func Credit(v string) predicate.FinanceOperation {
+func Credit(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldEQ(FieldCredit, v))
 }
 
@@ -126,133 +127,103 @@ func DateLTE(v time.Time) predicate.FinanceOperation {
 }
 
 // DebitEQ applies the EQ predicate on the "Debit" field.
-func DebitEQ(v string) predicate.FinanceOperation {
+func DebitEQ(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldEQ(FieldDebit, v))
 }
 
 // DebitNEQ applies the NEQ predicate on the "Debit" field.
-func DebitNEQ(v string) predicate.FinanceOperation {
+func DebitNEQ(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldNEQ(FieldDebit, v))
 }
 
 // DebitIn applies the In predicate on the "Debit" field.
-func DebitIn(vs ...string) predicate.FinanceOperation {
+func DebitIn(vs ...*decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldIn(FieldDebit, vs...))
 }
 
 // DebitNotIn applies the NotIn predicate on the "Debit" field.
-func DebitNotIn(vs ...string) predicate.FinanceOperation {
+func DebitNotIn(vs ...*decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldNotIn(FieldDebit, vs...))
 }
 
 // DebitGT applies the GT predicate on the "Debit" field.
-func DebitGT(v string) predicate.FinanceOperation {
+func DebitGT(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldGT(FieldDebit, v))
 }
 
 // DebitGTE applies the GTE predicate on the "Debit" field.
-func DebitGTE(v string) predicate.FinanceOperation {
+func DebitGTE(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldGTE(FieldDebit, v))
 }
 
 // DebitLT applies the LT predicate on the "Debit" field.
-func DebitLT(v string) predicate.FinanceOperation {
+func DebitLT(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldLT(FieldDebit, v))
 }
 
 // DebitLTE applies the LTE predicate on the "Debit" field.
-func DebitLTE(v string) predicate.FinanceOperation {
+func DebitLTE(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldLTE(FieldDebit, v))
 }
 
-// DebitContains applies the Contains predicate on the "Debit" field.
-func DebitContains(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldContains(FieldDebit, v))
+// DebitIsNil applies the IsNil predicate on the "Debit" field.
+func DebitIsNil() predicate.FinanceOperation {
+	return predicate.FinanceOperation(sql.FieldIsNull(FieldDebit))
 }
 
-// DebitHasPrefix applies the HasPrefix predicate on the "Debit" field.
-func DebitHasPrefix(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldHasPrefix(FieldDebit, v))
-}
-
-// DebitHasSuffix applies the HasSuffix predicate on the "Debit" field.
-func DebitHasSuffix(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldHasSuffix(FieldDebit, v))
-}
-
-// DebitEqualFold applies the EqualFold predicate on the "Debit" field.
-func DebitEqualFold(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldEqualFold(FieldDebit, v))
-}
-
-// DebitContainsFold applies the ContainsFold predicate on the "Debit" field.
-func DebitContainsFold(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldContainsFold(FieldDebit, v))
+// DebitNotNil applies the NotNil predicate on the "Debit" field.
+func DebitNotNil() predicate.FinanceOperation {
+	return predicate.FinanceOperation(sql.FieldNotNull(FieldDebit))
 }
 
 // CreditEQ applies the EQ predicate on the "Credit" field.
-func CreditEQ(v string) predicate.FinanceOperation {
+func CreditEQ(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldEQ(FieldCredit, v))
 }
 
 // CreditNEQ applies the NEQ predicate on the "Credit" field.
-func CreditNEQ(v string) predicate.FinanceOperation {
+func CreditNEQ(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldNEQ(FieldCredit, v))
 }
 
 // CreditIn applies the In predicate on the "Credit" field.
-func CreditIn(vs ...string) predicate.FinanceOperation {
+func CreditIn(vs ...*decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldIn(FieldCredit, vs...))
 }
 
 // CreditNotIn applies the NotIn predicate on the "Credit" field.
-func CreditNotIn(vs ...string) predicate.FinanceOperation {
+func CreditNotIn(vs ...*decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldNotIn(FieldCredit, vs...))
 }
 
 // CreditGT applies the GT predicate on the "Credit" field.
-func CreditGT(v string) predicate.FinanceOperation {
+func CreditGT(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldGT(FieldCredit, v))
 }
 
 // CreditGTE applies the GTE predicate on the "Credit" field.
-func CreditGTE(v string) predicate.FinanceOperation {
+func CreditGTE(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldGTE(FieldCredit, v))
 }
 
 // CreditLT applies the LT predicate on the "Credit" field.
-func CreditLT(v string) predicate.FinanceOperation {
+func CreditLT(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldLT(FieldCredit, v))
 }
 
 // CreditLTE applies the LTE predicate on the "Credit" field.
-func CreditLTE(v string) predicate.FinanceOperation {
+func CreditLTE(v *decimal.NullDecimal) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldLTE(FieldCredit, v))
 }
 
-// CreditContains applies the Contains predicate on the "Credit" field.
-func CreditContains(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldContains(FieldCredit, v))
+// CreditIsNil applies the IsNil predicate on the "Credit" field.
+func CreditIsNil() predicate.FinanceOperation {
+	return predicate.FinanceOperation(sql.FieldIsNull(FieldCredit))
 }
 
-// CreditHasPrefix applies the HasPrefix predicate on the "Credit" field.
-func CreditHasPrefix(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldHasPrefix(FieldCredit, v))
-}
-
-// CreditHasSuffix applies the HasSuffix predicate on the "Credit" field.
-func CreditHasSuffix(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldHasSuffix(FieldCredit, v))
-}
-
-// CreditEqualFold applies the EqualFold predicate on the "Credit" field.
-func CreditEqualFold(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldEqualFold(FieldCredit, v))
-}
-
-// CreditContainsFold applies the ContainsFold predicate on the "Credit" field.
-func CreditContainsFold(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldContainsFold(FieldCredit, v))
+// CreditNotNil applies the NotNil predicate on the "Credit" field.
+func CreditNotNil() predicate.FinanceOperation {
+	return predicate.FinanceOperation(sql.FieldNotNull(FieldCredit))
 }
 
 // DescriptionEQ applies the EQ predicate on the "Description" field.
