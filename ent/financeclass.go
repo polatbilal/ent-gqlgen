@@ -43,15 +43,15 @@ type FinanceClass struct {
 type FinanceClassEdges struct {
 	// Company holds the value of the company edge.
 	Company *CompanyDetail `json:"company,omitempty"`
-	// Methods holds the value of the methods edge.
-	Methods []*FinanceOperation `json:"methods,omitempty"`
+	// Classes holds the value of the classes edge.
+	Classes []*FinanceOperation `json:"classes,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [2]bool
 	// totalCount holds the count of the edges above.
 	totalCount [2]map[string]int
 
-	namedMethods map[string][]*FinanceOperation
+	namedClasses map[string][]*FinanceOperation
 }
 
 // CompanyOrErr returns the Company value or an error if the edge
@@ -65,13 +65,13 @@ func (e FinanceClassEdges) CompanyOrErr() (*CompanyDetail, error) {
 	return nil, &NotLoadedError{edge: "company"}
 }
 
-// MethodsOrErr returns the Methods value or an error if the edge
+// ClassesOrErr returns the Classes value or an error if the edge
 // was not loaded in eager-loading.
-func (e FinanceClassEdges) MethodsOrErr() ([]*FinanceOperation, error) {
+func (e FinanceClassEdges) ClassesOrErr() ([]*FinanceOperation, error) {
 	if e.loadedTypes[1] {
-		return e.Methods, nil
+		return e.Classes, nil
 	}
-	return nil, &NotLoadedError{edge: "methods"}
+	return nil, &NotLoadedError{edge: "classes"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -177,9 +177,9 @@ func (_m *FinanceClass) QueryCompany() *CompanyDetailQuery {
 	return NewFinanceClassClient(_m.config).QueryCompany(_m)
 }
 
-// QueryMethods queries the "methods" edge of the FinanceClass entity.
-func (_m *FinanceClass) QueryMethods() *FinanceOperationQuery {
-	return NewFinanceClassClient(_m.config).QueryMethods(_m)
+// QueryClasses queries the "classes" edge of the FinanceClass entity.
+func (_m *FinanceClass) QueryClasses() *FinanceOperationQuery {
+	return NewFinanceClassClient(_m.config).QueryClasses(_m)
 }
 
 // Update returns a builder for updating this FinanceClass.
@@ -229,27 +229,27 @@ func (_m *FinanceClass) String() string {
 	return builder.String()
 }
 
-// NamedMethods returns the Methods named value or an error if the edge was not
+// NamedClasses returns the Classes named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (_m *FinanceClass) NamedMethods(name string) ([]*FinanceOperation, error) {
-	if _m.Edges.namedMethods == nil {
+func (_m *FinanceClass) NamedClasses(name string) ([]*FinanceOperation, error) {
+	if _m.Edges.namedClasses == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := _m.Edges.namedMethods[name]
+	nodes, ok := _m.Edges.namedClasses[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (_m *FinanceClass) appendNamedMethods(name string, edges ...*FinanceOperation) {
-	if _m.Edges.namedMethods == nil {
-		_m.Edges.namedMethods = make(map[string][]*FinanceOperation)
+func (_m *FinanceClass) appendNamedClasses(name string, edges ...*FinanceOperation) {
+	if _m.Edges.namedClasses == nil {
+		_m.Edges.namedClasses = make(map[string][]*FinanceOperation)
 	}
 	if len(edges) == 0 {
-		_m.Edges.namedMethods[name] = []*FinanceOperation{}
+		_m.Edges.namedClasses[name] = []*FinanceOperation{}
 	} else {
-		_m.Edges.namedMethods[name] = append(_m.Edges.namedMethods[name], edges...)
+		_m.Edges.namedClasses[name] = append(_m.Edges.namedClasses[name], edges...)
 	}
 }
 

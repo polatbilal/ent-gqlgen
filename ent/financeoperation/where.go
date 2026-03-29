@@ -400,44 +400,21 @@ func UpdatedAtLTE(v time.Time) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
-// HasAccount applies the HasEdge predicate on the "account" edge.
-func HasAccount() predicate.FinanceOperation {
+// HasClass applies the HasEdge predicate on the "class" edge.
+func HasClass() predicate.FinanceOperation {
 	return predicate.FinanceOperation(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, AccountTable, AccountColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, ClassTable, ClassColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasAccountWith applies the HasEdge predicate on the "account" edge with a given conditions (other predicates).
-func HasAccountWith(preds ...predicate.FinanceAccount) predicate.FinanceOperation {
+// HasClassWith applies the HasEdge predicate on the "class" edge with a given conditions (other predicates).
+func HasClassWith(preds ...predicate.FinanceClass) predicate.FinanceOperation {
 	return predicate.FinanceOperation(func(s *sql.Selector) {
-		step := newAccountStep()
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
-// HasMethod applies the HasEdge predicate on the "method" edge.
-func HasMethod() predicate.FinanceOperation {
-	return predicate.FinanceOperation(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, MethodTable, MethodColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasMethodWith applies the HasEdge predicate on the "method" edge with a given conditions (other predicates).
-func HasMethodWith(preds ...predicate.FinanceClass) predicate.FinanceOperation {
-	return predicate.FinanceOperation(func(s *sql.Selector) {
-		step := newMethodStep()
+		step := newClassStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -530,6 +507,29 @@ func HasOperation() predicate.FinanceOperation {
 func HasOperationWith(preds ...predicate.FinanceGroup) predicate.FinanceOperation {
 	return predicate.FinanceOperation(func(s *sql.Selector) {
 		step := newOperationStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasAccount applies the HasEdge predicate on the "account" edge.
+func HasAccount() predicate.FinanceOperation {
+	return predicate.FinanceOperation(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, AccountTable, AccountColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasAccountWith applies the HasEdge predicate on the "account" edge with a given conditions (other predicates).
+func HasAccountWith(preds ...predicate.FinanceAccount) predicate.FinanceOperation {
+	return predicate.FinanceOperation(func(s *sql.Selector) {
+		step := newAccountStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

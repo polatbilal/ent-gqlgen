@@ -268,14 +268,14 @@ func (_m *FinanceClass) Company(ctx context.Context) (*CompanyDetail, error) {
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceClass) Methods(ctx context.Context) (result []*FinanceOperation, err error) {
+func (_m *FinanceClass) Classes(ctx context.Context) (result []*FinanceOperation, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedMethods(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedClasses(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.MethodsOrErr()
+		result, err = _m.Edges.ClassesOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryMethods().All(ctx)
+		result, err = _m.QueryClasses().All(ctx)
 	}
 	return result, err
 }
@@ -316,18 +316,10 @@ func (_m *FinanceGroup) FinanceAccounts(ctx context.Context) (result []*FinanceA
 	return result, err
 }
 
-func (_m *FinanceOperation) Account(ctx context.Context) (*FinanceAccount, error) {
-	result, err := _m.Edges.AccountOrErr()
+func (_m *FinanceOperation) Class(ctx context.Context) (*FinanceClass, error) {
+	result, err := _m.Edges.ClassOrErr()
 	if IsNotLoaded(err) {
-		result, err = _m.QueryAccount().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceOperation) Method(ctx context.Context) (*FinanceClass, error) {
-	result, err := _m.Edges.MethodOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryMethod().Only(ctx)
+		result, err = _m.QueryClass().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
@@ -360,6 +352,14 @@ func (_m *FinanceOperation) Operation(ctx context.Context) (*FinanceGroup, error
 	result, err := _m.Edges.OperationOrErr()
 	if IsNotLoaded(err) {
 		result, err = _m.QueryOperation().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceOperation) Account(ctx context.Context) (*FinanceAccount, error) {
+	result, err := _m.Edges.AccountOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryAccount().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }

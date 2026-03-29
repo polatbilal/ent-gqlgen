@@ -48,10 +48,8 @@ type FinanceOperation struct {
 
 // FinanceOperationEdges holds the relations/edges for other nodes in the graph.
 type FinanceOperationEdges struct {
-	// Account holds the value of the account edge.
-	Account *FinanceAccount `json:"account,omitempty"`
-	// Method holds the value of the method edge.
-	Method *FinanceClass `json:"method,omitempty"`
+	// Class holds the value of the class edge.
+	Class *FinanceClass `json:"class,omitempty"`
 	// Company holds the value of the company edge.
 	Company *CompanyDetail `json:"company,omitempty"`
 	// Resource holds the value of the resource edge.
@@ -60,6 +58,8 @@ type FinanceOperationEdges struct {
 	Group *FinanceGroup `json:"group,omitempty"`
 	// Operation holds the value of the operation edge.
 	Operation *FinanceGroup `json:"operation,omitempty"`
+	// Account holds the value of the account edge.
+	Account *FinanceAccount `json:"account,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [6]bool
@@ -67,26 +67,15 @@ type FinanceOperationEdges struct {
 	totalCount [6]map[string]int
 }
 
-// AccountOrErr returns the Account value or an error if the edge
+// ClassOrErr returns the Class value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e FinanceOperationEdges) AccountOrErr() (*FinanceAccount, error) {
-	if e.Account != nil {
-		return e.Account, nil
+func (e FinanceOperationEdges) ClassOrErr() (*FinanceClass, error) {
+	if e.Class != nil {
+		return e.Class, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: financeaccount.Label}
-	}
-	return nil, &NotLoadedError{edge: "account"}
-}
-
-// MethodOrErr returns the Method value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e FinanceOperationEdges) MethodOrErr() (*FinanceClass, error) {
-	if e.Method != nil {
-		return e.Method, nil
-	} else if e.loadedTypes[1] {
 		return nil, &NotFoundError{label: financeclass.Label}
 	}
-	return nil, &NotLoadedError{edge: "method"}
+	return nil, &NotLoadedError{edge: "class"}
 }
 
 // CompanyOrErr returns the Company value or an error if the edge
@@ -94,7 +83,7 @@ func (e FinanceOperationEdges) MethodOrErr() (*FinanceClass, error) {
 func (e FinanceOperationEdges) CompanyOrErr() (*CompanyDetail, error) {
 	if e.Company != nil {
 		return e.Company, nil
-	} else if e.loadedTypes[2] {
+	} else if e.loadedTypes[1] {
 		return nil, &NotFoundError{label: companydetail.Label}
 	}
 	return nil, &NotLoadedError{edge: "company"}
@@ -105,7 +94,7 @@ func (e FinanceOperationEdges) CompanyOrErr() (*CompanyDetail, error) {
 func (e FinanceOperationEdges) ResourceOrErr() (*FinanceResource, error) {
 	if e.Resource != nil {
 		return e.Resource, nil
-	} else if e.loadedTypes[3] {
+	} else if e.loadedTypes[2] {
 		return nil, &NotFoundError{label: financeresource.Label}
 	}
 	return nil, &NotLoadedError{edge: "resource"}
@@ -116,7 +105,7 @@ func (e FinanceOperationEdges) ResourceOrErr() (*FinanceResource, error) {
 func (e FinanceOperationEdges) GroupOrErr() (*FinanceGroup, error) {
 	if e.Group != nil {
 		return e.Group, nil
-	} else if e.loadedTypes[4] {
+	} else if e.loadedTypes[3] {
 		return nil, &NotFoundError{label: financegroup.Label}
 	}
 	return nil, &NotLoadedError{edge: "group"}
@@ -127,10 +116,21 @@ func (e FinanceOperationEdges) GroupOrErr() (*FinanceGroup, error) {
 func (e FinanceOperationEdges) OperationOrErr() (*FinanceGroup, error) {
 	if e.Operation != nil {
 		return e.Operation, nil
-	} else if e.loadedTypes[5] {
+	} else if e.loadedTypes[4] {
 		return nil, &NotFoundError{label: financegroup.Label}
 	}
 	return nil, &NotLoadedError{edge: "operation"}
+}
+
+// AccountOrErr returns the Account value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e FinanceOperationEdges) AccountOrErr() (*FinanceAccount, error) {
+	if e.Account != nil {
+		return e.Account, nil
+	} else if e.loadedTypes[5] {
+		return nil, &NotFoundError{label: financeaccount.Label}
+	}
+	return nil, &NotLoadedError{edge: "account"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -268,14 +268,9 @@ func (_m *FinanceOperation) Value(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
 }
 
-// QueryAccount queries the "account" edge of the FinanceOperation entity.
-func (_m *FinanceOperation) QueryAccount() *FinanceAccountQuery {
-	return NewFinanceOperationClient(_m.config).QueryAccount(_m)
-}
-
-// QueryMethod queries the "method" edge of the FinanceOperation entity.
-func (_m *FinanceOperation) QueryMethod() *FinanceClassQuery {
-	return NewFinanceOperationClient(_m.config).QueryMethod(_m)
+// QueryClass queries the "class" edge of the FinanceOperation entity.
+func (_m *FinanceOperation) QueryClass() *FinanceClassQuery {
+	return NewFinanceOperationClient(_m.config).QueryClass(_m)
 }
 
 // QueryCompany queries the "company" edge of the FinanceOperation entity.
@@ -296,6 +291,11 @@ func (_m *FinanceOperation) QueryGroup() *FinanceGroupQuery {
 // QueryOperation queries the "operation" edge of the FinanceOperation entity.
 func (_m *FinanceOperation) QueryOperation() *FinanceGroupQuery {
 	return NewFinanceOperationClient(_m.config).QueryOperation(_m)
+}
+
+// QueryAccount queries the "account" edge of the FinanceOperation entity.
+func (_m *FinanceOperation) QueryAccount() *FinanceAccountQuery {
+	return NewFinanceOperationClient(_m.config).QueryAccount(_m)
 }
 
 // Update returns a builder for updating this FinanceOperation.

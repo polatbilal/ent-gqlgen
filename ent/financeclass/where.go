@@ -468,21 +468,21 @@ func HasCompanyWith(preds ...predicate.CompanyDetail) predicate.FinanceClass {
 	})
 }
 
-// HasMethods applies the HasEdge predicate on the "methods" edge.
-func HasMethods() predicate.FinanceClass {
+// HasClasses applies the HasEdge predicate on the "classes" edge.
+func HasClasses() predicate.FinanceClass {
 	return predicate.FinanceClass(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, MethodsTable, MethodsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, ClassesTable, ClassesColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasMethodsWith applies the HasEdge predicate on the "methods" edge with a given conditions (other predicates).
-func HasMethodsWith(preds ...predicate.FinanceOperation) predicate.FinanceClass {
+// HasClassesWith applies the HasEdge predicate on the "classes" edge with a given conditions (other predicates).
+func HasClassesWith(preds ...predicate.FinanceOperation) predicate.FinanceClass {
 	return predicate.FinanceClass(func(s *sql.Selector) {
-		step := newMethodsStep()
+		step := newClassesStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

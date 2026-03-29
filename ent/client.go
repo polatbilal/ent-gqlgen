@@ -1524,15 +1524,15 @@ func (c *FinanceClassClient) QueryCompany(_m *FinanceClass) *CompanyDetailQuery 
 	return query
 }
 
-// QueryMethods queries the methods edge of a FinanceClass.
-func (c *FinanceClassClient) QueryMethods(_m *FinanceClass) *FinanceOperationQuery {
+// QueryClasses queries the classes edge of a FinanceClass.
+func (c *FinanceClassClient) QueryClasses(_m *FinanceClass) *FinanceOperationQuery {
 	query := (&FinanceOperationClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(financeclass.Table, financeclass.FieldID, id),
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, financeclass.MethodsTable, financeclass.MethodsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, financeclass.ClassesTable, financeclass.ClassesColumn),
 		)
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
@@ -1854,31 +1854,15 @@ func (c *FinanceOperationClient) GetX(ctx context.Context, id int) *FinanceOpera
 	return obj
 }
 
-// QueryAccount queries the account edge of a FinanceOperation.
-func (c *FinanceOperationClient) QueryAccount(_m *FinanceOperation) *FinanceAccountQuery {
-	query := (&FinanceAccountClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := _m.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
-			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.AccountTable, financeoperation.AccountColumn),
-		)
-		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryMethod queries the method edge of a FinanceOperation.
-func (c *FinanceOperationClient) QueryMethod(_m *FinanceOperation) *FinanceClassQuery {
+// QueryClass queries the class edge of a FinanceOperation.
+func (c *FinanceOperationClient) QueryClass(_m *FinanceOperation) *FinanceClassQuery {
 	query := (&FinanceClassClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
 			sqlgraph.To(financeclass.Table, financeclass.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.MethodTable, financeoperation.MethodColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.ClassTable, financeoperation.ClassColumn),
 		)
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
@@ -1943,6 +1927,22 @@ func (c *FinanceOperationClient) QueryOperation(_m *FinanceOperation) *FinanceGr
 			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
 			sqlgraph.To(financegroup.Table, financegroup.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.OperationTable, financeoperation.OperationColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryAccount queries the account edge of a FinanceOperation.
+func (c *FinanceOperationClient) QueryAccount(_m *FinanceOperation) *FinanceAccountQuery {
+	query := (&FinanceAccountClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, id),
+			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.AccountTable, financeoperation.AccountColumn),
 		)
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil

@@ -30,8 +30,8 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// EdgeCompany holds the string denoting the company edge name in mutations.
 	EdgeCompany = "company"
-	// EdgeMethods holds the string denoting the methods edge name in mutations.
-	EdgeMethods = "methods"
+	// EdgeClasses holds the string denoting the classes edge name in mutations.
+	EdgeClasses = "classes"
 	// Table holds the table name of the financeclass in the database.
 	Table = "finance_classes"
 	// CompanyTable is the table that holds the company relation/edge.
@@ -41,13 +41,13 @@ const (
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
-	// MethodsTable is the table that holds the methods relation/edge.
-	MethodsTable = "finance_operations"
-	// MethodsInverseTable is the table name for the FinanceOperation entity.
+	// ClassesTable is the table that holds the classes relation/edge.
+	ClassesTable = "finance_operations"
+	// ClassesInverseTable is the table name for the FinanceOperation entity.
 	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	MethodsInverseTable = "finance_operations"
-	// MethodsColumn is the table column denoting the methods relation/edge.
-	MethodsColumn = "class_id"
+	ClassesInverseTable = "finance_operations"
+	// ClassesColumn is the table column denoting the classes relation/edge.
+	ClassesColumn = "class_id"
 )
 
 // Columns holds all SQL columns for financeclass fields.
@@ -144,17 +144,17 @@ func ByCompanyField(field string, opts ...sql.OrderTermOption) OrderOption {
 	}
 }
 
-// ByMethodsCount orders the results by methods count.
-func ByMethodsCount(opts ...sql.OrderTermOption) OrderOption {
+// ByClassesCount orders the results by classes count.
+func ByClassesCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newMethodsStep(), opts...)
+		sqlgraph.OrderByNeighborsCount(s, newClassesStep(), opts...)
 	}
 }
 
-// ByMethods orders the results by methods terms.
-func ByMethods(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByClasses orders the results by classes terms.
+func ByClasses(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newMethodsStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newClassesStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 func newCompanyStep() *sqlgraph.Step {
@@ -164,10 +164,10 @@ func newCompanyStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 	)
 }
-func newMethodsStep() *sqlgraph.Step {
+func newClassesStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(MethodsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, MethodsTable, MethodsColumn),
+		sqlgraph.To(ClassesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ClassesTable, ClassesColumn),
 	)
 }

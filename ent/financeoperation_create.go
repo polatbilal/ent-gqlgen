@@ -77,42 +77,23 @@ func (_c *FinanceOperationCreate) SetNillableUpdatedAt(v *time.Time) *FinanceOpe
 	return _c
 }
 
-// SetAccountID sets the "account" edge to the FinanceAccount entity by ID.
-func (_c *FinanceOperationCreate) SetAccountID(id int) *FinanceOperationCreate {
-	_c.mutation.SetAccountID(id)
+// SetClassID sets the "class" edge to the FinanceClass entity by ID.
+func (_c *FinanceOperationCreate) SetClassID(id int) *FinanceOperationCreate {
+	_c.mutation.SetClassID(id)
 	return _c
 }
 
-// SetNillableAccountID sets the "account" edge to the FinanceAccount entity by ID if the given value is not nil.
-func (_c *FinanceOperationCreate) SetNillableAccountID(id *int) *FinanceOperationCreate {
+// SetNillableClassID sets the "class" edge to the FinanceClass entity by ID if the given value is not nil.
+func (_c *FinanceOperationCreate) SetNillableClassID(id *int) *FinanceOperationCreate {
 	if id != nil {
-		_c = _c.SetAccountID(*id)
+		_c = _c.SetClassID(*id)
 	}
 	return _c
 }
 
-// SetAccount sets the "account" edge to the FinanceAccount entity.
-func (_c *FinanceOperationCreate) SetAccount(v *FinanceAccount) *FinanceOperationCreate {
-	return _c.SetAccountID(v.ID)
-}
-
-// SetMethodID sets the "method" edge to the FinanceClass entity by ID.
-func (_c *FinanceOperationCreate) SetMethodID(id int) *FinanceOperationCreate {
-	_c.mutation.SetMethodID(id)
-	return _c
-}
-
-// SetNillableMethodID sets the "method" edge to the FinanceClass entity by ID if the given value is not nil.
-func (_c *FinanceOperationCreate) SetNillableMethodID(id *int) *FinanceOperationCreate {
-	if id != nil {
-		_c = _c.SetMethodID(*id)
-	}
-	return _c
-}
-
-// SetMethod sets the "method" edge to the FinanceClass entity.
-func (_c *FinanceOperationCreate) SetMethod(v *FinanceClass) *FinanceOperationCreate {
-	return _c.SetMethodID(v.ID)
+// SetClass sets the "class" edge to the FinanceClass entity.
+func (_c *FinanceOperationCreate) SetClass(v *FinanceClass) *FinanceOperationCreate {
+	return _c.SetClassID(v.ID)
 }
 
 // SetCompanyID sets the "company" edge to the CompanyDetail entity by ID.
@@ -189,6 +170,25 @@ func (_c *FinanceOperationCreate) SetNillableOperationID(id *int) *FinanceOperat
 // SetOperation sets the "operation" edge to the FinanceGroup entity.
 func (_c *FinanceOperationCreate) SetOperation(v *FinanceGroup) *FinanceOperationCreate {
 	return _c.SetOperationID(v.ID)
+}
+
+// SetAccountID sets the "account" edge to the FinanceAccount entity by ID.
+func (_c *FinanceOperationCreate) SetAccountID(id int) *FinanceOperationCreate {
+	_c.mutation.SetAccountID(id)
+	return _c
+}
+
+// SetNillableAccountID sets the "account" edge to the FinanceAccount entity by ID if the given value is not nil.
+func (_c *FinanceOperationCreate) SetNillableAccountID(id *int) *FinanceOperationCreate {
+	if id != nil {
+		_c = _c.SetAccountID(*id)
+	}
+	return _c
+}
+
+// SetAccount sets the "account" edge to the FinanceAccount entity.
+func (_c *FinanceOperationCreate) SetAccount(v *FinanceAccount) *FinanceOperationCreate {
+	return _c.SetAccountID(v.ID)
 }
 
 // Mutation returns the FinanceOperationMutation object of the builder.
@@ -306,29 +306,12 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 		_spec.SetField(financeoperation.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := _c.mutation.AccountIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ClassIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   financeoperation.AccountTable,
-			Columns: []string{financeoperation.AccountColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_node.account_id = &nodes[0]
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := _c.mutation.MethodIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   financeoperation.MethodTable,
-			Columns: []string{financeoperation.MethodColumn},
+			Table:   financeoperation.ClassTable,
+			Columns: []string{financeoperation.ClassColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
@@ -406,6 +389,23 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.operation_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.AccountIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   financeoperation.AccountTable,
+			Columns: []string{financeoperation.AccountColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.account_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

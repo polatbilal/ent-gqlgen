@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"sync"
 	"sync/atomic"
 	"time"
 
@@ -26,20 +25,10 @@ import (
 
 // NewExecutableSchema creates an ExecutableSchema from the ResolverRoot interface.
 func NewExecutableSchema(cfg Config) graphql.ExecutableSchema {
-	return &executableSchema{
-		schema:     cfg.Schema,
-		resolvers:  cfg.Resolvers,
-		directives: cfg.Directives,
-		complexity: cfg.Complexity,
-	}
+	return &executableSchema{SchemaData: cfg.Schema, Resolvers: cfg.Resolvers, Directives: cfg.Directives, ComplexityRoot: cfg.Complexity}
 }
 
-type Config struct {
-	Schema     *ast.Schema
-	Resolvers  ResolverRoot
-	Directives DirectiveRoot
-	Complexity ComplexityRoot
-}
+type Config = graphql.Config[ResolverRoot, DirectiveRoot, ComplexityRoot]
 
 type ResolverRoot interface {
 	CompanyEngineer() CompanyEngineerResolver
@@ -512,1387 +501,1382 @@ type UserResolver interface {
 	Companies(ctx context.Context, obj *ent.User) ([]*ent.CompanyDetail, error)
 }
 
-type executableSchema struct {
-	schema     *ast.Schema
-	resolvers  ResolverRoot
-	directives DirectiveRoot
-	complexity ComplexityRoot
-}
+type executableSchema graphql.ExecutableSchemaState[ResolverRoot, DirectiveRoot, ComplexityRoot]
 
 func (e *executableSchema) Schema() *ast.Schema {
-	if e.schema != nil {
-		return e.schema
+	if e.SchemaData != nil {
+		return e.SchemaData
 	}
 	return parsedSchema
 }
 
 func (e *executableSchema) Complexity(ctx context.Context, typeName, field string, childComplexity int, rawArgs map[string]any) (int, bool) {
-	ec := executionContext{nil, e, 0, 0, nil}
+	ec := newExecutionContext(nil, e, nil)
 	_ = ec
 	switch typeName + "." + field {
 
 	case "AdministrationCount.adet":
-		if e.complexity.AdministrationCount.Adet == nil {
+		if e.ComplexityRoot.AdministrationCount.Adet == nil {
 			break
 		}
 
-		return e.complexity.AdministrationCount.Adet(childComplexity), true
+		return e.ComplexityRoot.AdministrationCount.Adet(childComplexity), true
 	case "AdministrationCount.name":
-		if e.complexity.AdministrationCount.Name == nil {
+		if e.ComplexityRoot.AdministrationCount.Name == nil {
 			break
 		}
 
-		return e.complexity.AdministrationCount.Name(childComplexity), true
+		return e.ComplexityRoot.AdministrationCount.Name(childComplexity), true
 
 	case "AuthPayload.name":
-		if e.complexity.AuthPayload.Name == nil {
+		if e.ComplexityRoot.AuthPayload.Name == nil {
 			break
 		}
 
-		return e.complexity.AuthPayload.Name(childComplexity), true
+		return e.ComplexityRoot.AuthPayload.Name(childComplexity), true
 	case "AuthPayload.role":
-		if e.complexity.AuthPayload.Role == nil {
+		if e.ComplexityRoot.AuthPayload.Role == nil {
 			break
 		}
 
-		return e.complexity.AuthPayload.Role(childComplexity), true
+		return e.ComplexityRoot.AuthPayload.Role(childComplexity), true
 	case "AuthPayload.token":
-		if e.complexity.AuthPayload.Token == nil {
+		if e.ComplexityRoot.AuthPayload.Token == nil {
 			break
 		}
 
-		return e.complexity.AuthPayload.Token(childComplexity), true
+		return e.ComplexityRoot.AuthPayload.Token(childComplexity), true
 	case "AuthPayload.userID":
-		if e.complexity.AuthPayload.UserID == nil {
+		if e.ComplexityRoot.AuthPayload.UserID == nil {
 			break
 		}
 
-		return e.complexity.AuthPayload.UserID(childComplexity), true
+		return e.ComplexityRoot.AuthPayload.UserID(childComplexity), true
 	case "AuthPayload.username":
-		if e.complexity.AuthPayload.Username == nil {
+		if e.ComplexityRoot.AuthPayload.Username == nil {
 			break
 		}
 
-		return e.complexity.AuthPayload.Username(childComplexity), true
+		return e.ComplexityRoot.AuthPayload.Username(childComplexity), true
 
 	case "CompanyBatchResult.company":
-		if e.complexity.CompanyBatchResult.Company == nil {
+		if e.ComplexityRoot.CompanyBatchResult.Company == nil {
 			break
 		}
 
-		return e.complexity.CompanyBatchResult.Company(childComplexity), true
+		return e.ComplexityRoot.CompanyBatchResult.Company(childComplexity), true
 	case "CompanyBatchResult.companyToken":
-		if e.complexity.CompanyBatchResult.CompanyToken == nil {
+		if e.ComplexityRoot.CompanyBatchResult.CompanyToken == nil {
 			break
 		}
 
-		return e.complexity.CompanyBatchResult.CompanyToken(childComplexity), true
+		return e.ComplexityRoot.CompanyBatchResult.CompanyToken(childComplexity), true
 
 	case "CompanyDetail.Address":
-		if e.complexity.CompanyDetail.Address == nil {
+		if e.ComplexityRoot.CompanyDetail.Address == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Address(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.Address(childComplexity), true
 	case "CompanyDetail.ChamberInfo":
-		if e.complexity.CompanyDetail.ChamberInfo == nil {
+		if e.ComplexityRoot.CompanyDetail.ChamberInfo == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.ChamberInfo(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.ChamberInfo(childComplexity), true
 	case "CompanyDetail.ChamberRegisterNo":
-		if e.complexity.CompanyDetail.ChamberRegisterNo == nil {
+		if e.ComplexityRoot.CompanyDetail.ChamberRegisterNo == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.ChamberRegisterNo(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.ChamberRegisterNo(childComplexity), true
 	case "CompanyDetail.CompanyCode":
-		if e.complexity.CompanyDetail.CompanyCode == nil {
+		if e.ComplexityRoot.CompanyDetail.CompanyCode == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.CompanyCode(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.CompanyCode(childComplexity), true
 	case "CompanyDetail.core_person_absent_90days":
-		if e.complexity.CompanyDetail.CorePersonAbsent90Days == nil {
+		if e.ComplexityRoot.CompanyDetail.CorePersonAbsent90Days == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.CorePersonAbsent90Days(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.CorePersonAbsent90Days(childComplexity), true
 	case "CompanyDetail.Email":
-		if e.complexity.CompanyDetail.Email == nil {
+		if e.ComplexityRoot.CompanyDetail.Email == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Email(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.Email(childComplexity), true
 	case "CompanyDetail.Fax":
-		if e.complexity.CompanyDetail.Fax == nil {
+		if e.ComplexityRoot.CompanyDetail.Fax == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Fax(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.Fax(childComplexity), true
 	case "CompanyDetail.id":
-		if e.complexity.CompanyDetail.ID == nil {
+		if e.ComplexityRoot.CompanyDetail.ID == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.ID(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.ID(childComplexity), true
 	case "CompanyDetail.isClosed":
-		if e.complexity.CompanyDetail.IsClosed == nil {
+		if e.ComplexityRoot.CompanyDetail.IsClosed == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.IsClosed(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.IsClosed(childComplexity), true
 	case "CompanyDetail.MobilePhone":
-		if e.complexity.CompanyDetail.MobilePhone == nil {
+		if e.ComplexityRoot.CompanyDetail.MobilePhone == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.MobilePhone(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.MobilePhone(childComplexity), true
 	case "CompanyDetail.Name":
-		if e.complexity.CompanyDetail.Name == nil {
+		if e.ComplexityRoot.CompanyDetail.Name == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Name(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.Name(childComplexity), true
 	case "CompanyDetail.OwnerAddress":
-		if e.complexity.CompanyDetail.OwnerAddress == nil {
+		if e.ComplexityRoot.CompanyDetail.OwnerAddress == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.OwnerAddress(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.OwnerAddress(childComplexity), true
 	case "CompanyDetail.OwnerCareer":
-		if e.complexity.CompanyDetail.OwnerCareer == nil {
+		if e.ComplexityRoot.CompanyDetail.OwnerCareer == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.OwnerCareer(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.OwnerCareer(childComplexity), true
 	case "CompanyDetail.OwnerEmail":
-		if e.complexity.CompanyDetail.OwnerEmail == nil {
+		if e.ComplexityRoot.CompanyDetail.OwnerEmail == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.OwnerEmail(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.OwnerEmail(childComplexity), true
 	case "CompanyDetail.OwnerName":
-		if e.complexity.CompanyDetail.OwnerName == nil {
+		if e.ComplexityRoot.CompanyDetail.OwnerName == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.OwnerName(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.OwnerName(childComplexity), true
 	case "CompanyDetail.OwnerPhone":
-		if e.complexity.CompanyDetail.OwnerPhone == nil {
+		if e.ComplexityRoot.CompanyDetail.OwnerPhone == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.OwnerPhone(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.OwnerPhone(childComplexity), true
 	case "CompanyDetail.OwnerRegisterNo":
-		if e.complexity.CompanyDetail.OwnerRegisterNo == nil {
+		if e.ComplexityRoot.CompanyDetail.OwnerRegisterNo == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.OwnerRegisterNo(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.OwnerRegisterNo(childComplexity), true
 	case "CompanyDetail.OwnerTcNo":
-		if e.complexity.CompanyDetail.OwnerTcNo == nil {
+		if e.ComplexityRoot.CompanyDetail.OwnerTcNo == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.OwnerTcNo(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.OwnerTcNo(childComplexity), true
 	case "CompanyDetail.Phone":
-		if e.complexity.CompanyDetail.Phone == nil {
+		if e.ComplexityRoot.CompanyDetail.Phone == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Phone(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.Phone(childComplexity), true
 	case "CompanyDetail.TaxAdmin":
-		if e.complexity.CompanyDetail.TaxAdmin == nil {
+		if e.ComplexityRoot.CompanyDetail.TaxAdmin == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.TaxAdmin(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.TaxAdmin(childComplexity), true
 	case "CompanyDetail.TaxNo":
-		if e.complexity.CompanyDetail.TaxNo == nil {
+		if e.ComplexityRoot.CompanyDetail.TaxNo == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.TaxNo(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.TaxNo(childComplexity), true
 	case "CompanyDetail.VisaDate":
-		if e.complexity.CompanyDetail.VisaDate == nil {
+		if e.ComplexityRoot.CompanyDetail.VisaDate == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.VisaDate(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.VisaDate(childComplexity), true
 	case "CompanyDetail.VisaEndDate":
-		if e.complexity.CompanyDetail.VisaEndDate == nil {
+		if e.ComplexityRoot.CompanyDetail.VisaEndDate == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.VisaEndDate(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.VisaEndDate(childComplexity), true
 	case "CompanyDetail.visa_finished_for_90days":
-		if e.complexity.CompanyDetail.VisaFinishedFor90Days == nil {
+		if e.ComplexityRoot.CompanyDetail.VisaFinishedFor90Days == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.VisaFinishedFor90Days(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.VisaFinishedFor90Days(childComplexity), true
 	case "CompanyDetail.Website":
-		if e.complexity.CompanyDetail.Website == nil {
+		if e.ComplexityRoot.CompanyDetail.Website == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.Website(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.Website(childComplexity), true
 	case "CompanyDetail.YDSAddress":
-		if e.complexity.CompanyDetail.YDSAddress == nil {
+		if e.ComplexityRoot.CompanyDetail.YDSAddress == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.YDSAddress(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.YDSAddress(childComplexity), true
 	case "CompanyDetail.YDSEmail":
-		if e.complexity.CompanyDetail.YDSEmail == nil {
+		if e.ComplexityRoot.CompanyDetail.YDSEmail == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.YDSEmail(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.YDSEmail(childComplexity), true
 	case "CompanyDetail.YDSMobilePhone":
-		if e.complexity.CompanyDetail.YDSMobilePhone == nil {
+		if e.ComplexityRoot.CompanyDetail.YDSMobilePhone == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.YDSMobilePhone(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.YDSMobilePhone(childComplexity), true
 	case "CompanyDetail.YDSPhone":
-		if e.complexity.CompanyDetail.YDSPhone == nil {
+		if e.ComplexityRoot.CompanyDetail.YDSPhone == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.YDSPhone(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.YDSPhone(childComplexity), true
 	case "CompanyDetail.YDSWebsite":
-		if e.complexity.CompanyDetail.YDSWebsite == nil {
+		if e.ComplexityRoot.CompanyDetail.YDSWebsite == nil {
 			break
 		}
 
-		return e.complexity.CompanyDetail.YDSWebsite(childComplexity), true
+		return e.ComplexityRoot.CompanyDetail.YDSWebsite(childComplexity), true
 
 	case "CompanyEngineer.Address":
-		if e.complexity.CompanyEngineer.Address == nil {
+		if e.ComplexityRoot.CompanyEngineer.Address == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Address(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Address(childComplexity), true
 	case "CompanyEngineer.Career":
-		if e.complexity.CompanyEngineer.Career == nil {
+		if e.ComplexityRoot.CompanyEngineer.Career == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Career(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Career(childComplexity), true
 	case "CompanyEngineer.CertNo":
-		if e.complexity.CompanyEngineer.CertNo == nil {
+		if e.ComplexityRoot.CompanyEngineer.CertNo == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.CertNo(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.CertNo(childComplexity), true
 	case "CompanyEngineer.Company":
-		if e.complexity.CompanyEngineer.Company == nil {
+		if e.ComplexityRoot.CompanyEngineer.Company == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Company(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Company(childComplexity), true
 	case "CompanyEngineer.CompanyCode":
-		if e.complexity.CompanyEngineer.CompanyCode == nil {
+		if e.ComplexityRoot.CompanyEngineer.CompanyCode == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.CompanyCode(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.CompanyCode(childComplexity), true
 	case "CompanyEngineer.Email":
-		if e.complexity.CompanyEngineer.Email == nil {
+		if e.ComplexityRoot.CompanyEngineer.Email == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Email(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Email(childComplexity), true
 	case "CompanyEngineer.Employment":
-		if e.complexity.CompanyEngineer.Employment == nil {
+		if e.ComplexityRoot.CompanyEngineer.Employment == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Employment(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Employment(childComplexity), true
 	case "CompanyEngineer.id":
-		if e.complexity.CompanyEngineer.ID == nil {
+		if e.ComplexityRoot.CompanyEngineer.ID == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.ID(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.ID(childComplexity), true
 	case "CompanyEngineer.Job":
-		if e.complexity.CompanyEngineer.Job == nil {
+		if e.ComplexityRoot.CompanyEngineer.Job == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Job(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Job(childComplexity), true
 	case "CompanyEngineer.Name":
-		if e.complexity.CompanyEngineer.Name == nil {
+		if e.ComplexityRoot.CompanyEngineer.Name == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Name(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Name(childComplexity), true
 	case "CompanyEngineer.Note":
-		if e.complexity.CompanyEngineer.Note == nil {
+		if e.ComplexityRoot.CompanyEngineer.Note == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Note(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Note(childComplexity), true
 	case "CompanyEngineer.Phone":
-		if e.complexity.CompanyEngineer.Phone == nil {
+		if e.ComplexityRoot.CompanyEngineer.Phone == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Phone(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Phone(childComplexity), true
 	case "CompanyEngineer.Position":
-		if e.complexity.CompanyEngineer.Position == nil {
+		if e.ComplexityRoot.CompanyEngineer.Position == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Position(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Position(childComplexity), true
 	case "CompanyEngineer.RegisterNo":
-		if e.complexity.CompanyEngineer.RegisterNo == nil {
+		if e.ComplexityRoot.CompanyEngineer.RegisterNo == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.RegisterNo(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.RegisterNo(childComplexity), true
 	case "CompanyEngineer.Status":
-		if e.complexity.CompanyEngineer.Status == nil {
+		if e.ComplexityRoot.CompanyEngineer.Status == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.Status(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.Status(childComplexity), true
 	case "CompanyEngineer.TcNo":
-		if e.complexity.CompanyEngineer.TcNo == nil {
+		if e.ComplexityRoot.CompanyEngineer.TcNo == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.TcNo(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.TcNo(childComplexity), true
 	case "CompanyEngineer.YDSID":
-		if e.complexity.CompanyEngineer.YDSID == nil {
+		if e.ComplexityRoot.CompanyEngineer.YDSID == nil {
 			break
 		}
 
-		return e.complexity.CompanyEngineer.YDSID(childComplexity), true
+		return e.ComplexityRoot.CompanyEngineer.YDSID(childComplexity), true
 
 	case "CompanyToken.CompanyCode":
-		if e.complexity.CompanyToken.CompanyCode == nil {
+		if e.ComplexityRoot.CompanyToken.CompanyCode == nil {
 			break
 		}
 
-		return e.complexity.CompanyToken.CompanyCode(childComplexity), true
+		return e.ComplexityRoot.CompanyToken.CompanyCode(childComplexity), true
 	case "CompanyToken.DepartmentId":
-		if e.complexity.CompanyToken.DepartmentId == nil {
+		if e.ComplexityRoot.CompanyToken.DepartmentId == nil {
 			break
 		}
 
-		return e.complexity.CompanyToken.DepartmentId(childComplexity), true
+		return e.ComplexityRoot.CompanyToken.DepartmentId(childComplexity), true
 	case "CompanyToken.Token":
-		if e.complexity.CompanyToken.Token == nil {
+		if e.ComplexityRoot.CompanyToken.Token == nil {
 			break
 		}
 
-		return e.complexity.CompanyToken.Token(childComplexity), true
+		return e.ComplexityRoot.CompanyToken.Token(childComplexity), true
 	case "CompanyToken.YDKPassword":
-		if e.complexity.CompanyToken.YDKPassword == nil {
+		if e.ComplexityRoot.CompanyToken.YDKPassword == nil {
 			break
 		}
 
-		return e.complexity.CompanyToken.YDKPassword(childComplexity), true
+		return e.ComplexityRoot.CompanyToken.YDKPassword(childComplexity), true
 	case "CompanyToken.YDKUsername":
-		if e.complexity.CompanyToken.YDKUsername == nil {
+		if e.ComplexityRoot.CompanyToken.YDKUsername == nil {
 			break
 		}
 
-		return e.complexity.CompanyToken.YDKUsername(childComplexity), true
+		return e.ComplexityRoot.CompanyToken.YDKUsername(childComplexity), true
 
 	case "FinanceAccount.Address":
-		if e.complexity.FinanceAccount.Address == nil {
+		if e.ComplexityRoot.FinanceAccount.Address == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.Address(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.Address(childComplexity), true
 	case "FinanceAccount.Company":
-		if e.complexity.FinanceAccount.Company == nil {
+		if e.ComplexityRoot.FinanceAccount.Company == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.Company(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.Company(childComplexity), true
 	case "FinanceAccount.Email":
-		if e.complexity.FinanceAccount.Email == nil {
+		if e.ComplexityRoot.FinanceAccount.Email == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.Email(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.Email(childComplexity), true
 	case "FinanceAccount.id":
-		if e.complexity.FinanceAccount.ID == nil {
+		if e.ComplexityRoot.FinanceAccount.ID == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.ID(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.ID(childComplexity), true
 	case "FinanceAccount.Name":
-		if e.complexity.FinanceAccount.Name == nil {
+		if e.ComplexityRoot.FinanceAccount.Name == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.Name(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.Name(childComplexity), true
 	case "FinanceAccount.Note":
-		if e.complexity.FinanceAccount.Note == nil {
+		if e.ComplexityRoot.FinanceAccount.Note == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.Note(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.Note(childComplexity), true
 	case "FinanceAccount.Phone":
-		if e.complexity.FinanceAccount.Phone == nil {
+		if e.ComplexityRoot.FinanceAccount.Phone == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.Phone(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.Phone(childComplexity), true
 	case "FinanceAccount.TaxAdmin":
-		if e.complexity.FinanceAccount.TaxAdmin == nil {
+		if e.ComplexityRoot.FinanceAccount.TaxAdmin == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.TaxAdmin(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.TaxAdmin(childComplexity), true
 	case "FinanceAccount.TaxNo":
-		if e.complexity.FinanceAccount.TaxNo == nil {
+		if e.ComplexityRoot.FinanceAccount.TaxNo == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.TaxNo(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.TaxNo(childComplexity), true
 	case "FinanceAccount.TcNo":
-		if e.complexity.FinanceAccount.TcNo == nil {
+		if e.ComplexityRoot.FinanceAccount.TcNo == nil {
 			break
 		}
 
-		return e.complexity.FinanceAccount.TcNo(childComplexity), true
+		return e.ComplexityRoot.FinanceAccount.TcNo(childComplexity), true
 
 	case "FinanceOperation.Company":
-		if e.complexity.FinanceOperation.Company == nil {
+		if e.ComplexityRoot.FinanceOperation.Company == nil {
 			break
 		}
 
-		return e.complexity.FinanceOperation.Company(childComplexity), true
+		return e.ComplexityRoot.FinanceOperation.Company(childComplexity), true
 	case "FinanceOperation.Credit":
-		if e.complexity.FinanceOperation.Credit == nil {
+		if e.ComplexityRoot.FinanceOperation.Credit == nil {
 			break
 		}
 
-		return e.complexity.FinanceOperation.Credit(childComplexity), true
+		return e.ComplexityRoot.FinanceOperation.Credit(childComplexity), true
 	case "FinanceOperation.Debit":
-		if e.complexity.FinanceOperation.Debit == nil {
+		if e.ComplexityRoot.FinanceOperation.Debit == nil {
 			break
 		}
 
-		return e.complexity.FinanceOperation.Debit(childComplexity), true
+		return e.ComplexityRoot.FinanceOperation.Debit(childComplexity), true
 	case "FinanceOperation.Description":
-		if e.complexity.FinanceOperation.Description == nil {
+		if e.ComplexityRoot.FinanceOperation.Description == nil {
 			break
 		}
 
-		return e.complexity.FinanceOperation.Description(childComplexity), true
+		return e.ComplexityRoot.FinanceOperation.Description(childComplexity), true
 	case "FinanceOperation.id":
-		if e.complexity.FinanceOperation.ID == nil {
+		if e.ComplexityRoot.FinanceOperation.ID == nil {
 			break
 		}
 
-		return e.complexity.FinanceOperation.ID(childComplexity), true
+		return e.ComplexityRoot.FinanceOperation.ID(childComplexity), true
 	case "FinanceOperation.Name":
-		if e.complexity.FinanceOperation.Name == nil {
+		if e.ComplexityRoot.FinanceOperation.Name == nil {
 			break
 		}
 
-		return e.complexity.FinanceOperation.Name(childComplexity), true
+		return e.ComplexityRoot.FinanceOperation.Name(childComplexity), true
 	case "FinanceOperation.OperationDate":
-		if e.complexity.FinanceOperation.OperationDate == nil {
+		if e.ComplexityRoot.FinanceOperation.OperationDate == nil {
 			break
 		}
 
-		return e.complexity.FinanceOperation.OperationDate(childComplexity), true
+		return e.ComplexityRoot.FinanceOperation.OperationDate(childComplexity), true
 
 	case "JobAuthor.Architect":
-		if e.complexity.JobAuthor.Architect == nil {
+		if e.ComplexityRoot.JobAuthor.Architect == nil {
 			break
 		}
 
-		return e.complexity.JobAuthor.Architect(childComplexity), true
+		return e.ComplexityRoot.JobAuthor.Architect(childComplexity), true
 	case "JobAuthor.Electric":
-		if e.complexity.JobAuthor.Electric == nil {
+		if e.ComplexityRoot.JobAuthor.Electric == nil {
 			break
 		}
 
-		return e.complexity.JobAuthor.Electric(childComplexity), true
+		return e.ComplexityRoot.JobAuthor.Electric(childComplexity), true
 	case "JobAuthor.GeotechnicalEngineer":
-		if e.complexity.JobAuthor.GeotechnicalEngineer == nil {
+		if e.ComplexityRoot.JobAuthor.GeotechnicalEngineer == nil {
 			break
 		}
 
-		return e.complexity.JobAuthor.GeotechnicalEngineer(childComplexity), true
+		return e.ComplexityRoot.JobAuthor.GeotechnicalEngineer(childComplexity), true
 	case "JobAuthor.GeotechnicalGeologist":
-		if e.complexity.JobAuthor.GeotechnicalGeologist == nil {
+		if e.ComplexityRoot.JobAuthor.GeotechnicalGeologist == nil {
 			break
 		}
 
-		return e.complexity.JobAuthor.GeotechnicalGeologist(childComplexity), true
+		return e.ComplexityRoot.JobAuthor.GeotechnicalGeologist(childComplexity), true
 	case "JobAuthor.GeotechnicalGeophysicist":
-		if e.complexity.JobAuthor.GeotechnicalGeophysicist == nil {
+		if e.ComplexityRoot.JobAuthor.GeotechnicalGeophysicist == nil {
 			break
 		}
 
-		return e.complexity.JobAuthor.GeotechnicalGeophysicist(childComplexity), true
+		return e.ComplexityRoot.JobAuthor.GeotechnicalGeophysicist(childComplexity), true
 	case "JobAuthor.id":
-		if e.complexity.JobAuthor.ID == nil {
+		if e.ComplexityRoot.JobAuthor.ID == nil {
 			break
 		}
 
-		return e.complexity.JobAuthor.ID(childComplexity), true
+		return e.ComplexityRoot.JobAuthor.ID(childComplexity), true
 	case "JobAuthor.Mechanic":
-		if e.complexity.JobAuthor.Mechanic == nil {
+		if e.ComplexityRoot.JobAuthor.Mechanic == nil {
 			break
 		}
 
-		return e.complexity.JobAuthor.Mechanic(childComplexity), true
+		return e.ComplexityRoot.JobAuthor.Mechanic(childComplexity), true
 	case "JobAuthor.Static":
-		if e.complexity.JobAuthor.Static == nil {
+		if e.ComplexityRoot.JobAuthor.Static == nil {
 			break
 		}
 
-		return e.complexity.JobAuthor.Static(childComplexity), true
+		return e.ComplexityRoot.JobAuthor.Static(childComplexity), true
 
 	case "JobBatchResult.author":
-		if e.complexity.JobBatchResult.Author == nil {
+		if e.ComplexityRoot.JobBatchResult.Author == nil {
 			break
 		}
 
-		return e.complexity.JobBatchResult.Author(childComplexity), true
+		return e.ComplexityRoot.JobBatchResult.Author(childComplexity), true
 	case "JobBatchResult.company":
-		if e.complexity.JobBatchResult.Company == nil {
+		if e.ComplexityRoot.JobBatchResult.Company == nil {
 			break
 		}
 
-		return e.complexity.JobBatchResult.Company(childComplexity), true
+		return e.ComplexityRoot.JobBatchResult.Company(childComplexity), true
 	case "JobBatchResult.contractor":
-		if e.complexity.JobBatchResult.Contractor == nil {
+		if e.ComplexityRoot.JobBatchResult.Contractor == nil {
 			break
 		}
 
-		return e.complexity.JobBatchResult.Contractor(childComplexity), true
+		return e.ComplexityRoot.JobBatchResult.Contractor(childComplexity), true
 	case "JobBatchResult.engineer":
-		if e.complexity.JobBatchResult.Engineer == nil {
+		if e.ComplexityRoot.JobBatchResult.Engineer == nil {
 			break
 		}
 
-		return e.complexity.JobBatchResult.Engineer(childComplexity), true
+		return e.ComplexityRoot.JobBatchResult.Engineer(childComplexity), true
 	case "JobBatchResult.job":
-		if e.complexity.JobBatchResult.Job == nil {
+		if e.ComplexityRoot.JobBatchResult.Job == nil {
 			break
 		}
 
-		return e.complexity.JobBatchResult.Job(childComplexity), true
+		return e.ComplexityRoot.JobBatchResult.Job(childComplexity), true
 	case "JobBatchResult.owner":
-		if e.complexity.JobBatchResult.Owner == nil {
+		if e.ComplexityRoot.JobBatchResult.Owner == nil {
 			break
 		}
 
-		return e.complexity.JobBatchResult.Owner(childComplexity), true
+		return e.ComplexityRoot.JobBatchResult.Owner(childComplexity), true
 	case "JobBatchResult.progress":
-		if e.complexity.JobBatchResult.Progress == nil {
+		if e.ComplexityRoot.JobBatchResult.Progress == nil {
 			break
 		}
 
-		return e.complexity.JobBatchResult.Progress(childComplexity), true
+		return e.ComplexityRoot.JobBatchResult.Progress(childComplexity), true
 	case "JobBatchResult.supervisor":
-		if e.complexity.JobBatchResult.Supervisor == nil {
+		if e.ComplexityRoot.JobBatchResult.Supervisor == nil {
 			break
 		}
 
-		return e.complexity.JobBatchResult.Supervisor(childComplexity), true
+		return e.ComplexityRoot.JobBatchResult.Supervisor(childComplexity), true
 
 	case "JobBulkError.error":
-		if e.complexity.JobBulkError.Error == nil {
+		if e.ComplexityRoot.JobBulkError.Error == nil {
 			break
 		}
 
-		return e.complexity.JobBulkError.Error(childComplexity), true
+		return e.ComplexityRoot.JobBulkError.Error(childComplexity), true
 	case "JobBulkError.yibfNo":
-		if e.complexity.JobBulkError.YibfNo == nil {
+		if e.ComplexityRoot.JobBulkError.YibfNo == nil {
 			break
 		}
 
-		return e.complexity.JobBulkError.YibfNo(childComplexity), true
+		return e.ComplexityRoot.JobBulkError.YibfNo(childComplexity), true
 
 	case "JobBulkResult.failed":
-		if e.complexity.JobBulkResult.Failed == nil {
+		if e.ComplexityRoot.JobBulkResult.Failed == nil {
 			break
 		}
 
-		return e.complexity.JobBulkResult.Failed(childComplexity), true
+		return e.ComplexityRoot.JobBulkResult.Failed(childComplexity), true
 	case "JobBulkResult.successful":
-		if e.complexity.JobBulkResult.Successful == nil {
+		if e.ComplexityRoot.JobBulkResult.Successful == nil {
 			break
 		}
 
-		return e.complexity.JobBulkResult.Successful(childComplexity), true
+		return e.ComplexityRoot.JobBulkResult.Successful(childComplexity), true
 
 	case "JobContractor.Address":
-		if e.complexity.JobContractor.Address == nil {
+		if e.ComplexityRoot.JobContractor.Address == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.Address(childComplexity), true
+		return e.ComplexityRoot.JobContractor.Address(childComplexity), true
 	case "JobContractor.Email":
-		if e.complexity.JobContractor.Email == nil {
+		if e.ComplexityRoot.JobContractor.Email == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.Email(childComplexity), true
+		return e.ComplexityRoot.JobContractor.Email(childComplexity), true
 	case "JobContractor.id":
-		if e.complexity.JobContractor.ID == nil {
+		if e.ComplexityRoot.JobContractor.ID == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.ID(childComplexity), true
+		return e.ComplexityRoot.JobContractor.ID(childComplexity), true
 	case "JobContractor.MobilePhone":
-		if e.complexity.JobContractor.MobilePhone == nil {
+		if e.ComplexityRoot.JobContractor.MobilePhone == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.MobilePhone(childComplexity), true
+		return e.ComplexityRoot.JobContractor.MobilePhone(childComplexity), true
 	case "JobContractor.Name":
-		if e.complexity.JobContractor.Name == nil {
+		if e.ComplexityRoot.JobContractor.Name == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.Name(childComplexity), true
+		return e.ComplexityRoot.JobContractor.Name(childComplexity), true
 	case "JobContractor.Note":
-		if e.complexity.JobContractor.Note == nil {
+		if e.ComplexityRoot.JobContractor.Note == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.Note(childComplexity), true
+		return e.ComplexityRoot.JobContractor.Note(childComplexity), true
 	case "JobContractor.PersonType":
-		if e.complexity.JobContractor.PersonType == nil {
+		if e.ComplexityRoot.JobContractor.PersonType == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.PersonType(childComplexity), true
+		return e.ComplexityRoot.JobContractor.PersonType(childComplexity), true
 	case "JobContractor.Phone":
-		if e.complexity.JobContractor.Phone == nil {
+		if e.ComplexityRoot.JobContractor.Phone == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.Phone(childComplexity), true
+		return e.ComplexityRoot.JobContractor.Phone(childComplexity), true
 	case "JobContractor.RegisterNo":
-		if e.complexity.JobContractor.RegisterNo == nil {
+		if e.ComplexityRoot.JobContractor.RegisterNo == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.RegisterNo(childComplexity), true
+		return e.ComplexityRoot.JobContractor.RegisterNo(childComplexity), true
 	case "JobContractor.TaxNo":
-		if e.complexity.JobContractor.TaxNo == nil {
+		if e.ComplexityRoot.JobContractor.TaxNo == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.TaxNo(childComplexity), true
+		return e.ComplexityRoot.JobContractor.TaxNo(childComplexity), true
 	case "JobContractor.TcNo":
-		if e.complexity.JobContractor.TcNo == nil {
+		if e.ComplexityRoot.JobContractor.TcNo == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.TcNo(childComplexity), true
+		return e.ComplexityRoot.JobContractor.TcNo(childComplexity), true
 	case "JobContractor.YDSID":
-		if e.complexity.JobContractor.YDSID == nil {
+		if e.ComplexityRoot.JobContractor.YDSID == nil {
 			break
 		}
 
-		return e.complexity.JobContractor.YDSID(childComplexity), true
+		return e.ComplexityRoot.JobContractor.YDSID(childComplexity), true
 
 	case "JobCounts.administrationCounts":
-		if e.complexity.JobCounts.AdministrationCounts == nil {
+		if e.ComplexityRoot.JobCounts.AdministrationCounts == nil {
 			break
 		}
 
-		return e.complexity.JobCounts.AdministrationCounts(childComplexity), true
+		return e.ComplexityRoot.JobCounts.AdministrationCounts(childComplexity), true
 	case "JobCounts.completed":
-		if e.complexity.JobCounts.Completed == nil {
+		if e.ComplexityRoot.JobCounts.Completed == nil {
 			break
 		}
 
-		return e.complexity.JobCounts.Completed(childComplexity), true
+		return e.ComplexityRoot.JobCounts.Completed(childComplexity), true
 	case "JobCounts.current":
-		if e.complexity.JobCounts.Current == nil {
+		if e.ComplexityRoot.JobCounts.Current == nil {
 			break
 		}
 
-		return e.complexity.JobCounts.Current(childComplexity), true
+		return e.ComplexityRoot.JobCounts.Current(childComplexity), true
 	case "JobCounts.pending":
-		if e.complexity.JobCounts.Pending == nil {
+		if e.ComplexityRoot.JobCounts.Pending == nil {
 			break
 		}
 
-		return e.complexity.JobCounts.Pending(childComplexity), true
+		return e.ComplexityRoot.JobCounts.Pending(childComplexity), true
 	case "JobCounts.total":
-		if e.complexity.JobCounts.Total == nil {
+		if e.ComplexityRoot.JobCounts.Total == nil {
 			break
 		}
 
-		return e.complexity.JobCounts.Total(childComplexity), true
+		return e.ComplexityRoot.JobCounts.Total(childComplexity), true
 
 	case "JobDetail.Address":
-		if e.complexity.JobDetail.Address == nil {
+		if e.ComplexityRoot.JobDetail.Address == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Address(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Address(childComplexity), true
 	case "JobDetail.Administration":
-		if e.complexity.JobDetail.Administration == nil {
+		if e.ComplexityRoot.JobDetail.Administration == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Administration(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Administration(childComplexity), true
 	case "JobDetail.BKSReferenceNo":
-		if e.complexity.JobDetail.BKSReferenceNo == nil {
+		if e.ComplexityRoot.JobDetail.BKSReferenceNo == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.BKSReferenceNo(childComplexity), true
+		return e.ComplexityRoot.JobDetail.BKSReferenceNo(childComplexity), true
 	case "JobDetail.BuildingClass":
-		if e.complexity.JobDetail.BuildingClass == nil {
+		if e.ComplexityRoot.JobDetail.BuildingClass == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.BuildingClass(childComplexity), true
+		return e.ComplexityRoot.JobDetail.BuildingClass(childComplexity), true
 	case "JobDetail.BuildingType":
-		if e.complexity.JobDetail.BuildingType == nil {
+		if e.ComplexityRoot.JobDetail.BuildingType == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.BuildingType(childComplexity), true
+		return e.ComplexityRoot.JobDetail.BuildingType(childComplexity), true
 	case "JobDetail.ClusterStructure":
-		if e.complexity.JobDetail.ClusterStructure == nil {
+		if e.ComplexityRoot.JobDetail.ClusterStructure == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.ClusterStructure(childComplexity), true
+		return e.ComplexityRoot.JobDetail.ClusterStructure(childComplexity), true
 	case "JobDetail.CompanyCode":
-		if e.complexity.JobDetail.CompanyCode == nil {
+		if e.ComplexityRoot.JobDetail.CompanyCode == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.CompanyCode(childComplexity), true
+		return e.ComplexityRoot.JobDetail.CompanyCode(childComplexity), true
 	case "JobDetail.CompletionDate":
-		if e.complexity.JobDetail.CompletionDate == nil {
+		if e.ComplexityRoot.JobDetail.CompletionDate == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.CompletionDate(childComplexity), true
+		return e.ComplexityRoot.JobDetail.CompletionDate(childComplexity), true
 	case "JobDetail.ConstructionArea":
-		if e.complexity.JobDetail.ConstructionArea == nil {
+		if e.ComplexityRoot.JobDetail.ConstructionArea == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.ConstructionArea(childComplexity), true
+		return e.ComplexityRoot.JobDetail.ConstructionArea(childComplexity), true
 	case "JobDetail.ContractDate":
-		if e.complexity.JobDetail.ContractDate == nil {
+		if e.ComplexityRoot.JobDetail.ContractDate == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.ContractDate(childComplexity), true
+		return e.ComplexityRoot.JobDetail.ContractDate(childComplexity), true
 	case "JobDetail.Coordinates":
-		if e.complexity.JobDetail.Coordinates == nil {
+		if e.ComplexityRoot.JobDetail.Coordinates == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Coordinates(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Coordinates(childComplexity), true
 	case "JobDetail.DistributionDate":
-		if e.complexity.JobDetail.DistributionDate == nil {
+		if e.ComplexityRoot.JobDetail.DistributionDate == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.DistributionDate(childComplexity), true
+		return e.ComplexityRoot.JobDetail.DistributionDate(childComplexity), true
 	case "JobDetail.FloorCount":
-		if e.complexity.JobDetail.FloorCount == nil {
+		if e.ComplexityRoot.JobDetail.FloorCount == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.FloorCount(childComplexity), true
+		return e.ComplexityRoot.JobDetail.FloorCount(childComplexity), true
 	case "JobDetail.FolderNo":
-		if e.complexity.JobDetail.FolderNo == nil {
+		if e.ComplexityRoot.JobDetail.FolderNo == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.FolderNo(childComplexity), true
+		return e.ComplexityRoot.JobDetail.FolderNo(childComplexity), true
 	case "JobDetail.id":
-		if e.complexity.JobDetail.ID == nil {
+		if e.ComplexityRoot.JobDetail.ID == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.ID(childComplexity), true
+		return e.ComplexityRoot.JobDetail.ID(childComplexity), true
 	case "JobDetail.IndustryArea":
-		if e.complexity.JobDetail.IndustryArea == nil {
+		if e.ComplexityRoot.JobDetail.IndustryArea == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.IndustryArea(childComplexity), true
+		return e.ComplexityRoot.JobDetail.IndustryArea(childComplexity), true
 	case "JobDetail.IsCompleted":
-		if e.complexity.JobDetail.IsCompleted == nil {
+		if e.ComplexityRoot.JobDetail.IsCompleted == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.IsCompleted(childComplexity), true
+		return e.ComplexityRoot.JobDetail.IsCompleted(childComplexity), true
 	case "JobDetail.IsLicenseExpired":
-		if e.complexity.JobDetail.IsLicenseExpired == nil {
+		if e.ComplexityRoot.JobDetail.IsLicenseExpired == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.IsLicenseExpired(childComplexity), true
+		return e.ComplexityRoot.JobDetail.IsLicenseExpired(childComplexity), true
 	case "JobDetail.Island":
-		if e.complexity.JobDetail.Island == nil {
+		if e.ComplexityRoot.JobDetail.Island == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Island(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Island(childComplexity), true
 	case "JobDetail.LandArea":
-		if e.complexity.JobDetail.LandArea == nil {
+		if e.ComplexityRoot.JobDetail.LandArea == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.LandArea(childComplexity), true
+		return e.ComplexityRoot.JobDetail.LandArea(childComplexity), true
 	case "JobDetail.LeftArea":
-		if e.complexity.JobDetail.LeftArea == nil {
+		if e.ComplexityRoot.JobDetail.LeftArea == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.LeftArea(childComplexity), true
+		return e.ComplexityRoot.JobDetail.LeftArea(childComplexity), true
 	case "JobDetail.Level":
-		if e.complexity.JobDetail.Level == nil {
+		if e.ComplexityRoot.JobDetail.Level == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Level(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Level(childComplexity), true
 	case "JobDetail.LicenseDate":
-		if e.complexity.JobDetail.LicenseDate == nil {
+		if e.ComplexityRoot.JobDetail.LicenseDate == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.LicenseDate(childComplexity), true
+		return e.ComplexityRoot.JobDetail.LicenseDate(childComplexity), true
 	case "JobDetail.LicenseNo":
-		if e.complexity.JobDetail.LicenseNo == nil {
+		if e.ComplexityRoot.JobDetail.LicenseNo == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.LicenseNo(childComplexity), true
+		return e.ComplexityRoot.JobDetail.LicenseNo(childComplexity), true
 	case "JobDetail.Note":
-		if e.complexity.JobDetail.Note == nil {
+		if e.ComplexityRoot.JobDetail.Note == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Note(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Note(childComplexity), true
 	case "JobDetail.Parcel":
-		if e.complexity.JobDetail.Parcel == nil {
+		if e.ComplexityRoot.JobDetail.Parcel == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Parcel(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Parcel(childComplexity), true
 	case "JobDetail.Sheet":
-		if e.complexity.JobDetail.Sheet == nil {
+		if e.ComplexityRoot.JobDetail.Sheet == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Sheet(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Sheet(childComplexity), true
 	case "JobDetail.StartDate":
-		if e.complexity.JobDetail.StartDate == nil {
+		if e.ComplexityRoot.JobDetail.StartDate == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.StartDate(childComplexity), true
+		return e.ComplexityRoot.JobDetail.StartDate(childComplexity), true
 	case "JobDetail.StartNote":
-		if e.complexity.JobDetail.StartNote == nil {
+		if e.ComplexityRoot.JobDetail.StartNote == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.StartNote(childComplexity), true
+		return e.ComplexityRoot.JobDetail.StartNote(childComplexity), true
 	case "JobDetail.State":
-		if e.complexity.JobDetail.State == nil {
+		if e.ComplexityRoot.JobDetail.State == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.State(childComplexity), true
+		return e.ComplexityRoot.JobDetail.State(childComplexity), true
 	case "JobDetail.Title":
-		if e.complexity.JobDetail.Title == nil {
+		if e.ComplexityRoot.JobDetail.Title == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.Title(childComplexity), true
+		return e.ComplexityRoot.JobDetail.Title(childComplexity), true
 	case "JobDetail.TotalArea":
-		if e.complexity.JobDetail.TotalArea == nil {
+		if e.ComplexityRoot.JobDetail.TotalArea == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.TotalArea(childComplexity), true
+		return e.ComplexityRoot.JobDetail.TotalArea(childComplexity), true
 	case "JobDetail.UnitPrice":
-		if e.complexity.JobDetail.UnitPrice == nil {
+		if e.ComplexityRoot.JobDetail.UnitPrice == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.UnitPrice(childComplexity), true
+		return e.ComplexityRoot.JobDetail.UnitPrice(childComplexity), true
 	case "JobDetail.UploadedFile":
-		if e.complexity.JobDetail.UploadedFile == nil {
+		if e.ComplexityRoot.JobDetail.UploadedFile == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.UploadedFile(childComplexity), true
+		return e.ComplexityRoot.JobDetail.UploadedFile(childComplexity), true
 	case "JobDetail.YDSAddress":
-		if e.complexity.JobDetail.YDSAddress == nil {
+		if e.ComplexityRoot.JobDetail.YDSAddress == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.YDSAddress(childComplexity), true
+		return e.ComplexityRoot.JobDetail.YDSAddress(childComplexity), true
 	case "JobDetail.YibfNo":
-		if e.complexity.JobDetail.YibfNo == nil {
+		if e.ComplexityRoot.JobDetail.YibfNo == nil {
 			break
 		}
 
-		return e.complexity.JobDetail.YibfNo(childComplexity), true
+		return e.ComplexityRoot.JobDetail.YibfNo(childComplexity), true
 
 	case "JobEngineer.Architect":
-		if e.complexity.JobEngineer.Architect == nil {
+		if e.ComplexityRoot.JobEngineer.Architect == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.Architect(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.Architect(childComplexity), true
 	case "JobEngineer.Controller":
-		if e.complexity.JobEngineer.Controller == nil {
+		if e.ComplexityRoot.JobEngineer.Controller == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.Controller(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.Controller(childComplexity), true
 	case "JobEngineer.Electric":
-		if e.complexity.JobEngineer.Electric == nil {
+		if e.ComplexityRoot.JobEngineer.Electric == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.Electric(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.Electric(childComplexity), true
 	case "JobEngineer.ElectricController":
-		if e.complexity.JobEngineer.ElectricController == nil {
+		if e.ComplexityRoot.JobEngineer.ElectricController == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.ElectricController(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.ElectricController(childComplexity), true
 	case "JobEngineer.Inspector":
-		if e.complexity.JobEngineer.Inspector == nil {
+		if e.ComplexityRoot.JobEngineer.Inspector == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.Inspector(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.Inspector(childComplexity), true
 	case "JobEngineer.Mechanic":
-		if e.complexity.JobEngineer.Mechanic == nil {
+		if e.ComplexityRoot.JobEngineer.Mechanic == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.Mechanic(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.Mechanic(childComplexity), true
 	case "JobEngineer.MechanicController":
-		if e.complexity.JobEngineer.MechanicController == nil {
+		if e.ComplexityRoot.JobEngineer.MechanicController == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.MechanicController(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.MechanicController(childComplexity), true
 	case "JobEngineer.Static":
-		if e.complexity.JobEngineer.Static == nil {
+		if e.ComplexityRoot.JobEngineer.Static == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.Static(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.Static(childComplexity), true
 	case "JobEngineer.YibfNo":
-		if e.complexity.JobEngineer.YibfNo == nil {
+		if e.ComplexityRoot.JobEngineer.YibfNo == nil {
 			break
 		}
 
-		return e.complexity.JobEngineer.YibfNo(childComplexity), true
+		return e.ComplexityRoot.JobEngineer.YibfNo(childComplexity), true
 
 	case "JobFloor.ConcreteClass":
-		if e.complexity.JobFloor.ConcreteClass == nil {
+		if e.ComplexityRoot.JobFloor.ConcreteClass == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.ConcreteClass(childComplexity), true
+		return e.ComplexityRoot.JobFloor.ConcreteClass(childComplexity), true
 	case "JobFloor.ConcreteDate":
-		if e.complexity.JobFloor.ConcreteDate == nil {
+		if e.ComplexityRoot.JobFloor.ConcreteDate == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.ConcreteDate(childComplexity), true
+		return e.ComplexityRoot.JobFloor.ConcreteDate(childComplexity), true
 	case "JobFloor.id":
-		if e.complexity.JobFloor.ID == nil {
+		if e.ComplexityRoot.JobFloor.ID == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.ID(childComplexity), true
+		return e.ComplexityRoot.JobFloor.ID(childComplexity), true
 	case "JobFloor.Job":
-		if e.complexity.JobFloor.Job == nil {
+		if e.ComplexityRoot.JobFloor.Job == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.Job(childComplexity), true
+		return e.ComplexityRoot.JobFloor.Job(childComplexity), true
 	case "JobFloor.Metre":
-		if e.complexity.JobFloor.Metre == nil {
+		if e.ComplexityRoot.JobFloor.Metre == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.Metre(childComplexity), true
+		return e.ComplexityRoot.JobFloor.Metre(childComplexity), true
 	case "JobFloor.MoldDate":
-		if e.complexity.JobFloor.MoldDate == nil {
+		if e.ComplexityRoot.JobFloor.MoldDate == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.MoldDate(childComplexity), true
+		return e.ComplexityRoot.JobFloor.MoldDate(childComplexity), true
 	case "JobFloor.MonthResult":
-		if e.complexity.JobFloor.MonthResult == nil {
+		if e.ComplexityRoot.JobFloor.MonthResult == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.MonthResult(childComplexity), true
+		return e.ComplexityRoot.JobFloor.MonthResult(childComplexity), true
 	case "JobFloor.Name":
-		if e.complexity.JobFloor.Name == nil {
+		if e.ComplexityRoot.JobFloor.Name == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.Name(childComplexity), true
+		return e.ComplexityRoot.JobFloor.Name(childComplexity), true
 	case "JobFloor.Samples":
-		if e.complexity.JobFloor.Samples == nil {
+		if e.ComplexityRoot.JobFloor.Samples == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.Samples(childComplexity), true
+		return e.ComplexityRoot.JobFloor.Samples(childComplexity), true
 	case "JobFloor.WeekResult":
-		if e.complexity.JobFloor.WeekResult == nil {
+		if e.ComplexityRoot.JobFloor.WeekResult == nil {
 			break
 		}
 
-		return e.complexity.JobFloor.WeekResult(childComplexity), true
+		return e.ComplexityRoot.JobFloor.WeekResult(childComplexity), true
 
 	case "JobOwner.Address":
-		if e.complexity.JobOwner.Address == nil {
+		if e.ComplexityRoot.JobOwner.Address == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.Address(childComplexity), true
+		return e.ComplexityRoot.JobOwner.Address(childComplexity), true
 	case "JobOwner.Email":
-		if e.complexity.JobOwner.Email == nil {
+		if e.ComplexityRoot.JobOwner.Email == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.Email(childComplexity), true
+		return e.ComplexityRoot.JobOwner.Email(childComplexity), true
 	case "JobOwner.id":
-		if e.complexity.JobOwner.ID == nil {
+		if e.ComplexityRoot.JobOwner.ID == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.ID(childComplexity), true
+		return e.ComplexityRoot.JobOwner.ID(childComplexity), true
 	case "JobOwner.Name":
-		if e.complexity.JobOwner.Name == nil {
+		if e.ComplexityRoot.JobOwner.Name == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.Name(childComplexity), true
+		return e.ComplexityRoot.JobOwner.Name(childComplexity), true
 	case "JobOwner.Note":
-		if e.complexity.JobOwner.Note == nil {
+		if e.ComplexityRoot.JobOwner.Note == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.Note(childComplexity), true
+		return e.ComplexityRoot.JobOwner.Note(childComplexity), true
 	case "JobOwner.Phone":
-		if e.complexity.JobOwner.Phone == nil {
+		if e.ComplexityRoot.JobOwner.Phone == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.Phone(childComplexity), true
+		return e.ComplexityRoot.JobOwner.Phone(childComplexity), true
 	case "JobOwner.Shareholder":
-		if e.complexity.JobOwner.Shareholder == nil {
+		if e.ComplexityRoot.JobOwner.Shareholder == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.Shareholder(childComplexity), true
+		return e.ComplexityRoot.JobOwner.Shareholder(childComplexity), true
 	case "JobOwner.TaxAdmin":
-		if e.complexity.JobOwner.TaxAdmin == nil {
+		if e.ComplexityRoot.JobOwner.TaxAdmin == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.TaxAdmin(childComplexity), true
+		return e.ComplexityRoot.JobOwner.TaxAdmin(childComplexity), true
 	case "JobOwner.TaxNo":
-		if e.complexity.JobOwner.TaxNo == nil {
+		if e.ComplexityRoot.JobOwner.TaxNo == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.TaxNo(childComplexity), true
+		return e.ComplexityRoot.JobOwner.TaxNo(childComplexity), true
 	case "JobOwner.TcNo":
-		if e.complexity.JobOwner.TcNo == nil {
+		if e.ComplexityRoot.JobOwner.TcNo == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.TcNo(childComplexity), true
+		return e.ComplexityRoot.JobOwner.TcNo(childComplexity), true
 	case "JobOwner.YDSID":
-		if e.complexity.JobOwner.YDSID == nil {
+		if e.ComplexityRoot.JobOwner.YDSID == nil {
 			break
 		}
 
-		return e.complexity.JobOwner.YDSID(childComplexity), true
+		return e.ComplexityRoot.JobOwner.YDSID(childComplexity), true
 
 	case "JobPayments.Amount":
-		if e.complexity.JobPayments.Amount == nil {
+		if e.ComplexityRoot.JobPayments.Amount == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.Amount(childComplexity), true
+		return e.ComplexityRoot.JobPayments.Amount(childComplexity), true
 	case "JobPayments.AtMunicipality":
-		if e.complexity.JobPayments.AtMunicipality == nil {
+		if e.ComplexityRoot.JobPayments.AtMunicipality == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.AtMunicipality(childComplexity), true
+		return e.ComplexityRoot.JobPayments.AtMunicipality(childComplexity), true
 	case "JobPayments.id":
-		if e.complexity.JobPayments.ID == nil {
+		if e.ComplexityRoot.JobPayments.ID == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.ID(childComplexity), true
+		return e.ComplexityRoot.JobPayments.ID(childComplexity), true
 	case "JobPayments.InvoiceIssued":
-		if e.complexity.JobPayments.InvoiceIssued == nil {
+		if e.ComplexityRoot.JobPayments.InvoiceIssued == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.InvoiceIssued(childComplexity), true
+		return e.ComplexityRoot.JobPayments.InvoiceIssued(childComplexity), true
 	case "JobPayments.InvoiceIssuedDate":
-		if e.complexity.JobPayments.InvoiceIssuedDate == nil {
+		if e.ComplexityRoot.JobPayments.InvoiceIssuedDate == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.InvoiceIssuedDate(childComplexity), true
+		return e.ComplexityRoot.JobPayments.InvoiceIssuedDate(childComplexity), true
 	case "JobPayments.InvoiceReceived":
-		if e.complexity.JobPayments.InvoiceReceived == nil {
+		if e.ComplexityRoot.JobPayments.InvoiceReceived == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.InvoiceReceived(childComplexity), true
+		return e.ComplexityRoot.JobPayments.InvoiceReceived(childComplexity), true
 	case "JobPayments.InvoiceReceivedAmount":
-		if e.complexity.JobPayments.InvoiceReceivedAmount == nil {
+		if e.ComplexityRoot.JobPayments.InvoiceReceivedAmount == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.InvoiceReceivedAmount(childComplexity), true
+		return e.ComplexityRoot.JobPayments.InvoiceReceivedAmount(childComplexity), true
 	case "JobPayments.InvoiceReceivedDate":
-		if e.complexity.JobPayments.InvoiceReceivedDate == nil {
+		if e.ComplexityRoot.JobPayments.InvoiceReceivedDate == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.InvoiceReceivedDate(childComplexity), true
+		return e.ComplexityRoot.JobPayments.InvoiceReceivedDate(childComplexity), true
 	case "JobPayments.LevelApprove":
-		if e.complexity.JobPayments.LevelApprove == nil {
+		if e.ComplexityRoot.JobPayments.LevelApprove == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.LevelApprove(childComplexity), true
+		return e.ComplexityRoot.JobPayments.LevelApprove(childComplexity), true
 	case "JobPayments.LevelRequest":
-		if e.complexity.JobPayments.LevelRequest == nil {
+		if e.ComplexityRoot.JobPayments.LevelRequest == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.LevelRequest(childComplexity), true
+		return e.ComplexityRoot.JobPayments.LevelRequest(childComplexity), true
 	case "JobPayments.MunicipalityDeliveryDate":
-		if e.complexity.JobPayments.MunicipalityDeliveryDate == nil {
+		if e.ComplexityRoot.JobPayments.MunicipalityDeliveryDate == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.MunicipalityDeliveryDate(childComplexity), true
+		return e.ComplexityRoot.JobPayments.MunicipalityDeliveryDate(childComplexity), true
 	case "JobPayments.PaymentDate":
-		if e.complexity.JobPayments.PaymentDate == nil {
+		if e.ComplexityRoot.JobPayments.PaymentDate == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.PaymentDate(childComplexity), true
+		return e.ComplexityRoot.JobPayments.PaymentDate(childComplexity), true
 	case "JobPayments.PaymentNo":
-		if e.complexity.JobPayments.PaymentNo == nil {
+		if e.ComplexityRoot.JobPayments.PaymentNo == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.PaymentNo(childComplexity), true
+		return e.ComplexityRoot.JobPayments.PaymentNo(childComplexity), true
 	case "JobPayments.PaymentType":
-		if e.complexity.JobPayments.PaymentType == nil {
+		if e.ComplexityRoot.JobPayments.PaymentType == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.PaymentType(childComplexity), true
+		return e.ComplexityRoot.JobPayments.PaymentType(childComplexity), true
 	case "JobPayments.State":
-		if e.complexity.JobPayments.State == nil {
+		if e.ComplexityRoot.JobPayments.State == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.State(childComplexity), true
+		return e.ComplexityRoot.JobPayments.State(childComplexity), true
 	case "JobPayments.updatedAt":
-		if e.complexity.JobPayments.UpdatedAt == nil {
+		if e.ComplexityRoot.JobPayments.UpdatedAt == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.UpdatedAt(childComplexity), true
+		return e.ComplexityRoot.JobPayments.UpdatedAt(childComplexity), true
 	case "JobPayments.YibfNo":
-		if e.complexity.JobPayments.YibfNo == nil {
+		if e.ComplexityRoot.JobPayments.YibfNo == nil {
 			break
 		}
 
-		return e.complexity.JobPayments.YibfNo(childComplexity), true
+		return e.ComplexityRoot.JobPayments.YibfNo(childComplexity), true
 
 	case "JobProgress.Five":
-		if e.complexity.JobProgress.Five == nil {
+		if e.ComplexityRoot.JobProgress.Five == nil {
 			break
 		}
 
-		return e.complexity.JobProgress.Five(childComplexity), true
+		return e.ComplexityRoot.JobProgress.Five(childComplexity), true
 	case "JobProgress.Four":
-		if e.complexity.JobProgress.Four == nil {
+		if e.ComplexityRoot.JobProgress.Four == nil {
 			break
 		}
 
-		return e.complexity.JobProgress.Four(childComplexity), true
+		return e.ComplexityRoot.JobProgress.Four(childComplexity), true
 	case "JobProgress.id":
-		if e.complexity.JobProgress.ID == nil {
+		if e.ComplexityRoot.JobProgress.ID == nil {
 			break
 		}
 
-		return e.complexity.JobProgress.ID(childComplexity), true
+		return e.ComplexityRoot.JobProgress.ID(childComplexity), true
 	case "JobProgress.One":
-		if e.complexity.JobProgress.One == nil {
+		if e.ComplexityRoot.JobProgress.One == nil {
 			break
 		}
 
-		return e.complexity.JobProgress.One(childComplexity), true
+		return e.ComplexityRoot.JobProgress.One(childComplexity), true
 	case "JobProgress.Six":
-		if e.complexity.JobProgress.Six == nil {
+		if e.ComplexityRoot.JobProgress.Six == nil {
 			break
 		}
 
-		return e.complexity.JobProgress.Six(childComplexity), true
+		return e.ComplexityRoot.JobProgress.Six(childComplexity), true
 	case "JobProgress.Three":
-		if e.complexity.JobProgress.Three == nil {
+		if e.ComplexityRoot.JobProgress.Three == nil {
 			break
 		}
 
-		return e.complexity.JobProgress.Three(childComplexity), true
+		return e.ComplexityRoot.JobProgress.Three(childComplexity), true
 	case "JobProgress.Two":
-		if e.complexity.JobProgress.Two == nil {
+		if e.ComplexityRoot.JobProgress.Two == nil {
 			break
 		}
 
-		return e.complexity.JobProgress.Two(childComplexity), true
+		return e.ComplexityRoot.JobProgress.Two(childComplexity), true
 
 	case "JobReceipt.Amount":
-		if e.complexity.JobReceipt.Amount == nil {
+		if e.ComplexityRoot.JobReceipt.Amount == nil {
 			break
 		}
 
-		return e.complexity.JobReceipt.Amount(childComplexity), true
+		return e.ComplexityRoot.JobReceipt.Amount(childComplexity), true
 	case "JobReceipt.createdAt":
-		if e.complexity.JobReceipt.CreatedAt == nil {
+		if e.ComplexityRoot.JobReceipt.CreatedAt == nil {
 			break
 		}
 
-		return e.complexity.JobReceipt.CreatedAt(childComplexity), true
+		return e.ComplexityRoot.JobReceipt.CreatedAt(childComplexity), true
 	case "JobReceipt.id":
-		if e.complexity.JobReceipt.ID == nil {
+		if e.ComplexityRoot.JobReceipt.ID == nil {
 			break
 		}
 
-		return e.complexity.JobReceipt.ID(childComplexity), true
+		return e.ComplexityRoot.JobReceipt.ID(childComplexity), true
 	case "JobReceipt.Note":
-		if e.complexity.JobReceipt.Note == nil {
+		if e.ComplexityRoot.JobReceipt.Note == nil {
 			break
 		}
 
-		return e.complexity.JobReceipt.Note(childComplexity), true
+		return e.ComplexityRoot.JobReceipt.Note(childComplexity), true
 	case "JobReceipt.ReceiptDate":
-		if e.complexity.JobReceipt.ReceiptDate == nil {
+		if e.ComplexityRoot.JobReceipt.ReceiptDate == nil {
 			break
 		}
 
-		return e.complexity.JobReceipt.ReceiptDate(childComplexity), true
+		return e.ComplexityRoot.JobReceipt.ReceiptDate(childComplexity), true
 	case "JobReceipt.YibfNo":
-		if e.complexity.JobReceipt.YibfNo == nil {
+		if e.ComplexityRoot.JobReceipt.YibfNo == nil {
 			break
 		}
 
-		return e.complexity.JobReceipt.YibfNo(childComplexity), true
+		return e.ComplexityRoot.JobReceipt.YibfNo(childComplexity), true
 
 	case "JobSupervisor.Address":
-		if e.complexity.JobSupervisor.Address == nil {
+		if e.ComplexityRoot.JobSupervisor.Address == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.Address(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.Address(childComplexity), true
 	case "JobSupervisor.Career":
-		if e.complexity.JobSupervisor.Career == nil {
+		if e.ComplexityRoot.JobSupervisor.Career == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.Career(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.Career(childComplexity), true
 	case "JobSupervisor.Email":
-		if e.complexity.JobSupervisor.Email == nil {
+		if e.ComplexityRoot.JobSupervisor.Email == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.Email(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.Email(childComplexity), true
 	case "JobSupervisor.id":
-		if e.complexity.JobSupervisor.ID == nil {
+		if e.ComplexityRoot.JobSupervisor.ID == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.ID(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.ID(childComplexity), true
 	case "JobSupervisor.Name":
-		if e.complexity.JobSupervisor.Name == nil {
+		if e.ComplexityRoot.JobSupervisor.Name == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.Name(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.Name(childComplexity), true
 	case "JobSupervisor.Phone":
-		if e.complexity.JobSupervisor.Phone == nil {
+		if e.ComplexityRoot.JobSupervisor.Phone == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.Phone(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.Phone(childComplexity), true
 	case "JobSupervisor.Position":
-		if e.complexity.JobSupervisor.Position == nil {
+		if e.ComplexityRoot.JobSupervisor.Position == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.Position(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.Position(childComplexity), true
 	case "JobSupervisor.RegisterNo":
-		if e.complexity.JobSupervisor.RegisterNo == nil {
+		if e.ComplexityRoot.JobSupervisor.RegisterNo == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.RegisterNo(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.RegisterNo(childComplexity), true
 	case "JobSupervisor.SchoolGraduation":
-		if e.complexity.JobSupervisor.SchoolGraduation == nil {
+		if e.ComplexityRoot.JobSupervisor.SchoolGraduation == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.SchoolGraduation(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.SchoolGraduation(childComplexity), true
 	case "JobSupervisor.SocialSecurityNo":
-		if e.complexity.JobSupervisor.SocialSecurityNo == nil {
+		if e.ComplexityRoot.JobSupervisor.SocialSecurityNo == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.SocialSecurityNo(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.SocialSecurityNo(childComplexity), true
 	case "JobSupervisor.TcNo":
-		if e.complexity.JobSupervisor.TcNo == nil {
+		if e.ComplexityRoot.JobSupervisor.TcNo == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.TcNo(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.TcNo(childComplexity), true
 	case "JobSupervisor.YDSID":
-		if e.complexity.JobSupervisor.YDSID == nil {
+		if e.ComplexityRoot.JobSupervisor.YDSID == nil {
 			break
 		}
 
-		return e.complexity.JobSupervisor.YDSID(childComplexity), true
+		return e.ComplexityRoot.JobSupervisor.YDSID(childComplexity), true
 
 	case "Mutation.activateCompanyUsers":
-		if e.complexity.Mutation.ActivateCompanyUsers == nil {
+		if e.ComplexityRoot.Mutation.ActivateCompanyUsers == nil {
 			break
 		}
 
@@ -1901,9 +1885,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.ActivateCompanyUsers(childComplexity, args["adminId"].(string)), true
+		return e.ComplexityRoot.Mutation.ActivateCompanyUsers(childComplexity, args["adminId"].(string)), true
 	case "Mutation.createAuthor":
-		if e.complexity.Mutation.CreateAuthor == nil {
+		if e.ComplexityRoot.Mutation.CreateAuthor == nil {
 			break
 		}
 
@@ -1912,9 +1896,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateAuthor(childComplexity, args["input"].(model.JobAuthorInput)), true
+		return e.ComplexityRoot.Mutation.CreateAuthor(childComplexity, args["input"].(model.JobAuthorInput)), true
 	case "Mutation.createContractor":
-		if e.complexity.Mutation.CreateContractor == nil {
+		if e.ComplexityRoot.Mutation.CreateContractor == nil {
 			break
 		}
 
@@ -1923,9 +1907,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateContractor(childComplexity, args["input"].(model.JobContractorInput)), true
+		return e.ComplexityRoot.Mutation.CreateContractor(childComplexity, args["input"].(model.JobContractorInput)), true
 	case "Mutation.createEngineer":
-		if e.complexity.Mutation.CreateEngineer == nil {
+		if e.ComplexityRoot.Mutation.CreateEngineer == nil {
 			break
 		}
 
@@ -1934,9 +1918,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateEngineer(childComplexity, args["input"].(model.CompanyEngineerInput)), true
+		return e.ComplexityRoot.Mutation.CreateEngineer(childComplexity, args["input"].(model.CompanyEngineerInput)), true
 	case "Mutation.createJob":
-		if e.complexity.Mutation.CreateJob == nil {
+		if e.ComplexityRoot.Mutation.CreateJob == nil {
 			break
 		}
 
@@ -1945,9 +1929,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateJob(childComplexity, args["input"].(model.JobInput)), true
+		return e.ComplexityRoot.Mutation.CreateJob(childComplexity, args["input"].(model.JobInput)), true
 	case "Mutation.createJobPayments":
-		if e.complexity.Mutation.CreateJobPayments == nil {
+		if e.ComplexityRoot.Mutation.CreateJobPayments == nil {
 			break
 		}
 
@@ -1956,9 +1940,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateJobPayments(childComplexity, args["input"].(model.JobPaymentsInput)), true
+		return e.ComplexityRoot.Mutation.CreateJobPayments(childComplexity, args["input"].(model.JobPaymentsInput)), true
 	case "Mutation.createOwner":
-		if e.complexity.Mutation.CreateOwner == nil {
+		if e.ComplexityRoot.Mutation.CreateOwner == nil {
 			break
 		}
 
@@ -1967,9 +1951,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateOwner(childComplexity, args["input"].(model.JobOwnerInput)), true
+		return e.ComplexityRoot.Mutation.CreateOwner(childComplexity, args["input"].(model.JobOwnerInput)), true
 	case "Mutation.createSupervisor":
-		if e.complexity.Mutation.CreateSupervisor == nil {
+		if e.ComplexityRoot.Mutation.CreateSupervisor == nil {
 			break
 		}
 
@@ -1978,9 +1962,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateSupervisor(childComplexity, args["input"].(model.JobSupervisorInput)), true
+		return e.ComplexityRoot.Mutation.CreateSupervisor(childComplexity, args["input"].(model.JobSupervisorInput)), true
 	case "Mutation.deleteBatchMutation":
-		if e.complexity.Mutation.DeleteBatchMutation == nil {
+		if e.ComplexityRoot.Mutation.DeleteBatchMutation == nil {
 			break
 		}
 
@@ -1989,9 +1973,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteBatchMutation(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Mutation.DeleteBatchMutation(childComplexity, args["yibfNo"].(int)), true
 	case "Mutation.deleteFloor":
-		if e.complexity.Mutation.DeleteFloor == nil {
+		if e.ComplexityRoot.Mutation.DeleteFloor == nil {
 			break
 		}
 
@@ -2000,9 +1984,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteFloor(childComplexity, args["id"].(int)), true
+		return e.ComplexityRoot.Mutation.DeleteFloor(childComplexity, args["id"].(int)), true
 	case "Mutation.deleteJobReceipts":
-		if e.complexity.Mutation.DeleteJobReceipts == nil {
+		if e.ComplexityRoot.Mutation.DeleteJobReceipts == nil {
 			break
 		}
 
@@ -2011,9 +1995,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteJobReceipts(childComplexity, args["id"].(int)), true
+		return e.ComplexityRoot.Mutation.DeleteJobReceipts(childComplexity, args["id"].(int)), true
 	case "Mutation.deleteUser":
-		if e.complexity.Mutation.DeleteUser == nil {
+		if e.ComplexityRoot.Mutation.DeleteUser == nil {
 			break
 		}
 
@@ -2022,9 +2006,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteUser(childComplexity, args["id"].(string)), true
+		return e.ComplexityRoot.Mutation.DeleteUser(childComplexity, args["id"].(string)), true
 	case "Mutation.executeBatchMutation":
-		if e.complexity.Mutation.ExecuteBatchMutation == nil {
+		if e.ComplexityRoot.Mutation.ExecuteBatchMutation == nil {
 			break
 		}
 
@@ -2033,9 +2017,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.ExecuteBatchMutation(childComplexity, args["input"].(model.JobBatchInput)), true
+		return e.ComplexityRoot.Mutation.ExecuteBatchMutation(childComplexity, args["input"].(model.JobBatchInput)), true
 	case "Mutation.jobBatchMutation":
-		if e.complexity.Mutation.JobBatchMutation == nil {
+		if e.ComplexityRoot.Mutation.JobBatchMutation == nil {
 			break
 		}
 
@@ -2044,9 +2028,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.JobBatchMutation(childComplexity, args["inputs"].([]*model.JobBatchInput)), true
+		return e.ComplexityRoot.Mutation.JobBatchMutation(childComplexity, args["inputs"].([]*model.JobBatchInput)), true
 	case "Mutation.login":
-		if e.complexity.Mutation.Login == nil {
+		if e.ComplexityRoot.Mutation.Login == nil {
 			break
 		}
 
@@ -2055,9 +2039,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Login(childComplexity, args["username"].(string), args["password"].(string)), true
+		return e.ComplexityRoot.Mutation.Login(childComplexity, args["username"].(string), args["password"].(string)), true
 	case "Mutation.register":
-		if e.complexity.Mutation.Register == nil {
+		if e.ComplexityRoot.Mutation.Register == nil {
 			break
 		}
 
@@ -2066,9 +2050,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Register(childComplexity, args["username"].(string), args["name"].(*string), args["email"].(*string), args["password"].(string)), true
+		return e.ComplexityRoot.Mutation.Register(childComplexity, args["username"].(string), args["name"].(*string), args["email"].(*string), args["password"].(string)), true
 	case "Mutation.updateAuthor":
-		if e.complexity.Mutation.UpdateAuthor == nil {
+		if e.ComplexityRoot.Mutation.UpdateAuthor == nil {
 			break
 		}
 
@@ -2077,9 +2061,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateAuthor(childComplexity, args["yibfNo"].(int), args["input"].(model.JobAuthorInput)), true
+		return e.ComplexityRoot.Mutation.UpdateAuthor(childComplexity, args["yibfNo"].(int), args["input"].(model.JobAuthorInput)), true
 	case "Mutation.updateCompany":
-		if e.complexity.Mutation.UpdateCompany == nil {
+		if e.ComplexityRoot.Mutation.UpdateCompany == nil {
 			break
 		}
 
@@ -2088,9 +2072,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateCompany(childComplexity, args["input"].(model.CompanyDetailInput)), true
+		return e.ComplexityRoot.Mutation.UpdateCompany(childComplexity, args["input"].(model.CompanyDetailInput)), true
 	case "Mutation.updateContractor":
-		if e.complexity.Mutation.UpdateContractor == nil {
+		if e.ComplexityRoot.Mutation.UpdateContractor == nil {
 			break
 		}
 
@@ -2099,9 +2083,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateContractor(childComplexity, args["input"].(model.JobContractorInput)), true
+		return e.ComplexityRoot.Mutation.UpdateContractor(childComplexity, args["input"].(model.JobContractorInput)), true
 	case "Mutation.updateEngineer":
-		if e.complexity.Mutation.UpdateEngineer == nil {
+		if e.ComplexityRoot.Mutation.UpdateEngineer == nil {
 			break
 		}
 
@@ -2110,9 +2094,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateEngineer(childComplexity, args["ydsid"].(int), args["input"].(model.CompanyEngineerInput)), true
+		return e.ComplexityRoot.Mutation.UpdateEngineer(childComplexity, args["ydsid"].(int), args["input"].(model.CompanyEngineerInput)), true
 	case "Mutation.updateEngineerByYDSID":
-		if e.complexity.Mutation.UpdateEngineerByYdsid == nil {
+		if e.ComplexityRoot.Mutation.UpdateEngineerByYdsid == nil {
 			break
 		}
 
@@ -2121,9 +2105,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateEngineerByYdsid(childComplexity, args["ydsid"].(int), args["input"].(model.CompanyEngineerInput)), true
+		return e.ComplexityRoot.Mutation.UpdateEngineerByYdsid(childComplexity, args["ydsid"].(int), args["input"].(model.CompanyEngineerInput)), true
 	case "Mutation.updateJob":
-		if e.complexity.Mutation.UpdateJob == nil {
+		if e.ComplexityRoot.Mutation.UpdateJob == nil {
 			break
 		}
 
@@ -2132,9 +2116,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateJob(childComplexity, args["yibfNo"].(int), args["input"].(model.JobInput)), true
+		return e.ComplexityRoot.Mutation.UpdateJob(childComplexity, args["yibfNo"].(int), args["input"].(model.JobInput)), true
 	case "Mutation.updateJobEngineer":
-		if e.complexity.Mutation.UpdateJobEngineer == nil {
+		if e.ComplexityRoot.Mutation.UpdateJobEngineer == nil {
 			break
 		}
 
@@ -2143,9 +2127,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateJobEngineer(childComplexity, args["input"].(model.JobEngineerInput)), true
+		return e.ComplexityRoot.Mutation.UpdateJobEngineer(childComplexity, args["input"].(model.JobEngineerInput)), true
 	case "Mutation.updateJobStartDate":
-		if e.complexity.Mutation.UpdateJobStartDate == nil {
+		if e.ComplexityRoot.Mutation.UpdateJobStartDate == nil {
 			break
 		}
 
@@ -2154,9 +2138,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateJobStartDate(childComplexity, args["input"].(model.JobStartDateInput)), true
+		return e.ComplexityRoot.Mutation.UpdateJobStartDate(childComplexity, args["input"].(model.JobStartDateInput)), true
 	case "Mutation.updateOwner":
-		if e.complexity.Mutation.UpdateOwner == nil {
+		if e.ComplexityRoot.Mutation.UpdateOwner == nil {
 			break
 		}
 
@@ -2165,9 +2149,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateOwner(childComplexity, args["input"].(model.JobOwnerInput)), true
+		return e.ComplexityRoot.Mutation.UpdateOwner(childComplexity, args["input"].(model.JobOwnerInput)), true
 	case "Mutation.updatePaymentStatus":
-		if e.complexity.Mutation.UpdatePaymentStatus == nil {
+		if e.ComplexityRoot.Mutation.UpdatePaymentStatus == nil {
 			break
 		}
 
@@ -2176,9 +2160,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdatePaymentStatus(childComplexity, args["id"].(int), args["input"].(model.JobPaymentStatusInput)), true
+		return e.ComplexityRoot.Mutation.UpdatePaymentStatus(childComplexity, args["id"].(int), args["input"].(model.JobPaymentStatusInput)), true
 	case "Mutation.updateSupervisor":
-		if e.complexity.Mutation.UpdateSupervisor == nil {
+		if e.ComplexityRoot.Mutation.UpdateSupervisor == nil {
 			break
 		}
 
@@ -2187,9 +2171,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateSupervisor(childComplexity, args["input"].(model.JobSupervisorInput)), true
+		return e.ComplexityRoot.Mutation.UpdateSupervisor(childComplexity, args["input"].(model.JobSupervisorInput)), true
 	case "Mutation.upsertEngineer":
-		if e.complexity.Mutation.UpsertEngineer == nil {
+		if e.ComplexityRoot.Mutation.UpsertEngineer == nil {
 			break
 		}
 
@@ -2198,9 +2182,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpsertEngineer(childComplexity, args["input"].(model.CompanyEngineerInput)), true
+		return e.ComplexityRoot.Mutation.UpsertEngineer(childComplexity, args["input"].(model.CompanyEngineerInput)), true
 	case "Mutation.upsertFloor":
-		if e.complexity.Mutation.UpsertFloor == nil {
+		if e.ComplexityRoot.Mutation.UpsertFloor == nil {
 			break
 		}
 
@@ -2209,9 +2193,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpsertFloor(childComplexity, args["input"].(model.JobFloorInput)), true
+		return e.ComplexityRoot.Mutation.UpsertFloor(childComplexity, args["input"].(model.JobFloorInput)), true
 	case "Mutation.upsertJobReceipts":
-		if e.complexity.Mutation.UpsertJobReceipts == nil {
+		if e.ComplexityRoot.Mutation.UpsertJobReceipts == nil {
 			break
 		}
 
@@ -2220,9 +2204,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpsertJobReceipts(childComplexity, args["id"].(*int), args["input"].(model.JobReceiptInput)), true
+		return e.ComplexityRoot.Mutation.UpsertJobReceipts(childComplexity, args["id"].(*int), args["input"].(model.JobReceiptInput)), true
 	case "Mutation.upsertPayments":
-		if e.complexity.Mutation.UpsertPayments == nil {
+		if e.ComplexityRoot.Mutation.UpsertPayments == nil {
 			break
 		}
 
@@ -2231,9 +2215,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpsertPayments(childComplexity, args["id"].(*int), args["input"].(model.JobPaymentsInput)), true
+		return e.ComplexityRoot.Mutation.UpsertPayments(childComplexity, args["id"].(*int), args["input"].(model.JobPaymentsInput)), true
 	case "Mutation.upsertProgress":
-		if e.complexity.Mutation.UpsertProgress == nil {
+		if e.ComplexityRoot.Mutation.UpsertProgress == nil {
 			break
 		}
 
@@ -2242,9 +2226,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpsertProgress(childComplexity, args["input"].(model.JobProgressInput)), true
+		return e.ComplexityRoot.Mutation.UpsertProgress(childComplexity, args["input"].(model.JobProgressInput)), true
 	case "Mutation.upsertToken":
-		if e.complexity.Mutation.UpsertToken == nil {
+		if e.ComplexityRoot.Mutation.UpsertToken == nil {
 			break
 		}
 
@@ -2253,9 +2237,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpsertToken(childComplexity, args["DepartmentId"].(int), args["input"].(model.CompanyTokenInput)), true
+		return e.ComplexityRoot.Mutation.UpsertToken(childComplexity, args["DepartmentId"].(int), args["input"].(model.CompanyTokenInput)), true
 	case "Mutation.upsertUser":
-		if e.complexity.Mutation.UpsertUser == nil {
+		if e.ComplexityRoot.Mutation.UpsertUser == nil {
 			break
 		}
 
@@ -2264,22 +2248,22 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpsertUser(childComplexity, args["input"].(model.UserInput)), true
+		return e.ComplexityRoot.Mutation.UpsertUser(childComplexity, args["input"].(model.UserInput)), true
 
 	case "Query.allContractor":
-		if e.complexity.Query.AllContractor == nil {
+		if e.ComplexityRoot.Query.AllContractor == nil {
 			break
 		}
 
-		return e.complexity.Query.AllContractor(childComplexity), true
+		return e.ComplexityRoot.Query.AllContractor(childComplexity), true
 	case "Query.allOwner":
-		if e.complexity.Query.AllOwner == nil {
+		if e.ComplexityRoot.Query.AllOwner == nil {
 			break
 		}
 
-		return e.complexity.Query.AllOwner(childComplexity), true
+		return e.ComplexityRoot.Query.AllOwner(childComplexity), true
 	case "Query.author":
-		if e.complexity.Query.Author == nil {
+		if e.ComplexityRoot.Query.Author == nil {
 			break
 		}
 
@@ -2288,9 +2272,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Author(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.Author(childComplexity, args["yibfNo"].(int)), true
 	case "Query.company":
-		if e.complexity.Query.Company == nil {
+		if e.ComplexityRoot.Query.Company == nil {
 			break
 		}
 
@@ -2299,9 +2283,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Company(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.Company(childComplexity, args["yibfNo"].(int)), true
 	case "Query.companyByCode":
-		if e.complexity.Query.CompanyByCode == nil {
+		if e.ComplexityRoot.Query.CompanyByCode == nil {
 			break
 		}
 
@@ -2310,9 +2294,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.CompanyByCode(childComplexity, args["companyCode"].(int)), true
+		return e.ComplexityRoot.Query.CompanyByCode(childComplexity, args["companyCode"].(int)), true
 	case "Query.companyToken":
-		if e.complexity.Query.CompanyToken == nil {
+		if e.ComplexityRoot.Query.CompanyToken == nil {
 			break
 		}
 
@@ -2321,15 +2305,15 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.CompanyToken(childComplexity, args["companyCode"].(*int)), true
+		return e.ComplexityRoot.Query.CompanyToken(childComplexity, args["companyCode"].(*int)), true
 	case "Query.companyUsers":
-		if e.complexity.Query.CompanyUsers == nil {
+		if e.ComplexityRoot.Query.CompanyUsers == nil {
 			break
 		}
 
-		return e.complexity.Query.CompanyUsers(childComplexity), true
+		return e.ComplexityRoot.Query.CompanyUsers(childComplexity), true
 	case "Query.contractor":
-		if e.complexity.Query.Contractor == nil {
+		if e.ComplexityRoot.Query.Contractor == nil {
 			break
 		}
 
@@ -2338,9 +2322,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Contractor(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.Contractor(childComplexity, args["yibfNo"].(int)), true
 	case "Query.engineer":
-		if e.complexity.Query.Engineer == nil {
+		if e.ComplexityRoot.Query.Engineer == nil {
 			break
 		}
 
@@ -2349,9 +2333,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Engineer(childComplexity, args["filter"].(*model.EngineerFilterInput)), true
+		return e.ComplexityRoot.Query.Engineer(childComplexity, args["filter"].(*model.EngineerFilterInput)), true
 	case "Query.engineerByYDSID":
-		if e.complexity.Query.EngineerByYdsid == nil {
+		if e.ComplexityRoot.Query.EngineerByYdsid == nil {
 			break
 		}
 
@@ -2360,9 +2344,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.EngineerByYdsid(childComplexity, args["ydsid"].(int)), true
+		return e.ComplexityRoot.Query.EngineerByYdsid(childComplexity, args["ydsid"].(int)), true
 	case "Query.Floors":
-		if e.complexity.Query.Floors == nil {
+		if e.ComplexityRoot.Query.Floors == nil {
 			break
 		}
 
@@ -2371,9 +2355,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Floors(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.Floors(childComplexity, args["yibfNo"].(int)), true
 	case "Query.getContractor":
-		if e.complexity.Query.GetContractor == nil {
+		if e.ComplexityRoot.Query.GetContractor == nil {
 			break
 		}
 
@@ -2382,9 +2366,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.GetContractor(childComplexity, args["YDSID"].(int)), true
+		return e.ComplexityRoot.Query.GetContractor(childComplexity, args["YDSID"].(int)), true
 	case "Query.getOwner":
-		if e.complexity.Query.GetOwner == nil {
+		if e.ComplexityRoot.Query.GetOwner == nil {
 			break
 		}
 
@@ -2393,9 +2377,10 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.GetOwner(childComplexity, args["YDSID"].(int)), true
+		return e.ComplexityRoot.Query.GetOwner(childComplexity, args["YDSID"].(int)), true
+
 	case "Query.job":
-		if e.complexity.Query.Job == nil {
+		if e.ComplexityRoot.Query.Job == nil {
 			break
 		}
 
@@ -2404,9 +2389,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Job(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.Job(childComplexity, args["yibfNo"].(int)), true
 	case "Query.jobBatchQuery":
-		if e.complexity.Query.JobBatchQuery == nil {
+		if e.ComplexityRoot.Query.JobBatchQuery == nil {
 			break
 		}
 
@@ -2415,9 +2400,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.JobBatchQuery(childComplexity, args["yibfNo"].(*int), args["state"].(*string)), true
+		return e.ComplexityRoot.Query.JobBatchQuery(childComplexity, args["yibfNo"].(*int), args["state"].(*string)), true
 	case "Query.jobCounts":
-		if e.complexity.Query.JobCounts == nil {
+		if e.ComplexityRoot.Query.JobCounts == nil {
 			break
 		}
 
@@ -2426,9 +2411,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.JobCounts(childComplexity, args["companyCode"].(*int)), true
+		return e.ComplexityRoot.Query.JobCounts(childComplexity, args["companyCode"].(*int)), true
 	case "Query.jobEngineer":
-		if e.complexity.Query.JobEngineer == nil {
+		if e.ComplexityRoot.Query.JobEngineer == nil {
 			break
 		}
 
@@ -2437,9 +2422,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.JobEngineer(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.JobEngineer(childComplexity, args["yibfNo"].(int)), true
 	case "Query.jobPayments":
-		if e.complexity.Query.JobPayments == nil {
+		if e.ComplexityRoot.Query.JobPayments == nil {
 			break
 		}
 
@@ -2448,9 +2433,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.JobPayments(childComplexity, args["id"].(*int), args["yibfNo"].(*int)), true
+		return e.ComplexityRoot.Query.JobPayments(childComplexity, args["id"].(*int), args["yibfNo"].(*int)), true
 	case "Query.jobReceipts":
-		if e.complexity.Query.JobReceipts == nil {
+		if e.ComplexityRoot.Query.JobReceipts == nil {
 			break
 		}
 
@@ -2459,15 +2444,15 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.JobReceipts(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.JobReceipts(childComplexity, args["yibfNo"].(int)), true
 	case "Query.jobs":
-		if e.complexity.Query.Jobs == nil {
+		if e.ComplexityRoot.Query.Jobs == nil {
 			break
 		}
 
-		return e.complexity.Query.Jobs(childComplexity), true
+		return e.ComplexityRoot.Query.Jobs(childComplexity), true
 	case "Query.owner":
-		if e.complexity.Query.Owner == nil {
+		if e.ComplexityRoot.Query.Owner == nil {
 			break
 		}
 
@@ -2476,9 +2461,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Owner(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.Owner(childComplexity, args["yibfNo"].(int)), true
 	case "Query.progress":
-		if e.complexity.Query.Progress == nil {
+		if e.ComplexityRoot.Query.Progress == nil {
 			break
 		}
 
@@ -2487,9 +2472,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Progress(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.Progress(childComplexity, args["yibfNo"].(int)), true
 	case "Query.supervisor":
-		if e.complexity.Query.Supervisor == nil {
+		if e.ComplexityRoot.Query.Supervisor == nil {
 			break
 		}
 
@@ -2498,9 +2483,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Supervisor(childComplexity, args["yibfNo"].(int)), true
+		return e.ComplexityRoot.Query.Supervisor(childComplexity, args["yibfNo"].(int)), true
 	case "Query.supervisorByYDSID":
-		if e.complexity.Query.SupervisorByYdsid == nil {
+		if e.ComplexityRoot.Query.SupervisorByYdsid == nil {
 			break
 		}
 
@@ -2509,9 +2494,9 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.SupervisorByYdsid(childComplexity, args["ydsid"].(int)), true
+		return e.ComplexityRoot.Query.SupervisorByYdsid(childComplexity, args["ydsid"].(int)), true
 	case "Query.user":
-		if e.complexity.Query.User == nil {
+		if e.ComplexityRoot.Query.User == nil {
 			break
 		}
 
@@ -2520,56 +2505,56 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.User(childComplexity, args["id"].(string)), true
+		return e.ComplexityRoot.Query.User(childComplexity, args["id"].(string)), true
 
 	case "User.Companies":
-		if e.complexity.User.Companies == nil {
+		if e.ComplexityRoot.User.Companies == nil {
 			break
 		}
 
-		return e.complexity.User.Companies(childComplexity), true
+		return e.ComplexityRoot.User.Companies(childComplexity), true
 	case "User.CreatedAt":
-		if e.complexity.User.CreatedAt == nil {
+		if e.ComplexityRoot.User.CreatedAt == nil {
 			break
 		}
 
-		return e.complexity.User.CreatedAt(childComplexity), true
+		return e.ComplexityRoot.User.CreatedAt(childComplexity), true
 	case "User.Email":
-		if e.complexity.User.Email == nil {
+		if e.ComplexityRoot.User.Email == nil {
 			break
 		}
 
-		return e.complexity.User.Email(childComplexity), true
+		return e.ComplexityRoot.User.Email(childComplexity), true
 	case "User.id":
-		if e.complexity.User.ID == nil {
+		if e.ComplexityRoot.User.ID == nil {
 			break
 		}
 
-		return e.complexity.User.ID(childComplexity), true
+		return e.ComplexityRoot.User.ID(childComplexity), true
 	case "User.Name":
-		if e.complexity.User.Name == nil {
+		if e.ComplexityRoot.User.Name == nil {
 			break
 		}
 
-		return e.complexity.User.Name(childComplexity), true
+		return e.ComplexityRoot.User.Name(childComplexity), true
 	case "User.Phone":
-		if e.complexity.User.Phone == nil {
+		if e.ComplexityRoot.User.Phone == nil {
 			break
 		}
 
-		return e.complexity.User.Phone(childComplexity), true
+		return e.ComplexityRoot.User.Phone(childComplexity), true
 	case "User.Role":
-		if e.complexity.User.Role == nil {
+		if e.ComplexityRoot.User.Role == nil {
 			break
 		}
 
-		return e.complexity.User.Role(childComplexity), true
+		return e.ComplexityRoot.User.Role(childComplexity), true
 	case "User.Username":
-		if e.complexity.User.Username == nil {
+		if e.ComplexityRoot.User.Username == nil {
 			break
 		}
 
-		return e.complexity.User.Username(childComplexity), true
+		return e.ComplexityRoot.User.Username(childComplexity), true
 
 	}
 	return 0, false
@@ -2577,7 +2562,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	opCtx := graphql.GetOperationContext(ctx)
-	ec := executionContext{opCtx, e, 0, 0, make(chan graphql.DeferredResult)}
+	ec := newExecutionContext(opCtx, e, make(chan graphql.DeferredResult))
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputCompanyBatchInput,
 		ec.unmarshalInputCompanyDetailInput,
@@ -2611,9 +2596,9 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 				ctx = graphql.WithUnmarshalerMap(ctx, inputUnmarshalMap)
 				data = ec._Query(ctx, opCtx.Operation.SelectionSet)
 			} else {
-				if atomic.LoadInt32(&ec.pendingDeferred) > 0 {
-					result := <-ec.deferredResults
-					atomic.AddInt32(&ec.pendingDeferred, -1)
+				if atomic.LoadInt32(&ec.PendingDeferred) > 0 {
+					result := <-ec.DeferredResults
+					atomic.AddInt32(&ec.PendingDeferred, -1)
 					data = result.Result
 					response.Path = result.Path
 					response.Label = result.Label
@@ -2625,8 +2610,8 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 			var buf bytes.Buffer
 			data.MarshalGQL(&buf)
 			response.Data = buf.Bytes()
-			if atomic.LoadInt32(&ec.deferred) > 0 {
-				hasNext := atomic.LoadInt32(&ec.pendingDeferred) > 0
+			if atomic.LoadInt32(&ec.Deferred) > 0 {
+				hasNext := atomic.LoadInt32(&ec.PendingDeferred) > 0
 				response.HasNext = &hasNext
 			}
 
@@ -2654,44 +2639,22 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 }
 
 type executionContext struct {
-	*graphql.OperationContext
-	*executableSchema
-	deferred        int32
-	pendingDeferred int32
-	deferredResults chan graphql.DeferredResult
+	*graphql.ExecutionContextState[ResolverRoot, DirectiveRoot, ComplexityRoot]
 }
 
-func (ec *executionContext) processDeferredGroup(dg graphql.DeferredGroup) {
-	atomic.AddInt32(&ec.pendingDeferred, 1)
-	go func() {
-		ctx := graphql.WithFreshResponseContext(dg.Context)
-		dg.FieldSet.Dispatch(ctx)
-		ds := graphql.DeferredResult{
-			Path:   dg.Path,
-			Label:  dg.Label,
-			Result: dg.FieldSet,
-			Errors: graphql.GetErrors(ctx),
-		}
-		// null fields should bubble up
-		if dg.FieldSet.Invalids > 0 {
-			ds.Result = graphql.Null
-		}
-		ec.deferredResults <- ds
-	}()
-}
-
-func (ec *executionContext) introspectSchema() (*introspection.Schema, error) {
-	if ec.DisableIntrospection {
-		return nil, errors.New("introspection disabled")
+func newExecutionContext(
+	opCtx *graphql.OperationContext,
+	execSchema *executableSchema,
+	deferredResults chan graphql.DeferredResult,
+) executionContext {
+	return executionContext{
+		ExecutionContextState: graphql.NewExecutionContextState[ResolverRoot, DirectiveRoot, ComplexityRoot](
+			opCtx,
+			(*graphql.ExecutableSchemaState[ResolverRoot, DirectiveRoot, ComplexityRoot])(execSchema),
+			parsedSchema,
+			deferredResults,
+		),
 	}
-	return introspection.WrapSchema(ec.Schema()), nil
-}
-
-func (ec *executionContext) introspectType(name string) (*introspection.Type, error) {
-	if ec.DisableIntrospection {
-		return nil, errors.New("introspection disabled")
-	}
-	return introspection.WrapTypeFromDef(ec.Schema(), ec.Schema().Types[name]), nil
 }
 
 var sources = []*ast.Source{
@@ -5858,7 +5821,7 @@ func (ec *executionContext) _CompanyEngineer_CompanyCode(ctx context.Context, fi
 		field,
 		ec.fieldContext_CompanyEngineer_CompanyCode,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.CompanyEngineer().CompanyCode(ctx, obj)
+			return ec.Resolvers.CompanyEngineer().CompanyCode(ctx, obj)
 		},
 		nil,
 		ec.marshalOInt2ᚖint,
@@ -5978,7 +5941,7 @@ func (ec *executionContext) _CompanyEngineer_Job(ctx context.Context, field grap
 		field,
 		ec.fieldContext_CompanyEngineer_Job,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.CompanyEngineer().Job(ctx, obj)
+			return ec.Resolvers.CompanyEngineer().Job(ctx, obj)
 		},
 		nil,
 		ec.marshalOJobDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail,
@@ -6139,7 +6102,7 @@ func (ec *executionContext) _CompanyToken_CompanyCode(ctx context.Context, field
 		field,
 		ec.fieldContext_CompanyToken_CompanyCode,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.CompanyToken().CompanyCode(ctx, obj)
+			return ec.Resolvers.CompanyToken().CompanyCode(ctx, obj)
 		},
 		nil,
 		ec.marshalOInt2ᚖint,
@@ -6197,7 +6160,7 @@ func (ec *executionContext) _CompanyToken_YDKPassword(ctx context.Context, field
 		field,
 		ec.fieldContext_CompanyToken_YDKPassword,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.CompanyToken().YDKPassword(ctx, obj)
+			return ec.Resolvers.CompanyToken().YDKPassword(ctx, obj)
 		},
 		nil,
 		ec.marshalOString2ᚖstring,
@@ -6607,7 +6570,7 @@ func (ec *executionContext) _FinanceOperation_Name(ctx context.Context, field gr
 		field,
 		ec.fieldContext_FinanceOperation_Name,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.FinanceOperation().Name(ctx, obj)
+			return ec.Resolvers.FinanceOperation().Name(ctx, obj)
 		},
 		nil,
 		ec.marshalOString2ᚖstring,
@@ -6636,7 +6599,7 @@ func (ec *executionContext) _FinanceOperation_OperationDate(ctx context.Context,
 		field,
 		ec.fieldContext_FinanceOperation_OperationDate,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.FinanceOperation().OperationDate(ctx, obj)
+			return ec.Resolvers.FinanceOperation().OperationDate(ctx, obj)
 		},
 		nil,
 		ec.marshalOTime2ᚖtimeᚐTime,
@@ -6665,7 +6628,7 @@ func (ec *executionContext) _FinanceOperation_Debit(ctx context.Context, field g
 		field,
 		ec.fieldContext_FinanceOperation_Debit,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.FinanceOperation().Debit(ctx, obj)
+			return ec.Resolvers.FinanceOperation().Debit(ctx, obj)
 		},
 		nil,
 		ec.marshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal,
@@ -6694,7 +6657,7 @@ func (ec *executionContext) _FinanceOperation_Credit(ctx context.Context, field 
 		field,
 		ec.fieldContext_FinanceOperation_Credit,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.FinanceOperation().Credit(ctx, obj)
+			return ec.Resolvers.FinanceOperation().Credit(ctx, obj)
 		},
 		nil,
 		ec.marshalODecimal2ᚖgithubᚗcomᚋshopspringᚋdecimalᚐNullDecimal,
@@ -8241,7 +8204,7 @@ func (ec *executionContext) _JobDetail_CompanyCode(ctx context.Context, field gr
 		field,
 		ec.fieldContext_JobDetail_CompanyCode,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.JobDetail().CompanyCode(ctx, obj)
+			return ec.Resolvers.JobDetail().CompanyCode(ctx, obj)
 		},
 		nil,
 		ec.marshalNInt2int,
@@ -10066,7 +10029,7 @@ func (ec *executionContext) _JobFloor_Job(ctx context.Context, field graphql.Col
 		field,
 		ec.fieldContext_JobFloor_Job,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.JobFloor().Job(ctx, obj)
+			return ec.Resolvers.JobFloor().Job(ctx, obj)
 		},
 		nil,
 		ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail,
@@ -11707,7 +11670,7 @@ func (ec *executionContext) _Mutation_register(ctx context.Context, field graphq
 		ec.fieldContext_Mutation_register,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().Register(ctx, fc.Args["username"].(string), fc.Args["name"].(*string), fc.Args["email"].(*string), fc.Args["password"].(string))
+			return ec.Resolvers.Mutation().Register(ctx, fc.Args["username"].(string), fc.Args["name"].(*string), fc.Args["email"].(*string), fc.Args["password"].(string))
 		},
 		nil,
 		ec.marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAuthPayload,
@@ -11760,7 +11723,7 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 		ec.fieldContext_Mutation_login,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().Login(ctx, fc.Args["username"].(string), fc.Args["password"].(string))
+			return ec.Resolvers.Mutation().Login(ctx, fc.Args["username"].(string), fc.Args["password"].(string))
 		},
 		nil,
 		ec.marshalNAuthPayload2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAuthPayload,
@@ -11813,17 +11776,17 @@ func (ec *executionContext) _Mutation_createAuthor(ctx context.Context, field gr
 		ec.fieldContext_Mutation_createAuthor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().CreateAuthor(ctx, fc.Args["input"].(model.JobAuthorInput))
+			return ec.Resolvers.Mutation().CreateAuthor(ctx, fc.Args["input"].(model.JobAuthorInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobAuthor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -11885,17 +11848,17 @@ func (ec *executionContext) _Mutation_updateAuthor(ctx context.Context, field gr
 		ec.fieldContext_Mutation_updateAuthor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateAuthor(ctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobAuthorInput))
+			return ec.Resolvers.Mutation().UpdateAuthor(ctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobAuthorInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobAuthor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -11957,17 +11920,17 @@ func (ec *executionContext) _Mutation_jobBatchMutation(ctx context.Context, fiel
 		ec.fieldContext_Mutation_jobBatchMutation,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().JobBatchMutation(ctx, fc.Args["inputs"].([]*model.JobBatchInput))
+			return ec.Resolvers.Mutation().JobBatchMutation(ctx, fc.Args["inputs"].([]*model.JobBatchInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *model.JobBulkResult
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12017,17 +11980,17 @@ func (ec *executionContext) _Mutation_executeBatchMutation(ctx context.Context, 
 		ec.fieldContext_Mutation_executeBatchMutation,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().ExecuteBatchMutation(ctx, fc.Args["input"].(model.JobBatchInput))
+			return ec.Resolvers.Mutation().ExecuteBatchMutation(ctx, fc.Args["input"].(model.JobBatchInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *model.JobBatchResult
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12089,17 +12052,17 @@ func (ec *executionContext) _Mutation_deleteBatchMutation(ctx context.Context, f
 		ec.fieldContext_Mutation_deleteBatchMutation,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().DeleteBatchMutation(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Mutation().DeleteBatchMutation(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *model.JobBatchResult
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12161,17 +12124,17 @@ func (ec *executionContext) _Mutation_updateCompany(ctx context.Context, field g
 		ec.fieldContext_Mutation_updateCompany,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateCompany(ctx, fc.Args["input"].(model.CompanyDetailInput))
+			return ec.Resolvers.Mutation().UpdateCompany(ctx, fc.Args["input"].(model.CompanyDetailInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyDetail
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12277,17 +12240,17 @@ func (ec *executionContext) _Mutation_createContractor(ctx context.Context, fiel
 		ec.fieldContext_Mutation_createContractor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().CreateContractor(ctx, fc.Args["input"].(model.JobContractorInput))
+			return ec.Resolvers.Mutation().CreateContractor(ctx, fc.Args["input"].(model.JobContractorInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobContractor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12357,17 +12320,17 @@ func (ec *executionContext) _Mutation_updateContractor(ctx context.Context, fiel
 		ec.fieldContext_Mutation_updateContractor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateContractor(ctx, fc.Args["input"].(model.JobContractorInput))
+			return ec.Resolvers.Mutation().UpdateContractor(ctx, fc.Args["input"].(model.JobContractorInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobContractor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12437,17 +12400,17 @@ func (ec *executionContext) _Mutation_upsertEngineer(ctx context.Context, field 
 		ec.fieldContext_Mutation_upsertEngineer,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpsertEngineer(ctx, fc.Args["input"].(model.CompanyEngineerInput))
+			return ec.Resolvers.Mutation().UpsertEngineer(ctx, fc.Args["input"].(model.CompanyEngineerInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyEngineer
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12527,7 +12490,7 @@ func (ec *executionContext) _Mutation_createEngineer(ctx context.Context, field 
 		ec.fieldContext_Mutation_createEngineer,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().CreateEngineer(ctx, fc.Args["input"].(model.CompanyEngineerInput))
+			return ec.Resolvers.Mutation().CreateEngineer(ctx, fc.Args["input"].(model.CompanyEngineerInput))
 		},
 		nil,
 		ec.marshalNCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
@@ -12604,17 +12567,17 @@ func (ec *executionContext) _Mutation_updateEngineer(ctx context.Context, field 
 		ec.fieldContext_Mutation_updateEngineer,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateEngineer(ctx, fc.Args["ydsid"].(int), fc.Args["input"].(model.CompanyEngineerInput))
+			return ec.Resolvers.Mutation().UpdateEngineer(ctx, fc.Args["ydsid"].(int), fc.Args["input"].(model.CompanyEngineerInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyEngineer
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12694,17 +12657,17 @@ func (ec *executionContext) _Mutation_updateEngineerByYDSID(ctx context.Context,
 		ec.fieldContext_Mutation_updateEngineerByYDSID,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateEngineerByYdsid(ctx, fc.Args["ydsid"].(int), fc.Args["input"].(model.CompanyEngineerInput))
+			return ec.Resolvers.Mutation().UpdateEngineerByYdsid(ctx, fc.Args["ydsid"].(int), fc.Args["input"].(model.CompanyEngineerInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyEngineer
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12784,17 +12747,17 @@ func (ec *executionContext) _Mutation_upsertFloor(ctx context.Context, field gra
 		ec.fieldContext_Mutation_upsertFloor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpsertFloor(ctx, fc.Args["input"].(model.JobFloorInput))
+			return ec.Resolvers.Mutation().UpsertFloor(ctx, fc.Args["input"].(model.JobFloorInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobFloor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12860,17 +12823,17 @@ func (ec *executionContext) _Mutation_deleteFloor(ctx context.Context, field gra
 		ec.fieldContext_Mutation_deleteFloor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().DeleteFloor(ctx, fc.Args["id"].(int))
+			return ec.Resolvers.Mutation().DeleteFloor(ctx, fc.Args["id"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobFloor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -12936,17 +12899,17 @@ func (ec *executionContext) _Mutation_createJob(ctx context.Context, field graph
 		ec.fieldContext_Mutation_createJob,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().CreateJob(ctx, fc.Args["input"].(model.JobInput))
+			return ec.Resolvers.Mutation().CreateJob(ctx, fc.Args["input"].(model.JobInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobDetail
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13064,17 +13027,17 @@ func (ec *executionContext) _Mutation_updateJob(ctx context.Context, field graph
 		ec.fieldContext_Mutation_updateJob,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateJob(ctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobInput))
+			return ec.Resolvers.Mutation().UpdateJob(ctx, fc.Args["yibfNo"].(int), fc.Args["input"].(model.JobInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobDetail
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13192,17 +13155,17 @@ func (ec *executionContext) _Mutation_updateJobEngineer(ctx context.Context, fie
 		ec.fieldContext_Mutation_updateJobEngineer,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateJobEngineer(ctx, fc.Args["input"].(model.JobEngineerInput))
+			return ec.Resolvers.Mutation().UpdateJobEngineer(ctx, fc.Args["input"].(model.JobEngineerInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *model.JobEngineer
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13266,17 +13229,17 @@ func (ec *executionContext) _Mutation_updateJobStartDate(ctx context.Context, fi
 		ec.fieldContext_Mutation_updateJobStartDate,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateJobStartDate(ctx, fc.Args["input"].(model.JobStartDateInput))
+			return ec.Resolvers.Mutation().UpdateJobStartDate(ctx, fc.Args["input"].(model.JobStartDateInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobDetail
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13394,17 +13357,17 @@ func (ec *executionContext) _Mutation_createOwner(ctx context.Context, field gra
 		ec.fieldContext_Mutation_createOwner,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().CreateOwner(ctx, fc.Args["input"].(model.JobOwnerInput))
+			return ec.Resolvers.Mutation().CreateOwner(ctx, fc.Args["input"].(model.JobOwnerInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobOwner
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13472,17 +13435,17 @@ func (ec *executionContext) _Mutation_updateOwner(ctx context.Context, field gra
 		ec.fieldContext_Mutation_updateOwner,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateOwner(ctx, fc.Args["input"].(model.JobOwnerInput))
+			return ec.Resolvers.Mutation().UpdateOwner(ctx, fc.Args["input"].(model.JobOwnerInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobOwner
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13550,17 +13513,17 @@ func (ec *executionContext) _Mutation_upsertPayments(ctx context.Context, field 
 		ec.fieldContext_Mutation_upsertPayments,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpsertPayments(ctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobPaymentsInput))
+			return ec.Resolvers.Mutation().UpsertPayments(ctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobPaymentsInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobPayments
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13640,17 +13603,17 @@ func (ec *executionContext) _Mutation_createJobPayments(ctx context.Context, fie
 		ec.fieldContext_Mutation_createJobPayments,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().CreateJobPayments(ctx, fc.Args["input"].(model.JobPaymentsInput))
+			return ec.Resolvers.Mutation().CreateJobPayments(ctx, fc.Args["input"].(model.JobPaymentsInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobPayments
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13730,17 +13693,17 @@ func (ec *executionContext) _Mutation_updatePaymentStatus(ctx context.Context, f
 		ec.fieldContext_Mutation_updatePaymentStatus,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdatePaymentStatus(ctx, fc.Args["id"].(int), fc.Args["input"].(model.JobPaymentStatusInput))
+			return ec.Resolvers.Mutation().UpdatePaymentStatus(ctx, fc.Args["id"].(int), fc.Args["input"].(model.JobPaymentStatusInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobPayments
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13820,17 +13783,17 @@ func (ec *executionContext) _Mutation_upsertProgress(ctx context.Context, field 
 		ec.fieldContext_Mutation_upsertProgress,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpsertProgress(ctx, fc.Args["input"].(model.JobProgressInput))
+			return ec.Resolvers.Mutation().UpsertProgress(ctx, fc.Args["input"].(model.JobProgressInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobProgress
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13890,17 +13853,17 @@ func (ec *executionContext) _Mutation_upsertJobReceipts(ctx context.Context, fie
 		ec.fieldContext_Mutation_upsertJobReceipts,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpsertJobReceipts(ctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobReceiptInput))
+			return ec.Resolvers.Mutation().UpsertJobReceipts(ctx, fc.Args["id"].(*int), fc.Args["input"].(model.JobReceiptInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobReceipt
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -13958,17 +13921,17 @@ func (ec *executionContext) _Mutation_deleteJobReceipts(ctx context.Context, fie
 		ec.fieldContext_Mutation_deleteJobReceipts,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().DeleteJobReceipts(ctx, fc.Args["id"].(int))
+			return ec.Resolvers.Mutation().DeleteJobReceipts(ctx, fc.Args["id"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobReceipt
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14026,17 +13989,17 @@ func (ec *executionContext) _Mutation_createSupervisor(ctx context.Context, fiel
 		ec.fieldContext_Mutation_createSupervisor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().CreateSupervisor(ctx, fc.Args["input"].(model.JobSupervisorInput))
+			return ec.Resolvers.Mutation().CreateSupervisor(ctx, fc.Args["input"].(model.JobSupervisorInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobSupervisor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14106,17 +14069,17 @@ func (ec *executionContext) _Mutation_updateSupervisor(ctx context.Context, fiel
 		ec.fieldContext_Mutation_updateSupervisor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpdateSupervisor(ctx, fc.Args["input"].(model.JobSupervisorInput))
+			return ec.Resolvers.Mutation().UpdateSupervisor(ctx, fc.Args["input"].(model.JobSupervisorInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobSupervisor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14186,17 +14149,17 @@ func (ec *executionContext) _Mutation_upsertToken(ctx context.Context, field gra
 		ec.fieldContext_Mutation_upsertToken,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpsertToken(ctx, fc.Args["DepartmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
+			return ec.Resolvers.Mutation().UpsertToken(ctx, fc.Args["DepartmentId"].(int), fc.Args["input"].(model.CompanyTokenInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyToken
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14252,17 +14215,17 @@ func (ec *executionContext) _Mutation_upsertUser(ctx context.Context, field grap
 		ec.fieldContext_Mutation_upsertUser,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().UpsertUser(ctx, fc.Args["input"].(model.UserInput))
+			return ec.Resolvers.Mutation().UpsertUser(ctx, fc.Args["input"].(model.UserInput))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.User
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14324,17 +14287,17 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 		ec.fieldContext_Mutation_deleteUser,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().DeleteUser(ctx, fc.Args["id"].(string))
+			return ec.Resolvers.Mutation().DeleteUser(ctx, fc.Args["id"].(string))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal bool
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14378,17 +14341,17 @@ func (ec *executionContext) _Mutation_activateCompanyUsers(ctx context.Context, 
 		ec.fieldContext_Mutation_activateCompanyUsers,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().ActivateCompanyUsers(ctx, fc.Args["adminId"].(string))
+			return ec.Resolvers.Mutation().ActivateCompanyUsers(ctx, fc.Args["adminId"].(string))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*ent.User
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14450,17 +14413,17 @@ func (ec *executionContext) _Query_author(ctx context.Context, field graphql.Col
 		ec.fieldContext_Query_author,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Author(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().Author(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobAuthor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14522,17 +14485,17 @@ func (ec *executionContext) _Query_jobBatchQuery(ctx context.Context, field grap
 		ec.fieldContext_Query_jobBatchQuery,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().JobBatchQuery(ctx, fc.Args["yibfNo"].(*int), fc.Args["state"].(*string))
+			return ec.Resolvers.Query().JobBatchQuery(ctx, fc.Args["yibfNo"].(*int), fc.Args["state"].(*string))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*model.JobBatchResult
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14594,17 +14557,17 @@ func (ec *executionContext) _Query_company(ctx context.Context, field graphql.Co
 		ec.fieldContext_Query_company,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Company(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().Company(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyDetail
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14710,17 +14673,17 @@ func (ec *executionContext) _Query_companyByCode(ctx context.Context, field grap
 		ec.fieldContext_Query_companyByCode,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().CompanyByCode(ctx, fc.Args["companyCode"].(int))
+			return ec.Resolvers.Query().CompanyByCode(ctx, fc.Args["companyCode"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyDetail
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14825,17 +14788,17 @@ func (ec *executionContext) _Query_allContractor(ctx context.Context, field grap
 		field,
 		ec.fieldContext_Query_allContractor,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Query().AllContractor(ctx)
+			return ec.Resolvers.Query().AllContractor(ctx)
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*ent.JobContractor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14894,17 +14857,17 @@ func (ec *executionContext) _Query_contractor(ctx context.Context, field graphql
 		ec.fieldContext_Query_contractor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Contractor(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().Contractor(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobContractor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -14974,17 +14937,17 @@ func (ec *executionContext) _Query_getContractor(ctx context.Context, field grap
 		ec.fieldContext_Query_getContractor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().GetContractor(ctx, fc.Args["YDSID"].(int))
+			return ec.Resolvers.Query().GetContractor(ctx, fc.Args["YDSID"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobContractor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15054,7 +15017,7 @@ func (ec *executionContext) _Query_engineer(ctx context.Context, field graphql.C
 		ec.fieldContext_Query_engineer,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Engineer(ctx, fc.Args["filter"].(*model.EngineerFilterInput))
+			return ec.Resolvers.Query().Engineer(ctx, fc.Args["filter"].(*model.EngineerFilterInput))
 		},
 		nil,
 		ec.marshalNCompanyEngineer2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer,
@@ -15131,17 +15094,17 @@ func (ec *executionContext) _Query_engineerByYDSID(ctx context.Context, field gr
 		ec.fieldContext_Query_engineerByYDSID,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().EngineerByYdsid(ctx, fc.Args["ydsid"].(int))
+			return ec.Resolvers.Query().EngineerByYdsid(ctx, fc.Args["ydsid"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyEngineer
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15221,17 +15184,17 @@ func (ec *executionContext) _Query_Floors(ctx context.Context, field graphql.Col
 		ec.fieldContext_Query_Floors,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Floors(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().Floors(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*ent.JobFloor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15297,17 +15260,17 @@ func (ec *executionContext) _Query_jobCounts(ctx context.Context, field graphql.
 		ec.fieldContext_Query_jobCounts,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().JobCounts(ctx, fc.Args["companyCode"].(*int))
+			return ec.Resolvers.Query().JobCounts(ctx, fc.Args["companyCode"].(*int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *model.JobCounts
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15362,17 +15325,17 @@ func (ec *executionContext) _Query_jobs(ctx context.Context, field graphql.Colle
 		field,
 		ec.fieldContext_Query_jobs,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Query().Jobs(ctx)
+			return ec.Resolvers.Query().Jobs(ctx)
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*ent.JobDetail
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15479,17 +15442,17 @@ func (ec *executionContext) _Query_job(ctx context.Context, field graphql.Collec
 		ec.fieldContext_Query_job,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Job(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().Job(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobDetail
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15607,17 +15570,17 @@ func (ec *executionContext) _Query_jobEngineer(ctx context.Context, field graphq
 		ec.fieldContext_Query_jobEngineer,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().JobEngineer(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().JobEngineer(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *model.JobEngineer
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15680,17 +15643,17 @@ func (ec *executionContext) _Query_allOwner(ctx context.Context, field graphql.C
 		field,
 		ec.fieldContext_Query_allOwner,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Query().AllOwner(ctx)
+			return ec.Resolvers.Query().AllOwner(ctx)
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*ent.JobOwner
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15747,17 +15710,17 @@ func (ec *executionContext) _Query_owner(ctx context.Context, field graphql.Coll
 		ec.fieldContext_Query_owner,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Owner(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().Owner(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobOwner
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15825,17 +15788,17 @@ func (ec *executionContext) _Query_getOwner(ctx context.Context, field graphql.C
 		ec.fieldContext_Query_getOwner,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().GetOwner(ctx, fc.Args["YDSID"].(int))
+			return ec.Resolvers.Query().GetOwner(ctx, fc.Args["YDSID"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobOwner
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15903,17 +15866,17 @@ func (ec *executionContext) _Query_jobPayments(ctx context.Context, field graphq
 		ec.fieldContext_Query_jobPayments,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().JobPayments(ctx, fc.Args["id"].(*int), fc.Args["yibfNo"].(*int))
+			return ec.Resolvers.Query().JobPayments(ctx, fc.Args["id"].(*int), fc.Args["yibfNo"].(*int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*ent.JobPayments
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -15993,17 +15956,17 @@ func (ec *executionContext) _Query_progress(ctx context.Context, field graphql.C
 		ec.fieldContext_Query_progress,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Progress(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().Progress(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobProgress
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -16063,17 +16026,17 @@ func (ec *executionContext) _Query_jobReceipts(ctx context.Context, field graphq
 		ec.fieldContext_Query_jobReceipts,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().JobReceipts(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().JobReceipts(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*ent.JobReceipt
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -16131,17 +16094,17 @@ func (ec *executionContext) _Query_supervisor(ctx context.Context, field graphql
 		ec.fieldContext_Query_supervisor,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().Supervisor(ctx, fc.Args["yibfNo"].(int))
+			return ec.Resolvers.Query().Supervisor(ctx, fc.Args["yibfNo"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobSupervisor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -16211,17 +16174,17 @@ func (ec *executionContext) _Query_supervisorByYDSID(ctx context.Context, field 
 		ec.fieldContext_Query_supervisorByYDSID,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().SupervisorByYdsid(ctx, fc.Args["ydsid"].(int))
+			return ec.Resolvers.Query().SupervisorByYdsid(ctx, fc.Args["ydsid"].(int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.JobSupervisor
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -16291,17 +16254,17 @@ func (ec *executionContext) _Query_companyToken(ctx context.Context, field graph
 		ec.fieldContext_Query_companyToken,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().CompanyToken(ctx, fc.Args["companyCode"].(*int))
+			return ec.Resolvers.Query().CompanyToken(ctx, fc.Args["companyCode"].(*int))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.CompanyToken
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -16357,17 +16320,17 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 		ec.fieldContext_Query_user,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().User(ctx, fc.Args["id"].(string))
+			return ec.Resolvers.Query().User(ctx, fc.Args["id"].(string))
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal *ent.User
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -16428,17 +16391,17 @@ func (ec *executionContext) _Query_companyUsers(ctx context.Context, field graph
 		field,
 		ec.fieldContext_Query_companyUsers,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Query().CompanyUsers(ctx)
+			return ec.Resolvers.Query().CompanyUsers(ctx)
 		},
 		func(ctx context.Context, next graphql.Resolver) graphql.Resolver {
 			directive0 := next
 
 			directive1 := func(ctx context.Context) (any, error) {
-				if ec.directives.Auth == nil {
+				if ec.Directives.Auth == nil {
 					var zeroVal []*ent.User
 					return zeroVal, errors.New("directive auth is not implemented")
 				}
-				return ec.directives.Auth(ctx, nil, directive0)
+				return ec.Directives.Auth(ctx, nil, directive0)
 			}
 
 			next = directive1
@@ -16489,7 +16452,7 @@ func (ec *executionContext) _Query___type(ctx context.Context, field graphql.Col
 		ec.fieldContext_Query___type,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.introspectType(fc.Args["name"].(string))
+			return ec.IntrospectType(fc.Args["name"].(string))
 		},
 		nil,
 		ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType,
@@ -16553,7 +16516,7 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 		field,
 		ec.fieldContext_Query___schema,
 		func(ctx context.Context) (any, error) {
-			return ec.introspectSchema()
+			return ec.IntrospectSchema()
 		},
 		nil,
 		ec.marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema,
@@ -16799,7 +16762,7 @@ func (ec *executionContext) _User_Companies(ctx context.Context, field graphql.C
 		field,
 		ec.fieldContext_User_Companies,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.User().Companies(ctx, obj)
+			return ec.Resolvers.User().Companies(ctx, obj)
 		},
 		nil,
 		ec.marshalOCompanyDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetailᚄ,
@@ -18331,6 +18294,10 @@ func (ec *executionContext) fieldContext___Type_isOneOf(_ context.Context, field
 
 func (ec *executionContext) unmarshalInputCompanyBatchInput(ctx context.Context, obj any) (model.CompanyBatchInput, error) {
 	var it model.CompanyBatchInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -18366,12 +18333,15 @@ func (ec *executionContext) unmarshalInputCompanyBatchInput(ctx context.Context,
 			it.CompanyTokenInput = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context, obj any) (model.CompanyDetailInput, error) {
 	var it model.CompanyDetailInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -18596,12 +18566,15 @@ func (ec *executionContext) unmarshalInputCompanyDetailInput(ctx context.Context
 			it.OwnerCareer = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputCompanyEngineerInput(ctx context.Context, obj any) (model.CompanyEngineerInput, error) {
 	var it model.CompanyEngineerInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -18721,12 +18694,15 @@ func (ec *executionContext) unmarshalInputCompanyEngineerInput(ctx context.Conte
 			it.Note = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputCompanyTokenInput(ctx context.Context, obj any) (model.CompanyTokenInput, error) {
 	var it model.CompanyTokenInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -18783,12 +18759,15 @@ func (ec *executionContext) unmarshalInputCompanyTokenInput(ctx context.Context,
 			it.CompanyInput = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputEngineerFilterInput(ctx context.Context, obj any) (model.EngineerFilterInput, error) {
 	var it model.EngineerFilterInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -18824,12 +18803,15 @@ func (ec *executionContext) unmarshalInputEngineerFilterInput(ctx context.Contex
 			it.CompanyCode = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobAuthorInput(ctx context.Context, obj any) (model.JobAuthorInput, error) {
 	var it model.JobAuthorInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -18900,12 +18882,15 @@ func (ec *executionContext) unmarshalInputJobAuthorInput(ctx context.Context, ob
 			it.GeotechnicalGeophysicist = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobBatchInput(ctx context.Context, obj any) (model.JobBatchInput, error) {
 	var it model.JobBatchInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -18976,12 +18961,15 @@ func (ec *executionContext) unmarshalInputJobBatchInput(ctx context.Context, obj
 			it.EngineerInput = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobContractorInput(ctx context.Context, obj any) (model.JobContractorInput, error) {
 	var it model.JobContractorInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19087,12 +19075,15 @@ func (ec *executionContext) unmarshalInputJobContractorInput(ctx context.Context
 			it.Note = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobEngineerInput(ctx context.Context, obj any) (model.JobEngineerInput, error) {
 	var it model.JobEngineerInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19170,12 +19161,15 @@ func (ec *executionContext) unmarshalInputJobEngineerInput(ctx context.Context, 
 			it.ElectricController = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobFloorInput(ctx context.Context, obj any) (model.JobFloorInput, error) {
 	var it model.JobFloorInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19260,12 +19254,15 @@ func (ec *executionContext) unmarshalInputJobFloorInput(ctx context.Context, obj
 			it.YibfNo = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any) (model.JobInput, error) {
 	var it model.JobInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19511,12 +19508,15 @@ func (ec *executionContext) unmarshalInputJobInput(ctx context.Context, obj any)
 			it.Note = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobOwnerInput(ctx context.Context, obj any) (model.JobOwnerInput, error) {
 	var it model.JobOwnerInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19615,12 +19615,15 @@ func (ec *executionContext) unmarshalInputJobOwnerInput(ctx context.Context, obj
 			it.Note = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobPaymentStatusInput(ctx context.Context, obj any) (model.JobPaymentStatusInput, error) {
 	var it model.JobPaymentStatusInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19684,12 +19687,15 @@ func (ec *executionContext) unmarshalInputJobPaymentStatusInput(ctx context.Cont
 			it.InvoiceReceivedAmount = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobPaymentsInput(ctx context.Context, obj any) (model.JobPaymentsInput, error) {
 	var it model.JobPaymentsInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19760,12 +19766,15 @@ func (ec *executionContext) unmarshalInputJobPaymentsInput(ctx context.Context, 
 			it.State = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobProgressInput(ctx context.Context, obj any) (model.JobProgressInput, error) {
 	var it model.JobProgressInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19829,12 +19838,15 @@ func (ec *executionContext) unmarshalInputJobProgressInput(ctx context.Context, 
 			it.Six = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobReceiptInput(ctx context.Context, obj any) (model.JobReceiptInput, error) {
 	var it model.JobReceiptInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19884,12 +19896,15 @@ func (ec *executionContext) unmarshalInputJobReceiptInput(ctx context.Context, o
 			it.Note = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobStartDateInput(ctx context.Context, obj any) (model.JobStartDateInput, error) {
 	var it model.JobStartDateInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -19925,12 +19940,15 @@ func (ec *executionContext) unmarshalInputJobStartDateInput(ctx context.Context,
 			it.StartNote = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputJobSupervisorInput(ctx context.Context, obj any) (model.JobSupervisorInput, error) {
 	var it model.JobSupervisorInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -20029,12 +20047,15 @@ func (ec *executionContext) unmarshalInputJobSupervisorInput(ctx context.Context
 			it.Ydsid = data
 		}
 	}
-
 	return it, nil
 }
 
 func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj any) (model.UserInput, error) {
 	var it model.UserInput
+	if obj == nil {
+		return it, nil
+	}
+
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -20112,7 +20133,6 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj any
 			it.CompanyIDs = data
 		}
 	}
-
 	return it, nil
 }
 
@@ -20154,10 +20174,10 @@ func (ec *executionContext) _AdministrationCount(ctx context.Context, sel ast.Se
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -20213,10 +20233,10 @@ func (ec *executionContext) _AuthPayload(ctx context.Context, sel ast.SelectionS
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -20251,10 +20271,10 @@ func (ec *executionContext) _CompanyBatchResult(ctx context.Context, sel ast.Sel
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -20348,10 +20368,10 @@ func (ec *executionContext) _CompanyDetail(ctx context.Context, sel ast.Selectio
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -20512,10 +20532,10 @@ func (ec *executionContext) _CompanyEngineer(ctx context.Context, sel ast.Select
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -20618,10 +20638,10 @@ func (ec *executionContext) _CompanyToken(ctx context.Context, sel ast.Selection
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -20703,10 +20723,10 @@ func (ec *executionContext) _FinanceAccount(ctx context.Context, sel ast.Selecti
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -20906,10 +20926,10 @@ func (ec *executionContext) _FinanceOperation(ctx context.Context, sel ast.Selec
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -20959,10 +20979,10 @@ func (ec *executionContext) _JobAuthor(ctx context.Context, sel ast.SelectionSet
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21009,10 +21029,10 @@ func (ec *executionContext) _JobBatchResult(ctx context.Context, sel ast.Selecti
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21053,10 +21073,10 @@ func (ec *executionContext) _JobBulkError(ctx context.Context, sel ast.Selection
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21097,10 +21117,10 @@ func (ec *executionContext) _JobBulkResult(ctx context.Context, sel ast.Selectio
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21155,10 +21175,10 @@ func (ec *executionContext) _JobContractor(ctx context.Context, sel ast.Selectio
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21214,10 +21234,10 @@ func (ec *executionContext) _JobCounts(ctx context.Context, sel ast.SelectionSet
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21360,10 +21380,10 @@ func (ec *executionContext) _JobDetail(ctx context.Context, sel ast.SelectionSet
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21412,10 +21432,10 @@ func (ec *executionContext) _JobEngineer(ctx context.Context, sel ast.SelectionS
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21500,10 +21520,10 @@ func (ec *executionContext) _JobFloor(ctx context.Context, sel ast.SelectionSet,
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21559,10 +21579,10 @@ func (ec *executionContext) _JobOwner(ctx context.Context, sel ast.SelectionSet,
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21627,10 +21647,10 @@ func (ec *executionContext) _JobPayments(ctx context.Context, sel ast.SelectionS
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21678,10 +21698,10 @@ func (ec *executionContext) _JobProgress(ctx context.Context, sel ast.SelectionS
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21724,10 +21744,10 @@ func (ec *executionContext) _JobReceipt(ctx context.Context, sel ast.SelectionSe
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -21785,10 +21805,10 @@ func (ec *executionContext) _JobSupervisor(ctx context.Context, sel ast.Selectio
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -22041,10 +22061,10 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -22599,10 +22619,10 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -22686,10 +22706,10 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -22742,10 +22762,10 @@ func (ec *executionContext) ___Directive(ctx context.Context, sel ast.SelectionS
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -22790,10 +22810,10 @@ func (ec *executionContext) ___EnumValue(ctx context.Context, sel ast.SelectionS
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -22848,10 +22868,10 @@ func (ec *executionContext) ___Field(ctx context.Context, sel ast.SelectionSet, 
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -22903,10 +22923,10 @@ func (ec *executionContext) ___InputValue(ctx context.Context, sel ast.Selection
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -22958,10 +22978,10 @@ func (ec *executionContext) ___Schema(ctx context.Context, sel ast.SelectionSet,
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -23017,10 +23037,10 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 		return graphql.Null
 	}
 
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+	atomic.AddInt32(&ec.Deferred, int32(len(deferred)))
 
 	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
 			Label:    label,
 			Path:     graphql.GetPath(ctx),
 			FieldSet: dfs,
@@ -23036,39 +23056,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // region    ***************************** type.gotpl *****************************
 
 func (ec *executionContext) marshalNAdministrationCount2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAdministrationCountᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.AdministrationCount) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNAdministrationCount2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAdministrationCount(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNAdministrationCount2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐAdministrationCount(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23143,39 +23135,11 @@ func (ec *executionContext) marshalNCompanyEngineer2githubᚗcomᚋpolatbilalᚋ
 }
 
 func (ec *executionContext) marshalNCompanyEngineer2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx context.Context, sel ast.SelectionSet, v []*ent.CompanyEngineer) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalOCompanyEngineer2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyEngineer(ctx, sel, v[i])
+	})
 
 	return ret
 }
@@ -23297,39 +23261,11 @@ func (ec *executionContext) marshalNJobBatchResult2githubᚗcomᚋpolatbilalᚋe
 }
 
 func (ec *executionContext) marshalNJobBatchResult2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResultᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.JobBatchResult) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBatchResult(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23351,39 +23287,11 @@ func (ec *executionContext) marshalNJobBatchResult2ᚖgithubᚗcomᚋpolatbilal�
 }
 
 func (ec *executionContext) marshalNJobBulkError2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBulkErrorᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.JobBulkError) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNJobBulkError2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBulkError(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNJobBulkError2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋgraphqlᚋmodelᚐJobBulkError(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23456,39 +23364,11 @@ func (ec *executionContext) marshalNJobDetail2githubᚗcomᚋpolatbilalᚋentᚑ
 }
 
 func (ec *executionContext) marshalNJobDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetailᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobDetail) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23533,39 +23413,11 @@ func (ec *executionContext) marshalNJobFloor2githubᚗcomᚋpolatbilalᚋentᚑg
 }
 
 func (ec *executionContext) marshalNJobFloor2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloorᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.JobFloor) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNJobFloor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobFloor(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23700,39 +23552,11 @@ func (ec *executionContext) marshalNUser2githubᚗcomᚋpolatbilalᚋentᚑgqlge
 }
 
 func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.User) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUser(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNUser2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐUser(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23763,39 +23587,11 @@ func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlge
 }
 
 func (ec *executionContext) marshalN__Directive2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirectiveᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.Directive) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23838,39 +23634,11 @@ func (ec *executionContext) unmarshalN__DirectiveLocation2ᚕstringᚄ(ctx conte
 }
 
 func (ec *executionContext) marshalN__DirectiveLocation2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalN__DirectiveLocation2string(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalN__DirectiveLocation2string(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23894,39 +23662,11 @@ func (ec *executionContext) marshalN__InputValue2githubᚗcomᚋ99designsᚋgqlg
 }
 
 func (ec *executionContext) marshalN__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.InputValue) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalN__InputValue2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValue(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalN__InputValue2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValue(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -23942,39 +23682,11 @@ func (ec *executionContext) marshalN__Type2githubᚗcomᚋ99designsᚋgqlgenᚋg
 }
 
 func (ec *executionContext) marshalN__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐTypeᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.Type) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalN__Type2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalN__Type2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -24045,39 +23757,11 @@ func (ec *executionContext) marshalOCompanyDetail2ᚕᚖgithubᚗcomᚋpolatbila
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNCompanyDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐCompanyDetail(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -24290,39 +23974,11 @@ func (ec *executionContext) marshalOJobContractor2ᚕᚖgithubᚗcomᚋpolatbila
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalOJobContractor2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobContractor(ctx, sel, v[i])
+	})
 
 	return ret
 }
@@ -24346,39 +24002,11 @@ func (ec *executionContext) marshalOJobDetail2ᚕᚖgithubᚗcomᚋpolatbilalᚋ
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalOJobDetail2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobDetail(ctx, sel, v[i])
+	})
 
 	return ret
 }
@@ -24417,39 +24045,11 @@ func (ec *executionContext) marshalOJobOwner2ᚕᚖgithubᚗcomᚋpolatbilalᚋe
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalOJobOwner2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobOwner(ctx, sel, v[i])
+	})
 
 	return ret
 }
@@ -24473,39 +24073,11 @@ func (ec *executionContext) marshalOJobPayments2ᚕᚖgithubᚗcomᚋpolatbilal�
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNJobPayments2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobPayments(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -24534,39 +24106,11 @@ func (ec *executionContext) marshalOJobReceipt2ᚕᚖgithubᚗcomᚋpolatbilal�
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceipt(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalNJobReceipt2ᚖgithubᚗcomᚋpolatbilalᚋentᚑgqlgenᚋentᚐJobReceipt(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -24671,39 +24215,11 @@ func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgq
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalN__EnumValue2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValue(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalN__EnumValue2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValue(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -24718,39 +24234,11 @@ func (ec *executionContext) marshalO__Field2ᚕgithubᚗcomᚋ99designsᚋgqlgen
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalN__Field2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐField(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalN__Field2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐField(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -24765,39 +24253,11 @@ func (ec *executionContext) marshalO__InputValue2ᚕgithubᚗcomᚋ99designsᚋg
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalN__InputValue2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValue(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalN__InputValue2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValue(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {
@@ -24819,39 +24279,11 @@ func (ec *executionContext) marshalO__Type2ᚕgithubᚗcomᚋ99designsᚋgqlgen�
 	if v == nil {
 		return graphql.Null
 	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalN__Type2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalN__Type2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, sel, v[i])
+	})
 
 	for _, e := range ret {
 		if e == graphql.Null {

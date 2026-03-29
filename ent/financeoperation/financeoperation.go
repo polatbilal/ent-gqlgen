@@ -26,10 +26,8 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
-	// EdgeAccount holds the string denoting the account edge name in mutations.
-	EdgeAccount = "account"
-	// EdgeMethod holds the string denoting the method edge name in mutations.
-	EdgeMethod = "method"
+	// EdgeClass holds the string denoting the class edge name in mutations.
+	EdgeClass = "class"
 	// EdgeCompany holds the string denoting the company edge name in mutations.
 	EdgeCompany = "company"
 	// EdgeResource holds the string denoting the resource edge name in mutations.
@@ -38,22 +36,17 @@ const (
 	EdgeGroup = "group"
 	// EdgeOperation holds the string denoting the operation edge name in mutations.
 	EdgeOperation = "operation"
+	// EdgeAccount holds the string denoting the account edge name in mutations.
+	EdgeAccount = "account"
 	// Table holds the table name of the financeoperation in the database.
 	Table = "finance_operations"
-	// AccountTable is the table that holds the account relation/edge.
-	AccountTable = "finance_operations"
-	// AccountInverseTable is the table name for the FinanceAccount entity.
-	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
-	AccountInverseTable = "finance_accounts"
-	// AccountColumn is the table column denoting the account relation/edge.
-	AccountColumn = "account_id"
-	// MethodTable is the table that holds the method relation/edge.
-	MethodTable = "finance_operations"
-	// MethodInverseTable is the table name for the FinanceClass entity.
+	// ClassTable is the table that holds the class relation/edge.
+	ClassTable = "finance_operations"
+	// ClassInverseTable is the table name for the FinanceClass entity.
 	// It exists in this package in order to avoid circular dependency with the "financeclass" package.
-	MethodInverseTable = "finance_classes"
-	// MethodColumn is the table column denoting the method relation/edge.
-	MethodColumn = "class_id"
+	ClassInverseTable = "finance_classes"
+	// ClassColumn is the table column denoting the class relation/edge.
+	ClassColumn = "class_id"
 	// CompanyTable is the table that holds the company relation/edge.
 	CompanyTable = "finance_operations"
 	// CompanyInverseTable is the table name for the CompanyDetail entity.
@@ -82,6 +75,13 @@ const (
 	OperationInverseTable = "finance_groups"
 	// OperationColumn is the table column denoting the operation relation/edge.
 	OperationColumn = "operation_id"
+	// AccountTable is the table that holds the account relation/edge.
+	AccountTable = "finance_operations"
+	// AccountInverseTable is the table name for the FinanceAccount entity.
+	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
+	AccountInverseTable = "finance_accounts"
+	// AccountColumn is the table column denoting the account relation/edge.
+	AccountColumn = "account_id"
 )
 
 // Columns holds all SQL columns for financeoperation fields.
@@ -168,17 +168,10 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
-// ByAccountField orders the results by account field.
-func ByAccountField(field string, opts ...sql.OrderTermOption) OrderOption {
+// ByClassField orders the results by class field.
+func ByClassField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newAccountStep(), sql.OrderByField(field, opts...))
-	}
-}
-
-// ByMethodField orders the results by method field.
-func ByMethodField(field string, opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newMethodStep(), sql.OrderByField(field, opts...))
+		sqlgraph.OrderByNeighborTerms(s, newClassStep(), sql.OrderByField(field, opts...))
 	}
 }
 
@@ -209,18 +202,18 @@ func ByOperationField(field string, opts ...sql.OrderTermOption) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newOperationStep(), sql.OrderByField(field, opts...))
 	}
 }
-func newAccountStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(AccountInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, AccountTable, AccountColumn),
-	)
+
+// ByAccountField orders the results by account field.
+func ByAccountField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newAccountStep(), sql.OrderByField(field, opts...))
+	}
 }
-func newMethodStep() *sqlgraph.Step {
+func newClassStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(MethodInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, MethodTable, MethodColumn),
+		sqlgraph.To(ClassInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, ClassTable, ClassColumn),
 	)
 }
 func newCompanyStep() *sqlgraph.Step {
@@ -249,5 +242,12 @@ func newOperationStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(OperationInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.M2O, true, OperationTable, OperationColumn),
+	)
+}
+func newAccountStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(AccountInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, AccountTable, AccountColumn),
 	)
 }

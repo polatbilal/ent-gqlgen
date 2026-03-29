@@ -131,19 +131,19 @@ func (_c *FinanceClassCreate) SetCompany(v *CompanyDetail) *FinanceClassCreate {
 	return _c.SetCompanyID(v.ID)
 }
 
-// AddMethodIDs adds the "methods" edge to the FinanceOperation entity by IDs.
-func (_c *FinanceClassCreate) AddMethodIDs(ids ...int) *FinanceClassCreate {
-	_c.mutation.AddMethodIDs(ids...)
+// AddClassIDs adds the "classes" edge to the FinanceOperation entity by IDs.
+func (_c *FinanceClassCreate) AddClassIDs(ids ...int) *FinanceClassCreate {
+	_c.mutation.AddClassIDs(ids...)
 	return _c
 }
 
-// AddMethods adds the "methods" edges to the FinanceOperation entity.
-func (_c *FinanceClassCreate) AddMethods(v ...*FinanceOperation) *FinanceClassCreate {
+// AddClasses adds the "classes" edges to the FinanceOperation entity.
+func (_c *FinanceClassCreate) AddClasses(v ...*FinanceOperation) *FinanceClassCreate {
 	ids := make([]int, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
-	return _c.AddMethodIDs(ids...)
+	return _c.AddClassIDs(ids...)
 }
 
 // Mutation returns the FinanceClassMutation object of the builder.
@@ -280,12 +280,12 @@ func (_c *FinanceClassCreate) createSpec() (*FinanceClass, *sqlgraph.CreateSpec)
 		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := _c.mutation.MethodsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ClassesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financeclass.MethodsTable,
-			Columns: []string{financeclass.MethodsColumn},
+			Table:   financeclass.ClassesTable,
+			Columns: []string{financeclass.ClassesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),

@@ -157,19 +157,19 @@ func (_u *FinanceClassUpdate) SetCompany(v *CompanyDetail) *FinanceClassUpdate {
 	return _u.SetCompanyID(v.ID)
 }
 
-// AddMethodIDs adds the "methods" edge to the FinanceOperation entity by IDs.
-func (_u *FinanceClassUpdate) AddMethodIDs(ids ...int) *FinanceClassUpdate {
-	_u.mutation.AddMethodIDs(ids...)
+// AddClassIDs adds the "classes" edge to the FinanceOperation entity by IDs.
+func (_u *FinanceClassUpdate) AddClassIDs(ids ...int) *FinanceClassUpdate {
+	_u.mutation.AddClassIDs(ids...)
 	return _u
 }
 
-// AddMethods adds the "methods" edges to the FinanceOperation entity.
-func (_u *FinanceClassUpdate) AddMethods(v ...*FinanceOperation) *FinanceClassUpdate {
+// AddClasses adds the "classes" edges to the FinanceOperation entity.
+func (_u *FinanceClassUpdate) AddClasses(v ...*FinanceOperation) *FinanceClassUpdate {
 	ids := make([]int, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
-	return _u.AddMethodIDs(ids...)
+	return _u.AddClassIDs(ids...)
 }
 
 // Mutation returns the FinanceClassMutation object of the builder.
@@ -183,25 +183,25 @@ func (_u *FinanceClassUpdate) ClearCompany() *FinanceClassUpdate {
 	return _u
 }
 
-// ClearMethods clears all "methods" edges to the FinanceOperation entity.
-func (_u *FinanceClassUpdate) ClearMethods() *FinanceClassUpdate {
-	_u.mutation.ClearMethods()
+// ClearClasses clears all "classes" edges to the FinanceOperation entity.
+func (_u *FinanceClassUpdate) ClearClasses() *FinanceClassUpdate {
+	_u.mutation.ClearClasses()
 	return _u
 }
 
-// RemoveMethodIDs removes the "methods" edge to FinanceOperation entities by IDs.
-func (_u *FinanceClassUpdate) RemoveMethodIDs(ids ...int) *FinanceClassUpdate {
-	_u.mutation.RemoveMethodIDs(ids...)
+// RemoveClassIDs removes the "classes" edge to FinanceOperation entities by IDs.
+func (_u *FinanceClassUpdate) RemoveClassIDs(ids ...int) *FinanceClassUpdate {
+	_u.mutation.RemoveClassIDs(ids...)
 	return _u
 }
 
-// RemoveMethods removes "methods" edges to FinanceOperation entities.
-func (_u *FinanceClassUpdate) RemoveMethods(v ...*FinanceOperation) *FinanceClassUpdate {
+// RemoveClasses removes "classes" edges to FinanceOperation entities.
+func (_u *FinanceClassUpdate) RemoveClasses(v ...*FinanceOperation) *FinanceClassUpdate {
 	ids := make([]int, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
-	return _u.RemoveMethodIDs(ids...)
+	return _u.RemoveClassIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -308,12 +308,12 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if _u.mutation.MethodsCleared() {
+	if _u.mutation.ClassesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financeclass.MethodsTable,
-			Columns: []string{financeclass.MethodsColumn},
+			Table:   financeclass.ClassesTable,
+			Columns: []string{financeclass.ClassesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
@@ -321,12 +321,12 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := _u.mutation.RemovedMethodsIDs(); len(nodes) > 0 && !_u.mutation.MethodsCleared() {
+	if nodes := _u.mutation.RemovedClassesIDs(); len(nodes) > 0 && !_u.mutation.ClassesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financeclass.MethodsTable,
-			Columns: []string{financeclass.MethodsColumn},
+			Table:   financeclass.ClassesTable,
+			Columns: []string{financeclass.ClassesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
@@ -337,12 +337,12 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := _u.mutation.MethodsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ClassesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financeclass.MethodsTable,
-			Columns: []string{financeclass.MethodsColumn},
+			Table:   financeclass.ClassesTable,
+			Columns: []string{financeclass.ClassesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
@@ -500,19 +500,19 @@ func (_u *FinanceClassUpdateOne) SetCompany(v *CompanyDetail) *FinanceClassUpdat
 	return _u.SetCompanyID(v.ID)
 }
 
-// AddMethodIDs adds the "methods" edge to the FinanceOperation entity by IDs.
-func (_u *FinanceClassUpdateOne) AddMethodIDs(ids ...int) *FinanceClassUpdateOne {
-	_u.mutation.AddMethodIDs(ids...)
+// AddClassIDs adds the "classes" edge to the FinanceOperation entity by IDs.
+func (_u *FinanceClassUpdateOne) AddClassIDs(ids ...int) *FinanceClassUpdateOne {
+	_u.mutation.AddClassIDs(ids...)
 	return _u
 }
 
-// AddMethods adds the "methods" edges to the FinanceOperation entity.
-func (_u *FinanceClassUpdateOne) AddMethods(v ...*FinanceOperation) *FinanceClassUpdateOne {
+// AddClasses adds the "classes" edges to the FinanceOperation entity.
+func (_u *FinanceClassUpdateOne) AddClasses(v ...*FinanceOperation) *FinanceClassUpdateOne {
 	ids := make([]int, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
-	return _u.AddMethodIDs(ids...)
+	return _u.AddClassIDs(ids...)
 }
 
 // Mutation returns the FinanceClassMutation object of the builder.
@@ -526,25 +526,25 @@ func (_u *FinanceClassUpdateOne) ClearCompany() *FinanceClassUpdateOne {
 	return _u
 }
 
-// ClearMethods clears all "methods" edges to the FinanceOperation entity.
-func (_u *FinanceClassUpdateOne) ClearMethods() *FinanceClassUpdateOne {
-	_u.mutation.ClearMethods()
+// ClearClasses clears all "classes" edges to the FinanceOperation entity.
+func (_u *FinanceClassUpdateOne) ClearClasses() *FinanceClassUpdateOne {
+	_u.mutation.ClearClasses()
 	return _u
 }
 
-// RemoveMethodIDs removes the "methods" edge to FinanceOperation entities by IDs.
-func (_u *FinanceClassUpdateOne) RemoveMethodIDs(ids ...int) *FinanceClassUpdateOne {
-	_u.mutation.RemoveMethodIDs(ids...)
+// RemoveClassIDs removes the "classes" edge to FinanceOperation entities by IDs.
+func (_u *FinanceClassUpdateOne) RemoveClassIDs(ids ...int) *FinanceClassUpdateOne {
+	_u.mutation.RemoveClassIDs(ids...)
 	return _u
 }
 
-// RemoveMethods removes "methods" edges to FinanceOperation entities.
-func (_u *FinanceClassUpdateOne) RemoveMethods(v ...*FinanceOperation) *FinanceClassUpdateOne {
+// RemoveClasses removes "classes" edges to FinanceOperation entities.
+func (_u *FinanceClassUpdateOne) RemoveClasses(v ...*FinanceOperation) *FinanceClassUpdateOne {
 	ids := make([]int, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
-	return _u.RemoveMethodIDs(ids...)
+	return _u.RemoveClassIDs(ids...)
 }
 
 // Where appends a list predicates to the FinanceClassUpdate builder.
@@ -681,12 +681,12 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if _u.mutation.MethodsCleared() {
+	if _u.mutation.ClassesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financeclass.MethodsTable,
-			Columns: []string{financeclass.MethodsColumn},
+			Table:   financeclass.ClassesTable,
+			Columns: []string{financeclass.ClassesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
@@ -694,12 +694,12 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := _u.mutation.RemovedMethodsIDs(); len(nodes) > 0 && !_u.mutation.MethodsCleared() {
+	if nodes := _u.mutation.RemovedClassesIDs(); len(nodes) > 0 && !_u.mutation.ClassesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financeclass.MethodsTable,
-			Columns: []string{financeclass.MethodsColumn},
+			Table:   financeclass.ClassesTable,
+			Columns: []string{financeclass.ClassesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
@@ -710,12 +710,12 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := _u.mutation.MethodsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ClassesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financeclass.MethodsTable,
-			Columns: []string{financeclass.MethodsColumn},
+			Table:   financeclass.ClassesTable,
+			Columns: []string{financeclass.ClassesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),

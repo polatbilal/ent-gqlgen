@@ -255,7 +255,7 @@ var (
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "finance_operations_finance_classes_methods",
+				Symbol:     "finance_operations_finance_classes_classes",
 				Columns:    []*schema.Column{FinanceOperationsColumns[9]},
 				RefColumns: []*schema.Column{FinanceClassesColumns[0]},
 				OnDelete:   schema.SetNull,

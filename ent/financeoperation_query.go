@@ -27,12 +27,12 @@ type FinanceOperationQuery struct {
 	order         []financeoperation.OrderOption
 	inters        []Interceptor
 	predicates    []predicate.FinanceOperation
-	withAccount   *FinanceAccountQuery
-	withMethod    *FinanceClassQuery
+	withClass     *FinanceClassQuery
 	withCompany   *CompanyDetailQuery
 	withResource  *FinanceResourceQuery
 	withGroup     *FinanceGroupQuery
 	withOperation *FinanceGroupQuery
+	withAccount   *FinanceAccountQuery
 	withFKs       bool
 	modifiers     []func(*sql.Selector)
 	loadTotal     []func(context.Context, []*FinanceOperation) error
@@ -72,30 +72,8 @@ func (_q *FinanceOperationQuery) Order(o ...financeoperation.OrderOption) *Finan
 	return _q
 }
 
-// QueryAccount chains the current query on the "account" edge.
-func (_q *FinanceOperationQuery) QueryAccount() *FinanceAccountQuery {
-	query := (&FinanceAccountClient{config: _q.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := _q.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := _q.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, selector),
-			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.AccountTable, financeoperation.AccountColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryMethod chains the current query on the "method" edge.
-func (_q *FinanceOperationQuery) QueryMethod() *FinanceClassQuery {
+// QueryClass chains the current query on the "class" edge.
+func (_q *FinanceOperationQuery) QueryClass() *FinanceClassQuery {
 	query := (&FinanceClassClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := _q.prepareQuery(ctx); err != nil {
@@ -108,7 +86,7 @@ func (_q *FinanceOperationQuery) QueryMethod() *FinanceClassQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, selector),
 			sqlgraph.To(financeclass.Table, financeclass.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.MethodTable, financeoperation.MethodColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.ClassTable, financeoperation.ClassColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
@@ -197,6 +175,28 @@ func (_q *FinanceOperationQuery) QueryOperation() *FinanceGroupQuery {
 			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, selector),
 			sqlgraph.To(financegroup.Table, financegroup.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.OperationTable, financeoperation.OperationColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryAccount chains the current query on the "account" edge.
+func (_q *FinanceOperationQuery) QueryAccount() *FinanceAccountQuery {
+	query := (&FinanceAccountClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeoperation.Table, financeoperation.FieldID, selector),
+			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.AccountTable, financeoperation.AccountColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
@@ -396,37 +396,26 @@ func (_q *FinanceOperationQuery) Clone() *FinanceOperationQuery {
 		order:         append([]financeoperation.OrderOption{}, _q.order...),
 		inters:        append([]Interceptor{}, _q.inters...),
 		predicates:    append([]predicate.FinanceOperation{}, _q.predicates...),
-		withAccount:   _q.withAccount.Clone(),
-		withMethod:    _q.withMethod.Clone(),
+		withClass:     _q.withClass.Clone(),
 		withCompany:   _q.withCompany.Clone(),
 		withResource:  _q.withResource.Clone(),
 		withGroup:     _q.withGroup.Clone(),
 		withOperation: _q.withOperation.Clone(),
+		withAccount:   _q.withAccount.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
 	}
 }
 
-// WithAccount tells the query-builder to eager-load the nodes that are connected to
-// the "account" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *FinanceOperationQuery) WithAccount(opts ...func(*FinanceAccountQuery)) *FinanceOperationQuery {
-	query := (&FinanceAccountClient{config: _q.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	_q.withAccount = query
-	return _q
-}
-
-// WithMethod tells the query-builder to eager-load the nodes that are connected to
-// the "method" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *FinanceOperationQuery) WithMethod(opts ...func(*FinanceClassQuery)) *FinanceOperationQuery {
+// WithClass tells the query-builder to eager-load the nodes that are connected to
+// the "class" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *FinanceOperationQuery) WithClass(opts ...func(*FinanceClassQuery)) *FinanceOperationQuery {
 	query := (&FinanceClassClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	_q.withMethod = query
+	_q.withClass = query
 	return _q
 }
 
@@ -471,6 +460,17 @@ func (_q *FinanceOperationQuery) WithOperation(opts ...func(*FinanceGroupQuery))
 		opt(query)
 	}
 	_q.withOperation = query
+	return _q
+}
+
+// WithAccount tells the query-builder to eager-load the nodes that are connected to
+// the "account" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *FinanceOperationQuery) WithAccount(opts ...func(*FinanceAccountQuery)) *FinanceOperationQuery {
+	query := (&FinanceAccountClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withAccount = query
 	return _q
 }
 
@@ -554,15 +554,15 @@ func (_q *FinanceOperationQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		withFKs     = _q.withFKs
 		_spec       = _q.querySpec()
 		loadedTypes = [6]bool{
-			_q.withAccount != nil,
-			_q.withMethod != nil,
+			_q.withClass != nil,
 			_q.withCompany != nil,
 			_q.withResource != nil,
 			_q.withGroup != nil,
 			_q.withOperation != nil,
+			_q.withAccount != nil,
 		}
 	)
-	if _q.withAccount != nil || _q.withMethod != nil || _q.withCompany != nil || _q.withResource != nil || _q.withGroup != nil || _q.withOperation != nil {
+	if _q.withClass != nil || _q.withCompany != nil || _q.withResource != nil || _q.withGroup != nil || _q.withOperation != nil || _q.withAccount != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -589,15 +589,9 @@ func (_q *FinanceOperationQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := _q.withAccount; query != nil {
-		if err := _q.loadAccount(ctx, query, nodes, nil,
-			func(n *FinanceOperation, e *FinanceAccount) { n.Edges.Account = e }); err != nil {
-			return nil, err
-		}
-	}
-	if query := _q.withMethod; query != nil {
-		if err := _q.loadMethod(ctx, query, nodes, nil,
-			func(n *FinanceOperation, e *FinanceClass) { n.Edges.Method = e }); err != nil {
+	if query := _q.withClass; query != nil {
+		if err := _q.loadClass(ctx, query, nodes, nil,
+			func(n *FinanceOperation, e *FinanceClass) { n.Edges.Class = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -625,6 +619,12 @@ func (_q *FinanceOperationQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 			return nil, err
 		}
 	}
+	if query := _q.withAccount; query != nil {
+		if err := _q.loadAccount(ctx, query, nodes, nil,
+			func(n *FinanceOperation, e *FinanceAccount) { n.Edges.Account = e }); err != nil {
+			return nil, err
+		}
+	}
 	for i := range _q.loadTotal {
 		if err := _q.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
@@ -633,39 +633,7 @@ func (_q *FinanceOperationQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	return nodes, nil
 }
 
-func (_q *FinanceOperationQuery) loadAccount(ctx context.Context, query *FinanceAccountQuery, nodes []*FinanceOperation, init func(*FinanceOperation), assign func(*FinanceOperation, *FinanceAccount)) error {
-	ids := make([]int, 0, len(nodes))
-	nodeids := make(map[int][]*FinanceOperation)
-	for i := range nodes {
-		if nodes[i].account_id == nil {
-			continue
-		}
-		fk := *nodes[i].account_id
-		if _, ok := nodeids[fk]; !ok {
-			ids = append(ids, fk)
-		}
-		nodeids[fk] = append(nodeids[fk], nodes[i])
-	}
-	if len(ids) == 0 {
-		return nil
-	}
-	query.Where(financeaccount.IDIn(ids...))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		nodes, ok := nodeids[n.ID]
-		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "account_id" returned %v`, n.ID)
-		}
-		for i := range nodes {
-			assign(nodes[i], n)
-		}
-	}
-	return nil
-}
-func (_q *FinanceOperationQuery) loadMethod(ctx context.Context, query *FinanceClassQuery, nodes []*FinanceOperation, init func(*FinanceOperation), assign func(*FinanceOperation, *FinanceClass)) error {
+func (_q *FinanceOperationQuery) loadClass(ctx context.Context, query *FinanceClassQuery, nodes []*FinanceOperation, init func(*FinanceOperation), assign func(*FinanceOperation, *FinanceClass)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*FinanceOperation)
 	for i := range nodes {
@@ -818,6 +786,38 @@ func (_q *FinanceOperationQuery) loadOperation(ctx context.Context, query *Finan
 		nodes, ok := nodeids[n.ID]
 		if !ok {
 			return fmt.Errorf(`unexpected foreign-key "operation_id" returned %v`, n.ID)
+		}
+		for i := range nodes {
+			assign(nodes[i], n)
+		}
+	}
+	return nil
+}
+func (_q *FinanceOperationQuery) loadAccount(ctx context.Context, query *FinanceAccountQuery, nodes []*FinanceOperation, init func(*FinanceOperation), assign func(*FinanceOperation, *FinanceAccount)) error {
+	ids := make([]int, 0, len(nodes))
+	nodeids := make(map[int][]*FinanceOperation)
+	for i := range nodes {
+		if nodes[i].account_id == nil {
+			continue
+		}
+		fk := *nodes[i].account_id
+		if _, ok := nodeids[fk]; !ok {
+			ids = append(ids, fk)
+		}
+		nodeids[fk] = append(nodeids[fk], nodes[i])
+	}
+	if len(ids) == 0 {
+		return nil
+	}
+	query.Where(financeaccount.IDIn(ids...))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nodeids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "account_id" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)

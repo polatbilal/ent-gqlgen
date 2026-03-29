@@ -940,7 +940,7 @@ func (_q *FinanceClassQuery) collectField(ctx context.Context, oneNode bool, opC
 			}
 			_q.withCompany = query
 
-		case "methods":
+		case "classes":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
@@ -949,7 +949,7 @@ func (_q *FinanceClassQuery) collectField(ctx context.Context, oneNode bool, opC
 			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financeoperationImplementors)...); err != nil {
 				return err
 			}
-			_q.WithNamedMethods(alias, func(wq *FinanceOperationQuery) {
+			_q.WithNamedClasses(alias, func(wq *FinanceOperationQuery) {
 				*wq = *query
 			})
 		case "category":
@@ -1180,18 +1180,7 @@ func (_q *FinanceOperationQuery) collectField(ctx context.Context, oneNode bool,
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
-		case "account":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceAccountClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financeaccountImplementors)...); err != nil {
-				return err
-			}
-			_q.withAccount = query
-
-		case "method":
+		case "class":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
@@ -1200,7 +1189,7 @@ func (_q *FinanceOperationQuery) collectField(ctx context.Context, oneNode bool,
 			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financeclassImplementors)...); err != nil {
 				return err
 			}
-			_q.withMethod = query
+			_q.withClass = query
 
 		case "company":
 			var (
@@ -1245,6 +1234,17 @@ func (_q *FinanceOperationQuery) collectField(ctx context.Context, oneNode bool,
 				return err
 			}
 			_q.withOperation = query
+
+		case "account":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&FinanceAccountClient{config: _q.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financeaccountImplementors)...); err != nil {
+				return err
+			}
+			_q.withAccount = query
 		case "date":
 			if _, ok := fieldSeen[financeoperation.FieldDate]; !ok {
 				selectedFields = append(selectedFields, financeoperation.FieldDate)

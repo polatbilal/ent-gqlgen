@@ -26,11 +26,11 @@ type FinanceClassQuery struct {
 	inters           []Interceptor
 	predicates       []predicate.FinanceClass
 	withCompany      *CompanyDetailQuery
-	withMethods      *FinanceOperationQuery
+	withClasses      *FinanceOperationQuery
 	withFKs          bool
 	modifiers        []func(*sql.Selector)
 	loadTotal        []func(context.Context, []*FinanceClass) error
-	withNamedMethods map[string]*FinanceOperationQuery
+	withNamedClasses map[string]*FinanceOperationQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -89,8 +89,8 @@ func (_q *FinanceClassQuery) QueryCompany() *CompanyDetailQuery {
 	return query
 }
 
-// QueryMethods chains the current query on the "methods" edge.
-func (_q *FinanceClassQuery) QueryMethods() *FinanceOperationQuery {
+// QueryClasses chains the current query on the "classes" edge.
+func (_q *FinanceClassQuery) QueryClasses() *FinanceOperationQuery {
 	query := (&FinanceOperationClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := _q.prepareQuery(ctx); err != nil {
@@ -103,7 +103,7 @@ func (_q *FinanceClassQuery) QueryMethods() *FinanceOperationQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(financeclass.Table, financeclass.FieldID, selector),
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, financeclass.MethodsTable, financeclass.MethodsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, financeclass.ClassesTable, financeclass.ClassesColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
@@ -304,7 +304,7 @@ func (_q *FinanceClassQuery) Clone() *FinanceClassQuery {
 		inters:      append([]Interceptor{}, _q.inters...),
 		predicates:  append([]predicate.FinanceClass{}, _q.predicates...),
 		withCompany: _q.withCompany.Clone(),
-		withMethods: _q.withMethods.Clone(),
+		withClasses: _q.withClasses.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -322,14 +322,14 @@ func (_q *FinanceClassQuery) WithCompany(opts ...func(*CompanyDetailQuery)) *Fin
 	return _q
 }
 
-// WithMethods tells the query-builder to eager-load the nodes that are connected to
-// the "methods" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *FinanceClassQuery) WithMethods(opts ...func(*FinanceOperationQuery)) *FinanceClassQuery {
+// WithClasses tells the query-builder to eager-load the nodes that are connected to
+// the "classes" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *FinanceClassQuery) WithClasses(opts ...func(*FinanceOperationQuery)) *FinanceClassQuery {
 	query := (&FinanceOperationClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	_q.withMethods = query
+	_q.withClasses = query
 	return _q
 }
 
@@ -414,7 +414,7 @@ func (_q *FinanceClassQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		_spec       = _q.querySpec()
 		loadedTypes = [2]bool{
 			_q.withCompany != nil,
-			_q.withMethods != nil,
+			_q.withClasses != nil,
 		}
 	)
 	if _q.withCompany != nil {
@@ -450,17 +450,17 @@ func (_q *FinanceClassQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 			return nil, err
 		}
 	}
-	if query := _q.withMethods; query != nil {
-		if err := _q.loadMethods(ctx, query, nodes,
-			func(n *FinanceClass) { n.Edges.Methods = []*FinanceOperation{} },
-			func(n *FinanceClass, e *FinanceOperation) { n.Edges.Methods = append(n.Edges.Methods, e) }); err != nil {
+	if query := _q.withClasses; query != nil {
+		if err := _q.loadClasses(ctx, query, nodes,
+			func(n *FinanceClass) { n.Edges.Classes = []*FinanceOperation{} },
+			func(n *FinanceClass, e *FinanceOperation) { n.Edges.Classes = append(n.Edges.Classes, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range _q.withNamedMethods {
-		if err := _q.loadMethods(ctx, query, nodes,
-			func(n *FinanceClass) { n.appendNamedMethods(name) },
-			func(n *FinanceClass, e *FinanceOperation) { n.appendNamedMethods(name, e) }); err != nil {
+	for name, query := range _q.withNamedClasses {
+		if err := _q.loadClasses(ctx, query, nodes,
+			func(n *FinanceClass) { n.appendNamedClasses(name) },
+			func(n *FinanceClass, e *FinanceOperation) { n.appendNamedClasses(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -504,7 +504,7 @@ func (_q *FinanceClassQuery) loadCompany(ctx context.Context, query *CompanyDeta
 	}
 	return nil
 }
-func (_q *FinanceClassQuery) loadMethods(ctx context.Context, query *FinanceOperationQuery, nodes []*FinanceClass, init func(*FinanceClass), assign func(*FinanceClass, *FinanceOperation)) error {
+func (_q *FinanceClassQuery) loadClasses(ctx context.Context, query *FinanceOperationQuery, nodes []*FinanceClass, init func(*FinanceClass), assign func(*FinanceClass, *FinanceOperation)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*FinanceClass)
 	for i := range nodes {
@@ -516,7 +516,7 @@ func (_q *FinanceClassQuery) loadMethods(ctx context.Context, query *FinanceOper
 	}
 	query.withFKs = true
 	query.Where(predicate.FinanceOperation(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(financeclass.MethodsColumn), fks...))
+		s.Where(sql.InValues(s.C(financeclass.ClassesColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -620,17 +620,17 @@ func (_q *FinanceClassQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
-// WithNamedMethods tells the query-builder to eager-load the nodes that are connected to the "methods"
+// WithNamedClasses tells the query-builder to eager-load the nodes that are connected to the "classes"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (_q *FinanceClassQuery) WithNamedMethods(name string, opts ...func(*FinanceOperationQuery)) *FinanceClassQuery {
+func (_q *FinanceClassQuery) WithNamedClasses(name string, opts ...func(*FinanceOperationQuery)) *FinanceClassQuery {
 	query := (&FinanceOperationClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if _q.withNamedMethods == nil {
-		_q.withNamedMethods = make(map[string]*FinanceOperationQuery)
+	if _q.withNamedClasses == nil {
+		_q.withNamedClasses = make(map[string]*FinanceOperationQuery)
 	}
-	_q.withNamedMethods[name] = query
+	_q.withNamedClasses[name] = query
 	return _q
 }
 
