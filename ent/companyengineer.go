@@ -75,13 +75,11 @@ type CompanyEngineerEdges struct {
 	Mechaniccontrollers []*JobRelations `json:"mechaniccontrollers,omitempty"`
 	// Electriccontrollers holds the value of the electriccontrollers edge.
 	Electriccontrollers []*JobRelations `json:"electriccontrollers,omitempty"`
-	// FinanceRelations holds the value of the finance_relations edge.
-	FinanceRelations []*FinanceRelations `json:"finance_relations,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [10]bool
+	loadedTypes [9]bool
 	// totalCount holds the count of the edges above.
-	totalCount [10]map[string]int
+	totalCount [9]map[string]int
 
 	namedStatics             map[string][]*JobRelations
 	namedMechanics           map[string][]*JobRelations
@@ -91,7 +89,6 @@ type CompanyEngineerEdges struct {
 	namedControllers         map[string][]*JobRelations
 	namedMechaniccontrollers map[string][]*JobRelations
 	namedElectriccontrollers map[string][]*JobRelations
-	namedFinanceRelations    map[string][]*FinanceRelations
 }
 
 // CompanyOrErr returns the Company value or an error if the edge
@@ -175,15 +172,6 @@ func (e CompanyEngineerEdges) ElectriccontrollersOrErr() ([]*JobRelations, error
 		return e.Electriccontrollers, nil
 	}
 	return nil, &NotLoadedError{edge: "electriccontrollers"}
-}
-
-// FinanceRelationsOrErr returns the FinanceRelations value or an error if the edge
-// was not loaded in eager-loading.
-func (e CompanyEngineerEdges) FinanceRelationsOrErr() ([]*FinanceRelations, error) {
-	if e.loadedTypes[9] {
-		return e.FinanceRelations, nil
-	}
-	return nil, &NotLoadedError{edge: "finance_relations"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -375,11 +363,6 @@ func (_m *CompanyEngineer) QueryMechaniccontrollers() *JobRelationsQuery {
 // QueryElectriccontrollers queries the "electriccontrollers" edge of the CompanyEngineer entity.
 func (_m *CompanyEngineer) QueryElectriccontrollers() *JobRelationsQuery {
 	return NewCompanyEngineerClient(_m.config).QueryElectriccontrollers(_m)
-}
-
-// QueryFinanceRelations queries the "finance_relations" edge of the CompanyEngineer entity.
-func (_m *CompanyEngineer) QueryFinanceRelations() *FinanceRelationsQuery {
-	return NewCompanyEngineerClient(_m.config).QueryFinanceRelations(_m)
 }
 
 // Update returns a builder for updating this CompanyEngineer.
@@ -642,30 +625,6 @@ func (_m *CompanyEngineer) appendNamedElectriccontrollers(name string, edges ...
 		_m.Edges.namedElectriccontrollers[name] = []*JobRelations{}
 	} else {
 		_m.Edges.namedElectriccontrollers[name] = append(_m.Edges.namedElectriccontrollers[name], edges...)
-	}
-}
-
-// NamedFinanceRelations returns the FinanceRelations named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (_m *CompanyEngineer) NamedFinanceRelations(name string) ([]*FinanceRelations, error) {
-	if _m.Edges.namedFinanceRelations == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := _m.Edges.namedFinanceRelations[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (_m *CompanyEngineer) appendNamedFinanceRelations(name string, edges ...*FinanceRelations) {
-	if _m.Edges.namedFinanceRelations == nil {
-		_m.Edges.namedFinanceRelations = make(map[string][]*FinanceRelations)
-	}
-	if len(edges) == 0 {
-		_m.Edges.namedFinanceRelations[name] = []*FinanceRelations{}
-	} else {
-		_m.Edges.namedFinanceRelations[name] = append(_m.Edges.namedFinanceRelations[name], edges...)
 	}
 }
 

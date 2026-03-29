@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 )
 
@@ -23,12 +23,6 @@ type FinanceOperationCreate struct {
 	config
 	mutation *FinanceOperationMutation
 	hooks    []Hook
-}
-
-// SetOperation sets the "Operation" field.
-func (_c *FinanceOperationCreate) SetOperation(v string) *FinanceOperationCreate {
-	_c.mutation.SetOperation(v)
-	return _c
 }
 
 // SetDate sets the "Date" field.
@@ -83,23 +77,23 @@ func (_c *FinanceOperationCreate) SetNillableUpdatedAt(v *time.Time) *FinanceOpe
 	return _c
 }
 
-// SetRelationsID sets the "relations" edge to the FinanceRelations entity by ID.
-func (_c *FinanceOperationCreate) SetRelationsID(id int) *FinanceOperationCreate {
-	_c.mutation.SetRelationsID(id)
+// SetAccountID sets the "account" edge to the FinanceAccount entity by ID.
+func (_c *FinanceOperationCreate) SetAccountID(id int) *FinanceOperationCreate {
+	_c.mutation.SetAccountID(id)
 	return _c
 }
 
-// SetNillableRelationsID sets the "relations" edge to the FinanceRelations entity by ID if the given value is not nil.
-func (_c *FinanceOperationCreate) SetNillableRelationsID(id *int) *FinanceOperationCreate {
+// SetNillableAccountID sets the "account" edge to the FinanceAccount entity by ID if the given value is not nil.
+func (_c *FinanceOperationCreate) SetNillableAccountID(id *int) *FinanceOperationCreate {
 	if id != nil {
-		_c = _c.SetRelationsID(*id)
+		_c = _c.SetAccountID(*id)
 	}
 	return _c
 }
 
-// SetRelations sets the "relations" edge to the FinanceRelations entity.
-func (_c *FinanceOperationCreate) SetRelations(v *FinanceRelations) *FinanceOperationCreate {
-	return _c.SetRelationsID(v.ID)
+// SetAccount sets the "account" edge to the FinanceAccount entity.
+func (_c *FinanceOperationCreate) SetAccount(v *FinanceAccount) *FinanceOperationCreate {
+	return _c.SetAccountID(v.ID)
 }
 
 // SetMethodID sets the "method" edge to the FinanceClass entity by ID.
@@ -178,6 +172,25 @@ func (_c *FinanceOperationCreate) SetGroup(v *FinanceGroup) *FinanceOperationCre
 	return _c.SetGroupID(v.ID)
 }
 
+// SetOperationID sets the "operation" edge to the FinanceGroup entity by ID.
+func (_c *FinanceOperationCreate) SetOperationID(id int) *FinanceOperationCreate {
+	_c.mutation.SetOperationID(id)
+	return _c
+}
+
+// SetNillableOperationID sets the "operation" edge to the FinanceGroup entity by ID if the given value is not nil.
+func (_c *FinanceOperationCreate) SetNillableOperationID(id *int) *FinanceOperationCreate {
+	if id != nil {
+		_c = _c.SetOperationID(*id)
+	}
+	return _c
+}
+
+// SetOperation sets the "operation" edge to the FinanceGroup entity.
+func (_c *FinanceOperationCreate) SetOperation(v *FinanceGroup) *FinanceOperationCreate {
+	return _c.SetOperationID(v.ID)
+}
+
 // Mutation returns the FinanceOperationMutation object of the builder.
 func (_c *FinanceOperationCreate) Mutation() *FinanceOperationMutation {
 	return _c.mutation
@@ -225,9 +238,6 @@ func (_c *FinanceOperationCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *FinanceOperationCreate) check() error {
-	if _, ok := _c.mutation.Operation(); !ok {
-		return &ValidationError{Name: "Operation", err: errors.New(`ent: missing required field "FinanceOperation.Operation"`)}
-	}
 	if _, ok := _c.mutation.Date(); !ok {
 		return &ValidationError{Name: "Date", err: errors.New(`ent: missing required field "FinanceOperation.Date"`)}
 	}
@@ -272,10 +282,6 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 		_node = &FinanceOperation{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(financeoperation.Table, sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt))
 	)
-	if value, ok := _c.mutation.Operation(); ok {
-		_spec.SetField(financeoperation.FieldOperation, field.TypeString, value)
-		_node.Operation = value
-	}
 	if value, ok := _c.mutation.Date(); ok {
 		_spec.SetField(financeoperation.FieldDate, field.TypeTime, value)
 		_node.Date = value
@@ -300,21 +306,21 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 		_spec.SetField(financeoperation.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := _c.mutation.RelationsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.AccountIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   financeoperation.RelationsTable,
-			Columns: []string{financeoperation.RelationsColumn},
+			Table:   financeoperation.AccountTable,
+			Columns: []string{financeoperation.AccountColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.relations_id = &nodes[0]
+		_node.account_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := _c.mutation.MethodIDs(); len(nodes) > 0 {
@@ -383,6 +389,23 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.group_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.OperationIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   financeoperation.OperationTable,
+			Columns: []string{financeoperation.OperationColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financegroup.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.operation_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

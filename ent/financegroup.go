@@ -39,36 +39,48 @@ type FinanceGroup struct {
 
 // FinanceGroupEdges holds the relations/edges for other nodes in the graph.
 type FinanceGroupEdges struct {
+	// Operations holds the value of the operations edge.
+	Operations []*FinanceOperation `json:"operations,omitempty"`
 	// Groups holds the value of the groups edge.
 	Groups []*FinanceOperation `json:"groups,omitempty"`
-	// FinanceAccountRelations holds the value of the finance_account_relations edge.
-	FinanceAccountRelations []*FinanceRelations `json:"finance_account_relations,omitempty"`
+	// FinanceAccounts holds the value of the finance_accounts edge.
+	FinanceAccounts []*FinanceAccount `json:"finance_accounts,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
+	loadedTypes [3]bool
 	// totalCount holds the count of the edges above.
-	totalCount [2]map[string]int
+	totalCount [3]map[string]int
 
-	namedGroups                  map[string][]*FinanceOperation
-	namedFinanceAccountRelations map[string][]*FinanceRelations
+	namedOperations      map[string][]*FinanceOperation
+	namedGroups          map[string][]*FinanceOperation
+	namedFinanceAccounts map[string][]*FinanceAccount
+}
+
+// OperationsOrErr returns the Operations value or an error if the edge
+// was not loaded in eager-loading.
+func (e FinanceGroupEdges) OperationsOrErr() ([]*FinanceOperation, error) {
+	if e.loadedTypes[0] {
+		return e.Operations, nil
+	}
+	return nil, &NotLoadedError{edge: "operations"}
 }
 
 // GroupsOrErr returns the Groups value or an error if the edge
 // was not loaded in eager-loading.
 func (e FinanceGroupEdges) GroupsOrErr() ([]*FinanceOperation, error) {
-	if e.loadedTypes[0] {
+	if e.loadedTypes[1] {
 		return e.Groups, nil
 	}
 	return nil, &NotLoadedError{edge: "groups"}
 }
 
-// FinanceAccountRelationsOrErr returns the FinanceAccountRelations value or an error if the edge
+// FinanceAccountsOrErr returns the FinanceAccounts value or an error if the edge
 // was not loaded in eager-loading.
-func (e FinanceGroupEdges) FinanceAccountRelationsOrErr() ([]*FinanceRelations, error) {
-	if e.loadedTypes[1] {
-		return e.FinanceAccountRelations, nil
+func (e FinanceGroupEdges) FinanceAccountsOrErr() ([]*FinanceAccount, error) {
+	if e.loadedTypes[2] {
+		return e.FinanceAccounts, nil
 	}
-	return nil, &NotLoadedError{edge: "finance_account_relations"}
+	return nil, &NotLoadedError{edge: "finance_accounts"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -160,14 +172,19 @@ func (_m *FinanceGroup) Value(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
 }
 
+// QueryOperations queries the "operations" edge of the FinanceGroup entity.
+func (_m *FinanceGroup) QueryOperations() *FinanceOperationQuery {
+	return NewFinanceGroupClient(_m.config).QueryOperations(_m)
+}
+
 // QueryGroups queries the "groups" edge of the FinanceGroup entity.
 func (_m *FinanceGroup) QueryGroups() *FinanceOperationQuery {
 	return NewFinanceGroupClient(_m.config).QueryGroups(_m)
 }
 
-// QueryFinanceAccountRelations queries the "finance_account_relations" edge of the FinanceGroup entity.
-func (_m *FinanceGroup) QueryFinanceAccountRelations() *FinanceRelationsQuery {
-	return NewFinanceGroupClient(_m.config).QueryFinanceAccountRelations(_m)
+// QueryFinanceAccounts queries the "finance_accounts" edge of the FinanceGroup entity.
+func (_m *FinanceGroup) QueryFinanceAccounts() *FinanceAccountQuery {
+	return NewFinanceGroupClient(_m.config).QueryFinanceAccounts(_m)
 }
 
 // Update returns a builder for updating this FinanceGroup.
@@ -217,6 +234,30 @@ func (_m *FinanceGroup) String() string {
 	return builder.String()
 }
 
+// NamedOperations returns the Operations named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *FinanceGroup) NamedOperations(name string) ([]*FinanceOperation, error) {
+	if _m.Edges.namedOperations == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedOperations[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *FinanceGroup) appendNamedOperations(name string, edges ...*FinanceOperation) {
+	if _m.Edges.namedOperations == nil {
+		_m.Edges.namedOperations = make(map[string][]*FinanceOperation)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedOperations[name] = []*FinanceOperation{}
+	} else {
+		_m.Edges.namedOperations[name] = append(_m.Edges.namedOperations[name], edges...)
+	}
+}
+
 // NamedGroups returns the Groups named value or an error if the edge was not
 // loaded in eager-loading with this name.
 func (_m *FinanceGroup) NamedGroups(name string) ([]*FinanceOperation, error) {
@@ -241,27 +282,27 @@ func (_m *FinanceGroup) appendNamedGroups(name string, edges ...*FinanceOperatio
 	}
 }
 
-// NamedFinanceAccountRelations returns the FinanceAccountRelations named value or an error if the edge was not
+// NamedFinanceAccounts returns the FinanceAccounts named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (_m *FinanceGroup) NamedFinanceAccountRelations(name string) ([]*FinanceRelations, error) {
-	if _m.Edges.namedFinanceAccountRelations == nil {
+func (_m *FinanceGroup) NamedFinanceAccounts(name string) ([]*FinanceAccount, error) {
+	if _m.Edges.namedFinanceAccounts == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := _m.Edges.namedFinanceAccountRelations[name]
+	nodes, ok := _m.Edges.namedFinanceAccounts[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (_m *FinanceGroup) appendNamedFinanceAccountRelations(name string, edges ...*FinanceRelations) {
-	if _m.Edges.namedFinanceAccountRelations == nil {
-		_m.Edges.namedFinanceAccountRelations = make(map[string][]*FinanceRelations)
+func (_m *FinanceGroup) appendNamedFinanceAccounts(name string, edges ...*FinanceAccount) {
+	if _m.Edges.namedFinanceAccounts == nil {
+		_m.Edges.namedFinanceAccounts = make(map[string][]*FinanceAccount)
 	}
 	if len(edges) == 0 {
-		_m.Edges.namedFinanceAccountRelations[name] = []*FinanceRelations{}
+		_m.Edges.namedFinanceAccounts[name] = []*FinanceAccount{}
 	} else {
-		_m.Edges.namedFinanceAccountRelations[name] = append(_m.Edges.namedFinanceAccountRelations[name], edges...)
+		_m.Edges.namedFinanceAccounts[name] = append(_m.Edges.namedFinanceAccounts[name], edges...)
 	}
 }
 

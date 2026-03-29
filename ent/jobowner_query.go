@@ -12,7 +12,6 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
@@ -21,16 +20,14 @@ import (
 // JobOwnerQuery is the builder for querying JobOwner entities.
 type JobOwnerQuery struct {
 	config
-	ctx                       *QueryContext
-	order                     []jobowner.OrderOption
-	inters                    []Interceptor
-	predicates                []predicate.JobOwner
-	withOwners                *JobRelationsQuery
-	withFinanceRelations      *FinanceRelationsQuery
-	modifiers                 []func(*sql.Selector)
-	loadTotal                 []func(context.Context, []*JobOwner) error
-	withNamedOwners           map[string]*JobRelationsQuery
-	withNamedFinanceRelations map[string]*FinanceRelationsQuery
+	ctx             *QueryContext
+	order           []jobowner.OrderOption
+	inters          []Interceptor
+	predicates      []predicate.JobOwner
+	withOwners      *JobRelationsQuery
+	modifiers       []func(*sql.Selector)
+	loadTotal       []func(context.Context, []*JobOwner) error
+	withNamedOwners map[string]*JobRelationsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -82,28 +79,6 @@ func (_q *JobOwnerQuery) QueryOwners() *JobRelationsQuery {
 			sqlgraph.From(jobowner.Table, jobowner.FieldID, selector),
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobowner.OwnersTable, jobowner.OwnersColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryFinanceRelations chains the current query on the "finance_relations" edge.
-func (_q *JobOwnerQuery) QueryFinanceRelations() *FinanceRelationsQuery {
-	query := (&FinanceRelationsClient{config: _q.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := _q.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := _q.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(jobowner.Table, jobowner.FieldID, selector),
-			sqlgraph.To(financerelations.Table, financerelations.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, jobowner.FinanceRelationsTable, jobowner.FinanceRelationsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
@@ -298,13 +273,12 @@ func (_q *JobOwnerQuery) Clone() *JobOwnerQuery {
 		return nil
 	}
 	return &JobOwnerQuery{
-		config:               _q.config,
-		ctx:                  _q.ctx.Clone(),
-		order:                append([]jobowner.OrderOption{}, _q.order...),
-		inters:               append([]Interceptor{}, _q.inters...),
-		predicates:           append([]predicate.JobOwner{}, _q.predicates...),
-		withOwners:           _q.withOwners.Clone(),
-		withFinanceRelations: _q.withFinanceRelations.Clone(),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]jobowner.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.JobOwner{}, _q.predicates...),
+		withOwners: _q.withOwners.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -319,17 +293,6 @@ func (_q *JobOwnerQuery) WithOwners(opts ...func(*JobRelationsQuery)) *JobOwnerQ
 		opt(query)
 	}
 	_q.withOwners = query
-	return _q
-}
-
-// WithFinanceRelations tells the query-builder to eager-load the nodes that are connected to
-// the "finance_relations" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *JobOwnerQuery) WithFinanceRelations(opts ...func(*FinanceRelationsQuery)) *JobOwnerQuery {
-	query := (&FinanceRelationsClient{config: _q.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	_q.withFinanceRelations = query
 	return _q
 }
 
@@ -411,9 +374,8 @@ func (_q *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Job
 	var (
 		nodes       = []*JobOwner{}
 		_spec       = _q.querySpec()
-		loadedTypes = [2]bool{
+		loadedTypes = [1]bool{
 			_q.withOwners != nil,
-			_q.withFinanceRelations != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -444,24 +406,10 @@ func (_q *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Job
 			return nil, err
 		}
 	}
-	if query := _q.withFinanceRelations; query != nil {
-		if err := _q.loadFinanceRelations(ctx, query, nodes,
-			func(n *JobOwner) { n.Edges.FinanceRelations = []*FinanceRelations{} },
-			func(n *JobOwner, e *FinanceRelations) { n.Edges.FinanceRelations = append(n.Edges.FinanceRelations, e) }); err != nil {
-			return nil, err
-		}
-	}
 	for name, query := range _q.withNamedOwners {
 		if err := _q.loadOwners(ctx, query, nodes,
 			func(n *JobOwner) { n.appendNamedOwners(name) },
 			func(n *JobOwner, e *JobRelations) { n.appendNamedOwners(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range _q.withNamedFinanceRelations {
-		if err := _q.loadFinanceRelations(ctx, query, nodes,
-			func(n *JobOwner) { n.appendNamedFinanceRelations(name) },
-			func(n *JobOwner, e *FinanceRelations) { n.appendNamedFinanceRelations(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -499,37 +447,6 @@ func (_q *JobOwnerQuery) loadOwners(ctx context.Context, query *JobRelationsQuer
 		node, ok := nodeids[*fk]
 		if !ok {
 			return fmt.Errorf(`unexpected referenced foreign-key "owner_id" returned %v for node %v`, *fk, n.ID)
-		}
-		assign(node, n)
-	}
-	return nil
-}
-func (_q *JobOwnerQuery) loadFinanceRelations(ctx context.Context, query *FinanceRelationsQuery, nodes []*JobOwner, init func(*JobOwner), assign func(*JobOwner, *FinanceRelations)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*JobOwner)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
-		if init != nil {
-			init(nodes[i])
-		}
-	}
-	query.withFKs = true
-	query.Where(predicate.FinanceRelations(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(jobowner.FinanceRelationsColumn), fks...))
-	}))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		fk := n.job_owner_id
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "job_owner_id" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
-		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "job_owner_id" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}
@@ -631,20 +548,6 @@ func (_q *JobOwnerQuery) WithNamedOwners(name string, opts ...func(*JobRelations
 		_q.withNamedOwners = make(map[string]*JobRelationsQuery)
 	}
 	_q.withNamedOwners[name] = query
-	return _q
-}
-
-// WithNamedFinanceRelations tells the query-builder to eager-load the nodes that are connected to the "finance_relations"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (_q *JobOwnerQuery) WithNamedFinanceRelations(name string, opts ...func(*FinanceRelationsQuery)) *JobOwnerQuery {
-	query := (&FinanceRelationsClient{config: _q.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if _q.withNamedFinanceRelations == nil {
-		_q.withNamedFinanceRelations = make(map[string]*FinanceRelationsQuery)
-	}
-	_q.withNamedFinanceRelations[name] = query
 	return _q
 }
 

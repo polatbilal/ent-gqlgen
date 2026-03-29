@@ -8,13 +8,11 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
-	"github.com/polatbilal/ent-gqlgen/ent/companypersonnel"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
@@ -152,19 +150,6 @@ func (_q *CompanyDetailQuery) collectField(ctx context.Context, oneNode bool, op
 				return err
 			}
 			_q.WithNamedAccounts(alias, func(wq *FinanceAccountQuery) {
-				*wq = *query
-			})
-
-		case "personnels":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyPersonnelClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, companypersonnelImplementors)...); err != nil {
-				return err
-			}
-			_q.WithNamedPersonnels(alias, func(wq *CompanyPersonnelQuery) {
 				*wq = *query
 			})
 		case "companycode":
@@ -496,19 +481,6 @@ func (_q *CompanyEngineerQuery) collectField(ctx context.Context, oneNode bool, 
 			_q.WithNamedElectriccontrollers(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
-
-		case "financeRelations":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceRelationsClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financerelationsImplementors)...); err != nil {
-				return err
-			}
-			_q.WithNamedFinanceRelations(alias, func(wq *FinanceRelationsQuery) {
-				*wq = *query
-			})
 		case "name":
 			if _, ok := fieldSeen[companyengineer.FieldName]; !ok {
 				selectedFields = append(selectedFields, companyengineer.FieldName)
@@ -604,139 +576,6 @@ type companyengineerPaginateArgs struct {
 
 func newCompanyEngineerPaginateArgs(rv map[string]any) *companyengineerPaginateArgs {
 	args := &companyengineerPaginateArgs{}
-	if rv == nil {
-		return args
-	}
-	if v := rv[firstField]; v != nil {
-		args.first = v.(*int)
-	}
-	if v := rv[lastField]; v != nil {
-		args.last = v.(*int)
-	}
-	if v := rv[afterField]; v != nil {
-		args.after = v.(*Cursor)
-	}
-	if v := rv[beforeField]; v != nil {
-		args.before = v.(*Cursor)
-	}
-	return args
-}
-
-// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (_q *CompanyPersonnelQuery) CollectFields(ctx context.Context, satisfies ...string) (*CompanyPersonnelQuery, error) {
-	fc := graphql.GetFieldContext(ctx)
-	if fc == nil {
-		return _q, nil
-	}
-	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
-		return nil, err
-	}
-	return _q, nil
-}
-
-func (_q *CompanyPersonnelQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
-	path = append([]string(nil), path...)
-	var (
-		unknownSeen    bool
-		fieldSeen      = make(map[string]struct{}, len(companypersonnel.Columns))
-		selectedFields = []string{companypersonnel.FieldID}
-	)
-	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
-		switch field.Name {
-
-		case "company":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyDetailClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companydetailImplementors)...); err != nil {
-				return err
-			}
-			_q.withCompany = query
-
-		case "financeRelations":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceRelationsClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financerelationsImplementors)...); err != nil {
-				return err
-			}
-			_q.WithNamedFinanceRelations(alias, func(wq *FinanceRelationsQuery) {
-				*wq = *query
-			})
-		case "name":
-			if _, ok := fieldSeen[companypersonnel.FieldName]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldName)
-				fieldSeen[companypersonnel.FieldName] = struct{}{}
-			}
-		case "tcno":
-			if _, ok := fieldSeen[companypersonnel.FieldTcNo]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldTcNo)
-				fieldSeen[companypersonnel.FieldTcNo] = struct{}{}
-			}
-		case "phone":
-			if _, ok := fieldSeen[companypersonnel.FieldPhone]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldPhone)
-				fieldSeen[companypersonnel.FieldPhone] = struct{}{}
-			}
-		case "email":
-			if _, ok := fieldSeen[companypersonnel.FieldEmail]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldEmail)
-				fieldSeen[companypersonnel.FieldEmail] = struct{}{}
-			}
-		case "address":
-			if _, ok := fieldSeen[companypersonnel.FieldAddress]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldAddress)
-				fieldSeen[companypersonnel.FieldAddress] = struct{}{}
-			}
-		case "employment":
-			if _, ok := fieldSeen[companypersonnel.FieldEmployment]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldEmployment)
-				fieldSeen[companypersonnel.FieldEmployment] = struct{}{}
-			}
-		case "status":
-			if _, ok := fieldSeen[companypersonnel.FieldStatus]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldStatus)
-				fieldSeen[companypersonnel.FieldStatus] = struct{}{}
-			}
-		case "note":
-			if _, ok := fieldSeen[companypersonnel.FieldNote]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldNote)
-				fieldSeen[companypersonnel.FieldNote] = struct{}{}
-			}
-		case "createdat":
-			if _, ok := fieldSeen[companypersonnel.FieldCreatedAt]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldCreatedAt)
-				fieldSeen[companypersonnel.FieldCreatedAt] = struct{}{}
-			}
-		case "updatedat":
-			if _, ok := fieldSeen[companypersonnel.FieldUpdatedAt]; !ok {
-				selectedFields = append(selectedFields, companypersonnel.FieldUpdatedAt)
-				fieldSeen[companypersonnel.FieldUpdatedAt] = struct{}{}
-			}
-		case "id":
-		case "__typename":
-		default:
-			unknownSeen = true
-		}
-	}
-	if !unknownSeen {
-		_q.Select(selectedFields...)
-	}
-	return nil
-}
-
-type companypersonnelPaginateArgs struct {
-	first, last   *int
-	after, before *Cursor
-	opts          []CompanyPersonnelPaginateOption
-}
-
-func newCompanyPersonnelPaginateArgs(rv map[string]any) *companypersonnelPaginateArgs {
-	args := &companypersonnelPaginateArgs{}
 	if rv == nil {
 		return args
 	}
@@ -957,16 +796,27 @@ func (_q *FinanceAccountQuery) collectField(ctx context.Context, oneNode bool, o
 			}
 			_q.withCompany = query
 
-		case "financeRelations":
+		case "group":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&FinanceRelationsClient{config: _q.config}).Query()
+				query = (&FinanceGroupClient{config: _q.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financerelationsImplementors)...); err != nil {
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financegroupImplementors)...); err != nil {
 				return err
 			}
-			_q.WithNamedFinanceRelations(alias, func(wq *FinanceRelationsQuery) {
+			_q.withGroup = query
+
+		case "operations":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&FinanceOperationClient{config: _q.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financeoperationImplementors)...); err != nil {
+				return err
+			}
+			_q.WithNamedOperations(alias, func(wq *FinanceOperationQuery) {
 				*wq = *query
 			})
 		case "name":
@@ -1197,6 +1047,19 @@ func (_q *FinanceGroupQuery) collectField(ctx context.Context, oneNode bool, opC
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
+		case "operations":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&FinanceOperationClient{config: _q.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financeoperationImplementors)...); err != nil {
+				return err
+			}
+			_q.WithNamedOperations(alias, func(wq *FinanceOperationQuery) {
+				*wq = *query
+			})
+
 		case "groups":
 			var (
 				alias = field.Alias
@@ -1210,16 +1073,16 @@ func (_q *FinanceGroupQuery) collectField(ctx context.Context, oneNode bool, opC
 				*wq = *query
 			})
 
-		case "financeAccountRelations":
+		case "financeAccounts":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&FinanceRelationsClient{config: _q.config}).Query()
+				query = (&FinanceAccountClient{config: _q.config}).Query()
 			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financerelationsImplementors)...); err != nil {
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financeaccountImplementors)...); err != nil {
 				return err
 			}
-			_q.WithNamedFinanceAccountRelations(alias, func(wq *FinanceRelationsQuery) {
+			_q.WithNamedFinanceAccounts(alias, func(wq *FinanceAccountQuery) {
 				*wq = *query
 			})
 		case "category":
@@ -1317,16 +1180,16 @@ func (_q *FinanceOperationQuery) collectField(ctx context.Context, oneNode bool,
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
 
-		case "relations":
+		case "account":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
-				query = (&FinanceRelationsClient{config: _q.config}).Query()
+				query = (&FinanceAccountClient{config: _q.config}).Query()
 			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financerelationsImplementors)...); err != nil {
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financeaccountImplementors)...); err != nil {
 				return err
 			}
-			_q.withRelations = query
+			_q.withAccount = query
 
 		case "method":
 			var (
@@ -1371,11 +1234,17 @@ func (_q *FinanceOperationQuery) collectField(ctx context.Context, oneNode bool,
 				return err
 			}
 			_q.withGroup = query
+
 		case "operation":
-			if _, ok := fieldSeen[financeoperation.FieldOperation]; !ok {
-				selectedFields = append(selectedFields, financeoperation.FieldOperation)
-				fieldSeen[financeoperation.FieldOperation] = struct{}{}
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&FinanceGroupClient{config: _q.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financegroupImplementors)...); err != nil {
+				return err
 			}
+			_q.withOperation = query
 		case "date":
 			if _, ok := fieldSeen[financeoperation.FieldDate]; !ok {
 				selectedFields = append(selectedFields, financeoperation.FieldDate)
@@ -1426,143 +1295,6 @@ type financeoperationPaginateArgs struct {
 
 func newFinanceOperationPaginateArgs(rv map[string]any) *financeoperationPaginateArgs {
 	args := &financeoperationPaginateArgs{}
-	if rv == nil {
-		return args
-	}
-	if v := rv[firstField]; v != nil {
-		args.first = v.(*int)
-	}
-	if v := rv[lastField]; v != nil {
-		args.last = v.(*int)
-	}
-	if v := rv[afterField]; v != nil {
-		args.after = v.(*Cursor)
-	}
-	if v := rv[beforeField]; v != nil {
-		args.before = v.(*Cursor)
-	}
-	return args
-}
-
-// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
-func (_q *FinanceRelationsQuery) CollectFields(ctx context.Context, satisfies ...string) (*FinanceRelationsQuery, error) {
-	fc := graphql.GetFieldContext(ctx)
-	if fc == nil {
-		return _q, nil
-	}
-	if err := _q.collectField(ctx, false, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
-		return nil, err
-	}
-	return _q, nil
-}
-
-func (_q *FinanceRelationsQuery) collectField(ctx context.Context, oneNode bool, opCtx *graphql.OperationContext, collected graphql.CollectedField, path []string, satisfies ...string) error {
-	path = append([]string(nil), path...)
-	var (
-		unknownSeen    bool
-		fieldSeen      = make(map[string]struct{}, len(financerelations.Columns))
-		selectedFields = []string{financerelations.FieldID}
-	)
-	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
-		switch field.Name {
-
-		case "jobOwner":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&JobOwnerClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, jobownerImplementors)...); err != nil {
-				return err
-			}
-			_q.withJobOwner = query
-
-		case "companyPersonnel":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyPersonnelClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companypersonnelImplementors)...); err != nil {
-				return err
-			}
-			_q.withCompanyPersonnel = query
-
-		case "companyEngineer":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&CompanyEngineerClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, companyengineerImplementors)...); err != nil {
-				return err
-			}
-			_q.withCompanyEngineer = query
-
-		case "financeAccount":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceAccountClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financeaccountImplementors)...); err != nil {
-				return err
-			}
-			_q.withFinanceAccount = query
-
-		case "group":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceGroupClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financegroupImplementors)...); err != nil {
-				return err
-			}
-			_q.withGroup = query
-
-		case "operations":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceOperationClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financeoperationImplementors)...); err != nil {
-				return err
-			}
-			_q.WithNamedOperations(alias, func(wq *FinanceOperationQuery) {
-				*wq = *query
-			})
-		case "createdat":
-			if _, ok := fieldSeen[financerelations.FieldCreatedAt]; !ok {
-				selectedFields = append(selectedFields, financerelations.FieldCreatedAt)
-				fieldSeen[financerelations.FieldCreatedAt] = struct{}{}
-			}
-		case "updatedat":
-			if _, ok := fieldSeen[financerelations.FieldUpdatedAt]; !ok {
-				selectedFields = append(selectedFields, financerelations.FieldUpdatedAt)
-				fieldSeen[financerelations.FieldUpdatedAt] = struct{}{}
-			}
-		case "id":
-		case "__typename":
-		default:
-			unknownSeen = true
-		}
-	}
-	if !unknownSeen {
-		_q.Select(selectedFields...)
-	}
-	return nil
-}
-
-type financerelationsPaginateArgs struct {
-	first, last   *int
-	after, before *Cursor
-	opts          []FinanceRelationsPaginateOption
-}
-
-func newFinanceRelationsPaginateArgs(rv map[string]any) *financerelationsPaginateArgs {
-	args := &financerelationsPaginateArgs{}
 	if rv == nil {
 		return args
 	}
@@ -2347,19 +2079,6 @@ func (_q *JobOwnerQuery) collectField(ctx context.Context, oneNode bool, opCtx *
 			_q.WithNamedOwners(alias, func(wq *JobRelationsQuery) {
 				*wq = *query
 			})
-
-		case "financeRelations":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceRelationsClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financerelationsImplementors)...); err != nil {
-				return err
-			}
-			_q.WithNamedFinanceRelations(alias, func(wq *FinanceRelationsQuery) {
-				*wq = *query
-			})
 		case "name":
 			if _, ok := fieldSeen[jobowner.FieldName]; !ok {
 				selectedFields = append(selectedFields, jobowner.FieldName)
@@ -2549,11 +2268,6 @@ func (_q *JobPaymentsQuery) collectField(ctx context.Context, oneNode bool, opCt
 			if _, ok := fieldSeen[jobpayments.FieldInvoiceIssuedDate]; !ok {
 				selectedFields = append(selectedFields, jobpayments.FieldInvoiceIssuedDate)
 				fieldSeen[jobpayments.FieldInvoiceIssuedDate] = struct{}{}
-			}
-		case "invoiceissuedamount":
-			if _, ok := fieldSeen[jobpayments.FieldInvoiceIssuedAmount]; !ok {
-				selectedFields = append(selectedFields, jobpayments.FieldInvoiceIssuedAmount)
-				fieldSeen[jobpayments.FieldInvoiceIssuedAmount] = struct{}{}
 			}
 		case "invoicereceived":
 			if _, ok := fieldSeen[jobpayments.FieldInvoiceReceived]; !ok {

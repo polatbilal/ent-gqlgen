@@ -83,10 +83,10 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 		return nil, fmt.Errorf("owner oluşturulurken hata oluştu: %w", err)
 	}
 
-	// Otomatik FinanceRelations kaydı oluştur
-	if relErr := helpers.CreateFinanceRelation(ctx, client, "job_owner", owner.ID, "Yapı Sahibi"); relErr != nil {
+	// Otomatik FinanceAccount kaydı oluştur
+	if relErr := helpers.CreateFinanceAccountForEntity(ctx, client, "job_owner", owner.Name, owner.TcNo, owner.TaxNo, owner.TaxAdmin, owner.Phone, owner.Email, owner.Address, "Yapı Sahibi"); relErr != nil {
 		// İlişki oluşturulamazsa log at ama owner'ı döndür
-		fmt.Printf("⚠️ Owner oluşturuldu ama FinanceRelations eklenemedi: %v\n", relErr)
+		fmt.Printf("⚠️ Owner oluşturuldu ama FinanceAccount eklenemedi: %v\n", relErr)
 	}
 
 	return owner, nil

@@ -16,6 +16,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/polatbilal/ent-gqlgen/database"
 	"github.com/polatbilal/ent-gqlgen/ent/migrate"
+	_ "github.com/polatbilal/ent-gqlgen/ent/runtime"
 	"github.com/polatbilal/ent-gqlgen/graphql/helpers"
 	"github.com/polatbilal/ent-gqlgen/graphql/resolvers"
 	"github.com/polatbilal/ent-gqlgen/hooks"

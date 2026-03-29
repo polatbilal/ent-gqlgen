@@ -798,21 +798,44 @@ func HasCompanyWith(preds ...predicate.CompanyDetail) predicate.FinanceAccount {
 	})
 }
 
-// HasFinanceRelations applies the HasEdge predicate on the "finance_relations" edge.
-func HasFinanceRelations() predicate.FinanceAccount {
+// HasGroup applies the HasEdge predicate on the "group" edge.
+func HasGroup() predicate.FinanceAccount {
 	return predicate.FinanceAccount(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, FinanceRelationsTable, FinanceRelationsColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, GroupTable, GroupColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasFinanceRelationsWith applies the HasEdge predicate on the "finance_relations" edge with a given conditions (other predicates).
-func HasFinanceRelationsWith(preds ...predicate.FinanceRelations) predicate.FinanceAccount {
+// HasGroupWith applies the HasEdge predicate on the "group" edge with a given conditions (other predicates).
+func HasGroupWith(preds ...predicate.FinanceGroup) predicate.FinanceAccount {
 	return predicate.FinanceAccount(func(s *sql.Selector) {
-		step := newFinanceRelationsStep()
+		step := newGroupStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasOperations applies the HasEdge predicate on the "operations" edge.
+func HasOperations() predicate.FinanceAccount {
+	return predicate.FinanceAccount(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, OperationsTable, OperationsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasOperationsWith applies the HasEdge predicate on the "operations" edge with a given conditions (other predicates).
+func HasOperationsWith(preds ...predicate.FinanceOperation) predicate.FinanceAccount {
+	return predicate.FinanceAccount(func(s *sql.Selector) {
+		step := newOperationsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

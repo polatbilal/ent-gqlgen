@@ -14,8 +14,6 @@ const (
 	Label = "finance_operation"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldOperation holds the string denoting the operation field in the database.
-	FieldOperation = "operation"
 	// FieldDate holds the string denoting the date field in the database.
 	FieldDate = "date"
 	// FieldDebit holds the string denoting the debit field in the database.
@@ -28,8 +26,8 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
-	// EdgeRelations holds the string denoting the relations edge name in mutations.
-	EdgeRelations = "relations"
+	// EdgeAccount holds the string denoting the account edge name in mutations.
+	EdgeAccount = "account"
 	// EdgeMethod holds the string denoting the method edge name in mutations.
 	EdgeMethod = "method"
 	// EdgeCompany holds the string denoting the company edge name in mutations.
@@ -38,15 +36,17 @@ const (
 	EdgeResource = "resource"
 	// EdgeGroup holds the string denoting the group edge name in mutations.
 	EdgeGroup = "group"
+	// EdgeOperation holds the string denoting the operation edge name in mutations.
+	EdgeOperation = "operation"
 	// Table holds the table name of the financeoperation in the database.
 	Table = "finance_operations"
-	// RelationsTable is the table that holds the relations relation/edge.
-	RelationsTable = "finance_operations"
-	// RelationsInverseTable is the table name for the FinanceRelations entity.
-	// It exists in this package in order to avoid circular dependency with the "financerelations" package.
-	RelationsInverseTable = "finance_relations"
-	// RelationsColumn is the table column denoting the relations relation/edge.
-	RelationsColumn = "relations_id"
+	// AccountTable is the table that holds the account relation/edge.
+	AccountTable = "finance_operations"
+	// AccountInverseTable is the table name for the FinanceAccount entity.
+	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
+	AccountInverseTable = "finance_accounts"
+	// AccountColumn is the table column denoting the account relation/edge.
+	AccountColumn = "account_id"
 	// MethodTable is the table that holds the method relation/edge.
 	MethodTable = "finance_operations"
 	// MethodInverseTable is the table name for the FinanceClass entity.
@@ -75,12 +75,18 @@ const (
 	GroupInverseTable = "finance_groups"
 	// GroupColumn is the table column denoting the group relation/edge.
 	GroupColumn = "group_id"
+	// OperationTable is the table that holds the operation relation/edge.
+	OperationTable = "finance_operations"
+	// OperationInverseTable is the table name for the FinanceGroup entity.
+	// It exists in this package in order to avoid circular dependency with the "financegroup" package.
+	OperationInverseTable = "finance_groups"
+	// OperationColumn is the table column denoting the operation relation/edge.
+	OperationColumn = "operation_id"
 )
 
 // Columns holds all SQL columns for financeoperation fields.
 var Columns = []string{
 	FieldID,
-	FieldOperation,
 	FieldDate,
 	FieldDebit,
 	FieldCredit,
@@ -93,9 +99,10 @@ var Columns = []string{
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",
+	"account_id",
 	"class_id",
+	"operation_id",
 	"group_id",
-	"relations_id",
 	"resource_id",
 }
 
@@ -131,11 +138,6 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByOperation orders the results by the Operation field.
-func ByOperation(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOperation, opts...).ToFunc()
-}
-
 // ByDate orders the results by the Date field.
 func ByDate(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDate, opts...).ToFunc()
@@ -166,10 +168,10 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
-// ByRelationsField orders the results by relations field.
-func ByRelationsField(field string, opts ...sql.OrderTermOption) OrderOption {
+// ByAccountField orders the results by account field.
+func ByAccountField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newRelationsStep(), sql.OrderByField(field, opts...))
+		sqlgraph.OrderByNeighborTerms(s, newAccountStep(), sql.OrderByField(field, opts...))
 	}
 }
 
@@ -200,11 +202,18 @@ func ByGroupField(field string, opts ...sql.OrderTermOption) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newGroupStep(), sql.OrderByField(field, opts...))
 	}
 }
-func newRelationsStep() *sqlgraph.Step {
+
+// ByOperationField orders the results by operation field.
+func ByOperationField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newOperationStep(), sql.OrderByField(field, opts...))
+	}
+}
+func newAccountStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(RelationsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, RelationsTable, RelationsColumn),
+		sqlgraph.To(AccountInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, AccountTable, AccountColumn),
 	)
 }
 func newMethodStep() *sqlgraph.Step {
@@ -233,5 +242,12 @@ func newGroupStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(GroupInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.M2O, true, GroupTable, GroupColumn),
+	)
+}
+func newOperationStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(OperationInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, OperationTable, OperationColumn),
 	)
 }

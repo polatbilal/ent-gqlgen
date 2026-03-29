@@ -10,10 +10,10 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 )
 
@@ -22,8 +22,6 @@ type FinanceOperation struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Operation holds the value of the "Operation" field.
-	Operation string `json:"Operation,omitempty"`
 	// Date holds the value of the "Date" field.
 	Date time.Time `json:"Date,omitempty"`
 	// Debit holds the value of the "Debit" field.
@@ -40,17 +38,18 @@ type FinanceOperation struct {
 	// The values are being populated by the FinanceOperationQuery when eager-loading is set.
 	Edges        FinanceOperationEdges `json:"edges"`
 	company_id   *int
+	account_id   *int
 	class_id     *int
+	operation_id *int
 	group_id     *int
-	relations_id *int
 	resource_id  *int
 	selectValues sql.SelectValues
 }
 
 // FinanceOperationEdges holds the relations/edges for other nodes in the graph.
 type FinanceOperationEdges struct {
-	// Relations holds the value of the relations edge.
-	Relations *FinanceRelations `json:"relations,omitempty"`
+	// Account holds the value of the account edge.
+	Account *FinanceAccount `json:"account,omitempty"`
 	// Method holds the value of the method edge.
 	Method *FinanceClass `json:"method,omitempty"`
 	// Company holds the value of the company edge.
@@ -59,22 +58,24 @@ type FinanceOperationEdges struct {
 	Resource *FinanceResource `json:"resource,omitempty"`
 	// Group holds the value of the group edge.
 	Group *FinanceGroup `json:"group,omitempty"`
+	// Operation holds the value of the operation edge.
+	Operation *FinanceGroup `json:"operation,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [5]bool
+	loadedTypes [6]bool
 	// totalCount holds the count of the edges above.
-	totalCount [5]map[string]int
+	totalCount [6]map[string]int
 }
 
-// RelationsOrErr returns the Relations value or an error if the edge
+// AccountOrErr returns the Account value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e FinanceOperationEdges) RelationsOrErr() (*FinanceRelations, error) {
-	if e.Relations != nil {
-		return e.Relations, nil
+func (e FinanceOperationEdges) AccountOrErr() (*FinanceAccount, error) {
+	if e.Account != nil {
+		return e.Account, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: financerelations.Label}
+		return nil, &NotFoundError{label: financeaccount.Label}
 	}
-	return nil, &NotLoadedError{edge: "relations"}
+	return nil, &NotLoadedError{edge: "account"}
 }
 
 // MethodOrErr returns the Method value or an error if the edge
@@ -121,6 +122,17 @@ func (e FinanceOperationEdges) GroupOrErr() (*FinanceGroup, error) {
 	return nil, &NotLoadedError{edge: "group"}
 }
 
+// OperationOrErr returns the Operation value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e FinanceOperationEdges) OperationOrErr() (*FinanceGroup, error) {
+	if e.Operation != nil {
+		return e.Operation, nil
+	} else if e.loadedTypes[5] {
+		return nil, &NotFoundError{label: financegroup.Label}
+	}
+	return nil, &NotLoadedError{edge: "operation"}
+}
+
 // scanValues returns the types for scanning values from sql.Rows.
 func (*FinanceOperation) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
@@ -128,19 +140,21 @@ func (*FinanceOperation) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case financeoperation.FieldID:
 			values[i] = new(sql.NullInt64)
-		case financeoperation.FieldOperation, financeoperation.FieldDebit, financeoperation.FieldCredit, financeoperation.FieldDescription:
+		case financeoperation.FieldDebit, financeoperation.FieldCredit, financeoperation.FieldDescription:
 			values[i] = new(sql.NullString)
 		case financeoperation.FieldDate, financeoperation.FieldCreatedAt, financeoperation.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case financeoperation.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[1]: // class_id
+		case financeoperation.ForeignKeys[1]: // account_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[2]: // group_id
+		case financeoperation.ForeignKeys[2]: // class_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[3]: // relations_id
+		case financeoperation.ForeignKeys[3]: // operation_id
 			values[i] = new(sql.NullInt64)
-		case financeoperation.ForeignKeys[4]: // resource_id
+		case financeoperation.ForeignKeys[4]: // group_id
+			values[i] = new(sql.NullInt64)
+		case financeoperation.ForeignKeys[5]: // resource_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -163,12 +177,6 @@ func (_m *FinanceOperation) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = int(value.Int64)
-		case financeoperation.FieldOperation:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Operation", values[i])
-			} else if value.Valid {
-				_m.Operation = value.String
-			}
 		case financeoperation.FieldDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field Date", values[i])
@@ -214,26 +222,33 @@ func (_m *FinanceOperation) assignValues(columns []string, values []any) error {
 			}
 		case financeoperation.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field account_id", value)
+			} else if value.Valid {
+				_m.account_id = new(int)
+				*_m.account_id = int(value.Int64)
+			}
+		case financeoperation.ForeignKeys[2]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field class_id", value)
 			} else if value.Valid {
 				_m.class_id = new(int)
 				*_m.class_id = int(value.Int64)
 			}
-		case financeoperation.ForeignKeys[2]:
+		case financeoperation.ForeignKeys[3]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field operation_id", value)
+			} else if value.Valid {
+				_m.operation_id = new(int)
+				*_m.operation_id = int(value.Int64)
+			}
+		case financeoperation.ForeignKeys[4]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field group_id", value)
 			} else if value.Valid {
 				_m.group_id = new(int)
 				*_m.group_id = int(value.Int64)
 			}
-		case financeoperation.ForeignKeys[3]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field relations_id", value)
-			} else if value.Valid {
-				_m.relations_id = new(int)
-				*_m.relations_id = int(value.Int64)
-			}
-		case financeoperation.ForeignKeys[4]:
+		case financeoperation.ForeignKeys[5]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field resource_id", value)
 			} else if value.Valid {
@@ -253,9 +268,9 @@ func (_m *FinanceOperation) Value(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
 }
 
-// QueryRelations queries the "relations" edge of the FinanceOperation entity.
-func (_m *FinanceOperation) QueryRelations() *FinanceRelationsQuery {
-	return NewFinanceOperationClient(_m.config).QueryRelations(_m)
+// QueryAccount queries the "account" edge of the FinanceOperation entity.
+func (_m *FinanceOperation) QueryAccount() *FinanceAccountQuery {
+	return NewFinanceOperationClient(_m.config).QueryAccount(_m)
 }
 
 // QueryMethod queries the "method" edge of the FinanceOperation entity.
@@ -276,6 +291,11 @@ func (_m *FinanceOperation) QueryResource() *FinanceResourceQuery {
 // QueryGroup queries the "group" edge of the FinanceOperation entity.
 func (_m *FinanceOperation) QueryGroup() *FinanceGroupQuery {
 	return NewFinanceOperationClient(_m.config).QueryGroup(_m)
+}
+
+// QueryOperation queries the "operation" edge of the FinanceOperation entity.
+func (_m *FinanceOperation) QueryOperation() *FinanceGroupQuery {
+	return NewFinanceOperationClient(_m.config).QueryOperation(_m)
 }
 
 // Update returns a builder for updating this FinanceOperation.
@@ -301,9 +321,6 @@ func (_m *FinanceOperation) String() string {
 	var builder strings.Builder
 	builder.WriteString("FinanceOperation(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("Operation=")
-	builder.WriteString(_m.Operation)
-	builder.WriteString(", ")
 	builder.WriteString("Date=")
 	builder.WriteString(_m.Date.Format(time.ANSIC))
 	builder.WriteString(", ")

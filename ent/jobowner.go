@@ -51,16 +51,13 @@ type JobOwner struct {
 type JobOwnerEdges struct {
 	// Owners holds the value of the owners edge.
 	Owners []*JobRelations `json:"owners,omitempty"`
-	// FinanceRelations holds the value of the finance_relations edge.
-	FinanceRelations []*FinanceRelations `json:"finance_relations,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
+	loadedTypes [1]bool
 	// totalCount holds the count of the edges above.
-	totalCount [2]map[string]int
+	totalCount [1]map[string]int
 
-	namedOwners           map[string][]*JobRelations
-	namedFinanceRelations map[string][]*FinanceRelations
+	namedOwners map[string][]*JobRelations
 }
 
 // OwnersOrErr returns the Owners value or an error if the edge
@@ -70,15 +67,6 @@ func (e JobOwnerEdges) OwnersOrErr() ([]*JobRelations, error) {
 		return e.Owners, nil
 	}
 	return nil, &NotLoadedError{edge: "owners"}
-}
-
-// FinanceRelationsOrErr returns the FinanceRelations value or an error if the edge
-// was not loaded in eager-loading.
-func (e JobOwnerEdges) FinanceRelationsOrErr() ([]*FinanceRelations, error) {
-	if e.loadedTypes[1] {
-		return e.FinanceRelations, nil
-	}
-	return nil, &NotLoadedError{edge: "finance_relations"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -205,11 +193,6 @@ func (_m *JobOwner) QueryOwners() *JobRelationsQuery {
 	return NewJobOwnerClient(_m.config).QueryOwners(_m)
 }
 
-// QueryFinanceRelations queries the "finance_relations" edge of the JobOwner entity.
-func (_m *JobOwner) QueryFinanceRelations() *FinanceRelationsQuery {
-	return NewJobOwnerClient(_m.config).QueryFinanceRelations(_m)
-}
-
 // Update returns a builder for updating this JobOwner.
 // Note that you need to call JobOwner.Unwrap() before calling this method if this JobOwner
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -293,30 +276,6 @@ func (_m *JobOwner) appendNamedOwners(name string, edges ...*JobRelations) {
 		_m.Edges.namedOwners[name] = []*JobRelations{}
 	} else {
 		_m.Edges.namedOwners[name] = append(_m.Edges.namedOwners[name], edges...)
-	}
-}
-
-// NamedFinanceRelations returns the FinanceRelations named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (_m *JobOwner) NamedFinanceRelations(name string) ([]*FinanceRelations, error) {
-	if _m.Edges.namedFinanceRelations == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := _m.Edges.namedFinanceRelations[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (_m *JobOwner) appendNamedFinanceRelations(name string, edges ...*FinanceRelations) {
-	if _m.Edges.namedFinanceRelations == nil {
-		_m.Edges.namedFinanceRelations = make(map[string][]*FinanceRelations)
-	}
-	if len(edges) == 0 {
-		_m.Edges.namedFinanceRelations[name] = []*FinanceRelations{}
-	} else {
-		_m.Edges.namedFinanceRelations[name] = append(_m.Edges.namedFinanceRelations[name], edges...)
 	}
 }
 

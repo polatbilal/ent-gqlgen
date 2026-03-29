@@ -6,128 +6,113 @@ import (
 	"log"
 
 	"github.com/polatbilal/ent-gqlgen/ent"
-	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
-	"github.com/polatbilal/ent-gqlgen/ent/companypersonnel"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
-	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
 )
 
-// CreateFinanceRelation, bir account oluşturulduğunda otomatik FinanceRelations kaydı oluşturur.
-// accountType: "job_owner", "company_engineer", "company_personnel"
-// groupName: FinanceGroup tablosundaki Name değeri (ör: "Yapı Sahibi", "Mühendis", "Personel")
-func CreateFinanceRelation(ctx context.Context, client *ent.Client, accountType string, accountID int, groupName string) error {
+// CreateFinanceAccountForEntity, yeni bir entity (Mühendis veya Yapı Sahibi) oluşturulduğunda
+// ona karşılık gelen ve verileri doldurulmuş yeni bir FinanceAccount kaydı oluşturur.
+// "ilişki olarak değil ama veriler oraya da kopyalansın şeklinde"
+// entityType: "job_owner" veya "company_engineer"
+// groupName: FinanceGroup tablosundaki Name değeri (ör: "Yapı Sahibi", "Mühendis")
+func CreateFinanceAccountForEntity(ctx context.Context, client *ent.Client, entityType string, name string, tcNo string, taxNo string, taxAdmin string, phone string, email string, address string, groupName string) error {
 	// İlgili grubu bul
 	group, err := client.FinanceGroup.Query().
 		Where(financegroup.NameEQ(groupName)).
 		Only(ctx)
 	if err != nil {
-		log.Printf("⚠️ Finans grubu bulunamadı (%s), FinanceRelations oluşturulmadı: %v", groupName, err)
+		log.Printf("⚠️ Finans grubu bulunamadı (%s), FinanceAccount oluşturulmadı: %v", groupName, err)
 		return fmt.Errorf("finans grubu bulunamadı (%s): %v", groupName, err)
 	}
 
-	// FinanceRelations kaydını oluştur
-	create := client.FinanceRelations.Create().
-		SetGroupID(group.ID)
+	// Aynı tc_no (veya isim) ile daha önce bir FinanceAccount var mı kontrol et.
+	var exists bool
+	if tcNo != "" {
+		exists, _ = client.FinanceAccount.Query().Where(financeaccount.TcNoEQ(tcNo)).Exist(ctx)
+	} else if taxNo != "" {
+		exists, _ = client.FinanceAccount.Query().Where(financeaccount.TaxNoEQ(taxNo)).Exist(ctx)
+	} else if name != "" {
+		exists, _ = client.FinanceAccount.Query().Where(financeaccount.NameEQ(name)).Exist(ctx)
+	}
 
-	switch accountType {
-	case "job_owner":
-		create.SetJobOwnerID(accountID)
-	case "company_engineer":
-		create.SetCompanyEngineerID(accountID)
-	case "company_personnel":
-		create.SetCompanyPersonnelID(accountID)
-	case "finance_account":
-		create.SetFinanceAccountID(accountID)
-	default:
-		return fmt.Errorf("bilinmeyen account tipi: %s", accountType)
+	if exists {
+		log.Printf("ℹ️  Bu kişi için zaten bir FinanceAccount mevcut (veya atlandı): %s (TC: %s).", name, tcNo)
+		// İlişki kurulmayacağı için, varolanla eşleştiğini düşünüp hata vermeden dönüyoruz.
+		return nil
+	}
+
+	// FinanceAccount kaydını oluştur ve verileri kopyala
+	create := client.FinanceAccount.Create().
+		SetName(name).
+		SetGroupID(group.ID).
+		SetNote(fmt.Sprintf("%s referansıyla otomatik eklendi.", entityType))
+
+	if tcNo != "" {
+		create.SetTcNo(tcNo)
+	}
+	if taxNo != "" {
+		create.SetNillableTaxNo(&taxNo)
+	}
+	if taxAdmin != "" {
+		create.SetNillableTaxAdmin(&taxAdmin)
+	}
+	if phone != "" {
+		create.SetNillablePhone(&phone)
+	}
+	if email != "" {
+		create.SetNillableEmail(&email)
+	}
+	if address != "" {
+		create.SetNillableAddress(&address)
 	}
 
 	_, err = create.Save(ctx)
 	if err != nil {
-		log.Printf("⚠️ FinanceRelations oluşturulamadı (%s, ID: %d): %v", accountType, accountID, err)
-		return fmt.Errorf("finans ilişkisi oluşturulamadı: %v", err)
+		log.Printf("⚠️ FinanceAccount oluşturulamadı (%s, İsim: %s): %v", entityType, name, err)
+		return fmt.Errorf("finans hesabı oluşturulamadı: %v", err)
 	}
 
-	log.Printf("✅ FinanceRelations oluşturuldu: %s (ID: %d) → %s grubu", accountType, accountID, groupName)
+	log.Printf("✅ FinanceAccount oluşturuldu: %s (İsim: %s) → %s grubu", entityType, name, groupName)
 	return nil
 }
 
-// MigrateExistingAccounts, mevcut JobOwner, CompanyEngineer ve CompanyPersonnel
-// kayıtları için henüz FinanceRelations kaydı yoksa otomatik oluşturur.
+// MigrateExistingAccounts, mevcut JobOwner ve CompanyEngineer kayıtları
+// için henüz bir FinanceAccount hesap kaydı yoksa verileri kopyalayarak otomatik oluşturur.
 func MigrateExistingAccounts(ctx context.Context, client *ent.Client) (string, error) {
-	var created, skipped, failed int
+	var created, failed int
 
-	// 1. FinanceRelations'ı olmayan JobOwner'ları bul
-	owners, err := client.JobOwner.Query().
-		Where(jobowner.Not(jobowner.HasFinanceRelations())).
-		All(ctx)
-	if err != nil {
-		return "", fmt.Errorf("job owner'lar sorgulanırken hata: %v", err)
-	}
-	for _, owner := range owners {
-		if err := CreateFinanceRelation(ctx, client, "job_owner", owner.ID, "Yapı Sahibi"); err != nil {
-			log.Printf("⚠️ JobOwner (ID: %d) için FinanceRelations oluşturulamadı: %v", owner.ID, err)
-			failed++
-		} else {
-			created++
-		}
-	}
+	// 1. JobOwner'ları bul
+	// owners, err := client.JobOwner.Query().All(ctx)
+	// if err != nil {
+	// 	return "", fmt.Errorf("job owner'lar sorgulanırken hata: %v", err)
+	// }
+	// for _, owner := range owners {
+	// 	if err := CreateFinanceAccountForEntity(ctx, client, "job_owner", owner.Name, owner.TcNo, owner.TaxNo, owner.TaxAdmin, owner.Phone, owner.Email, owner.Address, "Yapı Sahibi"); err != nil {
+	// 		log.Printf("⚠️ JobOwner (%s) için FinanceAccount işlemi başarısız: %v", owner.Name, err)
+	// 		failed++
+	// 	} else {
+	// 		created++
+	// 	}
+	// }
 
-	// 2. FinanceRelations'ı olmayan CompanyEngineer'ları bul
-	engineers, err := client.CompanyEngineer.Query().
-		Where(companyengineer.Not(companyengineer.HasFinanceRelations())).
-		All(ctx)
+	// 2. CompanyEngineer'ları bul
+	engineers, err := client.CompanyEngineer.Query().All(ctx)
 	if err != nil {
 		return "", fmt.Errorf("mühendisler sorgulanırken hata: %v", err)
 	}
 	for _, eng := range engineers {
-		if err := CreateFinanceRelation(ctx, client, "company_engineer", eng.ID, "Mühendis"); err != nil {
-			log.Printf("⚠️ CompanyEngineer (ID: %d) için FinanceRelations oluşturulamadı: %v", eng.ID, err)
+		if err := CreateFinanceAccountForEntity(ctx, client, "company_engineer", eng.Name, eng.TcNo, "", "", eng.Phone, eng.Email, eng.Address, "Mühendis"); err != nil {
+			log.Printf("⚠️ CompanyEngineer (%s) için FinanceAccount işlemi başarısız: %v", eng.Name, err)
 			failed++
 		} else {
 			created++
 		}
 	}
 
-	// 3. FinanceRelations'ı olmayan CompanyPersonnel'leri bul
-	personnels, err := client.CompanyPersonnel.Query().
-		Where(companypersonnel.Not(companypersonnel.HasFinanceRelations())).
-		All(ctx)
-	if err != nil {
-		return "", fmt.Errorf("personeller sorgulanırken hata: %v", err)
-	}
-	for _, pers := range personnels {
-		if err := CreateFinanceRelation(ctx, client, "company_personnel", pers.ID, "Personel"); err != nil {
-			log.Printf("⚠️ CompanyPersonnel (ID: %d) için FinanceRelations oluşturulamadı: %v", pers.ID, err)
-			failed++
-		} else {
-			created++
-		}
-	}
-
-	// 4. FinanceRelations'ı olmayan FinanceAccount'ları bul
-	accounts, err := client.FinanceAccount.Query().
-		Where(financeaccount.Not(financeaccount.HasFinanceRelations())).
-		All(ctx)
-	if err != nil {
-		return "", fmt.Errorf("finans hesapları sorgulanırken hata: %v", err)
-	}
-	for _, acc := range accounts {
-		if err := CreateFinanceRelation(ctx, client, "finance_account", acc.ID, "Cari Hesap"); err != nil {
-			log.Printf("⚠️ FinanceAccount (ID: %d) için FinanceRelations oluşturulamadı: %v", acc.ID, err)
-			failed++
-		} else {
-			created++
-		}
-	}
-
-	skipped = 0 // Zaten ilişkisi olanlar sorguya dahil edilmedi
-
-	result := fmt.Sprintf("Migration tamamlandı: %d oluşturuldu, %d atlandı, %d başarısız\n"+
-		"Detay: %d JobOwner, %d CompanyEngineer, %d CompanyPersonnel, %d FinanceAccount işlendi",
-		created, skipped, failed,
-		len(owners), len(engineers), len(personnels), len(accounts))
+	// result := fmt.Sprintf("Migration tamamlandı: Tarama %d JobOwner, %d CompanyEngineer üzerinde yapıldı.\nBaşarılı/Mevcut Atlandı İşlem: %d, Başarısız: %d"),
+	result := fmt.Sprintf("Migration tamamlandı: %d CompanyEngineer üzerinde yapıldı.\nBaşarılı/Mevcut Atlandı İşlem: %d, Başarısız: %d",
+		// len(owners),
+		len(engineers), created, failed)
 
 	log.Printf("📊 %s", result)
 	return result, nil

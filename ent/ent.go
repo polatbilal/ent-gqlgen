@@ -14,14 +14,12 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
-	"github.com/polatbilal/ent-gqlgen/ent/companypersonnel"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
@@ -96,14 +94,12 @@ func checkColumn(t, c string) error {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			companydetail.Table:    companydetail.ValidColumn,
 			companyengineer.Table:  companyengineer.ValidColumn,
-			companypersonnel.Table: companypersonnel.ValidColumn,
 			companytoken.Table:     companytoken.ValidColumn,
 			companyuser.Table:      companyuser.ValidColumn,
 			financeaccount.Table:   financeaccount.ValidColumn,
 			financeclass.Table:     financeclass.ValidColumn,
 			financegroup.Table:     financegroup.ValidColumn,
 			financeoperation.Table: financeoperation.ValidColumn,
-			financerelations.Table: financerelations.ValidColumn,
 			financeresource.Table:  financeresource.ValidColumn,
 			jobauthor.Table:        jobauthor.ValidColumn,
 			jobcontractor.Table:    jobcontractor.ValidColumn,

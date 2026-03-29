@@ -104,18 +104,6 @@ func (_m *CompanyDetail) Accounts(ctx context.Context) (result []*FinanceAccount
 	return result, err
 }
 
-func (_m *CompanyDetail) Personnels(ctx context.Context) (result []*CompanyPersonnel, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedPersonnels(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.PersonnelsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryPersonnels().All(ctx)
-	}
-	return result, err
-}
-
 func (_m *CompanyEngineer) Company(ctx context.Context) (*CompanyDetail, error) {
 	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
@@ -220,38 +208,6 @@ func (_m *CompanyEngineer) Electriccontrollers(ctx context.Context) (result []*J
 	return result, err
 }
 
-func (_m *CompanyEngineer) FinanceRelations(ctx context.Context) (result []*FinanceRelations, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedFinanceRelations(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.FinanceRelationsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryFinanceRelations().All(ctx)
-	}
-	return result, err
-}
-
-func (_m *CompanyPersonnel) Company(ctx context.Context) (*CompanyDetail, error) {
-	result, err := _m.Edges.CompanyOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryCompany().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *CompanyPersonnel) FinanceRelations(ctx context.Context) (result []*FinanceRelations, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedFinanceRelations(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.FinanceRelationsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryFinanceRelations().All(ctx)
-	}
-	return result, err
-}
-
 func (_m *CompanyToken) Company(ctx context.Context) (*CompanyDetail, error) {
 	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
@@ -284,14 +240,22 @@ func (_m *FinanceAccount) Company(ctx context.Context) (*CompanyDetail, error) {
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceAccount) FinanceRelations(ctx context.Context) (result []*FinanceRelations, err error) {
+func (_m *FinanceAccount) Group(ctx context.Context) (*FinanceGroup, error) {
+	result, err := _m.Edges.GroupOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryGroup().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceAccount) Operations(ctx context.Context) (result []*FinanceOperation, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedFinanceRelations(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.FinanceRelationsOrErr()
+		result, err = _m.Edges.OperationsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryFinanceRelations().All(ctx)
+		result, err = _m.QueryOperations().All(ctx)
 	}
 	return result, err
 }
@@ -316,6 +280,18 @@ func (_m *FinanceClass) Methods(ctx context.Context) (result []*FinanceOperation
 	return result, err
 }
 
+func (_m *FinanceGroup) Operations(ctx context.Context) (result []*FinanceOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.OperationsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryOperations().All(ctx)
+	}
+	return result, err
+}
+
 func (_m *FinanceGroup) Groups(ctx context.Context) (result []*FinanceOperation, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
 		result, err = _m.NamedGroups(graphql.GetFieldContext(ctx).Field.Alias)
@@ -328,22 +304,22 @@ func (_m *FinanceGroup) Groups(ctx context.Context) (result []*FinanceOperation,
 	return result, err
 }
 
-func (_m *FinanceGroup) FinanceAccountRelations(ctx context.Context) (result []*FinanceRelations, err error) {
+func (_m *FinanceGroup) FinanceAccounts(ctx context.Context) (result []*FinanceAccount, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedFinanceAccountRelations(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedFinanceAccounts(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.FinanceAccountRelationsOrErr()
+		result, err = _m.Edges.FinanceAccountsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryFinanceAccountRelations().All(ctx)
+		result, err = _m.QueryFinanceAccounts().All(ctx)
 	}
 	return result, err
 }
 
-func (_m *FinanceOperation) Relations(ctx context.Context) (*FinanceRelations, error) {
-	result, err := _m.Edges.RelationsOrErr()
+func (_m *FinanceOperation) Account(ctx context.Context) (*FinanceAccount, error) {
+	result, err := _m.Edges.AccountOrErr()
 	if IsNotLoaded(err) {
-		result, err = _m.QueryRelations().Only(ctx)
+		result, err = _m.QueryAccount().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
@@ -380,56 +356,12 @@ func (_m *FinanceOperation) Group(ctx context.Context) (*FinanceGroup, error) {
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceRelations) JobOwner(ctx context.Context) (*JobOwner, error) {
-	result, err := _m.Edges.JobOwnerOrErr()
+func (_m *FinanceOperation) Operation(ctx context.Context) (*FinanceGroup, error) {
+	result, err := _m.Edges.OperationOrErr()
 	if IsNotLoaded(err) {
-		result, err = _m.QueryJobOwner().Only(ctx)
+		result, err = _m.QueryOperation().Only(ctx)
 	}
 	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceRelations) CompanyPersonnel(ctx context.Context) (*CompanyPersonnel, error) {
-	result, err := _m.Edges.CompanyPersonnelOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryCompanyPersonnel().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceRelations) CompanyEngineer(ctx context.Context) (*CompanyEngineer, error) {
-	result, err := _m.Edges.CompanyEngineerOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryCompanyEngineer().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceRelations) FinanceAccount(ctx context.Context) (*FinanceAccount, error) {
-	result, err := _m.Edges.FinanceAccountOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryFinanceAccount().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceRelations) Group(ctx context.Context) (*FinanceGroup, error) {
-	result, err := _m.Edges.GroupOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryGroup().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceRelations) Operations(ctx context.Context) (result []*FinanceOperation, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.OperationsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryOperations().All(ctx)
-	}
-	return result, err
 }
 
 func (_m *FinanceResource) Company(ctx context.Context) (*CompanyDetail, error) {
@@ -500,18 +432,6 @@ func (_m *JobOwner) Owners(ctx context.Context) (result []*JobRelations, err err
 	}
 	if IsNotLoaded(err) {
 		result, err = _m.QueryOwners().All(ctx)
-	}
-	return result, err
-}
-
-func (_m *JobOwner) FinanceRelations(ctx context.Context) (result []*FinanceRelations, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedFinanceRelations(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.FinanceRelationsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryFinanceRelations().All(ctx)
 	}
 	return result, err
 }

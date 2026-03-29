@@ -36,8 +36,10 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// EdgeCompany holds the string denoting the company edge name in mutations.
 	EdgeCompany = "company"
-	// EdgeFinanceRelations holds the string denoting the finance_relations edge name in mutations.
-	EdgeFinanceRelations = "finance_relations"
+	// EdgeGroup holds the string denoting the group edge name in mutations.
+	EdgeGroup = "group"
+	// EdgeOperations holds the string denoting the operations edge name in mutations.
+	EdgeOperations = "operations"
 	// Table holds the table name of the financeaccount in the database.
 	Table = "finance_accounts"
 	// CompanyTable is the table that holds the company relation/edge.
@@ -47,13 +49,20 @@ const (
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
-	// FinanceRelationsTable is the table that holds the finance_relations relation/edge.
-	FinanceRelationsTable = "finance_relations"
-	// FinanceRelationsInverseTable is the table name for the FinanceRelations entity.
-	// It exists in this package in order to avoid circular dependency with the "financerelations" package.
-	FinanceRelationsInverseTable = "finance_relations"
-	// FinanceRelationsColumn is the table column denoting the finance_relations relation/edge.
-	FinanceRelationsColumn = "finance_account_id"
+	// GroupTable is the table that holds the group relation/edge.
+	GroupTable = "finance_accounts"
+	// GroupInverseTable is the table name for the FinanceGroup entity.
+	// It exists in this package in order to avoid circular dependency with the "financegroup" package.
+	GroupInverseTable = "finance_groups"
+	// GroupColumn is the table column denoting the group relation/edge.
+	GroupColumn = "group_id"
+	// OperationsTable is the table that holds the operations relation/edge.
+	OperationsTable = "finance_operations"
+	// OperationsInverseTable is the table name for the FinanceOperation entity.
+	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
+	OperationsInverseTable = "finance_operations"
+	// OperationsColumn is the table column denoting the operations relation/edge.
+	OperationsColumn = "account_id"
 )
 
 // Columns holds all SQL columns for financeaccount fields.
@@ -75,6 +84,7 @@ var Columns = []string{
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",
+	"group_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -168,17 +178,24 @@ func ByCompanyField(field string, opts ...sql.OrderTermOption) OrderOption {
 	}
 }
 
-// ByFinanceRelationsCount orders the results by finance_relations count.
-func ByFinanceRelationsCount(opts ...sql.OrderTermOption) OrderOption {
+// ByGroupField orders the results by group field.
+func ByGroupField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newFinanceRelationsStep(), opts...)
+		sqlgraph.OrderByNeighborTerms(s, newGroupStep(), sql.OrderByField(field, opts...))
 	}
 }
 
-// ByFinanceRelations orders the results by finance_relations terms.
-func ByFinanceRelations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByOperationsCount orders the results by operations count.
+func ByOperationsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newFinanceRelationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborsCount(s, newOperationsStep(), opts...)
+	}
+}
+
+// ByOperations orders the results by operations terms.
+func ByOperations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newOperationsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 func newCompanyStep() *sqlgraph.Step {
@@ -188,10 +205,17 @@ func newCompanyStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 	)
 }
-func newFinanceRelationsStep() *sqlgraph.Step {
+func newGroupStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(FinanceRelationsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, FinanceRelationsTable, FinanceRelationsColumn),
+		sqlgraph.To(GroupInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, GroupTable, GroupColumn),
+	)
+}
+func newOperationsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(OperationsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, OperationsTable, OperationsColumn),
 	)
 }

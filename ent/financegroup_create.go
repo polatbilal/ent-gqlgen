@@ -10,9 +10,9 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 )
 
 // FinanceGroupCreate is the builder for creating a FinanceGroup entity.
@@ -104,6 +104,21 @@ func (_c *FinanceGroupCreate) SetNillableUpdatedAt(v *time.Time) *FinanceGroupCr
 	return _c
 }
 
+// AddOperationIDs adds the "operations" edge to the FinanceOperation entity by IDs.
+func (_c *FinanceGroupCreate) AddOperationIDs(ids ...int) *FinanceGroupCreate {
+	_c.mutation.AddOperationIDs(ids...)
+	return _c
+}
+
+// AddOperations adds the "operations" edges to the FinanceOperation entity.
+func (_c *FinanceGroupCreate) AddOperations(v ...*FinanceOperation) *FinanceGroupCreate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddOperationIDs(ids...)
+}
+
 // AddGroupIDs adds the "groups" edge to the FinanceOperation entity by IDs.
 func (_c *FinanceGroupCreate) AddGroupIDs(ids ...int) *FinanceGroupCreate {
 	_c.mutation.AddGroupIDs(ids...)
@@ -119,19 +134,19 @@ func (_c *FinanceGroupCreate) AddGroups(v ...*FinanceOperation) *FinanceGroupCre
 	return _c.AddGroupIDs(ids...)
 }
 
-// AddFinanceAccountRelationIDs adds the "finance_account_relations" edge to the FinanceRelations entity by IDs.
-func (_c *FinanceGroupCreate) AddFinanceAccountRelationIDs(ids ...int) *FinanceGroupCreate {
-	_c.mutation.AddFinanceAccountRelationIDs(ids...)
+// AddFinanceAccountIDs adds the "finance_accounts" edge to the FinanceAccount entity by IDs.
+func (_c *FinanceGroupCreate) AddFinanceAccountIDs(ids ...int) *FinanceGroupCreate {
+	_c.mutation.AddFinanceAccountIDs(ids...)
 	return _c
 }
 
-// AddFinanceAccountRelations adds the "finance_account_relations" edges to the FinanceRelations entity.
-func (_c *FinanceGroupCreate) AddFinanceAccountRelations(v ...*FinanceRelations) *FinanceGroupCreate {
+// AddFinanceAccounts adds the "finance_accounts" edges to the FinanceAccount entity.
+func (_c *FinanceGroupCreate) AddFinanceAccounts(v ...*FinanceAccount) *FinanceGroupCreate {
 	ids := make([]int, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
-	return _c.AddFinanceAccountRelationIDs(ids...)
+	return _c.AddFinanceAccountIDs(ids...)
 }
 
 // Mutation returns the FinanceGroupMutation object of the builder.
@@ -254,6 +269,22 @@ func (_c *FinanceGroupCreate) createSpec() (*FinanceGroup, *sqlgraph.CreateSpec)
 		_spec.SetField(financegroup.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
+	if nodes := _c.mutation.OperationsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   financegroup.OperationsTable,
+			Columns: []string{financegroup.OperationsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
 	if nodes := _c.mutation.GroupsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -270,15 +301,15 @@ func (_c *FinanceGroupCreate) createSpec() (*FinanceGroup, *sqlgraph.CreateSpec)
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := _c.mutation.FinanceAccountRelationsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.FinanceAccountsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financegroup.FinanceAccountRelationsTable,
-			Columns: []string{financegroup.FinanceAccountRelationsColumn},
+			Table:   financegroup.FinanceAccountsTable,
+			Columns: []string{financegroup.FinanceAccountsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

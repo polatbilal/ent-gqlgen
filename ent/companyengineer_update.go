@@ -13,7 +13,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
@@ -445,21 +444,6 @@ func (_u *CompanyEngineerUpdate) AddElectriccontrollers(v ...*JobRelations) *Com
 	return _u.AddElectriccontrollerIDs(ids...)
 }
 
-// AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by IDs.
-func (_u *CompanyEngineerUpdate) AddFinanceRelationIDs(ids ...int) *CompanyEngineerUpdate {
-	_u.mutation.AddFinanceRelationIDs(ids...)
-	return _u
-}
-
-// AddFinanceRelations adds the "finance_relations" edges to the FinanceRelations entity.
-func (_u *CompanyEngineerUpdate) AddFinanceRelations(v ...*FinanceRelations) *CompanyEngineerUpdate {
-	ids := make([]int, len(v))
-	for i := range v {
-		ids[i] = v[i].ID
-	}
-	return _u.AddFinanceRelationIDs(ids...)
-}
-
 // Mutation returns the CompanyEngineerMutation object of the builder.
 func (_u *CompanyEngineerUpdate) Mutation() *CompanyEngineerMutation {
 	return _u.mutation
@@ -637,27 +621,6 @@ func (_u *CompanyEngineerUpdate) RemoveElectriccontrollers(v ...*JobRelations) *
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveElectriccontrollerIDs(ids...)
-}
-
-// ClearFinanceRelations clears all "finance_relations" edges to the FinanceRelations entity.
-func (_u *CompanyEngineerUpdate) ClearFinanceRelations() *CompanyEngineerUpdate {
-	_u.mutation.ClearFinanceRelations()
-	return _u
-}
-
-// RemoveFinanceRelationIDs removes the "finance_relations" edge to FinanceRelations entities by IDs.
-func (_u *CompanyEngineerUpdate) RemoveFinanceRelationIDs(ids ...int) *CompanyEngineerUpdate {
-	_u.mutation.RemoveFinanceRelationIDs(ids...)
-	return _u
-}
-
-// RemoveFinanceRelations removes "finance_relations" edges to FinanceRelations entities.
-func (_u *CompanyEngineerUpdate) RemoveFinanceRelations(v ...*FinanceRelations) *CompanyEngineerUpdate {
-	ids := make([]int, len(v))
-	for i := range v {
-		ids[i] = v[i].ID
-	}
-	return _u.RemoveFinanceRelationIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -1175,51 +1138,6 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if _u.mutation.FinanceRelationsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.FinanceRelationsTable,
-			Columns: []string{companyengineer.FinanceRelationsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := _u.mutation.RemovedFinanceRelationsIDs(); len(nodes) > 0 && !_u.mutation.FinanceRelationsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.FinanceRelationsTable,
-			Columns: []string{companyengineer.FinanceRelationsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := _u.mutation.FinanceRelationsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.FinanceRelationsTable,
-			Columns: []string{companyengineer.FinanceRelationsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companyengineer.Label}
@@ -1654,21 +1572,6 @@ func (_u *CompanyEngineerUpdateOne) AddElectriccontrollers(v ...*JobRelations) *
 	return _u.AddElectriccontrollerIDs(ids...)
 }
 
-// AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by IDs.
-func (_u *CompanyEngineerUpdateOne) AddFinanceRelationIDs(ids ...int) *CompanyEngineerUpdateOne {
-	_u.mutation.AddFinanceRelationIDs(ids...)
-	return _u
-}
-
-// AddFinanceRelations adds the "finance_relations" edges to the FinanceRelations entity.
-func (_u *CompanyEngineerUpdateOne) AddFinanceRelations(v ...*FinanceRelations) *CompanyEngineerUpdateOne {
-	ids := make([]int, len(v))
-	for i := range v {
-		ids[i] = v[i].ID
-	}
-	return _u.AddFinanceRelationIDs(ids...)
-}
-
 // Mutation returns the CompanyEngineerMutation object of the builder.
 func (_u *CompanyEngineerUpdateOne) Mutation() *CompanyEngineerMutation {
 	return _u.mutation
@@ -1846,27 +1749,6 @@ func (_u *CompanyEngineerUpdateOne) RemoveElectriccontrollers(v ...*JobRelations
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveElectriccontrollerIDs(ids...)
-}
-
-// ClearFinanceRelations clears all "finance_relations" edges to the FinanceRelations entity.
-func (_u *CompanyEngineerUpdateOne) ClearFinanceRelations() *CompanyEngineerUpdateOne {
-	_u.mutation.ClearFinanceRelations()
-	return _u
-}
-
-// RemoveFinanceRelationIDs removes the "finance_relations" edge to FinanceRelations entities by IDs.
-func (_u *CompanyEngineerUpdateOne) RemoveFinanceRelationIDs(ids ...int) *CompanyEngineerUpdateOne {
-	_u.mutation.RemoveFinanceRelationIDs(ids...)
-	return _u
-}
-
-// RemoveFinanceRelations removes "finance_relations" edges to FinanceRelations entities.
-func (_u *CompanyEngineerUpdateOne) RemoveFinanceRelations(v ...*FinanceRelations) *CompanyEngineerUpdateOne {
-	ids := make([]int, len(v))
-	for i := range v {
-		ids[i] = v[i].ID
-	}
-	return _u.RemoveFinanceRelationIDs(ids...)
 }
 
 // Where appends a list predicates to the CompanyEngineerUpdate builder.
@@ -2407,51 +2289,6 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if _u.mutation.FinanceRelationsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.FinanceRelationsTable,
-			Columns: []string{companyengineer.FinanceRelationsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := _u.mutation.RemovedFinanceRelationsIDs(); len(nodes) > 0 && !_u.mutation.FinanceRelationsCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.FinanceRelationsTable,
-			Columns: []string{companyengineer.FinanceRelationsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := _u.mutation.FinanceRelationsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   companyengineer.FinanceRelationsTable,
-			Columns: []string{companyengineer.FinanceRelationsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

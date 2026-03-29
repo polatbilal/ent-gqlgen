@@ -103,13 +103,11 @@ type CompanyDetailEdges struct {
 	Resources []*FinanceResource `json:"resources,omitempty"`
 	// Accounts holds the value of the accounts edge.
 	Accounts []*FinanceAccount `json:"accounts,omitempty"`
-	// Personnels holds the value of the personnels edge.
-	Personnels []*CompanyPersonnel `json:"personnels,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [9]bool
+	loadedTypes [8]bool
 	// totalCount holds the count of the edges above.
-	totalCount [9]map[string]int
+	totalCount [8]map[string]int
 
 	namedJobs       map[string][]*JobRelations
 	namedUsers      map[string][]*CompanyUser
@@ -119,7 +117,6 @@ type CompanyDetailEdges struct {
 	namedMethods    map[string][]*FinanceClass
 	namedResources  map[string][]*FinanceResource
 	namedAccounts   map[string][]*FinanceAccount
-	namedPersonnels map[string][]*CompanyPersonnel
 }
 
 // JobsOrErr returns the Jobs value or an error if the edge
@@ -192,15 +189,6 @@ func (e CompanyDetailEdges) AccountsOrErr() ([]*FinanceAccount, error) {
 		return e.Accounts, nil
 	}
 	return nil, &NotLoadedError{edge: "accounts"}
-}
-
-// PersonnelsOrErr returns the Personnels value or an error if the edge
-// was not loaded in eager-loading.
-func (e CompanyDetailEdges) PersonnelsOrErr() ([]*CompanyPersonnel, error) {
-	if e.loadedTypes[8] {
-		return e.Personnels, nil
-	}
-	return nil, &NotLoadedError{edge: "personnels"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -474,11 +462,6 @@ func (_m *CompanyDetail) QueryResources() *FinanceResourceQuery {
 // QueryAccounts queries the "accounts" edge of the CompanyDetail entity.
 func (_m *CompanyDetail) QueryAccounts() *FinanceAccountQuery {
 	return NewCompanyDetailClient(_m.config).QueryAccounts(_m)
-}
-
-// QueryPersonnels queries the "personnels" edge of the CompanyDetail entity.
-func (_m *CompanyDetail) QueryPersonnels() *CompanyPersonnelQuery {
-	return NewCompanyDetailClient(_m.config).QueryPersonnels(_m)
 }
 
 // Update returns a builder for updating this CompanyDetail.
@@ -789,30 +772,6 @@ func (_m *CompanyDetail) appendNamedAccounts(name string, edges ...*FinanceAccou
 		_m.Edges.namedAccounts[name] = []*FinanceAccount{}
 	} else {
 		_m.Edges.namedAccounts[name] = append(_m.Edges.namedAccounts[name], edges...)
-	}
-}
-
-// NamedPersonnels returns the Personnels named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (_m *CompanyDetail) NamedPersonnels(name string) ([]*CompanyPersonnel, error) {
-	if _m.Edges.namedPersonnels == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := _m.Edges.namedPersonnels[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (_m *CompanyDetail) appendNamedPersonnels(name string, edges ...*CompanyPersonnel) {
-	if _m.Edges.namedPersonnels == nil {
-		_m.Edges.namedPersonnels = make(map[string][]*CompanyPersonnel)
-	}
-	if len(edges) == 0 {
-		_m.Edges.namedPersonnels[name] = []*CompanyPersonnel{}
-	} else {
-		_m.Edges.namedPersonnels[name] = append(_m.Edges.namedPersonnels[name], edges...)
 	}
 }
 

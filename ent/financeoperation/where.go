@@ -55,11 +55,6 @@ func IDLTE(id int) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldLTE(FieldID, id))
 }
 
-// Operation applies equality check predicate on the "Operation" field. It's identical to OperationEQ.
-func Operation(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldEQ(FieldOperation, v))
-}
-
 // Date applies equality check predicate on the "Date" field. It's identical to DateEQ.
 func Date(v time.Time) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldEQ(FieldDate, v))
@@ -88,71 +83,6 @@ func CreatedAt(v time.Time) predicate.FinanceOperation {
 // UpdatedAt applies equality check predicate on the "updatedAt" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldEQ(FieldUpdatedAt, v))
-}
-
-// OperationEQ applies the EQ predicate on the "Operation" field.
-func OperationEQ(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldEQ(FieldOperation, v))
-}
-
-// OperationNEQ applies the NEQ predicate on the "Operation" field.
-func OperationNEQ(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldNEQ(FieldOperation, v))
-}
-
-// OperationIn applies the In predicate on the "Operation" field.
-func OperationIn(vs ...string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldIn(FieldOperation, vs...))
-}
-
-// OperationNotIn applies the NotIn predicate on the "Operation" field.
-func OperationNotIn(vs ...string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldNotIn(FieldOperation, vs...))
-}
-
-// OperationGT applies the GT predicate on the "Operation" field.
-func OperationGT(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldGT(FieldOperation, v))
-}
-
-// OperationGTE applies the GTE predicate on the "Operation" field.
-func OperationGTE(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldGTE(FieldOperation, v))
-}
-
-// OperationLT applies the LT predicate on the "Operation" field.
-func OperationLT(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldLT(FieldOperation, v))
-}
-
-// OperationLTE applies the LTE predicate on the "Operation" field.
-func OperationLTE(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldLTE(FieldOperation, v))
-}
-
-// OperationContains applies the Contains predicate on the "Operation" field.
-func OperationContains(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldContains(FieldOperation, v))
-}
-
-// OperationHasPrefix applies the HasPrefix predicate on the "Operation" field.
-func OperationHasPrefix(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldHasPrefix(FieldOperation, v))
-}
-
-// OperationHasSuffix applies the HasSuffix predicate on the "Operation" field.
-func OperationHasSuffix(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldHasSuffix(FieldOperation, v))
-}
-
-// OperationEqualFold applies the EqualFold predicate on the "Operation" field.
-func OperationEqualFold(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldEqualFold(FieldOperation, v))
-}
-
-// OperationContainsFold applies the ContainsFold predicate on the "Operation" field.
-func OperationContainsFold(v string) predicate.FinanceOperation {
-	return predicate.FinanceOperation(sql.FieldContainsFold(FieldOperation, v))
 }
 
 // DateEQ applies the EQ predicate on the "Date" field.
@@ -470,21 +400,21 @@ func UpdatedAtLTE(v time.Time) predicate.FinanceOperation {
 	return predicate.FinanceOperation(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
-// HasRelations applies the HasEdge predicate on the "relations" edge.
-func HasRelations() predicate.FinanceOperation {
+// HasAccount applies the HasEdge predicate on the "account" edge.
+func HasAccount() predicate.FinanceOperation {
 	return predicate.FinanceOperation(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, RelationsTable, RelationsColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, AccountTable, AccountColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasRelationsWith applies the HasEdge predicate on the "relations" edge with a given conditions (other predicates).
-func HasRelationsWith(preds ...predicate.FinanceRelations) predicate.FinanceOperation {
+// HasAccountWith applies the HasEdge predicate on the "account" edge with a given conditions (other predicates).
+func HasAccountWith(preds ...predicate.FinanceAccount) predicate.FinanceOperation {
 	return predicate.FinanceOperation(func(s *sql.Selector) {
-		step := newRelationsStep()
+		step := newAccountStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -577,6 +507,29 @@ func HasGroup() predicate.FinanceOperation {
 func HasGroupWith(preds ...predicate.FinanceGroup) predicate.FinanceOperation {
 	return predicate.FinanceOperation(func(s *sql.Selector) {
 		step := newGroupStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasOperation applies the HasEdge predicate on the "operation" edge.
+func HasOperation() predicate.FinanceOperation {
+	return predicate.FinanceOperation(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, OperationTable, OperationColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasOperationWith applies the HasEdge predicate on the "operation" edge with a given conditions (other predicates).
+func HasOperationWith(preds ...predicate.FinanceGroup) predicate.FinanceOperation {
+	return predicate.FinanceOperation(func(s *sql.Selector) {
+		step := newOperationStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

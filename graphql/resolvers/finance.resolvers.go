@@ -35,30 +35,9 @@ func (r *financeOperationResolver) Credit(ctx context.Context, obj *ent.FinanceO
 	panic(fmt.Errorf("not implemented: Credit - Credit"))
 }
 
-// FinanceRelations is the resolver for the FinanceRelations field.
-func (r *financeOperationResolver) FinanceRelations(ctx context.Context, obj *ent.FinanceOperation) ([]*ent.FinanceRelations, error) {
-	panic(fmt.Errorf("not implemented: FinanceRelations - FinanceRelations"))
-}
-
-// FinanceOperation is the resolver for the FinanceOperation field.
-func (r *financeRelationsResolver) FinanceOperation(ctx context.Context, obj *ent.FinanceRelations) (*ent.FinanceOperation, error) {
-	panic(fmt.Errorf("not implemented: FinanceOperation - FinanceOperation"))
-}
-
-// Company is the resolver for the Company field.
-func (r *financeRelationsResolver) Company(ctx context.Context, obj *ent.FinanceRelations) (*ent.CompanyDetail, error) {
-	panic(fmt.Errorf("not implemented: Company - Company"))
-}
-
 // FinanceOperation returns generated.FinanceOperationResolver implementation.
 func (r *Resolver) FinanceOperation() generated.FinanceOperationResolver {
 	return &financeOperationResolver{r}
 }
 
-// FinanceRelations returns generated.FinanceRelationsResolver implementation.
-func (r *Resolver) FinanceRelations() generated.FinanceRelationsResolver {
-	return &financeRelationsResolver{r}
-}
-
 type financeOperationResolver struct{ *Resolver }
-type financeRelationsResolver struct{ *Resolver }

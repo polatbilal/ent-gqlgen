@@ -12,7 +12,8 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
+	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 )
 
 // FinanceAccountCreate is the builder for creating a FinanceAccount entity.
@@ -181,19 +182,38 @@ func (_c *FinanceAccountCreate) SetCompany(v *CompanyDetail) *FinanceAccountCrea
 	return _c.SetCompanyID(v.ID)
 }
 
-// AddFinanceRelationIDs adds the "finance_relations" edge to the FinanceRelations entity by IDs.
-func (_c *FinanceAccountCreate) AddFinanceRelationIDs(ids ...int) *FinanceAccountCreate {
-	_c.mutation.AddFinanceRelationIDs(ids...)
+// SetGroupID sets the "group" edge to the FinanceGroup entity by ID.
+func (_c *FinanceAccountCreate) SetGroupID(id int) *FinanceAccountCreate {
+	_c.mutation.SetGroupID(id)
 	return _c
 }
 
-// AddFinanceRelations adds the "finance_relations" edges to the FinanceRelations entity.
-func (_c *FinanceAccountCreate) AddFinanceRelations(v ...*FinanceRelations) *FinanceAccountCreate {
+// SetNillableGroupID sets the "group" edge to the FinanceGroup entity by ID if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillableGroupID(id *int) *FinanceAccountCreate {
+	if id != nil {
+		_c = _c.SetGroupID(*id)
+	}
+	return _c
+}
+
+// SetGroup sets the "group" edge to the FinanceGroup entity.
+func (_c *FinanceAccountCreate) SetGroup(v *FinanceGroup) *FinanceAccountCreate {
+	return _c.SetGroupID(v.ID)
+}
+
+// AddOperationIDs adds the "operations" edge to the FinanceOperation entity by IDs.
+func (_c *FinanceAccountCreate) AddOperationIDs(ids ...int) *FinanceAccountCreate {
+	_c.mutation.AddOperationIDs(ids...)
+	return _c
+}
+
+// AddOperations adds the "operations" edges to the FinanceOperation entity.
+func (_c *FinanceAccountCreate) AddOperations(v ...*FinanceOperation) *FinanceAccountCreate {
 	ids := make([]int, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
-	return _c.AddFinanceRelationIDs(ids...)
+	return _c.AddOperationIDs(ids...)
 }
 
 // Mutation returns the FinanceAccountMutation object of the builder.
@@ -339,15 +359,32 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 		_node.company_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := _c.mutation.FinanceRelationsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.GroupIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   financeaccount.GroupTable,
+			Columns: []string{financeaccount.GroupColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financegroup.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.group_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.OperationsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   financeaccount.FinanceRelationsTable,
-			Columns: []string{financeaccount.FinanceRelationsColumn},
+			Table:   financeaccount.OperationsTable,
+			Columns: []string{financeaccount.OperationsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financerelations.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

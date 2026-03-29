@@ -16,14 +16,12 @@ import (
 	"github.com/hashicorp/go-multierror"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
-	"github.com/polatbilal/ent-gqlgen/ent/companypersonnel"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financerelations"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
@@ -54,11 +52,6 @@ var companyengineerImplementors = []string{"CompanyEngineer", "Node"}
 // IsNode implements the Node interface check for GQLGen.
 func (*CompanyEngineer) IsNode() {}
 
-var companypersonnelImplementors = []string{"CompanyPersonnel", "Node"}
-
-// IsNode implements the Node interface check for GQLGen.
-func (*CompanyPersonnel) IsNode() {}
-
 var companytokenImplementors = []string{"CompanyToken", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
@@ -88,11 +81,6 @@ var financeoperationImplementors = []string{"FinanceOperation", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
 func (*FinanceOperation) IsNode() {}
-
-var financerelationsImplementors = []string{"FinanceRelations", "Node"}
-
-// IsNode implements the Node interface check for GQLGen.
-func (*FinanceRelations) IsNode() {}
 
 var financeresourceImplementors = []string{"FinanceResource", "Node"}
 
@@ -230,15 +218,6 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			}
 		}
 		return query.Only(ctx)
-	case companypersonnel.Table:
-		query := c.CompanyPersonnel.Query().
-			Where(companypersonnel.ID(id))
-		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, companypersonnelImplementors...); err != nil {
-				return nil, err
-			}
-		}
-		return query.Only(ctx)
 	case companytoken.Table:
 		query := c.CompanyToken.Query().
 			Where(companytoken.ID(id))
@@ -289,15 +268,6 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			Where(financeoperation.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
 			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financeoperationImplementors...); err != nil {
-				return nil, err
-			}
-		}
-		return query.Only(ctx)
-	case financerelations.Table:
-		query := c.FinanceRelations.Query().
-			Where(financerelations.ID(id))
-		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financerelationsImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -515,22 +485,6 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
-	case companypersonnel.Table:
-		query := c.CompanyPersonnel.Query().
-			Where(companypersonnel.IDIn(ids...))
-		query, err := query.CollectFields(ctx, companypersonnelImplementors...)
-		if err != nil {
-			return nil, err
-		}
-		nodes, err := query.All(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, node := range nodes {
-			for _, noder := range idmap[node.ID] {
-				*noder = node
-			}
-		}
 	case companytoken.Table:
 		query := c.CompanyToken.Query().
 			Where(companytoken.IDIn(ids...))
@@ -615,22 +569,6 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 		query := c.FinanceOperation.Query().
 			Where(financeoperation.IDIn(ids...))
 		query, err := query.CollectFields(ctx, financeoperationImplementors...)
-		if err != nil {
-			return nil, err
-		}
-		nodes, err := query.All(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, node := range nodes {
-			for _, noder := range idmap[node.ID] {
-				*noder = node
-			}
-		}
-	case financerelations.Table:
-		query := c.FinanceRelations.Query().
-			Where(financerelations.IDIn(ids...))
-		query, err := query.CollectFields(ctx, financerelationsImplementors...)
 		if err != nil {
 			return nil, err
 		}

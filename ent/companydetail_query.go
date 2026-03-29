@@ -14,7 +14,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
-	"github.com/polatbilal/ent-gqlgen/ent/companypersonnel"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
@@ -40,7 +39,6 @@ type CompanyDetailQuery struct {
 	withMethods         *FinanceClassQuery
 	withResources       *FinanceResourceQuery
 	withAccounts        *FinanceAccountQuery
-	withPersonnels      *CompanyPersonnelQuery
 	modifiers           []func(*sql.Selector)
 	loadTotal           []func(context.Context, []*CompanyDetail) error
 	withNamedJobs       map[string]*JobRelationsQuery
@@ -51,7 +49,6 @@ type CompanyDetailQuery struct {
 	withNamedMethods    map[string]*FinanceClassQuery
 	withNamedResources  map[string]*FinanceResourceQuery
 	withNamedAccounts   map[string]*FinanceAccountQuery
-	withNamedPersonnels map[string]*CompanyPersonnelQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -264,28 +261,6 @@ func (_q *CompanyDetailQuery) QueryAccounts() *FinanceAccountQuery {
 	return query
 }
 
-// QueryPersonnels chains the current query on the "personnels" edge.
-func (_q *CompanyDetailQuery) QueryPersonnels() *CompanyPersonnelQuery {
-	query := (&CompanyPersonnelClient{config: _q.config}).Query()
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := _q.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		selector := _q.sqlQuery(ctx)
-		if err := selector.Err(); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
-			sqlgraph.To(companypersonnel.Table, companypersonnel.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.PersonnelsTable, companydetail.PersonnelsColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
 // First returns the first CompanyDetail entity from the query.
 // Returns a *NotFoundError when no CompanyDetail was found.
 func (_q *CompanyDetailQuery) First(ctx context.Context) (*CompanyDetail, error) {
@@ -486,7 +461,6 @@ func (_q *CompanyDetailQuery) Clone() *CompanyDetailQuery {
 		withMethods:    _q.withMethods.Clone(),
 		withResources:  _q.withResources.Clone(),
 		withAccounts:   _q.withAccounts.Clone(),
-		withPersonnels: _q.withPersonnels.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -581,17 +555,6 @@ func (_q *CompanyDetailQuery) WithAccounts(opts ...func(*FinanceAccountQuery)) *
 	return _q
 }
 
-// WithPersonnels tells the query-builder to eager-load the nodes that are connected to
-// the "personnels" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithPersonnels(opts ...func(*CompanyPersonnelQuery)) *CompanyDetailQuery {
-	query := (&CompanyPersonnelClient{config: _q.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	_q.withPersonnels = query
-	return _q
-}
-
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -670,7 +633,7 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 	var (
 		nodes       = []*CompanyDetail{}
 		_spec       = _q.querySpec()
-		loadedTypes = [9]bool{
+		loadedTypes = [8]bool{
 			_q.withJobs != nil,
 			_q.withUsers != nil,
 			_q.withTokens != nil,
@@ -679,7 +642,6 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			_q.withMethods != nil,
 			_q.withResources != nil,
 			_q.withAccounts != nil,
-			_q.withPersonnels != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -759,13 +721,6 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			return nil, err
 		}
 	}
-	if query := _q.withPersonnels; query != nil {
-		if err := _q.loadPersonnels(ctx, query, nodes,
-			func(n *CompanyDetail) { n.Edges.Personnels = []*CompanyPersonnel{} },
-			func(n *CompanyDetail, e *CompanyPersonnel) { n.Edges.Personnels = append(n.Edges.Personnels, e) }); err != nil {
-			return nil, err
-		}
-	}
 	for name, query := range _q.withNamedJobs {
 		if err := _q.loadJobs(ctx, query, nodes,
 			func(n *CompanyDetail) { n.appendNamedJobs(name) },
@@ -819,13 +774,6 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		if err := _q.loadAccounts(ctx, query, nodes,
 			func(n *CompanyDetail) { n.appendNamedAccounts(name) },
 			func(n *CompanyDetail, e *FinanceAccount) { n.appendNamedAccounts(name, e) }); err != nil {
-			return nil, err
-		}
-	}
-	for name, query := range _q.withNamedPersonnels {
-		if err := _q.loadPersonnels(ctx, query, nodes,
-			func(n *CompanyDetail) { n.appendNamedPersonnels(name) },
-			func(n *CompanyDetail, e *CompanyPersonnel) { n.appendNamedPersonnels(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -1085,37 +1033,6 @@ func (_q *CompanyDetailQuery) loadAccounts(ctx context.Context, query *FinanceAc
 	}
 	return nil
 }
-func (_q *CompanyDetailQuery) loadPersonnels(ctx context.Context, query *CompanyPersonnelQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *CompanyPersonnel)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*CompanyDetail)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
-		if init != nil {
-			init(nodes[i])
-		}
-	}
-	query.withFKs = true
-	query.Where(predicate.CompanyPersonnel(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companydetail.PersonnelsColumn), fks...))
-	}))
-	neighbors, err := query.All(ctx)
-	if err != nil {
-		return err
-	}
-	for _, n := range neighbors {
-		fk := n.company_id
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
-		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
-		}
-		assign(node, n)
-	}
-	return nil
-}
 
 func (_q *CompanyDetailQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
@@ -1310,20 +1227,6 @@ func (_q *CompanyDetailQuery) WithNamedAccounts(name string, opts ...func(*Finan
 		_q.withNamedAccounts = make(map[string]*FinanceAccountQuery)
 	}
 	_q.withNamedAccounts[name] = query
-	return _q
-}
-
-// WithNamedPersonnels tells the query-builder to eager-load the nodes that are connected to the "personnels"
-// edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithNamedPersonnels(name string, opts ...func(*CompanyPersonnelQuery)) *CompanyDetailQuery {
-	query := (&CompanyPersonnelClient{config: _q.config}).Query()
-	for _, opt := range opts {
-		opt(query)
-	}
-	if _q.withNamedPersonnels == nil {
-		_q.withNamedPersonnels = make(map[string]*CompanyPersonnelQuery)
-	}
-	_q.withNamedPersonnels[name] = query
 	return _q
 }
 

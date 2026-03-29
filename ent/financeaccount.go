@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 )
 
 // FinanceAccount is the model entity for the FinanceAccount schema.
@@ -42,6 +43,7 @@ type FinanceAccount struct {
 	// The values are being populated by the FinanceAccountQuery when eager-loading is set.
 	Edges        FinanceAccountEdges `json:"edges"`
 	company_id   *int
+	group_id     *int
 	selectValues sql.SelectValues
 }
 
@@ -49,15 +51,17 @@ type FinanceAccount struct {
 type FinanceAccountEdges struct {
 	// Company holds the value of the company edge.
 	Company *CompanyDetail `json:"company,omitempty"`
-	// FinanceRelations holds the value of the finance_relations edge.
-	FinanceRelations []*FinanceRelations `json:"finance_relations,omitempty"`
+	// Group holds the value of the group edge.
+	Group *FinanceGroup `json:"group,omitempty"`
+	// Operations holds the value of the operations edge.
+	Operations []*FinanceOperation `json:"operations,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
+	loadedTypes [3]bool
 	// totalCount holds the count of the edges above.
-	totalCount [2]map[string]int
+	totalCount [3]map[string]int
 
-	namedFinanceRelations map[string][]*FinanceRelations
+	namedOperations map[string][]*FinanceOperation
 }
 
 // CompanyOrErr returns the Company value or an error if the edge
@@ -71,13 +75,24 @@ func (e FinanceAccountEdges) CompanyOrErr() (*CompanyDetail, error) {
 	return nil, &NotLoadedError{edge: "company"}
 }
 
-// FinanceRelationsOrErr returns the FinanceRelations value or an error if the edge
-// was not loaded in eager-loading.
-func (e FinanceAccountEdges) FinanceRelationsOrErr() ([]*FinanceRelations, error) {
-	if e.loadedTypes[1] {
-		return e.FinanceRelations, nil
+// GroupOrErr returns the Group value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e FinanceAccountEdges) GroupOrErr() (*FinanceGroup, error) {
+	if e.Group != nil {
+		return e.Group, nil
+	} else if e.loadedTypes[1] {
+		return nil, &NotFoundError{label: financegroup.Label}
 	}
-	return nil, &NotLoadedError{edge: "finance_relations"}
+	return nil, &NotLoadedError{edge: "group"}
+}
+
+// OperationsOrErr returns the Operations value or an error if the edge
+// was not loaded in eager-loading.
+func (e FinanceAccountEdges) OperationsOrErr() ([]*FinanceOperation, error) {
+	if e.loadedTypes[2] {
+		return e.Operations, nil
+	}
+	return nil, &NotLoadedError{edge: "operations"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -92,6 +107,8 @@ func (*FinanceAccount) scanValues(columns []string) ([]any, error) {
 		case financeaccount.FieldCreatedAt, financeaccount.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		case financeaccount.ForeignKeys[0]: // company_id
+			values[i] = new(sql.NullInt64)
+		case financeaccount.ForeignKeys[1]: // group_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -181,6 +198,13 @@ func (_m *FinanceAccount) assignValues(columns []string, values []any) error {
 				_m.company_id = new(int)
 				*_m.company_id = int(value.Int64)
 			}
+		case financeaccount.ForeignKeys[1]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field group_id", value)
+			} else if value.Valid {
+				_m.group_id = new(int)
+				*_m.group_id = int(value.Int64)
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -199,9 +223,14 @@ func (_m *FinanceAccount) QueryCompany() *CompanyDetailQuery {
 	return NewFinanceAccountClient(_m.config).QueryCompany(_m)
 }
 
-// QueryFinanceRelations queries the "finance_relations" edge of the FinanceAccount entity.
-func (_m *FinanceAccount) QueryFinanceRelations() *FinanceRelationsQuery {
-	return NewFinanceAccountClient(_m.config).QueryFinanceRelations(_m)
+// QueryGroup queries the "group" edge of the FinanceAccount entity.
+func (_m *FinanceAccount) QueryGroup() *FinanceGroupQuery {
+	return NewFinanceAccountClient(_m.config).QueryGroup(_m)
+}
+
+// QueryOperations queries the "operations" edge of the FinanceAccount entity.
+func (_m *FinanceAccount) QueryOperations() *FinanceOperationQuery {
+	return NewFinanceAccountClient(_m.config).QueryOperations(_m)
 }
 
 // Update returns a builder for updating this FinanceAccount.
@@ -260,27 +289,27 @@ func (_m *FinanceAccount) String() string {
 	return builder.String()
 }
 
-// NamedFinanceRelations returns the FinanceRelations named value or an error if the edge was not
+// NamedOperations returns the Operations named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (_m *FinanceAccount) NamedFinanceRelations(name string) ([]*FinanceRelations, error) {
-	if _m.Edges.namedFinanceRelations == nil {
+func (_m *FinanceAccount) NamedOperations(name string) ([]*FinanceOperation, error) {
+	if _m.Edges.namedOperations == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := _m.Edges.namedFinanceRelations[name]
+	nodes, ok := _m.Edges.namedOperations[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (_m *FinanceAccount) appendNamedFinanceRelations(name string, edges ...*FinanceRelations) {
-	if _m.Edges.namedFinanceRelations == nil {
-		_m.Edges.namedFinanceRelations = make(map[string][]*FinanceRelations)
+func (_m *FinanceAccount) appendNamedOperations(name string, edges ...*FinanceOperation) {
+	if _m.Edges.namedOperations == nil {
+		_m.Edges.namedOperations = make(map[string][]*FinanceOperation)
 	}
 	if len(edges) == 0 {
-		_m.Edges.namedFinanceRelations[name] = []*FinanceRelations{}
+		_m.Edges.namedOperations[name] = []*FinanceOperation{}
 	} else {
-		_m.Edges.namedFinanceRelations[name] = append(_m.Edges.namedFinanceRelations[name], edges...)
+		_m.Edges.namedOperations[name] = append(_m.Edges.namedOperations[name], edges...)
 	}
 }
 

@@ -9,7 +9,6 @@ type FinanceAccount {
   Address: String
   Note: String
   Company: CompanyDetail
-  FinanceRelations: [FinanceRelations]
 }
 
 type FinanceOperation {
@@ -19,28 +18,5 @@ type FinanceOperation {
   Debit: Decimal
   Credit: Decimal
   Description: String
-  Company: CompanyDetail
-  FinanceRelations: [FinanceRelations]
-}
-
-type CompanyPersonnel {
-  id: Int
-  Name: String
-  TcNo: String
-  Phone: String
-  Email: String
-  Address: String
-  Note: String
-  Company: CompanyDetail
-  FinanceRelations: [FinanceRelations]
-}
-
-type FinanceRelations {
-  id: Int
-  FinanceAccount: FinanceAccount
-  FinanceOperation: FinanceOperation
-  CompanyPersonnel: CompanyPersonnel
-  JobOwner: JobOwner
-  CompanyEngineer: CompanyEngineer
   Company: CompanyDetail
 }
