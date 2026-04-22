@@ -5,6 +5,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/shopspring/decimal"
@@ -45,7 +47,16 @@ func (FinanceOperation) Edges() []ent.Edge {
 		edge.From("company", CompanyDetail.Type).Ref("operations").Unique(),
 		edge.From("resource", FinanceResource.Type).Ref("resources").Unique(),
 		edge.From("group", FinanceGroup.Type).Ref("groups").Unique(),
-		edge.From("operation", FinanceGroup.Type).Ref("operations").Unique(),
 		edge.From("account", FinanceAccount.Type).Ref("operations").Unique(),
+	}
+}
+
+// Annotations of the FinanceOperation.
+func (FinanceOperation) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{
+			Schema: "finance",
+			Table:  "operations",
+		},
 	}
 }

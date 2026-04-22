@@ -38,29 +38,38 @@ const (
 	EdgeCompany = "company"
 	// EdgeGroup holds the string denoting the group edge name in mutations.
 	EdgeGroup = "group"
+	// EdgeType holds the string denoting the type edge name in mutations.
+	EdgeType = "type"
 	// EdgeOperations holds the string denoting the operations edge name in mutations.
 	EdgeOperations = "operations"
 	// Table holds the table name of the financeaccount in the database.
-	Table = "finance_accounts"
+	Table = "accounts"
 	// CompanyTable is the table that holds the company relation/edge.
-	CompanyTable = "finance_accounts"
+	CompanyTable = "accounts"
 	// CompanyInverseTable is the table name for the CompanyDetail entity.
 	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
 	// GroupTable is the table that holds the group relation/edge.
-	GroupTable = "finance_accounts"
+	GroupTable = "accounts"
 	// GroupInverseTable is the table name for the FinanceGroup entity.
 	// It exists in this package in order to avoid circular dependency with the "financegroup" package.
-	GroupInverseTable = "finance_groups"
+	GroupInverseTable = "groups"
 	// GroupColumn is the table column denoting the group relation/edge.
 	GroupColumn = "group_id"
+	// TypeTable is the table that holds the type relation/edge.
+	TypeTable = "accounts"
+	// TypeInverseTable is the table name for the FinanceClass entity.
+	// It exists in this package in order to avoid circular dependency with the "financeclass" package.
+	TypeInverseTable = "classes"
+	// TypeColumn is the table column denoting the type relation/edge.
+	TypeColumn = "type_id"
 	// OperationsTable is the table that holds the operations relation/edge.
-	OperationsTable = "finance_operations"
+	OperationsTable = "operations"
 	// OperationsInverseTable is the table name for the FinanceOperation entity.
 	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	OperationsInverseTable = "finance_operations"
+	OperationsInverseTable = "operations"
 	// OperationsColumn is the table column denoting the operations relation/edge.
 	OperationsColumn = "account_id"
 )
@@ -80,10 +89,11 @@ var Columns = []string{
 	FieldUpdatedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "finance_accounts"
+// ForeignKeys holds the SQL foreign-keys that are owned by the "accounts"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",
+	"type_id",
 	"group_id",
 }
 
@@ -185,6 +195,13 @@ func ByGroupField(field string, opts ...sql.OrderTermOption) OrderOption {
 	}
 }
 
+// ByTypeField orders the results by type field.
+func ByTypeField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newTypeStep(), sql.OrderByField(field, opts...))
+	}
+}
+
 // ByOperationsCount orders the results by operations count.
 func ByOperationsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
@@ -210,6 +227,13 @@ func newGroupStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(GroupInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.M2O, true, GroupTable, GroupColumn),
+	)
+}
+func newTypeStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(TypeInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, TypeTable, TypeColumn),
 	)
 }
 func newOperationsStep() *sqlgraph.Step {

@@ -282,6 +282,7 @@ func (_c *JobFloorCreate) createSpec() (*JobFloor, *sqlgraph.CreateSpec) {
 		_node = &JobFloor{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobfloor.Table, sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.JobFloor
 	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobfloor.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
@@ -337,6 +338,7 @@ func (_c *JobFloorCreate) createSpec() (*JobFloor, *sqlgraph.CreateSpec) {
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.JobFloor
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

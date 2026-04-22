@@ -248,6 +248,14 @@ func (_m *FinanceAccount) Group(ctx context.Context) (*FinanceGroup, error) {
 	return result, MaskNotFound(err)
 }
 
+func (_m *FinanceAccount) Type(ctx context.Context) (*FinanceClass, error) {
+	result, err := _m.Edges.TypeOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryType().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
 func (_m *FinanceAccount) Operations(ctx context.Context) (result []*FinanceOperation, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
 		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
@@ -280,14 +288,14 @@ func (_m *FinanceClass) Classes(ctx context.Context) (result []*FinanceOperation
 	return result, err
 }
 
-func (_m *FinanceGroup) Operations(ctx context.Context) (result []*FinanceOperation, err error) {
+func (_m *FinanceClass) Types(ctx context.Context) (result []*FinanceAccount, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedTypes(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.OperationsOrErr()
+		result, err = _m.Edges.TypesOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryOperations().All(ctx)
+		result, err = _m.QueryTypes().All(ctx)
 	}
 	return result, err
 }
@@ -344,14 +352,6 @@ func (_m *FinanceOperation) Group(ctx context.Context) (*FinanceGroup, error) {
 	result, err := _m.Edges.GroupOrErr()
 	if IsNotLoaded(err) {
 		result, err = _m.QueryGroup().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceOperation) Operation(ctx context.Context) (*FinanceGroup, error) {
-	result, err := _m.Edges.OperationOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryOperation().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }

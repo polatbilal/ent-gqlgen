@@ -260,6 +260,7 @@ func (_c *JobProgressCreate) createSpec() (*JobProgress, *sqlgraph.CreateSpec) {
 		_node = &JobProgress{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobprogress.Table, sqlgraph.NewFieldSpec(jobprogress.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.JobProgress
 	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobprogress.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
@@ -307,6 +308,7 @@ func (_c *JobProgressCreate) createSpec() (*JobProgress, *sqlgraph.CreateSpec) {
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -30,8 +32,17 @@ func (FinanceGroup) Fields() []ent.Field {
 // Edges of the FinanceGroup.
 func (FinanceGroup) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("operations", FinanceOperation.Type).StorageKey(edge.Column("operation_id")),
 		edge.To("groups", FinanceOperation.Type).StorageKey(edge.Column("group_id")),
 		edge.To("finance_accounts", FinanceAccount.Type).StorageKey(edge.Column("group_id")),
+	}
+}
+
+// Annotations of the FinanceGroup.
+func (FinanceGroup) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{
+			Schema: "finance",
+			Table:  "groups",
+		},
 	}
 }

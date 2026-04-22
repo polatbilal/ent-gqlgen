@@ -22,6 +22,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // CompanyDetailQuery is the builder for querying CompanyDetail entities.
@@ -101,6 +103,9 @@ func (_q *CompanyDetailQuery) QueryJobs() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.JobsTable, companydetail.JobsColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.JobRelations
+		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -123,6 +128,9 @@ func (_q *CompanyDetailQuery) QueryUsers() *CompanyUserQuery {
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.UsersTable, companydetail.UsersColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.CompanyUser
+		step.Edge.Schema = schemaConfig.CompanyUser
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -145,6 +153,9 @@ func (_q *CompanyDetailQuery) QueryTokens() *CompanyTokenQuery {
 			sqlgraph.To(companytoken.Table, companytoken.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.TokensTable, companydetail.TokensColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.CompanyToken
+		step.Edge.Schema = schemaConfig.CompanyToken
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -167,6 +178,9 @@ func (_q *CompanyDetailQuery) QueryEngineers() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.CompanyEngineer
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -189,6 +203,9 @@ func (_q *CompanyDetailQuery) QueryOperations() *FinanceOperationQuery {
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.OperationsTable, companydetail.OperationsColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceOperation
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -211,6 +228,9 @@ func (_q *CompanyDetailQuery) QueryMethods() *FinanceClassQuery {
 			sqlgraph.To(financeclass.Table, financeclass.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.MethodsTable, companydetail.MethodsColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceClass
+		step.Edge.Schema = schemaConfig.FinanceClass
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -233,6 +253,9 @@ func (_q *CompanyDetailQuery) QueryResources() *FinanceResourceQuery {
 			sqlgraph.To(financeresource.Table, financeresource.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.ResourcesTable, companydetail.ResourcesColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceResource
+		step.Edge.Schema = schemaConfig.FinanceResource
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -255,6 +278,9 @@ func (_q *CompanyDetailQuery) QueryAccounts() *FinanceAccountQuery {
 			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.AccountsTable, companydetail.AccountsColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceAccount
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -653,6 +679,8 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	_spec.Node.Schema = _q.schemaConfig.CompanyDetail
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -1036,6 +1064,8 @@ func (_q *CompanyDetailQuery) loadAccounts(ctx context.Context, query *FinanceAc
 
 func (_q *CompanyDetailQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
+	_spec.Node.Schema = _q.schemaConfig.CompanyDetail
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -1101,6 +1131,9 @@ func (_q *CompanyDetailQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
+	t1.Schema(_q.schemaConfig.CompanyDetail)
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
+	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

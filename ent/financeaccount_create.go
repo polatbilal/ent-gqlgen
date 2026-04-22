@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 )
@@ -201,6 +202,25 @@ func (_c *FinanceAccountCreate) SetGroup(v *FinanceGroup) *FinanceAccountCreate 
 	return _c.SetGroupID(v.ID)
 }
 
+// SetTypeID sets the "type" edge to the FinanceClass entity by ID.
+func (_c *FinanceAccountCreate) SetTypeID(id int) *FinanceAccountCreate {
+	_c.mutation.SetTypeID(id)
+	return _c
+}
+
+// SetNillableTypeID sets the "type" edge to the FinanceClass entity by ID if the given value is not nil.
+func (_c *FinanceAccountCreate) SetNillableTypeID(id *int) *FinanceAccountCreate {
+	if id != nil {
+		_c = _c.SetTypeID(*id)
+	}
+	return _c
+}
+
+// SetType sets the "type" edge to the FinanceClass entity.
+func (_c *FinanceAccountCreate) SetType(v *FinanceClass) *FinanceAccountCreate {
+	return _c.SetTypeID(v.ID)
+}
+
 // AddOperationIDs adds the "operations" edge to the FinanceOperation entity by IDs.
 func (_c *FinanceAccountCreate) AddOperationIDs(ids ...int) *FinanceAccountCreate {
 	_c.mutation.AddOperationIDs(ids...)
@@ -302,6 +322,7 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 		_node = &FinanceAccount{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(financeaccount.Table, sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.FinanceAccount
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(financeaccount.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -353,6 +374,7 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -370,10 +392,29 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 				IDSpec: sqlgraph.NewFieldSpec(financegroup.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.group_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.TypeIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   financeaccount.TypeTable,
+			Columns: []string{financeaccount.TypeColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
+			},
+		}
+		edge.Schema = _c.schemaConfig.FinanceAccount
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.type_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := _c.mutation.OperationsIDs(); len(nodes) > 0 {
@@ -387,6 +428,7 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

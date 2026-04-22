@@ -304,6 +304,7 @@ func (_c *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSpe
 		_node = &JobContractor{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobcontractor.Table, sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.JobContractor
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(jobcontractor.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -367,6 +368,7 @@ func (_c *JobContractorCreate) createSpec() (*JobContractor, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -65,5 +67,14 @@ func (CompanyDetail) Edges() []ent.Edge {
 		edge.To("methods", FinanceClass.Type).StorageKey(edge.Column("company_id")),
 		edge.To("resources", FinanceResource.Type).StorageKey(edge.Column("company_id")),
 		edge.To("accounts", FinanceAccount.Type).StorageKey(edge.Column("company_id")),
+	}
+}
+
+// Annotations of the CompanyDetail.
+func (CompanyDetail) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{
+			Schema: "core",
+		},
 	}
 }

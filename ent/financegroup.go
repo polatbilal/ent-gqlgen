@@ -39,36 +39,24 @@ type FinanceGroup struct {
 
 // FinanceGroupEdges holds the relations/edges for other nodes in the graph.
 type FinanceGroupEdges struct {
-	// Operations holds the value of the operations edge.
-	Operations []*FinanceOperation `json:"operations,omitempty"`
 	// Groups holds the value of the groups edge.
 	Groups []*FinanceOperation `json:"groups,omitempty"`
 	// FinanceAccounts holds the value of the finance_accounts edge.
 	FinanceAccounts []*FinanceAccount `json:"finance_accounts,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [3]bool
+	loadedTypes [2]bool
 	// totalCount holds the count of the edges above.
-	totalCount [3]map[string]int
+	totalCount [2]map[string]int
 
-	namedOperations      map[string][]*FinanceOperation
 	namedGroups          map[string][]*FinanceOperation
 	namedFinanceAccounts map[string][]*FinanceAccount
-}
-
-// OperationsOrErr returns the Operations value or an error if the edge
-// was not loaded in eager-loading.
-func (e FinanceGroupEdges) OperationsOrErr() ([]*FinanceOperation, error) {
-	if e.loadedTypes[0] {
-		return e.Operations, nil
-	}
-	return nil, &NotLoadedError{edge: "operations"}
 }
 
 // GroupsOrErr returns the Groups value or an error if the edge
 // was not loaded in eager-loading.
 func (e FinanceGroupEdges) GroupsOrErr() ([]*FinanceOperation, error) {
-	if e.loadedTypes[1] {
+	if e.loadedTypes[0] {
 		return e.Groups, nil
 	}
 	return nil, &NotLoadedError{edge: "groups"}
@@ -77,7 +65,7 @@ func (e FinanceGroupEdges) GroupsOrErr() ([]*FinanceOperation, error) {
 // FinanceAccountsOrErr returns the FinanceAccounts value or an error if the edge
 // was not loaded in eager-loading.
 func (e FinanceGroupEdges) FinanceAccountsOrErr() ([]*FinanceAccount, error) {
-	if e.loadedTypes[2] {
+	if e.loadedTypes[1] {
 		return e.FinanceAccounts, nil
 	}
 	return nil, &NotLoadedError{edge: "finance_accounts"}
@@ -172,11 +160,6 @@ func (_m *FinanceGroup) Value(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
 }
 
-// QueryOperations queries the "operations" edge of the FinanceGroup entity.
-func (_m *FinanceGroup) QueryOperations() *FinanceOperationQuery {
-	return NewFinanceGroupClient(_m.config).QueryOperations(_m)
-}
-
 // QueryGroups queries the "groups" edge of the FinanceGroup entity.
 func (_m *FinanceGroup) QueryGroups() *FinanceOperationQuery {
 	return NewFinanceGroupClient(_m.config).QueryGroups(_m)
@@ -232,30 +215,6 @@ func (_m *FinanceGroup) String() string {
 	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
-}
-
-// NamedOperations returns the Operations named value or an error if the edge was not
-// loaded in eager-loading with this name.
-func (_m *FinanceGroup) NamedOperations(name string) ([]*FinanceOperation, error) {
-	if _m.Edges.namedOperations == nil {
-		return nil, &NotLoadedError{edge: name}
-	}
-	nodes, ok := _m.Edges.namedOperations[name]
-	if !ok {
-		return nil, &NotLoadedError{edge: name}
-	}
-	return nodes, nil
-}
-
-func (_m *FinanceGroup) appendNamedOperations(name string, edges ...*FinanceOperation) {
-	if _m.Edges.namedOperations == nil {
-		_m.Edges.namedOperations = make(map[string][]*FinanceOperation)
-	}
-	if len(edges) == 0 {
-		_m.Edges.namedOperations[name] = []*FinanceOperation{}
-	} else {
-		_m.Edges.namedOperations[name] = append(_m.Edges.namedOperations[name], edges...)
-	}
 }
 
 // NamedGroups returns the Groups named value or an error if the edge was not

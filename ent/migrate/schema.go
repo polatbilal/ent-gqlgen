@@ -3,6 +3,7 @@
 package migrate
 
 import (
+	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/dialect/sql/schema"
 	"entgo.io/ent/schema/field"
 )
@@ -141,8 +142,8 @@ var (
 			},
 		},
 	}
-	// FinanceAccountsColumns holds the columns for the "finance_accounts" table.
-	FinanceAccountsColumns = []*schema.Column{
+	// AccountsColumns holds the columns for the "accounts" table.
+	AccountsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString, Default: "İSİM YOK"},
 		{Name: "tc_no", Type: field.TypeString, Nullable: true},
@@ -155,30 +156,37 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+		{Name: "type_id", Type: field.TypeInt, Nullable: true},
 		{Name: "group_id", Type: field.TypeInt, Nullable: true},
 	}
-	// FinanceAccountsTable holds the schema information for the "finance_accounts" table.
-	FinanceAccountsTable = &schema.Table{
-		Name:       "finance_accounts",
-		Columns:    FinanceAccountsColumns,
-		PrimaryKey: []*schema.Column{FinanceAccountsColumns[0]},
+	// AccountsTable holds the schema information for the "accounts" table.
+	AccountsTable = &schema.Table{
+		Name:       "accounts",
+		Columns:    AccountsColumns,
+		PrimaryKey: []*schema.Column{AccountsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "finance_accounts_company_details_accounts",
-				Columns:    []*schema.Column{FinanceAccountsColumns[11]},
+				Symbol:     "accounts_company_details_accounts",
+				Columns:    []*schema.Column{AccountsColumns[11]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "finance_accounts_finance_groups_finance_accounts",
-				Columns:    []*schema.Column{FinanceAccountsColumns[12]},
-				RefColumns: []*schema.Column{FinanceGroupsColumns[0]},
+				Symbol:     "accounts_classes_types",
+				Columns:    []*schema.Column{AccountsColumns[12]},
+				RefColumns: []*schema.Column{ClassesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "accounts_groups_finance_accounts",
+				Columns:    []*schema.Column{AccountsColumns[13]},
+				RefColumns: []*schema.Column{GroupsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 	}
-	// FinanceClassesColumns holds the columns for the "finance_classes" table.
-	FinanceClassesColumns = []*schema.Column{
+	// ClassesColumns holds the columns for the "classes" table.
+	ClassesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "category", Type: field.TypeString, Nullable: true},
 		{Name: "name", Type: field.TypeString},
@@ -189,22 +197,22 @@ var (
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
 	}
-	// FinanceClassesTable holds the schema information for the "finance_classes" table.
-	FinanceClassesTable = &schema.Table{
-		Name:       "finance_classes",
-		Columns:    FinanceClassesColumns,
-		PrimaryKey: []*schema.Column{FinanceClassesColumns[0]},
+	// ClassesTable holds the schema information for the "classes" table.
+	ClassesTable = &schema.Table{
+		Name:       "classes",
+		Columns:    ClassesColumns,
+		PrimaryKey: []*schema.Column{ClassesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "finance_classes_company_details_methods",
-				Columns:    []*schema.Column{FinanceClassesColumns[8]},
+				Symbol:     "classes_company_details_methods",
+				Columns:    []*schema.Column{ClassesColumns[8]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 	}
-	// FinanceGroupsColumns holds the columns for the "finance_groups" table.
-	FinanceGroupsColumns = []*schema.Column{
+	// GroupsColumns holds the columns for the "groups" table.
+	GroupsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "category", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
@@ -214,14 +222,14 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}
-	// FinanceGroupsTable holds the schema information for the "finance_groups" table.
-	FinanceGroupsTable = &schema.Table{
-		Name:       "finance_groups",
-		Columns:    FinanceGroupsColumns,
-		PrimaryKey: []*schema.Column{FinanceGroupsColumns[0]},
+	// GroupsTable holds the schema information for the "groups" table.
+	GroupsTable = &schema.Table{
+		Name:       "groups",
+		Columns:    GroupsColumns,
+		PrimaryKey: []*schema.Column{GroupsColumns[0]},
 	}
-	// FinanceOperationsColumns holds the columns for the "finance_operations" table.
-	FinanceOperationsColumns = []*schema.Column{
+	// OperationsColumns holds the columns for the "operations" table.
+	OperationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "date", Type: field.TypeTime},
 		{Name: "debit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(12,2)"}},
@@ -232,71 +240,64 @@ var (
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
 		{Name: "account_id", Type: field.TypeInt, Nullable: true},
 		{Name: "class_id", Type: field.TypeInt, Nullable: true},
-		{Name: "operation_id", Type: field.TypeInt, Nullable: true},
 		{Name: "group_id", Type: field.TypeInt, Nullable: true},
 		{Name: "resource_id", Type: field.TypeInt, Nullable: true},
 	}
-	// FinanceOperationsTable holds the schema information for the "finance_operations" table.
-	FinanceOperationsTable = &schema.Table{
-		Name:       "finance_operations",
-		Columns:    FinanceOperationsColumns,
-		PrimaryKey: []*schema.Column{FinanceOperationsColumns[0]},
+	// OperationsTable holds the schema information for the "operations" table.
+	OperationsTable = &schema.Table{
+		Name:       "operations",
+		Columns:    OperationsColumns,
+		PrimaryKey: []*schema.Column{OperationsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "finance_operations_company_details_operations",
-				Columns:    []*schema.Column{FinanceOperationsColumns[7]},
+				Symbol:     "operations_company_details_operations",
+				Columns:    []*schema.Column{OperationsColumns[7]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "finance_operations_finance_accounts_operations",
-				Columns:    []*schema.Column{FinanceOperationsColumns[8]},
-				RefColumns: []*schema.Column{FinanceAccountsColumns[0]},
+				Symbol:     "operations_accounts_operations",
+				Columns:    []*schema.Column{OperationsColumns[8]},
+				RefColumns: []*schema.Column{AccountsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "finance_operations_finance_classes_classes",
-				Columns:    []*schema.Column{FinanceOperationsColumns[9]},
-				RefColumns: []*schema.Column{FinanceClassesColumns[0]},
+				Symbol:     "operations_classes_classes",
+				Columns:    []*schema.Column{OperationsColumns[9]},
+				RefColumns: []*schema.Column{ClassesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "finance_operations_finance_groups_operations",
-				Columns:    []*schema.Column{FinanceOperationsColumns[10]},
-				RefColumns: []*schema.Column{FinanceGroupsColumns[0]},
+				Symbol:     "operations_groups_groups",
+				Columns:    []*schema.Column{OperationsColumns[10]},
+				RefColumns: []*schema.Column{GroupsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "finance_operations_finance_groups_groups",
-				Columns:    []*schema.Column{FinanceOperationsColumns[11]},
-				RefColumns: []*schema.Column{FinanceGroupsColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
-				Symbol:     "finance_operations_finance_resources_resources",
-				Columns:    []*schema.Column{FinanceOperationsColumns[12]},
-				RefColumns: []*schema.Column{FinanceResourcesColumns[0]},
+				Symbol:     "operations_resources_resources",
+				Columns:    []*schema.Column{OperationsColumns[11]},
+				RefColumns: []*schema.Column{ResourcesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 	}
-	// FinanceResourcesColumns holds the columns for the "finance_resources" table.
-	FinanceResourcesColumns = []*schema.Column{
+	// ResourcesColumns holds the columns for the "resources" table.
+	ResourcesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
 	}
-	// FinanceResourcesTable holds the schema information for the "finance_resources" table.
-	FinanceResourcesTable = &schema.Table{
-		Name:       "finance_resources",
-		Columns:    FinanceResourcesColumns,
-		PrimaryKey: []*schema.Column{FinanceResourcesColumns[0]},
+	// ResourcesTable holds the schema information for the "resources" table.
+	ResourcesTable = &schema.Table{
+		Name:       "resources",
+		Columns:    ResourcesColumns,
+		PrimaryKey: []*schema.Column{ResourcesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "finance_resources_company_details_resources",
-				Columns:    []*schema.Column{FinanceResourcesColumns[4]},
+				Symbol:     "resources_company_details_resources",
+				Columns:    []*schema.Column{ResourcesColumns[4]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -695,11 +696,11 @@ var (
 		CompanyEngineersTable,
 		CompanyTokensTable,
 		CompanyUsersTable,
-		FinanceAccountsTable,
-		FinanceClassesTable,
-		FinanceGroupsTable,
-		FinanceOperationsTable,
-		FinanceResourcesTable,
+		AccountsTable,
+		ClassesTable,
+		GroupsTable,
+		OperationsTable,
+		ResourcesTable,
 		JobAuthorsTable,
 		JobContractorsTable,
 		JobDetailsTable,
@@ -719,16 +720,31 @@ func init() {
 	CompanyTokensTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[1].RefTable = UsersTable
-	FinanceAccountsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
-	FinanceAccountsTable.ForeignKeys[1].RefTable = FinanceGroupsTable
-	FinanceClassesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
-	FinanceOperationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
-	FinanceOperationsTable.ForeignKeys[1].RefTable = FinanceAccountsTable
-	FinanceOperationsTable.ForeignKeys[2].RefTable = FinanceClassesTable
-	FinanceOperationsTable.ForeignKeys[3].RefTable = FinanceGroupsTable
-	FinanceOperationsTable.ForeignKeys[4].RefTable = FinanceGroupsTable
-	FinanceOperationsTable.ForeignKeys[5].RefTable = FinanceResourcesTable
-	FinanceResourcesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	AccountsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	AccountsTable.ForeignKeys[1].RefTable = ClassesTable
+	AccountsTable.ForeignKeys[2].RefTable = GroupsTable
+	AccountsTable.Annotation = &entsql.Annotation{
+		Table: "accounts",
+	}
+	ClassesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	ClassesTable.Annotation = &entsql.Annotation{
+		Table: "classes",
+	}
+	GroupsTable.Annotation = &entsql.Annotation{
+		Table: "groups",
+	}
+	OperationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	OperationsTable.ForeignKeys[1].RefTable = AccountsTable
+	OperationsTable.ForeignKeys[2].RefTable = ClassesTable
+	OperationsTable.ForeignKeys[3].RefTable = GroupsTable
+	OperationsTable.ForeignKeys[4].RefTable = ResourcesTable
+	OperationsTable.Annotation = &entsql.Annotation{
+		Table: "operations",
+	}
+	ResourcesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	ResourcesTable.Annotation = &entsql.Annotation{
+		Table: "resources",
+	}
 	JobFloorsTable.ForeignKeys[0].RefTable = JobRelationsTable
 	JobPaymentsTable.ForeignKeys[0].RefTable = JobRelationsTable
 	JobReceiptsTable.ForeignKeys[0].RefTable = JobRelationsTable

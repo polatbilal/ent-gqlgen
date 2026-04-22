@@ -111,7 +111,7 @@ func (r *mutationResolver) UpsertEngineer(ctx context.Context, input model.Compa
 	}
 
 	// Otomatik FinanceAccount kaydı oluştur
-	if relErr := helpers.CreateFinanceAccountForEntity(ctx, client, "company_engineer", engineer.Name, engineer.TcNo, "", "", engineer.Phone, engineer.Email, engineer.Address, "Mühendis"); relErr != nil {
+	if relErr := helpers.CreateFinanceAccountForEntity(ctx, client, company.ID, engineer.Name, engineer.TcNo, "", "", engineer.Phone, engineer.Email, engineer.Address, "Mühendis", "PERSONEL"); relErr != nil {
 		fmt.Printf("⚠️ Mühendis oluşturuldu ama FinanceAccount eklenecekken hata: %v\n", relErr)
 	}
 
@@ -165,7 +165,7 @@ func (r *mutationResolver) CreateEngineer(ctx context.Context, input model.Compa
 	}
 
 	// Otomatik FinanceAccount kaydı oluştur
-	if relErr := helpers.CreateFinanceAccountForEntity(ctx, client, "company_engineer", createEngineer.Name, createEngineer.TcNo, "", "", createEngineer.Phone, createEngineer.Email, createEngineer.Address, "Mühendis"); relErr != nil {
+	if relErr := helpers.CreateFinanceAccountForEntity(ctx, client, company.ID, createEngineer.Name, createEngineer.TcNo, "", "", createEngineer.Phone, createEngineer.Email, createEngineer.Address, "Mühendis", "PERSONEL"); relErr != nil {
 		fmt.Printf("⚠️ Mühendis oluşturuldu ama FinanceAccount eklenecekken hata: %v\n", relErr)
 	}
 

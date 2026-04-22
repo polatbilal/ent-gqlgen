@@ -8,6 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // ID filters vertices based on their ID field.
@@ -377,6 +379,9 @@ func HasReceipt() predicate.JobReceipt {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, ReceiptTable, ReceiptColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobRelations
+		step.Edge.Schema = schemaConfig.JobReceipt
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -385,6 +390,9 @@ func HasReceipt() predicate.JobReceipt {
 func HasReceiptWith(preds ...predicate.JobRelations) predicate.JobReceipt {
 	return predicate.JobReceipt(func(s *sql.Selector) {
 		step := newReceiptStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobRelations
+		step.Edge.Schema = schemaConfig.JobReceipt
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

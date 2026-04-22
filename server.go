@@ -17,7 +17,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/database"
 	"github.com/polatbilal/ent-gqlgen/ent/migrate"
 	_ "github.com/polatbilal/ent-gqlgen/ent/runtime"
-	"github.com/polatbilal/ent-gqlgen/graphql/helpers"
 	"github.com/polatbilal/ent-gqlgen/graphql/resolvers"
 	"github.com/polatbilal/ent-gqlgen/hooks"
 	"github.com/polatbilal/ent-gqlgen/middlewares"
@@ -141,11 +140,11 @@ func main() {
 	}
 
 	// Mevcut kayıtlar için FinanceRelations migration
-	result, migErr := helpers.MigrateExistingAccounts(context.Background(), client)
-	if migErr != nil {
-		log.Printf("Migration hatası: %v", migErr)
-	}
-	log.Println(result)
+	// result, migErr := helpers.MigrateExistingAccounts(context.Background(), client)
+	// if migErr != nil {
+	// 	log.Printf("Migration hatası: %v", migErr)
+	// }
+	// log.Println(result)
 
 	// Configure the GraphQL server
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))

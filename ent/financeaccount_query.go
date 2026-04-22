@@ -14,9 +14,12 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // FinanceAccountQuery is the builder for querying FinanceAccount entities.
@@ -28,6 +31,7 @@ type FinanceAccountQuery struct {
 	predicates          []predicate.FinanceAccount
 	withCompany         *CompanyDetailQuery
 	withGroup           *FinanceGroupQuery
+	withType            *FinanceClassQuery
 	withOperations      *FinanceOperationQuery
 	withFKs             bool
 	modifiers           []func(*sql.Selector)
@@ -85,6 +89,9 @@ func (_q *FinanceAccountQuery) QueryCompany() *CompanyDetailQuery {
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeaccount.CompanyTable, financeaccount.CompanyColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.CompanyDetail
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -107,6 +114,34 @@ func (_q *FinanceAccountQuery) QueryGroup() *FinanceGroupQuery {
 			sqlgraph.To(financegroup.Table, financegroup.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeaccount.GroupTable, financeaccount.GroupColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceGroup
+		step.Edge.Schema = schemaConfig.FinanceAccount
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryType chains the current query on the "type" edge.
+func (_q *FinanceAccountQuery) QueryType() *FinanceClassQuery {
+	query := (&FinanceClassClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(financeaccount.Table, financeaccount.FieldID, selector),
+			sqlgraph.To(financeclass.Table, financeclass.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, financeaccount.TypeTable, financeaccount.TypeColumn),
+		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceClass
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -129,6 +164,9 @@ func (_q *FinanceAccountQuery) QueryOperations() *FinanceOperationQuery {
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, financeaccount.OperationsTable, financeaccount.OperationsColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceOperation
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -329,6 +367,7 @@ func (_q *FinanceAccountQuery) Clone() *FinanceAccountQuery {
 		predicates:     append([]predicate.FinanceAccount{}, _q.predicates...),
 		withCompany:    _q.withCompany.Clone(),
 		withGroup:      _q.withGroup.Clone(),
+		withType:       _q.withType.Clone(),
 		withOperations: _q.withOperations.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
@@ -355,6 +394,17 @@ func (_q *FinanceAccountQuery) WithGroup(opts ...func(*FinanceGroupQuery)) *Fina
 		opt(query)
 	}
 	_q.withGroup = query
+	return _q
+}
+
+// WithType tells the query-builder to eager-load the nodes that are connected to
+// the "type" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *FinanceAccountQuery) WithType(opts ...func(*FinanceClassQuery)) *FinanceAccountQuery {
+	query := (&FinanceClassClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withType = query
 	return _q
 }
 
@@ -448,13 +498,14 @@ func (_q *FinanceAccountQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		nodes       = []*FinanceAccount{}
 		withFKs     = _q.withFKs
 		_spec       = _q.querySpec()
-		loadedTypes = [3]bool{
+		loadedTypes = [4]bool{
 			_q.withCompany != nil,
 			_q.withGroup != nil,
+			_q.withType != nil,
 			_q.withOperations != nil,
 		}
 	)
-	if _q.withCompany != nil || _q.withGroup != nil {
+	if _q.withCompany != nil || _q.withGroup != nil || _q.withType != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -469,6 +520,8 @@ func (_q *FinanceAccountQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	_spec.Node.Schema = _q.schemaConfig.FinanceAccount
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -490,6 +543,12 @@ func (_q *FinanceAccountQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	if query := _q.withGroup; query != nil {
 		if err := _q.loadGroup(ctx, query, nodes, nil,
 			func(n *FinanceAccount, e *FinanceGroup) { n.Edges.Group = e }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withType; query != nil {
+		if err := _q.loadType(ctx, query, nodes, nil,
+			func(n *FinanceAccount, e *FinanceClass) { n.Edges.Type = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -579,6 +638,38 @@ func (_q *FinanceAccountQuery) loadGroup(ctx context.Context, query *FinanceGrou
 	}
 	return nil
 }
+func (_q *FinanceAccountQuery) loadType(ctx context.Context, query *FinanceClassQuery, nodes []*FinanceAccount, init func(*FinanceAccount), assign func(*FinanceAccount, *FinanceClass)) error {
+	ids := make([]int, 0, len(nodes))
+	nodeids := make(map[int][]*FinanceAccount)
+	for i := range nodes {
+		if nodes[i].type_id == nil {
+			continue
+		}
+		fk := *nodes[i].type_id
+		if _, ok := nodeids[fk]; !ok {
+			ids = append(ids, fk)
+		}
+		nodeids[fk] = append(nodeids[fk], nodes[i])
+	}
+	if len(ids) == 0 {
+		return nil
+	}
+	query.Where(financeclass.IDIn(ids...))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nodeids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "type_id" returned %v`, n.ID)
+		}
+		for i := range nodes {
+			assign(nodes[i], n)
+		}
+	}
+	return nil
+}
 func (_q *FinanceAccountQuery) loadOperations(ctx context.Context, query *FinanceOperationQuery, nodes []*FinanceAccount, init func(*FinanceAccount), assign func(*FinanceAccount, *FinanceOperation)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*FinanceAccount)
@@ -613,6 +704,8 @@ func (_q *FinanceAccountQuery) loadOperations(ctx context.Context, query *Financ
 
 func (_q *FinanceAccountQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
+	_spec.Node.Schema = _q.schemaConfig.FinanceAccount
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -678,6 +771,9 @@ func (_q *FinanceAccountQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
+	t1.Schema(_q.schemaConfig.FinanceAccount)
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
+	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

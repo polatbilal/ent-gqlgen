@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
 )
 
@@ -43,6 +44,7 @@ type FinanceAccount struct {
 	// The values are being populated by the FinanceAccountQuery when eager-loading is set.
 	Edges        FinanceAccountEdges `json:"edges"`
 	company_id   *int
+	type_id      *int
 	group_id     *int
 	selectValues sql.SelectValues
 }
@@ -53,13 +55,15 @@ type FinanceAccountEdges struct {
 	Company *CompanyDetail `json:"company,omitempty"`
 	// Group holds the value of the group edge.
 	Group *FinanceGroup `json:"group,omitempty"`
+	// Type holds the value of the type edge.
+	Type *FinanceClass `json:"type,omitempty"`
 	// Operations holds the value of the operations edge.
 	Operations []*FinanceOperation `json:"operations,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [3]bool
+	loadedTypes [4]bool
 	// totalCount holds the count of the edges above.
-	totalCount [3]map[string]int
+	totalCount [4]map[string]int
 
 	namedOperations map[string][]*FinanceOperation
 }
@@ -86,10 +90,21 @@ func (e FinanceAccountEdges) GroupOrErr() (*FinanceGroup, error) {
 	return nil, &NotLoadedError{edge: "group"}
 }
 
+// TypeOrErr returns the Type value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e FinanceAccountEdges) TypeOrErr() (*FinanceClass, error) {
+	if e.Type != nil {
+		return e.Type, nil
+	} else if e.loadedTypes[2] {
+		return nil, &NotFoundError{label: financeclass.Label}
+	}
+	return nil, &NotLoadedError{edge: "type"}
+}
+
 // OperationsOrErr returns the Operations value or an error if the edge
 // was not loaded in eager-loading.
 func (e FinanceAccountEdges) OperationsOrErr() ([]*FinanceOperation, error) {
-	if e.loadedTypes[2] {
+	if e.loadedTypes[3] {
 		return e.Operations, nil
 	}
 	return nil, &NotLoadedError{edge: "operations"}
@@ -108,7 +123,9 @@ func (*FinanceAccount) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullTime)
 		case financeaccount.ForeignKeys[0]: // company_id
 			values[i] = new(sql.NullInt64)
-		case financeaccount.ForeignKeys[1]: // group_id
+		case financeaccount.ForeignKeys[1]: // type_id
+			values[i] = new(sql.NullInt64)
+		case financeaccount.ForeignKeys[2]: // group_id
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -200,6 +217,13 @@ func (_m *FinanceAccount) assignValues(columns []string, values []any) error {
 			}
 		case financeaccount.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field type_id", value)
+			} else if value.Valid {
+				_m.type_id = new(int)
+				*_m.type_id = int(value.Int64)
+			}
+		case financeaccount.ForeignKeys[2]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field group_id", value)
 			} else if value.Valid {
 				_m.group_id = new(int)
@@ -226,6 +250,11 @@ func (_m *FinanceAccount) QueryCompany() *CompanyDetailQuery {
 // QueryGroup queries the "group" edge of the FinanceAccount entity.
 func (_m *FinanceAccount) QueryGroup() *FinanceGroupQuery {
 	return NewFinanceAccountClient(_m.config).QueryGroup(_m)
+}
+
+// QueryType queries the "type" edge of the FinanceAccount entity.
+func (_m *FinanceAccount) QueryType() *FinanceClassQuery {
+	return NewFinanceAccountClient(_m.config).QueryType(_m)
 }
 
 // QueryOperations queries the "operations" edge of the FinanceAccount entity.

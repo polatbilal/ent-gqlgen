@@ -807,6 +807,17 @@ func (_q *FinanceAccountQuery) collectField(ctx context.Context, oneNode bool, o
 			}
 			_q.withGroup = query
 
+		case "type":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&FinanceClassClient{config: _q.config}).Query()
+			)
+			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financeclassImplementors)...); err != nil {
+				return err
+			}
+			_q.withType = query
+
 		case "operations":
 			var (
 				alias = field.Alias
@@ -952,6 +963,19 @@ func (_q *FinanceClassQuery) collectField(ctx context.Context, oneNode bool, opC
 			_q.WithNamedClasses(alias, func(wq *FinanceOperationQuery) {
 				*wq = *query
 			})
+
+		case "types":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = (&FinanceAccountClient{config: _q.config}).Query()
+			)
+			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financeaccountImplementors)...); err != nil {
+				return err
+			}
+			_q.WithNamedTypes(alias, func(wq *FinanceAccountQuery) {
+				*wq = *query
+			})
 		case "category":
 			if _, ok := fieldSeen[financeclass.FieldCategory]; !ok {
 				selectedFields = append(selectedFields, financeclass.FieldCategory)
@@ -1046,19 +1070,6 @@ func (_q *FinanceGroupQuery) collectField(ctx context.Context, oneNode bool, opC
 	)
 	for _, field := range graphql.CollectFields(opCtx, collected.Selections, satisfies) {
 		switch field.Name {
-
-		case "operations":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceOperationClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, false, opCtx, field, path, mayAddCondition(satisfies, financeoperationImplementors)...); err != nil {
-				return err
-			}
-			_q.WithNamedOperations(alias, func(wq *FinanceOperationQuery) {
-				*wq = *query
-			})
 
 		case "groups":
 			var (
@@ -1223,17 +1234,6 @@ func (_q *FinanceOperationQuery) collectField(ctx context.Context, oneNode bool,
 				return err
 			}
 			_q.withGroup = query
-
-		case "operation":
-			var (
-				alias = field.Alias
-				path  = append(path, alias)
-				query = (&FinanceGroupClient{config: _q.config}).Query()
-			)
-			if err := query.collectField(ctx, oneNode, opCtx, field, path, mayAddCondition(satisfies, financegroupImplementors)...); err != nil {
-				return err
-			}
-			_q.withOperation = query
 
 		case "account":
 			var (

@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -32,5 +34,16 @@ func (FinanceClass) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("company", CompanyDetail.Type).Ref("methods").Unique(),
 		edge.To("classes", FinanceOperation.Type).StorageKey(edge.Column("class_id")),
+		edge.To("types", FinanceAccount.Type).StorageKey(edge.Column("type_id")),
+	}
+}
+
+// Annotations of the FinanceClass.
+func (FinanceClass) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{
+			Schema: "finance",
+			Table:  "classes",
+		},
 	}
 }

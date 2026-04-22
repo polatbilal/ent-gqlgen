@@ -104,21 +104,6 @@ func (_c *FinanceGroupCreate) SetNillableUpdatedAt(v *time.Time) *FinanceGroupCr
 	return _c
 }
 
-// AddOperationIDs adds the "operations" edge to the FinanceOperation entity by IDs.
-func (_c *FinanceGroupCreate) AddOperationIDs(ids ...int) *FinanceGroupCreate {
-	_c.mutation.AddOperationIDs(ids...)
-	return _c
-}
-
-// AddOperations adds the "operations" edges to the FinanceOperation entity.
-func (_c *FinanceGroupCreate) AddOperations(v ...*FinanceOperation) *FinanceGroupCreate {
-	ids := make([]int, len(v))
-	for i := range v {
-		ids[i] = v[i].ID
-	}
-	return _c.AddOperationIDs(ids...)
-}
-
 // AddGroupIDs adds the "groups" edge to the FinanceOperation entity by IDs.
 func (_c *FinanceGroupCreate) AddGroupIDs(ids ...int) *FinanceGroupCreate {
 	_c.mutation.AddGroupIDs(ids...)
@@ -241,6 +226,7 @@ func (_c *FinanceGroupCreate) createSpec() (*FinanceGroup, *sqlgraph.CreateSpec)
 		_node = &FinanceGroup{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(financegroup.Table, sqlgraph.NewFieldSpec(financegroup.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.FinanceGroup
 	if value, ok := _c.mutation.Category(); ok {
 		_spec.SetField(financegroup.FieldCategory, field.TypeString, value)
 		_node.Category = value
@@ -269,22 +255,6 @@ func (_c *FinanceGroupCreate) createSpec() (*FinanceGroup, *sqlgraph.CreateSpec)
 		_spec.SetField(financegroup.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := _c.mutation.OperationsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   financegroup.OperationsTable,
-			Columns: []string{financegroup.OperationsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
 	if nodes := _c.mutation.GroupsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -296,6 +266,7 @@ func (_c *FinanceGroupCreate) createSpec() (*FinanceGroup, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -312,6 +283,7 @@ func (_c *FinanceGroupCreate) createSpec() (*FinanceGroup, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

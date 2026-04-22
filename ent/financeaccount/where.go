@@ -8,6 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // ID filters vertices based on their ID field.
@@ -782,6 +784,9 @@ func HasCompany() predicate.FinanceAccount {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyDetail
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -790,6 +795,9 @@ func HasCompany() predicate.FinanceAccount {
 func HasCompanyWith(preds ...predicate.CompanyDetail) predicate.FinanceAccount {
 	return predicate.FinanceAccount(func(s *sql.Selector) {
 		step := newCompanyStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyDetail
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -805,6 +813,9 @@ func HasGroup() predicate.FinanceAccount {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, GroupTable, GroupColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceGroup
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -813,6 +824,38 @@ func HasGroup() predicate.FinanceAccount {
 func HasGroupWith(preds ...predicate.FinanceGroup) predicate.FinanceAccount {
 	return predicate.FinanceAccount(func(s *sql.Selector) {
 		step := newGroupStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceGroup
+		step.Edge.Schema = schemaConfig.FinanceAccount
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasType applies the HasEdge predicate on the "type" edge.
+func HasType() predicate.FinanceAccount {
+	return predicate.FinanceAccount(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, TypeTable, TypeColumn),
+		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceClass
+		step.Edge.Schema = schemaConfig.FinanceAccount
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasTypeWith applies the HasEdge predicate on the "type" edge with a given conditions (other predicates).
+func HasTypeWith(preds ...predicate.FinanceClass) predicate.FinanceAccount {
+	return predicate.FinanceAccount(func(s *sql.Selector) {
+		step := newTypeStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceClass
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -828,6 +871,9 @@ func HasOperations() predicate.FinanceAccount {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, OperationsTable, OperationsColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceOperation
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -836,6 +882,9 @@ func HasOperations() predicate.FinanceAccount {
 func HasOperationsWith(preds ...predicate.FinanceOperation) predicate.FinanceAccount {
 	return predicate.FinanceAccount(func(s *sql.Selector) {
 		step := newOperationsStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceOperation
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

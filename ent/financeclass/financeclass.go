@@ -32,22 +32,31 @@ const (
 	EdgeCompany = "company"
 	// EdgeClasses holds the string denoting the classes edge name in mutations.
 	EdgeClasses = "classes"
+	// EdgeTypes holds the string denoting the types edge name in mutations.
+	EdgeTypes = "types"
 	// Table holds the table name of the financeclass in the database.
-	Table = "finance_classes"
+	Table = "classes"
 	// CompanyTable is the table that holds the company relation/edge.
-	CompanyTable = "finance_classes"
+	CompanyTable = "classes"
 	// CompanyInverseTable is the table name for the CompanyDetail entity.
 	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
 	// ClassesTable is the table that holds the classes relation/edge.
-	ClassesTable = "finance_operations"
+	ClassesTable = "operations"
 	// ClassesInverseTable is the table name for the FinanceOperation entity.
 	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	ClassesInverseTable = "finance_operations"
+	ClassesInverseTable = "operations"
 	// ClassesColumn is the table column denoting the classes relation/edge.
 	ClassesColumn = "class_id"
+	// TypesTable is the table that holds the types relation/edge.
+	TypesTable = "accounts"
+	// TypesInverseTable is the table name for the FinanceAccount entity.
+	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
+	TypesInverseTable = "accounts"
+	// TypesColumn is the table column denoting the types relation/edge.
+	TypesColumn = "type_id"
 )
 
 // Columns holds all SQL columns for financeclass fields.
@@ -62,7 +71,7 @@ var Columns = []string{
 	FieldUpdatedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "finance_classes"
+// ForeignKeys holds the SQL foreign-keys that are owned by the "classes"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",
@@ -157,6 +166,20 @@ func ByClasses(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newClassesStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByTypesCount orders the results by types count.
+func ByTypesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newTypesStep(), opts...)
+	}
+}
+
+// ByTypes orders the results by types terms.
+func ByTypes(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newTypesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newCompanyStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -169,5 +192,12 @@ func newClassesStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(ClassesInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, ClassesTable, ClassesColumn),
+	)
+}
+func newTypesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(TypesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, TypesTable, TypesColumn),
 	)
 }

@@ -84,9 +84,24 @@ func (r *mutationResolver) CreateOwner(ctx context.Context, input model.JobOwner
 	}
 
 	// Otomatik FinanceAccount kaydı oluştur
-	if relErr := helpers.CreateFinanceAccountForEntity(ctx, client, "job_owner", owner.Name, owner.TcNo, owner.TaxNo, owner.TaxAdmin, owner.Phone, owner.Email, owner.Address, "Yapı Sahibi"); relErr != nil {
-		// İlişki oluşturulamazsa log at ama owner'ı döndür
-		fmt.Printf("⚠️ Owner oluşturuldu ama FinanceAccount eklenemedi: %v\n", relErr)
+	if input.YibfNo != nil {
+		// YibfNo üzerinden şirketi bulalım (JobDetail -> JobRelations -> CompanyDetail)
+		comp, err := client.JobDetail.Query().
+			Where(jobdetail.YibfNoEQ(*input.YibfNo)).
+			QueryRelations().
+			QueryCompany().
+			Only(ctx)
+
+		if err == nil {
+			if relErr := helpers.CreateFinanceAccountForEntity(ctx, client, comp.ID, owner.Name, owner.TcNo, owner.TaxNo, owner.TaxAdmin, owner.Phone, owner.Email, owner.Address, "Yapı Sahibi", "Müşteri"); relErr != nil {
+				fmt.Printf("⚠️ Owner oluşturuldu ama FinanceAccount eklenemedi: %v\n", relErr)
+			}
+		} else {
+			fmt.Printf("⚠️ Owner için şirket bulunamadı (YibfNo: %d), FinanceAccount oluşturulmadı: %v\n", *input.YibfNo, err)
+		}
+	} else {
+		// YibfNo yoksa şirket belirsizdir, atlıyoruz.
+		fmt.Printf("ℹ️  YibfNo verilmediği için %s adına FinanceAccount oluşturulmadı (Şirket belirsiz).\n", owner.Name)
 	}
 
 	return owner, nil

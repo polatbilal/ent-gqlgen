@@ -8,8 +8,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
+	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
 )
 
 // JobPaymentsDelete is the builder for deleting a JobPayments entity.
@@ -41,6 +43,8 @@ func (_d *JobPaymentsDelete) ExecX(ctx context.Context) int {
 
 func (_d *JobPaymentsDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(jobpayments.Table, sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt))
+	_spec.Node.Schema = _d.schemaConfig.JobPayments
+	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {

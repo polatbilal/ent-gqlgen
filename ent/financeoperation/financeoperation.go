@@ -34,52 +34,43 @@ const (
 	EdgeResource = "resource"
 	// EdgeGroup holds the string denoting the group edge name in mutations.
 	EdgeGroup = "group"
-	// EdgeOperation holds the string denoting the operation edge name in mutations.
-	EdgeOperation = "operation"
 	// EdgeAccount holds the string denoting the account edge name in mutations.
 	EdgeAccount = "account"
 	// Table holds the table name of the financeoperation in the database.
-	Table = "finance_operations"
+	Table = "operations"
 	// ClassTable is the table that holds the class relation/edge.
-	ClassTable = "finance_operations"
+	ClassTable = "operations"
 	// ClassInverseTable is the table name for the FinanceClass entity.
 	// It exists in this package in order to avoid circular dependency with the "financeclass" package.
-	ClassInverseTable = "finance_classes"
+	ClassInverseTable = "classes"
 	// ClassColumn is the table column denoting the class relation/edge.
 	ClassColumn = "class_id"
 	// CompanyTable is the table that holds the company relation/edge.
-	CompanyTable = "finance_operations"
+	CompanyTable = "operations"
 	// CompanyInverseTable is the table name for the CompanyDetail entity.
 	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
 	// ResourceTable is the table that holds the resource relation/edge.
-	ResourceTable = "finance_operations"
+	ResourceTable = "operations"
 	// ResourceInverseTable is the table name for the FinanceResource entity.
 	// It exists in this package in order to avoid circular dependency with the "financeresource" package.
-	ResourceInverseTable = "finance_resources"
+	ResourceInverseTable = "resources"
 	// ResourceColumn is the table column denoting the resource relation/edge.
 	ResourceColumn = "resource_id"
 	// GroupTable is the table that holds the group relation/edge.
-	GroupTable = "finance_operations"
+	GroupTable = "operations"
 	// GroupInverseTable is the table name for the FinanceGroup entity.
 	// It exists in this package in order to avoid circular dependency with the "financegroup" package.
-	GroupInverseTable = "finance_groups"
+	GroupInverseTable = "groups"
 	// GroupColumn is the table column denoting the group relation/edge.
 	GroupColumn = "group_id"
-	// OperationTable is the table that holds the operation relation/edge.
-	OperationTable = "finance_operations"
-	// OperationInverseTable is the table name for the FinanceGroup entity.
-	// It exists in this package in order to avoid circular dependency with the "financegroup" package.
-	OperationInverseTable = "finance_groups"
-	// OperationColumn is the table column denoting the operation relation/edge.
-	OperationColumn = "operation_id"
 	// AccountTable is the table that holds the account relation/edge.
-	AccountTable = "finance_operations"
+	AccountTable = "operations"
 	// AccountInverseTable is the table name for the FinanceAccount entity.
 	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
-	AccountInverseTable = "finance_accounts"
+	AccountInverseTable = "accounts"
 	// AccountColumn is the table column denoting the account relation/edge.
 	AccountColumn = "account_id"
 )
@@ -95,13 +86,12 @@ var Columns = []string{
 	FieldUpdatedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "finance_operations"
+// ForeignKeys holds the SQL foreign-keys that are owned by the "operations"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",
 	"account_id",
 	"class_id",
-	"operation_id",
 	"group_id",
 	"resource_id",
 }
@@ -196,13 +186,6 @@ func ByGroupField(field string, opts ...sql.OrderTermOption) OrderOption {
 	}
 }
 
-// ByOperationField orders the results by operation field.
-func ByOperationField(field string, opts ...sql.OrderTermOption) OrderOption {
-	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newOperationStep(), sql.OrderByField(field, opts...))
-	}
-}
-
 // ByAccountField orders the results by account field.
 func ByAccountField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
@@ -235,13 +218,6 @@ func newGroupStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(GroupInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.M2O, true, GroupTable, GroupColumn),
-	)
-}
-func newOperationStep() *sqlgraph.Step {
-	return sqlgraph.NewStep(
-		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(OperationInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, OperationTable, OperationColumn),
 	)
 }
 func newAccountStep() *sqlgraph.Step {

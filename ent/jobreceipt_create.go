@@ -221,6 +221,7 @@ func (_c *JobReceiptCreate) createSpec() (*JobReceipt, *sqlgraph.CreateSpec) {
 		_node = &JobReceipt{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobreceipt.Table, sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.JobReceipt
 	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobreceipt.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
@@ -256,6 +257,7 @@ func (_c *JobReceiptCreate) createSpec() (*JobReceipt, *sqlgraph.CreateSpec) {
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.JobReceipt
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

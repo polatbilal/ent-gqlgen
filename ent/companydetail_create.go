@@ -678,6 +678,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 		_node = &CompanyDetail{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(companydetail.Table, sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.CompanyDetail
 	if value, ok := _c.mutation.CompanyCode(); ok {
 		_spec.SetField(companydetail.FieldCompanyCode, field.TypeInt, value)
 		_node.CompanyCode = value
@@ -813,6 +814,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -829,6 +831,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.CompanyUser
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -845,6 +848,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(companytoken.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.CompanyToken
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -861,6 +865,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.CompanyEngineer
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -877,6 +882,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -893,6 +899,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceClass
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -909,6 +916,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceResource
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -925,6 +933,7 @@ func (_c *CompanyDetailCreate) createSpec() (*CompanyDetail, *sqlgraph.CreateSpe
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
