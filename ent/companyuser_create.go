@@ -118,7 +118,6 @@ func (_c *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) {
 		_node = &CompanyUser{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(companyuser.Table, sqlgraph.NewFieldSpec(companyuser.FieldID, field.TypeInt))
 	)
-	_spec.Schema = _c.schemaConfig.CompanyUser
 	if nodes := _c.mutation.CompanyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -130,7 +129,6 @@ func (_c *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) {
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.CompanyUser
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -148,7 +146,6 @@ func (_c *CompanyUserCreate) createSpec() (*CompanyUser, *sqlgraph.CreateSpec) {
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.CompanyUser
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

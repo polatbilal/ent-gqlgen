@@ -25,8 +25,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobRelationsQuery is the builder for querying JobRelations entities.
@@ -112,9 +110,6 @@ func (_q *JobRelationsQuery) QueryJob() *JobDetailQuery {
 			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, true, jobrelations.JobTable, jobrelations.JobColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobDetail
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -137,9 +132,6 @@ func (_q *JobRelationsQuery) QueryOwner() *JobOwnerQuery {
 			sqlgraph.To(jobowner.Table, jobowner.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.OwnerTable, jobrelations.OwnerColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobOwner
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -162,9 +154,6 @@ func (_q *JobRelationsQuery) QueryAuthor() *JobAuthorQuery {
 			sqlgraph.To(jobauthor.Table, jobauthor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.AuthorTable, jobrelations.AuthorColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobAuthor
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -187,9 +176,6 @@ func (_q *JobRelationsQuery) QueryCompany() *CompanyDetailQuery {
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.CompanyTable, jobrelations.CompanyColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -212,9 +198,6 @@ func (_q *JobRelationsQuery) QueryProgress() *JobProgressQuery {
 			sqlgraph.To(jobprogress.Table, jobprogress.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ProgressTable, jobrelations.ProgressColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobProgress
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -237,9 +220,6 @@ func (_q *JobRelationsQuery) QueryContractor() *JobContractorQuery {
 			sqlgraph.To(jobcontractor.Table, jobcontractor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ContractorTable, jobrelations.ContractorColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobContractor
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -262,9 +242,6 @@ func (_q *JobRelationsQuery) QuerySupervisor() *JobSupervisorQuery {
 			sqlgraph.To(jobsupervisor.Table, jobsupervisor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.SupervisorTable, jobrelations.SupervisorColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobSupervisor
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -287,9 +264,6 @@ func (_q *JobRelationsQuery) QueryStatic() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.StaticTable, jobrelations.StaticColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -312,9 +286,6 @@ func (_q *JobRelationsQuery) QueryMechanic() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.MechanicTable, jobrelations.MechanicColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -337,9 +308,6 @@ func (_q *JobRelationsQuery) QueryElectric() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ElectricTable, jobrelations.ElectricColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -362,9 +330,6 @@ func (_q *JobRelationsQuery) QueryInspector() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.InspectorTable, jobrelations.InspectorColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -387,9 +352,6 @@ func (_q *JobRelationsQuery) QueryArchitect() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ArchitectTable, jobrelations.ArchitectColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -412,9 +374,6 @@ func (_q *JobRelationsQuery) QueryController() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ControllerTable, jobrelations.ControllerColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -437,9 +396,6 @@ func (_q *JobRelationsQuery) QueryMechaniccontroller() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.MechaniccontrollerTable, jobrelations.MechaniccontrollerColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -462,9 +418,6 @@ func (_q *JobRelationsQuery) QueryElectriccontroller() *CompanyEngineerQuery {
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ElectriccontrollerTable, jobrelations.ElectriccontrollerColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -487,9 +440,6 @@ func (_q *JobRelationsQuery) QueryFloors() *JobFloorQuery {
 			sqlgraph.To(jobfloor.Table, jobfloor.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.FloorsTable, jobrelations.FloorsColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobFloor
-		step.Edge.Schema = schemaConfig.JobFloor
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -512,9 +462,6 @@ func (_q *JobRelationsQuery) QueryPayments() *JobPaymentsQuery {
 			sqlgraph.To(jobpayments.Table, jobpayments.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.PaymentsTable, jobrelations.PaymentsColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobPayments
-		step.Edge.Schema = schemaConfig.JobPayments
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -537,9 +484,6 @@ func (_q *JobRelationsQuery) QueryReceipts() *JobReceiptQuery {
 			sqlgraph.To(jobreceipt.Table, jobreceipt.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.ReceiptsTable, jobrelations.ReceiptsColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobReceipt
-		step.Edge.Schema = schemaConfig.JobReceipt
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -1075,8 +1019,6 @@ func (_q *JobRelationsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	_spec.Node.Schema = _q.schemaConfig.JobRelations
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -1805,8 +1747,6 @@ func (_q *JobRelationsQuery) loadReceipts(ctx context.Context, query *JobReceipt
 
 func (_q *JobRelationsQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
-	_spec.Node.Schema = _q.schemaConfig.JobRelations
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -1872,9 +1812,6 @@ func (_q *JobRelationsQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	t1.Schema(_q.schemaConfig.JobRelations)
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
-	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

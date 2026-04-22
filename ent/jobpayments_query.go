@@ -14,8 +14,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobpayments"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobPaymentsQuery is the builder for querying JobPayments entities.
@@ -81,9 +79,6 @@ func (_q *JobPaymentsQuery) QueryPayments() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobpayments.PaymentsTable, jobpayments.PaymentsColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobPayments
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -398,8 +393,6 @@ func (_q *JobPaymentsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	_spec.Node.Schema = _q.schemaConfig.JobPayments
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -461,8 +454,6 @@ func (_q *JobPaymentsQuery) loadPayments(ctx context.Context, query *JobRelation
 
 func (_q *JobPaymentsQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
-	_spec.Node.Schema = _q.schemaConfig.JobPayments
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -528,9 +519,6 @@ func (_q *JobPaymentsQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	t1.Schema(_q.schemaConfig.JobPayments)
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
-	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

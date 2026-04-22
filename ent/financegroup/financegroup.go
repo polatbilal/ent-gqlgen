@@ -33,19 +33,19 @@ const (
 	// EdgeFinanceAccounts holds the string denoting the finance_accounts edge name in mutations.
 	EdgeFinanceAccounts = "finance_accounts"
 	// Table holds the table name of the financegroup in the database.
-	Table = "groups"
+	Table = "finance_groups"
 	// GroupsTable is the table that holds the groups relation/edge.
-	GroupsTable = "operations"
+	GroupsTable = "finance_operations"
 	// GroupsInverseTable is the table name for the FinanceOperation entity.
 	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	GroupsInverseTable = "operations"
+	GroupsInverseTable = "finance_operations"
 	// GroupsColumn is the table column denoting the groups relation/edge.
 	GroupsColumn = "group_id"
 	// FinanceAccountsTable is the table that holds the finance_accounts relation/edge.
-	FinanceAccountsTable = "accounts"
+	FinanceAccountsTable = "finance_accounts"
 	// FinanceAccountsInverseTable is the table name for the FinanceAccount entity.
 	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
-	FinanceAccountsInverseTable = "accounts"
+	FinanceAccountsInverseTable = "finance_accounts"
 	// FinanceAccountsColumn is the table column denoting the finance_accounts relation/edge.
 	FinanceAccountsColumn = "group_id"
 )

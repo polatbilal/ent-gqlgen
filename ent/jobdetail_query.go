@@ -15,8 +15,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobDetailQuery is the builder for querying JobDetail entities.
@@ -81,9 +79,6 @@ func (_q *JobDetailQuery) QueryRelations() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, false, jobdetail.RelationsTable, jobdetail.RelationsColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -391,8 +386,6 @@ func (_q *JobDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Jo
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	_spec.Node.Schema = _q.schemaConfig.JobDetail
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -450,8 +443,6 @@ func (_q *JobDetailQuery) loadRelations(ctx context.Context, query *JobRelations
 
 func (_q *JobDetailQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
-	_spec.Node.Schema = _q.schemaConfig.JobDetail
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -517,9 +508,6 @@ func (_q *JobDetailQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	t1.Schema(_q.schemaConfig.JobDetail)
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
-	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

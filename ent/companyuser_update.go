@@ -14,8 +14,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 	"github.com/polatbilal/ent-gqlgen/ent/user"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // CompanyUserUpdate is the builder for updating CompanyUser entities.
@@ -133,7 +131,6 @@ func (_u *CompanyUserUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.CompanyUser
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
@@ -147,7 +144,6 @@ func (_u *CompanyUserUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.CompanyUser
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -164,7 +160,6 @@ func (_u *CompanyUserUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.CompanyUser
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.UserIDs(); len(nodes) > 0 {
@@ -178,14 +173,11 @@ func (_u *CompanyUserUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.CompanyUser
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.CompanyUser
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companyuser.Label}
@@ -338,7 +330,6 @@ func (_u *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUser
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.CompanyUser
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
@@ -352,7 +343,6 @@ func (_u *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUser
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.CompanyUser
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -369,7 +359,6 @@ func (_u *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUser
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.CompanyUser
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.UserIDs(); len(nodes) > 0 {
@@ -383,14 +372,11 @@ func (_u *CompanyUserUpdateOne) sqlSave(ctx context.Context) (_node *CompanyUser
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.CompanyUser
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.CompanyUser
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	_node = &CompanyUser{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues

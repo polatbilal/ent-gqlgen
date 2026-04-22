@@ -4,8 +4,6 @@ import (
 	"time"
 
 	"entgo.io/ent"
-	"entgo.io/ent/dialect/entsql"
-	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -37,14 +35,5 @@ func (JobFloor) Fields() []ent.Field {
 func (JobFloor) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("floor", JobRelations.Type).Ref("floors").Unique(),
-	}
-}
-
-// Annotations of the JobFloor.
-func (JobFloor) Annotations() []schema.Annotation {
-	return []schema.Annotation{
-		entsql.Annotation{
-			Schema: "core",
-		},
 	}
 }

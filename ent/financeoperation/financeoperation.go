@@ -37,40 +37,40 @@ const (
 	// EdgeAccount holds the string denoting the account edge name in mutations.
 	EdgeAccount = "account"
 	// Table holds the table name of the financeoperation in the database.
-	Table = "operations"
+	Table = "finance_operations"
 	// ClassTable is the table that holds the class relation/edge.
-	ClassTable = "operations"
+	ClassTable = "finance_operations"
 	// ClassInverseTable is the table name for the FinanceClass entity.
 	// It exists in this package in order to avoid circular dependency with the "financeclass" package.
-	ClassInverseTable = "classes"
+	ClassInverseTable = "finance_classes"
 	// ClassColumn is the table column denoting the class relation/edge.
 	ClassColumn = "class_id"
 	// CompanyTable is the table that holds the company relation/edge.
-	CompanyTable = "operations"
+	CompanyTable = "finance_operations"
 	// CompanyInverseTable is the table name for the CompanyDetail entity.
 	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
 	// ResourceTable is the table that holds the resource relation/edge.
-	ResourceTable = "operations"
+	ResourceTable = "finance_operations"
 	// ResourceInverseTable is the table name for the FinanceResource entity.
 	// It exists in this package in order to avoid circular dependency with the "financeresource" package.
-	ResourceInverseTable = "resources"
+	ResourceInverseTable = "finance_resources"
 	// ResourceColumn is the table column denoting the resource relation/edge.
 	ResourceColumn = "resource_id"
 	// GroupTable is the table that holds the group relation/edge.
-	GroupTable = "operations"
+	GroupTable = "finance_operations"
 	// GroupInverseTable is the table name for the FinanceGroup entity.
 	// It exists in this package in order to avoid circular dependency with the "financegroup" package.
-	GroupInverseTable = "groups"
+	GroupInverseTable = "finance_groups"
 	// GroupColumn is the table column denoting the group relation/edge.
 	GroupColumn = "group_id"
 	// AccountTable is the table that holds the account relation/edge.
-	AccountTable = "operations"
+	AccountTable = "finance_operations"
 	// AccountInverseTable is the table name for the FinanceAccount entity.
 	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
-	AccountInverseTable = "accounts"
+	AccountInverseTable = "finance_accounts"
 	// AccountColumn is the table column denoting the account relation/edge.
 	AccountColumn = "account_id"
 )
@@ -86,7 +86,7 @@ var Columns = []string{
 	FieldUpdatedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "operations"
+// ForeignKeys holds the SQL foreign-keys that are owned by the "finance_operations"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",

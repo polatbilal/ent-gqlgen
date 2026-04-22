@@ -4,8 +4,6 @@ import (
 	"time"
 
 	"entgo.io/ent"
-	"entgo.io/ent/dialect/entsql"
-	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -50,14 +48,5 @@ func (JobRelations) Edges() []ent.Edge {
 		edge.To("floors", JobFloor.Type).StorageKey(edge.Column("relations_id")),
 		edge.To("payments", JobPayments.Type).StorageKey(edge.Column("relations_id")),
 		edge.To("receipts", JobReceipt.Type).StorageKey(edge.Column("relations_id")),
-	}
-}
-
-// Annotations of the JobRelations.
-func (JobRelations) Annotations() []schema.Annotation {
-	return []schema.Annotation{
-		entsql.Annotation{
-			Schema: "core",
-		},
 	}
 }

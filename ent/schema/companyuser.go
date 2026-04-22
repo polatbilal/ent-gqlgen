@@ -2,8 +2,6 @@ package schema
 
 import (
 	"entgo.io/ent"
-	"entgo.io/ent/dialect/entsql"
-	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/index"
 )
@@ -32,14 +30,5 @@ func (CompanyUser) Indexes() []ent.Index {
 		index.Fields().
 			Edges("user", "company").
 			Unique(),
-	}
-}
-
-// Annotations of the CompanyUser.
-func (CompanyUser) Annotations() []schema.Annotation {
-	return []schema.Annotation{
-		entsql.Annotation{
-			Schema: "core",
-		},
 	}
 }

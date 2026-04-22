@@ -8,10 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // FinanceClassDelete is the builder for deleting a FinanceClass entity.
@@ -43,8 +41,6 @@ func (_d *FinanceClassDelete) ExecX(ctx context.Context) int {
 
 func (_d *FinanceClassDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(financeclass.Table, sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt))
-	_spec.Node.Schema = _d.schemaConfig.FinanceClass
-	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {

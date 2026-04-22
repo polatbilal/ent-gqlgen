@@ -14,8 +14,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // CompanyTokenQuery is the builder for querying CompanyToken entities.
@@ -81,9 +79,6 @@ func (_q *CompanyTokenQuery) QueryCompany() *CompanyDetailQuery {
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companytoken.CompanyTable, companytoken.CompanyColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.CompanyToken
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -398,8 +393,6 @@ func (_q *CompanyTokenQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	_spec.Node.Schema = _q.schemaConfig.CompanyToken
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -461,8 +454,6 @@ func (_q *CompanyTokenQuery) loadCompany(ctx context.Context, query *CompanyDeta
 
 func (_q *CompanyTokenQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
-	_spec.Node.Schema = _q.schemaConfig.CompanyToken
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -528,9 +519,6 @@ func (_q *CompanyTokenQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	t1.Schema(_q.schemaConfig.CompanyToken)
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
-	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

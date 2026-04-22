@@ -35,8 +35,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
 	"github.com/polatbilal/ent-gqlgen/ent/user"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // Client is the client that holds all ent builders.
@@ -132,8 +130,6 @@ type (
 		hooks *hooks
 		// interceptors to execute on queries.
 		inters *inters
-		// schemaConfig contains alternative names for all tables.
-		schemaConfig SchemaConfig
 	}
 	// Option function to configure the client.
 	Option func(*config)
@@ -142,7 +138,6 @@ type (
 // newConfig creates a new config for the client.
 func newConfig(opts ...Option) config {
 	cfg := config{log: log.Println, hooks: &hooks{}, inters: &inters{}}
-	cfg.schemaConfig = DefaultSchemaConfig
 	cfg.options(opts...)
 	return cfg
 }
@@ -490,9 +485,6 @@ func (c *CompanyDetailClient) QueryJobs(_m *CompanyDetail) *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.JobsTable, companydetail.JobsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -509,9 +501,6 @@ func (c *CompanyDetailClient) QueryUsers(_m *CompanyDetail) *CompanyUserQuery {
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.UsersTable, companydetail.UsersColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyUser
-		step.Edge.Schema = schemaConfig.CompanyUser
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -528,9 +517,6 @@ func (c *CompanyDetailClient) QueryTokens(_m *CompanyDetail) *CompanyTokenQuery 
 			sqlgraph.To(companytoken.Table, companytoken.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.TokensTable, companydetail.TokensColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyToken
-		step.Edge.Schema = schemaConfig.CompanyToken
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -547,9 +533,6 @@ func (c *CompanyDetailClient) QueryEngineers(_m *CompanyDetail) *CompanyEngineer
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.EngineersTable, companydetail.EngineersColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.CompanyEngineer
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -566,9 +549,6 @@ func (c *CompanyDetailClient) QueryOperations(_m *CompanyDetail) *FinanceOperati
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.OperationsTable, companydetail.OperationsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceOperation
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -585,9 +565,6 @@ func (c *CompanyDetailClient) QueryMethods(_m *CompanyDetail) *FinanceClassQuery
 			sqlgraph.To(financeclass.Table, financeclass.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.MethodsTable, companydetail.MethodsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceClass
-		step.Edge.Schema = schemaConfig.FinanceClass
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -604,9 +581,6 @@ func (c *CompanyDetailClient) QueryResources(_m *CompanyDetail) *FinanceResource
 			sqlgraph.To(financeresource.Table, financeresource.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.ResourcesTable, companydetail.ResourcesColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceResource
-		step.Edge.Schema = schemaConfig.FinanceResource
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -623,9 +597,6 @@ func (c *CompanyDetailClient) QueryAccounts(_m *CompanyDetail) *FinanceAccountQu
 			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.AccountsTable, companydetail.AccountsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceAccount
-		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -775,9 +746,6 @@ func (c *CompanyEngineerClient) QueryCompany(_m *CompanyEngineer) *CompanyDetail
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyengineer.CompanyTable, companyengineer.CompanyColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.CompanyEngineer
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -794,9 +762,6 @@ func (c *CompanyEngineerClient) QueryStatics(_m *CompanyEngineer) *JobRelationsQ
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.StaticsTable, companyengineer.StaticsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -813,9 +778,6 @@ func (c *CompanyEngineerClient) QueryMechanics(_m *CompanyEngineer) *JobRelation
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.MechanicsTable, companyengineer.MechanicsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -832,9 +794,6 @@ func (c *CompanyEngineerClient) QueryElectrics(_m *CompanyEngineer) *JobRelation
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ElectricsTable, companyengineer.ElectricsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -851,9 +810,6 @@ func (c *CompanyEngineerClient) QueryInspectors(_m *CompanyEngineer) *JobRelatio
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.InspectorsTable, companyengineer.InspectorsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -870,9 +826,6 @@ func (c *CompanyEngineerClient) QueryArchitects(_m *CompanyEngineer) *JobRelatio
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ArchitectsTable, companyengineer.ArchitectsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -889,9 +842,6 @@ func (c *CompanyEngineerClient) QueryControllers(_m *CompanyEngineer) *JobRelati
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ControllersTable, companyengineer.ControllersColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -908,9 +858,6 @@ func (c *CompanyEngineerClient) QueryMechaniccontrollers(_m *CompanyEngineer) *J
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.MechaniccontrollersTable, companyengineer.MechaniccontrollersColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -927,9 +874,6 @@ func (c *CompanyEngineerClient) QueryElectriccontrollers(_m *CompanyEngineer) *J
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, companyengineer.ElectriccontrollersTable, companyengineer.ElectriccontrollersColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1079,9 +1023,6 @@ func (c *CompanyTokenClient) QueryCompany(_m *CompanyToken) *CompanyDetailQuery 
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companytoken.CompanyTable, companytoken.CompanyColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.CompanyToken
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1231,9 +1172,6 @@ func (c *CompanyUserClient) QueryCompany(_m *CompanyUser) *CompanyDetailQuery {
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.CompanyTable, companyuser.CompanyColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.CompanyUser
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1250,9 +1188,6 @@ func (c *CompanyUserClient) QueryUser(_m *CompanyUser) *UserQuery {
 			sqlgraph.To(user.Table, user.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, companyuser.UserTable, companyuser.UserColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.User
-		step.Edge.Schema = schemaConfig.CompanyUser
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1402,9 +1337,6 @@ func (c *FinanceAccountClient) QueryCompany(_m *FinanceAccount) *CompanyDetailQu
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeaccount.CompanyTable, financeaccount.CompanyColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1421,9 +1353,6 @@ func (c *FinanceAccountClient) QueryGroup(_m *FinanceAccount) *FinanceGroupQuery
 			sqlgraph.To(financegroup.Table, financegroup.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeaccount.GroupTable, financeaccount.GroupColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceGroup
-		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1440,9 +1369,6 @@ func (c *FinanceAccountClient) QueryType(_m *FinanceAccount) *FinanceClassQuery 
 			sqlgraph.To(financeclass.Table, financeclass.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeaccount.TypeTable, financeaccount.TypeColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceClass
-		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1459,9 +1385,6 @@ func (c *FinanceAccountClient) QueryOperations(_m *FinanceAccount) *FinanceOpera
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, financeaccount.OperationsTable, financeaccount.OperationsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceOperation
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1611,9 +1534,6 @@ func (c *FinanceClassClient) QueryCompany(_m *FinanceClass) *CompanyDetailQuery 
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeclass.CompanyTable, financeclass.CompanyColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.FinanceClass
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1630,9 +1550,6 @@ func (c *FinanceClassClient) QueryClasses(_m *FinanceClass) *FinanceOperationQue
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, financeclass.ClassesTable, financeclass.ClassesColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceOperation
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1649,9 +1566,6 @@ func (c *FinanceClassClient) QueryTypes(_m *FinanceClass) *FinanceAccountQuery {
 			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, financeclass.TypesTable, financeclass.TypesColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceAccount
-		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1801,9 +1715,6 @@ func (c *FinanceGroupClient) QueryGroups(_m *FinanceGroup) *FinanceOperationQuer
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, financegroup.GroupsTable, financegroup.GroupsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceOperation
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1820,9 +1731,6 @@ func (c *FinanceGroupClient) QueryFinanceAccounts(_m *FinanceGroup) *FinanceAcco
 			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, financegroup.FinanceAccountsTable, financegroup.FinanceAccountsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceAccount
-		step.Edge.Schema = schemaConfig.FinanceAccount
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1972,9 +1880,6 @@ func (c *FinanceOperationClient) QueryClass(_m *FinanceOperation) *FinanceClassQ
 			sqlgraph.To(financeclass.Table, financeclass.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.ClassTable, financeoperation.ClassColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceClass
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -1991,9 +1896,6 @@ func (c *FinanceOperationClient) QueryCompany(_m *FinanceOperation) *CompanyDeta
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.CompanyTable, financeoperation.CompanyColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2010,9 +1912,6 @@ func (c *FinanceOperationClient) QueryResource(_m *FinanceOperation) *FinanceRes
 			sqlgraph.To(financeresource.Table, financeresource.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.ResourceTable, financeoperation.ResourceColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceResource
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2029,9 +1928,6 @@ func (c *FinanceOperationClient) QueryGroup(_m *FinanceOperation) *FinanceGroupQ
 			sqlgraph.To(financegroup.Table, financegroup.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.GroupTable, financeoperation.GroupColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceGroup
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2048,9 +1944,6 @@ func (c *FinanceOperationClient) QueryAccount(_m *FinanceOperation) *FinanceAcco
 			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.AccountTable, financeoperation.AccountColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceAccount
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2200,9 +2093,6 @@ func (c *FinanceResourceClient) QueryCompany(_m *FinanceResource) *CompanyDetail
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeresource.CompanyTable, financeresource.CompanyColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.FinanceResource
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2219,9 +2109,6 @@ func (c *FinanceResourceClient) QueryResources(_m *FinanceResource) *FinanceOper
 			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, financeresource.ResourcesTable, financeresource.ResourcesColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.FinanceOperation
-		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2371,9 +2258,6 @@ func (c *JobAuthorClient) QueryAuthors(_m *JobAuthor) *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobauthor.AuthorsTable, jobauthor.AuthorsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2523,9 +2407,6 @@ func (c *JobContractorClient) QueryContractors(_m *JobContractor) *JobRelationsQ
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobcontractor.ContractorsTable, jobcontractor.ContractorsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2675,9 +2556,6 @@ func (c *JobDetailClient) QueryRelations(_m *JobDetail) *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, false, jobdetail.RelationsTable, jobdetail.RelationsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2827,9 +2705,6 @@ func (c *JobFloorClient) QueryFloor(_m *JobFloor) *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobfloor.FloorTable, jobfloor.FloorColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobFloor
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -2979,9 +2854,6 @@ func (c *JobOwnerClient) QueryOwners(_m *JobOwner) *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobowner.OwnersTable, jobowner.OwnersColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3131,9 +3003,6 @@ func (c *JobPaymentsClient) QueryPayments(_m *JobPayments) *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobpayments.PaymentsTable, jobpayments.PaymentsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobPayments
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3283,9 +3152,6 @@ func (c *JobProgressClient) QueryProgress(_m *JobProgress) *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobprogress.ProgressTable, jobprogress.ProgressColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3435,9 +3301,6 @@ func (c *JobReceiptClient) QueryReceipt(_m *JobReceipt) *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobreceipt.ReceiptTable, jobreceipt.ReceiptColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobReceipt
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3587,9 +3450,6 @@ func (c *JobRelationsClient) QueryJob(_m *JobRelations) *JobDetailQuery {
 			sqlgraph.To(jobdetail.Table, jobdetail.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, true, jobrelations.JobTable, jobrelations.JobColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobDetail
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3606,9 +3466,6 @@ func (c *JobRelationsClient) QueryOwner(_m *JobRelations) *JobOwnerQuery {
 			sqlgraph.To(jobowner.Table, jobowner.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.OwnerTable, jobrelations.OwnerColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobOwner
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3625,9 +3482,6 @@ func (c *JobRelationsClient) QueryAuthor(_m *JobRelations) *JobAuthorQuery {
 			sqlgraph.To(jobauthor.Table, jobauthor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.AuthorTable, jobrelations.AuthorColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobAuthor
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3644,9 +3498,6 @@ func (c *JobRelationsClient) QueryCompany(_m *JobRelations) *CompanyDetailQuery 
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.CompanyTable, jobrelations.CompanyColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3663,9 +3514,6 @@ func (c *JobRelationsClient) QueryProgress(_m *JobRelations) *JobProgressQuery {
 			sqlgraph.To(jobprogress.Table, jobprogress.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ProgressTable, jobrelations.ProgressColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobProgress
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3682,9 +3530,6 @@ func (c *JobRelationsClient) QueryContractor(_m *JobRelations) *JobContractorQue
 			sqlgraph.To(jobcontractor.Table, jobcontractor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ContractorTable, jobrelations.ContractorColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobContractor
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3701,9 +3546,6 @@ func (c *JobRelationsClient) QuerySupervisor(_m *JobRelations) *JobSupervisorQue
 			sqlgraph.To(jobsupervisor.Table, jobsupervisor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.SupervisorTable, jobrelations.SupervisorColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobSupervisor
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3720,9 +3562,6 @@ func (c *JobRelationsClient) QueryStatic(_m *JobRelations) *CompanyEngineerQuery
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.StaticTable, jobrelations.StaticColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3739,9 +3578,6 @@ func (c *JobRelationsClient) QueryMechanic(_m *JobRelations) *CompanyEngineerQue
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.MechanicTable, jobrelations.MechanicColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3758,9 +3594,6 @@ func (c *JobRelationsClient) QueryElectric(_m *JobRelations) *CompanyEngineerQue
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ElectricTable, jobrelations.ElectricColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3777,9 +3610,6 @@ func (c *JobRelationsClient) QueryInspector(_m *JobRelations) *CompanyEngineerQu
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.InspectorTable, jobrelations.InspectorColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3796,9 +3626,6 @@ func (c *JobRelationsClient) QueryArchitect(_m *JobRelations) *CompanyEngineerQu
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ArchitectTable, jobrelations.ArchitectColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3815,9 +3642,6 @@ func (c *JobRelationsClient) QueryController(_m *JobRelations) *CompanyEngineerQ
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ControllerTable, jobrelations.ControllerColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3834,9 +3658,6 @@ func (c *JobRelationsClient) QueryMechaniccontroller(_m *JobRelations) *CompanyE
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.MechaniccontrollerTable, jobrelations.MechaniccontrollerColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3853,9 +3674,6 @@ func (c *JobRelationsClient) QueryElectriccontroller(_m *JobRelations) *CompanyE
 			sqlgraph.To(companyengineer.Table, companyengineer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, jobrelations.ElectriccontrollerTable, jobrelations.ElectriccontrollerColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyEngineer
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3872,9 +3690,6 @@ func (c *JobRelationsClient) QueryFloors(_m *JobRelations) *JobFloorQuery {
 			sqlgraph.To(jobfloor.Table, jobfloor.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.FloorsTable, jobrelations.FloorsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobFloor
-		step.Edge.Schema = schemaConfig.JobFloor
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3891,9 +3706,6 @@ func (c *JobRelationsClient) QueryPayments(_m *JobRelations) *JobPaymentsQuery {
 			sqlgraph.To(jobpayments.Table, jobpayments.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.PaymentsTable, jobrelations.PaymentsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobPayments
-		step.Edge.Schema = schemaConfig.JobPayments
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -3910,9 +3722,6 @@ func (c *JobRelationsClient) QueryReceipts(_m *JobRelations) *JobReceiptQuery {
 			sqlgraph.To(jobreceipt.Table, jobreceipt.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobrelations.ReceiptsTable, jobrelations.ReceiptsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobReceipt
-		step.Edge.Schema = schemaConfig.JobReceipt
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -4062,9 +3871,6 @@ func (c *JobSupervisorClient) QuerySupervisors(_m *JobSupervisor) *JobRelationsQ
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobsupervisor.SupervisorsTable, jobsupervisor.SupervisorsColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -4214,9 +4020,6 @@ func (c *UserClient) QueryCompanies(_m *User) *CompanyUserQuery {
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, user.CompaniesTable, user.CompaniesColumn),
 		)
-		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.CompanyUser
-		step.Edge.Schema = schemaConfig.CompanyUser
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -4263,42 +4066,3 @@ type (
 		JobReceipt, JobRelations, JobSupervisor, User []ent.Interceptor
 	}
 )
-
-var (
-	// DefaultSchemaConfig represents the default schema names for all tables as defined in ent/schema.
-	DefaultSchemaConfig = SchemaConfig{
-		CompanyDetail:    tableSchemas[0],
-		CompanyEngineer:  tableSchemas[0],
-		CompanyToken:     tableSchemas[0],
-		CompanyUser:      tableSchemas[0],
-		FinanceAccount:   tableSchemas[1],
-		FinanceClass:     tableSchemas[1],
-		FinanceGroup:     tableSchemas[1],
-		FinanceOperation: tableSchemas[1],
-		FinanceResource:  tableSchemas[1],
-		JobAuthor:        tableSchemas[0],
-		JobContractor:    tableSchemas[0],
-		JobDetail:        tableSchemas[0],
-		JobFloor:         tableSchemas[0],
-		JobOwner:         tableSchemas[0],
-		JobPayments:      tableSchemas[0],
-		JobProgress:      tableSchemas[0],
-		JobReceipt:       tableSchemas[0],
-		JobRelations:     tableSchemas[0],
-		JobSupervisor:    tableSchemas[0],
-		User:             tableSchemas[0],
-	}
-	tableSchemas = [...]string{"core", "finance"}
-)
-
-// SchemaConfig represents alternative schema names for all tables
-// that can be passed at runtime.
-type SchemaConfig = internal.SchemaConfig
-
-// AlternateSchemas allows alternate schema names to be
-// passed into ent operations.
-func AlternateSchema(schemaConfig SchemaConfig) Option {
-	return func(c *config) {
-		c.schemaConfig = schemaConfig
-	}
-}

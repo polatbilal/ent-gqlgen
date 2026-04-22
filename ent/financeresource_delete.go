@@ -8,10 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // FinanceResourceDelete is the builder for deleting a FinanceResource entity.
@@ -43,8 +41,6 @@ func (_d *FinanceResourceDelete) ExecX(ctx context.Context) int {
 
 func (_d *FinanceResourceDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(financeresource.Table, sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt))
-	_spec.Node.Schema = _d.schemaConfig.FinanceResource
-	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {

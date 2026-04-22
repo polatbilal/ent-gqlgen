@@ -15,8 +15,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobProgressQuery is the builder for querying JobProgress entities.
@@ -82,9 +80,6 @@ func (_q *JobProgressQuery) QueryProgress() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobprogress.ProgressTable, jobprogress.ProgressColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -392,8 +387,6 @@ func (_q *JobProgressQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	_spec.Node.Schema = _q.schemaConfig.JobProgress
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -462,8 +455,6 @@ func (_q *JobProgressQuery) loadProgress(ctx context.Context, query *JobRelation
 
 func (_q *JobProgressQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
-	_spec.Node.Schema = _q.schemaConfig.JobProgress
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -529,9 +520,6 @@ func (_q *JobProgressQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	t1.Schema(_q.schemaConfig.JobProgress)
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
-	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

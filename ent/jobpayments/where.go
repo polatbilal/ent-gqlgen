@@ -9,8 +9,6 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 	"github.com/shopspring/decimal"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // ID filters vertices based on their ID field.
@@ -920,9 +918,6 @@ func HasPayments() predicate.JobPayments {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, PaymentsTable, PaymentsColumn),
 		)
-		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobPayments
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -931,9 +926,6 @@ func HasPayments() predicate.JobPayments {
 func HasPaymentsWith(preds ...predicate.JobRelations) predicate.JobPayments {
 	return predicate.JobPayments(func(s *sql.Selector) {
 		step := newPaymentsStep()
-		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobPayments
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

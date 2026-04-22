@@ -4,8 +4,6 @@ import (
 	"time"
 
 	"entgo.io/ent"
-	"entgo.io/ent/dialect/entsql"
-	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -32,14 +30,5 @@ func (JobReceipt) Fields() []ent.Field {
 func (JobReceipt) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("receipt", JobRelations.Type).Ref("receipts").Unique(),
-	}
-}
-
-// Annotations of the JobReceipt.
-func (JobReceipt) Annotations() []schema.Annotation {
-	return []schema.Annotation{
-		entsql.Annotation{
-			Schema: "core",
-		},
 	}
 }

@@ -8,10 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
+	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 )
 
 // CompanyTokenDelete is the builder for deleting a CompanyToken entity.
@@ -43,8 +41,6 @@ func (_d *CompanyTokenDelete) ExecX(ctx context.Context) int {
 
 func (_d *CompanyTokenDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(companytoken.Table, sqlgraph.NewFieldSpec(companytoken.FieldID, field.TypeInt))
-	_spec.Node.Schema = _d.schemaConfig.CompanyToken
-	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {

@@ -14,8 +14,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobContractorUpdate is the builder for updating JobContractor entities.
@@ -441,7 +439,6 @@ func (_u *JobContractorUpdate) sqlSave(ctx context.Context) (_node int, err erro
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedContractorsIDs(); len(nodes) > 0 && !_u.mutation.ContractorsCleared() {
@@ -455,7 +452,6 @@ func (_u *JobContractorUpdate) sqlSave(ctx context.Context) (_node int, err erro
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -472,14 +468,11 @@ func (_u *JobContractorUpdate) sqlSave(ctx context.Context) (_node int, err erro
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.JobContractor
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobcontractor.Label}
@@ -940,7 +933,6 @@ func (_u *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobContra
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedContractorsIDs(); len(nodes) > 0 && !_u.mutation.ContractorsCleared() {
@@ -954,7 +946,6 @@ func (_u *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobContra
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -971,14 +962,11 @@ func (_u *JobContractorUpdateOne) sqlSave(ctx context.Context) (_node *JobContra
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.JobContractor
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	_node = &JobContractor{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues

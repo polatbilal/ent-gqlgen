@@ -123,31 +123,31 @@ const (
 	// EngineersColumn is the table column denoting the engineers relation/edge.
 	EngineersColumn = "company_id"
 	// OperationsTable is the table that holds the operations relation/edge.
-	OperationsTable = "operations"
+	OperationsTable = "finance_operations"
 	// OperationsInverseTable is the table name for the FinanceOperation entity.
 	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	OperationsInverseTable = "operations"
+	OperationsInverseTable = "finance_operations"
 	// OperationsColumn is the table column denoting the operations relation/edge.
 	OperationsColumn = "company_id"
 	// MethodsTable is the table that holds the methods relation/edge.
-	MethodsTable = "classes"
+	MethodsTable = "finance_classes"
 	// MethodsInverseTable is the table name for the FinanceClass entity.
 	// It exists in this package in order to avoid circular dependency with the "financeclass" package.
-	MethodsInverseTable = "classes"
+	MethodsInverseTable = "finance_classes"
 	// MethodsColumn is the table column denoting the methods relation/edge.
 	MethodsColumn = "company_id"
 	// ResourcesTable is the table that holds the resources relation/edge.
-	ResourcesTable = "resources"
+	ResourcesTable = "finance_resources"
 	// ResourcesInverseTable is the table name for the FinanceResource entity.
 	// It exists in this package in order to avoid circular dependency with the "financeresource" package.
-	ResourcesInverseTable = "resources"
+	ResourcesInverseTable = "finance_resources"
 	// ResourcesColumn is the table column denoting the resources relation/edge.
 	ResourcesColumn = "company_id"
 	// AccountsTable is the table that holds the accounts relation/edge.
-	AccountsTable = "accounts"
+	AccountsTable = "finance_accounts"
 	// AccountsInverseTable is the table name for the FinanceAccount entity.
 	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
-	AccountsInverseTable = "accounts"
+	AccountsInverseTable = "finance_accounts"
 	// AccountsColumn is the table column denoting the accounts relation/edge.
 	AccountsColumn = "company_id"
 )

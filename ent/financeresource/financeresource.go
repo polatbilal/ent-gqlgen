@@ -25,19 +25,19 @@ const (
 	// EdgeResources holds the string denoting the resources edge name in mutations.
 	EdgeResources = "resources"
 	// Table holds the table name of the financeresource in the database.
-	Table = "resources"
+	Table = "finance_resources"
 	// CompanyTable is the table that holds the company relation/edge.
-	CompanyTable = "resources"
+	CompanyTable = "finance_resources"
 	// CompanyInverseTable is the table name for the CompanyDetail entity.
 	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
 	// ResourcesTable is the table that holds the resources relation/edge.
-	ResourcesTable = "operations"
+	ResourcesTable = "finance_operations"
 	// ResourcesInverseTable is the table name for the FinanceOperation entity.
 	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	ResourcesInverseTable = "operations"
+	ResourcesInverseTable = "finance_operations"
 	// ResourcesColumn is the table column denoting the resources relation/edge.
 	ResourcesColumn = "resource_id"
 )
@@ -50,7 +50,7 @@ var Columns = []string{
 	FieldUpdatedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "resources"
+// ForeignKeys holds the SQL foreign-keys that are owned by the "finance_resources"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",

@@ -15,8 +15,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 	"github.com/polatbilal/ent-gqlgen/ent/user"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // UserQuery is the builder for querying User entities.
@@ -82,9 +80,6 @@ func (_q *UserQuery) QueryCompanies() *CompanyUserQuery {
 			sqlgraph.To(companyuser.Table, companyuser.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, user.CompaniesTable, user.CompaniesColumn),
 		)
-		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.CompanyUser
-		step.Edge.Schema = schemaConfig.CompanyUser
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -392,8 +387,6 @@ func (_q *UserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*User, e
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	_spec.Node.Schema = _q.schemaConfig.User
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -462,8 +455,6 @@ func (_q *UserQuery) loadCompanies(ctx context.Context, query *CompanyUserQuery,
 
 func (_q *UserQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
-	_spec.Node.Schema = _q.schemaConfig.User
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -529,9 +520,6 @@ func (_q *UserQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	t1.Schema(_q.schemaConfig.User)
-	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
-	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

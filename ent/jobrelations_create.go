@@ -477,7 +477,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 		_node = &JobRelations{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobrelations.Table, sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt))
 	)
-	_spec.Schema = _c.schemaConfig.JobRelations
 	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobrelations.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
@@ -501,7 +500,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobdetail.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -519,7 +517,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -537,7 +534,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobauthor.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -555,7 +551,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -573,7 +568,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobprogress.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -591,7 +585,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobcontractor.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -609,7 +602,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobsupervisor.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -627,7 +619,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -645,7 +636,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -663,7 +653,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -681,7 +670,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -699,7 +687,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -717,7 +704,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -735,7 +721,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -753,7 +738,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companyengineer.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -771,7 +755,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobfloor.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobFloor
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -788,7 +771,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobpayments.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobPayments
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -805,7 +787,6 @@ func (_c *JobRelationsCreate) createSpec() (*JobRelations, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(jobreceipt.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobReceipt
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

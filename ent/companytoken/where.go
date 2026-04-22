@@ -8,8 +8,6 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // ID filters vertices based on their ID field.
@@ -449,9 +447,6 @@ func HasCompany() predicate.CompanyToken {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 		)
-		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.CompanyToken
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -460,9 +455,6 @@ func HasCompany() predicate.CompanyToken {
 func HasCompanyWith(preds ...predicate.CompanyDetail) predicate.CompanyToken {
 	return predicate.CompanyToken(func(s *sql.Selector) {
 		step := newCompanyStep()
-		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.CompanyDetail
-		step.Edge.Schema = schemaConfig.CompanyToken
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

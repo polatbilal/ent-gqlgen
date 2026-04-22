@@ -14,8 +14,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobprogress"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobProgressUpdate is the builder for updating JobProgress entities.
@@ -397,7 +395,6 @@ func (_u *JobProgressUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedProgressIDs(); len(nodes) > 0 && !_u.mutation.ProgressCleared() {
@@ -411,7 +408,6 @@ func (_u *JobProgressUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -428,14 +424,11 @@ func (_u *JobProgressUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.JobProgress
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobprogress.Label}
@@ -852,7 +845,6 @@ func (_u *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgress
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedProgressIDs(); len(nodes) > 0 && !_u.mutation.ProgressCleared() {
@@ -866,7 +858,6 @@ func (_u *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgress
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -883,14 +874,11 @@ func (_u *JobProgressUpdateOne) sqlSave(ctx context.Context) (_node *JobProgress
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.JobProgress
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	_node = &JobProgress{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues

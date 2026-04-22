@@ -14,8 +14,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobAuthorUpdate is the builder for updating JobAuthor entities.
@@ -372,7 +370,6 @@ func (_u *JobAuthorUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedAuthorsIDs(); len(nodes) > 0 && !_u.mutation.AuthorsCleared() {
@@ -386,7 +383,6 @@ func (_u *JobAuthorUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -403,14 +399,11 @@ func (_u *JobAuthorUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.JobAuthor
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobauthor.Label}
@@ -802,7 +795,6 @@ func (_u *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedAuthorsIDs(); len(nodes) > 0 && !_u.mutation.AuthorsCleared() {
@@ -816,7 +808,6 @@ func (_u *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -833,14 +824,11 @@ func (_u *JobAuthorUpdateOne) sqlSave(ctx context.Context) (_node *JobAuthor, er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.JobAuthor
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	_node = &JobAuthor{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues

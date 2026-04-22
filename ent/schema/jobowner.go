@@ -4,8 +4,6 @@ import (
 	"time"
 
 	"entgo.io/ent"
-	"entgo.io/ent/dialect/entsql"
-	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -38,14 +36,5 @@ func (JobOwner) Fields() []ent.Field {
 func (JobOwner) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("owners", JobRelations.Type).StorageKey(edge.Column("owner_id")),
-	}
-}
-
-// Annotations of the JobOwner.
-func (JobOwner) Annotations() []schema.Annotation {
-	return []schema.Annotation{
-		entsql.Annotation{
-			Schema: "core",
-		},
 	}
 }

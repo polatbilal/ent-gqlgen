@@ -8,8 +8,6 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // ID filters vertices based on their ID field.
@@ -529,9 +527,6 @@ func HasProgress() predicate.JobProgress {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, ProgressTable, ProgressColumn),
 		)
-		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -540,9 +535,6 @@ func HasProgress() predicate.JobProgress {
 func HasProgressWith(preds ...predicate.JobRelations) predicate.JobProgress {
 	return predicate.JobProgress(func(s *sql.Selector) {
 		step := newProgressStep()
-		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.JobRelations
-		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

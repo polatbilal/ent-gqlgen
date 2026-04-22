@@ -203,7 +203,6 @@ func (_c *CompanyTokenCreate) createSpec() (*CompanyToken, *sqlgraph.CreateSpec)
 		_node = &CompanyToken{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(companytoken.Table, sqlgraph.NewFieldSpec(companytoken.FieldID, field.TypeInt))
 	)
-	_spec.Schema = _c.schemaConfig.CompanyToken
 	if value, ok := _c.mutation.YDKUsername(); ok {
 		_spec.SetField(companytoken.FieldYDKUsername, field.TypeString, value)
 		_node.YDKUsername = value
@@ -239,7 +238,6 @@ func (_c *CompanyTokenCreate) createSpec() (*CompanyToken, *sqlgraph.CreateSpec)
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.CompanyToken
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

@@ -14,8 +14,6 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/jobsupervisor"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
-
-	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobSupervisorUpdate is the builder for updating JobSupervisor entities.
@@ -450,7 +448,6 @@ func (_u *JobSupervisorUpdate) sqlSave(ctx context.Context) (_node int, err erro
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedSupervisorsIDs(); len(nodes) > 0 && !_u.mutation.SupervisorsCleared() {
@@ -464,7 +461,6 @@ func (_u *JobSupervisorUpdate) sqlSave(ctx context.Context) (_node int, err erro
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -481,14 +477,11 @@ func (_u *JobSupervisorUpdate) sqlSave(ctx context.Context) (_node int, err erro
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.JobSupervisor
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobsupervisor.Label}
@@ -958,7 +951,6 @@ func (_u *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSuperv
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedSupervisorsIDs(); len(nodes) > 0 && !_u.mutation.SupervisorsCleared() {
@@ -972,7 +964,6 @@ func (_u *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSuperv
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -989,14 +980,11 @@ func (_u *JobSupervisorUpdateOne) sqlSave(ctx context.Context) (_node *JobSuperv
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.Node.Schema = _u.schemaConfig.JobSupervisor
-	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	_node = &JobSupervisor{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues

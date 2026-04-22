@@ -255,7 +255,6 @@ func (_c *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
 		_node = &JobAuthor{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobauthor.Table, sqlgraph.NewFieldSpec(jobauthor.FieldID, field.TypeInt))
 	)
-	_spec.Schema = _c.schemaConfig.JobAuthor
 	if value, ok := _c.mutation.YibfNo(); ok {
 		_spec.SetField(jobauthor.FieldYibfNo, field.TypeInt, value)
 		_node.YibfNo = value
@@ -307,7 +306,6 @@ func (_c *JobAuthorCreate) createSpec() (*JobAuthor, *sqlgraph.CreateSpec) {
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
-		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

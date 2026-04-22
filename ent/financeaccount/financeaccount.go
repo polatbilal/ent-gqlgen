@@ -43,33 +43,33 @@ const (
 	// EdgeOperations holds the string denoting the operations edge name in mutations.
 	EdgeOperations = "operations"
 	// Table holds the table name of the financeaccount in the database.
-	Table = "accounts"
+	Table = "finance_accounts"
 	// CompanyTable is the table that holds the company relation/edge.
-	CompanyTable = "accounts"
+	CompanyTable = "finance_accounts"
 	// CompanyInverseTable is the table name for the CompanyDetail entity.
 	// It exists in this package in order to avoid circular dependency with the "companydetail" package.
 	CompanyInverseTable = "company_details"
 	// CompanyColumn is the table column denoting the company relation/edge.
 	CompanyColumn = "company_id"
 	// GroupTable is the table that holds the group relation/edge.
-	GroupTable = "accounts"
+	GroupTable = "finance_accounts"
 	// GroupInverseTable is the table name for the FinanceGroup entity.
 	// It exists in this package in order to avoid circular dependency with the "financegroup" package.
-	GroupInverseTable = "groups"
+	GroupInverseTable = "finance_groups"
 	// GroupColumn is the table column denoting the group relation/edge.
 	GroupColumn = "group_id"
 	// TypeTable is the table that holds the type relation/edge.
-	TypeTable = "accounts"
+	TypeTable = "finance_accounts"
 	// TypeInverseTable is the table name for the FinanceClass entity.
 	// It exists in this package in order to avoid circular dependency with the "financeclass" package.
-	TypeInverseTable = "classes"
+	TypeInverseTable = "finance_classes"
 	// TypeColumn is the table column denoting the type relation/edge.
 	TypeColumn = "type_id"
 	// OperationsTable is the table that holds the operations relation/edge.
-	OperationsTable = "operations"
+	OperationsTable = "finance_operations"
 	// OperationsInverseTable is the table name for the FinanceOperation entity.
 	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	OperationsInverseTable = "operations"
+	OperationsInverseTable = "finance_operations"
 	// OperationsColumn is the table column denoting the operations relation/edge.
 	OperationsColumn = "account_id"
 )
@@ -89,7 +89,7 @@ var Columns = []string{
 	FieldUpdatedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "accounts"
+// ForeignKeys holds the SQL foreign-keys that are owned by the "finance_accounts"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
 	"company_id",
