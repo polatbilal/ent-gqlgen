@@ -172,6 +172,7 @@ func (_c *FinanceResourceCreate) createSpec() (*FinanceResource, *sqlgraph.Creat
 		_node = &FinanceResource{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(financeresource.Table, sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.FinanceResource
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(financeresource.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -195,6 +196,7 @@ func (_c *FinanceResourceCreate) createSpec() (*FinanceResource, *sqlgraph.Creat
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceResource
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -212,6 +214,7 @@ func (_c *FinanceResourceCreate) createSpec() (*FinanceResource, *sqlgraph.Creat
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

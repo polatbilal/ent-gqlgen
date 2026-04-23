@@ -6,6 +6,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // ID filters vertices based on their ID field.
@@ -60,6 +62,9 @@ func HasCompany() predicate.CompanyUser {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyDetail
+		step.Edge.Schema = schemaConfig.CompanyUser
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -68,6 +73,9 @@ func HasCompany() predicate.CompanyUser {
 func HasCompanyWith(preds ...predicate.CompanyDetail) predicate.CompanyUser {
 	return predicate.CompanyUser(func(s *sql.Selector) {
 		step := newCompanyStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyDetail
+		step.Edge.Schema = schemaConfig.CompanyUser
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -83,6 +91,9 @@ func HasUser() predicate.CompanyUser {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, UserTable, UserColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.User
+		step.Edge.Schema = schemaConfig.CompanyUser
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -91,6 +102,9 @@ func HasUser() predicate.CompanyUser {
 func HasUserWith(preds ...predicate.User) predicate.CompanyUser {
 	return predicate.CompanyUser(func(s *sql.Selector) {
 		step := newUserStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.User
+		step.Edge.Schema = schemaConfig.CompanyUser
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

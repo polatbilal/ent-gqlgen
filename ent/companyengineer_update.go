@@ -15,6 +15,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // CompanyEngineerUpdate is the builder for updating CompanyEngineer entities.
@@ -760,6 +762,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.CompanyEngineer
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
@@ -773,6 +776,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.CompanyEngineer
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -789,6 +793,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedStaticsIDs(); len(nodes) > 0 && !_u.mutation.StaticsCleared() {
@@ -802,6 +807,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -818,6 +824,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -834,6 +841,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedMechanicsIDs(); len(nodes) > 0 && !_u.mutation.MechanicsCleared() {
@@ -847,6 +855,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -863,6 +872,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -879,6 +889,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedElectricsIDs(); len(nodes) > 0 && !_u.mutation.ElectricsCleared() {
@@ -892,6 +903,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -908,6 +920,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -924,6 +937,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedInspectorsIDs(); len(nodes) > 0 && !_u.mutation.InspectorsCleared() {
@@ -937,6 +951,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -953,6 +968,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -969,6 +985,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedArchitectsIDs(); len(nodes) > 0 && !_u.mutation.ArchitectsCleared() {
@@ -982,6 +999,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -998,6 +1016,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1014,6 +1033,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedControllersIDs(); len(nodes) > 0 && !_u.mutation.ControllersCleared() {
@@ -1027,6 +1047,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1043,6 +1064,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1059,6 +1081,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedMechaniccontrollersIDs(); len(nodes) > 0 && !_u.mutation.MechaniccontrollersCleared() {
@@ -1072,6 +1095,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1088,6 +1112,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1104,6 +1129,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedElectriccontrollersIDs(); len(nodes) > 0 && !_u.mutation.ElectriccontrollersCleared() {
@@ -1117,6 +1143,7 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1133,11 +1160,14 @@ func (_u *CompanyEngineerUpdate) sqlSave(ctx context.Context) (_node int, err er
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	_spec.Node.Schema = _u.schemaConfig.CompanyEngineer
+	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{companyengineer.Label}
@@ -1918,6 +1948,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.CompanyEngineer
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
@@ -1931,6 +1962,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.CompanyEngineer
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1947,6 +1979,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedStaticsIDs(); len(nodes) > 0 && !_u.mutation.StaticsCleared() {
@@ -1960,6 +1993,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1976,6 +2010,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -1992,6 +2027,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedMechanicsIDs(); len(nodes) > 0 && !_u.mutation.MechanicsCleared() {
@@ -2005,6 +2041,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2021,6 +2058,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2037,6 +2075,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedElectricsIDs(); len(nodes) > 0 && !_u.mutation.ElectricsCleared() {
@@ -2050,6 +2089,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2066,6 +2106,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2082,6 +2123,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedInspectorsIDs(); len(nodes) > 0 && !_u.mutation.InspectorsCleared() {
@@ -2095,6 +2137,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2111,6 +2154,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2127,6 +2171,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedArchitectsIDs(); len(nodes) > 0 && !_u.mutation.ArchitectsCleared() {
@@ -2140,6 +2185,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2156,6 +2202,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2172,6 +2219,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedControllersIDs(); len(nodes) > 0 && !_u.mutation.ControllersCleared() {
@@ -2185,6 +2233,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2201,6 +2250,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2217,6 +2267,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedMechaniccontrollersIDs(); len(nodes) > 0 && !_u.mutation.MechaniccontrollersCleared() {
@@ -2230,6 +2281,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2246,6 +2298,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2262,6 +2315,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedElectriccontrollersIDs(); len(nodes) > 0 && !_u.mutation.ElectriccontrollersCleared() {
@@ -2275,6 +2329,7 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -2291,11 +2346,14 @@ func (_u *CompanyEngineerUpdateOne) sqlSave(ctx context.Context) (_node *Company
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	_spec.Node.Schema = _u.schemaConfig.CompanyEngineer
+	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	_node = &CompanyEngineer{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues

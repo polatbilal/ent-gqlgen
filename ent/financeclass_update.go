@@ -16,6 +16,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // FinanceClassUpdate is the builder for updating FinanceClass entities.
@@ -327,6 +329,7 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceClass
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
@@ -340,6 +343,7 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceClass
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -356,6 +360,7 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceOperation
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedClassesIDs(); len(nodes) > 0 && !_u.mutation.ClassesCleared() {
@@ -369,6 +374,7 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -385,6 +391,7 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -401,6 +408,7 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceAccount
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedTypesIDs(); len(nodes) > 0 && !_u.mutation.TypesCleared() {
@@ -414,6 +422,7 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -430,11 +439,14 @@ func (_u *FinanceClassUpdate) sqlSave(ctx context.Context) (_node int, err error
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	_spec.Node.Schema = _u.schemaConfig.FinanceClass
+	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{financeclass.Label}
@@ -781,6 +793,7 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceClass
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.CompanyIDs(); len(nodes) > 0 {
@@ -794,6 +807,7 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceClass
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -810,6 +824,7 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceOperation
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedClassesIDs(); len(nodes) > 0 && !_u.mutation.ClassesCleared() {
@@ -823,6 +838,7 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -839,6 +855,7 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -855,6 +872,7 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceAccount
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.RemovedTypesIDs(); len(nodes) > 0 && !_u.mutation.TypesCleared() {
@@ -868,6 +886,7 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -884,11 +903,14 @@ func (_u *FinanceClassUpdateOne) sqlSave(ctx context.Context) (_node *FinanceCla
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	_spec.Node.Schema = _u.schemaConfig.FinanceClass
+	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	_node = &FinanceClass{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues

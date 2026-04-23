@@ -18,6 +18,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
 	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // FinanceOperationQuery is the builder for querying FinanceOperation entities.
@@ -87,6 +89,9 @@ func (_q *FinanceOperationQuery) QueryClass() *FinanceClassQuery {
 			sqlgraph.To(financeclass.Table, financeclass.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.ClassTable, financeoperation.ClassColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceClass
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -109,6 +114,9 @@ func (_q *FinanceOperationQuery) QueryCompany() *CompanyDetailQuery {
 			sqlgraph.To(companydetail.Table, companydetail.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.CompanyTable, financeoperation.CompanyColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.CompanyDetail
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -131,6 +139,9 @@ func (_q *FinanceOperationQuery) QueryResource() *FinanceResourceQuery {
 			sqlgraph.To(financeresource.Table, financeresource.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.ResourceTable, financeoperation.ResourceColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceResource
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -153,6 +164,9 @@ func (_q *FinanceOperationQuery) QueryGroup() *FinanceGroupQuery {
 			sqlgraph.To(financegroup.Table, financegroup.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.GroupTable, financeoperation.GroupColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceGroup
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -175,6 +189,9 @@ func (_q *FinanceOperationQuery) QueryAccount() *FinanceAccountQuery {
 			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, financeoperation.AccountTable, financeoperation.AccountColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceAccount
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -541,6 +558,8 @@ func (_q *FinanceOperationQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	_spec.Node.Schema = _q.schemaConfig.FinanceOperation
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -754,6 +773,8 @@ func (_q *FinanceOperationQuery) loadAccount(ctx context.Context, query *Finance
 
 func (_q *FinanceOperationQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
+	_spec.Node.Schema = _q.schemaConfig.FinanceOperation
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -819,6 +840,9 @@ func (_q *FinanceOperationQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
+	t1.Schema(_q.schemaConfig.FinanceOperation)
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
+	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

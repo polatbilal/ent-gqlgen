@@ -258,6 +258,7 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 		_node = &FinanceOperation{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(financeoperation.Table, sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.FinanceOperation
 	if value, ok := _c.mutation.Date(); ok {
 		_spec.SetField(financeoperation.FieldDate, field.TypeTime, value)
 		_node.Date = value
@@ -293,6 +294,7 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -310,6 +312,7 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -327,6 +330,7 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 				IDSpec: sqlgraph.NewFieldSpec(financeresource.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -344,6 +348,7 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 				IDSpec: sqlgraph.NewFieldSpec(financegroup.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -361,6 +366,7 @@ func (_c *FinanceOperationCreate) createSpec() (*FinanceOperation, *sqlgraph.Cre
 				IDSpec: sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

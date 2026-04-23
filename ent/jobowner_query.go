@@ -15,6 +15,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobowner"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobOwnerQuery is the builder for querying JobOwner entities.
@@ -80,6 +82,9 @@ func (_q *JobOwnerQuery) QueryOwners() *JobRelationsQuery {
 			sqlgraph.To(jobrelations.Table, jobrelations.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, jobowner.OwnersTable, jobowner.OwnersColumn),
 		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.JobRelations
+		step.Edge.Schema = schemaConfig.JobRelations
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -387,6 +392,8 @@ func (_q *JobOwnerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Job
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	_spec.Node.Schema = _q.schemaConfig.JobOwner
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -455,6 +462,8 @@ func (_q *JobOwnerQuery) loadOwners(ctx context.Context, query *JobRelationsQuer
 
 func (_q *JobOwnerQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
+	_spec.Node.Schema = _q.schemaConfig.JobOwner
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
 	}
@@ -520,6 +529,9 @@ func (_q *JobOwnerQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
+	t1.Schema(_q.schemaConfig.JobOwner)
+	ctx = internal.NewSchemaConfigContext(ctx, _q.schemaConfig)
+	selector.WithContext(ctx)
 	for _, p := range _q.predicates {
 		p(selector)
 	}

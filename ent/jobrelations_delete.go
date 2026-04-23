@@ -8,8 +8,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
+	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 )
 
 // JobRelationsDelete is the builder for deleting a JobRelations entity.
@@ -41,6 +43,8 @@ func (_d *JobRelationsDelete) ExecX(ctx context.Context) int {
 
 func (_d *JobRelationsDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(jobrelations.Table, sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt))
+	_spec.Node.Schema = _d.schemaConfig.JobRelations
+	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {

@@ -9,6 +9,7 @@ import (
 	"time"
 
 	entsql "entgo.io/ent/dialect/sql"
+	"github.com/joho/godotenv"
 	"github.com/polatbilal/ent-gqlgen/ent"
 
 	// _ "github.com/go-sql-driver/mysql" //MySQL driver
@@ -34,7 +35,11 @@ func GetClient() (*ent.Client, error) {
 }
 
 func Connect() (*ent.Client, error) {
-	// databaseURL := os.Getenv("MYSQL_URL")
+	// .env dosyasını oku
+	if err := godotenv.Load(); err != nil {
+		log.Printf("Warning: .env file not found, using system environment variables")
+	}
+
 	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL == "" {
 		log.Printf("Error: DATABASE_URL environment variable is not set")
@@ -42,7 +47,6 @@ func Connect() (*ent.Client, error) {
 	}
 
 	db, err := sql.Open("postgres", databaseURL)
-	//db, err := sql.Open("mysql", databaseURL)
 	if err != nil {
 		log.Printf("Error opening database: %v\n", err)
 		return nil, err
@@ -62,7 +66,8 @@ func Connect() (*ent.Client, error) {
 
 	// Ent istemcisini yapılandırılmış SQL bağlantısı ile oluştur
 	drv := entsql.OpenDB("postgres", db)
-	// drv := entsql.OpenDB("mysql", db)
+
+	// Çoklu Şema Yapılandırması: Runtime sorguları için tabloları ilgili şemalara eşliyoruz.
 	client := ent.NewClient(ent.Driver(drv))
 
 	return client, nil

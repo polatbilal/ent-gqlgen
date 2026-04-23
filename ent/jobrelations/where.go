@@ -8,6 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // ID filters vertices based on their ID field.
@@ -197,6 +199,9 @@ func HasJob() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, true, JobTable, JobColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobDetail
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -205,6 +210,9 @@ func HasJob() predicate.JobRelations {
 func HasJobWith(preds ...predicate.JobDetail) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newJobStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobDetail
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -220,6 +228,9 @@ func HasOwner() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, OwnerTable, OwnerColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobOwner
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -228,6 +239,9 @@ func HasOwner() predicate.JobRelations {
 func HasOwnerWith(preds ...predicate.JobOwner) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newOwnerStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobOwner
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -243,6 +257,9 @@ func HasAuthor() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, AuthorTable, AuthorColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobAuthor
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -251,6 +268,9 @@ func HasAuthor() predicate.JobRelations {
 func HasAuthorWith(preds ...predicate.JobAuthor) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newAuthorStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobAuthor
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -266,6 +286,9 @@ func HasCompany() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, CompanyTable, CompanyColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyDetail
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -274,6 +297,9 @@ func HasCompany() predicate.JobRelations {
 func HasCompanyWith(preds ...predicate.CompanyDetail) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newCompanyStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyDetail
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -289,6 +315,9 @@ func HasProgress() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, ProgressTable, ProgressColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobProgress
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -297,6 +326,9 @@ func HasProgress() predicate.JobRelations {
 func HasProgressWith(preds ...predicate.JobProgress) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newProgressStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobProgress
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -312,6 +344,9 @@ func HasContractor() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, ContractorTable, ContractorColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobContractor
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -320,6 +355,9 @@ func HasContractor() predicate.JobRelations {
 func HasContractorWith(preds ...predicate.JobContractor) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newContractorStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobContractor
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -335,6 +373,9 @@ func HasSupervisor() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, SupervisorTable, SupervisorColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobSupervisor
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -343,6 +384,9 @@ func HasSupervisor() predicate.JobRelations {
 func HasSupervisorWith(preds ...predicate.JobSupervisor) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newSupervisorStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobSupervisor
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -358,6 +402,9 @@ func HasStatic() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, StaticTable, StaticColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -366,6 +413,9 @@ func HasStatic() predicate.JobRelations {
 func HasStaticWith(preds ...predicate.CompanyEngineer) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newStaticStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -381,6 +431,9 @@ func HasMechanic() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, MechanicTable, MechanicColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -389,6 +442,9 @@ func HasMechanic() predicate.JobRelations {
 func HasMechanicWith(preds ...predicate.CompanyEngineer) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newMechanicStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -404,6 +460,9 @@ func HasElectric() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, ElectricTable, ElectricColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -412,6 +471,9 @@ func HasElectric() predicate.JobRelations {
 func HasElectricWith(preds ...predicate.CompanyEngineer) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newElectricStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -427,6 +489,9 @@ func HasInspector() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, InspectorTable, InspectorColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -435,6 +500,9 @@ func HasInspector() predicate.JobRelations {
 func HasInspectorWith(preds ...predicate.CompanyEngineer) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newInspectorStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -450,6 +518,9 @@ func HasArchitect() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, ArchitectTable, ArchitectColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -458,6 +529,9 @@ func HasArchitect() predicate.JobRelations {
 func HasArchitectWith(preds ...predicate.CompanyEngineer) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newArchitectStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -473,6 +547,9 @@ func HasController() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, ControllerTable, ControllerColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -481,6 +558,9 @@ func HasController() predicate.JobRelations {
 func HasControllerWith(preds ...predicate.CompanyEngineer) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newControllerStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -496,6 +576,9 @@ func HasMechaniccontroller() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, MechaniccontrollerTable, MechaniccontrollerColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -504,6 +587,9 @@ func HasMechaniccontroller() predicate.JobRelations {
 func HasMechaniccontrollerWith(preds ...predicate.CompanyEngineer) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newMechaniccontrollerStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -519,6 +605,9 @@ func HasElectriccontroller() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, ElectriccontrollerTable, ElectriccontrollerColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -527,6 +616,9 @@ func HasElectriccontroller() predicate.JobRelations {
 func HasElectriccontrollerWith(preds ...predicate.CompanyEngineer) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newElectriccontrollerStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.CompanyEngineer
+		step.Edge.Schema = schemaConfig.JobRelations
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -542,6 +634,9 @@ func HasFloors() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, FloorsTable, FloorsColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobFloor
+		step.Edge.Schema = schemaConfig.JobFloor
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -550,6 +645,9 @@ func HasFloors() predicate.JobRelations {
 func HasFloorsWith(preds ...predicate.JobFloor) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newFloorsStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobFloor
+		step.Edge.Schema = schemaConfig.JobFloor
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -565,6 +663,9 @@ func HasPayments() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, PaymentsTable, PaymentsColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobPayments
+		step.Edge.Schema = schemaConfig.JobPayments
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -573,6 +674,9 @@ func HasPayments() predicate.JobRelations {
 func HasPaymentsWith(preds ...predicate.JobPayments) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newPaymentsStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobPayments
+		step.Edge.Schema = schemaConfig.JobPayments
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -588,6 +692,9 @@ func HasReceipts() predicate.JobRelations {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, ReceiptsTable, ReceiptsColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobReceipt
+		step.Edge.Schema = schemaConfig.JobReceipt
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -596,6 +703,9 @@ func HasReceipts() predicate.JobRelations {
 func HasReceiptsWith(preds ...predicate.JobReceipt) predicate.JobRelations {
 	return predicate.JobRelations(func(s *sql.Selector) {
 		step := newReceiptsStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.JobReceipt
+		step.Edge.Schema = schemaConfig.JobReceipt
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

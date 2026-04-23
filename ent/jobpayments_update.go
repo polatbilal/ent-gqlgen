@@ -15,6 +15,8 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 	"github.com/shopspring/decimal"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // JobPaymentsUpdate is the builder for updating JobPayments entities.
@@ -538,6 +540,7 @@ func (_u *JobPaymentsUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobPayments
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.PaymentsIDs(); len(nodes) > 0 {
@@ -551,11 +554,14 @@ func (_u *JobPaymentsUpdate) sqlSave(ctx context.Context) (_node int, err error)
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobPayments
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	_spec.Node.Schema = _u.schemaConfig.JobPayments
+	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{jobpayments.Label}
@@ -1114,6 +1120,7 @@ func (_u *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPayments
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobPayments
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := _u.mutation.PaymentsIDs(); len(nodes) > 0 {
@@ -1127,11 +1134,14 @@ func (_u *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPayments
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _u.schemaConfig.JobPayments
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	_spec.Node.Schema = _u.schemaConfig.JobPayments
+	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
 	_node = &JobPayments{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues

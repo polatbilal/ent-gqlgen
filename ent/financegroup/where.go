@@ -8,6 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
+
+	"github.com/polatbilal/ent-gqlgen/ent/internal"
 )
 
 // ID filters vertices based on their ID field.
@@ -442,6 +444,9 @@ func HasGroups() predicate.FinanceGroup {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, GroupsTable, GroupsColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceOperation
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -450,6 +455,9 @@ func HasGroups() predicate.FinanceGroup {
 func HasGroupsWith(preds ...predicate.FinanceOperation) predicate.FinanceGroup {
 	return predicate.FinanceGroup(func(s *sql.Selector) {
 		step := newGroupsStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceOperation
+		step.Edge.Schema = schemaConfig.FinanceOperation
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -465,6 +473,9 @@ func HasFinanceAccounts() predicate.FinanceGroup {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, FinanceAccountsTable, FinanceAccountsColumn),
 		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceAccount
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
@@ -473,6 +484,9 @@ func HasFinanceAccounts() predicate.FinanceGroup {
 func HasFinanceAccountsWith(preds ...predicate.FinanceAccount) predicate.FinanceGroup {
 	return predicate.FinanceGroup(func(s *sql.Selector) {
 		step := newFinanceAccountsStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceAccount
+		step.Edge.Schema = schemaConfig.FinanceAccount
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

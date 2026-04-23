@@ -297,6 +297,7 @@ func (_c *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 		_node = &JobOwner{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(jobowner.Table, sqlgraph.NewFieldSpec(jobowner.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.JobOwner
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(jobowner.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -356,6 +357,7 @@ func (_c *JobOwnerCreate) createSpec() (*JobOwner, *sqlgraph.CreateSpec) {
 				IDSpec: sqlgraph.NewFieldSpec(jobrelations.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.JobRelations
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

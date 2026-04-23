@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -37,5 +39,14 @@ func (JobContractor) Fields() []ent.Field {
 func (JobContractor) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("contractors", JobRelations.Type).StorageKey(edge.Column("contractor_id")),
+	}
+}
+
+// Annotations of the JobContractor.
+func (JobContractor) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{
+			Schema: "core",
+		},
 	}
 }

@@ -3,8 +3,6 @@
 package main
 
 import (
-	"context"
-	"errors"
 	"log"
 	"net/http"
 
@@ -15,7 +13,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 	"github.com/polatbilal/ent-gqlgen/database"
-	"github.com/polatbilal/ent-gqlgen/ent/migrate"
 	_ "github.com/polatbilal/ent-gqlgen/ent/runtime"
 	"github.com/polatbilal/ent-gqlgen/graphql/resolvers"
 	"github.com/polatbilal/ent-gqlgen/hooks"
@@ -128,23 +125,6 @@ func main() {
 	licenseChecker := services.NewLicenseChecker(client)
 	licenseChecker.Start()
 	defer licenseChecker.Stop()
-
-	// Run the migration here
-	if err := client.Schema.Create(
-		context.Background(),
-		migrate.WithDropIndex(true),
-		migrate.WithDropColumn(true),
-		migrate.WithForeignKeys(true),
-	); !errors.Is(err, nil) {
-		log.Fatalf("Error: failed creating schema resources %v\n", err)
-	}
-
-	// Mevcut kayıtlar için FinanceRelations migration
-	// result, migErr := helpers.MigrateExistingAccounts(context.Background(), client)
-	// if migErr != nil {
-	// 	log.Printf("Migration hatası: %v", migErr)
-	// }
-	// log.Println(result)
 
 	// Configure the GraphQL server
 	srv := handler.NewDefaultServer(resolvers.NewSchema(client))

@@ -322,6 +322,7 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 		_node = &FinanceAccount{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(financeaccount.Table, sqlgraph.NewFieldSpec(financeaccount.FieldID, field.TypeInt))
 	)
+	_spec.Schema = _c.schemaConfig.FinanceAccount
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(financeaccount.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -373,6 +374,7 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 				IDSpec: sqlgraph.NewFieldSpec(companydetail.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -390,6 +392,7 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 				IDSpec: sqlgraph.NewFieldSpec(financegroup.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -407,6 +410,7 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 				IDSpec: sqlgraph.NewFieldSpec(financeclass.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceAccount
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
@@ -424,6 +428,7 @@ func (_c *FinanceAccountCreate) createSpec() (*FinanceAccount, *sqlgraph.CreateS
 				IDSpec: sqlgraph.NewFieldSpec(financeoperation.FieldID, field.TypeInt),
 			},
 		}
+		edge.Schema = _c.schemaConfig.FinanceOperation
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}

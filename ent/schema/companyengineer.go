@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"entgo.io/ent"
+	"entgo.io/ent/schema"
+	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -49,5 +51,14 @@ func (CompanyEngineer) Edges() []ent.Edge {
 		edge.To("controllers", JobRelations.Type).StorageKey(edge.Column("controller_id")),
 		edge.To("mechaniccontrollers", JobRelations.Type).StorageKey(edge.Column("mechaniccontroller_id")),
 		edge.To("electriccontrollers", JobRelations.Type).StorageKey(edge.Column("electriccontroller_id")),
+	}
+}
+
+// Annotations of the CompanyEngineer.
+func (CompanyEngineer) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{
+			Schema: "core",
+		},
 	}
 }

@@ -29,6 +29,7 @@ go run ent/entc.go
 ```
 
 Build server
+
 ```
 Windows
 -----------------------
@@ -40,3 +41,9 @@ Linux
 set GOOS=linux && set GOARCH=amd64&& go build -o ydsapi server.go
 GOOS=linux GOARCH=amd64 go build -o ydsapi server.go
 ```
+
+Go tarafında alanı ekle.
+Döküm al: go run ent/migrate/main.go > schema.sql (Bizim o zeki döküm scripti).
+Mühürle: go run scratch/fix_sql_schemas.go (Şemaları yerleştir).
+Atlas'a Sor: ./atlas migrate diff (Atlas farkı bulur ve planı yazar).
+Uygula: ./atlas migrate apply (Tabloya o kolon eklenir).
