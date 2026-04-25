@@ -2313,27 +2313,27 @@ func HasEngineersWith(preds ...predicate.CompanyEngineer) predicate.CompanyDetai
 	})
 }
 
-// HasOperations applies the HasEdge predicate on the "operations" edge.
-func HasOperations() predicate.CompanyDetail {
+// HasCurrentAccounts applies the HasEdge predicate on the "current_accounts" edge.
+func HasCurrentAccounts() predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, OperationsTable, OperationsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, CurrentAccountsTable, CurrentAccountsColumn),
 		)
 		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.FinanceOperation
-		step.Edge.Schema = schemaConfig.FinanceOperation
+		step.To.Schema = schemaConfig.FinanceCurrentAccount
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccount
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasOperationsWith applies the HasEdge predicate on the "operations" edge with a given conditions (other predicates).
-func HasOperationsWith(preds ...predicate.FinanceOperation) predicate.CompanyDetail {
+// HasCurrentAccountsWith applies the HasEdge predicate on the "current_accounts" edge with a given conditions (other predicates).
+func HasCurrentAccountsWith(preds ...predicate.FinanceCurrentAccount) predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
-		step := newOperationsStep()
+		step := newCurrentAccountsStep()
 		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.FinanceOperation
-		step.Edge.Schema = schemaConfig.FinanceOperation
+		step.To.Schema = schemaConfig.FinanceCurrentAccount
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccount
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -2342,27 +2342,27 @@ func HasOperationsWith(preds ...predicate.FinanceOperation) predicate.CompanyDet
 	})
 }
 
-// HasMethods applies the HasEdge predicate on the "methods" edge.
-func HasMethods() predicate.CompanyDetail {
+// HasBankAccounts applies the HasEdge predicate on the "bank_accounts" edge.
+func HasBankAccounts() predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, MethodsTable, MethodsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, BankAccountsTable, BankAccountsColumn),
 		)
 		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.FinanceClass
-		step.Edge.Schema = schemaConfig.FinanceClass
+		step.To.Schema = schemaConfig.FinanceBankAccount
+		step.Edge.Schema = schemaConfig.FinanceBankAccount
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasMethodsWith applies the HasEdge predicate on the "methods" edge with a given conditions (other predicates).
-func HasMethodsWith(preds ...predicate.FinanceClass) predicate.CompanyDetail {
+// HasBankAccountsWith applies the HasEdge predicate on the "bank_accounts" edge with a given conditions (other predicates).
+func HasBankAccountsWith(preds ...predicate.FinanceBankAccount) predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
-		step := newMethodsStep()
+		step := newBankAccountsStep()
 		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.FinanceClass
-		step.Edge.Schema = schemaConfig.FinanceClass
+		step.To.Schema = schemaConfig.FinanceBankAccount
+		step.Edge.Schema = schemaConfig.FinanceBankAccount
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -2371,27 +2371,27 @@ func HasMethodsWith(preds ...predicate.FinanceClass) predicate.CompanyDetail {
 	})
 }
 
-// HasResources applies the HasEdge predicate on the "resources" edge.
-func HasResources() predicate.CompanyDetail {
+// HasCashAccounts applies the HasEdge predicate on the "cash_accounts" edge.
+func HasCashAccounts() predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, ResourcesTable, ResourcesColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, CashAccountsTable, CashAccountsColumn),
 		)
 		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.FinanceResource
-		step.Edge.Schema = schemaConfig.FinanceResource
+		step.To.Schema = schemaConfig.FinanceCashAccount
+		step.Edge.Schema = schemaConfig.FinanceCashAccount
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasResourcesWith applies the HasEdge predicate on the "resources" edge with a given conditions (other predicates).
-func HasResourcesWith(preds ...predicate.FinanceResource) predicate.CompanyDetail {
+// HasCashAccountsWith applies the HasEdge predicate on the "cash_accounts" edge with a given conditions (other predicates).
+func HasCashAccountsWith(preds ...predicate.FinanceCashAccount) predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
-		step := newResourcesStep()
+		step := newCashAccountsStep()
 		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.FinanceResource
-		step.Edge.Schema = schemaConfig.FinanceResource
+		step.To.Schema = schemaConfig.FinanceCashAccount
+		step.Edge.Schema = schemaConfig.FinanceCashAccount
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -2400,27 +2400,143 @@ func HasResourcesWith(preds ...predicate.FinanceResource) predicate.CompanyDetai
 	})
 }
 
-// HasAccounts applies the HasEdge predicate on the "accounts" edge.
-func HasAccounts() predicate.CompanyDetail {
+// HasBankOperations applies the HasEdge predicate on the "bank_operations" edge.
+func HasBankOperations() predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, AccountsTable, AccountsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, BankOperationsTable, BankOperationsColumn),
 		)
 		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.FinanceAccount
-		step.Edge.Schema = schemaConfig.FinanceAccount
+		step.To.Schema = schemaConfig.FinanceBankOperation
+		step.Edge.Schema = schemaConfig.FinanceBankOperation
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasAccountsWith applies the HasEdge predicate on the "accounts" edge with a given conditions (other predicates).
-func HasAccountsWith(preds ...predicate.FinanceAccount) predicate.CompanyDetail {
+// HasBankOperationsWith applies the HasEdge predicate on the "bank_operations" edge with a given conditions (other predicates).
+func HasBankOperationsWith(preds ...predicate.FinanceBankOperation) predicate.CompanyDetail {
 	return predicate.CompanyDetail(func(s *sql.Selector) {
-		step := newAccountsStep()
+		step := newBankOperationsStep()
 		schemaConfig := internal.SchemaConfigFromContext(s.Context())
-		step.To.Schema = schemaConfig.FinanceAccount
-		step.Edge.Schema = schemaConfig.FinanceAccount
+		step.To.Schema = schemaConfig.FinanceBankOperation
+		step.Edge.Schema = schemaConfig.FinanceBankOperation
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasCashOperations applies the HasEdge predicate on the "cash_operations" edge.
+func HasCashOperations() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, CashOperationsTable, CashOperationsColumn),
+		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceCashAccountOperation
+		step.Edge.Schema = schemaConfig.FinanceCashAccountOperation
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasCashOperationsWith applies the HasEdge predicate on the "cash_operations" edge with a given conditions (other predicates).
+func HasCashOperationsWith(preds ...predicate.FinanceCashAccountOperation) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newCashOperationsStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceCashAccountOperation
+		step.Edge.Schema = schemaConfig.FinanceCashAccountOperation
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasCurrentOperations applies the HasEdge predicate on the "current_operations" edge.
+func HasCurrentOperations() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, CurrentOperationsTable, CurrentOperationsColumn),
+		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceCurrentAccountOperation
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccountOperation
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasCurrentOperationsWith applies the HasEdge predicate on the "current_operations" edge with a given conditions (other predicates).
+func HasCurrentOperationsWith(preds ...predicate.FinanceCurrentAccountOperation) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newCurrentOperationsStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceCurrentAccountOperation
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccountOperation
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasCashPaymentClasses applies the HasEdge predicate on the "cash_payment_classes" edge.
+func HasCashPaymentClasses() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, CashPaymentClassesTable, CashPaymentClassesColumn),
+		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinancePaymentClass
+		step.Edge.Schema = schemaConfig.FinancePaymentClass
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasCashPaymentClassesWith applies the HasEdge predicate on the "cash_payment_classes" edge with a given conditions (other predicates).
+func HasCashPaymentClassesWith(preds ...predicate.FinancePaymentClass) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newCashPaymentClassesStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinancePaymentClass
+		step.Edge.Schema = schemaConfig.FinancePaymentClass
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasCurrentAccountTypes applies the HasEdge predicate on the "current_account_types" edge.
+func HasCurrentAccountTypes() predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, CurrentAccountTypesTable, CurrentAccountTypesColumn),
+		)
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceCurrentAccountType
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccountType
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasCurrentAccountTypesWith applies the HasEdge predicate on the "current_account_types" edge with a given conditions (other predicates).
+func HasCurrentAccountTypesWith(preds ...predicate.FinanceCurrentAccountType) predicate.CompanyDetail {
+	return predicate.CompanyDetail(func(s *sql.Selector) {
+		step := newCurrentAccountTypesStep()
+		schemaConfig := internal.SchemaConfigFromContext(s.Context())
+		step.To.Schema = schemaConfig.FinanceCurrentAccountType
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccountType
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

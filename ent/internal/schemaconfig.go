@@ -7,26 +7,32 @@ import "context"
 // SchemaConfig represents alternative schema names for all tables
 // that can be passed at runtime.
 type SchemaConfig struct {
-	CompanyDetail    string // CompanyDetail table.
-	CompanyEngineer  string // CompanyEngineer table.
-	CompanyToken     string // CompanyToken table.
-	CompanyUser      string // CompanyUser table.
-	FinanceAccount   string // FinanceAccount table.
-	FinanceClass     string // FinanceClass table.
-	FinanceGroup     string // FinanceGroup table.
-	FinanceOperation string // FinanceOperation table.
-	FinanceResource  string // FinanceResource table.
-	JobAuthor        string // JobAuthor table.
-	JobContractor    string // JobContractor table.
-	JobDetail        string // JobDetail table.
-	JobFloor         string // JobFloor table.
-	JobOwner         string // JobOwner table.
-	JobPayments      string // JobPayments table.
-	JobProgress      string // JobProgress table.
-	JobReceipt       string // JobReceipt table.
-	JobRelations     string // JobRelations table.
-	JobSupervisor    string // JobSupervisor table.
-	User             string // User table.
+	CompanyDetail                      string // CompanyDetail table.
+	CompanyEngineer                    string // CompanyEngineer table.
+	CompanyToken                       string // CompanyToken table.
+	CompanyUser                        string // CompanyUser table.
+	FinanceBankAccount                 string // FinanceBankAccount table.
+	FinanceBankOperation               string // FinanceBankOperation table.
+	FinanceCashAccount                 string // FinanceCashAccount table.
+	FinanceCashAccountOperation        string // FinanceCashAccountOperation table.
+	FinanceCurrentAccount              string // FinanceCurrentAccount table.
+	FinanceCurrentAccountGroup         string // FinanceCurrentAccountGroup table.
+	FinanceCurrentAccountOperation     string // FinanceCurrentAccountOperation table.
+	FinanceCurrentAccountOperationType string // FinanceCurrentAccountOperationType table.
+	FinanceCurrentAccountType          string // FinanceCurrentAccountType table.
+	FinanceOperationGroup              string // FinanceOperationGroup table.
+	FinancePaymentClass                string // FinancePaymentClass table.
+	JobAuthor                          string // JobAuthor table.
+	JobContractor                      string // JobContractor table.
+	JobDetail                          string // JobDetail table.
+	JobFloor                           string // JobFloor table.
+	JobOwner                           string // JobOwner table.
+	JobPayments                        string // JobPayments table.
+	JobProgress                        string // JobProgress table.
+	JobReceipt                         string // JobReceipt table.
+	JobRelations                       string // JobRelations table.
+	JobSupervisor                      string // JobSupervisor table.
+	User                               string // User table.
 }
 
 type schemaCtxKey struct{}

@@ -18,11 +18,17 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
-	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
-	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
-	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
-	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
+	"github.com/polatbilal/ent-gqlgen/ent/financebankaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financebankoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecashaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financecashaccountoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccountgroup"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccountoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccountoperationtype"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccounttype"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperationgroup"
+	"github.com/polatbilal/ent-gqlgen/ent/financepaymentclass"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
@@ -62,30 +68,60 @@ var companyuserImplementors = []string{"CompanyUser", "Node"}
 // IsNode implements the Node interface check for GQLGen.
 func (*CompanyUser) IsNode() {}
 
-var financeaccountImplementors = []string{"FinanceAccount", "Node"}
+var financebankaccountImplementors = []string{"FinanceBankAccount", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
-func (*FinanceAccount) IsNode() {}
+func (*FinanceBankAccount) IsNode() {}
 
-var financeclassImplementors = []string{"FinanceClass", "Node"}
-
-// IsNode implements the Node interface check for GQLGen.
-func (*FinanceClass) IsNode() {}
-
-var financegroupImplementors = []string{"FinanceGroup", "Node"}
+var financebankoperationImplementors = []string{"FinanceBankOperation", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
-func (*FinanceGroup) IsNode() {}
+func (*FinanceBankOperation) IsNode() {}
 
-var financeoperationImplementors = []string{"FinanceOperation", "Node"}
-
-// IsNode implements the Node interface check for GQLGen.
-func (*FinanceOperation) IsNode() {}
-
-var financeresourceImplementors = []string{"FinanceResource", "Node"}
+var financecashaccountImplementors = []string{"FinanceCashAccount", "Node"}
 
 // IsNode implements the Node interface check for GQLGen.
-func (*FinanceResource) IsNode() {}
+func (*FinanceCashAccount) IsNode() {}
+
+var financecashaccountoperationImplementors = []string{"FinanceCashAccountOperation", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*FinanceCashAccountOperation) IsNode() {}
+
+var financecurrentaccountImplementors = []string{"FinanceCurrentAccount", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*FinanceCurrentAccount) IsNode() {}
+
+var financecurrentaccountgroupImplementors = []string{"FinanceCurrentAccountGroup", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*FinanceCurrentAccountGroup) IsNode() {}
+
+var financecurrentaccountoperationImplementors = []string{"FinanceCurrentAccountOperation", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*FinanceCurrentAccountOperation) IsNode() {}
+
+var financecurrentaccountoperationtypeImplementors = []string{"FinanceCurrentAccountOperationType", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*FinanceCurrentAccountOperationType) IsNode() {}
+
+var financecurrentaccounttypeImplementors = []string{"FinanceCurrentAccountType", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*FinanceCurrentAccountType) IsNode() {}
+
+var financeoperationgroupImplementors = []string{"FinanceOperationGroup", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*FinanceOperationGroup) IsNode() {}
+
+var financepaymentclassImplementors = []string{"FinancePaymentClass", "Node"}
+
+// IsNode implements the Node interface check for GQLGen.
+func (*FinancePaymentClass) IsNode() {}
 
 var jobauthorImplementors = []string{"JobAuthor", "Node"}
 
@@ -236,47 +272,101 @@ func (c *Client) noder(ctx context.Context, table string, id int) (Noder, error)
 			}
 		}
 		return query.Only(ctx)
-	case financeaccount.Table:
-		query := c.FinanceAccount.Query().
-			Where(financeaccount.ID(id))
+	case financebankaccount.Table:
+		query := c.FinanceBankAccount.Query().
+			Where(financebankaccount.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financeaccountImplementors...); err != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financebankaccountImplementors...); err != nil {
 				return nil, err
 			}
 		}
 		return query.Only(ctx)
-	case financeclass.Table:
-		query := c.FinanceClass.Query().
-			Where(financeclass.ID(id))
+	case financebankoperation.Table:
+		query := c.FinanceBankOperation.Query().
+			Where(financebankoperation.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financeclassImplementors...); err != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financebankoperationImplementors...); err != nil {
 				return nil, err
 			}
 		}
 		return query.Only(ctx)
-	case financegroup.Table:
-		query := c.FinanceGroup.Query().
-			Where(financegroup.ID(id))
+	case financecashaccount.Table:
+		query := c.FinanceCashAccount.Query().
+			Where(financecashaccount.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financegroupImplementors...); err != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financecashaccountImplementors...); err != nil {
 				return nil, err
 			}
 		}
 		return query.Only(ctx)
-	case financeoperation.Table:
-		query := c.FinanceOperation.Query().
-			Where(financeoperation.ID(id))
+	case financecashaccountoperation.Table:
+		query := c.FinanceCashAccountOperation.Query().
+			Where(financecashaccountoperation.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financeoperationImplementors...); err != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financecashaccountoperationImplementors...); err != nil {
 				return nil, err
 			}
 		}
 		return query.Only(ctx)
-	case financeresource.Table:
-		query := c.FinanceResource.Query().
-			Where(financeresource.ID(id))
+	case financecurrentaccount.Table:
+		query := c.FinanceCurrentAccount.Query().
+			Where(financecurrentaccount.ID(id))
 		if fc := graphql.GetFieldContext(ctx); fc != nil {
-			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financeresourceImplementors...); err != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financecurrentaccountImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case financecurrentaccountgroup.Table:
+		query := c.FinanceCurrentAccountGroup.Query().
+			Where(financecurrentaccountgroup.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financecurrentaccountgroupImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case financecurrentaccountoperation.Table:
+		query := c.FinanceCurrentAccountOperation.Query().
+			Where(financecurrentaccountoperation.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financecurrentaccountoperationImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case financecurrentaccountoperationtype.Table:
+		query := c.FinanceCurrentAccountOperationType.Query().
+			Where(financecurrentaccountoperationtype.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financecurrentaccountoperationtypeImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case financecurrentaccounttype.Table:
+		query := c.FinanceCurrentAccountType.Query().
+			Where(financecurrentaccounttype.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financecurrentaccounttypeImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case financeoperationgroup.Table:
+		query := c.FinanceOperationGroup.Query().
+			Where(financeoperationgroup.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financeoperationgroupImplementors...); err != nil {
+				return nil, err
+			}
+		}
+		return query.Only(ctx)
+	case financepaymentclass.Table:
+		query := c.FinancePaymentClass.Query().
+			Where(financepaymentclass.ID(id))
+		if fc := graphql.GetFieldContext(ctx); fc != nil {
+			if err := query.collectField(ctx, true, graphql.GetOperationContext(ctx), fc.Field, nil, financepaymentclassImplementors...); err != nil {
 				return nil, err
 			}
 		}
@@ -517,10 +607,10 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
-	case financeaccount.Table:
-		query := c.FinanceAccount.Query().
-			Where(financeaccount.IDIn(ids...))
-		query, err := query.CollectFields(ctx, financeaccountImplementors...)
+	case financebankaccount.Table:
+		query := c.FinanceBankAccount.Query().
+			Where(financebankaccount.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financebankaccountImplementors...)
 		if err != nil {
 			return nil, err
 		}
@@ -533,10 +623,10 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
-	case financeclass.Table:
-		query := c.FinanceClass.Query().
-			Where(financeclass.IDIn(ids...))
-		query, err := query.CollectFields(ctx, financeclassImplementors...)
+	case financebankoperation.Table:
+		query := c.FinanceBankOperation.Query().
+			Where(financebankoperation.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financebankoperationImplementors...)
 		if err != nil {
 			return nil, err
 		}
@@ -549,10 +639,10 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
-	case financegroup.Table:
-		query := c.FinanceGroup.Query().
-			Where(financegroup.IDIn(ids...))
-		query, err := query.CollectFields(ctx, financegroupImplementors...)
+	case financecashaccount.Table:
+		query := c.FinanceCashAccount.Query().
+			Where(financecashaccount.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financecashaccountImplementors...)
 		if err != nil {
 			return nil, err
 		}
@@ -565,10 +655,10 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
-	case financeoperation.Table:
-		query := c.FinanceOperation.Query().
-			Where(financeoperation.IDIn(ids...))
-		query, err := query.CollectFields(ctx, financeoperationImplementors...)
+	case financecashaccountoperation.Table:
+		query := c.FinanceCashAccountOperation.Query().
+			Where(financecashaccountoperation.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financecashaccountoperationImplementors...)
 		if err != nil {
 			return nil, err
 		}
@@ -581,10 +671,106 @@ func (c *Client) noders(ctx context.Context, table string, ids []int) ([]Noder, 
 				*noder = node
 			}
 		}
-	case financeresource.Table:
-		query := c.FinanceResource.Query().
-			Where(financeresource.IDIn(ids...))
-		query, err := query.CollectFields(ctx, financeresourceImplementors...)
+	case financecurrentaccount.Table:
+		query := c.FinanceCurrentAccount.Query().
+			Where(financecurrentaccount.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financecurrentaccountImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case financecurrentaccountgroup.Table:
+		query := c.FinanceCurrentAccountGroup.Query().
+			Where(financecurrentaccountgroup.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financecurrentaccountgroupImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case financecurrentaccountoperation.Table:
+		query := c.FinanceCurrentAccountOperation.Query().
+			Where(financecurrentaccountoperation.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financecurrentaccountoperationImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case financecurrentaccountoperationtype.Table:
+		query := c.FinanceCurrentAccountOperationType.Query().
+			Where(financecurrentaccountoperationtype.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financecurrentaccountoperationtypeImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case financecurrentaccounttype.Table:
+		query := c.FinanceCurrentAccountType.Query().
+			Where(financecurrentaccounttype.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financecurrentaccounttypeImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case financeoperationgroup.Table:
+		query := c.FinanceOperationGroup.Query().
+			Where(financeoperationgroup.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financeoperationgroupImplementors...)
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case financepaymentclass.Table:
+		query := c.FinancePaymentClass.Query().
+			Where(financepaymentclass.IDIn(ids...))
+		query, err := query.CollectFields(ctx, financepaymentclassImplementors...)
 		if err != nil {
 			return nil, err
 		}

@@ -332,6 +332,46 @@ func (_u *JobPaymentsUpdate) ClearInvoiceReceivedAmount() *JobPaymentsUpdate {
 	return _u
 }
 
+// SetInvoiceNumber sets the "InvoiceNumber" field.
+func (_u *JobPaymentsUpdate) SetInvoiceNumber(v string) *JobPaymentsUpdate {
+	_u.mutation.SetInvoiceNumber(v)
+	return _u
+}
+
+// SetNillableInvoiceNumber sets the "InvoiceNumber" field if the given value is not nil.
+func (_u *JobPaymentsUpdate) SetNillableInvoiceNumber(v *string) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetInvoiceNumber(*v)
+	}
+	return _u
+}
+
+// ClearInvoiceNumber clears the value of the "InvoiceNumber" field.
+func (_u *JobPaymentsUpdate) ClearInvoiceNumber() *JobPaymentsUpdate {
+	_u.mutation.ClearInvoiceNumber()
+	return _u
+}
+
+// SetWithholding sets the "Withholding" field.
+func (_u *JobPaymentsUpdate) SetWithholding(v bool) *JobPaymentsUpdate {
+	_u.mutation.SetWithholding(v)
+	return _u
+}
+
+// SetNillableWithholding sets the "Withholding" field if the given value is not nil.
+func (_u *JobPaymentsUpdate) SetNillableWithholding(v *bool) *JobPaymentsUpdate {
+	if v != nil {
+		_u.SetWithholding(*v)
+	}
+	return _u
+}
+
+// ClearWithholding clears the value of the "Withholding" field.
+func (_u *JobPaymentsUpdate) ClearWithholding() *JobPaymentsUpdate {
+	_u.mutation.ClearWithholding()
+	return _u
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (_u *JobPaymentsUpdate) SetCreatedAt(v time.Time) *JobPaymentsUpdate {
 	_u.mutation.SetCreatedAt(v)
@@ -522,6 +562,18 @@ func (_u *JobPaymentsUpdate) sqlSave(ctx context.Context) (_node int, err error)
 	}
 	if _u.mutation.InvoiceReceivedAmountCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceReceivedAmount, field.TypeOther)
+	}
+	if value, ok := _u.mutation.InvoiceNumber(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceNumber, field.TypeString, value)
+	}
+	if _u.mutation.InvoiceNumberCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceNumber, field.TypeString)
+	}
+	if value, ok := _u.mutation.Withholding(); ok {
+		_spec.SetField(jobpayments.FieldWithholding, field.TypeBool, value)
+	}
+	if _u.mutation.WithholdingCleared() {
+		_spec.ClearField(jobpayments.FieldWithholding, field.TypeBool)
 	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)
@@ -882,6 +934,46 @@ func (_u *JobPaymentsUpdateOne) ClearInvoiceReceivedAmount() *JobPaymentsUpdateO
 	return _u
 }
 
+// SetInvoiceNumber sets the "InvoiceNumber" field.
+func (_u *JobPaymentsUpdateOne) SetInvoiceNumber(v string) *JobPaymentsUpdateOne {
+	_u.mutation.SetInvoiceNumber(v)
+	return _u
+}
+
+// SetNillableInvoiceNumber sets the "InvoiceNumber" field if the given value is not nil.
+func (_u *JobPaymentsUpdateOne) SetNillableInvoiceNumber(v *string) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetInvoiceNumber(*v)
+	}
+	return _u
+}
+
+// ClearInvoiceNumber clears the value of the "InvoiceNumber" field.
+func (_u *JobPaymentsUpdateOne) ClearInvoiceNumber() *JobPaymentsUpdateOne {
+	_u.mutation.ClearInvoiceNumber()
+	return _u
+}
+
+// SetWithholding sets the "Withholding" field.
+func (_u *JobPaymentsUpdateOne) SetWithholding(v bool) *JobPaymentsUpdateOne {
+	_u.mutation.SetWithholding(v)
+	return _u
+}
+
+// SetNillableWithholding sets the "Withholding" field if the given value is not nil.
+func (_u *JobPaymentsUpdateOne) SetNillableWithholding(v *bool) *JobPaymentsUpdateOne {
+	if v != nil {
+		_u.SetWithholding(*v)
+	}
+	return _u
+}
+
+// ClearWithholding clears the value of the "Withholding" field.
+func (_u *JobPaymentsUpdateOne) ClearWithholding() *JobPaymentsUpdateOne {
+	_u.mutation.ClearWithholding()
+	return _u
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (_u *JobPaymentsUpdateOne) SetCreatedAt(v time.Time) *JobPaymentsUpdateOne {
 	_u.mutation.SetCreatedAt(v)
@@ -1102,6 +1194,18 @@ func (_u *JobPaymentsUpdateOne) sqlSave(ctx context.Context) (_node *JobPayments
 	}
 	if _u.mutation.InvoiceReceivedAmountCleared() {
 		_spec.ClearField(jobpayments.FieldInvoiceReceivedAmount, field.TypeOther)
+	}
+	if value, ok := _u.mutation.InvoiceNumber(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceNumber, field.TypeString, value)
+	}
+	if _u.mutation.InvoiceNumberCleared() {
+		_spec.ClearField(jobpayments.FieldInvoiceNumber, field.TypeString)
+	}
+	if value, ok := _u.mutation.Withholding(); ok {
+		_spec.SetField(jobpayments.FieldWithholding, field.TypeBool, value)
+	}
+	if _u.mutation.WithholdingCleared() {
+		_spec.ClearField(jobpayments.FieldWithholding, field.TypeBool)
 	}
 	if value, ok := _u.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)

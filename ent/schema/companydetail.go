@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"entgo.io/ent"
-	"entgo.io/ent/schema"
 	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -63,10 +63,16 @@ func (CompanyDetail) Edges() []ent.Edge {
 		edge.To("engineers", CompanyEngineer.Type).StorageKey(edge.Column("company_id")),
 
 		// finance
-		edge.To("operations", FinanceOperation.Type).StorageKey(edge.Column("company_id")),
-		edge.To("methods", FinanceClass.Type).StorageKey(edge.Column("company_id")),
-		edge.To("resources", FinanceResource.Type).StorageKey(edge.Column("company_id")),
-		edge.To("accounts", FinanceAccount.Type).StorageKey(edge.Column("company_id")),
+		edge.To("current_accounts", FinanceCurrentAccount.Type).StorageKey(edge.Column("company_id")),
+		edge.To("bank_accounts", FinanceBankAccount.Type).StorageKey(edge.Column("company_id")),
+		edge.To("cash_accounts", FinanceCashAccount.Type).StorageKey(edge.Column("company_id")),
+
+		edge.To("bank_operations", FinanceBankOperation.Type).StorageKey(edge.Column("company_id")),
+		edge.To("cash_operations", FinanceCashAccountOperation.Type).StorageKey(edge.Column("company_id")),
+		edge.To("current_operations", FinanceCurrentAccountOperation.Type).StorageKey(edge.Column("company_id")),
+
+		edge.To("cash_payment_classes", FinancePaymentClass.Type).StorageKey(edge.Column("company_id")),
+		edge.To("current_account_types", FinanceCurrentAccountType.Type).StorageKey(edge.Column("company_id")),
 	}
 }
 

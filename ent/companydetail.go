@@ -95,28 +95,40 @@ type CompanyDetailEdges struct {
 	Tokens []*CompanyToken `json:"tokens,omitempty"`
 	// Engineers holds the value of the engineers edge.
 	Engineers []*CompanyEngineer `json:"engineers,omitempty"`
-	// Operations holds the value of the operations edge.
-	Operations []*FinanceOperation `json:"operations,omitempty"`
-	// Methods holds the value of the methods edge.
-	Methods []*FinanceClass `json:"methods,omitempty"`
-	// Resources holds the value of the resources edge.
-	Resources []*FinanceResource `json:"resources,omitempty"`
-	// Accounts holds the value of the accounts edge.
-	Accounts []*FinanceAccount `json:"accounts,omitempty"`
+	// CurrentAccounts holds the value of the current_accounts edge.
+	CurrentAccounts []*FinanceCurrentAccount `json:"current_accounts,omitempty"`
+	// BankAccounts holds the value of the bank_accounts edge.
+	BankAccounts []*FinanceBankAccount `json:"bank_accounts,omitempty"`
+	// CashAccounts holds the value of the cash_accounts edge.
+	CashAccounts []*FinanceCashAccount `json:"cash_accounts,omitempty"`
+	// BankOperations holds the value of the bank_operations edge.
+	BankOperations []*FinanceBankOperation `json:"bank_operations,omitempty"`
+	// CashOperations holds the value of the cash_operations edge.
+	CashOperations []*FinanceCashAccountOperation `json:"cash_operations,omitempty"`
+	// CurrentOperations holds the value of the current_operations edge.
+	CurrentOperations []*FinanceCurrentAccountOperation `json:"current_operations,omitempty"`
+	// CashPaymentClasses holds the value of the cash_payment_classes edge.
+	CashPaymentClasses []*FinancePaymentClass `json:"cash_payment_classes,omitempty"`
+	// CurrentAccountTypes holds the value of the current_account_types edge.
+	CurrentAccountTypes []*FinanceCurrentAccountType `json:"current_account_types,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [8]bool
+	loadedTypes [12]bool
 	// totalCount holds the count of the edges above.
-	totalCount [8]map[string]int
+	totalCount [12]map[string]int
 
-	namedJobs       map[string][]*JobRelations
-	namedUsers      map[string][]*CompanyUser
-	namedTokens     map[string][]*CompanyToken
-	namedEngineers  map[string][]*CompanyEngineer
-	namedOperations map[string][]*FinanceOperation
-	namedMethods    map[string][]*FinanceClass
-	namedResources  map[string][]*FinanceResource
-	namedAccounts   map[string][]*FinanceAccount
+	namedJobs                map[string][]*JobRelations
+	namedUsers               map[string][]*CompanyUser
+	namedTokens              map[string][]*CompanyToken
+	namedEngineers           map[string][]*CompanyEngineer
+	namedCurrentAccounts     map[string][]*FinanceCurrentAccount
+	namedBankAccounts        map[string][]*FinanceBankAccount
+	namedCashAccounts        map[string][]*FinanceCashAccount
+	namedBankOperations      map[string][]*FinanceBankOperation
+	namedCashOperations      map[string][]*FinanceCashAccountOperation
+	namedCurrentOperations   map[string][]*FinanceCurrentAccountOperation
+	namedCashPaymentClasses  map[string][]*FinancePaymentClass
+	namedCurrentAccountTypes map[string][]*FinanceCurrentAccountType
 }
 
 // JobsOrErr returns the Jobs value or an error if the edge
@@ -155,40 +167,76 @@ func (e CompanyDetailEdges) EngineersOrErr() ([]*CompanyEngineer, error) {
 	return nil, &NotLoadedError{edge: "engineers"}
 }
 
-// OperationsOrErr returns the Operations value or an error if the edge
+// CurrentAccountsOrErr returns the CurrentAccounts value or an error if the edge
 // was not loaded in eager-loading.
-func (e CompanyDetailEdges) OperationsOrErr() ([]*FinanceOperation, error) {
+func (e CompanyDetailEdges) CurrentAccountsOrErr() ([]*FinanceCurrentAccount, error) {
 	if e.loadedTypes[4] {
-		return e.Operations, nil
+		return e.CurrentAccounts, nil
 	}
-	return nil, &NotLoadedError{edge: "operations"}
+	return nil, &NotLoadedError{edge: "current_accounts"}
 }
 
-// MethodsOrErr returns the Methods value or an error if the edge
+// BankAccountsOrErr returns the BankAccounts value or an error if the edge
 // was not loaded in eager-loading.
-func (e CompanyDetailEdges) MethodsOrErr() ([]*FinanceClass, error) {
+func (e CompanyDetailEdges) BankAccountsOrErr() ([]*FinanceBankAccount, error) {
 	if e.loadedTypes[5] {
-		return e.Methods, nil
+		return e.BankAccounts, nil
 	}
-	return nil, &NotLoadedError{edge: "methods"}
+	return nil, &NotLoadedError{edge: "bank_accounts"}
 }
 
-// ResourcesOrErr returns the Resources value or an error if the edge
+// CashAccountsOrErr returns the CashAccounts value or an error if the edge
 // was not loaded in eager-loading.
-func (e CompanyDetailEdges) ResourcesOrErr() ([]*FinanceResource, error) {
+func (e CompanyDetailEdges) CashAccountsOrErr() ([]*FinanceCashAccount, error) {
 	if e.loadedTypes[6] {
-		return e.Resources, nil
+		return e.CashAccounts, nil
 	}
-	return nil, &NotLoadedError{edge: "resources"}
+	return nil, &NotLoadedError{edge: "cash_accounts"}
 }
 
-// AccountsOrErr returns the Accounts value or an error if the edge
+// BankOperationsOrErr returns the BankOperations value or an error if the edge
 // was not loaded in eager-loading.
-func (e CompanyDetailEdges) AccountsOrErr() ([]*FinanceAccount, error) {
+func (e CompanyDetailEdges) BankOperationsOrErr() ([]*FinanceBankOperation, error) {
 	if e.loadedTypes[7] {
-		return e.Accounts, nil
+		return e.BankOperations, nil
 	}
-	return nil, &NotLoadedError{edge: "accounts"}
+	return nil, &NotLoadedError{edge: "bank_operations"}
+}
+
+// CashOperationsOrErr returns the CashOperations value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) CashOperationsOrErr() ([]*FinanceCashAccountOperation, error) {
+	if e.loadedTypes[8] {
+		return e.CashOperations, nil
+	}
+	return nil, &NotLoadedError{edge: "cash_operations"}
+}
+
+// CurrentOperationsOrErr returns the CurrentOperations value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) CurrentOperationsOrErr() ([]*FinanceCurrentAccountOperation, error) {
+	if e.loadedTypes[9] {
+		return e.CurrentOperations, nil
+	}
+	return nil, &NotLoadedError{edge: "current_operations"}
+}
+
+// CashPaymentClassesOrErr returns the CashPaymentClasses value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) CashPaymentClassesOrErr() ([]*FinancePaymentClass, error) {
+	if e.loadedTypes[10] {
+		return e.CashPaymentClasses, nil
+	}
+	return nil, &NotLoadedError{edge: "cash_payment_classes"}
+}
+
+// CurrentAccountTypesOrErr returns the CurrentAccountTypes value or an error if the edge
+// was not loaded in eager-loading.
+func (e CompanyDetailEdges) CurrentAccountTypesOrErr() ([]*FinanceCurrentAccountType, error) {
+	if e.loadedTypes[11] {
+		return e.CurrentAccountTypes, nil
+	}
+	return nil, &NotLoadedError{edge: "current_account_types"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -444,24 +492,44 @@ func (_m *CompanyDetail) QueryEngineers() *CompanyEngineerQuery {
 	return NewCompanyDetailClient(_m.config).QueryEngineers(_m)
 }
 
-// QueryOperations queries the "operations" edge of the CompanyDetail entity.
-func (_m *CompanyDetail) QueryOperations() *FinanceOperationQuery {
-	return NewCompanyDetailClient(_m.config).QueryOperations(_m)
+// QueryCurrentAccounts queries the "current_accounts" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryCurrentAccounts() *FinanceCurrentAccountQuery {
+	return NewCompanyDetailClient(_m.config).QueryCurrentAccounts(_m)
 }
 
-// QueryMethods queries the "methods" edge of the CompanyDetail entity.
-func (_m *CompanyDetail) QueryMethods() *FinanceClassQuery {
-	return NewCompanyDetailClient(_m.config).QueryMethods(_m)
+// QueryBankAccounts queries the "bank_accounts" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryBankAccounts() *FinanceBankAccountQuery {
+	return NewCompanyDetailClient(_m.config).QueryBankAccounts(_m)
 }
 
-// QueryResources queries the "resources" edge of the CompanyDetail entity.
-func (_m *CompanyDetail) QueryResources() *FinanceResourceQuery {
-	return NewCompanyDetailClient(_m.config).QueryResources(_m)
+// QueryCashAccounts queries the "cash_accounts" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryCashAccounts() *FinanceCashAccountQuery {
+	return NewCompanyDetailClient(_m.config).QueryCashAccounts(_m)
 }
 
-// QueryAccounts queries the "accounts" edge of the CompanyDetail entity.
-func (_m *CompanyDetail) QueryAccounts() *FinanceAccountQuery {
-	return NewCompanyDetailClient(_m.config).QueryAccounts(_m)
+// QueryBankOperations queries the "bank_operations" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryBankOperations() *FinanceBankOperationQuery {
+	return NewCompanyDetailClient(_m.config).QueryBankOperations(_m)
+}
+
+// QueryCashOperations queries the "cash_operations" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryCashOperations() *FinanceCashAccountOperationQuery {
+	return NewCompanyDetailClient(_m.config).QueryCashOperations(_m)
+}
+
+// QueryCurrentOperations queries the "current_operations" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryCurrentOperations() *FinanceCurrentAccountOperationQuery {
+	return NewCompanyDetailClient(_m.config).QueryCurrentOperations(_m)
+}
+
+// QueryCashPaymentClasses queries the "cash_payment_classes" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryCashPaymentClasses() *FinancePaymentClassQuery {
+	return NewCompanyDetailClient(_m.config).QueryCashPaymentClasses(_m)
+}
+
+// QueryCurrentAccountTypes queries the "current_account_types" edge of the CompanyDetail entity.
+func (_m *CompanyDetail) QueryCurrentAccountTypes() *FinanceCurrentAccountTypeQuery {
+	return NewCompanyDetailClient(_m.config).QueryCurrentAccountTypes(_m)
 }
 
 // Update returns a builder for updating this CompanyDetail.
@@ -679,99 +747,195 @@ func (_m *CompanyDetail) appendNamedEngineers(name string, edges ...*CompanyEngi
 	}
 }
 
-// NamedOperations returns the Operations named value or an error if the edge was not
+// NamedCurrentAccounts returns the CurrentAccounts named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (_m *CompanyDetail) NamedOperations(name string) ([]*FinanceOperation, error) {
-	if _m.Edges.namedOperations == nil {
+func (_m *CompanyDetail) NamedCurrentAccounts(name string) ([]*FinanceCurrentAccount, error) {
+	if _m.Edges.namedCurrentAccounts == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := _m.Edges.namedOperations[name]
+	nodes, ok := _m.Edges.namedCurrentAccounts[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (_m *CompanyDetail) appendNamedOperations(name string, edges ...*FinanceOperation) {
-	if _m.Edges.namedOperations == nil {
-		_m.Edges.namedOperations = make(map[string][]*FinanceOperation)
+func (_m *CompanyDetail) appendNamedCurrentAccounts(name string, edges ...*FinanceCurrentAccount) {
+	if _m.Edges.namedCurrentAccounts == nil {
+		_m.Edges.namedCurrentAccounts = make(map[string][]*FinanceCurrentAccount)
 	}
 	if len(edges) == 0 {
-		_m.Edges.namedOperations[name] = []*FinanceOperation{}
+		_m.Edges.namedCurrentAccounts[name] = []*FinanceCurrentAccount{}
 	} else {
-		_m.Edges.namedOperations[name] = append(_m.Edges.namedOperations[name], edges...)
+		_m.Edges.namedCurrentAccounts[name] = append(_m.Edges.namedCurrentAccounts[name], edges...)
 	}
 }
 
-// NamedMethods returns the Methods named value or an error if the edge was not
+// NamedBankAccounts returns the BankAccounts named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (_m *CompanyDetail) NamedMethods(name string) ([]*FinanceClass, error) {
-	if _m.Edges.namedMethods == nil {
+func (_m *CompanyDetail) NamedBankAccounts(name string) ([]*FinanceBankAccount, error) {
+	if _m.Edges.namedBankAccounts == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := _m.Edges.namedMethods[name]
+	nodes, ok := _m.Edges.namedBankAccounts[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (_m *CompanyDetail) appendNamedMethods(name string, edges ...*FinanceClass) {
-	if _m.Edges.namedMethods == nil {
-		_m.Edges.namedMethods = make(map[string][]*FinanceClass)
+func (_m *CompanyDetail) appendNamedBankAccounts(name string, edges ...*FinanceBankAccount) {
+	if _m.Edges.namedBankAccounts == nil {
+		_m.Edges.namedBankAccounts = make(map[string][]*FinanceBankAccount)
 	}
 	if len(edges) == 0 {
-		_m.Edges.namedMethods[name] = []*FinanceClass{}
+		_m.Edges.namedBankAccounts[name] = []*FinanceBankAccount{}
 	} else {
-		_m.Edges.namedMethods[name] = append(_m.Edges.namedMethods[name], edges...)
+		_m.Edges.namedBankAccounts[name] = append(_m.Edges.namedBankAccounts[name], edges...)
 	}
 }
 
-// NamedResources returns the Resources named value or an error if the edge was not
+// NamedCashAccounts returns the CashAccounts named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (_m *CompanyDetail) NamedResources(name string) ([]*FinanceResource, error) {
-	if _m.Edges.namedResources == nil {
+func (_m *CompanyDetail) NamedCashAccounts(name string) ([]*FinanceCashAccount, error) {
+	if _m.Edges.namedCashAccounts == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := _m.Edges.namedResources[name]
+	nodes, ok := _m.Edges.namedCashAccounts[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (_m *CompanyDetail) appendNamedResources(name string, edges ...*FinanceResource) {
-	if _m.Edges.namedResources == nil {
-		_m.Edges.namedResources = make(map[string][]*FinanceResource)
+func (_m *CompanyDetail) appendNamedCashAccounts(name string, edges ...*FinanceCashAccount) {
+	if _m.Edges.namedCashAccounts == nil {
+		_m.Edges.namedCashAccounts = make(map[string][]*FinanceCashAccount)
 	}
 	if len(edges) == 0 {
-		_m.Edges.namedResources[name] = []*FinanceResource{}
+		_m.Edges.namedCashAccounts[name] = []*FinanceCashAccount{}
 	} else {
-		_m.Edges.namedResources[name] = append(_m.Edges.namedResources[name], edges...)
+		_m.Edges.namedCashAccounts[name] = append(_m.Edges.namedCashAccounts[name], edges...)
 	}
 }
 
-// NamedAccounts returns the Accounts named value or an error if the edge was not
+// NamedBankOperations returns the BankOperations named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (_m *CompanyDetail) NamedAccounts(name string) ([]*FinanceAccount, error) {
-	if _m.Edges.namedAccounts == nil {
+func (_m *CompanyDetail) NamedBankOperations(name string) ([]*FinanceBankOperation, error) {
+	if _m.Edges.namedBankOperations == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := _m.Edges.namedAccounts[name]
+	nodes, ok := _m.Edges.namedBankOperations[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (_m *CompanyDetail) appendNamedAccounts(name string, edges ...*FinanceAccount) {
-	if _m.Edges.namedAccounts == nil {
-		_m.Edges.namedAccounts = make(map[string][]*FinanceAccount)
+func (_m *CompanyDetail) appendNamedBankOperations(name string, edges ...*FinanceBankOperation) {
+	if _m.Edges.namedBankOperations == nil {
+		_m.Edges.namedBankOperations = make(map[string][]*FinanceBankOperation)
 	}
 	if len(edges) == 0 {
-		_m.Edges.namedAccounts[name] = []*FinanceAccount{}
+		_m.Edges.namedBankOperations[name] = []*FinanceBankOperation{}
 	} else {
-		_m.Edges.namedAccounts[name] = append(_m.Edges.namedAccounts[name], edges...)
+		_m.Edges.namedBankOperations[name] = append(_m.Edges.namedBankOperations[name], edges...)
+	}
+}
+
+// NamedCashOperations returns the CashOperations named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *CompanyDetail) NamedCashOperations(name string) ([]*FinanceCashAccountOperation, error) {
+	if _m.Edges.namedCashOperations == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedCashOperations[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *CompanyDetail) appendNamedCashOperations(name string, edges ...*FinanceCashAccountOperation) {
+	if _m.Edges.namedCashOperations == nil {
+		_m.Edges.namedCashOperations = make(map[string][]*FinanceCashAccountOperation)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedCashOperations[name] = []*FinanceCashAccountOperation{}
+	} else {
+		_m.Edges.namedCashOperations[name] = append(_m.Edges.namedCashOperations[name], edges...)
+	}
+}
+
+// NamedCurrentOperations returns the CurrentOperations named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *CompanyDetail) NamedCurrentOperations(name string) ([]*FinanceCurrentAccountOperation, error) {
+	if _m.Edges.namedCurrentOperations == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedCurrentOperations[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *CompanyDetail) appendNamedCurrentOperations(name string, edges ...*FinanceCurrentAccountOperation) {
+	if _m.Edges.namedCurrentOperations == nil {
+		_m.Edges.namedCurrentOperations = make(map[string][]*FinanceCurrentAccountOperation)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedCurrentOperations[name] = []*FinanceCurrentAccountOperation{}
+	} else {
+		_m.Edges.namedCurrentOperations[name] = append(_m.Edges.namedCurrentOperations[name], edges...)
+	}
+}
+
+// NamedCashPaymentClasses returns the CashPaymentClasses named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *CompanyDetail) NamedCashPaymentClasses(name string) ([]*FinancePaymentClass, error) {
+	if _m.Edges.namedCashPaymentClasses == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedCashPaymentClasses[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *CompanyDetail) appendNamedCashPaymentClasses(name string, edges ...*FinancePaymentClass) {
+	if _m.Edges.namedCashPaymentClasses == nil {
+		_m.Edges.namedCashPaymentClasses = make(map[string][]*FinancePaymentClass)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedCashPaymentClasses[name] = []*FinancePaymentClass{}
+	} else {
+		_m.Edges.namedCashPaymentClasses[name] = append(_m.Edges.namedCashPaymentClasses[name], edges...)
+	}
+}
+
+// NamedCurrentAccountTypes returns the CurrentAccountTypes named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (_m *CompanyDetail) NamedCurrentAccountTypes(name string) ([]*FinanceCurrentAccountType, error) {
+	if _m.Edges.namedCurrentAccountTypes == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := _m.Edges.namedCurrentAccountTypes[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (_m *CompanyDetail) appendNamedCurrentAccountTypes(name string, edges ...*FinanceCurrentAccountType) {
+	if _m.Edges.namedCurrentAccountTypes == nil {
+		_m.Edges.namedCurrentAccountTypes = make(map[string][]*FinanceCurrentAccountType)
+	}
+	if len(edges) == 0 {
+		_m.Edges.namedCurrentAccountTypes[name] = []*FinanceCurrentAccountType{}
+	} else {
+		_m.Edges.namedCurrentAccountTypes[name] = append(_m.Edges.namedCurrentAccountTypes[name], edges...)
 	}
 }
 

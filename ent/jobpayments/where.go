@@ -133,6 +133,16 @@ func InvoiceReceivedAmount(v *decimal.NullDecimal) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceReceivedAmount, v))
 }
 
+// InvoiceNumber applies equality check predicate on the "InvoiceNumber" field. It's identical to InvoiceNumberEQ.
+func InvoiceNumber(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceNumber, v))
+}
+
+// Withholding applies equality check predicate on the "Withholding" field. It's identical to WithholdingEQ.
+func Withholding(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldWithholding, v))
+}
+
 // CreatedAt applies equality check predicate on the "CreatedAt" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldEQ(FieldCreatedAt, v))
@@ -831,6 +841,101 @@ func InvoiceReceivedAmountIsNil() predicate.JobPayments {
 // InvoiceReceivedAmountNotNil applies the NotNil predicate on the "InvoiceReceivedAmount" field.
 func InvoiceReceivedAmountNotNil() predicate.JobPayments {
 	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceReceivedAmount))
+}
+
+// InvoiceNumberEQ applies the EQ predicate on the "InvoiceNumber" field.
+func InvoiceNumberEQ(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberNEQ applies the NEQ predicate on the "InvoiceNumber" field.
+func InvoiceNumberNEQ(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberIn applies the In predicate on the "InvoiceNumber" field.
+func InvoiceNumberIn(vs ...string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIn(FieldInvoiceNumber, vs...))
+}
+
+// InvoiceNumberNotIn applies the NotIn predicate on the "InvoiceNumber" field.
+func InvoiceNumberNotIn(vs ...string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotIn(FieldInvoiceNumber, vs...))
+}
+
+// InvoiceNumberGT applies the GT predicate on the "InvoiceNumber" field.
+func InvoiceNumberGT(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGT(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberGTE applies the GTE predicate on the "InvoiceNumber" field.
+func InvoiceNumberGTE(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldGTE(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberLT applies the LT predicate on the "InvoiceNumber" field.
+func InvoiceNumberLT(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLT(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberLTE applies the LTE predicate on the "InvoiceNumber" field.
+func InvoiceNumberLTE(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldLTE(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberContains applies the Contains predicate on the "InvoiceNumber" field.
+func InvoiceNumberContains(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldContains(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberHasPrefix applies the HasPrefix predicate on the "InvoiceNumber" field.
+func InvoiceNumberHasPrefix(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldHasPrefix(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberHasSuffix applies the HasSuffix predicate on the "InvoiceNumber" field.
+func InvoiceNumberHasSuffix(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldHasSuffix(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberIsNil applies the IsNil predicate on the "InvoiceNumber" field.
+func InvoiceNumberIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldInvoiceNumber))
+}
+
+// InvoiceNumberNotNil applies the NotNil predicate on the "InvoiceNumber" field.
+func InvoiceNumberNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldInvoiceNumber))
+}
+
+// InvoiceNumberEqualFold applies the EqualFold predicate on the "InvoiceNumber" field.
+func InvoiceNumberEqualFold(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEqualFold(FieldInvoiceNumber, v))
+}
+
+// InvoiceNumberContainsFold applies the ContainsFold predicate on the "InvoiceNumber" field.
+func InvoiceNumberContainsFold(v string) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldContainsFold(FieldInvoiceNumber, v))
+}
+
+// WithholdingEQ applies the EQ predicate on the "Withholding" field.
+func WithholdingEQ(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldEQ(FieldWithholding, v))
+}
+
+// WithholdingNEQ applies the NEQ predicate on the "Withholding" field.
+func WithholdingNEQ(v bool) predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNEQ(FieldWithholding, v))
+}
+
+// WithholdingIsNil applies the IsNil predicate on the "Withholding" field.
+func WithholdingIsNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldIsNull(FieldWithholding))
+}
+
+// WithholdingNotNil applies the NotNil predicate on the "Withholding" field.
+func WithholdingNotNil() predicate.JobPayments {
+	return predicate.JobPayments(sql.FieldNotNull(FieldWithholding))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "CreatedAt" field.

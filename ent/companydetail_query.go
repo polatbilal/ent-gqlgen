@@ -16,10 +16,14 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
-	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
-	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
-	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
+	"github.com/polatbilal/ent-gqlgen/ent/financebankaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financebankoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecashaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financecashaccountoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccountoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccounttype"
+	"github.com/polatbilal/ent-gqlgen/ent/financepaymentclass"
 	"github.com/polatbilal/ent-gqlgen/ent/jobrelations"
 	"github.com/polatbilal/ent-gqlgen/ent/predicate"
 
@@ -29,28 +33,36 @@ import (
 // CompanyDetailQuery is the builder for querying CompanyDetail entities.
 type CompanyDetailQuery struct {
 	config
-	ctx                 *QueryContext
-	order               []companydetail.OrderOption
-	inters              []Interceptor
-	predicates          []predicate.CompanyDetail
-	withJobs            *JobRelationsQuery
-	withUsers           *CompanyUserQuery
-	withTokens          *CompanyTokenQuery
-	withEngineers       *CompanyEngineerQuery
-	withOperations      *FinanceOperationQuery
-	withMethods         *FinanceClassQuery
-	withResources       *FinanceResourceQuery
-	withAccounts        *FinanceAccountQuery
-	modifiers           []func(*sql.Selector)
-	loadTotal           []func(context.Context, []*CompanyDetail) error
-	withNamedJobs       map[string]*JobRelationsQuery
-	withNamedUsers      map[string]*CompanyUserQuery
-	withNamedTokens     map[string]*CompanyTokenQuery
-	withNamedEngineers  map[string]*CompanyEngineerQuery
-	withNamedOperations map[string]*FinanceOperationQuery
-	withNamedMethods    map[string]*FinanceClassQuery
-	withNamedResources  map[string]*FinanceResourceQuery
-	withNamedAccounts   map[string]*FinanceAccountQuery
+	ctx                          *QueryContext
+	order                        []companydetail.OrderOption
+	inters                       []Interceptor
+	predicates                   []predicate.CompanyDetail
+	withJobs                     *JobRelationsQuery
+	withUsers                    *CompanyUserQuery
+	withTokens                   *CompanyTokenQuery
+	withEngineers                *CompanyEngineerQuery
+	withCurrentAccounts          *FinanceCurrentAccountQuery
+	withBankAccounts             *FinanceBankAccountQuery
+	withCashAccounts             *FinanceCashAccountQuery
+	withBankOperations           *FinanceBankOperationQuery
+	withCashOperations           *FinanceCashAccountOperationQuery
+	withCurrentOperations        *FinanceCurrentAccountOperationQuery
+	withCashPaymentClasses       *FinancePaymentClassQuery
+	withCurrentAccountTypes      *FinanceCurrentAccountTypeQuery
+	modifiers                    []func(*sql.Selector)
+	loadTotal                    []func(context.Context, []*CompanyDetail) error
+	withNamedJobs                map[string]*JobRelationsQuery
+	withNamedUsers               map[string]*CompanyUserQuery
+	withNamedTokens              map[string]*CompanyTokenQuery
+	withNamedEngineers           map[string]*CompanyEngineerQuery
+	withNamedCurrentAccounts     map[string]*FinanceCurrentAccountQuery
+	withNamedBankAccounts        map[string]*FinanceBankAccountQuery
+	withNamedCashAccounts        map[string]*FinanceCashAccountQuery
+	withNamedBankOperations      map[string]*FinanceBankOperationQuery
+	withNamedCashOperations      map[string]*FinanceCashAccountOperationQuery
+	withNamedCurrentOperations   map[string]*FinanceCurrentAccountOperationQuery
+	withNamedCashPaymentClasses  map[string]*FinancePaymentClassQuery
+	withNamedCurrentAccountTypes map[string]*FinanceCurrentAccountTypeQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -187,9 +199,9 @@ func (_q *CompanyDetailQuery) QueryEngineers() *CompanyEngineerQuery {
 	return query
 }
 
-// QueryOperations chains the current query on the "operations" edge.
-func (_q *CompanyDetailQuery) QueryOperations() *FinanceOperationQuery {
-	query := (&FinanceOperationClient{config: _q.config}).Query()
+// QueryCurrentAccounts chains the current query on the "current_accounts" edge.
+func (_q *CompanyDetailQuery) QueryCurrentAccounts() *FinanceCurrentAccountQuery {
+	query := (&FinanceCurrentAccountClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -200,21 +212,21 @@ func (_q *CompanyDetailQuery) QueryOperations() *FinanceOperationQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
-			sqlgraph.To(financeoperation.Table, financeoperation.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.OperationsTable, companydetail.OperationsColumn),
+			sqlgraph.To(financecurrentaccount.Table, financecurrentaccount.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.CurrentAccountsTable, companydetail.CurrentAccountsColumn),
 		)
 		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.FinanceOperation
-		step.Edge.Schema = schemaConfig.FinanceOperation
+		step.To.Schema = schemaConfig.FinanceCurrentAccount
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccount
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
-// QueryMethods chains the current query on the "methods" edge.
-func (_q *CompanyDetailQuery) QueryMethods() *FinanceClassQuery {
-	query := (&FinanceClassClient{config: _q.config}).Query()
+// QueryBankAccounts chains the current query on the "bank_accounts" edge.
+func (_q *CompanyDetailQuery) QueryBankAccounts() *FinanceBankAccountQuery {
+	query := (&FinanceBankAccountClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -225,21 +237,21 @@ func (_q *CompanyDetailQuery) QueryMethods() *FinanceClassQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
-			sqlgraph.To(financeclass.Table, financeclass.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.MethodsTable, companydetail.MethodsColumn),
+			sqlgraph.To(financebankaccount.Table, financebankaccount.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.BankAccountsTable, companydetail.BankAccountsColumn),
 		)
 		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.FinanceClass
-		step.Edge.Schema = schemaConfig.FinanceClass
+		step.To.Schema = schemaConfig.FinanceBankAccount
+		step.Edge.Schema = schemaConfig.FinanceBankAccount
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
-// QueryResources chains the current query on the "resources" edge.
-func (_q *CompanyDetailQuery) QueryResources() *FinanceResourceQuery {
-	query := (&FinanceResourceClient{config: _q.config}).Query()
+// QueryCashAccounts chains the current query on the "cash_accounts" edge.
+func (_q *CompanyDetailQuery) QueryCashAccounts() *FinanceCashAccountQuery {
+	query := (&FinanceCashAccountClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -250,21 +262,21 @@ func (_q *CompanyDetailQuery) QueryResources() *FinanceResourceQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
-			sqlgraph.To(financeresource.Table, financeresource.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.ResourcesTable, companydetail.ResourcesColumn),
+			sqlgraph.To(financecashaccount.Table, financecashaccount.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.CashAccountsTable, companydetail.CashAccountsColumn),
 		)
 		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.FinanceResource
-		step.Edge.Schema = schemaConfig.FinanceResource
+		step.To.Schema = schemaConfig.FinanceCashAccount
+		step.Edge.Schema = schemaConfig.FinanceCashAccount
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
-// QueryAccounts chains the current query on the "accounts" edge.
-func (_q *CompanyDetailQuery) QueryAccounts() *FinanceAccountQuery {
-	query := (&FinanceAccountClient{config: _q.config}).Query()
+// QueryBankOperations chains the current query on the "bank_operations" edge.
+func (_q *CompanyDetailQuery) QueryBankOperations() *FinanceBankOperationQuery {
+	query := (&FinanceBankOperationClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -275,12 +287,112 @@ func (_q *CompanyDetailQuery) QueryAccounts() *FinanceAccountQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
-			sqlgraph.To(financeaccount.Table, financeaccount.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.AccountsTable, companydetail.AccountsColumn),
+			sqlgraph.To(financebankoperation.Table, financebankoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.BankOperationsTable, companydetail.BankOperationsColumn),
 		)
 		schemaConfig := _q.schemaConfig
-		step.To.Schema = schemaConfig.FinanceAccount
-		step.Edge.Schema = schemaConfig.FinanceAccount
+		step.To.Schema = schemaConfig.FinanceBankOperation
+		step.Edge.Schema = schemaConfig.FinanceBankOperation
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryCashOperations chains the current query on the "cash_operations" edge.
+func (_q *CompanyDetailQuery) QueryCashOperations() *FinanceCashAccountOperationQuery {
+	query := (&FinanceCashAccountOperationClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(financecashaccountoperation.Table, financecashaccountoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.CashOperationsTable, companydetail.CashOperationsColumn),
+		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceCashAccountOperation
+		step.Edge.Schema = schemaConfig.FinanceCashAccountOperation
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryCurrentOperations chains the current query on the "current_operations" edge.
+func (_q *CompanyDetailQuery) QueryCurrentOperations() *FinanceCurrentAccountOperationQuery {
+	query := (&FinanceCurrentAccountOperationClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(financecurrentaccountoperation.Table, financecurrentaccountoperation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.CurrentOperationsTable, companydetail.CurrentOperationsColumn),
+		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceCurrentAccountOperation
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccountOperation
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryCashPaymentClasses chains the current query on the "cash_payment_classes" edge.
+func (_q *CompanyDetailQuery) QueryCashPaymentClasses() *FinancePaymentClassQuery {
+	query := (&FinancePaymentClassClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(financepaymentclass.Table, financepaymentclass.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.CashPaymentClassesTable, companydetail.CashPaymentClassesColumn),
+		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinancePaymentClass
+		step.Edge.Schema = schemaConfig.FinancePaymentClass
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryCurrentAccountTypes chains the current query on the "current_account_types" edge.
+func (_q *CompanyDetailQuery) QueryCurrentAccountTypes() *FinanceCurrentAccountTypeQuery {
+	query := (&FinanceCurrentAccountTypeClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(companydetail.Table, companydetail.FieldID, selector),
+			sqlgraph.To(financecurrentaccounttype.Table, financecurrentaccounttype.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, companydetail.CurrentAccountTypesTable, companydetail.CurrentAccountTypesColumn),
+		)
+		schemaConfig := _q.schemaConfig
+		step.To.Schema = schemaConfig.FinanceCurrentAccountType
+		step.Edge.Schema = schemaConfig.FinanceCurrentAccountType
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
@@ -474,19 +586,23 @@ func (_q *CompanyDetailQuery) Clone() *CompanyDetailQuery {
 		return nil
 	}
 	return &CompanyDetailQuery{
-		config:         _q.config,
-		ctx:            _q.ctx.Clone(),
-		order:          append([]companydetail.OrderOption{}, _q.order...),
-		inters:         append([]Interceptor{}, _q.inters...),
-		predicates:     append([]predicate.CompanyDetail{}, _q.predicates...),
-		withJobs:       _q.withJobs.Clone(),
-		withUsers:      _q.withUsers.Clone(),
-		withTokens:     _q.withTokens.Clone(),
-		withEngineers:  _q.withEngineers.Clone(),
-		withOperations: _q.withOperations.Clone(),
-		withMethods:    _q.withMethods.Clone(),
-		withResources:  _q.withResources.Clone(),
-		withAccounts:   _q.withAccounts.Clone(),
+		config:                  _q.config,
+		ctx:                     _q.ctx.Clone(),
+		order:                   append([]companydetail.OrderOption{}, _q.order...),
+		inters:                  append([]Interceptor{}, _q.inters...),
+		predicates:              append([]predicate.CompanyDetail{}, _q.predicates...),
+		withJobs:                _q.withJobs.Clone(),
+		withUsers:               _q.withUsers.Clone(),
+		withTokens:              _q.withTokens.Clone(),
+		withEngineers:           _q.withEngineers.Clone(),
+		withCurrentAccounts:     _q.withCurrentAccounts.Clone(),
+		withBankAccounts:        _q.withBankAccounts.Clone(),
+		withCashAccounts:        _q.withCashAccounts.Clone(),
+		withBankOperations:      _q.withBankOperations.Clone(),
+		withCashOperations:      _q.withCashOperations.Clone(),
+		withCurrentOperations:   _q.withCurrentOperations.Clone(),
+		withCashPaymentClasses:  _q.withCashPaymentClasses.Clone(),
+		withCurrentAccountTypes: _q.withCurrentAccountTypes.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -537,47 +653,91 @@ func (_q *CompanyDetailQuery) WithEngineers(opts ...func(*CompanyEngineerQuery))
 	return _q
 }
 
-// WithOperations tells the query-builder to eager-load the nodes that are connected to
-// the "operations" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithOperations(opts ...func(*FinanceOperationQuery)) *CompanyDetailQuery {
-	query := (&FinanceOperationClient{config: _q.config}).Query()
+// WithCurrentAccounts tells the query-builder to eager-load the nodes that are connected to
+// the "current_accounts" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithCurrentAccounts(opts ...func(*FinanceCurrentAccountQuery)) *CompanyDetailQuery {
+	query := (&FinanceCurrentAccountClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	_q.withOperations = query
+	_q.withCurrentAccounts = query
 	return _q
 }
 
-// WithMethods tells the query-builder to eager-load the nodes that are connected to
-// the "methods" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithMethods(opts ...func(*FinanceClassQuery)) *CompanyDetailQuery {
-	query := (&FinanceClassClient{config: _q.config}).Query()
+// WithBankAccounts tells the query-builder to eager-load the nodes that are connected to
+// the "bank_accounts" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithBankAccounts(opts ...func(*FinanceBankAccountQuery)) *CompanyDetailQuery {
+	query := (&FinanceBankAccountClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	_q.withMethods = query
+	_q.withBankAccounts = query
 	return _q
 }
 
-// WithResources tells the query-builder to eager-load the nodes that are connected to
-// the "resources" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithResources(opts ...func(*FinanceResourceQuery)) *CompanyDetailQuery {
-	query := (&FinanceResourceClient{config: _q.config}).Query()
+// WithCashAccounts tells the query-builder to eager-load the nodes that are connected to
+// the "cash_accounts" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithCashAccounts(opts ...func(*FinanceCashAccountQuery)) *CompanyDetailQuery {
+	query := (&FinanceCashAccountClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	_q.withResources = query
+	_q.withCashAccounts = query
 	return _q
 }
 
-// WithAccounts tells the query-builder to eager-load the nodes that are connected to
-// the "accounts" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithAccounts(opts ...func(*FinanceAccountQuery)) *CompanyDetailQuery {
-	query := (&FinanceAccountClient{config: _q.config}).Query()
+// WithBankOperations tells the query-builder to eager-load the nodes that are connected to
+// the "bank_operations" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithBankOperations(opts ...func(*FinanceBankOperationQuery)) *CompanyDetailQuery {
+	query := (&FinanceBankOperationClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	_q.withAccounts = query
+	_q.withBankOperations = query
+	return _q
+}
+
+// WithCashOperations tells the query-builder to eager-load the nodes that are connected to
+// the "cash_operations" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithCashOperations(opts ...func(*FinanceCashAccountOperationQuery)) *CompanyDetailQuery {
+	query := (&FinanceCashAccountOperationClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withCashOperations = query
+	return _q
+}
+
+// WithCurrentOperations tells the query-builder to eager-load the nodes that are connected to
+// the "current_operations" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithCurrentOperations(opts ...func(*FinanceCurrentAccountOperationQuery)) *CompanyDetailQuery {
+	query := (&FinanceCurrentAccountOperationClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withCurrentOperations = query
+	return _q
+}
+
+// WithCashPaymentClasses tells the query-builder to eager-load the nodes that are connected to
+// the "cash_payment_classes" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithCashPaymentClasses(opts ...func(*FinancePaymentClassQuery)) *CompanyDetailQuery {
+	query := (&FinancePaymentClassClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withCashPaymentClasses = query
+	return _q
+}
+
+// WithCurrentAccountTypes tells the query-builder to eager-load the nodes that are connected to
+// the "current_account_types" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithCurrentAccountTypes(opts ...func(*FinanceCurrentAccountTypeQuery)) *CompanyDetailQuery {
+	query := (&FinanceCurrentAccountTypeClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withCurrentAccountTypes = query
 	return _q
 }
 
@@ -659,15 +819,19 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 	var (
 		nodes       = []*CompanyDetail{}
 		_spec       = _q.querySpec()
-		loadedTypes = [8]bool{
+		loadedTypes = [12]bool{
 			_q.withJobs != nil,
 			_q.withUsers != nil,
 			_q.withTokens != nil,
 			_q.withEngineers != nil,
-			_q.withOperations != nil,
-			_q.withMethods != nil,
-			_q.withResources != nil,
-			_q.withAccounts != nil,
+			_q.withCurrentAccounts != nil,
+			_q.withBankAccounts != nil,
+			_q.withCashAccounts != nil,
+			_q.withBankOperations != nil,
+			_q.withCashOperations != nil,
+			_q.withCurrentOperations != nil,
+			_q.withCashPaymentClasses != nil,
+			_q.withCurrentAccountTypes != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -721,31 +885,71 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			return nil, err
 		}
 	}
-	if query := _q.withOperations; query != nil {
-		if err := _q.loadOperations(ctx, query, nodes,
-			func(n *CompanyDetail) { n.Edges.Operations = []*FinanceOperation{} },
-			func(n *CompanyDetail, e *FinanceOperation) { n.Edges.Operations = append(n.Edges.Operations, e) }); err != nil {
+	if query := _q.withCurrentAccounts; query != nil {
+		if err := _q.loadCurrentAccounts(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.CurrentAccounts = []*FinanceCurrentAccount{} },
+			func(n *CompanyDetail, e *FinanceCurrentAccount) {
+				n.Edges.CurrentAccounts = append(n.Edges.CurrentAccounts, e)
+			}); err != nil {
 			return nil, err
 		}
 	}
-	if query := _q.withMethods; query != nil {
-		if err := _q.loadMethods(ctx, query, nodes,
-			func(n *CompanyDetail) { n.Edges.Methods = []*FinanceClass{} },
-			func(n *CompanyDetail, e *FinanceClass) { n.Edges.Methods = append(n.Edges.Methods, e) }); err != nil {
+	if query := _q.withBankAccounts; query != nil {
+		if err := _q.loadBankAccounts(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.BankAccounts = []*FinanceBankAccount{} },
+			func(n *CompanyDetail, e *FinanceBankAccount) { n.Edges.BankAccounts = append(n.Edges.BankAccounts, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := _q.withResources; query != nil {
-		if err := _q.loadResources(ctx, query, nodes,
-			func(n *CompanyDetail) { n.Edges.Resources = []*FinanceResource{} },
-			func(n *CompanyDetail, e *FinanceResource) { n.Edges.Resources = append(n.Edges.Resources, e) }); err != nil {
+	if query := _q.withCashAccounts; query != nil {
+		if err := _q.loadCashAccounts(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.CashAccounts = []*FinanceCashAccount{} },
+			func(n *CompanyDetail, e *FinanceCashAccount) { n.Edges.CashAccounts = append(n.Edges.CashAccounts, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := _q.withAccounts; query != nil {
-		if err := _q.loadAccounts(ctx, query, nodes,
-			func(n *CompanyDetail) { n.Edges.Accounts = []*FinanceAccount{} },
-			func(n *CompanyDetail, e *FinanceAccount) { n.Edges.Accounts = append(n.Edges.Accounts, e) }); err != nil {
+	if query := _q.withBankOperations; query != nil {
+		if err := _q.loadBankOperations(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.BankOperations = []*FinanceBankOperation{} },
+			func(n *CompanyDetail, e *FinanceBankOperation) {
+				n.Edges.BankOperations = append(n.Edges.BankOperations, e)
+			}); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withCashOperations; query != nil {
+		if err := _q.loadCashOperations(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.CashOperations = []*FinanceCashAccountOperation{} },
+			func(n *CompanyDetail, e *FinanceCashAccountOperation) {
+				n.Edges.CashOperations = append(n.Edges.CashOperations, e)
+			}); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withCurrentOperations; query != nil {
+		if err := _q.loadCurrentOperations(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.CurrentOperations = []*FinanceCurrentAccountOperation{} },
+			func(n *CompanyDetail, e *FinanceCurrentAccountOperation) {
+				n.Edges.CurrentOperations = append(n.Edges.CurrentOperations, e)
+			}); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withCashPaymentClasses; query != nil {
+		if err := _q.loadCashPaymentClasses(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.CashPaymentClasses = []*FinancePaymentClass{} },
+			func(n *CompanyDetail, e *FinancePaymentClass) {
+				n.Edges.CashPaymentClasses = append(n.Edges.CashPaymentClasses, e)
+			}); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withCurrentAccountTypes; query != nil {
+		if err := _q.loadCurrentAccountTypes(ctx, query, nodes,
+			func(n *CompanyDetail) { n.Edges.CurrentAccountTypes = []*FinanceCurrentAccountType{} },
+			func(n *CompanyDetail, e *FinanceCurrentAccountType) {
+				n.Edges.CurrentAccountTypes = append(n.Edges.CurrentAccountTypes, e)
+			}); err != nil {
 			return nil, err
 		}
 	}
@@ -777,31 +981,59 @@ func (_q *CompanyDetailQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([
 			return nil, err
 		}
 	}
-	for name, query := range _q.withNamedOperations {
-		if err := _q.loadOperations(ctx, query, nodes,
-			func(n *CompanyDetail) { n.appendNamedOperations(name) },
-			func(n *CompanyDetail, e *FinanceOperation) { n.appendNamedOperations(name, e) }); err != nil {
+	for name, query := range _q.withNamedCurrentAccounts {
+		if err := _q.loadCurrentAccounts(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedCurrentAccounts(name) },
+			func(n *CompanyDetail, e *FinanceCurrentAccount) { n.appendNamedCurrentAccounts(name, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range _q.withNamedMethods {
-		if err := _q.loadMethods(ctx, query, nodes,
-			func(n *CompanyDetail) { n.appendNamedMethods(name) },
-			func(n *CompanyDetail, e *FinanceClass) { n.appendNamedMethods(name, e) }); err != nil {
+	for name, query := range _q.withNamedBankAccounts {
+		if err := _q.loadBankAccounts(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedBankAccounts(name) },
+			func(n *CompanyDetail, e *FinanceBankAccount) { n.appendNamedBankAccounts(name, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range _q.withNamedResources {
-		if err := _q.loadResources(ctx, query, nodes,
-			func(n *CompanyDetail) { n.appendNamedResources(name) },
-			func(n *CompanyDetail, e *FinanceResource) { n.appendNamedResources(name, e) }); err != nil {
+	for name, query := range _q.withNamedCashAccounts {
+		if err := _q.loadCashAccounts(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedCashAccounts(name) },
+			func(n *CompanyDetail, e *FinanceCashAccount) { n.appendNamedCashAccounts(name, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range _q.withNamedAccounts {
-		if err := _q.loadAccounts(ctx, query, nodes,
-			func(n *CompanyDetail) { n.appendNamedAccounts(name) },
-			func(n *CompanyDetail, e *FinanceAccount) { n.appendNamedAccounts(name, e) }); err != nil {
+	for name, query := range _q.withNamedBankOperations {
+		if err := _q.loadBankOperations(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedBankOperations(name) },
+			func(n *CompanyDetail, e *FinanceBankOperation) { n.appendNamedBankOperations(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range _q.withNamedCashOperations {
+		if err := _q.loadCashOperations(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedCashOperations(name) },
+			func(n *CompanyDetail, e *FinanceCashAccountOperation) { n.appendNamedCashOperations(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range _q.withNamedCurrentOperations {
+		if err := _q.loadCurrentOperations(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedCurrentOperations(name) },
+			func(n *CompanyDetail, e *FinanceCurrentAccountOperation) { n.appendNamedCurrentOperations(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range _q.withNamedCashPaymentClasses {
+		if err := _q.loadCashPaymentClasses(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedCashPaymentClasses(name) },
+			func(n *CompanyDetail, e *FinancePaymentClass) { n.appendNamedCashPaymentClasses(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range _q.withNamedCurrentAccountTypes {
+		if err := _q.loadCurrentAccountTypes(ctx, query, nodes,
+			func(n *CompanyDetail) { n.appendNamedCurrentAccountTypes(name) },
+			func(n *CompanyDetail, e *FinanceCurrentAccountType) { n.appendNamedCurrentAccountTypes(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -937,7 +1169,7 @@ func (_q *CompanyDetailQuery) loadEngineers(ctx context.Context, query *CompanyE
 	}
 	return nil
 }
-func (_q *CompanyDetailQuery) loadOperations(ctx context.Context, query *FinanceOperationQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceOperation)) error {
+func (_q *CompanyDetailQuery) loadCurrentAccounts(ctx context.Context, query *FinanceCurrentAccountQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceCurrentAccount)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*CompanyDetail)
 	for i := range nodes {
@@ -948,8 +1180,8 @@ func (_q *CompanyDetailQuery) loadOperations(ctx context.Context, query *Finance
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.FinanceOperation(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companydetail.OperationsColumn), fks...))
+	query.Where(predicate.FinanceCurrentAccount(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.CurrentAccountsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -968,7 +1200,7 @@ func (_q *CompanyDetailQuery) loadOperations(ctx context.Context, query *Finance
 	}
 	return nil
 }
-func (_q *CompanyDetailQuery) loadMethods(ctx context.Context, query *FinanceClassQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceClass)) error {
+func (_q *CompanyDetailQuery) loadBankAccounts(ctx context.Context, query *FinanceBankAccountQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceBankAccount)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*CompanyDetail)
 	for i := range nodes {
@@ -979,8 +1211,8 @@ func (_q *CompanyDetailQuery) loadMethods(ctx context.Context, query *FinanceCla
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.FinanceClass(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companydetail.MethodsColumn), fks...))
+	query.Where(predicate.FinanceBankAccount(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.BankAccountsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -999,7 +1231,7 @@ func (_q *CompanyDetailQuery) loadMethods(ctx context.Context, query *FinanceCla
 	}
 	return nil
 }
-func (_q *CompanyDetailQuery) loadResources(ctx context.Context, query *FinanceResourceQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceResource)) error {
+func (_q *CompanyDetailQuery) loadCashAccounts(ctx context.Context, query *FinanceCashAccountQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceCashAccount)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*CompanyDetail)
 	for i := range nodes {
@@ -1010,8 +1242,8 @@ func (_q *CompanyDetailQuery) loadResources(ctx context.Context, query *FinanceR
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.FinanceResource(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companydetail.ResourcesColumn), fks...))
+	query.Where(predicate.FinanceCashAccount(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.CashAccountsColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -1030,7 +1262,7 @@ func (_q *CompanyDetailQuery) loadResources(ctx context.Context, query *FinanceR
 	}
 	return nil
 }
-func (_q *CompanyDetailQuery) loadAccounts(ctx context.Context, query *FinanceAccountQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceAccount)) error {
+func (_q *CompanyDetailQuery) loadBankOperations(ctx context.Context, query *FinanceBankOperationQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceBankOperation)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*CompanyDetail)
 	for i := range nodes {
@@ -1041,8 +1273,132 @@ func (_q *CompanyDetailQuery) loadAccounts(ctx context.Context, query *FinanceAc
 		}
 	}
 	query.withFKs = true
-	query.Where(predicate.FinanceAccount(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(companydetail.AccountsColumn), fks...))
+	query.Where(predicate.FinanceBankOperation(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.BankOperationsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *CompanyDetailQuery) loadCashOperations(ctx context.Context, query *FinanceCashAccountOperationQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceCashAccountOperation)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.FinanceCashAccountOperation(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.CashOperationsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *CompanyDetailQuery) loadCurrentOperations(ctx context.Context, query *FinanceCurrentAccountOperationQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceCurrentAccountOperation)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.FinanceCurrentAccountOperation(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.CurrentOperationsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *CompanyDetailQuery) loadCashPaymentClasses(ctx context.Context, query *FinancePaymentClassQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinancePaymentClass)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.FinancePaymentClass(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.CashPaymentClassesColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.company_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "company_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "company_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *CompanyDetailQuery) loadCurrentAccountTypes(ctx context.Context, query *FinanceCurrentAccountTypeQuery, nodes []*CompanyDetail, init func(*CompanyDetail), assign func(*CompanyDetail, *FinanceCurrentAccountType)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*CompanyDetail)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.FinanceCurrentAccountType(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(companydetail.CurrentAccountTypesColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
@@ -1207,59 +1563,115 @@ func (_q *CompanyDetailQuery) WithNamedEngineers(name string, opts ...func(*Comp
 	return _q
 }
 
-// WithNamedOperations tells the query-builder to eager-load the nodes that are connected to the "operations"
+// WithNamedCurrentAccounts tells the query-builder to eager-load the nodes that are connected to the "current_accounts"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithNamedOperations(name string, opts ...func(*FinanceOperationQuery)) *CompanyDetailQuery {
-	query := (&FinanceOperationClient{config: _q.config}).Query()
+func (_q *CompanyDetailQuery) WithNamedCurrentAccounts(name string, opts ...func(*FinanceCurrentAccountQuery)) *CompanyDetailQuery {
+	query := (&FinanceCurrentAccountClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if _q.withNamedOperations == nil {
-		_q.withNamedOperations = make(map[string]*FinanceOperationQuery)
+	if _q.withNamedCurrentAccounts == nil {
+		_q.withNamedCurrentAccounts = make(map[string]*FinanceCurrentAccountQuery)
 	}
-	_q.withNamedOperations[name] = query
+	_q.withNamedCurrentAccounts[name] = query
 	return _q
 }
 
-// WithNamedMethods tells the query-builder to eager-load the nodes that are connected to the "methods"
+// WithNamedBankAccounts tells the query-builder to eager-load the nodes that are connected to the "bank_accounts"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithNamedMethods(name string, opts ...func(*FinanceClassQuery)) *CompanyDetailQuery {
-	query := (&FinanceClassClient{config: _q.config}).Query()
+func (_q *CompanyDetailQuery) WithNamedBankAccounts(name string, opts ...func(*FinanceBankAccountQuery)) *CompanyDetailQuery {
+	query := (&FinanceBankAccountClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if _q.withNamedMethods == nil {
-		_q.withNamedMethods = make(map[string]*FinanceClassQuery)
+	if _q.withNamedBankAccounts == nil {
+		_q.withNamedBankAccounts = make(map[string]*FinanceBankAccountQuery)
 	}
-	_q.withNamedMethods[name] = query
+	_q.withNamedBankAccounts[name] = query
 	return _q
 }
 
-// WithNamedResources tells the query-builder to eager-load the nodes that are connected to the "resources"
+// WithNamedCashAccounts tells the query-builder to eager-load the nodes that are connected to the "cash_accounts"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithNamedResources(name string, opts ...func(*FinanceResourceQuery)) *CompanyDetailQuery {
-	query := (&FinanceResourceClient{config: _q.config}).Query()
+func (_q *CompanyDetailQuery) WithNamedCashAccounts(name string, opts ...func(*FinanceCashAccountQuery)) *CompanyDetailQuery {
+	query := (&FinanceCashAccountClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if _q.withNamedResources == nil {
-		_q.withNamedResources = make(map[string]*FinanceResourceQuery)
+	if _q.withNamedCashAccounts == nil {
+		_q.withNamedCashAccounts = make(map[string]*FinanceCashAccountQuery)
 	}
-	_q.withNamedResources[name] = query
+	_q.withNamedCashAccounts[name] = query
 	return _q
 }
 
-// WithNamedAccounts tells the query-builder to eager-load the nodes that are connected to the "accounts"
+// WithNamedBankOperations tells the query-builder to eager-load the nodes that are connected to the "bank_operations"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (_q *CompanyDetailQuery) WithNamedAccounts(name string, opts ...func(*FinanceAccountQuery)) *CompanyDetailQuery {
-	query := (&FinanceAccountClient{config: _q.config}).Query()
+func (_q *CompanyDetailQuery) WithNamedBankOperations(name string, opts ...func(*FinanceBankOperationQuery)) *CompanyDetailQuery {
+	query := (&FinanceBankOperationClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if _q.withNamedAccounts == nil {
-		_q.withNamedAccounts = make(map[string]*FinanceAccountQuery)
+	if _q.withNamedBankOperations == nil {
+		_q.withNamedBankOperations = make(map[string]*FinanceBankOperationQuery)
 	}
-	_q.withNamedAccounts[name] = query
+	_q.withNamedBankOperations[name] = query
+	return _q
+}
+
+// WithNamedCashOperations tells the query-builder to eager-load the nodes that are connected to the "cash_operations"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithNamedCashOperations(name string, opts ...func(*FinanceCashAccountOperationQuery)) *CompanyDetailQuery {
+	query := (&FinanceCashAccountOperationClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if _q.withNamedCashOperations == nil {
+		_q.withNamedCashOperations = make(map[string]*FinanceCashAccountOperationQuery)
+	}
+	_q.withNamedCashOperations[name] = query
+	return _q
+}
+
+// WithNamedCurrentOperations tells the query-builder to eager-load the nodes that are connected to the "current_operations"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithNamedCurrentOperations(name string, opts ...func(*FinanceCurrentAccountOperationQuery)) *CompanyDetailQuery {
+	query := (&FinanceCurrentAccountOperationClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if _q.withNamedCurrentOperations == nil {
+		_q.withNamedCurrentOperations = make(map[string]*FinanceCurrentAccountOperationQuery)
+	}
+	_q.withNamedCurrentOperations[name] = query
+	return _q
+}
+
+// WithNamedCashPaymentClasses tells the query-builder to eager-load the nodes that are connected to the "cash_payment_classes"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithNamedCashPaymentClasses(name string, opts ...func(*FinancePaymentClassQuery)) *CompanyDetailQuery {
+	query := (&FinancePaymentClassClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if _q.withNamedCashPaymentClasses == nil {
+		_q.withNamedCashPaymentClasses = make(map[string]*FinancePaymentClassQuery)
+	}
+	_q.withNamedCashPaymentClasses[name] = query
+	return _q
+}
+
+// WithNamedCurrentAccountTypes tells the query-builder to eager-load the nodes that are connected to the "current_account_types"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (_q *CompanyDetailQuery) WithNamedCurrentAccountTypes(name string, opts ...func(*FinanceCurrentAccountTypeQuery)) *CompanyDetailQuery {
+	query := (&FinanceCurrentAccountTypeClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if _q.withNamedCurrentAccountTypes == nil {
+		_q.withNamedCurrentAccountTypes = make(map[string]*FinanceCurrentAccountTypeQuery)
+	}
+	_q.withNamedCurrentAccountTypes[name] = query
 	return _q
 }
 

@@ -56,50 +56,98 @@ func (_m *CompanyDetail) Engineers(ctx context.Context) (result []*CompanyEngine
 	return result, err
 }
 
-func (_m *CompanyDetail) Operations(ctx context.Context) (result []*FinanceOperation, err error) {
+func (_m *CompanyDetail) CurrentAccounts(ctx context.Context) (result []*FinanceCurrentAccount, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedCurrentAccounts(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.OperationsOrErr()
+		result, err = _m.Edges.CurrentAccountsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryOperations().All(ctx)
+		result, err = _m.QueryCurrentAccounts().All(ctx)
 	}
 	return result, err
 }
 
-func (_m *CompanyDetail) Methods(ctx context.Context) (result []*FinanceClass, err error) {
+func (_m *CompanyDetail) BankAccounts(ctx context.Context) (result []*FinanceBankAccount, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedMethods(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedBankAccounts(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.MethodsOrErr()
+		result, err = _m.Edges.BankAccountsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryMethods().All(ctx)
+		result, err = _m.QueryBankAccounts().All(ctx)
 	}
 	return result, err
 }
 
-func (_m *CompanyDetail) Resources(ctx context.Context) (result []*FinanceResource, err error) {
+func (_m *CompanyDetail) CashAccounts(ctx context.Context) (result []*FinanceCashAccount, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedResources(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedCashAccounts(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.ResourcesOrErr()
+		result, err = _m.Edges.CashAccountsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryResources().All(ctx)
+		result, err = _m.QueryCashAccounts().All(ctx)
 	}
 	return result, err
 }
 
-func (_m *CompanyDetail) Accounts(ctx context.Context) (result []*FinanceAccount, err error) {
+func (_m *CompanyDetail) BankOperations(ctx context.Context) (result []*FinanceBankOperation, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedAccounts(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedBankOperations(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.AccountsOrErr()
+		result, err = _m.Edges.BankOperationsOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryAccounts().All(ctx)
+		result, err = _m.QueryBankOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *CompanyDetail) CashOperations(ctx context.Context) (result []*FinanceCashAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCashOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CashOperationsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCashOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *CompanyDetail) CurrentOperations(ctx context.Context) (result []*FinanceCurrentAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCurrentOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CurrentOperationsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCurrentOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *CompanyDetail) CashPaymentClasses(ctx context.Context) (result []*FinancePaymentClass, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCashPaymentClasses(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CashPaymentClassesOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCashPaymentClasses().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *CompanyDetail) CurrentAccountTypes(ctx context.Context) (result []*FinanceCurrentAccountType, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCurrentAccountTypes(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CurrentAccountTypesOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCurrentAccountTypes().All(ctx)
 	}
 	return result, err
 }
@@ -232,7 +280,7 @@ func (_m *CompanyUser) User(ctx context.Context) (*User, error) {
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceAccount) Company(ctx context.Context) (*CompanyDetail, error) {
+func (_m *FinanceBankAccount) Company(ctx context.Context) (*CompanyDetail, error) {
 	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
 		result, err = _m.QueryCompany().Only(ctx)
@@ -240,23 +288,7 @@ func (_m *FinanceAccount) Company(ctx context.Context) (*CompanyDetail, error) {
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceAccount) Group(ctx context.Context) (*FinanceGroup, error) {
-	result, err := _m.Edges.GroupOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryGroup().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceAccount) Type(ctx context.Context) (*FinanceClass, error) {
-	result, err := _m.Edges.TypeOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryType().Only(ctx)
-	}
-	return result, MaskNotFound(err)
-}
-
-func (_m *FinanceAccount) Operations(ctx context.Context) (result []*FinanceOperation, err error) {
+func (_m *FinanceBankAccount) Operations(ctx context.Context) (result []*FinanceBankOperation, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
 		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
@@ -268,7 +300,7 @@ func (_m *FinanceAccount) Operations(ctx context.Context) (result []*FinanceOper
 	return result, err
 }
 
-func (_m *FinanceClass) Company(ctx context.Context) (*CompanyDetail, error) {
+func (_m *FinanceBankOperation) Company(ctx context.Context) (*CompanyDetail, error) {
 	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
 		result, err = _m.QueryCompany().Only(ctx)
@@ -276,63 +308,59 @@ func (_m *FinanceClass) Company(ctx context.Context) (*CompanyDetail, error) {
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceClass) Classes(ctx context.Context) (result []*FinanceOperation, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedClasses(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.ClassesOrErr()
-	}
+func (_m *FinanceBankOperation) BankAccount(ctx context.Context) (*FinanceBankAccount, error) {
+	result, err := _m.Edges.BankAccountOrErr()
 	if IsNotLoaded(err) {
-		result, err = _m.QueryClasses().All(ctx)
-	}
-	return result, err
-}
-
-func (_m *FinanceClass) Types(ctx context.Context) (result []*FinanceAccount, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedTypes(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.TypesOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryTypes().All(ctx)
-	}
-	return result, err
-}
-
-func (_m *FinanceGroup) Groups(ctx context.Context) (result []*FinanceOperation, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedGroups(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.GroupsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryGroups().All(ctx)
-	}
-	return result, err
-}
-
-func (_m *FinanceGroup) FinanceAccounts(ctx context.Context) (result []*FinanceAccount, err error) {
-	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedFinanceAccounts(graphql.GetFieldContext(ctx).Field.Alias)
-	} else {
-		result, err = _m.Edges.FinanceAccountsOrErr()
-	}
-	if IsNotLoaded(err) {
-		result, err = _m.QueryFinanceAccounts().All(ctx)
-	}
-	return result, err
-}
-
-func (_m *FinanceOperation) Class(ctx context.Context) (*FinanceClass, error) {
-	result, err := _m.Edges.ClassOrErr()
-	if IsNotLoaded(err) {
-		result, err = _m.QueryClass().Only(ctx)
+		result, err = _m.QueryBankAccount().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceOperation) Company(ctx context.Context) (*CompanyDetail, error) {
+func (_m *FinanceBankOperation) OperationGroup(ctx context.Context) (*FinanceOperationGroup, error) {
+	result, err := _m.Edges.OperationGroupOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryOperationGroup().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceBankOperation) PaymentClass(ctx context.Context) (*FinancePaymentClass, error) {
+	result, err := _m.Edges.PaymentClassOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryPaymentClass().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceBankOperation) ParticipantCurrentOperation(ctx context.Context) (*FinanceCurrentAccountOperation, error) {
+	result, err := _m.Edges.ParticipantCurrentOperationOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryParticipantCurrentOperation().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceBankOperation) ParticipantCashOperation(ctx context.Context) (*FinanceCashAccountOperation, error) {
+	result, err := _m.Edges.ParticipantCashOperationOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryParticipantCashOperation().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceBankOperation) CashParticipant(ctx context.Context) (result []*FinanceCashAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCashParticipant(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CashParticipantOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCashParticipant().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceCashAccount) Company(ctx context.Context) (*CompanyDetail, error) {
 	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
 		result, err = _m.QueryCompany().Only(ctx)
@@ -340,15 +368,87 @@ func (_m *FinanceOperation) Company(ctx context.Context) (*CompanyDetail, error)
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceOperation) Resource(ctx context.Context) (*FinanceResource, error) {
-	result, err := _m.Edges.ResourceOrErr()
+func (_m *FinanceCashAccount) Operations(ctx context.Context) (result []*FinanceCashAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.OperationsOrErr()
+	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryResource().Only(ctx)
+		result, err = _m.QueryOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceCashAccountOperation) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCompany().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceOperation) Group(ctx context.Context) (*FinanceGroup, error) {
+func (_m *FinanceCashAccountOperation) CashAccount(ctx context.Context) (*FinanceCashAccount, error) {
+	result, err := _m.Edges.CashAccountOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCashAccount().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCashAccountOperation) OperationGroup(ctx context.Context) (*FinanceOperationGroup, error) {
+	result, err := _m.Edges.OperationGroupOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryOperationGroup().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCashAccountOperation) PaymentClass(ctx context.Context) (*FinancePaymentClass, error) {
+	result, err := _m.Edges.PaymentClassOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryPaymentClass().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCashAccountOperation) ParticipantCurrentOperation(ctx context.Context) (*FinanceCurrentAccountOperation, error) {
+	result, err := _m.Edges.ParticipantCurrentOperationOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryParticipantCurrentOperation().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCashAccountOperation) ParticipantBankOperation(ctx context.Context) (*FinanceBankOperation, error) {
+	result, err := _m.Edges.ParticipantBankOperationOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryParticipantBankOperation().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCashAccountOperation) BankParticipant(ctx context.Context) (result []*FinanceBankOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedBankParticipant(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.BankParticipantOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryBankParticipant().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceCurrentAccount) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCurrentAccount) Group(ctx context.Context) (*FinanceCurrentAccountGroup, error) {
 	result, err := _m.Edges.GroupOrErr()
 	if IsNotLoaded(err) {
 		result, err = _m.QueryGroup().Only(ctx)
@@ -356,15 +456,39 @@ func (_m *FinanceOperation) Group(ctx context.Context) (*FinanceGroup, error) {
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceOperation) Account(ctx context.Context) (*FinanceAccount, error) {
-	result, err := _m.Edges.AccountOrErr()
+func (_m *FinanceCurrentAccount) Operations(ctx context.Context) (result []*FinanceCurrentAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.OperationsOrErr()
+	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryAccount().Only(ctx)
+		result, err = _m.QueryOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceCurrentAccount) AccountType(ctx context.Context) (*FinanceCurrentAccountType, error) {
+	result, err := _m.Edges.AccountTypeOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryAccountType().Only(ctx)
 	}
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceResource) Company(ctx context.Context) (*CompanyDetail, error) {
+func (_m *FinanceCurrentAccountGroup) CurrentAccounts(ctx context.Context) (result []*FinanceCurrentAccount, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCurrentAccounts(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CurrentAccountsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCurrentAccounts().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceCurrentAccountOperation) Company(ctx context.Context) (*CompanyDetail, error) {
 	result, err := _m.Edges.CompanyOrErr()
 	if IsNotLoaded(err) {
 		result, err = _m.QueryCompany().Only(ctx)
@@ -372,14 +496,150 @@ func (_m *FinanceResource) Company(ctx context.Context) (*CompanyDetail, error) 
 	return result, MaskNotFound(err)
 }
 
-func (_m *FinanceResource) Resources(ctx context.Context) (result []*FinanceOperation, err error) {
+func (_m *FinanceCurrentAccountOperation) CurrentAccount(ctx context.Context) (*FinanceCurrentAccount, error) {
+	result, err := _m.Edges.CurrentAccountOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCurrentAccount().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCurrentAccountOperation) OperationGroup(ctx context.Context) (*FinanceOperationGroup, error) {
+	result, err := _m.Edges.OperationGroupOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryOperationGroup().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCurrentAccountOperation) AccountType(ctx context.Context) (*FinanceCurrentAccountOperationType, error) {
+	result, err := _m.Edges.AccountTypeOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryAccountType().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCurrentAccountOperation) BankParticipant(ctx context.Context) (result []*FinanceBankOperation, err error) {
 	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
-		result, err = _m.NamedResources(graphql.GetFieldContext(ctx).Field.Alias)
+		result, err = _m.NamedBankParticipant(graphql.GetFieldContext(ctx).Field.Alias)
 	} else {
-		result, err = _m.Edges.ResourcesOrErr()
+		result, err = _m.Edges.BankParticipantOrErr()
 	}
 	if IsNotLoaded(err) {
-		result, err = _m.QueryResources().All(ctx)
+		result, err = _m.QueryBankParticipant().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceCurrentAccountOperation) CashParticipant(ctx context.Context) (result []*FinanceCashAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCashParticipant(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CashParticipantOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCashParticipant().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceCurrentAccountOperationType) CurrentOperations(ctx context.Context) (result []*FinanceCurrentAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCurrentOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CurrentOperationsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCurrentOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceCurrentAccountType) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinanceCurrentAccountType) CurrentAccounts(ctx context.Context) (result []*FinanceCurrentAccount, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCurrentAccounts(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CurrentAccountsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCurrentAccounts().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceOperationGroup) BankOperations(ctx context.Context) (result []*FinanceBankOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedBankOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.BankOperationsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryBankOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceOperationGroup) CashOperations(ctx context.Context) (result []*FinanceCashAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCashOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CashOperationsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCashOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinanceOperationGroup) CurrentOperations(ctx context.Context) (result []*FinanceCurrentAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCurrentOperations(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CurrentOperationsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCurrentOperations().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinancePaymentClass) Company(ctx context.Context) (*CompanyDetail, error) {
+	result, err := _m.Edges.CompanyOrErr()
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCompany().Only(ctx)
+	}
+	return result, MaskNotFound(err)
+}
+
+func (_m *FinancePaymentClass) BankPayments(ctx context.Context) (result []*FinanceBankOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedBankPayments(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.BankPaymentsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryBankPayments().All(ctx)
+	}
+	return result, err
+}
+
+func (_m *FinancePaymentClass) CashPayments(ctx context.Context) (result []*FinanceCashAccountOperation, err error) {
+	if fc := graphql.GetFieldContext(ctx); fc != nil && fc.Field.Alias != "" {
+		result, err = _m.NamedCashPayments(graphql.GetFieldContext(ctx).Field.Alias)
+	} else {
+		result, err = _m.Edges.CashPaymentsOrErr()
+	}
+	if IsNotLoaded(err) {
+		result, err = _m.QueryCashPayments().All(ctx)
 	}
 	return result, err
 }

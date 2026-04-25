@@ -142,162 +142,337 @@ var (
 			},
 		},
 	}
-	// AccountsColumns holds the columns for the "accounts" table.
-	AccountsColumns = []*schema.Column{
+	// BankAccountsColumns holds the columns for the "bank_accounts" table.
+	BankAccountsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString, Default: "İSİM YOK"},
-		{Name: "tc_no", Type: field.TypeString, Nullable: true},
-		{Name: "tax_no", Type: field.TypeString, Nullable: true},
-		{Name: "tax_admin", Type: field.TypeString, Nullable: true},
-		{Name: "phone", Type: field.TypeString, Nullable: true},
-		{Name: "email", Type: field.TypeString, Nullable: true},
-		{Name: "address", Type: field.TypeString, Nullable: true},
-		{Name: "note", Type: field.TypeString, Nullable: true},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "company_id", Type: field.TypeInt, Nullable: true},
-		{Name: "type_id", Type: field.TypeInt, Nullable: true},
-		{Name: "group_id", Type: field.TypeInt, Nullable: true},
-	}
-	// AccountsTable holds the schema information for the "accounts" table.
-	AccountsTable = &schema.Table{
-		Name:       "accounts",
-		Columns:    AccountsColumns,
-		PrimaryKey: []*schema.Column{AccountsColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "accounts_company_details_accounts",
-				Columns:    []*schema.Column{AccountsColumns[11]},
-				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
-				Symbol:     "accounts_classes_types",
-				Columns:    []*schema.Column{AccountsColumns[12]},
-				RefColumns: []*schema.Column{ClassesColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
-				Symbol:     "accounts_groups_finance_accounts",
-				Columns:    []*schema.Column{AccountsColumns[13]},
-				RefColumns: []*schema.Column{GroupsColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-		},
-	}
-	// ClassesColumns holds the columns for the "classes" table.
-	ClassesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "category", Type: field.TypeString, Nullable: true},
-		{Name: "name", Type: field.TypeString},
-		{Name: "deleted_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString},
+		{Name: "deleted_description", Type: field.TypeString, Nullable: true},
 		{Name: "deleted_date", Type: field.TypeTime, Nullable: true},
 		{Name: "status", Type: field.TypeBool, Default: true},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
 	}
-	// ClassesTable holds the schema information for the "classes" table.
-	ClassesTable = &schema.Table{
-		Name:       "classes",
-		Columns:    ClassesColumns,
-		PrimaryKey: []*schema.Column{ClassesColumns[0]},
+	// BankAccountsTable holds the schema information for the "bank_accounts" table.
+	BankAccountsTable = &schema.Table{
+		Name:       "bank_accounts",
+		Columns:    BankAccountsColumns,
+		PrimaryKey: []*schema.Column{BankAccountsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "classes_company_details_methods",
-				Columns:    []*schema.Column{ClassesColumns[8]},
+				Symbol:     "bank_accounts_company_details_bank_accounts",
+				Columns:    []*schema.Column{BankAccountsColumns[5]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 	}
-	// GroupsColumns holds the columns for the "groups" table.
-	GroupsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "category", Type: field.TypeString},
-		{Name: "name", Type: field.TypeString},
-		{Name: "deleted_name", Type: field.TypeString, Nullable: true},
-		{Name: "deleted_date", Type: field.TypeTime, Nullable: true},
-		{Name: "status", Type: field.TypeBool, Default: true},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
-	}
-	// GroupsTable holds the schema information for the "groups" table.
-	GroupsTable = &schema.Table{
-		Name:       "groups",
-		Columns:    GroupsColumns,
-		PrimaryKey: []*schema.Column{GroupsColumns[0]},
-	}
-	// OperationsColumns holds the columns for the "operations" table.
-	OperationsColumns = []*schema.Column{
+	// BankAccountOperationsColumns holds the columns for the "bank_account_operations" table.
+	BankAccountOperationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "date", Type: field.TypeTime},
-		{Name: "debit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(12,2)"}},
-		{Name: "credit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(12,2)"}},
+		{Name: "debit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(18,2)"}},
+		{Name: "credit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(18,2)"}},
 		{Name: "description", Type: field.TypeString},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "status", Type: field.TypeBool, Default: true},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
-		{Name: "account_id", Type: field.TypeInt, Nullable: true},
-		{Name: "class_id", Type: field.TypeInt, Nullable: true},
-		{Name: "group_id", Type: field.TypeInt, Nullable: true},
-		{Name: "resource_id", Type: field.TypeInt, Nullable: true},
+		{Name: "bank_account_id", Type: field.TypeInt, Nullable: true},
+		{Name: "participant_current_account_operation_id", Type: field.TypeInt, Nullable: true},
+		{Name: "participant_cash_account_operation_id", Type: field.TypeInt, Nullable: true},
+		{Name: "operation_group_id", Type: field.TypeInt, Nullable: true},
+		{Name: "payment_class_id", Type: field.TypeInt, Nullable: true},
 	}
-	// OperationsTable holds the schema information for the "operations" table.
-	OperationsTable = &schema.Table{
-		Name:       "operations",
-		Columns:    OperationsColumns,
-		PrimaryKey: []*schema.Column{OperationsColumns[0]},
+	// BankAccountOperationsTable holds the schema information for the "bank_account_operations" table.
+	BankAccountOperationsTable = &schema.Table{
+		Name:       "bank_account_operations",
+		Columns:    BankAccountOperationsColumns,
+		PrimaryKey: []*schema.Column{BankAccountOperationsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "operations_company_details_operations",
-				Columns:    []*schema.Column{OperationsColumns[7]},
+				Symbol:     "bank_account_operations_company_details_bank_operations",
+				Columns:    []*schema.Column{BankAccountOperationsColumns[6]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "operations_accounts_operations",
-				Columns:    []*schema.Column{OperationsColumns[8]},
-				RefColumns: []*schema.Column{AccountsColumns[0]},
+				Symbol:     "bank_account_operations_bank_accounts_operations",
+				Columns:    []*schema.Column{BankAccountOperationsColumns[7]},
+				RefColumns: []*schema.Column{BankAccountsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "operations_classes_classes",
-				Columns:    []*schema.Column{OperationsColumns[9]},
-				RefColumns: []*schema.Column{ClassesColumns[0]},
+				Symbol:     "bank_account_operations_current_account_operations_participant_current_operation",
+				Columns:    []*schema.Column{BankAccountOperationsColumns[8]},
+				RefColumns: []*schema.Column{CurrentAccountOperationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "operations_groups_groups",
-				Columns:    []*schema.Column{OperationsColumns[10]},
-				RefColumns: []*schema.Column{GroupsColumns[0]},
+				Symbol:     "bank_account_operations_cash_account_operations_participant_cash_operation",
+				Columns:    []*schema.Column{BankAccountOperationsColumns[9]},
+				RefColumns: []*schema.Column{CashAccountOperationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "operations_resources_resources",
-				Columns:    []*schema.Column{OperationsColumns[11]},
-				RefColumns: []*schema.Column{ResourcesColumns[0]},
+				Symbol:     "bank_account_operations_operation_groups_bank_operations",
+				Columns:    []*schema.Column{BankAccountOperationsColumns[10]},
+				RefColumns: []*schema.Column{OperationGroupsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "bank_account_operations_payment_classes_bank_payments",
+				Columns:    []*schema.Column{BankAccountOperationsColumns[11]},
+				RefColumns: []*schema.Column{PaymentClassesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 	}
-	// ResourcesColumns holds the columns for the "resources" table.
-	ResourcesColumns = []*schema.Column{
+	// CashAccountsColumns holds the columns for the "cash_accounts" table.
+	CashAccountsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString},
+		{Name: "deleted_description", Type: field.TypeString, Nullable: true},
+		{Name: "deleted_date", Type: field.TypeTime, Nullable: true},
+		{Name: "status", Type: field.TypeBool, Default: true},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+	}
+	// CashAccountsTable holds the schema information for the "cash_accounts" table.
+	CashAccountsTable = &schema.Table{
+		Name:       "cash_accounts",
+		Columns:    CashAccountsColumns,
+		PrimaryKey: []*schema.Column{CashAccountsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cash_accounts_company_details_cash_accounts",
+				Columns:    []*schema.Column{CashAccountsColumns[5]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// CashAccountOperationsColumns holds the columns for the "cash_account_operations" table.
+	CashAccountOperationsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "date", Type: field.TypeTime},
+		{Name: "debit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(18,2)"}},
+		{Name: "credit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(18,2)"}},
+		{Name: "description", Type: field.TypeString},
+		{Name: "status", Type: field.TypeBool, Default: true},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+		{Name: "cash_account_id", Type: field.TypeInt, Nullable: true},
+		{Name: "participant_current_account_operation_id", Type: field.TypeInt, Nullable: true},
+		{Name: "participant_bank_account_operation_id", Type: field.TypeInt, Nullable: true},
+		{Name: "operation_group_id", Type: field.TypeInt, Nullable: true},
+		{Name: "payment_class_id", Type: field.TypeInt, Nullable: true},
+	}
+	// CashAccountOperationsTable holds the schema information for the "cash_account_operations" table.
+	CashAccountOperationsTable = &schema.Table{
+		Name:       "cash_account_operations",
+		Columns:    CashAccountOperationsColumns,
+		PrimaryKey: []*schema.Column{CashAccountOperationsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cash_account_operations_company_details_cash_operations",
+				Columns:    []*schema.Column{CashAccountOperationsColumns[6]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "cash_account_operations_cash_accounts_operations",
+				Columns:    []*schema.Column{CashAccountOperationsColumns[7]},
+				RefColumns: []*schema.Column{CashAccountsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "cash_account_operations_current_account_operations_participant_current_operation",
+				Columns:    []*schema.Column{CashAccountOperationsColumns[8]},
+				RefColumns: []*schema.Column{CurrentAccountOperationsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "cash_account_operations_bank_account_operations_participant_bank_operation",
+				Columns:    []*schema.Column{CashAccountOperationsColumns[9]},
+				RefColumns: []*schema.Column{BankAccountOperationsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "cash_account_operations_operation_groups_cash_operations",
+				Columns:    []*schema.Column{CashAccountOperationsColumns[10]},
+				RefColumns: []*schema.Column{OperationGroupsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "cash_account_operations_payment_classes_cash_payments",
+				Columns:    []*schema.Column{CashAccountOperationsColumns[11]},
+				RefColumns: []*schema.Column{PaymentClassesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// CurrentAccountsColumns holds the columns for the "current_accounts" table.
+	CurrentAccountsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "name", Type: field.TypeString, Default: "İSİM YOK"},
+		{Name: "deleted_name", Type: field.TypeString, Nullable: true},
+		{Name: "national_identification_number", Type: field.TypeString, Nullable: true},
+		{Name: "address", Type: field.TypeString, Nullable: true},
+		{Name: "tax_office", Type: field.TypeString, Nullable: true},
+		{Name: "tax_number", Type: field.TypeString, Nullable: true},
+		{Name: "business_phone", Type: field.TypeString, Nullable: true},
+		{Name: "cell_phone", Type: field.TypeString, Nullable: true},
+		{Name: "fax", Type: field.TypeString, Nullable: true},
+		{Name: "email", Type: field.TypeString, Nullable: true},
+		{Name: "web_address", Type: field.TypeString, Nullable: true},
+		{Name: "note", Type: field.TypeString, Nullable: true},
+		{Name: "status", Type: field.TypeBool, Default: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+		{Name: "group_id", Type: field.TypeInt, Nullable: true},
+		{Name: "type_id", Type: field.TypeInt, Nullable: true},
 	}
-	// ResourcesTable holds the schema information for the "resources" table.
-	ResourcesTable = &schema.Table{
-		Name:       "resources",
-		Columns:    ResourcesColumns,
-		PrimaryKey: []*schema.Column{ResourcesColumns[0]},
+	// CurrentAccountsTable holds the schema information for the "current_accounts" table.
+	CurrentAccountsTable = &schema.Table{
+		Name:       "current_accounts",
+		Columns:    CurrentAccountsColumns,
+		PrimaryKey: []*schema.Column{CurrentAccountsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "resources_company_details_resources",
-				Columns:    []*schema.Column{ResourcesColumns[4]},
+				Symbol:     "current_accounts_company_details_current_accounts",
+				Columns:    []*schema.Column{CurrentAccountsColumns[16]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "current_accounts_current_account_groups_current_accounts",
+				Columns:    []*schema.Column{CurrentAccountsColumns[17]},
+				RefColumns: []*schema.Column{CurrentAccountGroupsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "current_accounts_current_account_types_current_accounts",
+				Columns:    []*schema.Column{CurrentAccountsColumns[18]},
+				RefColumns: []*schema.Column{CurrentAccountTypesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// CurrentAccountGroupsColumns holds the columns for the "current_account_groups" table.
+	CurrentAccountGroupsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "description", Type: field.TypeString},
+	}
+	// CurrentAccountGroupsTable holds the schema information for the "current_account_groups" table.
+	CurrentAccountGroupsTable = &schema.Table{
+		Name:       "current_account_groups",
+		Columns:    CurrentAccountGroupsColumns,
+		PrimaryKey: []*schema.Column{CurrentAccountGroupsColumns[0]},
+	}
+	// CurrentAccountOperationsColumns holds the columns for the "current_account_operations" table.
+	CurrentAccountOperationsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "date", Type: field.TypeTime},
+		{Name: "debit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(18,2)"}},
+		{Name: "credit", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(18,2)"}},
+		{Name: "description", Type: field.TypeString},
+		{Name: "status", Type: field.TypeBool, Default: true},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+		{Name: "account_id", Type: field.TypeInt, Nullable: true},
+		{Name: "type_id", Type: field.TypeInt, Nullable: true},
+		{Name: "operation_group_id", Type: field.TypeInt, Nullable: true},
+	}
+	// CurrentAccountOperationsTable holds the schema information for the "current_account_operations" table.
+	CurrentAccountOperationsTable = &schema.Table{
+		Name:       "current_account_operations",
+		Columns:    CurrentAccountOperationsColumns,
+		PrimaryKey: []*schema.Column{CurrentAccountOperationsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "current_account_operations_company_details_current_operations",
+				Columns:    []*schema.Column{CurrentAccountOperationsColumns[6]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "current_account_operations_current_accounts_operations",
+				Columns:    []*schema.Column{CurrentAccountOperationsColumns[7]},
+				RefColumns: []*schema.Column{CurrentAccountsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "current_account_operations_current_account_operation_types_current_operations",
+				Columns:    []*schema.Column{CurrentAccountOperationsColumns[8]},
+				RefColumns: []*schema.Column{CurrentAccountOperationTypesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "current_account_operations_operation_groups_current_operations",
+				Columns:    []*schema.Column{CurrentAccountOperationsColumns[9]},
+				RefColumns: []*schema.Column{OperationGroupsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// CurrentAccountOperationTypesColumns holds the columns for the "current_account_operation_types" table.
+	CurrentAccountOperationTypesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "description", Type: field.TypeString},
+	}
+	// CurrentAccountOperationTypesTable holds the schema information for the "current_account_operation_types" table.
+	CurrentAccountOperationTypesTable = &schema.Table{
+		Name:       "current_account_operation_types",
+		Columns:    CurrentAccountOperationTypesColumns,
+		PrimaryKey: []*schema.Column{CurrentAccountOperationTypesColumns[0]},
+	}
+	// CurrentAccountTypesColumns holds the columns for the "current_account_types" table.
+	CurrentAccountTypesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "description", Type: field.TypeString, Default: "AÇIKLAMA YOK"},
+		{Name: "deleted_description", Type: field.TypeString, Nullable: true},
+		{Name: "deleted_date", Type: field.TypeTime, Nullable: true},
+		{Name: "status", Type: field.TypeBool, Default: true},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+	}
+	// CurrentAccountTypesTable holds the schema information for the "current_account_types" table.
+	CurrentAccountTypesTable = &schema.Table{
+		Name:       "current_account_types",
+		Columns:    CurrentAccountTypesColumns,
+		PrimaryKey: []*schema.Column{CurrentAccountTypesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "current_account_types_company_details_current_account_types",
+				Columns:    []*schema.Column{CurrentAccountTypesColumns[5]},
+				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// OperationGroupsColumns holds the columns for the "operation_groups" table.
+	OperationGroupsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "description", Type: field.TypeString},
+	}
+	// OperationGroupsTable holds the schema information for the "operation_groups" table.
+	OperationGroupsTable = &schema.Table{
+		Name:       "operation_groups",
+		Columns:    OperationGroupsColumns,
+		PrimaryKey: []*schema.Column{OperationGroupsColumns[0]},
+	}
+	// PaymentClassesColumns holds the columns for the "payment_classes" table.
+	PaymentClassesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "description", Type: field.TypeString},
+		{Name: "deleted_description", Type: field.TypeString, Nullable: true},
+		{Name: "deleted_date", Type: field.TypeTime, Nullable: true},
+		{Name: "status", Type: field.TypeBool, Default: true},
+		{Name: "company_id", Type: field.TypeInt, Nullable: true},
+	}
+	// PaymentClassesTable holds the schema information for the "payment_classes" table.
+	PaymentClassesTable = &schema.Table{
+		Name:       "payment_classes",
+		Columns:    PaymentClassesColumns,
+		PrimaryKey: []*schema.Column{PaymentClassesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "payment_classes_company_details_cash_payment_classes",
+				Columns:    []*schema.Column{PaymentClassesColumns[5]},
 				RefColumns: []*schema.Column{CompanyDetailsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -454,14 +629,16 @@ var (
 		{Name: "state", Type: field.TypeString, Nullable: true},
 		{Name: "level_request", Type: field.TypeFloat64, Nullable: true},
 		{Name: "level_approve", Type: field.TypeFloat64, Nullable: true},
-		{Name: "amount", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(12,2)"}},
+		{Name: "amount", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(18,2)"}},
 		{Name: "at_municipality", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "municipality_delivery_date", Type: field.TypeTime, Nullable: true},
 		{Name: "invoice_issued", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "invoice_issued_date", Type: field.TypeTime, Nullable: true},
 		{Name: "invoice_received", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "invoice_received_date", Type: field.TypeTime, Nullable: true},
-		{Name: "invoice_received_amount", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(12,2)"}},
+		{Name: "invoice_received_amount", Type: field.TypeOther, Nullable: true, SchemaType: map[string]string{"postgres": "numeric(18,2)"}},
+		{Name: "invoice_number", Type: field.TypeString, Nullable: true},
+		{Name: "withholding", Type: field.TypeBool, Nullable: true, Default: false},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "relations_id", Type: field.TypeInt, Nullable: true},
@@ -474,7 +651,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "job_payments_job_relations_payments",
-				Columns:    []*schema.Column{JobPaymentsColumns[18]},
+				Columns:    []*schema.Column{JobPaymentsColumns[20]},
 				RefColumns: []*schema.Column{JobRelationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -696,11 +873,17 @@ var (
 		CompanyEngineersTable,
 		CompanyTokensTable,
 		CompanyUsersTable,
-		AccountsTable,
-		ClassesTable,
-		GroupsTable,
-		OperationsTable,
-		ResourcesTable,
+		BankAccountsTable,
+		BankAccountOperationsTable,
+		CashAccountsTable,
+		CashAccountOperationsTable,
+		CurrentAccountsTable,
+		CurrentAccountGroupsTable,
+		CurrentAccountOperationsTable,
+		CurrentAccountOperationTypesTable,
+		CurrentAccountTypesTable,
+		OperationGroupsTable,
+		PaymentClassesTable,
 		JobAuthorsTable,
 		JobContractorsTable,
 		JobDetailsTable,
@@ -720,30 +903,61 @@ func init() {
 	CompanyTokensTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[0].RefTable = CompanyDetailsTable
 	CompanyUsersTable.ForeignKeys[1].RefTable = UsersTable
-	AccountsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
-	AccountsTable.ForeignKeys[1].RefTable = ClassesTable
-	AccountsTable.ForeignKeys[2].RefTable = GroupsTable
-	AccountsTable.Annotation = &entsql.Annotation{
-		Table: "accounts",
+	BankAccountsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	BankAccountsTable.Annotation = &entsql.Annotation{
+		Table: "bank_accounts",
 	}
-	ClassesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
-	ClassesTable.Annotation = &entsql.Annotation{
-		Table: "classes",
+	BankAccountOperationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	BankAccountOperationsTable.ForeignKeys[1].RefTable = BankAccountsTable
+	BankAccountOperationsTable.ForeignKeys[2].RefTable = CurrentAccountOperationsTable
+	BankAccountOperationsTable.ForeignKeys[3].RefTable = CashAccountOperationsTable
+	BankAccountOperationsTable.ForeignKeys[4].RefTable = OperationGroupsTable
+	BankAccountOperationsTable.ForeignKeys[5].RefTable = PaymentClassesTable
+	BankAccountOperationsTable.Annotation = &entsql.Annotation{
+		Table: "bank_account_operations",
 	}
-	GroupsTable.Annotation = &entsql.Annotation{
-		Table: "groups",
+	CashAccountsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	CashAccountsTable.Annotation = &entsql.Annotation{
+		Table: "cash_accounts",
 	}
-	OperationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
-	OperationsTable.ForeignKeys[1].RefTable = AccountsTable
-	OperationsTable.ForeignKeys[2].RefTable = ClassesTable
-	OperationsTable.ForeignKeys[3].RefTable = GroupsTable
-	OperationsTable.ForeignKeys[4].RefTable = ResourcesTable
-	OperationsTable.Annotation = &entsql.Annotation{
-		Table: "operations",
+	CashAccountOperationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	CashAccountOperationsTable.ForeignKeys[1].RefTable = CashAccountsTable
+	CashAccountOperationsTable.ForeignKeys[2].RefTable = CurrentAccountOperationsTable
+	CashAccountOperationsTable.ForeignKeys[3].RefTable = BankAccountOperationsTable
+	CashAccountOperationsTable.ForeignKeys[4].RefTable = OperationGroupsTable
+	CashAccountOperationsTable.ForeignKeys[5].RefTable = PaymentClassesTable
+	CashAccountOperationsTable.Annotation = &entsql.Annotation{
+		Table: "cash_account_operations",
 	}
-	ResourcesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
-	ResourcesTable.Annotation = &entsql.Annotation{
-		Table: "resources",
+	CurrentAccountsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	CurrentAccountsTable.ForeignKeys[1].RefTable = CurrentAccountGroupsTable
+	CurrentAccountsTable.ForeignKeys[2].RefTable = CurrentAccountTypesTable
+	CurrentAccountsTable.Annotation = &entsql.Annotation{
+		Table: "current_accounts",
+	}
+	CurrentAccountGroupsTable.Annotation = &entsql.Annotation{
+		Table: "current_account_groups",
+	}
+	CurrentAccountOperationsTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	CurrentAccountOperationsTable.ForeignKeys[1].RefTable = CurrentAccountsTable
+	CurrentAccountOperationsTable.ForeignKeys[2].RefTable = CurrentAccountOperationTypesTable
+	CurrentAccountOperationsTable.ForeignKeys[3].RefTable = OperationGroupsTable
+	CurrentAccountOperationsTable.Annotation = &entsql.Annotation{
+		Table: "current_account_operations",
+	}
+	CurrentAccountOperationTypesTable.Annotation = &entsql.Annotation{
+		Table: "current_account_operation_types",
+	}
+	CurrentAccountTypesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	CurrentAccountTypesTable.Annotation = &entsql.Annotation{
+		Table: "current_account_types",
+	}
+	OperationGroupsTable.Annotation = &entsql.Annotation{
+		Table: "operation_groups",
+	}
+	PaymentClassesTable.ForeignKeys[0].RefTable = CompanyDetailsTable
+	PaymentClassesTable.Annotation = &entsql.Annotation{
+		Table: "payment_classes",
 	}
 	JobFloorsTable.ForeignKeys[0].RefTable = JobRelationsTable
 	JobPaymentsTable.ForeignKeys[0].RefTable = JobRelationsTable

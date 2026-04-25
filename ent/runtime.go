@@ -8,11 +8,14 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companydetail"
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
-	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
-	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
-	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
-	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
+	"github.com/polatbilal/ent-gqlgen/ent/financebankaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financebankoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecashaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financecashaccountoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccountoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccounttype"
+	"github.com/polatbilal/ent-gqlgen/ent/financepaymentclass"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
@@ -91,78 +94,72 @@ func init() {
 	companytoken.DefaultUpdatedAt = companytokenDescUpdatedAt.Default.(func() time.Time)
 	// companytoken.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
 	companytoken.UpdateDefaultUpdatedAt = companytokenDescUpdatedAt.UpdateDefault.(func() time.Time)
-	financeaccountFields := schema.FinanceAccount{}.Fields()
-	_ = financeaccountFields
-	// financeaccountDescName is the schema descriptor for Name field.
-	financeaccountDescName := financeaccountFields[0].Descriptor()
-	// financeaccount.DefaultName holds the default value on creation for the Name field.
-	financeaccount.DefaultName = financeaccountDescName.Default.(string)
-	// financeaccountDescCreatedAt is the schema descriptor for createdAt field.
-	financeaccountDescCreatedAt := financeaccountFields[8].Descriptor()
-	// financeaccount.DefaultCreatedAt holds the default value on creation for the createdAt field.
-	financeaccount.DefaultCreatedAt = financeaccountDescCreatedAt.Default.(func() time.Time)
-	// financeaccountDescUpdatedAt is the schema descriptor for updatedAt field.
-	financeaccountDescUpdatedAt := financeaccountFields[9].Descriptor()
-	// financeaccount.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
-	financeaccount.DefaultUpdatedAt = financeaccountDescUpdatedAt.Default.(func() time.Time)
-	// financeaccount.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
-	financeaccount.UpdateDefaultUpdatedAt = financeaccountDescUpdatedAt.UpdateDefault.(func() time.Time)
-	financeclassFields := schema.FinanceClass{}.Fields()
-	_ = financeclassFields
-	// financeclassDescStatus is the schema descriptor for Status field.
-	financeclassDescStatus := financeclassFields[4].Descriptor()
-	// financeclass.DefaultStatus holds the default value on creation for the Status field.
-	financeclass.DefaultStatus = financeclassDescStatus.Default.(bool)
-	// financeclassDescCreatedAt is the schema descriptor for createdAt field.
-	financeclassDescCreatedAt := financeclassFields[5].Descriptor()
-	// financeclass.DefaultCreatedAt holds the default value on creation for the createdAt field.
-	financeclass.DefaultCreatedAt = financeclassDescCreatedAt.Default.(func() time.Time)
-	// financeclassDescUpdatedAt is the schema descriptor for updatedAt field.
-	financeclassDescUpdatedAt := financeclassFields[6].Descriptor()
-	// financeclass.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
-	financeclass.DefaultUpdatedAt = financeclassDescUpdatedAt.Default.(func() time.Time)
-	// financeclass.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
-	financeclass.UpdateDefaultUpdatedAt = financeclassDescUpdatedAt.UpdateDefault.(func() time.Time)
-	financegroupFields := schema.FinanceGroup{}.Fields()
-	_ = financegroupFields
-	// financegroupDescStatus is the schema descriptor for Status field.
-	financegroupDescStatus := financegroupFields[4].Descriptor()
-	// financegroup.DefaultStatus holds the default value on creation for the Status field.
-	financegroup.DefaultStatus = financegroupDescStatus.Default.(bool)
-	// financegroupDescCreatedAt is the schema descriptor for createdAt field.
-	financegroupDescCreatedAt := financegroupFields[5].Descriptor()
-	// financegroup.DefaultCreatedAt holds the default value on creation for the createdAt field.
-	financegroup.DefaultCreatedAt = financegroupDescCreatedAt.Default.(func() time.Time)
-	// financegroupDescUpdatedAt is the schema descriptor for updatedAt field.
-	financegroupDescUpdatedAt := financegroupFields[6].Descriptor()
-	// financegroup.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
-	financegroup.DefaultUpdatedAt = financegroupDescUpdatedAt.Default.(func() time.Time)
-	// financegroup.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
-	financegroup.UpdateDefaultUpdatedAt = financegroupDescUpdatedAt.UpdateDefault.(func() time.Time)
-	financeoperationFields := schema.FinanceOperation{}.Fields()
-	_ = financeoperationFields
-	// financeoperationDescCreatedAt is the schema descriptor for createdAt field.
-	financeoperationDescCreatedAt := financeoperationFields[4].Descriptor()
-	// financeoperation.DefaultCreatedAt holds the default value on creation for the createdAt field.
-	financeoperation.DefaultCreatedAt = financeoperationDescCreatedAt.Default.(func() time.Time)
-	// financeoperationDescUpdatedAt is the schema descriptor for updatedAt field.
-	financeoperationDescUpdatedAt := financeoperationFields[5].Descriptor()
-	// financeoperation.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
-	financeoperation.DefaultUpdatedAt = financeoperationDescUpdatedAt.Default.(func() time.Time)
-	// financeoperation.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
-	financeoperation.UpdateDefaultUpdatedAt = financeoperationDescUpdatedAt.UpdateDefault.(func() time.Time)
-	financeresourceFields := schema.FinanceResource{}.Fields()
-	_ = financeresourceFields
-	// financeresourceDescCreatedAt is the schema descriptor for createdAt field.
-	financeresourceDescCreatedAt := financeresourceFields[1].Descriptor()
-	// financeresource.DefaultCreatedAt holds the default value on creation for the createdAt field.
-	financeresource.DefaultCreatedAt = financeresourceDescCreatedAt.Default.(func() time.Time)
-	// financeresourceDescUpdatedAt is the schema descriptor for updatedAt field.
-	financeresourceDescUpdatedAt := financeresourceFields[2].Descriptor()
-	// financeresource.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
-	financeresource.DefaultUpdatedAt = financeresourceDescUpdatedAt.Default.(func() time.Time)
-	// financeresource.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
-	financeresource.UpdateDefaultUpdatedAt = financeresourceDescUpdatedAt.UpdateDefault.(func() time.Time)
+	financebankaccountFields := schema.FinanceBankAccount{}.Fields()
+	_ = financebankaccountFields
+	// financebankaccountDescStatus is the schema descriptor for Status field.
+	financebankaccountDescStatus := financebankaccountFields[3].Descriptor()
+	// financebankaccount.DefaultStatus holds the default value on creation for the Status field.
+	financebankaccount.DefaultStatus = financebankaccountDescStatus.Default.(bool)
+	financebankoperationFields := schema.FinanceBankOperation{}.Fields()
+	_ = financebankoperationFields
+	// financebankoperationDescStatus is the schema descriptor for Status field.
+	financebankoperationDescStatus := financebankoperationFields[4].Descriptor()
+	// financebankoperation.DefaultStatus holds the default value on creation for the Status field.
+	financebankoperation.DefaultStatus = financebankoperationDescStatus.Default.(bool)
+	financecashaccountFields := schema.FinanceCashAccount{}.Fields()
+	_ = financecashaccountFields
+	// financecashaccountDescStatus is the schema descriptor for Status field.
+	financecashaccountDescStatus := financecashaccountFields[3].Descriptor()
+	// financecashaccount.DefaultStatus holds the default value on creation for the Status field.
+	financecashaccount.DefaultStatus = financecashaccountDescStatus.Default.(bool)
+	financecashaccountoperationFields := schema.FinanceCashAccountOperation{}.Fields()
+	_ = financecashaccountoperationFields
+	// financecashaccountoperationDescStatus is the schema descriptor for Status field.
+	financecashaccountoperationDescStatus := financecashaccountoperationFields[4].Descriptor()
+	// financecashaccountoperation.DefaultStatus holds the default value on creation for the Status field.
+	financecashaccountoperation.DefaultStatus = financecashaccountoperationDescStatus.Default.(bool)
+	financecurrentaccountFields := schema.FinanceCurrentAccount{}.Fields()
+	_ = financecurrentaccountFields
+	// financecurrentaccountDescName is the schema descriptor for Name field.
+	financecurrentaccountDescName := financecurrentaccountFields[0].Descriptor()
+	// financecurrentaccount.DefaultName holds the default value on creation for the Name field.
+	financecurrentaccount.DefaultName = financecurrentaccountDescName.Default.(string)
+	// financecurrentaccountDescStatus is the schema descriptor for Status field.
+	financecurrentaccountDescStatus := financecurrentaccountFields[12].Descriptor()
+	// financecurrentaccount.DefaultStatus holds the default value on creation for the Status field.
+	financecurrentaccount.DefaultStatus = financecurrentaccountDescStatus.Default.(bool)
+	// financecurrentaccountDescCreatedAt is the schema descriptor for createdAt field.
+	financecurrentaccountDescCreatedAt := financecurrentaccountFields[13].Descriptor()
+	// financecurrentaccount.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	financecurrentaccount.DefaultCreatedAt = financecurrentaccountDescCreatedAt.Default.(func() time.Time)
+	// financecurrentaccountDescUpdatedAt is the schema descriptor for updatedAt field.
+	financecurrentaccountDescUpdatedAt := financecurrentaccountFields[14].Descriptor()
+	// financecurrentaccount.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	financecurrentaccount.DefaultUpdatedAt = financecurrentaccountDescUpdatedAt.Default.(func() time.Time)
+	// financecurrentaccount.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
+	financecurrentaccount.UpdateDefaultUpdatedAt = financecurrentaccountDescUpdatedAt.UpdateDefault.(func() time.Time)
+	financecurrentaccountoperationFields := schema.FinanceCurrentAccountOperation{}.Fields()
+	_ = financecurrentaccountoperationFields
+	// financecurrentaccountoperationDescStatus is the schema descriptor for Status field.
+	financecurrentaccountoperationDescStatus := financecurrentaccountoperationFields[4].Descriptor()
+	// financecurrentaccountoperation.DefaultStatus holds the default value on creation for the Status field.
+	financecurrentaccountoperation.DefaultStatus = financecurrentaccountoperationDescStatus.Default.(bool)
+	financecurrentaccounttypeFields := schema.FinanceCurrentAccountType{}.Fields()
+	_ = financecurrentaccounttypeFields
+	// financecurrentaccounttypeDescDescription is the schema descriptor for Description field.
+	financecurrentaccounttypeDescDescription := financecurrentaccounttypeFields[0].Descriptor()
+	// financecurrentaccounttype.DefaultDescription holds the default value on creation for the Description field.
+	financecurrentaccounttype.DefaultDescription = financecurrentaccounttypeDescDescription.Default.(string)
+	// financecurrentaccounttypeDescStatus is the schema descriptor for Status field.
+	financecurrentaccounttypeDescStatus := financecurrentaccounttypeFields[3].Descriptor()
+	// financecurrentaccounttype.DefaultStatus holds the default value on creation for the Status field.
+	financecurrentaccounttype.DefaultStatus = financecurrentaccounttypeDescStatus.Default.(bool)
+	financepaymentclassFields := schema.FinancePaymentClass{}.Fields()
+	_ = financepaymentclassFields
+	// financepaymentclassDescStatus is the schema descriptor for Status field.
+	financepaymentclassDescStatus := financepaymentclassFields[3].Descriptor()
+	// financepaymentclass.DefaultStatus holds the default value on creation for the Status field.
+	financepaymentclass.DefaultStatus = financepaymentclassDescStatus.Default.(bool)
 	jobauthorFields := schema.JobAuthor{}.Fields()
 	_ = jobauthorFields
 	// jobauthorDescCreatedAt is the schema descriptor for CreatedAt field.
@@ -289,12 +286,16 @@ func init() {
 	jobpaymentsDescInvoiceReceived := jobpaymentsFields[12].Descriptor()
 	// jobpayments.DefaultInvoiceReceived holds the default value on creation for the InvoiceReceived field.
 	jobpayments.DefaultInvoiceReceived = jobpaymentsDescInvoiceReceived.Default.(bool)
+	// jobpaymentsDescWithholding is the schema descriptor for Withholding field.
+	jobpaymentsDescWithholding := jobpaymentsFields[16].Descriptor()
+	// jobpayments.DefaultWithholding holds the default value on creation for the Withholding field.
+	jobpayments.DefaultWithholding = jobpaymentsDescWithholding.Default.(bool)
 	// jobpaymentsDescCreatedAt is the schema descriptor for CreatedAt field.
-	jobpaymentsDescCreatedAt := jobpaymentsFields[15].Descriptor()
+	jobpaymentsDescCreatedAt := jobpaymentsFields[17].Descriptor()
 	// jobpayments.DefaultCreatedAt holds the default value on creation for the CreatedAt field.
 	jobpayments.DefaultCreatedAt = jobpaymentsDescCreatedAt.Default.(func() time.Time)
 	// jobpaymentsDescUpdatedAt is the schema descriptor for UpdatedAt field.
-	jobpaymentsDescUpdatedAt := jobpaymentsFields[16].Descriptor()
+	jobpaymentsDescUpdatedAt := jobpaymentsFields[18].Descriptor()
 	// jobpayments.DefaultUpdatedAt holds the default value on creation for the UpdatedAt field.
 	jobpayments.DefaultUpdatedAt = jobpaymentsDescUpdatedAt.Default.(func() time.Time)
 	// jobpayments.UpdateDefaultUpdatedAt holds the default value on update for the UpdatedAt field.

@@ -15,11 +15,17 @@ import (
 	"github.com/polatbilal/ent-gqlgen/ent/companyengineer"
 	"github.com/polatbilal/ent-gqlgen/ent/companytoken"
 	"github.com/polatbilal/ent-gqlgen/ent/companyuser"
-	"github.com/polatbilal/ent-gqlgen/ent/financeaccount"
-	"github.com/polatbilal/ent-gqlgen/ent/financeclass"
-	"github.com/polatbilal/ent-gqlgen/ent/financegroup"
-	"github.com/polatbilal/ent-gqlgen/ent/financeoperation"
-	"github.com/polatbilal/ent-gqlgen/ent/financeresource"
+	"github.com/polatbilal/ent-gqlgen/ent/financebankaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financebankoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecashaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financecashaccountoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccount"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccountgroup"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccountoperation"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccountoperationtype"
+	"github.com/polatbilal/ent-gqlgen/ent/financecurrentaccounttype"
+	"github.com/polatbilal/ent-gqlgen/ent/financeoperationgroup"
+	"github.com/polatbilal/ent-gqlgen/ent/financepaymentclass"
 	"github.com/polatbilal/ent-gqlgen/ent/jobauthor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobcontractor"
 	"github.com/polatbilal/ent-gqlgen/ent/jobdetail"
@@ -1110,20 +1116,20 @@ func (_m *CompanyUser) ToEdge(order *CompanyUserOrder) *CompanyUserEdge {
 	}
 }
 
-// FinanceAccountEdge is the edge representation of FinanceAccount.
-type FinanceAccountEdge struct {
-	Node   *FinanceAccount `json:"node"`
-	Cursor Cursor          `json:"cursor"`
+// FinanceBankAccountEdge is the edge representation of FinanceBankAccount.
+type FinanceBankAccountEdge struct {
+	Node   *FinanceBankAccount `json:"node"`
+	Cursor Cursor              `json:"cursor"`
 }
 
-// FinanceAccountConnection is the connection containing edges to FinanceAccount.
-type FinanceAccountConnection struct {
-	Edges      []*FinanceAccountEdge `json:"edges"`
-	PageInfo   PageInfo              `json:"pageInfo"`
-	TotalCount int                   `json:"totalCount"`
+// FinanceBankAccountConnection is the connection containing edges to FinanceBankAccount.
+type FinanceBankAccountConnection struct {
+	Edges      []*FinanceBankAccountEdge `json:"edges"`
+	PageInfo   PageInfo                  `json:"pageInfo"`
+	TotalCount int                       `json:"totalCount"`
 }
 
-func (c *FinanceAccountConnection) build(nodes []*FinanceAccount, pager *financeaccountPager, after *Cursor, first *int, before *Cursor, last *int) {
+func (c *FinanceBankAccountConnection) build(nodes []*FinanceBankAccount, pager *financebankaccountPager, after *Cursor, first *int, before *Cursor, last *int) {
 	c.PageInfo.HasNextPage = before != nil
 	c.PageInfo.HasPreviousPage = after != nil
 	if first != nil && *first+1 == len(nodes) {
@@ -1133,21 +1139,21 @@ func (c *FinanceAccountConnection) build(nodes []*FinanceAccount, pager *finance
 		c.PageInfo.HasPreviousPage = true
 		nodes = nodes[:len(nodes)-1]
 	}
-	var nodeAt func(int) *FinanceAccount
+	var nodeAt func(int) *FinanceBankAccount
 	if last != nil {
 		n := len(nodes) - 1
-		nodeAt = func(i int) *FinanceAccount {
+		nodeAt = func(i int) *FinanceBankAccount {
 			return nodes[n-i]
 		}
 	} else {
-		nodeAt = func(i int) *FinanceAccount {
+		nodeAt = func(i int) *FinanceBankAccount {
 			return nodes[i]
 		}
 	}
-	c.Edges = make([]*FinanceAccountEdge, len(nodes))
+	c.Edges = make([]*FinanceBankAccountEdge, len(nodes))
 	for i := range nodes {
 		node := nodeAt(i)
-		c.Edges[i] = &FinanceAccountEdge{
+		c.Edges[i] = &FinanceBankAccountEdge{
 			Node:   node,
 			Cursor: pager.toCursor(node),
 		}
@@ -1161,87 +1167,87 @@ func (c *FinanceAccountConnection) build(nodes []*FinanceAccount, pager *finance
 	}
 }
 
-// FinanceAccountPaginateOption enables pagination customization.
-type FinanceAccountPaginateOption func(*financeaccountPager) error
+// FinanceBankAccountPaginateOption enables pagination customization.
+type FinanceBankAccountPaginateOption func(*financebankaccountPager) error
 
-// WithFinanceAccountOrder configures pagination ordering.
-func WithFinanceAccountOrder(order *FinanceAccountOrder) FinanceAccountPaginateOption {
+// WithFinanceBankAccountOrder configures pagination ordering.
+func WithFinanceBankAccountOrder(order *FinanceBankAccountOrder) FinanceBankAccountPaginateOption {
 	if order == nil {
-		order = DefaultFinanceAccountOrder
+		order = DefaultFinanceBankAccountOrder
 	}
 	o := *order
-	return func(pager *financeaccountPager) error {
+	return func(pager *financebankaccountPager) error {
 		if err := o.Direction.Validate(); err != nil {
 			return err
 		}
 		if o.Field == nil {
-			o.Field = DefaultFinanceAccountOrder.Field
+			o.Field = DefaultFinanceBankAccountOrder.Field
 		}
 		pager.order = &o
 		return nil
 	}
 }
 
-// WithFinanceAccountFilter configures pagination filter.
-func WithFinanceAccountFilter(filter func(*FinanceAccountQuery) (*FinanceAccountQuery, error)) FinanceAccountPaginateOption {
-	return func(pager *financeaccountPager) error {
+// WithFinanceBankAccountFilter configures pagination filter.
+func WithFinanceBankAccountFilter(filter func(*FinanceBankAccountQuery) (*FinanceBankAccountQuery, error)) FinanceBankAccountPaginateOption {
+	return func(pager *financebankaccountPager) error {
 		if filter == nil {
-			return errors.New("FinanceAccountQuery filter cannot be nil")
+			return errors.New("FinanceBankAccountQuery filter cannot be nil")
 		}
 		pager.filter = filter
 		return nil
 	}
 }
 
-type financeaccountPager struct {
+type financebankaccountPager struct {
 	reverse bool
-	order   *FinanceAccountOrder
-	filter  func(*FinanceAccountQuery) (*FinanceAccountQuery, error)
+	order   *FinanceBankAccountOrder
+	filter  func(*FinanceBankAccountQuery) (*FinanceBankAccountQuery, error)
 }
 
-func newFinanceAccountPager(opts []FinanceAccountPaginateOption, reverse bool) (*financeaccountPager, error) {
-	pager := &financeaccountPager{reverse: reverse}
+func newFinanceBankAccountPager(opts []FinanceBankAccountPaginateOption, reverse bool) (*financebankaccountPager, error) {
+	pager := &financebankaccountPager{reverse: reverse}
 	for _, opt := range opts {
 		if err := opt(pager); err != nil {
 			return nil, err
 		}
 	}
 	if pager.order == nil {
-		pager.order = DefaultFinanceAccountOrder
+		pager.order = DefaultFinanceBankAccountOrder
 	}
 	return pager, nil
 }
 
-func (p *financeaccountPager) applyFilter(query *FinanceAccountQuery) (*FinanceAccountQuery, error) {
+func (p *financebankaccountPager) applyFilter(query *FinanceBankAccountQuery) (*FinanceBankAccountQuery, error) {
 	if p.filter != nil {
 		return p.filter(query)
 	}
 	return query, nil
 }
 
-func (p *financeaccountPager) toCursor(_m *FinanceAccount) Cursor {
+func (p *financebankaccountPager) toCursor(_m *FinanceBankAccount) Cursor {
 	return p.order.Field.toCursor(_m)
 }
 
-func (p *financeaccountPager) applyCursors(query *FinanceAccountQuery, after, before *Cursor) (*FinanceAccountQuery, error) {
+func (p *financebankaccountPager) applyCursors(query *FinanceBankAccountQuery, after, before *Cursor) (*FinanceBankAccountQuery, error) {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
-	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceAccountOrder.Field.column, p.order.Field.column, direction) {
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceBankAccountOrder.Field.column, p.order.Field.column, direction) {
 		query = query.Where(predicate)
 	}
 	return query, nil
 }
 
-func (p *financeaccountPager) applyOrder(query *FinanceAccountQuery) *FinanceAccountQuery {
+func (p *financebankaccountPager) applyOrder(query *FinanceBankAccountQuery) *FinanceBankAccountQuery {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
 	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
-	if p.order.Field != DefaultFinanceAccountOrder.Field {
-		query = query.Order(DefaultFinanceAccountOrder.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceBankAccountOrder.Field {
+		query = query.Order(DefaultFinanceBankAccountOrder.Field.toTerm(direction.OrderTermOption()))
 	}
 	if len(query.ctx.Fields) > 0 {
 		query.ctx.AppendFieldOnce(p.order.Field.column)
@@ -1249,7 +1255,7 @@ func (p *financeaccountPager) applyOrder(query *FinanceAccountQuery) *FinanceAcc
 	return query
 }
 
-func (p *financeaccountPager) orderExpr(query *FinanceAccountQuery) sql.Querier {
+func (p *financebankaccountPager) orderExpr(query *FinanceBankAccountQuery) sql.Querier {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
@@ -1259,28 +1265,28 @@ func (p *financeaccountPager) orderExpr(query *FinanceAccountQuery) sql.Querier 
 	}
 	return sql.ExprFunc(func(b *sql.Builder) {
 		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
-		if p.order.Field != DefaultFinanceAccountOrder.Field {
-			b.Comma().Ident(DefaultFinanceAccountOrder.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceBankAccountOrder.Field {
+			b.Comma().Ident(DefaultFinanceBankAccountOrder.Field.column).Pad().WriteString(string(direction))
 		}
 	})
 }
 
-// Paginate executes the query and returns a relay based cursor connection to FinanceAccount.
-func (_m *FinanceAccountQuery) Paginate(
+// Paginate executes the query and returns a relay based cursor connection to FinanceBankAccount.
+func (_m *FinanceBankAccountQuery) Paginate(
 	ctx context.Context, after *Cursor, first *int,
-	before *Cursor, last *int, opts ...FinanceAccountPaginateOption,
-) (*FinanceAccountConnection, error) {
+	before *Cursor, last *int, opts ...FinanceBankAccountPaginateOption,
+) (*FinanceBankAccountConnection, error) {
 	if err := validateFirstLast(first, last); err != nil {
 		return nil, err
 	}
-	pager, err := newFinanceAccountPager(opts, last != nil)
+	pager, err := newFinanceBankAccountPager(opts, last != nil)
 	if err != nil {
 		return nil, err
 	}
 	if _m, err = pager.applyFilter(_m); err != nil {
 		return nil, err
 	}
-	conn := &FinanceAccountConnection{Edges: []*FinanceAccountEdge{}}
+	conn := &FinanceBankAccountConnection{Edges: []*FinanceBankAccountEdge{}}
 	ignoredEdges := !hasCollectedField(ctx, edgesField)
 	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
 		hasPagination := after != nil || first != nil || before != nil || last != nil
@@ -1318,61 +1324,61 @@ func (_m *FinanceAccountQuery) Paginate(
 	return conn, nil
 }
 
-// FinanceAccountOrderField defines the ordering field of FinanceAccount.
-type FinanceAccountOrderField struct {
-	// Value extracts the ordering value from the given FinanceAccount.
-	Value    func(*FinanceAccount) (ent.Value, error)
+// FinanceBankAccountOrderField defines the ordering field of FinanceBankAccount.
+type FinanceBankAccountOrderField struct {
+	// Value extracts the ordering value from the given FinanceBankAccount.
+	Value    func(*FinanceBankAccount) (ent.Value, error)
 	column   string // field or computed.
-	toTerm   func(...sql.OrderTermOption) financeaccount.OrderOption
-	toCursor func(*FinanceAccount) Cursor
+	toTerm   func(...sql.OrderTermOption) financebankaccount.OrderOption
+	toCursor func(*FinanceBankAccount) Cursor
 }
 
-// FinanceAccountOrder defines the ordering of FinanceAccount.
-type FinanceAccountOrder struct {
-	Direction OrderDirection            `json:"direction"`
-	Field     *FinanceAccountOrderField `json:"field"`
+// FinanceBankAccountOrder defines the ordering of FinanceBankAccount.
+type FinanceBankAccountOrder struct {
+	Direction OrderDirection                `json:"direction"`
+	Field     *FinanceBankAccountOrderField `json:"field"`
 }
 
-// DefaultFinanceAccountOrder is the default ordering of FinanceAccount.
-var DefaultFinanceAccountOrder = &FinanceAccountOrder{
+// DefaultFinanceBankAccountOrder is the default ordering of FinanceBankAccount.
+var DefaultFinanceBankAccountOrder = &FinanceBankAccountOrder{
 	Direction: entgql.OrderDirectionAsc,
-	Field: &FinanceAccountOrderField{
-		Value: func(_m *FinanceAccount) (ent.Value, error) {
+	Field: &FinanceBankAccountOrderField{
+		Value: func(_m *FinanceBankAccount) (ent.Value, error) {
 			return _m.ID, nil
 		},
-		column: financeaccount.FieldID,
-		toTerm: financeaccount.ByID,
-		toCursor: func(_m *FinanceAccount) Cursor {
+		column: financebankaccount.FieldID,
+		toTerm: financebankaccount.ByID,
+		toCursor: func(_m *FinanceBankAccount) Cursor {
 			return Cursor{ID: _m.ID}
 		},
 	},
 }
 
-// ToEdge converts FinanceAccount into FinanceAccountEdge.
-func (_m *FinanceAccount) ToEdge(order *FinanceAccountOrder) *FinanceAccountEdge {
+// ToEdge converts FinanceBankAccount into FinanceBankAccountEdge.
+func (_m *FinanceBankAccount) ToEdge(order *FinanceBankAccountOrder) *FinanceBankAccountEdge {
 	if order == nil {
-		order = DefaultFinanceAccountOrder
+		order = DefaultFinanceBankAccountOrder
 	}
-	return &FinanceAccountEdge{
+	return &FinanceBankAccountEdge{
 		Node:   _m,
 		Cursor: order.Field.toCursor(_m),
 	}
 }
 
-// FinanceClassEdge is the edge representation of FinanceClass.
-type FinanceClassEdge struct {
-	Node   *FinanceClass `json:"node"`
-	Cursor Cursor        `json:"cursor"`
+// FinanceBankOperationEdge is the edge representation of FinanceBankOperation.
+type FinanceBankOperationEdge struct {
+	Node   *FinanceBankOperation `json:"node"`
+	Cursor Cursor                `json:"cursor"`
 }
 
-// FinanceClassConnection is the connection containing edges to FinanceClass.
-type FinanceClassConnection struct {
-	Edges      []*FinanceClassEdge `json:"edges"`
-	PageInfo   PageInfo            `json:"pageInfo"`
-	TotalCount int                 `json:"totalCount"`
+// FinanceBankOperationConnection is the connection containing edges to FinanceBankOperation.
+type FinanceBankOperationConnection struct {
+	Edges      []*FinanceBankOperationEdge `json:"edges"`
+	PageInfo   PageInfo                    `json:"pageInfo"`
+	TotalCount int                         `json:"totalCount"`
 }
 
-func (c *FinanceClassConnection) build(nodes []*FinanceClass, pager *financeclassPager, after *Cursor, first *int, before *Cursor, last *int) {
+func (c *FinanceBankOperationConnection) build(nodes []*FinanceBankOperation, pager *financebankoperationPager, after *Cursor, first *int, before *Cursor, last *int) {
 	c.PageInfo.HasNextPage = before != nil
 	c.PageInfo.HasPreviousPage = after != nil
 	if first != nil && *first+1 == len(nodes) {
@@ -1382,21 +1388,21 @@ func (c *FinanceClassConnection) build(nodes []*FinanceClass, pager *financeclas
 		c.PageInfo.HasPreviousPage = true
 		nodes = nodes[:len(nodes)-1]
 	}
-	var nodeAt func(int) *FinanceClass
+	var nodeAt func(int) *FinanceBankOperation
 	if last != nil {
 		n := len(nodes) - 1
-		nodeAt = func(i int) *FinanceClass {
+		nodeAt = func(i int) *FinanceBankOperation {
 			return nodes[n-i]
 		}
 	} else {
-		nodeAt = func(i int) *FinanceClass {
+		nodeAt = func(i int) *FinanceBankOperation {
 			return nodes[i]
 		}
 	}
-	c.Edges = make([]*FinanceClassEdge, len(nodes))
+	c.Edges = make([]*FinanceBankOperationEdge, len(nodes))
 	for i := range nodes {
 		node := nodeAt(i)
-		c.Edges[i] = &FinanceClassEdge{
+		c.Edges[i] = &FinanceBankOperationEdge{
 			Node:   node,
 			Cursor: pager.toCursor(node),
 		}
@@ -1410,87 +1416,87 @@ func (c *FinanceClassConnection) build(nodes []*FinanceClass, pager *financeclas
 	}
 }
 
-// FinanceClassPaginateOption enables pagination customization.
-type FinanceClassPaginateOption func(*financeclassPager) error
+// FinanceBankOperationPaginateOption enables pagination customization.
+type FinanceBankOperationPaginateOption func(*financebankoperationPager) error
 
-// WithFinanceClassOrder configures pagination ordering.
-func WithFinanceClassOrder(order *FinanceClassOrder) FinanceClassPaginateOption {
+// WithFinanceBankOperationOrder configures pagination ordering.
+func WithFinanceBankOperationOrder(order *FinanceBankOperationOrder) FinanceBankOperationPaginateOption {
 	if order == nil {
-		order = DefaultFinanceClassOrder
+		order = DefaultFinanceBankOperationOrder
 	}
 	o := *order
-	return func(pager *financeclassPager) error {
+	return func(pager *financebankoperationPager) error {
 		if err := o.Direction.Validate(); err != nil {
 			return err
 		}
 		if o.Field == nil {
-			o.Field = DefaultFinanceClassOrder.Field
+			o.Field = DefaultFinanceBankOperationOrder.Field
 		}
 		pager.order = &o
 		return nil
 	}
 }
 
-// WithFinanceClassFilter configures pagination filter.
-func WithFinanceClassFilter(filter func(*FinanceClassQuery) (*FinanceClassQuery, error)) FinanceClassPaginateOption {
-	return func(pager *financeclassPager) error {
+// WithFinanceBankOperationFilter configures pagination filter.
+func WithFinanceBankOperationFilter(filter func(*FinanceBankOperationQuery) (*FinanceBankOperationQuery, error)) FinanceBankOperationPaginateOption {
+	return func(pager *financebankoperationPager) error {
 		if filter == nil {
-			return errors.New("FinanceClassQuery filter cannot be nil")
+			return errors.New("FinanceBankOperationQuery filter cannot be nil")
 		}
 		pager.filter = filter
 		return nil
 	}
 }
 
-type financeclassPager struct {
+type financebankoperationPager struct {
 	reverse bool
-	order   *FinanceClassOrder
-	filter  func(*FinanceClassQuery) (*FinanceClassQuery, error)
+	order   *FinanceBankOperationOrder
+	filter  func(*FinanceBankOperationQuery) (*FinanceBankOperationQuery, error)
 }
 
-func newFinanceClassPager(opts []FinanceClassPaginateOption, reverse bool) (*financeclassPager, error) {
-	pager := &financeclassPager{reverse: reverse}
+func newFinanceBankOperationPager(opts []FinanceBankOperationPaginateOption, reverse bool) (*financebankoperationPager, error) {
+	pager := &financebankoperationPager{reverse: reverse}
 	for _, opt := range opts {
 		if err := opt(pager); err != nil {
 			return nil, err
 		}
 	}
 	if pager.order == nil {
-		pager.order = DefaultFinanceClassOrder
+		pager.order = DefaultFinanceBankOperationOrder
 	}
 	return pager, nil
 }
 
-func (p *financeclassPager) applyFilter(query *FinanceClassQuery) (*FinanceClassQuery, error) {
+func (p *financebankoperationPager) applyFilter(query *FinanceBankOperationQuery) (*FinanceBankOperationQuery, error) {
 	if p.filter != nil {
 		return p.filter(query)
 	}
 	return query, nil
 }
 
-func (p *financeclassPager) toCursor(_m *FinanceClass) Cursor {
+func (p *financebankoperationPager) toCursor(_m *FinanceBankOperation) Cursor {
 	return p.order.Field.toCursor(_m)
 }
 
-func (p *financeclassPager) applyCursors(query *FinanceClassQuery, after, before *Cursor) (*FinanceClassQuery, error) {
+func (p *financebankoperationPager) applyCursors(query *FinanceBankOperationQuery, after, before *Cursor) (*FinanceBankOperationQuery, error) {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
-	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceClassOrder.Field.column, p.order.Field.column, direction) {
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceBankOperationOrder.Field.column, p.order.Field.column, direction) {
 		query = query.Where(predicate)
 	}
 	return query, nil
 }
 
-func (p *financeclassPager) applyOrder(query *FinanceClassQuery) *FinanceClassQuery {
+func (p *financebankoperationPager) applyOrder(query *FinanceBankOperationQuery) *FinanceBankOperationQuery {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
 	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
-	if p.order.Field != DefaultFinanceClassOrder.Field {
-		query = query.Order(DefaultFinanceClassOrder.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceBankOperationOrder.Field {
+		query = query.Order(DefaultFinanceBankOperationOrder.Field.toTerm(direction.OrderTermOption()))
 	}
 	if len(query.ctx.Fields) > 0 {
 		query.ctx.AppendFieldOnce(p.order.Field.column)
@@ -1498,7 +1504,7 @@ func (p *financeclassPager) applyOrder(query *FinanceClassQuery) *FinanceClassQu
 	return query
 }
 
-func (p *financeclassPager) orderExpr(query *FinanceClassQuery) sql.Querier {
+func (p *financebankoperationPager) orderExpr(query *FinanceBankOperationQuery) sql.Querier {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
@@ -1508,28 +1514,28 @@ func (p *financeclassPager) orderExpr(query *FinanceClassQuery) sql.Querier {
 	}
 	return sql.ExprFunc(func(b *sql.Builder) {
 		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
-		if p.order.Field != DefaultFinanceClassOrder.Field {
-			b.Comma().Ident(DefaultFinanceClassOrder.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceBankOperationOrder.Field {
+			b.Comma().Ident(DefaultFinanceBankOperationOrder.Field.column).Pad().WriteString(string(direction))
 		}
 	})
 }
 
-// Paginate executes the query and returns a relay based cursor connection to FinanceClass.
-func (_m *FinanceClassQuery) Paginate(
+// Paginate executes the query and returns a relay based cursor connection to FinanceBankOperation.
+func (_m *FinanceBankOperationQuery) Paginate(
 	ctx context.Context, after *Cursor, first *int,
-	before *Cursor, last *int, opts ...FinanceClassPaginateOption,
-) (*FinanceClassConnection, error) {
+	before *Cursor, last *int, opts ...FinanceBankOperationPaginateOption,
+) (*FinanceBankOperationConnection, error) {
 	if err := validateFirstLast(first, last); err != nil {
 		return nil, err
 	}
-	pager, err := newFinanceClassPager(opts, last != nil)
+	pager, err := newFinanceBankOperationPager(opts, last != nil)
 	if err != nil {
 		return nil, err
 	}
 	if _m, err = pager.applyFilter(_m); err != nil {
 		return nil, err
 	}
-	conn := &FinanceClassConnection{Edges: []*FinanceClassEdge{}}
+	conn := &FinanceBankOperationConnection{Edges: []*FinanceBankOperationEdge{}}
 	ignoredEdges := !hasCollectedField(ctx, edgesField)
 	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
 		hasPagination := after != nil || first != nil || before != nil || last != nil
@@ -1567,61 +1573,61 @@ func (_m *FinanceClassQuery) Paginate(
 	return conn, nil
 }
 
-// FinanceClassOrderField defines the ordering field of FinanceClass.
-type FinanceClassOrderField struct {
-	// Value extracts the ordering value from the given FinanceClass.
-	Value    func(*FinanceClass) (ent.Value, error)
+// FinanceBankOperationOrderField defines the ordering field of FinanceBankOperation.
+type FinanceBankOperationOrderField struct {
+	// Value extracts the ordering value from the given FinanceBankOperation.
+	Value    func(*FinanceBankOperation) (ent.Value, error)
 	column   string // field or computed.
-	toTerm   func(...sql.OrderTermOption) financeclass.OrderOption
-	toCursor func(*FinanceClass) Cursor
+	toTerm   func(...sql.OrderTermOption) financebankoperation.OrderOption
+	toCursor func(*FinanceBankOperation) Cursor
 }
 
-// FinanceClassOrder defines the ordering of FinanceClass.
-type FinanceClassOrder struct {
-	Direction OrderDirection          `json:"direction"`
-	Field     *FinanceClassOrderField `json:"field"`
+// FinanceBankOperationOrder defines the ordering of FinanceBankOperation.
+type FinanceBankOperationOrder struct {
+	Direction OrderDirection                  `json:"direction"`
+	Field     *FinanceBankOperationOrderField `json:"field"`
 }
 
-// DefaultFinanceClassOrder is the default ordering of FinanceClass.
-var DefaultFinanceClassOrder = &FinanceClassOrder{
+// DefaultFinanceBankOperationOrder is the default ordering of FinanceBankOperation.
+var DefaultFinanceBankOperationOrder = &FinanceBankOperationOrder{
 	Direction: entgql.OrderDirectionAsc,
-	Field: &FinanceClassOrderField{
-		Value: func(_m *FinanceClass) (ent.Value, error) {
+	Field: &FinanceBankOperationOrderField{
+		Value: func(_m *FinanceBankOperation) (ent.Value, error) {
 			return _m.ID, nil
 		},
-		column: financeclass.FieldID,
-		toTerm: financeclass.ByID,
-		toCursor: func(_m *FinanceClass) Cursor {
+		column: financebankoperation.FieldID,
+		toTerm: financebankoperation.ByID,
+		toCursor: func(_m *FinanceBankOperation) Cursor {
 			return Cursor{ID: _m.ID}
 		},
 	},
 }
 
-// ToEdge converts FinanceClass into FinanceClassEdge.
-func (_m *FinanceClass) ToEdge(order *FinanceClassOrder) *FinanceClassEdge {
+// ToEdge converts FinanceBankOperation into FinanceBankOperationEdge.
+func (_m *FinanceBankOperation) ToEdge(order *FinanceBankOperationOrder) *FinanceBankOperationEdge {
 	if order == nil {
-		order = DefaultFinanceClassOrder
+		order = DefaultFinanceBankOperationOrder
 	}
-	return &FinanceClassEdge{
+	return &FinanceBankOperationEdge{
 		Node:   _m,
 		Cursor: order.Field.toCursor(_m),
 	}
 }
 
-// FinanceGroupEdge is the edge representation of FinanceGroup.
-type FinanceGroupEdge struct {
-	Node   *FinanceGroup `json:"node"`
-	Cursor Cursor        `json:"cursor"`
+// FinanceCashAccountEdge is the edge representation of FinanceCashAccount.
+type FinanceCashAccountEdge struct {
+	Node   *FinanceCashAccount `json:"node"`
+	Cursor Cursor              `json:"cursor"`
 }
 
-// FinanceGroupConnection is the connection containing edges to FinanceGroup.
-type FinanceGroupConnection struct {
-	Edges      []*FinanceGroupEdge `json:"edges"`
-	PageInfo   PageInfo            `json:"pageInfo"`
-	TotalCount int                 `json:"totalCount"`
+// FinanceCashAccountConnection is the connection containing edges to FinanceCashAccount.
+type FinanceCashAccountConnection struct {
+	Edges      []*FinanceCashAccountEdge `json:"edges"`
+	PageInfo   PageInfo                  `json:"pageInfo"`
+	TotalCount int                       `json:"totalCount"`
 }
 
-func (c *FinanceGroupConnection) build(nodes []*FinanceGroup, pager *financegroupPager, after *Cursor, first *int, before *Cursor, last *int) {
+func (c *FinanceCashAccountConnection) build(nodes []*FinanceCashAccount, pager *financecashaccountPager, after *Cursor, first *int, before *Cursor, last *int) {
 	c.PageInfo.HasNextPage = before != nil
 	c.PageInfo.HasPreviousPage = after != nil
 	if first != nil && *first+1 == len(nodes) {
@@ -1631,21 +1637,21 @@ func (c *FinanceGroupConnection) build(nodes []*FinanceGroup, pager *financegrou
 		c.PageInfo.HasPreviousPage = true
 		nodes = nodes[:len(nodes)-1]
 	}
-	var nodeAt func(int) *FinanceGroup
+	var nodeAt func(int) *FinanceCashAccount
 	if last != nil {
 		n := len(nodes) - 1
-		nodeAt = func(i int) *FinanceGroup {
+		nodeAt = func(i int) *FinanceCashAccount {
 			return nodes[n-i]
 		}
 	} else {
-		nodeAt = func(i int) *FinanceGroup {
+		nodeAt = func(i int) *FinanceCashAccount {
 			return nodes[i]
 		}
 	}
-	c.Edges = make([]*FinanceGroupEdge, len(nodes))
+	c.Edges = make([]*FinanceCashAccountEdge, len(nodes))
 	for i := range nodes {
 		node := nodeAt(i)
-		c.Edges[i] = &FinanceGroupEdge{
+		c.Edges[i] = &FinanceCashAccountEdge{
 			Node:   node,
 			Cursor: pager.toCursor(node),
 		}
@@ -1659,87 +1665,87 @@ func (c *FinanceGroupConnection) build(nodes []*FinanceGroup, pager *financegrou
 	}
 }
 
-// FinanceGroupPaginateOption enables pagination customization.
-type FinanceGroupPaginateOption func(*financegroupPager) error
+// FinanceCashAccountPaginateOption enables pagination customization.
+type FinanceCashAccountPaginateOption func(*financecashaccountPager) error
 
-// WithFinanceGroupOrder configures pagination ordering.
-func WithFinanceGroupOrder(order *FinanceGroupOrder) FinanceGroupPaginateOption {
+// WithFinanceCashAccountOrder configures pagination ordering.
+func WithFinanceCashAccountOrder(order *FinanceCashAccountOrder) FinanceCashAccountPaginateOption {
 	if order == nil {
-		order = DefaultFinanceGroupOrder
+		order = DefaultFinanceCashAccountOrder
 	}
 	o := *order
-	return func(pager *financegroupPager) error {
+	return func(pager *financecashaccountPager) error {
 		if err := o.Direction.Validate(); err != nil {
 			return err
 		}
 		if o.Field == nil {
-			o.Field = DefaultFinanceGroupOrder.Field
+			o.Field = DefaultFinanceCashAccountOrder.Field
 		}
 		pager.order = &o
 		return nil
 	}
 }
 
-// WithFinanceGroupFilter configures pagination filter.
-func WithFinanceGroupFilter(filter func(*FinanceGroupQuery) (*FinanceGroupQuery, error)) FinanceGroupPaginateOption {
-	return func(pager *financegroupPager) error {
+// WithFinanceCashAccountFilter configures pagination filter.
+func WithFinanceCashAccountFilter(filter func(*FinanceCashAccountQuery) (*FinanceCashAccountQuery, error)) FinanceCashAccountPaginateOption {
+	return func(pager *financecashaccountPager) error {
 		if filter == nil {
-			return errors.New("FinanceGroupQuery filter cannot be nil")
+			return errors.New("FinanceCashAccountQuery filter cannot be nil")
 		}
 		pager.filter = filter
 		return nil
 	}
 }
 
-type financegroupPager struct {
+type financecashaccountPager struct {
 	reverse bool
-	order   *FinanceGroupOrder
-	filter  func(*FinanceGroupQuery) (*FinanceGroupQuery, error)
+	order   *FinanceCashAccountOrder
+	filter  func(*FinanceCashAccountQuery) (*FinanceCashAccountQuery, error)
 }
 
-func newFinanceGroupPager(opts []FinanceGroupPaginateOption, reverse bool) (*financegroupPager, error) {
-	pager := &financegroupPager{reverse: reverse}
+func newFinanceCashAccountPager(opts []FinanceCashAccountPaginateOption, reverse bool) (*financecashaccountPager, error) {
+	pager := &financecashaccountPager{reverse: reverse}
 	for _, opt := range opts {
 		if err := opt(pager); err != nil {
 			return nil, err
 		}
 	}
 	if pager.order == nil {
-		pager.order = DefaultFinanceGroupOrder
+		pager.order = DefaultFinanceCashAccountOrder
 	}
 	return pager, nil
 }
 
-func (p *financegroupPager) applyFilter(query *FinanceGroupQuery) (*FinanceGroupQuery, error) {
+func (p *financecashaccountPager) applyFilter(query *FinanceCashAccountQuery) (*FinanceCashAccountQuery, error) {
 	if p.filter != nil {
 		return p.filter(query)
 	}
 	return query, nil
 }
 
-func (p *financegroupPager) toCursor(_m *FinanceGroup) Cursor {
+func (p *financecashaccountPager) toCursor(_m *FinanceCashAccount) Cursor {
 	return p.order.Field.toCursor(_m)
 }
 
-func (p *financegroupPager) applyCursors(query *FinanceGroupQuery, after, before *Cursor) (*FinanceGroupQuery, error) {
+func (p *financecashaccountPager) applyCursors(query *FinanceCashAccountQuery, after, before *Cursor) (*FinanceCashAccountQuery, error) {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
-	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceGroupOrder.Field.column, p.order.Field.column, direction) {
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceCashAccountOrder.Field.column, p.order.Field.column, direction) {
 		query = query.Where(predicate)
 	}
 	return query, nil
 }
 
-func (p *financegroupPager) applyOrder(query *FinanceGroupQuery) *FinanceGroupQuery {
+func (p *financecashaccountPager) applyOrder(query *FinanceCashAccountQuery) *FinanceCashAccountQuery {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
 	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
-	if p.order.Field != DefaultFinanceGroupOrder.Field {
-		query = query.Order(DefaultFinanceGroupOrder.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceCashAccountOrder.Field {
+		query = query.Order(DefaultFinanceCashAccountOrder.Field.toTerm(direction.OrderTermOption()))
 	}
 	if len(query.ctx.Fields) > 0 {
 		query.ctx.AppendFieldOnce(p.order.Field.column)
@@ -1747,7 +1753,7 @@ func (p *financegroupPager) applyOrder(query *FinanceGroupQuery) *FinanceGroupQu
 	return query
 }
 
-func (p *financegroupPager) orderExpr(query *FinanceGroupQuery) sql.Querier {
+func (p *financecashaccountPager) orderExpr(query *FinanceCashAccountQuery) sql.Querier {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
@@ -1757,28 +1763,28 @@ func (p *financegroupPager) orderExpr(query *FinanceGroupQuery) sql.Querier {
 	}
 	return sql.ExprFunc(func(b *sql.Builder) {
 		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
-		if p.order.Field != DefaultFinanceGroupOrder.Field {
-			b.Comma().Ident(DefaultFinanceGroupOrder.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceCashAccountOrder.Field {
+			b.Comma().Ident(DefaultFinanceCashAccountOrder.Field.column).Pad().WriteString(string(direction))
 		}
 	})
 }
 
-// Paginate executes the query and returns a relay based cursor connection to FinanceGroup.
-func (_m *FinanceGroupQuery) Paginate(
+// Paginate executes the query and returns a relay based cursor connection to FinanceCashAccount.
+func (_m *FinanceCashAccountQuery) Paginate(
 	ctx context.Context, after *Cursor, first *int,
-	before *Cursor, last *int, opts ...FinanceGroupPaginateOption,
-) (*FinanceGroupConnection, error) {
+	before *Cursor, last *int, opts ...FinanceCashAccountPaginateOption,
+) (*FinanceCashAccountConnection, error) {
 	if err := validateFirstLast(first, last); err != nil {
 		return nil, err
 	}
-	pager, err := newFinanceGroupPager(opts, last != nil)
+	pager, err := newFinanceCashAccountPager(opts, last != nil)
 	if err != nil {
 		return nil, err
 	}
 	if _m, err = pager.applyFilter(_m); err != nil {
 		return nil, err
 	}
-	conn := &FinanceGroupConnection{Edges: []*FinanceGroupEdge{}}
+	conn := &FinanceCashAccountConnection{Edges: []*FinanceCashAccountEdge{}}
 	ignoredEdges := !hasCollectedField(ctx, edgesField)
 	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
 		hasPagination := after != nil || first != nil || before != nil || last != nil
@@ -1816,61 +1822,61 @@ func (_m *FinanceGroupQuery) Paginate(
 	return conn, nil
 }
 
-// FinanceGroupOrderField defines the ordering field of FinanceGroup.
-type FinanceGroupOrderField struct {
-	// Value extracts the ordering value from the given FinanceGroup.
-	Value    func(*FinanceGroup) (ent.Value, error)
+// FinanceCashAccountOrderField defines the ordering field of FinanceCashAccount.
+type FinanceCashAccountOrderField struct {
+	// Value extracts the ordering value from the given FinanceCashAccount.
+	Value    func(*FinanceCashAccount) (ent.Value, error)
 	column   string // field or computed.
-	toTerm   func(...sql.OrderTermOption) financegroup.OrderOption
-	toCursor func(*FinanceGroup) Cursor
+	toTerm   func(...sql.OrderTermOption) financecashaccount.OrderOption
+	toCursor func(*FinanceCashAccount) Cursor
 }
 
-// FinanceGroupOrder defines the ordering of FinanceGroup.
-type FinanceGroupOrder struct {
-	Direction OrderDirection          `json:"direction"`
-	Field     *FinanceGroupOrderField `json:"field"`
+// FinanceCashAccountOrder defines the ordering of FinanceCashAccount.
+type FinanceCashAccountOrder struct {
+	Direction OrderDirection                `json:"direction"`
+	Field     *FinanceCashAccountOrderField `json:"field"`
 }
 
-// DefaultFinanceGroupOrder is the default ordering of FinanceGroup.
-var DefaultFinanceGroupOrder = &FinanceGroupOrder{
+// DefaultFinanceCashAccountOrder is the default ordering of FinanceCashAccount.
+var DefaultFinanceCashAccountOrder = &FinanceCashAccountOrder{
 	Direction: entgql.OrderDirectionAsc,
-	Field: &FinanceGroupOrderField{
-		Value: func(_m *FinanceGroup) (ent.Value, error) {
+	Field: &FinanceCashAccountOrderField{
+		Value: func(_m *FinanceCashAccount) (ent.Value, error) {
 			return _m.ID, nil
 		},
-		column: financegroup.FieldID,
-		toTerm: financegroup.ByID,
-		toCursor: func(_m *FinanceGroup) Cursor {
+		column: financecashaccount.FieldID,
+		toTerm: financecashaccount.ByID,
+		toCursor: func(_m *FinanceCashAccount) Cursor {
 			return Cursor{ID: _m.ID}
 		},
 	},
 }
 
-// ToEdge converts FinanceGroup into FinanceGroupEdge.
-func (_m *FinanceGroup) ToEdge(order *FinanceGroupOrder) *FinanceGroupEdge {
+// ToEdge converts FinanceCashAccount into FinanceCashAccountEdge.
+func (_m *FinanceCashAccount) ToEdge(order *FinanceCashAccountOrder) *FinanceCashAccountEdge {
 	if order == nil {
-		order = DefaultFinanceGroupOrder
+		order = DefaultFinanceCashAccountOrder
 	}
-	return &FinanceGroupEdge{
+	return &FinanceCashAccountEdge{
 		Node:   _m,
 		Cursor: order.Field.toCursor(_m),
 	}
 }
 
-// FinanceOperationEdge is the edge representation of FinanceOperation.
-type FinanceOperationEdge struct {
-	Node   *FinanceOperation `json:"node"`
-	Cursor Cursor            `json:"cursor"`
+// FinanceCashAccountOperationEdge is the edge representation of FinanceCashAccountOperation.
+type FinanceCashAccountOperationEdge struct {
+	Node   *FinanceCashAccountOperation `json:"node"`
+	Cursor Cursor                       `json:"cursor"`
 }
 
-// FinanceOperationConnection is the connection containing edges to FinanceOperation.
-type FinanceOperationConnection struct {
-	Edges      []*FinanceOperationEdge `json:"edges"`
-	PageInfo   PageInfo                `json:"pageInfo"`
-	TotalCount int                     `json:"totalCount"`
+// FinanceCashAccountOperationConnection is the connection containing edges to FinanceCashAccountOperation.
+type FinanceCashAccountOperationConnection struct {
+	Edges      []*FinanceCashAccountOperationEdge `json:"edges"`
+	PageInfo   PageInfo                           `json:"pageInfo"`
+	TotalCount int                                `json:"totalCount"`
 }
 
-func (c *FinanceOperationConnection) build(nodes []*FinanceOperation, pager *financeoperationPager, after *Cursor, first *int, before *Cursor, last *int) {
+func (c *FinanceCashAccountOperationConnection) build(nodes []*FinanceCashAccountOperation, pager *financecashaccountoperationPager, after *Cursor, first *int, before *Cursor, last *int) {
 	c.PageInfo.HasNextPage = before != nil
 	c.PageInfo.HasPreviousPage = after != nil
 	if first != nil && *first+1 == len(nodes) {
@@ -1880,21 +1886,21 @@ func (c *FinanceOperationConnection) build(nodes []*FinanceOperation, pager *fin
 		c.PageInfo.HasPreviousPage = true
 		nodes = nodes[:len(nodes)-1]
 	}
-	var nodeAt func(int) *FinanceOperation
+	var nodeAt func(int) *FinanceCashAccountOperation
 	if last != nil {
 		n := len(nodes) - 1
-		nodeAt = func(i int) *FinanceOperation {
+		nodeAt = func(i int) *FinanceCashAccountOperation {
 			return nodes[n-i]
 		}
 	} else {
-		nodeAt = func(i int) *FinanceOperation {
+		nodeAt = func(i int) *FinanceCashAccountOperation {
 			return nodes[i]
 		}
 	}
-	c.Edges = make([]*FinanceOperationEdge, len(nodes))
+	c.Edges = make([]*FinanceCashAccountOperationEdge, len(nodes))
 	for i := range nodes {
 		node := nodeAt(i)
-		c.Edges[i] = &FinanceOperationEdge{
+		c.Edges[i] = &FinanceCashAccountOperationEdge{
 			Node:   node,
 			Cursor: pager.toCursor(node),
 		}
@@ -1908,87 +1914,87 @@ func (c *FinanceOperationConnection) build(nodes []*FinanceOperation, pager *fin
 	}
 }
 
-// FinanceOperationPaginateOption enables pagination customization.
-type FinanceOperationPaginateOption func(*financeoperationPager) error
+// FinanceCashAccountOperationPaginateOption enables pagination customization.
+type FinanceCashAccountOperationPaginateOption func(*financecashaccountoperationPager) error
 
-// WithFinanceOperationOrder configures pagination ordering.
-func WithFinanceOperationOrder(order *FinanceOperationOrder) FinanceOperationPaginateOption {
+// WithFinanceCashAccountOperationOrder configures pagination ordering.
+func WithFinanceCashAccountOperationOrder(order *FinanceCashAccountOperationOrder) FinanceCashAccountOperationPaginateOption {
 	if order == nil {
-		order = DefaultFinanceOperationOrder
+		order = DefaultFinanceCashAccountOperationOrder
 	}
 	o := *order
-	return func(pager *financeoperationPager) error {
+	return func(pager *financecashaccountoperationPager) error {
 		if err := o.Direction.Validate(); err != nil {
 			return err
 		}
 		if o.Field == nil {
-			o.Field = DefaultFinanceOperationOrder.Field
+			o.Field = DefaultFinanceCashAccountOperationOrder.Field
 		}
 		pager.order = &o
 		return nil
 	}
 }
 
-// WithFinanceOperationFilter configures pagination filter.
-func WithFinanceOperationFilter(filter func(*FinanceOperationQuery) (*FinanceOperationQuery, error)) FinanceOperationPaginateOption {
-	return func(pager *financeoperationPager) error {
+// WithFinanceCashAccountOperationFilter configures pagination filter.
+func WithFinanceCashAccountOperationFilter(filter func(*FinanceCashAccountOperationQuery) (*FinanceCashAccountOperationQuery, error)) FinanceCashAccountOperationPaginateOption {
+	return func(pager *financecashaccountoperationPager) error {
 		if filter == nil {
-			return errors.New("FinanceOperationQuery filter cannot be nil")
+			return errors.New("FinanceCashAccountOperationQuery filter cannot be nil")
 		}
 		pager.filter = filter
 		return nil
 	}
 }
 
-type financeoperationPager struct {
+type financecashaccountoperationPager struct {
 	reverse bool
-	order   *FinanceOperationOrder
-	filter  func(*FinanceOperationQuery) (*FinanceOperationQuery, error)
+	order   *FinanceCashAccountOperationOrder
+	filter  func(*FinanceCashAccountOperationQuery) (*FinanceCashAccountOperationQuery, error)
 }
 
-func newFinanceOperationPager(opts []FinanceOperationPaginateOption, reverse bool) (*financeoperationPager, error) {
-	pager := &financeoperationPager{reverse: reverse}
+func newFinanceCashAccountOperationPager(opts []FinanceCashAccountOperationPaginateOption, reverse bool) (*financecashaccountoperationPager, error) {
+	pager := &financecashaccountoperationPager{reverse: reverse}
 	for _, opt := range opts {
 		if err := opt(pager); err != nil {
 			return nil, err
 		}
 	}
 	if pager.order == nil {
-		pager.order = DefaultFinanceOperationOrder
+		pager.order = DefaultFinanceCashAccountOperationOrder
 	}
 	return pager, nil
 }
 
-func (p *financeoperationPager) applyFilter(query *FinanceOperationQuery) (*FinanceOperationQuery, error) {
+func (p *financecashaccountoperationPager) applyFilter(query *FinanceCashAccountOperationQuery) (*FinanceCashAccountOperationQuery, error) {
 	if p.filter != nil {
 		return p.filter(query)
 	}
 	return query, nil
 }
 
-func (p *financeoperationPager) toCursor(_m *FinanceOperation) Cursor {
+func (p *financecashaccountoperationPager) toCursor(_m *FinanceCashAccountOperation) Cursor {
 	return p.order.Field.toCursor(_m)
 }
 
-func (p *financeoperationPager) applyCursors(query *FinanceOperationQuery, after, before *Cursor) (*FinanceOperationQuery, error) {
+func (p *financecashaccountoperationPager) applyCursors(query *FinanceCashAccountOperationQuery, after, before *Cursor) (*FinanceCashAccountOperationQuery, error) {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
-	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceOperationOrder.Field.column, p.order.Field.column, direction) {
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceCashAccountOperationOrder.Field.column, p.order.Field.column, direction) {
 		query = query.Where(predicate)
 	}
 	return query, nil
 }
 
-func (p *financeoperationPager) applyOrder(query *FinanceOperationQuery) *FinanceOperationQuery {
+func (p *financecashaccountoperationPager) applyOrder(query *FinanceCashAccountOperationQuery) *FinanceCashAccountOperationQuery {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
 	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
-	if p.order.Field != DefaultFinanceOperationOrder.Field {
-		query = query.Order(DefaultFinanceOperationOrder.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceCashAccountOperationOrder.Field {
+		query = query.Order(DefaultFinanceCashAccountOperationOrder.Field.toTerm(direction.OrderTermOption()))
 	}
 	if len(query.ctx.Fields) > 0 {
 		query.ctx.AppendFieldOnce(p.order.Field.column)
@@ -1996,7 +2002,7 @@ func (p *financeoperationPager) applyOrder(query *FinanceOperationQuery) *Financ
 	return query
 }
 
-func (p *financeoperationPager) orderExpr(query *FinanceOperationQuery) sql.Querier {
+func (p *financecashaccountoperationPager) orderExpr(query *FinanceCashAccountOperationQuery) sql.Querier {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
@@ -2006,28 +2012,28 @@ func (p *financeoperationPager) orderExpr(query *FinanceOperationQuery) sql.Quer
 	}
 	return sql.ExprFunc(func(b *sql.Builder) {
 		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
-		if p.order.Field != DefaultFinanceOperationOrder.Field {
-			b.Comma().Ident(DefaultFinanceOperationOrder.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceCashAccountOperationOrder.Field {
+			b.Comma().Ident(DefaultFinanceCashAccountOperationOrder.Field.column).Pad().WriteString(string(direction))
 		}
 	})
 }
 
-// Paginate executes the query and returns a relay based cursor connection to FinanceOperation.
-func (_m *FinanceOperationQuery) Paginate(
+// Paginate executes the query and returns a relay based cursor connection to FinanceCashAccountOperation.
+func (_m *FinanceCashAccountOperationQuery) Paginate(
 	ctx context.Context, after *Cursor, first *int,
-	before *Cursor, last *int, opts ...FinanceOperationPaginateOption,
-) (*FinanceOperationConnection, error) {
+	before *Cursor, last *int, opts ...FinanceCashAccountOperationPaginateOption,
+) (*FinanceCashAccountOperationConnection, error) {
 	if err := validateFirstLast(first, last); err != nil {
 		return nil, err
 	}
-	pager, err := newFinanceOperationPager(opts, last != nil)
+	pager, err := newFinanceCashAccountOperationPager(opts, last != nil)
 	if err != nil {
 		return nil, err
 	}
 	if _m, err = pager.applyFilter(_m); err != nil {
 		return nil, err
 	}
-	conn := &FinanceOperationConnection{Edges: []*FinanceOperationEdge{}}
+	conn := &FinanceCashAccountOperationConnection{Edges: []*FinanceCashAccountOperationEdge{}}
 	ignoredEdges := !hasCollectedField(ctx, edgesField)
 	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
 		hasPagination := after != nil || first != nil || before != nil || last != nil
@@ -2065,61 +2071,61 @@ func (_m *FinanceOperationQuery) Paginate(
 	return conn, nil
 }
 
-// FinanceOperationOrderField defines the ordering field of FinanceOperation.
-type FinanceOperationOrderField struct {
-	// Value extracts the ordering value from the given FinanceOperation.
-	Value    func(*FinanceOperation) (ent.Value, error)
+// FinanceCashAccountOperationOrderField defines the ordering field of FinanceCashAccountOperation.
+type FinanceCashAccountOperationOrderField struct {
+	// Value extracts the ordering value from the given FinanceCashAccountOperation.
+	Value    func(*FinanceCashAccountOperation) (ent.Value, error)
 	column   string // field or computed.
-	toTerm   func(...sql.OrderTermOption) financeoperation.OrderOption
-	toCursor func(*FinanceOperation) Cursor
+	toTerm   func(...sql.OrderTermOption) financecashaccountoperation.OrderOption
+	toCursor func(*FinanceCashAccountOperation) Cursor
 }
 
-// FinanceOperationOrder defines the ordering of FinanceOperation.
-type FinanceOperationOrder struct {
-	Direction OrderDirection              `json:"direction"`
-	Field     *FinanceOperationOrderField `json:"field"`
+// FinanceCashAccountOperationOrder defines the ordering of FinanceCashAccountOperation.
+type FinanceCashAccountOperationOrder struct {
+	Direction OrderDirection                         `json:"direction"`
+	Field     *FinanceCashAccountOperationOrderField `json:"field"`
 }
 
-// DefaultFinanceOperationOrder is the default ordering of FinanceOperation.
-var DefaultFinanceOperationOrder = &FinanceOperationOrder{
+// DefaultFinanceCashAccountOperationOrder is the default ordering of FinanceCashAccountOperation.
+var DefaultFinanceCashAccountOperationOrder = &FinanceCashAccountOperationOrder{
 	Direction: entgql.OrderDirectionAsc,
-	Field: &FinanceOperationOrderField{
-		Value: func(_m *FinanceOperation) (ent.Value, error) {
+	Field: &FinanceCashAccountOperationOrderField{
+		Value: func(_m *FinanceCashAccountOperation) (ent.Value, error) {
 			return _m.ID, nil
 		},
-		column: financeoperation.FieldID,
-		toTerm: financeoperation.ByID,
-		toCursor: func(_m *FinanceOperation) Cursor {
+		column: financecashaccountoperation.FieldID,
+		toTerm: financecashaccountoperation.ByID,
+		toCursor: func(_m *FinanceCashAccountOperation) Cursor {
 			return Cursor{ID: _m.ID}
 		},
 	},
 }
 
-// ToEdge converts FinanceOperation into FinanceOperationEdge.
-func (_m *FinanceOperation) ToEdge(order *FinanceOperationOrder) *FinanceOperationEdge {
+// ToEdge converts FinanceCashAccountOperation into FinanceCashAccountOperationEdge.
+func (_m *FinanceCashAccountOperation) ToEdge(order *FinanceCashAccountOperationOrder) *FinanceCashAccountOperationEdge {
 	if order == nil {
-		order = DefaultFinanceOperationOrder
+		order = DefaultFinanceCashAccountOperationOrder
 	}
-	return &FinanceOperationEdge{
+	return &FinanceCashAccountOperationEdge{
 		Node:   _m,
 		Cursor: order.Field.toCursor(_m),
 	}
 }
 
-// FinanceResourceEdge is the edge representation of FinanceResource.
-type FinanceResourceEdge struct {
-	Node   *FinanceResource `json:"node"`
-	Cursor Cursor           `json:"cursor"`
+// FinanceCurrentAccountEdge is the edge representation of FinanceCurrentAccount.
+type FinanceCurrentAccountEdge struct {
+	Node   *FinanceCurrentAccount `json:"node"`
+	Cursor Cursor                 `json:"cursor"`
 }
 
-// FinanceResourceConnection is the connection containing edges to FinanceResource.
-type FinanceResourceConnection struct {
-	Edges      []*FinanceResourceEdge `json:"edges"`
-	PageInfo   PageInfo               `json:"pageInfo"`
-	TotalCount int                    `json:"totalCount"`
+// FinanceCurrentAccountConnection is the connection containing edges to FinanceCurrentAccount.
+type FinanceCurrentAccountConnection struct {
+	Edges      []*FinanceCurrentAccountEdge `json:"edges"`
+	PageInfo   PageInfo                     `json:"pageInfo"`
+	TotalCount int                          `json:"totalCount"`
 }
 
-func (c *FinanceResourceConnection) build(nodes []*FinanceResource, pager *financeresourcePager, after *Cursor, first *int, before *Cursor, last *int) {
+func (c *FinanceCurrentAccountConnection) build(nodes []*FinanceCurrentAccount, pager *financecurrentaccountPager, after *Cursor, first *int, before *Cursor, last *int) {
 	c.PageInfo.HasNextPage = before != nil
 	c.PageInfo.HasPreviousPage = after != nil
 	if first != nil && *first+1 == len(nodes) {
@@ -2129,21 +2135,21 @@ func (c *FinanceResourceConnection) build(nodes []*FinanceResource, pager *finan
 		c.PageInfo.HasPreviousPage = true
 		nodes = nodes[:len(nodes)-1]
 	}
-	var nodeAt func(int) *FinanceResource
+	var nodeAt func(int) *FinanceCurrentAccount
 	if last != nil {
 		n := len(nodes) - 1
-		nodeAt = func(i int) *FinanceResource {
+		nodeAt = func(i int) *FinanceCurrentAccount {
 			return nodes[n-i]
 		}
 	} else {
-		nodeAt = func(i int) *FinanceResource {
+		nodeAt = func(i int) *FinanceCurrentAccount {
 			return nodes[i]
 		}
 	}
-	c.Edges = make([]*FinanceResourceEdge, len(nodes))
+	c.Edges = make([]*FinanceCurrentAccountEdge, len(nodes))
 	for i := range nodes {
 		node := nodeAt(i)
-		c.Edges[i] = &FinanceResourceEdge{
+		c.Edges[i] = &FinanceCurrentAccountEdge{
 			Node:   node,
 			Cursor: pager.toCursor(node),
 		}
@@ -2157,87 +2163,87 @@ func (c *FinanceResourceConnection) build(nodes []*FinanceResource, pager *finan
 	}
 }
 
-// FinanceResourcePaginateOption enables pagination customization.
-type FinanceResourcePaginateOption func(*financeresourcePager) error
+// FinanceCurrentAccountPaginateOption enables pagination customization.
+type FinanceCurrentAccountPaginateOption func(*financecurrentaccountPager) error
 
-// WithFinanceResourceOrder configures pagination ordering.
-func WithFinanceResourceOrder(order *FinanceResourceOrder) FinanceResourcePaginateOption {
+// WithFinanceCurrentAccountOrder configures pagination ordering.
+func WithFinanceCurrentAccountOrder(order *FinanceCurrentAccountOrder) FinanceCurrentAccountPaginateOption {
 	if order == nil {
-		order = DefaultFinanceResourceOrder
+		order = DefaultFinanceCurrentAccountOrder
 	}
 	o := *order
-	return func(pager *financeresourcePager) error {
+	return func(pager *financecurrentaccountPager) error {
 		if err := o.Direction.Validate(); err != nil {
 			return err
 		}
 		if o.Field == nil {
-			o.Field = DefaultFinanceResourceOrder.Field
+			o.Field = DefaultFinanceCurrentAccountOrder.Field
 		}
 		pager.order = &o
 		return nil
 	}
 }
 
-// WithFinanceResourceFilter configures pagination filter.
-func WithFinanceResourceFilter(filter func(*FinanceResourceQuery) (*FinanceResourceQuery, error)) FinanceResourcePaginateOption {
-	return func(pager *financeresourcePager) error {
+// WithFinanceCurrentAccountFilter configures pagination filter.
+func WithFinanceCurrentAccountFilter(filter func(*FinanceCurrentAccountQuery) (*FinanceCurrentAccountQuery, error)) FinanceCurrentAccountPaginateOption {
+	return func(pager *financecurrentaccountPager) error {
 		if filter == nil {
-			return errors.New("FinanceResourceQuery filter cannot be nil")
+			return errors.New("FinanceCurrentAccountQuery filter cannot be nil")
 		}
 		pager.filter = filter
 		return nil
 	}
 }
 
-type financeresourcePager struct {
+type financecurrentaccountPager struct {
 	reverse bool
-	order   *FinanceResourceOrder
-	filter  func(*FinanceResourceQuery) (*FinanceResourceQuery, error)
+	order   *FinanceCurrentAccountOrder
+	filter  func(*FinanceCurrentAccountQuery) (*FinanceCurrentAccountQuery, error)
 }
 
-func newFinanceResourcePager(opts []FinanceResourcePaginateOption, reverse bool) (*financeresourcePager, error) {
-	pager := &financeresourcePager{reverse: reverse}
+func newFinanceCurrentAccountPager(opts []FinanceCurrentAccountPaginateOption, reverse bool) (*financecurrentaccountPager, error) {
+	pager := &financecurrentaccountPager{reverse: reverse}
 	for _, opt := range opts {
 		if err := opt(pager); err != nil {
 			return nil, err
 		}
 	}
 	if pager.order == nil {
-		pager.order = DefaultFinanceResourceOrder
+		pager.order = DefaultFinanceCurrentAccountOrder
 	}
 	return pager, nil
 }
 
-func (p *financeresourcePager) applyFilter(query *FinanceResourceQuery) (*FinanceResourceQuery, error) {
+func (p *financecurrentaccountPager) applyFilter(query *FinanceCurrentAccountQuery) (*FinanceCurrentAccountQuery, error) {
 	if p.filter != nil {
 		return p.filter(query)
 	}
 	return query, nil
 }
 
-func (p *financeresourcePager) toCursor(_m *FinanceResource) Cursor {
+func (p *financecurrentaccountPager) toCursor(_m *FinanceCurrentAccount) Cursor {
 	return p.order.Field.toCursor(_m)
 }
 
-func (p *financeresourcePager) applyCursors(query *FinanceResourceQuery, after, before *Cursor) (*FinanceResourceQuery, error) {
+func (p *financecurrentaccountPager) applyCursors(query *FinanceCurrentAccountQuery, after, before *Cursor) (*FinanceCurrentAccountQuery, error) {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
-	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceResourceOrder.Field.column, p.order.Field.column, direction) {
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceCurrentAccountOrder.Field.column, p.order.Field.column, direction) {
 		query = query.Where(predicate)
 	}
 	return query, nil
 }
 
-func (p *financeresourcePager) applyOrder(query *FinanceResourceQuery) *FinanceResourceQuery {
+func (p *financecurrentaccountPager) applyOrder(query *FinanceCurrentAccountQuery) *FinanceCurrentAccountQuery {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
 	}
 	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
-	if p.order.Field != DefaultFinanceResourceOrder.Field {
-		query = query.Order(DefaultFinanceResourceOrder.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceCurrentAccountOrder.Field {
+		query = query.Order(DefaultFinanceCurrentAccountOrder.Field.toTerm(direction.OrderTermOption()))
 	}
 	if len(query.ctx.Fields) > 0 {
 		query.ctx.AppendFieldOnce(p.order.Field.column)
@@ -2245,7 +2251,7 @@ func (p *financeresourcePager) applyOrder(query *FinanceResourceQuery) *FinanceR
 	return query
 }
 
-func (p *financeresourcePager) orderExpr(query *FinanceResourceQuery) sql.Querier {
+func (p *financecurrentaccountPager) orderExpr(query *FinanceCurrentAccountQuery) sql.Querier {
 	direction := p.order.Direction
 	if p.reverse {
 		direction = direction.Reverse()
@@ -2255,28 +2261,28 @@ func (p *financeresourcePager) orderExpr(query *FinanceResourceQuery) sql.Querie
 	}
 	return sql.ExprFunc(func(b *sql.Builder) {
 		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
-		if p.order.Field != DefaultFinanceResourceOrder.Field {
-			b.Comma().Ident(DefaultFinanceResourceOrder.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceCurrentAccountOrder.Field {
+			b.Comma().Ident(DefaultFinanceCurrentAccountOrder.Field.column).Pad().WriteString(string(direction))
 		}
 	})
 }
 
-// Paginate executes the query and returns a relay based cursor connection to FinanceResource.
-func (_m *FinanceResourceQuery) Paginate(
+// Paginate executes the query and returns a relay based cursor connection to FinanceCurrentAccount.
+func (_m *FinanceCurrentAccountQuery) Paginate(
 	ctx context.Context, after *Cursor, first *int,
-	before *Cursor, last *int, opts ...FinanceResourcePaginateOption,
-) (*FinanceResourceConnection, error) {
+	before *Cursor, last *int, opts ...FinanceCurrentAccountPaginateOption,
+) (*FinanceCurrentAccountConnection, error) {
 	if err := validateFirstLast(first, last); err != nil {
 		return nil, err
 	}
-	pager, err := newFinanceResourcePager(opts, last != nil)
+	pager, err := newFinanceCurrentAccountPager(opts, last != nil)
 	if err != nil {
 		return nil, err
 	}
 	if _m, err = pager.applyFilter(_m); err != nil {
 		return nil, err
 	}
-	conn := &FinanceResourceConnection{Edges: []*FinanceResourceEdge{}}
+	conn := &FinanceCurrentAccountConnection{Edges: []*FinanceCurrentAccountEdge{}}
 	ignoredEdges := !hasCollectedField(ctx, edgesField)
 	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
 		hasPagination := after != nil || first != nil || before != nil || last != nil
@@ -2314,42 +2320,1536 @@ func (_m *FinanceResourceQuery) Paginate(
 	return conn, nil
 }
 
-// FinanceResourceOrderField defines the ordering field of FinanceResource.
-type FinanceResourceOrderField struct {
-	// Value extracts the ordering value from the given FinanceResource.
-	Value    func(*FinanceResource) (ent.Value, error)
+// FinanceCurrentAccountOrderField defines the ordering field of FinanceCurrentAccount.
+type FinanceCurrentAccountOrderField struct {
+	// Value extracts the ordering value from the given FinanceCurrentAccount.
+	Value    func(*FinanceCurrentAccount) (ent.Value, error)
 	column   string // field or computed.
-	toTerm   func(...sql.OrderTermOption) financeresource.OrderOption
-	toCursor func(*FinanceResource) Cursor
+	toTerm   func(...sql.OrderTermOption) financecurrentaccount.OrderOption
+	toCursor func(*FinanceCurrentAccount) Cursor
 }
 
-// FinanceResourceOrder defines the ordering of FinanceResource.
-type FinanceResourceOrder struct {
-	Direction OrderDirection             `json:"direction"`
-	Field     *FinanceResourceOrderField `json:"field"`
+// FinanceCurrentAccountOrder defines the ordering of FinanceCurrentAccount.
+type FinanceCurrentAccountOrder struct {
+	Direction OrderDirection                   `json:"direction"`
+	Field     *FinanceCurrentAccountOrderField `json:"field"`
 }
 
-// DefaultFinanceResourceOrder is the default ordering of FinanceResource.
-var DefaultFinanceResourceOrder = &FinanceResourceOrder{
+// DefaultFinanceCurrentAccountOrder is the default ordering of FinanceCurrentAccount.
+var DefaultFinanceCurrentAccountOrder = &FinanceCurrentAccountOrder{
 	Direction: entgql.OrderDirectionAsc,
-	Field: &FinanceResourceOrderField{
-		Value: func(_m *FinanceResource) (ent.Value, error) {
+	Field: &FinanceCurrentAccountOrderField{
+		Value: func(_m *FinanceCurrentAccount) (ent.Value, error) {
 			return _m.ID, nil
 		},
-		column: financeresource.FieldID,
-		toTerm: financeresource.ByID,
-		toCursor: func(_m *FinanceResource) Cursor {
+		column: financecurrentaccount.FieldID,
+		toTerm: financecurrentaccount.ByID,
+		toCursor: func(_m *FinanceCurrentAccount) Cursor {
 			return Cursor{ID: _m.ID}
 		},
 	},
 }
 
-// ToEdge converts FinanceResource into FinanceResourceEdge.
-func (_m *FinanceResource) ToEdge(order *FinanceResourceOrder) *FinanceResourceEdge {
+// ToEdge converts FinanceCurrentAccount into FinanceCurrentAccountEdge.
+func (_m *FinanceCurrentAccount) ToEdge(order *FinanceCurrentAccountOrder) *FinanceCurrentAccountEdge {
 	if order == nil {
-		order = DefaultFinanceResourceOrder
+		order = DefaultFinanceCurrentAccountOrder
 	}
-	return &FinanceResourceEdge{
+	return &FinanceCurrentAccountEdge{
+		Node:   _m,
+		Cursor: order.Field.toCursor(_m),
+	}
+}
+
+// FinanceCurrentAccountGroupEdge is the edge representation of FinanceCurrentAccountGroup.
+type FinanceCurrentAccountGroupEdge struct {
+	Node   *FinanceCurrentAccountGroup `json:"node"`
+	Cursor Cursor                      `json:"cursor"`
+}
+
+// FinanceCurrentAccountGroupConnection is the connection containing edges to FinanceCurrentAccountGroup.
+type FinanceCurrentAccountGroupConnection struct {
+	Edges      []*FinanceCurrentAccountGroupEdge `json:"edges"`
+	PageInfo   PageInfo                          `json:"pageInfo"`
+	TotalCount int                               `json:"totalCount"`
+}
+
+func (c *FinanceCurrentAccountGroupConnection) build(nodes []*FinanceCurrentAccountGroup, pager *financecurrentaccountgroupPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *FinanceCurrentAccountGroup
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *FinanceCurrentAccountGroup {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *FinanceCurrentAccountGroup {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*FinanceCurrentAccountGroupEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &FinanceCurrentAccountGroupEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// FinanceCurrentAccountGroupPaginateOption enables pagination customization.
+type FinanceCurrentAccountGroupPaginateOption func(*financecurrentaccountgroupPager) error
+
+// WithFinanceCurrentAccountGroupOrder configures pagination ordering.
+func WithFinanceCurrentAccountGroupOrder(order *FinanceCurrentAccountGroupOrder) FinanceCurrentAccountGroupPaginateOption {
+	if order == nil {
+		order = DefaultFinanceCurrentAccountGroupOrder
+	}
+	o := *order
+	return func(pager *financecurrentaccountgroupPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultFinanceCurrentAccountGroupOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithFinanceCurrentAccountGroupFilter configures pagination filter.
+func WithFinanceCurrentAccountGroupFilter(filter func(*FinanceCurrentAccountGroupQuery) (*FinanceCurrentAccountGroupQuery, error)) FinanceCurrentAccountGroupPaginateOption {
+	return func(pager *financecurrentaccountgroupPager) error {
+		if filter == nil {
+			return errors.New("FinanceCurrentAccountGroupQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type financecurrentaccountgroupPager struct {
+	reverse bool
+	order   *FinanceCurrentAccountGroupOrder
+	filter  func(*FinanceCurrentAccountGroupQuery) (*FinanceCurrentAccountGroupQuery, error)
+}
+
+func newFinanceCurrentAccountGroupPager(opts []FinanceCurrentAccountGroupPaginateOption, reverse bool) (*financecurrentaccountgroupPager, error) {
+	pager := &financecurrentaccountgroupPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultFinanceCurrentAccountGroupOrder
+	}
+	return pager, nil
+}
+
+func (p *financecurrentaccountgroupPager) applyFilter(query *FinanceCurrentAccountGroupQuery) (*FinanceCurrentAccountGroupQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *financecurrentaccountgroupPager) toCursor(_m *FinanceCurrentAccountGroup) Cursor {
+	return p.order.Field.toCursor(_m)
+}
+
+func (p *financecurrentaccountgroupPager) applyCursors(query *FinanceCurrentAccountGroupQuery, after, before *Cursor) (*FinanceCurrentAccountGroupQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceCurrentAccountGroupOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *financecurrentaccountgroupPager) applyOrder(query *FinanceCurrentAccountGroupQuery) *FinanceCurrentAccountGroupQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceCurrentAccountGroupOrder.Field {
+		query = query.Order(DefaultFinanceCurrentAccountGroupOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *financecurrentaccountgroupPager) orderExpr(query *FinanceCurrentAccountGroupQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceCurrentAccountGroupOrder.Field {
+			b.Comma().Ident(DefaultFinanceCurrentAccountGroupOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to FinanceCurrentAccountGroup.
+func (_m *FinanceCurrentAccountGroupQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...FinanceCurrentAccountGroupPaginateOption,
+) (*FinanceCurrentAccountGroupConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newFinanceCurrentAccountGroupPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if _m, err = pager.applyFilter(_m); err != nil {
+		return nil, err
+	}
+	conn := &FinanceCurrentAccountGroupConnection{Edges: []*FinanceCurrentAccountGroupEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := _m.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if _m, err = pager.applyCursors(_m, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		_m.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := _m.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	_m = pager.applyOrder(_m)
+	nodes, err := _m.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// FinanceCurrentAccountGroupOrderField defines the ordering field of FinanceCurrentAccountGroup.
+type FinanceCurrentAccountGroupOrderField struct {
+	// Value extracts the ordering value from the given FinanceCurrentAccountGroup.
+	Value    func(*FinanceCurrentAccountGroup) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) financecurrentaccountgroup.OrderOption
+	toCursor func(*FinanceCurrentAccountGroup) Cursor
+}
+
+// FinanceCurrentAccountGroupOrder defines the ordering of FinanceCurrentAccountGroup.
+type FinanceCurrentAccountGroupOrder struct {
+	Direction OrderDirection                        `json:"direction"`
+	Field     *FinanceCurrentAccountGroupOrderField `json:"field"`
+}
+
+// DefaultFinanceCurrentAccountGroupOrder is the default ordering of FinanceCurrentAccountGroup.
+var DefaultFinanceCurrentAccountGroupOrder = &FinanceCurrentAccountGroupOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &FinanceCurrentAccountGroupOrderField{
+		Value: func(_m *FinanceCurrentAccountGroup) (ent.Value, error) {
+			return _m.ID, nil
+		},
+		column: financecurrentaccountgroup.FieldID,
+		toTerm: financecurrentaccountgroup.ByID,
+		toCursor: func(_m *FinanceCurrentAccountGroup) Cursor {
+			return Cursor{ID: _m.ID}
+		},
+	},
+}
+
+// ToEdge converts FinanceCurrentAccountGroup into FinanceCurrentAccountGroupEdge.
+func (_m *FinanceCurrentAccountGroup) ToEdge(order *FinanceCurrentAccountGroupOrder) *FinanceCurrentAccountGroupEdge {
+	if order == nil {
+		order = DefaultFinanceCurrentAccountGroupOrder
+	}
+	return &FinanceCurrentAccountGroupEdge{
+		Node:   _m,
+		Cursor: order.Field.toCursor(_m),
+	}
+}
+
+// FinanceCurrentAccountOperationEdge is the edge representation of FinanceCurrentAccountOperation.
+type FinanceCurrentAccountOperationEdge struct {
+	Node   *FinanceCurrentAccountOperation `json:"node"`
+	Cursor Cursor                          `json:"cursor"`
+}
+
+// FinanceCurrentAccountOperationConnection is the connection containing edges to FinanceCurrentAccountOperation.
+type FinanceCurrentAccountOperationConnection struct {
+	Edges      []*FinanceCurrentAccountOperationEdge `json:"edges"`
+	PageInfo   PageInfo                              `json:"pageInfo"`
+	TotalCount int                                   `json:"totalCount"`
+}
+
+func (c *FinanceCurrentAccountOperationConnection) build(nodes []*FinanceCurrentAccountOperation, pager *financecurrentaccountoperationPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *FinanceCurrentAccountOperation
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *FinanceCurrentAccountOperation {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *FinanceCurrentAccountOperation {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*FinanceCurrentAccountOperationEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &FinanceCurrentAccountOperationEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// FinanceCurrentAccountOperationPaginateOption enables pagination customization.
+type FinanceCurrentAccountOperationPaginateOption func(*financecurrentaccountoperationPager) error
+
+// WithFinanceCurrentAccountOperationOrder configures pagination ordering.
+func WithFinanceCurrentAccountOperationOrder(order *FinanceCurrentAccountOperationOrder) FinanceCurrentAccountOperationPaginateOption {
+	if order == nil {
+		order = DefaultFinanceCurrentAccountOperationOrder
+	}
+	o := *order
+	return func(pager *financecurrentaccountoperationPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultFinanceCurrentAccountOperationOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithFinanceCurrentAccountOperationFilter configures pagination filter.
+func WithFinanceCurrentAccountOperationFilter(filter func(*FinanceCurrentAccountOperationQuery) (*FinanceCurrentAccountOperationQuery, error)) FinanceCurrentAccountOperationPaginateOption {
+	return func(pager *financecurrentaccountoperationPager) error {
+		if filter == nil {
+			return errors.New("FinanceCurrentAccountOperationQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type financecurrentaccountoperationPager struct {
+	reverse bool
+	order   *FinanceCurrentAccountOperationOrder
+	filter  func(*FinanceCurrentAccountOperationQuery) (*FinanceCurrentAccountOperationQuery, error)
+}
+
+func newFinanceCurrentAccountOperationPager(opts []FinanceCurrentAccountOperationPaginateOption, reverse bool) (*financecurrentaccountoperationPager, error) {
+	pager := &financecurrentaccountoperationPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultFinanceCurrentAccountOperationOrder
+	}
+	return pager, nil
+}
+
+func (p *financecurrentaccountoperationPager) applyFilter(query *FinanceCurrentAccountOperationQuery) (*FinanceCurrentAccountOperationQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *financecurrentaccountoperationPager) toCursor(_m *FinanceCurrentAccountOperation) Cursor {
+	return p.order.Field.toCursor(_m)
+}
+
+func (p *financecurrentaccountoperationPager) applyCursors(query *FinanceCurrentAccountOperationQuery, after, before *Cursor) (*FinanceCurrentAccountOperationQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceCurrentAccountOperationOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *financecurrentaccountoperationPager) applyOrder(query *FinanceCurrentAccountOperationQuery) *FinanceCurrentAccountOperationQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceCurrentAccountOperationOrder.Field {
+		query = query.Order(DefaultFinanceCurrentAccountOperationOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *financecurrentaccountoperationPager) orderExpr(query *FinanceCurrentAccountOperationQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceCurrentAccountOperationOrder.Field {
+			b.Comma().Ident(DefaultFinanceCurrentAccountOperationOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to FinanceCurrentAccountOperation.
+func (_m *FinanceCurrentAccountOperationQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...FinanceCurrentAccountOperationPaginateOption,
+) (*FinanceCurrentAccountOperationConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newFinanceCurrentAccountOperationPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if _m, err = pager.applyFilter(_m); err != nil {
+		return nil, err
+	}
+	conn := &FinanceCurrentAccountOperationConnection{Edges: []*FinanceCurrentAccountOperationEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := _m.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if _m, err = pager.applyCursors(_m, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		_m.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := _m.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	_m = pager.applyOrder(_m)
+	nodes, err := _m.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// FinanceCurrentAccountOperationOrderField defines the ordering field of FinanceCurrentAccountOperation.
+type FinanceCurrentAccountOperationOrderField struct {
+	// Value extracts the ordering value from the given FinanceCurrentAccountOperation.
+	Value    func(*FinanceCurrentAccountOperation) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) financecurrentaccountoperation.OrderOption
+	toCursor func(*FinanceCurrentAccountOperation) Cursor
+}
+
+// FinanceCurrentAccountOperationOrder defines the ordering of FinanceCurrentAccountOperation.
+type FinanceCurrentAccountOperationOrder struct {
+	Direction OrderDirection                            `json:"direction"`
+	Field     *FinanceCurrentAccountOperationOrderField `json:"field"`
+}
+
+// DefaultFinanceCurrentAccountOperationOrder is the default ordering of FinanceCurrentAccountOperation.
+var DefaultFinanceCurrentAccountOperationOrder = &FinanceCurrentAccountOperationOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &FinanceCurrentAccountOperationOrderField{
+		Value: func(_m *FinanceCurrentAccountOperation) (ent.Value, error) {
+			return _m.ID, nil
+		},
+		column: financecurrentaccountoperation.FieldID,
+		toTerm: financecurrentaccountoperation.ByID,
+		toCursor: func(_m *FinanceCurrentAccountOperation) Cursor {
+			return Cursor{ID: _m.ID}
+		},
+	},
+}
+
+// ToEdge converts FinanceCurrentAccountOperation into FinanceCurrentAccountOperationEdge.
+func (_m *FinanceCurrentAccountOperation) ToEdge(order *FinanceCurrentAccountOperationOrder) *FinanceCurrentAccountOperationEdge {
+	if order == nil {
+		order = DefaultFinanceCurrentAccountOperationOrder
+	}
+	return &FinanceCurrentAccountOperationEdge{
+		Node:   _m,
+		Cursor: order.Field.toCursor(_m),
+	}
+}
+
+// FinanceCurrentAccountOperationTypeEdge is the edge representation of FinanceCurrentAccountOperationType.
+type FinanceCurrentAccountOperationTypeEdge struct {
+	Node   *FinanceCurrentAccountOperationType `json:"node"`
+	Cursor Cursor                              `json:"cursor"`
+}
+
+// FinanceCurrentAccountOperationTypeConnection is the connection containing edges to FinanceCurrentAccountOperationType.
+type FinanceCurrentAccountOperationTypeConnection struct {
+	Edges      []*FinanceCurrentAccountOperationTypeEdge `json:"edges"`
+	PageInfo   PageInfo                                  `json:"pageInfo"`
+	TotalCount int                                       `json:"totalCount"`
+}
+
+func (c *FinanceCurrentAccountOperationTypeConnection) build(nodes []*FinanceCurrentAccountOperationType, pager *financecurrentaccountoperationtypePager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *FinanceCurrentAccountOperationType
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *FinanceCurrentAccountOperationType {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *FinanceCurrentAccountOperationType {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*FinanceCurrentAccountOperationTypeEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &FinanceCurrentAccountOperationTypeEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// FinanceCurrentAccountOperationTypePaginateOption enables pagination customization.
+type FinanceCurrentAccountOperationTypePaginateOption func(*financecurrentaccountoperationtypePager) error
+
+// WithFinanceCurrentAccountOperationTypeOrder configures pagination ordering.
+func WithFinanceCurrentAccountOperationTypeOrder(order *FinanceCurrentAccountOperationTypeOrder) FinanceCurrentAccountOperationTypePaginateOption {
+	if order == nil {
+		order = DefaultFinanceCurrentAccountOperationTypeOrder
+	}
+	o := *order
+	return func(pager *financecurrentaccountoperationtypePager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultFinanceCurrentAccountOperationTypeOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithFinanceCurrentAccountOperationTypeFilter configures pagination filter.
+func WithFinanceCurrentAccountOperationTypeFilter(filter func(*FinanceCurrentAccountOperationTypeQuery) (*FinanceCurrentAccountOperationTypeQuery, error)) FinanceCurrentAccountOperationTypePaginateOption {
+	return func(pager *financecurrentaccountoperationtypePager) error {
+		if filter == nil {
+			return errors.New("FinanceCurrentAccountOperationTypeQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type financecurrentaccountoperationtypePager struct {
+	reverse bool
+	order   *FinanceCurrentAccountOperationTypeOrder
+	filter  func(*FinanceCurrentAccountOperationTypeQuery) (*FinanceCurrentAccountOperationTypeQuery, error)
+}
+
+func newFinanceCurrentAccountOperationTypePager(opts []FinanceCurrentAccountOperationTypePaginateOption, reverse bool) (*financecurrentaccountoperationtypePager, error) {
+	pager := &financecurrentaccountoperationtypePager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultFinanceCurrentAccountOperationTypeOrder
+	}
+	return pager, nil
+}
+
+func (p *financecurrentaccountoperationtypePager) applyFilter(query *FinanceCurrentAccountOperationTypeQuery) (*FinanceCurrentAccountOperationTypeQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *financecurrentaccountoperationtypePager) toCursor(_m *FinanceCurrentAccountOperationType) Cursor {
+	return p.order.Field.toCursor(_m)
+}
+
+func (p *financecurrentaccountoperationtypePager) applyCursors(query *FinanceCurrentAccountOperationTypeQuery, after, before *Cursor) (*FinanceCurrentAccountOperationTypeQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceCurrentAccountOperationTypeOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *financecurrentaccountoperationtypePager) applyOrder(query *FinanceCurrentAccountOperationTypeQuery) *FinanceCurrentAccountOperationTypeQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceCurrentAccountOperationTypeOrder.Field {
+		query = query.Order(DefaultFinanceCurrentAccountOperationTypeOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *financecurrentaccountoperationtypePager) orderExpr(query *FinanceCurrentAccountOperationTypeQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceCurrentAccountOperationTypeOrder.Field {
+			b.Comma().Ident(DefaultFinanceCurrentAccountOperationTypeOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to FinanceCurrentAccountOperationType.
+func (_m *FinanceCurrentAccountOperationTypeQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...FinanceCurrentAccountOperationTypePaginateOption,
+) (*FinanceCurrentAccountOperationTypeConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newFinanceCurrentAccountOperationTypePager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if _m, err = pager.applyFilter(_m); err != nil {
+		return nil, err
+	}
+	conn := &FinanceCurrentAccountOperationTypeConnection{Edges: []*FinanceCurrentAccountOperationTypeEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := _m.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if _m, err = pager.applyCursors(_m, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		_m.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := _m.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	_m = pager.applyOrder(_m)
+	nodes, err := _m.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// FinanceCurrentAccountOperationTypeOrderField defines the ordering field of FinanceCurrentAccountOperationType.
+type FinanceCurrentAccountOperationTypeOrderField struct {
+	// Value extracts the ordering value from the given FinanceCurrentAccountOperationType.
+	Value    func(*FinanceCurrentAccountOperationType) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) financecurrentaccountoperationtype.OrderOption
+	toCursor func(*FinanceCurrentAccountOperationType) Cursor
+}
+
+// FinanceCurrentAccountOperationTypeOrder defines the ordering of FinanceCurrentAccountOperationType.
+type FinanceCurrentAccountOperationTypeOrder struct {
+	Direction OrderDirection                                `json:"direction"`
+	Field     *FinanceCurrentAccountOperationTypeOrderField `json:"field"`
+}
+
+// DefaultFinanceCurrentAccountOperationTypeOrder is the default ordering of FinanceCurrentAccountOperationType.
+var DefaultFinanceCurrentAccountOperationTypeOrder = &FinanceCurrentAccountOperationTypeOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &FinanceCurrentAccountOperationTypeOrderField{
+		Value: func(_m *FinanceCurrentAccountOperationType) (ent.Value, error) {
+			return _m.ID, nil
+		},
+		column: financecurrentaccountoperationtype.FieldID,
+		toTerm: financecurrentaccountoperationtype.ByID,
+		toCursor: func(_m *FinanceCurrentAccountOperationType) Cursor {
+			return Cursor{ID: _m.ID}
+		},
+	},
+}
+
+// ToEdge converts FinanceCurrentAccountOperationType into FinanceCurrentAccountOperationTypeEdge.
+func (_m *FinanceCurrentAccountOperationType) ToEdge(order *FinanceCurrentAccountOperationTypeOrder) *FinanceCurrentAccountOperationTypeEdge {
+	if order == nil {
+		order = DefaultFinanceCurrentAccountOperationTypeOrder
+	}
+	return &FinanceCurrentAccountOperationTypeEdge{
+		Node:   _m,
+		Cursor: order.Field.toCursor(_m),
+	}
+}
+
+// FinanceCurrentAccountTypeEdge is the edge representation of FinanceCurrentAccountType.
+type FinanceCurrentAccountTypeEdge struct {
+	Node   *FinanceCurrentAccountType `json:"node"`
+	Cursor Cursor                     `json:"cursor"`
+}
+
+// FinanceCurrentAccountTypeConnection is the connection containing edges to FinanceCurrentAccountType.
+type FinanceCurrentAccountTypeConnection struct {
+	Edges      []*FinanceCurrentAccountTypeEdge `json:"edges"`
+	PageInfo   PageInfo                         `json:"pageInfo"`
+	TotalCount int                              `json:"totalCount"`
+}
+
+func (c *FinanceCurrentAccountTypeConnection) build(nodes []*FinanceCurrentAccountType, pager *financecurrentaccounttypePager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *FinanceCurrentAccountType
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *FinanceCurrentAccountType {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *FinanceCurrentAccountType {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*FinanceCurrentAccountTypeEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &FinanceCurrentAccountTypeEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// FinanceCurrentAccountTypePaginateOption enables pagination customization.
+type FinanceCurrentAccountTypePaginateOption func(*financecurrentaccounttypePager) error
+
+// WithFinanceCurrentAccountTypeOrder configures pagination ordering.
+func WithFinanceCurrentAccountTypeOrder(order *FinanceCurrentAccountTypeOrder) FinanceCurrentAccountTypePaginateOption {
+	if order == nil {
+		order = DefaultFinanceCurrentAccountTypeOrder
+	}
+	o := *order
+	return func(pager *financecurrentaccounttypePager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultFinanceCurrentAccountTypeOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithFinanceCurrentAccountTypeFilter configures pagination filter.
+func WithFinanceCurrentAccountTypeFilter(filter func(*FinanceCurrentAccountTypeQuery) (*FinanceCurrentAccountTypeQuery, error)) FinanceCurrentAccountTypePaginateOption {
+	return func(pager *financecurrentaccounttypePager) error {
+		if filter == nil {
+			return errors.New("FinanceCurrentAccountTypeQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type financecurrentaccounttypePager struct {
+	reverse bool
+	order   *FinanceCurrentAccountTypeOrder
+	filter  func(*FinanceCurrentAccountTypeQuery) (*FinanceCurrentAccountTypeQuery, error)
+}
+
+func newFinanceCurrentAccountTypePager(opts []FinanceCurrentAccountTypePaginateOption, reverse bool) (*financecurrentaccounttypePager, error) {
+	pager := &financecurrentaccounttypePager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultFinanceCurrentAccountTypeOrder
+	}
+	return pager, nil
+}
+
+func (p *financecurrentaccounttypePager) applyFilter(query *FinanceCurrentAccountTypeQuery) (*FinanceCurrentAccountTypeQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *financecurrentaccounttypePager) toCursor(_m *FinanceCurrentAccountType) Cursor {
+	return p.order.Field.toCursor(_m)
+}
+
+func (p *financecurrentaccounttypePager) applyCursors(query *FinanceCurrentAccountTypeQuery, after, before *Cursor) (*FinanceCurrentAccountTypeQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceCurrentAccountTypeOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *financecurrentaccounttypePager) applyOrder(query *FinanceCurrentAccountTypeQuery) *FinanceCurrentAccountTypeQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceCurrentAccountTypeOrder.Field {
+		query = query.Order(DefaultFinanceCurrentAccountTypeOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *financecurrentaccounttypePager) orderExpr(query *FinanceCurrentAccountTypeQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceCurrentAccountTypeOrder.Field {
+			b.Comma().Ident(DefaultFinanceCurrentAccountTypeOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to FinanceCurrentAccountType.
+func (_m *FinanceCurrentAccountTypeQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...FinanceCurrentAccountTypePaginateOption,
+) (*FinanceCurrentAccountTypeConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newFinanceCurrentAccountTypePager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if _m, err = pager.applyFilter(_m); err != nil {
+		return nil, err
+	}
+	conn := &FinanceCurrentAccountTypeConnection{Edges: []*FinanceCurrentAccountTypeEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := _m.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if _m, err = pager.applyCursors(_m, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		_m.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := _m.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	_m = pager.applyOrder(_m)
+	nodes, err := _m.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// FinanceCurrentAccountTypeOrderField defines the ordering field of FinanceCurrentAccountType.
+type FinanceCurrentAccountTypeOrderField struct {
+	// Value extracts the ordering value from the given FinanceCurrentAccountType.
+	Value    func(*FinanceCurrentAccountType) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) financecurrentaccounttype.OrderOption
+	toCursor func(*FinanceCurrentAccountType) Cursor
+}
+
+// FinanceCurrentAccountTypeOrder defines the ordering of FinanceCurrentAccountType.
+type FinanceCurrentAccountTypeOrder struct {
+	Direction OrderDirection                       `json:"direction"`
+	Field     *FinanceCurrentAccountTypeOrderField `json:"field"`
+}
+
+// DefaultFinanceCurrentAccountTypeOrder is the default ordering of FinanceCurrentAccountType.
+var DefaultFinanceCurrentAccountTypeOrder = &FinanceCurrentAccountTypeOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &FinanceCurrentAccountTypeOrderField{
+		Value: func(_m *FinanceCurrentAccountType) (ent.Value, error) {
+			return _m.ID, nil
+		},
+		column: financecurrentaccounttype.FieldID,
+		toTerm: financecurrentaccounttype.ByID,
+		toCursor: func(_m *FinanceCurrentAccountType) Cursor {
+			return Cursor{ID: _m.ID}
+		},
+	},
+}
+
+// ToEdge converts FinanceCurrentAccountType into FinanceCurrentAccountTypeEdge.
+func (_m *FinanceCurrentAccountType) ToEdge(order *FinanceCurrentAccountTypeOrder) *FinanceCurrentAccountTypeEdge {
+	if order == nil {
+		order = DefaultFinanceCurrentAccountTypeOrder
+	}
+	return &FinanceCurrentAccountTypeEdge{
+		Node:   _m,
+		Cursor: order.Field.toCursor(_m),
+	}
+}
+
+// FinanceOperationGroupEdge is the edge representation of FinanceOperationGroup.
+type FinanceOperationGroupEdge struct {
+	Node   *FinanceOperationGroup `json:"node"`
+	Cursor Cursor                 `json:"cursor"`
+}
+
+// FinanceOperationGroupConnection is the connection containing edges to FinanceOperationGroup.
+type FinanceOperationGroupConnection struct {
+	Edges      []*FinanceOperationGroupEdge `json:"edges"`
+	PageInfo   PageInfo                     `json:"pageInfo"`
+	TotalCount int                          `json:"totalCount"`
+}
+
+func (c *FinanceOperationGroupConnection) build(nodes []*FinanceOperationGroup, pager *financeoperationgroupPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *FinanceOperationGroup
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *FinanceOperationGroup {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *FinanceOperationGroup {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*FinanceOperationGroupEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &FinanceOperationGroupEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// FinanceOperationGroupPaginateOption enables pagination customization.
+type FinanceOperationGroupPaginateOption func(*financeoperationgroupPager) error
+
+// WithFinanceOperationGroupOrder configures pagination ordering.
+func WithFinanceOperationGroupOrder(order *FinanceOperationGroupOrder) FinanceOperationGroupPaginateOption {
+	if order == nil {
+		order = DefaultFinanceOperationGroupOrder
+	}
+	o := *order
+	return func(pager *financeoperationgroupPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultFinanceOperationGroupOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithFinanceOperationGroupFilter configures pagination filter.
+func WithFinanceOperationGroupFilter(filter func(*FinanceOperationGroupQuery) (*FinanceOperationGroupQuery, error)) FinanceOperationGroupPaginateOption {
+	return func(pager *financeoperationgroupPager) error {
+		if filter == nil {
+			return errors.New("FinanceOperationGroupQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type financeoperationgroupPager struct {
+	reverse bool
+	order   *FinanceOperationGroupOrder
+	filter  func(*FinanceOperationGroupQuery) (*FinanceOperationGroupQuery, error)
+}
+
+func newFinanceOperationGroupPager(opts []FinanceOperationGroupPaginateOption, reverse bool) (*financeoperationgroupPager, error) {
+	pager := &financeoperationgroupPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultFinanceOperationGroupOrder
+	}
+	return pager, nil
+}
+
+func (p *financeoperationgroupPager) applyFilter(query *FinanceOperationGroupQuery) (*FinanceOperationGroupQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *financeoperationgroupPager) toCursor(_m *FinanceOperationGroup) Cursor {
+	return p.order.Field.toCursor(_m)
+}
+
+func (p *financeoperationgroupPager) applyCursors(query *FinanceOperationGroupQuery, after, before *Cursor) (*FinanceOperationGroupQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinanceOperationGroupOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *financeoperationgroupPager) applyOrder(query *FinanceOperationGroupQuery) *FinanceOperationGroupQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinanceOperationGroupOrder.Field {
+		query = query.Order(DefaultFinanceOperationGroupOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *financeoperationgroupPager) orderExpr(query *FinanceOperationGroupQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinanceOperationGroupOrder.Field {
+			b.Comma().Ident(DefaultFinanceOperationGroupOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to FinanceOperationGroup.
+func (_m *FinanceOperationGroupQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...FinanceOperationGroupPaginateOption,
+) (*FinanceOperationGroupConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newFinanceOperationGroupPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if _m, err = pager.applyFilter(_m); err != nil {
+		return nil, err
+	}
+	conn := &FinanceOperationGroupConnection{Edges: []*FinanceOperationGroupEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := _m.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if _m, err = pager.applyCursors(_m, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		_m.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := _m.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	_m = pager.applyOrder(_m)
+	nodes, err := _m.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// FinanceOperationGroupOrderField defines the ordering field of FinanceOperationGroup.
+type FinanceOperationGroupOrderField struct {
+	// Value extracts the ordering value from the given FinanceOperationGroup.
+	Value    func(*FinanceOperationGroup) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) financeoperationgroup.OrderOption
+	toCursor func(*FinanceOperationGroup) Cursor
+}
+
+// FinanceOperationGroupOrder defines the ordering of FinanceOperationGroup.
+type FinanceOperationGroupOrder struct {
+	Direction OrderDirection                   `json:"direction"`
+	Field     *FinanceOperationGroupOrderField `json:"field"`
+}
+
+// DefaultFinanceOperationGroupOrder is the default ordering of FinanceOperationGroup.
+var DefaultFinanceOperationGroupOrder = &FinanceOperationGroupOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &FinanceOperationGroupOrderField{
+		Value: func(_m *FinanceOperationGroup) (ent.Value, error) {
+			return _m.ID, nil
+		},
+		column: financeoperationgroup.FieldID,
+		toTerm: financeoperationgroup.ByID,
+		toCursor: func(_m *FinanceOperationGroup) Cursor {
+			return Cursor{ID: _m.ID}
+		},
+	},
+}
+
+// ToEdge converts FinanceOperationGroup into FinanceOperationGroupEdge.
+func (_m *FinanceOperationGroup) ToEdge(order *FinanceOperationGroupOrder) *FinanceOperationGroupEdge {
+	if order == nil {
+		order = DefaultFinanceOperationGroupOrder
+	}
+	return &FinanceOperationGroupEdge{
+		Node:   _m,
+		Cursor: order.Field.toCursor(_m),
+	}
+}
+
+// FinancePaymentClassEdge is the edge representation of FinancePaymentClass.
+type FinancePaymentClassEdge struct {
+	Node   *FinancePaymentClass `json:"node"`
+	Cursor Cursor               `json:"cursor"`
+}
+
+// FinancePaymentClassConnection is the connection containing edges to FinancePaymentClass.
+type FinancePaymentClassConnection struct {
+	Edges      []*FinancePaymentClassEdge `json:"edges"`
+	PageInfo   PageInfo                   `json:"pageInfo"`
+	TotalCount int                        `json:"totalCount"`
+}
+
+func (c *FinancePaymentClassConnection) build(nodes []*FinancePaymentClass, pager *financepaymentclassPager, after *Cursor, first *int, before *Cursor, last *int) {
+	c.PageInfo.HasNextPage = before != nil
+	c.PageInfo.HasPreviousPage = after != nil
+	if first != nil && *first+1 == len(nodes) {
+		c.PageInfo.HasNextPage = true
+		nodes = nodes[:len(nodes)-1]
+	} else if last != nil && *last+1 == len(nodes) {
+		c.PageInfo.HasPreviousPage = true
+		nodes = nodes[:len(nodes)-1]
+	}
+	var nodeAt func(int) *FinancePaymentClass
+	if last != nil {
+		n := len(nodes) - 1
+		nodeAt = func(i int) *FinancePaymentClass {
+			return nodes[n-i]
+		}
+	} else {
+		nodeAt = func(i int) *FinancePaymentClass {
+			return nodes[i]
+		}
+	}
+	c.Edges = make([]*FinancePaymentClassEdge, len(nodes))
+	for i := range nodes {
+		node := nodeAt(i)
+		c.Edges[i] = &FinancePaymentClassEdge{
+			Node:   node,
+			Cursor: pager.toCursor(node),
+		}
+	}
+	if l := len(c.Edges); l > 0 {
+		c.PageInfo.StartCursor = &c.Edges[0].Cursor
+		c.PageInfo.EndCursor = &c.Edges[l-1].Cursor
+	}
+	if c.TotalCount == 0 {
+		c.TotalCount = len(nodes)
+	}
+}
+
+// FinancePaymentClassPaginateOption enables pagination customization.
+type FinancePaymentClassPaginateOption func(*financepaymentclassPager) error
+
+// WithFinancePaymentClassOrder configures pagination ordering.
+func WithFinancePaymentClassOrder(order *FinancePaymentClassOrder) FinancePaymentClassPaginateOption {
+	if order == nil {
+		order = DefaultFinancePaymentClassOrder
+	}
+	o := *order
+	return func(pager *financepaymentclassPager) error {
+		if err := o.Direction.Validate(); err != nil {
+			return err
+		}
+		if o.Field == nil {
+			o.Field = DefaultFinancePaymentClassOrder.Field
+		}
+		pager.order = &o
+		return nil
+	}
+}
+
+// WithFinancePaymentClassFilter configures pagination filter.
+func WithFinancePaymentClassFilter(filter func(*FinancePaymentClassQuery) (*FinancePaymentClassQuery, error)) FinancePaymentClassPaginateOption {
+	return func(pager *financepaymentclassPager) error {
+		if filter == nil {
+			return errors.New("FinancePaymentClassQuery filter cannot be nil")
+		}
+		pager.filter = filter
+		return nil
+	}
+}
+
+type financepaymentclassPager struct {
+	reverse bool
+	order   *FinancePaymentClassOrder
+	filter  func(*FinancePaymentClassQuery) (*FinancePaymentClassQuery, error)
+}
+
+func newFinancePaymentClassPager(opts []FinancePaymentClassPaginateOption, reverse bool) (*financepaymentclassPager, error) {
+	pager := &financepaymentclassPager{reverse: reverse}
+	for _, opt := range opts {
+		if err := opt(pager); err != nil {
+			return nil, err
+		}
+	}
+	if pager.order == nil {
+		pager.order = DefaultFinancePaymentClassOrder
+	}
+	return pager, nil
+}
+
+func (p *financepaymentclassPager) applyFilter(query *FinancePaymentClassQuery) (*FinancePaymentClassQuery, error) {
+	if p.filter != nil {
+		return p.filter(query)
+	}
+	return query, nil
+}
+
+func (p *financepaymentclassPager) toCursor(_m *FinancePaymentClass) Cursor {
+	return p.order.Field.toCursor(_m)
+}
+
+func (p *financepaymentclassPager) applyCursors(query *FinancePaymentClassQuery, after, before *Cursor) (*FinancePaymentClassQuery, error) {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	for _, predicate := range entgql.CursorsPredicate(after, before, DefaultFinancePaymentClassOrder.Field.column, p.order.Field.column, direction) {
+		query = query.Where(predicate)
+	}
+	return query, nil
+}
+
+func (p *financepaymentclassPager) applyOrder(query *FinancePaymentClassQuery) *FinancePaymentClassQuery {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	query = query.Order(p.order.Field.toTerm(direction.OrderTermOption()))
+	if p.order.Field != DefaultFinancePaymentClassOrder.Field {
+		query = query.Order(DefaultFinancePaymentClassOrder.Field.toTerm(direction.OrderTermOption()))
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return query
+}
+
+func (p *financepaymentclassPager) orderExpr(query *FinancePaymentClassQuery) sql.Querier {
+	direction := p.order.Direction
+	if p.reverse {
+		direction = direction.Reverse()
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(p.order.Field.column)
+	}
+	return sql.ExprFunc(func(b *sql.Builder) {
+		b.Ident(p.order.Field.column).Pad().WriteString(string(direction))
+		if p.order.Field != DefaultFinancePaymentClassOrder.Field {
+			b.Comma().Ident(DefaultFinancePaymentClassOrder.Field.column).Pad().WriteString(string(direction))
+		}
+	})
+}
+
+// Paginate executes the query and returns a relay based cursor connection to FinancePaymentClass.
+func (_m *FinancePaymentClassQuery) Paginate(
+	ctx context.Context, after *Cursor, first *int,
+	before *Cursor, last *int, opts ...FinancePaymentClassPaginateOption,
+) (*FinancePaymentClassConnection, error) {
+	if err := validateFirstLast(first, last); err != nil {
+		return nil, err
+	}
+	pager, err := newFinancePaymentClassPager(opts, last != nil)
+	if err != nil {
+		return nil, err
+	}
+	if _m, err = pager.applyFilter(_m); err != nil {
+		return nil, err
+	}
+	conn := &FinancePaymentClassConnection{Edges: []*FinancePaymentClassEdge{}}
+	ignoredEdges := !hasCollectedField(ctx, edgesField)
+	if hasCollectedField(ctx, totalCountField) || hasCollectedField(ctx, pageInfoField) {
+		hasPagination := after != nil || first != nil || before != nil || last != nil
+		if hasPagination || ignoredEdges {
+			c := _m.Clone()
+			c.ctx.Fields = nil
+			if conn.TotalCount, err = c.Count(ctx); err != nil {
+				return nil, err
+			}
+			conn.PageInfo.HasNextPage = first != nil && conn.TotalCount > 0
+			conn.PageInfo.HasPreviousPage = last != nil && conn.TotalCount > 0
+		}
+	}
+	if ignoredEdges || (first != nil && *first == 0) || (last != nil && *last == 0) {
+		return conn, nil
+	}
+	if _m, err = pager.applyCursors(_m, after, before); err != nil {
+		return nil, err
+	}
+	limit := paginateLimit(first, last)
+	if limit != 0 {
+		_m.Limit(limit)
+	}
+	if field := collectedField(ctx, edgesField, nodeField); field != nil {
+		if err := _m.collectField(ctx, limit == 1, graphql.GetOperationContext(ctx), *field, []string{edgesField, nodeField}); err != nil {
+			return nil, err
+		}
+	}
+	_m = pager.applyOrder(_m)
+	nodes, err := _m.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	conn.build(nodes, pager, after, first, before, last)
+	return conn, nil
+}
+
+// FinancePaymentClassOrderField defines the ordering field of FinancePaymentClass.
+type FinancePaymentClassOrderField struct {
+	// Value extracts the ordering value from the given FinancePaymentClass.
+	Value    func(*FinancePaymentClass) (ent.Value, error)
+	column   string // field or computed.
+	toTerm   func(...sql.OrderTermOption) financepaymentclass.OrderOption
+	toCursor func(*FinancePaymentClass) Cursor
+}
+
+// FinancePaymentClassOrder defines the ordering of FinancePaymentClass.
+type FinancePaymentClassOrder struct {
+	Direction OrderDirection                 `json:"direction"`
+	Field     *FinancePaymentClassOrderField `json:"field"`
+}
+
+// DefaultFinancePaymentClassOrder is the default ordering of FinancePaymentClass.
+var DefaultFinancePaymentClassOrder = &FinancePaymentClassOrder{
+	Direction: entgql.OrderDirectionAsc,
+	Field: &FinancePaymentClassOrderField{
+		Value: func(_m *FinancePaymentClass) (ent.Value, error) {
+			return _m.ID, nil
+		},
+		column: financepaymentclass.FieldID,
+		toTerm: financepaymentclass.ByID,
+		toCursor: func(_m *FinancePaymentClass) Cursor {
+			return Cursor{ID: _m.ID}
+		},
+	},
+}
+
+// ToEdge converts FinancePaymentClass into FinancePaymentClassEdge.
+func (_m *FinancePaymentClass) ToEdge(order *FinancePaymentClassOrder) *FinancePaymentClassEdge {
+	if order == nil {
+		order = DefaultFinancePaymentClassOrder
+	}
+	return &FinancePaymentClassEdge{
 		Node:   _m,
 		Cursor: order.Field.toCursor(_m),
 	}

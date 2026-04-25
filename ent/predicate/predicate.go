@@ -18,20 +18,38 @@ type CompanyToken func(*sql.Selector)
 // CompanyUser is the predicate function for companyuser builders.
 type CompanyUser func(*sql.Selector)
 
-// FinanceAccount is the predicate function for financeaccount builders.
-type FinanceAccount func(*sql.Selector)
+// FinanceBankAccount is the predicate function for financebankaccount builders.
+type FinanceBankAccount func(*sql.Selector)
 
-// FinanceClass is the predicate function for financeclass builders.
-type FinanceClass func(*sql.Selector)
+// FinanceBankOperation is the predicate function for financebankoperation builders.
+type FinanceBankOperation func(*sql.Selector)
 
-// FinanceGroup is the predicate function for financegroup builders.
-type FinanceGroup func(*sql.Selector)
+// FinanceCashAccount is the predicate function for financecashaccount builders.
+type FinanceCashAccount func(*sql.Selector)
 
-// FinanceOperation is the predicate function for financeoperation builders.
-type FinanceOperation func(*sql.Selector)
+// FinanceCashAccountOperation is the predicate function for financecashaccountoperation builders.
+type FinanceCashAccountOperation func(*sql.Selector)
 
-// FinanceResource is the predicate function for financeresource builders.
-type FinanceResource func(*sql.Selector)
+// FinanceCurrentAccount is the predicate function for financecurrentaccount builders.
+type FinanceCurrentAccount func(*sql.Selector)
+
+// FinanceCurrentAccountGroup is the predicate function for financecurrentaccountgroup builders.
+type FinanceCurrentAccountGroup func(*sql.Selector)
+
+// FinanceCurrentAccountOperation is the predicate function for financecurrentaccountoperation builders.
+type FinanceCurrentAccountOperation func(*sql.Selector)
+
+// FinanceCurrentAccountOperationType is the predicate function for financecurrentaccountoperationtype builders.
+type FinanceCurrentAccountOperationType func(*sql.Selector)
+
+// FinanceCurrentAccountType is the predicate function for financecurrentaccounttype builders.
+type FinanceCurrentAccountType func(*sql.Selector)
+
+// FinanceOperationGroup is the predicate function for financeoperationgroup builders.
+type FinanceOperationGroup func(*sql.Selector)
+
+// FinancePaymentClass is the predicate function for financepaymentclass builders.
+type FinancePaymentClass func(*sql.Selector)
 
 // JobAuthor is the predicate function for jobauthor builders.
 type JobAuthor func(*sql.Selector)

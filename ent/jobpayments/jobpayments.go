@@ -44,6 +44,10 @@ const (
 	FieldInvoiceReceivedDate = "invoice_received_date"
 	// FieldInvoiceReceivedAmount holds the string denoting the invoicereceivedamount field in the database.
 	FieldInvoiceReceivedAmount = "invoice_received_amount"
+	// FieldInvoiceNumber holds the string denoting the invoicenumber field in the database.
+	FieldInvoiceNumber = "invoice_number"
+	// FieldWithholding holds the string denoting the withholding field in the database.
+	FieldWithholding = "withholding"
 	// FieldCreatedAt holds the string denoting the createdat field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
@@ -79,6 +83,8 @@ var Columns = []string{
 	FieldInvoiceReceived,
 	FieldInvoiceReceivedDate,
 	FieldInvoiceReceivedAmount,
+	FieldInvoiceNumber,
+	FieldWithholding,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -117,6 +123,8 @@ var (
 	DefaultInvoiceIssued bool
 	// DefaultInvoiceReceived holds the default value on creation for the "InvoiceReceived" field.
 	DefaultInvoiceReceived bool
+	// DefaultWithholding holds the default value on creation for the "Withholding" field.
+	DefaultWithholding bool
 	// DefaultCreatedAt holds the default value on creation for the "CreatedAt" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "UpdatedAt" field.
@@ -206,6 +214,16 @@ func ByInvoiceReceivedDate(opts ...sql.OrderTermOption) OrderOption {
 // ByInvoiceReceivedAmount orders the results by the InvoiceReceivedAmount field.
 func ByInvoiceReceivedAmount(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldInvoiceReceivedAmount, opts...).ToFunc()
+}
+
+// ByInvoiceNumber orders the results by the InvoiceNumber field.
+func ByInvoiceNumber(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldInvoiceNumber, opts...).ToFunc()
+}
+
+// ByWithholding orders the results by the Withholding field.
+func ByWithholding(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWithholding, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the CreatedAt field.

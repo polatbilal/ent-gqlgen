@@ -31,7 +31,7 @@ func (JobPayments) Fields() []ent.Field {
 			Other("Amount", &decimal.NullDecimal{}).
 			Optional().
 			SchemaType(map[string]string{
-				dialect.Postgres: "numeric(12,2)",
+				dialect.Postgres: "numeric(18,2)",
 			}),
 		field.Bool("AtMunicipality").Optional().Default(false),
 		field.Time("MunicipalityDeliveryDate").Optional(),
@@ -43,8 +43,10 @@ func (JobPayments) Fields() []ent.Field {
 			Other("InvoiceReceivedAmount", &decimal.NullDecimal{}).
 			Optional().
 			SchemaType(map[string]string{
-				dialect.Postgres: "numeric(12,2)",
+				dialect.Postgres: "numeric(18,2)",
 			}),
+		field.String("InvoiceNumber").Optional(),
+		field.Bool("Withholding").Optional().Default(false),
 
 		field.Time("CreatedAt").Default(time.Now),
 		field.Time("UpdatedAt").Default(time.Now).UpdateDefault(time.Now),

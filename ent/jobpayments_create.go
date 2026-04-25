@@ -216,6 +216,34 @@ func (_c *JobPaymentsCreate) SetInvoiceReceivedAmount(v *decimal.NullDecimal) *J
 	return _c
 }
 
+// SetInvoiceNumber sets the "InvoiceNumber" field.
+func (_c *JobPaymentsCreate) SetInvoiceNumber(v string) *JobPaymentsCreate {
+	_c.mutation.SetInvoiceNumber(v)
+	return _c
+}
+
+// SetNillableInvoiceNumber sets the "InvoiceNumber" field if the given value is not nil.
+func (_c *JobPaymentsCreate) SetNillableInvoiceNumber(v *string) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetInvoiceNumber(*v)
+	}
+	return _c
+}
+
+// SetWithholding sets the "Withholding" field.
+func (_c *JobPaymentsCreate) SetWithholding(v bool) *JobPaymentsCreate {
+	_c.mutation.SetWithholding(v)
+	return _c
+}
+
+// SetNillableWithholding sets the "Withholding" field if the given value is not nil.
+func (_c *JobPaymentsCreate) SetNillableWithholding(v *bool) *JobPaymentsCreate {
+	if v != nil {
+		_c.SetWithholding(*v)
+	}
+	return _c
+}
+
 // SetCreatedAt sets the "CreatedAt" field.
 func (_c *JobPaymentsCreate) SetCreatedAt(v time.Time) *JobPaymentsCreate {
 	_c.mutation.SetCreatedAt(v)
@@ -321,6 +349,10 @@ func (_c *JobPaymentsCreate) defaults() {
 	if _, ok := _c.mutation.InvoiceReceived(); !ok {
 		v := jobpayments.DefaultInvoiceReceived
 		_c.mutation.SetInvoiceReceived(v)
+	}
+	if _, ok := _c.mutation.Withholding(); !ok {
+		v := jobpayments.DefaultWithholding
+		_c.mutation.SetWithholding(v)
 	}
 	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := jobpayments.DefaultCreatedAt()
@@ -432,6 +464,14 @@ func (_c *JobPaymentsCreate) createSpec() (*JobPayments, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.InvoiceReceivedAmount(); ok {
 		_spec.SetField(jobpayments.FieldInvoiceReceivedAmount, field.TypeOther, value)
 		_node.InvoiceReceivedAmount = value
+	}
+	if value, ok := _c.mutation.InvoiceNumber(); ok {
+		_spec.SetField(jobpayments.FieldInvoiceNumber, field.TypeString, value)
+		_node.InvoiceNumber = value
+	}
+	if value, ok := _c.mutation.Withholding(); ok {
+		_spec.SetField(jobpayments.FieldWithholding, field.TypeBool, value)
+		_node.Withholding = value
 	}
 	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(jobpayments.FieldCreatedAt, field.TypeTime, value)

@@ -84,14 +84,22 @@ const (
 	EdgeTokens = "tokens"
 	// EdgeEngineers holds the string denoting the engineers edge name in mutations.
 	EdgeEngineers = "engineers"
-	// EdgeOperations holds the string denoting the operations edge name in mutations.
-	EdgeOperations = "operations"
-	// EdgeMethods holds the string denoting the methods edge name in mutations.
-	EdgeMethods = "methods"
-	// EdgeResources holds the string denoting the resources edge name in mutations.
-	EdgeResources = "resources"
-	// EdgeAccounts holds the string denoting the accounts edge name in mutations.
-	EdgeAccounts = "accounts"
+	// EdgeCurrentAccounts holds the string denoting the current_accounts edge name in mutations.
+	EdgeCurrentAccounts = "current_accounts"
+	// EdgeBankAccounts holds the string denoting the bank_accounts edge name in mutations.
+	EdgeBankAccounts = "bank_accounts"
+	// EdgeCashAccounts holds the string denoting the cash_accounts edge name in mutations.
+	EdgeCashAccounts = "cash_accounts"
+	// EdgeBankOperations holds the string denoting the bank_operations edge name in mutations.
+	EdgeBankOperations = "bank_operations"
+	// EdgeCashOperations holds the string denoting the cash_operations edge name in mutations.
+	EdgeCashOperations = "cash_operations"
+	// EdgeCurrentOperations holds the string denoting the current_operations edge name in mutations.
+	EdgeCurrentOperations = "current_operations"
+	// EdgeCashPaymentClasses holds the string denoting the cash_payment_classes edge name in mutations.
+	EdgeCashPaymentClasses = "cash_payment_classes"
+	// EdgeCurrentAccountTypes holds the string denoting the current_account_types edge name in mutations.
+	EdgeCurrentAccountTypes = "current_account_types"
 	// Table holds the table name of the companydetail in the database.
 	Table = "company_details"
 	// JobsTable is the table that holds the jobs relation/edge.
@@ -122,34 +130,62 @@ const (
 	EngineersInverseTable = "company_engineers"
 	// EngineersColumn is the table column denoting the engineers relation/edge.
 	EngineersColumn = "company_id"
-	// OperationsTable is the table that holds the operations relation/edge.
-	OperationsTable = "operations"
-	// OperationsInverseTable is the table name for the FinanceOperation entity.
-	// It exists in this package in order to avoid circular dependency with the "financeoperation" package.
-	OperationsInverseTable = "operations"
-	// OperationsColumn is the table column denoting the operations relation/edge.
-	OperationsColumn = "company_id"
-	// MethodsTable is the table that holds the methods relation/edge.
-	MethodsTable = "classes"
-	// MethodsInverseTable is the table name for the FinanceClass entity.
-	// It exists in this package in order to avoid circular dependency with the "financeclass" package.
-	MethodsInverseTable = "classes"
-	// MethodsColumn is the table column denoting the methods relation/edge.
-	MethodsColumn = "company_id"
-	// ResourcesTable is the table that holds the resources relation/edge.
-	ResourcesTable = "resources"
-	// ResourcesInverseTable is the table name for the FinanceResource entity.
-	// It exists in this package in order to avoid circular dependency with the "financeresource" package.
-	ResourcesInverseTable = "resources"
-	// ResourcesColumn is the table column denoting the resources relation/edge.
-	ResourcesColumn = "company_id"
-	// AccountsTable is the table that holds the accounts relation/edge.
-	AccountsTable = "accounts"
-	// AccountsInverseTable is the table name for the FinanceAccount entity.
-	// It exists in this package in order to avoid circular dependency with the "financeaccount" package.
-	AccountsInverseTable = "accounts"
-	// AccountsColumn is the table column denoting the accounts relation/edge.
-	AccountsColumn = "company_id"
+	// CurrentAccountsTable is the table that holds the current_accounts relation/edge.
+	CurrentAccountsTable = "current_accounts"
+	// CurrentAccountsInverseTable is the table name for the FinanceCurrentAccount entity.
+	// It exists in this package in order to avoid circular dependency with the "financecurrentaccount" package.
+	CurrentAccountsInverseTable = "current_accounts"
+	// CurrentAccountsColumn is the table column denoting the current_accounts relation/edge.
+	CurrentAccountsColumn = "company_id"
+	// BankAccountsTable is the table that holds the bank_accounts relation/edge.
+	BankAccountsTable = "bank_accounts"
+	// BankAccountsInverseTable is the table name for the FinanceBankAccount entity.
+	// It exists in this package in order to avoid circular dependency with the "financebankaccount" package.
+	BankAccountsInverseTable = "bank_accounts"
+	// BankAccountsColumn is the table column denoting the bank_accounts relation/edge.
+	BankAccountsColumn = "company_id"
+	// CashAccountsTable is the table that holds the cash_accounts relation/edge.
+	CashAccountsTable = "cash_accounts"
+	// CashAccountsInverseTable is the table name for the FinanceCashAccount entity.
+	// It exists in this package in order to avoid circular dependency with the "financecashaccount" package.
+	CashAccountsInverseTable = "cash_accounts"
+	// CashAccountsColumn is the table column denoting the cash_accounts relation/edge.
+	CashAccountsColumn = "company_id"
+	// BankOperationsTable is the table that holds the bank_operations relation/edge.
+	BankOperationsTable = "bank_account_operations"
+	// BankOperationsInverseTable is the table name for the FinanceBankOperation entity.
+	// It exists in this package in order to avoid circular dependency with the "financebankoperation" package.
+	BankOperationsInverseTable = "bank_account_operations"
+	// BankOperationsColumn is the table column denoting the bank_operations relation/edge.
+	BankOperationsColumn = "company_id"
+	// CashOperationsTable is the table that holds the cash_operations relation/edge.
+	CashOperationsTable = "cash_account_operations"
+	// CashOperationsInverseTable is the table name for the FinanceCashAccountOperation entity.
+	// It exists in this package in order to avoid circular dependency with the "financecashaccountoperation" package.
+	CashOperationsInverseTable = "cash_account_operations"
+	// CashOperationsColumn is the table column denoting the cash_operations relation/edge.
+	CashOperationsColumn = "company_id"
+	// CurrentOperationsTable is the table that holds the current_operations relation/edge.
+	CurrentOperationsTable = "current_account_operations"
+	// CurrentOperationsInverseTable is the table name for the FinanceCurrentAccountOperation entity.
+	// It exists in this package in order to avoid circular dependency with the "financecurrentaccountoperation" package.
+	CurrentOperationsInverseTable = "current_account_operations"
+	// CurrentOperationsColumn is the table column denoting the current_operations relation/edge.
+	CurrentOperationsColumn = "company_id"
+	// CashPaymentClassesTable is the table that holds the cash_payment_classes relation/edge.
+	CashPaymentClassesTable = "payment_classes"
+	// CashPaymentClassesInverseTable is the table name for the FinancePaymentClass entity.
+	// It exists in this package in order to avoid circular dependency with the "financepaymentclass" package.
+	CashPaymentClassesInverseTable = "payment_classes"
+	// CashPaymentClassesColumn is the table column denoting the cash_payment_classes relation/edge.
+	CashPaymentClassesColumn = "company_id"
+	// CurrentAccountTypesTable is the table that holds the current_account_types relation/edge.
+	CurrentAccountTypesTable = "current_account_types"
+	// CurrentAccountTypesInverseTable is the table name for the FinanceCurrentAccountType entity.
+	// It exists in this package in order to avoid circular dependency with the "financecurrentaccounttype" package.
+	CurrentAccountTypesInverseTable = "current_account_types"
+	// CurrentAccountTypesColumn is the table column denoting the current_account_types relation/edge.
+	CurrentAccountTypesColumn = "company_id"
 )
 
 // Columns holds all SQL columns for companydetail fields.
@@ -434,59 +470,115 @@ func ByEngineers(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	}
 }
 
-// ByOperationsCount orders the results by operations count.
-func ByOperationsCount(opts ...sql.OrderTermOption) OrderOption {
+// ByCurrentAccountsCount orders the results by current_accounts count.
+func ByCurrentAccountsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newOperationsStep(), opts...)
+		sqlgraph.OrderByNeighborsCount(s, newCurrentAccountsStep(), opts...)
 	}
 }
 
-// ByOperations orders the results by operations terms.
-func ByOperations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByCurrentAccounts orders the results by current_accounts terms.
+func ByCurrentAccounts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newOperationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newCurrentAccountsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 
-// ByMethodsCount orders the results by methods count.
-func ByMethodsCount(opts ...sql.OrderTermOption) OrderOption {
+// ByBankAccountsCount orders the results by bank_accounts count.
+func ByBankAccountsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newMethodsStep(), opts...)
+		sqlgraph.OrderByNeighborsCount(s, newBankAccountsStep(), opts...)
 	}
 }
 
-// ByMethods orders the results by methods terms.
-func ByMethods(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByBankAccounts orders the results by bank_accounts terms.
+func ByBankAccounts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newMethodsStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newBankAccountsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 
-// ByResourcesCount orders the results by resources count.
-func ByResourcesCount(opts ...sql.OrderTermOption) OrderOption {
+// ByCashAccountsCount orders the results by cash_accounts count.
+func ByCashAccountsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newResourcesStep(), opts...)
+		sqlgraph.OrderByNeighborsCount(s, newCashAccountsStep(), opts...)
 	}
 }
 
-// ByResources orders the results by resources terms.
-func ByResources(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByCashAccounts orders the results by cash_accounts terms.
+func ByCashAccounts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newResourcesStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newCashAccountsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 
-// ByAccountsCount orders the results by accounts count.
-func ByAccountsCount(opts ...sql.OrderTermOption) OrderOption {
+// ByBankOperationsCount orders the results by bank_operations count.
+func ByBankOperationsCount(opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborsCount(s, newAccountsStep(), opts...)
+		sqlgraph.OrderByNeighborsCount(s, newBankOperationsStep(), opts...)
 	}
 }
 
-// ByAccounts orders the results by accounts terms.
-func ByAccounts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+// ByBankOperations orders the results by bank_operations terms.
+func ByBankOperations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newAccountsStep(), append([]sql.OrderTerm{term}, terms...)...)
+		sqlgraph.OrderByNeighborTerms(s, newBankOperationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByCashOperationsCount orders the results by cash_operations count.
+func ByCashOperationsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newCashOperationsStep(), opts...)
+	}
+}
+
+// ByCashOperations orders the results by cash_operations terms.
+func ByCashOperations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newCashOperationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByCurrentOperationsCount orders the results by current_operations count.
+func ByCurrentOperationsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newCurrentOperationsStep(), opts...)
+	}
+}
+
+// ByCurrentOperations orders the results by current_operations terms.
+func ByCurrentOperations(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newCurrentOperationsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByCashPaymentClassesCount orders the results by cash_payment_classes count.
+func ByCashPaymentClassesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newCashPaymentClassesStep(), opts...)
+	}
+}
+
+// ByCashPaymentClasses orders the results by cash_payment_classes terms.
+func ByCashPaymentClasses(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newCashPaymentClassesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByCurrentAccountTypesCount orders the results by current_account_types count.
+func ByCurrentAccountTypesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newCurrentAccountTypesStep(), opts...)
+	}
+}
+
+// ByCurrentAccountTypes orders the results by current_account_types terms.
+func ByCurrentAccountTypes(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newCurrentAccountTypesStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
 func newJobsStep() *sqlgraph.Step {
@@ -517,31 +609,59 @@ func newEngineersStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.O2M, false, EngineersTable, EngineersColumn),
 	)
 }
-func newOperationsStep() *sqlgraph.Step {
+func newCurrentAccountsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(OperationsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, OperationsTable, OperationsColumn),
+		sqlgraph.To(CurrentAccountsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, CurrentAccountsTable, CurrentAccountsColumn),
 	)
 }
-func newMethodsStep() *sqlgraph.Step {
+func newBankAccountsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(MethodsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, MethodsTable, MethodsColumn),
+		sqlgraph.To(BankAccountsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, BankAccountsTable, BankAccountsColumn),
 	)
 }
-func newResourcesStep() *sqlgraph.Step {
+func newCashAccountsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(ResourcesInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, ResourcesTable, ResourcesColumn),
+		sqlgraph.To(CashAccountsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, CashAccountsTable, CashAccountsColumn),
 	)
 }
-func newAccountsStep() *sqlgraph.Step {
+func newBankOperationsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(AccountsInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, false, AccountsTable, AccountsColumn),
+		sqlgraph.To(BankOperationsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, BankOperationsTable, BankOperationsColumn),
+	)
+}
+func newCashOperationsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(CashOperationsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, CashOperationsTable, CashOperationsColumn),
+	)
+}
+func newCurrentOperationsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(CurrentOperationsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, CurrentOperationsTable, CurrentOperationsColumn),
+	)
+}
+func newCashPaymentClassesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(CashPaymentClassesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, CashPaymentClassesTable, CashPaymentClassesColumn),
+	)
+}
+func newCurrentAccountTypesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(CurrentAccountTypesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, CurrentAccountTypesTable, CurrentAccountTypesColumn),
 	)
 }

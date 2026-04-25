@@ -1,6 +1,6 @@
 variable "url" {
   type    = string
-  default = "postgres://postgres:pass@127.0.0.1:5432/polatdb?sslmode=disable"
+  default = "postgres://ydsuser:i1wTvRvexKvXtz9vDD5@188.240.81.87:1294/ydsdb?sslmode=disable"
 }
 
 env "local" {
